@@ -10,6 +10,8 @@ export const EditorSlice = createSlice({
         index: "<html>\n  <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>" ,
       }
     },
+    project: [],
+    projectLoaded: false,
   },
   reducers: {
     update: (state, action) => {
@@ -27,11 +29,32 @@ export const EditorSlice = createSlice({
       const fileName = action.payload.name;
       const code = action.payload.code;
       state.code_dict[lang][fileName] = code;
-    }
+    },
+    setProject: (state, action) => {
+      state.project = action.payload;
+    },
+    setProjectLoaded: (state, action) => {
+      state.projectLoaded = action.payload;
+    },
+    updateProject: (state, action) => {
+      const lang = action.payload.lang;
+      const fileName = action.payload.name;
+      const code = action.payload.code;
+      // const el = state.project.find(item => item.lang === lang && item.name === fileName);
+      // el.content = code;
+      const mapped = state.project.components.map(item => {
+        if (item.lang !== lang || item.name !== fileName) {
+          return item;
+        }
+
+        return { lang: lang, name: fileName, content: code };
+      })
+      state.project.components = mapped;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { update, updateHtml, updateCodeDict } = EditorSlice.actions
+export const { update, updateHtml, updateCodeDict, setProject, updateProject, setProjectLoaded } = EditorSlice.actions
 
 export default EditorSlice.reducer

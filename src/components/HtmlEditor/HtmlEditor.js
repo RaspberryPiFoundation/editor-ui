@@ -1,14 +1,16 @@
 // import './editor.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateHtml, updateCodeDict } from '../Editor/EditorSlice'
+import { updateCodeDict } from '../Editor/EditorSlice'
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
 import { defaultKeymap } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 
-function HtmlEditor() {
+const HtmlEditor = ({
+  lang = 'html'
+}) => {
   const editor = useRef();
   // const [code, setCode] = useState('');
 
@@ -39,7 +41,7 @@ function HtmlEditor() {
     return () => {
       view.destroy();
     };
-  }, [code, onUpdate]);
+  }, []);
 
   return (
     <div ref={editor}></div>

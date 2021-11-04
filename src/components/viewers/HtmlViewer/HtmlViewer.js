@@ -1,10 +1,10 @@
-// import './HtmlViewer.css';
-import React, { useRef } from 'react';
+import './HtmlViewer.css';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 
 function HtmlViewer() {
   const codeDictionary = useSelector((state) => state.editor.code_dict)
-  // const outputCanvas = useRef();
+  const projectCode = useSelector((state) => state.editor.project.components);
   const output = useRef();
 
   const getBlobURL = (code, type) => {
@@ -12,23 +12,39 @@ function HtmlViewer() {
     return URL.createObjectURL(blob)
   }
 
-  const runCode = () => {
-    // var prog = document.getElementById("yourcode").value;
-    // console.log('ys')
-    // console.log(output.contentWindow)
-    // output.current.contentWindow.document.write(prog);
+  useEffect(() => {
+    // TODO: get html files and handle urls for non index pages
+    var indexPage = projectCode[0].content;
 
-    var indexPage = codeDictionary.html.index;
+    var cssFiles = projectCode.reduce((arr, el) =>
+      (el.lang === 'css' && arr.push(el), arr), [])
+    cssFiles.forEach(cssFile => {
+      var cssFileBlob = getBlobURL(cssFile.content, 'text/css');
+      indexPage = indexPage.replace(`href="${cssFile.name}.css"`, `href="${cssFileBlob}"`)
+    });
+
     var blob = getBlobURL(indexPage, 'text/html');
+    output.current.src = blob;
+  }, [projectCode]);
 
-    // output.current.src = "data:text/html;charset=utf-8," + escape(prog);
+  const runCode = () => {
+    // TODO: get html files and handle urls for non index pages
+    var indexPage = projectCode[0].content;
+
+    var cssFiles = projectCode.reduce((arr, el) => (el.lang === 'css' && arr.push(el), arr), [])
+    cssFiles.forEach(cssFile => {
+      var cssFileBlob = getBlobURL(cssFile.content, 'text/css');
+      indexPage = indexPage.replace(`href="${cssFile.name}.css"`, `href="${cssFileBlob}"`)
+    });
+
+    var blob = getBlobURL(indexPage, 'text/html');
     output.current.src = blob;
   }
 
   return (
     <div>
       <button className="" onClick={() => runCode()}>Run</button>
-      <div className="output-container">
+      <div className="htmlv-output-container">
         <iframe id="output-frame" title="html-output-frame" ref={output} />
       </div>
     </div>
