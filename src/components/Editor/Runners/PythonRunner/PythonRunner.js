@@ -50,6 +50,18 @@ function PythonRunner() {
   // }
 
   const builtinRead= (x) => {
+    // TODO: memoize this?
+    let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
+
+    if (localProjectFiles.includes(x)) {
+      let filename = x.slice(2, -3);
+      let component = projectCode.find((x) => x.name === filename);
+      console.log(component);
+      if (component) {
+        return component.content;
+      }
+    }
+
     if (Sk.builtinFiles !== undefined && Sk.builtinFiles["files"][x] !== undefined) {
         return Sk.builtinFiles["files"][x];
     }
@@ -128,8 +140,7 @@ function PythonRunner() {
         return Sk.importMainWithBody("<stdin>", false, prog, true);
     });
     myPromise.then(function(mod) {
-        console.log('success');
-        console.log(mod);
+        // console.log('success');
     },
         function(err) {
         console.log(err.toString());

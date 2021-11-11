@@ -171,10 +171,6 @@ var $builtinmodule = function(name) {
       chart = renderer(options, chart);
     }
 
-    console.log('*************************************');
-    console.log($elem);
-    console.log(chart);
-    console.log('*************************************');
     // $elem.highcharts(chart);
     Highcharts.chart('mycanvas', chart);
 
