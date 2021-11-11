@@ -1,0 +1,21 @@
+.proj {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.proj-container {
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+.proj-editor-container {
+  width: 50%;
+  height: 500px;
+  margin-right: 2rem;
+}
+
+.proj-runner-container {
+  width: 45%;
+}

@@ -1,0 +1,22 @@
+.pythonrunner-container {
+  margin-right: 20px;
+}
+
+.pythonrunner-btn {
+  margin: 5px 0;
+}
+
+.pythonrunner-canvas-container {
+  max-height: 400px;
+}
+
+.pythonrunner-console {
+  margin-top: 20px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+
+.pythonrunner-graphic {
+  overflow: auto;
+  position: relative;
+}

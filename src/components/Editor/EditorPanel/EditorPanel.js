@@ -1,39 +1,53 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import './EditorPanel.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateCodeDict, updateProject } from '../EditorSlice'
+import { updateProject } from '../EditorSlice'
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
 import { defaultKeymap } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import { python } from '@codemirror/lang-python';
+
+import { editorTheme } from '../editorTheme';
 
 const EditorPanel = ({
   lang = 'html',
   fileName = 'index'
 }) => {
   const editor = useRef();
-  const project = useSelector((state) => state.editor.project)
-  // const code = useSelector((state) => state.editor.project[lang][fileName])
+  const project = useSelector((state) => state.editor.project);
+  const dispatch = useDispatch();
+  let timeout;
 
-  // const code = project.find(item => item.lang === lang && item.name === fileName);
-  const dispatch = useDispatch()
+  const updateStoredProject = (content) => {
+    dispatch(updateProject({ lang: lang, name: fileName, code: content}));
+  }
 
-  const onUpdate = EditorView.updateListener.of((v) => {
-    // dispatch(updateHtml(v.state.doc.toString()));
-    // dispatch(updateCodeDict({ lang: lang, name: fileName, code: v.state.doc.toString()}));
-    dispatch(updateProject({ lang: lang, name: fileName, code: v.state.doc.toString()}));
-    console.log(project[0]);
-    // console.log(v.state.doc.toString());
+  const onUpdate = EditorView.updateListener.of((viewUpdate) => {
+    if(viewUpdate.docChanged) {
+      if (['html', 'css'].includes(lang)) {
+        if(timeout) clearTimeout(timeout);
+        timeout = window.setTimeout(
+          function() {
+            updateStoredProject(viewUpdate.state.doc.toString());
+          }, 2000);
+      } else {
+        updateStoredProject(viewUpdate.state.doc.toString());
+      }
+    }
   });
 
-  const setMode = () => {
+  const getMode = () => {
     switch (lang) {
       case 'html':
         return html();
       case 'css':
         return css();
+      case 'py':
+        return python();
       default:
         return html();
     }
@@ -41,20 +55,24 @@ const EditorPanel = ({
 
 
   useEffect(() => {
-    const code = project.components.find(item => item.lang === lang && item.name === fileName)
-    var foo = code ? code.content : "";
-    const mode = setMode();
+    const code = project.components.find(item => item.lang === lang && item.name === fileName).content;
+    const mode = getMode();
     const startState = EditorState.create({
-      doc: foo,
+      doc: code,
       extensions: [
         basicSetup,
         keymap.of(defaultKeymap),
         mode,
         onUpdate,
+        editorTheme,
       ],
     });
 
-    const view = new EditorView({ state: startState, parent: editor.current });
+    const view = new EditorView({
+      lineWrapping: true,
+      state: startState,
+      parent: editor.current,
+    });
 
     return () => {
       view.destroy();
@@ -62,7 +80,7 @@ const EditorPanel = ({
   }, []);
 
   return (
-    <div ref={editor}></div>
+    <div className='foo' ref={editor}></div>
   );
 }
 

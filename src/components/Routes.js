@@ -1,8 +1,7 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import PythonProject from './PythonProject/PythonProject'
-import HtmlProject from './HtmlProject/HtmlProject'
+import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 
 const Routes = () => (
   <BrowserRouter>
@@ -10,12 +9,12 @@ const Routes = () => (
      <Route
         exact
         path="/"
-        component={PythonProject}
+        component={ProjectComponentLoader}
       />
      <Route
         exact
-        path="/html"
-        component={HtmlProject}
+        path="/:projectType"
+        component={ProjectComponentLoader}
       />
     </Switch>
   </BrowserRouter>
