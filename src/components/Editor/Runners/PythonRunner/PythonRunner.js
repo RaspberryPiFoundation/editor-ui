@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
 import { setError } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
-import Highcharts from 'highcharts'
-// import $builtinmodule from '../../../pygal'
 
 function PythonRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -114,7 +112,7 @@ function PythonRunner() {
         );
     }
 
-    throw "File not found '" + x + "'";
+    throw new Error("File not found: '" + x + "'");
  }
 
   const runCode = () => {
