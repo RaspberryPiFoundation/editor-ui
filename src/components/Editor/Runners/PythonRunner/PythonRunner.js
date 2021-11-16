@@ -1,16 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.css';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef  } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError } from '../../EditorSlice'
+import { setError, codeRunHandled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
-function PythonRunner() {
+const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      runCode();
+      dispatch(codeRunHandled());
+    }
+  }, [codeRunTriggered]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -56,7 +65,6 @@ function PythonRunner() {
     if (localProjectFiles.includes(x)) {
       let filename = x.slice(2, -3);
       let component = projectCode.find((x) => x.name === filename);
-      console.log(component);
       if (component) {
         return component.content;
       }
@@ -132,6 +140,7 @@ function PythonRunner() {
     dispatch(setError(""));
     outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
+    domOutput.current.innerHTML = '';
 
     var prog = projectCode[0].content;
     Sk.configure({output:outf, read:builtinRead});
@@ -150,7 +159,6 @@ function PythonRunner() {
 
   return (
     <div className="pythonrunner-container">
-      <button className="pythonrunner-btn" onClick={() => runCode()}>Run</button>
       <ErrorMessage />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
@@ -159,6 +167,6 @@ function PythonRunner() {
       <div id='mycanvas' ref={domOutput} />
     </div>
   );
-}
+};
 
 export default PythonRunner;

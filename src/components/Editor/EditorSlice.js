@@ -6,6 +6,7 @@ export const EditorSlice = createSlice({
     project: [],
     projectLoaded: false,
     error: "",
+    codeRunTriggered: false,
   },
   reducers: {
     setProject: (state, action) => {
@@ -15,12 +16,12 @@ export const EditorSlice = createSlice({
       state.projectLoaded = action.payload;
     },
     updateProject: (state, action) => {
-      const lang = action.payload.lang;
+      const extension = action.payload.extension;
       const fileName = action.payload.name;
       const code = action.payload.code;
 
       const mapped = state.project.components.map(item => {
-        if (item.lang !== lang || item.name !== fileName) {
+        if (item.extension !== extension || item.name !== fileName) {
           return item;
         }
 
@@ -31,10 +32,22 @@ export const EditorSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    triggerCodeRun: (state) => {
+      state.codeRunTriggered = true;
+    },
+    codeRunHandled: (state) => {
+      state.codeRunTriggered = false;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setProject, setProjectLoaded, updateProject, setError } = EditorSlice.actions
+export const { setProject,
+  setProjectLoaded,
+  updateProject,
+  setError,
+  triggerCodeRun,
+  codeRunHandled,
+} = EditorSlice.actions
 
 export default EditorSlice.reducer

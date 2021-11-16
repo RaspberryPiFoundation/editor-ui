@@ -14,7 +14,7 @@ import { python } from '@codemirror/lang-python';
 import { editorTheme } from '../editorTheme';
 
 const EditorPanel = ({
-  lang = 'html',
+  extension = 'html',
   fileName = 'index'
 }) => {
   const editor = useRef();
@@ -23,12 +23,12 @@ const EditorPanel = ({
   let timeout;
 
   const updateStoredProject = (content) => {
-    dispatch(updateProject({ lang: lang, name: fileName, code: content}));
+    dispatch(updateProject({ extension: extension, name: fileName, code: content}));
   }
 
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if(viewUpdate.docChanged) {
-      if (['html', 'css'].includes(lang)) {
+      if (['html', 'css'].includes(extension)) {
         if(timeout) clearTimeout(timeout);
         timeout = window.setTimeout(
           function() {
@@ -41,7 +41,7 @@ const EditorPanel = ({
   });
 
   const getMode = () => {
-    switch (lang) {
+    switch (extension) {
       case 'html':
         return html();
       case 'css':
@@ -55,7 +55,7 @@ const EditorPanel = ({
 
 
   useEffect(() => {
-    const code = project.components.find(item => item.lang === lang && item.name === fileName).content;
+    const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
     const mode = getMode();
     const startState = EditorState.create({
       doc: code,

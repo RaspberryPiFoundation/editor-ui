@@ -1,35 +1,5 @@
-.pythonrunner-container {
-  /* margin-right: 20px; */
-  display: flex;
-  flex-direction: column;
-}
-
-.pythonrunner-btn {
-  margin: 5px 0;
-}
-
-.pythonrunner-canvas-container {
-  max-height: 400px;
-}
-
-.pythonrunner-console {
-  margin-top: 20px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
-
-.pythonrunner-graphic {
-  overflow: auto;
-  position: relative;
-}
-
-.pythonrunner-controls {
-  text-align: right;
-}
-
-
-.proj-button {
-  padding: 15px 60px;
+.btn {
+  padding: 15px 30px;
   margin:10px 4px;
   color: #cf0374;
   font-family: sans-serif;
@@ -40,7 +10,7 @@
   display:inline-block;
 }
 
-.proj-button::before{
+.btn::before{
   content: "";
   position: absolute;
   top: 0;
@@ -56,10 +26,10 @@
   transition: all .3s
 }
 
-.proj-button:hover {
+.btn:hover {
   color: #fff;
 }
-.proj-button:hover::before{
+.btn:hover::before{
   opacity: 1;
   color: #fff;
   background-color: #cf0374;
@@ -67,4 +37,8 @@
   transform: scaleX(1);
   transition: -webkit-transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity .4s;
   transition: transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity
+}
+
+.btn--left-align {
+  margin-left: -30px;
 }

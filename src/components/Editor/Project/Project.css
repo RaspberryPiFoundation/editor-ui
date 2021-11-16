@@ -4,10 +4,18 @@
   margin-right: auto;
 }
 
+.proj-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.proj-controls {
+  padding-top: 20px;
+}
+
 .proj-container {
   display: flex;
-  justify-content: flex-start;
-
+  justify-content: space-between;
 }
 
 .proj-editor-container {

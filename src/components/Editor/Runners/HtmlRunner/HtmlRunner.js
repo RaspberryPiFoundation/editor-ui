@@ -20,7 +20,7 @@ function HtmlRunner() {
     // TODO: get html files and handle urls for non index pages
     var indexPage = projectCode[0].content;
 
-    var cssFiles = projectCode.filter(component => component.lang === 'css');
+    var cssFiles = projectCode.filter(component => component.extension === 'css');
     cssFiles.forEach(cssFile => {
       var cssFileBlob = getBlobURL(cssFile.content, 'text/css');
       indexPage = indexPage.replace(`href="${cssFile.name}.css"`, `href="${cssFileBlob}"`)
