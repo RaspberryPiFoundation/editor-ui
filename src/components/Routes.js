@@ -4,10 +4,16 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
 import ProjectViewer from './ProjectViewer/ProjectViewer'
+import Callback from './Callback'
 
 const Routes = () => (
   <BrowserRouter>
     <Switch>
+     <Route
+        exact
+     path="/auth/callback"
+        component={Callback}
+      />
      <Route
         exact
         path="/"
