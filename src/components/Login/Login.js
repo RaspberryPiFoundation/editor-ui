@@ -5,7 +5,7 @@ import Button from '../../components/Button/Button'
 const Login = () => {
 
   const onLoginButtonClick = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     userManager.signinRedirect();
   }
 
