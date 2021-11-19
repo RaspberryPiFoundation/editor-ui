@@ -7,17 +7,17 @@ import userManager from "../utils/userManager";
 const Callback = () => {
   let history = useHistory()
 
+  const onSuccess = () => {
+    history.push("/")
+  }
+
+  const onError = (error) => {
+    history.push("/");
+    console.error(error);
+  }
+
   return (
-    <CallbackComponent
-      userManager={userManager}
-    successCallback={() => {
-      history.push("/")
-    }}
-      errorCallback={error => {
-        history.push("/");
-        console.error(error);
-      }}
-      >
+    <CallbackComponent userManager={userManager} successCallback={onSuccess} errorCallback={(error) => onError(error)}>
       <div>Redirecting...</div>
     </CallbackComponent>
   );

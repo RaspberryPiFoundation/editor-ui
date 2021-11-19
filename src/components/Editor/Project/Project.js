@@ -12,7 +12,6 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button'
-import Login from '../../Login/Login'
 
 import { triggerCodeRun } from '../EditorSlice'
 
@@ -47,7 +46,6 @@ const Project = () => {
       <div className='proj-header'>
         <div>
           <h1>{project.type} Project</h1>
-          <Login />
           <Button onClickHandler={onClickRun} buttonText="Run code" leftAlign={true} />
         </div>
         <div className='proj-controls'>

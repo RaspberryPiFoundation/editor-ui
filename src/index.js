@@ -4,9 +4,20 @@ import './index.css';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
+import { OidcProvider, loadUser } from 'redux-oidc';
+import { Provider } from 'react-redux'
+import store from './components/store'
+import userManager from './utils/userManager'
+
+loadUser(store, userManager);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <OidcProvider store={store} userManager={userManager}>
+        <App />
+      </OidcProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
