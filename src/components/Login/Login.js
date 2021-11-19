@@ -6,6 +6,8 @@ import Button from '../../components/Button/Button'
 const Login = () => {
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
+  const enabled = process.env.REACT_APP_LOGIN_ENABLED === 'true'
+
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
@@ -17,11 +19,13 @@ const Login = () => {
     userManager.removeUser()
   }
 
-  return user === null ? (
-    <Button onClickHandler={onLoginButtonClick} buttonText='Login' />
-  ) :  (
-    <Button onClickHandler={onLogoutButtonClick} buttonText='Logout' />
-  )
+  return ( enabled ? (
+    user === null ? (
+      <Button onClickHandler={onLoginButtonClick} buttonText='Login' />
+    ) :  (
+      <Button onClickHandler={onLogoutButtonClick} buttonText='Logout' />
+    )
+  ) : null)
 }
 
 export default Login;
