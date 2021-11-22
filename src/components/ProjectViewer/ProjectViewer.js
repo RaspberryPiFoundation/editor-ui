@@ -21,7 +21,7 @@ const ProjectViewer = (props) => {
     <>
       <div className='main-container'>
         <h1>Shared project</h1>
-        <RunButton buttonText="Run dat code" leftAlign={true} />
+        <RunButton buttonText="Run code" leftAlign={true} />
         <div>
           <PythonRunner />
         </div>

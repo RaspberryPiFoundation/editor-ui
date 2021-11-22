@@ -1,7 +1,7 @@
 import PythonRunner from './PythonRunner/PythonRunner';
 import HtmlRunner from './HtmlRunner/HtmlRunner';
 
-const runnerFactory = (projectType) => {
+const RunnerFactory = (projectType) => {
   const Runner = () => {
     if (projectType === 'html') {
       return HtmlRunner;
@@ -11,9 +11,10 @@ const runnerFactory = (projectType) => {
 
   const Selected = Runner();
 
-  return () => {
-    return <Selected />
-  }
+  return (
+    <Selected />
+  )
 }
 
-export default runnerFactory;
+export default RunnerFactory;
+

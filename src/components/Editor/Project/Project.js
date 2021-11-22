@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import EditorPanel from '../EditorPanel/EditorPanel'
-import runnerFactory from '../Runners/runnerFactory'
+import RunnerFactory from '../Runners/RunnerFactory'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -18,7 +18,6 @@ import { triggerCodeRun } from '../EditorSlice'
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
-  const Runner = runnerFactory(project.type)
 
   const onClickRun = () => {
     dispatch(triggerCodeRun());
@@ -41,6 +40,10 @@ const Project = () => {
     }
   }
 
+  const host = `${window.location.protocol}//${window.location.hostname}${
+    window.location.port ? `:${window.location.port}` : ''
+  }`
+
   return (
     <div className='proj'>
       <div className='proj-header'>
@@ -54,6 +57,15 @@ const Project = () => {
           )}
         </div>
       </div>
+      { project.identifier && (
+        <div>
+          <p>Share your project with this link:&nbsp;
+            <a href={`/python/share/${project.identifier}`} target="_blank" rel="noreferrer">
+              {`${host}/python/share/${project.identifier}`}
+            </a>
+          </p>
+        </div>
+      )}
       <div className='proj-container'>
         <div className='proj-editor-container'>
           <Tabs>
@@ -63,7 +75,6 @@ const Project = () => {
                 )
               )}
             </TabList>
-
 
             { project.components.map((file,i) => (
               <TabPanel key={i}>
@@ -75,7 +86,7 @@ const Project = () => {
           <Button />
         </div>
         <div className='proj-runner-container'>
-          <Runner />
+          <RunnerFactory projectType={project.type} />
         </div>
       </div>
       <ToastContainer />
