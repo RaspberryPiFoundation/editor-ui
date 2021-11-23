@@ -12,7 +12,9 @@ export const useRemoteProject = (projectType, projectIdentifier = '') => {
 
   const loadDefaultProject = () => {
     (async () => {
-      const response = await axios.get(`/api/default_project/${projectType}`);
+
+      const host = process.env.REACT_APP_API_ENDPOINT;
+      const response = await axios.get(`${host}/api/default_project/${projectType}`);
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();

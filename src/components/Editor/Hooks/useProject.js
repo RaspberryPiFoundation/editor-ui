@@ -37,7 +37,8 @@ export const useProject = (projectType, projectIdentifier = '') => {
 
   const loadProject = () => {
     (async () => {
-      const response = await axios.get(`/api/projects/phrases/${projectIdentifier}`, {
+      const host = process.env.REACT_APP_API_ENDPOINT;
+      const response = await axios.get(`${host}/api/projects/phrases/${projectIdentifier}`, {
         headers: {
                 'Accept': 'application/json'
         },

@@ -28,8 +28,9 @@ const Project = () => {
       return;
     }
 
+    const api_host = process.env.REACT_APP_API_ENDPOINT;
     const response = await axios.put(
-      `/api/projects/phrases/${project.identifier}`,
+      `${api_host}/api/projects/phrases/${project.identifier}`,
       { project: project }
     );
 

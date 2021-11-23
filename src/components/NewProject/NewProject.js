@@ -7,7 +7,8 @@ const NewProject = () => {
   let history = useHistory()
 
   const handleClick = async () => {
-    const response = await axios.post("/api/default_project/");
+    const host = process.env.REACT_APP_API_ENDPOINT;
+    const response = await axios.post(`${host}/api/default_project/`);
     const identifier = response.data.identifier;
     history.push(`/python/${identifier}`)
   }
