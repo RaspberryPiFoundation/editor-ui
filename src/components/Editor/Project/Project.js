@@ -50,7 +50,6 @@ const Project = () => {
       <div className='proj-header'>
         <div>
           <h1>{project.type} Project</h1>
-          <Button onClickHandler={onClickRun} buttonText="Run code" leftAlign={true} />
         </div>
         <div className='proj-controls'>
           { project.identifier && (
@@ -67,6 +66,9 @@ const Project = () => {
           </p>
         </div>
       )}
+      <div>
+        <Button onClickHandler={onClickRun} buttonText="Run code" leftAlign={true} />
+      </div>
       <div className='proj-container'>
         <div className='proj-editor-container'>
           <Tabs>
