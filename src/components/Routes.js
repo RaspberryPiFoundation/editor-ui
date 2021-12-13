@@ -11,7 +11,7 @@ const Routes = () => (
     <Switch>
      <Route
         exact
-     path="/auth/callback"
+        path="/auth/callback"
         component={Callback}
       />
      <Route

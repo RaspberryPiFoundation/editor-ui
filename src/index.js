@@ -6,7 +6,7 @@ import App from './App';
 
 import { OidcProvider, loadUser } from 'redux-oidc';
 import { Provider } from 'react-redux'
-import store from './components/store'
+import store from './app/store'
 import userManager from './utils/userManager'
 
 loadUser(store, userManager);
