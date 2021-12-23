@@ -8,9 +8,14 @@ const NewProject = () => {
 
   const handleClick = async () => {
     const host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.post(`${host}/api/default_project/`);
+    const response = await axios.post(`${host}/api/default_project/`, {},
+      { headers: {
+              'Accept': 'application/json'
+      }},
+    );
     const identifier = response.data.identifier;
-    history.push(`/python/${identifier}`)
+    const project_type = response.data.project_type;
+    history.push(`/${project_type}/${identifier}`)
   }
 
   return (

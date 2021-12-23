@@ -6,7 +6,7 @@ import { updateProject } from '../EditorSlice'
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
-import { defaultKeymap } from '@codemirror/commands';
+import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
@@ -61,7 +61,7 @@ const EditorPanel = ({
       doc: code,
       extensions: [
         basicSetup,
-        keymap.of(defaultKeymap),
+        keymap.of([defaultKeymap, indentWithTab]),
         mode,
         onUpdate,
         editorTheme,

@@ -15,7 +15,11 @@ const ProjectComponentLoader = (props) => {
     <>
       <Project />
     </>
-  ) : <p>Loading</p>;
+  ) : (
+    <>
+    <p>Loading</p>
+    </>
+  );
 };
 
 export default ProjectComponentLoader;

@@ -63,6 +63,6 @@ export const useProject = (projectType, projectIdentifier = '') => {
 
     dispatch(setProject(data));
     dispatch(setProjectLoaded(true));
-  }, []);
+  }, [projectIdentifier]);
 };
 
