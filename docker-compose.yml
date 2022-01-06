@@ -1,0 +1,14 @@
+version: '3'
+services:
+  react-ui:
+    build: .
+    ports:
+      - "3000:3000"
+    container_name: react-ui
+    stdin_open: true
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules # ensures we retain node_modules from docker build
+
+volumes:
+  node_modules:
