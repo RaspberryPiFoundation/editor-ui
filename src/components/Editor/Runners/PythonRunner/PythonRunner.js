@@ -38,7 +38,7 @@ const PythonRunner = () => {
 
   const outf = (text) => {
     const node = output.current;
-    node.innerHTML = node.innerHTML + text + "<br />";
+    node.innerText = node.innerText + text + "\n";
   }
 
   // const builtinRead = (file) => {
