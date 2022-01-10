@@ -22,6 +22,8 @@ const Project = () => {
   const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
   let history = useHistory()
+  const stateAuth = useSelector(state => state.auth);
+  const user = stateAuth.user;
 
   const onClickRun = () => {
     dispatch(triggerCodeRun());
@@ -69,14 +71,15 @@ const Project = () => {
     <div className='proj'>
       <div className='proj-header'>
         <div>
-          <h1>{project.type} Project</h1>
+          <h1>{project.name}</h1>
         </div>
         <div className='proj-controls'>
           { project.identifier && (
+            user !== null ? (
             <>
               <Button onClickHandler={onClickRemix} buttonText="Remix Project" />
-              <Button onClickHandler={onClickSave} buttonText="Save Project" />
             </>
+            ) : null
           )}
         </div>
       </div>
