@@ -13,6 +13,8 @@ import { python } from '@codemirror/lang-python';
 
 import { editorTheme } from '../editorTheme';
 
+import { triggerCodeRun } from '../EditorSlice'
+
 const EditorPanel = ({
   extension = 'html',
   fileName = 'index'
@@ -53,6 +55,14 @@ const EditorPanel = ({
     }
   }
 
+  const runKeymap = [{
+    key: "Cmd-Enter",
+    run() {
+      console.log("Key press registered");
+      dispatch(triggerCodeRun());
+      return true;
+    }
+  }]
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -61,7 +71,7 @@ const EditorPanel = ({
       doc: code,
       extensions: [
         basicSetup,
-        keymap.of([defaultKeymap, indentWithTab]),
+        keymap.of([runKeymap, defaultKeymap, indentWithTab]),
         mode,
         onUpdate,
         editorTheme,
