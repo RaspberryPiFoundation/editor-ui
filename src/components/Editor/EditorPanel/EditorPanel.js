@@ -10,6 +10,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
+import { linter } from '@codemirror/lint';
 
 import { editorTheme } from '../editorTheme';
 
@@ -53,6 +54,14 @@ const EditorPanel = ({
     }
   }
 
+  const lint = linter(() => [
+    {
+      from: 0,
+      to: 7,
+      severity: "error",
+      message: "Something wrong"
+    }
+  ]);
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -62,6 +71,7 @@ const EditorPanel = ({
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
+        lint,
         mode,
         onUpdate,
         editorTheme,
