@@ -185,14 +185,16 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <div className="pythonrunner-console" ref={output} />
-      <textarea ref={input} id="input" className='pythonrunner-input' hidden></textarea>
-      {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          autosize(document.querySelectorAll('#story'))
-          }, false);
-      </script> */}
+      <div className='pythonrunner-console-container'>
+        <textarea ref={input} id="input" className='pythonrunner-input' hidden></textarea>
+        <div className="pythonrunner-console" ref={output} />
+        {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            autosize(document.querySelectorAll('#story'))
+            }, false);
+        </script> */}
+      </div>
       <div id='mycanvas' ref={domOutput} />
     </div>
   );
