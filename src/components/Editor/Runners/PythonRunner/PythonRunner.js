@@ -136,6 +136,23 @@ const PythonRunner = () => {
     throw new Error("File not found: '" + x + "'");
  }
 
+ const inf = function () {
+  document.getElementById("input").removeAttribute("hidden");
+  return new Promise(function(resolve,reject){
+      document.getElementById("input").addEventListener("keyup",function handler(e){
+          if (e.keyCode == 13) {
+              e.currentTarget.removeEventListener(e.type, handler)
+              // resolve the promise with the value of the input field
+              const answer = input.current.value.slice(0, -1);
+              resolve(answer);
+              outf(input.current.value);
+              input.current.value = '';
+              e.currentTarget.setAttribute("hidden", true);
+          }
+      })
+  })
+}
+
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
@@ -145,26 +162,7 @@ const PythonRunner = () => {
 
     var prog = projectCode[0].content;
     Sk.configure({
-      inputfun: function () {
-        document.getElementById("input").removeAttribute("hidden");
-        // the function returns a promise to give a result back later...
-        return new Promise(function(resolve,reject){
-            document.getElementById("input").addEventListener("keyup",function handler(e){
-              // e.currentTarget.removeAttribute("hidden");
-                if (e.keyCode == 13)
-                {
-                    // remove keyup handler from #output
-                    //  document.getElementById("input").removeEventListener("keyup", function(e));
-                    e.currentTarget.removeEventListener(e.type, handler)
-                    // resolve the promise with the value of the input field
-                    resolve(input.current.value.slice(0, -1));
-                    outf(input.current.value.slice(0, -1));
-                    input.current.value = '';
-                    e.currentTarget.setAttribute("hidden", true);
-                }
-            })
-        })
-     },
+      inputfun: inf,
       output:outf, 
       read:builtinRead});
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
