@@ -17,6 +17,17 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+.pythonrunner-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: medium;
+  resize: none;
+  border: 0px;
+}
+
+.pythonrunner-input:focus {
+  outline: 0;
+}
+
 
 .pythonrunner-graphic {
   overflow: auto;

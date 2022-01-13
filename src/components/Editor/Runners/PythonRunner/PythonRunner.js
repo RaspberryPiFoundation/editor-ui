@@ -138,6 +138,7 @@ const PythonRunner = () => {
 
  const inf = function () {
   document.getElementById("input").removeAttribute("hidden");
+  document.getElementById("input").focus();
   return new Promise(function(resolve,reject){
       document.getElementById("input").addEventListener("keyup",function handler(e){
           if (e.key === "Enter") {
@@ -185,7 +186,13 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className="pythonrunner-console" ref={output} />
-      <textarea ref={input} id="input" hidden></textarea>
+      <textarea ref={input} id="input" className='pythonrunner-input' hidden></textarea>
+      {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          autosize(document.querySelectorAll('#story'))
+          }, false);
+      </script> */}
       <div id='mycanvas' ref={domOutput} />
     </div>
   );
