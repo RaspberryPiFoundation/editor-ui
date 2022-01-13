@@ -11,6 +11,7 @@ const PythonRunner = () => {
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const outputCanvas = useRef();
   const output = useRef();
+  const input = useRef();
   const domOutput = useRef();
   const dispatch = useDispatch();
 
@@ -143,7 +144,29 @@ const PythonRunner = () => {
     domOutput.current.innerHTML = '';
 
     var prog = projectCode[0].content;
-    Sk.configure({output:outf, read:builtinRead});
+    Sk.configure({
+      inputfun: function () {
+        document.getElementById("input").removeAttribute("hidden");
+        // the function returns a promise to give a result back later...
+        return new Promise(function(resolve,reject){
+            document.getElementById("input").addEventListener("keyup",function handler(e){
+              // e.currentTarget.removeAttribute("hidden");
+                if (e.keyCode == 13)
+                {
+                    // remove keyup handler from #output
+                    //  document.getElementById("input").removeEventListener("keyup", function(e));
+                    e.currentTarget.removeEventListener(e.type, handler)
+                    // resolve the promise with the value of the input field
+                    resolve(input.current.value.slice(0, -1));
+                    outf(input.current.value.slice(0, -1));
+                    input.current.value = '';
+                    e.currentTarget.setAttribute("hidden", true);
+                }
+            })
+        })
+     },
+      output:outf, 
+      read:builtinRead});
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
     var myPromise = Sk.misceval.asyncToPromise(function() {
         return Sk.importMainWithBody("<stdin>", false, prog, true);
@@ -164,6 +187,7 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className="pythonrunner-console" ref={output} />
+      <textarea ref={input} id="input" hidden></textarea>
       <div id='mycanvas' ref={domOutput} />
     </div>
   );
