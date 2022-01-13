@@ -30,6 +30,7 @@
   resize: none;
   border: 0px;
   min-height: 30px;
+  padding: 0;
 }
 
 .pythonrunner-input:focus {

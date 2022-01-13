@@ -137,17 +137,17 @@ const PythonRunner = () => {
  }
 
  const inf = function () {
+  input.current.value = '';
   document.getElementById("input").removeAttribute("hidden");
   document.getElementById("input").focus();
   return new Promise(function(resolve,reject){
-      document.getElementById("input").addEventListener("keyup",function handler(e){
+      document.getElementById("input").addEventListener("keydown",function handler(e){
           if (e.key === "Enter") {
               e.currentTarget.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
-              const answer = input.current.value.slice(0, -1);
+              const answer = input.current.value.slice(1);
               resolve(answer);
-              outf(input.current.value);
-              input.current.value = '';
+              outf(answer);
               e.currentTarget.setAttribute("hidden", true);
           }
       })
