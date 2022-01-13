@@ -140,7 +140,7 @@ const PythonRunner = () => {
   document.getElementById("input").removeAttribute("hidden");
   return new Promise(function(resolve,reject){
       document.getElementById("input").addEventListener("keyup",function handler(e){
-          if (e.keyCode == 13) {
+          if (e.key === "Enter") {
               e.currentTarget.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
               const answer = input.current.value.slice(0, -1);
