@@ -1,14 +1,14 @@
 import { triggerCodeRun } from '../EditorSlice'
 import { useDispatch } from 'react-redux'
 
-// const dispatch = useDispatch();
 
-const runCodeFunction = () => {
+const RunCodeFunction = () => {
+    const dispatch = useDispatch();
     console.log("Key press registered");
-    triggerCodeRun();
+    dispatch(triggerCodeRun());
   };
 
-export const runCodeKeymap = {
+  export const runCodeKeymap = {
     key: 'Ctrl-Enter',
-    run: runCodeFunction(),
+    run: RunCodeFunction,
   };
