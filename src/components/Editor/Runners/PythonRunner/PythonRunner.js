@@ -190,13 +190,20 @@ const PythonRunner = () => {
     });
   }
 
+  function shiftFocusToInput() {
+    if (document.getElementById("input")) {
+      console.log("Shifting focus...")
+      document.getElementById("input").focus()
+    }
+  }
+
   return (
     <div className="pythonrunner-container">
       <ErrorMessage />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <div className='pythonrunner-console-container'>
+      <div className='pythonrunner-console-container' onClick={shiftFocusToInput}>
         <pre className="pythonrunner-console" id="output" ref={output}></pre>
       </div>
       <div id='mycanvas' ref={domOutput} />
