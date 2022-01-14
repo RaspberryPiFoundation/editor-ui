@@ -197,7 +197,7 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className='pythonrunner-console-container'>
-        <div className="pythonrunner-console" id="output" ref={output}></div>
+        <pre className="pythonrunner-console" id="output" ref={output}></pre>
       </div>
       <div id='mycanvas' ref={domOutput} />
     </div>
