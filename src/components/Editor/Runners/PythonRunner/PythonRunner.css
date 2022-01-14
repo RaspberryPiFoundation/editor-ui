@@ -25,11 +25,11 @@
 }
 
 #input {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: medium;
-  resize: none;
-  border: 0px;
-  padding: 0;
+  /* font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: medium; */
+  /* resize: none; */
+  /* border: 0px; */
+  /* padding: 0; */
   padding-right: 1px;
 }
 

@@ -11,7 +11,6 @@ const PythonRunner = () => {
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const outputCanvas = useRef();
   const output = useRef();
-  const input = useRef();
   const domOutput = useRef();
   const dispatch = useDispatch();
 
@@ -137,39 +136,30 @@ const PythonRunner = () => {
  }
 
  const inputSpan = document.createElement("span");
-//  inputSpan.setAttribute("ref", "{input}");
  inputSpan.setAttribute("id", "input");
  inputSpan.setAttribute("spellCheck", "false");
  inputSpan.setAttribute("className","pythonrunner-input");
  inputSpan.setAttribute("contentEditable", "true");
 
  const inf = function () {
-  // input.current.innerText = '';
   const outputPane=document.getElementById("output");
-  // outputPane.removeChild(outputPane.lastChildElement);
   outputPane.appendChild(inputSpan);
 
+  const input=document.getElementById("input")
 
-  // document.getElementById("input").removeAttribute("hidden");
-  // document.getElementById("input").setAttribute("contentEditable", "true");
-  document.getElementById("input").focus();
-  document.getElementById("input").addEventListener('keyup', function(e){
-    document.getElementById("input").style.minHeight=e.currentTarget.scrollHeight+"px";
-    // console.log(document.getElementsByClassName("pythonrunner-input")[0].style.minHeight)
-  })
+  input.focus();
+
   return new Promise(function(resolve,reject){
-      document.getElementById("input").addEventListener("keyup",function handler(e){
+      input.addEventListener("keyup",function handler(e){
           if (e.key === "Enter") {
-              e.currentTarget.removeEventListener(e.type, handler)
+              input.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
-              const answer = document.getElementById("input").innerText.slice(0,-2);
+              const answer = input.innerText.slice(0,-2);
               console.log(answer+" was the answer");
-              document.getElementById("input").innerText = '';
+              input.innerText = '';
+              // Removes the input span by resetting the innerText of the outputPane
               resolve(answer);
               outf(answer+"\n");
-              // e.currentTarget.setAttribute("contentEditable", "false");
-              // e.currentTarget.setAttribute("hidden", true);
-              // document.getElementById("input").innerText = '';
           }
       })
   })
@@ -207,7 +197,6 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className='pythonrunner-console-container'>
-        {/* <span ref={input} id="input" spellCheck='false' className='pythonrunner-input' contentEditable='false' hidden></span> */}
         <div className="pythonrunner-console" id="output" ref={output}></div>
       </div>
       <div id='mycanvas' ref={domOutput} />
