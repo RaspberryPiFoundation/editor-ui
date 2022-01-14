@@ -39,7 +39,7 @@ const PythonRunner = () => {
 
   const outf = (text) => {
     const node = output.current;
-    node.innerText = node.innerText + text + "\n";
+    node.innerText = node.innerText + text;
   }
 
   // const builtinRead = (file) => {
@@ -136,15 +136,25 @@ const PythonRunner = () => {
     throw new Error("File not found: '" + x + "'");
  }
 
+ const inputSpan = document.createElement("span");
+//  inputSpan.setAttribute("ref", "{input}");
+ inputSpan.setAttribute("id", "input");
+ inputSpan.setAttribute("spellCheck", "false");
+ inputSpan.setAttribute("className","pythonrunner-input");
+ inputSpan.setAttribute("contentEditable", "true");
+
  const inf = function () {
   // input.current.innerText = '';
-  // outputPane=document.getElementsByClassName("pythonrunner-console")[0];
+  const outputPane=document.getElementById("output");
   // outputPane.removeChild(outputPane.lastChildElement);
-  document.getElementById("input").removeAttribute("hidden");
-  document.getElementById("input").setAttribute("contentEditable", "true");
+  outputPane.appendChild(inputSpan);
+
+
+  // document.getElementById("input").removeAttribute("hidden");
+  // document.getElementById("input").setAttribute("contentEditable", "true");
   document.getElementById("input").focus();
   document.getElementById("input").addEventListener('keyup', function(e){
-    document.getElementsByClassName("pythonrunner-input")[0].style.minHeight=e.currentTarget.scrollHeight+"px";
+    document.getElementById("input").style.minHeight=e.currentTarget.scrollHeight+"px";
     // console.log(document.getElementsByClassName("pythonrunner-input")[0].style.minHeight)
   })
   return new Promise(function(resolve,reject){
@@ -152,13 +162,14 @@ const PythonRunner = () => {
           if (e.key === "Enter") {
               e.currentTarget.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
-              const answer = input.current.innerText.slice(0,-2);
+              const answer = document.getElementById("input").innerText.slice(0,-2);
               console.log(answer+" was the answer");
+              document.getElementById("input").innerText = '';
               resolve(answer);
               outf(answer+"\n");
-              e.currentTarget.setAttribute("contentEditable", "false");
-              e.currentTarget.setAttribute("hidden", true);
-              input.current.innerText = '';
+              // e.currentTarget.setAttribute("contentEditable", "false");
+              // e.currentTarget.setAttribute("hidden", true);
+              // document.getElementById("input").innerText = '';
           }
       })
   })
@@ -196,14 +207,8 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className='pythonrunner-console-container'>
-        <span ref={input} id="input" spellCheck='false' className='pythonrunner-input' contentEditable='false' hidden></span>
+        {/* <span ref={input} id="input" spellCheck='false' className='pythonrunner-input' contentEditable='false' hidden></span> */}
         <div className="pythonrunner-console" id="output" ref={output}></div>
-        {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            autosize(document.querySelectorAll('#story'))
-            }, false);
-        </script> */}
       </div>
       <div id='mycanvas' ref={domOutput} />
     </div>
