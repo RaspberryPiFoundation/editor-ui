@@ -137,18 +137,28 @@ const PythonRunner = () => {
  }
 
  const inf = function () {
-  input.current.value = '';
+  // input.current.innerText = '';
+  // outputPane=document.getElementsByClassName("pythonrunner-console")[0];
+  // outputPane.removeChild(outputPane.lastChildElement);
   document.getElementById("input").removeAttribute("hidden");
+  document.getElementById("input").setAttribute("contentEditable", "true");
   document.getElementById("input").focus();
+  document.getElementById("input").addEventListener('keyup', function(e){
+    document.getElementsByClassName("pythonrunner-input")[0].style.minHeight=e.currentTarget.scrollHeight+"px";
+    // console.log(document.getElementsByClassName("pythonrunner-input")[0].style.minHeight)
+  })
   return new Promise(function(resolve,reject){
-      document.getElementById("input").addEventListener("keydown",function handler(e){
+      document.getElementById("input").addEventListener("keyup",function handler(e){
           if (e.key === "Enter") {
               e.currentTarget.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
-              const answer = input.current.value.slice(1);
+              const answer = input.current.innerText.slice(0,-2);
+              console.log(answer+" was the answer");
               resolve(answer);
-              outf(answer);
+              outf(answer+"\n");
+              e.currentTarget.setAttribute("contentEditable", "false");
               e.currentTarget.setAttribute("hidden", true);
+              input.current.innerText = '';
           }
       })
   })
@@ -186,8 +196,8 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <div className='pythonrunner-console-container'>
-        <textarea ref={input} id="input" className='pythonrunner-input' hidden></textarea>
-        <div className="pythonrunner-console" ref={output} />
+        <span ref={input} id="input" spellCheck='false' className='pythonrunner-input' contentEditable='false' hidden></span>
+        <div className="pythonrunner-console" id="output" ref={output}></div>
         {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
