@@ -192,7 +192,6 @@ const PythonRunner = () => {
 
   function shiftFocusToInput() {
     if (document.getElementById("input")) {
-      console.log("Shifting focus...")
       document.getElementById("input").focus()
     }
   }
