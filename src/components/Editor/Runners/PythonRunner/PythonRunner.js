@@ -38,7 +38,7 @@ const PythonRunner = () => {
 
   const outf = (text) => {
     const node = output.current;
-    node.innerText = node.innerText + text;
+    node.innerHTML = node.innerHTML + new Option(text).innerHTML;
     node.scrollTop=node.scrollHeight;
   }
 
@@ -157,7 +157,7 @@ const PythonRunner = () => {
               // resolve the promise with the value of the input field
               const answer = input.innerText.slice(0,-2);
               input.innerText = '';
-              // Removes the input span by resetting the innerText of the outputPane
+              input.remove()
               resolve(answer);
               outf(answer+"\n");
           }
