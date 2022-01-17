@@ -139,11 +139,11 @@ const PythonRunner = () => {
  const inputSpan = document.createElement("span");
  inputSpan.setAttribute("id", "input");
  inputSpan.setAttribute("spellCheck", "false");
- inputSpan.setAttribute("className","pythonrunner-input");
+ inputSpan.setAttribute("class","pythonrunner-input");
  inputSpan.setAttribute("contentEditable", "true");
 
  const inf = function () {
-  const outputPane=document.getElementById("output");
+  const outputPane=output.current;
   outputPane.appendChild(inputSpan);
 
   const input=document.getElementById("input")
@@ -202,7 +202,7 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <pre className="pythonrunner-console" id="output" onClick={shiftFocusToInput} ref={output}></pre>
+      <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
     </div>
   );

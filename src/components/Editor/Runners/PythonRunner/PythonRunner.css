@@ -24,11 +24,11 @@
   overflow-y: scroll;
 }
 
-#input {
+.pythonrunner-input {
   padding-right: 1px;
 }
 
-#input:focus {
+.pythonrunner-input:focus {
   outline: 0;
 }
 
