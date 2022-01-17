@@ -39,6 +39,7 @@ const PythonRunner = () => {
   const outf = (text) => {
     const node = output.current;
     node.innerText = node.innerText + text;
+    node.scrollTop=node.scrollHeight;
   }
 
   // const builtinRead = (file) => {
@@ -202,9 +203,7 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <div className='pythonrunner-console-container' onClick={shiftFocusToInput}>
-        <pre className="pythonrunner-console" id="output" ref={output}></pre>
-      </div>
+      <pre className="pythonrunner-console" id="output" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
     </div>
   );

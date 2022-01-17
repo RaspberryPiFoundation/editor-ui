@@ -12,13 +12,6 @@
   max-height: 400px;
 }
 
-.pythonrunner-console-container {
-  max-height: 400px;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
 .pythonrunner-console {
   margin-top: 20px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -27,6 +20,8 @@
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 #input {
