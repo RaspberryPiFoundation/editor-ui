@@ -156,7 +156,6 @@ const PythonRunner = () => {
               input.removeEventListener(e.type, handler)
               // resolve the promise with the value of the input field
               const answer = input.innerText.slice(0,-2);
-              console.log(answer+" was the answer");
               input.innerText = '';
               // Removes the input span by resetting the innerText of the outputPane
               resolve(answer);
