@@ -27,6 +27,7 @@
 .pythonrunner-input {
   padding-right: 1px;
   color: rgb(36, 103, 236);
+  caret-color: black;
 }
 
 .pythonrunner-input:focus {
