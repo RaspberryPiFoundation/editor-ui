@@ -150,9 +150,8 @@ return span
   outputPane.appendChild(inputSpan());
 
   const input=document.getElementById("input")
-
   input.focus();
-
+  
   return new Promise(function(resolve,reject){
       input.addEventListener("keyup",function storeInput(e){
           if (e.key === "Enter") {
@@ -193,9 +192,17 @@ return span
     });
   }
 
-  function shiftFocusToInput() {
-    if (document.getElementById("input")) {
-      document.getElementById("input").focus()
+  function shiftFocusToInput(e) {
+    if (e.target == e.currentTarget && document.getElementById("input")) {
+      const input = document.getElementById("input")
+      const selection = window.getSelection();
+      const range = document.createRange();
+
+      range.setStart(input,1);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      input.focus()
     }
   }
 
