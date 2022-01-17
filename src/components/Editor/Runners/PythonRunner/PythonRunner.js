@@ -136,30 +136,33 @@ const PythonRunner = () => {
     throw new Error("File not found: '" + x + "'");
  }
 
- const inputSpan = document.createElement("span");
- inputSpan.setAttribute("id", "input");
- inputSpan.setAttribute("spellCheck", "false");
- inputSpan.setAttribute("class","pythonrunner-input");
- inputSpan.setAttribute("contentEditable", "true");
+ const inputSpan = () => {
+  const span = document.createElement("span");
+  span.setAttribute("id", "input");
+  span.setAttribute("spellCheck", "false");
+  span.setAttribute("class","pythonrunner-input");
+  span.setAttribute("contentEditable", "true");
+return span
+}
 
  const inf = function () {
   const outputPane=output.current;
-  outputPane.appendChild(inputSpan);
+  outputPane.appendChild(inputSpan());
 
   const input=document.getElementById("input")
 
   input.focus();
 
   return new Promise(function(resolve,reject){
-      input.addEventListener("keyup",function handler(e){
+      input.addEventListener("keyup",function storeInput(e){
           if (e.key === "Enter") {
-              input.removeEventListener(e.type, handler)
+              input.removeEventListener(e.type, storeInput)
               // resolve the promise with the value of the input field
               const answer = input.innerText.slice(0,-2);
-              input.innerText = '';
-              input.remove()
+              input.innerText = input.innerText.slice(0,-1);
+              input.removeAttribute("id")
+              input.removeAttribute("contentEditable")
               resolve(answer);
-              outf(answer+"\n");
           }
       })
   })
