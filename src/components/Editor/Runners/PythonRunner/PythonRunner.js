@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef  } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, stopCodeRun } from '../../EditorSlice'
+import { setError, codeRunHandled} from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 const PythonRunner = () => {
@@ -22,12 +22,12 @@ const PythonRunner = () => {
     }
   }, [codeRunTriggered]);
 
-  useEffect(() => {
-    if (codeRunStopped) {
-      stopCode();
-      dispatch(codeRunHandled());
-    }
-  }, [codeRunStopped]);
+  // useEffect(() => {
+  //   if (codeRunStopped) {
+  //     stopCode();
+  //     dispatch(codeRunHandled());
+  //   }
+  // }, [codeRunStopped]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -142,9 +142,9 @@ const PythonRunner = () => {
 
     throw new Error("File not found: '" + x + "'");
  }
-  function stopCode() {
-    dispatch(stopCodeRun());
-  }
+  // function stopCode() {
+  //   dispatch(stopCodeRun());
+  // }
 
   const runCode = () => {
     // clear previous output
@@ -157,9 +157,12 @@ const PythonRunner = () => {
     Sk.configure({output:outf, read:builtinRead, killableWhile: true});
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
     var myPromise = Sk.misceval.asyncToPromise(function() {
-        return Sk.importMainWithBody("<stdin>", false, prog, true),{
+        return Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
-            if (codeRunStopped) throw "Execution interrupted"
+            if (codeRunStopped) {
+              dispatch(codeRunHandled());
+              throw "Execution interrupted";
+            }
           }
         };
     });
