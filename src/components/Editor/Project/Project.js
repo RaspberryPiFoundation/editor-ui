@@ -18,6 +18,7 @@ import { setProjectLoaded } from '../EditorSlice';
 
 import { triggerCodeRun } from '../EditorSlice'
 import StopButton from '../../RunButton/StopButton';
+import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -94,8 +95,9 @@ const Project = () => {
         </div>
       )}
       <div>
-        <Button onClickHandler={onClickRun} buttonText="Run code" leftAlign={true} />
-        <StopButton buttonText="Stop code" />
+        {/* <Button onClickHandler={onClickRun} buttonText="Run code" leftAlign={true} />
+        <StopButton buttonText="Stop code" /> */}
+        <RunnerControls/>
       </div>
       <div className='proj-container'>
         <div className='proj-editor-container'>
