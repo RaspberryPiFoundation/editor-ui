@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.css';
-import React, { useEffect, useRef  } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
 import { setError, codeRunHandled} from '../../EditorSlice'
@@ -32,21 +32,22 @@ const PythonRunner = () => {
   const externalLibraries = {
     "./pygal/__init__.js": {
       path: process.env.PUBLIC_URL + '/pygal.js',
-      dependencies : [
+      dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
     }
   };
 
-  Sk.domOutput = function(html) {
-    document.querySelector('#mycanvas').insertAdjacentHTML("beforeend",html)
+  Sk.domOutput = function (html) {
+    document.querySelector('#mycanvas').insertAdjacentHTML("beforeend", html)
     return document.querySelector('#mycanvas').children[0];
   };
 
   const outf = (text) => {
     const node = output.current;
-    node.innerText = node.innerText + text + "\n";
+    node.innerHTML = node.innerHTML + new Option(text).innerHTML;
+    node.scrollTop = node.scrollHeight;
   }
 
   // const builtinRead = (file) => {
@@ -66,7 +67,7 @@ const PythonRunner = () => {
   //   return Sk.builtinFiles.files[file];
   // }
 
-  const builtinRead= (x) => {
+  const builtinRead = (x) => {
     // TODO: memoize this?
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
@@ -79,72 +80,106 @@ const PythonRunner = () => {
     }
 
     if (Sk.builtinFiles !== undefined && Sk.builtinFiles["files"][x] !== undefined) {
-        return Sk.builtinFiles["files"][x];
+      return Sk.builtinFiles["files"][x];
     }
 
     if (externalLibraries[x]) {
-        var externalLibraryInfo = externalLibraries[x];
-        return Sk.misceval.promiseToSuspension(
-            new Promise(function(resolve, reject) {
-                // get the main skulpt extenstion
-                var request = new XMLHttpRequest();
-                request.open("GET", externalLibraryInfo.path);
-                request.onload = function() {
-                    if (request.status === 200) {
-                        resolve(request.responseText);
-                    } else {
-                        reject("File not found: '" + x + "'");
-                    }
-                };
+      var externalLibraryInfo = externalLibraries[x];
+      return Sk.misceval.promiseToSuspension(
+        new Promise(function (resolve, reject) {
+          // get the main skulpt extenstion
+          var request = new XMLHttpRequest();
+          request.open("GET", externalLibraryInfo.path);
+          request.onload = function () {
+            if (request.status === 200) {
+              resolve(request.responseText);
+            } else {
+              reject("File not found: '" + x + "'");
+            }
+          };
 
-                request.onerror = function() {
-                    reject("File not found: '" + x + "'");
-                }
+          request.onerror = function () {
+            reject("File not found: '" + x + "'");
+          }
 
-                request.send();
-            }).then(function (code) {
-                if (!code) {
-                    throw new Sk.builtin.ImportError("Failed to load remote module");
-                }
+          request.send();
+        }).then(function (code) {
+          if (!code) {
+            throw new Sk.builtin.ImportError("Failed to load remote module");
+          }
 
-                var promise;
+          var promise;
 
-                function mapUrlToPromise(path) {
-                    return new Promise(function(resolve, reject) {
-                        let scriptElement = document.createElement("script");
-                        scriptElement.type = "text/javascript";
-                        scriptElement.src = path;
-                        scriptElement.async = true
-                        scriptElement.onload = function() {
-                            resolve(true);
-                        }
+          function mapUrlToPromise(path) {
+            return new Promise(function (resolve, reject) {
+              let scriptElement = document.createElement("script");
+              scriptElement.type = "text/javascript";
+              scriptElement.src = path;
+              scriptElement.async = true
+              scriptElement.onload = function () {
+                resolve(true);
+              }
 
-                        document.body.appendChild(scriptElement);
-                    });
-                }
+              document.body.appendChild(scriptElement);
+            });
+          }
 
-                if (externalLibraryInfo.loadDepsSynchronously) {
-                    promise = (externalLibraryInfo.dependencies || []).reduce((p, url) => {
-                        return p.then(() => mapUrlToPromise(url));
-                    }, Promise.resolve()); // initial
-                } else {
-                    promise = Promise.all((externalLibraryInfo.dependencies || []).map(mapUrlToPromise));
-                }
+          if (externalLibraryInfo.loadDepsSynchronously) {
+            promise = (externalLibraryInfo.dependencies || []).reduce((p, url) => {
+              return p.then(() => mapUrlToPromise(url));
+            }, Promise.resolve()); // initial
+          } else {
+            promise = Promise.all((externalLibraryInfo.dependencies || []).map(mapUrlToPromise));
+          }
 
-                return promise.then(function() {
-                    return code;
-                }).catch(function() {
-                    throw new Sk.builtin.ImportError("Failed to load dependencies required");
-                });
-            })
-        );
+          return promise.then(function () {
+            return code;
+          }).catch(function () {
+            throw new Sk.builtin.ImportError("Failed to load dependencies required");
+          });
+        })
+      );
     }
 
     throw new Error("File not found: '" + x + "'");
+
  }
   // function stopCode() {
   //   dispatch(stopCodeRun());
   // }
+
+  }
+
+  const inputSpan = () => {
+    const span = document.createElement("span");
+    span.setAttribute("id", "input");
+    span.setAttribute("spellCheck", "false");
+    span.setAttribute("class", "pythonrunner-input");
+    span.setAttribute("contentEditable", "true");
+    return span
+  }
+
+  const inf = function () {
+    const outputPane = output.current;
+    outputPane.appendChild(inputSpan());
+
+    const input = document.getElementById("input")
+    input.focus();
+
+    return new Promise(function (resolve, reject) {
+      input.addEventListener("keyup", function storeInput(e) {
+        if (e.key === "Enter") {
+          input.removeEventListener(e.type, storeInput)
+          // resolve the promise with the value of the input field
+          const answer = input.innerText.slice(0, -2);
+          input.innerText = input.innerText.slice(0, -1);
+          input.removeAttribute("id")
+          input.removeAttribute("contentEditable")
+          resolve(answer);
+        }
+      })
+    })
+  }
 
   const runCode = () => {
     // clear previous output
@@ -154,7 +189,12 @@ const PythonRunner = () => {
     domOutput.current.innerHTML = '';
 
     var prog = projectCode[0].content;
-    Sk.configure({output:outf, read:builtinRead, killableWhile: true});
+    
+    Sk.configure({
+      inputfun: inf,
+      output: outf,
+      read: builtinRead,
+      killableWhile: true});
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
     var myPromise = Sk.misceval.asyncToPromise(function() {
         return Sk.importMainWithBody("<stdin>", false, prog, true), {
@@ -166,13 +206,27 @@ const PythonRunner = () => {
           }
         };
     });
-    myPromise.then(function(mod) {
-        // console.log('success');
+    myPromise.then(function (mod) {
+      // console.log('success');
     },
-        function(err) {
+      function (err) {
         console.log(err.toString());
         dispatch(setError(err.toString()));
-    });
+      });
+  }
+
+  function shiftFocusToInput(e) {
+    if (e.target == e.currentTarget && document.getElementById("input")) {
+      const input = document.getElementById("input")
+      const selection = window.getSelection();
+      const range = document.createRange();
+
+      range.setStart(input, 1);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      input.focus()
+    }
   }
 
   return (
@@ -181,7 +235,7 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <div className="pythonrunner-console" ref={output} />
+      <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
     </div>
   );
