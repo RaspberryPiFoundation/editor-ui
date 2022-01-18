@@ -15,6 +15,23 @@
 .pythonrunner-console {
   margin-top: 20px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.pythonrunner-input {
+  padding-right: 1px;
+  color: rgb(36, 103, 236);
+  caret-color: black;
+}
+
+.pythonrunner-input:focus {
+  outline: 0;
 }
 
 
