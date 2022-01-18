@@ -197,14 +197,16 @@ const PythonRunner = () => {
     if (e.target == e.currentTarget && document.getElementById("input")) {
       const input = document.getElementById("input")
       const selection = window.getSelection();
-      const range = document.createRange();
-      try {
+      selection.removeAllRanges();
+
+      console.log(input.innerText.length)
+
+      if (input.innerText.length > 0){
+        const range = document.createRange();
         range.setStart(input, 1);
         range.collapse(true);
-        selection.removeAllRanges();
         selection.addRange(range);
-      } catch (err) {}
-      
+    }
       input.focus()
     }
   }
