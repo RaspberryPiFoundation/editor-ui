@@ -199,14 +199,12 @@ const PythonRunner = () => {
       const selection = window.getSelection();
       selection.removeAllRanges();
 
-      console.log(input.innerText.length)
-
       if (input.innerText.length > 0){
         const range = document.createRange();
         range.setStart(input, 1);
         range.collapse(true);
         selection.addRange(range);
-    }
+      }
       input.focus()
     }
   }
