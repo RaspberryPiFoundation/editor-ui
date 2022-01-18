@@ -194,18 +194,25 @@ const PythonRunner = () => {
       inputfun: inf,
       output: outf,
       read: builtinRead,
-      killableWhile: true});
+      killableWhile: true
+  });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
-    var myPromise = Sk.misceval.asyncToPromise(function() {
-        return Sk.importMainWithBody("<stdin>", false, prog, true), {
+    var myPromise = Sk.misceval.asyncToPromise(() => 
+        Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
+            console.log("something")
             if (codeRunStopped) {
               dispatch(codeRunHandled());
               throw "Execution interrupted";
             }
           }
-        };
-    });
+        },
+    ).catch(err => {
+      console.log(err.toString());
+    }).finally(()=>{
+      console.log("code stopped");
+    }
+    );
     myPromise.then(function (mod) {
       // console.log('success');
     },
