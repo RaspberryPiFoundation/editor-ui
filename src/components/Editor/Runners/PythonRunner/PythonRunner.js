@@ -148,7 +148,7 @@ const PythonRunner = () => {
   //   dispatch(stopCodeRun());
   // }
 
-  }
+  // }
 
   const inputSpan = () => {
     const span = document.createElement("span");
