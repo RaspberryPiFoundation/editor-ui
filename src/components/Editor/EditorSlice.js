@@ -7,6 +7,7 @@ export const EditorSlice = createSlice({
     projectLoaded: false,
     error: "",
     codeRunTriggered: false,
+    codeRunStopped: false,
   },
   reducers: {
     setProject: (state, action) => {

@@ -14,20 +14,27 @@ const PythonRunner = () => {
   const output = useRef();
   const domOutput = useRef();
   const dispatch = useDispatch();
+  var StopExecution=false;
 
   useEffect(() => {
     if (codeRunTriggered) {
+      console.log("running code");
+      // StopExecution = false;
+      console.log(codeRunTriggered)
       runCode();
-      dispatch(codeRunHandled());
+      // dispatch(codeRunHandled());
     }
   }, [codeRunTriggered]);
 
-  // useEffect(() => {
-  //   if (codeRunStopped) {
-  //     stopCode();
-  //     dispatch(codeRunHandled());
-  //   }
-  // }, [codeRunStopped]);
+  useEffect(() => {
+    if (codeRunStopped) {
+      // dispatch(codeRunHandled());
+      console.log("stopping code")
+    }
+    else {
+      console.log("continuing code")
+    }
+  }, [codeRunStopped]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -144,11 +151,6 @@ const PythonRunner = () => {
     throw new Error("File not found: '" + x + "'");
 
  }
-  // function stopCode() {
-  //   dispatch(stopCodeRun());
-  // }
-
-  // }
 
   const inputSpan = () => {
     const span = document.createElement("span");
@@ -194,16 +196,22 @@ const PythonRunner = () => {
       inputfun: inf,
       output: outf,
       read: builtinRead,
-      killableWhile: true
+      killableWhile: true,
+      inputTakesPrompt: true
   });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
     var myPromise = Sk.misceval.asyncToPromise(() => 
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
-            console.log("something")
-            if (codeRunStopped) {
-              dispatch(codeRunHandled());
+            console.log("do something")
+            console.log(codeRunStopped)
+            if (codeRunStopped===true) {
+              console.log("Recieved message to stop code...")
+              // dispatch(codeRunHandled());
               throw "Execution interrupted";
+            }
+            else {
+              console.log("Carry on...")
             }
           }
         },
@@ -211,6 +219,7 @@ const PythonRunner = () => {
       console.log(err.toString());
     }).finally(()=>{
       console.log("code stopped");
+      dispatch(codeRunHandled());
     }
     );
     myPromise.then(function (mod) {
@@ -228,7 +237,7 @@ const PythonRunner = () => {
       const selection = window.getSelection();
       selection.removeAllRanges();
 
-      if (input.innerText.length > 0){
+      if (input.innerText.length > 0) {
         const range = document.createRange();
         range.setStart(input, 1);
         range.collapse(true);
