@@ -6,35 +6,23 @@ import Sk from "skulpt"
 import { setError, codeRunHandled} from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
+import store from '../../../../app/store'
+
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
-  const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
   const dispatch = useDispatch();
-  var StopExecution=false;
 
   useEffect(() => {
     if (codeRunTriggered) {
       console.log("running code");
-      // StopExecution = false;
       console.log(codeRunTriggered)
       runCode();
-      // dispatch(codeRunHandled());
     }
   }, [codeRunTriggered]);
-
-  useEffect(() => {
-    if (codeRunStopped) {
-      // dispatch(codeRunHandled());
-      console.log("stopping code")
-    }
-    else {
-      console.log("continuing code")
-    }
-  }, [codeRunStopped]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -203,15 +191,8 @@ const PythonRunner = () => {
     var myPromise = Sk.misceval.asyncToPromise(() => 
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
-            console.log("do something")
-            console.log(codeRunStopped)
-            if (codeRunStopped===true) {
-              console.log("Recieved message to stop code...")
-              // dispatch(codeRunHandled());
+            if (store.getState().editor.codeRunStopped) {
               throw "Execution interrupted";
-            }
-            else {
-              console.log("Carry on...")
             }
           }
         },
