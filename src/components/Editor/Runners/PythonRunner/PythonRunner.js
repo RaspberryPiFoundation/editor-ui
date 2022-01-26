@@ -137,8 +137,7 @@ const PythonRunner = () => {
     }
 
     throw new Error("File not found: '" + x + "'");
-
- }
+  }
 
   const inputSpan = () => {
     const span = document.createElement("span");
