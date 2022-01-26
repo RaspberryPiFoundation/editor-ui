@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux'
 import { stopCodeRun } from '../Editor/EditorSlice'
 
 const StopButton = (props) => {
-  // const { buttonText, leftAlign } = props;
+  
   const dispatch = useDispatch();
-
+  
   const onClickStop = () => {
     dispatch(stopCodeRun());
   }

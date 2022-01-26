@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled} from '../../EditorSlice'
+import { setError, codeRunHandled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
