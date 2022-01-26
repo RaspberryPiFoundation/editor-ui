@@ -3,9 +3,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useProject } from '../Editor/Hooks/useProject'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
-import RunButton from '../RunButton/RunButton'
 import { triggerCodeRun } from '../Editor/EditorSlice'
-import StopButton from '../RunButton/StopButton';
+import RunnerControls from '../RunButton/RunnerControls';
 
 const ProjectViewer = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
@@ -22,8 +21,7 @@ const ProjectViewer = (props) => {
     <>
       <div className='main-container'>
         <h1>Shared project</h1>
-        <RunButton buttonText="Run code" leftAlign={true} />
-        <StopButton buttonText="Stop code" />
+        <RunnerControls />
         <div>
           <PythonRunner />
         </div>
