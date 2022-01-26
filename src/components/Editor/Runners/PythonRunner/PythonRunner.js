@@ -184,6 +184,7 @@ const PythonRunner = () => {
       output: outf,
       read: builtinRead,
       killableWhile: true,
+      killableFor: true,
       inputTakesPrompt: true
   });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
@@ -197,17 +198,13 @@ const PythonRunner = () => {
         },
     ).catch(err => {
       console.log(err.toString());
+      dispatch(setError(err.toString()));
     }).finally(()=>{
       console.log("code stopped");
       dispatch(codeRunHandled());
     }
     );
     myPromise.then(function (mod) {
-      // console.log('success');
-    },
-      function (err) {
-        console.log(err.toString());
-        dispatch(setError(err.toString()));
       });
   }
 
