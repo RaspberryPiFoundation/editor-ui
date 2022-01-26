@@ -1,7 +1,7 @@
 import Button from '../Button/Button'
 
 import { useDispatch } from 'react-redux'
-import { codeRunHandled, stopCodeRun } from '../Editor/EditorSlice'
+import { codeRunHandled, setError, stopCodeRun } from '../Editor/EditorSlice'
 
 const StopButton = (props) => {
   
@@ -14,6 +14,7 @@ const StopButton = (props) => {
       const input = document.getElementById("input")
       input.removeAttribute("id")
       input.removeAttribute("contentEditable")
+      dispatch(setError("Execution interrupted"));
       dispatch(codeRunHandled())
     }
   }

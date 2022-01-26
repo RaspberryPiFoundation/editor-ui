@@ -199,6 +199,11 @@ const PythonRunner = () => {
     ).catch(err => {
       console.log(err.toString());
       dispatch(setError(err.toString()));
+      if (document.getElementById("input")) {
+        const input = document.getElementById("input")
+        input.removeAttribute("id")
+        input.removeAttribute("contentEditable")
+      }
     }).finally(()=>{
       console.log("code stopped");
       dispatch(codeRunHandled());
