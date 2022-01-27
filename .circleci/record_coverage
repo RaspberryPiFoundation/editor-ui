@@ -59,7 +59,9 @@ if [ "${coverage}" = "null" ] ; then
   exit 0
 fi
 
+echo "Getting artifacts response"
 artifacts_response=$(curl $CURL_ARGS -H "Circle-Token: $CIRCLE_TOKEN" https://circleci.com/api/v1.1/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}/artifacts)
+echo "it worked"
 coverage_url=$(echo ${artifacts_response} | jq -r '. | map(select(.path == "coverage/lcov-report/index.html"))[0].url')
 
 if ! [ "${coverage_url}" = "null" ] ; then
