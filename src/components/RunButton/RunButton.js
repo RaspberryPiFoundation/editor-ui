@@ -3,7 +3,7 @@ import Button from '../Button/Button'
 import { useDispatch } from 'react-redux'
 import { triggerCodeRun } from '../Editor/EditorSlice'
 
-function RunButton(props) {
+const RunButton = (props) => {
   // const { buttonText, leftAlign } = props;
   const dispatch = useDispatch();
 
@@ -16,5 +16,5 @@ function RunButton(props) {
   )
 };
 
-export {RunButton};
+export default RunButton;
 

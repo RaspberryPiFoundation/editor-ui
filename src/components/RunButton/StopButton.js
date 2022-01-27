@@ -3,7 +3,7 @@ import Button from '../Button/Button'
 import { useDispatch } from 'react-redux'
 import { codeRunHandled, setError, stopCodeRun } from '../Editor/EditorSlice'
 
-function StopButton(props) {
+const StopButton = (props) => {
   
   const dispatch = useDispatch();
   
@@ -24,4 +24,4 @@ function StopButton(props) {
   )
 };
 
-export {StopButton};
+export default StopButton;

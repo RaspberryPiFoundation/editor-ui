@@ -2,8 +2,8 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { toHaveAttribute } from "@testing-library/jest-dom";
 import { Provider } from 'react-redux';
-import { StopButton } from "./StopButton";
-import { RunButton } from "./RunButton";
+import StopButton from "./StopButton";
+import RunButton from "./RunButton";
 import store from '../../app/store';
 
 test("Clicking stop button without input box sets codeRunStopped to true", () => {
