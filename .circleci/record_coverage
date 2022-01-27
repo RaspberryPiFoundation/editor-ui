@@ -1,5 +1,5 @@
 #!/bin/bash -ueo pipefail
-
+# 
 # Record coverage
 #
 # This script uses the Circle and Github APIs to poke a comment into a PR about test coverage.
