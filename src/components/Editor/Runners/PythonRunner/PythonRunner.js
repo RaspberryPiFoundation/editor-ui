@@ -194,7 +194,7 @@ const PythonRunner = () => {
   }
 
   function shiftFocusToInput(e) {
-    if (e.target == e.currentTarget && document.getElementById("input")) {
+    if (e.target === e.currentTarget && document.getElementById("input")) {
       const input = document.getElementById("input")
       const selection = window.getSelection();
       const range = document.createRange();
