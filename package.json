@@ -28,6 +28,7 @@
     "react-scripts": "4.0.3",
     "react-tabs": "^3.2.3",
     "react-toastify": "^8.1.0",
+    "redux-mock-store": "^1.5.4",
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
     "web-vitals": "^1.0.1"
