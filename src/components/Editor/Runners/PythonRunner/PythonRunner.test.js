@@ -44,8 +44,6 @@ test("Pressing enter stops the input box being editable", () => {
     const inputText = 'hello world';
     input.innerText = inputText+'\n';
     fireEvent.keyUp(input, {key: 'Enter', code: 'Enter', charCode: 13})
-
-    console.log(input)
     
     expect(input).not.toHaveAttribute("contentEditable", "true");
     expect(input.innerText).toBe(inputText);
