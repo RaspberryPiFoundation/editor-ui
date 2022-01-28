@@ -1,9 +1,10 @@
 .embedded-container {
     padding-right: 2.5%;
     padding-left: 2.5%;
+    max-height: 100vh;
 }
 
 .embedded-container .pythonrunner-console {
-    max-height: 100vh;
+    min-height: None;
     padding-right: 0px;
 }
