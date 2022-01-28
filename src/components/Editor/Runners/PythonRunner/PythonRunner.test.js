@@ -1,15 +1,13 @@
 import React from "react";
-import { render } from "@testing-library/react"
+import { fireEvent, render } from "@testing-library/react"
 import { toHaveAttribute } from "@testing-library/jest-dom"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import PythonRunner from "./PythonRunner";
 
-const middlewares = []
-const mockStore = configureStore(middlewares)
-
-
-test("Input function in code makes editable input box appear", () => {
+beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
     const initialState = {
         editor: {
             project: {
@@ -24,5 +22,31 @@ test("Input function in code makes editable input box appear", () => {
     }
     const store = mockStore(initialState);
     const runner = render(<Provider store={store}><PythonRunner/></Provider>);
-    expect(document.getElementById("input")).toHaveAttribute("contentEditable", "true");
+    const input = document.getElementById("input");
+})
+
+test("Input function in code makes editable input box appear", () => {
+    expect(input).toHaveAttribute("contentEditable", "true");
+})
+
+test("Input box has focus when it appears", () => {
+    expect(input).toHaveFocus();
+})
+
+test("Clicking output pane transfers focus to input", () => {
+    const outputPane = document.getElementsByClassName("pythonrunner-console")[0]
+    fireEvent.click(outputPane);
+    expect(input).toHaveFocus();
+})
+
+test("Pressing enter stops the input box being editable", () => {
+    const input = document.getElementById("input");
+    const inputText = 'hello world';
+    input.innerText = inputText+'\n';
+    fireEvent.keyUp(input, {key: 'Enter', code: 'Enter', charCode: 13})
+
+    console.log(input)
+    
+    expect(input).not.toHaveAttribute("contentEditable", "true");
+    expect(input.innerText).toBe(inputText);
 })
