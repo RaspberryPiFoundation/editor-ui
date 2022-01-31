@@ -1,10 +1,20 @@
 .embedded-container {
     padding-right: 2.5%;
     padding-left: 2.5%;
-    max-height: 100vh;
+}
+
+.embedded-container .pythonrunner-container {
+    max-height: calc(100vh - 70px);
+    overflow-y: scroll;
 }
 
 .embedded-container .pythonrunner-console {
-    min-height: None;
-    padding-right: 0px;
+    max-height: None;
+    margin-top: 0px;
 }
+
+.embedded-container .error-message {
+    margin-top: 0px;  
+}
+
+
