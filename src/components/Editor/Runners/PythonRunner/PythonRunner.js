@@ -149,19 +149,25 @@ const PythonRunner = () => {
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    const input = document.getElementById("input")
+    var input = document.getElementById("input")
     input.focus();
 
     return new Promise(function (resolve, reject) {
-      input.addEventListener("keyup", function storeInput(e) {
+      input.addEventListener("keydown", function removeInput(e) {
         if (e.key === "Enter") {
-          input.removeEventListener(e.type, storeInput)
+          input.removeEventListener(e.type, removeInput)
           // resolve the promise with the value of the input field
-          const answer = input.innerText.slice(0, -2);
-          input.innerText = input.innerText.slice(0, -1);
-          input.removeAttribute("id")
-          input.removeAttribute("contentEditable")
-          resolve(answer);
+          const answer = input.innerText;
+          input.removeAttribute("id");
+          input.removeAttribute("contentEditable");
+          input.innerText=answer+'\n';
+
+          document.addEventListener("keyup", function storeInput(e) {
+            if (e.key === "Enter") {
+              document.removeEventListener(e.type, storeInput);
+              resolve(answer);
+            }
+          })
         }
       })
     })
