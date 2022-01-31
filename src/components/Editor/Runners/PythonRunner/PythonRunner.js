@@ -149,7 +149,7 @@ const PythonRunner = () => {
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    var input = document.getElementById("input")
+    const input = document.getElementById("input")
     input.focus();
 
     return new Promise(function (resolve, reject) {
