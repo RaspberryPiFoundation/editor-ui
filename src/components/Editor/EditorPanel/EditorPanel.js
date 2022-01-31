@@ -12,6 +12,8 @@ import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
 
 import { editorTheme } from '../editorTheme';
+import { runCodeKeymap } from './runCodeKeyMap';
+// import { triggerCodeRun } from '../EditorSlice'
 
 const EditorPanel = ({
   extension = 'html',
@@ -53,6 +55,15 @@ const EditorPanel = ({
     }
   }
 
+  // const runCodeFunction = () => {
+  //   console.log("Key press registered");
+  //   dispatch(triggerCodeRun());
+  // };
+
+  // const runCodeKeymap = {
+  //   key: 'Ctrl-u',
+  //   run: runCodeFunction(),
+  // };
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -61,7 +72,7 @@ const EditorPanel = ({
       doc: code,
       extensions: [
         basicSetup,
-        keymap.of([defaultKeymap, indentWithTab]),
+        keymap.of([ defaultKeymap, indentWithTab, runCodeKeymap ]),
         mode,
         onUpdate,
         editorTheme,
