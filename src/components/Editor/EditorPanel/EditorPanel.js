@@ -12,7 +12,7 @@ import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
 
 import { editorTheme } from '../editorTheme';
-import { runCodeKeymap } from './runCodeKeyMap';
+// import { runCodeKeymap } from './runCodeKeyMap';
 // import { triggerCodeRun } from '../EditorSlice'
 
 const EditorPanel = ({
@@ -72,7 +72,8 @@ const EditorPanel = ({
       doc: code,
       extensions: [
         basicSetup,
-        keymap.of([ defaultKeymap, indentWithTab, runCodeKeymap ]),
+        // keymap.of([ defaultKeymap, indentWithTab, runCodeKeymap ]),
+        keymap.of([ defaultKeymap, indentWithTab ]),
         mode,
         onUpdate,
         editorTheme,

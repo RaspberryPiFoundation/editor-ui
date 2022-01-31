@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef  } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, triggerCodeRun } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 const PythonRunner = () => {
@@ -156,6 +156,13 @@ const PythonRunner = () => {
         dispatch(setError(err.toString()));
     });
   }
+
+  document.addEventListener("keyup", (e) => {
+    if (e.ctrlKey && e.key==="Enter" && codeRunTriggered===false) {
+      console.log("START RUNNING THE CODE!")
+      dispatch(triggerCodeRun())
+    }
+  })
 
   return (
     <div className="pythonrunner-container">
