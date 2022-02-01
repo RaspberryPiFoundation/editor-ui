@@ -1,0 +1,79 @@
+version: '2.1'
+jobs:
+  lint:
+    docker:
+      - image: cimg/node:16.13.1
+        environment:
+          NODE_PATH: "./src"
+          REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: eslint
+          command: npm run lint
+
+  stylelint:
+    docker:
+      - image: cimg/node:16.13.1
+        environment:
+          NODE_PATH: ./src
+          REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: stylelint
+          command: npm run stylelint
+
+  test:
+    docker:
+      - image: cimg/node:16.13.1-browsers
+        environment:
+          NODE_PATH: ./src
+#           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
+    steps:
+      - checkout
+      - node/install-packages
+#       - run:
+#           command: npx cypress verify
+      - run:
+          command: npm run test -- --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./coverage/
+      - run:
+          name: Start server
+          command: npm run start
+          background: true
+#       - run:
+#           name: Cypress integration tests
+#           command: npx cypress run
+      - store_test_results:
+          path: ./coverage
+      - store_artifacts:
+          path: ./coverage
+      - run:
+          name: Post test coverage to Github
+          command: bash -ue .circleci/record_coverage
+          when: always
+
+orbs:
+  node: circleci/node@5
+
+workflows:
+  test:
+    jobs:
+      - test:
+          context: raspberrypigithubbot
+#   code_quality:
+#     jobs:
+#       - stylelint:
+#           filters:
+#             branches:
+#               ignore:
+#                 - main
+#       - lint:
+#           filters:
+#             branches:
+#               ignore:
+#                 - main

@@ -205,7 +205,7 @@ const PythonRunner = () => {
       const selection = window.getSelection();
       selection.removeAllRanges();
 
-      if (input.innerText.length > 0){
+      if (input.innerText && input.innerText.length > 0){
         const range = document.createRange();
         range.setStart(input, 1);
         range.collapse(true);
