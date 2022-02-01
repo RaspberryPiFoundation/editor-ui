@@ -49,6 +49,23 @@ describe ("Testing basic input span functionality", () => {
         expect(input).not.toHaveAttribute("contentEditable", "true");
         expect(input.innerText).toBe(inputText+'\n');
     })
+
+    test("Pressing enter in the middle of the user's input does not insert an extra newline character", () => {
+        const input = document.getElementById("input");
+        const inputText = 'hello world';
+        input.innerText = inputText;
+
+        const selection = window.getSelection();
+        const textNode = input.childNodes[0];
+        const range = document.createRange();
+        range.setStart(textNode, 5);
+        range.collapse(true);
+        selection.addRange(range);
+
+        fireEvent.keyDown(input, {key: 'Enter', code: 'Enter', charCode: 13})
+        
+        expect(input.innerText).toBe(inputText+'\n');
+    })
 })
 
 test("Input box not there when input function not called", () => {
