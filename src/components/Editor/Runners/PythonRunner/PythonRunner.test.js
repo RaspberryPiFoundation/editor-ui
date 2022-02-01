@@ -43,11 +43,11 @@ describe ("Testing basic input span functionality", () => {
     test("Pressing enter stops the input box being editable", () => {
         const input = document.getElementById("input");
         const inputText = 'hello world';
-        input.innerText = inputText+'\n';
-        fireEvent.keyUp(input, {key: 'Enter', code: 'Enter', charCode: 13})
+        input.innerText = inputText;
+        fireEvent.keyDown(input, {key: 'Enter', code: 'Enter', charCode: 13})
         
         expect(input).not.toHaveAttribute("contentEditable", "true");
-        expect(input.innerText).toBe(inputText);
+        expect(input.innerText).toBe(inputText+'\n');
     })
 })
 
