@@ -15,7 +15,7 @@ const StopButton = (props) => {
   }
   if (codeRunStopped) {
     return (
-      <Button buttonText="Stopping..." className="disabled"/>
+      <Button buttonText="Stopping..." disabled="true"/>
     )
   } else {
     return (

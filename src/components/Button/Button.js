@@ -1,10 +1,10 @@
 import './Button.css';
 
 const Button = (props) => {
-  const { onClickHandler, buttonText, leftAlign } = props;
+  const { onClickHandler, buttonText, leftAlign, disabled } = props;
 
   return (
-    <button className={`btn ${leftAlign ? "btn--left-align" : "" }`} onClick={onClickHandler}>{buttonText}</button>
+    <button className={`btn ${leftAlign ? "btn--left-align" : "" } ${disabled ? "btn--disabled" : ""}`} onClick={onClickHandler}>{buttonText}</button>
   )
 };
 
