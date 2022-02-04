@@ -194,8 +194,7 @@ const PythonRunner = () => {
       inputfun: inf,
       output: outf,
       read: builtinRead,
-      killableWhile: true,
-      killableFor: true,
+      debugging: true,
       inputTakesPrompt: true
   });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
