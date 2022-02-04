@@ -1,19 +1,27 @@
 import Button from '../Button/Button'
 
-import { useDispatch } from 'react-redux'
-import { codeRunHandled, setError, stopCodeRun } from '../Editor/EditorSlice'
+import React, { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux'
+import { stopCodeRun } from '../Editor/EditorSlice'
 
 const StopButton = (props) => {
   
+  const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const dispatch = useDispatch();
   
   const onClickStop = () => {
     dispatch(stopCodeRun());
   }
-
-  return (
+  if (codeRunStopped) {
+    return (
+      <Button buttonText="Stopping..." className="disabled"/>
+    )
+  } else {
+    return (
     <Button onClickHandler={onClickStop} {...props} />
-  )
+    )
+  }
 };
 
 export default StopButton;
