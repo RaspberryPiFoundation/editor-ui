@@ -41,13 +41,13 @@ jobs:
 #       - run:
 #           command: npx cypress verify
       - run:
-          command: yarn run test -- --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
+          command: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./coverage/
-      - run:
-          name: Start server
-          command: yarn run start
-          background: true
+      # - run:
+      #     name: Start server
+      #     command: yarn run start
+      #     background: true
 #       - run:
 #           name: Cypress integration tests
 #           command: npx cypress run
