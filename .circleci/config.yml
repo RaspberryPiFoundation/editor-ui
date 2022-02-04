@@ -8,8 +8,8 @@ jobs:
           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: eslint
           command: yarn run lint
@@ -22,8 +22,8 @@ jobs:
           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: stylelint
           command: yarn run stylelint
@@ -36,8 +36,8 @@ jobs:
 #           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
+      - node/install-packages:
+          pkg-manager: yarn
 #       - run:
 #           command: npx cypress verify
       - run:
