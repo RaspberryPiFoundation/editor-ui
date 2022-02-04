@@ -41,6 +41,7 @@ test("Clicking stop button with input box handles code run", () => {
 })
 
 test("Clicking stop button removes editable input box but keeps input text", () => {
+    store.dispatch(codeRunHandled())
     const { getByText } = render(
     <Provider store={store}>
         <StopButton buttonText="Stop Code" />
