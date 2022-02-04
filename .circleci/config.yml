@@ -8,10 +8,11 @@ jobs:
           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install-packages
+      - node/install:
+          install-yarn: true
       - run:
           name: eslint
-          command: npm run lint
+          command: yarn run lint
 
   stylelint:
     docker:
@@ -21,10 +22,11 @@ jobs:
           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install-packages
+      - node/install:
+          install-yarn: true
       - run:
           name: stylelint
-          command: npm run stylelint
+          command: yarn run stylelint
 
   test:
     docker:
@@ -34,16 +36,17 @@ jobs:
 #           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install-packages
+      - node/install:
+          install-yarn: true
 #       - run:
 #           command: npx cypress verify
       - run:
-          command: npm run test -- --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
+          command: yarn run test -- --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./coverage/
       - run:
           name: Start server
-          command: npm run start
+          command: yarn run start
           background: true
 #       - run:
 #           name: Cypress integration tests
