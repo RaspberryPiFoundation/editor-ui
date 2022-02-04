@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, codeRunStopped } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -11,6 +11,7 @@ import store from '../../../../app/store'
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
+  const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
@@ -23,6 +24,16 @@ const PythonRunner = () => {
       runCode();
     }
   }, [codeRunTriggered]);
+
+  useEffect(() => {
+    if (codeRunStopped && document.getElementById("input")) {
+      const input = document.getElementById("input")
+      input.removeAttribute("id")
+      input.removeAttribute("contentEditable")
+      dispatch(setError("Execution interrupted"));
+      dispatch(codeRunHandled())
+    }
+  }, [codeRunStopped]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
