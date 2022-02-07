@@ -8,6 +8,7 @@ export const EditorSlice = createSlice({
     error: "",
     codeRunTriggered: false,
     isEmbedded: false,
+    codeRunStopped: false,
   },
   reducers: {
     setEmbedded: (state, action) => {
@@ -39,20 +40,25 @@ export const EditorSlice = createSlice({
     triggerCodeRun: (state) => {
       state.codeRunTriggered = true;
     },
+    stopCodeRun: (state) => {
+      state.codeRunStopped = true;
+    },
     codeRunHandled: (state) => {
       state.codeRunTriggered = false;
+      state.codeRunStopped = false;
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { 
+export const {
   setEmbedded,
   setProject,
   setProjectLoaded,
   updateProject,
   setError,
   triggerCodeRun,
+  stopCodeRun,
   codeRunHandled,
 } = EditorSlice.actions
 

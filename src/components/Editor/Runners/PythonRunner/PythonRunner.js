@@ -3,12 +3,15 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, codeRunStopped } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
+
+import store from '../../../../app/store'
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
+  const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
@@ -17,9 +20,18 @@ const PythonRunner = () => {
   useEffect(() => {
     if (codeRunTriggered) {
       runCode();
-      dispatch(codeRunHandled());
     }
   }, [codeRunTriggered]);
+
+  useEffect(() => {
+    if (codeRunStopped && document.getElementById("input")) {
+      const input = document.getElementById("input")
+      input.removeAttribute("id")
+      input.removeAttribute("contentEditable")
+      dispatch(setError("Execution interrupted"));
+      dispatch(codeRunHandled())
+    }
+  }, [codeRunStopped]);
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -181,21 +193,36 @@ const PythonRunner = () => {
     domOutput.current.innerHTML = '';
 
     var prog = projectCode[0].content;
+    
     Sk.configure({
       inputfun: inf,
       output: outf,
-      read: builtinRead
-    });
+      read: builtinRead,
+      debugging: true,
+      inputTakesPrompt: true
+  });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
-    var myPromise = Sk.misceval.asyncToPromise(function () {
-      return Sk.importMainWithBody("<stdin>", false, prog, true);
-    });
+    var myPromise = Sk.misceval.asyncToPromise(() => 
+        Sk.importMainWithBody("<stdin>", false, prog, true), {
+          "*": () => {
+            if (store.getState().editor.codeRunStopped) {
+              throw "Execution interrupted";
+            }
+          }
+        },
+    ).catch(err => {
+      console.log(err.toString());
+      dispatch(setError(err.toString()));
+      if (document.getElementById("input")) {
+        const input = document.getElementById("input")
+        input.removeAttribute("id")
+        input.removeAttribute("contentEditable")
+      }
+    }).finally(()=>{
+      dispatch(codeRunHandled());
+    }
+    );
     myPromise.then(function (mod) {
-      // console.log('success');
-    },
-      function (err) {
-        console.log(err.toString());
-        dispatch(setError(err.toString()));
       });
   }
 

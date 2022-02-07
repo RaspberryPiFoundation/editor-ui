@@ -42,3 +42,12 @@
 .btn--left-align {
   margin-left: -30px;
 }
+
+.btn--disabled {
+  background-color: #D4D4D4;
+  color: black;
+}
+
+.btn--disabled:hover {
+  color: black;
+}
