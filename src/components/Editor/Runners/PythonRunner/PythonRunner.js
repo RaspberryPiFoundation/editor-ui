@@ -19,8 +19,6 @@ const PythonRunner = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      console.log("running code");
-      console.log(codeRunTriggered)
       runCode();
     }
   }, [codeRunTriggered]);
@@ -221,7 +219,6 @@ const PythonRunner = () => {
         input.removeAttribute("contentEditable")
       }
     }).finally(()=>{
-      console.log("code stopped");
       dispatch(codeRunHandled());
     }
     );

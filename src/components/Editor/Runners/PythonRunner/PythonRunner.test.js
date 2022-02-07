@@ -4,12 +4,10 @@ import { toHaveAttribute } from "@testing-library/jest-dom"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import PythonRunner from "./PythonRunner";
-import store from '../../../../app/store';
 
 describe ("Testing basic input span functionality", () => {
     let input;
-    let fakeStore;
-    let stopButton;
+    let store;
 
     beforeEach(() => {
         const middlewares = []
@@ -26,8 +24,8 @@ describe ("Testing basic input span functionality", () => {
                 codeRunTriggered: true
             }
         }
-        fakeStore = mockStore(initialState);
-        const {getByText} = render(<Provider store={fakeStore}><PythonRunner/></Provider>);
+        store = mockStore(initialState);
+        const runner = render(<Provider store={store}><PythonRunner/></Provider>);
         input = document.getElementById("input");
     })
 
@@ -70,31 +68,8 @@ test("Input box not there when input function not called", () => {
             codeRunTriggered: true
         }
     }
-    const fakeStore = mockStore(initialState);
-    const { getByText } = render(<Provider store={fakeStore}><PythonRunner /></Provider>);
+    const store = mockStore(initialState);
+    const runner = render(<Provider store={store}><PythonRunner /></Provider>);
     expect(document.getElementById("input")).toBeNull()
     
 })
-
-// test("Clicking stop button with input box handles code run", () => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//         editor: {
-//             project: {
-//                 components: [
-//                     {
-//                         content: "input()"
-//                     }
-//                 ]
-//             },
-//             codeRunTriggered: true,
-//             codeRunStopped: true
-//         }
-//     }
-//     const fakeStore = mockStore(initialState);
-//     const { getByText } = render(<Provider store={store}><PythonRunner /></Provider>);
-// // Try something from https://github.com/redux-things/redux-actions-assertions?
-//     expect(fakeStore.getState().editor.codeRunStopped).toEqual(false);
-//     expect(fakeStore.getState().editor.codeRunTriggered).toEqual(false);
-// })
