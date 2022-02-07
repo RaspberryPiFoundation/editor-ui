@@ -8,7 +8,7 @@ import store from '../../app/store';
 import { codeRunHandled, triggerCodeRun } from '../Editor/EditorSlice'
 
 
-test("Clicking stop button without input box sets codeRunStopped to true", () => {
+test("Clicking stop button sets codeRunStopped to true", () => {
     store.dispatch(codeRunHandled())
     store.dispatch(triggerCodeRun())
 
@@ -23,9 +23,8 @@ test("Clicking stop button without input box sets codeRunStopped to true", () =>
     expect(store.getState().editor.codeRunStopped).toEqual(true);
 })
 
-test("Clicking stop button with input box handles code run", () => {
+test("Clicking stop button changes it to 'Stopping...'", () => {
     store.dispatch(codeRunHandled())
-    store.dispatch(triggerCodeRun())
 
     const { getByText } = render(
     <Provider store={store}>
@@ -36,23 +35,6 @@ test("Clicking stop button with input box handles code run", () => {
     const stopButton = getByText(/Stop Code/);
     fireEvent.click(stopButton);
 
-    expect(store.getState().editor.codeRunStopped).toEqual(false);
-    expect(store.getState().editor.codeRunTriggered).toEqual(false);
-})
+    expect(stopButton.textContent).toEqual("Stopping...")
 
-test("Clicking stop button removes editable input box but keeps input text", () => {
-    store.dispatch(codeRunHandled())
-    const { getByText } = render(
-    <Provider store={store}>
-        <StopButton buttonText="Stop Code" />
-        <span id="input" contentEditable="true">hello world</span>
-    </Provider>);
-
-    const stopButton = getByText(/Stop Code/);
-    const inputSpan = document.getElementById("input");
-    fireEvent.click(stopButton);
-
-    expect(inputSpan.textContent).toEqual("hello world");
-    expect(inputSpan).not.toHaveAttribute("contentEditable", "true");
-    expect(inputSpan).not.toHaveAttribute("id", "input");
 })
