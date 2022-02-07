@@ -1,6 +1,6 @@
 import reducer, { codeRunHandled, stopCodeRun } from "./EditorSlice";
 
-test("Action codeRunStopped sets codeRunStopped to true", () => {
+test("Action stopCodeRun sets codeRunStopped to true", () => {
     const previousState = {
         codeRunTriggered: true,
         codeRunStopped: false
