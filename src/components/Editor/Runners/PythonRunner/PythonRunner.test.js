@@ -6,6 +6,9 @@ import configureStore from 'redux-mock-store';
 import PythonRunner from "./PythonRunner";
 
 describe ("Testing basic input span functionality", () => {
+    let input;
+    let store;
+
     beforeEach(() => {
         const middlewares = []
         const mockStore = configureStore(middlewares)
@@ -21,9 +24,9 @@ describe ("Testing basic input span functionality", () => {
                 codeRunTriggered: true
             }
         }
-        const store = mockStore(initialState);
+        store = mockStore(initialState);
         const runner = render(<Provider store={store}><PythonRunner/></Provider>);
-        const input = document.getElementById("input");
+        input = document.getElementById("input");
     })
 
     test("Input function in code makes editable input box appear", () => {
@@ -41,7 +44,6 @@ describe ("Testing basic input span functionality", () => {
     })
 
     test("Pressing enter stops the input box being editable", () => {
-        const input = document.getElementById("input");
         const inputText = 'hello world';
         input.innerText = inputText;
         fireEvent.keyDown(input, {key: 'Enter', code: 'Enter', charCode: 13})
@@ -67,8 +69,7 @@ test("Input box not there when input function not called", () => {
         }
     }
     const store = mockStore(initialState);
-    const { getByText } = render(<Provider store={store}><PythonRunner /></Provider>);
+    const runner = render(<Provider store={store}><PythonRunner /></Provider>);
     expect(document.getElementById("input")).toBeNull()
     
 })
-

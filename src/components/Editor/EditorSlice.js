@@ -7,6 +7,7 @@ export const EditorSlice = createSlice({
     projectLoaded: false,
     error: "",
     codeRunTriggered: false,
+    codeRunStopped: false,
   },
   reducers: {
     setProject: (state, action) => {
@@ -35,8 +36,12 @@ export const EditorSlice = createSlice({
     triggerCodeRun: (state) => {
       state.codeRunTriggered = true;
     },
+    stopCodeRun: (state) => {
+      state.codeRunStopped = true;
+    },
     codeRunHandled: (state) => {
       state.codeRunTriggered = false;
+      state.codeRunStopped = false;
     },
   },
 })
@@ -47,6 +52,7 @@ export const { setProject,
   updateProject,
   setError,
   triggerCodeRun,
+  stopCodeRun,
   codeRunHandled,
 } = EditorSlice.actions
 
