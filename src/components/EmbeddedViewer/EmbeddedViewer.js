@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useProject } from '../Editor/Hooks/useProject'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
-import RunButton from '../RunButton/RunButton'
 import EmbeddedControls from './EmbeddedControls/EmbeddedControls'
 import { setEmbedded, triggerCodeRun } from '../Editor/EditorSlice'
 
@@ -22,7 +21,6 @@ const EmbeddedViewer = (props) => {
   return projectLoaded === true ? (
     <>
       <div className='embedded-container' >
-        {/* <RunButton buttonText="Run code" leftAlign={true} /> */}
         <EmbeddedControls />
         <div>
           <PythonRunner />
