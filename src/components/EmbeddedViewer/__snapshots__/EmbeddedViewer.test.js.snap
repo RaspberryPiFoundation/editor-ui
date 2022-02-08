@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders without crashing 1`] = `
+<div
+  className="embedded-container"
+>
+  <div
+    className="embedded-controls"
+  >
+    <button
+      className="btn "
+      onClick={[Function]}
+    >
+      Run Code
+    </button>
+  </div>
+  <div>
+    <div
+      className="pythonrunner-container"
+    >
+      <div
+        className="pythonrunner-canvas-container"
+      >
+        <div
+          className="pythonrunner-graphic"
+          id="outputCanvas"
+        />
+      </div>
+      <pre
+        className="pythonrunner-console"
+        onClick={[Function]}
+      />
+      <div
+        id="mycanvas"
+      />
+    </div>
+  </div>
+</div>
+`;
