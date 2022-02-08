@@ -11,7 +11,7 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
-    setEmbedded: (state, action) => {
+    setEmbedded: (state, _action) => {
       state.isEmbedded = true;
     },
     setProject: (state, action) => {

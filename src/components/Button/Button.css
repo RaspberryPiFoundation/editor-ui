@@ -1,46 +1,24 @@
-.btn {
-  padding: 15px 30px;
-  margin:10px 4px;
-  color: #cf0374;
-  font-family: sans-serif;
-  text-transform: uppercase;
-  text-align: center;
-  position: relative;
-  text-decoration: none;
+.btn, .btn:visited {
+  background-color: #004881;
+  border-width: 0;
+  color: #fff;
   display:inline-block;
-}
-
-.btn::before{
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-color: #000;
-  -webkit-transform: scaleX(.3);
-  transform: scaleX(.3);
-  opacity: 0;
-  transition: all .3s
+  font-family: sans-serif;
+  font-weight: 500;
+  margin: 6px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 100ms;
+  transition-property: background-color,transform;
+  transition-timing-function: ease-in-out;
 }
 
 .btn:hover {
+  background-color: #cd2355;
   color: #fff;
-}
-.btn:hover::before{
-  opacity: 1;
-  color: #fff;
-  background-color: #cf0374;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-  transition: -webkit-transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity .4s;
-  transition: transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity
-}
-
-.btn--left-align {
-  margin-left: -30px;
+  transform: scale(1.05);
 }
 
 .btn--disabled {
@@ -49,5 +27,7 @@
 }
 
 .btn--disabled:hover {
+  background-color: #D4D4D4;
   color: black;
 }
+

@@ -14,9 +14,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
-
-
-import { triggerCodeRun } from '../EditorSlice'
 import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
@@ -25,10 +22,6 @@ const Project = () => {
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
-
-  const onClickRun = () => {
-    dispatch(triggerCodeRun());
-  }
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -113,7 +106,6 @@ const Project = () => {
               )
             )}
           </Tabs>
-          <Button />
         </div>
         <div className='proj-runner-container'>
           <RunnerFactory projectType={project.type} />
