@@ -22,12 +22,10 @@
 }
 
 .btn--disabled {
-  background-color: #D4D4D4;
-  color: black;
+  background-color: #6c6c6c;
 }
 
 .btn--disabled:hover {
-  background-color: #D4D4D4;
-  color: black;
+  background-color: #6c6c6c;
 }
 

@@ -201,7 +201,8 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
-      dispatch(setError(err.message));
+      const message = err.message || err.toString();
+      dispatch(setError(message));
       if (document.getElementById("input")) {
         const input = document.getElementById("input")
         input.removeAttribute("id")
