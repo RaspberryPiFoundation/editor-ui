@@ -15,7 +15,6 @@ const EmbeddedViewer = (props) => {
 
   useEffect(() => {
     dispatch(setEmbedded());
-    dispatch(triggerCodeRun());
   }, []);
 
   return projectLoaded === true ? (
