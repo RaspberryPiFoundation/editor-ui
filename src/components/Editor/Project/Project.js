@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
@@ -23,23 +23,24 @@ const Project = () => {
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
 
-  const onClickSave = async () => {
-    if (!project.identifier) {
-      return;
-    }
-
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.put(
-      `${api_host}/api/projects/phrases/${project.identifier}`,
-      { project: project }
-    );
-
-    if(response.status === 200) {
-      toast("Project saved!", {
-        position: toast.POSITION.TOP_CENTER
-      });
-    }
-  }
+  // Not currently using this, will be reinstated later
+  // const onClickSave = async () => {
+  //   if (!project.identifier) {
+  //     return;
+  //   }
+  //
+  //   const api_host = process.env.REACT_APP_API_ENDPOINT;
+  //   const response = await axios.put(
+  //     `${api_host}/api/projects/phrases/${project.identifier}`,
+  //     { project: project }
+  //   );
+  //
+  //   if(response.status === 200) {
+  //     toast("Project saved!", {
+  //       position: toast.POSITION.TOP_CENTER
+  //     });
+  //   }
+  // }
 
   const onClickRemix = async () => {
     if (!project.identifier) {

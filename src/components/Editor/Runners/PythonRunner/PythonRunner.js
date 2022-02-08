@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, codeRunStopped } from '../../EditorSlice'
+import { setError, codeRunHandled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -196,13 +196,12 @@ const PythonRunner = () => {
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
-              throw "Execution interrupted";
+              throw new Error("Execution interrupted");
             }
           }
         },
     ).catch(err => {
-      console.log(err.toString());
-      dispatch(setError(err.toString()));
+      dispatch(setError(err.message));
       if (document.getElementById("input")) {
         const input = document.getElementById("input")
         input.removeAttribute("id")
