@@ -2,8 +2,10 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { toHaveAttribute } from "@testing-library/jest-dom"
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import configureStore, {getActions} from 'redux-mock-store';
+
 import PythonRunner from "./PythonRunner";
+import { codeRunHandled, setError} from "../../EditorSlice";
 
 describe ("Testing basic input span functionality", () => {
     let input;
@@ -72,4 +74,36 @@ test("Input box not there when input function not called", () => {
     const runner = render(<Provider store={store}><PythonRunner /></Provider>);
     expect(document.getElementById("input")).toBeNull()
     
+})
+
+describe ("Testing basic input span functionality", () => {
+    let store;
+    beforeEach(() => {
+        const middlewares = []
+        const mockStore = configureStore(middlewares)
+        const initialState = {
+            editor: {
+                project: {
+                    components: [
+                        {
+                            content: "input()"
+                        }
+                    ]
+                },
+                codeRunTriggered: true,
+                codeRunStopped: true
+            }
+        }
+        store = mockStore(initialState);
+        const runner = render(<Provider store={store}><PythonRunner /></Provider>);
+    })
+
+    test("Stopping code with input dispatches codeRunHandled", () => {
+        expect(document.getElementById("input")).toBeNull();
+    })
+
+    test("Stopping code with input sets error and handles code run", () => {
+        const expectedActions = [setError(''), setError('Execution interrupted'), codeRunHandled()]
+        expect(store.getActions()).toEqual(expectedActions);
+    })
 })
