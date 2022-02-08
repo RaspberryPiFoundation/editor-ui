@@ -4,41 +4,47 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
 import ProjectViewer from './ProjectViewer/ProjectViewer'
+import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-     <Route
+      <Route
         exact
         path="/auth/callback"
         component={Callback}
       />
-     <Route
+      <Route
         exact
         path="/"
         component={ProjectComponentLoader}
       />
-     <Route
+      <Route
         exact
         path="/new"
         component={NewProject}
       />
-     <Route
+      <Route
         exact
         path="/:projectType"
         component={ProjectComponentLoader}
       />
 
-     <Route
+      <Route
         exact
         path="/:projectType/:identifier"
         component={ProjectComponentLoader}
       />
-     <Route
+      <Route
         exact
         path="/python/share/:identifier"
         component={ProjectViewer}
+      />
+      <Route
+        exact
+        path="/embed/viewer/:identifier"
+        component={EmbeddedViewer}
       />
     </Switch>
   </BrowserRouter>
