@@ -40,6 +40,12 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
+    },
+    "./p5/__init__.js": {
+      path: process.env.PUBLIC_URL + '/p5.js',
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
     }
   };
 
@@ -83,6 +89,7 @@ const PythonRunner = () => {
       }
     }
 
+    console.log(x)
     if (Sk.builtinFiles !== undefined && Sk.builtinFiles["files"][x] !== undefined) {
       return Sk.builtinFiles["files"][x];
     }
@@ -193,16 +200,17 @@ const PythonRunner = () => {
     domOutput.current.innerHTML = '';
 
     var prog = projectCode[0].content;
-    
+
     Sk.configure({
       inputfun: inf,
       output: outf,
       read: builtinRead,
       debugging: true,
       inputTakesPrompt: true
-  });
+    });
+    Sk.p5Sketch = "p5Sketch";
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
-    var myPromise = Sk.misceval.asyncToPromise(() => 
+    var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
@@ -250,6 +258,7 @@ const PythonRunner = () => {
       </div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
+      <div id='p5Sketch' />
     </div>
   );
 };
