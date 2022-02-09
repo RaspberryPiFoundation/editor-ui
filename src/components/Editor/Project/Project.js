@@ -13,7 +13,7 @@ import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded } from '../EditorSlice';
+import { addProjectComponent, setProjectLoaded } from '../EditorSlice';
 import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
@@ -58,6 +58,10 @@ const Project = () => {
     history.push(`/${project_type}/${identifier}`)
   }
 
+  const onClickAddComponent = () => {
+    dispatch(addProjectComponent())
+  }
+
   const host = `${window.location.protocol}//${window.location.hostname}${
     window.location.port ? `:${window.location.port}` : ''
   }`
@@ -98,6 +102,7 @@ const Project = () => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
+              <Button buttonText="+" onClickHandler={onClickAddComponent} className="proj-new-component-button"/>
             </TabList>
 
             { project.components.map((file,i) => (

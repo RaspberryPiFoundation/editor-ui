@@ -11,6 +11,9 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
+    addProjectComponent: (state) => {
+      state.project.components.push({"name": `file${state.project.components.length}`, "extension": "py" })
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
     },
@@ -52,6 +55,7 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  addProjectComponent,
   setEmbedded,
   setProject,
   setProjectLoaded,
