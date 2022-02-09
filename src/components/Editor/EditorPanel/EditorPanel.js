@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import './EditorPanel.css'
+import './EditorPanel.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProject } from '../EditorSlice'

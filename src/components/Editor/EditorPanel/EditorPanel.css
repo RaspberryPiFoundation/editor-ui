@@ -1,0 +1,4 @@
+.cm-editor .cm-content {
+    white-space: pre-line;
+    word-wrap: break-word;
+}
