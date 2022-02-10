@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, codeRunStopped } from '../../EditorSlice'
+import { setError, codeRunHandled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -55,27 +55,15 @@ const PythonRunner = () => {
   };
 
   const outf = (text) => {
-    const node = output.current;
-    node.innerHTML = node.innerHTML + new Option(text).innerHTML;
-    node.scrollTop = node.scrollHeight;
+    if (text !== "") {
+      const node = output.current;
+      const div = document.createElement("span")
+      div.classList.add('pythonrunner-console-output-line')
+      div.innerHTML = new Option(text).innerHTML;
+      node.appendChild(div);
+      node.scrollTop = node.scrollHeight;
+    }
   }
-
-  // const builtinRead = (file) => {
-  //   console.log("Attempting file: " + Sk.ffi.remapToJs(file));
-  //
-  //   if (externalLibs[file] !== undefined) {
-  //     return Sk.misceval.promiseToSuspension(
-  //       fetch(externalLibs[file]).then(
-  //         function (resp){ return resp.text(); }
-  //       ));
-  //   }
-  //
-  //   if (Sk.builtinFiles === undefined || Sk.builtinFiles.files[file] === undefined) {
-  //     throw new Error("File not found: '" + file + "'");
-  //   }
-  //
-  //   return Sk.builtinFiles.files[file];
-  // }
 
   const builtinRead = (x) => {
     // TODO: memoize this?
@@ -122,7 +110,7 @@ const PythonRunner = () => {
           var promise;
 
           function mapUrlToPromise(path) {
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve, _reject) {
               let scriptElement = document.createElement("script");
               scriptElement.type = "text/javascript";
               scriptElement.src = path;
@@ -208,19 +196,21 @@ const PythonRunner = () => {
       debugging: true,
       inputTakesPrompt: true
     });
+
     Sk.p5Sketch = "p5Sketch";
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
+
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
-              throw "Execution interrupted";
+              throw new Error("Execution interrupted");
             }
           }
         },
     ).catch(err => {
-      console.log(err.toString());
-      dispatch(setError(err.toString()));
+      const message = err.message || err.toString();
+      dispatch(setError(message));
       if (document.getElementById("input")) {
         const input = document.getElementById("input")
         input.removeAttribute("id")
@@ -230,12 +220,12 @@ const PythonRunner = () => {
       dispatch(codeRunHandled());
     }
     );
-    myPromise.then(function (mod) {
-      });
+    myPromise.then(function (_mod) {
+    });
   }
 
   function shiftFocusToInput(e) {
-    if (e.target == e.currentTarget && document.getElementById("input")) {
+    if (e.target === e.currentTarget && document.getElementById("input")) {
       const input = document.getElementById("input")
       const selection = window.getSelection();
       selection.removeAllRanges();
