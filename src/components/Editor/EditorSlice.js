@@ -11,8 +11,8 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
-    addProjectComponent: (state) => {
-      state.project.components.push({"name": `file${state.project.components.length}`, "extension": "py" })
+    addProjectComponent: (state, action) => {
+      state.project.components.push({"name": `${action.payload.name ? action.payload.name : "file"+state.project.components.length}`, "extension": "py", "new": true })
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
@@ -37,6 +37,13 @@ export const EditorSlice = createSlice({
       })
       state.project.components = mapped;
     },
+    updateComponentName: (state, action) => {
+      const key = action.payload.key;
+      console.log(key)
+      console.log(state.project.components[key])
+      const fileName = action.payload.name;
+      state.project.components[key].name = fileName;
+    },
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -60,6 +67,7 @@ export const {
   setProject,
   setProjectLoaded,
   updateProject,
+  updateComponentName,
   setError,
   triggerCodeRun,
   stopCodeRun,

@@ -13,7 +13,7 @@ import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { addProjectComponent, setProjectLoaded } from '../EditorSlice';
+import { addProjectComponent, setProjectLoaded, updateComponentName } from '../EditorSlice';
 import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
@@ -59,7 +59,31 @@ const Project = () => {
   }
 
   const onClickAddComponent = () => {
-    dispatch(addProjectComponent())
+    dispatch(addProjectComponent({extension: "py", name: "", new: true}));
+    // const nameFields=document.getElementsByClassName("proj-component-name-input");
+    // console.log(nameFields)
+    // const newNameField = nameFields[nameFields.length];
+    // console.log(nameFields.length)
+    // newNameField.focus();
+    // // console.log(nameFields[nameFields.length-1]);
+    // // document.getElementsByClassName("proj-component-name-input")[-1].focus();
+    // // console.log(document)
+  }
+
+  const updateName = (e) => {
+      if (e.key === "Enter") {
+        const nameField = e.target;
+        const fileName = e.target.innerText;
+        nameField.removeEventListener(e.type, updateName)
+        nameField.removeAttribute("contentEditable");
+
+        document.addEventListener("keyup", function storeInput(e) {
+          if (e.key === "Enter") {
+            document.removeEventListener(e.type, storeInput);
+            dispatch(updateComponentName({key: nameField.getAttribute("id"), name: fileName}))
+          }
+        })
+      }
   }
 
   const host = `${window.location.protocol}//${window.location.hostname}${
@@ -99,7 +123,7 @@ const Project = () => {
           <Tabs>
             <TabList>
               { project.components.map((file, i) => (
-                  <Tab key={i}>{file.name}.{file.extension}</Tab>
+                  <Tab key={i}>{file.new ? <span id={i} role="textbox" className="proj-component-name-input" contentEditable autoFocus={true} onKeyDown={updateName}>{file.name}</span>:file.name }.{file.extension}</Tab>
                 )
               )}
               <Button buttonText="+" onClickHandler={onClickAddComponent} className="proj-new-component-button"/>

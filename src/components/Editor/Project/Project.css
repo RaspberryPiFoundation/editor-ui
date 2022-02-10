@@ -39,3 +39,8 @@
   padding-top:4px;
   padding-bottom:6px;
 }
+
+.proj-component-name-input {
+  border: none;
+  width: fit-content;
+}
