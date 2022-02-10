@@ -40,6 +40,12 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
+    },
+    "./p5/__init__.js": {
+      path: process.env.PUBLIC_URL + '/p5-shim.js',
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
     }
   };
 
@@ -190,6 +196,7 @@ const PythonRunner = () => {
       inputTakesPrompt: true
     });
 
+    Sk.p5Sketch = "p5Sketch";
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
@@ -240,6 +247,7 @@ const PythonRunner = () => {
       </div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
+      <div id='p5Sketch' />
     </div>
   );
 };
