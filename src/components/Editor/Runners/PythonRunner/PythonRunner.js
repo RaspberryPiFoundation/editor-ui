@@ -42,7 +42,7 @@ const PythonRunner = () => {
       ],
     },
     "./p5/__init__.js": {
-      path: process.env.PUBLIC_URL + '/p5.js',
+      path: process.env.PUBLIC_URL + '/p5-shim.js',
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
@@ -77,7 +77,6 @@ const PythonRunner = () => {
       }
     }
 
-    console.log(x)
     if (Sk.builtinFiles !== undefined && Sk.builtinFiles["files"][x] !== undefined) {
       return Sk.builtinFiles["files"][x];
     }

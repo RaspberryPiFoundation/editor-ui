@@ -1246,7 +1246,7 @@ const $builtinmodule = function (name) {
   mod.height = new Sk.builtin.int_(0);
   mod.renderMode = mod.P2D;
 
-  mod.createCanvas = new Sk.builtin.func(function (w, h, mode) {
+  mod.size = new Sk.builtin.func(function (w, h, mode) {
     if (typeof(mode) === "undefined") {
       mode = mod.P2D;
     }
@@ -1410,6 +1410,7 @@ const $builtinmodule = function (name) {
         mod.frameCount = sketch.frameCount;
         if (Sk.globals["draw"]) {
           try {
+            // console.log('drawing')
             Sk.misceval.callsimArray(Sk.globals["draw"]);
           } catch(e) {
             Sk.uncaughtException(e);
