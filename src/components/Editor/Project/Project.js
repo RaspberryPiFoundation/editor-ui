@@ -13,7 +13,7 @@ import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { addProjectComponent, setProjectLoaded, updateComponentName } from '../EditorSlice';
+import { setProjectLoaded } from '../EditorSlice';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 
@@ -57,34 +57,6 @@ const Project = () => {
     const project_type = response.data.project_type;
     dispatch(setProjectLoaded(false));
     history.push(`/${project_type}/${identifier}`)
-  }
-
-  const onClickAddComponent = () => {
-    dispatch(addProjectComponent({extension: "py", name: "", new: true}));
-    // const nameFields=document.getElementsByClassName("proj-component-name-input");
-    // console.log(nameFields)
-    // const newNameField = nameFields[nameFields.length];
-    // console.log(nameFields.length)
-    // newNameField.focus();
-    // // console.log(nameFields[nameFields.length-1]);
-    // // document.getElementsByClassName("proj-component-name-input")[-1].focus();
-    // // console.log(document)
-  }
-
-  const updateName = (e) => {
-      if (e.key === "Enter") {
-        const nameField = e.target;
-        const fileName = e.target.innerText;
-        nameField.removeEventListener(e.type, updateName)
-        nameField.removeAttribute("contentEditable");
-
-        document.addEventListener("keyup", function storeInput(e) {
-          if (e.key === "Enter") {
-            document.removeEventListener(e.type, storeInput);
-            dispatch(updateComponentName({key: nameField.getAttribute("id"), name: fileName}))
-          }
-        })
-      }
   }
 
   const host = `${window.location.protocol}//${window.location.hostname}${

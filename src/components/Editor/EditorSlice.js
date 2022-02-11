@@ -12,7 +12,7 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     addProjectComponent: (state, action) => {
-      state.project.components.push({"name": `${action.payload.name ? action.payload.name : "file"+state.project.components.length}`, "extension": "py", "new": true })
+      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension})
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
