@@ -1,5 +1,7 @@
+import './NewComponentButton.css';
+
 import {useState} from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
 import { addProjectComponent } from '../EditorSlice';
@@ -8,6 +10,8 @@ import Button from '../../Button/Button'
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const projectComponents = useSelector((state) => state.editor.project.components);
+    const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
   
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
@@ -16,10 +20,23 @@ const NewComponentButton = () => {
     };
     const createComponent = () => {
       const fileName = document.getElementById('name').value
-      const name = fileName.split('.')[0]
+      if (isValidFileName(fileName)) {
+        const name = fileName.split('.')[0]
+        const extension = fileName.split('.').slice(1).join('.')
+        dispatch(addProjectComponent({extension: extension, name: name}))
+        closeModal()
+      } else {
+        console.log('error')
+      }
+    }
+
+    const isValidFileName = (fileName) => {
       const extension = fileName.split('.').slice(1).join('.')
-      dispatch(addProjectComponent({extension: extension, name: name}))
-      closeModal()
+      if (['py', 'html', 'css'].includes(extension) && !componentNames.includes(fileName)) {
+        return true
+      } else {
+        return false
+      }
     }
 
     const customStyles = {
@@ -46,12 +63,12 @@ const NewComponentButton = () => {
           contentLabel="New File"
         >
           <h2>Add a new file to your project</h2>
-          <form>
-            <label htmlFor='name'>Name: </label>
-            <input type='text' name='name' id='name'></input>
-            <Button buttonText='Cancel' onClickHandler={closeModal} />
-            <Button buttonText='Save' onClickHandler={createComponent} />
-          </form>
+          
+          <label htmlFor='name'>Name: </label>
+          <input type='text' name='name' id='name'></input>
+          <Button buttonText='Cancel' onClickHandler={closeModal} />
+          <Button buttonText='Save' onClickHandler={createComponent} />
+          
         </Modal>
       </>
     );
