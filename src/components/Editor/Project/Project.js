@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { addProjectComponent, setProjectLoaded, updateComponentName } from '../EditorSlice';
+import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
@@ -123,10 +124,10 @@ const Project = () => {
           <Tabs>
             <TabList>
               { project.components.map((file, i) => (
-                  <Tab key={i}>{file.new ? <span id={i} role="textbox" className="proj-component-name-input" contentEditable autoFocus={true} onKeyDown={updateName}>{file.name}</span>:file.name }.{file.extension}</Tab>
+                  <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
-              <Button buttonText="+" onClickHandler={onClickAddComponent} className="proj-new-component-button"/>
+              <NewComponentButton />
             </TabList>
 
             { project.components.map((file,i) => (
