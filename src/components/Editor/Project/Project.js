@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
@@ -24,23 +24,23 @@ const Project = () => {
   const user = stateAuth.user;
 
   // Not currently using this, will be reinstated later
-  // const onClickSave = async () => {
-  //   if (!project.identifier) {
-  //     return;
-  //   }
-  //
-  //   const api_host = process.env.REACT_APP_API_ENDPOINT;
-  //   const response = await axios.put(
-  //     `${api_host}/api/projects/phrases/${project.identifier}`,
-  //     { project: project }
-  //   );
-  //
-  //   if(response.status === 200) {
-  //     toast("Project saved!", {
-  //       position: toast.POSITION.TOP_CENTER
-  //     });
-  //   }
-  // }
+  const onClickSave = async () => {
+    if (!project.identifier) {
+      return;
+    }
+
+    const api_host = process.env.REACT_APP_API_ENDPOINT;
+    const response = await axios.put(
+      `${api_host}/api/projects/phrases/${project.identifier}`,
+      { project: project }
+    );
+
+    if(response.status === 200) {
+      toast("Project saved!", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+  }
 
   const onClickRemix = async () => {
     if (!project.identifier) {
@@ -80,6 +80,7 @@ const Project = () => {
       </div>
       { project.identifier && (
         <div>
+          <Button onClickHandler={onClickSave} buttonText="Save" />
           <p>Share your project with this link:&nbsp;
             <a href={`/python/share/${project.identifier}`} target="_blank" rel="noreferrer">
               {`${host}/python/share/${project.identifier}`}

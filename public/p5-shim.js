@@ -199,7 +199,10 @@ const $builtinmodule = function (name) {
   colorClass = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function () {
       const argVals = processArgs(arguments);
-      self.v = mod.pInst.color(...argVals);
+      let data = argVals.filter(function( element ) {
+        return element !== undefined;
+      });
+      self.v = mod.pInst.color(...data);
     });
   };
 
@@ -1220,7 +1223,7 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // frameRate is only a function, not a variable:
   // use environment.frameRate for value
-  mod.frameRate = new Sk.builtin.func(function (fr) {
+  mod.frame_rate = new Sk.builtin.func(function (fr) {
     mod.pInst.frameRate(fr.v);
   });
 
