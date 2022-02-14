@@ -79,17 +79,6 @@ const Project = () => {
           )}
         </div>
       </div>
-      { project.identifier && (
-        user !== null ? (
-          <div className='proj-share-link'>
-            <p>Share your project with this link:&nbsp;
-              <a href={`/python/share/${project.identifier}`} target="_blank" rel="noreferrer">
-                {`${host}/python/share/${project.identifier}`}
-              </a>
-            </p>
-          </div>
-        ) : null
-      )}
       <div>
         <RunnerControls/>
       </div>
