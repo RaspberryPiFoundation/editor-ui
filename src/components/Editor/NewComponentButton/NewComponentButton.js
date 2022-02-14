@@ -16,7 +16,6 @@ const NewComponentButton = () => {
   
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
-      console.log("opening");
       dispatch(setNameError(""));
       setIsOpen(true)
     };
@@ -25,7 +24,6 @@ const NewComponentButton = () => {
       const name = fileName.split('.')[0];
       const extension = fileName.split('.').slice(1).join('.');
       if (isValidFileName(fileName)) {
-        dispatch(setNameError(""));
         dispatch(addProjectComponent({extension: extension, name: name}));
         closeModal();
       } else if (componentNames.includes(fileName)) {
@@ -56,8 +54,6 @@ const NewComponentButton = () => {
         transform: 'translate(-50%, -50%)',
       },
     };
-
-    Modal.setAppElement('#root')
   
     return (
       <>
@@ -68,6 +64,7 @@ const NewComponentButton = () => {
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="New File"
+          appElement={document.getElementById('root') || undefined}
         >
           <h2>Add a new file to your project</h2>
 
