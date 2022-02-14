@@ -6,6 +6,7 @@ export const EditorSlice = createSlice({
     project: [],
     projectLoaded: false,
     error: "",
+    nameError: "",
     codeRunTriggered: false,
     isEmbedded: false,
     codeRunStopped: false,
@@ -16,6 +17,9 @@ export const EditorSlice = createSlice({
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setNameError: (state, action) => {
+      state.nameError = action.payload;
     },
     setProject: (state, action) => {
       state.project = action.payload;
@@ -64,6 +68,7 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   setEmbedded,
+  setNameError,
   setProject,
   setProjectLoaded,
   updateProject,

@@ -4,8 +4,9 @@ import {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
-import { addProjectComponent } from '../EditorSlice';
+import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
+import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -15,27 +16,33 @@ const NewComponentButton = () => {
   
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
-      console.log("opening")
+      console.log("opening");
+      dispatch(setNameError(""));
       setIsOpen(true)
     };
     const createComponent = () => {
       const fileName = document.getElementById('name').value
+      const name = fileName.split('.')[0];
+      const extension = fileName.split('.').slice(1).join('.');
       if (isValidFileName(fileName)) {
-        const name = fileName.split('.')[0]
-        const extension = fileName.split('.').slice(1).join('.')
-        dispatch(addProjectComponent({extension: extension, name: name}))
-        closeModal()
+        dispatch(setNameError(""));
+        dispatch(addProjectComponent({extension: extension, name: name}));
+        closeModal();
+      } else if (componentNames.includes(fileName)) {
+        dispatch(setNameError("File names must be unique."));
+      } else if (!['py', 'html', 'css'].includes(extension)) {
+        dispatch(setNameError("File names must end in '.py', '.html' or '.css'."));
       } else {
-        console.log('error')
+        dispatch(setNameError("Error"));
       }
     }
 
     const isValidFileName = (fileName) => {
       const extension = fileName.split('.').slice(1).join('.')
       if (['py', 'html', 'css'].includes(extension) && !componentNames.includes(fileName)) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     }
 
@@ -63,7 +70,8 @@ const NewComponentButton = () => {
           contentLabel="New File"
         >
           <h2>Add a new file to your project</h2>
-          
+
+          <NameErrorMessage />
           <label htmlFor='name'>Name: </label>
           <input type='text' name='name' id='name'></input>
           <Button buttonText='Cancel' onClickHandler={closeModal} />
