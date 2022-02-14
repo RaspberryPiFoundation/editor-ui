@@ -23,7 +23,8 @@ describe("Testing the new file modal", () => {
                             name: "main",
                             extension: "py"
                         }
-                    ]
+                    ],
+                    project_type: "python"
                 },
                 nameError: "",
             }
@@ -54,7 +55,7 @@ describe("Testing the new file modal", () => {
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.html' or '.css'.")]
+        const expectedActions = [setNameError(""), setNameError("File names must end in '.py'.")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })

@@ -101,7 +101,7 @@ const Project = () => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
-              <NewComponentButton />
+              { project.project_type=="python" ? <NewComponentButton /> : null }
             </TabList>
 
             { project.components.map((file,i) => (

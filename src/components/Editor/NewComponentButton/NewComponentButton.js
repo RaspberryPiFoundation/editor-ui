@@ -8,9 +8,25 @@ import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 
+const allowedExtensions = {
+  "python": [
+    "py"
+  ]
+}
+
+const allowedExtensionsString = (projectType) => {
+  const extensionsList = allowedExtensions[projectType];
+  if (extensionsList.length == 1) {
+    return `'.${extensionsList[0]}'`
+  } else {
+    return `'.` + extensionsList.slice(0,-1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length-1] + `'`;
+  }
+}
+
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
   
@@ -28,8 +44,8 @@ const NewComponentButton = () => {
         closeModal();
       } else if (componentNames.includes(fileName)) {
         dispatch(setNameError("File names must be unique."));
-      } else if (!['py', 'html', 'css'].includes(extension)) {
-        dispatch(setNameError("File names must end in '.py', '.html' or '.css'."));
+      } else if (!allowedExtensions[projectType].includes(extension)) {
+        dispatch(setNameError(`File names must end in ${allowedExtensionsString(projectType)}.`));
       } else {
         dispatch(setNameError("Error"));
       }
@@ -37,7 +53,7 @@ const NewComponentButton = () => {
 
     const isValidFileName = (fileName) => {
       const extension = fileName.split('.').slice(1).join('.')
-      if (['py', 'html', 'css'].includes(extension) && !componentNames.includes(fileName)) {
+      if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
         return true;
       } else {
         return false;
