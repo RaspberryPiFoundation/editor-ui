@@ -15,6 +15,7 @@ const PythonRunner = () => {
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
+  const p5Output = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -185,6 +186,7 @@ const PythonRunner = () => {
     outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
     domOutput.current.innerHTML = '';
+    p5Output.current.innerHTML = '';
 
     var prog = projectCode[0].content;
 
@@ -247,7 +249,7 @@ const PythonRunner = () => {
       </div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
-      <div id='p5Sketch' />
+      <div id='p5Sketch' ref={p5Output} />
     </div>
   );
 };
