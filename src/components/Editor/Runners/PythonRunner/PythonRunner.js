@@ -217,7 +217,12 @@ const PythonRunner = () => {
   }
 
   function shiftFocusToInput(e) {
-    if (e.target === e.currentTarget && document.getElementById("input")) {
+    if (document.getSelection().toString().length > 0) {
+      return;
+    }
+
+    const inputBox = document.getElementById("input");
+    if (inputBox && e.target !== inputBox) {
       const input = document.getElementById("input")
       const selection = window.getSelection();
       selection.removeAllRanges();
