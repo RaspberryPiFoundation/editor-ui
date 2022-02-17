@@ -37,8 +37,8 @@ const PythonRunner = () => {
 
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML != '') {
-      try {console.log("Pls stop drawing now!")
-      throw new Error("Execution interrupted");
+      try {
+        throw new Error("Execution interrupted");
       } catch(err) {
         const message = err.message || err.toString();
         dispatch(setError(message));
@@ -52,13 +52,6 @@ const PythonRunner = () => {
   }, 
   [drawTriggered]
   )
-
-  // useEffect(() => {
-  //   console.log("change detected")
-  //   if (p5Output.current && p5Output.current.innerHTML != '') {
-  //     dispatch(setDrawTriggered())
-  //   }
-  // }, [p5Output.current])
 
   const externalLibraries = {
     "./pygal/__init__.js": {
