@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 
 const RunnerControls = () => {
     const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
-    if (codeRunTriggered) {
+    const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+    if (codeRunTriggered || drawTriggered) {
         return <StopButton buttonText="Stop Code"/>;
     }
     else {

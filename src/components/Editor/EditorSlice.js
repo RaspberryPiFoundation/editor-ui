@@ -7,6 +7,7 @@ export const EditorSlice = createSlice({
     projectLoaded: false,
     error: "",
     codeRunTriggered: false,
+    drawTriggered: false,
     isEmbedded: false,
     codeRunStopped: false,
   },
@@ -19,6 +20,9 @@ export const EditorSlice = createSlice({
     },
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;
+    },
+    triggerDraw: (state) => {
+      state.drawTriggered = true;
     },
     updateProject: (state, action) => {
       const extension = action.payload.extension;
@@ -43,6 +47,9 @@ export const EditorSlice = createSlice({
     stopCodeRun: (state) => {
       state.codeRunStopped = true;
     },
+    stopDraw: (state) => {
+      state.drawTriggered = false;
+    },
     codeRunHandled: (state) => {
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
@@ -55,10 +62,12 @@ export const {
   setEmbedded,
   setProject,
   setProjectLoaded,
+  triggerDraw,
   updateProject,
   setError,
   triggerCodeRun,
   stopCodeRun,
+  stopDraw,
   codeRunHandled,
 } = EditorSlice.actions
 

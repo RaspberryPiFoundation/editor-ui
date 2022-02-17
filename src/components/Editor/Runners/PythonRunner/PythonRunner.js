@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -12,6 +12,7 @@ const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
@@ -33,6 +34,31 @@ const PythonRunner = () => {
       dispatch(codeRunHandled())
     }
   }, [codeRunStopped]);
+
+  useEffect(() => {
+    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML != '') {
+      try {console.log("Pls stop drawing now!")
+      throw new Error("Execution interrupted");
+      } catch(err) {
+        const message = err.message || err.toString();
+        dispatch(setError(message));
+        if (document.getElementById("input")) {
+          const input = document.getElementById("input")
+          input.removeAttribute("id")
+          input.removeAttribute("contentEditable")
+        }
+      }
+    }
+  }, 
+  [drawTriggered]
+  )
+
+  // useEffect(() => {
+  //   console.log("change detected")
+  //   if (p5Output.current && p5Output.current.innerHTML != '') {
+  //     dispatch(setDrawTriggered())
+  //   }
+  // }, [p5Output.current])
 
   const externalLibraries = {
     "./pygal/__init__.js": {
@@ -219,6 +245,9 @@ const PythonRunner = () => {
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
+      if (p5Output.current.innerHTML=='') {
+        dispatch(stopDraw());
+      }
     }
     );
     myPromise.then(function (_mod) {
@@ -247,9 +276,9 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
+      <div id='p5Sketch' ref={p5Output} />
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
-      <div id='p5Sketch' ref={p5Output} />
     </div>
   );
 };

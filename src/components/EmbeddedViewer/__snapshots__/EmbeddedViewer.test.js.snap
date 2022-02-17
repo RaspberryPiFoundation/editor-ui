@@ -33,6 +33,9 @@ exports[`Renders without crashing 1`] = `
       <div
         id="mycanvas"
       />
+      <div
+        id="p5Sketch"
+      />
     </div>
   </div>
 </div>
