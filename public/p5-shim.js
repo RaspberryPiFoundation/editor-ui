@@ -208,6 +208,11 @@ const $builtinmodule = function (name) {
 
   mod.color = Sk.misceval.buildClass(mod, colorClass, "color", []);
 
+  mod.get = new Sk.builtin.func(function () {
+    const argVals = processArgs(arguments);
+    return new Sk.builtin.list(mod.pInst.get(...argVals));
+  });
+
   mod.green = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     return new Sk.builtin.float_(mod.pInst.green(...argVals));
@@ -266,7 +271,7 @@ const $builtinmodule = function (name) {
     mod.pInst.noFill();
   });
 
-  mod.noStroke = new Sk.builtin.func(function () {
+  mod.no_stroke = new Sk.builtin.func(function () {
     mod.pInst.noStroke();
   });
 
