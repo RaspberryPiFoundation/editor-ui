@@ -7,6 +7,7 @@ import { setError, codeRunHandled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
+import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -243,6 +244,7 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
+      <AstroPiModel/>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
     </div>
