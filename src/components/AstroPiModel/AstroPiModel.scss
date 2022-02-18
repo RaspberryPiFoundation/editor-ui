@@ -1,3 +1,8 @@
+.sense-hat-canvas-container {
+  height: 400px;
+  max-width: 500px;
+}
+
 #sense-hat-sensor-controls-container, #orientation-overlay {
 
     z-index: 100;
@@ -51,6 +56,7 @@
         .motion-sensor, .colour-sensor   {
           label {
             display: inline;
+            margin-right: 5px;
   
             &:hover {
               cursor: pointer;
@@ -135,6 +141,8 @@
   
   #orientation-overlay {
     // Overrides for IMU sliders
+    width: 500px;
+
     &:not(.hide) {
       display: flex;
     }
@@ -172,7 +180,7 @@
       .rangeslider-container {
         display: flex;
         flex: 0 1 auto;
-        width: auto;
+        // width: auto;
         margin: auto;
         height: rem-calc(17px);
         &.spacer {

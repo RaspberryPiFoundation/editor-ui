@@ -3,7 +3,7 @@ import './AstroPiModel.scss';
 const AstroPiModel = (props) => {
   
     return (
-        <>
+        <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
         <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
           <div className="controls-container">
@@ -14,7 +14,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-thermometer"></i>
                 <span className="sensor-value sense-hat-temperature"></span>
               </div>
-              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" value="13" data-rangeslider data-trinket-settings readOnly />
+              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue="13" />
             </div>
         
             {/* <!--Pressure--> */}
@@ -23,7 +23,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-barometer"></i>
                 <span className="sensor-value sense-hat-pressure"></span>
               </div>
-              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" value="1013" data-rangeslider data-trinket-settings readOnly />
+              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue="1013" />
             </div>
         
             {/* <!--Humidity--> */}
@@ -32,7 +32,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-humidity"></i>
                 <span className="sensor-value sense-hat-humidity"></span>
               </div>
-              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" value="45" data-rangeslider data-trinket-settings readOnly />
+              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue="45" />
             </div>
           </div>
         
@@ -49,7 +49,7 @@ const AstroPiModel = (props) => {
             <div className="rangeslider-container">
               <div className="readings-container colour-sensor">
                 <label htmlFor="sense_hat_colour">Colour:</label>
-                <input type="color" id="sense_hat_colour" name="sense_hat_colour" value="#000000"/>
+                <input type="color" id="sense_hat_colour" name="sense_hat_colour" defaultValue="#000000"/>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ const AstroPiModel = (props) => {
         <div id="orientation-overlay" className="bottom 3d hide hide-for-snapshot">
           <div className="controls-container">
         
-            <div className="rangeslider-container spacer"></div>
+            {/* <div className="rangeslider-container spacer"></div> */}
         
             {/* <!-- roll --> */}
             <div className="rangeslider-container">
@@ -80,7 +80,7 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-roll right"></span>
               </div>
-              <input id="sense_hat_roll" type="hidden" value="0" data-trinket-settings readOnly />
+              <input id="sense_hat_roll" type="hidden" value="0" />
             </div>
         
             {/* <!-- pitch --> */}
@@ -91,7 +91,7 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-pitch right"></span>
               </div>
-              <input id="sense_hat_pitch" type="hidden" value="100" data-trinket-settings readOnly />
+              <input id="sense_hat_pitch" type="hidden" value="100" />
             </div>
         
             {/* <!-- yaw --> */}
@@ -102,21 +102,21 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-yaw right"></span>
               </div>
-              <input id="sense_hat_yaw" type="hidden" value="90" data-trinket-settings readOnly />
+              <input id="sense_hat_yaw" type="hidden" value="90" />
             </div>
         
-            <div className="rangeslider-container spacer"></div>
+            {/* <div className="rangeslider-container spacer"></div> */}
         
           </div>
           <div id="imu-buttons-container">
             <div id="close-sense-hat-orientation-controls">
-              <a id="orientation-reset-btn"><i className="fa fa-refresh fa-2x"></i></a>
+              <button id="orientation-reset-btn" ><i className="fa fa-refresh fa-2x"></i></button>
             </div>
             <div id="enclosure-toggle-container">
               <span>
                 <img id="enclosure-toggle" />
               </span>
-              <input id="sense_hat_enclosure" type="hidden" data-trinket-settings readOnly />
+              <input id="sense_hat_enclosure" type="hidden" />
             </div>
             {/* <!--<div id="3d-info-toggle" class="text-center">-->
               <!--TODO: hook this up-->
@@ -126,9 +126,9 @@ const AstroPiModel = (props) => {
         </div>
         
         <input id="sense-hat-listener" type="text" tabIndex="-1" readOnly />
-        <input id="sense_hat_rotation_matrix" type="hidden" data-trinket-settings readOnly />
-        <input id="sense_hat_angle" type="hidden" data-trinket-settings readOnly />
-        </>
+        <input id="sense_hat_rotation_matrix" type="hidden" readOnly />
+        <input id="sense_hat_angle" type="hidden" readOnly />
+        </div>
         
     )
   };
