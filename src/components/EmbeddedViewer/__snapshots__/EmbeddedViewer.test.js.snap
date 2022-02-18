@@ -8,7 +8,7 @@ exports[`Renders without crashing 1`] = `
     className="embedded-controls"
   >
     <button
-      className="btn  "
+      className="btn"
       onClick={[Function]}
     >
       Run Code

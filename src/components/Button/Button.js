@@ -3,8 +3,12 @@ import './Button.css';
 const Button = (props) => {
   const { className, onClickHandler, buttonText, disabled } = props;
 
+  var buttonClass="btn"
+  buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
+  buttonClass = (disabled ? buttonClass += " btn--disabled" : buttonClass)
+
   return (
-    <button className={`btn ${className ? className : ""} ${disabled ? "btn--disabled" : ""}`} onClick={onClickHandler}>{buttonText}</button>
+    <button className={buttonClass} onClick={onClickHandler}>{buttonText}</button>
   )
 };
 
