@@ -6,13 +6,20 @@ export const EditorSlice = createSlice({
     project: [],
     projectLoaded: false,
     error: "",
+    nameError: "",
     codeRunTriggered: false,
     isEmbedded: false,
     codeRunStopped: false,
   },
   reducers: {
+    addProjectComponent: (state, action) => {
+      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension})
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setNameError: (state, action) => {
+      state.nameError = action.payload;
     },
     setProject: (state, action) => {
       state.project = action.payload;
@@ -34,6 +41,13 @@ export const EditorSlice = createSlice({
       })
       state.project.components = mapped;
     },
+    updateComponentName: (state, action) => {
+      const key = action.payload.key;
+      console.log(key)
+      console.log(state.project.components[key])
+      const fileName = action.payload.name;
+      state.project.components[key].name = fileName;
+    },
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -52,10 +66,13 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  addProjectComponent,
   setEmbedded,
+  setNameError,
   setProject,
   setProjectLoaded,
   updateProject,
+  updateComponentName,
   setError,
   triggerCodeRun,
   stopCodeRun,

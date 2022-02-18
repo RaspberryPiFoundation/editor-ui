@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
+import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = () => {
@@ -78,15 +79,6 @@ const Project = () => {
           )}
         </div>
       </div>
-      { project.identifier && (
-        <div>
-          <p>Share your project with this link:&nbsp;
-            <a href={`/python/share/${project.identifier}`} target="_blank" rel="noreferrer">
-              {`${host}/python/share/${project.identifier}`}
-            </a>
-          </p>
-        </div>
-      )}
       <div>
         <RunnerControls/>
       </div>
@@ -98,6 +90,7 @@ const Project = () => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
+              { project.project_type=="python" ? <NewComponentButton /> : null }
             </TabList>
 
             { project.components.map((file,i) => (
