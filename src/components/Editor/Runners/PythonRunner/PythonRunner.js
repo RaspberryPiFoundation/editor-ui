@@ -37,17 +37,11 @@ const PythonRunner = () => {
 
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML != '') {
-      try {
-        Sk.globals["draw"]=false;
-        throw new Error("Execution interrupted");
-      } catch(err) {
-        const message = err.message || err.toString();
-        dispatch(setError(message));
-        if (document.getElementById("input")) {
-          const input = document.getElementById("input")
-          input.removeAttribute("id")
-          input.removeAttribute("contentEditable")
-        }
+      Sk.globals["draw"]=false;
+      if (document.getElementById("input")) {
+        const input = document.getElementById("input")
+        input.removeAttribute("id")
+        input.removeAttribute("contentEditable")
       }
     }
   }, 
