@@ -38,6 +38,7 @@ const PythonRunner = () => {
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML != '') {
       try {
+        Sk.globals["draw"]=false;
         throw new Error("Execution interrupted");
       } catch(err) {
         const message = err.message || err.toString();
@@ -265,11 +266,11 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
+      <div id='p5Sketch' ref={p5Output} />
       <ErrorMessage />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <div id='p5Sketch' ref={p5Output} />
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
       <div id='mycanvas' ref={domOutput} />
     </div>
