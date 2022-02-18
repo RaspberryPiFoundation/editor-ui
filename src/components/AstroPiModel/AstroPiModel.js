@@ -1,4 +1,5 @@
 import './AstroPiModel.scss';
+import Simulator from './Simulator';
 
 const AstroPiModel = (props) => {
   
@@ -56,7 +57,8 @@ const AstroPiModel = (props) => {
         
         </div>
         
-        <div id="canvas"></div>
+        {/* <div id="canvas"></div> */}
+        <Simulator />
         
         <div className="orientation-stage" id="orientation-stage">
           {/* <!--Solid Axis Removed--> */}

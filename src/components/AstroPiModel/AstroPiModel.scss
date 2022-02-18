@@ -141,7 +141,7 @@
   
   #orientation-overlay {
     // Overrides for IMU sliders
-    width: 500px;
+    max-width: 500px;
 
     &:not(.hide) {
       display: flex;
