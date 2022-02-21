@@ -4,8 +4,10 @@ import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
 import $ from 'jquery';
+import Sk from "skulpt"
 
 const Simulator = (props) => {
+
     // Drag code based on https://codepen.io/OpherV/pen/YXwwNR
     var isDragging = false;
     var targetRotationX = 0.5;
@@ -19,6 +21,135 @@ const Simulator = (props) => {
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
     var slowingFactor = 0.25;
+
+    var SenseHatHtml;
+    var senseHatConfig;
+
+    var browser    = Detectizr.browser.name;
+    var browser_os = browser + ":" + Detectizr.os.name;
+    // var killable   = browser === "midori" || browser === "iceweasel" || browser === "epiphany" ? false : true;
+
+    // assumes versions greater than or equal to
+    var browser_version = parseInt(Detectizr.browser.version);
+    var browser_3d      = browser + '-gte-3d';
+
+    var default_sense_hat_height = 400;
+
+    var initSenseHat = function(config, $target) {
+    var sense_hat_height;
+
+    $target.html(SenseHatHtml);
+
+    $target.css({
+        height : '100%'
+    });
+
+    // need to wait for svg to fully load to get it's height
+
+    var graphicWrapWidth = $('#graphic-wrap').width();
+    var maxWidth         = graphicWrapWidth - (graphicWrapWidth * .05);
+
+    try {
+        // firefox doesn't like this
+        sense_hat_height = $('#sense-hat-enclosure').get(0).getBBox().height;
+    } catch(e) {
+        sense_hat_height = default_sense_hat_height;
+    }
+
+    if (!sense_hat_height) {
+        sense_hat_height = default_sense_hat_height;
+    }
+
+    var widthRatio = Math.floor( maxWidth / sense_hat_height );
+    if (widthRatio > 1) {
+        maxWidth /= widthRatio;
+    }
+
+    SenseOrientation.updateStage();
+
+    if (!window.TrinketIO.runtime('usingSenseHat3d')) {
+        $('.orientation-box').css({
+            width  : maxWidth + 'px'
+        , height : sense_hat_height + 'px'
+        });
+
+        $('.orientation-front').css({
+            width  : maxWidth + 'px'
+        , height : sense_hat_height + 'px'
+        });
+    }
+
+    function _svg_height() {
+        if ($('#_sense_hat_').height() === 0) {
+        setTimeout( _svg_height, 250 );
+        }
+        else {
+        var svg_height = $('#_sense_hat_').height();
+
+        widthRatio = Math.floor( maxWidth / svg_height );
+        if (widthRatio > 1) {
+            maxWidth /= widthRatio;
+        }
+
+        // recalculate now that the svg has been loaded
+        $('.orientation-box').css({
+            width  : maxWidth + 'px'
+            , height : svg_height + 'px'
+        });
+
+        $('.orientation-front').css({
+            width  : maxWidth + 'px'
+            , height : svg_height + 'px'
+        });
+
+        $('.orientation-back').css({
+            width       : maxWidth + 'px'
+            , height      : svg_height + 'px'
+            , transform   : "rotateY(180deg) rotateZ(180deg)"
+            , msTransform : "rotateY(180deg) rotateZ(180deg)"
+        });
+
+        }
+    }
+
+    (function _init() {
+        // don't init sensors (rangeslider) until its container has been rendered
+        if ($('#sense-hat-sensor-controls-container').width() === 0) {
+        setTimeout( _init, 100 );
+        }
+        else {
+        if (TrinketIO.runtime('usingSenseHatFlat')) {
+            _svg_height();
+        }
+
+        // temporary check while 3d is in testing
+        if (config._3d) {
+            $target.find('.3d').removeClass('hide');
+            TrinketIO.runtime('usingSenseHat3d', true);
+            SenseOrientation.initOrientation();
+
+            $('.save-it').removeClass('blue-highlight');
+            $('.save-it').removeClass('green-highlight');
+        }
+        else {
+            // show rotate and info buttons
+            $target.find('.2d').removeClass('hide');
+            TrinketIO.runtime('usingSenseHat3d', undefined);
+
+            // temporary init until 3d is live
+            SenseOrientation.initSenseHatEnclosure();
+        }
+
+        if (config.snapshot) {
+            $target.find('.hide-for-snapshot').addClass('hide');
+            $target.find('.orientation-stage').addClass('snapshot');
+        }
+
+        SenseHat.initSensors();
+        }
+
+    })();
+    };
 
     function rotateAroundWorldAxis( object, axis, radians ) {
         // Changed this function from
@@ -50,8 +181,8 @@ const Simulator = (props) => {
 
     window.init3D = function (val){
         return new Promise(function (resolve, reject) {
-            //var w = document.getElementById('canvas').clientWidth
-            //var h = document.getElementById('canvas').clientHeight
+            // var w = document.getElementById('canvas').clientWidth
+            // var h = document.getElementById('canvas').clientHeight
             var w = 500;
             var h = 500;
             window.callback_move = null;
@@ -96,10 +227,10 @@ const Simulator = (props) => {
             // glTf Loader
             var loader = new GLTFLoader();
             const dracoLoader = new DRACOLoader();
-            dracoLoader.setDecoderPath('%PUBLIC_URL%/js/three/examples/js/libs/draco/');
+            dracoLoader.setDecoderPath('../three/examples/js/libs/draco/');
             loader.setDRACOLoader( dracoLoader );
 
-            loader.load('%PUBLIC_URL%/models/raspi-compressed.glb', function ( gltf ) {
+            loader.load('../models/raspi-compressed.glb', function ( gltf ) {
             gltf.scene.scale.set( 2000,2000,2000 );
             window.scene.add( gltf.scene );
             window.mod = gltf.scene
@@ -141,6 +272,99 @@ const Simulator = (props) => {
             })
         })
     }
+
+    var loadSenseHatCanvas = function(config, $target){
+        return new Promise(function (resolve, reject) {
+          if (!Sk.sense_hat) {
+            Sk.sense_hat = config.sense_hat;
+          }
+          if (!Sk.sense_hat_emit) {
+            Sk.sense_hat_emit = config.sense_hat_emit;
+          }
+    
+          $target.data("graphicMode", "sense hat");
+    
+          if (!SenseHatHtml) {
+            var senseHatUrl;
+            var configOverride = false;
+            var senseHatPartial = ['sense-hat'];
+    
+            senseHatConfig = window.senseHatConfig2021 || {};
+    
+            // check 3d override for certain versions
+            if (senseHatConfig[browser_3d] && browser_version >= senseHatConfig[browser_3d]) {
+              configOverride = true;
+            }
+    
+            if (senseHatConfig[browser] && !configOverride) {
+              senseHatPartial.push( senseHatConfig[browser] );
+            }
+            if (senseHatConfig[browser_os]) {
+              senseHatPartial.push( senseHatConfig[browser_os] );
+            }
+    
+            // temporary check while 3d is in testing
+            if (!config._3d) {
+              // there is no flat 2d version
+              if (senseHatPartial.indexOf('flat') >= 0) {
+                senseHatPartial.splice( senseHatPartial.indexOf('flat'), 1 );
+              }
+              senseHatPartial.push('2d');
+            }
+    
+            if (senseHatPartial.indexOf('flat') >= 0) {
+              TrinketIO.runtime('usingSenseHatFlat', true);
+            }
+    
+            senseHatUrl = senseHatPartial.join('-');
+            senseHatUrl = trinketConfig.prefix('/partials/' + senseHatUrl + '2021.html');
+    
+            resolve(loadExternalLibraryInternal_(senseHatUrl, false)
+              .then(window.init3D)
+              .then(function (result) {
+                SenseHatHtml = result;
+                initSenseHat(config, $target);
+    
+                if (TrinketIO.runtime('usingSenseHatFlat')) {
+                  var html = template('statusMessageTemplate', {
+                    type    : 'info',
+                    message : "Try <a href='https://www.google.com/chrome/browser/desktop/' class='text-link' target='_blank'><strong>Chrome</strong></a> or Safari for a richer 3D experience."
+                  });
+                  var $msg = $(html);
+                  $('body').append($msg);
+                  $('body').addClass('has-status-bar');
+                  $msg.parent().foundation().trigger('open.fndtn.alert');
+                }
+              }));
+          }
+    
+          if ($('#sense-hat-sensor-controls-container').length === 0) {
+            initSenseHat(config, $target);
+          }
+    
+          resolve();
+        }).then(function () {
+          var w = document.getElementById('canvas').clientWidth;
+          var h = document.getElementById('canvas').clientHeight;
+          var container = document.getElementById( 'canvas' );
+          window.camera.aspect = w / h;
+          window.camera.updateProjectionMatrix ();
+          window.renderer.setSize( w, h );
+          container.appendChild( window.renderer.domElement );
+          SenseStick.initJoystick();
+    
+          destroyGraphicsFn = function() {
+            SenseHat.destroySliders();
+            $('#graphic-wrap').removeClass('sense-hat');
+            destroyGraphicsFn = undefined;
+          };
+    
+          $('#graphic-wrap').addClass('sense-hat');
+        });
+      }
+
+    // window.init3D()
+    loadSenseHatCanvas()
 
     return (
         <div id='canvas'></div>
