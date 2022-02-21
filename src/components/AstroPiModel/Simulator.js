@@ -22,6 +22,8 @@ const Simulator = (props) => {
     var windowHalfY = window.innerHeight / 2;
     var slowingFactor = 0.25;
 
+    // From wrapper2021.js in the trinket skulpt repo
+
     var SenseHatHtml;
     var senseHatConfig;
 
@@ -151,6 +153,8 @@ const Simulator = (props) => {
     })();
     };
 
+    // From sense-hat.js in the trinket skulpt repo
+
     function rotateAroundWorldAxis( object, axis, radians ) {
         // Changed this function from
         // the codepen version, so that it could rotate
@@ -272,6 +276,8 @@ const Simulator = (props) => {
             })
         })
     }
+
+    // From the defaultGraphicsSetup for sense-hat from wrapper2021.js in the trinket skulpt repo
 
     var loadSenseHatCanvas = function(config, $target){
         return new Promise(function (resolve, reject) {
