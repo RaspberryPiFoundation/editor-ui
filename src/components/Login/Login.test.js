@@ -14,9 +14,9 @@ test("Login button shown when not logged in", () => {
     }
   }
   const store = mockStore(initialState);
-  const {getByText} = render(<Provider store={store}><Login /></Provider>)
+  const {findByText} = render(<Provider store={store}><Login /></Provider>)
 
-  expect(getByText(/Log/).textContent).toBe("Login")
+  expect(findByText(/Log/).textContent).toBe("Login")
     
 })
 
