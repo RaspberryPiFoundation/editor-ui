@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import Login from "./Login";
 
-test("Login button shown when not logged in", () => {
+test("Login button shown when not logged in", async () => {
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -14,9 +14,11 @@ test("Login button shown when not logged in", () => {
     }
   }
   const store = mockStore(initialState);
-  const {findByText} = render(<Provider store={store}><Login /></Provider>)
+  const {findByText, getByText} = render(<Provider store={store}><Login /></Provider>);
 
-  expect(findByText(/Log/).textContent).toBe("Login")
+  await findByText(/Log/);
+
+  expect(getByText(/Log/).textContent).toBe("Login")
     
 })
 
