@@ -8,7 +8,7 @@ const Callback = () => {
   let history = useHistory()
 
   const onSuccess = () => {
-    history.push("/")
+    history.goBack()
   }
 
   const onError = (error) => {

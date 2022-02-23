@@ -15,9 +15,7 @@ test("Login button shown when not logged in", () => {
     }
   }
   const store = mockStore(initialState);
-  const {getByText} = render(<Provider store={store}><div id='root'><Login /></div></Provider>)
-
-  console.log(document.getElementsByTagName("button")[0].textContent)
+  const {getByText} = render(<Provider store={store}><Login /></Provider>)
 
   expect(getByText(/Log/).textContent).toBe("Login")
     
@@ -32,9 +30,7 @@ test("Logout button shown when logged in", () => {
     }
   }
   const store = mockStore(initialState);
-  const {getByText} = render(<Provider store={store}><div id='root'><Login /></div></Provider>)
-
-  console.log(document.getElementsByTagName("button")[0].textContent)
+  const {getByText} = render(<Provider store={store}><Login /></Provider>)
 
   expect(getByText(/Log/).textContent).toBe("Logout")
 
