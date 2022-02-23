@@ -1,8 +1,7 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
-import { toHaveAttribute } from "@testing-library/jest-dom"
+import { render } from "@testing-library/react"
 import { Provider } from 'react-redux';
-import configureStore, {getActions} from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 
 import Login from "./Login";
 

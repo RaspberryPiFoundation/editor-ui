@@ -1,8 +1,7 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
-import { toHaveAttribute } from "@testing-library/jest-dom"
+import { render } from "@testing-library/react"
 import { Provider } from 'react-redux';
-import configureStore, {getActions} from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 
 import Header from "./Header";
 
@@ -18,9 +17,7 @@ test("Login button shown when not embedded", () => {
     }
   }
   const store = mockStore(initialState);
-  const {rerender, queryByText} = render(<Provider store={store}><Header /></Provider>)
-  rerender(<Provider store={store}><Header /></Provider>)
-//   console.log(document.getElementsByTagName("button")[0].textContent)
+  const {queryByText} = render(<Provider store={store}><Header /></Provider>)
 
   expect(queryByText(/Login/)).not.toBeNull()
 })
