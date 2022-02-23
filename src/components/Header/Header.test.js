@@ -18,9 +18,9 @@ test("Login button shown when not embedded", () => {
     }
   }
   const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><Header /></Provider>)
-  
-  console.log(document.getElementsByTagName("button")[0].textContent)
+  const {rerender, queryByText} = render(<Provider store={store}><Header /></Provider>)
+  rerender(<Provider store={store}><Header /></Provider>)
+//   console.log(document.getElementsByTagName("button")[0].textContent)
 
   expect(queryByText(/Login/)).not.toBeNull()
 })
