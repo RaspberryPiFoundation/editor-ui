@@ -2,9 +2,11 @@ import axios from 'axios';
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
-export const updateProject = async () => {
-    
-
+export const updateProject = async (project) => {
+  return await axios.put(
+    `${host}/api/projects/phrases/${project.identifier}`,
+    { project: project }
+  );
 }
 
 export const newProject = async () => {
