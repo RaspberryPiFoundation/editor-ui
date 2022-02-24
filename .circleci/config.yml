@@ -33,7 +33,6 @@ jobs:
       - image: cimg/node:16.13.1-browsers
         environment:
           NODE_PATH: ./src
-          REACT_APP_LOGIN_ENABLED: true
 #           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
