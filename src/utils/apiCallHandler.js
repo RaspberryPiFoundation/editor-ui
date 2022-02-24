@@ -2,31 +2,43 @@ import axios from 'axios';
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
+const get = async (url) => {
+  return await axios.get(url, {headers: {
+      'Accept': 'application/json'
+    }
+  });
+}
+
+const post = async (url, body) => {
+  if (!body) {
+    body = {}
+  }
+  return await axios.post(url, body, { 
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+}
+
+const put = async (url, body) => {
+  return await axios.put(url, body)
+}
+
 export const updateProject = async (project) => {
-  return await axios.put(
+  return await put(
     `${host}/api/projects/phrases/${project.identifier}`,
     { project: project }
   );
 }
 
 export const newProject = async () => {
-  return await axios.post(`${host}/api/default_project/`, {}, { 
-    headers: {
-      'Accept': 'application/json'
-    }
-  });
+  return await post(`${host}/api/default_project/`);
 }
 
 export const remixProject = async (projectIdentifier) => {
-  return await axios.post(
-    `${host}/api/projects/phrases/${projectIdentifier}/remix`
-  );
+  return await post(`${host}/api/projects/phrases/${projectIdentifier}/remix`);
 }
 
 export const readProject = async (projectIdentifier) => {
-  return await axios.get(`${host}/api/projects/phrases/${projectIdentifier}`, {
-    headers: {
-      'Accept': 'application/json'
-    }
-  });
+  return await get(`${host}/api/projects/phrases/${projectIdentifier}`);
 }
