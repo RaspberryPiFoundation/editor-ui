@@ -15,8 +15,10 @@ export const newProject = async () => {
 
 }
 
-export const remixProject = () => {
-
+export const remixProject = async projectIdentifier => {
+  return await axios.post(
+    `${host}/api/projects/phrases/${projectIdentifier}/remix`
+  );
 }
 
 export const readProject = async (projectIdentifier) => {

@@ -16,6 +16,7 @@ import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
+import { remixProject } from '../../../utils/apiCallHandler';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -48,11 +49,8 @@ const Project = () => {
       return;
     }
 
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.post(
-      `${api_host}/api/projects/phrases/${project.identifier}/remix`
-    );
-
+    const response = await remixProject(project.identifier)
+    
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
     dispatch(setProjectLoaded(false));
