@@ -56,8 +56,7 @@ describe("When logged in", () => {
 })
 
 describe("When not logged in", () => {
-  let store;
-  let queryByText
+  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -73,11 +72,11 @@ describe("When not logged in", () => {
         user: null
       }
     }
-    store = mockStore(initialState);
+    const store = mockStore(initialState);
     ({queryByText} = render(<Provider store={store}><Project/></Provider>));
   })
 
   test("Save button not shown when not logged in", () =>{
-    expect(queryByText("Save Project")).toBeNull()
+    expect(queryByText("Save Project")).toBeNull();
   })
 })
