@@ -6,7 +6,12 @@ export const updateProject = () => {
 
 }
 
-export const newProject = () => {
+export const newProject = async () => {
+    return await axios.post(`${host}/api/default_project/`, {},
+      { headers: {
+              'Accept': 'application/json'
+      }},
+    );
 
 }
 

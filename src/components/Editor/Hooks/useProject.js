@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { setProject, setProjectLoaded } from '../EditorSlice'
-import axios from 'axios';
 import { readProject } from '../../../utils/apiCallHandler';
 
 // const pythonCode = {
