@@ -2,7 +2,6 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore, {getActions} from 'redux-mock-store';
-import { toast } from 'react-toastify';
 
 import Project from "./Project";
 import axios from "axios";
@@ -15,17 +14,6 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   })
 }));
-
-// jest.mock('react-toastify', () => ({
-//   ...jest.requireActual('react-toastify'),
-//   toast: () => ({
-//       POSITION: jest.fn(),
-//     }),
-//   toast: jest.fn()
-//     // const actual = jest.requireActual('react-toastify');
-//     // Object.assign(actual, {toast: jest.fn()});
-//     // return actual;
-// }))
 
 describe("When logged in", () => {
   let store;
@@ -65,27 +53,31 @@ describe("When logged in", () => {
     const project = {"components": [], "identifier": "hello-world-project"}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project})
   })
+})
 
-//   test("Clicking save shows the toast message", () => {
-//     axios.put.mockImplementationOnce(() => Promise.resolve({status: 200}))
-//     // var toastCalls = []
-//     // toast.mockImplementationOnce((...args) => {
-//     //     // console.log("triggered")
-//     //     toastCalls.push(args)
-//     //     // const position = {"TOP_CENTER": 0}
-//     //     // Promise.resolve({'POSITION': position})
-//     // })
-//     // toast.POSITION.mockImplementationOnce(() => Promise.resolve({"TOP_CENTER":0}))
+describe("When not logged in", () => {
+  let store;
+  let queryByText
 
-//     // toast.mockImplementationOnce((message, config) => {
-//     //     Promise.resolve({POSITION: {}, message: message})
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          identifier: "hello-world-project",
+          components: []
+        },
+      },
+      auth: {
+        user: null
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><Project/></Provider>));
+  })
 
-//     // })
-//     // // toast.position.mockImplementationOnce(() => 0)
-//     // // const toastMessage = await findByText(/saved/)
-//     // fireEvent.click(saveButton)
-//     // expect(toastCalls).toEqual(["Project saved!"])
-
-//   })
-
+  test("Save button not shown when not logged in", () =>{
+    expect(queryByText("Save Project")).toBeNull()
+  })
 })
