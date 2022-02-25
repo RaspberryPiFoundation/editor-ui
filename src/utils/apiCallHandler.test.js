@@ -23,8 +23,10 @@ describe("Testing project API calls", () => {
       Promise.resolve({data: {project: remixedProject}})
     })
 
-    await remixProject(originalProject['identifier'])
-    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/phrases/${originalProject['identifier']}/remix`), {}, defaultHeaders)
+    const accessToken = ""
+
+    await remixProject(originalProject['identifier'], accessToken)
+    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/phrases/${originalProject['identifier']}/remix`), {"remix": {"user_id": accessToken}}, defaultHeaders)
   })
 
   test("Updating project", async () => {

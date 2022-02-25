@@ -47,7 +47,7 @@ describe("Testing the remix button when logged in", () => {
 
     fireEvent.click(remixButton)
     const api_host = process.env.REACT_APP_API_ENDPOINT;
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${store.getState()['editor']['project']['identifier']}/remix`)
+    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${store.getState()['editor']['project']['identifier']}/remix`, {"remix": {"user_id": undefined}}, {"headers": {"Accept": "application/json"}})
 
   })
 })
