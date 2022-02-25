@@ -36,7 +36,7 @@ describe("Mocked API calls", () => {
       `${host}/api/projects/phrases/${project['identifier']}`,
       { project: project }, 
       defaultHeaders
-      )
+    )
   })
 
   test("Read project", async () => {
