@@ -1,18 +1,14 @@
 import React from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom'
 import Button from '../Button/Button'
+import { newProject } from '../../utils/apiCallHandler';
 
 const NewProject = () => {
   let history = useHistory()
 
   const handleClick = async () => {
-    const host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.post(`${host}/api/default_project/`, {},
-      { headers: {
-              'Accept': 'application/json'
-      }},
-    );
+    const response = await newProject()
+
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
     history.push(`/${project_type}/${identifier}`)
