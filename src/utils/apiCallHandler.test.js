@@ -6,7 +6,7 @@ jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
 const defaultHeaders = {'headers': {'Accept': 'application/json'}}
 
-describe("Mocked API calls", () => {
+describe("Testing project API calls", () => {
 
   test("Creating project", async () => {
     const blankProject =  {'data': { 'project': {'identifier': 'new-hello-project', 'project_type': 'python'}}}
