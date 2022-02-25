@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { setProject, setProjectLoaded } from '../EditorSlice'
-import axios from 'axios';
+import { readProject } from '../../../utils/apiCallHandler';
 
 // const pythonCode = {
 //   type: 'python',
@@ -37,12 +37,7 @@ export const useProject = (projectType, projectIdentifier = '') => {
 
   const loadProject = () => {
     (async () => {
-      const host = process.env.REACT_APP_API_ENDPOINT;
-      const response = await axios.get(`${host}/api/projects/phrases/${projectIdentifier}`, {
-        headers: {
-                'Accept': 'application/json'
-        },
-      });
+      const response = await readProject(projectIdentifier)
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();
