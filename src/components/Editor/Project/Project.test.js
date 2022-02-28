@@ -63,10 +63,10 @@ describe("Testing the remix button when not logged in", () => {
           project: {
             identifier: "hello-world-project",
             components: []
+          },
         },
-      },
         auth: {
-          user: null
+          user: []
         }
       }
     const store = mockStore(initialState);
@@ -75,5 +75,43 @@ describe("Testing the remix button when not logged in", () => {
 
   test("No remix button when not logged in", () => {
     expect(queryByText('Remix')).toBeNull();
+  })
+})
+
+describe("Testing remixed project", () => {
+  let getByText;
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          identifier: "hello-world-project",
+          components: [],
+          parent: {
+            name: "hello world",
+            identifier: "remixed-parent-project"
+          },
+          project_type: "python"
+        }
+      },
+      auth: {
+        user: null
+      }
+    }
+    const store = mockStore(initialState);
+    ({getByText} = render(<Provider store={store}><Project/></Provider>));
+  })
+
+  test("Project name is shown", () => {
+    expect(getByText(/Remixed from/).innerHTML).toContain("hello world")
+  })
+
+  test("Project link is correct", () => {
+    const host = `${window.location.protocol}//${window.location.hostname}${
+      window.location.port ? `:${window.location.port}` : ''
+    }`
+    expect(getByText(/hello world/).href).toBe(`${host}/python/remixed-parent-project`)
   })
 })
