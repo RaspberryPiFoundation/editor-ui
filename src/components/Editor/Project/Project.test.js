@@ -51,7 +51,8 @@ describe("When logged in", () => {
     fireEvent.click(saveButton)
     const api_host = process.env.REACT_APP_API_ENDPOINT;
     const project = {"components": [], "identifier": "hello-world-project"}
-    expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project})
+    const headers = {"headers": {"Accept": "application/json"}}
+    expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project}, headers)
   })
 })
 
