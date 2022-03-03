@@ -66,8 +66,7 @@ const Project = () => {
           { project.identifier && (
             user !== null ? (
             <>
-              <Button onClickHandler={onClickSave} buttonText="Save Project" />
-              <Button onClickHandler={onClickRemix} buttonText="Remix Project" />
+              {project.owned_by_user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
             </>
             ) : null
           )}
