@@ -30,7 +30,9 @@ describe("Testing the remix button when logged in", () => {
         },
       },
       auth: {
-        user: []
+        user: {
+          access_token: "39a09671-be55-4847-baf5-8919a0c24a25"
+        }
       }
     }
     store = mockStore(initialState);
@@ -47,7 +49,9 @@ describe("Testing the remix button when logged in", () => {
 
     fireEvent.click(remixButton)
     const api_host = process.env.REACT_APP_API_ENDPOINT;
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${store.getState()['editor']['project']['identifier']}/remix`, {}, {"headers": {"Accept": "application/json"}})
+    const projectIdentifier = store.getState()['editor']['project']['identifier']
+    const accessToken = store.getState()['auth']['user']['access_token']
+    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${projectIdentifier}/remix`, {}, {"headers": {"Accept": "application/json", "Authorization": accessToken}})
 
   })
 })
@@ -66,7 +70,7 @@ describe("Testing the remix button when not logged in", () => {
           },
         },
         auth: {
-          user: []
+          user: null
         }
       }
     const store = mockStore(initialState);
