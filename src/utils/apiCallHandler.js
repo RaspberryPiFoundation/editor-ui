@@ -14,16 +14,21 @@ const put = async (url, body, headers) => {
   return await axios.put(url, body, headers)
 }
 
-const headers = () => {
-    var headersHash = {'Accept': 'application/json'}
+const headers = (accessToken) => {
+    let headersHash
+    if (accessToken) {
+        headersHash = {'Accept': 'application/json', 'Authorization': accessToken}
+    } else {
+        headersHash = {'Accept': 'application/json'}
+    }
     return {headers: headersHash}
 }
 
-export const updateProject = async (project) => {
+export const updateProject = async (project, accessToken) => {
   return await put(
     `${host}/api/projects/phrases/${project.identifier}`,
     { project: project }, 
-    headers()
+    headers(accessToken)
   );
 }
 
@@ -35,6 +40,6 @@ export const remixProject = async (projectIdentifier) => {
   return await post(`${host}/api/projects/phrases/${projectIdentifier}/remix`, {}, headers());
 }
 
-export const readProject = async (projectIdentifier) => {
-  return await get(`${host}/api/projects/phrases/${projectIdentifier}`, headers());
+export const readProject = async (projectIdentifier, accessToken) => {
+  return await get(`${host}/api/projects/phrases/${projectIdentifier}`, headers(accessToken));
 }

@@ -9,7 +9,12 @@ const ProjectComponentLoader = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
   const projectIdentifier = props.match.params.identifier;
   const projectType = props.match.params.projectType || DEFAULT_PROJECT_TYPE;
-  useProject(projectType, projectIdentifier);
+  const stateAuth = useSelector(state => state.auth);
+
+  const access_token = stateAuth.user ? stateAuth.user.access_token : ''
+  
+  useProject(projectType, projectIdentifier, access_token)
+  console.log(stateAuth.user)
 
   return projectLoaded === true ? (
     <>

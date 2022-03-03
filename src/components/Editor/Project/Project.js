@@ -30,7 +30,7 @@ const Project = () => {
       return;
     }
     
-    const response = await updateProject(project)
+    const response = await updateProject(project, user.access_token)
   
     if(response.status === 200) {
       toast("Project saved!", {

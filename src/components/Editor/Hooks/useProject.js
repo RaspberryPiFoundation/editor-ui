@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setProject, setProjectLoaded } from '../EditorSlice'
 import { readProject } from '../../../utils/apiCallHandler';
 
@@ -32,12 +32,12 @@ const htmlCode = {
   ]
 }
 
-export const useProject = (projectType, projectIdentifier = '') => {
+export const useProject = (projectType, projectIdentifier = '', access_token='') => {
   const dispatch = useDispatch();
 
   const loadProject = () => {
     (async () => {
-      const response = await readProject(projectIdentifier)
+      const response = await readProject(projectIdentifier, access_token)
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();
