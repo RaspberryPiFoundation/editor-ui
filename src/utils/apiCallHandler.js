@@ -24,11 +24,11 @@ const headers = (accessToken) => {
     return {headers: headersHash}
 }
 
-export const updateProject = async (project) => {
+export const updateProject = async (project, accessToken) => {
   return await put(
     `${host}/api/projects/phrases/${project.identifier}`,
     { project: project }, 
-    headers()
+    headers(accessToken)
   );
 }
 

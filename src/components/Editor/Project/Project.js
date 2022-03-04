@@ -30,7 +30,7 @@ const Project = () => {
       return;
     }
     
-    const response = await updateProject(project)
+    const response = await updateProject(project, user.access_token)
   
     if(response.status === 200) {
       toast("Project saved!", {
@@ -69,8 +69,7 @@ const Project = () => {
           { project.identifier && (
             user !== null ? (
             <>
-              <Button onClickHandler={onClickSave} buttonText="Save Project" />
-              <Button onClickHandler={onClickRemix} buttonText="Remix Project" />
+              {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
             </>
             ) : null
           )}
