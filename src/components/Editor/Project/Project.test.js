@@ -33,7 +33,9 @@ describe("When logged in", () => {
         },
       },
       auth: {
-        user: []
+        user: {
+          access_token: "39a09671-be55-4847-baf5-8919a0c24a25"
+        }
       }
     }
     store = mockStore(initialState);
@@ -54,6 +56,21 @@ describe("When logged in", () => {
     const headers = {"headers": {"Accept": "application/json"}}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project}, headers)
   })
+
+  test("Remix button renders when the user is logged in", () => {
+    expect(remixButton.textContent).toBe("Remix Project");
+  })
+
+  test("Clicking remix button posts to correct remix url", () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({'data': { 'project': {'identifier': 'remixed-hello-project', 'project_type': 'python'}}}))
+
+    fireEvent.click(remixButton)
+    const api_host = process.env.REACT_APP_API_ENDPOINT;
+    const projectIdentifier = store.getState()['editor']['project']['identifier']
+    const accessToken = store.getState()['auth']['user']['access_token']
+    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${projectIdentifier}/remix`, {}, {"headers": {"Accept": "application/json", "Authorization": accessToken}})
+
+  })
 })
 
 describe("When not logged in", () => {
@@ -63,21 +80,62 @@ describe("When not logged in", () => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
+        editor: {
+          project: {
+            identifier: "hello-world-project",
+            components: []
+          },
+        },
+        auth: {
+          user: null
+        }
+      }
+    const store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><Project/></Provider>));
+  })
+
+  test("No remix button when not logged in", () => {
+    expect(queryByText('Remix')).toBeNull();
+  })
+
+  test("Save button not shown when not logged in", () =>{
+    expect(queryByText("Save Project")).toBeNull();
+})
+
+describe("Testing remixed project", () => {
+  let getByText;
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
       editor: {
         project: {
           identifier: "hello-world-project",
-          components: []
-        },
+          components: [],
+          parent: {
+            name: "hello world",
+            identifier: "remixed-parent-project"
+          },
+          project_type: "python"
+        }
       },
       auth: {
         user: null
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Project/></Provider>));
+    ({getByText} = render(<Provider store={store}><Project/></Provider>));
   })
 
-  test("Save button not shown when not logged in", () =>{
-    expect(queryByText("Save Project")).toBeNull();
+  test("Project name is shown", () => {
+    expect(getByText(/Remixed from/).innerHTML).toContain("hello world")
+  })
+
+  test("Project link is correct", () => {
+    const host = `${window.location.protocol}//${window.location.hostname}${
+      window.location.port ? `:${window.location.port}` : ''
+    }`
+    expect(getByText(/hello world/).href).toBe(`${host}/python/remixed-parent-project`)
   })
 })
