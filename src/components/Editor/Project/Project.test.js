@@ -15,11 +15,9 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-describe("When logged in", () => {
+describe("When logged in and user owns project", () => {
   let store;
-  let remixButton;
   let saveButton;
-  let findByText;
   let getByText;
 
   beforeEach(() => {
@@ -29,18 +27,21 @@ describe("When logged in", () => {
       editor: {
         project: {
           identifier: "hello-world-project",
-          components: []
+          components: [],
+          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
       },
       auth: {
         user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25"
+          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+          profile: {
+            user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+          }
         }
       }
     }
     store = mockStore(initialState);
-    ({findByText, getByText} = render(<Provider store={store}><Project/></Provider>));
-    remixButton = getByText(/Remix/)
+    ({getByText} = render(<Provider store={store}><Project/></Provider>));
     saveButton = getByText(/Save/)
   })
 
@@ -52,12 +53,48 @@ describe("When logged in", () => {
     axios.put.mockImplementationOnce(() => Promise.resolve({}))
     fireEvent.click(saveButton)
     const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const project = {"components": [], "identifier": "hello-world-project"}
-    const headers = {"headers": {"Accept": "application/json"}}
+    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
+    const headers = {"headers": {"Accept": "application/json", "Authorization": "39a09671-be55-4847-baf5-8919a0c24a25"}}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project}, headers)
   })
+})
 
-  test("Remix button renders when the user is logged in", () => {
+describe("When logged in and user does not own project", () => {
+  let store;
+  let remixButton;
+  let getByText;
+  let queryByText;
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          identifier: "hello-world-project",
+          components: [],
+          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+        },
+      },
+      auth: {
+        user: {
+          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+          profile: {
+            user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
+          }
+        }
+      }
+    }
+    store = mockStore(initialState);
+    ({getByText, queryByText} = render(<Provider store={store}><Project/></Provider>));
+    remixButton = getByText(/Remix/)
+  })
+
+  test("Save button does not render", () => {
+    expect(queryByText("Save Project")).toBeNull()
+  })
+
+  test("Remix button renders", () => {
     expect(remixButton.textContent).toBe("Remix Project");
   })
 
@@ -69,7 +106,6 @@ describe("When logged in", () => {
     const projectIdentifier = store.getState()['editor']['project']['identifier']
     const accessToken = store.getState()['auth']['user']['access_token']
     expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/${projectIdentifier}/remix`, {}, {"headers": {"Accept": "application/json", "Authorization": accessToken}})
-
   })
 })
 
@@ -100,6 +136,7 @@ describe("When not logged in", () => {
 
   test("Save button not shown when not logged in", () =>{
     expect(queryByText("Save Project")).toBeNull();
+  })
 })
 
 describe("Testing remixed project", () => {
