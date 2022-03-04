@@ -45,7 +45,7 @@ describe("When logged in and user owns project", () => {
     saveButton = getByText(/Save/)
   })
 
-  test("Save button renders when logged in", () => {
+  test("Save button renders", () => {
       expect(saveButton.textContent).toBe("Save Project");
   })
 
@@ -53,9 +53,15 @@ describe("When logged in and user owns project", () => {
     axios.put.mockImplementationOnce(() => Promise.resolve({}))
     fireEvent.click(saveButton)
     const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
-    const headers = {"headers": {"Accept": "application/json", "Authorization": "39a09671-be55-4847-baf5-8919a0c24a25"}}
+    const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
+    const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+    const project = {"components": [], "identifier": "hello-world-project", "user_id": user_id}
+    const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/phrases/hello-world-project`, {"project": project}, headers)
+  })
+
+  test("No remix button", () => {
+    expect(queryByText('Remix')).toBeNull();
   })
 })
 
@@ -90,7 +96,7 @@ describe("When logged in and user does not own project", () => {
     remixButton = getByText(/Remix/)
   })
 
-  test("Save button does not render", () => {
+  test("No save button", () => {
     expect(queryByText("Save Project")).toBeNull()
   })
 
@@ -130,16 +136,16 @@ describe("When not logged in", () => {
     ({queryByText} = render(<Provider store={store}><Project/></Provider>));
   })
 
-  test("No remix button when not logged in", () => {
+  test("No remix button", () => {
     expect(queryByText('Remix')).toBeNull();
   })
 
-  test("Save button not shown when not logged in", () =>{
+  test("No save button", () =>{
     expect(queryByText("Save Project")).toBeNull();
   })
 })
 
-describe("Testing remixed project", () => {
+describe("When viewing a remixed project", () => {
   let getByText;
 
   beforeEach(() => {
