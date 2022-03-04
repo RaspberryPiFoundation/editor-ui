@@ -40,6 +40,6 @@ export const remixProject = async (projectIdentifier) => {
   return await post(`${host}/api/projects/phrases/${projectIdentifier}/remix`, {}, headers());
 }
 
-export const readProject = async (projectIdentifier, accessToken) => {
-  return await get(`${host}/api/projects/phrases/${projectIdentifier}`, headers(accessToken));
+export const readProject = async (projectIdentifier) => {
+  return await get(`${host}/api/projects/phrases/${projectIdentifier}`, headers());
 }

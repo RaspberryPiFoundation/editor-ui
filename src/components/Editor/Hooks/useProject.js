@@ -32,12 +32,12 @@ const htmlCode = {
   ]
 }
 
-export const useProject = (projectType, projectIdentifier = '', access_token='') => {
+export const useProject = (projectType, projectIdentifier = '') => {
   const dispatch = useDispatch();
 
   const loadProject = () => {
     (async () => {
-      const response = await readProject(projectIdentifier, access_token)
+      const response = await readProject(projectIdentifier)
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();

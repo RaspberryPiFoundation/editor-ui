@@ -66,7 +66,7 @@ const Project = () => {
           { project.identifier && (
             user !== null ? (
             <>
-              {project.owned_by_user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
+              {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
             </>
             ) : null
           )}
