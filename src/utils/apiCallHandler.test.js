@@ -5,6 +5,8 @@ import { newProject, readProject, remixProject, updateProject } from "./apiCallH
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
 const defaultHeaders = {'headers': {'Accept': 'application/json'}}
+const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25"
+const authHeaders = {'headers': {'Accept': 'application/json', 'Authorization': accessToken}}
 
 describe("Testing project API calls", () => {
 
@@ -23,8 +25,8 @@ describe("Testing project API calls", () => {
       Promise.resolve({data: {project: remixedProject}})
     })
 
-    await remixProject(originalProject['identifier'])
-    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/phrases/${originalProject['identifier']}/remix`), {}, defaultHeaders)
+    await remixProject(originalProject['identifier'], accessToken)
+    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/phrases/${originalProject['identifier']}/remix`), {}, authHeaders)
   })
 
   test("Updating project", async () => {

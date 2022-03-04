@@ -15,7 +15,7 @@ import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
-import { remixProject, updateProject } from '../../../utils/apiCallHandler';
+import { readProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -40,11 +40,11 @@ const Project = () => {
   }
 
   const onClickRemix = async () => {
-    if (!project.identifier) {
+    if (!project.identifier || !user) {
       return;
     }
 
-    const response = await remixProject(project.identifier)
+    const response = await remixProject(project.identifier, user.access_token)
     
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
@@ -61,6 +61,9 @@ const Project = () => {
       <div className='proj-header'>
         <div>
           <h1>{project.name}</h1>
+          { project.parent ? (
+          <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
+         ) : null }
         </div>
         <div className='proj-controls'>
           { project.identifier && (
