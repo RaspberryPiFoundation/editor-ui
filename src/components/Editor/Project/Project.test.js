@@ -19,6 +19,7 @@ describe("When logged in and user owns project", () => {
   let store;
   let saveButton;
   let getByText;
+  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -41,7 +42,7 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    ({getByText} = render(<Provider store={store}><Project/></Provider>));
+    ({getByText, queryByText} = render(<Provider store={store}><Project/></Provider>));
     saveButton = getByText(/Save/)
   })
 
