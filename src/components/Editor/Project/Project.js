@@ -40,7 +40,7 @@ const Project = () => {
   }
 
   const onClickRemix = async () => {
-    if (!project.identifier) {
+    if (!project.identifier || !user) {
       return;
     }
 
