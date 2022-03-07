@@ -13,11 +13,11 @@ describe("Testing project API calls", () => {
   test("Creating project", async () => {
     const blankProject =  {'data': { 'project': {'identifier': 'new-hello-project', 'project_type': 'python'}}}
     axios.post.mockImplementationOnce(() => Promise.resolve(blankProject))
-    
+
     await newProject()
     expect(axios.post).toHaveBeenCalledWith(`${host}/api/default_project/`, {}, defaultHeaders)
   })
-    
+
   test("Remixing project", async () => {
     const originalProject = {'identifier': 'original-hello-project', 'project_type': 'python'}
     axios.post.mockImplementationOnce((url, body, headers) => {
@@ -26,7 +26,7 @@ describe("Testing project API calls", () => {
     })
 
     await remixProject(originalProject['identifier'], accessToken)
-    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/phrases/${originalProject['identifier']}/remix`), {}, authHeaders)
+    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/${originalProject['identifier']}/remix`), {}, authHeaders)
   })
 
   test("Updating project", async () => {
@@ -35,8 +35,8 @@ describe("Testing project API calls", () => {
 
     await updateProject(project)
     expect(axios.put).toHaveBeenCalledWith(
-      `${host}/api/projects/phrases/${project['identifier']}`,
-      { project: project }, 
+      `${host}/api/projects/${project['identifier']}`,
+      { project: project },
       defaultHeaders
     )
   })
@@ -47,6 +47,6 @@ describe("Testing project API calls", () => {
     axios.get.mockImplementationOnce(() => Promise.resolve(projectData))
 
     await readProject(projectIdentifier)
-     expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/phrases/${projectIdentifier}`, defaultHeaders)
+     expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, defaultHeaders)
   })
 })

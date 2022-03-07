@@ -26,8 +26,8 @@ const headers = (accessToken) => {
 
 export const updateProject = async (project, accessToken) => {
   return await put(
-    `${host}/api/projects/phrases/${project.identifier}`,
-    { project: project }, 
+    `${host}/api/projects/${project.identifier}`,
+    { project: project },
     headers(accessToken)
   );
 }
@@ -37,9 +37,9 @@ export const newProject = async () => {
 }
 
 export const remixProject = async (projectIdentifier, accessToken) => {
-  return await post(`${host}/api/projects/phrases/${projectIdentifier}/remix`, {}, headers(accessToken));
+  return await post(`${host}/api/projects/${projectIdentifier}/remix`, {}, headers(accessToken));
 }
 
 export const readProject = async (projectIdentifier) => {
-  return await get(`${host}/api/projects/phrases/${projectIdentifier}`, headers());
+  return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
