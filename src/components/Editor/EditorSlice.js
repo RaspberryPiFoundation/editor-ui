@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
-    project: [],
+    project: {},
     projectLoaded: false,
     error: "",
     nameError: "",
@@ -12,6 +12,10 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
+    addImage: (state, action) => {
+      if (!state.project.images) {state.project.images=[]}
+      state.project.images.push({"name": action.payload.name, "extension": action.payload.extension, "path": action.payload.path})
+    },
     addProjectComponent: (state, action) => {
       state.project.components.push({"name": action.payload.name, "extension": action.payload.extension})
     },
@@ -66,6 +70,7 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  addImage,
   addProjectComponent,
   setEmbedded,
   setNameError,

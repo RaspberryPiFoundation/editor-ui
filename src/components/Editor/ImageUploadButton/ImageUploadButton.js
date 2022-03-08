@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import Modal from 'react-modal';
 
-import { addProjectComponent, setNameError } from '../EditorSlice';
+import { addImage, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import store from '../../../app/store';
@@ -35,7 +35,6 @@ const ImageUploadButton = () => {
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
-    console.log(componentNames)
   
     const closeModal = () => {
         setFiles([])
@@ -67,7 +66,7 @@ const ImageUploadButton = () => {
           files.forEach((file) => {
             const name = file.name.split('.')[0]
             const extension = file.name.split('.').slice(1).join('.');
-            dispatch(addProjectComponent({extension: extension, name: name}));
+            dispatch(addImage({extension: extension, name: name, path: file.path}));
           })
         closeModal()
       }
@@ -106,28 +105,38 @@ const ImageUploadButton = () => {
         >
           <h2>Upload an image</h2>
 
-          {/* <p>Drag and drop an image into the area below or choose an image from a file on your computer</p> */}
-
           <NameErrorMessage />
           <Dropzone 
           onDrop={
             useCallback(acceptedFiles => {
                 setFiles(prev => [...prev, ...acceptedFiles]);
                 console.log(acceptedFiles)
+                acceptedFiles.forEach((file) => {
+                    const reader = new FileReader()
+              
+                    reader.onabort = () => console.log('file reading was aborted')
+                    reader.onerror = () => console.log('file reading has failed')
+                    reader.onload = () => {
+                    // Do whatever you want with the file contents
+                      const binaryStr = reader.result
+                      console.log(binaryStr)
+                    }
+                    reader.readAsArrayBuffer(file)
+                  })
               }, [])
               }>
             {({getRootProps, getInputProps}) => (
               <section>
               <div {...getRootProps()} className='dropzone-area'>
                   <input {...getInputProps()} />
-                  <p className='dropzone-info'>Drag and drop some images here, or click to select images</p>
-                  {files.map((file, i) => <p key={i}>{file.name}</p>)}
+                  <p className='dropzone-info'>Drag and drop images here, or click to select images from file</p>
+                  {files.map((file, i) => 
+                  <p key={i}>{file.name}</p>)}
                 </div>
               </section>
             )}
           </Dropzone>
-          <div>
-            {/* <Button buttonText='Choose from File' /> */}
+          <div className='modal-footer'>
             <Button buttonText='Cancel' onClickHandler={closeModal} />
             <Button buttonText='Save' onClickHandler={uploadImages} />
           </div>
