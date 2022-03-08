@@ -1,6 +1,6 @@
 import './ImageUploadButton.css';
 
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import Modal from 'react-modal';
@@ -29,6 +29,7 @@ const allowedExtensionsString = (projectType) => {
 
 const ImageUploadButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [files, setFiles] = useState([]);
     const dispatch = useDispatch();
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
@@ -39,7 +40,7 @@ const ImageUploadButton = () => {
       dispatch(setNameError(""));
       setIsOpen(true)
     };
-    const createComponent = () => {
+    const uploadImages = () => {
       const fileName = document.getElementById('name').value
       const name = fileName.split('.')[0];
       const extension = fileName.split('.').slice(1).join('.');
@@ -63,6 +64,10 @@ const ImageUploadButton = () => {
         return false;
       }
     }
+
+    // const fileNameText = (file) => {
+    //     return <p>{file.name}</p>
+    // }
 
     const customStyles = {
       content: {
@@ -91,14 +96,19 @@ const ImageUploadButton = () => {
           {/* <p>Drag and drop an image into the area below or choose an image from a file on your computer</p> */}
 
           <NameErrorMessage />
-          {/* <label htmlFor='name'>Name: </label>
-          <input type='text' name='name' id='name'></input> */}
-          <Dropzone onDrop={acceptedFiles => console.log("thanks for your file")}>
+          <Dropzone 
+          onDrop={
+            useCallback(acceptedFiles => {
+                setFiles(prev => [...prev, ...acceptedFiles]);
+                console.log(acceptedFiles)
+              }, [])
+              }>
             {({getRootProps, getInputProps}) => (
               <section>
               <div {...getRootProps()} className='dropzone-area'>
                   <input {...getInputProps()} />
-                  <p>Drag and drop some images here, or click to select images</p>
+                  <p className='dropzone-info'>Drag and drop some images here, or click to select images</p>
+                  {files.map((file, i) => <p key={i}>{file.name}</p>)}
                 </div>
               </section>
             )}
@@ -106,7 +116,7 @@ const ImageUploadButton = () => {
           <div>
             {/* <Button buttonText='Choose from File' /> */}
             <Button buttonText='Cancel' onClickHandler={closeModal} />
-            <Button buttonText='Save' onClickHandler={createComponent} />
+            <Button buttonText='Save' onClickHandler={uploadImages} />
           </div>
           
         </Modal>
