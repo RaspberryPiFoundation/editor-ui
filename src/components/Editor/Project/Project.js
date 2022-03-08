@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded } from '../EditorSlice';
+import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 import { readProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
@@ -87,6 +88,7 @@ const Project = () => {
                 )
               )}
               { project.project_type=="python" ? <NewComponentButton /> : null }
+              <ImageUploadButton />
             </TabList>
 
             { project.components.map((file,i) => (
