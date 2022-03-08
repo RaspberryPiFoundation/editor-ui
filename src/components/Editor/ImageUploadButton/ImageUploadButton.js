@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
+import store from '../../../app/store';
 
 const allowedExtensions = {
   "python": [
@@ -34,40 +35,52 @@ const ImageUploadButton = () => {
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+    console.log(componentNames)
   
-    const closeModal = () => setIsOpen(false);
+    const closeModal = () => {
+        setFiles([])
+        setIsOpen(false);
+    }
     const showModal = () => {
       dispatch(setNameError(""));
       setIsOpen(true)
     };
     const uploadImages = () => {
-      const fileName = document.getElementById('name').value
-      const name = fileName.split('.')[0];
-      const extension = fileName.split('.').slice(1).join('.');
-      if (isValidFileName(fileName)) {
-        dispatch(addProjectComponent({extension: extension, name: name}));
-        closeModal();
-      } else if (componentNames.includes(fileName)) {
-        dispatch(setNameError("File names must be unique."));
-      } else if (!allowedExtensions[projectType].includes(extension)) {
-        dispatch(setNameError(`File names must end in ${allowedExtensionsString(projectType)}.`));
-      } else {
-        dispatch(setNameError("Error"));
+      files.every((file) => {
+        const fileName = file.name
+        const extension = fileName.split('.').slice(1).join('.').toLowerCase();
+        if (componentNames.includes(fileName) || files.filter(file => file.name === fileName).length > 1) {
+          dispatch(setNameError("Image names must be unique."));
+          return false
+        }
+        else if (isValidFileName(fileName)) {
+            return true
+        } else if (!allowedExtensions[projectType].includes(extension)) {
+          dispatch(setNameError(`Image names must end in ${allowedExtensionsString(projectType)}.`));
+          return false
+        } else {
+          dispatch(setNameError("Error"));
+          return false
+        }
+      })
+      if (store.getState().editor.nameError==='') {
+          files.forEach((file) => {
+            const name = file.name.split('.')[0]
+            const extension = file.name.split('.').slice(1).join('.');
+            dispatch(addProjectComponent({extension: extension, name: name}));
+          })
+        closeModal()
       }
     }
 
     const isValidFileName = (fileName) => {
-      const extension = fileName.split('.').slice(1).join('.')
+      const extension = fileName.split('.').slice(1).join('.').toLowerCase()
       if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
         return true;
       } else {
         return false;
       }
     }
-
-    // const fileNameText = (file) => {
-    //     return <p>{file.name}</p>
-    // }
 
     const customStyles = {
       content: {
