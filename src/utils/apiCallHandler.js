@@ -43,3 +43,7 @@ export const remixProject = async (projectIdentifier, accessToken) => {
 export const readProject = async (projectIdentifier) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
+
+export const uploadImage = async (image) => {
+  return await post(`${host}/api/images`, {image: image}, headers())
+}

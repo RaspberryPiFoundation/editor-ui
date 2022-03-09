@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { newProject, readProject, remixProject, updateProject } from "./apiCallHandler";
+import { newProject, readProject, remixProject, updateProject, uploadImage } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -48,5 +48,13 @@ describe("Testing project API calls", () => {
 
     await readProject(projectIdentifier)
      expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, defaultHeaders)
+  })
+
+  test("Upload image", async () => {
+    const image = new File(['(⌐□_□)'], 'chucknorris.png', {type: 'image/png'})
+    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, url: 'google.drive.com/chucknorris.png'}))
+
+    await uploadImage(image)
+    expect(axios.post).toHaveBeenCalledWith(`${host}/api/images`, {image: image}, defaultHeaders)
   })
 })
