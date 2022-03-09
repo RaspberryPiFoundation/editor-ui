@@ -1,15 +1,17 @@
+import './ProjectImages.css';
+
 import { useSelector } from 'react-redux'
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.images);
   projectImages.forEach((image) => console.log(image))
   return (
-    <section>
+    <section className='project-image-gallery'>
       <h2>Project Images</h2>
-      <div>
+      <div className='project-images'>
         {projectImages.map((image, i) => (
-          <div key={i}>
-            <img src={image.url} alt={image.name} height='150px'/>
+          <div key={i} className='project-image-block'>
+            <img className='project-image' src={image.url} alt={image.name}/>
             <p>{image.name}.{image.extension}</p>
           </div>
         ))}
