@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.images);
-  projectImages.forEach((image) => console.log(image))
   return (
     <section className='project-image-gallery'>
       <h2>Project Images</h2>

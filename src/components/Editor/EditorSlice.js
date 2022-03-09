@@ -50,8 +50,6 @@ export const EditorSlice = createSlice({
     },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
-      console.log(key)
-      console.log(state.project.components[key])
       const fileName = action.payload.name;
       state.project.components[key].name = fileName;
     },
