@@ -27,6 +27,9 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
+      if (!state.project.images) {
+        state.project.images = []
+      }
     },
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;

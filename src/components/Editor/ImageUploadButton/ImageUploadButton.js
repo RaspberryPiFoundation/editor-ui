@@ -35,8 +35,8 @@ const ImageUploadButton = () => {
     const dispatch = useDispatch();
     const projectType = useSelector((state) => state.editor.project.project_type);
     const projectIdentifier = useSelector((state) => state.editor.project.identifier);
-    const projectComponents = useSelector((state) => state.editor.project.components);
-    const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`);
+    const projectImages = useSelector((state) => state.editor.project.images);
+    const imageNames = projectImages.map(image => `${image.name}.${image.extension}`);
     const user = useSelector((state) => state.auth.user);
   
     const closeModal = () => {
@@ -51,11 +51,11 @@ const ImageUploadButton = () => {
       files.every((file) => {
         const fileName = file.name
         const extension = fileName.split('.').slice(1).join('.').toLowerCase();
-        if (componentNames.includes(fileName) || files.filter(file => file.name === fileName).length > 1) {
+        if (imageNames.includes(fileName) || files.filter(file => file.name === fileName).length > 1) {
           dispatch(setNameError("Image names must be unique."));
           return false
         }
-        else if (isValidFileName(fileName)) {
+        else if (isValidFileName(fileName, files)) {
             return true
         } else if (!allowedExtensions[projectType].includes(extension)) {
           dispatch(setNameError(`Image names must end in ${allowedExtensionsString(projectType)}.`));
@@ -77,9 +77,9 @@ const ImageUploadButton = () => {
       }
     }
 
-    const isValidFileName = (fileName) => {
+    const isValidFileName = (fileName, files) => {
       const extension = fileName.split('.').slice(1).join('.').toLowerCase()
-      if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
+      if (allowedExtensions[projectType].includes(extension) && !imageNames.includes(fileName) && files.filter(file => file.name === fileName).length == 1) {
         return true;
       } else {
         return false;
