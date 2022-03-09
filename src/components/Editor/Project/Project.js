@@ -89,7 +89,7 @@ const Project = () => {
                 )
               )}
               { project.project_type=="python" ? <NewComponentButton /> : null }
-              <ImageUploadButton />
+              { user !== null &&  project.user_id === user.profile.user? (<ImageUploadButton />): null}
             </TabList>
 
             { project.components.map((file,i) => (
