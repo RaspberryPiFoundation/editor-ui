@@ -46,6 +46,10 @@ describe("When logged in and user owns project", () => {
     saveButton = getByText(/Save/)
   })
 
+  test("Upload image button renders", () => {
+    expect(queryByText(/Upload Image/)).not.toBeNull()
+  })
+
   test("Save button renders", () => {
       expect(saveButton.textContent).toBe("Save Project");
   })
@@ -97,6 +101,10 @@ describe("When logged in and user does not own project", () => {
     remixButton = getByText(/Remix/)
   })
 
+  test("Image upload button does not render", () => {
+    expect(queryByText(/Upload Image/)).toBeNull()
+  })
+
   test("No save button", () => {
     expect(queryByText("Save Project")).toBeNull()
   })
@@ -135,6 +143,10 @@ describe("When not logged in", () => {
       }
     const store = mockStore(initialState);
     ({queryByText} = render(<Provider store={store}><Project/></Provider>));
+  })
+
+  test("No upload image button", () => {
+    expect(queryByText(/Upload Image/)).toBeNull()
   })
 
   test("No remix button", () => {
