@@ -29,6 +29,7 @@ describe("When logged in and user owns project", () => {
         project: {
           identifier: "hello-world-project",
           components: [],
+          images: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
       },
@@ -60,7 +61,7 @@ describe("When logged in and user owns project", () => {
     const api_host = process.env.REACT_APP_API_ENDPOINT;
     const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
     const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-    const project = {"components": [], "identifier": "hello-world-project", "user_id": user_id}
+    const project = {"components": [], "images": [], "identifier": "hello-world-project", "user_id": user_id}
     const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
   })
@@ -84,6 +85,7 @@ describe("When logged in and user does not own project", () => {
         project: {
           identifier: "hello-world-project",
           components: [],
+          images: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
       },
@@ -134,7 +136,8 @@ describe("When not logged in", () => {
         editor: {
           project: {
             identifier: "hello-world-project",
-            components: []
+            components: [],
+            images: [],
           },
         },
         auth: {
@@ -169,6 +172,7 @@ describe("When viewing a remixed project", () => {
         project: {
           identifier: "hello-world-project",
           components: [],
+          images: [],
           parent: {
             name: "hello world",
             identifier: "remixed-parent-project"
