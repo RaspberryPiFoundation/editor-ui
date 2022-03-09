@@ -9,6 +9,7 @@ import { addImage, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import store from '../../../app/store';
+import { uploadImage } from '../../../utils/apiCallHandler';
 
 const allowedExtensions = {
   "python": [
@@ -32,9 +33,11 @@ const ImageUploadButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const dispatch = useDispatch();
-    const projectType = useSelector((state) => state.editor.project.project_type)
+    const projectType = useSelector((state) => state.editor.project.project_type);
+    const projectIdentifier = useSelector((state) => state.editor.project.identifier);
     const projectComponents = useSelector((state) => state.editor.project.components);
-    const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+    const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`);
+    const user = useSelector((state) => state.auth.user);
   
     const closeModal = () => {
         setFiles([])
@@ -44,7 +47,7 @@ const ImageUploadButton = () => {
       dispatch(setNameError(""));
       setIsOpen(true)
     };
-    const uploadImages = () => {
+    const uploadImages = async () => {
       files.every((file) => {
         const fileName = file.name
         const extension = fileName.split('.').slice(1).join('.').toLowerCase();
@@ -66,7 +69,9 @@ const ImageUploadButton = () => {
           files.forEach((file) => {
             const name = file.name.split('.')[0]
             const extension = file.name.split('.').slice(1).join('.');
-            dispatch(addImage({extension: extension, name: name, path: file.path}));
+            // const response = await uploadImage(projectIdentifier, user.access_token, image)
+            const response = {status: 200, url: 'https://images.unsplash.com/photo-1646761838823-c86156af055b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}
+            dispatch(addImage({extension: extension, name: name, url: response.url}));
           })
         closeModal()
       }

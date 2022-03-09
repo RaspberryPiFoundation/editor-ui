@@ -44,6 +44,10 @@ export const readProject = async (projectIdentifier) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
 
-export const uploadImage = async (image) => {
-  return await post(`${host}/api/images`, {image: image}, headers())
+export const uploadImage = async (projectIdentifier, accessToken, image) => {
+  return await post(`${host}/api/projects/${projectIdentifier}/images`, {image: image}, headers(accessToken))
+}
+
+export const getImage = async (url) => {
+  return await get(url, headers())
 }

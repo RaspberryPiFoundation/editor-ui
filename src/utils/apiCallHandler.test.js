@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { newProject, readProject, remixProject, updateProject, uploadImage } from "./apiCallHandler";
+import { getImage, newProject, readProject, remixProject, updateProject, uploadImage } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -47,14 +47,25 @@ describe("Testing project API calls", () => {
     axios.get.mockImplementationOnce(() => Promise.resolve(projectData))
 
     await readProject(projectIdentifier)
-     expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, defaultHeaders)
+    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, defaultHeaders)
   })
 
   test("Upload image", async () => {
-    const image = new File(['(⌐□_□)'], 'chucknorris.png', {type: 'image/png'})
-    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, url: 'google.drive.com/chucknorris.png'}))
+    const projectIdentifier = "my-amazing-project"
+    const image = new File(['(⌐□_□)'], 'image1.png', {type: 'image/png'})
+    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, url: 'google.drive.com/image1.png'}))
 
-    await uploadImage(image)
-    expect(axios.post).toHaveBeenCalledWith(`${host}/api/images`, {image: image}, defaultHeaders)
+    await uploadImage(projectIdentifier, accessToken, image)
+    expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}/images`, {image: image}, authHeaders)
+  })
+
+  test("Get image", async () => {
+    const image = new File(['(⌐□_□)'], 'image1.png', {type: 'image/png'})
+    const imageUrl = 'google.drive.com/image1.png'
+
+    axios.get.mockImplementationOnce(() => Promise.resolve({image: image}))
+
+    await getImage(imageUrl)
+    expect(axios.get).toHaveBeenCalledWith(imageUrl, defaultHeaders)
   })
 })

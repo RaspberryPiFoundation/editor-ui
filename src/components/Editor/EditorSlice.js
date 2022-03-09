@@ -14,7 +14,7 @@ export const EditorSlice = createSlice({
   reducers: {
     addImage: (state, action) => {
       if (!state.project.images) {state.project.images=[]}
-      state.project.images.push({"name": action.payload.name, "extension": action.payload.extension, "path": action.payload.path})
+      state.project.images.push({"name": action.payload.name, "extension": action.payload.extension, "url": action.payload.url})
     },
     addProjectComponent: (state, action) => {
       state.project.components.push({"name": action.payload.name, "extension": action.payload.extension})
