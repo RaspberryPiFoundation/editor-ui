@@ -9,12 +9,18 @@ import RunnerFactory from '../Runners/RunnerFactory'
 import { useHistory } from 'react-router-dom'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+<<<<<<< HEAD
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+=======
+import { ToastContainer, toast } from 'react-toastify';
+>>>>>>> main
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded } from '../EditorSlice';
+import { setProjectLoaded, setProject } from '../EditorSlice';
+import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
+import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -29,13 +35,10 @@ const Project = () => {
       return;
     }
 
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.put(
-      `${api_host}/api/projects/phrases/${project.identifier}`,
-      { project: project }
-    );
+    const response = await updateProject(project, user.access_token)
 
     if(response.status === 200) {
+      dispatch(setProject(response.data));
       toast("Project saved!", {
         position: toast.POSITION.TOP_CENTER
       });
@@ -43,14 +46,11 @@ const Project = () => {
   }
 
   const onClickRemix = async () => {
-    if (!project.identifier) {
+    if (!project.identifier || !user) {
       return;
     }
 
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const response = await axios.post(
-      `${api_host}/api/projects/phrases/${project.identifier}/remix`
-    );
+    const response = await remixProject(project.identifier, user.access_token)
 
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
@@ -67,12 +67,15 @@ const Project = () => {
       <div className='proj-header'>
         <div>
           <h1>{project.name}</h1>
+          { project.parent ? (
+          <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
+         ) : null }
         </div>
         <div className='proj-controls'>
           { project.identifier && (
             user !== null ? (
             <>
-              <Button onClickHandler={onClickRemix} buttonText="Remix Project" />
+              {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
             </>
             ) : null
           )}
@@ -99,6 +102,7 @@ const Project = () => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
+              { project.project_type === "python" ? <NewComponentButton /> : null }
             </TabList>
 
             { project.components.map((file,i) => (

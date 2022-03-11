@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useProject } from '../Editor/Hooks/useProject'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
 import EmbeddedControls from './EmbeddedControls/EmbeddedControls'
-import { setEmbedded, triggerCodeRun } from '../Editor/EditorSlice'
+import { setEmbedded } from '../Editor/EditorSlice'
 
 const EmbeddedViewer = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
