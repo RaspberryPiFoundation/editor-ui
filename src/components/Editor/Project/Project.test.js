@@ -69,7 +69,6 @@ describe("When logged in and user owns project", () => {
     const actions = store.getActions();
     const expectedPayload = { type: 'editor/setProject', payload: project }
     expect(actions).toEqual([expectedPayload])
-    // expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
   })
 
   test("No remix button", () => {
