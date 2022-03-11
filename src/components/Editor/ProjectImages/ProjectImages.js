@@ -14,7 +14,6 @@ const ProjectImages = () => {
             <p>{image.name}.{image.extension}</p>
           </div>
         ))}
-
       </div>
     </section>
   )

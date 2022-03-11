@@ -1,6 +1,7 @@
 .project-image-block {
     display: inline-block;
     width: 150px;
+    height: 300px;
     word-break: break-all;
     text-align: center;
     vertical-align: top;
