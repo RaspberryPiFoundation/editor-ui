@@ -21,7 +21,8 @@ describe ("Testing basic input span functionality", () => {
                         {
                             content: "input()"
                         }
-                    ]
+                    ],
+                    images: []
                 },
                 codeRunTriggered: true
             }
@@ -65,7 +66,8 @@ test("Input box not there when input function not called", () => {
                     {
                         content: "print('Hello')"
                     }
-                ]
+                ],
+                images: []
             },
             codeRunTriggered: true
         }
@@ -88,7 +90,8 @@ describe ("Testing basic input span functionality", () => {
                         {
                             content: "input()"
                         }
-                    ]
+                    ],
+                    images: []
                 },
                 codeRunTriggered: true,
                 codeRunStopped: true
