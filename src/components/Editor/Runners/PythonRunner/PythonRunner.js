@@ -10,6 +10,7 @@ import store from '../../../../app/store'
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const projectImages = useSelector((state) => state.editor.project.images);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const outputCanvas = useRef();
@@ -191,6 +192,14 @@ const PythonRunner = () => {
     });
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
+    // const userAssets = projectImages.forEach((image) => {
+    //   let assets;
+    //   assets[`${image['name']}.${image['extension']}`] = image['url']
+    // })
+
+    Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
+
+    console.log(Sk.TurtleGraphics.assets)
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
