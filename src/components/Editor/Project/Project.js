@@ -12,10 +12,10 @@ import 'react-tabs/style/react-tabs.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded } from '../EditorSlice';
+import { setProjectLoaded, setProject } from '../EditorSlice';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
-import { readProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
+import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -29,10 +29,11 @@ const Project = () => {
     if (!project.identifier) {
       return;
     }
-    
+
     const response = await updateProject(project, user.access_token)
-  
+
     if(response.status === 200) {
+      dispatch(setProject(response.data));
       toast("Project saved!", {
         position: toast.POSITION.TOP_CENTER
       });
@@ -45,7 +46,7 @@ const Project = () => {
     }
 
     const response = await remixProject(project.identifier, user.access_token)
-    
+
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
     dispatch(setProjectLoaded(false));
@@ -86,7 +87,7 @@ const Project = () => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
-              { project.project_type=="python" ? <NewComponentButton /> : null }
+              { project.project_type === "python" ? <NewComponentButton /> : null }
             </TabList>
 
             { project.components.map((file,i) => (

@@ -2,7 +2,7 @@
 import './EditorPanel.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateProject } from '../EditorSlice'
+import { updateProjectComponent } from '../EditorSlice'
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
@@ -23,7 +23,7 @@ const EditorPanel = ({
   let timeout;
 
   const updateStoredProject = (content) => {
-    dispatch(updateProject({ extension: extension, name: fileName, code: content}));
+    dispatch(updateProjectComponent({ extension: extension, name: fileName, code: content}));
   }
 
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {

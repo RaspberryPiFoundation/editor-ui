@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
-import configureStore, {getActions} from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 
 import Project from "./Project";
 import axios from "axios";
@@ -59,6 +59,17 @@ describe("When logged in and user owns project", () => {
     const project = {"components": [], "identifier": "hello-world-project", "user_id": user_id}
     const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
+  })
+
+  test("Clicking save button dispatches project once returned", async () => {
+    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
+    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project }))
+    fireEvent.click(saveButton)
+    await new Promise(process.nextTick);
+    const actions = store.getActions();
+    const expectedPayload = { type: 'editor/setProject', payload: project }
+    expect(actions).toEqual([expectedPayload])
+    // expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
   })
 
   test("No remix button", () => {

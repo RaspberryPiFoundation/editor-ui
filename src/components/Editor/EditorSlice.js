@@ -13,7 +13,8 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     addProjectComponent: (state, action) => {
-      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension})
+      const count = state.project.components.length;
+      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": '', index: count})
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
@@ -27,7 +28,7 @@ export const EditorSlice = createSlice({
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;
     },
-    updateProject: (state, action) => {
+    updateProjectComponent: (state, action) => {
       const extension = action.payload.extension;
       const fileName = action.payload.name;
       const code = action.payload.code;
@@ -71,7 +72,7 @@ export const {
   setNameError,
   setProject,
   setProjectLoaded,
-  updateProject,
+  updateProjectComponent,
   updateComponentName,
   setError,
   triggerCodeRun,
