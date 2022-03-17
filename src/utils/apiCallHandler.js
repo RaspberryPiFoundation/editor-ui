@@ -36,8 +36,8 @@ export const newProject = async () => {
   return await post(`${host}/api/default_project/`, {}, headers());
 }
 
-export const remixProject = async (projectIdentifier, accessToken) => {
-  return await post(`${host}/api/projects/${projectIdentifier}/remix`, {}, headers(accessToken));
+export const remixProject = async (project, accessToken) => {
+  return await post(`${host}/api/projects/${project.identifier}/remix`, { project: project}, headers(accessToken));
 }
 
 export const readProject = async (projectIdentifier) => {

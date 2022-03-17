@@ -45,7 +45,7 @@ const Project = () => {
       return;
     }
 
-    const response = await remixProject(project.identifier, user.access_token)
+    const response = await remixProject(project, user.access_token)
 
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
