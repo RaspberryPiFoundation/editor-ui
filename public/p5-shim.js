@@ -197,7 +197,7 @@ const $builtinmodule = function (name) {
   });
 
   colorClass = function ($gbl, $loc) {
-    $loc.__init__ = new Sk.builtin.func(function () {
+    $loc.__init__ = new Sk.builtin.func(function (self) {
       const argVals = processArgs(arguments);
       let data = argVals.filter(function( element ) {
         return element !== undefined;
@@ -206,7 +206,7 @@ const $builtinmodule = function (name) {
     });
   };
 
-  mod.color = Sk.misceval.buildClass(mod, colorClass, "color", []);
+  mod.Color = Sk.misceval.buildClass(mod, colorClass, "Color", []);
 
   mod.get = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
@@ -1228,9 +1228,9 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // frameRate is only a function, not a variable:
   // use environment.frameRate for value
-  mod.frame_rate = new Sk.builtin.func(function (fr) {
-    mod.pInst.frameRate(fr.v);
-  });
+  // mod.frame_rate = new Sk.builtin.func(function (fr) {
+  //   mod.pInst.frameRate(fr.v);
+  // });
 
   // NOTE: difference with ProcessingJS
   // Use mouse.pressed rather than mousePressed
@@ -1387,7 +1387,7 @@ const $builtinmodule = function (name) {
   //
   //
   //  //////////////////////////////////////////////////////////////////////
-  mod.run = new Sk.builtin.func(function () {
+  _run = function (frame_rate) {
     const sketchProc = (sketch) => {
       mod.pInst = sketch;
 
@@ -1414,6 +1414,8 @@ const $builtinmodule = function (name) {
         }
       };
 
+      mod.pInst.frameRate(frame_rate.v)
+
       sketch.draw = function () {
         mod.frameCount = sketch.frameCount;
         if (Sk.globals["draw"]) {
@@ -1429,7 +1431,12 @@ const $builtinmodule = function (name) {
 
     const p5Sketch = document.getElementById(Sk.p5Sketch);
     mod.p = new window.p5(sketchProc, p5Sketch);
-  });
+  };
+
+  _run.co_varnames = ['frame_rate'];
+  _run.$defaults = [new Sk.builtin.int_(60)];
+
+  mod.run = new Sk.builtin.func(_run)
 
   mouseClass = function ($gbl, $loc) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
