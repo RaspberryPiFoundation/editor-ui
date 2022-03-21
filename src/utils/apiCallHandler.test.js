@@ -19,14 +19,14 @@ describe("Testing project API calls", () => {
   })
 
   test("Remixing project", async () => {
-    const originalProject = {'identifier': 'original-hello-project', 'project_type': 'python'}
+    const originalProject = { identifier: 'original-hello-project', project_type: 'python'}
     axios.post.mockImplementationOnce((url, body, headers) => {
       const remixedProject = {'identifier': 'remixed-hello-project', 'project_type': 'python'}
       Promise.resolve({data: {project: remixedProject}})
     })
 
-    await remixProject(originalProject['identifier'], accessToken)
-    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/${originalProject['identifier']}/remix`), {}, authHeaders)
+    await remixProject(originalProject, accessToken)
+    expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/${originalProject['identifier']}/remix`), { "project": { "identifier": "original-hello-project", "project_type": "python" } }, authHeaders)
   })
 
   test("Updating project", async () => {

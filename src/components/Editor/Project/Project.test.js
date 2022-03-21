@@ -122,7 +122,17 @@ describe("When logged in and user does not own project", () => {
     const api_host = process.env.REACT_APP_API_ENDPOINT;
     const projectIdentifier = store.getState()['editor']['project']['identifier']
     const accessToken = store.getState()['auth']['user']['access_token']
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/${projectIdentifier}/remix`, {}, {"headers": {"Accept": "application/json", "Authorization": accessToken}})
+    expect(axios.post).toHaveBeenCalledWith(
+      `${api_host}/api/projects/${projectIdentifier}/remix`,
+      {
+        "project":
+        {
+          "components": [],
+          "identifier": "hello-world-project",
+          "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+        }
+      },
+      {"headers": {"Accept": "application/json", "Authorization": accessToken}})
   })
 })
 
