@@ -346,7 +346,7 @@ const $builtinmodule = function (name) {
     mod.pInst.noSmooth();
   });
 
-  mod.rectMode = new Sk.builtin.func(function (mode) {
+  mod.rect_mode = new Sk.builtin.func(function (mode) {
     mod.pInst.rectMode(mode.v);
   });
 
@@ -509,7 +509,7 @@ const $builtinmodule = function (name) {
   // ==========
 
   // Attributes
-  mod.textAlign = new Sk.builtin.func(function (horizAlign, vertAlign) {
+  mod.text_align = new Sk.builtin.func(function (horizAlign, vertAlign) {
     // textAlign(horizAlign)
     // textAlign(horizAlign, vertAlign)
     if (typeof(vertAlign) === "undefined") {
@@ -523,7 +523,7 @@ const $builtinmodule = function (name) {
     mod.pInst.textLeading(leading.v);
   });
 
-  mod.textSize = new Sk.builtin.func(function (theSize) {
+  mod.text_size = new Sk.builtin.func(function (theSize) {
     mod.pInst.textSize(theSize.v);
   });
 
@@ -1250,8 +1250,8 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // Use environment.focused
 
-  mod.width = new Sk.builtin.int_(0);
-  mod.height = new Sk.builtin.int_(0);
+  Sk.builtins.width = new Sk.builtin.int_(0);
+  Sk.builtins.height = new Sk.builtin.int_(0);
   mod.renderMode = mod.P2D;
 
   mod.size = new Sk.builtin.func(function (w, h, mode) {
@@ -1259,26 +1259,21 @@ const $builtinmodule = function (name) {
       mode = mod.P2D;
     }
     mod.pInst.createCanvas(w.v, h.v, mode.v);
-    mod.width = new Sk.builtin.int_(mod.pInst.width);
-    mod.height = new Sk.builtin.int_(mod.pInst.height);
+    Sk.builtins.width = new Sk.builtin.int_(mod.pInst.width);
+    Sk.builtins.height = new Sk.builtin.int_(mod.pInst.height);
     mod.renderMode = mode;
   });
 
   mod.exitp = new Sk.builtin.func(function () {
     mod.pInst.exit();
   });
-
-  // NOTE: difference with ProcessingJS
-  // Use mouseX() or mouse.x rather than mouseX
-  mod.mouseX = new Sk.builtin.func(function () {
-    return new Sk.builtin.float_(mod.pInst.mouseX);
-  });
-
-  // NOTE: difference with ProcessingJS
-  // Use mouseY() or mouse.y rather than mouseY
-  mod.mouseY = new Sk.builtin.func(function () {
-    return new Sk.builtin.float_(mod.pInst.mouseY);
-  });
+  
+  Sk.builtins.mouse_x = new Sk.builtin.float_(-1000)
+  Sk.builtins.mouse_y = new Sk.builtin.float_(-1000)
+  window.addEventListener('mousemove', e => {
+    Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
+    Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+  })
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1402,13 +1397,13 @@ const $builtinmodule = function (name) {
           Sk.misceval.callsimArray(Sk.globals["setup"]);
 
           // Thanks pyp5.js!
-          const callBacks = ["deviceMoved", "deviceTurned", "deviceShaken", "windowResized", "keyPressed", "keyReleased", "keyTyped",
-              "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseMoved", "mouseDragged", "mouseWheel", "touchStarted",
-              "touchMoved", "touchEnded"];
+          const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "window_resized": "windowResized", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped",
+              "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_released": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted",
+              "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
 
-          for (const cb of callBacks) {
+          for (const cb of Object.keys(callBacks)) {
             if (Sk.globals[cb]) {
-              sketch[cb] = new Function("try {Sk.misceval.callsimArray(Sk.globals['" + cb + "']);} catch(e) {Sk.uncaughtException(e);}");
+              sketch[callBacks[cb]] = new Function("try {Sk.misceval.callsimArray(Sk.globals['" + cb + "']);} catch(e) {Sk.uncaughtException(e);}");
             }
           }
         }
@@ -1417,7 +1412,7 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v)
 
       sketch.draw = function () {
-        mod.frameCount = sketch.frameCount;
+        mod.frame_count = sketch.frame_count;
         if (Sk.globals["draw"]) {
           try {
             // console.log('drawing')
@@ -1490,7 +1485,7 @@ const $builtinmodule = function (name) {
   environmentClass = function ($gbl, $loc) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
-      if (key === "frameCount") {
+      if (key === "frame_count") {
         return Sk.builtin.assk$(mod.pInst.frameCount);
       }
       else if (key === "frameRate") {
