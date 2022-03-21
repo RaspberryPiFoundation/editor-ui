@@ -267,7 +267,7 @@ const $builtinmodule = function (name) {
     mod.pInst.fill(...argVals);
   });
 
-  mod.noFill = new Sk.builtin.func(function () {
+  mod.no_fill = new Sk.builtin.func(function () {
     mod.pInst.noFill();
   });
 
@@ -362,7 +362,7 @@ const $builtinmodule = function (name) {
     mod.pInst.strokeJoin(join.v);
   });
 
-  mod.strokeWeight = new Sk.builtin.func(function (weight) {
+  mod.stroke_weight = new Sk.builtin.func(function (weight) {
     mod.pInst.strokeWeight(weight.v);
   });
 
@@ -1267,7 +1267,8 @@ const $builtinmodule = function (name) {
   mod.exitp = new Sk.builtin.func(function () {
     mod.pInst.exit();
   });
-  
+
+  // Probably need to think of more sensible initial values for these, but will change as soon as you move the mouse
   Sk.builtins.mouse_x = new Sk.builtin.float_(-1000)
   Sk.builtins.mouse_y = new Sk.builtin.float_(-1000)
   window.addEventListener('mousemove', e => {
@@ -1357,6 +1358,14 @@ const $builtinmodule = function (name) {
     mod.pInst.push();
   });
 
+  mod.pop_matrix = new Sk.builtin.func(function() {
+    mod.pInst.popMatrix();
+  });
+
+  mod.push_matrix = new Sk.builtin.func(function() {
+    mod.pInst.pushMatrix();
+  });
+
   mod.applyMatrix = new Sk.builtin.func(function() {
     const args = Array.prototype.slice.call(arguments, 0, 16);
 
@@ -1412,7 +1421,7 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v)
 
       sketch.draw = function () {
-        mod.frame_count = sketch.frame_count;
+        Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
         if (Sk.globals["draw"]) {
           try {
             // console.log('drawing')
@@ -1488,7 +1497,7 @@ const $builtinmodule = function (name) {
       if (key === "frame_count") {
         return Sk.builtin.assk$(mod.pInst.frameCount);
       }
-      else if (key === "frameRate") {
+      else if (key === "frame_rate") {
         return Sk.builtin.assk$(mod.pInst.frameRate);
       }
       else if (key === "height") {
