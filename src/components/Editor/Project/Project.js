@@ -19,6 +19,7 @@ import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const embedded = useSelector((state) => state.editor.isEmbedded);
   const dispatch = useDispatch();
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
@@ -59,23 +60,25 @@ const Project = () => {
 
   return (
     <div className='proj'>
-      <div className='proj-header'>
-        <div>
-          <h1>{project.name}</h1>
-          { project.parent ? (
-          <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
-         ) : null }
+      { embedded !== true ? (
+        <div className='proj-header'>
+          <div>
+            <h1>{project.name}</h1>
+            { project.parent ? (
+            <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
+          ) : null }
+          </div>
+          <div className='proj-controls'>
+            { project.identifier && (
+              user !== null ? (
+              <>
+                {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
+              </>
+              ) : null
+            )}
+          </div>
         </div>
-        <div className='proj-controls'>
-          { project.identifier && (
-            user !== null ? (
-            <>
-              {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
-            </>
-            ) : null
-          )}
-        </div>
-      </div>
+      ) : null }
       <div>
         <RunnerControls/>
       </div>

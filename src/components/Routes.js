@@ -30,11 +30,15 @@ const Routes = () => (
         path="/:projectType"
         component={ProjectComponentLoader}
       />
-
       <Route
         exact
         path="/:projectType/:identifier"
         component={ProjectComponentLoader}
+      />
+      <Route
+        exact
+        path="/embedded/:projectType/:identifier"
+        render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
       />
       <Route
         exact

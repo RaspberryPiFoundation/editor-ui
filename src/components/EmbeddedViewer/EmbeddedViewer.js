@@ -1,21 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './EmbeddedViewer.css';
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux'
 import { useProject } from '../Editor/Hooks/useProject'
+import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
 import EmbeddedControls from './EmbeddedControls/EmbeddedControls'
-import { setEmbedded } from '../Editor/EditorSlice'
 
 const EmbeddedViewer = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
   const projectIdentifier = props.match.params.identifier;
-  const dispatch = useDispatch();
   useProject('python', projectIdentifier);
-
-  useEffect(() => {
-    dispatch(setEmbedded());
-  }, []);
+  useEmbeddedMode(true);
 
   return projectLoaded === true ? (
     <>
