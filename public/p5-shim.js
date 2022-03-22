@@ -809,7 +809,7 @@ const $builtinmodule = function (name) {
 
 
 
-  mod.imageMode = new Sk.builtin.func(function (mode) {
+  mod.image_mode = new Sk.builtin.func(function (mode) {
     mod.pInst.imageMode(mode.v);
   });
 
@@ -952,7 +952,7 @@ const $builtinmodule = function (name) {
     mod.pInst.normal(nx.v, ny.v, nz.v);
   });
 
-  mod.noTint = new Sk.builtin.func(function () {
+  mod.no_tint = new Sk.builtin.func(function () {
     mod.pInst.noTint();
   });
 
@@ -1272,8 +1272,10 @@ const $builtinmodule = function (name) {
   Sk.builtins.mouse_x = new Sk.builtin.float_(-1000)
   Sk.builtins.mouse_y = new Sk.builtin.float_(-1000)
   window.addEventListener('mousemove', e => {
-    Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
-    Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+    if (mod.pInst) {
+      Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
+      Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+    }
   })
 
   // NOTE: difference with ProcessingJS
@@ -1358,13 +1360,13 @@ const $builtinmodule = function (name) {
     mod.pInst.push();
   });
 
-  mod.pop_matrix = new Sk.builtin.func(function() {
-    mod.pInst.popMatrix();
-  });
+  // mod.pop_matrix = new Sk.builtin.func(function() {
+  //   mod.pInst.popMatrix();
+  // });
 
-  mod.push_matrix = new Sk.builtin.func(function() {
-    mod.pInst.pushMatrix();
-  });
+  // mod.push_matrix = new Sk.builtin.func(function() {
+  //   mod.pInst.pushMatrix();
+  // });
 
   mod.applyMatrix = new Sk.builtin.func(function() {
     const args = Array.prototype.slice.call(arguments, 0, 16);
@@ -1424,7 +1426,6 @@ const $builtinmodule = function (name) {
         Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
         if (Sk.globals["draw"]) {
           try {
-            // console.log('drawing')
             Sk.misceval.callsimArray(Sk.globals["draw"]);
           } catch(e) {
             Sk.uncaughtException(e);
@@ -1569,7 +1570,7 @@ const $builtinmodule = function (name) {
     });
   };
 
-  mod.loadImage = new Sk.builtin.func(function (path) {
+  mod.load_image = new Sk.builtin.func(function (path) {
     const i = mod.pInst.loadImage(path.v);
     const image = Sk.misceval.callsimArray(mod.PImage, [new Sk.builtin.int_(1), new Sk.builtin.int_(1)]);
     image.v = i;
