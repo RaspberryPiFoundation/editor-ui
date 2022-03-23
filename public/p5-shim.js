@@ -1430,6 +1430,8 @@ const $builtinmodule = function (name) {
           } catch(e) {
             Sk.uncaughtException(e);
           }
+        } else {
+          mod.pInst.noLoop();
         }
       };
     }
