@@ -204,13 +204,27 @@ const $builtinmodule = function (name) {
       });
       self.v = mod.pInst.color(...data);
     });
+    $loc.__eq__ = new Sk.builtin.func(function (self, other) {
+      
+      return new Sk.builtin.bool(
+        Sk.misceval.callsimArray(mod.red, [self]).v === Sk.misceval.callsimArray(mod.red, [other]).v &&
+        Sk.misceval.callsimArray(mod.green, [self]).v === Sk.misceval.callsimArray(mod.green, [other]).v && 
+        Sk.misceval.callsimArray(mod.blue, [self]).v === Sk.misceval.callsimArray(mod.blue, [other]).v
+      )
+    })
   };
 
   mod.Color = Sk.misceval.buildClass(mod, colorClass, "Color", []);
 
   mod.get = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    return new Sk.builtin.list(mod.pInst.get(...argVals));
+    const colorArgs = mod.pInst.get(...argVals)
+    const colorArgsArray = [
+      new Sk.builtin.float_(colorArgs[0]),
+      new Sk.builtin.float_(colorArgs[1]),
+      new Sk.builtin.float_(colorArgs[2])
+    ]
+    return new Sk.misceval.callsimArray(mod.Color, colorArgsArray)
   });
 
   mod.green = new Sk.builtin.func(function () {
@@ -1268,15 +1282,18 @@ const $builtinmodule = function (name) {
     mod.pInst.exit();
   });
 
-  // Probably need to think of more sensible initial values for these, but will change as soon as you move the mouse
-  Sk.builtins.mouse_x = new Sk.builtin.float_(-1000)
-  Sk.builtins.mouse_y = new Sk.builtin.float_(-1000)
-  window.addEventListener('mousemove', e => {
-    if (mod.pInst) {
+  Sk.builtins.mouse_x = new Sk.builtin.float_(0)
+  Sk.builtins.mouse_y = new Sk.builtin.float_(0)
+
+  const updateMouseCoords = (e) => {
+    if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= Sk.builtins.width && mod.pInst.mouseY <= Sk.builtins.height) {
+      console.log(mod.pInst.mouseY, mod.pInst.mouseX)
       Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
       Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
     }
-  })
+  }
+
+  document.getElementById("p5Sketch").addEventListener('mousemove', updateMouseCoords)
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1352,21 +1369,13 @@ const $builtinmodule = function (name) {
     mod.pInst.translate(sx.v, sy, sz);
   });
 
-  mod.pop = new Sk.builtin.func(function() {
+  mod.pop_matrix = new Sk.builtin.func(function() {
     mod.pInst.pop();
   });
 
-  mod.push = new Sk.builtin.func(function() {
+  mod.push_matrix = new Sk.builtin.func(function() {
     mod.pInst.push();
   });
-
-  // mod.pop_matrix = new Sk.builtin.func(function() {
-  //   mod.pInst.popMatrix();
-  // });
-
-  // mod.push_matrix = new Sk.builtin.func(function() {
-  //   mod.pInst.pushMatrix();
-  // });
 
   mod.applyMatrix = new Sk.builtin.func(function() {
     const args = Array.prototype.slice.call(arguments, 0, 16);
