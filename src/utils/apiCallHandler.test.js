@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getImage, newProject, readProject, remixProject, updateProject, uploadImage } from "./apiCallHandler";
+import { getImage, newProject, readProject, remixProject, updateProject, uploadImages } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -55,8 +55,11 @@ describe("Testing project API calls", () => {
     const image = new File(['(⌐□_□)'], 'image1.png', {type: 'image/png'})
     axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, url: 'google.drive.com/image1.png'}))
 
-    await uploadImage(projectIdentifier, accessToken, image)
-    expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}/images`, {image: image}, authHeaders)
+    var formData = new FormData();
+    formData.append('images', image, image.name)
+
+    await uploadImages(projectIdentifier, accessToken, [image])
+    expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}/images`, formData, {...authHeaders, "Content-Type": "multipart/form-data"})
   })
 
   test("Get image", async () => {

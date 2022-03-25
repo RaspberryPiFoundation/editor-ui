@@ -21,15 +21,13 @@ describe("Project with images", () => {
                             extension: "py"
                         }
                     ],
-                    images: [
+                    image_list: [
                         {
-                            name: "image1",
-                            extension: "jpg",
+                            filename: "image1.jpg",
                             url: "https://images.unsplash.com/photo-1646772755632-74e998fec9ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60"
                         },
                         {
-                            name: "image2",
-                            extension: "jpg",
+                            filename: "image2.jpg",
                             url: "https://images.unsplash.com/photo-1646776701870-f79b655f1a6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1Nnx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60"
                         },
                     ]
@@ -43,10 +41,10 @@ describe("Project with images", () => {
     test("Image names are rendered", () => {
         expect(queryByText("image1.jpg")).not.toBeNull()
         expect(queryByText("image2.jpg")).not.toBeNull()
-    })
+    }) 
 
     test("Images are rendered", () => {
-        expect(queryByAltText("image1")).not.toBeNull()
-        expect(queryByAltText("image2")).not.toBeNull()
+        expect(queryByAltText("image1.jpg")).not.toBeNull()
+        expect(queryByAltText("image2.jpg")).not.toBeNull()
     })
 })
