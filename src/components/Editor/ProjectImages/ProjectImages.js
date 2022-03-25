@@ -10,8 +10,8 @@ const ProjectImages = () => {
       <div className='project-images'>
         {projectImages.map((image, i) => (
           <div key={i} className='project-image-block'>
-            <img className='project-image' src={image.url} alt={image.fileName}/>
-            <p>{image.fileName}</p>
+            <img className='project-image' src={image.url} alt={image.filename}/>
+            <p>{image.filename}</p>
           </div>
         ))}
       </div>

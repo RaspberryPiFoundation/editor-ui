@@ -46,7 +46,11 @@ export const readProject = async (projectIdentifier) => {
 
 export const uploadImages = async (projectIdentifier, accessToken, images) => {
   var formData = new FormData();
-  formData.append('images', images);
+
+  images.forEach(image => {
+    formData.append('images', image, image.name);
+  })
+
   return await post(`${host}/api/projects/${projectIdentifier}/images`, formData, {...headers(accessToken), 'Content-Type': 'multipart/form-data'})
 }
 

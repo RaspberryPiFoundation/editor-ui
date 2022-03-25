@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import Modal from 'react-modal';
 
-import { addImage, setNameError } from '../EditorSlice';
+import { updateImages, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import store from '../../../app/store';
@@ -35,8 +35,8 @@ const ImageUploadButton = () => {
     const dispatch = useDispatch();
     const projectType = useSelector((state) => state.editor.project.project_type);
     const projectIdentifier = useSelector((state) => state.editor.project.identifier);
-    const projectImages = useSelector((state) => state.editor.project.images);
-    const imageNames = projectImages.map(image => `${image.fileName}`);
+    const projectImages = useSelector((state) => state.editor.project.image_list);
+    const imageNames = projectImages.map(image => `${image.filename}`);
     const user = useSelector((state) => state.auth.user);
   
     const closeModal = () => {
@@ -66,33 +66,17 @@ const ImageUploadButton = () => {
         }
       })
       if (store.getState().editor.nameError==='') {
-          // files.forEach((file) => {
-          //   const name = file.name.split('.')[0]
-          //   const extension = file.name.split('.').slice(1).join('.');
-          //   const response = await uploadImages(projectIdentifier, user.access_token, image)
-          //   // const response = {status: 200, url: 'https://images.unsplash.com/photo-1646761838823-c86156af055b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'}
-          //   dispatch(addImage({extension: extension, name: name, url: response.url}));
-          // })
-          // const imagesContent = []
-          // files.forEach((file) => {
-          //   const reader = new FileReader()
-          //   reader.onabort = () => console.log('file reading was aborted')
-          //   reader.onerror = () => console.log('file reading has failed')
-          //   reader.onload = () => {
-          //     imagesContent.push(reader.result)
-          //     console.log("added file")
-          //   }
-          //   reader.readAsArrayBuffer(file)
-          // })
-          const response = await uploadImages(projectIdentifier, user.access_token, files)
-          response.data.image_list.forEach((image) => dispatch(addImage(image)))
-
+        const response = await uploadImages(projectIdentifier, user.access_token, files)
+        dispatch(updateImages(response.data.image_list))
         closeModal()
       }
     }
 
     const isValidFileName = (fileName, files) => {
       const extension = fileName.split('.').slice(1).join('.').toLowerCase()
+      console.log(fileName)
+      console.log(imageNames)
+      console.log(imageNames.includes(fileName))
       if (allowedExtensions[projectType].includes(extension) && !imageNames.includes(fileName) && files.filter(file => file.name === fileName).length == 1) {
         return true;
       } else {

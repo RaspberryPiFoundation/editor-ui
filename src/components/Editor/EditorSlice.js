@@ -12,9 +12,9 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
-    addImage: (state, action) => {
+    updateImages: (state, action) => {
       if (!state.project.image_list) {state.project.image_list=[]}
-      state.project.image_list.push(action.payload)
+      state.project.image_list = action.payload
     },
     addProjectComponent: (state, action) => {
       const count = state.project.components.length;
@@ -28,8 +28,8 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
-      if (!state.project.images) {
-        state.project.images = []
+      if (!state.project.image_list) {
+        state.project.image_list = []
       }
     },
     setProjectLoaded: (state, action) => {
@@ -72,7 +72,7 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  addImage,
+  updateImages,
   addProjectComponent,
   setEmbedded,
   setNameError,
