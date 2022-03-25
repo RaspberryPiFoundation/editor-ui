@@ -16,7 +16,7 @@ const allowedExtensions = {
 
 const allowedExtensionsString = (projectType) => {
   const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length == 1) {
+  if (extensionsList.length === 1) {
     return `'.${extensionsList[0]}'`
   } else {
     return `'.` + extensionsList.slice(0,-1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length-1] + `'`;
@@ -29,7 +29,7 @@ const NewComponentButton = () => {
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
-  
+
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
       dispatch(setNameError(""));
@@ -73,12 +73,12 @@ const NewComponentButton = () => {
         zIndex: 1000
       }
     };
-  
+
     return (
       <>
         <Button buttonText='+' onClickHandler={showModal} className="proj-new-component-button" />
-  
-        <Modal 
+
+        <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}
@@ -92,10 +92,10 @@ const NewComponentButton = () => {
           <input type='text' name='name' id='name'></input>
           <Button buttonText='Cancel' onClickHandler={closeModal} />
           <Button buttonText='Save' onClickHandler={createComponent} />
-          
+
         </Modal>
       </>
     );
   }
-  
+
 export default NewComponentButton;

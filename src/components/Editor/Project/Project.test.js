@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
-import configureStore, {getActions} from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 
 import Project from "./Project";
 import axios from "axios";
@@ -66,6 +66,16 @@ describe("When logged in and user owns project", () => {
     expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
   })
 
+  test("Clicking save button dispatches project once returned", async () => {
+    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
+    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project }))
+    fireEvent.click(saveButton)
+    await new Promise(process.nextTick);
+    const actions = store.getActions();
+    const expectedPayload = { type: 'editor/setProject', payload: project }
+    expect(actions).toEqual([expectedPayload])
+  })
+
   test("No remix button", () => {
     expect(queryByText('Remix')).toBeNull();
   })
@@ -122,7 +132,17 @@ describe("When logged in and user does not own project", () => {
     const api_host = process.env.REACT_APP_API_ENDPOINT;
     const projectIdentifier = store.getState()['editor']['project']['identifier']
     const accessToken = store.getState()['auth']['user']['access_token']
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects/${projectIdentifier}/remix`, {}, {"headers": {"Accept": "application/json", "Authorization": accessToken}})
+    expect(axios.post).toHaveBeenCalledWith(
+      `${api_host}/api/projects/${projectIdentifier}/remix`,
+      {
+        "project":
+        {
+          "components": [],
+          "identifier": "hello-world-project",
+          "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+        }
+      },
+      {"headers": {"Accept": "application/json", "Authorization": accessToken}})
   })
 })
 
