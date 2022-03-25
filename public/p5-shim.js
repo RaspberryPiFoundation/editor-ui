@@ -205,10 +205,10 @@ const $builtinmodule = function (name) {
       self.v = mod.pInst.color(...data);
     });
     $loc.__eq__ = new Sk.builtin.func(function (self, other) {
-      
+
       return new Sk.builtin.bool(
         Sk.misceval.callsimArray(mod.red, [self]).v === Sk.misceval.callsimArray(mod.red, [other]).v &&
-        Sk.misceval.callsimArray(mod.green, [self]).v === Sk.misceval.callsimArray(mod.green, [other]).v && 
+        Sk.misceval.callsimArray(mod.green, [self]).v === Sk.misceval.callsimArray(mod.green, [other]).v &&
         Sk.misceval.callsimArray(mod.blue, [self]).v === Sk.misceval.callsimArray(mod.blue, [other]).v
       )
     })
@@ -1392,6 +1392,14 @@ const $builtinmodule = function (name) {
 
   mod.printMatrix = new Sk.builtin.func(function() {
     return Sk.ffi.remapToPy(mod.pInst.printMatrix());
+  });
+
+  mod.pop_style = new Sk.builtin.func(function() {
+    mod.pInst.pop();
+  });
+
+  mod.push_style = new Sk.builtin.func(function() {
+    mod.pInst.push();
   });
 
   //  //////////////////////////////////////////////////////////////////////
