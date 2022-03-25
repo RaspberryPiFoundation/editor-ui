@@ -1411,6 +1411,8 @@ const $builtinmodule = function (name) {
   //  //////////////////////////////////////////////////////////////////////
   _run = function (frame_rate) {
     const sketchProc = (sketch) => {
+      const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "window_resized": "windowResized", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped", "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted", "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
+
       mod.pInst = sketch;
 
       sketch.preload = function () {
@@ -1422,11 +1424,6 @@ const $builtinmodule = function (name) {
       sketch.setup = function () {
         if (Sk.globals["setup"]) {
           Sk.misceval.callsimArray(Sk.globals["setup"]);
-
-          // Thanks pyp5.js!
-          const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "window_resized": "windowResized", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped",
-              "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted",
-              "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
 
           for (const cb of Object.keys(callBacks)) {
             if (Sk.globals[cb]) {
@@ -1446,10 +1443,18 @@ const $builtinmodule = function (name) {
           } catch(e) {
             Sk.uncaughtException(e);
           }
-        } else {
-          mod.pInst.noLoop();
         }
       };
+
+      Sk.globals["stopDrawing"] = function () {
+        mod.pInst.noLoop();
+
+        for (const cb of Object.keys(callBacks)) {
+          if (Sk.globals[cb]) {
+            sketch[callBacks[cb]] = null;
+          }
+        }
+      }
     }
 
     const p5Sketch = document.getElementById(Sk.p5Sketch);

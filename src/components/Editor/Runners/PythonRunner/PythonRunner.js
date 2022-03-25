@@ -36,22 +36,15 @@ const PythonRunner = () => {
   }, [codeRunStopped]);
 
   useEffect(() => {
-    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML != '') {
-      Sk.globals["draw"]=null;
-      // const p5Callbacks = ["device_moved", "device_turned", "device_shaken", "window_resized", "key_pressed", 
-      // "key_released", "key_typed", "mouse_pressed", "mouse_released", "mouse_clicked", "double_clicked", 
-      // "mouse_moved", "mouse_dragged", "mouse_wheel", "touch_started", "touch_moved", "touch_ended"]
-      // p5Callbacks.forEach(callback => Sk.globals[callback]=new Sk.builtin.func(function() {throw "draw stopped"}))
-      // const canvas = document.getElementById("p5Sketch")
-      // canvas.replaceWith(canvas.cloneNode(true))
-      
+    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
+      Sk.globals["stopDrawing"]();
       if (document.getElementById("input")) {
         const input = document.getElementById("input")
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
     }
-  }, 
+  },
   [drawTriggered]
   )
 
@@ -240,7 +233,7 @@ const PythonRunner = () => {
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
-      if (p5Output.current.innerHTML=='') {
+      if (p5Output.current.innerHTML === '') {
         dispatch(stopDraw());
       }
     }
