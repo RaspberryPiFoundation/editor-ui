@@ -44,8 +44,10 @@ export const readProject = async (projectIdentifier) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
 
-export const uploadImage = async (projectIdentifier, accessToken, image) => {
-  return await post(`${host}/api/projects/${projectIdentifier}/images`, {image: image}, headers(accessToken))
+export const uploadImages = async (projectIdentifier, accessToken, images) => {
+  var formData = new FormData();
+  formData.append('images', images);
+  return await post(`${host}/api/projects/${projectIdentifier}/images`, formData, {...headers(accessToken), 'Content-Type': 'multipart/form-data'})
 }
 
 export const getImage = async (url) => {

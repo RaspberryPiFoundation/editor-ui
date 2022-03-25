@@ -139,6 +139,7 @@ describe("When logged in and user does not own project", () => {
         {
           "components": [],
           "identifier": "hello-world-project",
+          "images": [],
           "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         }
       },

@@ -13,8 +13,8 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     addImage: (state, action) => {
-      if (!state.project.images) {state.project.images=[]}
-      state.project.images.push({"name": action.payload.name, "extension": action.payload.extension, "url": action.payload.url})
+      if (!state.project.image_list) {state.project.image_list=[]}
+      state.project.image_list.push(action.payload)
     },
     addProjectComponent: (state, action) => {
       const count = state.project.components.length;

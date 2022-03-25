@@ -109,7 +109,7 @@ const Project = () => {
           <RunnerFactory projectType={project.type} />
         </div>
       </div>
-      {project.images && project.images.length>0? <ProjectImages /> : null}
+      {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
       <ToastContainer />
     </div>
   )
