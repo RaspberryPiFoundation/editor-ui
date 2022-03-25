@@ -199,8 +199,6 @@ const PythonRunner = () => {
 
     Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
 
-    console.log(Sk.TurtleGraphics.assets)
-
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {

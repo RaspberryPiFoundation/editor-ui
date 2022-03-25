@@ -74,9 +74,6 @@ const ImageUploadButton = () => {
 
   const isValidFileName = (fileName, files) => {
     const extension = fileName.split('.').slice(1).join('.').toLowerCase()
-    console.log(fileName)
-    console.log(imageNames)
-    console.log(imageNames.includes(fileName))
     if (allowedExtensions[projectType].includes(extension) && !imageNames.includes(fileName) && files.filter(file => file.name === fileName).length == 1) {
       return true;
     } else {
