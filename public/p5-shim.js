@@ -1287,7 +1287,6 @@ const $builtinmodule = function (name) {
 
   const updateMouseCoords = (e) => {
     if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= Sk.builtins.width && mod.pInst.mouseY <= Sk.builtins.height) {
-      console.log(mod.pInst.mouseY, mod.pInst.mouseX)
       Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
       Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
     }
@@ -1418,7 +1417,7 @@ const $builtinmodule = function (name) {
 
           // Thanks pyp5.js!
           const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "window_resized": "windowResized", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped",
-              "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_released": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted",
+              "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted",
               "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
 
           for (const cb of Object.keys(callBacks)) {
