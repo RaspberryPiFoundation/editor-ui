@@ -10,7 +10,7 @@ import store from '../../../../app/store'
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const projectImages = useSelector((state) => state.editor.project.images);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const outputCanvas = useRef();
