@@ -192,10 +192,6 @@ const PythonRunner = () => {
     });
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
-    // const userAssets = projectImages.forEach((image) => {
-    //   let assets;
-    //   assets[`${image['name']}.${image['extension']}`] = image['url']
-    // })
 
     Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
 
