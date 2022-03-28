@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
-    project: [],
+    project: {},
     projectLoaded: false,
     error: "",
     nameError: "",
@@ -13,6 +13,10 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
   },
   reducers: {
+    updateImages: (state, action) => {
+      if (!state.project.image_list) {state.project.image_list=[]}
+      state.project.image_list = action.payload
+    },
     addProjectComponent: (state, action) => {
       const count = state.project.components.length;
       state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": '', index: count})
@@ -25,6 +29,9 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
+      if (!state.project.image_list) {
+        state.project.image_list = []
+      }
     },
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;
@@ -48,8 +55,6 @@ export const EditorSlice = createSlice({
     },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
-      console.log(key)
-      console.log(state.project.components[key])
       const fileName = action.payload.name;
       state.project.components[key].name = fileName;
     },
@@ -74,6 +79,7 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  updateImages,
   addProjectComponent,
   setEmbedded,
   setNameError,
