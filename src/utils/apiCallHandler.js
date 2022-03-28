@@ -43,3 +43,17 @@ export const remixProject = async (project, accessToken) => {
 export const readProject = async (projectIdentifier) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
+
+export const uploadImages = async (projectIdentifier, accessToken, images) => {
+  var formData = new FormData();
+
+  images.forEach(image => {
+    formData.append('images', image, image.name);
+  })
+
+  return await post(`${host}/api/projects/${projectIdentifier}/images`, formData, {...headers(accessToken), 'Content-Type': 'multipart/form-data'})
+}
+
+export const getImage = async (url) => {
+  return await get(url, headers())
+}

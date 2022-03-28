@@ -69,6 +69,9 @@ const NewComponentButton = () => {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
       },
+      overlay: {
+        zIndex: 1000
+      }
     };
 
     return (

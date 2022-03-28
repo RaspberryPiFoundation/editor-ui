@@ -13,9 +13,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded, setProject } from '../EditorSlice';
+import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
-import { remixProject, updateProject } from '../../../utils/apiCallHandler';
+import { readProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
+import ProjectImages from '../ProjectImages/ProjectImages';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -91,6 +93,8 @@ const Project = () => {
                 )
               )}
               { project.project_type === "python" ? <NewComponentButton /> : null }
+              { user !== null &&  project.user_id === user.profile.user? (<ImageUploadButton />): null}
+
             </TabList>
 
             { project.components.map((file,i) => (
@@ -105,6 +109,7 @@ const Project = () => {
           <RunnerFactory projectType={project.type} />
         </div>
       </div>
+      {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
       <ToastContainer />
     </div>
   )
