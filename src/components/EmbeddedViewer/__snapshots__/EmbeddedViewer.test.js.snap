@@ -19,6 +19,9 @@ exports[`Renders without crashing 1`] = `
       className="pythonrunner-container"
     >
       <div
+        id="p5Sketch"
+      />
+      <div
         className="pythonrunner-canvas-container"
       >
         <div
@@ -32,9 +35,6 @@ exports[`Renders without crashing 1`] = `
       />
       <div
         id="mycanvas"
-      />
-      <div
-        id="p5Sketch"
       />
     </div>
   </div>

@@ -23,6 +23,7 @@ test("Clicking stop button sets codeRunStopped to true", () => {
 
 test("Clicking stop button changes it to 'Stopping...'", () => {
     store.dispatch(codeRunHandled())
+    store.dispatch(triggerCodeRun())
 
     const { getByText } = render(
     <Provider store={store}>

@@ -13,9 +13,9 @@ const StopButton = (props) => {
     if (codeRunTriggered) {
       dispatch(stopCodeRun());
     }
-    // dispatch(stopCodeRun());
     dispatch(stopDraw());
   }
+
   if (codeRunStopped) {
     return (
       <Button buttonText="Stopping..." disabled="true"/>

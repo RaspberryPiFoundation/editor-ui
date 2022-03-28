@@ -78,7 +78,6 @@ const Project = () => {
       </div>
       { project.identifier && (
         <div>
-          <Button onClickHandler={onClickSave} buttonText="Save" />
           <p>Share your project with this link:&nbsp;
             <a href={`/python/share/${project.identifier}`} target="_blank" rel="noreferrer">
               {`${host}/python/share/${project.identifier}`}
