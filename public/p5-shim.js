@@ -1292,7 +1292,7 @@ const $builtinmodule = function (name) {
     }
   }
 
-  document.getElementById("p5Sketch").addEventListener('mousemove', updateMouseCoords)
+  document.getElementById(Sk.p5.sketch).addEventListener('mousemove', updateMouseCoords)
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1457,7 +1457,7 @@ const $builtinmodule = function (name) {
       }
     }
 
-    const p5Sketch = document.getElementById(Sk.p5Sketch);
+    const p5Sketch = document.getElementById(Sk.p5.sketch);
     mod.p = new window.p5(sketchProc, p5Sketch);
   };
 
@@ -1594,6 +1594,11 @@ const $builtinmodule = function (name) {
   };
 
   mod.load_image = new Sk.builtin.func(function (path) {
+    const asset = Sk.p5.assets.find((el) => el.filename === path.v);
+    if (asset) {
+      path.v = asset.url
+    }
+
     const i = mod.pInst.loadImage(path.v);
     const image = Sk.misceval.callsimArray(mod.PImage, [new Sk.builtin.int_(1), new Sk.builtin.int_(1)]);
     image.v = i;

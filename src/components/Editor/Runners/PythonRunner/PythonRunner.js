@@ -82,7 +82,6 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    // TODO: memoize this?
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -213,7 +212,10 @@ const PythonRunner = () => {
       inputTakesPrompt: true
     });
 
-    Sk.p5Sketch = "p5Sketch";
+    Sk.p5 = {}
+    Sk.p5.sketch = "p5Sketch";
+    Sk.p5.assets = projectImages;
+
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
     Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
