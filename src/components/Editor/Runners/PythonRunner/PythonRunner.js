@@ -38,7 +38,7 @@ const PythonRunner = () => {
 
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
-      Sk.globals["stopDrawing"]();
+      Sk.p5.stop();
       if (document.getElementById("input")) {
         const input = document.getElementById("input")
         input.removeAttribute("id")

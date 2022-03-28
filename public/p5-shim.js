@@ -1446,7 +1446,7 @@ const $builtinmodule = function (name) {
         }
       };
 
-      Sk.globals["stopDrawing"] = function () {
+      Sk.p5.stop = function () {
         mod.pInst.noLoop();
 
         for (const cb of Object.keys(callBacks)) {
