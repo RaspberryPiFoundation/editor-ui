@@ -24,11 +24,11 @@ describe("Project with images", () => {
           image_list: [
             {
               filename: "image1.jpg",
-              url: "https://images.unsplash.com/photo-1646772755632-74e998fec9ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60"
+              url: "image1_url"
             },
             {
               filename: "image2.jpg",
-              url: "https://images.unsplash.com/photo-1646776701870-f79b655f1a6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1Nnx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=60"
+              url: "image2_url"
             },
           ]
         }
@@ -46,5 +46,10 @@ describe("Project with images", () => {
   test("Images are rendered", () => {
     expect(queryByAltText("image1.jpg")).not.toBeNull()
     expect(queryByAltText("image2.jpg")).not.toBeNull()
+  })
+
+  test("Images have the expected source", () => {
+    expect(queryByAltText("image1.jpg")).toHaveAttribute('src', 'image1_url')
+    expect(queryByAltText("image2.jpg")).toHaveAttribute('src', 'image2_url')
   })
 })
