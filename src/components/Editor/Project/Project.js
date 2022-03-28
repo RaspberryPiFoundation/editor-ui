@@ -94,9 +94,7 @@ const Project = () => {
               )}
               { project.project_type === "python" ? <NewComponentButton /> : null }
               { user !== null &&  project.user_id === user.profile.user? (<ImageUploadButton />): null}
-
             </TabList>
-
             { project.components.map((file,i) => (
               <TabPanel key={i}>
                 <EditorPanel fileName={file.name} extension={file.extension} />

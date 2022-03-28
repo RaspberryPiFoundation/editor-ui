@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -13,9 +13,11 @@ const PythonRunner = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
   const outputCanvas = useRef();
   const output = useRef();
   const domOutput = useRef();
+  const p5Output = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +36,19 @@ const PythonRunner = () => {
     }
   }, [codeRunStopped]);
 
+  useEffect(() => {
+    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
+      Sk.p5.stop();
+      if (document.getElementById("input")) {
+        const input = document.getElementById("input")
+        input.removeAttribute("id")
+        input.removeAttribute("contentEditable")
+      }
+    }
+  },
+  [drawTriggered]
+  )
+
   const externalLibraries = {
     "./pygal/__init__.js": {
       path: process.env.PUBLIC_URL + '/pygal.js',
@@ -41,6 +56,12 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
+    },
+    "./p5/__init__.js": {
+      path: process.env.PUBLIC_URL + '/p5-shim.js',
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
     }
   };
 
@@ -61,7 +82,6 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    // TODO: memoize this?
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -180,6 +200,7 @@ const PythonRunner = () => {
     outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
     domOutput.current.innerHTML = '';
+    p5Output.current.innerHTML = '';
 
     var prog = projectCode[0].content;
 
@@ -190,6 +211,10 @@ const PythonRunner = () => {
       debugging: true,
       inputTakesPrompt: true
     });
+
+    Sk.p5 = {}
+    Sk.p5.sketch = "p5Sketch";
+    Sk.p5.assets = projectImages;
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
@@ -213,6 +238,9 @@ const PythonRunner = () => {
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
+      if (p5Output.current.innerHTML === '') {
+        dispatch(stopDraw());
+      }
     }
     );
     myPromise.then(function (_mod) {
@@ -242,6 +270,7 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
+      <div id='p5Sketch' ref={p5Output} />
       <ErrorMessage />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />

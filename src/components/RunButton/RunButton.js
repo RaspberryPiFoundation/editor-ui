@@ -1,7 +1,7 @@
 import Button from '../Button/Button'
 
 import { useDispatch } from 'react-redux'
-import { triggerCodeRun } from '../Editor/EditorSlice'
+import { triggerCodeRun, triggerDraw } from '../Editor/EditorSlice'
 
 const RunButton = (props) => {
   // const { buttonText, leftAlign } = props;
@@ -9,6 +9,7 @@ const RunButton = (props) => {
 
   const onClickRun = () => {
     dispatch(triggerCodeRun());
+    dispatch(triggerDraw());
   }
 
   return (
