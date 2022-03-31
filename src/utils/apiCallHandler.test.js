@@ -56,7 +56,7 @@ describe("Testing project API calls", () => {
     axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, url: 'google.drive.com/image1.png'}))
 
     var formData = new FormData();
-    formData.append('images', image, image.name)
+    formData.append('images[]', image, image.name)
 
     await uploadImages(projectIdentifier, accessToken, [image])
     expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}/images`, formData, {...authHeaders, "Content-Type": "multipart/form-data"})
