@@ -170,7 +170,7 @@ var $builtinmodule = function(name) {
       chart = renderer(options, chart);
     }
 
-    Highcharts.chart('mycanvas', chart);
+    Highcharts.chart('pygalOutput', chart);
 
     return '';
   }

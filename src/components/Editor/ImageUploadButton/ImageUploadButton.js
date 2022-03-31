@@ -22,7 +22,7 @@ const allowedExtensions = {
 
 const allowedExtensionsString = (projectType) => {
   const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length == 1) {
+  if (extensionsList.length === 1) {
     return `'.${extensionsList[0]}'`
   } else {
     return `'.` + extensionsList.slice(0, -1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length - 1] + `'`;
@@ -74,7 +74,7 @@ const ImageUploadButton = () => {
 
   const isValidFileName = (fileName, files) => {
     const extension = fileName.split('.').slice(1).join('.').toLowerCase()
-    if (allowedExtensions[projectType].includes(extension) && !imageNames.includes(fileName) && files.filter(file => file.name === fileName).length == 1) {
+    if (allowedExtensions[projectType].includes(extension) && !imageNames.includes(fileName) && files.filter(file => file.name === fileName).length === 1) {
       return true;
     } else {
       return false;

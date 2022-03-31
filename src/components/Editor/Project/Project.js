@@ -16,7 +16,7 @@ import { setProjectLoaded, setProject } from '../EditorSlice';
 import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
-import { readProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
+import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 import ProjectImages from '../ProjectImages/ProjectImages';
 
 const Project = () => {
