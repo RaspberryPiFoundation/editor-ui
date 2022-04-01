@@ -80,7 +80,6 @@ var $builtinmodule = function(name) {
 
   Chart.prototype.render = function(renderer) {
     var options = this._options;
-    var $elem = Sk.domOutput('<div></div>');
     var title_style = {
       color: '#FFFFFF'
     };
@@ -171,8 +170,7 @@ var $builtinmodule = function(name) {
       chart = renderer(options, chart);
     }
 
-    // $elem.highcharts(chart);
-    Highcharts.chart('mycanvas', chart);
+    Highcharts.chart('pygalOutput', chart);
 
     return '';
   }

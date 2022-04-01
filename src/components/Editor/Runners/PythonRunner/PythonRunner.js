@@ -16,7 +16,7 @@ const PythonRunner = () => {
   const drawTriggered = useSelector((state) => state.editor.drawTriggered)
   const outputCanvas = useRef();
   const output = useRef();
-  const domOutput = useRef();
+  const pygalOutput = useRef();
   const p5Output = useRef();
   const dispatch = useDispatch();
 
@@ -63,11 +63,6 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
     }
-  };
-
-  Sk.domOutput = function (html) {
-    document.querySelector('#mycanvas').insertAdjacentHTML("beforeend", html)
-    return document.querySelector('#mycanvas').children[0];
   };
 
   const outf = (text) => {
@@ -124,17 +119,21 @@ const PythonRunner = () => {
           var promise;
 
           function mapUrlToPromise(path) {
-            return new Promise(function (resolve, _reject) {
-              let scriptElement = document.createElement("script");
-              scriptElement.type = "text/javascript";
-              scriptElement.src = path;
-              scriptElement.async = true
-              scriptElement.onload = function () {
-                resolve(true);
-              }
+            // If the script is already in the DOM don't add it again.
+            const existingScriptElement = document.querySelector(`script[src="${path}"]`)
+            if(!existingScriptElement) {
+              return new Promise(function (resolve, _reject) {
+                let scriptElement = document.createElement("script");
+                scriptElement.type = "text/javascript";
+                scriptElement.src = path;
+                scriptElement.async = true
+                scriptElement.onload = function () {
+                  resolve(true);
+                }
 
-              document.body.appendChild(scriptElement);
-            });
+                document.body.appendChild(scriptElement);
+              });
+            }
           }
 
           if (externalLibraryInfo.loadDepsSynchronously) {
@@ -199,7 +198,7 @@ const PythonRunner = () => {
     dispatch(setError(""));
     outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
-    domOutput.current.innerHTML = '';
+    pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
 
     var prog = projectCode[0].content;
@@ -270,13 +269,13 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <div id='p5Sketch' ref={p5Output} />
       <ErrorMessage />
+      <div id='p5Sketch' ref={p5Output} />
+      <div id='pygalOutput' ref={pygalOutput} />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
-      <div id='mycanvas' ref={domOutput} />
     </div>
   );
 };
