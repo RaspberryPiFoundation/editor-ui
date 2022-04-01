@@ -103,6 +103,12 @@ const Project = () => {
             )}
           </Tabs>
         </div>
+        <div id='file-content' hidden>
+          {project.components.map((file, i) => (
+            <div id={`${file.name}.${file.extension}`} key={i}>{file.content}</div>
+          ))}
+
+        </div>
         <div className='proj-runner-container'>
           <RunnerFactory projectType={project.type} />
         </div>
