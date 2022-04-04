@@ -55,7 +55,7 @@ describe("Testing the new file modal", () => {
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must end in '.py'.")]
+        const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.csv' or '.txt'.")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })
