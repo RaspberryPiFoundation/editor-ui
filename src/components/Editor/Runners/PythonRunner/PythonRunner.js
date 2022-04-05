@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -11,11 +11,14 @@ import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
   const outputCanvas = useRef();
   const output = useRef();
-  const domOutput = useRef();
+  const pygalOutput = useRef();
+  const p5Output = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +37,19 @@ const PythonRunner = () => {
     }
   }, [codeRunStopped]);
 
+  useEffect(() => {
+    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
+      Sk.p5.stop();
+      if (document.getElementById("input")) {
+        const input = document.getElementById("input")
+        input.removeAttribute("id")
+        input.removeAttribute("contentEditable")
+      }
+    }
+  },
+  [drawTriggered]
+  )
+
   const externalLibraries = {
     "./pygal/__init__.js": {
       path: process.env.PUBLIC_URL + '/pygal.js',
@@ -41,12 +57,13 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
+    },
+    "./p5/__init__.js": {
+      path: process.env.PUBLIC_URL + '/p5-shim.js',
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
     }
-  };
-
-  Sk.domOutput = function (html) {
-    document.querySelector('#mycanvas').insertAdjacentHTML("beforeend", html)
-    return document.querySelector('#mycanvas').children[0];
   };
 
   const outf = (text) => {
@@ -61,7 +78,6 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    // TODO: memoize this?
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -104,17 +120,21 @@ const PythonRunner = () => {
           var promise;
 
           function mapUrlToPromise(path) {
-            return new Promise(function (resolve, _reject) {
-              let scriptElement = document.createElement("script");
-              scriptElement.type = "text/javascript";
-              scriptElement.src = path;
-              scriptElement.async = true
-              scriptElement.onload = function () {
-                resolve(true);
-              }
+            // If the script is already in the DOM don't add it again.
+            const existingScriptElement = document.querySelector(`script[src="${path}"]`)
+            if(!existingScriptElement) {
+              return new Promise(function (resolve, _reject) {
+                let scriptElement = document.createElement("script");
+                scriptElement.type = "text/javascript";
+                scriptElement.src = path;
+                scriptElement.async = true
+                scriptElement.onload = function () {
+                  resolve(true);
+                }
 
-              document.body.appendChild(scriptElement);
-            });
+                document.body.appendChild(scriptElement);
+              });
+            }
           }
 
           if (externalLibraryInfo.loadDepsSynchronously) {
@@ -179,7 +199,8 @@ const PythonRunner = () => {
     dispatch(setError(""));
     outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
-    domOutput.current.innerHTML = '';
+    pygalOutput.current.innerHTML = '';
+    p5Output.current.innerHTML = '';
 
     var prog = projectCode[0].content;
 
@@ -191,7 +212,13 @@ const PythonRunner = () => {
       inputTakesPrompt: true
     });
 
+    Sk.p5 = {}
+    Sk.p5.sketch = "p5Sketch";
+    Sk.p5.assets = projectImages;
+
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
+
+    Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
@@ -211,6 +238,9 @@ const PythonRunner = () => {
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
+      if (p5Output.current.innerHTML === '') {
+        dispatch(stopDraw());
+      }
     }
     );
     myPromise.then(function (_mod) {
@@ -241,12 +271,13 @@ const PythonRunner = () => {
   return (
     <div className="pythonrunner-container">
       <ErrorMessage />
+      <div id='p5Sketch' ref={p5Output} />
+      <div id='pygalOutput' ref={pygalOutput} />
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
       <AstroPiModel/>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
-      <div id='mycanvas' ref={domOutput} />
     </div>
   );
 };

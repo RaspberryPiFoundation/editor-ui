@@ -7,10 +7,17 @@
 .proj-header {
   display: flex;
   justify-content: space-between;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .proj-controls {
   padding-top: 20px;
+}
+
+.proj-share-link {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .proj-container {
@@ -20,7 +27,6 @@
 
 .proj-editor-container {
   width: 50%;
-  height: 500px;
   margin-right: 2rem;
 }
 
