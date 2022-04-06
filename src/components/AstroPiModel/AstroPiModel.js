@@ -56,8 +56,7 @@ const AstroPiModel = (props) => {
           </div>
         
         </div>
-        
-        {/* <div id="canvas"></div> */}
+
         <Simulator />
         
         <div className="orientation-stage" id="orientation-stage">

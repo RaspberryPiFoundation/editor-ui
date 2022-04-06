@@ -3,9 +3,12 @@
   max-width: 500px;
 }
 
-// .orientation-layer, .scene3d {
-//   height:100%;
-// }
+#orientation-layer {
+  #sensehat-node.scene {
+    height: 400px;
+    width: 500px;
+  }
+}
 
 #sense-hat-sensor-controls-container, #orientation-overlay {
 

@@ -63,6 +63,9 @@ const PythonRunner = () => {
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
+    },
+    "./_internal_sense_hat/__init__.js": {
+      path: process.env.PUBLIC_URL + '/_internal_sense_hat.js'
     }
   };
 
@@ -215,6 +218,8 @@ const PythonRunner = () => {
     Sk.p5 = {}
     Sk.p5.sketch = "p5Sketch";
     Sk.p5.assets = projectImages;
+
+    // Sk.sense_hat = {}
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
