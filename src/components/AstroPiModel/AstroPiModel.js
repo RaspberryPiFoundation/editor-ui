@@ -4,18 +4,10 @@ import Simulator from './Simulator';
 
 const AstroPiModel = (props) => {
 
-  // const humidity = useRef()
-  // const pressure = useRef()
-  // const temperature = useRef()
-
   const [temperature, setTemperature] = useState(13);
   const [pressure, setPressure] = useState(1013);
   const [humidity, setHumidity] = useState(45);
-  // useEffect(() => {
-  //   console.log(document.getElementById('sense_hat_temperature').value)
 
-  // }, [document.getElementById('sense_hat_temperature')?document.getElementById('sense_hat_temperature').value:null]);
-  
     return (
         <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
@@ -70,7 +62,7 @@ const AstroPiModel = (props) => {
         
         </div>
 
-        <Simulator />
+        <Simulator message='Hello there :)'/>
         
         <div className="orientation-stage" id="orientation-stage">
           {/* <!--Solid Axis Removed--> */}

@@ -7,8 +7,11 @@ import { useEffect } from 'react';
 
 const Simulator = (props) => {
 
+  // console.log(props.message)
+
     useEffect(()=> {
       var senseHatNode = document.getElementById('sensehat-node')
+      senseHatNode.innerHTML='';
       
       var camera = new THREE.PerspectiveCamera( 25, 500 / 400, 1, 20000 );
       camera.position.set(0, 1.5, 0);
@@ -71,30 +74,13 @@ const Simulator = (props) => {
           mod = gltf.scene
           var newMaterial = new THREE.MeshStandardMaterial({color: 0xff0000});
 
-          // Traverse model, finding LEDs and their positions 
-          mod.traverse((o) => {
-              if (o.name.includes('Cree')) { 
-                  var x = Math.floor((o.position.x * 1000) / 4)-1
-                  var y = 7 - (Math.floor((o.position.z * 1000) / 4.3)-7)
-                  var done = false;
-                  o.traverse((nv) => {
-                      if(nv.isMesh){
-                          var numb = nv.name.match(/\d/g);
-                          numb = numb.join("");
-                          if (!done){
-                              screen[x][y] = parseInt(numb, 10)
-                          }
-                          done = true;
-                      }
-                  });
-              }   
-          });
           animate()
       });  
 
       var clock = new THREE.Clock();
       var delta;
-      var txt = "hello world";
+      var txt = props.message;
+      console.log('txt=', txt)
       var vdata = new Array(8);
 
       // Create virtual bitmap that represents the size of the text 
@@ -115,7 +101,7 @@ const Simulator = (props) => {
               for(var x=0;x<8;x++){
                   var dat = ctx.getImageData(7-x, y+(5*vv), 1, 1).data;
                   if(dat[0] > 0){
-                      vdata[x][y+(ch*5)+8] = 0x00ff00;
+                      vdata[x][y+(ch*5)+8] = 0xffffff;
                   }
               }
           }
@@ -130,7 +116,7 @@ const Simulator = (props) => {
 
           for(var y=0;y<8;y++){
               for(var x=0;x<8;x++){
-                  var object = mod.getObjectByName("mesh_"+screen[y][x]+"_1");
+                  var object = mod.getObjectByName("circle"+y+"_"+x+"-1");
                   if(object != null){
                       var newMaterial = new THREE.MeshStandardMaterial({color: vdata[y][x+shift]});
                       object.material = newMaterial
