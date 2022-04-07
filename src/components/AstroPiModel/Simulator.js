@@ -61,10 +61,10 @@ const Simulator = (props) => {
       // glTf Loader
       var loader = new GLTFLoader();     
       const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath( 'three/examples/js/libs/draco/' );
+      dracoLoader.setDecoderPath( process.env.PUBLIC_URL+'/three/examples/js/libs/draco/' );
       loader.setDRACOLoader( dracoLoader );
     
-      loader.load( 'models/raspi-compressed.glb', function ( gltf ) {         
+      loader.load( process.env.PUBLIC_URL+'/models/raspi-compressed.glb', function ( gltf ) {         
           var object = gltf.scene;                
           gltf.scene.scale.set( 4, 4, 4 );               
           gltf.scene.position.x = 0;                   
