@@ -3,7 +3,7 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw, setSenseHatEnabled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -14,7 +14,7 @@ const PythonRunner = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
-  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const outputCanvas = useRef();
   const output = useRef();
   const pygalOutput = useRef();
@@ -81,6 +81,11 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
+
+    if (x==="./_internal_sense_hat/__init__.js") {
+      dispatch(setSenseHatEnabled(true))
+    }
+
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -281,7 +286,8 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
-      <AstroPiModel/>
+
+      {store.getState().editor.senseHatEnabled?<AstroPiModel/>:null}
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
     </div>
   );
