@@ -1,7 +1,20 @@
+import { useEffect, useState } from 'react';
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
 
 const AstroPiModel = (props) => {
+
+  // const humidity = useRef()
+  // const pressure = useRef()
+  // const temperature = useRef()
+
+  const [temperature, setTemperature] = useState(13);
+  const [pressure, setPressure] = useState(1013);
+  const [humidity, setHumidity] = useState(45);
+  // useEffect(() => {
+  //   console.log(document.getElementById('sense_hat_temperature').value)
+
+  // }, [document.getElementById('sense_hat_temperature')?document.getElementById('sense_hat_temperature').value:null]);
   
     return (
         <div className='sense-hat-canvas-container'>
@@ -13,27 +26,27 @@ const AstroPiModel = (props) => {
             <div className="rangeslider-container">
               <div className="readings-container">
                 <i className="wi wi-thermometer"></i>
-                <span className="sensor-value sense-hat-temperature"></span>
+                <span className="sensor-value sense-hat-temperature">{temperature}°C</span>
               </div>
-              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue="13" />
+              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue={temperature} onChange={(e)=>setTemperature(e.target.value)}/>
             </div>
         
             {/* <!--Pressure--> */}
             <div className="rangeslider-container">
               <div className="readings-container">
                 <i className="wi wi-barometer"></i>
-                <span className="sensor-value sense-hat-pressure"></span>
+                <span className="sensor-value sense-hat-pressure">{pressure}hPa</span>
               </div>
-              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue="1013" />
+              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue={pressure} onChange={(e)=>setPressure(e.target.value)}/>
             </div>
         
             {/* <!--Humidity--> */}
             <div className="rangeslider-container">
               <div className="readings-container">
                 <i className="wi wi-humidity"></i>
-                <span className="sensor-value sense-hat-humidity"></span>
+                <span className="sensor-value sense-hat-humidity">{humidity}%</span>
               </div>
-              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue="45" />
+              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue={humidity} onChange={(e)=>setHumidity(e.target.value)}/>
             </div>
           </div>
         
@@ -79,7 +92,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   roll:
                 </span>
-                <span className="sense-hat-roll right"></span>
+                <span className="sense-hat-roll right">0</span>
               </div>
               <input id="sense_hat_roll" type="hidden" value="0" />
             </div>
@@ -90,7 +103,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   pitch:
                 </span>
-                <span className="sense-hat-pitch right"></span>
+                <span className="sense-hat-pitch right">100</span>
               </div>
               <input id="sense_hat_pitch" type="hidden" value="100" />
             </div>
@@ -101,7 +114,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   yaw:
                 </span>
-                <span className="sense-hat-yaw right"></span>
+                <span className="sense-hat-yaw right">90</span>
               </div>
               <input id="sense_hat_yaw" type="hidden" value="90" />
             </div>
