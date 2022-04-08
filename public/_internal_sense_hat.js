@@ -261,8 +261,20 @@
   /**
    * Colour
    */
+
+   function hex2rgb(hex) {
+    return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+  }
+  
   mod.colourRead = new Sk.builtin.func(function () {
-      var colour = Sk.ffi.remapToPy(Sk.sense_hat.colour);
+      // var colour = Sk.ffi.remapToPy(Sk.sense_hat.colour);
+      var colourSelector = document.getElementById('sense_hat_colour')
+      if (colourSelector) {
+        // console.log(hex2rgb(colourSelector.value))
+        colour = Sk.ffi.remapToPy(hex2rgb(colourSelector.value))
+      } else {
+        colour = Sk.ffi.remapToPy(hex2rgb("#000000"))
+      }
 
       return colour;
   });
@@ -271,44 +283,44 @@
    * Motion
    */
   mod.motionRead = new Sk.builtin.func(function () {
-      var motion = Sk.ffi.remapToPy(Sk.sense_hat.motion);
-
-      return motion;
+    var motionCheckbox = document.getElementById('sense_hat_motion')
+    var motion = motionCheckbox&&motionCheckbox.checked?Sk.ffi.remapToPy(1):Sk.ffi.remapToPy(0);
+    return motion;
   });
 
   /**
    * Adds the event handler for motion callbacks
    */
-  mod._start_motion = new Sk.builtin.func(function(callback) {
-      $( "#sense_hat_motion" ).off( ".motion" );
-      if(!(callback instanceof Sk.builtin.none)){
-          function handleMotion () {
-              Sk.misceval.callsimAsync(null, callback);
-          }
-          $('#sense_hat_motion').on('change.motion', function() {
-              var motion = this.checked;
-              if(motion)
-                  handleMotion();
-          });
-      }
-  });
+  // mod._start_motion = new Sk.builtin.func(function(callback) {
+  //     $( "#sense_hat_motion" ).off( ".motion" );
+  //     if(!(callback instanceof Sk.builtin.none)){
+  //         function handleMotion () {
+  //             Sk.misceval.callsimAsync(null, callback);
+  //         }
+  //         $('#sense_hat_motion').on('change.motion', function() {
+  //             var motion = this.checked;
+  //             if(motion)
+  //                 handleMotion();
+  //         });
+  //     }
+  // });
 
-  /**
-   * Adds the event handler for motion callbacks
-   */
-  mod._stop_motion = new Sk.builtin.func(function(callback) {
-      $( "#sense_hat_motion" ).off( ".stopmotion" );
-      if(!(callback instanceof Sk.builtin.none)){
-          function handleMotion () {
-              Sk.misceval.callsimAsync(null, callback);
-          }
-          $('#sense_hat_motion').on('change.stopmotion', function() {
-              var motion = this.checked;
-              if(!motion)
-                  handleMotion();
-          });
-      }
-  });
+  // /**
+  //  * Adds the event handler for motion callbacks
+  //  */
+  // mod._stop_motion = new Sk.builtin.func(function(callback) {
+  //     $( "#sense_hat_motion" ).off( ".stopmotion" );
+  //     if(!(callback instanceof Sk.builtin.none)){
+  //         function handleMotion () {
+  //             Sk.misceval.callsimAsync(null, callback);
+  //         }
+  //         $('#sense_hat_motion').on('change.stopmotion', function() {
+  //             var motion = this.checked;
+  //             if(!motion)
+  //                 handleMotion();
+  //         });
+  //     }
+  // });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
       var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.fusionPose);
