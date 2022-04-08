@@ -8,7 +8,7 @@ const RunButton = (props) => {
   const dispatch = useDispatch();
 
   const onClickRun = () => {
-    dispatch(setSenseHatEnabled(false))
+    // dispatch(setSenseHatEnabled(false))
     dispatch(triggerCodeRun());
     dispatch(triggerDraw());
   }

@@ -79,6 +79,7 @@ const Simulator = (props) => {
 
       var clock = new THREE.Clock();
       var delta;
+      // var txt="";
       var txt = props.message;
       console.log('txt=', txt)
       var vdata = new Array(8);

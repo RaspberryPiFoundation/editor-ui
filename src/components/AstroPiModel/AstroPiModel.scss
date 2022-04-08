@@ -1,29 +1,16 @@
 .sense-hat-canvas-container {
-  height: 400px;
+  height: 550px;
   max-width: 500px;
 }
 
 #orientation-layer {
   #sensehat-node.scene {
-    height: 400px;
-    width: 500px;
+    height: 100%;
+    width: 100%;
   }
 }
 
 #sense-hat-sensor-controls-container, #orientation-overlay {
-
-    z-index: 100;
-  
-    &.top {
-      border-bottom: 1px solid #ddd;
-      position: relative;
-      z-index: 10;
-    }
-    &.bottom {
-      position: absolute;
-      bottom: 0;
-      border-top: 1px solid #ddd;
-    }
   
     width: 100%;
   
@@ -324,17 +311,13 @@
       transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     }
   
-    width: 100%;
-    min-height: 100px;
-  
     &.snapshot {
       transform: scale(0.5) translateY(150px);
     }
   
     .orientation-layer {
-      width: 100%;
-      height: 100%;
-  
+      width: 500px;
+      height: 400px;  
       -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
   

@@ -29,8 +29,9 @@
   mod.init = new Sk.builtin.func(function () {
       // check if the pixels array does already exist and or create it
       if(!Sk.sense_hat) {
-          throw new Error('SenseHat Browser storage must be set: Sk.sense_hat must exist');
-      }
+          // throw new Error('SenseHat Browser storage must be set: Sk.sense_hat must exist');
+          Sk.sense_hat={}
+        }
 
       // create 64 (8x8) empty array for the leds
       if (!Sk.sense_hat.pixels || Sk.sense_hat.pixels.length === 0) {
@@ -51,16 +52,17 @@
       }
 
       // Sensor stuff, all reads should never fail
-      if (!Sk.sense_hat.rtimu) {
-          Sk.sense_hat.rtimu = {
-              pressure: [1, 0], /* isValid, pressure*/
-              temperature: [1, 0], /* isValid, temperature */
-              humidity: [1, 0], /* isValid, humidity */
-              gyro: [0, 0, 0], /* all 3 gyro values */
-              accel: [0, 0, 0], /* all 3 accel values */
-              compass: [0, 0, 0], /* all compass values */
-              fusionPose: [0, 0, 0] /* fusionpose, accelerometer */
-          }
+      const pressureSlider = document.getElementById('sense_hat_pressure')
+      const temperatureSlider = document.getElementById('sense_hat_temperature')
+      const humiditySlider = document.getElementById('sense_hat_humidity')
+      Sk.sense_hat.rtimu = {
+          pressure: [1, pressureSlider ? pressureSlider.value : 1013], /* isValid, pressure*/
+          temperature: [1, temperatureSlider ? temperatureSlider.value : 13], /* isValid, temperature */
+          humidity: [1, humiditySlider ? humiditySlider.value : 45], /* isValid, humidity */
+          gyro: [0, 0, 0], /* all 3 gyro values */
+          accel: [0, 0, 0], /* all 3 accel values */
+          compass: [0, 0, 0], /* all compass values */
+          fusionPose: [0, 0, 0] /* fusionpose, accelerometer */
       }
 
       if (Sk.sense_hat_emit) {
