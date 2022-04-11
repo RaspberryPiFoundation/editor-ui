@@ -56,9 +56,9 @@
       const temperatureSlider = document.getElementById('sense_hat_temperature')
       const humiditySlider = document.getElementById('sense_hat_humidity')
       Sk.sense_hat.rtimu = {
-          pressure: [1, pressureSlider ? pressureSlider.value : 1013], /* isValid, pressure*/
-          temperature: [1, temperatureSlider ? temperatureSlider.value : 13], /* isValid, temperature */
-          humidity: [1, humiditySlider ? humiditySlider.value : 45], /* isValid, humidity */
+          pressure: [1, (pressureSlider ? parseFloat(pressureSlider.value) : 1013)+Math.random()-0.5], /* isValid, pressure*/
+          temperature: [1, (temperatureSlider ? parseFloat(temperatureSlider.value) : 13)+Math.random()-0.5], /* isValid, temperature */
+          humidity: [1, (humiditySlider ? parseFloat(humiditySlider.value) : 45)+Math.random()-0.5], /* isValid, humidity */
           gyro: [0, 0, 0], /* all 3 gyro values */
           accel: [0, 0, 0], /* all 3 accel values */
           compass: [0, 0, 0], /* all compass values */
