@@ -291,36 +291,36 @@
   /**
    * Adds the event handler for motion callbacks
    */
-  // mod._start_motion = new Sk.builtin.func(function(callback) {
-  //     $( "#sense_hat_motion" ).off( ".motion" );
-  //     if(!(callback instanceof Sk.builtin.none)){
-  //         function handleMotion () {
-  //             Sk.misceval.callsimAsync(null, callback);
-  //         }
-  //         $('#sense_hat_motion').on('change.motion', function() {
-  //             var motion = this.checked;
-  //             if(motion)
-  //                 handleMotion();
-  //         });
-  //     }
-  // });
+  mod._start_motion = new Sk.builtin.func(function(callback) {
+      $( "#sense_hat_motion" ).off( ".motion" );
+      if(!(callback instanceof Sk.builtin.none)){
+          function handleMotion () {
+              Sk.misceval.callsimAsync(null, callback);
+          }
+          $('#sense_hat_motion').on('change.motion', function() {
+              var motion = this.checked;
+              if(motion)
+                  handleMotion();
+          });
+      }
+  });
 
-  // /**
-  //  * Adds the event handler for motion callbacks
-  //  */
-  // mod._stop_motion = new Sk.builtin.func(function(callback) {
-  //     $( "#sense_hat_motion" ).off( ".stopmotion" );
-  //     if(!(callback instanceof Sk.builtin.none)){
-  //         function handleMotion () {
-  //             Sk.misceval.callsimAsync(null, callback);
-  //         }
-  //         $('#sense_hat_motion').on('change.stopmotion', function() {
-  //             var motion = this.checked;
-  //             if(!motion)
-  //                 handleMotion();
-  //         });
-  //     }
-  // });
+  /**
+   * Adds the event handler for motion callbacks
+   */
+  mod._stop_motion = new Sk.builtin.func(function(callback) {
+      $( "#sense_hat_motion" ).off( ".stopmotion" );
+      if(!(callback instanceof Sk.builtin.none)){
+          function handleMotion () {
+              Sk.misceval.callsimAsync(null, callback);
+          }
+          $('#sense_hat_motion').on('change.stopmotion', function() {
+              var motion = this.checked;
+              if(!motion)
+                  handleMotion();
+          });
+      }
+  });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
       var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.fusionPose);
@@ -466,6 +466,7 @@
       var susp = new Sk.misceval.Suspension();
       susp.resume = function () {
           if (susp.data["error"]) {
+              console.log(susp.data)
               throw new Error('KeyboardInterrupt');
           }
           return Sk.builtin.bool(hasEvent);
