@@ -10,7 +10,9 @@ import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 
 const allowedExtensions = {
   "python": [
-    "py"
+    "py",
+    "csv",
+    "txt"
   ]
 }
 
