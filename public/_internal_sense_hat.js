@@ -96,7 +96,6 @@
       }
 
       if (Sk.sense_hat_emit) {
-          console.log("emitting individual pixel.......")
           Sk.sense_hat_emit('setpixel', _index);
       }
   });
@@ -129,7 +128,6 @@
       }
 
       if (Sk.sense_hat_emit) {
-          console.log("emitting....")
           Sk.sense_hat_emit('setpixels', _indexes);
       }
   });

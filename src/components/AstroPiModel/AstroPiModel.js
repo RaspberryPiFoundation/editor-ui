@@ -1,12 +1,26 @@
 import { useEffect, useState } from 'react';
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
+import Sk from 'skulpt';
 
 const AstroPiModel = (props) => {
 
   const [temperature, setTemperature] = useState(13);
   const [pressure, setPressure] = useState(1013);
   const [humidity, setHumidity] = useState(45);
+
+  useEffect(() => {
+    Sk.sense_hat.rtimu.temperature[1] = temperature+Math.random()-0.5
+    Sk.sense_hat.rtimu.pressure[1] = pressure+Math.random()-0.5
+    Sk.sense_hat.rtimu.humidity[1] = humidity+Math.random()-0.5
+
+  }, [temperature, pressure, humidity])
+
+  // const updateTemperature = (e) => {
+  //   setTemperature(parseFloat(e.target.value))
+  //   // Sk.sense_hat.rtimu.temperature[1] = parseFloat(e.target.value)+Math.random()-0.5
+  //   // console.log(Sk.sense_hat.rtimu.temperature)
+  // }
 
     return (
         <div className='sense-hat-canvas-container'>
@@ -20,7 +34,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-thermometer"></i>
                 <span className="sensor-value sense-hat-temperature">{temperature}°C</span>
               </div>
-              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue={temperature} onChange={(e)=>setTemperature(e.target.value)}/>
+              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue={temperature} onChange={e => setTemperature(parseFloat(e.target.value))}/>
             </div>
         
             {/* <!--Pressure--> */}
@@ -29,7 +43,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-barometer"></i>
                 <span className="sensor-value sense-hat-pressure">{pressure}hPa</span>
               </div>
-              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue={pressure} onChange={(e)=>setPressure(e.target.value)}/>
+              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue={pressure} onChange={(e)=>setPressure(parseFloat(e.target.value))}/>
             </div>
         
             {/* <!--Humidity--> */}
@@ -38,7 +52,7 @@ const AstroPiModel = (props) => {
                 <i className="wi wi-humidity"></i>
                 <span className="sensor-value sense-hat-humidity">{humidity}%</span>
               </div>
-              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue={humidity} onChange={(e)=>setHumidity(e.target.value)}/>
+              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue={humidity} onChange={(e)=>setHumidity(parseFloat(e.target.value))}/>
             </div>
           </div>
         
