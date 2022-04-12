@@ -38,5 +38,9 @@ exports[`Renders without crashing 1`] = `
       />
     </div>
   </div>
+  <div
+    hidden={true}
+    id="file-content"
+  />
 </div>
 `;
