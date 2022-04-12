@@ -6,6 +6,7 @@ import { useProject } from '../Editor/Hooks/useProject'
 import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
 import EmbeddedControls from './EmbeddedControls/EmbeddedControls'
+import ExternalFiles from '../ExternalFiles/ExternalFiles';
 
 const EmbeddedViewer = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
@@ -20,6 +21,7 @@ const EmbeddedViewer = (props) => {
         <div>
           <PythonRunner />
         </div>
+        <ExternalFiles />
       </div>
     </>
   ) : <p>Loading</p>;
