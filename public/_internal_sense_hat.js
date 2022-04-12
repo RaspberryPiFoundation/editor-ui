@@ -27,6 +27,7 @@
   }
 
   mod.init = new Sk.builtin.func(function () {
+      console.log("initialising sense hat......")
       // check if the pixels array does already exist and or create it
       if(!Sk.sense_hat) {
           // throw new Error('SenseHat Browser storage must be set: Sk.sense_hat must exist');
@@ -95,6 +96,7 @@
       }
 
       if (Sk.sense_hat_emit) {
+          console.log("emitting individual pixel.......")
           Sk.sense_hat_emit('setpixel', _index);
       }
   });
@@ -127,6 +129,7 @@
       }
 
       if (Sk.sense_hat_emit) {
+          console.log("emitting....")
           Sk.sense_hat_emit('setpixels', _indexes);
       }
   });

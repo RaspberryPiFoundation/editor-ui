@@ -4,14 +4,86 @@ import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
 import { useEffect } from 'react';
+import Sk from 'skulpt';
 
 const Simulator = (props) => {
 
-  // console.log(props.message)
-
     useEffect(()=> {
+
+      // low light settings
+      var lowLightLimit     = 8;
+      var defaultLightLimit = 47;
+      var lightThreshold    = defaultLightLimit;
+
+      function zeroPad(num) {
+        return num.toString().length === 2 ? num : "0" + num;
+      }
+
+      Sk.sense_hat_emit   = function(event, data) {
+        var offbright = 0.4 // opacity of LED off state - gives a whiteness that looks more real
+
+          // minimum lit brightness, out of 255. LEDs won't get darker than this.
+          // This should be roughly lighter than LED off state to avoid flash.
+          , minBrightness = 180
+
+          // RGB LEDs get a scaled brightness or 0 if they're below the threshold
+          // Note: I believe this maxBrightness is what would need to change for low_light
+          // It needs to be decently above minBrightness to allow for perceivable differences.
+          , maxBrightness = 255
+
+          // These default values should match the svg pixel stack's respective starting opacities
+          , rled = 0
+          , gled = 0
+          , bled = 0
+          , oled = 1
+          , kled = 1
+
+          , ledIndex, ledData, ledEnclosure, $led;
+
+        if (event && event === 'setpixel') {
+          // change the led
+          ledIndex = data;
+          ledData  = Sk.sense_hat.pixels[ledIndex];
+
+          // Convert LED-RGB to RGB565 // and then to RGB555
+          Sk.sense_hat.pixels[ledIndex] = [
+            ledData[0] & ~7,
+            ledData[1] & ~3,
+            ledData[2] & ~7
+          ];
+
+          set_pixel(ledIndex, parseInt(ledData[0]*255), parseInt(ledData[1]*255), parseInt(ledData[2]*255));
+
+        }
+        else if (event && event === 'changeLowlight') {
+          lightThreshold = data === true ? lowLightLimit : defaultLightLimit;
+        }
+        else if (event && event === 'setpixels') {
+          set_pixels(data, Sk.sense_hat.pixels);
+        }
+      };
+
+
+      var isDragging = false;
+      var targetRotationX = 0.5;
+      var targetRotationOnMouseDownX = 0;
+      var targetRotationY = 0.2;
+      var targetRotationOnMouseDownY = 0;
+      var mouseX = 0;
+      var mouseXOnMouseDown = 0;
+      var mouseY = 0;
+      var mouseYOnMouseDown = 0;
+      var windowHalfX = window.innerWidth / 2;
+      var windowHalfY = window.innerHeight / 2;
+      var slowingFactor = 0.25;
+
       var senseHatNode = document.getElementById('sensehat-node')
       senseHatNode.innerHTML='';
+
+      window.callback_move = null;
+      window.set_onrotate   = function(func){
+        window.callback_move = func;
+      }
       
       var camera = new THREE.PerspectiveCamera( 25, 500 / 400, 1, 20000 );
       camera.position.set(0, 1.5, 0);
@@ -46,18 +118,11 @@ const Simulator = (props) => {
 
       // Load the Orbitcontroller
       var controls = new OrbitControls( camera, renderer.domElement );
-      controls.enableRotate = true
-      controls.enablePan = true
-      controls.enableZoom = false
-      //controls.minDistance = 1.3
-      controls.keys = {
-          LEFT: 'ArrowLeft',
-          UP: 'ArrowUp',
-          RIGHT: 'ArrowRight',
-          BOTTOM: 'ArrowDown'
-      }
-      var mod;
-      
+      controls.enableRotate = false;
+      controls.enablePan = false;
+      controls.enableZoom = false;
+      controls.enabled = false;
+   
       // glTf Loader
       var loader = new GLTFLoader();     
       const dracoLoader = new DRACOLoader();
@@ -71,72 +136,46 @@ const Simulator = (props) => {
           gltf.scene.position.y = 0;          
           gltf.scene.position.z = 0;              
           scene.add( gltf.scene );
-          mod = gltf.scene
-          var newMaterial = new THREE.MeshStandardMaterial({color: 0xff0000});
+          window.mod = gltf.scene;
 
-          animate()
-      });  
+          renderer.render(scene, camera)
 
-      var clock = new THREE.Clock();
-      var delta;
-      // var txt="";
-      var txt = props.message;
-      console.log('txt=', txt)
-      var vdata = new Array(8);
-
-      // Create virtual bitmap that represents the size of the text 
-      for (var i = 0; i < vdata.length; i++) { 
-          vdata[i] = new Array((5*(txt.length))+16); 
-          for (var z = 0; z < vdata[i].length; z++) { 
-              vdata[i][z] = 0x0
-          }            
-      }
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
-      const dict = " +-*/!\"#$><0123456789.=)(ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz?,;:|@%[&_']\\~"
-
-      // Initialise the virtual bitmap with data from out 'font' file
-      for(var ch=0; ch<txt.length; ch++){
-          var vv = dict.indexOf(txt[ch])
-          for(var y=0;y<5;y++){
-              for(var x=0;x<8;x++){
-                  var dat = ctx.getImageData(7-x, y+(5*vv), 1, 1).data;
-                  if(dat[0] > 0){
-                      vdata[x][y+(ch*5)+8] = 0xffffff;
-                  }
-              }
-          }
-      }
-
-      var shift = 0;
-
-      // Animate the scrolling text
-      function animate() {
-          delta = clock.getElapsedTime();
-          var newMaterial = new THREE.MeshStandardMaterial({color: 0x00ff00});
-
-          for(var y=0;y<8;y++){
-              for(var x=0;x<8;x++){
-                  var object = mod.getObjectByName("circle"+y+"_"+x+"-1");
-                  if(object != null){
-                      var newMaterial = new THREE.MeshStandardMaterial({color: vdata[y][x+shift]});
-                      object.material = newMaterial
-                  }
-              }
+          document.addEventListener( 'pointerup', function( event ) {
+            // if ($('#canvas:hover').length <= 0)
+            //   return;
+            isDragging = false
+          })
+    
+          document.addEventListener( 'pointerdown', function( event ) {
+            // if ($('#canvas:hover').length <= 0)
+            //   return;
+            isDragging = true
+            mouseXOnMouseDown = event.clientX - windowHalfX;
+            targetRotationOnMouseDownX = targetRotationX;
+            mouseYOnMouseDown = event.clientY - windowHalfY;
+            targetRotationOnMouseDownY = targetRotationY;
+          })
+    
+          senseHatNode.addEventListener( 'pointermove', moveit );
+          window.finished3D = true
+          window.rotatemodel = function(x, y, z){
+            window.mod.rotation.x = x;
+            window.mod.rotation.y = y;
+            window.mod.rotation.z = z;
+            renderer.render( scene, camera );
           }
 
-          requestAnimationFrame( animate );
-          renderer.render( scene, camera );
+          // var newMaterial = new THREE.MeshStandardMaterial({color: 0x00ff00});
 
-          if(delta > 0.1){
-              clock.stop()
-              clock.start()
-              shift += 1
-              if (shift >= (txt.length*5)+8){
-                  shift = 0
-              }
-          }
-      }
+          // for(var y=0;y<8;y++){
+          //     for(var x=0;x<8;x++){
+          //         var object = window.mod.getObjectByName("mesh_"+screen[y][x]+"_1");
+          //         if(object != null){
+          //             object.material = newMaterial
+          //         }
+          //     }
+          // }
+      });
 
       /*
           Uses drag code from:
@@ -153,38 +192,69 @@ const Simulator = (props) => {
           y: 0
       };
 
-      document.addEventListener( 'pointerup', function( event ) {
-          isDragging = false
-      })
-
-      document.addEventListener( 'pointerdown', function( event ) {
-          isDragging = true
-      })
-
-      senseHatNode.addEventListener( 'pointermove', moveit );
-      
-      function moveit(e){
-          var deltaMove = {
-              x: e.offsetX-previousMousePosition.x,
-              y: e.offsetY-previousMousePosition.y
-          };
-
-          if(isDragging) {
-              var deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(
-                  toRadians(deltaMove.y * 1),
-                  toRadians(deltaMove.x * 1),
-                  0,
-                  'XYZ'
-              ));
-              mod.quaternion.multiplyQuaternions(deltaRotationQuaternion, mod.quaternion);
-              console.log(toDegrees(mod.rotation.x), toDegrees(mod.rotation.y), toDegrees(mod.rotation.z))
-          }
-
-          previousMousePosition = {
-              x: e.offsetX,
-              y: e.offsetY
-          };
+      function rotateAroundWorldAxis( object, axis, radians ) {
+        // Changed this function from
+        // the codepen version, so that it could rotate
+        // on both axis.  Unsure currently why the the codepen code
+        // didn't allow this with our model
+        object.rotateOnWorldAxis(axis, radians)
       }
+
+      function moveit(e){
+        // if ($('#canvas:hover').length <= 0)
+        //   return;
+        mouseX = e.clientX - windowHalfX;
+        targetRotationX = ( mouseX - mouseXOnMouseDown ) * 0.00025;
+        mouseY = e.clientY - windowHalfY;
+        targetRotationY = ( mouseY - mouseYOnMouseDown ) * 0.00025;
+      
+        if(isDragging) {
+          rotateAroundWorldAxis(window.mod, new THREE.Vector3(0, 1, 0), targetRotationX);
+          rotateAroundWorldAxis(window.mod, new THREE.Vector3(1, 0, 0), targetRotationY);
+          if (window.callback_move != null) {
+            window.callback_move(window.mod.rotation.x,window.mod.rotation.y,window.mod.rotation.y);
+          }
+          targetRotationY = targetRotationY * (1 - slowingFactor);
+          targetRotationX = targetRotationX * (1 - slowingFactor);
+          renderer.render( scene, camera );
+        }
+      }
+
+      function set_pixel(ledIndex,r,g,b) {
+        if(window.mod == null)
+          return;
+      
+        var x = ledIndex % 8;
+        var y = Math.floor(ledIndex / 8);
+        var newMaterial = new THREE.MeshStandardMaterial({color: 'rgb('+r+','+g+','+b+')'});
+        var object = window.mod.getObjectByName("circle"+x+"_"+(7-y)+"-1");
+      
+        if(object != null)
+          object.material = newMaterial;
+      
+        renderer.render( scene, camera );
+      }
+      
+      function set_pixels(indexes, pix) {
+        if(window.mod == null)
+          return;
+      
+        if(indexes == null)
+          indexes = Array.from(Array(8*8).keys())
+      
+        var i = 0;
+        for (const ledIndex of indexes){
+          var x = ledIndex % 8;
+          var y = Math.floor(ledIndex / 8);
+          var newMaterial = new THREE.MeshStandardMaterial({color: 'rgb('+pix[i][0]+','+pix[i][1]+','+pix[i][2]+')'});
+          var object = window.mod.getObjectByName("circle"+x+"_"+(7-y)+"-1");
+          if(object != null)
+            object.material = newMaterial;
+          i += 1;
+        }
+        renderer.render( scene, camera );
+      }
+      
 
       function toRadians(angle) {
           return angle * (Math.PI / 180);
