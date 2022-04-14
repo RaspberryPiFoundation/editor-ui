@@ -27,7 +27,6 @@
   }
 
   mod.init = new Sk.builtin.func(function () {
-      console.log("initialising sense hat......")
       // check if the pixels array does already exist and or create it
       if(!Sk.sense_hat) {
           // throw new Error('SenseHat Browser storage must be set: Sk.sense_hat must exist');
@@ -271,7 +270,6 @@
       // var colour = Sk.ffi.remapToPy(Sk.sense_hat.colour);
       var colourSelector = document.getElementById('sense_hat_colour')
       if (colourSelector) {
-        // console.log(hex2rgb(colourSelector.value))
         colour = Sk.ffi.remapToPy(hex2rgb(colourSelector.value))
       } else {
         colour = Sk.ffi.remapToPy(hex2rgb("#000000"))
