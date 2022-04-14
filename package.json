@@ -17,10 +17,13 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
     "curl": "^0.1.4",
+    "detectizr": "^2.2.0",
     "highcharts": "^9.3.1",
     "highcharts-react-official": "^3.1.0",
     "jest-dom": "^4.0.0",
     "jq": "^1.7.2",
+    "jquery": "^3.6.0",
+    "modernizr": "^3.12.0",
     "oidc-client": "^1.11.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -34,6 +37,7 @@
     "redux-mock-store": "^1.5.4",
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
+    "three": "^0.137.5",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -62,6 +66,7 @@
   },
   "devDependencies": {
     "jest-junit": "^13.0.0",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "sass": "^1.49.11"
   }
 }

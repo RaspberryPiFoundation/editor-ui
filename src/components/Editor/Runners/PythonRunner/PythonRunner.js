@@ -3,17 +3,18 @@ import './PythonRunner.css';
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw, setSenseHatEnabled } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
+import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
-  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const outputCanvas = useRef();
   const output = useRef();
   const pygalOutput = useRef();
@@ -62,6 +63,9 @@ const PythonRunner = () => {
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
+    },
+    "./_internal_sense_hat/__init__.js": {
+      path: process.env.PUBLIC_URL + '/_internal_sense_hat.js'
     }
   };
 
@@ -77,6 +81,11 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
+
+    if (x==="./_internal_sense_hat/__init__.js") {
+      dispatch(setSenseHatEnabled(true))
+    }
+
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -215,6 +224,8 @@ const PythonRunner = () => {
     Sk.p5.sketch = "p5Sketch";
     Sk.p5.assets = projectImages;
 
+    // Sk.sense_hat = {}
+
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
     Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
@@ -275,6 +286,8 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
+
+      {store.getState().editor.senseHatEnabled?<AstroPiModel/>:null}
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
     </div>
   );
