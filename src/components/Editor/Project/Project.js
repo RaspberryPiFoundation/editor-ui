@@ -18,6 +18,7 @@ import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 import ProjectImages from '../ProjectImages/ProjectImages';
+import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -103,6 +104,7 @@ const Project = () => {
             )}
           </Tabs>
         </div>
+        <ExternalFiles />
         <div className='proj-runner-container'>
           <RunnerFactory projectType={project.type} />
         </div>
