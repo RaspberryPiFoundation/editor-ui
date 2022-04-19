@@ -39,7 +39,8 @@
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
     "three": "^0.137.5",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "webgl-mock-threejs": "^0.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
