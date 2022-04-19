@@ -20,25 +20,7 @@ const Simulator = (props) => {
       }
 
       Sk.sense_hat_emit   = function(event, data) {
-        var offbright = 0.4 // opacity of LED off state - gives a whiteness that looks more real
-
-          // minimum lit brightness, out of 255. LEDs won't get darker than this.
-          // This should be roughly lighter than LED off state to avoid flash.
-          , minBrightness = 180
-
-          // RGB LEDs get a scaled brightness or 0 if they're below the threshold
-          // Note: I believe this maxBrightness is what would need to change for low_light
-          // It needs to be decently above minBrightness to allow for perceivable differences.
-          , maxBrightness = 255
-
-          // These default values should match the svg pixel stack's respective starting opacities
-          , rled = 0
-          , gled = 0
-          , bled = 0
-          , oled = 1
-          , kled = 1
-
-          , ledIndex, ledData, ledEnclosure, $led;
+        var ledIndex, ledData;
 
         if (event && event === 'setpixel') {
           // change the led
@@ -164,17 +146,6 @@ const Simulator = (props) => {
             window.mod.rotation.z = z;
             renderer.render( scene, camera );
           }
-
-          // var newMaterial = new THREE.MeshStandardMaterial({color: 0x00ff00});
-
-          // for(var y=0;y<8;y++){
-          //     for(var x=0;x<8;x++){
-          //         var object = window.mod.getObjectByName("mesh_"+screen[y][x]+"_1");
-          //         if(object != null){
-          //             object.material = newMaterial
-          //         }
-          //     }
-          // }
       });
 
       /*
@@ -255,14 +226,6 @@ const Simulator = (props) => {
         renderer.render( scene, camera );
       }
       
-
-      function toRadians(angle) {
-          return angle * (Math.PI / 180);
-      }
-
-      function toDegrees(angle) {
-          return angle * (180 / Math.PI);
-      }
       document.getElementById("sensetxt").setAttribute('onload', draw())
   }, [])
 
