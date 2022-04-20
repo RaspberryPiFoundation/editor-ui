@@ -15,10 +15,6 @@ const Simulator = (props) => {
       var defaultLightLimit = 47;
       var lightThreshold    = defaultLightLimit;
 
-      function zeroPad(num) {
-        return num.toString().length === 2 ? num : "0" + num;
-      }
-
       Sk.sense_hat_emit   = function(event, data) {
         var ledIndex, ledData;
 
@@ -225,22 +221,13 @@ const Simulator = (props) => {
         }
         renderer.render( scene, camera );
       }
-      
-      document.getElementById("sensetxt").setAttribute('onload', draw())
   }, [])
-
-  function draw() {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(document.getElementById('sensetxt'), 0, 0);
-  }
 
     return (
       <div hidden>
         <canvas id='canvas' width="8" height="640">
           Canvas not supported
         </canvas>
-        <img id="sensetxt" src="sense_hat_text.bmp" alt=''/>
       </div>
     )
 };
