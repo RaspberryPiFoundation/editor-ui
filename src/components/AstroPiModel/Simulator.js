@@ -308,31 +308,31 @@ const Simulator = (props) => {
         // store the new deviceOrientation on the rtimu object as [x,y,z]
         Sk.sense_hat.rtimu.raw_orientation = deviceOrientation.asArray();
 
-        var orientationValues = {
-            pitch : roundAngle(deviceOrientation.pitch)
-          , roll  : roundAngle(deviceOrientation.roll)
-          , yaw   : roundAngle(deviceOrientation.yaw)
-          , rotation_matrix : deviceOrientation.matrix
-        };
+        // var orientationValues = {
+        //     pitch : roundAngle(deviceOrientation.pitch)
+        //   , roll  : roundAngle(deviceOrientation.roll)
+        //   , yaw   : roundAngle(deviceOrientation.yaw)
+        //   , rotation_matrix : deviceOrientation.matrix
+        // };
 
         // Update UI and hidden input values
-        var i;
-        var ui_name;
-        var setting_name;
-        var setting;
+        // var i;
+        // var ui_name;
+        // var setting_name;
+        // var setting;
 
         // Notice: for loop with cached length is up to 70% faster than forEach (https://jsperf.com/for-vs-foreach/37)
-        for (i = 0; i < orientation_settings_length; i++) {
-          setting      = orientation_settings[i];
-          ui_name      = 'sense-hat-' + setting;
-          setting_name = 'sense_hat_' + setting;
+        // for (i = 0; i < orientation_settings_length; i++) {
+        //   setting      = orientation_settings[i];
+        //   ui_name      = 'sense-hat-' + setting;
+        //   setting_name = 'sense_hat_' + setting;
 
-          // if ($('span.' + ui_name).length) {
-          //   $('span.' + ui_name).html(orientationValues[setting]);
-          // }
+        //   // if ($('span.' + ui_name).length) {
+        //   //   $('span.' + ui_name).html(orientationValues[setting]);
+        //   // }
 
-          $('#' + setting_name).val(orientationValues[setting]).change();
-        }
+        //   $('#' + setting_name).val(orientationValues[setting]).change();
+        // }
       }
 
       /**
@@ -365,6 +365,10 @@ const Simulator = (props) => {
 
         // Get a copy of the old orientation in degrees (fusionPose is in radians)
         var oldOrientation = Sk.sense_hat.rtimu.raw_old_orientation;
+
+        if (oldOrientation === null || oldOrientation === undefined) {
+          oldOrientation = [0,90,0];
+        }
         var newOrientation = Geometry.degToRad(Sk.sense_hat.rtimu.raw_orientation);
 
         // Gyro is the rate of change of the orientation
@@ -417,14 +421,14 @@ const Simulator = (props) => {
         /* Update the internal rtimu data object */
 
         // The values are Floats representing the angle of the axis in degrees
-        _accel = perturb(_accel, 0.1);
+        // _accel = perturb(_accel, 0.1);
         Sk.sense_hat.rtimu.accel = [
           Geometry.clamp(_accel[0], -8, 8),
           Geometry.clamp(_accel[1], -8, 8),
           Geometry.clamp(_accel[2], -8, 8)
         ];
 
-        _gyro = perturb(_gyro, .5);
+        // _gyro = perturb(_gyro, .5);
         // radians per second
         Sk.sense_hat.rtimu.gyro = [
           _gyro[0],
@@ -433,7 +437,7 @@ const Simulator = (props) => {
         ];
 
 
-        _compass = perturb(_compass, .01);
+        // _compass = perturb(_compass, .01);
         // multiply with 100 -> from Gauss to microteslas (µT)
         Sk.sense_hat.rtimu.compass = [
           _compass[0] * 100,
@@ -647,7 +651,7 @@ const Simulator = (props) => {
        * @returns {Number|Array} depends on the deg param
        */
       Geometry.degToRad =  function(deg) {
-        if ($.isArray(deg)) {
+        if (deg instanceof Array) {
           return [
               deg[0] * Math.PI / 180,
               deg[1] * Math.PI / 180,
@@ -665,7 +669,7 @@ const Simulator = (props) => {
        * @returns {Number|Array} depends on the rad param
        */
       Geometry.radToDeg = function(rad) {
-        if ($.isArray(rad)) {
+        if (rad instanceof Array) {
           return [
               rad[0] * 180 / Math.PI,
               rad[1] * 180 / Math.PI,
@@ -712,18 +716,18 @@ const Simulator = (props) => {
         //   $('#enclosure-toggle-container').hide();
         // }
 
-        var i, setting_name;
+        // var i, setting_name;
 
-        for (i = 0; i < orientation_settings.length; i++) {
-          setting_name = 'sense_hat_' + orientation_settings[i];
+        // for (i = 0; i < orientation_settings.length; i++) {
+        //   setting_name = 'sense_hat_' + orientation_settings[i];
 
-          $('#' + setting_name).data('skip-trigger', true);
+        //   $('#' + setting_name).data('skip-trigger', true);
 
           // if (typeof TrinketIO.runtime(setting_name) !== 'undefined') {
           //   $('#' + setting_name).val(TrinketIO.runtime(setting_name));
           //   TrinketIO.runtime(setting_name, undefined);
           // }
-        }
+        // }
 
         // var pitch = $('#sense_hat_pitch').val();
         // var roll  = $('#sense_hat_roll').val();
@@ -732,8 +736,11 @@ const Simulator = (props) => {
         // var old_angle = parseInt($('#sense_hat_angle').val());
         // var matrix3d = $('#sense_hat_rotation_matrix').val();
 
-        window.set_onrotate(function(x,y,z){
-          deviceOrientationChange(new DeviceOrientation(x  * 180 / Math.PI,y  * 180 / Math.PI,z  * 180 / Math.PI));
+        window.set_onrotate(function(){
+          const x=window.mod.rotation.x;
+          const y=window.mod.rotation.y;
+          const z=window.mod.rotation.z;
+          deviceOrientationChange(new DeviceOrientation((x  * 180 / Math.PI)+90,y  * 180 / Math.PI,z  * 180 / Math.PI));
         });
 
         var deviceOrientation = new DeviceOrientation(90,0,0);
@@ -742,7 +749,7 @@ const Simulator = (props) => {
         resetButton.onclick = function(event) {
           event.preventDefault();
 
-          var x = 90
+          var x = 0
             , y = 0
             , z = 0;
 
@@ -758,7 +765,7 @@ const Simulator = (props) => {
           window.rotatemodel(Geometry.degToRad(x), Geometry.degToRad(y), Geometry.degToRad(z));
           angle = Geometry.degToRad(z);
 
-          var deviceOrientation = new DeviceOrientation(x, y, z);
+          var deviceOrientation = new DeviceOrientation(90, 0, 0);
           deviceOrientationChange(deviceOrientation);
 
           /*traq.stop(function() {
@@ -771,26 +778,22 @@ const Simulator = (props) => {
         };
       }
 
-
-
-
-
       initOrientation()
-      document.getElementById("sensetxt").setAttribute('onload', draw())
+      // document.getElementById("sensetxt").setAttribute('onload', draw())
   }, [])
 
-  function draw() {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(document.getElementById('sensetxt'), 0, 0);
-  }
+  // function draw() {
+  //   var canvas = document.getElementById('canvas');
+  //   var ctx = canvas.getContext('2d');
+  //   ctx.drawImage(document.getElementById('sensetxt'), 0, 0);
+  // }
 
     return (
       <div hidden>
         <canvas id='canvas' width="8" height="640">
           Canvas not supported
         </canvas>
-        <img id="sensetxt" src="sense_hat_text.bmp" alt=''/>
+        {/* <img id="sensetxt" src="sense_hat_text.bmp" alt=''/> */}
       </div>
     )
 };
