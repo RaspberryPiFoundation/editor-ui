@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
 import { Geometry } from '../../utils/Geometry';
 import DeviceOrientation from '../../utils/DeviceOrientation';
@@ -15,11 +15,6 @@ const Simulator = (props) => {
       // low light settings
       var lowLightLimit     = 8;
       var defaultLightLimit = 47;
-      var lightThreshold    = defaultLightLimit;
-
-      function zeroPad(num) {
-        return num.toString().length === 2 ? num : "0" + num;
-      }
 
       Sk.sense_hat_emit   = function(event, data) {
         var ledIndex, ledData;
