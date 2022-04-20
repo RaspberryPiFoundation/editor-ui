@@ -333,6 +333,12 @@ const Simulator = (props) => {
 
         //   $('#' + setting_name).val(orientationValues[setting]).change();
         // }
+        var roll = document.getElementsByClassName('sense-hat-roll')[0]
+        var pitch = document.getElementsByClassName('sense-hat-pitch')[0]
+        var yaw = document.getElementsByClassName('sense-hat-yaw')[0]
+        roll.innerText = Math.round(deviceOrientation.roll*10)/10
+        pitch.innerText = Math.round(deviceOrientation.pitch*10)/10
+        yaw.innerText = Math.round(deviceOrientation.yaw*10)/10
       }
 
       /**
@@ -740,7 +746,7 @@ const Simulator = (props) => {
           const x=window.mod.rotation.x;
           const y=window.mod.rotation.y;
           const z=window.mod.rotation.z;
-          deviceOrientationChange(new DeviceOrientation((x  * 180 / Math.PI)+90,y  * 180 / Math.PI,z  * 180 / Math.PI));
+          deviceOrientationChange(new DeviceOrientation(((x  * 180 / Math.PI)+90+360)%360,((y  * 180 / Math.PI)+360)%360,((z  * 180 / Math.PI)+360)%360));
         });
 
         var deviceOrientation = new DeviceOrientation(90,0,0);

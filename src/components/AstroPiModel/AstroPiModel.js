@@ -16,11 +16,6 @@ const AstroPiModel = (props) => {
 
   }, [temperature, pressure, humidity])
 
-  // const updateTemperature = (e) => {
-  //   setTemperature(parseFloat(e.target.value))
-  //   // Sk.sense_hat.rtimu.temperature[1] = parseFloat(e.target.value)+Math.random()-0.5
-  //   // console.log(Sk.sense_hat.rtimu.temperature)
-  // }
 
     return (
         <div className='sense-hat-canvas-container'>
@@ -98,7 +93,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   roll:
                 </span>
-                <span className="sense-hat-roll right">0</span>
+                <span className="sense-hat-roll right"></span>
               </div>
               <input id="sense_hat_roll" type="hidden" value="0" />
             </div>
@@ -109,7 +104,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   pitch:
                 </span>
-                <span className="sense-hat-pitch right">100</span>
+                <span className="sense-hat-pitch right"></span>
               </div>
               <input id="sense_hat_pitch" type="hidden" value="100" />
             </div>
@@ -120,7 +115,7 @@ const AstroPiModel = (props) => {
                 <span className="orientation-reading">
                   yaw:
                 </span>
-                <span className="sense-hat-yaw right">90</span>
+                <span className="sense-hat-yaw right"></span>
               </div>
               <input id="sense_hat_yaw" type="hidden" value="90" />
             </div>

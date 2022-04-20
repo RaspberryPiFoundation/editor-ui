@@ -62,7 +62,7 @@
           gyro: [0, 0, 0], /* all 3 gyro values */
           accel: [0, 0, 0], /* all 3 accel values */
           compass: [0, 0, 0], /* all compass values */
-          fusionPose: [0, 0, 0] /* fusionpose, accelerometer */
+          raw_orientation: Sk.sense_hat.rtimu?Sk.sense_hat.rtimu.raw_orientation:[0, 90, 0]
       }
 
       if (Sk.sense_hat_emit) {
@@ -322,7 +322,7 @@
   });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
-      var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.fusionPose);
+      var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.raw_orientation.map(x=>x*Math.PI/180));
 
       return fusionPose;
   });
@@ -345,8 +345,8 @@
 
       // Accelerometer's roll and pitch, used for compensation
       var x, y;
-      x = Sk.sense_hat.rtimu.fusionPose[0]; // roll
-      y = Sk.sense_hat.rtimu.fusionPose[1]; // pitch
+      x = Sk.sense_hat.rtimu.raw_orientation[0]; // roll
+      y = Sk.sense_hat.rtimu.raw_orientation[1]; // pitch
 
       // Compass raw values in microteslas
       var mx, my, mz;
