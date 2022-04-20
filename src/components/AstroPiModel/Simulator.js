@@ -15,6 +15,7 @@ const Simulator = (props) => {
       // low light settings
       var lowLightLimit     = 8;
       var defaultLightLimit = 47;
+      var lightThreshold    = defaultLightLimit;
 
       Sk.sense_hat_emit   = function(event, data) {
         var ledIndex, ledData;
