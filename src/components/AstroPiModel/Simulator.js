@@ -121,14 +121,10 @@ const Simulator = (props) => {
           renderer.render(scene, camera)
 
           document.addEventListener( 'pointerup', function( event ) {
-            // if ($('#canvas:hover').length <= 0)
-            //   return;
             isDragging = false
           })
     
-          document.addEventListener( 'pointerdown', function( event ) {
-            // if ($('#canvas:hover').length <= 0)
-            //   return;
+          senseHatNode.addEventListener( 'pointerdown', function( event ) {
             isDragging = true
             mouseXOnMouseDown = event.clientX - windowHalfX;
             targetRotationOnMouseDownX = targetRotationX;
@@ -136,7 +132,7 @@ const Simulator = (props) => {
             targetRotationOnMouseDownY = targetRotationY;
           })
     
-          senseHatNode.addEventListener( 'pointermove', moveit );
+          document.addEventListener( 'pointermove', moveit );
           window.finished3D = true
           window.rotatemodel = function(x, y, z){
             window.mod.rotation.x = x;
@@ -156,10 +152,6 @@ const Simulator = (props) => {
           Note: Had to use pointer* events rather than mouse* events
       */
       var isDragging = false;
-      var previousMousePosition = {
-          x: 0,
-          y: 0
-      };
 
       function rotateAroundWorldAxis( object, axis, radians ) {
         // Changed this function from
@@ -170,8 +162,6 @@ const Simulator = (props) => {
       }
 
       function moveit(e){
-        // if ($('#canvas:hover').length <= 0)
-        //   return;
         mouseX = e.clientX - windowHalfX;
         targetRotationX = ( mouseX - mouseXOnMouseDown ) * 0.00025;
         mouseY = e.clientY - windowHalfY;
@@ -224,15 +214,7 @@ const Simulator = (props) => {
         }
         renderer.render( scene, camera );
       }
-      
 
-      // function toRadians(angle) {
-      //     return angle * (Math.PI / 180);
-      // }
-
-      // function toDegrees(angle) {
-      //     return angle * (180 / Math.PI);
-      // }
       // ===========================================================================================================
       // Orientation stuff
 
