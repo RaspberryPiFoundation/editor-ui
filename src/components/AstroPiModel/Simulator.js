@@ -144,17 +144,6 @@ const Simulator = (props) => {
             window.mod.rotation.z = z;
             renderer.render( scene, camera );
           }
-
-          // var newMaterial = new THREE.MeshStandardMaterial({color: 0x00ff00});
-
-          // for(var y=0;y<8;y++){
-          //     for(var x=0;x<8;x++){
-          //         var object = window.mod.getObjectByName("mesh_"+screen[y][x]+"_1");
-          //         if(object != null){
-          //             object.material = newMaterial
-          //         }
-          //     }
-          // }
       });
 
       /*
@@ -189,7 +178,7 @@ const Simulator = (props) => {
         targetRotationY = ( mouseY - mouseYOnMouseDown ) * 0.00025;
       
         if(isDragging) {
-          rotateAroundWorldAxis(window.mod, new THREE.Vector3(0, 1, 0), targetRotationX);
+          rotateAroundWorldAxis(window.mod, new THREE.Vector3(0, 0, -1), targetRotationX);
           rotateAroundWorldAxis(window.mod, new THREE.Vector3(1, 0, 0), targetRotationY);
           if (window.callback_move != null) {
             window.callback_move(window.mod.rotation.x,window.mod.rotation.y,window.mod.rotation.y);
@@ -352,6 +341,7 @@ const Simulator = (props) => {
 
         // Compass is tranposed rotation matrix dot multiplied with the north vector
         var _compass = Geometry.dot3x3and3x1(T, Geometry.Defaults.NORTH);
+        console.log(_compass)
 
         // store current orient to access it alter as old orient
         Sk.sense_hat.rtimu.raw_old_orientation = newOrientation;
@@ -397,8 +387,8 @@ const Simulator = (props) => {
         var resetButton      = document.getElementById('orientation-reset-btn');
         window.set_onrotate(function(){
           const x=window.mod.rotation.x;
-          const y=window.mod.rotation.y;
-          const z=window.mod.rotation.z;
+          const y=window.mod.rotation.z;
+          const z=window.mod.rotation.y;
           deviceOrientationChange(new DeviceOrientation(((x  * 180 / Math.PI)+90+360)%360,((y  * 180 / Math.PI)+360)%360,((z  * 180 / Math.PI)+360)%360));
         });
 
