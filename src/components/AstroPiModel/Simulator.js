@@ -341,7 +341,6 @@ const Simulator = (props) => {
 
         // Compass is tranposed rotation matrix dot multiplied with the north vector
         var _compass = Geometry.dot3x3and3x1(T, Geometry.Defaults.NORTH);
-        console.log(_compass)
 
         // store current orient to access it alter as old orient
         Sk.sense_hat.rtimu.raw_old_orientation = newOrientation;
@@ -410,6 +409,7 @@ const Simulator = (props) => {
 
           var deviceOrientation = new DeviceOrientation(90, 0, 0);
           deviceOrientationChange(deviceOrientation);
+          updateRTIMU()
         };
       }
 

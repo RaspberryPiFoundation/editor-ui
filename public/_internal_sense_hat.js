@@ -61,7 +61,7 @@
           humidity: [1, (humiditySlider ? parseFloat(humiditySlider.value) : 45)+Math.random()-0.5], /* isValid, humidity */
           gyro: [0, 0, 0], /* all 3 gyro values */
           accel: [0, 0, 0], /* all 3 accel values */
-          compass: [0, 0, 0], /* all compass values */
+          compass: [0, 0, 33], /* all compass values */
           raw_orientation: Sk.sense_hat.rtimu?Sk.sense_hat.rtimu.raw_orientation:[0, 90, 0]
       }
 
