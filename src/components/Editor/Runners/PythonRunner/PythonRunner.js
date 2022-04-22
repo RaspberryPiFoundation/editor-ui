@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
-import { setError, codeRunHandled, stopDraw, setSenseHatEnabled } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
@@ -19,7 +19,10 @@ const PythonRunner = () => {
   const output = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
+  const senseHatContainer = useRef();
   const dispatch = useDispatch();
+
+  const [senseHatEnabled, setSenseHatEnabled] = useState(false);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -83,7 +86,9 @@ const PythonRunner = () => {
   const builtinRead = (x) => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
-      dispatch(setSenseHatEnabled(true))
+      setSenseHatEnabled(true)
+      console.log(store.getState().editor.senseHatEnabled)
+      senseHatContainer.current.hidden=false
     }
 
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
@@ -154,6 +159,7 @@ const PythonRunner = () => {
           }
 
           return promise.then(function () {
+            console.log(`Loaded ${x}`)
             return code;
           }).catch(function () {
             throw new Sk.builtin.ImportError("Failed to load dependencies required");
@@ -209,6 +215,7 @@ const PythonRunner = () => {
     output.current.innerHTML = '';
     pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
+    senseHatContainer.current.hidden = true
 
     var prog = projectCode[0].content;
 
@@ -223,8 +230,6 @@ const PythonRunner = () => {
     Sk.p5 = {}
     Sk.p5.sketch = "p5Sketch";
     Sk.p5.assets = projectImages;
-
-    // Sk.sense_hat = {}
 
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
@@ -287,7 +292,7 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
 
-      {store.getState().editor.senseHatEnabled?<AstroPiModel/>:null}
+      <div ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
     </div>
   );

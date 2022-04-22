@@ -62,7 +62,7 @@
           gyro: [0, 0, 0], /* all 3 gyro values */
           accel: [0, 0, 0], /* all 3 accel values */
           compass: [0, 0, 33], /* all compass values */
-          raw_orientation: Sk.sense_hat.rtimu?Sk.sense_hat.rtimu.raw_orientation:[0, 90, 0]
+          raw_orientation: Sk.sense_hat.rtimu.raw_orientation?Sk.sense_hat.rtimu.raw_orientation:[0, 90, 0]
       }
 
       if (Sk.sense_hat_emit) {
