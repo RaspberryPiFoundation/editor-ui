@@ -87,7 +87,6 @@ const PythonRunner = () => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
       setSenseHatEnabled(true)
-      console.log(store.getState().editor.senseHatEnabled)
       senseHatContainer.current.hidden=false
     }
 
@@ -159,7 +158,6 @@ const PythonRunner = () => {
           }
 
           return promise.then(function () {
-            console.log(`Loaded ${x}`)
             return code;
           }).catch(function () {
             throw new Sk.builtin.ImportError("Failed to load dependencies required");
