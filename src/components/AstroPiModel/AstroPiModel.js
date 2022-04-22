@@ -18,7 +18,7 @@ const AstroPiModel = (props) => {
 
 
     return (
-        <div className='sense-hat-canvas-container'>
+      <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
         <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
           <div className="controls-container">
@@ -71,7 +71,7 @@ const AstroPiModel = (props) => {
         
         </div>
 
-        <Simulator message='Hello there :)'/>
+        <Simulator />
         
         <div className="orientation-stage" id="orientation-stage">
           {/* <!--Solid Axis Removed--> */}
@@ -85,8 +85,6 @@ const AstroPiModel = (props) => {
         <div id="orientation-overlay" className="bottom 3d hide hide-for-snapshot">
           <div className="controls-container">
         
-            {/* <div className="rangeslider-container spacer"></div> */}
-        
             {/* <!-- roll --> */}
             <div className="rangeslider-container">
               <div className="readings-container">
@@ -95,7 +93,6 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-roll right"></span>
               </div>
-              <input id="sense_hat_roll" type="hidden" value="0" />
             </div>
         
             {/* <!-- pitch --> */}
@@ -106,7 +103,6 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-pitch right"></span>
               </div>
-              <input id="sense_hat_pitch" type="hidden" value="100" />
             </div>
         
             {/* <!-- yaw --> */}
@@ -117,33 +113,16 @@ const AstroPiModel = (props) => {
                 </span>
                 <span className="sense-hat-yaw right"></span>
               </div>
-              <input id="sense_hat_yaw" type="hidden" value="90" />
             </div>
-        
-            {/* <div className="rangeslider-container spacer"></div> */}
         
           </div>
           <div id="imu-buttons-container">
             <div id="close-sense-hat-orientation-controls">
               <button id="orientation-reset-btn" ><i className="fa fa-refresh fa-2x"></i></button>
             </div>
-            <div id="enclosure-toggle-container">
-              <span>
-                <img id="enclosure-toggle" />
-              </span>
-              <input id="sense_hat_enclosure" type="hidden" />
-            </div>
-            {/* <!--<div id="3d-info-toggle" class="text-center">-->
-              <!--TODO: hook this up-->
-            <!--  <a id="3d-info-button"><i class="fa fa-info fa-2x"></i></a>-->
-            <!--</div>--> */}
           </div>
         </div>
-        
-        <input id="sense-hat-listener" type="text" tabIndex="-1" readOnly />
-        <input id="sense_hat_rotation_matrix" type="hidden" readOnly />
-        <input id="sense_hat_angle" type="hidden" readOnly />
-        </div>
+      </div>
         
     )
   };
