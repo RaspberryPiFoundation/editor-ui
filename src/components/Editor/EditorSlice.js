@@ -55,6 +55,9 @@ export const EditorSlice = createSlice({
       })
       state.project.components = mapped;
     },
+    updateProjectName: (state, action) => {
+      state.project.name = action.payload;
+    },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
       const fileName = action.payload.name;
@@ -87,22 +90,23 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  updateImages,
   addProjectComponent,
+  codeRunHandled,
   setEmbedded,
+  setError,
   setNameError,
   setProject,
-  setProjectLoaded,
-  triggerDraw,
-  updateProjectComponent,
-  updateComponentName,
-  setError,
-  triggerCodeRun,
-  stopCodeRun,
-  stopDraw,
-  codeRunHandled,
   setProjectList,
   setProjectListLoaded,
+  setProjectLoaded,
+  stopCodeRun,
+  stopDraw,
+  triggerCodeRun,
+  triggerDraw,
+  updateComponentName,
+  updateImages,
+  updateProjectComponent,
+  updateProjectName,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

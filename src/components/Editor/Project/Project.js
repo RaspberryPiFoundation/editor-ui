@@ -1,6 +1,6 @@
 import './Project.css';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import EditorPanel from '../EditorPanel/EditorPanel'
@@ -12,7 +12,7 @@ import 'react-tabs/style/react-tabs.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded, setProject } from '../EditorSlice';
+import { setProjectLoaded, setProject, updateProjectName } from '../EditorSlice';
 import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
@@ -27,6 +27,7 @@ const Project = () => {
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
+  const nameInput= useRef();
 
   // Not currently using this, will be reinstated later
   const onClickSave = async () => {
@@ -61,12 +62,18 @@ const Project = () => {
     window.location.port ? `:${window.location.port}` : ''
   }`
 
+  const onNameChange = () => {
+    dispatch(updateProjectName(nameInput.current.value))
+  }
+
   return (
     <div className='proj'>
       { embedded !== true ? (
         <div className='proj-header'>
           <div>
-            <h1>{project.name}</h1>
+            <div>
+                {user && (project.user_id === user.profile.user) ? (<input ref={nameInput} type='text' onChange={onNameChange} defaultValue={project.name} />) : (<h1>{project.name}</h1>)}
+            </div>
             { project.parent ? (
             <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
           ) : null }

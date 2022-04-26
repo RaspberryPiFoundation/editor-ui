@@ -17,7 +17,7 @@ const ProjectListItem = (props) => {
     <div>
       {project.name || 'Unnamed project'}
       <a className='btn' href={`/${project.project_type}/${project.identifier}`}>
-        View Project
+        Open Project
       </a>
 
       <Button onClickHandler={onClickDelete} buttonText='Delete Project' />
