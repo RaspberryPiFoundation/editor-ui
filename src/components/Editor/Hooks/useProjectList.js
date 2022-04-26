@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { setProjectList, setProjectListLoaded } from '../EditorSlice'
 import { readProjectList } from '../../../utils/apiCallHandler';
 
 export const useProjectList = (user) => {
   const dispatch = useDispatch();
+  const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
 
   const loadProjectList = () => {
     (async () => {
@@ -16,10 +17,10 @@ export const useProjectList = (user) => {
   }
 
   useEffect(() => {
-    if(!user) {
+    if(!user || projectListLoaded) {
       return;
     }
     loadProjectList();
-  }, [user]);
+  }, [user, projectListLoaded]);
 };
 

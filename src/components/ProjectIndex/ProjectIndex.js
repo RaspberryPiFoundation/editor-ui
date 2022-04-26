@@ -1,19 +1,13 @@
 import { useSelector, connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
-
-const ProjectListItem = (props) => {
-  const project = props.project
-  return (
-    <div>
-      <a href={`/${project.project_type}/${project.identifier}`}>
-        {project.name}
-      </a>
-    </div>
-  );
-};
+import ProjectListItem from '../ProjectListItem/ProjectListItem'
+import Button from '../Button/Button'
+import { createProject } from '../../utils/apiCallHandler';
 
 const ProjectIndex = (props) => {
+  const history = useHistory();
   const { isLoading, user } = props;
 
   useRequiresUser(isLoading, user);
@@ -21,10 +15,21 @@ const ProjectIndex = (props) => {
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
   const projectList = useSelector((state) => state.editor.projectList);
 
+  const onCreateProject = async () => {
+    const response = await createProject(user.access_token);
+
+    const identifier = response.data.identifier;
+    const project_type = response.data.project_type;
+    history.push(`/${project_type}/${identifier}`);
+  }
+
   return projectListLoaded === true ? (
     <div className='main-container'>
+      <div>
+        <Button onClickHandler={onCreateProject} buttonText="Create Project" />
+      </div>
       { projectList.map((project, i) => (
-          <ProjectListItem project={project} key={i}/>
+          <ProjectListItem project={project} user={user} key={i}/>
         )
       )}
     </div>

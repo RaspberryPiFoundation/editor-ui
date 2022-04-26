@@ -11,7 +11,7 @@ export const useRequiresUser = (isLoading, user) => {
     }
 
     if(!isLoading && !user) {
-      // history.push('/')
+      history.push('/')
     }
   }, [isLoading, user]);
 };
