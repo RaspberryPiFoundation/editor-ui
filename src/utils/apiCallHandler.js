@@ -44,6 +44,10 @@ export const readProject = async (projectIdentifier) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers());
 }
 
+export const readProjectList = async (accessToken) => {
+  return await get(`${host}/api/projects`, headers(accessToken));
+}
+
 export const uploadImages = async (projectIdentifier, accessToken, images) => {
   var formData = new FormData();
 

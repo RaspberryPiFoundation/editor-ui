@@ -11,6 +11,8 @@ export const EditorSlice = createSlice({
     drawTriggered: false,
     isEmbedded: false,
     codeRunStopped: false,
+    projectList: [],
+    projectListLoaded: false,
   },
   reducers: {
     updateImages: (state, action) => {
@@ -74,6 +76,12 @@ export const EditorSlice = createSlice({
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
+    setProjectList: (state, action) => {
+      state.projectList = action.payload;
+    },
+    setProjectListLoaded: (state, action) => {
+      state.projectListLoaded = action.payload;
+    },
   },
 })
 
@@ -93,6 +101,8 @@ export const {
   stopCodeRun,
   stopDraw,
   codeRunHandled,
+  setProjectList,
+  setProjectListLoaded,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import EditorReducer from '../components/Editor/EditorSlice'
-import { reducer } from 'redux-oidc'
+import { reducer, loadUser } from 'redux-oidc'
+import userManager from '../utils/userManager'
 
 const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ const store = configureStore({
   }),
 })
 
+loadUser(store, userManager);
 
 export default store;

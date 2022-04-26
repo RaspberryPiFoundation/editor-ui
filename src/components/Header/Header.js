@@ -7,6 +7,7 @@ const Header = () => {
   return isEmbedded === false ? (
     <div className='main-container'>
       <Login />
+      <a href='/projects'>Projects</a>
     </div>
   ):<></>
 };

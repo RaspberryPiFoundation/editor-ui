@@ -3,9 +3,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
+import ProjectIndex from './ProjectIndex/ProjectIndex'
 import ProjectViewer from './ProjectViewer/ProjectViewer'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
+import SilentRenew from './SilentRenew'
 
 const Routes = () => (
   <BrowserRouter>
@@ -17,6 +19,11 @@ const Routes = () => (
       />
       <Route
         exact
+        path="/auth/silent_renew"
+        component={SilentRenew}
+      />
+      <Route
+        exact
         path="/"
         component={ProjectComponentLoader}
       />
@@ -24,6 +31,11 @@ const Routes = () => (
         exact
         path="/new"
         component={NewProject}
+      />
+      <Route
+        exact
+        path="/projects"
+        component={ProjectIndex}
       />
       <Route
         exact
