@@ -1,6 +1,6 @@
 import './Project.css';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import EditorPanel from '../EditorPanel/EditorPanel'
@@ -12,7 +12,7 @@ import 'react-tabs/style/react-tabs.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded, setProject, updateProjectName } from '../EditorSlice';
+import { setProjectLoaded, setProject } from '../EditorSlice';
 import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
@@ -28,7 +28,6 @@ const Project = () => {
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
-  const nameInput= useRef();
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -61,10 +60,6 @@ const Project = () => {
   const host = `${window.location.protocol}//${window.location.hostname}${
     window.location.port ? `:${window.location.port}` : ''
   }`
-
-  const onNameChange = () => {
-    dispatch(updateProjectName(nameInput.current.value))
-  }
 
   return (
     <div className='proj'>
