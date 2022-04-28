@@ -20,7 +20,7 @@ const ProjectListItem = (props) => {
         Open Project
       </a>
 
-      <Button onClickHandler={onClickDelete} buttonText='Delete Project' />
+      <Button onClickHandler={onClickDelete} buttonText='Delete Project' confirmText='Are you sure you want to delete the project?' />
 
     </div>
   );
