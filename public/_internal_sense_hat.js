@@ -291,34 +291,41 @@
    * Adds the event handler for motion callbacks
    */
   mod._start_motion = new Sk.builtin.func(function(callback) {
-      $( "#sense_hat_motion" ).off( ".motion" );
-      if(!(callback instanceof Sk.builtin.none)){
-          function handleMotion () {
-              Sk.misceval.callsimAsync(null, callback);
-          }
-          $('#sense_hat_motion').on('change.motion', function() {
-              var motion = this.checked;
-              if(motion)
-                  handleMotion();
-          });
+    var handleMotion = () => {
+      Sk.misceval.callsimAsync(null, callback);
+    }
+    var start_motion_callback = (e) => {
+      var motion = e.target.checked;
+      if(motion){
+        handleMotion()
       }
+    }
+    if (Sk.sense_hat.start_motion_callback) {
+      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
+    }
+    Sk.sense_hat.start_motion_callback = start_motion_callback
+    if(!(callback instanceof Sk.builtin.none)){
+      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.start_motion_callback);
+    }
   });
 
   /**
    * Adds the event handler for motion callbacks
    */
   mod._stop_motion = new Sk.builtin.func(function(callback) {
-      $( "#sense_hat_motion" ).off( ".stopmotion" );
-      if(!(callback instanceof Sk.builtin.none)){
-          function handleMotion () {
-              Sk.misceval.callsimAsync(null, callback);
-          }
-          $('#sense_hat_motion').on('change.stopmotion', function() {
-              var motion = this.checked;
-              if(!motion)
-                  handleMotion();
-          });
+    var stop_motion_callback = (e) => {
+      var motion = e.target.checked;
+      if(!motion){
+        Sk.misceval.callsimAsync(null, callback);
       }
+    }
+    if (Sk.sense_hat.stop_motion_callback) {
+      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
+    }
+    Sk.sense_hat.stop_motion_callback = stop_motion_callback
+    if(!(callback instanceof Sk.builtin.none)){
+      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.stop_motion_callback);
+    }
   });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
@@ -483,17 +490,18 @@
                       reject('interrupt');
                   }
                   hasEvent = true; // Set return value
+                  document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleInput);
                   resolve();
               }
 
-              if($( "#sense_hat_motion" ).is(":checked") == _motion){
+              if(document.getElementById( "sense_hat_motion" ).checked == _motion){
                   hasEvent = true;
                   resolve();
               } else {
-                  $( "#sense_hat_motion" ).one( "change.evt",  handleInput);
+                  document.getElementById( "sense_hat_motion" ).addEventListener( "change",  handleInput);
                   if (_timeout != null) {
                       timeoutHandle = setTimeout(function() {
-                          $( "#sense_hat_motion" ).off( "change.evt",  handleInput);
+                        document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleInput);
                           hasEvent = false; // Timeout passed before callback occured
                           resolve()
                       }, _timeout * 1000);

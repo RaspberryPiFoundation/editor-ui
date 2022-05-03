@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
 import Sk from 'skulpt';
 
 const AstroPiModel = (props) => {
+
+  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
 
   const [temperature, setTemperature] = useState(13);
   const [pressure, setPressure] = useState(1013);
@@ -15,6 +18,17 @@ const AstroPiModel = (props) => {
     Sk.sense_hat.rtimu.humidity[1] = humidity+Math.random()-0.5
 
   }, [temperature, pressure, humidity])
+
+  useEffect(() => {
+    if (!codeRunTriggered) {
+      if (Sk.sense_hat.start_motion_callback) {
+        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
+      }
+      if (Sk.sense_hat.stop_motion_callback) {
+        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
+      }
+    }
+  }, [codeRunTriggered])
 
 
     return (
