@@ -365,15 +365,6 @@ const Simulator = (props) => {
        *  - Calculates the position and view of the rotated sense hat
        */
       function initOrientation() {
-        if (!Sk.sense_hat) {
-          Sk.sense_hat = {
-            rtimu: {
-              temperature: [0,0],
-              pressure: [0,0],
-              humidity: [0,0]
-            }
-          }
-        }
         var resetButton = document.getElementById('orientation-reset-btn');
         window.set_onrotate(function(){
           const x=window.mod.rotation.x;

@@ -2,22 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
+import Input from './Input';
+import SliderInput from './SliderInput';
 import Sk from 'skulpt';
 
 const AstroPiModel = (props) => {
 
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
-
-  const [temperature, setTemperature] = useState(13);
-  const [pressure, setPressure] = useState(1013);
-  const [humidity, setHumidity] = useState(45);
-
-  useEffect(() => {
-    Sk.sense_hat.rtimu.temperature[1] = temperature+Math.random()-0.5
-    Sk.sense_hat.rtimu.pressure[1] = pressure+Math.random()-0.5
-    Sk.sense_hat.rtimu.humidity[1] = humidity+Math.random()-0.5
-
-  }, [temperature, pressure, humidity])
 
   useEffect(() => {
     if (!codeRunTriggered) {
@@ -30,59 +21,29 @@ const AstroPiModel = (props) => {
     }
   }, [codeRunTriggered])
 
-
+  if (!Sk.sense_hat) {
+    Sk.sense_hat = {
+      rtimu: {
+        temperature: [0,0],
+        pressure: [0,0],
+        humidity: [0,0]
+      }
+    }
+  }
     return (
       <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
         <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
           <div className="controls-container">
-        
-            {/* <!--Temperature--> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <i className="wi wi-thermometer"></i>
-                <span className="sensor-value sense-hat-temperature">{temperature}°C</span>
-              </div>
-              <input id="sense_hat_temperature" className="rangeslider" type="range" min="-40" max="120" step="1" defaultValue={temperature} onChange={e => setTemperature(parseFloat(e.target.value))}/>
-            </div>
-        
-            {/* <!--Pressure--> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <i className="wi wi-barometer"></i>
-                <span className="sensor-value sense-hat-pressure">{pressure}hPa</span>
-              </div>
-              <input id="sense_hat_pressure" className="rangeslider" type="range" min="260" max="1260" step="1" defaultValue={pressure} onChange={(e)=>setPressure(parseFloat(e.target.value))}/>
-            </div>
-        
-            {/* <!--Humidity--> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <i className="wi wi-humidity"></i>
-                <span className="sensor-value sense-hat-humidity">{humidity}%</span>
-              </div>
-              <input id="sense_hat_humidity" className="rangeslider" type="range" min="0" max="100" step="1" defaultValue={humidity} onChange={(e)=>setHumidity(parseFloat(e.target.value))}/>
-            </div>
+            <SliderInput name="temperature" unit="°C" min={-40} max={120} defaultValue={13} iconClass="wi wi-thermometer" />
+            <SliderInput name="pressure" unit="hPa" min={260} max={1260} defaultValue={1013} iconClass="wi wi-barometer" />
+            <SliderInput name="humidity" unit="%" min={0} max={100} defaultValue={45} iconClass="wi wi-humidity" />
           </div>
         
           <div className="controls-container motion-colour">
-            {/* <!--Motion--> */}
-            <div className="rangeslider-container">
-              <div className="readings-container motion-sensor">
-                <label htmlFor="sense_hat_motion">Motion:</label>
-                <input type="checkbox" id="sense_hat_motion" name="sense_hat_motion" />
-              </div>
-            </div>
-        
-            {/* <!--Colour--> */}
-            <div className="rangeslider-container">
-              <div className="readings-container colour-sensor">
-                <label htmlFor="sense_hat_colour">Colour:</label>
-                <input type="color" id="sense_hat_colour" name="sense_hat_colour" defaultValue="#000000"/>
-              </div>
-            </div>
+            <Input name="motion" label="Motion" type="checkbox" defaultValue={false} />
+            <Input name="colour" label="Colour" type="color" defaultValue="#000000" />
           </div>
-        
         </div>
 
         <Simulator />
