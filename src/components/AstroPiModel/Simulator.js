@@ -407,7 +407,6 @@ const Simulator = (props) => {
       initOrientation()
   }, [])
 
-
     return (
       <div hidden>
         <canvas id='canvas' width="8" height="640">
