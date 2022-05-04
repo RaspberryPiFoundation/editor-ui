@@ -7,7 +7,9 @@ const SliderInput = (props) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    Sk.sense_hat.rtimu[name][1] = value+Math.random()-0.5
+    if (Sk.sense_hat) {
+      Sk.sense_hat.rtimu[name][1] = value+Math.random()-0.5
+    }
   }, [value])
 
   return (

@@ -51,20 +51,6 @@
           Sk.sense_hat.gamma = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // lookup table (@see https://pythonhosted.org/sense-hat/api/#gamma)
       }
 
-      // Sensor stuff, all reads should never fail
-      const pressureSlider = document.getElementById('sense_hat_pressure')
-      const temperatureSlider = document.getElementById('sense_hat_temperature')
-      const humiditySlider = document.getElementById('sense_hat_humidity')
-      Sk.sense_hat.rtimu = {
-          pressure: [1, (pressureSlider ? parseFloat(pressureSlider.value) : 1013)+Math.random()-0.5], /* isValid, pressure*/
-          temperature: [1, (temperatureSlider ? parseFloat(temperatureSlider.value) : 13)+Math.random()-0.5], /* isValid, temperature */
-          humidity: [1, (humiditySlider ? parseFloat(humiditySlider.value) : 45)+Math.random()-0.5], /* isValid, humidity */
-          gyro: [0, 0, 0], /* all 3 gyro values */
-          accel: [0, 0, 0], /* all 3 accel values */
-          compass: [0, 0, 33], /* all compass values */
-          raw_orientation: Sk.sense_hat.rtimu.raw_orientation?Sk.sense_hat.rtimu.raw_orientation:[0, 90, 0]
-      }
-
       if (Sk.sense_hat_emit) {
           Sk.sense_hat_emit('init');
       }
@@ -329,6 +315,7 @@
   });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
+    console.log("reading orientation")
       var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.raw_orientation.map(x=>x*Math.PI/180));
 
       return fusionPose;

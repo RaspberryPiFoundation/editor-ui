@@ -1,39 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
 import Sk from 'skulpt';
 import AstroPiControls from './AstroPiControls/AstroPiControls';
 import OrientationPanel from './OrientationPanel/OrientationPanel';
 
-const AstroPiModel = (props) => {
+const AstroPiModel = () => {
 
-  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
+  const defaultPressure = 1013
+  const defaultTemperature = 13
+  const defaultHumidity = 45
 
-  useEffect(() => {
-    if (!codeRunTriggered) {
-      if (Sk.sense_hat.start_motion_callback) {
-        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
-      }
-      if (Sk.sense_hat.stop_motion_callback) {
-        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
-      }
-    }
-  }, [codeRunTriggered])
-
-  if (!Sk.sense_hat) {
-    Sk.sense_hat = {
-      rtimu: {
-        temperature: [0,0],
-        pressure: [0,0],
-        humidity: [0,0]
-      }
+  if (!Sk.sense_hat){
+    Sk.sense_hat = {}
+    Sk.sense_hat.rtimu = {
+        pressure: [1, defaultPressure+Math.random()-0.5], /* isValid, pressure*/
+        temperature: [1, defaultTemperature+Math.random()-0.5], /* isValid, temperature */
+        humidity: [1, defaultHumidity+Math.random()-0.5], /* isValid, humidity */
+        gyro: [0, 0, 0], /* all 3 gyro values */
+        accel: [0, 0, 0], /* all 3 accel values */
+        compass: [0, 0, 33], /* all compass values */
+        raw_orientation: [0, 90, 0]
     }
   }
     return (
       <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
-        <AstroPiControls />
+        <AstroPiControls pressure={defaultPressure} temperature={defaultTemperature} humidity={defaultHumidity} />
         
         <Simulator />
         
@@ -41,7 +33,6 @@ const AstroPiModel = (props) => {
         <OrientationPanel />
 
       </div>
-        
     )
   };
   
