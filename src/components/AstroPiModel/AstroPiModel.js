@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
-import Input from './Input';
-import SliderInput from './SliderInput';
 import Sk from 'skulpt';
+import AstroPiControls from './AstroPiControls/AstroPiControls';
+import OrientationPanel from './OrientationPanel/OrientationPanel';
 
 const AstroPiModel = (props) => {
 
@@ -33,70 +33,13 @@ const AstroPiModel = (props) => {
     return (
       <div className='sense-hat-canvas-container'>
         {/* <!-- Full sensor controls --> */}
-        <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
-          <div className="controls-container">
-            <SliderInput name="temperature" unit="°C" min={-40} max={120} defaultValue={13} iconClass="wi wi-thermometer" />
-            <SliderInput name="pressure" unit="hPa" min={260} max={1260} defaultValue={1013} iconClass="wi wi-barometer" />
-            <SliderInput name="humidity" unit="%" min={0} max={100} defaultValue={45} iconClass="wi wi-humidity" />
-          </div>
+        <AstroPiControls />
         
-          <div className="controls-container motion-colour">
-            <Input name="motion" label="Motion" type="checkbox" defaultValue={false} />
-            <Input name="colour" label="Colour" type="color" defaultValue="#000000" />
-          </div>
-        </div>
-
         <Simulator />
         
-        <div className="orientation-stage" id="orientation-stage">
-          {/* <!--Solid Axis Removed--> */}
-          <div className="orientation-layer" id="orientation-layer">
-            <div className="scene scene3d" id="sensehat-node">
-            </div>
-          </div>
-        </div>
-        
         {/* <!-- Orientation Values --> */}
-        <div id="orientation-overlay" className="bottom 3d hide hide-for-snapshot">
-          <div className="controls-container">
-        
-            {/* <!-- roll --> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <span className="orientation-reading">
-                  roll:
-                </span>
-                <span className="sense-hat-roll right"></span>
-              </div>
-            </div>
-        
-            {/* <!-- pitch --> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <span className="orientation-reading">
-                  pitch:
-                </span>
-                <span className="sense-hat-pitch right"></span>
-              </div>
-            </div>
-        
-            {/* <!-- yaw --> */}
-            <div className="rangeslider-container">
-              <div className="readings-container">
-                <span className="orientation-reading">
-                  yaw:
-                </span>
-                <span className="sense-hat-yaw right"></span>
-              </div>
-            </div>
-        
-          </div>
-          <div id="imu-buttons-container">
-            <div id="close-sense-hat-orientation-controls">
-              <button id="orientation-reset-btn" ><i className="fa fa-refresh fa-2x"></i></button>
-            </div>
-          </div>
-        </div>
+        <OrientationPanel />
+
       </div>
         
     )

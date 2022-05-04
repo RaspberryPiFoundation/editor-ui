@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import './AstroPiModel.scss';
-import Sk from 'skulpt';
+import '../AstroPiModel.scss';
 
 const Input = (props) => {
   const { name, label, type, defaultValue} = props;

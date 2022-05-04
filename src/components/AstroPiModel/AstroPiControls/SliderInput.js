@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './AstroPiModel.scss';
+import '../AstroPiModel.scss';
 import Sk from 'skulpt';
 
 const SliderInput = (props) => {

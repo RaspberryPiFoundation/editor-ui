@@ -7,6 +7,7 @@ import { Geometry } from '../../utils/Geometry';
 import DeviceOrientation from '../../utils/DeviceOrientation';
 import { useEffect } from 'react';
 import Sk from 'skulpt';
+import './AstroPiModel.scss';
 
 const Simulator = (props) => {
 
@@ -399,10 +400,12 @@ const Simulator = (props) => {
   }, [])
 
     return (
-      <div hidden>
-        <canvas id='canvas' width="8" height="640">
-          Canvas not supported
-        </canvas>
+      <div className="orientation-stage" id="orientation-stage">
+        {/* <!--Solid Axis Removed--> */}
+        <div className="orientation-layer" id="orientation-layer">
+          <div className="scene scene3d" id="sensehat-node">
+          </div>
+        </div>
       </div>
     )
 };
