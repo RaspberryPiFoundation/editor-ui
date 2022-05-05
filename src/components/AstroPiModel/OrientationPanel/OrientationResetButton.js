@@ -1,7 +1,7 @@
 import { resetOrientation } from '../../../utils/Orientation';
 import '../AstroPiModel.scss';
 
-const OrientationResetButton= () => {
+const OrientationResetButton = () => {
 
   return (
     <div id="close-sense-hat-orientation-controls">

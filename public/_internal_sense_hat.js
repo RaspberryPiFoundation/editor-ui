@@ -253,24 +253,14 @@
   }
   
   mod.colourRead = new Sk.builtin.func(function () {
-      // var colour = Sk.ffi.remapToPy(Sk.sense_hat.colour);
-      var colourSelector = document.getElementById('sense_hat_colour')
-      if (colourSelector) {
-        colour = Sk.ffi.remapToPy(hex2rgb(colourSelector.value))
-      } else {
-        colour = Sk.ffi.remapToPy(hex2rgb("#000000"))
-      }
-
-      return colour;
+      return Sk.ffi.remapToPy(hex2rgb(Sk.sense_hat.colour));
   });
 
   /**
    * Motion
    */
   mod.motionRead = new Sk.builtin.func(function () {
-    var motionCheckbox = document.getElementById('sense_hat_motion')
-    var motion = motionCheckbox&&motionCheckbox.checked?Sk.ffi.remapToPy(1):Sk.ffi.remapToPy(0);
-    return motion;
+    return Sk.ffi.remapToPy(Sk.sense_hat.motion);
   });
 
   /**
