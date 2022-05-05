@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import Sk from 'skulpt';
 import '../AstroPiModel.scss';
 
 const OrientationReading = (props) => {

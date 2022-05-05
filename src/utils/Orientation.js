@@ -1,5 +1,4 @@
 import { Geometry } from './Geometry';
-import DeviceOrientation from './DeviceOrientation';
 import Sk from 'skulpt';
 
 function getTimestamp () {
