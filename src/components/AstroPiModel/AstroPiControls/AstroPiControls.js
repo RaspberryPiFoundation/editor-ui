@@ -6,7 +6,7 @@ import SliderInput from './SliderInput';
 import '../AstroPiModel.scss';
 
 const AstroPiControls = (props) => {
-  const {temperature, pressure, humidity} = props
+  const {temperature, pressure, humidity, colour, motion} = props
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
 
   useEffect(() => {
@@ -29,8 +29,8 @@ const AstroPiControls = (props) => {
       </div>
     
       <div className="controls-container motion-colour">
-        <Input name="motion" label="Motion" type="checkbox" defaultValue={false} />
-        <Input name="colour" label="Colour" type="color" defaultValue="#000000" />
+        <Input name="motion" label="Motion" type="checkbox" defaultValue={motion} />
+        <Input name="colour" label="Colour" type="color" defaultValue={colour} />
       </div>
     </div>
   )
