@@ -1,14 +1,24 @@
 import './Header.css'
-import { useSelector } from 'react-redux'
+import { useSelector, connect } from 'react-redux'
 import Login from '../Login/Login'
 
-const Header = () => {
+const Header = (props) => {
+  const { user } = props;
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   return isEmbedded === false ? (
     <div className='main-container'>
-      <Login />
+      <Login user={user} />
+      { user !== null ? (
+        <a href='/projects'>Projects</a>
+      ) : null }
     </div>
   ):<></>
 };
 
-export default Header;
+function mapStateToProps(state) {
+  return {
+    user: state.auth.user,
+  };
+}
+
+export default connect(mapStateToProps)(Header);

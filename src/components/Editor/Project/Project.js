@@ -19,6 +19,7 @@ import RunnerControls from '../../RunButton/RunnerControls';
 import { remixProject, updateProject } from '../../../utils/apiCallHandler';
 import ProjectImages from '../ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
+import ProjectName from './ProjectName.js'
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -28,7 +29,6 @@ const Project = () => {
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
 
-  // Not currently using this, will be reinstated later
   const onClickSave = async () => {
     if (!project.identifier) {
       return;
@@ -66,7 +66,9 @@ const Project = () => {
       { embedded !== true ? (
         <div className='proj-header'>
           <div>
-            <h1>{project.name}</h1>
+            <div>
+              {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name}</h1>)}
+            </div>
             { project.parent ? (
             <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
           ) : null }

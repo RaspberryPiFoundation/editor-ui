@@ -2,14 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-// import reportWebVitals from './reportWebVitals';
 
-import { OidcProvider, loadUser } from 'redux-oidc';
+import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'
 import store from './app/store'
 import userManager from './utils/userManager'
-
-loadUser(store, userManager);
 
 ReactDOM.render(
   <React.StrictMode>

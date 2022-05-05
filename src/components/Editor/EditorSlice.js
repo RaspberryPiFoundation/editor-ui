@@ -11,6 +11,8 @@ export const EditorSlice = createSlice({
     drawTriggered: false,
     isEmbedded: false,
     codeRunStopped: false,
+    projectList: [],
+    projectListLoaded: false,
   },
   reducers: {
     updateImages: (state, action) => {
@@ -53,6 +55,9 @@ export const EditorSlice = createSlice({
       })
       state.project.components = mapped;
     },
+    updateProjectName: (state, action) => {
+      state.project.name = action.payload;
+    },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
       const fileName = action.payload.name;
@@ -74,25 +79,34 @@ export const EditorSlice = createSlice({
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
+    setProjectList: (state, action) => {
+      state.projectList = action.payload;
+    },
+    setProjectListLoaded: (state, action) => {
+      state.projectListLoaded = action.payload;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
 export const {
-  updateImages,
   addProjectComponent,
+  codeRunHandled,
   setEmbedded,
+  setError,
   setNameError,
   setProject,
+  setProjectList,
+  setProjectListLoaded,
   setProjectLoaded,
-  triggerDraw,
-  updateProjectComponent,
-  updateComponentName,
-  setError,
-  triggerCodeRun,
   stopCodeRun,
   stopDraw,
-  codeRunHandled,
+  triggerCodeRun,
+  triggerDraw,
+  updateComponentName,
+  updateImages,
+  updateProjectComponent,
+  updateProjectName,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
 import userManager from '../../utils/userManager'
 import Button from '../../components/Button/Button'
 
-const Login = () => {
-  const stateAuth = useSelector(state => state.auth);
-  const user = stateAuth.user;
+const Login = (props) => {
+  const { user } = props;
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
