@@ -32,6 +32,9 @@ exports[`Renders without crashing 1`] = `
           id="outputCanvas"
         />
       </div>
+      <div
+        hidden={true}
+      />
       <pre
         className="pythonrunner-console"
         onClick={[Function]}

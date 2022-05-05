@@ -1,24 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
+import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
-  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const outputCanvas = useRef();
   const output = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
+  const senseHatContainer = useRef();
   const dispatch = useDispatch();
+
+  const [senseHatEnabled, setSenseHatEnabled] = useState(false);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -62,6 +66,9 @@ const PythonRunner = () => {
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
+    },
+    "./_internal_sense_hat/__init__.js": {
+      path: process.env.PUBLIC_URL + '/_internal_sense_hat.js'
     }
   };
 
@@ -77,6 +84,12 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
+
+    if (x==="./_internal_sense_hat/__init__.js") {
+      setSenseHatEnabled(true)
+      senseHatContainer.current.hidden=false
+    }
+
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
 
     if (localProjectFiles.includes(x)) {
@@ -200,6 +213,7 @@ const PythonRunner = () => {
     output.current.innerHTML = '';
     pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
+    senseHatContainer.current.hidden = true
 
     var prog = projectCode[0].content;
 
@@ -275,6 +289,8 @@ const PythonRunner = () => {
       <div className="pythonrunner-canvas-container">
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
+
+      <div ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
     </div>
   );
