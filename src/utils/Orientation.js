@@ -9,25 +9,6 @@ function getTimestamp () {
 }
 
 /**
-* Handles device orientation changes when a user drags the sense hat.
-*
-* Updates the sense hat position and the numerical readouts.
-*
-* @param {DeviceOrientation} deviceOrientation - changed position/angles
-*/
-function deviceOrientationChange(deviceOrientation) {
-// store the new deviceOrientation on the rtimu object as [x,y,z]
-  Sk.sense_hat.rtimu.raw_orientation = deviceOrientation.asArray();
-
-  var roll = document.getElementsByClassName('sense-hat-roll')[0]
-  var pitch = document.getElementsByClassName('sense-hat-pitch')[0]
-  var yaw = document.getElementsByClassName('sense-hat-yaw')[0]
-  roll.innerText = Math.round(deviceOrientation.roll*10)/10
-  pitch.innerText = Math.round(deviceOrientation.pitch*10)/10
-  yaw.innerText = Math.round(deviceOrientation.yaw*10)/10
-}
-
-/**
 * Update call for periodically updating our internal sensehat data object.
 *
 * The UI events and the polling are async and therefore we can "simulate"
@@ -138,32 +119,11 @@ export function updateRTIMU() {
   ];
 }
 
-/**
-* Initializes the device orientation handlers:
-*  - Handles 3D rotations of the sense hat
-*  - Calculates the position and view of the rotated sense hat
-*/
-export function initOrientation() {
-  window.set_onrotate(function(){
-    const x=window.mod.rotation.x;
-    const y=window.mod.rotation.z;
-    const z=window.mod.rotation.y;
-    deviceOrientationChange(new DeviceOrientation(((x  * 180 / Math.PI)+90+360)%360,((y  * 180 / Math.PI)+360)%360,((z  * 180 / Math.PI)+360)%360));
-  });
-
-  var deviceOrientation = new DeviceOrientation(90,0,0);
-  deviceOrientationChange(deviceOrientation);
-}
-
-export function resetOrientation(event) {
+export function resetModel(event) {
   event.preventDefault();
 
     var x = 0
       , y = 0
       , z = 0;
     window.rotatemodel(Geometry.degToRad(x), Geometry.degToRad(y), Geometry.degToRad(z));
-
-    var deviceOrientation = new DeviceOrientation(90, 0, 0);
-    deviceOrientationChange(deviceOrientation);
-    updateRTIMU()
 }

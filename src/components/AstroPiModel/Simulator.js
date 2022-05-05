@@ -3,14 +3,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
-// import { Geometry } from '../../utils/Geometry';
-// import DeviceOrientation from '../../utils/DeviceOrientation';
-import { initOrientation, updateRTIMU } from '../../utils/Orientation';
+import {updateRTIMU } from '../../utils/Orientation';
 import { useEffect } from 'react';
 import Sk from 'skulpt';
 import './AstroPiModel.scss';
 
 const Simulator = (props) => {
+
+  const {updateOrientation} = props
 
     useEffect(()=> {
 
@@ -217,12 +217,17 @@ const Simulator = (props) => {
         renderer.render( scene, camera );
       }
 
-      initOrientation()
+      window.set_onrotate(function(){
+        const x=window.mod.rotation.x;
+        const y=window.mod.rotation.z;
+        const z=window.mod.rotation.y;
+        updateOrientation([((x  * 180 / Math.PI)+90+360)%360, ((y  * 180 / Math.PI)+360)%360, ((z  * 180 / Math.PI)+360)%360])
+      });
+      updateOrientation([0,90,0])
   }, [])
 
     return (
       <div className="orientation-stage" id="orientation-stage">
-        {/* <!--Solid Axis Removed--> */}
         <div className="orientation-layer" id="orientation-layer">
           <div className="scene scene3d" id="sensehat-node">
           </div>
