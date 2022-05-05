@@ -240,48 +240,24 @@
   });
 
   /**
-   * Adds the event handler for motion callbacks
+   * Sets start motion callback
    */
   mod._start_motion = new Sk.builtin.func(function(callback) {
-    var handleMotion = () => {
-      Sk.misceval.callsimAsync(null, callback);
-    }
-    var start_motion_callback = (e) => {
-      var motion = e.target.checked;
-      if(motion){
-        handleMotion()
-      }
-    }
-    if (Sk.sense_hat.start_motion_callback) {
-      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
-    }
-    Sk.sense_hat.start_motion_callback = start_motion_callback
-    if(!(callback instanceof Sk.builtin.none)){
-      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.start_motion_callback);
+    if (!(callback instanceof Sk.builtin.none)) {
+      Sk.sense_hat.start_motion_callback = () => {Sk.misceval.callsimAsync(null, callback)};
     }
   });
 
   /**
-   * Adds the event handler for motion callbacks
+   * Sets stop motion callback
    */
   mod._stop_motion = new Sk.builtin.func(function(callback) {
-    var stop_motion_callback = (e) => {
-      var motion = e.target.checked;
-      if(!motion){
-        Sk.misceval.callsimAsync(null, callback);
-      }
-    }
-    if (Sk.sense_hat.stop_motion_callback) {
-      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
-    }
-    Sk.sense_hat.stop_motion_callback = stop_motion_callback
-    if(!(callback instanceof Sk.builtin.none)){
-      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.stop_motion_callback);
+    if (!(callback instanceof Sk.builtin.none)) {
+      Sk.sense_hat.stop_motion_callback = () => {Sk.misceval.callsimAsync(null, callback)};
     }
   });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
-    console.log("reading orientation")
       var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.raw_orientation.map(x=>x*Math.PI/180));
 
       return fusionPose;

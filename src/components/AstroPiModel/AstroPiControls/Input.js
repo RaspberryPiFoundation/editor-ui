@@ -12,19 +12,11 @@ const Input = (props) => {
     }
   }, [value])
 
-  const updateValue = (e) => {
-    if (type === "checkbox"){
-      setValue(e.target.checked)
-    } else {
-      setValue(e.target.value)
-    }
-  }
-
   return (
   <div className="rangeslider-container">
     <div className={`readings-container ${name}-sensor`}>
       <label htmlFor={`sense_hat_${name}`}>{label}:</label>
-      <input type={type} id={`sense_hat_${name}`} name={`sense_hat_${name}`} defaultValue={value} onChange={e => updateValue(e)} />
+      <input type={type} id={`sense_hat_${name}`} name={`sense_hat_${name}`} defaultValue={value} onChange={e => setValue(e.target.value)} />
     </div>
   </div>
   )
