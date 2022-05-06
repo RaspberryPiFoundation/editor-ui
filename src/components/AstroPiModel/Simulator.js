@@ -221,7 +221,7 @@ const Simulator = (props) => {
         const x=window.mod.rotation.x;
         const y=window.mod.rotation.z;
         const z=window.mod.rotation.y;
-        updateOrientation([((x  * 180 / Math.PI)+90+360)%360, ((y  * 180 / Math.PI)+360)%360, ((z  * 180 / Math.PI)+360)%360])
+        updateOrientation([((y  * 180 / Math.PI)+360)%360, ((x  * 180 / Math.PI)+90+360)%360, ((z  * 180 / Math.PI)+360)%360])
       });
       updateOrientation([0,90,0])
   }, [])
