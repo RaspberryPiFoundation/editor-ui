@@ -12,6 +12,8 @@
     "@codemirror/lang-javascript": "^0.19.2",
     "@codemirror/lang-python": "^0.19.2",
     "@codemirror/view": "^0.19.9",
+    "@react-three/drei": "^9.7.1",
+    "@react-three/fiber": "^8.0.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -39,6 +41,7 @@
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
     "three": "^0.137.5",
+    "three-stdlib": "^2.10.1",
     "web-vitals": "^1.0.1",
     "webgl-mock-threejs": "^0.0.1"
   },
