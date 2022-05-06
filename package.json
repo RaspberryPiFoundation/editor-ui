@@ -39,7 +39,7 @@
     "redux-mock-store": "^1.5.4",
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
-    "three": "^0.137.5",
+    "three": "^0.140.0",
     "three-stdlib": "^2.10.1",
     "web-vitals": "^1.0.1",
     "webgl-mock-threejs": "^0.0.1"

@@ -1,35 +1,36 @@
 // import * as THREE from 'three';
 
 import { Canvas } from "@react-three/fiber";
-// import {useLoader} from "@react-three/fiber";
-// import { OrbitControls} from "@react-three/drei";
-// import { GLTFLoader } from 'three-stdlib/loaders/GLTFLoader.js';
-// import { DRACOLoader } from 'three-stdlib/loaders/DRACOLoader.js';
-// // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import {useLoader} from "@react-three/fiber";
+import { Environment, OrbitControls, PerspectiveCamera} from "@react-three/drei";
+import { GLTFLoader } from 'three-stdlib/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three-stdlib/loaders/DRACOLoader.js';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 // import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
-// import {updateRTIMU } from '../../utils/Orientation';
-// import { useEffect, Suspense } from 'react';
-// import Sk from 'skulpt';
-// import './AstroPiModel.scss';
+import {updateRTIMU } from '../../utils/Orientation';
+import { useEffect, Suspense } from 'react';
+import Sk from 'skulpt';
+import './AstroPiModel.scss';
 
 const Model = () => {
-  // const gltf = useLoader(GLTFLoader, process.env.PUBLIC_URL+'/models/raspi-compressed.glb', loader => {
-  //   const dracoLoader = new DRACOLoader();
-  //   dracoLoader.setDecoderPath( process.env.PUBLIC_URL+'/three/examples/js/libs/draco/' );
-  //   loader.setDRACOLoader( dracoLoader );
-  // })
+  const gltf = useLoader(GLTFLoader, process.env.PUBLIC_URL+'/models/raspi-compressed.glb', loader => {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath( process.env.PUBLIC_URL+'/three/examples/js/libs/draco/' );
+    loader.setDRACOLoader( dracoLoader );
+  })
+  window.mod=gltf.scene
   return (
     <>
-      {/* <primitive object={gltf.scene} scale={4} /> */}
+      <primitive object={gltf.scene} scale={30} />
     </>
   )
 }
 
 const Simulator = (props) => {
 
-  // const {updateOrientation} = props
+  const {updateOrientation} = props
 
-  //   useEffect(()=> {
+    useEffect(()=> {
 
   //     // low light settings
   //     var lowLightLimit     = 8;
@@ -79,10 +80,10 @@ const Simulator = (props) => {
   //     var senseHatNode = document.getElementById('sensehat-node')
   //     senseHatNode.innerHTML='';
 
-  //     window.callback_move = null;
-  //     window.set_onrotate   = function(func){
-  //       window.callback_move = func;
-  //     }
+      // window.callback_move = null;
+      // window.set_onrotate   = function(func){
+      //   window.callback_move = func;
+      // }
       
   //     var camera = new THREE.PerspectiveCamera( 25, 500 / 400, 1, 20000 );
   //     camera.position.set(0, 1.5, 0);
@@ -109,11 +110,11 @@ const Simulator = (props) => {
   //     const pmremGenerator = new THREE.PMREMGenerator( renderer );
   //     scene.environment = pmremGenerator.fromScene( environment ).texture;
 
-  //     const grid = new THREE.GridHelper( 500, 10, 0xffffff, 0xffffff );
-  //     grid.material.opacity = 0.5;
-  //     grid.material.depthWrite = false;
-  //     grid.material.transparent = true;
-  //     // scene.add( grid );
+      // const grid = new THREE.GridHelper( 500, 10, 0xffffff, 0xffffff );
+      // grid.material.opacity = 0.5;
+      // grid.material.depthWrite = false;
+      // grid.material.transparent = true;
+      // // scene.add( grid );
 
   //     // Load the Orbitcontroller
   //     var controls = new OrbitControls( camera, renderer.domElement );
@@ -135,7 +136,7 @@ const Simulator = (props) => {
   //         gltf.scene.position.y = 0;          
   //         gltf.scene.position.z = 0;              
   //         scene.add( gltf.scene );
-  //         window.mod = gltf.scene;
+          // window.mod = gltf.scene;
 
   //         renderer.render(scene, camera)
 
@@ -234,24 +235,25 @@ const Simulator = (props) => {
   //       renderer.render( scene, camera );
   //     }
 
-  //     window.set_onrotate(function(){
-  //       const x=window.mod.rotation.x;
-  //       const y=window.mod.rotation.z;
-  //       const z=window.mod.rotation.y;
-  //       updateOrientation([((x  * 180 / Math.PI)+90+360)%360, ((y  * 180 / Math.PI)+360)%360, ((z  * 180 / Math.PI)+360)%360])
-  //     });
-  //     updateOrientation([0,90,0])
-  // }, [])
+      // window.set_onrotate(function(){
+      //   const x=window.mod.rotation.x;
+      //   const y=window.mod.rotation.z;
+      //   const z=window.mod.rotation.y;
+      //   updateOrientation([((x  * 180 / Math.PI)+90+360)%360, ((y  * 180 / Math.PI)+360)%360, ((z  * 180 / Math.PI)+360)%360])
+      // });
+      updateOrientation([0,90,0])
+  }, [])
 
     return (
-      // <Canvas>
-      //   <Suspense fallback={null}>
-      //     <Model />
-      //     <OrbitControls/>
-      //     <Environment />
-      //   </Suspense>
-      // </Canvas>
-      <></>
+      <Canvas style={{background: "#f9f9f9"}}>
+        <ambientLight intensity={1} />
+        <spotLight intensity={0.5} angle={0.1} penumbra={1} position={[10, 15, 10]} castShadow />
+        <Suspense fallback={null}>
+          <Model />
+          <OrbitControls enableRotate = {true} enablePan = {false} enableZoom = {false} enabled = {true} />
+          {/* <Environment /> */}
+        </Suspense>
+      </Canvas>
     )
 };
 
