@@ -1,49 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Renders without crashing 1`] = `
-<div
-  className="embedded-container"
->
+<DocumentFragment>
   <div
-    className="embedded-controls"
+    class="embedded-container"
   >
-    <button
-      className="btn"
-      onClick={[Function]}
-    >
-      Run Code
-    </button>
-  </div>
-  <div>
     <div
-      className="pythonrunner-container"
+      class="embedded-controls"
     >
+      <button
+        class="btn"
+      >
+        Run Code
+      </button>
+    </div>
+    <div>
       <div
-        id="p5Sketch"
-      />
-      <div
-        id="pygalOutput"
-      />
-      <div
-        className="pythonrunner-canvas-container"
+        class="pythonrunner-container"
       >
         <div
-          className="pythonrunner-graphic"
-          id="outputCanvas"
+          id="p5Sketch"
+        />
+        <div
+          id="pygalOutput"
+        />
+        <div
+          class="pythonrunner-canvas-container"
+        >
+          <div
+            class="pythonrunner-graphic"
+            id="outputCanvas"
+          />
+        </div>
+        <div
+          hidden=""
+        />
+        <pre
+          class="pythonrunner-console"
         />
       </div>
-      <div
-        hidden={true}
-      />
-      <pre
-        className="pythonrunner-console"
-        onClick={[Function]}
-      />
     </div>
+    <div
+      hidden=""
+      id="file-content"
+    />
   </div>
-  <div
-    hidden={true}
-    id="file-content"
-  />
-</div>
+</DocumentFragment>
 `;

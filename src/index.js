@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 
@@ -8,15 +8,16 @@ import { Provider } from 'react-redux'
 import store from './app/store'
 import userManager from './utils/userManager'
 
-ReactDOM.render(
+const div = document.getElementById('root')
+const root = createRoot(div)
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <OidcProvider store={store} userManager={userManager}>
         <App />
       </OidcProvider>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
