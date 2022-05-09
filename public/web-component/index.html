@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Editor Web component</title>
+  </head>
+  <body>
+    <editor-wc title="a web component!"></editor-wc>
+    <script src="./bundle.js"></script>
+  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (e) => {
+      const webComp = document.querySelector('editor-wc');
+
+      webComp.menuItems = ['one', 'two']
+
+      // subscribe to the 'custom' event which is pushed by the Foo component in a click handler
+      webComp.addEventListener('custom', function(e) {
+        console.log('listener in index html');
+      });
+    });
+  </script>
+</html>
