@@ -4,6 +4,7 @@ import * as ReactDOMClient from 'react-dom/client';
 import Foo from './components/Foo/Foo.js';
 
 class WebComponent extends HTMLElement {
+  root;
   mountPoint;
   componentAttributes = {};
   componentProperties = {};
@@ -21,12 +22,12 @@ class WebComponent extends HTMLElement {
     return ['title'];
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name, _oldVal, newVal) {
     console.log('attr changed')
     console.log(name, newVal)
     this.componentAttributes[name] = newVal;
 
-    // this.mountReactApp();
+    this.mountReactApp();
   }
 
   get menuItems() {
@@ -35,6 +36,8 @@ class WebComponent extends HTMLElement {
   }
 
   set menuItems(newValue) {
+    // update properties in the web componet via js calls from host app
+    // see public/web-component/index.html
     console.log('menu items set')
     this.componentProperties.menuItems = newValue;
 
@@ -47,16 +50,15 @@ class WebComponent extends HTMLElement {
 
   mountReactApp() {
     // console.log('mount')
-    let root;
     if (!this.mountPoint) {
       console.log('no mountpoint')
       this.mountPoint = document.createElement('div');
       this.mountPoint.setAttribute("id", "root");
       this.attachShadow({ mode: 'open' }).appendChild(this.mountPoint);
-      root = ReactDOMClient.createRoot(this.mountPoint);
-
-      root.render(<Foo { ...this.reactProps() }/>);
+      this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
+
+    this.root.render(<Foo { ...this.reactProps() }/>);
   }
 }
 
