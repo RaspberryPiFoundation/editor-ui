@@ -26,7 +26,7 @@ const MotionInput = (props) => {
   <div className="rangeslider-container">
     <div className={`readings-container motion-sensor`}>
       <label htmlFor={`sense_hat_motion`}>Motion:</label>
-      <input type="checkbox" id="sense_hat_motion" name="sense_hat_motion" defaultValue={value} onChange={e => setValue(e.target.checked)} />
+      <input type="checkbox" id="sense_hat_motion" name="sense_hat_motion" checked={value} onChange={e => setValue(e.target.checked)} />
     </div>
   </div>
   )
