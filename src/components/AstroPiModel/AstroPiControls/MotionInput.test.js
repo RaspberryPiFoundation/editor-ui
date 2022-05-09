@@ -85,7 +85,6 @@ describe("No motion and code not running", () => {
       }
       store = mockStore(initialState);
       container = render(<Provider store={store}><MotionInput defaultValue={false}/></Provider>)
-      console.log(container.container.innerHTML)
   })
 
   test("Stop motion function not called", () => {
@@ -108,7 +107,6 @@ describe("Motion and code not running", () => {
       }
       store = mockStore(initialState);
       container = render(<Provider store={store}><MotionInput defaultValue={true}/></Provider>)
-      console.log(container.container.innerHTML)
   })
 
   test("Start motion function not called", () => {
