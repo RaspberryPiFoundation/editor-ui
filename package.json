@@ -78,7 +78,7 @@
     "redux-oidc": "^4.0.0-beta1",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
-    "sass-loader": "^10.0.5",
+    "sass-loader": "^10.0.0",
     "semver": "7.3.2",
     "skulpt": "^1.2.0",
     "style-it": "^2.1.4",
@@ -126,7 +126,7 @@
     "@codemirror/lang-css": "^0.19.3",
     "jest-junit": "^13.0.0",
     "react-test-renderer": "^17.0.2",
-    "sass": "^1.49.11",
+    "sass": "^1.51.0",
     "webpack-cli": "^4.9.2"
   },
   "jest": {

@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
-import Foo from './components/Foo/Foo.js';
+// import Foo from './components/Foo/Foo.js';
+// import Project from './components/WebComponent/Project/Project';
+import WebComponentLoader from './components/WebComponent/WebComponentLoader/WebComponentLoader';
+import store from './app/store'
+import { Provider } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 class WebComponent extends HTMLElement {
   root;
@@ -10,7 +15,6 @@ class WebComponent extends HTMLElement {
   componentProperties = {};
 
   connectedCallback() {
-    console.log('connected')
     this.mountReactApp();
   }
 
@@ -19,19 +23,24 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['title'];
+    return ['code'];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
-    console.log('attr changed')
-    console.log(name, newVal)
+    // console.log(name, newVal)
     this.componentAttributes[name] = newVal;
 
     this.mountReactApp();
   }
 
+  get editorCode() {
+    console.log('getting editor code');
+    const state = store.getState();
+    // console.log(state.editor.foo);
+    return state.editor.foo;
+  }
+
   get menuItems() {
-    // console.log('get menuitems')
     return this.componentProperties.menuItems;
   }
 
@@ -49,16 +58,20 @@ class WebComponent extends HTMLElement {
   }
 
   mountReactApp() {
-    // console.log('mount')
     if (!this.mountPoint) {
-      console.log('no mountpoint')
       this.mountPoint = document.createElement('div');
       this.mountPoint.setAttribute("id", "root");
       this.attachShadow({ mode: 'open' }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
 
-    this.root.render(<Foo { ...this.reactProps() }/>);
+    this.root.render(
+      <React.StrictMode>
+        <Provider store={store}>
+            <WebComponentLoader { ...this.reactProps() }/>
+        </Provider>
+      </React.StrictMode>
+    );
   }
 }
 

@@ -6,7 +6,11 @@
     <title>Editor Web component</title>
   </head>
   <body>
-    <editor-wc title="a web component!"></editor-wc>
+    <editor-wc code="import turtle
+t = turtle.Turtle()
+t.forward(100)
+print('Oh yeah!')
+      "></editor-wc>
     <script src="./bundle.js"></script>
   </body>
 
@@ -14,12 +18,12 @@
     document.addEventListener('DOMContentLoaded', (e) => {
       const webComp = document.querySelector('editor-wc');
 
-      webComp.menuItems = ['one', 'two']
+      //webComp.menuItems = ['one', 'two']
 
       // subscribe to the 'custom' event which is pushed by the Foo component in a click handler
-      webComp.addEventListener('custom', function(e) {
-        console.log('listener in index html');
-      });
+      //webComp.addEventListener('custom', function(e) {
+        //console.log('listener in index html');
+      //});
     });
   </script>
 </html>

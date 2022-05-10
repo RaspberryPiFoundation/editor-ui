@@ -1,12 +1,17 @@
 import React from 'react';
 import Style from 'style-it';
 import styles from './Foo.css';
+import { useSelector, useDispatch } from 'react-redux'
+import { setFoo } from '../Editor/EditorSlice';
 
 const Foo = (props) => {
   console.log(props)
-  const { title } = props;
+  const dispatch = useDispatch();
+  const menuItems = props.menuItems || []
+  const { title  } = props;
 
   const clickHandler = () => {
+    dispatch(setFoo('setting some data in redux'));
 
     const customEvent = new CustomEvent("custom", {
       bubbles: true,
@@ -29,7 +34,13 @@ const Foo = (props) => {
             <span onClick={clickHandler}>Wow {title}!</span>
           </p>
         </header>
+        { menuItems.map((item, i) => (
+          <div key={i}>
+            Item: { item }
+          </div>
+        ))}
       </div>
+
     </Style>
   );
 }
