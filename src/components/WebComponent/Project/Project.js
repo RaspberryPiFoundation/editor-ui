@@ -1,21 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Style from 'style-it';
-// import styles from './Project.css';
+import styles from '../WebComponent.css';
+import projectStyles from '../../Editor/Project/Project.css'
 import tabStyles from 'react-tabs/style/react-tabs.css';
+import buttonStyles from '../../Button/Button.css'
+import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 
-const Project = (props) => {
+const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const [timeoutId, setTimeoutId] = React.useState(null);
+
+  useEffect(() => {
+    if(timeoutId) clearTimeout(timeoutId);
+    const id = setTimeout(
+      function() {
+        const customEvent = new CustomEvent("custom", {
+          bubbles: true,
+          cancelable: false,
+          composed: true
+        });
+
+        const webComponent = document.querySelector('editor-wc')
+        webComponent.dispatchEvent(customEvent)
+      }, 2000);
+    setTimeoutId(id);
+  }, [project]);
 
 
   return (
     <Style>
-      {tabStyles.toString()}
-      <div>
+      {styles.toString() + tabStyles.toString() + projectStyles.toString() + buttonStyles.toString() + runnerStyles.toString()}
+      <div id='wc'>
         <div>
           <RunnerControls/>
         </div>

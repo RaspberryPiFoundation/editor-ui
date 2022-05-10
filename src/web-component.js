@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
-// import Foo from './components/Foo/Foo.js';
-// import Project from './components/WebComponent/Project/Project';
 import WebComponentLoader from './components/WebComponent/WebComponentLoader/WebComponentLoader';
 import store from './app/store'
 import { Provider } from 'react-redux'
-import { useSelector, useDispatch } from 'react-redux'
 
 class WebComponent extends HTMLElement {
   root;
@@ -34,10 +31,10 @@ class WebComponent extends HTMLElement {
   }
 
   get editorCode() {
-    console.log('getting editor code');
+    // console.log('getting editor code');
     const state = store.getState();
     // console.log(state.editor.foo);
-    return state.editor.foo;
+    return state.editor.project.components[0].content;
   }
 
   get menuItems() {
