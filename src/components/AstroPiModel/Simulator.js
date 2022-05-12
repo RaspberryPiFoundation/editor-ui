@@ -68,12 +68,7 @@ const Simulator = (props) => {
       }
       
       var camera = new THREE.PerspectiveCamera( 25, 500 / 400, 1, 20000 );
-      camera.position.set(0, 1.5, 0);
-
-      var screen = new Array(8); 
-      for (var i = 0; i < screen.length; i++) { 
-          screen[i] = new Array(8); 
-      } 
+      camera.position.set(0, 1.5, 0); 
 
       // Load a Renderer
       var renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -91,12 +86,6 @@ const Simulator = (props) => {
       const environment = new RoomEnvironment();
       const pmremGenerator = new THREE.PMREMGenerator( renderer );
       scene.environment = pmremGenerator.fromScene( environment ).texture;
-
-      const grid = new THREE.GridHelper( 500, 10, 0xffffff, 0xffffff );
-      grid.material.opacity = 0.5;
-      grid.material.depthWrite = false;
-      grid.material.transparent = true;
-      // scene.add( grid );
 
       // Load the Orbitcontroller
       var controls = new OrbitControls( camera, renderer.domElement );
@@ -135,7 +124,6 @@ const Simulator = (props) => {
           })
     
           document.addEventListener( 'pointermove', moveit );
-          window.finished3D = true
           window.rotatemodel = function(x, y, z){
             window.mod.rotation.x = x;
             window.mod.rotation.y = y;
@@ -188,8 +176,8 @@ const Simulator = (props) => {
       
         var x = ledIndex % 8;
         var y = Math.floor(ledIndex / 8);
-        var newMaterial = new THREE.MeshStandardMaterial({color: 'rgb('+r+','+g+','+b+')'});
-        var object = window.mod.getObjectByName("circle"+x+"_"+(7-y)+"-1");
+        var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
+        var object = window.mod.getObjectByName(`circle${x}_${7-y}-1`);
       
         if(object != null)
           object.material = newMaterial;
@@ -208,8 +196,8 @@ const Simulator = (props) => {
         for (const ledIndex of indexes){
           var x = ledIndex % 8;
           var y = Math.floor(ledIndex / 8);
-          var newMaterial = new THREE.MeshStandardMaterial({color: 'rgb('+pix[i][0]+','+pix[i][1]+','+pix[i][2]+')'});
-          var object = window.mod.getObjectByName("circle"+x+"_"+(7-y)+"-1");
+          var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${pix[i][0]},${pix[i][1]},${pix[i][2]})`});
+          var object = window.mod.getObjectByName(`circle${x}_${7-y}-1`);
           if(object != null)
             object.material = newMaterial;
           i += 1;
