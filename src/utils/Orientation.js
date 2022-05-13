@@ -118,6 +118,12 @@ export function updateRTIMU() {
   ];
 }
 
+window.rotatemodel = function(x, y, z){
+  window.mod.rotation.x = x;
+  window.mod.rotation.y = y;
+  window.mod.rotation.z = z;
+}
+
 export function resetModel(event) {
   event.preventDefault();
 
