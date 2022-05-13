@@ -1,11 +1,9 @@
 import * as THREE from 'three';
-
+import { ResizeObserver } from "@juggle/resize-observer";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Stars} from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Lighting from './Lighting';
-import {updateRTIMU } from '../../utils/Orientation';
-import { useEffect, Suspense } from 'react';
-import Sk from 'skulpt';
+import { Suspense } from 'react';
 
 import FlightCase from './FlightCase'
 import './AstroPiModel.scss';
@@ -47,7 +45,6 @@ const Simulator = (props) => {
       window.mod.rotateOnWorldAxis(new THREE.Vector3(0, 0, -1), targetRotationX);
       window.mod.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), targetRotationY);
       updateOrientation([((window.mod.rotation.y  * 180 / Math.PI)+360)%360, ((window.mod.rotation.x  * 180 / Math.PI)+90+360)%360, ((window.mod.rotation.z  * 180 / Math.PI)+360)%360])
-      updateRTIMU();
       targetRotationY = targetRotationY * (1 - slowingFactor);
       targetRotationX = targetRotationX * (1 - slowingFactor);
     }
@@ -60,6 +57,7 @@ const Simulator = (props) => {
       onPointerUp={handleDragStop}
       onPointerOut={handleDragStop}
       onPointerMove={dragModel}
+      resize={{polyfill: ResizeObserver}}
     >
       <Lighting />
       <Suspense fallback={null}>

@@ -11,7 +11,6 @@ const AstroPiModel = () => {
   const resetOrientation = (e) => {
     resetModel(e)
     setOrientation([0,90,0])
-    updateRTIMU()
   }
 
   const defaultPressure = 1013
@@ -44,6 +43,7 @@ const AstroPiModel = () => {
 
   useEffect(() => {
     Sk.sense_hat.rtimu.raw_orientation = orientation
+    updateRTIMU()
   }, [orientation])
 
     return (
