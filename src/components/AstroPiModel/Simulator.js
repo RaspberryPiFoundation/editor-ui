@@ -193,24 +193,13 @@ const Simulator = (props) => {
           indexes = Array.from(Array(8*8).keys())
       
         var i = 0;
-        for (const ledIndex of indexes){
-          var x = ledIndex % 8;
-          var y = Math.floor(ledIndex / 8);
-          var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${pix[i][0]},${pix[i][1]},${pix[i][2]})`});
-          var object = window.mod.getObjectByName(`circle${x}_${7-y}-1`);
-          if(object != null)
-            object.material = newMaterial;
+        for (const ledIndex of indexes){;
+          set_pixel(ledIndex, pix[i][0], pix[i][1], pix[i][2])
           i += 1;
         }
         renderer.render( scene, camera );
       }
 
-      window.set_onrotate(function(){
-        const x=window.mod.rotation.x;
-        const y=window.mod.rotation.z;
-        const z=window.mod.rotation.y;
-        updateOrientation([((y  * 180 / Math.PI)+360)%360, ((x  * 180 / Math.PI)+90+360)%360, ((z  * 180 / Math.PI)+360)%360])
-      });
       updateOrientation([0,90,0])
   }, [])
 

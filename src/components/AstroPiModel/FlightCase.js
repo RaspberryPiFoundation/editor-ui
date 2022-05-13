@@ -13,7 +13,7 @@ const FlightCase = () => {
 
   return (
     <>
-      <primitive object={gltf.scene} scale={4} />
+      <primitive onPointerDown={(e)=> {console.log("you clicked me")}} object={gltf.scene} scale={4} />
     </>
   )
 }
