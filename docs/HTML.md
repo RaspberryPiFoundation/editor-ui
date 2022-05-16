@@ -49,5 +49,5 @@ As the output is displayed in an iframe linking to external sites will not work 
 
 Being able to add JavaScript to the projects which could then be autorun in an embedded view (perhaps in a hidden iframe) could open up some security issues. We need to think about the implications of this and how any issues can be mitigated.
 
-It is not currently possible to create a new HTML project. To allow this there would need to be a wayto choose project type when creating a new project on the UI projects page.
+It is not currently possible to create a new HTML project. To allow this there would need to be a way to choose project type when creating a new project on the UI projects page.
 The API would also need to be amended to handle creating an HTML project as it can only handle Python projects at the moment.
