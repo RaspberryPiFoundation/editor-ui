@@ -10,7 +10,7 @@ const Input = (props) => {
     if (Sk.sense_hat) {
       Sk.sense_hat[name] = value
     }
-  }, [value])
+  }, [name, value])
 
   return (
   <div className="rangeslider-container">
