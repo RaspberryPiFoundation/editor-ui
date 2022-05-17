@@ -10,9 +10,7 @@ import './AstroPiModel.scss';
 
 var isDragging=false
 var targetRotationX = 0.5;
-// var targetRotationOnMouseDownX = 0;
 var targetRotationY = 0.2;
-// var targetRotationOnMouseDownY = 0;
 var mouseX = 0;
 var mouseXOnMouseDown = 0;
 var mouseY = 0;
@@ -27,9 +25,7 @@ const Simulator = (props) => {
   const handleDragStart = (e) => {
     isDragging=true
     mouseXOnMouseDown = e.clientX - windowHalfX;
-    // targetRotationOnMouseDownX = targetRotationX;
     mouseYOnMouseDown = e.clientY - windowHalfY;
-    // targetRotationOnMouseDownY = targetRotationY;
   }
   const handleDragStop = () => {
     isDragging=false

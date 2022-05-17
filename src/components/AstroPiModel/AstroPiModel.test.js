@@ -29,7 +29,9 @@ beforeEach(() => {
     container = render(<Provider store={store}> <AstroPiModel/> </Provider>)
 })
 
-test("Component renders", () => {})
+test("Component renders", () => {
+  expect(container).not.toBeNull()
+})
 
 test("Update orientation function resets the model", () => {
   fireEvent.click(container.getByRole("button"))
