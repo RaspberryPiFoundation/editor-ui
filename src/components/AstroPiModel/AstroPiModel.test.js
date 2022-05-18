@@ -1,22 +1,39 @@
 import React from "react";
-import { render } from "@testing-library/react"
+import { fireEvent, render } from "@testing-library/react"
+import { Provider } from 'react-redux';
 import AstroPiModel from "./AstroPiModel";
-import 'webgl-mock-threejs';
+import configureStore from 'redux-mock-store';
 
-// jest.mock('three', () => {
-//   const THREE = jest.requireActual('three');
-//   return {
-//     ...THREE,
-//     WebGLRenderer: jest.fn().mockReturnValue({
-//       // domElement: document.createElement('div'), // create a fake div
-//       setPixelRatio() { return jest.fn()},
-//       setSize: jest.fn(),
-//       render: jest.fn(),
-//     }),
-//   };
-// });
+let container;
+let store;
 
-test("Everything renders", () => {
-  // WebGLRenderer.mockImplementationOnce((options)=><></>)
-  // render(<AstroPiModel/>)
+beforeEach(() => {
+  Sk.sense_hat={
+    rtimu: {
+      temperature: [0,0],
+      pressure: [0,0],
+      humidity: [0,0]
+    }
+  }
+  window.mod={
+    rotation: {}
+  }
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        codeRunTriggered: false
+      },
+    }
+    store = mockStore(initialState);
+    container = render(<Provider store={store}> <AstroPiModel/> </Provider>)
+})
+
+test("Component renders", () => {
+  expect(container).not.toBeNull()
+})
+
+test("Update orientation function resets the model", () => {
+  fireEvent.click(container.getByRole("button"))
+  expect(window.mod.rotation).toStrictEqual({x: 0, y: 0, z:0})
 })
