@@ -27,30 +27,6 @@
   }
 
   mod.init = new Sk.builtin.func(function () {
-      // check if the pixels array does already exist and or create it
-      if(!Sk.sense_hat) {
-          // throw new Error('SenseHat Browser storage must be set: Sk.sense_hat must exist');
-          Sk.sense_hat={}
-        }
-
-      // create 64 (8x8) empty array for the leds
-      if (!Sk.sense_hat.pixels || Sk.sense_hat.pixels.length === 0) {
-          Sk.sense_hat.pixels = []
-          for (var i = 0; i < 64; i++) {
-              Sk.sense_hat.pixels.push([0, 0, 0]);
-          }
-      }
-
-
-      if (!Sk.sense_hat.low_light) {
-          Sk.sense_hat.low_light = false;
-      }
-
-      // gamma is stored as a 32 bit value (so should we store it as a number or array?)
-      if (!Sk.sense_hat.gamma) {
-          Sk.sense_hat.gamma = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // lookup table (@see https://pythonhosted.org/sense-hat/api/#gamma)
-      }
-
       if (Sk.sense_hat_emit) {
           Sk.sense_hat_emit('init');
       }
@@ -253,69 +229,35 @@
   }
   
   mod.colourRead = new Sk.builtin.func(function () {
-      // var colour = Sk.ffi.remapToPy(Sk.sense_hat.colour);
-      var colourSelector = document.getElementById('sense_hat_colour')
-      if (colourSelector) {
-        colour = Sk.ffi.remapToPy(hex2rgb(colourSelector.value))
-      } else {
-        colour = Sk.ffi.remapToPy(hex2rgb("#000000"))
-      }
-
-      return colour;
+      return Sk.ffi.remapToPy(hex2rgb(Sk.sense_hat.colour));
   });
 
   /**
    * Motion
    */
   mod.motionRead = new Sk.builtin.func(function () {
-    var motionCheckbox = document.getElementById('sense_hat_motion')
-    var motion = motionCheckbox&&motionCheckbox.checked?Sk.ffi.remapToPy(1):Sk.ffi.remapToPy(0);
-    return motion;
+    return Sk.ffi.remapToPy(Sk.sense_hat.motion);
   });
 
   /**
-   * Adds the event handler for motion callbacks
+   * Sets start motion callback
    */
   mod._start_motion = new Sk.builtin.func(function(callback) {
-    var handleMotion = () => {
-      Sk.misceval.callsimAsync(null, callback);
-    }
-    var start_motion_callback = (e) => {
-      var motion = e.target.checked;
-      if(motion){
-        handleMotion()
-      }
-    }
-    if (Sk.sense_hat.start_motion_callback) {
-      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
-    }
-    Sk.sense_hat.start_motion_callback = start_motion_callback
-    if(!(callback instanceof Sk.builtin.none)){
-      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.start_motion_callback);
+    if (!(callback instanceof Sk.builtin.none)) {
+      Sk.sense_hat.start_motion_callback = () => {Sk.misceval.callsimAsync(null, callback)};
     }
   });
 
   /**
-   * Adds the event handler for motion callbacks
+   * Sets stop motion callback
    */
   mod._stop_motion = new Sk.builtin.func(function(callback) {
-    var stop_motion_callback = (e) => {
-      var motion = e.target.checked;
-      if(!motion){
-        Sk.misceval.callsimAsync(null, callback);
-      }
-    }
-    if (Sk.sense_hat.stop_motion_callback) {
-      document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
-    }
-    Sk.sense_hat.stop_motion_callback = stop_motion_callback
-    if(!(callback instanceof Sk.builtin.none)){
-      document.getElementById('sense_hat_motion').addEventListener('change', Sk.sense_hat.stop_motion_callback);
+    if (!(callback instanceof Sk.builtin.none)) {
+      Sk.sense_hat.stop_motion_callback = () => {Sk.misceval.callsimAsync(null, callback)};
     }
   });
 
   mod.fusionPoseRead = new Sk.builtin.func(function () {
-    console.log("reading orientation")
       var fusionPose = Sk.ffi.remapToPy(Sk.sense_hat.rtimu.raw_orientation.map(x=>x*Math.PI/180));
 
       return fusionPose;

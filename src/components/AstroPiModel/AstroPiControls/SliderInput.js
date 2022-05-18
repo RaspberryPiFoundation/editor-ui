@@ -10,7 +10,7 @@ const SliderInput = (props) => {
     if (Sk.sense_hat) {
       Sk.sense_hat.rtimu[name][1] = value+Math.random()-0.5
     }
-  }, [value])
+  }, [name, value])
 
   return (
     <div className="rangeslider-container">

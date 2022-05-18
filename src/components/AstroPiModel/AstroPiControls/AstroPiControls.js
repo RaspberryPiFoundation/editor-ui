@@ -1,24 +1,10 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux'
-import Sk from 'skulpt';
 import Input from './Input';
+import MotionInput from './MotionInput';
 import SliderInput from './SliderInput';
 import '../AstroPiModel.scss';
 
 const AstroPiControls = (props) => {
-  const {temperature, pressure, humidity} = props
-  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
-
-  useEffect(() => {
-    if (!codeRunTriggered) {
-      if (Sk.sense_hat.start_motion_callback) {
-        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.start_motion_callback)
-      }
-      if (Sk.sense_hat.stop_motion_callback) {
-        document.getElementById('sense_hat_motion').removeEventListener('change', Sk.sense_hat.stop_motion_callback)
-      }
-    }
-  }, [codeRunTriggered])
+  const {temperature, pressure, humidity, colour, motion} = props
 
   return (
     <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
@@ -29,8 +15,8 @@ const AstroPiControls = (props) => {
       </div>
     
       <div className="controls-container motion-colour">
-        <Input name="motion" label="Motion" type="checkbox" defaultValue={false} />
-        <Input name="colour" label="Colour" type="color" defaultValue="#000000" />
+        <MotionInput defaultValue={motion} />
+        <Input name="colour" label="Colour" type="color" defaultValue={colour} />
       </div>
     </div>
   )

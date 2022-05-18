@@ -34,6 +34,7 @@ exports[`Renders without crashing 1`] = `
         </div>
         <div
           hidden=""
+          id="senseHatCanvas"
         />
         <pre
           class="pythonrunner-console"
