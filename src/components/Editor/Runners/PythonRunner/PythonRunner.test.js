@@ -133,7 +133,7 @@ describe("When Sense Hat library used", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>);
-    canvas = document.getElementById("sense_hat_canvas")
+    canvas = document.getElementById("senseHatCanvas")
   })
 
   test("Astro Pi component appears", () => {
@@ -163,7 +163,7 @@ describe("When Sense Hat library not used", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>);
-    canvas = document.getElementById("sense_hat_canvas")
+    canvas = document.getElementById("senseHatCanvas")
   })
 
   test("Astro Pi component does not appear", () => {

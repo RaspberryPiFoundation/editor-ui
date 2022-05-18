@@ -290,7 +290,7 @@ const PythonRunner = () => {
         <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
       </div>
 
-      <div id='sense_hat_canvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
+      <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
       <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
     </div>
   );

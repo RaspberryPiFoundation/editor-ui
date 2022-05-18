@@ -132,3 +132,10 @@ export function resetModel(event) {
       , z = 0;
     window.rotatemodel(Geometry.degToRad(x), Geometry.degToRad(y), Geometry.degToRad(z));
 }
+
+export function extractRollPitchYaw(x, y, z) {
+  const roll = ((y * 180 / Math.PI) + 360) % 360
+  const pitch = ((x * 180 / Math.PI) + 90 + 360) % 360
+  const yaw = ((z * 180 / Math.PI) + 360) % 360
+  return [roll, pitch, yaw]
+}

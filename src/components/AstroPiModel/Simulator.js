@@ -5,6 +5,7 @@ import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Lighting from './Lighting';
 import { Suspense } from 'react';
 
+import { extractRollPitchYaw } from '../../utils/Orientation';
 import FlightCase from './FlightCase'
 import './AstroPiModel.scss';
 
@@ -18,6 +19,7 @@ var mouseYOnMouseDown = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var slowingFactor = 0.25;
+const rotationScaleFactor = 0.00025
 
 const Simulator = (props) => {
   const {updateOrientation} = props
@@ -33,14 +35,20 @@ const Simulator = (props) => {
 
   const dragModel = (e) => {
     mouseX = e.clientX - windowHalfX;
-    targetRotationX = ( mouseX - mouseXOnMouseDown ) * 0.00025;
+    targetRotationX = ( mouseX - mouseXOnMouseDown ) * rotationScaleFactor;
     mouseY = e.clientY - windowHalfY;
-    targetRotationY = ( mouseY - mouseYOnMouseDown ) * 0.00025;
+    targetRotationY = ( mouseY - mouseYOnMouseDown ) * rotationScaleFactor;
   
     if(isDragging) {
       window.mod.rotateOnWorldAxis(new THREE.Vector3(0, 0, -1), targetRotationX);
       window.mod.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), targetRotationY);
-      updateOrientation([((window.mod.rotation.y  * 180 / Math.PI)+360)%360, ((window.mod.rotation.x  * 180 / Math.PI)+90+360)%360, ((window.mod.rotation.z  * 180 / Math.PI)+360)%360])
+      updateOrientation(
+        extractRollPitchYaw(
+        window.mod.rotation.x,
+        window.mod.rotation.y,
+        window.mod.rotation.z
+        )
+      )
       targetRotationY = targetRotationY * (1 - slowingFactor);
       targetRotationX = targetRotationX * (1 - slowingFactor);
     }
