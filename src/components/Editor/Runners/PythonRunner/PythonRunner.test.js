@@ -140,3 +140,35 @@ describe("When Sense Hat library used", () => {
     expect(canvas.innerHTML).not.toBeNull()
   })
 })
+
+describe("When Sense Hat library not used", () => {
+  let canvas;
+  let store;
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello world')"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true
+      }
+    }
+    store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>);
+    canvas = document.getElementById("sense_hat_canvas")
+  })
+
+  test("Astro Pi component does not appear", () => {
+    expect(canvas.innerHTML).toBe("")
+  })
+})
+
+
