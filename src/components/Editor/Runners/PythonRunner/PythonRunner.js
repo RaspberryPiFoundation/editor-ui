@@ -55,20 +55,20 @@ const PythonRunner = () => {
 
   const externalLibraries = {
     "./pygal/__init__.js": {
-      path: process.env.PUBLIC_URL + '/pygal.js',
+      path: 'https://editor-images-test.s3.eu-west-2.amazonaws.com/pygal.js',
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
     },
     "./p5/__init__.js": {
-      path: process.env.PUBLIC_URL + '/p5-shim.js',
+      path: 'https://editor-images-test.s3.eu-west-2.amazonaws.com/p5-shim.js',
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
     },
     "./_internal_sense_hat/__init__.js": {
-      path: process.env.PUBLIC_URL + '/_internal_sense_hat.js'
+      path: 'https://editor-images-test.s3.eu-west-2.amazonaws.com/_internal_sense_hat.js'
     }
   };
 
