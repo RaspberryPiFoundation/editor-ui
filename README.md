@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but the app has been ejected so build scripts etc. are all in the repo now.
 
+## Environment variables
+
+The app uses the `dotenv` package to provide access to environment variables.
+Copy the example files into the correct place:
+
+```
+cp .env.example .env
+
+cp .env.webcomponent.example .env.webcomponent
+```
+
+Variables for the web application need to go into the `.env` file.
+Variables for the web component can be placed in `.env.webcomponent`.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -39,3 +54,4 @@ Runs the web component in development mode.
 Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
 
 There is no production build setup for the web component at present.
+
