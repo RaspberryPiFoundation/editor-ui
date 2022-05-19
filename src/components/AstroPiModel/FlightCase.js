@@ -8,9 +8,9 @@ import Sk from "skulpt";
 
 const FlightCase = () => {
 
-  const gltf = useLoader(GLTFLoader, 'https://editor-images-test.s3.eu-west-2.amazonaws.com/models/raspi-compressed.glb', loader => {
+  const gltf = useLoader(GLTFLoader, `${process.env.REACT_APP_S3_BUCKET}/models/raspi-compressed.glb`, loader => {
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( 'https://editor-images-test.s3.eu-west-2.amazonaws.com/three/examples/js/libs/draco/' );
+    dracoLoader.setDecoderPath( `${process.env.REACT_APP_S3_BUCKET}/three/examples/js/libs/draco/` );
     loader.setDRACOLoader( dracoLoader );
   })
   window.mod=gltf.scene
