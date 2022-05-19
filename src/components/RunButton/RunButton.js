@@ -1,5 +1,6 @@
 import Button from '../Button/Button'
 
+import React from 'react';
 import { useDispatch } from 'react-redux'
 import { triggerCodeRun, triggerDraw } from '../Editor/EditorSlice'
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import PythonRunner from './PythonRunner/PythonRunner';
 import HtmlRunner from './HtmlRunner/HtmlRunner';
 
