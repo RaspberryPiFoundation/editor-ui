@@ -43,7 +43,9 @@ More events could be added for code run starting and stopping to allow timing th
 Currently the WebComponent class mounts a `WebComponentLoader` React component and provides it with the same Redux store that the main application uses.
 The WebComponent doesn't need access to the user information however so having it's own store that just uses the `EditorSlice` may be preferable in future.
 If the data structure for the WebComponent differs greatly from the editor application it may be worth having a separate `WebComponentSlice` to handle it.
-As the web component evolves it seems likely the two behaviours will diverge and be configurable so it may be possible to use the same store for application and web component.
+
+As the web component evolves it seems likely the two behaviours will converge and the web component will need all the same behaviour as the web application.
+This behaviour would likely be configurable and it would be possible to use the same store for application and web component.
 
 The `WebComponentLoader` takes the code passed into the web component on initialization and puts it into the Redux store. It then sets the project loaded flag and mounts the `WebComponent/Project` React component. This is very similar to the `Project` component in the full application and mounts the editor panel and python runner components.
 
