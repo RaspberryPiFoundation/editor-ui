@@ -83,6 +83,7 @@
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "^10.0.0",
+    "sass-to-string": "^1.6.2",
     "semver": "7.3.2",
     "skulpt": "^1.2.0",
     "style-it": "^2.1.4",

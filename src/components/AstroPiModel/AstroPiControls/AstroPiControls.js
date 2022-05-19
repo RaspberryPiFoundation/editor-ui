@@ -1,3 +1,4 @@
+import React from 'react';
 import Input from './Input';
 import MotionInput from './MotionInput';
 import SliderInput from './SliderInput';

@@ -10806,6 +10806,11 @@ sass-loader@^10.0.0:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
+sass-to-string@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/sass-to-string/-/sass-to-string-1.6.2.tgz#ac90539f79cd7ccac8a4a8b1783bee179d082fac"
+  integrity sha512-Nk+N/yTNCfTSCCQihGMIgmpADu1BOt4CPDbtPRae43j8IXe/J/VykCKaMF05fmnqGY+VdEOwPQnwAFRWn25EaQ==
+
 sass@^1.51.0:
   version "1.51.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.51.0.tgz#25ea36cf819581fe1fe8329e8c3a4eaaf70d2845"

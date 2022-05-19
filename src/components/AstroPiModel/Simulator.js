@@ -1,3 +1,4 @@
+import React from 'react';
 import * as THREE from 'three';
 import { ResizeObserver } from "@juggle/resize-observer";
 import { Canvas } from "@react-three/fiber";
