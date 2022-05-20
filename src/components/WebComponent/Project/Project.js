@@ -35,7 +35,14 @@ const Project = () => {
 
   return (
     <Style>
-      {styles.toString() + tabStyles.toString() + projectStyles.toString() + buttonStyles.toString() + runnerStyles.toString() + astroPiStyles.toString()}
+      {
+        styles.toString() +
+        tabStyles.toString() +
+        projectStyles.toString() +
+        buttonStyles.toString() +
+        runnerStyles.toString() +
+        astroPiStyles.toString()
+      }
       <div id='wc'>
         <div>
           <RunnerControls/>
