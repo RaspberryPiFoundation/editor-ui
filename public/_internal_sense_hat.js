@@ -423,7 +423,7 @@
                   resolve();
               }
 
-              if(document.getElementById( "sense_hat_motion" ).checked == _motion){
+              if(Sk.sense_hat.motion == _motion){
                   hasEvent = true;
                   resolve();
               } else {
