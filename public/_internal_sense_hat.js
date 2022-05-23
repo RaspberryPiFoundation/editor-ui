@@ -313,7 +313,8 @@
   });
 
   /********************************************************/
-  /* SenseStick specific functions.
+  /* SenseStick specific functions. Commented out until we have a means of inputting 
+  /* sense stick events and can be made to work with the web component
   /*
   /*
    **/
@@ -321,209 +322,215 @@
   /**
    * Named InputEvent tuple
    */
-  var input_event_fields = {
-      "timestamp": "",
-      "direction": "",
-      "action": "",
-  };
-  var input_event_f = Sk.builtin.make_structseq('SenseStick', 'InputEvent', input_event_fields);
-  mod.InputEvent = Sk.builtin.make_structseq('SenseStick', 'InputEvent', input_event_fields);
+  // var input_event_fields = {
+  //     "timestamp": "",
+  //     "direction": "",
+  //     "action": "",
+  // };
+  // var input_event_f = Sk.builtin.make_structseq('SenseStick', 'InputEvent', input_event_fields);
+  // mod.InputEvent = Sk.builtin.make_structseq('SenseStick', 'InputEvent', input_event_fields);
 
   mod._wait = new Sk.builtin.func(function (timeout) {
-      var _timeout;
-      if (!timeout || timeout instanceof Sk.builtin.none) {
-          _timeout = null;
-      } else if (Sk.builtin.checkNumber(timeout)) {
-          _timeout = Sk.ffi.remapToJs(timeout);
-      }
+    throw new Error("NotImplementedError")
+      // var _timeout;
+      // if (!timeout || timeout instanceof Sk.builtin.none) {
+      //     _timeout = null;
+      // } else if (Sk.builtin.checkNumber(timeout)) {
+      //     _timeout = Sk.ffi.remapToJs(timeout);
+      // }
 
-      var timeoutHandle;
-      var hasEvent = false;
-      var susp = new Sk.misceval.Suspension();
-      susp.resume = function () {
-          // Should the post image get stuff go here??
-          if (susp.data["error"]) {
-              if (susp.data.error === 'KeyboardInterrupt') {
-                  throw new Error('KeyboardInterrupt');
-              } else {
-                  throw new Sk.builtin.IOError('SenseStickDevice Error');
-              }
-          }
-          return Sk.builtin.bool(hasEvent);
-      };
-      susp.data = {
-          type: "Sk.promise",
-          promise: new Promise(function (resolve, reject) {
-              // Listen to new one, once
-              function handleKeyInput (event, inputData) {
-                  // Clear timeout
-                  if (timeoutHandle) {
-                      window.clearTimeout(timeoutHandle);
-                  }
+      // var timeoutHandle;
+      // var hasEvent = false;
+      // var susp = new Sk.misceval.Suspension();
+      // susp.resume = function () {
+      //     // Should the post image get stuff go here??
+      //     if (susp.data["error"]) {
+      //         if (susp.data.error === 'KeyboardInterrupt') {
+      //             throw new Error('KeyboardInterrupt');
+      //         } else {
+      //             throw new Sk.builtin.IOError('SenseStickDevice Error');
+      //         }
+      //     }
+      //     return Sk.builtin.bool(hasEvent);
+      // };
+      // susp.data = {
+      //     type: "Sk.promise",
+      //     promise: new Promise(function (resolve, reject) {
+      //         // Listen to new one, once
+      //         function handleKeyInput (event, inputData) {
+      //             // Clear timeout
+      //             if (timeoutHandle) {
+      //                 window.clearTimeout(timeoutHandle);
+      //             }
 
-                  if (inputData.type === 'keyboardinterrupt') {
-                      reject('KeyboardInterrupt');
-                  }
+      //             if (inputData.type === 'keyboardinterrupt') {
+      //                 reject('KeyboardInterrupt');
+      //             }
 
-                  hasEvent = true; // Set return value
-                  resolve();
-              }
+      //             hasEvent = true; // Set return value
+      //             resolve();
+      //         }
 
-              if (Sk.sense_hat.sensestick._eventQueue.length > 0) {
-                  hasEvent = true;
-                  resolve();
-              } else {
-                  Sk.sense_hat.sensestick.once('sensestick.input', handleKeyInput);
+      //         if (Sk.sense_hat.sensestick._eventQueue.length > 0) {
+      //             hasEvent = true;
+      //             resolve();
+      //         } else {
+      //             Sk.sense_hat.sensestick.once('sensestick.input', handleKeyInput);
 
-                  if (_timeout != null) {
-                      timeoutHandle = setTimeout(function() {
-                          Sk.sense_hat.sensestick.off('sensestick.input', handleKeyInput);
-                          hasEvent = false; // Timeout passed before callback occured
-                          resolve()
-                      }, _timeout * 1000);
-                  }
-              }
-          })
-      };
-      return susp;
+      //             if (_timeout != null) {
+      //                 timeoutHandle = setTimeout(function() {
+      //                     Sk.sense_hat.sensestick.off('sensestick.input', handleKeyInput);
+      //                     hasEvent = false; // Timeout passed before callback occured
+      //                     resolve()
+      //                 }, _timeout * 1000);
+      //             }
+      //         }
+      //     })
+      // };
+      // return susp;
   });
 
   mod._waitmotion = new Sk.builtin.func(function (timeout, motion) {
-      var _timeout;
-      if (!timeout || timeout instanceof Sk.builtin.none) {
-          _timeout = null;
-      } else if (Sk.builtin.checkNumber(timeout)) {
-          _timeout = Sk.ffi.remapToJs(timeout);
-      }
-      var _motion =  Sk.ffi.remapToJs(motion);
-      var timeoutHandle;
-      var hasEvent = false;
-      var susp = new Sk.misceval.Suspension();
-      susp.resume = function () {
-          if (susp.data["error"]) {
-              console.log(susp.data)
-              throw new Error('KeyboardInterrupt');
-          }
-          return Sk.builtin.bool(hasEvent);
-      };
-      susp.data = {
-          type: "Sk.promise",
-          promise: new Promise(function (resolve, reject) {
-              // Listen to new one, once
-              function handleInput (event, inputData) {
-                  // Clear timeout
-                  if (timeoutHandle) {
-                      window.clearTimeout(timeoutHandle);
-                  }
-                  if (typeof(inputData) != "undefined" && inputData.type === 'interrupt') {
-                      reject('interrupt');
-                  }
-                  hasEvent = true; // Set return value
-                  document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleInput);
-                  resolve();
-              }
+    throw new Error("NotImplementedError")
+      // var _timeout;
+      // if (!timeout || timeout instanceof Sk.builtin.none) {
+      //     _timeout = null;
+      // } else if (Sk.builtin.checkNumber(timeout)) {
+      //     _timeout = Sk.ffi.remapToJs(timeout);
+      // }
+      // var _motion =  Sk.ffi.remapToJs(motion);
+      // var timeoutHandle;
+      // var hasEvent = false;
+      // var susp = new Sk.misceval.Suspension();
+      // susp.resume = function () {
+      //     if (susp.data["error"]) {
+      //         console.log(susp.data)
+      //         throw new Error('KeyboardInterrupt');
+      //     }
+      //     return Sk.builtin.bool(hasEvent);
+      // };
+      // susp.data = {
+      //     type: "Sk.promise",
+      //     promise: new Promise(function (resolve, reject) {
+      //         // Listen to new one, once
+      //         function handleMotionChange (event, inputData) {
+      //             // Clear timeout
+      //             if (timeoutHandle) {
+      //                 window.clearTimeout(timeoutHandle);
+      //             }
+      //             if (typeof(inputData) != "undefined" && inputData.type === 'interrupt') {
+      //                 reject('interrupt');
+      //             }
+      //             hasEvent = true; // Set return value
+      //             document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleInput);
+      //             resolve();
+      //         }
 
-              if(Sk.sense_hat.motion == _motion){
-                  hasEvent = true;
-                  resolve();
-              } else {
-                  document.getElementById( "sense_hat_motion" ).addEventListener( "change",  handleInput);
-                  if (_timeout != null) {
-                      timeoutHandle = setTimeout(function() {
-                        document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleInput);
-                          hasEvent = false; // Timeout passed before callback occured
-                          resolve()
-                      }, _timeout * 1000);
-                  }
-              }
-          })
-      };
-      return susp;
+      //         if(Sk.sense_hat.motion == _motion){
+      //             hasEvent = true;
+      //             resolve();
+      //         } else {
+      //             document.getElementById( "sense_hat_motion" ).addEventListener( "change",  handleMotionChange);
+      //             if (_timeout != null) {
+      //                 timeoutHandle = setTimeout(function() {
+      //                   document.getElementById( "sense_hat_motion" ).removeEventListener( "change",  handleMotionChange);
+      //                     hasEvent = false; // Timeout passed before callback occured
+      //                     resolve()
+      //                 }, _timeout * 1000);
+      //             }
+      //         }
+      //     })
+      // };
+      // return susp;
   });
 
   mod._inspectFunction = new Sk.builtin.func(function (func) {
-      //var kwargs = false;
-      var argsLength = 0;
+    throw new Error("NotImplementedError")
+      // //var kwargs = false;
+      // var argsLength = 0;
 
-      if (func.im_self && func.im_func) {
-          //kwargs = func.im_func.func_code["co_kwargs"] != null;
-          argsLength = func.im_func.func_code.length - 1; // -1 for the self
-      } else {
-          //kwargs = func.func_code["co_kwargs"] != null;
-          argsLength = func.func_code.length;
-      }
+      // if (func.im_self && func.im_func) {
+      //     //kwargs = func.im_func.func_code["co_kwargs"] != null;
+      //     argsLength = func.im_func.func_code.length - 1; // -1 for the self
+      // } else {
+      //     //kwargs = func.func_code["co_kwargs"] != null;
+      //     argsLength = func.func_code.length;
+      // }
 
-      return Sk.builtin.int_(argsLength);
+      // return Sk.builtin.int_(argsLength);
   });
 
   /**
    * Removes the event handler for simulating threading
    */
   mod._stop_stick_thread = new Sk.builtin.func(function() {
-      if (Sk.sense_hat.sensestick._threadHandler != null) {
-          Sk.sense_hat.sensestick.off('sensestick.input', _threadHandler);
-      }
+    throw new Error("NotImplementedError")
+      // if (Sk.sense_hat.sensestick._threadHandler != null) {
+      //     Sk.sense_hat.sensestick.off('sensestick.input', _threadHandler);
+      // }
   });
 
   /**
    * Adds the event handler for simulating threading for the SenseStick callbacks
    */
   mod._start_stick_thread = new Sk.builtin.func(function(callback) {
-      function handleKeyInput (event, inputData) {
-          // Store event in the internal queue
-          // This may cause, that we are not able to call our interrupt suspension handler
-          Sk.misceval.callsimAsync(null, callback);
-      }
+    throw new Error("NotImplementedError")
+      // function handleKeyInput (event, inputData) {
+      //     // Store event in the internal queue
+      //     // This may cause, that we are not able to call our interrupt suspension handler
+      //     Sk.misceval.callsimAsync(null, callback);
+      // }
 
-      Sk.sense_hat.sensestick.on('sensestick.input', handleKeyInput);
-      Sk.sense_hat.sensestick._threadHandler = handleKeyInput; // Callback and save closure
+      // Sk.sense_hat.sensestick.on('sensestick.input', handleKeyInput);
+      // Sk.sense_hat.sensestick._threadHandler = handleKeyInput; // Callback and save closure
   });
 
   mod._read = new Sk.builtin.func(function () {
-      var inputEvent;
-      var susp = new Sk.misceval.Suspension();
-      susp.resume = function () {
-          // We need the 2nd check for the keyboardinterrupt when we push this from the
-          // watching thread
-          if (susp.data["error"] || inputEvent.type === 'keyboardinterrupt') {
-              if (susp.data.error === 'KeyboardInterrupt' || inputEvent.type === 'keyboardinterrupt') {
-                  // throwing now
-                  throw new Error('KeyboardInterrupt');
-              } else {
-                  throw new Sk.builtin.IOError('SenseStickDevice Error');
-              }
-          }
+    throw new Error("NotImplementedError")
+      // var inputEvent;
+      // var susp = new Sk.misceval.Suspension();
+      // susp.resume = function () {
+      //     // We need the 2nd check for the keyboardinterrupt when we push this from the
+      //     // watching thread
+      //     if (susp.data["error"] || inputEvent.type === 'keyboardinterrupt') {
+      //         if (susp.data.error === 'KeyboardInterrupt' || inputEvent.type === 'keyboardinterrupt') {
+      //             // throwing now
+      //             throw new Error('KeyboardInterrupt');
+      //         } else {
+      //             throw new Sk.builtin.IOError('SenseStickDevice Error');
+      //         }
+      //     }
 
-          var tup = new Sk.builtin.tuple([
-              Sk.builtin.int_(inputEvent.timestamp),
-              Sk.builtin.int_(inputEvent.key),
-              Sk.builtin.int_(inputEvent.state),
-              Sk.builtin.int_(inputEvent.type)
-          ]);
-          return tup;
-      };
-      susp.data = {
-          type: "Sk.promise",
-          promise: new Promise(function (resolve, reject) {
-              // Read from internal eventQueue
-              if (Sk.sense_hat.sensestick._eventQueue.length > 0) {
-                  inputEvent = Sk.sense_hat.sensestick._eventQueue.shift();
-                  resolve();
-              } else {
-                  // add eventlistener
-                  Sk.sense_hat.sensestick.once('sensestick.input', function (event, inputData) {
-                      // Interrupt handling, so that we do not need to wait until the users inputs something
-                      if (inputData.type === 'keyboardinterrupt') {
-                          reject('KeyboardInterrupt');
-                      }
+      //     var tup = new Sk.builtin.tuple([
+      //         Sk.builtin.int_(inputEvent.timestamp),
+      //         Sk.builtin.int_(inputEvent.key),
+      //         Sk.builtin.int_(inputEvent.state),
+      //         Sk.builtin.int_(inputEvent.type)
+      //     ]);
+      //     return tup;
+      // };
+      // susp.data = {
+      //     type: "Sk.promise",
+      //     promise: new Promise(function (resolve, reject) {
+      //         // Read from internal eventQueue
+      //         if (Sk.sense_hat.sensestick._eventQueue.length > 0) {
+      //             inputEvent = Sk.sense_hat.sensestick._eventQueue.shift();
+      //             resolve();
+      //         } else {
+      //             // add eventlistener
+      //             Sk.sense_hat.sensestick.once('sensestick.input', function (event, inputData) {
+      //                 // Interrupt handling, so that we do not need to wait until the users inputs something
+      //                 if (inputData.type === 'keyboardinterrupt') {
+      //                     reject('KeyboardInterrupt');
+      //                 }
 
-                      inputEvent = inputEvent = Sk.sense_hat.sensestick._eventQueue.shift();
-                      resolve();
-                  });
-              }
-          })
-      };
-      return susp;
+      //                 inputEvent = inputEvent = Sk.sense_hat.sensestick._eventQueue.shift();
+      //                 resolve();
+      //             });
+      //         }
+      //     })
+      // };
+      // return susp;
   });
 
   return mod;
