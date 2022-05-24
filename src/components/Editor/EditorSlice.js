@@ -13,6 +13,7 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
+    darkModeEnabled: window.matchMedia("(prefers-color-scheme:dark)").matches,
   },
   reducers: {
     updateImages: (state, action) => {
@@ -22,6 +23,9 @@ export const EditorSlice = createSlice({
     addProjectComponent: (state, action) => {
       const count = state.project.components.length;
       state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": '', index: count})
+    },
+    setDarkMode: (state, action) => {
+      state.darkModeEnabled = action.payload;
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
@@ -92,6 +96,7 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   codeRunHandled,
+  setDarkMode,
   setEmbedded,
   setError,
   setNameError,

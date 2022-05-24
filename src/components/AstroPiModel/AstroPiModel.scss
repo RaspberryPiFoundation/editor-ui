@@ -1,6 +1,8 @@
+// @forward '@rpf/sauce/scss/properties/_spacing';
+
 .sense-hat-canvas-container {
   height: 550px;
-  max-width: 500px;
+  max-width: 500;
 }
 
 #orientation-layer {

@@ -12,7 +12,7 @@ import 'react-tabs/style/react-tabs.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
-import { setProjectLoaded, setProject } from '../EditorSlice';
+import { setDarkMode, setProjectLoaded, setProject } from '../EditorSlice';
 import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
@@ -23,6 +23,7 @@ import ProjectName from './ProjectName.js'
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled);
   const embedded = useSelector((state) => state.editor.isEmbedded);
   const dispatch = useDispatch();
   let history = useHistory()
@@ -86,6 +87,7 @@ const Project = () => {
       ) : null }
       <div>
         <RunnerControls/>
+        <Button buttonText={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`} onClickHandler={() => dispatch(setDarkMode(!isDarkMode))}/>
       </div>
       <div className='proj-container'>
         <div className='proj-editor-container'>
