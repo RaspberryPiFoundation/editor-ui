@@ -7,7 +7,7 @@ import Routes from './components/Routes'
 function App() {
   const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
   return (
-    <div id='app' className = {isDarkMode ? '--light': '--dark'}>
+    <div id='app' className = {isDarkMode ? '--dark': '--light'}>
       <Header />
       <Routes />
     </div>

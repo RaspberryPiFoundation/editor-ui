@@ -7,3 +7,28 @@ button {
   margin-left: auto;
   margin-right: auto;
 }
+
+#app {
+  height: 100%;
+}
+
+.--dark {
+  background-color: #414141;
+  color: white;
+
+  .react-tabs__tab--selected {
+    background-color: #565555;
+    color: white;
+  }
+  #sense-hat-sensor-controls-container {
+    background-color: #565555;
+    ;
+  }
+
+
+}
+
+.--light {
+  background-color: auto;
+  color: auto;
+}

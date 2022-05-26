@@ -11,7 +11,8 @@ import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
 
-import { editorTheme } from '../editorTheme';
+import { editorLightTheme } from '../editorLightTheme';
+import { editorDarkTheme } from '../editorDarkTheme';
 
 const EditorPanel = ({
   extension = 'html',
@@ -19,6 +20,7 @@ const EditorPanel = ({
 }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
+  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
   const dispatch = useDispatch();
   let timeout;
 
@@ -53,6 +55,7 @@ const EditorPanel = ({
     }
   }
 
+  const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -77,7 +80,7 @@ const EditorPanel = ({
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [isDarkMode]);
 
   return (
     <div className='foo' ref={editor}></div>

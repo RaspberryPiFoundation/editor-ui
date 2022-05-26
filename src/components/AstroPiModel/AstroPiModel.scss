@@ -2,7 +2,7 @@
 
 .sense-hat-canvas-container {
   height: 550px;
-  max-width: 500;
+  max-width: 500px;
 }
 
 #orientation-layer {
@@ -15,8 +15,6 @@
 #sense-hat-sensor-controls-container, #orientation-overlay {
   
     width: 100%;
-  
-    background-color: white;
   
     .controls-container {
       width: 100%;
