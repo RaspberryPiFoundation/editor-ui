@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import React from 'react';
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from 'three-stdlib/loaders/GLTFLoader.cjs.js';
 import { DRACOLoader } from 'three-stdlib/loaders/DRACOLoader.js';

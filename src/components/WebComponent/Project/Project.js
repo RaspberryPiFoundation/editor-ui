@@ -8,6 +8,8 @@ import tabStyles from 'react-tabs/style/react-tabs.css';
 import buttonStyles from '../../Button/Button.css'
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
+import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
+import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
@@ -45,7 +47,9 @@ const Project = () => {
         projectStyles.toString() + 
         buttonStyles.toString() +
         themeToggleStyles.toString() +
-        runnerStyles.toString()
+        runnerStyles.toString()+
+        errorStyles.toString()+
+        astroPiStyles.toString()
       }
       <div id='wc' className = {isDarkMode ? '--dark' : '--light'}>
         <div className='editor-controls'>
