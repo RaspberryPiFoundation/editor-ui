@@ -6,6 +6,8 @@ import projectStyles from '../../Editor/Project/Project.css'
 import tabStyles from 'react-tabs/style/react-tabs.css';
 import buttonStyles from '../../Button/Button.css'
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
+import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
+import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
@@ -34,7 +36,15 @@ const Project = () => {
 
   return (
     <Style>
-      {styles.toString() + tabStyles.toString() + projectStyles.toString() + buttonStyles.toString() + runnerStyles.toString()}
+      {
+        styles.toString() +
+        tabStyles.toString() +
+        projectStyles.toString() +
+        buttonStyles.toString() +
+        runnerStyles.toString() +
+        errorStyles.toString() +
+        astroPiStyles.toString()
+      }
       <div id='wc'>
         <div>
           <RunnerControls/>

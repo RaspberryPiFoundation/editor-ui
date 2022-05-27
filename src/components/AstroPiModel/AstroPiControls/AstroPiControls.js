@@ -1,3 +1,4 @@
+import React from 'react';
 import Input from './Input';
 import MotionInput from './MotionInput';
 import SliderInput from './SliderInput';
@@ -9,9 +10,9 @@ const AstroPiControls = (props) => {
   return (
     <div id="sense-hat-sensor-controls-container" className="top hide-for-snapshot">
       <div className="controls-container">
-        <SliderInput name="temperature" unit="°C" min={-40} max={120} defaultValue={temperature} iconClass="wi wi-thermometer" />
-        <SliderInput name="pressure" unit="hPa" min={260} max={1260} defaultValue={pressure} iconClass="wi wi-barometer" />
-        <SliderInput name="humidity" unit="%" min={0} max={100} defaultValue={humidity} iconClass="wi wi-humidity" />
+        <SliderInput name="temperature" unit="°C" min={-40} max={120} defaultValue={temperature} />
+        <SliderInput name="pressure" unit="hPa" min={260} max={1260} defaultValue={pressure} />
+        <SliderInput name="humidity" unit="%" min={0} max={100} defaultValue={humidity} />
       </div>
     
       <div className="controls-container motion-colour">

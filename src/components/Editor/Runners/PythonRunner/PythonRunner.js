@@ -229,6 +229,8 @@ const PythonRunner = () => {
     Sk.p5.sketch = "p5Sketch";
     Sk.p5.assets = projectImages;
 
+    (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;
+
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
 
     Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))

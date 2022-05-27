@@ -1,4 +1,6 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
+import { Barometer, Humidity, Thermometer } from "@intern0t/react-weather-icons";
 import '../AstroPiModel.scss';
 import Sk from 'skulpt';
 
@@ -15,7 +17,7 @@ const SliderInput = (props) => {
   return (
     <div className="rangeslider-container">
       <div className="readings-container">
-        <i className={iconClass}></i>
+        {name==="temperature" ? <Thermometer /> : name==="pressure" ? <Barometer />: name==="humidity"? <Humidity /> : null}
         <span className={`sensor-value sense-hat-${name}`}>{value}{unit}</span>
       </div>
       <input id={`sense_hat_${name}`} className="rangeslider" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>

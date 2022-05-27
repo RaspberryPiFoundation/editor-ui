@@ -1,3 +1,4 @@
+import React from 'react';
 import './AstroPiModel.scss';
 import Simulator from './Simulator';
 import Sk from 'skulpt';

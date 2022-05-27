@@ -1,3 +1,6 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRefresh } from '@fortawesome/free-solid-svg-icons'
 import '../AstroPiModel.scss';
 
 const OrientationResetButton = (props) => {
@@ -6,7 +9,7 @@ const OrientationResetButton = (props) => {
 
   return (
     <div id="close-sense-hat-orientation-controls">
-      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><i className="fa fa-refresh fa-2x" alt="Reset orientation button"></i></button>
+      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><FontAwesomeIcon icon={faRefresh} size="2x"/></button>
     </div>
   )
 }
