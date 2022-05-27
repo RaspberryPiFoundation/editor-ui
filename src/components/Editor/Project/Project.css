@@ -11,6 +11,10 @@
   padding-right: 5px;
 }
 
+.editor-controls {
+  display: flex;
+}
+
 .proj-controls {
   padding-top: 20px;
 }

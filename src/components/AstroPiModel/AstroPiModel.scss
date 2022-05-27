@@ -1,4 +1,4 @@
-// @forward '@rpf/sauce/scss/properties/_spacing';
+@forward '@rpf/sauce/scss/properties/_spacing';
 
 .sense-hat-canvas-container {
   height: 550px;
@@ -148,7 +148,6 @@
       padding: rem-calc(5px);
       margin: auto;
       min-width: rem-calc(25px);
-      border-left: 1px solid #ddd;
       > * {
         width: auto;
         margin: auto;

@@ -1,18 +1,22 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import Style from 'style-it';
-import styles from '../WebComponent.css';
+import spacing from '../../../../node_modules/@rpf/sauce/scss/properties/_spacing.scss'
+import styles from '../WebComponent.scss';
 import projectStyles from '../../Editor/Project/Project.css'
 import tabStyles from 'react-tabs/style/react-tabs.css';
 import buttonStyles from '../../Button/Button.css'
+import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
+import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
   const [timeoutId, setTimeoutId] = React.useState(null);
 
   useEffect(() => {
@@ -31,13 +35,22 @@ const Project = () => {
     setTimeoutId(id);
   }, [project]);
 
-
   return (
+    <>
+    <style>{":host, "+spacing.toString()}</style>
     <Style>
-      {styles.toString() + tabStyles.toString() + projectStyles.toString() + buttonStyles.toString() + runnerStyles.toString()}
-      <div id='wc'>
-        <div>
+      { 
+        styles.toString() + 
+        tabStyles.toString() + 
+        projectStyles.toString() + 
+        buttonStyles.toString() +
+        themeToggleStyles.toString() +
+        runnerStyles.toString()
+      }
+      <div id='wc' className = {isDarkMode ? '--dark' : '--light'}>
+        <div className='editor-controls'>
           <RunnerControls/>
+          <ThemeToggle />
         </div>
         <div className='proj-container'>
           <div className='proj-editor-container'>
@@ -64,6 +77,7 @@ const Project = () => {
       </div>
 
     </Style>
+    </>
   );
 }
 

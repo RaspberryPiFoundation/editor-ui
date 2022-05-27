@@ -1,13 +1,36 @@
+// @forward '@rpf/sauce/scss/properties/_spacing';
+
 #wc {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  all: initial;
+}
+
+svg {
+  min-width: 2rem;
+}
+
+.--dark {
+  background-color: #414141;
+  color: white;
+
+  .react-tabs__tab--selected {
+    background-color: #565555;
+    color: white;
+  }
+  #sense-hat-sensor-controls-container {
+    background-color: #565555;
+    ;
+  }
 }
