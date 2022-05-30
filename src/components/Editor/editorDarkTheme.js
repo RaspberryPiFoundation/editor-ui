@@ -1,4 +1,7 @@
 import { EditorView } from '@codemirror/view';
+import '@rpf/sauce/scss/properties/_font-weight.scss';
+import '@rpf/sauce/scss/properties/_font-size.scss';
+import '@rpf/sauce/scss/properties/_line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
   "&": {
@@ -6,16 +9,15 @@ export const editorDarkTheme = EditorView.theme({
     "background-color": "#333333"
   },
   ".cm-line": {
-    "color": "white",
-    "font-size": "16px",
-    "font-weight": "550",
-    "line-height": "21px"
+    "font-size": "inherit",
+    "line-height": "inherit"
   },
   ".cm-scroller": {overflow: "auto"},
   ".cm-gutter": {
     "background-color": "#565555",
     "color": "#C1C1C1",
-    "font-size": "16px"
+    "font-size": "inherit",
+    "line-height": "inherit"
   },
   ".cm-gutters": {
     "border": "none"
@@ -30,6 +32,6 @@ export const editorDarkTheme = EditorView.theme({
   },
   ".ͼa": {color: "#FF00A4"},
   ".ͼc": {color: "#1498D0"},
-  ".ͼd": {color: "#1498D0"},
+  ".ͼd": {color: "#6CE68D"},
   ".ͼl": {color: "#C1C1C1"},
 })

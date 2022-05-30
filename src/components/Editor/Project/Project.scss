@@ -1,3 +1,15 @@
+.font-size-small {
+  font-size: var(--font-size-base)
+}
+
+.font-size-medium {
+  font-size: var(--font-size-u-2)
+}
+
+.font-size-large {
+  font-size: var(--font-size-u-4)
+}
+
 .proj {
   max-width: 1280px;
   margin-left: auto;
@@ -9,6 +21,13 @@
   justify-content: space-between;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.proj-editor-container .react-tabs__tab--selected {
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  border-bottom: 3px solid #6CE68D;
 }
 
 .editor-controls {

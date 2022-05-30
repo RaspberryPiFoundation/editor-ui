@@ -3,6 +3,7 @@ import './EditorPanel.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
+import { useCookies } from 'react-cookie';
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
@@ -20,7 +21,7 @@ const EditorPanel = ({
 }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
-  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
+  const [cookies] = useCookies(['theme'])
   const dispatch = useDispatch();
   let timeout;
 
@@ -55,7 +56,7 @@ const EditorPanel = ({
     }
   }
 
-  const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
+  const editorTheme = cookies.theme == 'dark' ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -79,8 +80,9 @@ const EditorPanel = ({
 
     return () => {
       view.destroy();
+      editor.current.refresh()
     };
-  }, [isDarkMode]);
+  }, [cookies]);
 
   return (
     <div className='foo' ref={editor}></div>

@@ -6,17 +6,19 @@ export const editorLightTheme = EditorView.theme({
     // "background-color": "white"
   },
   ".cm-line": {
-    // "color": "black",
-    "font-size": "16px",
-    "font-weight": "550",
-    "line-height": "21px"
+    "font-size": "inherit",
+    "line-height": "var(--line-height-regular)"
   },
   ".cm-scroller": {overflow: "auto"},
   ".cm-gutter": {
     // "background-color": "#565555",
     // "color": "#C1C1C1",
-    "font-size": "16px"
+    "font-size": "inherit",
+    // "line-height": "var(--line-height-regular)"
   },
+  // ".cm-linenumber" : {
+  //   "line-height": "inherit"
+  // },
   ".cm-gutters": {
     "border": "none"
   },
@@ -30,6 +32,6 @@ export const editorLightTheme = EditorView.theme({
   },
   // ".ͼa": {color: "#FF00A4"},
   // ".ͼc": {color: "#1498D0"},
-  // ".ͼd": {color: "#1498D0"},
+  // ".ͼd": {color: "#6CE68D"},
   // ".ͼl": {color: "#C1C1C1"},
 })

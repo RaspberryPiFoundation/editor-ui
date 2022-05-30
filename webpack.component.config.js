@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         use: [
           "sass-to-string",
           {

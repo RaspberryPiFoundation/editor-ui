@@ -3,15 +3,19 @@ import { useSelector } from 'react-redux';
 
 import Header from './components/Header/Header'
 import Routes from './components/Routes'
+import { withCookies } from 'react-cookie';
 
-function App() {
-  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
+function App(props) {
+  const { cookies } = props;
+  const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
   return (
-    <div id='app' className = {isDarkMode ? '--dark': '--light'}>
+    <div 
+    id='app'
+    className = {`--${cookies.get('theme') || themeDefault } font-size-${cookies.get('fontSize') || 'medium' }`}>
       <Header />
       <Routes />
     </div>
   );
 }
 
-export default App;
+export default withCookies(App);

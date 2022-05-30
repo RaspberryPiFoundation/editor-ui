@@ -1,4 +1,4 @@
-import './Project.css';
+import './Project.scss';
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
@@ -21,7 +21,7 @@ import ProjectImages from '../ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
-
+import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -89,6 +89,7 @@ const Project = () => {
       <div className ='editor-controls'>
         <RunnerControls/>
         <ThemeToggle />
+        <FontSizeSelector />
       </div>
       <div className='proj-container'>
         <div className='proj-editor-container'>
