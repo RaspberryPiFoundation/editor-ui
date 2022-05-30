@@ -5,11 +5,11 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Lighting from './Lighting';
 import { Suspense } from 'react';
+import { useCookies } from 'react-cookie';
 
 import { extractRollPitchYaw } from '../../utils/Orientation';
 import FlightCase from './FlightCase'
 import './AstroPiModel.scss';
-import { useSelector } from 'react-redux';
 
 var isDragging=false
 var targetRotationX = 0.5;
@@ -25,7 +25,7 @@ const rotationScaleFactor = 0.00025
 
 const Simulator = (props) => {
   const {updateOrientation} = props
-  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
+  const [cookies] = useCookies(['theme'])
 
   const handleDragStart = (e) => {
     isDragging=true
@@ -59,7 +59,7 @@ const Simulator = (props) => {
 
   return (
     <Canvas 
-      style={{background: `${isDarkMode ? "#414141" : "#999999"}`, width: '500px', height: '400px'}}
+      style={{background: `${cookies.theme === 'dark' ? "#414141" : "#999999"}`, width: '500px', height: '400px'}}
       onPointerDown={handleDragStart}
       onPointerUp={handleDragStop}
       onPointerOut={handleDragStop}

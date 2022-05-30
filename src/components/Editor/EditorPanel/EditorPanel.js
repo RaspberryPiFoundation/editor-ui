@@ -56,7 +56,7 @@ const EditorPanel = ({
     }
   }
 
-  const editorTheme = cookies.theme == 'dark' ? editorDarkTheme : editorLightTheme
+  const editorTheme = cookies.theme === 'dark' ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -80,7 +80,6 @@ const EditorPanel = ({
 
     return () => {
       view.destroy();
-      editor.current.refresh()
     };
   }, [cookies]);
 

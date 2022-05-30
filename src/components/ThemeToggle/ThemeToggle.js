@@ -11,7 +11,7 @@ const ThemeToggle = () => {
   const [ cookies, setCookie ] = useCookies(['theme'])
 
   const toggleDarkMode = () => {
-    if (cookies.theme && cookies.theme=='dark' || !cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches) {
+    if ((cookies.theme && cookies.theme==='dark') || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)) {
       setCookie('theme', 'light')
     }
     else {
@@ -24,7 +24,7 @@ const ThemeToggle = () => {
       className = "toggle-theme-btn"
       onClickHandler={toggleDarkMode}
       buttonText = {
-        cookies.theme=='dark' ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
+        cookies.theme==='dark' ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
       }
     />
   )

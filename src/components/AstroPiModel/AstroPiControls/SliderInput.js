@@ -1,15 +1,15 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { Barometer, Humidity, Thermometer } from "@intern0t/react-weather-icons";
 import '../AstroPiModel.scss';
 import Sk from 'skulpt';
-import { useSelector } from 'react-redux';
 
 const SliderInput = (props) => {
   const { name, unit, min, max, defaultValue} = props;
   const [value, setValue] = useState(defaultValue);
-  const isDarkMode = useSelector((state) => state.editor.darkModeEnabled)
-  const iconColour = isDarkMode ? "white" : "black"
+  const [cookies] = useCookies(['theme'])
+  const iconColour = cookies.theme === 'dark' ? "white" : "black"
 
   useEffect(() => {
     if (Sk.sense_hat) {
