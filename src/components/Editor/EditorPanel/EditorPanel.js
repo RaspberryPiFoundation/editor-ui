@@ -21,7 +21,7 @@ const EditorPanel = ({
 }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
-  const [cookies] = useCookies(['theme'])
+  const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
   let timeout;
 

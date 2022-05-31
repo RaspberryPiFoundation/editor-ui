@@ -20,7 +20,16 @@ const SliderInput = (props) => {
   return (
     <div className="rangeslider-container">
       <div className="readings-container">
-        {name==="temperature" ? <Thermometer color={iconColour}/> : name==="pressure" ? <Barometer color={iconColour}/>: name==="humidity"? <Humidity color={iconColour} /> : null}
+        {name==="temperature" ?
+        <Thermometer color={iconColour} size={"1.5em"}/>
+        :
+        name==="pressure" ?
+        <Barometer color={iconColour} size={"1.5em"}/>
+        :
+        name==="humidity" ?
+        <Humidity color={iconColour} size={"1.5em"}/>
+        :
+        null}
         <span className={`sensor-value sense-hat-${name}`}>{value}{unit}</span>
       </div>
       <input id={`sense_hat_${name}`} className="rangeslider" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>

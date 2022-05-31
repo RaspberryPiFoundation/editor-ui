@@ -11,7 +11,7 @@ const OrientationResetButton = (props) => {
 
   return (
     <div id="close-sense-hat-orientation-controls">
-      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><FontAwesomeIcon icon={faRefresh} size="2x" color={cookies.theme==='dark'?"white":"black"}/></button>
+      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><FontAwesomeIcon icon={faRefresh} size={"2x"} color={cookies.theme==='dark'?"white":"black"}/></button>
     </div>
   )
 }

@@ -31,7 +31,9 @@ export const editorDarkTheme = EditorView.theme({
     "color": "#333333"
   },
   ".ͼa": {color: "#FF00A4"},
+  ".ͼb": {color: "#1498D0"},
   ".ͼc": {color: "#1498D0"},
   ".ͼd": {color: "#6CE68D"},
+  ".ͼi": {color: "#1498D0"},
   ".ͼl": {color: "#C1C1C1"},
 })
