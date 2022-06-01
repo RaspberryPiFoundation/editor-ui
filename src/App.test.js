@@ -3,64 +3,96 @@ import store from './app/store'
 import { Provider } from 'react-redux'
 import React from 'react';
 import { render } from '@testing-library/react';
+import { Cookies, CookiesProvider } from 'react-cookie';
 
-window.matchMedia = (query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: jest.fn(), // Deprecated
-  removeListener: jest.fn(), // Deprecated
-  addEventListener: jest.fn(),
-  removeEventListener: jest.fn(),
-  dispatchEvent: jest.fn(),
-})
+describe('Browser prefers light mode', () => {
+  let cookies;
 
-test('App renders without crashing', () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-    );
-});
+  beforeEach(() => {
+    window.matchMedia = (query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // Deprecated
+      removeListener: jest.fn(), // Deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })
 
-test('Dark mode class name added if browser prefers dark mode', () => {
-  window.matchMedia = (query) => ({
-    matches: true,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    cookies = new Cookies()
   })
 
-  const appContainer = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
-
-  expect(appContainer.container.querySelector('#app')).toHaveClass("--dark")
-})
-
-test('Light mode class name added if browser prefers light mode', () => {
-  window.matchMedia = (query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+  test('Light mode class name added if no cookie', () => {
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("--light")
   })
 
-  const appContainer = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
-  
-  expect(appContainer.container.querySelector('#app')).toHaveClass("--light")
+  test('Dark mode class name added if cookie specifies dark theme', () => {
+    cookies.set('theme', 'dark')
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("--dark")
+  })
+
+  afterEach(() => {
+    cookies.remove("theme")
+  })
+})
+
+describe('Browser prefers dark mode', () => {
+
+  let cookies;
+
+  beforeEach(() => {
+    window.matchMedia = (query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // Deprecated
+      removeListener: jest.fn(), // Deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })
+    cookies = new Cookies();
+  })
+
+  test('Dark mode class name added if no cookie', () => {
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("--dark")
+  })
+
+  test('Light mode class name added if cookie specifies light theme', () => {
+    cookies.set('theme', 'light')
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("--light")
+  })
+
+  afterEach(() => {
+    cookies.remove("theme")
+  })
 })
