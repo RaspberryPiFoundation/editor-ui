@@ -2,19 +2,19 @@ import './App.scss';
 
 import Header from './components/Header/Header'
 import Routes from './components/Routes'
-import { withCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 
-function App(props) {
-  const { cookies } = props;
+function App() {
+  const [cookies] = useCookies(['theme', 'fontSize'])
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
   return (
     <div 
     id='app'
-    className = {`--${cookies.get('theme') || themeDefault } font-size-${cookies.get('fontSize') || 'medium' }`}>
+    className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'medium' }`}>
       <Header />
       <Routes />
     </div>
   );
 }
 
-export default withCookies(App);
+export default App;
