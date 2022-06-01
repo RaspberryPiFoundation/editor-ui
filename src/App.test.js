@@ -96,3 +96,70 @@ describe('Browser prefers dark mode', () => {
     cookies.remove("theme")
   })
 })
+
+describe("When selecting the font size", ()=>{
+  window.matchMedia = (query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // Deprecated
+      removeListener: jest.fn(), // Deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })
+
+  let cookies;
+
+  beforeEach(() => {
+    cookies = new Cookies()
+  })
+  test("Cookie not set defaults css class to small", () => {
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
+  })
+
+  test("Cookie set to large sets correct css class on app", () => {
+    cookies.set('fontSize', 'large')
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-large")
+    
+  })
+
+  test("Cookie set to medium sets correct css class on app", () => {
+    cookies.set('fontSize', 'medium')
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-medium")
+    
+  })
+
+  test("Cookie set to small sets correct css class on app", () => {
+    cookies.set('fontSize', 'small')
+    const appContainer = render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
+  })
+})

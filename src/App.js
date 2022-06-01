@@ -10,7 +10,7 @@ function App() {
   return (
     <div 
     id='app'
-    className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'medium' }`}>
+    className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       <Header />
       <Routes />
     </div>
