@@ -20,6 +20,7 @@ import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
+import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -48,6 +49,7 @@ const Project = () => {
     <style>{":host, "+spacing.toString()}</style>
     <style>{":host, "+fontSize.toString()}</style>
     <style>{":host, "+lineHeight.toString()}</style>
+    <style>{":host, "+fontAwesomeStyles.toString()}</style>
     <Style>
       { 
         styles.toString() + 
