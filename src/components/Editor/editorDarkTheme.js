@@ -8,16 +8,10 @@ export const editorDarkTheme = EditorView.theme({
     "height": "400px",
     "background-color": "#333333"
   },
-  ".cm-line": {
-    "font-size": "inherit",
-    "line-height": "inherit"
-  },
   ".cm-scroller": {overflow: "auto"},
   ".cm-gutter": {
     "background-color": "#565555",
-    "color": "#C1C1C1",
-    "font-size": "inherit",
-    "line-height": "inherit"
+    "color": "#C1C1C1"
   },
   ".cm-gutters": {
     "border": "none"
@@ -36,4 +30,4 @@ export const editorDarkTheme = EditorView.theme({
   ".ͼd": {color: "#6CE68D"},
   ".ͼi": {color: "#1498D0"},
   ".ͼl": {color: "#C1C1C1"},
-})
+}, {dark: true})
