@@ -18,11 +18,20 @@ export const editorDarkTheme = EditorView.theme({
   },
   ".cm-activeLine": {
     "background-color": "#565555",
-    "caret-color": "white"
+    // "caret-color": "white"
   },
   ".cm-activeLineGutter": {
     "background-color": "#C1C1C1",
     "color": "#333333"
+  },
+  "&.cm-focused .cm-selectionBackground, ::selection": {
+    "background": "#144866"
+  },
+  ".cm-content": {
+    caretColor: "white"
+  },
+  "&.cm-focused .cm-cursor": {
+    borderLeftColor: "white"
   },
   ".ͼa": {color: "#FF00A4"},
   ".ͼb": {color: "#1498D0"},

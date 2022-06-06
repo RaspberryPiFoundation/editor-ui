@@ -11,6 +11,7 @@ import tabStyles from 'react-tabs/style/react-tabs.css';
 import buttonStyles from '../../Button/Button.css'
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
+import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
@@ -46,9 +47,9 @@ const Project = () => {
 
   return (
     <>
-    <style>{":host, "+spacing.toString()}</style>
-    <style>{":host, "+fontSize.toString()}</style>
-    <style>{":host, "+lineHeight.toString()}</style>
+    <style>{spacing.toString()}</style>
+    <style>{fontSize.toString()}</style>
+    <style>{lineHeight.toString()}</style>
     <style>{":host, "+fontAwesomeStyles.toString()}</style>
     <Style>
       { 
@@ -58,6 +59,7 @@ const Project = () => {
         buttonStyles.toString() +
         themeToggleStyles.toString() +
         fontSizeSelectorStyles.toString() +
+        editorStyles.toString() +
         runnerStyles.toString()+
         errorStyles.toString()+
         astroPiStyles.toString()
