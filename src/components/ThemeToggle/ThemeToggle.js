@@ -18,13 +18,14 @@ const ThemeToggle = () => {
       setCookie('theme', 'dark')
     }
   }
+  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
 
   return (
     <Button
       className = "toggle-theme-btn"
       onClickHandler={toggleDarkMode}
       buttonText = {
-        cookies.theme==='dark' ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
+        isDarkMode ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
       }
     />
   )

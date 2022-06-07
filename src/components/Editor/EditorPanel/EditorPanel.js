@@ -55,8 +55,8 @@ const EditorPanel = ({
         return html();
     }
   }
-
-  const editorTheme = cookies.theme === 'dark' ? editorDarkTheme : editorLightTheme
+  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
+  const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
