@@ -4,6 +4,7 @@
   color: #fff;
   display:inline-block;
   font-family: sans-serif;
+  font-size: inherit;
   font-weight: 500;
   margin: 6px;
   padding: 10px;

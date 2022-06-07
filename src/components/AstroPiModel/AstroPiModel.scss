@@ -1,10 +1,12 @@
+@forward '@rpf/sauce/scss/properties/_spacing';
+
 .sense-hat-canvas-container {
   height: 550px;
   max-width: 500px;
 }
 
 #orientation-reset-btn {
-  width: 40px;
+  font-size: 1.5em;
 }
 
 #orientation-layer {
@@ -17,8 +19,6 @@
 #sense-hat-sensor-controls-container, #orientation-overlay {
   
     width: 100%;
-  
-    background-color: white;
   
     .controls-container {
       width: 100%;
@@ -148,7 +148,6 @@
       padding: rem-calc(5px);
       margin: auto;
       min-width: rem-calc(25px);
-      border-left: 1px solid #ddd;
       > * {
         width: auto;
         margin: auto;

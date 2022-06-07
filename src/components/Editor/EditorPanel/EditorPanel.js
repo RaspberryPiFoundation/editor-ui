@@ -3,6 +3,7 @@ import './EditorPanel.css'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
+import { useCookies } from 'react-cookie';
 
 import { EditorState, basicSetup } from '@codemirror/basic-setup';
 import { EditorView, keymap } from '@codemirror/view';
@@ -11,7 +12,8 @@ import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { python } from '@codemirror/lang-python';
 
-import { editorTheme } from '../editorTheme';
+import { editorLightTheme } from '../editorLightTheme';
+import { editorDarkTheme } from '../editorDarkTheme';
 
 const EditorPanel = ({
   extension = 'html',
@@ -19,6 +21,7 @@ const EditorPanel = ({
 }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
+  const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
   let timeout;
 
@@ -53,6 +56,7 @@ const EditorPanel = ({
     }
   }
 
+  const editorTheme = cookies.theme === 'dark' ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
@@ -77,7 +81,7 @@ const EditorPanel = ({
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [cookies]);
 
   return (
     <div className='foo' ref={editor}></div>

@@ -7,16 +7,19 @@ import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'
 import store from './app/store'
 import userManager from './utils/userManager'
+import { CookiesProvider } from 'react-cookie';
 
 const div = document.getElementById('root')
 const root = createRoot(div)
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <OidcProvider store={store} userManager={userManager}>
-        <App />
-      </OidcProvider>
-    </Provider>
+    <CookiesProvider>
+      <Provider store={store}>
+        <OidcProvider store={store} userManager={userManager}>
+          <App />
+        </OidcProvider>
+      </Provider>
+    </CookiesProvider>
   </React.StrictMode>
 );
 

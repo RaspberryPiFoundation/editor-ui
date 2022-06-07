@@ -10,13 +10,11 @@ import { python } from '@codemirror/lang-python';
 
 function Editor() {
   const editor = useRef();
-  // const [code, setCode] = useState('');
   const code = useSelector((state) => state.editor.code)
   const dispatch = useDispatch()
 
   const onUpdate = EditorView.updateListener.of((v) => {
     dispatch(update(v.state.doc.toString()));
-    // console.log(v.state.doc.toString());
   });
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 html,
 body {
-  height: 100%;
   margin: 0;
 }
 
@@ -10,10 +9,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#app {
+  min-height: 100vh;
 }

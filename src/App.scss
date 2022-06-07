@@ -1,0 +1,24 @@
+button {
+  all: initial;
+}
+
+.main-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#app {
+  height: 100%;
+}
+
+.--dark {
+  background-color: #414141;
+  color: white;
+
+  #sense-hat-sensor-controls-container {
+    background-color: #565555;
+  }
+
+
+}

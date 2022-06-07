@@ -1,4 +1,4 @@
-import './Project.css';
+import './Project.scss';
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux'
 import { updateProjectName } from '../EditorSlice';
