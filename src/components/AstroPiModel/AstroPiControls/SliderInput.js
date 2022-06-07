@@ -9,7 +9,8 @@ const SliderInput = (props) => {
   const { name, unit, min, max, defaultValue} = props;
   const [value, setValue] = useState(defaultValue);
   const [cookies] = useCookies(['theme'])
-  const iconColour = cookies.theme === 'dark' ? "white" : "black"
+  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
+  const iconColour = isDarkMode ? "white" : "black"
 
   useEffect(() => {
     if (Sk.sense_hat) {

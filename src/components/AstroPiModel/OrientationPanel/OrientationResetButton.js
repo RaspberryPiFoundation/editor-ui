@@ -8,10 +8,11 @@ const OrientationResetButton = (props) => {
 
   const {resetOrientation} = props;
   const [cookies] = useCookies(['theme'])
+  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
 
   return (
     <div id="close-sense-hat-orientation-controls">
-      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><FontAwesomeIcon icon={faRefresh} color={cookies.theme==='dark'?"white":"black"}/></button>
+      <button id="orientation-reset-btn" onClick={e => resetOrientation(e)}><FontAwesomeIcon icon={faRefresh} color={isDarkMode?"white":"black"}/></button>
     </div>
   )
 }
