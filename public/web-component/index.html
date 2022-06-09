@@ -21,9 +21,9 @@
         console.log(code)
       });
 
-      webComp.addEventListener('runCompleted', () => {
-        const error = webComp.isErrorFree
-        console.log(error)
+      webComp.addEventListener('runCompleted', (e) => {
+        // const error = webComp.isErrorFree
+        console.log(e.detail)
       })
     });
   </script>

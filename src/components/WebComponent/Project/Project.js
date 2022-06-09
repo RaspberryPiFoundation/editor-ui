@@ -23,6 +23,8 @@ import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
+import store from '../../../app/store';
+
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
@@ -35,8 +37,10 @@ const Project = () => {
   useEffect(() => {
     setCodeHasRun(false)
     if (Sk.sense_hat) {
-      Sk.sense_hat.usedLEDs = false
-      Sk.sense_hat.readHumidity = false
+      Sk.sense_hat.usedLEDs = null
+      Sk.sense_hat.readHumidity = null
+      Sk.sense_hat.readPressure = null
+      Sk.sense_hat.readTemperature = null
     }
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(
@@ -61,13 +65,17 @@ const Project = () => {
       webComponent.dispatchEvent(runStartedEvent)
       setCodeHasRun(true)
     } else if (codeHasRun) {
+      const state = store.getState();
       const runCompletedEvent = new CustomEvent("runCompleted", {
         bubbles: true,
         cancelable: false,
         composed: true,
         detail: {
-          usedLEDs: Sk.sense_hat ? Sk.sense_hat.usedLEDs : null,
-          readHumidity: Sk.sense_hat ? Sk.sense_hat.readHumidity : null,
+          isErrorFree: state.editor.error === "",
+          usedLEDs: Sk.sense_hat && Sk.sense_hat.usedLEDs ? true : false,
+          readHumidity: Sk.sense_hat && Sk.sense_hat.readHumidity ? true : false,
+          readPressure: Sk.sense_hat && Sk.sense_hat.readPressure ? true : false,
+          readTemperature: Sk.sense_hat && Sk.sense_hat.readTemperature ? true : false,
         }
       });
       webComponent.dispatchEvent(runCompletedEvent)
