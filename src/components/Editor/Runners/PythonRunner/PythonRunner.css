@@ -32,7 +32,7 @@
 }
 
 .pythonrunner-input {
-  caret-color: black;
+  caret-color: inherit;
   color: rgb(36, 103, 236);
   display: block;
   line-height: 20px;
