@@ -15,17 +15,6 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-window.matchMedia = (query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: jest.fn(), // Deprecated
-  removeListener: jest.fn(), // Deprecated
-  addEventListener: jest.fn(),
-  removeEventListener: jest.fn(),
-  dispatchEvent: jest.fn(),
-})
-
 describe("When logged in and user owns project", () => {
   let store;
   let saveButton;
