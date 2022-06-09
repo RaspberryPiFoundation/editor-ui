@@ -20,6 +20,11 @@
         const code = webComp.editorCode
         console.log(code)
       });
+
+      webComp.addEventListener('runCompleted', () => {
+        const error = webComp.isErrorFree
+        console.log(error)
+      })
     });
   </script>
 </html>

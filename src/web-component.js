@@ -37,6 +37,11 @@ class WebComponent extends HTMLElement {
     return state.editor.project.components[0].content;
   }
 
+  get isErrorFree() {
+    const state = store.getState();
+    return state.editor.error === ""
+  }
+
   get menuItems() {
     return this.componentProperties.menuItems;
   }

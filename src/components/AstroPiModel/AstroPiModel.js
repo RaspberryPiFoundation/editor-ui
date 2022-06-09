@@ -25,6 +25,7 @@ const AstroPiModel = () => {
       low_light: false,
       motion: false,
       pixels: [],
+      readHumidity: false,
       rtimu: {
         pressure: [1, defaultPressure+Math.random()-0.5], /* isValid, pressure*/
         temperature: [1, defaultTemperature+Math.random()-0.5], /* isValid, temperature */
@@ -40,7 +41,8 @@ const AstroPiModel = () => {
         once: () => {}
       },
       start_motion_callback: () => {},
-      stop_motion_callback: () => {}
+      stop_motion_callback: () => {},
+      usedLEDs: false
     }
     for (var i = 0; i < 64; i++) {
       Sk.sense_hat.pixels.push([0, 0, 0]);

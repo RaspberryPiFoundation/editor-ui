@@ -22,14 +22,22 @@ import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
-
+import Sk from 'skulpt';
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
   const [cookies] = useCookies(['theme', 'fontSize'])
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
   const [timeoutId, setTimeoutId] = React.useState(null);
+  const webComponent = document.querySelector('editor-wc')
+  const [codeHasRun, setCodeHasRun] = React.useState(false);
 
   useEffect(() => {
+    setCodeHasRun(false)
+    if (Sk.sense_hat) {
+      Sk.sense_hat.usedLEDs = false
+      Sk.sense_hat.readHumidity = false
+    }
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(
       function() {
@@ -38,12 +46,34 @@ const Project = () => {
           cancelable: false,
           composed: true
         });
-
-        const webComponent = document.querySelector('editor-wc')
         webComponent.dispatchEvent(customEvent)
       }, 2000);
     setTimeoutId(id);
   }, [project]);
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      const runStartedEvent = new CustomEvent("runStarted", {
+        bubbles: true,
+        cancelable: false,
+        composed: true
+      });
+      webComponent.dispatchEvent(runStartedEvent)
+      setCodeHasRun(true)
+    } else if (codeHasRun) {
+      const runCompletedEvent = new CustomEvent("runCompleted", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          usedLEDs: Sk.sense_hat ? Sk.sense_hat.usedLEDs : null,
+          readHumidity: Sk.sense_hat ? Sk.sense_hat.readHumidity : null,
+        }
+      });
+      webComponent.dispatchEvent(runCompletedEvent)
+    }
+
+  }, [codeRunTriggered] )
 
   return (
     <>

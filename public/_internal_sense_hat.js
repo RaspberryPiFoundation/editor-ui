@@ -34,6 +34,7 @@
 
   // _fb_device specific methods
   mod.setpixel = new Sk.builtin.func(function (index, value) {
+      Sk.sense_hat.usedLEDs = true
       var _index;
       var _value;
 
@@ -80,6 +81,7 @@
   });
 
   mod.setpixels = new Sk.builtin.func(function (indexes, values) {
+      Sk.sense_hat.usedLEDs = true
       _indexes = Sk.ffi.remapToJs(indexes);
       _values = Sk.ffi.remapToJs(values);
       try {
@@ -167,6 +169,7 @@
    * >= 0%
    */
   mod.humidityRead = new Sk.builtin.func(function () {
+      Sk.sense_hat.readHumidity = true
       var pyTemperature = Sk.misceval.callsim(mod.temperatureRead); // does the validation for us
       var jsTemperature = Sk.ffi.remapToJs(pyTemperature);
 
