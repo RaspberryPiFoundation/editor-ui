@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react';
 import { resetModel, updateRTIMU } from '../../utils/Orientation';
 import { useSelector } from 'react-redux';
 
+export const defaultMZCriteria = {
+  readHumidity: false,
+  readPressure: false,
+  readTemperature: false,
+  usedLEDs: false
+}
+
 const AstroPiModel = () => {
   const project = useSelector((state) => state.editor.project)
   const [orientation, setOrientation] = useState([0,90,0])
@@ -26,10 +33,8 @@ const AstroPiModel = () => {
       gamma: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       low_light: false,
       motion: false,
+      mz_criteria: defaultMZCriteria,
       pixels: [],
-      readHumidity: null,
-      readPressure: null,
-      readTemperature: null,
       rtimu: {
         pressure: [1, defaultPressure+Math.random()-0.5], /* isValid, pressure*/
         temperature: [1, defaultTemperature+Math.random()-0.5], /* isValid, temperature */
@@ -46,7 +51,6 @@ const AstroPiModel = () => {
       },
       start_motion_callback: () => {},
       stop_motion_callback: () => {},
-      usedLEDs: null
     }
     for (var i = 0; i < 64; i++) {
       Sk.sense_hat.pixels.push([0, 0, 0]);
@@ -55,10 +59,7 @@ const AstroPiModel = () => {
 
   useEffect(() => {
     if (Sk.sense_hat) {
-      Sk.sense_hat.usedLEDs = null
-      Sk.sense_hat.readHumidity = null
-      Sk.sense_hat.readPressure = null
-      Sk.sense_hat.readTemperature = null
+      Sk.sense_hat.mz_criteria = defaultMZCriteria
     }
   }, [project]);
 
