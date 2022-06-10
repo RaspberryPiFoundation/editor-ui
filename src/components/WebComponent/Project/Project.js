@@ -36,16 +36,10 @@ const Project = () => {
 
   useEffect(() => {
     setCodeHasRun(false)
-    if (Sk.sense_hat) {
-      Sk.sense_hat.usedLEDs = null
-      Sk.sense_hat.readHumidity = null
-      Sk.sense_hat.readPressure = null
-      Sk.sense_hat.readTemperature = null
-    }
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(
       function() {
-        const customEvent = new CustomEvent("custom", {
+        const customEvent = new CustomEvent("codeChanged", {
           bubbles: true,
           cancelable: false,
           composed: true

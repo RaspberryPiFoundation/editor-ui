@@ -14,8 +14,8 @@
     document.addEventListener('DOMContentLoaded', (e) => {
       const webComp = document.querySelector('editor-wc');
 
-      // subscribe to the 'custom' event which is pushed by the project react component
-      webComp.addEventListener('custom', function(e) {
+      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
+      webComp.addEventListener('codeChanged', function(e) {
         console.log('listener in index html');
         const code = webComp.editorCode
         console.log(code)

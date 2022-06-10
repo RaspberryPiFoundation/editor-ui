@@ -6,8 +6,10 @@ import AstroPiControls from './AstroPiControls/AstroPiControls';
 import OrientationPanel from './OrientationPanel/OrientationPanel';
 import { useEffect, useState } from 'react';
 import { resetModel, updateRTIMU } from '../../utils/Orientation';
+import { useSelector } from 'react-redux';
 
 const AstroPiModel = () => {
+  const project = useSelector((state) => state.editor.project)
   const [orientation, setOrientation] = useState([0,90,0])
   const resetOrientation = (e) => {
     resetModel(e)
@@ -50,6 +52,15 @@ const AstroPiModel = () => {
       Sk.sense_hat.pixels.push([0, 0, 0]);
     }
   }
+
+  useEffect(() => {
+    if (Sk.sense_hat) {
+      Sk.sense_hat.usedLEDs = null
+      Sk.sense_hat.readHumidity = null
+      Sk.sense_hat.readPressure = null
+      Sk.sense_hat.readTemperature = null
+    }
+  }, [project]);
 
   useEffect(() => {
     Sk.sense_hat.rtimu.raw_orientation = orientation
