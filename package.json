@@ -85,6 +85,7 @@
     "react-refresh": "^0.8.3",
     "react-router-dom": "^5.3.0",
     "react-tabs": "^3.2.3",
+    "react-timer-hook": "^3.0.5",
     "react-toastify": "^8.1.0",
     "redux-mock-store": "^1.5.4",
     "redux-oidc": "^4.0.0-beta1",

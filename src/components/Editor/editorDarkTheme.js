@@ -27,9 +27,6 @@ export const editorDarkTheme = EditorView.theme({
   "&.cm-focused .cm-selectionBackground, ::selection": {
     "background": "#144866"
   },
-  ".cm-content": {
-    caretColor: "white"
-  },
   "&.cm-focused .cm-cursor": {
     borderLeftColor: "white"
   },

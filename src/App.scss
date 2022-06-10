@@ -15,10 +15,20 @@ button {
 .--dark {
   background-color: #414141;
   color: white;
+  caret-color: white;
 
   #sense-hat-sensor-controls-container {
     background-color: #565555;
   }
 
+  .pythonrunner-input {
+    color: rgb(36, 186, 236);
+  }
+}
 
+.--light {
+  caret-color: black;
+  .pythonrunner-input {
+    color: rgb(36, 103, 236);
+  }
 }
