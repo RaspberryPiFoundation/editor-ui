@@ -3,6 +3,7 @@ import Input from './Input';
 import MotionInput from './MotionInput';
 import SliderInput from './SliderInput';
 import '../AstroPiModel.scss';
+import Stopwatch from './Stopwatch';
 
 const AstroPiControls = (props) => {
   const {temperature, pressure, humidity, colour, motion} = props
@@ -18,6 +19,7 @@ const AstroPiControls = (props) => {
       <div className="controls-container motion-colour">
         <MotionInput defaultValue={motion} />
         <Input name="colour" label="Colour" type="color" defaultValue={colour} />
+        <Stopwatch />
       </div>
     </div>
   )
