@@ -20,7 +20,7 @@ import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
-import { defaultMZCriteria } from '../../AstroPiModel/AstroPiModel';
+import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
@@ -61,7 +61,7 @@ const Project = () => {
       setCodeHasRun(true)
     } else if (codeHasRun) {
       const state = store.getState();
-      const mz_criteria = Sk.sense_hat ? Sk.sense_hat.mz_criteria : defaultMZCriteria
+      const mz_criteria = Sk.sense_hat ? Sk.sense_hat.mz_criteria : {...defaultMZCriteria}
       const runCompletedEvent = new CustomEvent("runCompleted", {
         bubbles: true,
         cancelable: false,

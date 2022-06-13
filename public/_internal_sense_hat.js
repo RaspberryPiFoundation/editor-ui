@@ -398,6 +398,7 @@
   });
 
   mod._waitmotion = new Sk.builtin.func(function (timeout, motion) {
+    Sk.sense_hat.mz_criteria.noInputEvents = false
     throw new Error("NotImplementedError")
       // var _timeout;
       // if (!timeout || timeout instanceof Sk.builtin.none) {

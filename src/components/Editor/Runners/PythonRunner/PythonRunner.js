@@ -179,6 +179,9 @@ const PythonRunner = () => {
   }
 
   const inf = function () {
+    if (Sk.sense_hat) {
+      Sk.sense_hat.mz_criteria.noInputEvents = false
+    }
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
