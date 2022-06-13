@@ -139,6 +139,7 @@
     "@codemirror/commands": "^0.19.5",
     "@codemirror/highlight": "^0.19.6",
     "@codemirror/lang-css": "^0.19.3",
+    "cypress": "^10.1.0",
     "dotenv-webpack": "^7.1.0",
     "jest-junit": "^13.0.0",
     "react-test-renderer": "^17.0.2",
