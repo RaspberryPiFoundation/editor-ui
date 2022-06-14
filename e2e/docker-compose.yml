@@ -21,7 +21,6 @@ services:
 
   cypress-wc:
     image: "cookiescrumbs/cypress-m1:9.4.1"
-    command: sleep 30; cypress run
     depends_on:
       - react-ui-test-wc
     environment:
