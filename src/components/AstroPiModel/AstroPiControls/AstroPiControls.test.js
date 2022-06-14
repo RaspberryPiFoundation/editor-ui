@@ -10,6 +10,7 @@ let store;
 
 beforeEach(() => {
   Sk.sense_hat={
+    mz_criteria: {},
     rtimu: {
       temperature: [0,0],
       pressure: [0,0],
