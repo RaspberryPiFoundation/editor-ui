@@ -48,9 +48,9 @@ jobs:
       #     name: Start server
       #     command: yarn run start
       #     background: true
-#       - run:
-#           name: Cypress integration tests
-#           command: npx cypress run
+      - run:
+          name: Cypress integration tests
+          command: yarn run test:integration
       - store_test_results:
           path: ./coverage
       - store_artifacts:
