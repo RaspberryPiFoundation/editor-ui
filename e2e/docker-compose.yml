@@ -1,20 +1,31 @@
 version: '3'
 services:
-  react-ui-test:
+  # react-ui-test:
+  #   build: ../
+  #   environment:
+  #     - PORT=3000
+  #   stdin_open: true
+  #   # ports:
+  #   #   - "9000:9000"
+  #   # volumes:
+  #   #   - .:/app
+  #   #   - /app/node_modules # ensures we retain node_modules from docker build
+  react-ui-test-wc:
     build: ../
-    # command: yarn start:wc
+    command: yarn start:wc
     environment:
-      - PORT=3001
+      - PORT=9000
+    ports:
+      - "9000:9000"
     stdin_open: true
-    # volumes:
-    #   - .:/app
-    #   - /app/node_modules # ensures we retain node_modules from docker build
-  cypress:
+
+  cypress-wc:
     image: "cookiescrumbs/cypress-m1:9.4.1"
+    command: sleep 30; cypress run
     depends_on:
-      - react-ui-test
+      - react-ui-test-wc
     environment:
-      - CYPRESS_baseUrl=http://react-ui-test:3001
+      - CYPRESS_baseUrl=http://react-ui-test-wc:9000
     working_dir: /e2e
     volumes:
       - ./:/e2e

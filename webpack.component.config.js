@@ -41,8 +41,15 @@ module.exports = {
     filename: 'bundle.js',
   },
   devServer: {
+    allowedHosts: [
+      'react-ui-test-wc'
+    ],
     contentBase: path.resolve(__dirname, './public/web-component'),
-    port: 9000
+    host: "0.0.0.0",
+    port: 9000,
+    client: {
+      logging: 'verbose'
+    }
   },
   plugins: [
     new Dotenv({
