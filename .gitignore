@@ -10,9 +10,9 @@
 
 # testing
 /coverage
-/e2e/cypress/screenshots
-/e2e/cypress/videos
-/e2e/node_modules
+/cypress/screenshots
+/cypress/videos
+/node_modules
 
 # production
 /build

@@ -1,4 +1,4 @@
-const baseUrl = "http://react-ui-test:3000"
+const baseUrl = "http://localhost:3000"
 
 it("renders the web component", () => {
   cy.visit(baseUrl)

@@ -44,13 +44,17 @@ jobs:
           command: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./coverage/
-      # - run:
-      #     name: Start server
-      #     command: yarn run start
-      #     background: true
+      - run:
+          name: Start server
+          command: yarn run start
+          background: true
+      - run:
+          name: Start web component server
+          command: yarn run start:wc
+          background: true
       - run:
           name: Cypress integration tests
-          command: yarn run test:integration
+          command: npx cypress run
       - store_test_results:
           path: ./coverage
       - store_artifacts:

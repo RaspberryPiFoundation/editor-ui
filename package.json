@@ -113,7 +113,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
-    "test:integration": "cd e2e; docker compose up",
+    "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "start:wc": "NODE_ENV=development webpack serve -c ./webpack.component.config.js --mode development"
   },
   "eslintConfig": {
