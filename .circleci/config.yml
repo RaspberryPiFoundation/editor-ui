@@ -64,7 +64,6 @@ jobs:
           command: yarn run start
           background: true
           environment:
-            HOST: 0.0.0.0
             PORT: 3000
       - run:
           name: Start web component server
