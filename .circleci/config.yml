@@ -69,11 +69,11 @@ jobs:
           name: Start web component server
           command: yarn run start:wc
           background: true
-          environment:
-            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
       - run:
           name: Cypress integration tests
           command: yarn exec cypress run
+          environment:
+            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
       - store_test_results:
           path: ./coverage
       - store_artifacts:
