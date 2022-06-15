@@ -22,7 +22,7 @@ const StopButton = (props) => {
     )
   } else {
     return (
-    <Button onClickHandler={onClickStop} {...props} />
+    <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
     )
   }
 };

@@ -8,6 +8,7 @@
   <body>
     <editor-wc code="print('Hello component')"></editor-wc>
     <script src="./bundle.js"></script>
+    <p id="results"></p>
   </body>
 
   <script>
@@ -24,6 +25,7 @@
       webComp.addEventListener('runCompleted', (e) => {
         // const error = webComp.isErrorFree
         console.log(e.detail)
+        document.getElementById("results").innerText = JSON.stringify(e.detail)
       })
     });
   </script>
