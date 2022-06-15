@@ -54,7 +54,7 @@ jobs:
           background: true
       - run:
           name: Cypress integration tests
-          command: npx cypress run
+          command: yarn exec cypress run
       - store_test_results:
           path: ./coverage
       - store_artifacts:
