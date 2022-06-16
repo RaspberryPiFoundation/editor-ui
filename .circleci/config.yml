@@ -71,9 +71,9 @@ jobs:
           background: true
       - run:
           name: Cypress integration tests
-          command: yarn exec cypress run
           environment:
             REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
+          command: echo $REACT_APP_S3_BUCKET; yarn exec cypress run
       - store_test_results:
           path: ./coverage
       - store_artifacts:
