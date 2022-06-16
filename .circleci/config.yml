@@ -67,7 +67,7 @@ jobs:
           background: true
       - run:
           name: Cypress integration tests
-          command: echo $REACT_APP_S3_BUCKET; yarn exec cypress run
+          command: yarn exec cypress run
       - store_test_results:
           path: ./coverage
       - store_artifacts:
