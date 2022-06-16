@@ -1,0 +1,29 @@
+.menu {
+  display: flex;
+
+  .menu-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: var(--spacing-5);
+
+    .menu-options-top{
+      display: flex;
+      flex-direction: column;
+      padding-top: var(--spacing-3);
+      padding-bottom: var(--spacing-9)
+    }
+    .menu-options-bottom {
+      display: flex;
+      flex-direction: column;
+      padding-top: var(--spacing-9)
+    }
+
+    svg {
+      padding: var(--spacing-1)
+    }
+  }
+
+  .menu-pop-out {
+    padding-right: var(--spacing-1)
+  }
+}

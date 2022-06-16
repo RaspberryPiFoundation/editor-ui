@@ -22,6 +22,7 @@ import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
+import Menu from '../../Menu/Menu';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -92,6 +93,7 @@ const Project = () => {
         <FontSizeSelector />
       </div>
       <div className='proj-container'>
+        <Menu />
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon } from '@fortawesome/free-solid-svg-icons'
+import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { DaySunny } from '@intern0t/react-weather-icons';
 import Button from '../Button/Button';
 
