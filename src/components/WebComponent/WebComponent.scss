@@ -1,5 +1,12 @@
-// @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-// @import url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css');
+@use '../Editor/Project/Project.scss';
+@use '../Button/Button.css';
+@use '../ThemeToggle/ThemeToggle.scss';
+@use '../Editor/FontSizeSelector/FontSizeSelector.scss';
+@use '../Editor/EditorPanel/EditorPanel.css';
+@use '../Editor/Runners/PythonRunner/PythonRunner.css';
+@use '../Editor/ErrorMessage/ErrorMessage.css';
+@use '../AstroPiModel/AstroPiModel.scss';
+@use '../AstroPiModel/AstroPiControls/Stopwatch.scss';
 
 #wc {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

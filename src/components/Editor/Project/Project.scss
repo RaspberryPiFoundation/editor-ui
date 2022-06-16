@@ -1,3 +1,5 @@
+@use '../../../../node_modules/@rpf/sauce/scss/properties/_font-size.scss';
+
 .font-size-small {
   font-size: var(--font-size-base)
 }

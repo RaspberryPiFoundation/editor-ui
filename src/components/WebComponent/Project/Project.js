@@ -2,26 +2,14 @@ import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import Style from 'style-it';
-import spacing from '../../../../node_modules/@rpf/sauce/scss/properties/_spacing.scss'
-import fontSize from '../../../../node_modules/@rpf/sauce/scss/properties/_font-size.scss'
-import lineHeight from '../../../../node_modules/@rpf/sauce/scss/properties/_line-height.scss'
-import styles from '../WebComponent.scss';
-import projectStyles from '../../Editor/Project/Project.scss'
-import tabStyles from 'react-tabs/style/react-tabs.css';
-import buttonStyles from '../../Button/Button.css'
-import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
-import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
-import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
-import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
-import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
-import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
+import externalStyles from '../ExternalStyles.scss';
+import internalStyles from '../WebComponent.scss';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
-import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -47,23 +35,9 @@ const Project = () => {
 
   return (
     <>
-    <style>{spacing.toString()}</style>
-    <style>{fontSize.toString()}</style>
-    <style>{lineHeight.toString()}</style>
-    <style>{":host, "+fontAwesomeStyles.toString()}</style>
+    <style>{externalStyles}</style>
     <Style>
-      { 
-        styles.toString() + 
-        tabStyles.toString() + 
-        projectStyles.toString() + 
-        buttonStyles.toString() +
-        themeToggleStyles.toString() +
-        fontSizeSelectorStyles.toString() +
-        editorStyles.toString() +
-        runnerStyles.toString()+
-        errorStyles.toString()+
-        astroPiStyles.toString()
-      }
+      {internalStyles}
       <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
         <div className='editor-controls'>
           <RunnerControls/>
