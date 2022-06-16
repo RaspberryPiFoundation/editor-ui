@@ -9,15 +9,6 @@ import { resetModel, updateRTIMU } from '../../utils/Orientation';
 import { useSelector } from 'react-redux';
 import { defaultMZCriteria } from './DefaultMZCriteria';
 
-// export const defaultMZCriteria = {
-//   duration: null,
-//   noInputEvents: true,
-//   readHumidity: false,
-//   readPressure: false,
-//   readTemperature: false,
-//   usedLEDs: false
-// }
-
 const AstroPiModel = () => {
   const project = useSelector((state) => state.editor.project)
   const [orientation, setOrientation] = useState([0,90,0])
@@ -61,8 +52,6 @@ const AstroPiModel = () => {
   }
 
   useEffect(() => {
-    // console.log(defaultMZCriteria)
-    console.log('resetting criteria')
     Sk.sense_hat.mz_criteria = {...defaultMZCriteria}
   }, [project]);
 

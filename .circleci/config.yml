@@ -33,7 +33,6 @@ jobs:
       - image: cimg/node:16.13.1-browsers
         environment:
           NODE_PATH: ./src
-#           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
       - restore_cache:
@@ -50,11 +49,6 @@ jobs:
           paths:
             - ~/project/node_modules
             - ~/.cache
-      # - node/install-packages:
-      #     cache-path: ~/project/node_modules
-      #     pkg-manager: yarn
-#       - run:
-#           command: npx cypress verify
       - run:
           command: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
           environment:
@@ -68,11 +62,11 @@ jobs:
       - run:
           name: Start web component server
           command: yarn run start:wc
+          environment:
+            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
           background: true
       - run:
           name: Cypress integration tests
-          environment:
-            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
           command: echo $REACT_APP_S3_BUCKET; yarn exec cypress run
       - store_test_results:
           path: ./coverage
