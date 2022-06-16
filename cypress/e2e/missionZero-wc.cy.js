@@ -54,6 +54,7 @@ it("confirms LEDs used when display set", () => {
 // it("picks up calls to input()", () => {
 //   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'input()')
 //   cy.get("editor-wc").shadow().find(".btn--run").click()
+//   cy.get("editor-wc").shadow().find("span[contenteditable=true]").type('{enter}')
 //   cy.get("#results").should("contain", '"noInputEvents":false')
 // })
 
