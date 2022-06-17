@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { faCircleUser, faDownload, faFile, faFont, faGear } from '@fortawesome/free-solid-svg-icons'
 
-import AccountPopOut from "./AccountPopOut"
-import FilePopOut from "./FilePopOut"
-import SettingsPopOut from "./SettingsPopOut"
+import AccountPopOut from "./AccountPopOut/AccountPopOut"
+import FilePopOut from "./FilePopOut/FilePopOut"
+import SettingsPopOut from "./SettingsPopOut/SettingsPopOut"
 import MenuSideBar from "./MenuSidebar"
 
 import './Menu.scss'

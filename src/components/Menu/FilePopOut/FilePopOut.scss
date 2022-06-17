@@ -1,0 +1,12 @@
+.files-list-item {
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-2);
+
+  .file-list-item-name {
+    margin: 0;
+    padding: var(--spacing-1);
+  }
+}
+

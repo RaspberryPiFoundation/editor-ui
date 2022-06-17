@@ -1,16 +1,20 @@
 .project-image-block {
     display: inline-block;
-    min-width: 150px;
-    height: 150px;
+    width: 50%;
     word-break: break-all;
     text-align: center;
     vertical-align: top;
 }
 
 .project-image {
-    height: 100px;
+    width: 100%;
 }
 
 .project-image-gallery {
     margin: 5px;
+}
+
+.project-images {
+  height: 135px;
+  overflow-y: scroll;
 }

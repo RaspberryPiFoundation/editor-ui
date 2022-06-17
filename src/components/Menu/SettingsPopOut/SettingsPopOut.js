@@ -1,6 +1,6 @@
 import React from "react"
-import FontSizeSelector from "../Editor/FontSizeSelector/FontSizeSelector"
-import ThemeToggle from "../ThemeToggle/ThemeToggle"
+import FontSizeSelector from "../../Editor/FontSizeSelector/FontSizeSelector"
+import ThemeToggle from "../../ThemeToggle/ThemeToggle"
 
 const SettingsPopOut = () => {
   return (

@@ -1,6 +1,9 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import ProjectImages from "../Editor/ProjectImages/ProjectImages"
+import ProjectImages from "./ProjectImages/ProjectImages"
+import FilesList from "./FilesList"
+
+import './FilePopOut.scss'
 
 const FilePopOut = () => {
 
@@ -9,10 +12,7 @@ const FilePopOut = () => {
   return (
     <div className = "menu-pop-out">
       <h2 className = "menu-pop-out-heading">File</h2>
-      { project.components.map((file, i) => (
-          <p key={i}>{file.name}.{file.extension}</p>
-        )
-      )}
+      <FilesList />
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>
   )
