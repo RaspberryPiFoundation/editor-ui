@@ -10,6 +10,7 @@ import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
+import Menu from '../../Menu/Menu';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -41,10 +42,9 @@ const Project = () => {
       <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
         <div className='editor-controls'>
           <RunnerControls/>
-          <ThemeToggle />
-          <FontSizeSelector />
         </div>
         <div className='proj-container'>
+          <Menu />
           <div className='proj-editor-container'>
             <Tabs>
               <TabList>

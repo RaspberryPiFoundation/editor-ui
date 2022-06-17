@@ -1,10 +1,12 @@
+@import "../../colours.scss";
+
 .menu {
   display: flex;
 
   .menu-sidebar {
     display: flex;
     flex-direction: column;
-    width: var(--spacing-5);
+    border-radius: 10px;
 
     .menu-options-top{
       display: flex;
@@ -18,12 +20,45 @@
       padding-top: var(--spacing-9)
     }
 
-    svg {
-      padding: var(--spacing-1)
+    .menu-sidebar-option {
+      padding: var(--spacing-1);
+      // margin-left: var(--spacing-1);
+      // margin-right: var(--spacing-1);
+      border-radius: 5px;
     }
   }
 
   .menu-pop-out {
-    padding-right: var(--spacing-1)
+    padding-right: var(--spacing-1);
+    width: 15vw;
+
+    .menu-pop-out-heading {
+      font: Tahoma;
+    }
+  }
+}
+.--light {
+  .menu-pop-out {
+    background-color: $editor-light-grey;
+  }
+  .menu-sidebar-option {
+    color: $editor-grey;
+  }
+  .--active {
+    color: $editor-blue;
+    background-color: $editor-pale-blue;
+  }
+}
+
+.--dark {
+  .menu-pop-out {
+    background-color: $editor-dark-dark;
+  }
+  .menu-sidebar {
+    background: #363943;
+  }
+  .--active {
+    color: $editor-black;
+    background-color: $editor-pale-purple;
   }
 }

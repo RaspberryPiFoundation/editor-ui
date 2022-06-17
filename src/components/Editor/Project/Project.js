@@ -17,11 +17,8 @@ import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 import { remixProject, updateProject } from '../../../utils/apiCallHandler';
-import ProjectImages from '../ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import ProjectName from './ProjectName.js';
-import ThemeToggle from '../../ThemeToggle/ThemeToggle';
-import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 import Menu from '../../Menu/Menu';
 
 const Project = () => {
@@ -89,8 +86,6 @@ const Project = () => {
       ) : null }
       <div className ='editor-controls'>
         <RunnerControls/>
-        <ThemeToggle />
-        <FontSizeSelector />
       </div>
       <div className='proj-container'>
         <Menu />
@@ -117,7 +112,6 @@ const Project = () => {
           <RunnerFactory projectType={project.type} />
         </div>
       </div>
-      {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
       <ToastContainer />
     </div>
   )
