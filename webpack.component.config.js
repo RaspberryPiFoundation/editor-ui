@@ -50,7 +50,8 @@ module.exports = {
   },
   plugins: [
     new Dotenv({
-      path: './.env.webcomponent'
+      path: './.env.webcomponent',
+      systemvars: true
     })
   ]
 };
