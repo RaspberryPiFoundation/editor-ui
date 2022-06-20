@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress'
 
 export default defineConfig({
   e2e: {
-    supportFile: false
+    supportFile: false,
+    defaultCommandTimeout: 10000
   }
 })
