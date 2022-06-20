@@ -5,26 +5,21 @@ import { useState } from 'react';
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
-  const [open, setOpen] = useState(true)
-  
-  const toggleOpen = () => {
-    setOpen(!open)
-  }
 
   return (
-    <section className='project-image-gallery'>
-      <h3 className='menu-pop-out-subheading' onClick={toggleOpen}>Image Gallery</h3>
-      { open ? (
-        <div className='project-images'>
-          {projectImages.map((image, i) => (
-            <div key={i} className='project-image-block'>
-              <img className='project-image' src={image.url} alt={image.filename}/>
-              <p>{image.filename}</p>
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </section>
+    <details className='menu-pop-out-section' open>
+      <summary>
+        <h3 className='menu-pop-out-subheading'>Image Gallery</h3>
+      </summary>
+      <div className='project-images'>
+        {projectImages.map((image, i) => (
+          <div key={i} className='project-image-block'>
+            <img className='project-image' src={image.url} alt={image.filename}/>
+            <p>{image.filename}</p>
+          </div>
+        ))}
+      </div>
+    </details>
   )
 }
 

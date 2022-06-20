@@ -1,11 +1,7 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
-import { DaySunny } from '@intern0t/react-weather-icons';
-import Button from '../Button/Button';
-
-import './ThemeToggle.scss'
+import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
+import MenuPopOutOption from '../../MenuPopOutOption';
 
 const ThemeToggle = () => {
   const [ cookies, setCookie ] = useCookies(['theme'])
@@ -21,13 +17,10 @@ const ThemeToggle = () => {
   const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
 
   return (
-    <Button
-      className = "toggle-theme-btn"
-      onClickHandler={toggleDarkMode}
-      buttonText = {
-        isDarkMode ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
-      }
-    />
+    <MenuPopOutOption
+    icon={faCircleHalfStroke}
+    onClickHandler={toggleDarkMode}
+    text={`Switch to ${isDarkMode?"light":"dark"} mode`} />
   )
 }
 
