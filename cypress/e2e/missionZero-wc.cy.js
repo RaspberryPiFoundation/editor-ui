@@ -1,15 +1,18 @@
 const baseUrl = "http://localhost:9000"
+
 beforeEach(() => {
   cy.visit(baseUrl)
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat')
-  cy.get("editor-wc").shadow().find(".btn--run").click()
 })
 
 it("loads the sense hat library", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"isErrorFree":true')
 })
 
 it("sets initial criteria correctly", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"noInputEvents":true,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false')
 })
 
