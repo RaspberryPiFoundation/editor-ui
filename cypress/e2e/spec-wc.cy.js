@@ -1,6 +1,6 @@
 const baseUrl = "http://localhost:9000"
 
-before(() => {
+beforeEach(() => {
   cy.visit(baseUrl)
 })
 

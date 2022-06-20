@@ -1,5 +1,5 @@
 const baseUrl = "http://localhost:9000"
-before(() => {
+beforeEach(() => {
   cy.visit(baseUrl)
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat')
   cy.get("editor-wc").shadow().find(".btn--run").click()
@@ -59,6 +59,7 @@ it("confirms LEDs used when display set", () => {
 // })
 
 it("picks up calls to wait for motion", () => {
+  this.timeout(7)
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat as _ish\n_ish._waitmotion()')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"noInputEvents":false')
