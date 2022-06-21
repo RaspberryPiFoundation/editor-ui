@@ -33,28 +33,47 @@ jobs:
       - image: cimg/node:16.13.1-browsers
         environment:
           NODE_PATH: ./src
-#           REACT_APP_API_URL: https://learning-admin-staging.herokuapp.com
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-#       - run:
-#           command: npx cypress verify
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          # cache NPM modules and the folder with the Cypress binary
+          paths:
+            - ~/project/node_modules
+            - ~/.cache
       - run:
           command: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ./coverage/
-      # - run:
-      #     name: Start server
-      #     command: yarn run start
-      #     background: true
-#       - run:
-#           name: Cypress integration tests
-#           command: npx cypress run
+      - run:
+          name: Start server
+          command: yarn run start
+          background: true
+          environment:
+            PORT: 3000
+      - run:
+          name: Start web component server
+          command: yarn run start:wc
+          environment:
+            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
+          background: true
+      - run:
+          name: Cypress integration tests
+          command: yarn exec cypress run
       - store_test_results:
           path: ./coverage
       - store_artifacts:
           path: ./coverage
+      - store_artifacts:
+          path: ./cypress/videos
       - run:
           name: Post test coverage to Github
           command: bash -ue .circleci/record_coverage

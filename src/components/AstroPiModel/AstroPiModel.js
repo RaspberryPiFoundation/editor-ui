@@ -6,8 +6,11 @@ import AstroPiControls from './AstroPiControls/AstroPiControls';
 import OrientationPanel from './OrientationPanel/OrientationPanel';
 import { useEffect, useState } from 'react';
 import { resetModel, updateRTIMU } from '../../utils/Orientation';
+import { useSelector } from 'react-redux';
+import { defaultMZCriteria } from './DefaultMZCriteria';
 
 const AstroPiModel = () => {
+  const project = useSelector((state) => state.editor.project)
   const [orientation, setOrientation] = useState([0,90,0])
   const resetOrientation = (e) => {
     resetModel(e)
@@ -24,6 +27,7 @@ const AstroPiModel = () => {
       gamma: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       low_light: false,
       motion: false,
+      mz_criteria: {...defaultMZCriteria},
       pixels: [],
       rtimu: {
         pressure: [1, defaultPressure+Math.random()-0.5], /* isValid, pressure*/
@@ -40,12 +44,16 @@ const AstroPiModel = () => {
         once: () => {}
       },
       start_motion_callback: () => {},
-      stop_motion_callback: () => {}
+      stop_motion_callback: () => {},
     }
     for (var i = 0; i < 64; i++) {
       Sk.sense_hat.pixels.push([0, 0, 0]);
     }
   }
+
+  useEffect(() => {
+    Sk.sense_hat.mz_criteria = {...defaultMZCriteria}
+  }, [project]);
 
   useEffect(() => {
     Sk.sense_hat.rtimu.raw_orientation = orientation

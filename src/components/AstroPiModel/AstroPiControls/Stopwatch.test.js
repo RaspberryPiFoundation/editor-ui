@@ -12,6 +12,9 @@ const initialState = {
   },
 }
 const store = mockStore(initialState);
+Sk.sense_hat={
+  mz_criteria: {}
+}
 
 test("Stopwatch renders in form mm:ss", () =>{
   const { getAllByText } = render(<Provider store = {store}><Stopwatch /></Provider>)

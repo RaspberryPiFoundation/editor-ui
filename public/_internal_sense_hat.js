@@ -34,6 +34,7 @@
 
   // _fb_device specific methods
   mod.setpixel = new Sk.builtin.func(function (index, value) {
+      Sk.sense_hat.mz_criteria.usedLEDs = true
       var _index;
       var _value;
 
@@ -80,6 +81,9 @@
   });
 
   mod.setpixels = new Sk.builtin.func(function (indexes, values) {
+      if (Sk.ffi.remapToJs(indexes)) {
+        Sk.sense_hat.mz_criteria.usedLEDs = true
+      }
       _indexes = Sk.ffi.remapToJs(indexes);
       _values = Sk.ffi.remapToJs(values);
       try {
@@ -137,6 +141,7 @@
    * 260 - 1260 hPa
    */
   mod.pressureRead = new Sk.builtin.func(function () {
+      Sk.sense_hat.mz_criteria.readPressure = true
       var pyTemperature = Sk.misceval.callsim(mod.temperatureRead); // does the validation for us
       var jsTemperature = Sk.ffi.remapToJs(pyTemperature);
 
@@ -167,6 +172,7 @@
    * >= 0%
    */
   mod.humidityRead = new Sk.builtin.func(function () {
+      Sk.sense_hat.mz_criteria.readHumidity = true
       var pyTemperature = Sk.misceval.callsim(mod.temperatureRead); // does the validation for us
       var jsTemperature = Sk.ffi.remapToJs(pyTemperature);
 
@@ -197,6 +203,7 @@
    * Temperature Range: -40 to +120 degrees celsius
    */
   mod.temperatureRead = new Sk.builtin.func(function () {
+      Sk.sense_hat.mz_criteria.readTemperature = true
       var jsTemperature;
 
       if (!Sk.sense_hat.rtimu.temperature || Sk.sense_hat.rtimu.temperature.length !== 2) {
@@ -391,6 +398,7 @@
   });
 
   mod._waitmotion = new Sk.builtin.func(function (timeout, motion) {
+    Sk.sense_hat.mz_criteria.noInputEvents = false
     throw new Error("NotImplementedError")
       // var _timeout;
       // if (!timeout || timeout instanceof Sk.builtin.none) {

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useStopwatch } from 'react-timer-hook';
 import './Stopwatch.scss'
+import Sk from 'skulpt'
 
 const Stopwatch = () => {
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
@@ -13,7 +14,12 @@ const Stopwatch = () => {
   } = useStopwatch({ autoStart: false })
 
   useEffect(() => {
-    codeRunTriggered ? reset() : pause()
+    if (codeRunTriggered) {
+      reset()
+     } else {
+      pause()
+      Sk.sense_hat.mz_criteria.duration = minutes * 60 + seconds
+     }
   }, [codeRunTriggered])
 
 
