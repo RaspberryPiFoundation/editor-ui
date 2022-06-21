@@ -4,6 +4,6 @@ export default defineConfig({
   e2e: {
     supportFile: false,
     defaultCommandTimeout: 10000,
-    screenshotOnRunFailure: false
+    screenshotOnRunFailure: (process.env.CI !== 'true')
   }
 })
