@@ -5,5 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.1.0]
+
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (editor-ui#113)
+
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
+
