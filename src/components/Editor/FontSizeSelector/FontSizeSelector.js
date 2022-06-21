@@ -16,9 +16,12 @@ const FontSizeSelector = () => {
       right: 'auto',
       bottom: 'auto',
       marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: 'black',
-      color: 'white'
+      backgroundColor: 'white',
+      color: 'black',
+      width: 'fit-content',
+      position: 'relative',
+      padding: 'var(--spacing-1)',
+      borderRadius: '5px'
     },
     overlay: {
       zIndex: 1000,
@@ -27,15 +30,13 @@ const FontSizeSelector = () => {
   };
 
   return (
-    <div className='font-size-selector'>
-      <MenuPopOutOption appElement={document.getElementById('root') || undefined} icon = {faFont} text = {"Select font size"} onClickHandler={setOpen}/>
-      { open ? (
-        <Modal className="menu-dropdown" isOpen={open} onRequestClose={()=>setOpen(false)} style={customStyles}>
-          <MenuPopOutOption text="Small" onClickHandler={() => setCookie('fontSize', 'small')}/>
-          <MenuPopOutOption text="Medium" onClickHandler={() => setCookie('fontSize', 'medium')}/>
-          <MenuPopOutOption text="Large" onClickHandler={() => setCookie('fontSize', 'large')}/>
-        </Modal>
-      ) : null}
+    <div className='font-size-selector' id='font-size-pop-out-option'>
+      <MenuPopOutOption icon = {faFont} text = {"Select font size"} onClickHandler={() => setOpen(true)}/>
+      <Modal appElement={document.getElementById('font-size-pop-out-option') || undefined} className="menu-dropdown" isOpen={open} onRequestClose={()=>setOpen(false)} style={customStyles}>
+        <MenuPopOutOption text="Small" onClickHandler={() => setCookie('fontSize', 'small')}/>
+        <MenuPopOutOption text="Medium" onClickHandler={() => setCookie('fontSize', 'medium')}/>
+        <MenuPopOutOption text="Large" onClickHandler={() => setCookie('fontSize', 'large')}/>
+      </Modal>
       {/* <Button buttonText='Aa' className='btn-large-font' onClickHandler={() => setCookie('fontSize', 'large')}/>
       <Button buttonText='Aa'className='btn-medium-font' onClickHandler={() => setCookie('fontSize', 'medium')}/>
       <Button buttonText='Aa'className='btn-small-font' onClickHandler={() => setCookie('fontSize', 'small')}/> */}
