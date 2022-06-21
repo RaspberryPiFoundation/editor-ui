@@ -74,8 +74,8 @@ jobs:
           path: ./coverage
       - store_artifacts:
           path: ./cypress/videos
-      - store_artifacts:
-          path: ./cypress/screenshots
+      # - store_artifacts:
+      #     path: ./cypress/screenshots
       - run:
           name: Post test coverage to Github
           command: bash -ue .circleci/record_coverage
