@@ -2,6 +2,7 @@ import { faFont } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import Modal from "react-modal";
+import { FontIcon } from "../../Menu/MenuIcons";
 import MenuPopOutOption from "../../Menu/MenuPopOutOption";
 import './FontSizeSelector.scss'
 
@@ -31,8 +32,8 @@ const FontSizeSelector = () => {
 
   return (
     <div className='font-size-selector' id='font-size-pop-out-option'>
-      <MenuPopOutOption icon = {faFont} text = {"Select font size"} onClickHandler={() => setOpen(true)}/>
-      <Modal appElement={document.getElementById('font-size-pop-out-option') || undefined} className="menu-dropdown" isOpen={open} onRequestClose={()=>setOpen(false)} style={customStyles}>
+      <MenuPopOutOption Icon = {FontIcon} text = {"Select font size"} onClickHandler={() => setOpen(true)}/>
+      <Modal appElement={document.getElementById('font-size-pop-out-option')} className="menu-dropdown" isOpen={open} onRequestClose={()=>setOpen(false)} style={customStyles}>
         <MenuPopOutOption text="Small" onClickHandler={() => setCookie('fontSize', 'small')}/>
         <MenuPopOutOption text="Medium" onClickHandler={() => setCookie('fontSize', 'medium')}/>
         <MenuPopOutOption text="Large" onClickHandler={() => setCookie('fontSize', 'large')}/>

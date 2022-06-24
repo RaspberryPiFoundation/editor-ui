@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { faCircleUser, faDownload, faFile, faFont, faGear } from '@fortawesome/free-solid-svg-icons'
+import { AccountIcon, FileIcon, FontIcon, SettingsIcon } from './MenuIcons'
 
 import AccountPopOut from "./AccountPopOut/AccountPopOut"
 import FilePopOut from "./FilePopOut/FilePopOut"
@@ -10,11 +11,11 @@ import './Menu.scss'
 
 const Menu = () => {
   const menuOptions = [
-      { name: "file", icon: faFile, position: "top", popOut: FilePopOut },
-      { name: "download", icon: faDownload, position: "top" },
-      { name: "font", icon: faFont, position: "top" },
-      { name: "account", icon: faCircleUser, popOut: AccountPopOut, position: "bottom" },
-      { name: "settings", icon: faGear, popOut: SettingsPopOut, position: "bottom" }
+      { name: "file", icon: FileIcon, position: "top", popOut: FilePopOut },
+      // { name: "download", icon: faDownload, position: "top" },
+      { name: "font", icon: FontIcon, position: "top" },
+      { name: "account", icon: AccountIcon, popOut: AccountPopOut, position: "bottom" },
+      { name: "settings", icon: SettingsIcon, popOut: SettingsPopOut, position: "bottom" }
   ]
   const [option, setOption] = useState(null)
   const toggleOption = (newOption) => {

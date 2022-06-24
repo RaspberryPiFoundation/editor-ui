@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { faEllipsisVertical, faFile } from '@fortawesome/free-solid-svg-icons'
+import { FileIcon } from "../MenuIcons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useSelector } from "react-redux";
@@ -14,7 +15,7 @@ const FilesList = () => {
       </summary>
       { project.components.map((file, i) => (
       <div className='files-list-item' key={i}>
-        <FontAwesomeIcon icon={faFile}/>
+        <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
         {/* <FontAwesomeIcon icon={faEllipsisVertical} /> */}
       </div>

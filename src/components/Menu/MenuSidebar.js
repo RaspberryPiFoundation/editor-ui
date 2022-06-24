@@ -11,12 +11,12 @@ const MenuSideBar = (props) => {
     <div className="menu-sidebar">
       <div className={`menu-options-top`}>
         {topMenuOptions.map((menuOption, i) => (
-            <MenuSidebarOption key={i} icon={menuOption.icon} isActive={option===menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
+            <MenuSidebarOption key={i} Icon={menuOption.icon} isActive={option===menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
           ))}
       </div>
       <div className={`menu-options-bottom`}>
         {bottomMenuOptions.map((menuOption, i) => (
-            <MenuSidebarOption key={i} icon={menuOption.icon} isActive={option===menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
+            <MenuSidebarOption key={i} Icon={menuOption.icon} isActive={option===menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
           ))}
       </div>
     </div>

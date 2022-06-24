@@ -2,6 +2,7 @@ import React from 'react';
 import { useCookies } from 'react-cookie';
 import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
 import MenuPopOutOption from '../../MenuPopOutOption';
+import { ThemeIcon } from '../../MenuIcons';
 
 const ThemeToggle = () => {
   const [ cookies, setCookie ] = useCookies(['theme'])
@@ -18,7 +19,7 @@ const ThemeToggle = () => {
 
   return (
     <MenuPopOutOption
-    icon={faCircleHalfStroke}
+    Icon={ThemeIcon}
     onClickHandler={toggleDarkMode}
     text={`Switch to ${isDarkMode?"light":"dark"} mode`} />
   )

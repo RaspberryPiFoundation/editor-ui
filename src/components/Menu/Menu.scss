@@ -63,15 +63,25 @@
     background-color: $editor-light-grey;
   }
   .menu-sidebar-option {
-    color: $editor-grey;
+    svg {
+      fill: $editor-grey
+    }
   }
   .--active {
-    color: $editor-blue;
     background-color: $editor-pale-blue;
+    svg {
+      fill: $editor-blue
+    }
   }
 }
 
 .--dark {
+  .menu-sidebar-option {
+    svg {
+      fill: white
+    }
+  }
+  
   .menu-pop-out {
     background-color: $editor-dark-dark;
   }
@@ -79,8 +89,10 @@
     background: #363943;
   }
   .--active {
-    color: $editor-black;
     background-color: $editor-pale-purple;
+    svg {
+      fill: $editor-black
+    }
   }
 }
 

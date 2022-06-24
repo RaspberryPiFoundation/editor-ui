@@ -1,8 +1,9 @@
 import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FileIcon } from './MenuIcons'
 
 const MenuSidebarOption = (props) => {
-  const { icon, isActive, name, toggleOption } = props
+  const { Icon, isActive, name, toggleOption } = props
 
   const onClickHandler = () => {
     toggleOption(name)
@@ -10,7 +11,7 @@ const MenuSidebarOption = (props) => {
 
   return (
     <div className={`menu-sidebar-option${isActive ? " --active":""}`} onClick = {onClickHandler}>
-      <FontAwesomeIcon icon={icon} />
+      <Icon />
     </div>
   )
 
