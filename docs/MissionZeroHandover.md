@@ -40,3 +40,5 @@ The `runCompleted` event fires when a code run in the editor terminates. This in
 - `usedLEDs` - `true` if the code run used the LED display, otherwise `false`
 
 This data can be accessed in the event listener via `e.details` where `e` is the `runCompleted` event. Note that the booleans relating to whether certain constructions have been used in the code are set when the related `skulpt` functions are called during the code run. This avoids the brittleness associated with parsing the user's code, but relies on the user running their code for the criteria to be set.
+
+See the [test page](https://editor-images-staging.s3.eu-west-2.amazonaws.com/index.html) for examples of how the host page can listen to these custom events and access the associated data.
