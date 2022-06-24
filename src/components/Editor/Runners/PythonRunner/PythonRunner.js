@@ -69,9 +69,6 @@ const PythonRunner = () => {
     },
     "./_internal_sense_hat/__init__.js": {
       path: `${process.env.REACT_APP_S3_BUCKET}/_internal_sense_hat.js`
-    },
-    "./sense_hat.py": {
-      path: `${process.env.REACT_APP_S3_BUCKET}/sense_hat_blob.py`
     }
   };
 
