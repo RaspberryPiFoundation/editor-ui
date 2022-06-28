@@ -14,6 +14,7 @@
     "@intern0t/react-weather-icons": "^1.0.3",
     "@juggle/resize-observer": "^3.3.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
+    "@qualified/codemirror-workspace": "^0.4.2",
     "@react-three/drei": "^9.7.1",
     "@react-three/fiber": "^8.0.13",
     "@react-three/test-renderer": "^8.0.12",
@@ -34,6 +35,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "codemirror-languageserver": "^1.8.1",
     "css-loader": "4.3.0",
     "curl": "^0.1.4",
     "detectizr": "^2.2.0",
@@ -105,6 +107,8 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.1",
     "webpack-manifest-plugin": "2.2.0",
+    "websocket-transport": "^1.0.1",
+    "websockets": "^0.2.0",
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
@@ -120,18 +124,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@babel/preset-env": "^7.17.10",
     "@codemirror/basic-setup": "^0.19.0",

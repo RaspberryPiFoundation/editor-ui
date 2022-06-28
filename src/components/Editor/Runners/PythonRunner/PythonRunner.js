@@ -8,6 +8,9 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
 import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
+// import workspace from '../../EditorWorkspace';
+// import { Workspace } from "@qualified/codemirror-workspace";
+
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -288,6 +291,8 @@ const PythonRunner = () => {
       input.focus()
     }
   }
+
+  // workspace.openTextDocument("./example.json", document.querySelector(".cm-editor"));
 
   return (
     <div className="pythonrunner-container">
