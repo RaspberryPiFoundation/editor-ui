@@ -7,7 +7,7 @@
 cmd="$*"
 
 # The image we're working against
-image="carrot-cake_react-ui:latest"
+image="editor-ui_react-ui:latest"
 
 # Files we copy in to the builder, and then out again.  These files are the
 # ones in the builder target of the Dockerfile.
