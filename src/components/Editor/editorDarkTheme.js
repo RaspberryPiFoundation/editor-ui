@@ -30,10 +30,11 @@ export const editorDarkTheme = EditorView.theme({
   "&.cm-focused .cm-cursor": {
     borderLeftColor: "white"
   },
-  ".ͼa": {color: "#FF00A4"},
-  ".ͼb": {color: "#1498D0"},
+  ".ͼb": {color: "#FF00A4"},
   ".ͼc": {color: "#1498D0"},
-  ".ͼd": {color: "#6CE68D"},
-  ".ͼi": {color: "#1498D0"},
-  ".ͼl": {color: "#C1C1C1"},
+  ".ͼd": {color: "#1498D0"},
+  ".ͼe": {color: "#6CE68D"},
+  ".ͼg": {color: "#1498D0"},
+  ".ͼj": {color: "#1498D0"},
+  ".ͼm": {color: "#C1C1C1"},
 }, {dark: true})
