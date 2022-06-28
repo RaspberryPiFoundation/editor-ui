@@ -5,17 +5,21 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
 import { useCookies } from 'react-cookie';
 
-import { EditorState, basicSetup } from '@codemirror/basic-setup';
-import { EditorView, keymap } from '@codemirror/view';
-import { defaultKeymap, indentWithTab } from '@codemirror/commands';
-import { html } from '@codemirror/lang-html';
-import { css } from '@codemirror/lang-css';
-import { python } from '@codemirror/lang-python';
+import { basicSetup } from 'codemirror'
+import { EditorView, keymap } from '@codemirror/view'
+import { EditorState } from '@codemirror/state'
+import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+
+
+import { html } from '@codemirror/lang-html'
+import { css } from '@codemirror/lang-css'
+import { python } from '@codemirror/lang-python'
+
 import { languageServer } from 'codemirror-languageserver';
 // import WebSocketTransport from 'websocket-transport';
 
-import { editorLightTheme } from '../editorLightTheme';
-import { editorDarkTheme } from '../editorDarkTheme';
+import { editorLightTheme } from '../editorLightTheme'
+import { editorDarkTheme } from '../editorDarkTheme'
 
 const EditorPanel = ({
   extension = 'html',
