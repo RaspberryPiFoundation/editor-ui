@@ -1,3 +1,13 @@
+@import "../../../../colours.scss";
+
+.image-gallery {
+  overflow-y: scroll;
+
+  summary {
+    position: fixed;
+  }
+}
+
 .project-image-block {
     display: inline-block;
     width: 50%;
@@ -11,6 +21,20 @@
 }
 
 .project-images {
-  height: 135px;
-  overflow-y: scroll;
+padding-top: var(--spacing-4)
+}
+
+.--light {
+  .image-gallery{
+    summary {
+      background-color: $editor-light-grey;
+    }
+  }
+}
+.--dark {
+  .image-gallery{
+    summary {
+      background-color: $editor-dark-dark;
+    }
+  }
 }

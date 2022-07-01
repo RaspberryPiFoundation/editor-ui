@@ -7,7 +7,7 @@ const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
 
   return (
-    <details className='menu-pop-out-section' open>
+    <details className='menu-pop-out-section image-gallery' open>
       <summary>
         <h3 className='menu-pop-out-subheading'>Image Gallery</h3>
       </summary>
