@@ -31,7 +31,7 @@ describe("When default theme is light mode and cookie unset", () => {
   })
 
   test('Sets cookie to dark when button clicked', async () => {
-    const button = toggleContainer.getByRole("button")
+    const button = toggleContainer.getByText(/mode/)
     fireEvent.click(button)
     expect(cookies.cookies.theme).toBe("dark")
   })
@@ -69,7 +69,7 @@ describe("When default theme is dark mode and cookie unset", () => {
   })
 
   test('Sets cookie to light when button clicked', async () => {
-    const button = toggleContainer.getByRole("button")
+    const button = toggleContainer.getByText(/mode/)
     fireEvent.click(button)
     expect(cookies.cookies.theme).toBe("light")
   })
@@ -87,7 +87,7 @@ test('Cookie set to dark intially changes to light when button clicked', () => {
       <ThemeToggle />
     </CookiesProvider>
   )
-  const button = toggleContainer.getByRole("button")
+  const button = toggleContainer.getByText(/mode/)
   act(() => {
     fireEvent.click(button)
   })
@@ -102,7 +102,7 @@ test('Cookie set to dark intially changes to light when button clicked', () => {
       <ThemeToggle />
     </CookiesProvider>
   )
-  const button = toggleContainer.getByRole("button")
+  const button = toggleContainer.getByText(/mode/)
   act(() => {
     fireEvent.click(button)
   })
