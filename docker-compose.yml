@@ -2,9 +2,20 @@ version: '3'
 services:
   react-ui:
     build: .
+    command: yarn start
     ports:
       - "3000:3000"
     container_name: react-ui
+    stdin_open: true
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules # ensures we retain node_modules from docker build
+  react-ui-wc:
+    build: .
+    command: yarn start:wc
+    ports:
+      - "9000:9000"
+    container_name: react-ui-wc
     stdin_open: true
     volumes:
       - .:/app

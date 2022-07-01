@@ -9,30 +9,62 @@ import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
+import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
 import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import Menu from '../../Menu/Menu';
+import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
+import Sk from 'skulpt';
+import store from '../../../app/store';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
+  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
   const [cookies] = useCookies(['theme', 'fontSize'])
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
   const [timeoutId, setTimeoutId] = React.useState(null);
+  const webComponent = document.querySelector('editor-wc')
+  const [codeHasRun, setCodeHasRun] = React.useState(false);
 
   useEffect(() => {
+    setCodeHasRun(false)
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(
       function() {
-        const customEvent = new CustomEvent("custom", {
+        const customEvent = new CustomEvent("codeChanged", {
           bubbles: true,
           cancelable: false,
           composed: true
         });
-
-        const webComponent = document.querySelector('editor-wc')
         webComponent.dispatchEvent(customEvent)
       }, 2000);
     setTimeoutId(id);
   }, [project]);
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      const runStartedEvent = new CustomEvent("runStarted", {
+        bubbles: true,
+        cancelable: false,
+        composed: true
+      });
+      webComponent.dispatchEvent(runStartedEvent)
+      setCodeHasRun(true)
+    } else if (codeHasRun) {
+      const state = store.getState();
+      const mz_criteria = Sk.sense_hat ? Sk.sense_hat.mz_criteria : {...defaultMZCriteria}
+      const runCompletedEvent = new CustomEvent("runCompleted", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          isErrorFree: state.editor.error === "",
+          ...mz_criteria
+        }
+      });
+      webComponent.dispatchEvent(runCompletedEvent)
+    }
+
+  }, [codeRunTriggered] )
 
   return (
     <>

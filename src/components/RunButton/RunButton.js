@@ -13,7 +13,7 @@ const RunButton = (props) => {
   }
 
   return (
-    <Button onClickHandler={onClickRun} {...props} />
+    <Button className={"btn--run"} onClickHandler={onClickRun} {...props} />
   )
 };
 

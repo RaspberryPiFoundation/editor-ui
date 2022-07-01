@@ -9,7 +9,7 @@ exports[`Renders without crashing 1`] = `
       class="embedded-controls"
     >
       <button
-        class="btn"
+        class="btn btn--run"
       >
         Run Code
       </button>

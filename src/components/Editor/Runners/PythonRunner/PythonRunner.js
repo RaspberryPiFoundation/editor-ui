@@ -69,6 +69,9 @@ const PythonRunner = () => {
     },
     "./_internal_sense_hat/__init__.js": {
       path: `${process.env.REACT_APP_S3_BUCKET}/_internal_sense_hat.js`
+    },
+    "./sense_hat.py": {
+      path: `${process.env.REACT_APP_S3_BUCKET}/sense_hat_blob.py`
     }
   };
 
@@ -179,10 +182,13 @@ const PythonRunner = () => {
   }
 
   const inf = function () {
+    if (Sk.sense_hat) {
+      Sk.sense_hat.mz_criteria.noInputEvents = false
+    }
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    const input = document.getElementById("input")
+    const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
     input.focus();
 
     return new Promise(function (resolve, reject) {
@@ -247,7 +253,7 @@ const PythonRunner = () => {
       const message = err.message || err.toString();
       dispatch(setError(message));
       if (document.getElementById("input")) {
-        const input = document.getElementById("input")
+        const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
@@ -267,9 +273,9 @@ const PythonRunner = () => {
       return;
     }
 
-    const inputBox = document.getElementById("input");
+    const inputBox = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input");
     if (inputBox && e.target !== inputBox) {
-      const input = document.getElementById("input")
+      const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
       const selection = window.getSelection();
       selection.removeAllRanges();
 

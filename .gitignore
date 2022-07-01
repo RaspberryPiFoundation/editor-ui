@@ -10,6 +10,9 @@
 
 # testing
 /coverage
+/cypress/screenshots
+/cypress/videos
+/node_modules
 
 # production
 /build
