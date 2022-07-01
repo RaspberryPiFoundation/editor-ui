@@ -64,8 +64,7 @@ const EditorPanel = ({
   const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
-  const serverUri = "ws:localhost:1234"
-  // const transport = new WebSocketTransport(serverUri)
+  const serverUri = "ws://localhost:1234"
 
   var ls = languageServer({
     // WebSocket server uri and other client options.
@@ -85,12 +84,13 @@ const EditorPanel = ({
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
     const mode = getMode();
+    console.log(ls)
     const startState = EditorState.create({
       doc: code,
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
-        // ls,
+        ls,
         mode,
         onUpdate,
         editorTheme,
