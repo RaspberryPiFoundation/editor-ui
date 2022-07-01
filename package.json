@@ -7,7 +7,7 @@
     "@codemirror/commands": "^6.0.0",
     "@codemirror/lang-css": "^6.0.0",
     "@codemirror/lang-html": "^6.1.0",
-    "@codemirror/lang-javascript": "^6.0.0",
+    "@codemirror/lang-javascript": "^6.0.1",
     "@codemirror/lang-python": "^6.0.0",
     "@codemirror/language": "^6.1.0",
     "@codemirror/view": "^6.0.2",
@@ -18,6 +18,7 @@
     "@juggle/resize-observer": "^3.3.1",
     "@lezer/highlight": "^1.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
+    "@qualified/codemirror-workspace": "^0.4.2",
     "@react-three/drei": "^9.7.1",
     "@react-three/fiber": "^8.0.13",
     "@react-three/test-renderer": "^8.0.12",
@@ -39,6 +40,7 @@
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "codemirror": "^6.0.0",
+    "codemirror-languageserver": "^1.8.1",
     "css-loader": "4.3.0",
     "curl": "^0.1.4",
     "detectizr": "^2.2.0",
@@ -110,6 +112,8 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.1",
     "webpack-manifest-plugin": "2.2.0",
+    "websocket-transport": "^1.0.1",
+    "websockets": "^0.2.0",
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
@@ -125,18 +129,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@babel/preset-env": "^7.17.10",
     "cypress": "^10.1.0",

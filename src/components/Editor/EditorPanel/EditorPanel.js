@@ -10,9 +10,13 @@ import { EditorView, keymap } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 
+
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { python } from '@codemirror/lang-python'
+
+import { languageServer } from 'codemirror-languageserver';
+// import WebSocketTransport from 'websocket-transport';
 
 import { editorLightTheme } from '../editorLightTheme'
 import { editorDarkTheme } from '../editorDarkTheme'
@@ -60,14 +64,33 @@ const EditorPanel = ({
   const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
+  const serverUri = "ws://localhost:1234"
+
+  var ls = languageServer({
+    // WebSocket server uri and other client options.
+    serverUri,
+    rootUri: 'file:///',
+
+    // // Alternatively, to share the same client across multiple instances of this plugin.
+    // client: new LanguageServerClient({
+    //   serverUri,
+    //   rootUri: 'file:///'
+    // }),
+
+    documentUri: `file:///${fileName}`,
+    languageId: 'python' // As defined at https://microsoft.github.io/language-server-protocol/specification#textDocumentItem.
+  });
+
   useEffect(() => {
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
     const mode = getMode();
+    console.log(ls)
     const startState = EditorState.create({
       doc: code,
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
+        ls,
         mode,
         onUpdate,
         editorTheme,
