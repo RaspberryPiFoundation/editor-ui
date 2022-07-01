@@ -8,11 +8,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
 import RunnerControls from '../../RunButton/RunnerControls';
-import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
-import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import Menu from '../../Menu/Menu';
-import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
 import store from '../../../app/store';
 
