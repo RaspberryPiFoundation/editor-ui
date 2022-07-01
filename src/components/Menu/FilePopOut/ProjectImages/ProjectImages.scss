@@ -10,7 +10,9 @@
 
 .project-image-block {
     display: inline-block;
+    box-sizing: border-box;
     width: 50%;
+    padding-left: var(--spacing-1);
     word-break: break-all;
     text-align: center;
     vertical-align: top;
