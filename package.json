@@ -64,7 +64,6 @@
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
-    "jq": "^1.7.2",
     "mini-css-extract-plugin": "0.11.3",
     "modernizr": "^3.12.0",
     "oidc-client": "^1.11.5",
