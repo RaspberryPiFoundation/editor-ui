@@ -9,18 +9,20 @@ const Stopwatch = () => {
   const {
     seconds,
     minutes,
+    isRunning,
     pause,
     reset
   } = useStopwatch({ autoStart: false })
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && !isRunning) {
       reset()
-     } else {
+    }
+    if (!codeRunTriggered && isRunning){
       pause()
       Sk.sense_hat.mz_criteria.duration = minutes * 60 + seconds
-     }
-  }, [codeRunTriggered, minutes, seconds, pause, reset])
+    }
+  }, [codeRunTriggered, minutes, seconds, isRunning, pause, reset])
 
 
   return (
