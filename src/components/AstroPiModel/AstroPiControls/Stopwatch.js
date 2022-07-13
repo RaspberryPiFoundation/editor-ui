@@ -20,7 +20,7 @@ const Stopwatch = () => {
       pause()
       Sk.sense_hat.mz_criteria.duration = minutes * 60 + seconds
      }
-  }, [codeRunTriggered])
+  }, [codeRunTriggered, minutes, seconds, pause, reset])
 
 
   return (
