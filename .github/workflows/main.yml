@@ -1,8 +1,10 @@
 name: Test Upload
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
+    tags:
+      - '*'
 
 jobs:
   deploy:
@@ -24,4 +26,4 @@ jobs:
         aws-region: eu-west-2
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://python-editor-dist-test --delete
+      run: aws s3 sync ./build/ s3://python-editor-dist-test/${{ github.ref_name }} --delete
