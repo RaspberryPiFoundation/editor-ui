@@ -2,7 +2,10 @@ name: Test Upload
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      -  main
+      - 'feature/**'
+      - 'issues/**'
     tags:
       - '*'
 
