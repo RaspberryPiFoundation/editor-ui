@@ -14,10 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
+
+    - name: Cache dependencies
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
 
     - name: Install code
-      run: yarn install --immutable --immutable-cache --check-cache
+      run: yarn install --frozen-lock-file
 
     - name: eslint
       run: yarn lint
@@ -31,8 +37,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Cache dependencies
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
     - name: Install code
-      run: yarn install --immutable --immutable-cache --check-cache
+      run: yarn install --frozen-lock-file
 
     - name: Run tests
       run: yarn test
@@ -43,9 +55,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Cache dependencies
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+    - name: Install code
+      run: yarn install --frozen-lock-file
+
     - name: Build site and WC bundle
       run: |
-        yarn install --immutable --immutable-cache --check-cache
         yarn build
         yarn build:wc
 
