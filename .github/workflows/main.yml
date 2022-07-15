@@ -15,10 +15,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    - name: install code
+
+    - name: Install code
       run: yarn install --immutable --immutable-cache --check-cache
+
     - name: eslint
       run: yarn lint
+
     - name: stylelint
       run: yarn stylelint
 
@@ -37,6 +40,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
+     - name: Checkout
+      uses: actions/checkout@v1
+
     - name: Build site and WC bundle
       run: |
         yarn install --immutable --immutable-cache --check-cache
