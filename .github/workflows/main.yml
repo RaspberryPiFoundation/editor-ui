@@ -50,6 +50,7 @@ jobs:
       run: yarn test
 
   build-deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
