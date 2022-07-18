@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
@@ -10,7 +10,6 @@ import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
 const Routes = () => (
-  // <BrowserRouter>
     <Switch>
       <Route
         exact
@@ -63,7 +62,6 @@ const Routes = () => (
         component={EmbeddedViewer}
       />
     </Switch>
-  // </BrowserRouter>
 )
 
 export default Routes
