@@ -7,12 +7,15 @@ import userManager from "../utils/userManager";
 const Callback = () => {
   let history = useHistory()
 
+  const previousRoute = localStorage.getItem('location')
+
   const onSuccess = () => {
-    history.push("/")
+    localStorage.removeItem('location')
+    history.push(previousRoute)
   }
 
   const onError = (error) => {
-    history.push("/");
+    history.push(previousRoute);
     console.error(error);
   }
 

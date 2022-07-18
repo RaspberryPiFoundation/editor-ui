@@ -10,7 +10,7 @@ import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
 const Routes = () => (
-  <BrowserRouter>
+  // <BrowserRouter>
     <Switch>
       <Route
         exact
@@ -63,7 +63,7 @@ const Routes = () => (
         component={EmbeddedViewer}
       />
     </Switch>
-  </BrowserRouter>
+  // </BrowserRouter>
 )
 
 export default Routes
