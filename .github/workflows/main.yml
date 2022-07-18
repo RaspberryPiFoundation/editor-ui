@@ -103,4 +103,4 @@ jobs:
         shell: bash
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://python-editor-dist-test/${{ env.deploy_dir }} --delete
+      run: aws s3 sync ./build/ s3://${{ env.bucket }}/${{ env.deploy_dir }} --delete
