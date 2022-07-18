@@ -43,7 +43,22 @@ export const useProject = (projectType, projectIdentifier = '') => {
     })();
   }
 
+  const cachedProject = JSON.parse(localStorage.getItem('project'))
+  const loadCachedProject = () => {
+    dispatch(setProject(cachedProject))
+    dispatch(setProjectLoaded(true));
+    localStorage.removeItem('project')
+  }
+
   useEffect(() => {
+    if (projectIdentifier && cachedProject && cachedProject.identifier===projectIdentifier) {
+      loadCachedProject()
+      return
+    }
+    else if (cachedProject) {
+      localStorage.removeItem('project')
+    }
+
     if (projectIdentifier) {
       loadProject();
       return;
