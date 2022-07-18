@@ -77,5 +77,30 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
 
+    - name: Set bucket
+        run: |
+          if [ ${{ github.ref_type }} == 'tag' ]; then
+            echo "Deploying to production bucket"
+            echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
+          else
+            echo "Deploying to staging/preview bucket"
+            echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+    - name: Set deploy directory
+        run: |
+          if [ ${{ github.ref_type }} == 'tag' ]; then
+            echo "Deploying tagged release ${{ github.ref_name }}"
+            echo "deploy_dir=${{ github.ref_name }}" >> $GITHUB_ENV
+          elif [ ${{ github.ref }} == 'refs/head/main' ]; then
+            echo "Deploying staging release"
+            echo "deploy_dir=staging" >> $GITHUB_ENV
+          else
+            echo "Deploying preview release ${{ github.ref_name }}"
+            echo "deploy_dir=previews/${{ github.ref_name }}" >> $GITHUB_ENV
+          fi
+        shell: bash
+
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://python-editor-dist-test/${{ github.ref_name }} --delete
+      run: aws s3 sync ./build/ s3://python-editor-dist-test/${{ env.deploy_dir }} --delete
