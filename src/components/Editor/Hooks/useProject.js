@@ -49,7 +49,9 @@ export const useProject = (projectType, projectIdentifier = '') => {
   }
 
   useEffect(() => {
-    if ((projectIdentifier && cachedProject && cachedProject.identifier===projectIdentifier) || (!projectIdentifier && cachedProject)) {
+    var is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
+    var is_cached_unsaved_project = (!projectIdentifier && cachedProject)
+    if (is_cached_saved_project || is_cached_unsaved_project) {
       loadCachedProject()
       return
     }
