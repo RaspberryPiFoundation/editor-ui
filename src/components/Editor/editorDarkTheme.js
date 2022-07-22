@@ -5,7 +5,6 @@ import '@rpf/sauce/scss/properties/_line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
   "&": {
-    "height": "400px",
     "background-color": "#333333"
   },
   ".cm-scroller": {overflow: "auto"},

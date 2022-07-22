@@ -10,24 +10,17 @@
   font-size: var(--font-size-u-4)
 }
 
-.proj {
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-}
+// .proj {
+//   max-width: 1280px;
+//   margin-left: auto;
+//   margin-right: auto;
+// }
 
 .proj-header {
   display: flex;
   justify-content: space-between;
   padding-left: 5px;
   padding-right: 5px;
-}
-
-.proj-editor-container .react-tabs__tab--selected {
-  background-color: inherit;
-  color: inherit;
-  border: none;
-  border-bottom: 3px solid #6CE68D;
 }
 
 .editor-controls {
@@ -46,13 +39,32 @@
 .proj-container {
   display: flex;
   justify-content: space-between;
+  border: 1px solid #0000001A;
+  margin: var(--spacing-1);
+  border-radius: 10px;
+
+  .react-tabs__tab {
+    padding: var(--spacing-1);
+    color: #1A1A1A80;
+    margin-left: var(--spacing-1);
+
+  }
+
+  .react-tabs__tab--selected {
+    background-color: #0000000D;
+    color: black;
+    border: none;
+    border-radius: 5px;
+  }
+
 }
 
 .proj-editor-container {
   width: 50%;
-  margin-right: 2rem;
+  border-right: 5px solid #E8E9ED;
+  ;
 }
 
 .proj-runner-container {
-  width: 45%;
+  width: 50%;
 }
