@@ -16,9 +16,7 @@ const pythonCode = {
   type: 'python',
   components: [
     { extension: 'py', name: 'main',
-      content: "from emoji import *\nprint('Hello ', world)" },
-    { extension: 'py', name: 'emoji',
-      content: "world = '🌍🌎🌏'\npython = '🐍⌨️'\nsums = '✖️➗➖➕'"},
+      content: "", index: 0, default: true },
   ]
 }
 
@@ -51,7 +49,7 @@ export const useProject = (projectType, projectIdentifier = '') => {
   }
 
   useEffect(() => {
-    if (projectIdentifier && cachedProject && cachedProject.identifier===projectIdentifier) {
+    if ((projectIdentifier && cachedProject && cachedProject.identifier===projectIdentifier) || (!projectIdentifier && cachedProject)) {
       loadCachedProject()
       return
     }
