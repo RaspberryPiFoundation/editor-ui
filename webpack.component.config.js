@@ -37,7 +37,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx', '.css']
   },
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, './build'),
     filename: 'bundle.js',
   },
   devServer: {
@@ -47,6 +47,7 @@ module.exports = {
     contentBase: path.resolve(__dirname, './public/web-component'),
     host: "0.0.0.0",
     port: 9000,
+    writeToDisk: true,
   },
   plugins: [
     new Dotenv({
