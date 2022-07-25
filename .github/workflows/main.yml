@@ -1,4 +1,4 @@
-name: Test Upload
+name: Build and Upload to S3
 
 on:
   push:
