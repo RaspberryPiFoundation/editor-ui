@@ -34,7 +34,7 @@
 
   // _fb_device specific methods
   mod.setpixel = new Sk.builtin.func(function (index, value) {
-      Sk.sense_hat.mz_criteria.methods_used.add 'set_pixel'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('set_pixel')
       var _index;
       var _value;
 
@@ -63,7 +63,7 @@
   });
 
   mod.getpixel = new Sk.builtin.func(function (index) {
-      Sk.sense_hat.mz_criteria.methods_used.add 'get_pixel'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('get_pixel')
       var value;
       var _index;
       var _value;
@@ -83,7 +83,7 @@
 
   mod.setpixels = new Sk.builtin.func(function (indexes, values) {
       if (Sk.ffi.remapToJs(indexes)) {
-        Sk.sense_hat.mz_criteria.methods_used.add 'set_pixels'
+        Sk.sense_hat.mz_criteria.methodsUsed.add('set_pixels')
       }
       _indexes = Sk.ffi.remapToJs(indexes);
       _values = Sk.ffi.remapToJs(values);
@@ -99,7 +99,7 @@
   });
 
   mod.getpixels = new Sk.builtin.func(function () {
-      Sk.sense_hat.mz_criteria.methods_used.add 'get_pixels'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('get_pixels')
       var values;
 
       try {
@@ -113,7 +113,7 @@
   });
 
   mod.getGamma = new Sk.builtin.func(function () {
-      Sk.sense_hat.mz_criteria.methods_used.add 'gamma'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('gamma')
       var gamma = Sk.ffi.remapToPy(Sk.sense_hat.gamma);
       return gamma;
   });
@@ -129,7 +129,7 @@
   });
 
   mod.setLowlight = new Sk.builtin.func(function (value) {
-      Sk.sense_hat.mz_criteria.methods_used.add 'low_light'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('low_light')
       var _value = Sk.ffi.remapToJs(value);
 
       Sk.sense_hat.low_light = _value;
@@ -145,7 +145,7 @@
    * 260 - 1260 hPa
    */
   mod.pressureRead = new Sk.builtin.func(function () {
-      Sk.sense_hat.mz_criteria.methods_used.add 'get_pressure'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('get_pressure')
       var pyTemperature = Sk.misceval.callsim(mod.temperatureRead); // does the validation for us
       var jsTemperature = Sk.ffi.remapToJs(pyTemperature);
 
@@ -176,7 +176,7 @@
    * >= 0%
    */
   mod.humidityRead = new Sk.builtin.func(function () {
-      Sk.sense_hat.mz_criteria.methods_used.add 'get_humidity'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('get_humidity')
       var pyTemperature = Sk.misceval.callsim(mod.temperatureRead); // does the validation for us
       var jsTemperature = Sk.ffi.remapToJs(pyTemperature);
 
@@ -207,7 +207,7 @@
    * Temperature Range: -40 to +120 degrees celsius
    */
   mod.temperatureRead = new Sk.builtin.func(function () {
-      Sk.sense_hat.mz_criteria.methods_used.add 'get_temperature'
+      Sk.sense_hat.mz_criteria.methodsUsed.add('get_temperature')
       var jsTemperature;
 
       if (!Sk.sense_hat.rtimu.temperature || Sk.sense_hat.rtimu.temperature.length !== 2) {
@@ -240,7 +240,7 @@
   }
 
   mod.colourRead = new Sk.builtin.func(function () {
-    Sk.sense_hat.mz_criteria.methods_used.add 'colour'
+    Sk.sense_hat.mz_criteria.methodsUsed.add('colour')
     return Sk.ffi.remapToPy(hex2rgb(Sk.sense_hat.colour));
   });
 
@@ -248,7 +248,7 @@
    * Motion
    */
   mod.motionRead = new Sk.builtin.func(function () {
-    Sk.sense_hat.mz_criteria.methods_used.add 'motion'
+    Sk.sense_hat.mz_criteria.methodsUsed.add('motion')
     return Sk.ffi.remapToPy(Sk.sense_hat.motion);
   });
 
