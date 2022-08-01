@@ -99,6 +99,11 @@ module.exports = function (proxy, allowedHost) {
       disableDotRule: true,
       index: paths.publicUrlOrPath,
     },
+     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
     public: allowedHost,
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy,

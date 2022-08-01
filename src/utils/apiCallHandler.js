@@ -52,6 +52,10 @@ export const readProjectList = async (accessToken) => {
   return await get(`${host}/api/projects`, headers(accessToken));
 }
 
+export const saveProject = async (project, accessToken) => {
+  return await post(`${host}/api/projects`, {project: project}, headers(accessToken));
+}
+
 export const updateProject = async (project, accessToken) => {
   return await put(
     `${host}/api/projects/${project.identifier}`,

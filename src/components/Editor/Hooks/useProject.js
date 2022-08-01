@@ -16,9 +16,7 @@ const pythonCode = {
   type: 'python',
   components: [
     { extension: 'py', name: 'main',
-      content: "from emoji import *\nprint('Hello ', world)" },
-    { extension: 'py', name: 'emoji',
-      content: "world = '🌍🌎🌏'\npython = '🐍⌨️'\nsums = '✖️➗➖➕'"},
+      content: "", index: 0, default: true },
   ]
 }
 
@@ -43,7 +41,24 @@ export const useProject = (projectType, projectIdentifier = '') => {
     })();
   }
 
+  const cachedProject = JSON.parse(localStorage.getItem('project'))
+  const loadCachedProject = () => {
+    dispatch(setProject(cachedProject))
+    dispatch(setProjectLoaded(true));
+    localStorage.removeItem('project')
+  }
+
   useEffect(() => {
+    var is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
+    var is_cached_unsaved_project = (!projectIdentifier && cachedProject)
+    if (is_cached_saved_project || is_cached_unsaved_project) {
+      loadCachedProject()
+      return
+    }
+    else if (cachedProject) {
+      localStorage.removeItem('project')
+    }
+
     if (projectIdentifier) {
       loadProject();
       return;
