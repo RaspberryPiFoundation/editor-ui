@@ -62,6 +62,7 @@ const Project = () => {
     } else if (codeHasRun) {
       const state = store.getState();
       const mz_criteria = Sk.sense_hat ? Sk.sense_hat.mz_criteria : {...defaultMZCriteria}
+      mz_criteria['methodsUsed'] = Array.from(mz_criteria['methodsUsed'])
       const runCompletedEvent = new CustomEvent("runCompleted", {
         bubbles: true,
         cancelable: false,
@@ -83,10 +84,10 @@ const Project = () => {
     <style>{lineHeight.toString()}</style>
     <style>{":host, "+fontAwesomeStyles.toString()}</style>
     <Style>
-      { 
-        styles.toString() + 
-        tabStyles.toString() + 
-        projectStyles.toString() + 
+      {
+        styles.toString() +
+        tabStyles.toString() +
+        projectStyles.toString() +
         buttonStyles.toString() +
         themeToggleStyles.toString() +
         fontSizeSelectorStyles.toString() +
