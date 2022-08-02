@@ -9,10 +9,10 @@
   margin: 5px 0;
 }
 
-.pythonrunner-canvas-container {
+/* .pythonrunner-canvas-container {
   max-height: 400px;
   min-height: 0px;
-}
+} */
 
 .pythonrunner-console {
   margin-top: 20px;

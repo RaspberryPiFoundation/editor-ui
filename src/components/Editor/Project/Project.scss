@@ -1,3 +1,5 @@
+@import '../../../colours.scss';
+
 .font-size-small {
   font-size: var(--font-size-base)
 }
@@ -33,29 +35,37 @@
 .proj-container {
   display: flex;
   justify-content: space-between;
-  border: 1px solid #0000001A;
+  border: 1px solid $editor-light-grey;
   margin: var(--spacing-1);
   border-radius: 10px;
 
+  .react-tabs__tab-list {
+    // border-bottom: 1px solid #BFC3CE80;
+    border-bottom: 1px solid $editor-light-grey;
+  }
+
   .react-tabs__tab {
     padding: var(--spacing-1);
-    color: #1A1A1A80;
+    color: $editor-mid-grey;
     margin-left: var(--spacing-1);
+    border-radius: 5px;
+    margin-top: var(--spacing-1);
+    margin-bottom: var(--spacing-1);
 
   }
 
   .react-tabs__tab--selected {
-    background-color: #0000000D;
+    background-color: $editor-light-light-grey;
     color: black;
     border: none;
-    border-radius: 5px;
+    // border-radius: 5px;
   }
 
 }
 
 .proj-editor-container {
   width: 50%;
-  border-right: 5px solid #E8E9ED;
+  border-right: 5px solid $editor-light-grey;
   ;
 }
 

@@ -8,7 +8,7 @@ import lineHeight from '../../../../node_modules/@rpf/sauce/scss/properties/_lin
 import styles from '../WebComponent.scss';
 import projectStyles from '../../Editor/Project/Project.scss'
 import tabStyles from 'react-tabs/style/react-tabs.css';
-import buttonStyles from '../../Button/Button.css'
+import buttonStyles from '../../Button/Button.scss'
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
 import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
