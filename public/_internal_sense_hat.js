@@ -234,8 +234,9 @@
    function hex2rgb(hex) {
     return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
   }
-  
+
   mod.colourRead = new Sk.builtin.func(function () {
+      Sk.sense_hat.mz_criteria.readColour = true
       return Sk.ffi.remapToPy(hex2rgb(Sk.sense_hat.colour));
   });
 
@@ -320,7 +321,7 @@
   });
 
   /********************************************************/
-  /* SenseStick specific functions. Commented out until we have a means of inputting 
+  /* SenseStick specific functions. Commented out until we have a means of inputting
   /* sense stick events and can be made to work with the web component
   /*
   /*

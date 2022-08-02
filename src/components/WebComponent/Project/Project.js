@@ -83,10 +83,10 @@ const Project = () => {
     <style>{lineHeight.toString()}</style>
     <style>{":host, "+fontAwesomeStyles.toString()}</style>
     <Style>
-      { 
-        styles.toString() + 
-        tabStyles.toString() + 
-        projectStyles.toString() + 
+      {
+        styles.toString() +
+        tabStyles.toString() +
+        projectStyles.toString() +
         buttonStyles.toString() +
         themeToggleStyles.toString() +
         fontSizeSelectorStyles.toString() +
