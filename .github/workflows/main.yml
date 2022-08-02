@@ -68,8 +68,8 @@ jobs:
       with:
         start: yarn start & yarn start:wc & wait
         wait-on: 'http://localhost:3001'
-        env:
-          PUBLIC_URL: 'http://localhost:3000'
+      env:
+        PUBLIC_URL: 'http://localhost:3000'
 
   build-deploy:
     needs:
