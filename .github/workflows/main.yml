@@ -61,14 +61,6 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
-  
-    - name: Install code
-      run: yarn install --frozen-lock-file
-
-    - name: Build site and WC bundle
-      run: |
-        yarn build
-        yarn build:wc
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -101,6 +93,21 @@ jobs:
           echo "deploy_dir=previews/${{ github.ref_name }}" >> $GITHUB_ENV
         fi
       shell: bash
+
+    - name: Set PUBLIC_URL
+      run: |
+        public_url=https://${{ env.bucket }}/${{ env.deploy_dir }}
+        echo "Setting PUBLIC_URL to $public_url"
+        echo PUBLIC_URL=$public_url >> $GITHUB_ENV
+      shell: bash
+
+    - name: Install code
+      run: yarn install --frozen-lock-file
+
+    - name: Build site and WC bundle
+      run: |
+        yarn build
+        yarn build:wc
 
     - name: Deploy site to S3 bucket
       run: aws s3 sync ./build/ s3://${{ env.bucket }}/${{ env.deploy_dir }} --delete
