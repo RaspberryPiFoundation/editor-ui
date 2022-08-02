@@ -2,6 +2,7 @@ import React from 'react';
 import RunButton from "./RunButton";
 import StopButton from "./StopButton";
 import { useSelector } from 'react-redux';
+import { RunIcon } from '../../Icons';
 
 const RunnerControls = () => {
     const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
@@ -10,7 +11,7 @@ const RunnerControls = () => {
         return <StopButton buttonText="Stop Code"/>;
     }
     else {
-        return <RunButton buttonText="Run Code"/>;
+        return <RunButton buttonText={<><RunIcon />Run</>}/>;
     }
 }
 

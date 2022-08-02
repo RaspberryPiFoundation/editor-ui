@@ -1,11 +1,11 @@
-import './Button.css';
+import './Button.scss';
 
 import React from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Button = (props) => {
-  const { className, onClickHandler, buttonText, disabled, confirmText } = props;
+  const { className, onClickHandler, ButtonIcon, buttonText, disabled, confirmText } = props;
 
   var buttonClass="btn"
   buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)

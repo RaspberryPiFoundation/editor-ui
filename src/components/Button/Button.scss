@@ -1,8 +1,11 @@
+@import '../../colours.scss';
+
 .btn, .btn:visited {
-  background-color: #004881;
+  background-color: $editor-turquoise;
+  border-radius: 5px;
   border-width: 0;
-  color: #fff;
-  display:inline-block;
+  color: $editor-black;
+  display: inline-block;
   font-family: sans-serif;
   font-size: inherit;
   font-weight: 500;
@@ -11,16 +14,16 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition-duration: 100ms;
+  /* transition-duration: 100ms;
   transition-property: background-color,transform;
-  transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out; */
 }
 
-.btn:hover {
-  background-color: #cd2355;
-  color: #fff;
-  transform: scale(1.05);
-}
+// .btn:hover {
+//   // background-color: $editor-grey;
+//   // color: #fff;
+//   // transform: scale(1.05);
+// }
 
 .btn--disabled {
   background-color: #6c6c6c;
