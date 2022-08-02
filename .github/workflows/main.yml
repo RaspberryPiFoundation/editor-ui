@@ -64,12 +64,12 @@ jobs:
       run: yarn install --frozen-lock-file
 
     - name: Cypress run
-       uses: cypress-io/github-action@v4
-       with:
-         start: yarn start & yarn start:wc & wait
-         wait-on: 'http://localhost:3001'
-       env:
-         PUBLIC_URL: 'http://localhost:3000'
+      uses: cypress-io/github-action@v4
+      with:
+        start: yarn start & yarn start:wc & wait
+          wait-on: 'http://localhost:3001'
+        env:
+          PUBLIC_URL: 'http://localhost:3000'
 
   build-deploy:
     needs:
