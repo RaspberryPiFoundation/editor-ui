@@ -7,6 +7,7 @@ on:
     tags:
       - '*'
 
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -46,6 +47,25 @@ jobs:
 
     - name: Run tests
       run: yarn test
+
+  test:cypress:
+    runs-on: ubuntu-latest
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Cache dependencies
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+
+    - name: Cypress run
+       uses: cypress-io/github-action@v4
+       with:
+         install: false
+         build: yarn start:wc
+         start: yarn start & yarn start:wc & wait
+         wait-on: 'http://localhost:3001'
 
   build-deploy:
     needs: test
