@@ -66,8 +66,11 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v4
       with:
-        start: yarn start, yarn start:wc
-        wait-on: 'http://localhost:3001'
+        install: false
+        start: |
+          yarn start
+          yarn start:wc
+        wait-on: 'http://localhost:3000, http://localhost:3001'
       env:
         PUBLIC_URL: 'http://localhost:3000'
 
