@@ -94,7 +94,7 @@ jobs:
 
     - name: Set PUBLIC_URL
       run: |
-        public_url=https://${{ env.bucket }}/${{ env.deploy_dir }}
+        public_url=https://${{ env.bucket }}.s3.eu-west-2.amazonaws.com/${{ env.deploy_dir }}
         echo "Setting PUBLIC_URL to $public_url"
         echo PUBLIC_URL=$public_url >> $GITHUB_ENV
       shell: bash
