@@ -87,7 +87,7 @@ const Project = () => {
         </div>
       ) : null }
       <div className ='editor-controls'>
-        <RunnerControls/>
+        {/* <RunnerControls/> */}
         <ThemeToggle />
         <FontSizeSelector />
       </div>
@@ -108,6 +108,7 @@ const Project = () => {
               </TabPanel>
               )
             )}
+            <RunnerControls />
           </Tabs>
         </div>
         <ExternalFiles />
