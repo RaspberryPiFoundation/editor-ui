@@ -3,11 +3,10 @@ name: Build and Upload to S3
 on:
   push:
     branches:
-      -  main
-      - 'feature/**'
-      - 'issues/**'
+      - '*'
     tags:
       - '*'
+
 
 jobs:
   lint:
@@ -49,8 +48,7 @@ jobs:
     - name: Run tests
       run: yarn test
 
-  build-deploy:
-    needs: test
+  test-cypress:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -61,14 +59,35 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
-  
+
     - name: Install code
       run: yarn install --frozen-lock-file
 
-    - name: Build site and WC bundle
-      run: |
-        yarn build
-        yarn build:wc
+    - name: Cypress run
+      uses: cypress-io/github-action@v4
+      with:
+        install: false
+        start: |
+          yarn start
+          yarn start:wc
+        wait-on: 'http://localhost:3000, http://localhost:3001'
+      env:
+        PUBLIC_URL: 'http://localhost:3000'
+
+  build-deploy:
+    needs:
+      - test
+      - test-cypress
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Cache dependencies
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -101,6 +120,21 @@ jobs:
           echo "deploy_dir=previews/${{ github.ref_name }}" >> $GITHUB_ENV
         fi
       shell: bash
+
+    - name: Set PUBLIC_URL
+      run: |
+        public_url=https://${{ env.bucket }}.s3.eu-west-2.amazonaws.com/${{ env.deploy_dir }}
+        echo "Setting PUBLIC_URL to $public_url"
+        echo PUBLIC_URL=$public_url >> $GITHUB_ENV
+      shell: bash
+
+    - name: Install code
+      run: yarn install --frozen-lock-file
+
+    - name: Build site and WC bundle
+      run: |
+        yarn build
+        yarn build:wc
 
     - name: Deploy site to S3 bucket
       run: aws s3 sync ./build/ s3://${{ env.bucket }}/${{ env.deploy_dir }} --delete
