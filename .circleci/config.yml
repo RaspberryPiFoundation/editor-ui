@@ -66,6 +66,9 @@ jobs:
             PUBLIC_URL: http://localhost:3000
           background: true
       - run:
+          name: Wait for services to be ready
+          command: dockerize -wait http://localhost:3000 -wait http://localhost:3001
+      - run:
           name: Cypress integration tests
           command: yarn exec cypress run
       - store_test_results:
