@@ -51,7 +51,7 @@ The repo includes the Editor Web Component which shares components with the edit
 ### `yarn stat:wc`
 
 Runs the web component in development mode.
-Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 There is no production build setup for the web component at present.
 

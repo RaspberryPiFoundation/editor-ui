@@ -7,7 +7,7 @@ To have the web component be able to use the same React components as the site a
 
 There is a custom webpack config file for the component `webpack.component.config.js` and a script in the `package.json`: `start:wc` which will start serving the web component.
 
-In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:9000` will load the page with the web component mounted.
+In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3001` will load the page with the web component mounted.
 
 ## WebComponent Class
 
