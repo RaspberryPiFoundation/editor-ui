@@ -1,19 +1,5 @@
 {
   "name": "editor-ui",
-  "scripts": {
-    "postdeploy": "yarn build:wc"
-  },
-  "env": {
-    "HEROKU_APP_NAME": {
-      "required": true
-    },
-    "NODE_ENV": {
-      "value": "production"
-    },
-    "BABEL_ENV": {
-      "value": "production"
-    }
-  },
   "formation": {
     "web": {
       "quantity": 1
