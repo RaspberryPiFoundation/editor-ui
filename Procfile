@@ -1,1 +1,1 @@
-web: ruby -run -e httpd -- -p $PORT build/
+web: bin/start-nginx-solo
