@@ -63,8 +63,11 @@ jobs:
           name: Start web component server
           command: yarn run start:wc
           environment:
-            REACT_APP_S3_BUCKET: https://editor-images-test.s3.eu-west-2.amazonaws.com
+            PUBLIC_URL: http://localhost:3000
           background: true
+      - run:
+          name: Wait for services to be ready
+          command: dockerize -wait http://localhost:3000 -wait http://localhost:3001 -timeout 120s
       - run:
           name: Cypress integration tests
           command: yarn exec cypress run
