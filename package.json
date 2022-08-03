@@ -57,7 +57,8 @@
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
-    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js"
+    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
+    "heroku-postbuild": "yarn run build && yarn run build:wc"
   },
   "eslintConfig": {
     "extends": [
