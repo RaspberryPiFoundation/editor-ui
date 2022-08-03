@@ -10,7 +10,7 @@
       "url": "heroku/nodejs"
     },
     {
-      "url": "heroku/nginx"
+      "url": "https://github.com/heroku/heroku-buildpack-nginx"
     }
   ]
 }
