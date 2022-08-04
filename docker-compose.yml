@@ -14,7 +14,7 @@ services:
     build: .
     command: yarn start:wc
     ports:
-      - "9000:9000"
+      - "3001:3001"
     container_name: react-ui-wc
     stdin_open: true
     volumes:
