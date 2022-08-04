@@ -49,13 +49,13 @@ it("resets criteria correctly", () => {
 })
 
 it("confirms LEDs used when single led set", () => {
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().set_pixel(0, [100,100,100])')
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().set_pixel(0, 0, 100, 100, 100)')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"usedLEDs":true')
 })
 
 it("confirms LEDs used when display set", () => {
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().set_pixels([0], [[100,100,100]])')
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().set_pixels([[100,0,0]] * 64)')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"usedLEDs":true')
 })
