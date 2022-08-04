@@ -1,4 +1,16 @@
 .cm-editor .cm-content {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 87%;
+  /* min-width:0; */
+}
+
+.editor {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+}
+
+.cm-editor {
+  flex: 1;
 }

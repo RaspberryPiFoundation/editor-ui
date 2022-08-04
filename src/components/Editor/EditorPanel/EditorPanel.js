@@ -86,7 +86,7 @@ const EditorPanel = ({
   }, [cookies]);
 
   return (
-    <div className='foo' ref={editor}></div>
+    <div className='editor' ref={editor}></div>
   );
 }
 
