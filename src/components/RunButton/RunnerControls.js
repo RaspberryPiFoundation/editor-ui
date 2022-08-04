@@ -2,7 +2,7 @@ import React from 'react';
 import RunButton from "./RunButton";
 import StopButton from "./StopButton";
 import { useSelector } from 'react-redux';
-import { RunIcon } from '../../Icons';
+import { RunIcon, StopIcon } from '../../Icons';
 
 import './RunnerControls.scss';
 
@@ -13,7 +13,7 @@ const RunnerControls = () => {
   return (
     <div className="runner-controls">
       {
-        (codeRunTriggered || drawTriggered) ? <StopButton buttonText="Stop Code"/> : <RunButton buttonText={<><RunIcon />Run</>}/>
+        (codeRunTriggered || drawTriggered) ? <StopButton buttonText={<><StopIcon />Stop</>}/> : <RunButton buttonText={<><RunIcon />Run</>}/>
       }
     </div>
   )
