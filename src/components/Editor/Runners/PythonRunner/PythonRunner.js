@@ -292,19 +292,21 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <ErrorMessage />
-      <Tabs forceRenderTabPanel={true}>
+      <Tabs forceRenderTabPanel={true} defaultIndex={1}>
         <TabList>
           <Tab key={0}>Visual Output</Tab>
           <Tab key={1}>Text Output</Tab>
         </TabList>
+          <ErrorMessage />
           <TabPanel key={0}>
-            <div id='p5Sketch' ref={p5Output} />
-            <div id='pygalOutput' ref={pygalOutput} />
-            <div className="pythonrunner-canvas-container">
-              <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
+            <div className='visual-output'>
+              <div id='p5Sketch' ref={p5Output} />
+              <div id='pygalOutput' ref={pygalOutput} />
+              <div className="pythonrunner-canvas-container">
+                <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
+              </div>
+              <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
             </div>
-            <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
           </TabPanel>
           <TabPanel key={1}>
             <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>

@@ -4,20 +4,13 @@ import '@rpf/sauce/scss/properties/_font-size.scss';
 import '@rpf/sauce/scss/properties/_line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
-  "&": {
-    "background-color": "#333333"
-  },
   ".cm-scroller": {overflow: "auto"},
-  ".cm-gutter": {
-    "background-color": "#565555",
-    "color": "#C1C1C1"
-  },
   ".cm-gutters": {
+    "background-color": "inherit",
     "border": "none"
   },
   ".cm-activeLine": {
     "background-color": "#565555",
-    // "caret-color": "white"
   },
   ".cm-activeLineGutter": {
     "background-color": "#C1C1C1",

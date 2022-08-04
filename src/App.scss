@@ -1,3 +1,5 @@
+@import './colours.scss';
+
 button {
   all: initial;
 }
@@ -9,7 +11,7 @@ button {
 }
 
 .--dark {
-  background-color: #414141;
+  background-color: $editor-grey;
   color: white;
   caret-color: white;
 

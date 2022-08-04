@@ -2,6 +2,10 @@
   position: absolute;
   bottom: var(--spacing-2);
   right: var(--spacing-2);
+
+  svg {
+    margin-right: var(--spacing-1)
+  }
 }
 
 .btn--stop {

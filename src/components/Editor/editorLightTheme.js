@@ -6,6 +6,8 @@ export const editorLightTheme = EditorView.theme({
   // },
   ".cm-scroller": {overflow: "auto"},
   ".cm-gutters": {
-    "border": "none"
+    "border": "none",
+    "color": "black",
+    "background-color": "white"
   },
 }, {dark: false})

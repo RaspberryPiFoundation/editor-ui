@@ -25,7 +25,7 @@ const ThemeToggle = () => {
       className = "toggle-theme-btn"
       onClickHandler={toggleDarkMode}
       buttonText = {
-        isDarkMode ? <DaySunny color={"white"} size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
+        isDarkMode ? <DaySunny size={"2em"}/> : <FontAwesomeIcon icon = {faMoon} size = {"2x"} />
       }
     />
   )
