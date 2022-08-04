@@ -16,7 +16,7 @@ import { setProjectLoaded, setProject } from '../EditorSlice';
 import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
-import { remixProject, updateProject } from '../../../utils/apiCallHandler';
+import { saveProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
 import ProjectImages from '../ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import ProjectName from './ProjectName.js';
@@ -33,6 +33,11 @@ const Project = () => {
 
   const onClickSave = async () => {
     if (!project.identifier) {
+      const response = await saveProject(project, user.access_token)
+      const identifier = response.data.identifier;
+      const project_type = response.data.project_type;
+      dispatch(setProjectLoaded(false));
+      history.push(`/${project_type}/${identifier}`)
       return;
     }
 
@@ -69,20 +74,20 @@ const Project = () => {
         <div className='proj-header'>
           <div>
             <div>
-              {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name}</h1>)}
+              {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name||"New Project"}</h1>)}
             </div>
             { project.parent ? (
             <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
           ) : null }
           </div>
           <div className='proj-controls'>
-            { project.identifier && (
+            {
               user !== null ? (
               <>
-                {project.user_id === user.profile.user ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
+                {project.user_id === user.profile.user || !project.identifier ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
               </>
               ) : null
-            )}
+            }
           </div>
         </div>
       ) : null }

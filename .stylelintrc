@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "extends": [
+    "stylelint-config-recommended-scss"
+  ],
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "block-no-empty": null,
+    "declaration-block-single-line-max-declarations": 1
+  }
+}
