@@ -1,0 +1,51 @@
+.pythonrunner-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pythonrunner-console {
+  margin: var(--spacing-1);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  overflow-y: auto;
+}
+
+.pythonrunner-console-output-line {
+  padding-right: 5px;
+}
+
+.pythonrunner-input {
+  caret-color: inherit;
+  color: rgb(36, 103, 236);
+  display: block;
+  line-height: 20px;
+  padding: 2px 1px 2px 0;
+}
+
+.pythonrunner-input:focus {
+  outline: 0;
+}
+
+
+.pythonrunner-graphic {
+  overflow: auto;
+  position: relative;
+  display: inline-block;
+}
+
+.visual-output {
+  flex: 1;
+}
+
+.--light .visual-output {
+  background: url(./dots_light.svg)
+}
+
+.--dark .visual-output {
+  background: url(./dots_dark.svg)
+}

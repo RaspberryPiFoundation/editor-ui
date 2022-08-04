@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './PythonRunner.css';
+import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';

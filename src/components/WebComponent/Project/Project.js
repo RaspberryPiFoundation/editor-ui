@@ -12,7 +12,7 @@ import buttonStyles from '../../Button/Button.scss'
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
 import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
-import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
+import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
