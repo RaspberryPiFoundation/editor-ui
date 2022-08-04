@@ -17,8 +17,8 @@ test("Run button shows when code is not running", () => {
     }
     const store = mockStore(initialState)
     const { getByText } = render(<Provider store={store}><RunnerControls /></Provider>);
-    const runnerControls = getByText(/Code/);
-    expect(runnerControls.textContent).toEqual("Run Code");
+    const runnerControls = getByText(/Run/);
+    expect(runnerControls.textContent).toEqual("Run");
 })
 
 test("Stop button shows when code is running", () => {
@@ -30,6 +30,6 @@ test("Stop button shows when code is running", () => {
     }
     const store = mockStore(initialState)
     const { getByText } = render(<Provider store={store}><RunnerControls /></Provider>);
-    const runnerControls = getByText(/Code/);
-    expect(runnerControls.textContent).toEqual("Stop Code");
+    const runnerControls = getByText(/Stop/);
+    expect(runnerControls.textContent).toEqual("Stop");
 })
