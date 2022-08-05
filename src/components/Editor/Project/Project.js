@@ -23,13 +23,14 @@ import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 
-const Project = () => {
+const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
-  const embedded = useSelector((state) => state.editor.isEmbedded);
+  const playerOnly = useSelector((state) => state.editor.isEmbedded);
   const dispatch = useDispatch();
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
+  const {embedded} = props;
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -70,7 +71,7 @@ const Project = () => {
 
   return (
     <div className='proj'>
-      { embedded !== true ? (
+      { playerOnly !== true && embedded !== true ? (
         <div className='proj-header'>
           <div>
             <div>

@@ -29,9 +29,9 @@ import Sk from 'skulpt';
 import store from '../../../app/store';
 
 
-import ProjectComponent from '../../Editor/Project/Project';
+import Project from '../../Editor/Project/Project';
 
-const Project = () => {
+const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
   const [cookies] = useCookies(['theme', 'fontSize'])
@@ -102,7 +102,7 @@ const Project = () => {
         astroPiStyles.toString()
       }
       <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
-        <ProjectComponent />
+        <Project embedded={true}/>
         {/* <div className='editor-controls'>
           <ThemeToggle />
           <FontSizeSelector />
@@ -137,4 +137,4 @@ const Project = () => {
   );
 }
 
-export default Project
+export default WebComponentProject
