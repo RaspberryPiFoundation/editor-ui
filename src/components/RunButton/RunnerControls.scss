@@ -6,6 +6,11 @@
   button {
     display: flex;
     align-items: center;
+
+    svg {
+      min-width: 0;
+      margin-right: var(--spacing-1)
+    }
   }
 }
 
