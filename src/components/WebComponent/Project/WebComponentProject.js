@@ -83,56 +83,28 @@ const WebComponentProject = () => {
 
   return (
     <>
-    <style>{spacing.toString()}</style>
-    <style>{fontSize.toString()}</style>
-    <style>{lineHeight.toString()}</style>
-    <style>{":host, "+fontAwesomeStyles.toString()}</style>
-    <Style>
-      { 
-        styles.toString() + 
-        tabStyles.toString() + 
-        projectStyles.toString() + 
-        buttonStyles.toString() +
-        runnerControlsStyles.toString() +
-        themeToggleStyles.toString() +
-        fontSizeSelectorStyles.toString() +
-        editorStyles.toString() +
-        runnerStyles.toString()+
-        errorStyles.toString()+
-        astroPiStyles.toString()
-      }
-      <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
-        <Project embedded={true}/>
-        {/* <div className='editor-controls'>
-          <ThemeToggle />
-          <FontSizeSelector />
+      <style>{spacing.toString()}</style>
+      <style>{fontSize.toString()}</style>
+      <style>{lineHeight.toString()}</style>
+      <style>{":host, "+fontAwesomeStyles.toString()}</style>
+      <Style>
+        {
+          styles.toString() +
+          tabStyles.toString() +
+          projectStyles.toString() +
+          buttonStyles.toString() +
+          runnerControlsStyles.toString() +
+          themeToggleStyles.toString() +
+          fontSizeSelectorStyles.toString() +
+          editorStyles.toString() +
+          runnerStyles.toString() +
+          errorStyles.toString()+
+          astroPiStyles.toString()
+        }
+        <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
+          <Project forWebComponent={true}/>
         </div>
-        <div className='proj-container'>
-          <div className='proj-editor-container'>
-            <Tabs>
-              <TabList>
-                { project.components.map((file, i) => (
-                    <Tab key={i}>{file.name}.{file.extension}</Tab>
-                  )
-                )}
-              </TabList>
-              { project.components.map((file,i) => (
-                <TabPanel key={i}>
-                  <EditorPanel fileName={file.name} extension={file.extension} />
-                </TabPanel>
-                )
-              )}
-              <RunnerControls/>
-            </Tabs>
-          </div>
-
-          <div className='proj-runner-container'>
-            <RunnerFactory projectType={project.type} />
-          </div>
-        </div> */}
-      </div>
-
-    </Style>
+      </Style>
     </>
   );
 }

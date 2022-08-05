@@ -30,7 +30,7 @@ const Project = (props) => {
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
-  const {embedded} = props;
+  const {forWebComponent} = props;
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -71,7 +71,7 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
-      { playerOnly !== true && embedded !== true ? (
+      { playerOnly !== true && forWebComponent !== true ? (
         <div className='proj-header'>
           <div>
             <div>
