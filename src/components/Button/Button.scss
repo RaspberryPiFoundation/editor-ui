@@ -14,18 +14,18 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-}
 
-.btn:hover {
-  background-color: #11A99A;
-}
+  &:hover {
+    background-color: $editor-dark-turquoise;
+  }
 
-.btn--disabled {
-  background-color: $editor-grey;
-  color: white;
-}
+  &.btn--disabled {
+    background-color: $editor-grey;
+    color: white;
 
-.btn--disabled:hover {
-  background-color: $editor-grey;
+    &:hover {
+      background-color: $editor-grey;
+    }
+  }
 }
 

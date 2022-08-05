@@ -69,20 +69,13 @@
     overflow: hidden;
     position: relative;
 
-    // &__tab-list {
-    //   border-bottom: 1px solid $editor-light-grey;
-    // }
-
     &__tab {
-      padding: var(--spacing-1);
-      color: $editor-mid-grey;
-      margin-left: var(--spacing-1);
       border-radius: 5px;
-      margin-top: var(--spacing-1);
-      margin-bottom: var(--spacing-1);
+      padding: var(--spacing-1);
+      margin: var(--spacing-1);
+      margin-right: 0;
 
       &--selected {
-        background-color: $editor-light-light-grey;
         color: inherit;
         border: none;
       }
@@ -119,6 +112,7 @@
 
       &__tab {
         color: $editor-light-light-light-grey;
+
         &--selected {
           color: inherit;
           background-color: $editor-grey;

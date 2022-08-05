@@ -17,19 +17,11 @@ import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
-import RunnerFactory from '../../Editor/Runners/RunnerFactory'
-import RunnerControls from '../../RunButton/RunnerControls';
-import ThemeToggle from '../../ThemeToggle/ThemeToggle';
+import Project from '../../Editor/Project/Project';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
-import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
 import store from '../../../app/store';
-
-
-import Project from '../../Editor/Project/Project';
 
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);

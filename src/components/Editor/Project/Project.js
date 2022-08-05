@@ -25,7 +25,7 @@ import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 
 const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
-  const playerOnly = useSelector((state) => state.editor.isEmbedded);
+  const embedded = useSelector((state) => state.editor.isEmbedded);
   const dispatch = useDispatch();
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
@@ -71,7 +71,7 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
-      { playerOnly !== true && forWebComponent !== true ? (
+      { embedded !== true && forWebComponent !== true ? (
         <div className='proj-header'>
           <div>
             <div>
@@ -93,7 +93,6 @@ const Project = (props) => {
         </div>
       ) : null }
       <div className ='editor-controls'>
-        {/* <RunnerControls/> */}
         <ThemeToggle />
         <FontSizeSelector />
       </div>
