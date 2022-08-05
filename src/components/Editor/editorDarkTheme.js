@@ -10,11 +10,11 @@ export const editorDarkTheme = EditorView.theme({
     "border": "none"
   },
   ".cm-activeLine": {
-    "background-color": "#565555",
+    "background-color": "inherit",
   },
   ".cm-activeLineGutter": {
-    "background-color": "#C1C1C1",
-    "color": "#333333"
+    "background-color": "inherit",
+    "color": "inherit"
   },
   "&.cm-focused .cm-selectionBackground, ::selection": {
     "background": "#144866"

@@ -9,12 +9,14 @@ import styles from '../WebComponent.scss';
 import projectStyles from '../../Editor/Project/Project.scss'
 import tabStyles from 'react-tabs/style/react-tabs.css';
 import buttonStyles from '../../Button/Button.scss'
+import runnerControlsStyles from '../../RunButton/RunnerControls.scss';
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
 import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
 import RunnerFactory from '../../Editor/Runners/RunnerFactory'
@@ -25,6 +27,9 @@ import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
 import store from '../../../app/store';
+
+
+import ProjectComponent from '../../Editor/Project/Project';
 
 const Project = () => {
   const project = useSelector((state) => state.editor.project);
@@ -88,6 +93,7 @@ const Project = () => {
         tabStyles.toString() + 
         projectStyles.toString() + 
         buttonStyles.toString() +
+        runnerControlsStyles.toString() +
         themeToggleStyles.toString() +
         fontSizeSelectorStyles.toString() +
         editorStyles.toString() +
@@ -96,8 +102,8 @@ const Project = () => {
         astroPiStyles.toString()
       }
       <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
-        <div className='editor-controls'>
-          <RunnerControls/>
+        <ProjectComponent />
+        {/* <div className='editor-controls'>
           <ThemeToggle />
           <FontSizeSelector />
         </div>
@@ -116,13 +122,14 @@ const Project = () => {
                 </TabPanel>
                 )
               )}
+              <RunnerControls/>
             </Tabs>
           </div>
 
           <div className='proj-runner-container'>
             <RunnerFactory projectType={project.type} />
           </div>
-        </div>
+        </div> */}
       </div>
 
     </Style>
