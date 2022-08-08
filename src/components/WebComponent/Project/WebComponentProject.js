@@ -12,7 +12,7 @@ import buttonStyles from '../../Button/Button.scss'
 import runnerControlsStyles from '../../RunButton/RunnerControls.scss';
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
-import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
+import editorStyles from '../../Editor/EditorPanel/EditorPanel.scss';
 import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'

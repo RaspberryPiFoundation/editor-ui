@@ -56,10 +56,6 @@
   .proj-runner-container {
     display: flex;
     width: 50%;
-
-    .react-tabs__tab-list {
-      margin: 0;
-    }
   }
 
   .react-tabs {
@@ -74,11 +70,20 @@
       padding: var(--spacing-1);
       margin: var(--spacing-1);
       margin-right: 0;
+      border: 0;
 
       &--selected {
         color: inherit;
         border: none;
       }
+
+      &:focus:after {
+        display: none;
+       }
+    }
+
+    &__tab-list {
+      margin: 0;
     }
 
     &__tab-panel--selected {
