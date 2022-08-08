@@ -41,7 +41,7 @@ it("checks pressure has been read correctly", () => {
 })
 
 it("resets criteria correctly", () => {
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense_hat=SenseHat()\nsense_hat.get_pressure()\nsense_hat.get_humidity()\nsense_hat.get_temperature()')
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.get_pressure()\nsense.get_humidity()\nsense.get_temperature()')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', '')
   cy.get("editor-wc").shadow().find(".btn--run").click()
@@ -55,7 +55,7 @@ it("confirms LEDs used when single led set", () => {
 })
 
 it("confirms LEDs used when display set", () => {
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().set_pixels([[100,0,0]] * 64)')
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("#results").should("contain", '"usedLEDs":true')
 })
