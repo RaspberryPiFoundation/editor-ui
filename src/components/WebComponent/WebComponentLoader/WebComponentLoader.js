@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { setProject, setProjectLoaded } from '../../Editor/EditorSlice';
-import Project from '../Project/Project'
+import WebComponentProject from '../Project/WebComponentProject';
 
 const ProjectComponentLoader = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
@@ -21,7 +21,7 @@ const ProjectComponentLoader = (props) => {
 
   return projectLoaded === true ? (
     <>
-      <Project />
+      <WebComponentProject />
     </>
   ) : (
     <>

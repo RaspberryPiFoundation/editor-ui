@@ -1,0 +1,31 @@
+@import '../../colours.scss';
+
+.btn, .btn:visited {
+  background-color: $editor-turquoise;
+  border-radius: 5px;
+  border-width: 0;
+  color: $editor-black;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: inherit;
+  font-weight: 500;
+  margin: 6px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $editor-dark-turquoise;
+  }
+
+  &.btn--disabled {
+    background-color: $editor-grey;
+    color: white;
+
+    &:hover {
+      background-color: $editor-grey;
+    }
+  }
+}
+

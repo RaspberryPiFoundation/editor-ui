@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './PythonRunner.css';
+import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
@@ -291,15 +292,26 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <ErrorMessage />
-      <div id='p5Sketch' ref={p5Output} />
-      <div id='pygalOutput' ref={pygalOutput} />
-      <div className="pythonrunner-canvas-container">
-        <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
-      </div>
-
-      <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
-      <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+      <Tabs forceRenderTabPanel={true} defaultIndex={1}>
+        <TabList>
+          <Tab key={0}>Visual Output</Tab>
+          <Tab key={1}>Text Output</Tab>
+        </TabList>
+          <ErrorMessage />
+          <TabPanel key={0}>
+            <div className='visual-output'>
+              <div id='p5Sketch' ref={p5Output} />
+              <div id='pygalOutput' ref={pygalOutput} />
+              <div className="pythonrunner-canvas-container">
+                <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
+              </div>
+              <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
+            </div>
+          </TabPanel>
+          <TabPanel key={1}>
+            <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+          </TabPanel>
+      </Tabs>
     </div>
   );
 };
