@@ -1,11 +1,17 @@
 import { EditorView } from '@codemirror/view';
 
 export const editorLightTheme = EditorView.theme({
-  "&": {
-    "height": "400px",
-  },
   ".cm-scroller": {overflow: "auto"},
+  ".cm-activeLine": {
+    "background-color": "inherit",
+  },
+  ".cm-activeLineGutter": {
+    "background-color": "inherit",
+    "color": "inherit"
+  },
   ".cm-gutters": {
-    "border": "none"
+    "border": "none",
+    "color": "black",
+    "background-color": "white"
   },
 }, {dark: false})

@@ -23,13 +23,14 @@ import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 
-const Project = () => {
+const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
   const embedded = useSelector((state) => state.editor.isEmbedded);
   const dispatch = useDispatch();
   let history = useHistory()
   const stateAuth = useSelector(state => state.auth);
   const user = stateAuth.user;
+  const {forWebComponent} = props;
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -70,7 +71,7 @@ const Project = () => {
 
   return (
     <div className='proj'>
-      { embedded !== true ? (
+      { embedded !== true && forWebComponent !== true ? (
         <div className='proj-header'>
           <div>
             <div>
@@ -92,7 +93,6 @@ const Project = () => {
         </div>
       ) : null }
       <div className ='editor-controls'>
-        <RunnerControls/>
         <ThemeToggle />
         <FontSizeSelector />
       </div>
@@ -113,6 +113,7 @@ const Project = () => {
               </TabPanel>
               )
             )}
+            <RunnerControls />
           </Tabs>
         </div>
         <ExternalFiles />

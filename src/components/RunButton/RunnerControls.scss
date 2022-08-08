@@ -1,0 +1,50 @@
+@import '../../colours.scss';
+
+.runner-controls {
+  position: absolute;
+  bottom: var(--spacing-2);
+  right: var(--spacing-2);
+
+  button {
+    display: flex;
+    align-items: center;
+
+    svg {
+      min-width: 0;
+    }
+  }
+}
+
+.btn--stop {
+  color: white;
+  background-color: $editor-black;
+  &:hover {
+    background-color: $editor-black;
+  }
+}
+
+.font-size-small .runner-controls {
+  svg {
+    margin-right: var(--spacing-1);
+  }
+}
+
+.font-size-medium .runner-controls {
+  svg {
+    margin-right: var(--spacing-1);
+    margin-left: var(--spacing-1)
+  }
+  .btn--stop {
+    svg {
+      margin-right: var(--spacing-2)
+    }
+  }
+}
+
+.font-size-large .runner-controls {
+  svg {
+    margin-right: var(--spacing-2);
+    margin-left: var(--spacing-1);
+  }
+}
+

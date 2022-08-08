@@ -8,25 +8,22 @@ import lineHeight from '../../../../node_modules/@rpf/sauce/scss/properties/_lin
 import styles from '../WebComponent.scss';
 import projectStyles from '../../Editor/Project/Project.scss'
 import tabStyles from 'react-tabs/style/react-tabs.css';
-import buttonStyles from '../../Button/Button.css'
+import buttonStyles from '../../Button/Button.scss'
+import runnerControlsStyles from '../../RunButton/RunnerControls.scss';
 import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
 import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
-import editorStyles from '../../Editor/EditorPanel/EditorPanel.css';
-import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.css';
+import editorStyles from '../../Editor/EditorPanel/EditorPanel.scss';
+import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
 import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
 import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import EditorPanel from '../../Editor/EditorPanel/EditorPanel'
-import RunnerFactory from '../../Editor/Runners/RunnerFactory'
-import RunnerControls from '../../RunButton/RunnerControls';
-import ThemeToggle from '../../ThemeToggle/ThemeToggle';
+
+import Project from '../../Editor/Project/Project';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
-import FontSizeSelector from '../../Editor/FontSizeSelector/FontSizeSelector';
 import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
 import store from '../../../app/store';
 
-const Project = () => {
+const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
   const [cookies] = useCookies(['theme', 'fontSize'])
@@ -78,56 +75,30 @@ const Project = () => {
 
   return (
     <>
-    <style>{spacing.toString()}</style>
-    <style>{fontSize.toString()}</style>
-    <style>{lineHeight.toString()}</style>
-    <style>{":host, "+fontAwesomeStyles.toString()}</style>
-    <Style>
-      {
-        styles.toString() +
-        tabStyles.toString() +
-        projectStyles.toString() +
-        buttonStyles.toString() +
-        themeToggleStyles.toString() +
-        fontSizeSelectorStyles.toString() +
-        editorStyles.toString() +
-        runnerStyles.toString()+
-        errorStyles.toString()+
-        astroPiStyles.toString()
-      }
-      <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
-        <div className='editor-controls'>
-          <RunnerControls/>
-          <ThemeToggle />
-          <FontSizeSelector />
+      <style>{spacing.toString()}</style>
+      <style>{fontSize.toString()}</style>
+      <style>{lineHeight.toString()}</style>
+      <style>{":host, "+fontAwesomeStyles.toString()}</style>
+      <Style>
+        {
+          styles.toString() +
+          tabStyles.toString() +
+          projectStyles.toString() +
+          buttonStyles.toString() +
+          runnerControlsStyles.toString() +
+          themeToggleStyles.toString() +
+          fontSizeSelectorStyles.toString() +
+          editorStyles.toString() +
+          runnerStyles.toString() +
+          errorStyles.toString()+
+          astroPiStyles.toString()
+        }
+        <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
+          <Project forWebComponent={true}/>
         </div>
-        <div className='proj-container'>
-          <div className='proj-editor-container'>
-            <Tabs>
-              <TabList>
-                { project.components.map((file, i) => (
-                    <Tab key={i}>{file.name}.{file.extension}</Tab>
-                  )
-                )}
-              </TabList>
-              { project.components.map((file,i) => (
-                <TabPanel key={i}>
-                  <EditorPanel fileName={file.name} extension={file.extension} />
-                </TabPanel>
-                )
-              )}
-            </Tabs>
-          </div>
-
-          <div className='proj-runner-container'>
-            <RunnerFactory projectType={project.type} />
-          </div>
-        </div>
-      </div>
-
-    </Style>
+      </Style>
     </>
   );
 }
 
-export default Project
+export default WebComponentProject
