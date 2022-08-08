@@ -41,7 +41,7 @@ it("checks pressure has been read correctly", () => {
 })
 
 it("resets criteria correctly", () => {
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nSenseHat().get_pressure()\nsense_hat.get_humidity()\nsense_hat.get_temperature()')
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense_hat=SenseHat()\nsense_hat.get_pressure()\nsense_hat.get_humidity()\nsense_hat.get_temperature()')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', '')
   cy.get("editor-wc").shadow().find(".btn--run").click()
