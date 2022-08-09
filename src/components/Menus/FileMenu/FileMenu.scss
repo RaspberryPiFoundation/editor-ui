@@ -1,0 +1,81 @@
+@import '../../../colours.scss';
+
+.file-menu {
+  width: 16%;
+
+  .file-menu-section {
+    padding: var(--spacing-1);
+    &__files {
+      border-bottom: 2px solid $editor-grey;
+    }
+  }
+
+  .files-list {
+    padding-top: var(--spacing-1);
+    padding-bottom: var(--spacing-4);
+  }
+
+  .files-list-item {
+    display: flex;
+    align-items: center;
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
+
+    .file-list-item-name {
+      flex: 1;
+      margin: 0;
+      padding: var(--spacing-1);
+      padding-right: 0;
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    list-style: none;
+
+    .accordion-icon {
+      margin-left: auto;
+      display: flex;
+    }
+
+    h2 {
+      font-size: 1em;
+    }
+  }
+
+  details[open] summary {
+    .accordion-icon {
+      transform: rotate(180deg)
+    }
+  }
+}
+
+.--dark {
+  .file-menu {
+    background: $editor-black;
+    // summary {
+    //   &::after {
+    //     content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg'%3E%3Cpath d='M12 15.375L6 9.37501L7.4 7.97501L12 12.575L16.6 7.97501L18 9.37501L12 15.375Z' fill='white'/%3E%3C/svg%3E");
+    //   }
+    // }
+    // details[open] summary:after {
+    //   content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg'%3E%3Cpath d='M7.4 15.375L6 13.975L12 7.97501L18 13.975L16.6 15.375L12 10.775L7.4 15.375Z' fill='white'/%3E%3C/svg%3E");
+    // }
+  }
+}
+
+.--light {
+  .file-menu {
+    // summary {
+    //   &::after {
+    //     content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg'%3E%3Cpath d='M12 15.375L6 9.37501L7.4 7.97501L12 12.575L16.6 7.97501L18 9.37501L12 15.375Z' fill='black'/%3E%3C/svg%3E");
+    //   }
+    // }
+    // details[open] summary:after {
+    //   content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg'%3E%3Cpath d='M7.4 15.375L6 13.975L12 7.97501L18 13.975L16.6 15.375L12 10.775L7.4 15.375Z' fill='black'/%3E%3C/svg%3E");
+    // }
+
+  }
+}

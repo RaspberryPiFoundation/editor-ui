@@ -17,11 +17,13 @@ import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 import { saveProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
-import ProjectImages from '../ProjectImages/ProjectImages';
+import ProjectImages from '../../Menus/FileMenu/ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
+
+import FileMenu from '../../Menus/FileMenu/FileMenu';
 
 const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
@@ -97,6 +99,7 @@ const Project = (props) => {
         <FontSizeSelector />
       </div>
       <div className='proj-container'>
+      <FileMenu />
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
@@ -104,7 +107,7 @@ const Project = (props) => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
-              { project.project_type === "python" ? <NewComponentButton /> : null }
+              {/* { project.project_type === "python" ? <NewComponentButton /> : null } */}
               { user !== null &&  project.user_id === user.profile.user? (<ImageUploadButton />): null}
             </TabList>
             { project.components.map((file,i) => (
@@ -121,7 +124,6 @@ const Project = (props) => {
           <RunnerFactory projectType={project.type} />
         </div>
       </div>
-      {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
       <ToastContainer />
     </div>
   )

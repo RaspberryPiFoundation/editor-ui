@@ -1,12 +1,19 @@
-import './ProjectImages.css';
+import './ProjectImages.scss';
 
 import { useSelector } from 'react-redux'
+import { ChevronDown } from '../../../../Icons';
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
+
   return (
-    <section className='project-image-gallery'>
-      <h2>Project Images</h2>
+    <details className='file-menu-section file-menu-section__images' open>
+      <summary>
+        <h2 className='menu-pop-out-subheading'>Image Gallery</h2>
+        <div className='accordion-icon'>
+          <ChevronDown />
+        </div>
+      </summary>
       <div className='project-images'>
         {projectImages.map((image, i) => (
           <div key={i} className='project-image-block'>
@@ -15,7 +22,7 @@ const ProjectImages = () => {
           </div>
         ))}
       </div>
-    </section>
+    </details>
   )
 }
 
