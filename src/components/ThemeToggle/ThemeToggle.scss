@@ -1,4 +1,29 @@
 @forward '@rpf/sauce/scss/properties/_spacing';
-.toggle-theme-btn {
-  padding: 0;
+@import '../../colours.scss';
+// .toggle-theme-btn {
+//   padding: 0;
+// }
+.theme-toggle {
+  display: flex;
+  .theme-btn {
+    &__light {
+      svg {
+        background-color: white;
+        fill: black;
+      }
+    }
+    &__dark {
+      svg {
+        background-color: $editor-dark;
+        fill: white;
+      }
+    }
+    &--active {
+      border: 2px solid $editor-turquoise;
+    }
+  }
+  svg {
+    padding: var(--spacing-2);
+    border-radius: 5px;
+  }
 }
