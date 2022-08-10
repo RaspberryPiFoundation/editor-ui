@@ -1,0 +1,21 @@
+.dropdown {
+  position: relative;
+  &-container {
+    z-index: 1;
+    position: absolute;
+
+  }
+  .dropdown-button {
+    display: flex;
+    align-items: center;
+    margin: 0 var(--spacing-3);
+    svg {
+      margin-right: var(--spacing-1)
+    }
+  }
+  .dropdown-container {
+    background-color: white;
+    padding: var(--spacing-1);
+
+  }
+}

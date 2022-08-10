@@ -8,9 +8,7 @@
 
   .file-menu-section {
     padding: var(--spacing-1);
-    &__files {
-      border-bottom: 2px solid $editor-grey;
-    }
+
     &__images {
       display: flex;
       flex-flow: column;
@@ -69,5 +67,16 @@
 .--dark {
   .file-menu {
     background: $editor-black;
+    &-section__files {
+      border-bottom: 2px solid $editor-grey;
+    }
+  }
+}
+
+.--light {
+  .file-menu {
+    &-section__files {
+      border-bottom: 2px solid $editor-light-grey;
+    }
   }
 }

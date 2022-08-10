@@ -11,7 +11,6 @@ const FileMenu = () => {
 
   return (
     <div className = "file-menu">
-      {/* <h2 className = "menu-pop-out-heading">File</h2> */}
       <FilesList />
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>

@@ -73,7 +73,7 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
-      { embedded !== true && forWebComponent !== true ? (
+      {/* { embedded !== true && forWebComponent !== true ? (
         <div className='proj-header'>
           <div>
             <div>
@@ -93,11 +93,11 @@ const Project = (props) => {
             }
           </div>
         </div>
-      ) : null }
-      <div className ='editor-controls'>
+      ) : null } */}
+      {/* <div className ='editor-controls'>
         <ThemeToggle />
         <FontSizeSelector />
-      </div>
+      </div> */}
       <div className='proj-container'>
       <FileMenu />
         <div className='proj-editor-container'>
