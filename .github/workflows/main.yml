@@ -74,6 +74,14 @@ jobs:
       env:
         PUBLIC_URL: 'http://localhost:3000'
 
+    - name: Archive cypress artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-artifacts
+        path: |
+          cypress/screenshots
+          cypress/videos
+
   build-deploy:
     needs:
       - test
