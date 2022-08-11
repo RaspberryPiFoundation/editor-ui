@@ -1,5 +1,7 @@
+@import '../../../colours.scss';
+
 .settings-menu {
-  width: 150%;
+  width: fit-content;
   right: 0;
 
   h2 {
@@ -7,8 +9,37 @@
   }
 
   h3 {
-    font-size: var(--font-size-base);
+    font-size: 1.2em;
     font-weight: var(--font-weight-base);
     text-align: center;
+    margin-top: 0;
+    margin-bottom: var(--spacing-3);
+  }
+
+  &__font-size {
+    text-align: center;
+  }
+}
+
+.--light {
+  .settings-menu {
+    h3 {
+      color: $editor-mid-grey;
+    }
+  }
+}
+
+.font-size-large {
+  .settings-menu {
+    p {
+      margin-bottom: var(--spacing-1);
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: var(--spacing-1);
+    }
+    h3 {
+      margin-bottom: var(--spacing-2);
+    }
   }
 }

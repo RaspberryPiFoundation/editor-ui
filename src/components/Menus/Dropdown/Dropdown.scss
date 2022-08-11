@@ -20,7 +20,7 @@
   }
   &-container {
     padding: var(--spacing-1);
-    border-radius: 5px;
+    border-radius: 10px;
   }
   &-backdrop {
     position: fixed;
@@ -50,5 +50,17 @@
   }
   .dropdown-backdrop {
     background-color: black;
+  }
+}
+
+.font-size-medium {
+  .dropdown-container {
+    padding: var(--spacing-2);
+  }
+}
+
+.font-size-large {
+  .dropdown-container {
+    padding: var(--spacing-3);
   }
 }

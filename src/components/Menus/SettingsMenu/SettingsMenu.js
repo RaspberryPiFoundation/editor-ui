@@ -8,7 +8,7 @@ const SettingsMenu = () => {
     <div className='dropdown-container settings-menu'>
       <h2>Settings</h2>
       <div className='settings-menu__theme'>
-        <h3>Color Mode</h3>
+        <h3>Colour Mode</h3>
         <ThemeToggle />
       </div>
       <div className='settings-menu__font-size'>
