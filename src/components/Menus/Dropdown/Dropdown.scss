@@ -5,7 +5,7 @@
   height: 100%;
 
   &-container {
-    z-index: 1;
+    z-index: 2;
     position: absolute;
   }
   &-button {
@@ -18,9 +18,18 @@
       margin-right: var(--spacing-1)
     }
   }
-  .dropdown-container {
+  &-container {
     padding: var(--spacing-1);
     border-radius: 5px;
+  }
+  &-backdrop {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    z-index: 1;
   }
 }
 
@@ -29,11 +38,17 @@
     background-color: white;
     box-shadow: 0 0 5px 2px $editor-light-grey;
   }
+  .dropdown-backdrop {
+    background-color: $editor-grey;
+  }
 }
 
 .--dark {
   .dropdown-container {
     background-color: $editor-dark;
     box-shadow: 0 0 5px 2px $editor-dark-dark-dark;
+  }
+  .dropdown-backdrop {
+    background-color: black;
   }
 }
