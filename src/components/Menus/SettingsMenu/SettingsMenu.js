@@ -5,7 +5,7 @@ import './SettingsMenu.scss'
 
 const SettingsMenu = () => {
   return (
-    <div className='settings-menu'>
+    <div className='dropdown-container settings-menu'>
       <h2>Settings</h2>
       <div className='settings-menu__theme'>
         <h3>Color Mode</h3>

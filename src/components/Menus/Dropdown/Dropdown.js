@@ -12,6 +12,7 @@ const Dropdown = (props) => {
         <span>{buttonText}</span>
       </div>
       {isOpen ?
+      MenuContent ? <MenuContent className='dropdown-container' /> :
       <div className='dropdown-container'>
         { MenuContent ? <MenuContent /> :
         menuOptions ? menuOptions.map((option, i) => (

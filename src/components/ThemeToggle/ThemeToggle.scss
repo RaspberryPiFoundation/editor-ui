@@ -7,23 +7,33 @@
   display: flex;
   .theme-btn {
     &__light {
+      margin-right: var(--spacing-1);
+
       svg {
         background-color: white;
+        outline: 1px solid$editor-dark-dark-dark;
         fill: black;
       }
     }
     &__dark {
       svg {
         background-color: $editor-dark;
+        outline: 1px solid $editor-light-grey;
         fill: white;
       }
     }
     &--active {
-      border: 2px solid $editor-turquoise;
+      svg {
+        outline: 2px solid $editor-turquoise;
+      }
     }
   }
   svg {
     padding: var(--spacing-2);
     border-radius: 5px;
+  }
+  p {
+    text-align: center;
+    margin-top: var(--spacing-1)
   }
 }

@@ -1,21 +1,39 @@
+@import '../../../colours.scss';
+
 .dropdown {
   position: relative;
+  height: 100%;
+
   &-container {
     z-index: 1;
     position: absolute;
-
   }
-  .dropdown-button {
+  &-button {
     display: flex;
     align-items: center;
+    height: 100%;
+
     margin: 0 var(--spacing-3);
     svg {
       margin-right: var(--spacing-1)
     }
   }
   .dropdown-container {
-    background-color: white;
     padding: var(--spacing-1);
+    border-radius: 5px;
+  }
+}
 
+.--light {
+  .dropdown-container {
+    background-color: white;
+    box-shadow: 0 0 5px 2px $editor-light-grey;
+  }
+}
+
+.--dark {
+  .dropdown-container {
+    background-color: $editor-dark;
+    box-shadow: 0 0 5px 2px $editor-dark-dark-dark;
   }
 }
