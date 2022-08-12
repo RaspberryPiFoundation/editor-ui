@@ -56,7 +56,7 @@ const Header = (props) => {
           {<><SquaresIcon />
           <span className='editor-header__text'>My Projects</span></>}</a>
       ) : null }
-      {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name||"New Project"}</h1>)}
+      <ProjectName />
       <div className='editor-header__right'>
         <Dropdown
           ButtonIcon={SettingsIcon}
