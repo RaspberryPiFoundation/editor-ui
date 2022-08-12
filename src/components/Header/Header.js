@@ -53,11 +53,20 @@ const Header = (props) => {
       { user !== null ? (
         <a href='/projects' className='project-gallery-link'>
           {<><SquaresIcon />
-          My Projects</>}</a>
+          <span className='editor-header__text'>My Projects</span></>}</a>
       ) : null }
       <h1>{project.name||'New Project'}</h1>
-      <Dropdown ButtonIcon={SettingsIcon} buttonText='Settings' MenuContent={SettingsMenu} />
-      <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
+      <div className='editor-header__right'>
+        <Dropdown
+          ButtonIcon={SettingsIcon}
+          buttonText='Settings'
+          buttonTextClassName='editor-header__text'
+          MenuContent={SettingsMenu} />
+
+        {user !== null && project.user_id === user.profile.user ? (
+          <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
+        ) : null }
+      </div>
     </header>
   </>
   )

@@ -1,10 +1,10 @@
 import React from "react";
-// import { faEllipsisVertical, faFile } from '@fortawesome/free-solid-svg-icons'
-import { ChevronDown, FileIcon } from '../../../Icons';
+import { ChevronDown, EllipsisVerticalIcon, FileIcon } from '../../../Icons';
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useSelector } from "react-redux";
 import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
+import Dropdown from "../Dropdown/Dropdown";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
@@ -23,7 +23,6 @@ const FilesList = () => {
       <div className='files-list-item' key={i}>
         <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
-        {/* <FontAwesomeIcon icon={faEllipsisVertical} /> */}
       </div>
       ))}
       </div>

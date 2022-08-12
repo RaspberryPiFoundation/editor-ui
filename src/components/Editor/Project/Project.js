@@ -13,7 +13,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../Button/Button';
 import { setProjectLoaded, setProject } from '../EditorSlice';
-import ImageUploadButton from '../ImageUploadButton/ImageUploadButton';
 import NewComponentButton from '../NewComponentButton/NewComponentButton';
 import RunnerControls from '../../RunButton/RunnerControls';
 import { saveProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
@@ -73,31 +72,6 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
-      {/* { embedded !== true && forWebComponent !== true ? (
-        <div className='proj-header'>
-          <div>
-            <div>
-              {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name||"New Project"}</h1>)}
-            </div>
-            { project.parent ? (
-            <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
-          ) : null }
-          </div>
-          <div className='proj-controls'>
-            {
-              user !== null ? (
-              <>
-                {project.user_id === user.profile.user || !project.identifier ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
-              </>
-              ) : null
-            }
-          </div>
-        </div>
-      ) : null } */}
-      {/* <div className ='editor-controls'>
-        <ThemeToggle />
-        <FontSizeSelector />
-      </div> */}
       <div className='proj-container'>
       <FileMenu />
         <div className='proj-editor-container'>
@@ -107,8 +81,6 @@ const Project = (props) => {
                   <Tab key={i}>{file.name}.{file.extension}</Tab>
                 )
               )}
-              {/* { project.project_type === "python" ? <NewComponentButton /> : null } */}
-              { user !== null &&  project.user_id === user.profile.user? (<ImageUploadButton />): null}
             </TabList>
             { project.components.map((file,i) => (
               <TabPanel key={i}>

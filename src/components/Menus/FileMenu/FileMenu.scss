@@ -80,3 +80,13 @@
     }
   }
 }
+
+.font-size-medium, .font-size-large {
+  .file-menu {
+    .files-list-item {
+      .file-list-item-name {
+        padding-left: var(--spacing-2);
+      }
+    }
+  }
+}
