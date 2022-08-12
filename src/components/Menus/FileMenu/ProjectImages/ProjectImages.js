@@ -15,14 +15,16 @@ const ProjectImages = () => {
         </div>
       </summary>
       <div className='project-images'>
-        {projectImages.map((image, i) => (
-          <div key={i} className='project-image-block'>
-            <div className='project-image-block__container'>
-              <img className='project-image' src={image.url} alt={image.filename}/>
+        {/* <div className='project-images__wrapper'> */}
+          {projectImages.map((image, i) => (
+            <div key={i} className='project-images__block'>
+              <div className='project-images__image-wrapper'>
+                <img className='project-images__image' src={image.url} alt={image.filename}/>
+              </div>
+              <p>{image.filename}</p>
             </div>
-            <p>{image.filename}</p>
-          </div>
-        ))}
+          ))}
+        {/* </div> */}
       </div>
     </details>
   )

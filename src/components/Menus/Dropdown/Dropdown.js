@@ -26,7 +26,7 @@ const Dropdown = (props) => {
 
   return (
     <div className='dropdown'>
-      <div className='dropdown-button' onClick={() => setOpen(!isOpen)}>
+      <div className={`dropdown-button${isOpen ? 'dropdown-button--active' : null}`} onClick={() => setOpen(!isOpen)}>
         <ButtonIcon />
         {buttonText ? <span className={buttonTextClassName}>{buttonText}</span> : null}
       </div>

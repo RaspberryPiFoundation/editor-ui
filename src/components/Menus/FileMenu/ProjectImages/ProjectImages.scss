@@ -1,40 +1,45 @@
 @import "../../../../colours.scss";
 
-.project-image-block {
+.project-images {
+  flex: 1;
+  text-align: center;
+
+  // &__wrapper {
+  //   height: 100%;
+  //   overflow-y: scroll;
+  // }
+
+  &__block {
     display: inline-block;
     box-sizing: border-box;
     padding-left: var(--spacing-1);
     word-break: break-all;
     text-align: center;
     vertical-align: top;
+  }
 
-    &__container {
-      height: var(--spacing-9);
-      width: var(--spacing-9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    p {
-      width: var(--spacing-9);
-      margin-top: 0;
-      margin-bottom: var(--spacing-1)
-    }
-}
+  &__image-wrapper {
+    height: var(--spacing-9);
+    width: var(--spacing-9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.project-image {
+  &__image {
     max-height: 100%;
     max-width: 100%;
-}
+  }
 
-.project-images {
-  flex: 1;
-  text-align: center;
-  overflow-y: scroll;
+  p {
+    width: var(--spacing-9);
+    margin-top: 0;
+    margin-bottom: var(--spacing-1)
+  }
 }
 
 .font-size-medium {
-  .project-image-block {
+  .project-images__block {
     &__container {
       height: calc(1.2*var(--spacing-9));
       width: calc(1.2*var(--spacing-9));
@@ -46,7 +51,7 @@
 }
 
 .font-size-large {
-  .project-image-block {
+  .project-images__block {
     &__container {
       height: calc(1.44*var(--spacing-9));
       width: calc(1.44*var(--spacing-9));
