@@ -3,18 +3,56 @@
 .project-image-block {
     display: inline-block;
     box-sizing: border-box;
-    width: 50%;
     padding-left: var(--spacing-1);
     word-break: break-all;
     text-align: center;
     vertical-align: top;
+
+    &__container {
+      height: var(--spacing-9);
+      width: var(--spacing-9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    p {
+      width: var(--spacing-9);
+      margin-top: 0;
+      margin-bottom: var(--spacing-1)
+    }
 }
 
 .project-image {
-    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .project-images {
   flex: 1;
+  text-align: center;
   overflow-y: scroll;
+}
+
+.font-size-medium {
+  .project-image-block {
+    &__container {
+      height: calc(1.2*var(--spacing-9));
+      width: calc(1.2*var(--spacing-9));
+    }
+    p {
+      width: calc(1.2*var(--spacing-9));
+    }
+  }
+}
+
+.font-size-large {
+  .project-image-block {
+    &__container {
+      height: calc(1.44*var(--spacing-9));
+      width: calc(1.44*var(--spacing-9));
+    }
+    p {
+      width: calc(1.44*var(--spacing-9));
+    }
+  }
 }

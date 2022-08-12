@@ -17,7 +17,9 @@ const ProjectImages = () => {
       <div className='project-images'>
         {projectImages.map((image, i) => (
           <div key={i} className='project-image-block'>
-            <img className='project-image' src={image.url} alt={image.filename}/>
+            <div className='project-image-block__container'>
+              <img className='project-image' src={image.url} alt={image.filename}/>
+            </div>
             <p>{image.filename}</p>
           </div>
         ))}
