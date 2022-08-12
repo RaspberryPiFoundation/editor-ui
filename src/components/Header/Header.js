@@ -3,7 +3,7 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import Login from '../Login/Login'
 import Button from '../Button/Button';
-import { EditorLogo, SettingsIcon, SquaresIcon } from '../../Icons';
+import { EditorLogo, RemixIcon, SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
@@ -11,6 +11,7 @@ import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../Editor/FontSizeSelector/FontSizeSelector';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
+import ProjectName from './ProjectName';
 
 
 const Header = (props) => {
@@ -55,7 +56,7 @@ const Header = (props) => {
           {<><SquaresIcon />
           <span className='editor-header__text'>My Projects</span></>}</a>
       ) : null }
-      <h1>{project.name||'New Project'}</h1>
+      {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name||"New Project"}</h1>)}
       <div className='editor-header__right'>
         <Dropdown
           ButtonIcon={SettingsIcon}

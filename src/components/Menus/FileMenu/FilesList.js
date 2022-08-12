@@ -4,7 +4,6 @@ import { ChevronDown, EllipsisVerticalIcon, FileIcon } from '../../../Icons';
 
 import { useSelector } from "react-redux";
 import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
-import Dropdown from "../Dropdown/Dropdown";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)

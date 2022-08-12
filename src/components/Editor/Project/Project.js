@@ -18,7 +18,6 @@ import RunnerControls from '../../RunButton/RunnerControls';
 import { saveProject, remixProject, updateProject } from '../../../utils/apiCallHandler';
 import ProjectImages from '../../Menus/FileMenu/ProjectImages/ProjectImages';
 import ExternalFiles from '../../ExternalFiles/ExternalFiles';
-import ProjectName from './ProjectName.js';
 import ThemeToggle from '../../ThemeToggle/ThemeToggle';
 import FontSizeSelector from '../FontSizeSelector/FontSizeSelector';
 
@@ -72,6 +71,31 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
+      {/* { embedded !== true && forWebComponent !== true ? (
+        <div className='proj-header'>
+          <div>
+            <div>
+              {user && (project.user_id === user.profile.user) ? (<ProjectName name={project.name} />) : (<h1>{project.name||"New Project"}</h1>)}
+            </div>
+            { project.parent ? (
+            <p>Remixed from <a href={host+'/'+project.project_type+'/'+project.parent.identifier}>{project.parent.name}</a></p>
+          ) : null }
+          </div>
+          <div className='proj-controls'>
+            {
+              user !== null ? (
+              <>
+                {project.user_id === user.profile.user || !project.identifier ? (<Button onClickHandler={onClickSave} buttonText="Save Project" />) : (<Button onClickHandler={onClickRemix} buttonText="Remix Project" />)}
+              </>
+              ) : null
+            }
+          </div>
+        </div>
+      ) : null } */}
+      {/* <div className ='editor-controls'>
+        <ThemeToggle />
+        <FontSizeSelector />
+      </div> */}
       <div className='proj-container'>
       <FileMenu />
         <div className='proj-editor-container'>

@@ -1,7 +1,8 @@
-import './Project.scss';
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux'
-import { updateProjectName } from '../EditorSlice';
+import { updateProjectName } from '../Editor/EditorSlice';
+
+import './ProjectName.scss';
 
 const ProjectName = (props) => {
   const projectName = props.name;
@@ -13,10 +14,7 @@ const ProjectName = (props) => {
   }
 
   return (
-    <div>
-      Project Name:
-      <input ref={nameInput} type='text' onChange={onNameChange} defaultValue={projectName} />
-    </div>
+      <input className='project-name__input' ref={nameInput} type='text' onChange={onNameChange} defaultValue={projectName} />
   )
 };
 
