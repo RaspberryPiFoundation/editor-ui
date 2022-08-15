@@ -12,7 +12,6 @@ import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const visualOutput = useSelector((state) => state.editor.project.components[0].visualoutput ? 0 : 1);
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
@@ -291,9 +290,11 @@ const PythonRunner = () => {
     }
   }
 
+  let tabIndex = projectCode[0] && projectCode[0].visualoutput ? 0 : 1;
+
   return (
     <div className="pythonrunner-container">
-      <Tabs forceRenderTabPanel={true} defaultIndex={visualOutput}>
+      <Tabs forceRenderTabPanel={true} defaultIndex={tabIndex}>
         <TabList>
           <Tab key={0}>Visual Output</Tab>
           <Tab key={1}>Text Output</Tab>
