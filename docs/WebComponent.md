@@ -20,9 +20,12 @@ The `set menuItems(newValue)` method shows how data could be set dynamically fro
 
 The `mountReactApp()` method creates a dom element attaches a shadow dom to it and then mounts the React application in it.
 
-The `static get observedAttributes()` method returns an array of attributes that are allowed to be set on the web component. At present it returns `['code']` meaning you can add the code attribute:
+The `static get observedAttributes()` method returns an array of attributes that are allowed to be set on the web component. At present it returns `['code', 'visualOutput]` meaning you can add these attributes:
 
-`<editor-wc code="print('Hello component')"></editor-wc>`
+`<editor-wc code="print('Hello component')" visualOutput="1"></editor-wc>`
+
+* `code` is the prepopulated code
+* `visualOutput` if truthy will show the visual output tab, else it'll show the text output tab
 
 Any other attributes set will not be available in the component and would need to be added to the observedAttributes to make them so.
 

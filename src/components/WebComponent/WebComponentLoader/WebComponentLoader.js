@@ -5,13 +5,13 @@ import WebComponentProject from '../Project/WebComponentProject';
 
 const ProjectComponentLoader = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
-  const { code } = props;
+  const { code, visualoutput } = props;
   const dispatch = useDispatch()
 
   useEffect(() => {
     const proj = {
       type: 'python',
-      components: [{ name: 'main', extension: 'py', content: code }]
+      components: [{ name: 'main', extension: 'py', content: code, visualoutput: visualoutput}]
     }
     dispatch(setProject(proj))
     dispatch(setProjectLoaded(true))

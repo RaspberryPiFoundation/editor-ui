@@ -20,7 +20,7 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['code'];
+    return ['code', 'visualoutput'];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
