@@ -3,7 +3,7 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import Login from '../Login/Login'
 import Button from '../Button/Button';
-import { EditorLogo, RemixIcon, SettingsIcon, SquaresIcon } from '../../Icons';
+import { RemixIcon, SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
@@ -49,27 +49,29 @@ const Header = (props) => {
           <Login user={user} />
         </div>
       ): null }
-    <header className='editor-header'>
-      <EditorLogo />
-      { user !== null ? (
-        <a href='/projects' className='project-gallery-link'>
-          {<><SquaresIcon />
-          <span className='editor-header__text'>My Projects</span></>}</a>
-      ) : null }
-      <ProjectName />
-      <div className='editor-header__right'>
-        <Dropdown
-          ButtonIcon={SettingsIcon}
-          buttonText='Settings'
-          buttonTextClassName='editor-header__text'
-          MenuContent={SettingsMenu} />
-
-        {user !== null && project.user_id === user.profile.user ? (
-          <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
+    <div className='editor-header-wrapper'>
+      <header className='editor-header'>
+        <img className='editor-logo' src='/editor_logo.svg' alt='Editor logo'/>
+        { user !== null ? (
+          <a href='/projects' className='project-gallery-link'>
+            {<><SquaresIcon />
+            <span className='editor-header__text'>My Projects</span></>}</a>
         ) : null }
-      </div>
-    </header>
-  </>
+        <ProjectName />
+        <div className='editor-header__right'>
+          <Dropdown
+            ButtonIcon={SettingsIcon}
+            buttonText='Settings'
+            buttonTextClassName='editor-header__text'
+            MenuContent={SettingsMenu} />
+
+          {user !== null && project.user_id === user.profile.user ? (
+            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
+          ) : null }
+        </div>
+      </header>
+    </div>
+    </>
   )
 };
 

@@ -31,7 +31,7 @@ describe("Testing the new file modal", () => {
         }
         store = mockStore(initialState);
         const {getByText} = render(<Provider store={store}><div id='root'><NewComponentButton /></div></Provider>)
-        const button = getByText(/\+/);
+        const button = getByText(/Add file/);
         fireEvent.click(button);
         inputBox = document.getElementById('name')
         saveButton = getByText(/Save/);

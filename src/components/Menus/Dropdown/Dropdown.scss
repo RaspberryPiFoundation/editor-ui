@@ -13,7 +13,7 @@
     align-items: center;
     height: 100%;
 
-    margin: 0 var(--spacing-3);
+    padding: 0 var(--spacing-2);
     svg {
       margin-right: var(--spacing-1)
     }
@@ -21,6 +21,7 @@
   &-container {
     padding: var(--spacing-1);
     border-radius: 10px;
+    margin-top: var(--spacing-1);
   }
   &-backdrop {
     position: fixed;
@@ -29,7 +30,7 @@
     height: 100%;
     width: 100%;
     opacity: 0.5;
-    z-index: 1;
+    z-index: -1;
   }
 }
 
@@ -41,6 +42,10 @@
   .dropdown-backdrop {
     background-color: $editor-grey;
   }
+  .dropdown-button--active {
+    border-bottom: 5px solid $editor-turquoise;
+    margin-bottom: -5px;
+  }
 }
 
 .--dark {
@@ -51,9 +56,11 @@
   .dropdown-backdrop {
     background-color: black;
   }
-  // .dropdown-button--active {
-    
-  // }
+  .dropdown-button--active {
+    background-color: $editor-turquoise-grey;
+    border-bottom: 5px solid $editor-turquoise;
+    margin-bottom: -5px;
+  }
 }
 
 .font-size-medium {

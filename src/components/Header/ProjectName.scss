@@ -1,6 +1,8 @@
 @import '../../colours.scss';
 
 .project-name {
+  margin: var(--spacing-1) 0;
+  
   h1 {
     padding: var(--spacing-1) var(--spacing-2);
     font-size: 1em;
