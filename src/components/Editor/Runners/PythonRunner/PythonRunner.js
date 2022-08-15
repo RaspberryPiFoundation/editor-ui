@@ -292,7 +292,7 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <Tabs forceRenderTabPanel={true} defaultIndex={1}>
+      <Tabs forceRenderTabPanel={true} defaultIndex={0}>
         <TabList>
           <Tab key={0}>Visual Output</Tab>
           <Tab key={1}>Text Output</Tab>
