@@ -3,12 +3,10 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import Login from '../Login/Login'
 import Button from '../Button/Button';
-import { RemixIcon, SettingsIcon, SquaresIcon } from '../../Icons';
+import { SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
-import FontSizeSelector from '../Editor/FontSizeSelector/FontSizeSelector';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';

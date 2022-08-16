@@ -8,7 +8,6 @@ const Dropdown = (props) => {
   const dropdown = useRef()
   
   useEffect(() => {
-    console.log('listening for outside clicks')
     /**
      * Close menu if clicked outside of element
      */

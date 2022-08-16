@@ -58,6 +58,13 @@
     width: 42%;
   }
 
+  &--wc {
+    min-height: 200px;
+    .proj-runner-container, .proj-editor-container {
+      width: 50%;
+    }
+  }
+
   .react-tabs {
     flex: 1;
     display: flex;
