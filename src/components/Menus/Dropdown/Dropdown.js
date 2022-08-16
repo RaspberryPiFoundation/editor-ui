@@ -10,11 +10,10 @@ const Dropdown = (props) => {
   useEffect(() => {
     console.log('listening for outside clicks')
     /**
-     * Alert if clicked on outside of element
+     * Close menu if clicked outside of element
      */
     function handleClickOutside(event) {
       if (dropdown.current && !dropdown.current.contains(event.target)) {
-        console.log('clicked outside')
         setOpen(false)
       }
     }

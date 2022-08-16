@@ -1,19 +1,13 @@
 @import '../../../colours.scss';
 
 .file-menu {
-  display: flex;
-  flex-flow: column;
-  overflow: hidden;
+  overflow-y: scroll;
   width: 16%;
 
   .file-menu-section {
     padding: var(--spacing-1);
 
     &__images {
-      display: flex;
-      flex-flow: column;
-      flex: 1;
-      overflow: hidden;
       padding-left: 0;
 
       summary {
@@ -66,7 +60,7 @@
 .--dark {
   .file-menu {
     background: $editor-black;
-    &-section__files {
+    &-section {
       border-bottom: 2px solid $editor-grey;
     }
   }
@@ -74,7 +68,7 @@
 
 .--light {
   .file-menu {
-    &-section__files {
+    &-section {
       border-bottom: 2px solid $editor-light-grey;
     }
   }

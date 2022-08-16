@@ -1,10 +1,10 @@
 @import "../../../../colours.scss";
 
 .project-images {
-  flex: 1;
+  // flex: 1;
   text-align: center;
-  height: 75%;
-  overflow-y: scroll;
+  // height: 75%;
+  // overflow-y: scroll;
 
   // &__wrapper {
   //   height: 100%;
@@ -15,7 +15,8 @@
     display: inline-block;
     box-sizing: border-box;
     padding-left: var(--spacing-1);
-    word-break: break-all;
+    overflow-wrap: break-word;
+    word-break: break-word;
     text-align: center;
     vertical-align: top;
   }
