@@ -24,7 +24,6 @@
 
   .files-list {
     padding-top: var(--spacing-1);
-    padding-bottom: var(--spacing-4);
   }
 
   .files-list-item {
@@ -39,7 +38,7 @@
       padding: var(--spacing-1);
       padding-right: 0;
       overflow-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
     }
   }
   summary {
@@ -87,6 +86,15 @@
       .file-list-item-name {
         padding-left: var(--spacing-2);
       }
+    }
+  }
+}
+
+.font-size-large {
+  .file-menu {
+    h2 {
+      margin-top: 0;
+      margin-bottom: var(--spacing-1);
     }
   }
 }

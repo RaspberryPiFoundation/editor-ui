@@ -3,6 +3,8 @@
 .project-images {
   flex: 1;
   text-align: center;
+  height: 75%;
+  overflow-y: scroll;
 
   // &__wrapper {
   //   height: 100%;
@@ -24,6 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: auto;
   }
 
   &__image {
@@ -55,6 +58,7 @@
     &__container {
       height: calc(1.44*var(--spacing-9));
       width: calc(1.44*var(--spacing-9));
+      margin: 0;
     }
     p {
       width: calc(1.44*var(--spacing-9));
