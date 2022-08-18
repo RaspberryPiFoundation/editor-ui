@@ -1,7 +1,6 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { FontIcon } from "../../../Icons";
-import Button from "../../Button/Button";
 import './FontSizeSelector.scss'
 
 const FontSizeSelector = () => {

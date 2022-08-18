@@ -1,6 +1,5 @@
 import React from "react";
-import { ChevronDown, EllipsisVerticalIcon, FileIcon } from '../../../Icons';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChevronDown, FileIcon } from '../../../Icons';
 
 import { useSelector } from "react-redux";
 import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
