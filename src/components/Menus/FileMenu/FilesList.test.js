@@ -2,7 +2,6 @@ import React from "react";
 import { render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { MemoryRouter } from "react-router-dom";
 
 import FilesList from "./FilesList";
 
@@ -37,7 +36,7 @@ describe("When project has multiple files", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><FilesList /></MemoryRouter></Provider>))
+    ({queryByText} = render(<Provider store={store}><FilesList /></Provider>))
   })
 
   test("Renders all file names", () => {

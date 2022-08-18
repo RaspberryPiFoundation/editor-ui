@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './Dropdown.scss'
 
 const Dropdown = (props) => {
-  const {ButtonIcon, buttonText, buttonTextClassName, menuOptions, MenuContent, position} = props
+  const {ButtonIcon, buttonText, buttonTextClassName, MenuContent} = props
   const [isOpen, setOpen] = useState(false)
   const dropdown = useRef()
   
@@ -32,12 +32,14 @@ const Dropdown = (props) => {
       </div>
       {isOpen ? <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div> : null}
       {isOpen ?
-      MenuContent ? <MenuContent/> :
-      <div className={'dropdown-container'+ position?` dropdown-container--${position}`:null } >
-        {menuOptions ? menuOptions.map((option, i) => (
-          <p key={i}>{option}</p>
-        )) : null }
-      </div> : null }
+      <MenuContent />
+      // MenuContent ? <MenuContent/> :
+      // <div className={'dropdown-container'+ position?` dropdown-container--${position}`:null } >
+      //   {menuOptions ? menuOptions.map((option, i) => (
+      //     <p key={i}>{option}</p>
+      //   )) : null }
+      // </div> 
+      : null }
     </div>
   )
 }
