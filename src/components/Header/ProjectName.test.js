@@ -1,5 +1,6 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react"
+import userEvent from "@testing-library/user-event";
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
@@ -17,6 +18,7 @@ jest.mock('react-router-dom', () => ({
 
 describe("When logged in and user owns project", () => {
   let store;
+  let getByRole;
   let queryByTitle;
   let queryByRole;
 
@@ -41,11 +43,19 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    ({queryByRole, queryByTitle} = render(<Provider store={store}><ProjectName/></Provider>));
+    ({getByRole, queryByRole, queryByTitle} = render(<Provider store={store}><ProjectName/></Provider>));
   })
 
   test("Name renders in input box", () => {
     expect(queryByRole('textbox', {value: "Hello world"})).not.toBeNull()
+  })
+
+  test("Typing in the input box dispatches project update", () => {
+    const textBox = getByRole('textbox');
+    fireEvent.click(textBox)
+    userEvent.type(textBox, '!')
+    const expectedActions = [{type: 'editor/updateProjectName', payload: 'Hello world!'}]
+    expect(store.getActions()).toEqual(expectedActions);
   })
 
   test("No remix button", () => {
