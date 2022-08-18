@@ -176,6 +176,8 @@ describe("When project has no name", () => {
   })
 })
 
+// * Commented out for now as this functionality may be reinstated for non-MVP versions of the editor *
+
 // describe("When viewing a remixed project", () => {
 //   let getByText;
 
