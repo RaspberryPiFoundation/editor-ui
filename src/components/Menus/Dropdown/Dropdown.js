@@ -30,16 +30,11 @@ const Dropdown = (props) => {
         <ButtonIcon />
         {buttonText ? <span className={buttonTextClassName}>{buttonText}</span> : null}
       </div>
-      {isOpen ? <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div> : null}
-      {isOpen ?
-      <MenuContent />
-      // MenuContent ? <MenuContent/> :
-      // <div className={'dropdown-container'+ position?` dropdown-container--${position}`:null } >
-      //   {menuOptions ? menuOptions.map((option, i) => (
-      //     <p key={i}>{option}</p>
-      //   )) : null }
-      // </div> 
-      : null }
+      {isOpen ? 
+      <>
+        <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div>
+        <MenuContent />
+      </> : null}
     </div>
   )
 }
