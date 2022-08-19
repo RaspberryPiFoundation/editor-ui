@@ -1,5 +1,12 @@
-// @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-// @import url('https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css');
+@use '../Editor/Project/Project.scss';
+@use '../Button/Button.scss';
+@use '../RunButton/RunnerControls.scss';
+@use '../ThemeToggle/ThemeToggle.scss';
+@use '../Editor/FontSizeSelector/FontSizeSelector.scss';
+@use '../Editor/EditorPanel/EditorPanel.scss';
+@use '../Editor/Runners/PythonRunner/PythonRunner.scss';
+@use '../Editor/ErrorMessage/ErrorMessage.css';
+@use '../AstroPiModel/AstroPiModel.scss';
 @import '../../colours.scss';
 
 #wc {
@@ -29,11 +36,11 @@ svg {
 
 .--dark {
   background-color: $editor-grey;
-  color: white;
+  color: $editor-white;
 
   .react-tabs__tab--selected {
-    background-color: #565555;
-    color: white;
+    background-color: $editor-grey;
+    color: inherit;
   }
   #sense-hat-sensor-controls-container {
     background-color: #565555;
