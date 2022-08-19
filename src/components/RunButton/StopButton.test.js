@@ -21,18 +21,18 @@ test("Clicking stop button sets codeRunStopped to true", () => {
   expect(store.getState().editor.codeRunStopped).toEqual(true);
 })
 
-test("Clicking stop button changes it to 'Stopping...'", () => {
+test("Clicking stop button changes it to 'Stopping...' after 100ms", () => {
   store.dispatch(codeRunHandled())
   store.dispatch(triggerCodeRun())
 
   const { getByText } = render(
   <Provider store={store}>
       <StopButton buttonText="Stop Code" />
-      <span id="input">hello world</span>
   </Provider>
   );
   const stopButton = getByText(/Stop Code/);
   fireEvent.click(stopButton);
+  expect(stopButton.textContent).toEqual("Stop Code")
   new Promise(resolve => setTimeout(resolve, 100)).then( () =>
     expect(stopButton.textContent).toEqual("Stopping...")
   )
