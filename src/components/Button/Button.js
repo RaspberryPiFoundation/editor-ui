@@ -9,7 +9,6 @@ const Button = (props) => {
 
   var buttonClass="btn"
   buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
-  buttonClass = (disabled ? buttonClass += " btn--disabled" : buttonClass)
 
   const onButtonClick = (e) => {
     if (!confirmText) {

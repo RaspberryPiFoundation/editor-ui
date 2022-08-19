@@ -26,7 +26,9 @@ const PythonRunner = () => {
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
 
   const getInput = () => {
-    return document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+    const pageInput = document.getElementById("input")
+    const webComponentInput = document.querySelector('editor-wc') ? document.querySelector('editor-wc').shadowRoot.getElementById("input") : null;
+    return pageInput || webComponentInput
   }
 
   useEffect(() => {

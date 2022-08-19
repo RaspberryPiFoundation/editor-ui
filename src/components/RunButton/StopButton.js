@@ -18,7 +18,7 @@ const StopButton = (props) => {
   }
 
   const stop = <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
-  const stopping = <Button buttonText="Stopping..." disabled={true}/>
+  const stopping = <Button buttonText="Stopping..." disabled />
   const [button, setButton] = useState(stop)
 
   useEffect(() => {
