@@ -13,7 +13,7 @@
     font-weight: var(--font-weight-base);
     text-align: center;
     margin-top: 0;
-    margin-bottom: var(--spacing-3);
+    margin-bottom: var(--spacing-1);
   }
 
   &__font-size {
@@ -39,7 +39,7 @@
       margin-bottom: var(--spacing-1);
     }
     h3 {
-      margin-bottom: var(--spacing-2);
+      font-size: var(--font-size-4)
     }
   }
 }
