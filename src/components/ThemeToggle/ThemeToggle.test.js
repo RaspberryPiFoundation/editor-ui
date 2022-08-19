@@ -31,7 +31,7 @@ describe("When default theme is light mode and cookie unset", () => {
   })
 
   test('Sets cookie to dark when button clicked', async () => {
-    const button = toggleContainer.getByRole("button")
+    const button = toggleContainer.getByText("Dark").parentElement
     fireEvent.click(button)
     expect(cookies.cookies.theme).toBe("dark")
   })
@@ -69,7 +69,7 @@ describe("When default theme is dark mode and cookie unset", () => {
   })
 
   test('Sets cookie to light when button clicked', async () => {
-    const button = toggleContainer.getByRole("button")
+    const button = toggleContainer.getByText("Light").parentElement
     fireEvent.click(button)
     expect(cookies.cookies.theme).toBe("light")
   })
@@ -87,14 +87,14 @@ test('Cookie set to dark intially changes to light when button clicked', () => {
       <ThemeToggle />
     </CookiesProvider>
   )
-  const button = toggleContainer.getByRole("button")
+  const button = toggleContainer.getByText("Light").parentElement
   act(() => {
     fireEvent.click(button)
   })
   expect(cookies.cookies.theme).toBe("light")
 })
 
-test('Cookie set to dark intially changes to light when button clicked', () => {
+test('Cookie set to light intially changes to dark when button clicked', () => {
   var cookies = new Cookies();
   cookies.set("theme", "light")
   var toggleContainer = render(
@@ -102,7 +102,7 @@ test('Cookie set to dark intially changes to light when button clicked', () => {
       <ThemeToggle />
     </CookiesProvider>
   )
-  const button = toggleContainer.getByRole("button")
+  const button = toggleContainer.getByText("Dark").parentElement
   act(() => {
     fireEvent.click(button)
   })

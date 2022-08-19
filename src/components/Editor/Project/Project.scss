@@ -50,12 +50,19 @@
   .proj-editor-container {
     display: flex;
     flex-flow: column;
-    width: 50%;
+    width: 42%;
   }
   
   .proj-runner-container {
     display: flex;
-    width: 50%;
+    width: 42%;
+  }
+
+  &--wc {
+    min-height: 200px;
+    .proj-runner-container, .proj-editor-container {
+      width: 50%;
+    }
   }
 
   .react-tabs {
@@ -129,9 +136,10 @@
 
 .--light {
   .proj-container {
+    background-color: $editor-white;
     border: 2px solid $editor-light-grey;
 
-    .proj-editor-container {
+    .proj-editor-container, .file-menu {
       border-right: 5px solid $editor-light-grey;
     }
 

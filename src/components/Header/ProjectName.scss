@@ -1,0 +1,71 @@
+@import '../../colours.scss';
+
+.project-name {
+  margin: var(--spacing-1) 0;
+  max-width: 50%;
+
+  h1 {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: 1em;
+    margin: 0;
+    font-weight: var(--font-weight-base);
+  }
+  &__remix, &__input, &__no-auth {
+    border-radius: 5px;
+    margin-left: var(--spacing-1);
+  }
+  &__remix {
+    display: flex;
+    align-items: center;
+    cursor:  pointer;
+
+    h1 {
+      padding-left: var(--spacing-1);
+    }
+    svg {
+      margin-left: var(--spacing-1);
+    }
+  }
+}
+.project-name__input {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: 1em;
+  border-radius: 5px;
+  margin-left: var(--spacing-1);
+}
+
+.--light {
+  .project-name {
+    &__input {
+      border: 2px solid $editor-light-grey;
+    }
+    &__remix, &__no-auth {
+      background-color: $editor-light-light-grey;
+      border: 2px solid $editor-light-grey;
+    }
+  }
+}
+
+.--dark {
+  .project-name {
+    &__input {
+      border: 2px solid $editor-white;
+      background-color: inherit;
+      color: inherit;
+    }
+    &__remix, &__no-auth {
+      border: 2px solid $editor-white;
+    }
+  }
+}
+
+.font-size-large {
+  .project-name {
+    &__remix {
+      svg {
+        padding-left: var(--spacing-1);
+        min-width: 5%;
+      }
+    }
+  }
+}

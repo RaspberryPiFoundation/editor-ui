@@ -1,4 +1,79 @@
 @forward '@rpf/sauce/scss/properties/_spacing';
-.toggle-theme-btn {
-  padding: 0;
+@import '../../colours.scss';
+
+.theme-toggle {
+  display: flex;
+  .theme-btn {
+    cursor: pointer;
+
+    &__light {
+      margin-right: var(--spacing-1);
+
+      .theme-btn__icon {
+        background-color: $editor-white;
+        outline: 1px solid $editor-dark-dark-dark;
+        svg {
+          fill: black;
+        }
+      }
+    }
+    &__dark {
+      .theme-btn__icon {
+        background-color: $editor-dark;
+        outline: 1px solid $editor-light-grey;
+        svg {
+          fill: $editor-white;
+        }
+      }
+    }
+    &--active {
+      .theme-btn__icon {
+        outline: 2px solid $editor-turquoise;
+      }
+    }
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--spacing-7);
+      width: var(--spacing-7);
+      border-radius: 5px;
+    }
+  }
+  p {
+    text-align: center;
+    margin-top: var(--spacing-1)
+  }
+}
+
+.font-size-medium {
+  .theme-btn {
+    margin-right: var(--spacing-2);
+  
+    &__icon {
+      height: var(--spacing-8);
+      width: var(--spacing-8);
+    }
+    &--active {
+      .theme-btn__icon {
+        outline: 2.5px solid $editor-turquoise;
+      }
+    }
+  }
+}
+
+.font-size-large {
+  .theme-btn {
+    margin-right: var(--spacing-3);
+  
+    &__icon {
+      height: var(--spacing-9);
+      width: var(--spacing-9);
+    }
+    &--active {
+      .theme-btn__icon {
+        outline: 3px solid $editor-turquoise;
+      }
+    }
+  }
 }

@@ -1,25 +1,12 @@
-import React, { useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import Style from 'style-it';
-import spacing from '../../../../node_modules/@rpf/sauce/scss/properties/_spacing.scss'
-import fontSize from '../../../../node_modules/@rpf/sauce/scss/properties/_font-size.scss'
-import lineHeight from '../../../../node_modules/@rpf/sauce/scss/properties/_line-height.scss'
-import styles from '../WebComponent.scss';
-import projectStyles from '../../Editor/Project/Project.scss'
-import tabStyles from 'react-tabs/style/react-tabs.css';
-import buttonStyles from '../../Button/Button.scss'
-import runnerControlsStyles from '../../RunButton/RunnerControls.scss';
-import themeToggleStyles from '../../ThemeToggle/ThemeToggle.scss'
-import fontSizeSelectorStyles from '../../Editor/FontSizeSelector/FontSizeSelector.scss';
-import editorStyles from '../../Editor/EditorPanel/EditorPanel.scss';
-import runnerStyles from '../../Editor/Runners/PythonRunner/PythonRunner.scss';
-import errorStyles from '../../Editor/ErrorMessage/ErrorMessage.css'
-import astroPiStyles from '../../AstroPiModel/AstroPiModel.scss'
+import internalStyles from '../WebComponent.scss';
+import externalStyles from '../ExternalStyles.scss';
 
 import Project from '../../Editor/Project/Project';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
-import fontAwesomeStyles from '@fortawesome/fontawesome-svg-core/styles.css';
 import Sk from 'skulpt';
 import store from '../../../app/store';
 
@@ -75,24 +62,9 @@ const WebComponentProject = () => {
 
   return (
     <>
-      <style>{spacing.toString()}</style>
-      <style>{fontSize.toString()}</style>
-      <style>{lineHeight.toString()}</style>
-      <style>{":host, "+fontAwesomeStyles.toString()}</style>
+      <style>{externalStyles.toString()}</style>
       <Style>
-        {
-          styles.toString() +
-          tabStyles.toString() +
-          projectStyles.toString() +
-          buttonStyles.toString() +
-          runnerControlsStyles.toString() +
-          themeToggleStyles.toString() +
-          fontSizeSelectorStyles.toString() +
-          editorStyles.toString() +
-          runnerStyles.toString() +
-          errorStyles.toString()+
-          astroPiStyles.toString()
-        }
+        {internalStyles}
         <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
           <Project forWebComponent={true}/>
         </div>

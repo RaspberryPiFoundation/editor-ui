@@ -1,12 +1,13 @@
-import './NewComponentButton.css';
+import './NewComponentButton.scss';
 
-import {useState} from 'react'
+import {React, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
 import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
+import { NewFileIcon } from '../../../Icons';
 
 const allowedExtensions = {
   "python": [
@@ -78,7 +79,7 @@ const NewComponentButton = () => {
 
     return (
       <>
-        <Button buttonText='+' onClickHandler={showModal} className="proj-new-component-button" />
+        <Button buttonText={<><NewFileIcon />Add file</>} onClickHandler={showModal} className="proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}

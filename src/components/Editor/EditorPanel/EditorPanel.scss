@@ -9,16 +9,12 @@
     &:focus {
       outline: none;
     }
-  
-    .cm-gutters {
-      margin-top: var(--spacing-1)
-    }
 
     .cm-content {
       white-space: pre-wrap;
       overflow-wrap: anywhere;
       flex: 1;
-      margin-top: var(--spacing-1);
+      padding-top: var(--spacing-1);
     }
 
     .cm-line {

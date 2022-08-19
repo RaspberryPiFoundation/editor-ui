@@ -5,6 +5,7 @@
   border-radius: 5px;
   border-width: 0;
   color: $editor-black;
+  cursor: pointer;
   display: inline-block;
   font-family: sans-serif;
   font-size: inherit;
@@ -21,7 +22,8 @@
 
   &:disabled {
     background-color: $editor-grey;
-    color: white;
+    color: $editor-white;
+    cursor: default;
 
     &:hover {
       background-color: $editor-grey;
