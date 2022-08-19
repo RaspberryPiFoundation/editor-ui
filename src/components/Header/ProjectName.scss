@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     cursor:  pointer;
-    
+
     h1 {
       padding-left: var(--spacing-1);
     }
@@ -55,6 +55,17 @@
     }
     &__remix, &__no-auth {
       border: 2px solid $editor-white;
+    }
+  }
+}
+
+.font-size-large {
+  .project-name {
+    &__remix {
+      svg {
+        padding-left: var(--spacing-1);
+        min-width: 5%;
+      }
     }
   }
 }

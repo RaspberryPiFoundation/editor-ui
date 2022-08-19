@@ -5,7 +5,7 @@
   display: flex;
   .theme-btn {
     cursor: pointer;
-    
+
     &__light {
       margin-right: var(--spacing-1);
 
@@ -35,8 +35,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: var(--spacing-6);
-      width: var(--spacing-6);
+      height: var(--spacing-7);
+      width: var(--spacing-7);
       border-radius: 5px;
     }
   }
@@ -51,8 +51,8 @@
     margin-right: var(--spacing-2);
   
     &__icon {
-      height: var(--spacing-7);
-      width: var(--spacing-7);
+      height: var(--spacing-8);
+      width: var(--spacing-8);
     }
     &--active {
       .theme-btn__icon {
@@ -67,8 +67,8 @@
     margin-right: var(--spacing-3);
   
     &__icon {
-      height: var(--spacing-8);
-      width: var(--spacing-8);
+      height: var(--spacing-9);
+      width: var(--spacing-9);
     }
     &--active {
       .theme-btn__icon {
