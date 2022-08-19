@@ -16,11 +16,12 @@ const PythonRunner = () => {
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
   const outputCanvas = useRef();
   const output = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
-  const senseHatContainer = useRef();
+  // const senseHatContainer = useRef();
   const dispatch = useDispatch();
 
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
@@ -91,7 +92,7 @@ const PythonRunner = () => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
       setSenseHatEnabled(true)
-      senseHatContainer.current.hidden=false
+      // senseHatContainer.current.hidden=false
     }
 
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
@@ -220,7 +221,9 @@ const PythonRunner = () => {
     output.current.innerHTML = '';
     pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
-    senseHatContainer.current.hidden = true
+    // senseHatContainer.current.hidden = true
+
+    setSenseHatEnabled(false)
 
     var prog = projectCode[0].content;
 
@@ -305,7 +308,7 @@ const PythonRunner = () => {
               <div className="pythonrunner-canvas-container">
                 <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
               </div>
-              <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
+              <div id='senseHatCanvas'>{senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}</div>
             </div>
           </TabPanel>
           <TabPanel key={1}>
