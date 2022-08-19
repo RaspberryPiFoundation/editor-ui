@@ -32,7 +32,7 @@ const Button = (props) => {
   }
 
   return (
-    <button className={buttonClass} onClick={onButtonClick}>{buttonText}</button>
+    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>{buttonText}</button>
   )
 };
 

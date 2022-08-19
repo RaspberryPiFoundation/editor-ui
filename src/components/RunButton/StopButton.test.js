@@ -33,7 +33,7 @@ test("Clicking stop button changes it to 'Stopping...'", () => {
     );
     const stopButton = getByText(/Stop Code/);
     fireEvent.click(stopButton);
-
-    expect(stopButton.textContent).toEqual("Stopping...")
-
+    new Promise(resolve => setTimeout(resolve, 100)).then( () =>
+      expect(stopButton.textContent).toEqual("Stopping...")
+    )
 })

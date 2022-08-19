@@ -1,5 +1,5 @@
 import Button from '../Button/Button'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { stopCodeRun, stopDraw } from '../Editor/EditorSlice'
 
@@ -7,6 +7,7 @@ const StopButton = (props) => {
 
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
+  const [timeoutId, setTimeoutId] = useState(null);
   const dispatch = useDispatch();
 
   const onClickStop = () => {
@@ -16,15 +17,24 @@ const StopButton = (props) => {
     dispatch(stopDraw());
   }
 
-  if (codeRunStopped) {
+  const stop = <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
+  const stopping = <Button buttonText="Stopping..." disabled={true}/>
+  const [button, setButton] = useState(stop)
+
+  useEffect(() => {
+    if(timeoutId) clearTimeout(timeoutId);
+    const id = setTimeout(
+      function() {
+        if (codeRunStopped) {
+          setButton(stopping)
+        }
+      }, 100);
+    setTimeoutId(id);
+  }, [codeRunStopped]);
+  
     return (
-      <Button buttonText="Stopping..." disabled="true"/>
+    button
     )
-  } else {
-    return (
-    <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
-    )
-  }
-};
+  };
 
 export default StopButton;
