@@ -4,6 +4,8 @@
 .theme-toggle {
   display: flex;
   .theme-btn {
+    cursor: pointer;
+    
     &__light {
       margin-right: var(--spacing-1);
 

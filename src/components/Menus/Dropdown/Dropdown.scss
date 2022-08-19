@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     height: 100%;
+    cursor: pointer;
 
     padding: 0 var(--spacing-2);
     svg {
@@ -87,7 +88,14 @@
 }
 
 .font-size-large {
-  .dropdown-container {
-    padding: var(--spacing-2) var(--spacing-3);
+  .dropdown {
+    &-button {
+      svg {
+        margin-right: var(--spacing-2);
+      }
+    }
+    &-container {
+      padding: var(--spacing-2) var(--spacing-3);
+    }
   }
 }

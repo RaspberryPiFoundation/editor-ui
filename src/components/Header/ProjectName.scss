@@ -17,6 +17,8 @@
   &__remix {
     display: flex;
     align-items: center;
+    cursor:  pointer;
+    
     h1 {
       padding-left: var(--spacing-1);
     }
