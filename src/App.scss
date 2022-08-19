@@ -12,8 +12,8 @@ button {
 
 .--dark {
   background-color: $editor-grey;
-  color: white;
-  caret-color: white;
+  color: $editor-white;
+  caret-color: $editor-white;
 
   #sense-hat-sensor-controls-container {
     background-color: #565555;
@@ -23,7 +23,7 @@ button {
     color: rgb(36, 186, 236);
   }
   svg {
-    fill: white;
+    fill: $editor-white;
   }
 
   button svg {

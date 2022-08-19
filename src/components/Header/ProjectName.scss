@@ -47,12 +47,12 @@
 .--dark {
   .project-name {
     &__input {
-      border: 2px solid white;
+      border: 2px solid $editor-white;
       background-color: inherit;
       color: inherit;
     }
     &__remix, &__no-auth {
-      border: 2px solid white;
+      border: 2px solid $editor-white;
     }
   }
 }

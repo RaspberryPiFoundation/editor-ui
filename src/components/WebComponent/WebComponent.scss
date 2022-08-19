@@ -36,11 +36,11 @@ svg {
 
 .--dark {
   background-color: $editor-grey;
-  color: white;
+  color: $editor-white;
 
   .react-tabs__tab--selected {
-    background-color: #565555;
-    color: white;
+    background-color: $editor-grey;
+    color: inherit;
   }
   #sense-hat-sensor-controls-container {
     background-color: #565555;

@@ -8,7 +8,7 @@
       margin-right: var(--spacing-1);
 
       .theme-btn__icon {
-        background-color: white;
+        background-color: $editor-white;
         outline: 1px solid $editor-dark-dark-dark;
         svg {
           fill: black;
@@ -20,7 +20,7 @@
         background-color: $editor-dark;
         outline: 1px solid $editor-light-grey;
         svg {
-          fill: white;
+          fill: $editor-white;
         }
       }
     }

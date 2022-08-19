@@ -45,11 +45,11 @@
 
 .--light {
   .dropdown-container {
-    background-color: white;
+    background-color: $editor-white;
     box-shadow: 0 0 5px 2px $editor-light-grey;
 
     &--bottom::before {
-      border-bottom: 15px solid white;
+      border-bottom: 15px solid $editor-white;
     }
   }
   .dropdown-backdrop {
