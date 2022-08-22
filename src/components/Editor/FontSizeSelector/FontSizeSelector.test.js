@@ -15,7 +15,6 @@ describe("When font size cookie unset", () => {
         <FontSizeSelector />
       </CookiesProvider>
     )
-    buttons = fontSelector.getAllByText("Aa")
   })
 
   test('Cookie remains unset after render', () => {
@@ -23,17 +22,20 @@ describe("When font size cookie unset", () => {
   })
 
   test('Sets cookie to large when first button clicked', async () => {
-    fireEvent.click(buttons[0])
+    const largeButton = fontSelector.getByText("Large").parentElement
+    fireEvent.click(largeButton)
     expect(cookies.cookies.fontSize).toBe("large")
   })
 
   test('Sets cookie to medium when second button clicked', async () => {
-    fireEvent.click(buttons[1])
+    const mediumButton = fontSelector.getByText("Medium").parentElement
+    fireEvent.click(mediumButton)
     expect(cookies.cookies.fontSize).toBe("medium")
   })
 
   test('Sets cookie to small when third button clicked', async () => {
-    fireEvent.click(buttons[2])
+    const smallButton = fontSelector.getByText("Small").parentElement
+    fireEvent.click(smallButton)
     expect(cookies.cookies.fontSize).toBe("small")
   })
 

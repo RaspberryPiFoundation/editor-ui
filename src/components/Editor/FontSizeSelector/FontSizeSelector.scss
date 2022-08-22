@@ -1,14 +1,82 @@
-.btn-large-font {
-  font-size: 1em;
+@import '../../../colours.scss';
+
+.font-size-selector {
+  display: flex;
+
+  .font-btn {
+    margin-right: var(--spacing-1);
+    cursor: pointer;
+
+    &__large {
+      margin-right: 0;
+    }
+
+    &__icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: var(--spacing-7);
+      width: var(--spacing-7);
+      border-radius: 5px;
+    }
+    
+    &--active {
+      .font-btn__icon {
+        outline: 2px solid $editor-turquoise;
+      }
+    }
+
+    p {
+      text-align: center;
+      margin-top: var(--spacing-1)
+    }
+  }
 }
 
-.btn-medium-font {
-  font-size: 0.75em;
+.--dark {
+  .font-btn__icon {
+    outline: 1px solid $editor-white;
+  }
 }
 
-.btn-small-font {
-  font-size: 0.5em;
+.--light {
+  .font-btn__icon {
+    outline: 1px solid $editor-light-grey;
+  }
 }
 
+.font-size-medium {
+  .font-btn__medium {
+    .font-btn__icon {
+      margin: 0 var(--spacing-1)
+    }
+  }
+  .font-btn__icon{
+    height: var(--spacing-8);
+    width: var(--spacing-8);
+  }
+  .font-btn--active {
+    .font-btn__icon {
+      outline: 2.5px solid $editor-turquoise;
+    }
+  }
+}
+
+.font-size-large {
+  .font-btn__medium {
+    .font-btn__icon {
+      margin: 0 var(--spacing-2)
+    }
+  }
+  .font-btn__icon{
+    height: var(--spacing-9);
+    width: var(--spacing-9);
+  }
+  .font-btn--active {
+    .font-btn__icon {
+      outline: 3px solid $editor-turquoise;
+    }
+  }
+}
 
 

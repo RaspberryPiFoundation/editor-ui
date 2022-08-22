@@ -12,8 +12,8 @@ button {
 
 .--dark {
   background-color: $editor-grey;
-  color: white;
-  caret-color: white;
+  color: $editor-white;
+  caret-color: $editor-white;
 
   #sense-hat-sensor-controls-container {
     background-color: #565555;
@@ -22,11 +22,22 @@ button {
   .pythonrunner-input {
     color: rgb(36, 186, 236);
   }
+  svg {
+    fill: $editor-white;
+  }
+
+  button svg {
+    fill: inherit;
+  }
 }
 
 .--light {
+  background-color: $editor-light-blue;
   caret-color: black;
   .pythonrunner-input {
     color: rgb(36, 103, 236);
+  }
+  svg {
+    fill: $editor-black;
   }
 }
