@@ -1,3 +1,16 @@
-.controls-container {
+.sense-hat-orientation {
   display: flex;
+
+  &__values {
+    display: flex;
+  }
+
+  &__reading {
+    text-transform: uppercase;
+    margin: 0 var(--spacing-2)
+  }
+
+  &__reset-btn {
+    margin: auto;
+  }
 }
