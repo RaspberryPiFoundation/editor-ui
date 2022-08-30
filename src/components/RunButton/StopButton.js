@@ -18,10 +18,10 @@ const StopButton = (props) => {
   }
 
   const stop = <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
-  const stopping = <Button buttonText="Stopping..." disabled />
   const [button, setButton] = useState(stop)
 
   useEffect(() => {
+    const stopping = <Button buttonText="Stopping..." disabled />
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(
       function() {
