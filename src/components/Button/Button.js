@@ -9,7 +9,6 @@ const Button = (props) => {
 
   var buttonClass="btn"
   buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
-  buttonClass = (disabled ? buttonClass += " btn--disabled" : buttonClass)
 
   const onButtonClick = (e) => {
     if (!confirmText) {
@@ -32,7 +31,7 @@ const Button = (props) => {
   }
 
   return (
-    <button className={buttonClass} onClick={onButtonClick}>{buttonText}</button>
+    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>{buttonText}</button>
   )
 };
 
