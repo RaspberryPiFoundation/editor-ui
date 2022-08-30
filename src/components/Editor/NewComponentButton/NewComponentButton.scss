@@ -1,0 +1,28 @@
+.proj-new-component-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.font-size-small .proj-new-component-button {
+  svg {
+    margin-right: var(--spacing-1);
+  }
+}
+
+.font-size-medium .proj-new-component-button {
+  svg {
+    margin-right: var(--spacing-1);
+    margin-left: var(--spacing-1)
+  }
+}
+
+.font-size-large .proj-new-component-button {
+  svg {
+    margin-right: var(--spacing-2);
+    margin-left: var(--spacing-1);
+  }
+}

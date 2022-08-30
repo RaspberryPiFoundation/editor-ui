@@ -9,9 +9,9 @@ import Sk from "skulpt";
 
 const FlightCase = () => {
 
-  const gltf = useLoader(GLTFLoader, `${process.env.REACT_APP_S3_BUCKET}/models/raspi-compressed.glb`, loader => {
+  const gltf = useLoader(GLTFLoader, `${process.env.PUBLIC_URL}/models/raspi-compressed.glb`, loader => {
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( `${process.env.REACT_APP_S3_BUCKET}/three/examples/js/libs/draco/` );
+    dracoLoader.setDecoderPath( `${process.env.PUBLIC_URL}/three/examples/js/libs/draco/` );
     loader.setDRACOLoader( dracoLoader );
   })
   window.mod=gltf.scene
@@ -21,17 +21,17 @@ const FlightCase = () => {
     var y = Math.floor(ledIndex / 8);
     var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
     var object = gltf.scene.getObjectByName(`circle${x}_${7-y}-1`);
-  
+
     if(object != null){
       object.material = newMaterial;
     }
   }
-  
+
   function setPixels(indexes, pix) {
     if(indexes == null){
       indexes = Array.from(Array(8*8).keys())
     }
-  
+
     var i = 0;
     for (const ledIndex of indexes){
       setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2])

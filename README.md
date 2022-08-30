@@ -51,7 +51,10 @@ The repo includes the Editor Web Component which shares components with the edit
 ### `yarn stat:wc`
 
 Runs the web component in development mode.
-Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 There is no production build setup for the web component at present.
 
+## Review apps
+
+Currently the build is deployed to both S3 and Heroku.  The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.

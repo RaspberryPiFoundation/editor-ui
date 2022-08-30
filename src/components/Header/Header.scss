@@ -1,0 +1,74 @@
+
+@import '../../colours.scss';
+
+.editor-header-wrapper {
+  z-index: 1;
+
+  .editor-header {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    height: 100%;
+
+    &__right {
+      margin-left: auto;
+      display: flex;
+      height: 100%
+    }
+
+    .project-gallery-link {
+      color: inherit;
+      text-decoration: none;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      font-weight: var(--font-weight-bold);
+      padding: 0 var(--spacing-3);
+
+      &:visited {
+        color: inherit;
+      }
+
+      svg {
+        margin-right: var(--spacing-1)
+      }
+    }
+
+    .btn--save {
+      margin: 0;
+      padding: 0 var(--spacing-2);
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 0;
+    }
+
+    .editor-logo {
+      height: 100%;
+    }
+  }
+}
+
+.--light {
+  .editor-header {
+    background-color: $editor-white;
+    .project-gallery-link {
+      border-right: 2px solid $editor-light-grey;
+    }
+  }
+}
+
+
+.--dark {
+  .editor-header {
+    background-color: $editor-dark;
+  }
+  .project-gallery-link {
+    border-right: 2px solid $editor-grey;
+  }
+}
+
+.font-size-medium, .font-size-large {
+  .editor-header__text {
+    margin-left: var(--spacing-1);
+  }
+}

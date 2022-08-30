@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './EditorPanel.css'
+import './EditorPanel.scss'
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
@@ -86,7 +86,7 @@ const EditorPanel = ({
   }, [cookies]);
 
   return (
-    <div className='foo' ref={editor}></div>
+    <div className='editor' ref={editor}></div>
   );
 }
 

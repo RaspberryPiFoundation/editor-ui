@@ -1,0 +1,24 @@
+.editor {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+
+  .cm-editor {
+    flex: 1;
+
+    &:focus {
+      outline: none;
+    }
+
+    .cm-content {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      flex: 1;
+      padding-top: var(--spacing-1);
+    }
+
+    .cm-line {
+      padding-right: var(--spacing-1)
+    }
+  }
+}

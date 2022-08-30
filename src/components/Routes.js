@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
@@ -10,60 +10,58 @@ import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
 const Routes = () => (
-  <BrowserRouter>
-    <Switch>
-      <Route
-        exact
-        path="/auth/callback"
-        component={Callback}
-      />
-      <Route
-        exact
-        path="/auth/silent_renew"
-        component={SilentRenew}
-      />
-      <Route
-        exact
-        path="/"
-        component={ProjectComponentLoader}
-      />
-      <Route
-        exact
-        path="/new"
-        component={NewProject}
-      />
-      <Route
-        exact
-        path="/projects"
-        component={ProjectIndex}
-      />
-      <Route
-        exact
-        path="/:projectType"
-        component={ProjectComponentLoader}
-      />
-      <Route
-        exact
-        path="/:projectType/:identifier"
-        component={ProjectComponentLoader}
-      />
-      <Route
-        exact
-        path="/embedded/:projectType/:identifier"
-        render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
-      />
-      <Route
-        exact
-        path="/python/share/:identifier"
-        component={ProjectViewer}
-      />
-      <Route
-        exact
-        path="/embed/viewer/:identifier"
-        component={EmbeddedViewer}
-      />
-    </Switch>
-  </BrowserRouter>
+  <Switch>
+    <Route
+      exact
+      path="/auth/callback"
+      component={Callback}
+    />
+    <Route
+      exact
+      path="/auth/silent_renew"
+      component={SilentRenew}
+    />
+    <Route
+      exact
+      path="/"
+      component={ProjectComponentLoader}
+    />
+    <Route
+      exact
+      path="/new"
+      component={NewProject}
+    />
+    <Route
+      exact
+      path="/projects"
+      component={ProjectIndex}
+    />
+    <Route
+      exact
+      path="/:projectType"
+      component={ProjectComponentLoader}
+    />
+    <Route
+      exact
+      path="/:projectType/:identifier"
+      component={ProjectComponentLoader}
+    />
+    <Route
+      exact
+      path="/embedded/:projectType/:identifier"
+      render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
+    />
+    <Route
+      exact
+      path="/python/share/:identifier"
+      component={ProjectViewer}
+    />
+    <Route
+      exact
+      path="/embed/viewer/:identifier"
+      component={EmbeddedViewer}
+    />
+  </Switch>
 )
 
 export default Routes
