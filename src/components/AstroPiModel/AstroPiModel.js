@@ -62,13 +62,14 @@ const AstroPiModel = () => {
 
     return (
       <div className='sense-hat-canvas-container'>
-        {/* <!-- Full sensor controls --> */}
-        <AstroPiControls pressure={defaultPressure} temperature={defaultTemperature} humidity={defaultHumidity} colour={Sk.sense_hat.colour} motion={Sk.sense_hat.motion} />
         
         <Simulator updateOrientation={setOrientation}/>
         
         {/* <!-- Orientation Values --> */}
         <OrientationPanel orientation={orientation} resetOrientation={resetOrientation}/>
+
+        {/* <!-- Full sensor controls --> */}
+        <AstroPiControls pressure={defaultPressure} temperature={defaultTemperature} humidity={defaultHumidity} colour={Sk.sense_hat.colour} motion={Sk.sense_hat.motion} />
 
       </div>
     )
