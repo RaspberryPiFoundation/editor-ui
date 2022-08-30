@@ -66,6 +66,7 @@ it("confirms LEDs used when single led set", () => {
 it("confirms LEDs used when display set", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)')
   cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.scrollTo('bottom')
   cy.get("#results").should("contain", '"usedLEDs":true')
 })
 
