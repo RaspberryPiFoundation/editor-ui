@@ -26,6 +26,12 @@ const PythonRunner = () => {
 
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
 
+  const getInput = () => {
+    const pageInput = document.getElementById("input")
+    const webComponentInput = document.querySelector('editor-wc') ? document.querySelector('editor-wc').shadowRoot.getElementById("input") : null;
+    return pageInput || webComponentInput
+  }
+
   useEffect(() => {
     if (codeRunTriggered) {
       runCode();
@@ -33,8 +39,8 @@ const PythonRunner = () => {
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (codeRunStopped && document.getElementById("input")) {
-      const input = document.getElementById("input")
+    if (codeRunStopped && getInput()) {
+      const input = getInput()
       input.removeAttribute("id")
       input.removeAttribute("contentEditable")
       dispatch(setError("Execution interrupted"));
@@ -45,8 +51,8 @@ const PythonRunner = () => {
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
       Sk.p5.stop();
-      if (document.getElementById("input")) {
-        const input = document.getElementById("input")
+      if (getInput()) {
+        const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
@@ -190,7 +196,7 @@ const PythonRunner = () => {
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+    const input = getInput()
     input.focus();
 
     return new Promise(function (resolve, reject) {
@@ -255,9 +261,10 @@ const PythonRunner = () => {
         },
     ).catch(err => {
       const message = err.message || err.toString();
+      console.log(message)
       dispatch(setError(message));
-      if (document.getElementById("input")) {
-        const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+      if (getInput()) {
+        const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
@@ -277,9 +284,9 @@ const PythonRunner = () => {
       return;
     }
 
-    const inputBox = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input");
+    const inputBox = getInput();
     if (inputBox && e.target !== inputBox) {
-      const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+      const input = getInput()
       const selection = window.getSelection();
       selection.removeAllRanges();
 
