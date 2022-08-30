@@ -40,8 +40,6 @@ export const EditorSlice = createSlice({
       state.projectLoaded = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
-      console.log('setting sense hat always enabled')
-      console.log(action.payload)
       state.senseHatAlwaysEnabled = action.payload;
     },
     triggerDraw: (state) => {

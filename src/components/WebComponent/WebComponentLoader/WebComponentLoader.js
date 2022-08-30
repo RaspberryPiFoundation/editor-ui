@@ -5,7 +5,7 @@ import WebComponentProject from '../Project/WebComponentProject';
 
 const ProjectComponentLoader = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
-  const { code, senseHatAlwaysEnabled } = props;
+  const { code, sense_hat_always_enabled } = props;
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const ProjectComponentLoader = (props) => {
       type: 'python',
       components: [{ name: 'main', extension: 'py', content: code }]
     }
-    dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled))
+    dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
     dispatch(setProjectLoaded(true))
   }, []);
