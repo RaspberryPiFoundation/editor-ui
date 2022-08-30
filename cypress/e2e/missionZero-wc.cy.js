@@ -4,6 +4,15 @@ beforeEach(() => {
   cy.visit(baseUrl)
 })
 
+it("renders the astro pi component on page load", () => {
+  cy.get("editor-wc").shadow().find("#root").should("contain", "yaw")
+})
+
+it("defaults to the visual output tab", () => {
+  const runnerContainer = cy.get("editor-wc").shadow().find('.proj-runner-container')
+  runnerContainer.find('.react-tabs__tab--selected').should("contain", "Visual Output")
+})
+
 it("loads the sense hat library", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import _internal_sense_hat')
   cy.get("editor-wc").shadow().find(".btn--run").click()
