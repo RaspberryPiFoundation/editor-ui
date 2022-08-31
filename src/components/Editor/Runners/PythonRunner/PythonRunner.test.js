@@ -77,7 +77,7 @@ test("Input box not there when input function not called", () => {
 
 })
 
-describe("Testing basic input span functionality", () => {
+describe("Testing stopping the code run", () => {
   let store;
   beforeEach(() => {
     const middlewares = []
