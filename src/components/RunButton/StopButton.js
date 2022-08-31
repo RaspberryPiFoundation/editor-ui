@@ -7,7 +7,6 @@ const StopButton = (props) => {
 
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
-  const [, setTimeoutId] = useState(null);
   const dispatch = useDispatch();
 
   const onClickStop = () => {
@@ -21,14 +20,10 @@ const StopButton = (props) => {
   const [button, setButton] = useState(stop)
 
   useEffect(() => {
-    const stopping = <Button buttonText="Stopping..." disabled />
-    const id = setTimeout(
-      function() {
-        if (codeRunStopped) {
-          setButton(stopping)
-        }
-      }, 100);
-    setTimeoutId(id);
+    if (codeRunStopped) {
+      const stopping = <Button buttonText="Stopping..." disabled />
+      setTimeout(() => { setButton(stopping) }, 100);
+    }
   }, [codeRunStopped]);
 
   return (

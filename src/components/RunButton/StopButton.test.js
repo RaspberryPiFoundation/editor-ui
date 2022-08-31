@@ -1,39 +1,49 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import { Provider } from 'react-redux';
-import StopButton from "./StopButton";
-import store from '../../app/store';
+import React from "react"
+import { act, render, fireEvent, waitFor } from "@testing-library/react"
+import { Provider } from 'react-redux'
+import StopButton from "./StopButton"
+import store from '../../app/store'
 import { codeRunHandled, triggerCodeRun } from '../Editor/EditorSlice'
 
+beforeEach(() => {
+  jest.useFakeTimers()
+})
+
+afterEach(() => {
+  jest.useRealTimers()
+})
 
 test("Clicking stop button sets codeRunStopped to true", () => {
   store.dispatch(codeRunHandled())
   store.dispatch(triggerCodeRun())
 
-  const { getByText } = render(
-  <Provider store={store}>
-      <StopButton buttonText="Stop Code" />
-  </Provider>);
+  const component = render(
+    <Provider store={store}>
+        <StopButton buttonText="Stop Code" />
+    </Provider>
+  )
 
-  const stopButton = getByText(/Stop Code/);
-  fireEvent.click(stopButton);
+  const stopButton = component.getByRole('button')
+  fireEvent.click(stopButton)
 
-  expect(store.getState().editor.codeRunStopped).toEqual(true);
+  expect(store.getState().editor.codeRunStopped).toEqual(true)
 })
 
-test("Clicking stop button changes it to 'Stopping...' after 100ms", () => {
+test("Clicking stop button changes it to 'Stopping...' after a time out", () => {
   store.dispatch(codeRunHandled())
   store.dispatch(triggerCodeRun())
 
-  const { getByText } = render(
-  <Provider store={store}>
+  const component = render(
+    <Provider store={store}>
       <StopButton buttonText="Stop Code" />
-  </Provider>
-  );
-  const stopButton = getByText(/Stop Code/);
-  fireEvent.click(stopButton);
-  expect(stopButton.textContent).toEqual("Stop Code")
-  new Promise(resolve => setTimeout(resolve, 100)).then( () =>
-    expect(stopButton.textContent).toEqual("Stopping...")
+    </Provider>
   )
+  const stopButton = component.getByRole('button')
+  expect(stopButton.textContent).toEqual("Stop Code")
+
+  fireEvent.click(stopButton)
+  expect(stopButton.textContent).toEqual("Stop Code")
+
+  act(() => { jest.runAllTimers(); } )
+  expect(stopButton.textContent).toEqual("Stopping...")
 })
