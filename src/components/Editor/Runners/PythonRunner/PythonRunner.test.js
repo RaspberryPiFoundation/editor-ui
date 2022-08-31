@@ -27,7 +27,7 @@ describe("Testing basic input span functionality", () => {
       }
     }
     store = mockStore(initialState);
-    const runner = render(<Provider store={store}><PythonRunner /></Provider>);
+    render(<Provider store={store}><PythonRunner /></Provider>);
     input = document.getElementById("input");
   })
 
@@ -72,7 +72,7 @@ test("Input box not there when input function not called", () => {
     }
   }
   const store = mockStore(initialState);
-  const runner = render(<Provider store={store}><PythonRunner /></Provider>);
+  render(<Provider store={store}><PythonRunner /></Provider>);
   expect(document.getElementById("input")).toBeNull()
 
 })
@@ -97,7 +97,7 @@ describe("Testing stopping the code run", () => {
       }
     }
     store = mockStore(initialState);
-    const runner = render(<Provider store={store}><PythonRunner /></Provider>);
+    render(<Provider store={store}><PythonRunner /></Provider>);
   })
 
   test("Stopping code with input dispatches codeRunHandled", () => {

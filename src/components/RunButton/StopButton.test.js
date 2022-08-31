@@ -1,5 +1,5 @@
 import React from "react"
-import { act, render, fireEvent, waitFor } from "@testing-library/react"
+import { act, render, fireEvent } from "@testing-library/react"
 import { Provider } from 'react-redux'
 import StopButton from "./StopButton"
 import store from '../../app/store'
