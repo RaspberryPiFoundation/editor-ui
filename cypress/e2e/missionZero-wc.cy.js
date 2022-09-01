@@ -1,7 +1,22 @@
 const baseUrl = "http://localhost:3001"
 
 beforeEach(() => {
-  cy.visit(baseUrl)
+  cy.visit(`${baseUrl}?sense_hat_always_enabled=true`)
+})
+
+it("defaults to the visual output tab", () => {
+  const runnerContainer = cy.get("editor-wc").shadow().find('.proj-runner-container')
+  runnerContainer.find('.react-tabs__tab--selected').should("contain", "Visual Output")
+})
+
+it("renders the astro pi component on page load", () => {
+  cy.get("editor-wc").shadow().find("#root").should("contain", "yaw")
+})
+
+it("keeps astro pi component if code run without sense hat imported", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', '')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.get("editor-wc").shadow().find("#root").should("contain", "yaw")
 })
 
 it("loads the sense hat library", () => {
@@ -57,15 +72,17 @@ it("confirms LEDs used when single led set", () => {
 it("confirms LEDs used when display set", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)')
   cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.scrollTo('bottom')
   cy.get("#results").should("contain", '"usedLEDs":true')
 })
 
-// it("picks up calls to input()", () => {
-//   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'input()')
-//   cy.get("editor-wc").shadow().find(".btn--run").click()
-//   cy.get("editor-wc").shadow().find("span[contenteditable=true]").type('{enter}')
-//   cy.get("#results").should("contain", '"noInputEvents":false')
-// })
+it("picks up calls to input()", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'input()')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.get("editor-wc").shadow().contains('Text Output').click()
+  cy.get("editor-wc").shadow().find("span[contenteditable=true]").type('{enter}')
+  cy.get("#results").should("contain", '"noInputEvents":false')
+})
 
 it("picks up calls to wait for motion", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.motion.wait_for_motion()')
