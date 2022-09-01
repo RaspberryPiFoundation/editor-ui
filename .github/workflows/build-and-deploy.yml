@@ -3,7 +3,7 @@ name: Build and Upload to S3
 on:
   workflow_call:
     inputs:
-      aws_region:
+      AWS_REGION:
         required: false
         type: string
         default: eu-west-2
@@ -17,9 +17,9 @@ on:
         required: true
         type: string
     secrets:
-      aws_access_key_id:
+      AWS_ACCESS_KEY_ID:
         required: true
-      aws_secret_access_key:
+      AWS_SECRET_ACCESS_KEY:
         required: true
 
 jobs:
@@ -42,9 +42,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.aws_access_key_id }}
-        aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
-        aws-region: ${{ inputs.aws_region }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
 
     - name: Set PUBLIC_URL for react app build
       run: |

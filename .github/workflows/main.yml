@@ -89,13 +89,13 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws-region: eu-west-2
       bucket: python-editor-dist-test
       deploy_dir: ${{ github.ref_name }}
-      public_url: editor.raspberrypi.org
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      public_url: https://editor.raspberrypi.org/${{ github.ref_name }}
+    secrets: inherit
+    environment:
+      name: production
+      url: https://editor.raspberrypi.org/${{ github.ref_name }}
 
   build-and-deploy-staging:
     if: github.ref == 'refs/heads/main'
@@ -103,14 +103,13 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws-region: eu-west-2
       bucket: python-editor-dist-test
       deploy_dir: staging
-      public_url: staging-editor.raspberrypi.org
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
+      public_url: https://staging-editor.raspberrypi.org
+    secrets: inherit
+    environment:
+      name: staging
+      url: https://staging-editor.raspberrypi.org
 
   build-and-deploy-preview:
     if: github.ref_type == 'branch' && github.ref != 'refs/heads/main'
@@ -118,10 +117,11 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws-region: eu-west-2
       bucket: python-editor-dist-test
       deploy_dir: previews/${{ github.ref_name }}
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      public_url: https://python-editor-dist-test.s3.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
+    secrets: inherit
+    environment:
+      name: previews/${{ github.ref_name }}
+      public_url: https://python-editor-dist-test.s3.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
 
