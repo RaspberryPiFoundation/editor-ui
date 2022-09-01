@@ -1,34 +1,75 @@
-.sense-hat-orientation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@import '../../colours.scss';
 
-  &__values {
-    display: flex;
+.sense-hat {
+  height: 100%;
+
+  &-model {
+    padding-bottom: var(--spacing-2);
+    &-orientation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      &__values {
+        display: flex;
+      }
+  
+      &__reading {
+        text-transform: uppercase;
+        font-weight: var(--font-weight-bold);
+        margin: 0 var(--spacing-2)
+      }
+  
+      &__reset-btn {
+        margin: auto;
+      }
+    }
   }
 
-  &__reading {
-    text-transform: uppercase;
-    margin: 0 var(--spacing-2)
-  }
-
-  &__reset-btn {
-    margin: auto;
+  &-controls {
+    &--sliders {
+      display: flex;
+    }
+    &__control{
+      text-align: center;
+      padding: var(--spacing-1);
+      border-radius: 5px;
+      width: 30%;
+      margin-left: var(--spacing-1);
+      &-input {
+        margin: var(--spacing-7) 0;
+        transform: rotate(270deg);
+      }
+      &-name {
+        font-size: var(--font-size-d-1);
+        text-transform: uppercase;
+      }
+    }
   }
 }
 
-.sense-hat-controls {
-  &--sliders {
-    display: flex;
+.--dark {
+  .sense-hat {
+
   }
-  &__control{
-    text-align: center;
-    &-input {
-      margin: var(--spacing-7) 0;
-      transform: rotate(270deg);
+}
+
+.--light {
+  .sense-hat {
+    background-color: $editor-white;
+    &-controls {
+      border-top: 5px solid $editor-light-grey;
+      &__control {
+        box-shadow: inset 0 0 var(--spacing-1) $editor-light-grey;
+        background-color: $editor-light-light-light-grey;
+      }
     }
-    &-name {
-      text-transform: uppercase;
+    &-model{
+      background-color: $editor-dark-blue;
+      &-orientation {
+        background-color: $editor-dark-blue;
+        color: $editor-white;
+      }
     }
   }
 }

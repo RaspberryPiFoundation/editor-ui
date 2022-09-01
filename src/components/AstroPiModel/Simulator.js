@@ -63,6 +63,7 @@ const Simulator = (props) => {
     <Canvas 
       // style={{background: `${isDarkMode ? "#414141" : "#999999"}`, width: '100%', height: '50%'}}
       // style={width = "80%"}
+      // style={{background: '#002B3F'}}
       onPointerDown={handleDragStart}
       onPointerUp={handleDragStop}
       onPointerOut={handleDragStop}

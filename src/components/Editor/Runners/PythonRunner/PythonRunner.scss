@@ -36,11 +36,11 @@
 .pythonrunner-graphic {
   overflow: auto;
   position: relative;
-  display: inline-block;
 }
 
 .visual-output {
   flex: 1;
+  display: flex;
 }
 
 .--light .visual-output {
