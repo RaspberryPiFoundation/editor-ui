@@ -2,8 +2,16 @@
 
 .sense-hat {
   height: 100%;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-flow: column;
 
   &-model {
+    display: flex;
+    flex-flow: column;
+    max-height: 50%;
+    flex: 1;
     padding-bottom: var(--spacing-2);
     &-orientation {
       display: flex;
@@ -27,16 +35,28 @@
   }
 
   &-controls {
-    &--sliders {
-      display: flex;
-    }
+    flex: 1;
+    display: flex;
+
     &__control{
+      display: flex;
+      flex-flow: column;
       text-align: center;
       padding: var(--spacing-1);
+      box-sizing: border-box;
       border-radius: 5px;
-      width: 30%;
-      margin-left: var(--spacing-1);
+      width: 25%;
+      // margin-left: var(--spacing-1);
+
+      &-reading {
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       &-input {
+        height: 100%;
         margin: var(--spacing-7) 0;
         transform: rotate(270deg);
       }
@@ -61,7 +81,11 @@
       border-top: 5px solid $editor-light-grey;
       &__control {
         box-shadow: inset 0 0 var(--spacing-1) $editor-light-grey;
-        background-color: $editor-light-light-light-grey;
+        background-color: $editor-light-light-grey;
+        &-reading {
+          background-color: $editor-light-light-grey;
+          border: 2px solid $editor-light-grey;
+        }
       }
     }
     &-model{
@@ -69,6 +93,11 @@
       &-orientation {
         background-color: $editor-dark-blue;
         color: $editor-white;
+        &__reset-btn {
+          background-color: $editor-white;
+          padding: var(--spacing-1);
+          border-radius: 5px;
+        }
       }
     }
   }

@@ -312,7 +312,7 @@ const PythonRunner = () => {
               <div className="pythonrunner-canvas-container">
                 <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
               </div>
-              <div id='senseHatCanvas'>{senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}</div>
+              {senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}
             </div>
           </TabPanel>
           <TabPanel key={1}>

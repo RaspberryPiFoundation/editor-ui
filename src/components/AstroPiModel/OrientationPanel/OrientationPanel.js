@@ -2,6 +2,7 @@ import React from 'react';
 import '../AstroPiModel.scss';
 import OrientationReading from './OrientationReading';
 import OrientationResetButton from './OrientationResetButton';
+import { ResetIcon } from '../../../Icons';
 
 const OrientationPanel = (props) => {
 
@@ -14,8 +15,8 @@ const OrientationPanel = (props) => {
         <OrientationReading name="pitch" value={orientation[1]} />
         <OrientationReading name="yaw" value={orientation[2]} />
       </div>
-      <div id="sense-hat-model-orientation__reset-btn">
-        <OrientationResetButton resetOrientation={resetOrientation}/>
+      <div className="sense-hat-model-orientation__reset-btn" onClick={e => resetOrientation(e)}>
+        <ResetIcon/>
       </div>
     </div>
   )

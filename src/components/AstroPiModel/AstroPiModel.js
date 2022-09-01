@@ -23,7 +23,7 @@ const AstroPiModel = () => {
 
   if (!Sk.sense_hat){
     Sk.sense_hat = {
-      colour: "#000000",
+      colour: "#FF00A4",
       gamma: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       low_light: false,
       motion: false,

@@ -22,7 +22,7 @@ const SliderInput = (props) => {
     <div className="sense-hat-controls__control">
       <label className='sense-hat-controls__control-name' htmlFor={`sense_hat_${name}`}>{name}</label>
       <input id={`sense_hat_${name}`} className="sense-hat-controls__control-input" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>
-      <div className="sense-hat-controls__control-icon">
+      <div className="sense-hat-controls__control-reading">
         {name==="temperature" ?
         <Thermometer color={iconColour} size={"1.5em"}/>
         :
