@@ -48,12 +48,22 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 The repo includes the Editor Web Component which shares components with the editor application but has a separate build process.
 
-### `yarn stat:wc`
+### Embedding
 
-Runs the web component in development mode.
-Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
+The web component can be included in a page by using the `<editor-wc>` HTML element.  It takes the following attributes
 
-There is no production build setup for the web component at present.
+* `code`: A preset blob of code to show in the editor pane.
+* `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
+
+### `yarn start:wc`
+
+Runs the web component in development mode.  Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
+
+**NB** You need to have the main `yarn start` process running too.
+
+It is possible to add query strings to control how the web component is configured.  Any HTML attribute can be set on the query string, including `class`, `style` etc.
+
+For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3001?sense_hat_always_enabled)
 
 ## Review apps
 
