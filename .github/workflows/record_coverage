@@ -1,4 +1,4 @@
-#!/bin/bash -ueo pipefail
+#!/bin/bash -eu
 
 # Record coverage
 #
