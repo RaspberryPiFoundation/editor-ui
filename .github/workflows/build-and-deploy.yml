@@ -19,10 +19,8 @@ on:
     secrets:
       aws_access_key_id:
         required: true
-        type: string
       aws_secret_access_key:
         required: true
-        type: string
 
 jobs:
   build-deploy:
