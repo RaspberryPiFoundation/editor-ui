@@ -6,13 +6,18 @@
     <title>Editor Web component</title>
   </head>
   <body>
-    <editor-wc code="" sense_hat_always_enabled></editor-wc>
     <p id="results"></p>
   </body>
 
   <script>
+    let queryParams = new URLSearchParams(window.location.search)
     document.addEventListener('DOMContentLoaded', (e) => {
-      const webComp = document.querySelector('editor-wc');
+      const webComp = document.createElement('editor-wc')
+      webComp.setAttribute('code', queryParams.get('code') || '')
+      const enableSenseHat = queryParams.get('sense_hat_always_enabled')
+      if (enableSenseHat && enableSenseHat != 'false') {
+        webComp.setAttribute('sense_hat_always_enabled', true)
+      }
 
       // subscribe to the 'codeChanged' custom event which is pushed by the project react component
       webComp.addEventListener('codeChanged', function(e) {
@@ -26,6 +31,7 @@
         console.log(e.detail)
         document.getElementById("results").innerText = JSON.stringify(e.detail)
       })
+      const body = document.getElementsByTagName('body')[0].prepend(webComp)
     });
   </script>
 </html>
