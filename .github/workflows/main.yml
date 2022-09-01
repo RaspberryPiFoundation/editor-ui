@@ -83,7 +83,7 @@ jobs:
           cypress/videos
 
 
-  build-and-deploy:release:
+  build-and-deploy-release:
     if: github.ref_type == 'tag'
     needs:
       - test
@@ -97,7 +97,7 @@ jobs:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  build-and-deploy:staging:
+  build-and-deploy-staging:
     if: github.ref == "refs/heads/main"
     needs:
       - test
@@ -112,7 +112,7 @@ jobs:
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
-  build-and-deploy:preview:
+  build-and-deploy-preview:
     if: github.ref_type == "branch" && github.ref != "refs/heads/main"
     needs:
       - test
