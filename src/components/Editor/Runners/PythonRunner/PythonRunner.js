@@ -21,7 +21,6 @@ const PythonRunner = () => {
   const output = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
-  // const senseHatContainer = useRef();
   const dispatch = useDispatch();
 
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
@@ -98,7 +97,6 @@ const PythonRunner = () => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
       setSenseHatEnabled(true)
-      // senseHatContainer.current.hidden=false
     }
 
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
@@ -227,7 +225,6 @@ const PythonRunner = () => {
     output.current.innerHTML = '';
     pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
-    // senseHatContainer.current.hidden = true
 
     setSenseHatEnabled(false)
 
