@@ -39,7 +39,7 @@ which jq > /dev/null || sudo apt-get install -y jq
 which curl > /dev/null || sudo apt-get install -y curl
 
 # This is the message that makes it into github
-msg="* Github [Run ${RUN_ID}](https://github.com/${REPOSITORY}/runs/${RUN_ID}?check_suite_focus=true)"
+msg="* Github [Run ${RUN_ID}](https://github.com/${REPOSITORY}/actions/runs/${RUN_ID})\n"
 msg="$msg* Test coverage: "
 
 statements=$(xmlstarlet sel -t  -v '/coverage/project[@name="All files"]/metrics/@statements' $clover_xml)
@@ -51,6 +51,8 @@ if [ "${coverage}" = "null" ] ; then
   echo "*** Failed to determine coverage"
   exit 0
 fi
+
+msg="$msg $coverage%\n\n"
 
 # Find associated PR.  *NB* we're assuming that the first, open PR is the one
 # to comment on.
