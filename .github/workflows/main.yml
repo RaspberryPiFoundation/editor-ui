@@ -45,7 +45,9 @@ jobs:
       run: yarn install --frozen-lock-file
 
     - name: Run tests
-      run: yarn test
+      run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit
+      env:
+        JEST_JUNIT_OUTPUT_DIR: ./coverage/
 
     - name: Record coverage
       run: ./.github/workflows/record_coverage
