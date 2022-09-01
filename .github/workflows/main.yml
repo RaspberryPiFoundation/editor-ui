@@ -104,6 +104,7 @@ jobs:
       bucket: python-editor-dist-test
       deploy_dir: staging
       environment: staging
+      # TODO: Trigger CF cache-busting job
       public_url: https://staging-editor.raspberrypi.org
     secrets: inherit
 
@@ -116,6 +117,7 @@ jobs:
       bucket: python-editor-dist-test
       deploy_dir: previews/${{ github.ref_name }}
       environment: previews/${{ github.ref_name }}
-      public_url: https://python-editor-dist-test.s3.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
+      # TODO: Place behind CF too, probably.
+      public_url: http://python-editor-dist-test.s3-website.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
     secrets: inherit
 
