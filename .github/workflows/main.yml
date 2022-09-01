@@ -50,10 +50,10 @@ jobs:
         JEST_JUNIT_OUTPUT_DIR: ./coverage/
 
     - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: ./coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: ./coverage
 
     - name: Record coverage
       run: ./.github/workflows/record_coverage
