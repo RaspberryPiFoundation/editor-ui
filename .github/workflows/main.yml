@@ -3,10 +3,9 @@ name: Build and Upload to S3
 on:
   push:
     branches:
-      - '*'
+      - '**'
     tags:
-      - '*'
-
+      - '**'
 
 jobs:
   lint:

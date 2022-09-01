@@ -20,7 +20,7 @@
     background-color: $editor-dark-turquoise;
   }
 
-  &.btn--disabled {
+  &:disabled {
     background-color: $editor-grey;
     color: $editor-white;
     cursor: default;

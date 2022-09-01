@@ -16,14 +16,20 @@ const PythonRunner = () => {
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
   const outputCanvas = useRef();
   const output = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
-  const senseHatContainer = useRef();
   const dispatch = useDispatch();
 
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
+
+  const getInput = () => {
+    const pageInput = document.getElementById("input")
+    const webComponentInput = document.querySelector('editor-wc') ? document.querySelector('editor-wc').shadowRoot.getElementById("input") : null;
+    return pageInput || webComponentInput
+  }
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -32,8 +38,8 @@ const PythonRunner = () => {
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (codeRunStopped && document.getElementById("input")) {
-      const input = document.getElementById("input")
+    if (codeRunStopped && getInput()) {
+      const input = getInput()
       input.removeAttribute("id")
       input.removeAttribute("contentEditable")
       dispatch(setError("Execution interrupted"));
@@ -44,8 +50,8 @@ const PythonRunner = () => {
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
       Sk.p5.stop();
-      if (document.getElementById("input")) {
-        const input = document.getElementById("input")
+      if (getInput()) {
+        const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
@@ -91,7 +97,6 @@ const PythonRunner = () => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
       setSenseHatEnabled(true)
-      senseHatContainer.current.hidden=false
     }
 
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
@@ -189,7 +194,7 @@ const PythonRunner = () => {
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+    const input = getInput()
     input.focus();
 
     return new Promise(function (resolve, reject) {
@@ -220,7 +225,8 @@ const PythonRunner = () => {
     output.current.innerHTML = '';
     pygalOutput.current.innerHTML = '';
     p5Output.current.innerHTML = '';
-    senseHatContainer.current.hidden = true
+
+    setSenseHatEnabled(false)
 
     var prog = projectCode[0].content;
 
@@ -252,9 +258,10 @@ const PythonRunner = () => {
         },
     ).catch(err => {
       const message = err.message || err.toString();
+      console.log(message)
       dispatch(setError(message));
-      if (document.getElementById("input")) {
-        const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+      if (getInput()) {
+        const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
@@ -274,9 +281,9 @@ const PythonRunner = () => {
       return;
     }
 
-    const inputBox = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input");
+    const inputBox = getInput();
     if (inputBox && e.target !== inputBox) {
-      const input = document.getElementById("input") || document.querySelector('editor-wc').shadowRoot.getElementById("input")
+      const input = getInput()
       const selection = window.getSelection();
       selection.removeAllRanges();
 
@@ -292,7 +299,7 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <Tabs forceRenderTabPanel={true} defaultIndex={1}>
+      <Tabs forceRenderTabPanel={true} defaultIndex={senseHatAlwaysEnabled ? 0 : 1}>
         <TabList>
           <Tab key={0}>Visual Output</Tab>
           <Tab key={1}>Text Output</Tab>
@@ -305,7 +312,7 @@ const PythonRunner = () => {
               <div className="pythonrunner-canvas-container">
                 <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
               </div>
-              <div id='senseHatCanvas' ref={senseHatContainer} hidden={true}>{senseHatEnabled?<AstroPiModel/>:null}</div>
+              <div id='senseHatCanvas'>{senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}</div>
             </div>
           </TabPanel>
           <TabPanel key={1}>

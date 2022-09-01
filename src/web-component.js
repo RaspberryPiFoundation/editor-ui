@@ -20,7 +20,7 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['code'];
+    return ['code', 'sense_hat_always_enabled'];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
