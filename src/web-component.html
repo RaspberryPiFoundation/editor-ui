@@ -10,14 +10,14 @@
   </body>
 
   <script>
-    let queryParams = new URLSearchParams(window.location.search)
     document.addEventListener('DOMContentLoaded', (e) => {
       const webComp = document.createElement('editor-wc')
-      webComp.setAttribute('code', queryParams.get('code') || '')
-      const enableSenseHat = queryParams.get('sense_hat_always_enabled')
-      if (enableSenseHat && enableSenseHat != 'false') {
-        webComp.setAttribute('sense_hat_always_enabled', true)
-      }
+      const queryParams = new URLSearchParams(window.location.search)
+
+      // Pre-set the code attribute with an empty string.
+      webComp.setAttribute('code', '')
+      // Set any attribute you like in the query string, including class, style, hidden, script, etc.
+      queryParams.forEach((value, key) => { webComp.setAttribute(key, value) })
 
       // subscribe to the 'codeChanged' custom event which is pushed by the project react component
       webComp.addEventListener('codeChanged', function(e) {
@@ -31,7 +31,8 @@
         console.log(e.detail)
         document.getElementById("results").innerText = JSON.stringify(e.detail)
       })
-      const body = document.getElementsByTagName('body')[0].prepend(webComp)
+
+      document.getElementsByTagName('body')[0].prepend(webComp)
     });
   </script>
 </html>
