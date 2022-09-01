@@ -45,7 +45,7 @@ jobs:
       run: yarn install --frozen-lock-file
 
     - name: Run tests
-      run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=github-actions
+      run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
       env:
         JEST_JUNIT_OUTPUT_DIR: ./coverage/
 

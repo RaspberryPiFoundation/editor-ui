@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@actions/core@^1.2.3":
+"@actions/core@^1.2.0":
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.9.1.tgz#97c0201b1f9856df4f7c3a375cdcdb0c2a2f750b"
   integrity sha512-5ad+U2YGrmmiw6du20AQW5XuWo7UKN2052FjSV7MX+Wfjf8sCqcsZe62NfgHys4QI4/Y+vQvLKYL8jWtA1ZBTA==
@@ -9891,12 +9891,12 @@ jest-get-type@^28.0.2:
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-28.0.2.tgz#34622e628e4fdcd793d46db8a242227901fcf203"
   integrity sha512-ioj2w9/DxSYHfOm5lJKCdcAmPJzQXmbM/Url3rhlghrPvT3tt+7a/+oXc9azkKmLvoiXjtV83bEWqi+vs5nlPA==
 
-jest-github-actions@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jest-github-actions/-/jest-github-actions-0.2.0.tgz#c27cd5effe18b94fac233ec203c9ef719934e93b"
-  integrity sha512-6QCeXb2L9QeGaQ9QLX2PxSlRWVmwqrQLdV11sDyG3Aqi8nUY2BM9lE46EFIctBqiOR5Vl8uLMRhjZh0nwf+abg==
+jest-github-actions-reporter@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/jest-github-actions-reporter/-/jest-github-actions-reporter-1.0.3.tgz#6aa2b3a6599352e1043bbe42628a7f73a1ce48c2"
+  integrity sha512-IwLAKLSWLN8ZVfcfEEv6rfeWb78wKDeOhvOmH9KKXayKsKLSCwceopBcB+KUtwxfB5wYnT8Y9s2eZ+WdhA5yng==
   dependencies:
-    "@actions/core" "^1.2.3"
+    "@actions/core" "^1.2.0"
 
 jest-haste-map@^26.6.2:
   version "26.6.2"
