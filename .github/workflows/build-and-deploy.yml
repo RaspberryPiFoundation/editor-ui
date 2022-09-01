@@ -1,0 +1,66 @@
+name: Build and Upload to S3
+
+on:
+  workflow_call:
+    inputs:
+      aws_region:
+        required: false
+        type: string
+        default: eu-west-2
+      bucket:
+        required: true
+        type: string
+      deploy_dir:
+        required: true
+        type: string
+      public_url:
+        required: true
+        type: string
+    secrets:
+      aws_access_key_id:
+        required: true
+        type: string
+      aws_secret_access_key:
+        required: true
+        type: string
+
+jobs:
+  build-deploy:
+    needs:
+      - test
+     # Disabling test-cypress while it is flaky
+     # - test-cypress
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Cache dependencies
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.aws_access_key_id }}
+        aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+        aws-region: ${{ inputs.aws_region }}
+
+    - name: Set PUBLIC_URL for react app build
+      run: |
+        echo "Setting PUBLIC_URL to ${{ inputs.PUBLIC_URL }}"
+        echo PUBLIC_URL=${{ inputs.public_url }} >> $GITHUB_ENV
+      shell: bash
+
+    - name: Install code
+      run: yarn install --frozen-lock-file
+
+    - name: Build site and WC bundle
+      run: |
+        yarn build
+        yarn build:wc
+
+    - name: Deploy site to S3 bucket
+      run: aws s3 sync ./build/ s3://${{ inputs.bucket }}/${{ inputs.deploy_dir }} --delete

@@ -82,68 +82,49 @@ jobs:
           cypress/screenshots
           cypress/videos
 
-  build-deploy:
+
+  build-and-deploy:release:
+    if: github.ref_type == 'tag'
     needs:
       - test
-     # Disabling test-cypress while it is flaky
-     # - test-cypress
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+    uses: .github/workflows/build-and-deploy.yml
+    with:
+      aws-region: eu-west-2
+      bucket: python-editor-dist-test
+      deploy_dir: ${{ github.ref_name }}
+      public_url: editor.raspberrypi.org
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
+  build-and-deploy:staging:
+    if: github.ref == "refs/heads/main"
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    uses: .github/workflows/build-and-deploy.yml
+    with:
+      aws-region: eu-west-2
+      bucket: python-editor-dist-test
+      deploy_dir: staging
+      public_url: staging-editor.raspberrypi.org
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-2
 
-    - name: Set bucket
-      run: |
-        if [ ${{ github.ref_type }} == 'tag' ]; then
-          echo "Deploying to production bucket"
-          echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
-        else
-          echo "Deploying to staging/preview bucket"
-          echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
-        fi
-      shell: bash
+  build-and-deploy:preview:
+    if: github.ref_type == "branch" && github.ref != "refs/heads/main"
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    uses: .github/workflows/build-and-deploy.yml
+    with:
+      aws-region: eu-west-2
+      bucket: python-editor-dist-test
+      deploy_dir: previews/${{ github.ref_name }}
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Set deploy directory
-      run: |
-        if [ ${{ github.ref_type }} == 'tag' ]; then
-          echo "Deploying tagged release ${{ github.ref_name }}"
-          echo "deploy_dir=${{ github.ref_name }}" >> $GITHUB_ENV
-        elif [ ${{ github.ref }} == 'refs/head/main' ]; then
-          echo "Deploying staging release"
-          echo "deploy_dir=staging" >> $GITHUB_ENV
-        else
-          echo "Deploying preview release ${{ github.ref_name }}"
-          echo "deploy_dir=previews/${{ github.ref_name }}" >> $GITHUB_ENV
-        fi
-      shell: bash
-
-    - name: Set PUBLIC_URL
-      run: |
-        public_url=https://${{ env.bucket }}.s3.eu-west-2.amazonaws.com/${{ env.deploy_dir }}
-        echo "Setting PUBLIC_URL to $public_url"
-        echo PUBLIC_URL=$public_url >> $GITHUB_ENV
-      shell: bash
-
-    - name: Install code
-      run: yarn install --frozen-lock-file
-
-    - name: Build site and WC bundle
-      run: |
-        yarn build
-        yarn build:wc
-
-    - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://${{ env.bucket }}/${{ env.deploy_dir }} --delete
