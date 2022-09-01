@@ -49,19 +49,10 @@ jobs:
       env:
         JEST_JUNIT_OUTPUT_DIR: ./coverage/
 
-    - name: Archive code coverage results
-      uses: actions/upload-artifact@v3
-      with:
-        name: code-coverage-report
-        path: ./coverage
-
     - name: Record coverage
       run: ./.github/workflows/record_coverage
       env:
         GITHUB_TOKEN: ${{ github.token }}
-        REPOSITORY: ${{ github.repository }}
-        RUN_ID: ${{ github.run_id }}
-        REF_NAME: ${{ github.ref_name }}
 
   test-cypress:
     runs-on: ubuntu-latest

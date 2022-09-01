@@ -39,7 +39,7 @@ which jq > /dev/null || sudo apt-get install -y jq
 which curl > /dev/null || sudo apt-get install -y curl
 
 # This is the message that makes it into github
-msg="* Github [Run ${RUN_ID}](https://github.com/${REPOSITORY}/actions/runs/${RUN_ID})\n"
+msg="* Github [Run ${GITHUB_RUN_ID}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)\n"
 msg="$msg* Test coverage: "
 
 statements=$(xmlstarlet sel -t  -v '/coverage/project[@name="All files"]/metrics/@statements' $clover_xml)
@@ -57,8 +57,8 @@ msg="$msg $coverage%\n\n"
 # Find associated PR.  *NB* we're assuming that the first, open PR is the one
 # to comment on.
 q="query {
-  repository(name: \"${REPOSITORY##*/}\", owner: \"${REPOSITORY%%/*}\") {
-    ref(qualifiedName: \"${REF_NAME}\") {
+  repository(name: \"${GITHUB_REPOSITORY##*/}\", owner: \"${GITHUB_REPOSITORY%%/*}\") {
+    ref(qualifiedName: \"${GITHUB_REF_NAME}\") {
       associatedPullRequests(first: 1) {
         nodes {
           id
