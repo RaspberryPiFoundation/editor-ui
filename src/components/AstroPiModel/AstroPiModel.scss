@@ -1,5 +1,7 @@
 .sense-hat-orientation {
   display: flex;
+  align-items: center;
+  justify-content: center;
 
   &__values {
     display: flex;
@@ -12,5 +14,21 @@
 
   &__reset-btn {
     margin: auto;
+  }
+}
+
+.sense-hat-controls {
+  &--sliders {
+    display: flex;
+  }
+  &__control{
+    text-align: center;
+    &-input {
+      margin: var(--spacing-7) 0;
+      transform: rotate(270deg);
+    }
+    &-name {
+      text-transform: uppercase;
+    }
   }
 }
