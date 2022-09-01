@@ -91,11 +91,9 @@ jobs:
     with:
       bucket: python-editor-dist-test
       deploy_dir: ${{ github.ref_name }}
+      environment: production
       public_url: https://editor.raspberrypi.org/${{ github.ref_name }}
     secrets: inherit
-    environment:
-      name: production
-      url: https://editor.raspberrypi.org/${{ github.ref_name }}
 
   build-and-deploy-staging:
     if: github.ref == 'refs/heads/main'
@@ -105,11 +103,9 @@ jobs:
     with:
       bucket: python-editor-dist-test
       deploy_dir: staging
+      environment: staging
       public_url: https://staging-editor.raspberrypi.org
     secrets: inherit
-    environment:
-      name: staging
-      url: https://staging-editor.raspberrypi.org
 
   build-and-deploy-preview:
     if: github.ref_type == 'branch' && github.ref != 'refs/heads/main'
@@ -119,9 +115,7 @@ jobs:
     with:
       bucket: python-editor-dist-test
       deploy_dir: previews/${{ github.ref_name }}
+      environment: previews/${{ github.ref_name }}
       public_url: https://python-editor-dist-test.s3.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
     secrets: inherit
-    environment:
-      name: previews/${{ github.ref_name }}
-      public_url: https://python-editor-dist-test.s3.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
 
