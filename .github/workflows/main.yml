@@ -110,8 +110,6 @@ jobs:
 
   build-and-deploy-preview:
     if: github.ref_type == 'branch' && github.ref != 'refs/heads/main'
-    needs:
-      - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       bucket: python-editor-dist-test
