@@ -88,7 +88,7 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
-    uses: .github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/build-and-deploy.yml
     with:
       aws-region: eu-west-2
       bucket: python-editor-dist-test
@@ -103,7 +103,7 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
-    uses: .github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/build-and-deploy.yml
     with:
       aws-region: eu-west-2
       bucket: python-editor-dist-test
@@ -119,7 +119,7 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
-    uses: .github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/build-and-deploy.yml
     with:
       aws-region: eu-west-2
       bucket: python-editor-dist-test
