@@ -1,8 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Toggle from 'react-toggle';
 import Sk from 'skulpt';
 import '../AstroPiModel.scss';
+import "react-toggle/style.css"
 
 const MotionInput = (props) => {
   const {defaultValue} = props;
@@ -24,10 +26,12 @@ const MotionInput = (props) => {
   }, [value])
 
   return (
-  <div className="rangeslider-container">
-    <div className={`readings-container motion-sensor`}>
-      <label className='sense-hat-controls__control-name' htmlFor={`sense_hat_motion`}>Motion</label>
-      <input type="checkbox" id="sense_hat_motion" name="sense_hat_motion" checked={value} onChange={e => setValue(e.target.checked)} />
+  <div className="sense-hat-controls-panel__container">
+    <label className='sense-hat-controls-panel__control-name' htmlFor={`sense_hat_motion`}>Motion</label>
+    <div className='sense-hat-controls-panel__control-toggle'>
+      <label htmlFor={`sense_hat_motion`} >No</label>
+      <Toggle id='sense_hat_motion' icons={false} checked={value} onChange={e => setValue(e.target.checked)}/>
+      <label htmlFor={`sense_hat_motion`} >Yes</label>
     </div>
   </div>
   )

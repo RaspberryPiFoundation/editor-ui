@@ -19,10 +19,10 @@ const SliderInput = (props) => {
   }, [name, value])
 
   return (
-    <div className="sense-hat-controls__control">
-      <label className='sense-hat-controls__control-name' htmlFor={`sense_hat_${name}`}>{name}</label>
-      <input id={`sense_hat_${name}`} className="sense-hat-controls__control-input" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>
-      <div className="sense-hat-controls__control-reading">
+    <div className="sense-hat-controls-panel__control">
+      <label className='sense-hat-controls-panel__control-name' htmlFor={`sense_hat_${name}`}>{name}</label>
+      <input id={`sense_hat_${name}`} className="sense-hat-controls-panel__control-input" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>
+      <div className="sense-hat-controls-panel__control-reading">
         {name==="temperature" ?
         <Thermometer color={iconColour} size={"1.5em"}/>
         :
@@ -33,7 +33,7 @@ const SliderInput = (props) => {
         <Humidity color={iconColour} size={"1.5em"}/>
         :
         null}
-        <span className={`sense-hat-controls__control-value sense-hat-${name}`}>{value}{unit}</span>
+        <span className={`sense-hat-controls-panel__control-value sense-hat-${name}`}>{value}{unit}</span>
       </div>
     </div>
   )

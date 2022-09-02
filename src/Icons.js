@@ -116,7 +116,7 @@ export const ResetIcon = () => {
   const [cookies] = useCookies(['fontSize'])
   const scale = fontScaleFactors[cookies.fontSize] || 1
   return (
-    <svg transform={`scale(${scale}, ${scale})`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="12" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <path d="M13.65 2.35C12.2 0.9 10.21 0 8 0C3.58 0 0.0100021 3.58 0.0100021 8C0.0100021 12.42 3.58 16 8 16C11.73 16 14.84 13.45 15.73 10H13.65C12.83 12.33 10.61 14 8 14C4.69 14 2 11.31 2 8C2 4.69 4.69 2 8 2C9.66 2 11.14 2.69 12.22 3.78L9 7H16V0L13.65 2.35Z" />
     </svg>
   )

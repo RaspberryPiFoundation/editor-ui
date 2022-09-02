@@ -14,9 +14,9 @@ const Input = (props) => {
   }, [name, value])
 
   return (
-    <div className={`readings-container ${name}-sensor`}>
-      <label className='sense-hat-controls__control-name' htmlFor={`sense_hat_${name}`}>{label}</label>
-      <input type={type} id={`sense_hat_${name}`} name={`sense_hat_${name}`} defaultValue={value} onChange={e => setValue(e.target.value)} />
+    <div className='sense-hat-controls-panel__container'>
+      <label className='sense-hat-controls-panel__control-name' htmlFor={`sense_hat_${name}`}>{label}</label>
+      <input type={type} id={`sense_hat_${name}`} defaultValue={value} onChange={e => setValue(e.target.value)} />
     </div>
   )
 };
