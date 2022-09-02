@@ -9,23 +9,16 @@ on:
       environment:
         required: true
         type: string
-    secrets:
-      AWS_REGION:
-        required: false
-        default: eu-west-2
-      AWS_ACCESS_KEY_ID:
+      public_url:
         required: true
-      AWS_SECRET_ACCESS_KEY:
-        required: true
-      PUBLIC_URL:
-        required: true
+        type: string
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.environment }}
-      url: ${{ secrets.PUBLIC_URL }}/${{ inputs.deploy_dir }}
+      url: ${{ inputs.public_url }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -52,7 +45,7 @@ jobs:
         yarn build:wc
       env:
         COOKIEBOT_DOMAIN_GROUP_ID: ${{ secrets.COOKIEBOT_DOMAIN_GROUP_ID }}
-        PUBLIC_URL: ${{ secrets.PUBLIC_URL }}/${{ inputs.deploy_dir }}
+        PUBLIC_URL: ${{ inputs.public_url }}
         REACT_APP_API_ENDPOINT: ${{ secrets.REACT_APP_API_ENDPOINT }}
         REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ secrets.REACT_APP_AUTHENTICATION_CLIENT_ID }}
         REACT_APP_AUTHENTICATION_URL: ${{ secrets.REACT_APP_AUTHENTICATION_URL }}
