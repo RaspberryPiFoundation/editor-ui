@@ -25,7 +25,7 @@ test("Login button shown when not embedded", () => {
       isEmbedded: false
     },
     auth: {
-      user: null 
+      user: null
     }
   }
   const store = mockStore(initialState);
@@ -43,7 +43,7 @@ test("Login button not shown when embedded", () => {
       isEmbedded: true
     },
     auth: {
-      user: null 
+      user: null
     }
   }
   const store = mockStore(initialState);
@@ -118,7 +118,6 @@ describe("When logged in and no project identifier", () => {
   let store;
   let saveButton;
   let getByText;
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -141,7 +140,7 @@ describe("When logged in and no project identifier", () => {
       }
     }
     store = mockStore(initialState);
-    ({getByText, queryByText} = render(<Provider store={store}><Header/></Provider>));
+    ({getByText} = render(<Provider store={store}><Header/></Provider>));
     saveButton = getByText(/Save/)
   })
 

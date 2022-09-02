@@ -6,7 +6,6 @@ import { Cookies, CookiesProvider } from 'react-cookie';
 describe("When font size cookie unset", () => {
   let cookies;
   let fontSelector;
-  let buttons;
 
   beforeEach(() => {
     cookies = new Cookies();

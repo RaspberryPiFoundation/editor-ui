@@ -3,6 +3,7 @@ import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import AstroPiModel from "./AstroPiModel";
 import configureStore from 'redux-mock-store';
+import Sk from 'skulpt';
 
 let container;
 let store;
