@@ -98,7 +98,7 @@ jobs:
     with:
       deploy_dir: ${{ github.ref_name }}
       environment: production
-      public_url: ${{ secrets.PUBLIC_URL }}/${{ github.ref_name }}
+      public_url: https://editor.raspberrypi.org/${{ github.ref_name }}
     secrets: inherit
 
   build-and-deploy-staging:
@@ -109,7 +109,7 @@ jobs:
     with:
       deploy_dir: ${{ github.ref_name }}
       environment: staging
-      public_url: ${{ secrets.PUBLIC_URL }}/${{ github.ref_name }}
+      public_url: https://staging-editor.raspberrypi.org/${{ github.ref_name }}
     secrets: inherit
 
   build-and-deploy-preview:
@@ -118,6 +118,6 @@ jobs:
     with:
       deploy_dir: previews/${{ github.ref_name }}
       environment: previews/${{ github.ref_name }}
-      public_url: ${{ secrets.PUBLIC_URL }}/previews/${{ github.ref_name }}
+      public_url: http://python-editor-dist-test.s3-website.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
     secrets: inherit
 
