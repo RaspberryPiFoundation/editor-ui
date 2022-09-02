@@ -3,26 +3,21 @@ name: Build and Upload to S3
 on:
   workflow_call:
     inputs:
-      AWS_REGION:
-        required: false
-        type: string
-        default: eu-west-2
-      bucket:
-        required: true
-        type: string
       deploy_dir:
-        required: true
-        type: string
-      public_url:
         required: true
         type: string
       environment:
         required: true
         type: string
     secrets:
+      AWS_REGION:
+        required: false
+        default: eu-west-2
       AWS_ACCESS_KEY_ID:
         required: true
       AWS_SECRET_ACCESS_KEY:
+        required: true
+      PUBLIC_URL:
         required: true
 
 jobs:
@@ -30,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.environment }}
-      url: ${{ inputs.public_url }}
+      url: ${{ secrets.PUBLIC_URL }}/${{ inputs.deploy_dir }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -46,13 +41,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ inputs.AWS_REGION }}
-
-    - name: Set PUBLIC_URL for react app build
-      run: |
-        echo "Setting PUBLIC_URL to ${{ inputs.PUBLIC_URL }}"
-        echo PUBLIC_URL=${{ inputs.public_url }} >> $GITHUB_ENV
-      shell: bash
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Install code
       run: yarn install --frozen-lock-file
@@ -61,6 +50,13 @@ jobs:
       run: |
         yarn build
         yarn build:wc
+      env:
+        COOKIEBOT_DOMAIN_GROUP_ID: ${{ secrets.COOKIEBOT_DOMAIN_GROUP_ID }}
+        PUBLIC_URL: ${{ secrets.PUBLIC_URL }}/${{ inputs.deploy_dir }}
+        REACT_APP_API_ENDPOINT: ${{ secrets.REACT_APP_API_ENDPOINT }}
+        REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ secrets.REACT_APP_AUTHENTICATION_CLIENT_ID }}
+        REACT_APP_AUTHENTICATION_URL: ${{ secrets.REACT_APP_AUTHENTICATION_URL }}
+        REACT_APP_LOGIN_ENABLED: ${{ secrets.REACT_APP_LOGIN_ENABLED }}
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://${{ inputs.bucket }}/${{ inputs.deploy_dir }} --delete
+      run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ inputs.deploy_dir }} --delete
