@@ -3,6 +3,17 @@ name: Build and Upload to S3
 on:
   workflow_call:
     inputs:
+      aws_region:
+        required: false
+        default: eu-west-2
+        type: string
+      aws_s3_bucket:
+        required: true
+        type: string
+      cookiebot_domain_group_id:
+        required: false
+        default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
+        type: string
       deploy_dir:
         required: true
         type: string
@@ -11,6 +22,22 @@ on:
         type: string
       public_url:
         required: true
+        type: string
+      react_app_api_endpoint:
+        required: false
+        default: "https://staging-editor-api.raspberrypi.org"
+        type: string
+      react_app_authentication_client_id:
+        required: false
+        default: editor-api
+        type: string
+      react_app_authentication_url:
+        required: false
+        default: "https://staging-auth-v1.raspberrypi.org"
+        type: string
+      react_app_login_enabled:
+        required: false
+        default: "true"
         type: string
 
 jobs:
@@ -34,7 +61,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-region: ${{ inputs.aws_region }}
 
     - name: Install code
       run: yarn install --frozen-lock-file
@@ -44,12 +71,12 @@ jobs:
         yarn build
         yarn build:wc
       env:
-        COOKIEBOT_DOMAIN_GROUP_ID: ${{ secrets.COOKIEBOT_DOMAIN_GROUP_ID }}
+        COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.cookiebot_domain_group_id }}
         PUBLIC_URL: ${{ inputs.public_url }}
-        REACT_APP_API_ENDPOINT: ${{ secrets.REACT_APP_API_ENDPOINT }}
-        REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ secrets.REACT_APP_AUTHENTICATION_CLIENT_ID }}
-        REACT_APP_AUTHENTICATION_URL: ${{ secrets.REACT_APP_AUTHENTICATION_URL }}
-        REACT_APP_LOGIN_ENABLED: ${{ secrets.REACT_APP_LOGIN_ENABLED }}
+        REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
+        REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
+        REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
+        REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ inputs.deploy_dir }} --delete
+      run: aws s3 sync ./build/ s3://${{ inputs.aws_s3_bucket }}/${{ inputs.deploy_dir }} --delete
