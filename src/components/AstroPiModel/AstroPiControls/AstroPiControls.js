@@ -4,6 +4,7 @@ import MotionInput from './MotionInput';
 import SliderInput from './SliderInput';
 import '../AstroPiModel.scss';
 import Stopwatch from './Stopwatch';
+import { TemperatureIcon } from '../../../Icons';
 
 const AstroPiControls = (props) => {
   const {temperature, pressure, humidity, colour, motion} = props

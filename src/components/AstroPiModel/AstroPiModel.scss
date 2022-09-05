@@ -1,4 +1,5 @@
 @import '../../colours.scss';
+@import '../../editor-spacing.scss';
 
 .sense-hat {
   height: 100%;
@@ -18,12 +19,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin: 0 var(--spacing-1);
+
+      &__spacing {
+        flex: 1;
+      }
   
       &__values {
+        flex: 8;
         display: flex;
+        margin: 0 var(--spacing-6);
       }
   
       &__reading {
+        flex: 1;
         text-transform: uppercase;
         font-weight: var(--font-weight-bold);
         margin: 0 var(--spacing-2);
@@ -31,9 +40,9 @@
       }
   
       &__reset-btn {
+        flex:1;
         display: flex;
         margin-left: auto;
-        margin-right: var(--spacing-2);
       }
     }
   }
@@ -60,20 +69,25 @@
         display: flex;
         flex-flow: column;
         align-items: center;
+        width: 100%;
       }
 
       &__control {
         display: flex;
         flex-flow: column;
+        align-items: center;
         text-align: center;
         padding: var(--spacing-1);
+        padding-top: var(--spacing-half);
         box-sizing: border-box;
         border-radius: 5px;
         width: 24%;
         justify-content: space-between;
 
         &-reading {
+          width: 100%;
           border-radius: 5px;
+          margin-top: var(--spacing-half);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -81,6 +95,7 @@
           monospace;
 
           &-timer {
+            margin-top: 0;
             padding: var(--spacing-1) 0;
             width: 100%;
           }
@@ -89,7 +104,8 @@
         &-toggle {
           border-radius: 5px;
           width: 100%;
-          padding: var(--spacing-1) 0;
+          padding: var(--spacing-half);
+          box-sizing: border-box;
           font-size: var(--font-size-d-1);
           display: flex;
           align-items: center;
@@ -101,7 +117,7 @@
         }
 
         &-input {
-          margin: var(--spacing-6) 0;
+          width: 115px;
           transform: rotate(270deg);
         }
 
@@ -112,6 +128,7 @@
         &-name {
           font-size: var(--font-size-d-1);
           text-transform: uppercase;
+          margin: var(--spacing-half) 0;
         }
       }
     }
@@ -166,11 +183,36 @@
         color: $editor-white;
         
         &__reset-btn {
-          background-color: $editor-white;
-          padding: var(--spacing-1);
-          border-radius: 5px;
+          svg {
+            background-color: $editor-white;
+            padding: var(--spacing-1);
+            border-radius: 5px;
+          }
         }
       }
     }
   }
 }
+
+.font-size-medium {
+  .sense-hat-controls {
+    &-panel__control-name, &-panel__control-toggle, &-heading  {
+      font-size: var(--font-size-u-1);
+    }
+  }
+  .sense-hat-model-orientation__reading {
+    font-size: var(--font-size-u-1);
+  }
+}
+
+.font-size-large {
+  .sense-hat-controls {
+    &-panel__control-name, &-panel__control-toggle, &-heading  {
+      font-size: var(--font-size-u-3);
+    }
+  }
+  .sense-hat-model-orientation__reading {
+    font-size: var(--font-size-u-3);
+  }
+}
+

@@ -6,7 +6,7 @@ const OrientationReading = (props) => {
 
   return (
       <span className="sense-hat-model-orientation__reading">
-        {name}: {Math.round(value*10)/10}
+        {name}: {Math.round(value)}
       </span>
   )
 }
