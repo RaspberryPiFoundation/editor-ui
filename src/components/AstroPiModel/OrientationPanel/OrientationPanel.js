@@ -9,7 +9,7 @@ const OrientationPanel = (props) => {
 
   return (
     <div className="sense-hat-model-orientation">
-      <div className='sense-hat-model-orientation__spacing'></div>
+      <div className="sense-hat-model-orientation__spacing"></div>
       <div className="sense-hat-model-orientation__values">
         <OrientationReading name="roll" value={orientation[0]} />
         <OrientationReading name="pitch" value={orientation[1]} />

@@ -61,9 +61,7 @@ const FlightCase = () => {
   }
 
   return (
-    <>
-      <primitive object={gltf.scene} scale={4} />
-    </>
+    <primitive object={gltf.scene} scale={4} />
   )
 }
 

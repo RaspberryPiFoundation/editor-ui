@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Barometer, Humidity, Thermometer } from "@intern0t/react-weather-icons";
 import '../AstroPiModel.scss';
 import Sk from 'skulpt';
 
@@ -24,7 +23,7 @@ const SliderInput = (props) => {
       <input id={`sense_hat_${name}`} className="sense-hat-controls-panel__control-input" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>
       <div className="sense-hat-controls-panel__control-reading">
         {Icon ? <Icon /> : null}
-        <span className={`sense-hat-controls-panel__control-value sense-hat-${name}`}>{value}{unit}</span>
+        <span className='sense-hat-controls-panel__control-value'>{value}{unit}</span>
       </div>
     </div>
   )

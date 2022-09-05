@@ -60,10 +60,7 @@ const Simulator = (props) => {
   const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
 
   return (
-    <Canvas 
-      // style={{background: `${isDarkMode ? "#414141" : "#999999"}`, width: '100%', height: '50%'}}
-      // style={width = "80%"}
-      // style={{background: '#002B3F'}}
+    <Canvas
       onPointerDown={handleDragStart}
       onPointerUp={handleDragStop}
       onPointerOut={handleDragStop}
