@@ -3,13 +3,6 @@ name: Build and Upload to S3
 on:
   workflow_call:
     inputs:
-      aws_region:
-        required: false
-        default: eu-west-2
-        type: string
-      aws_s3_bucket:
-        required: true
-        type: string
       cookiebot_domain_group_id:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
@@ -39,6 +32,15 @@ on:
         required: false
         default: "true"
         type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_REGION:
+        required: true
+      AWS_S3_BUCKET:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 
 jobs:
   build-deploy:
@@ -61,7 +63,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ inputs.aws_region }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Install code
       run: yarn install --frozen-lock-file
@@ -79,4 +81,4 @@ jobs:
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://${{ inputs.aws_s3_bucket }}/${{ inputs.deploy_dir }} --delete
+      run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ inputs.deploy_dir }} --delete

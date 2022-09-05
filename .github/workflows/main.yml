@@ -96,7 +96,6 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws_s3_bucket: python-editor-dist
       deploy_dir: ${{ github.ref_name }}
       environment: production
       public_url: https://editor.raspberrypi.org/${{ github.ref_name }}
@@ -110,7 +109,6 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws_s3_bucket: python-editor-dist-staging
       deploy_dir: ${{ github.ref_name }}
       environment: staging
       public_url: https://staging-editor.raspberrypi.org/${{ github.ref_name }}
@@ -120,7 +118,6 @@ jobs:
     if: github.ref_type == 'branch' && github.ref != 'refs/heads/main'
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      aws_s3_bucket: python-editor-dist-test
       deploy_dir: previews/${{ github.ref_name }}
       environment: previews/${{ github.ref_name }}
       public_url: http://python-editor-dist-test.s3-website.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
