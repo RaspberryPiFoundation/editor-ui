@@ -45,7 +45,14 @@ jobs:
       run: yarn install --frozen-lock-file
 
     - name: Run tests
-      run: yarn test
+      run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
+      env:
+        JEST_JUNIT_OUTPUT_DIR: ./coverage/
+
+    - name: Record coverage
+      run: ./.github/workflows/record_coverage
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
   test-cypress:
     runs-on: ubuntu-latest
@@ -82,68 +89,37 @@ jobs:
           cypress/screenshots
           cypress/videos
 
-  build-deploy:
+
+  build-and-deploy-release:
+    if: github.ref_type == 'tag'
     needs:
       - test
-     # Disabling test-cypress while it is flaky
-     # - test-cypress
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      deploy_dir: ${{ github.ref_name }}
+      environment: production
+      public_url: https://editor.raspberrypi.org/${{ github.ref_name }}
+      react_app_api_endpoint: https://editor-api.raspberrypi.org
+      react_app_authentication_url: https://auth-v1.raspberrypi.org
+    secrets: inherit
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
+  build-and-deploy-staging:
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - test
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      deploy_dir: ${{ github.ref_name }}
+      environment: staging
+      public_url: https://staging-editor.raspberrypi.org/${{ github.ref_name }}
+    secrets: inherit
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-2
+  build-and-deploy-preview:
+    if: github.ref_type == 'branch' && github.ref != 'refs/heads/main'
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      deploy_dir: previews/${{ github.ref_name }}
+      environment: previews/${{ github.ref_name }}
+      public_url: http://python-editor-dist-test.s3-website.eu-west-2.amazonaws.com/previews/${{ github.ref_name }}
+    secrets: inherit
 
-    - name: Set bucket
-      run: |
-        if [ ${{ github.ref_type }} == 'tag' ]; then
-          echo "Deploying to production bucket"
-          echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
-        else
-          echo "Deploying to staging/preview bucket"
-          echo "bucket=python-editor-dist-test" >> $GITHUB_ENV
-        fi
-      shell: bash
-
-    - name: Set deploy directory
-      run: |
-        if [ ${{ github.ref_type }} == 'tag' ]; then
-          echo "Deploying tagged release ${{ github.ref_name }}"
-          echo "deploy_dir=${{ github.ref_name }}" >> $GITHUB_ENV
-        elif [ ${{ github.ref }} == 'refs/head/main' ]; then
-          echo "Deploying staging release"
-          echo "deploy_dir=staging" >> $GITHUB_ENV
-        else
-          echo "Deploying preview release ${{ github.ref_name }}"
-          echo "deploy_dir=previews/${{ github.ref_name }}" >> $GITHUB_ENV
-        fi
-      shell: bash
-
-    - name: Set PUBLIC_URL
-      run: |
-        public_url=https://${{ env.bucket }}.s3.eu-west-2.amazonaws.com/${{ env.deploy_dir }}
-        echo "Setting PUBLIC_URL to $public_url"
-        echo PUBLIC_URL=$public_url >> $GITHUB_ENV
-      shell: bash
-
-    - name: Install code
-      run: yarn install --frozen-lock-file
-
-    - name: Build site and WC bundle
-      run: |
-        yarn build
-        yarn build:wc
-
-    - name: Deploy site to S3 bucket
-      run: aws s3 sync ./build/ s3://${{ env.bucket }}/${{ env.deploy_dir }} --delete

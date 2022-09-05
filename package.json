@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "v0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.17.10",
@@ -117,6 +117,7 @@
     "html-webpack-plugin": "4.5.0",
     "jest": "26.6.0",
     "jest-circus": "26.6.0",
+    "jest-github-actions-reporter": "^1.0.3",
     "jest-junit": "^13.0.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",

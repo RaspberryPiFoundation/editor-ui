@@ -65,6 +65,18 @@ It is possible to add query strings to control how the web component is configur
 
 For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3001?sense_hat_always_enabled)
 
-## Review apps
+## Deployment
+
+Deployment is managed through Giithub actions.  The UI is deployed to staging and production environments via an S3 bucket.  This requires the following environment variables to be set
+
+* `AWS_ACCESS_KEY_ID`
+* `AWS_REGION`
+* `AWS_S3_BUCKET`
+* `AWS_SECRET_ACCESS_KEY`
+
+Other variables that pertain to the app, rather than its deployment are set with defaults in the [build-and-deploy workflow](./.github/workflows/build-and-deploy.yml).  These are also in `.env.example`.
+
+### Review apps
 
 Currently the build is deployed to both S3 and Heroku.  The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
+

@@ -17,12 +17,11 @@ let queryByTitle;
 let queryByText;
 let getByText;
 let queryByRole;
-let button;
 
 beforeEach(() => {
-  ({getByText, queryByRole, queryByText, queryByTitle} = render(<Dropdown 
-    ButtonIcon={buttonIcon} 
-    buttonText='my button' 
+  ({getByText, queryByRole, queryByText, queryByTitle} = render(<Dropdown
+    ButtonIcon={buttonIcon}
+    buttonText='my button'
     buttonTextClassName='button_class'
     MenuContent={MenuContent}/>))
 })
