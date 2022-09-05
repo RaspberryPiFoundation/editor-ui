@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "v0.3.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.17.10",
