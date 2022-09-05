@@ -43,6 +43,11 @@
         flex:1;
         display: flex;
         margin-left: auto;
+        svg {
+          // background-color: $editor-white;
+          padding: var(--spacing-1);
+          border-radius: 5px;
+        }
       }
     }
   }
@@ -88,6 +93,8 @@
           width: 100%;
           border-radius: 5px;
           margin-top: var(--spacing-half);
+          padding: var(--spacing-half);
+          box-sizing: border-box;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -130,6 +137,10 @@
           text-transform: uppercase;
           margin: var(--spacing-half) 0;
         }
+
+        &-value {
+          margin-left: var(--spacing-half);
+        }
       }
     }
   }
@@ -137,7 +148,55 @@
 
 .--dark {
   .sense-hat {
+    background-color: $editor-dark-dark-dark;
 
+    &-controls {
+      border-top: 5px solid $editor-dark-dark;
+
+      &-panel {
+        &__control {
+          box-shadow: inset 0 0 var(--spacing-2) $editor-dark-dark;
+          background-color: $editor-dark;
+          
+          &-reading {
+            background-color: $editor-dark-dark;
+            border: 2px solid $editor-white;
+          }
+          
+          input[type='color'] {
+            background-color: $editor-dark-dark-dark;
+            border: 2px solid $editor-white;
+          }
+
+          &-toggle {
+            background-color: $editor-dark-dark-dark;
+            border: 2px solid $editor-white;
+
+            .react-toggle {
+              &-thumb {
+              border: 1px solid $editor-white;
+              background-color: $editor-white;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    &-model {
+      background-color: $editor-dark-blue;
+      
+      &-orientation {
+        background-color: $editor-dark-blue;
+        color: $editor-white;
+        
+        &__reset-btn {
+          svg {
+            background-color: $editor-white;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -166,6 +225,7 @@
           &-toggle {
             background-color: $editor-white;
             border: 2px solid $editor-mid-light-grey;
+            
             .react-toggle-thumb {
               border: 1px solid $editor-light-grey;
               background-color: $editor-light-grey;
@@ -185,8 +245,6 @@
         &__reset-btn {
           svg {
             background-color: $editor-white;
-            padding: var(--spacing-1);
-            border-radius: 5px;
           }
         }
       }
