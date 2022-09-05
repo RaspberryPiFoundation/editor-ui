@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+- Update build workflow with a reusable job to update preview, staging, and prod (#176)
+
 ## [0.3.0]
 
 ### Added
