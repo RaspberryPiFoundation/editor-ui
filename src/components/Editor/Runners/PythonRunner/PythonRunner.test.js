@@ -132,11 +132,11 @@ describe("When Sense Hat library used", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>);
-    canvas = document.getElementById("senseHatCanvas")
+    canvas = document.getElementsByClassName("sense-hat")[0]
   })
 
   test("Astro Pi component appears", () => {
-    expect(canvas.innerHTML).not.toBeNull()
+    expect(canvas).not.toBeNull()
   })
 })
 
@@ -162,11 +162,11 @@ describe("When Sense Hat library not used", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>);
-    canvas = document.getElementById("senseHatCanvas")
+    canvas = document.getElementsByClassName("sense-hat")[0]
   })
 
   test("Astro Pi component does not appear", () => {
-    expect(canvas.innerHTML).toBe("")
+    expect(canvas).not.toBeDefined()
   })
 })
 
