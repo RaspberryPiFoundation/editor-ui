@@ -26,7 +26,7 @@ const Stopwatch = () => {
 
 
   return (
-    <div className='sense-hat-controls-panel__container'>
+    <div className='sense-hat-controls-panel__container sense-hat-controls-panel__container-timer'>
       <label className='sense-hat-controls-panel__control-name' htmlFor='astro_pi_stopwatch'>Timer</label>
       <span className='sense-hat-controls-panel__control-reading sense-hat-controls-panel__control-reading-timer' id='astro_pi_stopwatch'>
         <span>{String(minutes).padStart(2, '0')}</span>:<span>{String(seconds).padStart(2, '0')}</span>

@@ -15,6 +15,10 @@
     flex: 1;
     padding-bottom: var(--spacing-1);
 
+    canvas {
+      cursor: grab;
+    }
+
     &-orientation {
       display: flex;
       align-items: center;
@@ -44,9 +48,11 @@
         display: flex;
         margin-left: auto;
         svg {
-          // background-color: $editor-white;
           padding: var(--spacing-1);
           border-radius: 5px;
+        }
+        button {
+          cursor: pointer;
         }
       }
     }
@@ -75,6 +81,16 @@
         flex-flow: column;
         align-items: center;
         width: 100%;
+
+        label, input {
+          cursor: pointer;
+        }
+
+        &-timer {
+          label {
+            cursor: default;
+          }
+        }
       }
 
       &__control {
@@ -124,6 +140,7 @@
         }
 
         &-input {
+          cursor: pointer;
           width: 115px;
           transform: rotate(270deg);
         }
@@ -225,7 +242,7 @@
           &-toggle {
             background-color: $editor-white;
             border: 2px solid $editor-mid-light-grey;
-            
+
             .react-toggle-thumb {
               border: 1px solid $editor-light-grey;
               background-color: $editor-light-grey;
