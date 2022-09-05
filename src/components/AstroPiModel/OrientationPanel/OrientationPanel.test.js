@@ -1,7 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react"
 import OrientationPanel from "./OrientationPanel";
-import Sk from 'skulpt';
 
 let panel;
 const resetFunction = jest.fn()

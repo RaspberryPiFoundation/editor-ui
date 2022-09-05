@@ -1,6 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import { toHaveAttribute } from "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
 import { Provider } from 'react-redux';
 import RunnerControls from "./RunnerControls";
 import configureStore from "redux-mock-store";
