@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import '../AstroPiModel.scss';
 import Sk from 'skulpt';
 

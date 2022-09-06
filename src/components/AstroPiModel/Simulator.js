@@ -5,7 +5,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Lighting from './Lighting';
 import { Suspense } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { extractRollPitchYaw } from '../../utils/Orientation';
 import FlightCase from './FlightCase'
