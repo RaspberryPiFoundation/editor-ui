@@ -4,6 +4,28 @@
   overflow-y: scroll;
   width: 16%;
 
+  summary {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+
+    .accordion-icon {
+      margin-left: auto;
+      display: flex;
+    }
+
+    h2 {
+      font-size: 1.2em;
+    }
+  }
+
+  details[open] summary {
+    .accordion-icon {
+      transform: rotate(180deg)
+    }
+  }
+
   .file-menu-section {
     padding: var(--spacing-1);
 
@@ -33,27 +55,6 @@
       padding-right: 0;
       overflow-wrap: break-word;
       word-break: break-word;
-    }
-  }
-  summary {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    cursor: pointer;
-
-    .accordion-icon {
-      margin-left: auto;
-      display: flex;
-    }
-
-    h2 {
-      font-size: 1.2em;
-    }
-  }
-
-  details[open] summary {
-    .accordion-icon {
-      transform: rotate(180deg)
     }
   }
 }
