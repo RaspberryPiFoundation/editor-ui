@@ -30,20 +30,29 @@ button {
   font-size: inherit;
 }
 
-svg {
-  min-width: 2rem;
+.--light {
+  
+  svg {
+    fill: $editor-black;
+  }
 }
 
 .--dark {
   background-color: $editor-grey;
   color: $editor-white;
 
+  svg {
+    fill: $editor-white;
+  }
+
+  button {
+    svg {
+      fill: inherit;
+    }
+  }
+
   .react-tabs__tab--selected {
     background-color: $editor-grey;
     color: inherit;
-  }
-  #sense-hat-sensor-controls-container {
-    background-color: #565555;
-    ;
   }
 }

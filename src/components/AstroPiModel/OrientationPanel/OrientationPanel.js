@@ -8,13 +8,14 @@ const OrientationPanel = (props) => {
   const {orientation, resetOrientation} = props
 
   return (
-    <div id="orientation-overlay" className="bottom 3d hide hide-for-snapshot">
-      <div className="controls-container">
+    <div className="sense-hat-model-orientation">
+      <div className="sense-hat-model-orientation__spacing"></div>
+      <div className="sense-hat-model-orientation__values">
         <OrientationReading name="roll" value={orientation[0]} />
         <OrientationReading name="pitch" value={orientation[1]} />
         <OrientationReading name="yaw" value={orientation[2]} />
       </div>
-      <div id="imu-buttons-container">
+      <div className="sense-hat-model-orientation__reset-btn">
         <OrientationResetButton resetOrientation={resetOrientation}/>
       </div>
     </div>
