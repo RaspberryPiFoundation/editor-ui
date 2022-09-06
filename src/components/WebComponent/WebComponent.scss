@@ -30,6 +30,17 @@ button {
   font-size: inherit;
 }
 
+.--light {
+  
+  svg {
+    fill: $editor-black;
+  }
+
+  button svg {
+    fill: inherit;
+  }
+}
+
 .--dark {
   background-color: $editor-grey;
   color: $editor-white;
