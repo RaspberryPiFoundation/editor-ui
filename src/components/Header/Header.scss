@@ -61,9 +61,9 @@
 .--dark {
   .editor-header {
     background-color: $editor-dark;
-  }
-  .project-gallery-link {
-    border-right: 2px solid $editor-grey;
+    .project-gallery-link {
+      border-right: 2px solid $editor-grey;
+    }
   }
 }
 
