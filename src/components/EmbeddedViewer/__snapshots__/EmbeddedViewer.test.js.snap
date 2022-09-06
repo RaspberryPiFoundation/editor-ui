@@ -90,9 +90,6 @@ exports[`Renders without crashing 1`] = `
                   id="outputCanvas"
                 />
               </div>
-              <div
-                id="senseHatCanvas"
-              />
             </div>
           </div>
           <div

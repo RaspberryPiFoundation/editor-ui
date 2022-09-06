@@ -23,7 +23,7 @@ const AstroPiModel = () => {
 
   if (!Sk.sense_hat){
     Sk.sense_hat = {
-      colour: "#000000",
+      colour: "#FF00A4",
       gamma: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       low_light: false,
       motion: false,
@@ -61,14 +61,14 @@ const AstroPiModel = () => {
   }, [orientation])
 
     return (
-      <div className='sense-hat-canvas-container'>
+      <div className='sense-hat'>
+        <div className='sense-hat-model'>
+          <Simulator updateOrientation={setOrientation}/>
+          <OrientationPanel orientation={orientation} resetOrientation={resetOrientation}/>
+        </div>
+
         {/* <!-- Full sensor controls --> */}
         <AstroPiControls pressure={defaultPressure} temperature={defaultTemperature} humidity={defaultHumidity} colour={Sk.sense_hat.colour} motion={Sk.sense_hat.motion} />
-        
-        <Simulator updateOrientation={setOrientation}/>
-        
-        {/* <!-- Orientation Values --> */}
-        <OrientationPanel orientation={orientation} resetOrientation={resetOrientation}/>
 
       </div>
     )

@@ -5,13 +5,13 @@ import OrientationReading from "./OrientationReading";
 let reading;
 
 beforeEach(() => {
-  reading = render(<OrientationReading name={"foo"} value={123.4}/>)
+  reading = render(<OrientationReading name={"foo"} value={123.8}/>)
 })
 
 test("Renders name", () => {
   expect(reading.queryByText(/foo/)).not.toBeNull()
 })
 
-test("Renders value", () => {
-  expect(reading.queryByText("123.4")).not.toBeNull()
+test("Renders rounded value", () => {
+  expect(reading.queryByText(/124/)).not.toBeNull()
 })

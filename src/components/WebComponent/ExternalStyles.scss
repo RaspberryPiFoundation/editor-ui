@@ -1,5 +1,7 @@
 @use '../../../node_modules/@rpf/sauce/scss/properties/_spacing.scss';
 @use '../../../node_modules/@rpf/sauce/scss/properties/_font-size.scss';
 @use '../../../node_modules/@rpf/sauce/scss/properties/_font-weight.scss';
+@use '../../editor-spacing.scss';
 
 @use '../../../node_modules/react-tabs/style/react-tabs.css';
+@use '../../../node_modules/react-toggle/style.css';

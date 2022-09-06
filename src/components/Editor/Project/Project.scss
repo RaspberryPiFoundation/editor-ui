@@ -51,6 +51,7 @@
     display: flex;
     flex-flow: column;
     width: 42%;
+    box-sizing: border-box;
   }
   
   .proj-runner-container {
@@ -104,6 +105,7 @@
 
 .--dark {
   .proj-container {
+    border: 2px solid $editor-grey;
 
     .proj-editor-container {
       border-right: 5px solid $editor-dark-dark;
@@ -141,6 +143,7 @@
 
     .proj-editor-container, .file-menu {
       border-right: 5px solid $editor-light-grey;
+      box-sizing: border-box;
     }
 
     .react-tabs {
