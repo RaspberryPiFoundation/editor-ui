@@ -76,23 +76,6 @@
       display: flex;
       justify-content: space-between;
 
-      &__container {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        width: 100%;
-
-        .sense-hat-controls-panel__control-name, input {
-          cursor: pointer;
-        }
-
-        &-timer {
-          .sense-hat-controls-panel__control-name {
-            cursor: default;
-          }
-        }
-      }
-
       &__control {
         display: flex;
         flex-flow: column;
@@ -157,6 +140,23 @@
 
         &-value {
           margin-left: var(--spacing-half);
+        }
+      }
+      
+      &__container {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        width: 100%;
+
+        .sense-hat-controls-panel__control-name, input {
+          cursor: pointer;
+        }
+
+        &-timer {
+          .sense-hat-controls-panel__control-name {
+            cursor: default;
+          }
         }
       }
     }
