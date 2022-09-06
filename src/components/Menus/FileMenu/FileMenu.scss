@@ -20,12 +20,6 @@
     }
   }
 
-  details[open] summary {
-    .accordion-icon {
-      transform: rotate(180deg)
-    }
-  }
-
   .file-menu-section {
     padding: var(--spacing-1);
 
@@ -35,6 +29,12 @@
       summary {
         padding-left: var(--spacing-1)
       }
+    }
+  }
+
+  details[open] summary {
+    .accordion-icon {
+      transform: rotate(180deg)
     }
   }
 

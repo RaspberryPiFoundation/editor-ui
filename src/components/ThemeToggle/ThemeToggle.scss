@@ -1,51 +1,6 @@
 @forward '@rpf/sauce/scss/properties/_spacing';
 @import '../../colours.scss';
 
-.theme-toggle {
-  display: flex;
-  .theme-btn {
-    cursor: pointer;
-
-    &__light {
-      margin-right: var(--spacing-1);
-
-      .theme-btn__icon {
-        background-color: $editor-white;
-        outline: 1px solid $editor-dark-dark-dark;
-        svg {
-          fill: black;
-        }
-      }
-    }
-    &__dark {
-      .theme-btn__icon {
-        background-color: $editor-dark;
-        outline: 1px solid $editor-light-grey;
-        svg {
-          fill: $editor-white;
-        }
-      }
-    }
-    &--active {
-      .theme-btn__icon {
-        outline: 2px solid $editor-turquoise;
-      }
-    }
-    &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: var(--spacing-7);
-      width: var(--spacing-7);
-      border-radius: 5px;
-    }
-  }
-  p {
-    text-align: center;
-    margin-top: var(--spacing-1)
-  }
-}
-
 .font-size-medium {
   .theme-btn {
     margin-right: var(--spacing-2);
@@ -75,5 +30,52 @@
         outline: 3px solid $editor-turquoise;
       }
     }
+  }
+}
+
+.theme-toggle {
+  display: flex;
+  .theme-btn {
+    cursor: pointer;
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--spacing-7);
+      width: var(--spacing-7);
+      border-radius: 5px;
+    }
+
+    &__light {
+      margin-right: var(--spacing-1);
+
+      .theme-btn__icon {
+        background-color: $editor-white;
+        outline: 1px solid $editor-dark-dark-dark;
+        svg {
+          fill: black;
+        }
+      }
+    }
+    &__dark {
+      .theme-btn__icon {
+        background-color: $editor-dark;
+        outline: 1px solid $editor-light-grey;
+        svg {
+          fill: $editor-white;
+        }
+      }
+    }
+    &--active {
+      .theme-btn__icon {
+        outline: 2px solid $editor-turquoise;
+      }
+    }
+  }
+
+  p {
+    text-align: center;
+    margin-top: var(--spacing-1)
   }
 }
