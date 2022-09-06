@@ -142,7 +142,7 @@
           margin-left: var(--spacing-half);
         }
       }
-      
+
       &__container {
         display: flex;
         flex-flow: column;
@@ -172,21 +172,21 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $editor-dark-dark;
-          background-color: $editor-grey;
+          box-shadow: inset 0 0 var(--spacing-2) $editor-black;
+          background-color: $editor-dark;
           
           &-reading {
-            background-color: $editor-dark;
+            background-color: $editor-dark-dark;
             border: 2px solid $editor-white;
           }
           
           input[type='color'] {
-            background-color: $editor-dark-dark;
+            background-color: $editor-dark-dark-dark;
             border: 2px solid $editor-white;
           }
 
           &-toggle {
-            background-color: $editor-dark-dark;
+            background-color: $editor-dark-dark-dark;
             border: 2px solid $editor-white;
 
             .react-toggle {
