@@ -28,16 +28,16 @@ code {
 button {
   all: initial;
   font-size: inherit;
+
+  svg {
+    fill: inherit;
+  }
 }
 
 .--light {
   
   svg {
     fill: $editor-black;
-  }
-
-  button svg {
-    fill: inherit;
   }
 }
 
@@ -47,10 +47,6 @@ button {
 
   svg {
     fill: $editor-white;
-  }
-
-  button svg {
-    fill: inherit;
   }
 
   .react-tabs__tab--selected {

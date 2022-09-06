@@ -25,7 +25,6 @@ const rotationScaleFactor = 0.00025
 
 const Simulator = (props) => {
   const {updateOrientation} = props
-  const [cookies] = useCookies(['theme'])
 
   const handleDragStart = (e) => {
     isDragging=true
@@ -56,8 +55,6 @@ const Simulator = (props) => {
       targetRotationX = targetRotationX * (1 - slowingFactor);
     }
   };
-
-  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
 
   return (
     <Canvas
