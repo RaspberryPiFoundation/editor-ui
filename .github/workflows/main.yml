@@ -90,7 +90,7 @@ jobs:
           cypress/videos
 
 
-  build-and-deploy-release:
+  build-and-deploy-tag:
     if: github.ref_type == 'tag'
     needs:
       - test
@@ -103,7 +103,7 @@ jobs:
       react_app_authentication_url: https://auth-v1.raspberrypi.org
     secrets: inherit
 
-  build-and-deploy-staging:
+  build-and-deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
     needs:
       - test
@@ -114,7 +114,7 @@ jobs:
       public_url: https://staging-editor.raspberrypi.org/branches/${{ github.ref_name }}
     secrets: inherit
 
-  build-and-deploy-preview:
+  build-and-deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
     uses: ./.github/workflows/build-and-deploy.yml
     with:
