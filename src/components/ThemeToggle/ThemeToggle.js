@@ -10,14 +10,14 @@ const ThemeToggle = () => {
 
   return (
     <div className='theme-toggle'>
-      <div className={`theme-btn theme-btn__light ${!isDarkMode ? 'theme-btn--active' : null}`} onClick={() => setCookie('theme', 'light')}>
-      <div className='theme-btn__icon'>
+      <div className='theme-btn theme-btn__light' onClick={() => setCookie('theme', 'light')}>
+        <div className={`theme-btn__icon theme-btn__icon--light ${!isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <SunIcon />
         </div>
         <p>Light</p>
       </div>
-      <div className={`theme-btn theme-btn__dark ${isDarkMode ? 'theme-btn--active' : null}`} onClick={() => setCookie('theme', 'dark')}>
-        <div className='theme-btn__icon'>
+      <div className='theme-btn theme-btn__dark' onClick={() => setCookie('theme', 'dark')}>
+        <div className={`theme-btn__icon theme-btn__icon--dark ${isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <MoonIcon />
         </div>
         <p>Dark</p>
