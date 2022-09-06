@@ -66,7 +66,7 @@
 
     &-heading {
       font-weight: var(--font-weight-base);
-      font-size: var(--font-size-d-1);
+      font-size: var(--font-size-base);
       margin: 0;
       margin-bottom: var(--spacing-1);
     }
@@ -112,7 +112,6 @@
           width: 100%;
           padding: var(--spacing-half);
           box-sizing: border-box;
-          font-size: var(--font-size-d-1);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -133,8 +132,8 @@
         }
 
         &-name {
-          font-size: var(--font-size-d-1);
-          text-transform: uppercase;
+          font-variant: small-caps;
+          text-transform: lowercase;
           margin: var(--spacing-half) 0;
         }
 
@@ -271,8 +270,8 @@
 
 .font-size-medium {
   .sense-hat-controls {
-    &-panel__control-name, &-panel__control-toggle, &-heading  {
-      font-size: var(--font-size-u-1);
+    &-heading  {
+      font-size: var(--font-size-u-2);
     }
   }
   .sense-hat-model-orientation__reading {
@@ -282,8 +281,8 @@
 
 .font-size-large {
   .sense-hat-controls {
-    &-panel__control-name, &-panel__control-toggle, &-heading  {
-      font-size: var(--font-size-u-3);
+    &-heading  {
+      font-size: var(--font-size-u-4);
     }
   }
   .sense-hat-model-orientation__reading {
