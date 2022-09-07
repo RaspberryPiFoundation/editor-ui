@@ -66,6 +66,14 @@ jobs:
         node-version: 16
         cache: 'yarn'
 
+    - name: Cache Cypress binary
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/Cypress
+        key: cypress-${{ runner.os }}-cypress-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          cypress-${{ runner.os }}-cypress-
+
     - name: Install code
       run: yarn install --frozen-lock-file
 
@@ -80,14 +88,19 @@ jobs:
       env:
         PUBLIC_URL: 'http://localhost:3000'
 
-    - name: Archive cypress artifacts
-      uses: actions/upload-artifact@v3
-      if: failure()
+    - uses: actions/upload-artifact@v3
       with:
-        name: cypress-artifacts
-        path: |
-          cypress/screenshots
-          cypress/videos
+        name: cypress-screenshots
+        path: cypress/screenshots
+        # there might be no screenshots created when:
+        # - there are no test failures
+        # so only upload screenshots if previous step has failed
+        if: failure()
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cypress-videos
+        path: cypress/videos
 
 
   build-and-deploy-tag:
