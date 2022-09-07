@@ -63,10 +63,10 @@ jobs:
     - name: Cache node_modules
       uses: actions/cache@v3
       with:
-        path:
-          - node_modules
-          - .cache
-        key: node_modules-${{ hashFiles('**/yarn.lock') }}
+        path: |
+          node_modules
+          .cache
+        key: node_modules-dot_cache-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install code
       run: yarn install --frozen-lock-file
