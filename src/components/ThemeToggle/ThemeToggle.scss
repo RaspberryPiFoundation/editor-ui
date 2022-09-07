@@ -5,32 +5,7 @@
   display: flex;
   .theme-btn {
     cursor: pointer;
-
-    &__light {
-      margin-right: var(--spacing-1);
-
-      .theme-btn__icon {
-        background-color: $editor-white;
-        outline: 1px solid $editor-dark-dark-dark;
-        svg {
-          fill: black;
-        }
-      }
-    }
-    &__dark {
-      .theme-btn__icon {
-        background-color: $editor-dark;
-        outline: 1px solid $editor-light-grey;
-        svg {
-          fill: $editor-white;
-        }
-      }
-    }
-    &--active {
-      .theme-btn__icon {
-        outline: 2px solid $editor-turquoise;
-      }
-    }
+    
     &__icon {
       display: flex;
       align-items: center;
@@ -38,8 +13,32 @@
       height: var(--spacing-7);
       width: var(--spacing-7);
       border-radius: 5px;
+
+      &--light {
+        background-color: $editor-white;
+        outline: 1px solid $editor-dark-dark-dark;
+        svg {
+          fill: black;
+        }
+      }
+  
+      &--dark {
+        background-color: $editor-dark;
+        outline: 1px solid $editor-light-grey;
+        svg {
+          fill: $editor-white;
+        }
+      }
+      &--active {
+          outline: 2px solid $editor-turquoise;
+      }
+    }
+
+    &--light {
+      margin-right: var(--spacing-1);
     }
   }
+
   p {
     text-align: center;
     margin-top: var(--spacing-1)
@@ -53,9 +52,8 @@
     &__icon {
       height: var(--spacing-8);
       width: var(--spacing-8);
-    }
-    &--active {
-      .theme-btn__icon {
+
+      &--active {
         outline: 2.5px solid $editor-turquoise;
       }
     }
@@ -69,9 +67,8 @@
     &__icon {
       height: var(--spacing-9);
       width: var(--spacing-9);
-    }
-    &--active {
-      .theme-btn__icon {
+
+      &--active {
         outline: 3px solid $editor-turquoise;
       }
     }
