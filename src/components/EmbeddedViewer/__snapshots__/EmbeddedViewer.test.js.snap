@@ -3,112 +3,106 @@
 exports[`Renders without crashing 1`] = `
 <DocumentFragment>
   <div
-    class="embedded-container"
+    hidden=""
+    id="file-content"
+  />
+  <div
+    class="proj-runner-container"
   >
     <div
-      class="embedded-controls"
+      class="pythonrunner-container"
     >
       <div
-        class="runner-controls"
+        class="react-tabs"
+        data-rttabs="true"
       >
-        <button
-          class="btn btn--run"
+        <ul
+          class="react-tabs__tab-list"
+          role="tablist"
         >
-          <svg
-            fill="none"
-            height="12"
-            transform="scale(1, 1)"
-            viewBox="0 0 12 12"
-            width="12"
-            xmlns="http://www.w3.org/2000/svg"
+          <li
+            aria-controls="react-tabs-1"
+            aria-disabled="false"
+            aria-selected="false"
+            class="react-tabs__tab"
+            data-rttab="true"
+            id="react-tabs-0"
+            role="tab"
           >
-            <path
-              d="M1.25331 11.0714C1.12931 11.0714 1.01039 11.0262 0.922706 10.9458C0.835025 10.8655 0.785767 10.7564 0.785767 10.6428V1.21415C0.785781 1.13967 0.806965 1.06649 0.847232 1.0018C0.8875 0.937121 0.94546 0.883173 1.0154 0.845278C1.08534 0.807382 1.16485 0.786847 1.24608 0.785696C1.32732 0.784545 1.40748 0.802818 1.47866 0.838715L10.8294 5.55303C10.9027 5.59003 10.9639 5.64438 11.0064 5.71042C11.049 5.77646 11.0715 5.85176 11.0715 5.92847C11.0715 6.00517 11.049 6.08047 11.0064 6.14651C10.9639 6.21255 10.9027 6.2669 10.8294 6.3039L1.47866 11.0182C1.40963 11.0531 1.33211 11.0713 1.25331 11.0714Z"
-              fill="#1A1A1A"
-            />
-          </svg>
-          Run
-        </button>
-      </div>
-    </div>
-    <div>
-      <div
-        class="pythonrunner-container"
-      >
+            Visual Output
+          </li>
+          <li
+            aria-controls="react-tabs-3"
+            aria-disabled="false"
+            aria-selected="true"
+            class="react-tabs__tab react-tabs__tab--selected"
+            data-rttab="true"
+            id="react-tabs-2"
+            role="tab"
+            tabindex="0"
+          >
+            Text Output
+          </li>
+        </ul>
         <div
-          class="react-tabs"
-          data-rttabs="true"
+          aria-labelledby="react-tabs-0"
+          class="react-tabs__tab-panel"
+          id="react-tabs-1"
+          role="tabpanel"
         >
-          <ul
-            class="react-tabs__tab-list"
-            role="tablist"
-          >
-            <li
-              aria-controls="react-tabs-1"
-              aria-disabled="false"
-              aria-selected="false"
-              class="react-tabs__tab"
-              data-rttab="true"
-              id="react-tabs-0"
-              role="tab"
-            >
-              Visual Output
-            </li>
-            <li
-              aria-controls="react-tabs-3"
-              aria-disabled="false"
-              aria-selected="true"
-              class="react-tabs__tab react-tabs__tab--selected"
-              data-rttab="true"
-              id="react-tabs-2"
-              role="tab"
-              tabindex="0"
-            >
-              Text Output
-            </li>
-          </ul>
           <div
-            aria-labelledby="react-tabs-0"
-            class="react-tabs__tab-panel"
-            id="react-tabs-1"
-            role="tabpanel"
+            class="visual-output"
           >
             <div
-              class="visual-output"
+              id="p5Sketch"
+            />
+            <div
+              id="pygalOutput"
+            />
+            <div
+              class="pythonrunner-canvas-container"
             >
               <div
-                id="p5Sketch"
+                class="pythonrunner-graphic"
+                id="outputCanvas"
               />
-              <div
-                id="pygalOutput"
-              />
-              <div
-                class="pythonrunner-canvas-container"
-              >
-                <div
-                  class="pythonrunner-graphic"
-                  id="outputCanvas"
-                />
-              </div>
             </div>
           </div>
-          <div
-            aria-labelledby="react-tabs-2"
-            class="react-tabs__tab-panel react-tabs__tab-panel--selected"
-            id="react-tabs-3"
-            role="tabpanel"
-          >
-            <pre
-              class="pythonrunner-console"
-            />
-          </div>
+        </div>
+        <div
+          aria-labelledby="react-tabs-2"
+          class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+          id="react-tabs-3"
+          role="tabpanel"
+        >
+          <pre
+            class="pythonrunner-console"
+          />
         </div>
       </div>
     </div>
-    <div
-      hidden=""
-      id="file-content"
-    />
+  </div>
+  <div
+    class="runner-controls"
+  >
+    <button
+      class="btn btn--run"
+    >
+      <svg
+        fill="none"
+        height="12"
+        transform="scale(1, 1)"
+        viewBox="0 0 12 12"
+        width="12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1.25331 11.0714C1.12931 11.0714 1.01039 11.0262 0.922706 10.9458C0.835025 10.8655 0.785767 10.7564 0.785767 10.6428V1.21415C0.785781 1.13967 0.806965 1.06649 0.847232 1.0018C0.8875 0.937121 0.94546 0.883173 1.0154 0.845278C1.08534 0.807382 1.16485 0.786847 1.24608 0.785696C1.32732 0.784545 1.40748 0.802818 1.47866 0.838715L10.8294 5.55303C10.9027 5.59003 10.9639 5.64438 11.0064 5.71042C11.049 5.77646 11.0715 5.85176 11.0715 5.92847C11.0715 6.00517 11.049 6.08047 11.0064 6.14651C10.9639 6.21255 10.9027 6.2669 10.8294 6.3039L1.47866 11.0182C1.40963 11.0531 1.33211 11.0713 1.25331 11.0714Z"
+          fill="#1A1A1A"
+        />
+      </svg>
+      Run
+    </button>
   </div>
 </DocumentFragment>
 `;

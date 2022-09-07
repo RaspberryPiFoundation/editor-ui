@@ -24,7 +24,7 @@ const EmbeddedViewer = (props) => {
       <Output />
       <RunnerControls />
     </>
-  ) : <p>Loading</p>;
+  ) : null;
 };
 
 export default EmbeddedViewer;
