@@ -60,6 +60,12 @@ jobs:
         node-version: 16
         cache: 'yarn'
 
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: node_modules-${{ hashFiles('**/yarn.lock') }}
+
     - name: Install code
       run: yarn install --frozen-lock-file
 
