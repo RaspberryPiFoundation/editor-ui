@@ -1,0 +1,15 @@
+@import '../../colours.scss';
+
+.embedded-viewer {
+  height: 100%;
+  padding: var(--spacing-1);
+  .react-tabs {
+    border-radius: 10px;
+  }
+}
+
+.--light {
+  .embedded-viewer {
+    background-color: $editor-light-turquoise;
+  }
+}
