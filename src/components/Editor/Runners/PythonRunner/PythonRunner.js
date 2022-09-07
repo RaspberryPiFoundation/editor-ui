@@ -13,6 +13,7 @@ import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
@@ -22,6 +23,8 @@ const PythonRunner = () => {
   const pygalOutput = useRef();
   const p5Output = useRef();
   const dispatch = useDispatch();
+
+  const queryParams = new URLSearchParams(window.location.search)
 
   const [senseHatEnabled, setSenseHatEnabled] = useState(false);
 
@@ -299,11 +302,41 @@ const PythonRunner = () => {
 
   return (
     <div className="pythonrunner-container">
-      <Tabs forceRenderTabPanel={true} defaultIndex={senseHatAlwaysEnabled ? 0 : 1}>
-        <TabList>
-          <Tab key={0}>Visual Output</Tab>
-          <Tab key={1}>Text Output</Tab>
-        </TabList>
+      { isEmbedded ?
+        <>
+          {queryParams.get('show_visual_tab') === 'false' ? null : 
+            <Tabs forceRenderTabPanel={true}>
+              <TabList>
+                <Tab key={0}>Visual Output</Tab>
+              </TabList>
+              <TabPanel key={0}>
+                <div className='visual-output'>
+                  <div id='p5Sketch' ref={p5Output} />
+                  <div id='pygalOutput' ref={pygalOutput} />
+                  <div className="pythonrunner-canvas-container">
+                    <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
+                  </div>
+                  {senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}
+                </div>
+              </TabPanel>
+            </Tabs>
+          }
+          <Tabs forceRenderTabPanel={true}>
+          <TabList>
+            <Tab key={0}>Text Output</Tab>
+          </TabList>
+          <ErrorMessage />
+          <TabPanel key={0}>
+            <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+          </TabPanel>
+        </Tabs>
+      </>
+      :
+        <Tabs forceRenderTabPanel={true} defaultIndex={senseHatAlwaysEnabled ? 0 : 1}>
+          <TabList>
+            <Tab key={0}>Visual Output</Tab>
+            <Tab key={1}>Text Output</Tab>
+          </TabList>
           <ErrorMessage />
           <TabPanel key={0}>
             <div className='visual-output'>
@@ -318,7 +351,8 @@ const PythonRunner = () => {
           <TabPanel key={1}>
             <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
           </TabPanel>
-      </Tabs>
+        </Tabs>
+      }
     </div>
   );
 };

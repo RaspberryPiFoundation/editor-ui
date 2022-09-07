@@ -4,13 +4,11 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 
 import EditorPanel from '../EditorPanel/EditorPanel'
-import RunnerFactory from '../Runners/RunnerFactory'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'react-toastify/dist/ReactToastify.css';
 import RunnerControls from '../../RunButton/RunnerControls';
-import ExternalFiles from '../../ExternalFiles/ExternalFiles';
 import FileMenu from '../../Menus/FileMenu/FileMenu';
 import Output from '../Output/Output';
 

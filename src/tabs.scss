@@ -1,43 +1,5 @@
 @import './colours.scss';
 
-.--dark {
-  .react-tabs {
-    background-color: $editor-dark;
-
-    &__tab-list {
-      border-bottom: 2px solid $editor-grey;
-    }
-
-    &__tab {
-      color: $editor-light-light-light-grey;
-
-      &--selected {
-        color: inherit;
-        background-color: $editor-grey;
-      }
-    }
-  }
-}
-
-.--light {
-  .react-tabs {
-    background-color: $editor-white;
-
-    &__tab-list {
-      border-bottom: 2px solid $editor-light-grey;
-    }
-
-    &__tab {
-      color: $editor-mid-grey;
-
-      &--selected {
-        color: inherit;
-        background-color: $editor-light-light-grey;
-      }
-    }
-  }
-}
-
 #app, #wc {
   .react-tabs {
     flex: 1;
@@ -72,6 +34,44 @@
       display: flex;
       flex-flow: column;
       overflow-y: scroll;
+    }
+  }
+
+  &.--dark {
+    .react-tabs {
+      background-color: $editor-dark;
+  
+      &__tab-list {
+        border-bottom: 2px solid $editor-grey;
+      }
+  
+      &__tab {
+        color: $editor-light-light-light-grey;
+  
+        &--selected {
+          color: inherit;
+          background-color: $editor-grey;
+        }
+      }
+    }
+  }
+  
+  &.--light {
+    .react-tabs {
+      background-color: $editor-white;
+  
+      &__tab-list {
+        border-bottom: 2px solid $editor-light-grey;
+      }
+  
+      &__tab {
+        color: $editor-mid-grey;
+  
+        &--selected {
+          color: inherit;
+          background-color: $editor-light-light-grey;
+        }
+      }
     }
   }
 }
