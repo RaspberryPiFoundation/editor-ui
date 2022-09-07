@@ -24,7 +24,9 @@ jobs:
       id: cache-node_modules
       uses: actions/cache@v3
       with:
-        path: node_modules
+        path:
+          - node_modules
+          - .cache
         key: node_modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install code
@@ -48,8 +50,13 @@ jobs:
       id: cache-node_modules
       uses: actions/cache@v3
       with:
-        path: node_modules
+        path:
+          - node_modules
+          - .cache
         key: node_modules-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install code
+      run: yarn install --frozen-lock-file
 
     - name: Run tests
       run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
@@ -79,7 +86,9 @@ jobs:
       id: cache-node_modules
       uses: actions/cache@v3
       with:
-        path: node_modules
+        path:
+          - node_modules
+          - .cache
         key: node_modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install code
