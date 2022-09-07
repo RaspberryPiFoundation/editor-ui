@@ -11,6 +11,17 @@ button {
   flex-flow: column;
 }
 
+.--light {
+  background-color: $editor-light-blue;
+  caret-color: black;
+  .pythonrunner-input {
+    color: rgb(36, 103, 236);
+  }
+  svg {
+    fill: $editor-black;
+  }
+}
+
 .--dark {
   background-color: $editor-grey;
   color: $editor-white;
@@ -25,16 +36,5 @@ button {
 
   button svg {
     fill: inherit;
-  }
-}
-
-.--light {
-  background-color: $editor-light-blue;
-  caret-color: black;
-  .pythonrunner-input {
-    color: rgb(36, 103, 236);
-  }
-  svg {
-    fill: $editor-black;
   }
 }
