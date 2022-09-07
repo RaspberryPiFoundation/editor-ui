@@ -15,15 +15,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: var(--spacing-7);
-      width: var(--spacing-7);
       border-radius: 5px;
-    }
-    
-    &--active {
-      .font-btn__icon {
-        outline: 2px solid $editor-turquoise;
-      }
     }
 
     p {
@@ -45,35 +37,45 @@
   }
 }
 
-.font-size-medium {
-  .font-btn__medium {
-    .font-btn__icon {
-      margin: 0 var(--spacing-1)
+.font-size-small {
+
+  .font-btn__icon {
+    height: var(--spacing-7);
+    width: var(--spacing-7);
+
+    &--active {
+      outline: 2px solid $editor-turquoise;
     }
   }
+}
+
+.font-size-medium {
+
   .font-btn__icon{
     height: var(--spacing-8);
     width: var(--spacing-8);
-  }
-  .font-btn--active {
-    .font-btn__icon {
+
+    &--medium {
+      margin: 0 var(--spacing-1)
+    }
+
+    &--active {
       outline: 2.5px solid $editor-turquoise;
     }
   }
 }
 
 .font-size-large {
-  .font-btn__medium {
-    .font-btn__icon {
-      margin: 0 var(--spacing-2)
-    }
-  }
+
   .font-btn__icon{
     height: var(--spacing-9);
     width: var(--spacing-9);
-  }
-  .font-btn--active {
-    .font-btn__icon {
+
+    &--medium {
+      margin: 0 var(--spacing-2)
+    }
+
+    &--active {
       outline: 3px solid $editor-turquoise;
     }
   }

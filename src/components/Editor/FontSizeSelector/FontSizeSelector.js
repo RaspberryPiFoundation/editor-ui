@@ -8,20 +8,20 @@ const FontSizeSelector = () => {
   const fontSize = cookies.fontSize || "small"
   return (
     <div className='font-size-selector'>
-      <div className={`font-btn font-btn__small ${fontSize==='small' ? 'font-btn--active' : ''}`} onClick={() => setCookie('fontSize', 'small')}>
-        <div className='font-btn__icon'>
+      <div className='font-btn font-btn__small' onClick={() => setCookie('fontSize', 'small')}>
+        <div className={`font-btn__icon font-btn__icon--small ${fontSize==='small' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={15}/>
         </div>
         <p>Small</p>
       </div>
-      <div className={`font-btn font-btn__medium ${fontSize==='medium' ? 'font-btn--active' : ''}`} onClick={() => setCookie('fontSize', 'medium')}>
-      <div className='font-btn__icon'>
+      <div className='font-btn font-btn__medium' onClick={() => setCookie('fontSize', 'medium')}>
+      <div className={`font-btn__icon font-btn__icon--medium ${fontSize==='medium' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={23}/>
         </div>
         <p>Medium</p>
       </div>
-      <div className={`font-btn font-btn__large ${fontSize==='large' ? 'font-btn--active' : ''}`} onClick={() => setCookie('fontSize', 'large')}>
-      <div className='font-btn__icon'>
+      <div className='font-btn font-btn__large' onClick={() => setCookie('fontSize', 'large')}>
+      <div className={`font-btn__icon font-btn__icon--large ${fontSize==='large' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={36}/>
         </div>
         <p>Large</p>
