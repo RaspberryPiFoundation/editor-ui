@@ -9,7 +9,6 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
 import VisualOutputPane from './VisualOutputPane';
-import { prettyDOM } from '@testing-library/react';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -52,7 +51,6 @@ const PythonRunner = () => {
         const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
-        console.log('disabled input span')
       }
     }
   },
@@ -198,7 +196,6 @@ const PythonRunner = () => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
-    console.log(prettyDOM(span))
     return span
   }
 
@@ -208,7 +205,6 @@ const PythonRunner = () => {
     }
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
-    console.log(prettyDOM(outputPane))
 
     const input = getInput()
     input.focus();
@@ -219,7 +215,6 @@ const PythonRunner = () => {
           input.removeEventListener(e.type, removeInput)
           // resolve the promise with the value of the input field
           const answer = input.innerText;
-          // console.log('disabling span')
           input.removeAttribute("id");
           input.removeAttribute("contentEditable");
           input.innerText=answer+'\n';
@@ -240,10 +235,6 @@ const PythonRunner = () => {
     dispatch(setError(""));
     output.current.innerHTML = '';
     dispatch(setSenseHatEnabled(false))
-    // if (hasVisualOutput) {
-    //   console.log('drawing...')
-      // dispatch(triggerDraw())
-    // }
 
     var prog = projectCode[0].content;
 
@@ -259,7 +250,6 @@ const PythonRunner = () => {
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
-              console.log ('throwing error')
               throw new Error("Execution interrupted");
             }
           }
@@ -270,7 +260,6 @@ const PythonRunner = () => {
       dispatch(stopDraw());
       if (getInput()) {
         const input = getInput()
-        // console.log('disabling span')
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
