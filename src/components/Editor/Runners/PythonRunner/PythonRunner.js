@@ -4,29 +4,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
-import { setError, codeRunHandled, stopDraw } from '../../EditorSlice'
+import { setError, codeRunHandled, stopDraw, setSenseHatEnabled, triggerDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
-import AstroPiModel from '../../../AstroPiModel/AstroPiModel';
+import VisualOutputPane from './VisualOutputPane';
+import { prettyDOM } from '@testing-library/react';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const projectImages = useSelector((state) => state.editor.project.image_list);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
-  const outputCanvas = useRef();
   const output = useRef();
-  const pygalOutput = useRef();
-  const p5Output = useRef();
   const dispatch = useDispatch();
 
   const queryParams = new URLSearchParams(window.location.search)
-
-  const [senseHatEnabled, setSenseHatEnabled] = useState(false);
+  const [hasVisualOutput, setHasVisualOutput] = useState(queryParams.get('show_visual_tab') === 'true' || senseHatAlwaysEnabled)
 
   const getInput = () => {
     const pageInput = document.getElementById("input")
@@ -51,16 +47,16 @@ const PythonRunner = () => {
   }, [codeRunStopped]);
 
   useEffect(() => {
-    if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
-      Sk.p5.stop();
+    if (!codeRunTriggered && !drawTriggered) {
       if (getInput()) {
         const input = getInput()
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
+        console.log('disabled input span')
       }
     }
   },
-  [drawTriggered]
+  [drawTriggered, codeRunTriggered]
   )
 
   const externalLibraries = {
@@ -85,6 +81,13 @@ const PythonRunner = () => {
     }
   };
 
+  const visualLibraries =[
+    "./pygal/__init__.js",
+    "./p5/__init__.js",
+    "./_internal_sense_hat/__init__.js",
+    "src/builtin/turtle/__init__.js"
+  ]
+
   const outf = (text) => {
     if (text !== "") {
       const node = output.current;
@@ -99,7 +102,15 @@ const PythonRunner = () => {
   const builtinRead = (x) => {
 
     if (x==="./_internal_sense_hat/__init__.js") {
-      setSenseHatEnabled(true)
+      dispatch(setSenseHatEnabled(true))
+    }
+
+    if(x === "./p5/__init__.js") {
+      dispatch(triggerDraw())
+    }
+
+    if (visualLibraries.includes(x)) {
+      setHasVisualOutput(true)
     }
 
     let localProjectFiles = projectCode.filter((component) => component.name !== 'main').map((component) => `./${component.name}.py`);
@@ -187,6 +198,7 @@ const PythonRunner = () => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
+    console.log(prettyDOM(span))
     return span
   }
 
@@ -196,6 +208,7 @@ const PythonRunner = () => {
     }
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
+    console.log(prettyDOM(outputPane))
 
     const input = getInput()
     input.focus();
@@ -206,6 +219,7 @@ const PythonRunner = () => {
           input.removeEventListener(e.type, removeInput)
           // resolve the promise with the value of the input field
           const answer = input.innerText;
+          // console.log('disabling span')
           input.removeAttribute("id");
           input.removeAttribute("contentEditable");
           input.innerText=answer+'\n';
@@ -224,12 +238,12 @@ const PythonRunner = () => {
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
-    outputCanvas.current.innerHTML = '';
     output.current.innerHTML = '';
-    pygalOutput.current.innerHTML = '';
-    p5Output.current.innerHTML = '';
-
-    setSenseHatEnabled(false)
+    dispatch(setSenseHatEnabled(false))
+    // if (hasVisualOutput) {
+    //   console.log('drawing...')
+      // dispatch(triggerDraw())
+    // }
 
     var prog = projectCode[0].content;
 
@@ -241,40 +255,28 @@ const PythonRunner = () => {
       inputTakesPrompt: true
     });
 
-    Sk.p5 = {}
-    Sk.p5.sketch = "p5Sketch";
-    Sk.p5.assets = projectImages;
-
-    (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;
-
-    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'outputCanvas';
-
-    Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
-
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
+              console.log ('throwing error')
               throw new Error("Execution interrupted");
             }
           }
         },
     ).catch(err => {
       const message = err.message || err.toString();
-      console.log(message)
       dispatch(setError(message));
+      dispatch(stopDraw());
       if (getInput()) {
         const input = getInput()
+        // console.log('disabling span')
         input.removeAttribute("id")
         input.removeAttribute("contentEditable")
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
-      if (p5Output.current.innerHTML === '') {
-        dispatch(stopDraw());
-      }
-    }
-    );
+    });
     myPromise.then(function (_mod) {
     });
   }
@@ -301,53 +303,45 @@ const PythonRunner = () => {
   }
 
   return (
-    <div className="pythonrunner-container">
+    <div className={`pythonrunner-container`}>
       { isEmbedded ?
         <>
-          {queryParams.get('show_visual_tab') === 'false' ? null : 
+          <div className={`output-panel ${!hasVisualOutput ? 'output-panel--hidden' : ''}`}>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
                 <Tab key={0}>Visual Output</Tab>
               </TabList>
-              <TabPanel key={0}>
-                <div className='visual-output'>
-                  <div id='p5Sketch' ref={p5Output} />
-                  <div id='pygalOutput' ref={pygalOutput} />
-                  <div className="pythonrunner-canvas-container">
-                    <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
-                  </div>
-                  {senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}
-                </div>
+              <TabPanel key={0} >
+                <VisualOutputPane/>
               </TabPanel>
             </Tabs>
-          }
-          <Tabs forceRenderTabPanel={true}>
-          <TabList>
-            <Tab key={0}>Text Output</Tab>
-          </TabList>
-          <ErrorMessage />
-          <TabPanel key={0}>
-            <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
-          </TabPanel>
-        </Tabs>
+          </div>
+          <div className='output-panel'>
+            <Tabs forceRenderTabPanel={true}>
+              <TabList>
+                <Tab key={0}>Text Output</Tab>
+              </TabList>
+              <ErrorMessage />
+              <TabPanel key={0}>
+                <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+              </TabPanel>
+            </Tabs>
+          </div>
       </>
       :
         <Tabs forceRenderTabPanel={true} defaultIndex={senseHatAlwaysEnabled ? 0 : 1}>
           <TabList>
-            <Tab key={0}>Visual Output</Tab>
+            {hasVisualOutput ?
+              <Tab key={0}>Visual Output</Tab> : null
+            }
             <Tab key={1}>Text Output</Tab>
           </TabList>
           <ErrorMessage />
-          <TabPanel key={0}>
-            <div className='visual-output'>
-              <div id='p5Sketch' ref={p5Output} />
-              <div id='pygalOutput' ref={pygalOutput} />
-              <div className="pythonrunner-canvas-container">
-                <div id='outputCanvas' ref={outputCanvas} className="pythonrunner-graphic" />
-              </div>
-              {senseHatEnabled || senseHatAlwaysEnabled ?<AstroPiModel/>:null}
-            </div>
-          </TabPanel>
+          {hasVisualOutput ?
+            <TabPanel key={0} >
+              <VisualOutputPane/>
+            </TabPanel> : null
+          }
           <TabPanel key={1}>
             <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
           </TabPanel>

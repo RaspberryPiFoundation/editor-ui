@@ -2,9 +2,10 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { prettyDOM } from "@testing-library/react";
 
 import PythonRunner from "./PythonRunner";
-import { codeRunHandled, setError } from "../../EditorSlice";
+import { codeRunHandled, setError, setSenseHatEnabled } from "../../EditorSlice";
 
 describe("Testing basic input span functionality", () => {
   let input;
@@ -23,7 +24,7 @@ describe("Testing basic input span functionality", () => {
           ],
           image_list: []
         },
-        codeRunTriggered: true
+        codeRunTriggered: true,
       }
     }
     store = mockStore(initialState);
@@ -105,7 +106,7 @@ describe("Testing stopping the code run", () => {
   })
 
   test("Stopping code with input sets error and handles code run", () => {
-    const expectedActions = [setError(''), setError('Execution interrupted'), codeRunHandled()]
+    const expectedActions = [setError(''), setSenseHatEnabled(false), setError('Execution interrupted'), codeRunHandled()]
     expect(store.getActions()).toEqual(expectedActions);
   })
 })

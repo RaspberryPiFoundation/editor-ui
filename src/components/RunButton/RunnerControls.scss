@@ -43,3 +43,9 @@
   }
 }
 
+.--dark {
+  .btn--stop {
+    outline: 2px solid $editor-white;
+  }
+}
+

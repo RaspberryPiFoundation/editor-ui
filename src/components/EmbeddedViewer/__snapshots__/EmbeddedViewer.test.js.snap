@@ -26,21 +26,10 @@ exports[`Renders without crashing 1`] = `
             <li
               aria-controls="react-tabs-1"
               aria-disabled="false"
-              aria-selected="false"
-              class="react-tabs__tab"
-              data-rttab="true"
-              id="react-tabs-0"
-              role="tab"
-            >
-              Visual Output
-            </li>
-            <li
-              aria-controls="react-tabs-3"
-              aria-disabled="false"
               aria-selected="true"
               class="react-tabs__tab react-tabs__tab--selected"
               data-rttab="true"
-              id="react-tabs-2"
+              id="react-tabs-0"
               role="tab"
               tabindex="0"
             >
@@ -49,33 +38,8 @@ exports[`Renders without crashing 1`] = `
           </ul>
           <div
             aria-labelledby="react-tabs-0"
-            class="react-tabs__tab-panel"
-            id="react-tabs-1"
-            role="tabpanel"
-          >
-            <div
-              class="visual-output"
-            >
-              <div
-                id="p5Sketch"
-              />
-              <div
-                id="pygalOutput"
-              />
-              <div
-                class="pythonrunner-canvas-container"
-              >
-                <div
-                  class="pythonrunner-graphic"
-                  id="outputCanvas"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            aria-labelledby="react-tabs-2"
             class="react-tabs__tab-panel react-tabs__tab-panel--selected"
-            id="react-tabs-3"
+            id="react-tabs-1"
             role="tabpanel"
           >
             <pre

@@ -9,7 +9,7 @@ const RunButton = (props) => {
 
   const onClickRun = () => {
     dispatch(triggerCodeRun());
-    dispatch(triggerDraw());
+    // dispatch(triggerDraw());
   }
 
   return (
