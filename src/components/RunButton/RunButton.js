@@ -2,14 +2,13 @@ import Button from '../Button/Button'
 
 import React from 'react';
 import { useDispatch } from 'react-redux'
-import { triggerCodeRun, triggerDraw } from '../Editor/EditorSlice'
+import { triggerCodeRun } from '../Editor/EditorSlice'
 
 const RunButton = (props) => {
   const dispatch = useDispatch();
 
   const onClickRun = () => {
     dispatch(triggerCodeRun());
-    // dispatch(triggerDraw());
   }
 
   return (

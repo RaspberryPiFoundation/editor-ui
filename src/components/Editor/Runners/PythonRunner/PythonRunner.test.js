@@ -2,10 +2,9 @@ import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { prettyDOM } from "@testing-library/react";
 
 import PythonRunner from "./PythonRunner";
-import { codeRunHandled, setError, setSenseHatEnabled, triggerDraw } from "../../EditorSlice";
+import { codeRunHandled, setError, triggerDraw } from "../../EditorSlice";
 
 describe("Testing basic input span functionality", () => {
   let input;
@@ -272,7 +271,6 @@ describe('When not embedded, sense_hat imported and code run', () => {
 describe('When embedded, no visual libraries used and code run', () => {
   let store;
   let queryByText;
-  let getAllByRole;
   
   beforeEach(() => {
     const middlewares = []
@@ -292,12 +290,11 @@ describe('When embedded, no visual libraries used and code run', () => {
       }
     }
     store = mockStore(initialState);
-    ({getAllByRole, queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
   })
 
   test('Visual tab is not shown', () => {
     const visualTab = queryByText('Visual Output')
-    console.log(prettyDOM(document))
     expect(visualTab).not.toBeVisible()
   })
 })
