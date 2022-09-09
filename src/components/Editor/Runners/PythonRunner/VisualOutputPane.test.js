@@ -98,31 +98,3 @@ describe("When code run is triggered",() => {
     expect(Sk.TurtleGraphics.target).not.toBeNull()
   })
 })
-
-// describe('When p5 imported and code run', () => {
-//   let store;
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "import p5\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tbackground(255)\nrun()"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         drawTriggered: false
-//       }
-//     }
-//     store = mockStore(initialState);
-//     render(<Provider store={store}><VisualOutputPane /></Provider>);
-//   })
-
-//   test('Draw is triggered', () => {
-//     expect(store.getActions()).toEqual(expect.arrayContaining([setError('Execution interrupted')]))
-//   })
-// })
