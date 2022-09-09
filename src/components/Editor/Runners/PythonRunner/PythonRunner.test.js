@@ -241,7 +241,7 @@ describe('When not embedded, turtle imported and code run', () => {
 
 describe('When not embedded, sense_hat imported and code run', () => {
   let store;
-  let findByText;
+  let queryByText;
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
@@ -250,7 +250,7 @@ describe('When not embedded, sense_hat imported and code run', () => {
         project: {
           components: [
             {
-              content: "import sense_hat"
+              content: "import _internal_sense_hat"
             }
           ],
           image_list: []
@@ -260,12 +260,12 @@ describe('When not embedded, sense_hat imported and code run', () => {
       }
     }
     store = mockStore(initialState);
-    ({findByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
   })
 
   test('Visual tab is shown', async () => {
-    await (waitFor( async () => {expect(await findByText('Visual Output')).toBeInTheDocument()}), {timeout: 1000})
-  })
+    const visualTab = queryByText('Visual Output')
+    expect(visualTab).toBeInTheDocument()  })
 })
 
 describe('When embedded, no visual libraries used and code run', () => {
@@ -396,7 +396,7 @@ describe('When embedded, turtle imported and code run', () => {
 
 describe('When embedded, sense_hat imported and code run', () => {
   let store;
-  let findByText;
+  let queryByText;
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
@@ -405,7 +405,7 @@ describe('When embedded, sense_hat imported and code run', () => {
         project: {
           components: [
             {
-              content: "import sense_hat"
+              content: "import _internal_sense_hat"
             }
           ],
           image_list: []
@@ -415,10 +415,11 @@ describe('When embedded, sense_hat imported and code run', () => {
       }
     }
     store = mockStore(initialState);
-    ({findByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
   })
 
   test('Visual tab is not hidden', async () => {
-    await (waitFor( async () => {expect(await findByText('Visual Output')).toBeVisible()}) , {timeout: 1000})
+    const visualTab = queryByText('Visual Output')
+    expect(visualTab).toBeVisible()
   })
 })
