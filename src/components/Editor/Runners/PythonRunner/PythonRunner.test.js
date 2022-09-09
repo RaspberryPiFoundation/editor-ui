@@ -265,165 +265,163 @@ describe('When not embedded, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is shown', async () => {
-    await waitFor(() => {expect(await findByText('Visual Output')).toBeInTheDocument()}), {timeout: 100}
+    await (waitFor( async () => {expect(await findByText('Visual Output')).toBeInTheDocument()}), {timeout: 1000})
   })
 })
 
-// describe('When embedded, no visual libraries used and code run', () => {
-//   let store;
-//   let queryByText;
-//   let getAllByRole;
+describe('When embedded, no visual libraries used and code run', () => {
+  let store;
+  let queryByText;
+  let getAllByRole;
   
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "print('hello world')"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         isEmbedded: true
-//       }
-//     }
-//     store = mockStore(initialState);
-//     ({getAllByRole, queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
-//   })
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('hello world')"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isEmbedded: true
+      }
+    }
+    store = mockStore(initialState);
+    ({getAllByRole, queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
 
-//   test('Visual tab is not shown', () => {
-//     const visualTab = queryByText('Visual Output')
-//     console.log(prettyDOM(document))
-//     expect(getAllByRole('tablist')[0].parent).toHaveStyle('display: none')
-//   })
-// })
+  test('Visual tab is not shown', () => {
+    const visualTab = queryByText('Visual Output')
+    console.log(prettyDOM(document))
+    expect(visualTab).not.toBeVisible()
+  })
+})
 
-// describe('When embedded, p5 imported and code run', () => {
-//   let store;
-//   let queryByText;
+describe('When embedded, p5 imported and code run', () => {
+  let store;
+  let queryByText;
   
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "import p5"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         isEmbedded: true
-//       }
-//     }
-//     store = mockStore(initialState);
-//     ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
-//   })
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import p5"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isEmbedded: true
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
 
-//   test('Visual tab is not hidden', () => {
-//     const visualTab = queryByText('Visual Output')
-//     expect(visualTab).not.toHaveAttribute('hidden')
-//   })
+  test('Visual tab is not hidden', () => {
+    const visualTab = queryByText('Visual Output')
+    expect(visualTab).toBeVisible()
+  })
 
-//   test('Draw is triggered', () => {
-//     expect(store.getActions()).toEqual(expect.arrayContaining([triggerDraw()]))
-//   })
-// })
+  test('Draw is triggered', () => {
+    expect(store.getActions()).toEqual(expect.arrayContaining([triggerDraw()]))
+  })
+})
 
-// describe('When embedded, pygal imported and code run', () => {
-//   let store;
-//   let queryByText;
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "import pygal"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         isEmbedded: true
-//       }
-//     }
-//     store = mockStore(initialState);
-//     ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
-//   })
+describe('When embedded, pygal imported and code run', () => {
+  let store;
+  let queryByText;
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import pygal"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isEmbedded: true
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
 
-//   test('Visual tab is not hidden', () => {
-//     const visualTab = queryByText('Visual Output')
-//     expect(visualTab).not.toHaveAttribute('hidden')
-//   })
-// })
+  test('Visual tab is not hidden', () => {
+    const visualTab = queryByText('Visual Output')
+    expect(visualTab).toBeVisible()
+  })
+})
 
-// describe('When embedded, turtle imported and code run', () => {
-//   let store;
-//   let queryByText;
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "import turtle"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         isEmbedded: true
-//       }
-//     }
-//     store = mockStore(initialState);
-//     ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
-//   })
+describe('When embedded, turtle imported and code run', () => {
+  let store;
+  let queryByText;
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import turtle"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isEmbedded: true
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
 
-//   test('Visual tab is not hidden', () => {
-//     const visualTab = queryByText('Visual Output')
-//     expect(visualTab).not.toHaveAttribute('hidden')
-//   })
-// })
+  test('Visual tab is not hidden', () => {
+    const visualTab = queryByText('Visual Output')
+    expect(visualTab).toBeVisible()
+  })
+})
 
-// describe('When embedded, sense_hat imported and code run', () => {
-//   let store;
-//   let findByText;
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: "import sense_hat"
-//             }
-//           ],
-//           image_list: []
-//         },
-//         codeRunTriggered: true,
-//         isEmbedded: true
-//       }
-//     }
-//     store = mockStore(initialState);
-//     ({findByText} = render(<Provider store={store}><PythonRunner /></Provider>));
-//   })
+describe('When embedded, sense_hat imported and code run', () => {
+  let store;
+  let findByText;
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import sense_hat"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isEmbedded: true
+      }
+    }
+    store = mockStore(initialState);
+    ({findByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
 
-//   test('Visual tab is not hidden', async () => {
-//     const visualTab = await (waitFor(() => findByText('Visual Output')))
-//     console.log(prettyDOM(visualTab))
-//     expect(visualTab).not.toHaveAttribute('hidden')
-//   })
-// })
+  test('Visual tab is not hidden', async () => {
+    await (waitFor( async () => {expect(await findByText('Visual Output')).toBeVisible()}) , {timeout: 1000})
+  })
+})
