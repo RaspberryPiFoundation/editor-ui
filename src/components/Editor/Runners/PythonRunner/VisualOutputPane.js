@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt"
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
-import { codeRunHandled, setError, stopDraw } from "../../EditorSlice";
+import { codeRunHandled, setError } from "../../EditorSlice";
 
 const VisualOutputPane = () => {
 
