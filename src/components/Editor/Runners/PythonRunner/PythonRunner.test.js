@@ -265,7 +265,7 @@ describe('When not embedded, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is shown', async () => {
-    await (waitFor(() => expect(findByText('Visual Output')).toBeInTheDocument()), {timeout: 100})
+    await waitFor(() => {expect(await findByText('Visual Output')).toBeInTheDocument()}), {timeout: 100}
   })
 })
 
