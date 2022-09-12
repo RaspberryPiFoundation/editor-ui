@@ -1,0 +1,41 @@
+@import '../../colours.scss';
+
+.embedded-viewer {
+  height: 100%;
+  padding: var(--spacing-1);
+  overflow: hidden;
+
+  .pythonrunner-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    .visual-output {
+      box-sizing: border-box;
+      overflow: scroll;
+    }
+  }
+}
+
+.--light {
+  .embedded-viewer {
+    background-color: $editor-light-turquoise;
+    .pythonrunner-container {
+      border: 2px solid $editor-light-grey;
+
+      .visual-output {
+        border-bottom: 5px solid $editor-light-grey;
+      }
+    }
+  }
+}
+
+.--dark {
+  .embedded-viewer {
+    .pythonrunner-container {
+      .visual-output {
+        border-bottom: 5px solid $editor-grey;
+      }
+    }
+  }
+}

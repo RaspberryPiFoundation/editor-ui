@@ -24,6 +24,12 @@
   }
 }
 
+.--dark {
+  .btn--stop {
+    outline: 2px solid $editor-white;
+  }
+}
+
 .font-size-large .runner-controls {
   svg {
     margin-right: var(--spacing-2);
@@ -42,4 +48,3 @@
     }
   }
 }
-
