@@ -295,7 +295,7 @@ const PythonRunner = () => {
     <div className={`pythonrunner-container`}>
       { isEmbedded ?
         <>
-          <div className='output-panel' style={!hasVisualOutput ? {display: 'none'} : {}}>
+          <div className='output-panel output-panel--visual' style={!hasVisualOutput ? {display: 'none'} : {}}>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
                 <Tab key={0}>Visual Output</Tab>
@@ -305,7 +305,7 @@ const PythonRunner = () => {
               </TabPanel>
             </Tabs>
           </div>
-          <div className='output-panel'>
+          <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
                 <Tab key={0}>Text Output</Tab>
