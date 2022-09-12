@@ -23,7 +23,7 @@ it("does not render visual output tab on page load", () => {
   cy.get("editor-wc").shadow().find('#root').should("not.contain", "Visual Output")
 })
 
-it("does renders visual output tab if sense hat imported", () => {
+it("renders visual output tab if sense hat imported", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import sense_hat')
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("editor-wc").shadow().find('#root').should("contain", "Visual Output")

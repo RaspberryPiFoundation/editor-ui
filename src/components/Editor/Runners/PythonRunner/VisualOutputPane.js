@@ -33,7 +33,7 @@ const VisualOutputPane = () => {
       Sk.TurtleGraphics.assets = Object.assign({}, ...projectImages.map((image) => ({[`${image.name}.${image.extension}`]: image.url})))
     
     }
-  }, [codeRunTriggered])
+  }, [codeRunTriggered, projectImages])
 
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
@@ -42,7 +42,7 @@ const VisualOutputPane = () => {
       dispatch(codeRunHandled())
     }
 
-  }, [drawTriggered])
+  }, [drawTriggered, dispatch])
 
   return (
     <div className='visual-output'>
