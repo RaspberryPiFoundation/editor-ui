@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update build workflow with a reusable job to update preview, staging, and prod (#176)
 - Change deployment to use specific AWS endpoint, and deploy releases to `/releases/...` and branches to `/branches/..` (#177)
 
+### Fixed
+- Stop button contrast in dark mode (#182)
+- Surfacing errors promptly when stopping `p5` code runs (#182)
+
 ## [0.3.0]
 
 ### Added
