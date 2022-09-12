@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+- Option to specify that the visual output tab should be present on page load via a query string, otherwise only the text output is present (#182)
+- Automatically add and switch focus to the visual output tab when a visual library is imported during the code run (#182)
+
 ### Changed
+- Update styling of embedded player to stack the visual and text output (#182)
 - Update styling on the `sense_hat` visual output (#174)
 - Update build workflow with a reusable job to update preview, staging, and prod (#176)
 - Change deployment to use specific AWS endpoint, and deploy releases to `/releases/...` and branches to `/branches/..` (#177)
