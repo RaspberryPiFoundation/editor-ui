@@ -8,6 +8,20 @@ on:
       - '**'
 
 jobs:
+  changelog-updated:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v29.0.4
+    - name: List all changed files
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
   lint:
     runs-on: ubuntu-latest
     steps:
