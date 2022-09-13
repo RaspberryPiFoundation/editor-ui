@@ -25,10 +25,12 @@ jobs:
     #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
     #       echo "$file was changed"
     #     done
-    - name: Check if changelog has been modified
-      if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
-      run: |
-        exit 1
+
+
+    # - name: Check if changelog has been modified
+    #   if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+    #   run: |
+    #     exit 1
   lint:
     runs-on: ubuntu-latest
     steps:
