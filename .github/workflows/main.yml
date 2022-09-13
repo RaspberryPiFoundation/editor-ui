@@ -26,7 +26,7 @@ jobs:
     #       echo "$file was changed"
     #     done
     - name: Run step if any file(s) in the docs folder change
-      if: steps.changed-files.outputs.any_changed == 'true'
+      if: steps.changed-files.outputs.any_changed == 'false'
       run: |
         exit 1
   lint:
