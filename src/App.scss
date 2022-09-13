@@ -1,3 +1,4 @@
+@use './tabs.scss';
 @import './colours.scss';
 
 button {
@@ -8,6 +9,17 @@ button {
   height: 100vh;
   display: flex;
   flex-flow: column;
+}
+
+.--light {
+  background-color: $editor-light-blue;
+  caret-color: black;
+  .pythonrunner-input {
+    color: rgb(36, 103, 236);
+  }
+  svg {
+    fill: $editor-black;
+  }
 }
 
 .--dark {
@@ -24,16 +36,5 @@ button {
 
   button svg {
     fill: inherit;
-  }
-}
-
-.--light {
-  background-color: $editor-light-blue;
-  caret-color: black;
-  .pythonrunner-input {
-    color: rgb(36, 103, 236);
-  }
-  svg {
-    fill: $editor-black;
   }
 }

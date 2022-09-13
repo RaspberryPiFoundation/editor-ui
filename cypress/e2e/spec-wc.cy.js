@@ -19,8 +19,17 @@ it("runs the python code", () => {
   cy.get("editor-wc").shadow().find(".pythonrunner-console-output-line").should("contain", "Hello world")
 })
 
-it("does not render the astro pi component on page load", () => {
-  cy.get("editor-wc").shadow().contains('Visual Output').click()
+it("does not render visual output tab on page load", () => {
+  cy.get("editor-wc").shadow().find('#root').should("not.contain", "Visual Output")
+})
+
+it("renders visual output tab if sense hat imported", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import sense_hat')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.get("editor-wc").shadow().find('#root').should("contain", "Visual Output")
+})
+
+it("does not render astro pi component on page load",() => {
   cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw")
 })
 

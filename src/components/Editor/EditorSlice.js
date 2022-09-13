@@ -14,6 +14,7 @@ export const EditorSlice = createSlice({
     projectList: [],
     projectListLoaded: false,
     senseHatAlwaysEnabled: false,
+    senseHatEnabled: false,
   },
   reducers: {
     updateImages: (state, action) => {
@@ -41,6 +42,9 @@ export const EditorSlice = createSlice({
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
+    },
+    setSenseHatEnabled: (state, action) => {
+      state.senseHatEnabled = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -104,6 +108,7 @@ export const {
   setProjectListLoaded,
   setProjectLoaded,
   setSenseHatAlwaysEnabled,
+  setSenseHatEnabled,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,

@@ -37,11 +37,11 @@
 .font-size-medium {
   .project-images__block {
     &__container {
-      height: calc(1.2*var(--spacing-9));
-      width: calc(1.2*var(--spacing-9));
+      height: calc(1.2 * var(--spacing-9));
+      width: calc(1.2 * var(--spacing-9));
     }
     p {
-      width: calc(1.2*var(--spacing-9));
+      width: calc(1.2 * var(--spacing-9));
     }
   }
 }
@@ -49,12 +49,12 @@
 .font-size-large {
   .project-images__block {
     &__container {
-      height: calc(1.44*var(--spacing-9));
-      width: calc(1.44*var(--spacing-9));
+      height: calc(1.44 * var(--spacing-9));
+      width: calc(1.44 * var(--spacing-9));
       margin: 0;
     }
     p {
-      width: calc(1.44*var(--spacing-9));
+      width: calc(1.44 * var(--spacing-9));
     }
   }
 }

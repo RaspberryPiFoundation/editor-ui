@@ -10,6 +10,7 @@
     align-items: center;
 
     svg {
+      margin-right: var(--spacing-1);
       min-width: 0;
     }
   }
@@ -23,9 +24,16 @@
   }
 }
 
-.font-size-small .runner-controls {
+.--dark {
+  .btn--stop {
+    outline: 2px solid $editor-white;
+  }
+}
+
+.font-size-large .runner-controls {
   svg {
-    margin-right: var(--spacing-1);
+    margin-right: var(--spacing-2);
+    margin-left: var(--spacing-1);
   }
 }
 
@@ -40,11 +48,3 @@
     }
   }
 }
-
-.font-size-large .runner-controls {
-  svg {
-    margin-right: var(--spacing-2);
-    margin-left: var(--spacing-1);
-  }
-}
-
