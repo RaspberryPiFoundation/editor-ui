@@ -3,14 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0]
 
 ### Added
 - Option to specify that the visual output tab should be present on page load via a query string, otherwise only the text output is present (#182)
 - Automatically add and switch focus to the visual output tab when a visual library is imported during the code run (#182)
 
 ### Changed
-- Update styling of embedded player to stack the visual and text output (#182)
+- Update styling of embedded player to stack the visual and text output (#182, #187)
 - Update styling on the `sense_hat` visual output (#174)
 - Update build workflow with a reusable job to update preview, staging, and prod (#176)
 - Change deployment to use specific AWS endpoint, and deploy releases to `/releases/...` and branches to `/branches/..` (#177)
@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Stop button contrast in dark mode (#182)
 - Surfacing errors promptly when stopping `p5` code runs (#182)
+- `ESLint` (#175) and `stylelint` (#178) errors
 
 ## [0.3.0]
 
@@ -58,8 +59,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.4.0...HEAD
 [0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
 [0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
 [0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
+[0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
 
