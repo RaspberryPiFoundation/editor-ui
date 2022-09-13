@@ -55,7 +55,13 @@
 }
 
 .output-panel {
-  flex: 1;
   display: flex;
   overflow: hidden;
+  &--text {
+    flex: 3;
+  }
+
+  &--visual {
+    flex: 7;
+  }
 }
