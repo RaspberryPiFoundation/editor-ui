@@ -17,16 +17,16 @@ jobs:
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v29.0.4
-      with:
-        files: |
-          CHANGELOG.md
+      # with:
+      #   files: |
+      #     CHANGELOG.md
     # - name: List all changed files
     #   run: |
     #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
     #       echo "$file was changed"
     #     done
     - name: Run step if any file(s) in the docs folder change
-      if: steps.changed-files.outputs.any_changed == 'false'
+      if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
   lint:
