@@ -27,10 +27,10 @@ jobs:
     #     done
 
 
-    - name: Check if changelog has been modified
-      if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
-      run: |
-        exit 1
+    # - name: Check if changelog has been modified
+    #   if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+    #   run: |
+    #     exit 1
   lint:
     runs-on: ubuntu-latest
     steps:
