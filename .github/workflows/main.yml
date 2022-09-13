@@ -28,7 +28,7 @@ jobs:
 
 
     - name: Check if changelog has been modified
-      if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+      if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
   lint:
