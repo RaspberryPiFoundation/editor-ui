@@ -25,7 +25,7 @@ jobs:
     #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
     #       echo "$file was changed"
     #     done
-    - name: Run step if any file(s) in the docs folder change
+    - name: Check if changelog has been modified
       if: ! contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
