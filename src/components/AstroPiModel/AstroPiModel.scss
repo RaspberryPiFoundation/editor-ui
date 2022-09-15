@@ -11,6 +11,7 @@
   &-model {
     display: flex;
     flex-flow: column;
+    min-height: 300px;
     max-height: 50%;
     flex: 1;
     padding-bottom: var(--spacing-1);
@@ -30,9 +31,9 @@
       }
   
       &__values {
-        flex: 8;
+        flex: 10;
         display: flex;
-        margin: 0 var(--spacing-6);
+        margin: 0 var(--spacing-1);
       }
   
       &__reading {

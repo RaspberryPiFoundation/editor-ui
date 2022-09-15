@@ -18,7 +18,7 @@ const AstroPiControls = (props) => {
           <SliderInput name="humidity" unit="%" min={0} max={100} defaultValue={humidity} Icon={HumidityIcon}/>
       
         <div className="sense-hat-controls-panel__control">
-          <Input name="colour" label="Colour Picker" type="color" defaultValue={colour} />
+          <Input name="colour" label="Colour" type="color" defaultValue={colour} />
           <MotionInput defaultValue={motion} />
           <Stopwatch />
         </div>
