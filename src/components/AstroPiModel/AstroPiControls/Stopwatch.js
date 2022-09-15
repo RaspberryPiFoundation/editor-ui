@@ -29,7 +29,7 @@ const Stopwatch = () => {
       pause()
       Sk.sense_hat.mz_criteria.duration = hasLostFocus ? null : minutes * 60 + seconds
     }
-  }, [codeRunTriggered, minutes, seconds, isRunning, pause, reset])
+  }, [codeRunTriggered, hasLostFocus, minutes, seconds, isRunning, pause, reset])
 
 
   return (
