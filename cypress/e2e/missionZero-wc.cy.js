@@ -101,5 +101,5 @@ it("returns duration of null if focus is lost", () => {
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.window().blur()
   cy.window().focus()
-  cy.get('#results').should("contain", "duration:null")
+  cy.get('#results').should("contain", '"duration":null')
 })
