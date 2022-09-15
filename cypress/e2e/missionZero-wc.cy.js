@@ -103,3 +103,12 @@ it("returns duration of null if focus is lost", () => {
   cy.window().focus()
   cy.get('#results').should("contain", '"duration":null')
 })
+
+it("does not return duration of null if code rerun after focus lost", () => {
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")')
+  cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.window().blur()
+  cy.window().focus()
+  cy.get("editor-wc").shadow().find(".btn--run").click()
+  cy.get('#results').should("not.contain", '"duration":null')
+})
