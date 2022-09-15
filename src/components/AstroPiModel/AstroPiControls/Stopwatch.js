@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useStopwatch } from 'react-timer-hook';
 import Sk from 'skulpt'
@@ -12,14 +12,22 @@ const Stopwatch = () => {
     pause,
     reset
   } = useStopwatch({ autoStart: false })
+  const [hasLostFocus, setHasLostFocus] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('blur', () => {
+      setHasLostFocus(true)
+    })
+  }, [])
 
   useEffect(() => {
     if (codeRunTriggered && !isRunning) {
+      setHasLostFocus(false)
       reset()
     }
     if (!codeRunTriggered && isRunning){
       pause()
-      Sk.sense_hat.mz_criteria.duration = minutes * 60 + seconds
+      Sk.sense_hat.mz_criteria.duration = hasLostFocus ? null : minutes * 60 + seconds
     }
   }, [codeRunTriggered, minutes, seconds, isRunning, pause, reset])
 
