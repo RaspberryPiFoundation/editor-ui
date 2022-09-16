@@ -33,5 +33,12 @@
       background-color: $editor-grey;
     }
   }
+
+  &--secondary {
+    background-color: $editor-light-grey;
+    &:hover {
+      background-color: $editor-mid-light-grey;
+    }
+  }
 }
 

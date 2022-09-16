@@ -8,23 +8,8 @@ import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { NewFileIcon } from '../../../Icons';
-
-const allowedExtensions = {
-  "python": [
-    "py",
-    "csv",
-    "txt"
-  ]
-}
-
-const allowedExtensionsString = (projectType) => {
-  const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length === 1) {
-    return `'.${extensionsList[0]}'`
-  } else {
-    return `'.` + extensionsList.slice(0,-1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length-1] + `'`;
-  }
-}
+import { validateFileName } from '../../../utils/componentNameValidation';
+import { modalCustomStyles } from '../../../modalCustomStyles';
 
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -42,40 +27,11 @@ const NewComponentButton = () => {
       const fileName = document.getElementById('name').value
       const name = fileName.split('.')[0];
       const extension = fileName.split('.').slice(1).join('.');
-      if (isValidFileName(fileName)) {
+      validateFileName(fileName, projectType, componentNames, dispatch, () => {
         dispatch(addProjectComponent({extension: extension, name: name}));
         closeModal();
-      } else if (componentNames.includes(fileName)) {
-        dispatch(setNameError("File names must be unique."));
-      } else if (!allowedExtensions[projectType].includes(extension)) {
-        dispatch(setNameError(`File names must end in ${allowedExtensionsString(projectType)}.`));
-      } else {
-        dispatch(setNameError("Error"));
-      }
+      })
     }
-
-    const isValidFileName = (fileName) => {
-      const extension = fileName.split('.').slice(1).join('.')
-      if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    const customStyles = {
-      content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-      },
-      overlay: {
-        zIndex: 1000
-      }
-    };
 
     return (
       <>
@@ -84,17 +40,19 @@ const NewComponentButton = () => {
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
-          style={customStyles}
+          style={modalCustomStyles}
           contentLabel="New File"
           appElement={document.getElementById('root') || undefined}
         >
           <h2>Add a new file to your project</h2>
 
+          <label htmlFor='name'>Name your file</label>
           <NameErrorMessage />
-          <label htmlFor='name'>Name: </label>
           <input type='text' name='name' id='name'></input>
-          <Button buttonText='Cancel' onClickHandler={closeModal} />
-          <Button buttonText='Save' onClickHandler={createComponent} />
+          <div className='modal__buttons'>
+            <Button className='btn--secondary' buttonText='Cancel' onClickHandler={closeModal} />
+            <Button buttonText='Save' onClickHandler={createComponent} />
+          </div>
 
         </Modal>
       </>
