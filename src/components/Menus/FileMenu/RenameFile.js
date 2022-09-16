@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
-import { PencilIcon } from "../../../Icons";
+import { CloseIcon, PencilIcon } from "../../../Icons";
 import { validateFileName } from "../../../utils/componentNameValidation";
 import Button from "../../Button/Button";
 import { setNameError, updateComponentName } from "../../Editor/EditorSlice";
 import NameErrorMessage from "../../Editor/ErrorMessage/NameErrorMessage";
 import '../../../Modal.scss';
-import { useCookies } from "react-cookie";
 
 const RenameFile = (props) => {
   const {currentName, currentExtension, fileKey} = props
@@ -16,10 +15,6 @@ const RenameFile = (props) => {
   const projectType = useSelector((state) => state.editor.project.project_type)
   const projectComponents = useSelector((state) => state.editor.project.components);
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
-
-  const [cookies] = useCookies(['fontSize', 'theme'])
-  const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
-  const theme = isDarkMode ? "dark" : "light"
 
   const closeModal = () => setIsOpen(false);
   const showModal = () => {
@@ -51,7 +46,12 @@ const RenameFile = (props) => {
         parentSelector={() => document.querySelector('#app')}
         appElement={document.getElementById('app') || undefined}
       >
-          <h2>Rename File</h2>
+          <div className='modal__header'>
+            <h2>Rename file</h2>
+            <button onClick={closeModal}>
+              <CloseIcon/>
+            </button>
+          </div>
 
           <label htmlFor='name'>Name your file</label>
           <NameErrorMessage />

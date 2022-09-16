@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
-import { NewFileIcon } from '../../../Icons';
+import { CloseIcon, NewFileIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
 import { useCookies } from 'react-cookie';
 
@@ -50,7 +50,12 @@ const NewComponentButton = () => {
           parentSelector={() => document.querySelector('#app')}
           appElement={document.getElementById('app') || undefined}
         >
-          <h2>Add a new file to your project</h2>
+          <div className='modal__header'>
+            <h2>Add a new file to your project</h2>
+            <button onClick={closeModal}>
+              <CloseIcon/>
+            </button>
+          </div>
 
           <label htmlFor='name'>Name your file</label>
           <NameErrorMessage />

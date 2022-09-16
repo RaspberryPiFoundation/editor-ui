@@ -26,7 +26,7 @@ const isValidFileName = (fileName, projectType, componentNames) => {
   }
 }
 
-export const validateFileName = (fileName, projectType, componentNames, dispatch, callback, currentFileName=null) => {
+export const validateFileName = (fileName, projectType="python", componentNames, dispatch, callback, currentFileName=null) => {
   const extension = fileName.split('.').slice(1).join('.');
   if (isValidFileName(fileName, projectType, componentNames) || (currentFileName && fileName === currentFileName)) {
     callback()

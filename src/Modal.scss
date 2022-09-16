@@ -16,11 +16,21 @@
   display: flex;
   flex-direction: column;
   padding: var(--spacing-2);
-  
-  h2 {
-    margin-top: 0;
-    margin-bottom: var(--spacing-3);
-    font-size: var(--font-size-u-2)
+
+  .modal__header {
+    display: flex;
+    h2 {
+      margin-top: 0;
+      margin-bottom: var(--spacing-3);
+      font-size: var(--font-size-u-2)
+    }
+
+    button {
+      margin-left: auto;
+      height: fit-content;
+      margin-right: var(--spacing-1);
+      margin-top: var(--spacing-1);
+    }
   }
 
   label {
@@ -83,16 +93,20 @@
 
 .font-size-medium {
   .modal__overlay {
-    h2 {
-      font-size: var(--font-size-u-4)
+    .modal__header {
+      h2 {
+        font-size: var(--font-size-u-4)
+      }
     }
   }
 }
 
 .font-size-large {
   .modal__overlay {
-    h2 {
-      font-size: var(--font-size-u-6)
+    .modal__header {
+      h2 {
+        font-size: var(--font-size-u-6)
+      }
     }
   }
 }
