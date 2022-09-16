@@ -9,7 +9,7 @@ import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { NewFileIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
-import { modalCustomStyles } from '../../../modalCustomStyles';
+import { useCookies } from 'react-cookie';
 
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -17,6 +17,10 @@ const NewComponentButton = () => {
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+
+    const [cookies] = useCookies(['fontSize', 'theme'])
+    const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
+    const theme = isDarkMode ? "dark" : "light"
 
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
@@ -34,15 +38,17 @@ const NewComponentButton = () => {
     }
 
     return (
-      <>
+      <div className={`--${theme}`}>
         <Button buttonText={<><NewFileIcon />Add file</>} onClickHandler={showModal} className="proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
-          style={modalCustomStyles}
           contentLabel="New File"
-          appElement={document.getElementById('root') || undefined}
+          className='modal__content'
+          overlayClassName='modal__overlay'
+          parentSelector={() => document.querySelector('#app')}
+          appElement={document.getElementById('app') || undefined}
         >
           <h2>Add a new file to your project</h2>
 
@@ -55,7 +61,7 @@ const NewComponentButton = () => {
           </div>
 
         </Modal>
-      </>
+      </div>
     );
   }
 
