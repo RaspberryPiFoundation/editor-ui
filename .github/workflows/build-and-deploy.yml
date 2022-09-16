@@ -51,17 +51,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       deploy_dir: ${{ steps.deploy_dir.outputs.deploy_dir }}
-      public_url: ${{ steps.public_url.output.public_url }}
+      public_url: ${{ steps.public_url.outputs.public_url }}
     steps:
-      - id: safe_ref_name
-        run:
-          echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//\//_}"
-      - id: deploy_dir
-        run:
-          echo "::set-output name=deploy_dir::${{inputs.prefix}}/${{steps.safe_ref_name.outputs.safe_ref_name}}"
-      - id: public_url
-        run:
-          echo "::set-output name=public_url::${{inputs.base_url}}/${{steps.deploy_dir.outputs.deploy_dir}}"
+    - id: safe_ref_name
+      run:
+        echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//\//_}"
+    - id: deploy_dir
+      run:
+        echo "::set-output name=deploy_dir::${{inputs.prefix}}/${{steps.safe_ref_name.outputs.safe_ref_name}}"
+    - id: public_url
+      run:
+        echo "::set-output name=public_url::${{inputs.base_url}}/${{steps.deploy_dir.outputs.deploy_dir}}"
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -95,7 +95,7 @@ jobs:
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
 
     - name: Deploy site to S3 bucket
-      run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-endpoint.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}
+      run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
