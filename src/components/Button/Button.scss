@@ -23,6 +23,13 @@
     color: inherit;
     text-decoration: none;
   }
+
+  &--secondary {
+    background-color: $editor-light-grey;
+    &:hover {
+      background-color: $editor-mid-light-grey;
+    }
+  }
   
   &:disabled {
     background-color: $editor-grey;
@@ -31,15 +38,6 @@
 
     &:hover {
       background-color: $editor-grey;
-    }
-  }
-}
-
-.--light {
-  .btn--secondary {
-    background-color: $editor-light-grey;
-    &:hover {
-      background-color: $editor-mid-light-grey;
     }
   }
 }
