@@ -25,7 +25,7 @@ test("Renders with file menu if not for web component", () => {
       }
     }
     const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><Project/></Provider>)
+  const {queryByText} = render(<Provider store={store}><div id="app"><Project/></div></Provider>)
   expect(queryByText('Project Files')).not.toBeNull()
 })
 
