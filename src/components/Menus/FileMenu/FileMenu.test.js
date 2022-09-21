@@ -24,7 +24,7 @@ describe("When no project images", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><FileMenu /></MemoryRouter></Provider>))
+    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
   })
 
 
@@ -60,7 +60,7 @@ describe("When project images", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><FileMenu /></MemoryRouter></Provider>))
+    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
   })
 
 
