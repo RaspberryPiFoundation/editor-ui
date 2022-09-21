@@ -76,14 +76,6 @@
       display: flex;
       flex-flow: column;
 
-      &__sliders {
-        display: flex;
-        justify-content: space-between;
-        .sense-hat-controls-panel__control {
-          min-height: 175px;
-        }
-      }
-
       &__control {
         display: flex;
         flex-flow: column;
@@ -156,6 +148,14 @@
           width: 100%;
           align-items: inherit;
           justify-content: space-between;
+        }
+      }
+
+      &__sliders {
+        display: flex;
+        justify-content: space-between;
+        .sense-hat-controls-panel__control {
+          min-height: 175px;
         }
       }
 
