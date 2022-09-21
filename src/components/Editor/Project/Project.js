@@ -9,7 +9,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'react-toastify/dist/ReactToastify.css';
 import RunnerControls from '../../RunButton/RunnerControls';
-import FilePane from '../../Menus/FilePane/FilePane';
+import FilePane from '../../FilePane/FilePane';
 import Output from '../Output/Output';
 
 const Project = (props) => {
