@@ -42,11 +42,11 @@ const Header = (props) => {
 
   return (
     <>
-      { isEmbedded === false ? (
+      {/* { isEmbedded === false ? (
         <div className='main-container'>
           <Login user={user} />
         </div>
-      ): null }
+      ): null } */}
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
         <img className='editor-logo' src='/editor_logo.svg' alt='Editor logo'/>
