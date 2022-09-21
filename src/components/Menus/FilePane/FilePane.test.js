@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { MemoryRouter } from "react-router-dom";
 
-import FileMenu from "./FileMenu";
+import FilePane from "./FilePane";
 
 describe("When no project images", () => {
   let queryByText;
@@ -24,7 +24,7 @@ describe("When no project images", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
+    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FilePane /></div></MemoryRouter></Provider>))
   })
 
 
@@ -60,7 +60,7 @@ describe("When project images", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
+    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FilePane /></div></MemoryRouter></Provider>))
   })
 
 
