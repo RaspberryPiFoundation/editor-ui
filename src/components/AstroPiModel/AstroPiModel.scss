@@ -11,7 +11,6 @@
   &-model {
     display: flex;
     flex-flow: column;
-    min-height: 300px;
     max-height: 50%;
     flex: 1;
     padding-bottom: var(--spacing-1);
@@ -75,7 +74,15 @@
     &-panel {
       flex: 1;
       display: flex;
-      justify-content: space-between;
+      flex-flow: column;
+
+      &__sliders {
+        display: flex;
+        justify-content: space-between;
+        .sense-hat-controls-panel__control {
+          min-height: 175px;
+        }
+      }
 
       &__control {
         display: flex;
@@ -86,7 +93,7 @@
         padding-top: var(--spacing-half);
         box-sizing: border-box;
         border-radius: 5px;
-        width: 24%;
+        width: 32%;
         justify-content: space-between;
 
         &-reading {
@@ -111,7 +118,7 @@
         &-toggle {
           border-radius: 5px;
           width: 100%;
-          padding: var(--spacing-half);
+          flex: 1;
           box-sizing: border-box;
           display: flex;
           align-items: center;
@@ -124,12 +131,13 @@
 
         &-input {
           cursor: pointer;
-          width: 115px;
+          width: 85px;
           transform: rotate(270deg);
         }
 
         input[type='color'] {
           border-radius: 5px;
+          margin: auto;
         }
 
         &-name {
@@ -141,13 +149,21 @@
         &-value {
           margin-left: var(--spacing-half);
         }
+
+        &-last {
+          margin-top: var(--spacing-1);
+          flex-flow: row;
+          width: 100%;
+          align-items: inherit;
+          justify-content: space-between;
+        }
       }
 
       &__container {
         display: flex;
         flex-flow: column;
         align-items: center;
-        width: 100%;
+        width: 32%;
 
         .sense-hat-controls-panel__control-name, input {
           cursor: pointer;
