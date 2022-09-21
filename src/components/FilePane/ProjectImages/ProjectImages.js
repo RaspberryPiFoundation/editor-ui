@@ -9,7 +9,7 @@ const ProjectImages = () => {
   const { t } = useTranslation()
 
   return (
-    <details className='file-menu-section file-menu-section__images' open>
+    <details className='file-pane-section file-pane-section__images' open>
       <summary>
         <h2 className='menu-pop-out-subheading'>{t('filePane.images')}</h2>
         <div className='accordion-icon'>
