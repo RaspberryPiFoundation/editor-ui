@@ -129,7 +129,9 @@
 
         input[type='color'] {
           border-radius: 5px;
-          margin: auto;
+          flex: 1;
+          width: 100%;
+
         }
 
         &-name {
