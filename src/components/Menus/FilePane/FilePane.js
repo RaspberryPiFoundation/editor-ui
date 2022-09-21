@@ -3,18 +3,18 @@ import { useSelector } from "react-redux"
 import ProjectImages from "./ProjectImages/ProjectImages"
 import FilesList from "./FilesList"
 
-import './FileMenu.scss'
+import './FilePane.scss'
 
-const FileMenu = () => {
+const FilePane = () => {
 
   const project = useSelector((state) => state.editor.project)
 
   return (
-    <div className = "file-menu">
+    <div className = "file-pane">
       <FilesList />
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>
   )
 }
 
-export default FileMenu
+export default FilePane

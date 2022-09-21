@@ -9,7 +9,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'react-toastify/dist/ReactToastify.css';
 import RunnerControls from '../../RunButton/RunnerControls';
-import FileMenu from '../../Menus/FileMenu/FileMenu';
+import FilePane from '../../Menus/FilePane/FilePane';
 import Output from '../Output/Output';
 
 const Project = (props) => {
@@ -19,7 +19,7 @@ const Project = (props) => {
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FileMenu /> : null}
+      {!forWebComponent ? <FilePane /> : null}
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
