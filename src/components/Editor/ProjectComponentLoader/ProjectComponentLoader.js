@@ -18,6 +18,7 @@ const ProjectComponentLoader = (props) => {
 
   return projectLoaded === true ? (
     <>
+      <GlobalNav />
       <Project />
     </>
   ) : (
