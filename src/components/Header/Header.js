@@ -11,6 +11,8 @@ import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
 
+import editor_logo from '../../assets/editor_logo.svg'
+
 
 const Header = (props) => {
   const { user } = props;
@@ -43,7 +45,7 @@ const Header = (props) => {
   return (
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
-        <img className='editor-logo' src='/editor_logo.svg' alt='Editor logo'/>
+        <img className='editor-logo' src={editor_logo} alt='Editor logo'/>
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
             {<><SquaresIcon />

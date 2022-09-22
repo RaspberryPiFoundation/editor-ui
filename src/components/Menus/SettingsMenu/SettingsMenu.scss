@@ -19,6 +19,10 @@
   &__font-size {
     text-align: center;
   }
+
+  &::before {
+    margin-left: var(--spacing-5);
+  }
 }
 
 .--light {

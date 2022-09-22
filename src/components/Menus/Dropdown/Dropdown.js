@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './Dropdown.scss'
 
 const Dropdown = (props) => {
-  const {ButtonIcon, buttonText, buttonTextClassName, MenuContent} = props
+  const {ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonTextClassName, MenuContent} = props
   const [isOpen, setOpen] = useState(false)
   const dropdown = useRef()
   
@@ -27,6 +27,7 @@ const Dropdown = (props) => {
   return (
     <div className='dropdown' ref={dropdown}>
       <div className={`dropdown-button${isOpen ? ' dropdown-button--active' : ''}`} onClick={() => setOpen(!isOpen)}>
+        {buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null}
         <ButtonIcon />
         {buttonText ? <span className={buttonTextClassName}>{buttonText}</span> : null}
       </div>
