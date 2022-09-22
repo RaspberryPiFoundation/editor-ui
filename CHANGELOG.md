@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+
+- Functionality for renaming a file (#193)
+- Styling for a secondary button (#193)
 - The web component `runCompleted` event now returns `duration: null` if the host page's tab loses focus during the code run (#192)
 
 ### Changed
+
 - Layout and spacing in the Mission Zero Control Panel so web component fits in a narrower container (#191)
+- Updated modal styling (#193)
 
 ## [0.4.0]
 

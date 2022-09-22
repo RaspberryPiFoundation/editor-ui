@@ -1,5 +1,5 @@
 import React from 'react'
-import './ErrorMessage.css'
+import './ErrorMessage.scss'
 import { useSelector } from 'react-redux'
 
 const ErrorMessage = () => {

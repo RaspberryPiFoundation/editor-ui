@@ -3,6 +3,7 @@
 
 button {
   all: initial;
+  cursor: pointer;
 }
 
 #app {
@@ -34,7 +35,7 @@ button {
     fill: $editor-white;
   }
 
-  button svg {
+  .btn svg {
     fill: inherit;
   }
 }
