@@ -30,16 +30,16 @@
       }
   
       &__values {
-        flex: 8;
+        flex: 10;
         display: flex;
-        margin: 0 var(--spacing-6);
+        margin: 0 var(--spacing-1);
       }
   
       &__reading {
         flex: 1;
         text-transform: uppercase;
         font-weight: var(--font-weight-bold);
-        margin: 0 var(--spacing-2);
+        margin: 0 var(--spacing-1);
         font-size: var(--font-size-d-1);
       }
   
@@ -74,7 +74,7 @@
     &-panel {
       flex: 1;
       display: flex;
-      justify-content: space-between;
+      flex-flow: column;
 
       &__control {
         display: flex;
@@ -85,7 +85,7 @@
         padding-top: var(--spacing-half);
         box-sizing: border-box;
         border-radius: 5px;
-        width: 24%;
+        width: 32%;
         justify-content: space-between;
 
         &-reading {
@@ -110,7 +110,7 @@
         &-toggle {
           border-radius: 5px;
           width: 100%;
-          padding: var(--spacing-half);
+          flex: 1;
           box-sizing: border-box;
           display: flex;
           align-items: center;
@@ -123,12 +123,15 @@
 
         &-input {
           cursor: pointer;
-          width: 115px;
+          width: 85px;
           transform: rotate(270deg);
         }
 
         input[type='color'] {
           border-radius: 5px;
+          flex: 1;
+          width: 100%;
+          padding: var(--spacing-half) var(--spacing-2);
         }
 
         &-name {
@@ -140,13 +143,29 @@
         &-value {
           margin-left: var(--spacing-half);
         }
+
+        &-last {
+          margin-top: var(--spacing-1);
+          flex-flow: row;
+          width: 100%;
+          align-items: inherit;
+          justify-content: space-between;
+        }
+      }
+
+      &__sliders {
+        display: flex;
+        justify-content: space-between;
+        .sense-hat-controls-panel__control {
+          min-height: 175px;
+        }
       }
 
       &__container {
         display: flex;
         flex-flow: column;
         align-items: center;
-        width: 100%;
+        width: 32%;
 
         .sense-hat-controls-panel__control-name, input {
           cursor: pointer;
