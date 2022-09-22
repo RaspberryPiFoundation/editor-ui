@@ -32,6 +32,20 @@
       left: 50%;
       content: '';
     }
+
+    &--list {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-weight: var(--font-weight-regular);
+        text-decoration: none;
+        margin: var(--spacing-half)
+      }
+    }
   }
   &-backdrop {
     position: fixed;

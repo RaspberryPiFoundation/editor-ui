@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import userManager from '../../utils/userManager'
 import Button from '../../components/Button/Button'
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Login = () => {
+const Login = (props) => {
+  const { className, user } = props;
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
@@ -15,8 +20,16 @@ const Login = () => {
     userManager.signinRedirect();
   }
 
-  return (
-    <Button onClickHandler={onLoginButtonClick} buttonText='Login' />
+  const onLogoutButtonClick = (event) => {
+    event.preventDefault();
+    userManager.removeUser()
+  }
+
+  return (user === null ? (
+      <button className={className} onClick={onLoginButtonClick}>Login</button>
+    ) :  (
+      <button className={className} onClick={onLogoutButtonClick}>Logout</button>
+    )
   )
 }
 

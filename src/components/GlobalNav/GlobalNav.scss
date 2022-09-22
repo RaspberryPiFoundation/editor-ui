@@ -1,5 +1,35 @@
 @import '../../colours.scss';
 
 .editor-global-nav {
+  display: flex;
+  align-items: center;
   background-color: $rpf-dark-blue;
+  z-index: 2;
+
+  &__account {
+    margin-left: auto;
+    height: 100%;
+
+    svg {
+      fill:  $editor-white;
+    }
+  }
+
+  &__home {
+    display: flex;
+    align-items: center;
+    margin-left: var(--spacing-8);
+    padding: var(--spacing-1) 0;
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    color: $editor-white;
+
+    span {
+      margin-left: var(--spacing-2);
+    }
+
+    &:visited {
+      color: $editor-white;
+    }
+  }
 }
