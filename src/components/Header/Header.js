@@ -1,7 +1,6 @@
 import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
-import Login from '../Login/Login'
 import Button from '../Button/Button';
 import { SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
@@ -16,7 +15,6 @@ import editor_logo from '../../assets/editor_logo.svg'
 
 const Header = (props) => {
   const { user } = props;
-  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const project = useSelector((state) => state.editor.project);
 
   const dispatch = useDispatch();

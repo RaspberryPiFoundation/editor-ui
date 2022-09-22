@@ -9,10 +9,6 @@ const Login = (props) => {
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
 
-  useEffect(() => {
-    console.log(user)
-  }, [user])
-
   const onLoginButtonClick = (event) => {
     event.preventDefault();
     localStorage.setItem('location', location.pathname)
@@ -26,9 +22,9 @@ const Login = (props) => {
   }
 
   return (user === null ? (
-      <button className={className} onClick={onLoginButtonClick}>Login</button>
+      <span className={className} onClick={onLoginButtonClick}>Login</span>
     ) :  (
-      <button className={className} onClick={onLogoutButtonClick}>Logout</button>
+      <span className={className} onClick={onLogoutButtonClick}>Logout</span>
     )
   )
 }
