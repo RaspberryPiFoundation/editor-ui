@@ -44,7 +44,8 @@
         font: inherit;
         font-weight: var(--font-weight-regular);
         text-decoration: none;
-        margin: var(--spacing-1) var(--spacing-half);
+        padding: var(--spacing-1) var(--spacing-half);
+        border-radius: 5px;
       }
     }
   }
@@ -67,6 +68,10 @@
     &--bottom::before {
       border-bottom: 15px solid $editor-white;
     }
+
+    &--list__item:hover {
+      background-color: $editor-light-grey;
+    }
   }
   .dropdown-backdrop {
     background-color: $editor-grey;
@@ -85,6 +90,10 @@
     &--bottom::before {
       border-bottom: 15px solid $editor-dark;
     }
+
+    &--list__item:hover {
+      background-color: $editor-grey;
+    }
   }
   .dropdown-backdrop {
     background-color: black;
@@ -97,8 +106,10 @@
 }
 
 .font-size-medium {
-  .dropdown-container {
-    padding: var(--spacing-2);
+  .dropdown {
+    &-container--list__item {
+      padding: var(--spacing-1) var(--spacing-1);
+    }
   }
 }
 
@@ -109,8 +120,8 @@
         margin-right: var(--spacing-2);
       }
     }
-    &-container {
-      padding: var(--spacing-2) var(--spacing-3);
+    &-container--list__item {
+      padding: var(--spacing-1) var(--spacing-2);
     }
   }
 }

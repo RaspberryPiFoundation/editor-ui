@@ -33,6 +33,12 @@
   }
 }
 
+.font-size-medium {
+  .settings-menu {
+    padding: var(--spacing-2);
+  }
+}
+
 .font-size-large {
   .settings-menu {
     padding: 0 var(--spacing-2);
