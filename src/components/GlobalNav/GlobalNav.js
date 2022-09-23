@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ChevronDown, RPFLogoIcon } from "../../Icons";
-import Login from '../Login/Login';
+import { ChevronDown } from "../../Icons";
 import LoginMenu from "../Login/LoginMenu";
 import Dropdown from "../Menus/Dropdown/Dropdown";
 import './GlobalNav.scss';

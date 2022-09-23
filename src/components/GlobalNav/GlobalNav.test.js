@@ -12,7 +12,7 @@ test('Global nav renders', () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><GlobalNav/></Provider>);
-  expect(screen.getByText("Raspberry Pi Foundation")).toBeInTheDocument()
+  expect(screen.queryByText("Raspberry Pi Foundation")).toBeInTheDocument()
 })
 
 test('When not logged in renders generic profile image', () => {

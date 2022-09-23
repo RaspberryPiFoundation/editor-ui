@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import userManager from "../../utils/userManager";
 import Login from "./Login";
 import './LoginMenu.scss'
 
