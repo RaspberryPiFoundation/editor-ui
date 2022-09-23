@@ -3,6 +3,7 @@ import { ChevronDown, FileIcon } from '../../../Icons';
 
 import { useSelector } from "react-redux";
 import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
+import RenameFile from "./RenameFile";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
@@ -21,6 +22,7 @@ const FilesList = () => {
       <div className='files-list-item' key={i}>
         <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
+        <RenameFile currentName={file.name} currentExtension={file.extension} fileKey={i}/>
       </div>
       ))}
       </div>

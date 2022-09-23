@@ -68,8 +68,10 @@ export const EditorSlice = createSlice({
     },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
-      const fileName = action.payload.name;
-      state.project.components[key].name = fileName;
+      const name = action.payload.name;
+      const extension = action.payload.extension
+      state.project.components[key].name = name;
+      state.project.components[key].extension = extension;
     },
     setError: (state, action) => {
       state.error = action.payload;
