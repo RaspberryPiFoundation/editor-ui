@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { ChevronDown, FileIcon } from '../../Icons';
-import { FileMenu } from '../Menus/FileMenu';
+import Dropdown from '../Menus/Dropdown/Dropdown'
+import { ChevronDown, FileIcon, EllipsisVerticalIcon } from '../../Icons';
+import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
 import RenameFile from "./RenameFile";
 
@@ -24,7 +25,7 @@ const FilesList = () => {
         <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
         <Dropdown
-            ButtonIcon={SettingsIcon}
+            ButtonIcon={EllipsisVerticalIcon}
             buttonText=''
             buttonTextClassName=''
             MenuContent={FileMenu} />
