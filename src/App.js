@@ -5,6 +5,7 @@ import Routes from './components/Routes'
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import GlobalNav from './components/GlobalNav/GlobalNav';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -15,7 +16,7 @@ function App() {
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       <BrowserRouter>
-        { isEmbedded ? null : <Header /> }
+        { isEmbedded ? null : <><GlobalNav/><Header/></> }
         <Routes />
       </BrowserRouter>
     </div>

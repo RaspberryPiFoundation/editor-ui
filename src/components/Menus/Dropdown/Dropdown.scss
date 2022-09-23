@@ -1,6 +1,8 @@
 @import '../../../colours.scss';
 
 .dropdown {
+  display: flex;
+  justify-content: center;
   position: relative;
   height: 100%;
 
@@ -22,7 +24,10 @@
     border-radius: 10px;
     margin-top: var(--spacing-2);
 
-    &--bottom::before {
+    &--bottom {
+      top: 100%;
+
+      &::before {
       width: 0;
       height: 0;
       border-left: 15px solid transparent;
@@ -30,7 +35,25 @@
       position: absolute;
       bottom: 100%;
       left: 50%;
+      margin-left: -15px;
       content: '';
+    }
+  }
+
+    &--list {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        font-weight: var(--font-weight-regular);
+        text-decoration: none;
+        padding: var(--spacing-1) var(--spacing-half);
+        border-radius: 5px;
+        white-space: nowrap;
+      }
     }
   }
   &-backdrop {
@@ -44,6 +67,28 @@
   }
 }
 
+.font-size-medium {
+  .dropdown {
+    &-container--list__item {
+      padding: var(--spacing-1) var(--spacing-1);
+    }
+  }
+}
+
+.font-size-large {
+  .dropdown {
+    &-button {
+      svg {
+        margin-right: var(--spacing-2);
+      }
+    }
+    &-container--list__item {
+      padding: var(--spacing-1) var(--spacing-2);
+      white-space: inherit;
+    }
+  }
+}
+
 .--light {
   .dropdown-container {
     background-color: $editor-white;
@@ -51,6 +96,10 @@
 
     &--bottom::before {
       border-bottom: 15px solid $editor-white;
+    }
+
+    &--list__item:hover {
+      background-color: $editor-light-grey;
     }
   }
   .dropdown-backdrop {
@@ -70,6 +119,10 @@
     &--bottom::before {
       border-bottom: 15px solid $editor-dark;
     }
+
+    &--list__item:hover {
+      background-color: $editor-grey;
+    }
   }
   .dropdown-backdrop {
     background-color: black;
@@ -78,24 +131,5 @@
     background-color: $editor-turquoise-grey;
     border-bottom: 5px solid $editor-turquoise;
     margin-bottom: -5px;
-  }
-}
-
-.font-size-medium {
-  .dropdown-container {
-    padding: var(--spacing-2);
-  }
-}
-
-.font-size-large {
-  .dropdown {
-    &-button {
-      svg {
-        margin-right: var(--spacing-2);
-      }
-    }
-    &-container {
-      padding: var(--spacing-2) var(--spacing-3);
-    }
   }
 }

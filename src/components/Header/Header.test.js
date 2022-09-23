@@ -2,7 +2,6 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 
 import Header from "./Header";
@@ -15,42 +14,6 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   })
 }));
-
-test("Login button shown when not embedded", () => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: {},
-      isEmbedded: false
-    },
-    auth: {
-      user: null
-    }
-  }
-  const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><MemoryRouter><Header /></MemoryRouter></Provider>)
-
-  expect(queryByText(/Login/)).not.toBeNull()
-})
-
-test("Login button not shown when embedded", () => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: {},
-      isEmbedded: true
-    },
-    auth: {
-      user: null
-    }
-  }
-  const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><Header /></Provider>)
-
-  expect(queryByText(/Login/)).toBeNull()
-})
 
 describe("When logged in and user owns project", () => {
   let store;
