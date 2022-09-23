@@ -48,14 +48,8 @@
 
 .font-size-medium {
   .editor-global-nav {
-    &__home {
-      img {
-        height: var(--spacing-5);
-      }
-    }
     &__account {
       img {
-        height: var(--spacing-6);
         margin: var(--spacing-1) var(--spacing-half);
       }
     }
@@ -64,14 +58,8 @@
 
 .font-size-large {
   .editor-global-nav {
-    &__home {
-      img {
-        height: var(--spacing-7);
-      }
-    }
     &__account {
       img {
-        height: var(--spacing-8);
         margin: var(--spacing-1) var(--spacing-1);
       }
     }
