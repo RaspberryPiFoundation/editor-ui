@@ -26,7 +26,7 @@ jobs:
 
     - name: List all changed files
       run: |
-        echo "${{ github.event.push.ref }}"
+        echo "${{ github.event.push.commits }}"
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
