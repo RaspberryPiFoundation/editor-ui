@@ -30,7 +30,7 @@ jobs:
 
 
     - name: Check if changelog has been modified
-      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      if: steps.changed-files-specific.outputs.any_changed == 'false'
     #   if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
