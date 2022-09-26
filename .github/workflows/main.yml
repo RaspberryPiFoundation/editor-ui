@@ -26,17 +26,17 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
-    - name: List all changed files
-      run: |
-        # for commit in ${{ github.event.commits }}; do
-        #   echo "$commit"
-        # done
-        echo "${{ github.event.base.sha }} is the event base sha"
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "$file was changed"
-        done
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    # - name: List all changed files
+    #   run: |
+    #     # for commit in ${{ github.event.commits }}; do
+    #     #   echo "$commit"
+    #     # done
+    #     echo "${{ github.event.base.sha }} is the event base sha"
+    #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+    #       echo "$file was changed"
+    #     done
+    #   env:
+    #     GITHUB_TOKEN: ${{ github.token }}
 
     - name: Check if changelog has been modified
       if: steps.changed-files-specific.outputs.any_changed == 'false'
