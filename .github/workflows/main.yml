@@ -19,8 +19,8 @@ jobs:
       uses: tj-actions/changed-files@v29.0.4
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
-        # files: |
-        #   CHANGELOG.md
+        files: |
+          CHANGELOG.md
     - name: List all changed files
       run: |
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
@@ -29,9 +29,11 @@ jobs:
 
 
     - name: Check if changelog has been modified
-      if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+    #   if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
+
   lint:
     runs-on: ubuntu-latest
     steps:
