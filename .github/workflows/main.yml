@@ -23,7 +23,7 @@ jobs:
           CHANGELOG.md
     - name: List all changed files
       run: |
-        echo "${{ github.head_ref }}"
+        echo "${{ github.event.push }}"
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
