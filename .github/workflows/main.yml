@@ -21,13 +21,17 @@ jobs:
         base_sha: ${{ github.event.push.branch.base.sha }}
         files: |
           CHANGELOG.md
+      env:
+      GITHUB_TOKEN: ${{ github.token }}
+      
     - name: List all changed files
       run: |
         echo "${{ github.event.push }}"
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
-
+      env:
+      GITHUB_TOKEN: ${{ github.token }}
 
     - name: Check if changelog has been modified
       # if: steps.changed-files-specific.outputs.any_changed == 'false'
