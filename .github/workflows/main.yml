@@ -8,39 +8,39 @@ on:
       - '**'
 
 jobs:
-  changelog-updated:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Get changed files
-      id: changed-files
-      uses: tj-actions/changed-files@v29.0.4
-      with:
-        base_sha: ${{ github.event.push.branch.base.sha }}
-        files: |
-          CHANGELOG.md
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+  # changelog-updated:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       fetch-depth: 0
+  #   - name: Get changed files
+  #     id: changed-files
+  #     uses: tj-actions/changed-files@v29.0.4
+  #     with:
+  #       base_sha: ${{ github.event.push.branch.base.sha }}
+  #       files: |
+  #         CHANGELOG.md
+  #     env:
+  #       GITHUB_TOKEN: ${{ github.token }}
 
-    - name: List all changed files
-      run: |
-        # for commit in ${{ github.event.push.commits }}; do
-        #   echo "$commit"
-        # done
-        echo "${{ github.ref }} is the ref"
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "$file was changed"
-        done
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+  #   - name: List all changed files
+  #     run: |
+  #       # for commit in ${{ github.event.commits }}; do
+  #       #   echo "$commit"
+  #       # done
+  #       echo "${{ github.event }} is the event"
+  #       for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+  #         echo "$file was changed"
+  #       done
+  #     env:
+  #       GITHUB_TOKEN: ${{ github.token }}
 
-    - name: Check if changelog has been modified
-      # if: steps.changed-files-specific.outputs.any_changed == 'false'
-      if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
-      run: |
-        exit 1
+  #   - name: Check if changelog has been modified
+  #     # if: steps.changed-files-specific.outputs.any_changed == 'false'
+  #     if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+  #     run: |
+  #       exit 1
 
   lint:
     runs-on: ubuntu-latest
@@ -157,3 +157,39 @@ jobs:
       public_url: https://staging-editor.raspberrypi.org/branches/${{ github.ref_name }}
     secrets: inherit
 
+on:
+  pull_request_target:
+    types:
+      - synchronize
+
+jobs:
+  changelog-updated:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v29.0.4
+      with:
+        base_sha: ${{ github.event.base.sha }}
+        files: |
+          CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: List all changed files
+      run: |
+        echo "${{ github.event }} is the event"
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Check if changelog has been modified
+      # if: steps.changed-files-specific.outputs.any_changed == 'false'
+      if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
+      run: |
+        exit 1
