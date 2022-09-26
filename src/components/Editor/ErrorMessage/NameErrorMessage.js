@@ -1,4 +1,4 @@
-import './ErrorMessage.css'
+import './ErrorMessage.scss'
 import { useSelector } from 'react-redux'
 
 const NameErrorMessage = () => {

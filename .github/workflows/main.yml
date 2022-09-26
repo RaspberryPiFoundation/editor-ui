@@ -132,9 +132,9 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      deploy_dir: releases/${{ github.ref_name }}
+      base_url: https://editor.raspberrypi.org/
       environment: production
-      public_url: https://editor.raspberrypi.org/releases/${{ github.ref_name }}
+      prefix: releases
       react_app_api_endpoint: https://editor-api.raspberrypi.org
       react_app_authentication_url: https://auth-v1.raspberrypi.org
     secrets: inherit
@@ -145,18 +145,14 @@ jobs:
       - test
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      deploy_dir: branches/${{ github.ref_name }}
       environment: staging
-      public_url: https://staging-editor.raspberrypi.org/branches/${{ github.ref_name }}
     secrets: inherit
 
   build-and-deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
     uses: ./.github/workflows/build-and-deploy.yml
     with:
-      deploy_dir: branches/${{ github.ref_name }}
       environment: previews/${{ github.ref_name }}
-      public_url: https://staging-editor.raspberrypi.org/branches/${{ github.ref_name }}
     secrets: inherit
 
 # on:

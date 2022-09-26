@@ -1,11 +1,10 @@
 import React from 'react';
 import userManager from '../../utils/userManager'
-import Button from '../../components/Button/Button'
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Login = (props) => {
-  const { user } = props;
+  const { className, user } = props;
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
 
@@ -22,9 +21,9 @@ const Login = (props) => {
   }
 
   return (user === null ? (
-      <Button onClickHandler={onLoginButtonClick} buttonText='Login' />
+      <span className={className} onClick={onLoginButtonClick}>Login</span>
     ) :  (
-      <Button onClickHandler={onLogoutButtonClick} buttonText='Logout' />
+      <span className={className} onClick={onLogoutButtonClick}>Logout</span>
     )
   )
 }

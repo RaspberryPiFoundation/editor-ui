@@ -1,7 +1,6 @@
 import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
-import Login from '../Login/Login'
 import Button from '../Button/Button';
 import { SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
@@ -11,10 +10,11 @@ import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
 
+import editor_logo from '../../assets/editor_logo.svg'
+
 
 const Header = (props) => {
   const { user } = props;
-  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const project = useSelector((state) => state.editor.project);
 
   const dispatch = useDispatch();
@@ -41,15 +41,9 @@ const Header = (props) => {
   }
 
   return (
-    <>
-      { isEmbedded === false ? (
-        <div className='main-container'>
-          <Login user={user} />
-        </div>
-      ): null }
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
-        <img className='editor-logo' src='/editor_logo.svg' alt='Editor logo'/>
+        <img className='editor-logo' src={editor_logo} alt='Editor logo'/>
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
             {<><SquaresIcon />
@@ -69,7 +63,6 @@ const Header = (props) => {
         </div>
       </header>
     </div>
-    </>
   )
 };
 

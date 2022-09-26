@@ -36,7 +36,7 @@ describe("When project has multiple files", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><FilesList /></Provider>))
+    ({queryByText} = render(<Provider store={store}><div id="app"><FilesList /></div></Provider>))
   })
 
   test("Renders all file names", () => {
