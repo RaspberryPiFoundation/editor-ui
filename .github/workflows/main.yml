@@ -20,7 +20,7 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v29.0.4
       with:
-        base_sha: ${{ github.event.push.base.sha }}
+        base_sha: ${{ github.event.pull_request.base.sha }}
         files: |
           CHANGELOG.md
       env:
@@ -40,7 +40,7 @@ jobs:
 
     - name: Check it\'s working
       run: |
-        echo "${{ github.event.push.base.sha }} is the base sha"
+        echo "${{ github.event.pull_request.base.sha }} is the base sha"
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
