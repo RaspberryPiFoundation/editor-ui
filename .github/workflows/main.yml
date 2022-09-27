@@ -21,28 +21,22 @@ jobs:
       uses: tj-actions/changed-files@v29.0.4
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
-        files: |
-          CHANGELOG.md
+        # files: |
+        #   CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
-    # - name: List all changed files
+    - name: List all changed files
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
+
+    # - name: Check it\'s working
     #   run: |
-    #     # for commit in ${{ github.event.commits }}; do
-    #     #   echo "$commit"
-    #     # done
-    #     echo "${{ github.event.base.sha }} is the event base sha"
-    #     for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-    #       echo "$file was changed"
-    #     done
+    #     echo "${{ github.event.pull_request.base.sha }} is the base sha"
     #   env:
     #     GITHUB_TOKEN: ${{ github.token }}
-
-    - name: Check it\'s working
-      run: |
-        echo "${{ github.event.pull_request.base.sha }} is the base sha"
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Check if changelog has been modified
       if: steps.changed-files-specific.outputs.any_changed == 'false'
