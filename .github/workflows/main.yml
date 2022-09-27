@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Get changed files
+    - name: Check if changelog updated
       id: changed-files-specific
       uses: tj-actions/changed-files@v29.0.4
       with:
@@ -32,15 +32,8 @@ jobs:
           echo "$file was changed"
         done
 
-    # - name: Check it\'s working
-    #   run: |
-    #     echo "${{ github.event.pull_request.base.sha }} is the base sha"
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-
-    - name: Check if changelog has been modified
+    - name: Fail job if changelog not updated
       if: steps.changed-files-specific.outputs.any_changed == 'false'
-      # if: contains(steps.changed-files.outputs.modified_files, 'CHANGELOG.md')
       run: |
         exit 1
 
