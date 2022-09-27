@@ -17,12 +17,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Get changed files
-      id: changed-files
+      id: changed-files-specific
       uses: tj-actions/changed-files@v29.0.4
       with:
         base_sha: ${{ github.event.pull_request.base.sha }}
-        # files: |
-        #   CHANGELOG.md
+        files: |
+          CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
