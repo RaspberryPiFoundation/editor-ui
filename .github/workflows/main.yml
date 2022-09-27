@@ -25,13 +25,7 @@ jobs:
           CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
-
-    - name: List all changed files
-      run: |
-        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-          echo "$file was changed"
-        done
-
+        
     - name: Fail job if changelog not updated
       if: steps.changed-files-specific.outputs.any_changed == 'false'
       run: |
