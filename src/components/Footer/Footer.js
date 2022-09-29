@@ -1,6 +1,4 @@
 import React from "react";
-
-import rpf_logo from '../../assets/raspberrypi_logo.svg'
 import './Footer.scss';
 
 const Footer = () => {
