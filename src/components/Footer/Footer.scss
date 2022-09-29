@@ -1,6 +1,7 @@
 @import '../../colours.scss';
 
 .editor-footer {
+  margin-top: auto;
   padding: 0 var(--spacing-2) var(--spacing-1) var(--spacing-2);
   display: flex;
   font-size: var(--font-size-d-1);
