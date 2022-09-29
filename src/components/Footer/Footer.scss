@@ -1,0 +1,32 @@
+@import '../../colours.scss';
+
+.editor-footer {
+  background-color: $rpf-dark-blue;
+  padding: var(--spacing-1) var(--spacing-8);
+  display: flex;
+
+  &__links {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-left: var(--spacing-1);
+    justify-content: space-between;
+    
+    &-link {
+      margin: 0 var(--spacing-1);
+      color: $editor-white;
+    }
+  }
+
+  &__foundation {
+    flex: 1;
+    color: $editor-white;
+    font-weight: var(--font-weight-bold);
+    display: flex;
+    align-items: center;
+
+    &-name {
+      margin-left: var(--spacing-1);
+    }
+  }
+}
