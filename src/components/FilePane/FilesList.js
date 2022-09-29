@@ -20,10 +20,11 @@ const FilesList = () => {
       <NewComponentButton />
       <div className='files-list'>
       { project.components.map((file, i) => (
-      <div className='files-list-item' key={i}>
-        <FileIcon />
-        <p className='file-list-item-name'>{file.name}.{file.extension}</p>
-        <FileMenu fileKey={i} name={file.name} ext={file.extension} />      </div>
+        <div className='files-list-item' key={i}>
+          <FileIcon />
+          <p className='file-list-item-name'>{file.name}.{file.extension}</p>
+          <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+        </div>
       ))}
       </div>
     </details>
