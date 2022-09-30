@@ -5,7 +5,6 @@ import Dropdown from '../Menus/Dropdown/Dropdown'
 import { ChevronDown, FileIcon, EllipsisVerticalIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
-import RenameFile from "./RenameFile";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)

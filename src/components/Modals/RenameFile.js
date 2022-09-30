@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
-import { CloseIcon, PencilIcon } from "../../Icons";
+import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
 import { setNameError, updateComponentName } from "../Editor/EditorSlice";
@@ -35,7 +35,7 @@ const RenameFile = (props) => {
 
   return (
     <>
-      <button onClick={showModal}><PencilIcon /></button>
+      <button onClick={showModal}>Rename&nbsp;File</button>
 
       <Modal
         isOpen={modalIsOpen}
