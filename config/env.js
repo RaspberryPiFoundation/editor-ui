@@ -99,7 +99,7 @@ function getClientEnvironment(publicUrl) {
       return env;
     }, {}),
   };
-  
+
   return { raw, stringified };
 }
 
