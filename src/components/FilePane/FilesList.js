@@ -5,7 +5,6 @@ import Dropdown from '../Menus/Dropdown/Dropdown'
 import { ChevronDown, FileIcon, EllipsisVerticalIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
-import RenameFile from "./RenameFile";
 import { useTranslation } from "react-i18next";
 
 const FilesList = () => {

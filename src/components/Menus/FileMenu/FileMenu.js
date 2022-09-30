@@ -1,24 +1,14 @@
-import React from "react";
-import { useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react"
 
-import { updateImages, setNameError } from '../../Editor/EditorSlice';
-import { PencilIcon } from '../../../Icons'
+import RenameFile from '../../Modals/RenameFile'
 
 const FileMenu = () => {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const dispatch = useDispatch();
-  const showModal = () => {
-    dispatch(setNameError(""));
-    setIsOpen(true)
-  };
-
     return (
-      <div className='dropdown-container dropdown-container--bottom file-menu'>
-        <div className='file-menu__rename'>
-            Rename File <button onClick={showModal}><PencilIcon /></button>
+        <div className='dropdown-container dropdown-container--bottom file-menu'>
+          <div className='file-menu__rename'>
+            <RenameFile/>
+          </div>
         </div>
-      </div>
     )
 }
   
