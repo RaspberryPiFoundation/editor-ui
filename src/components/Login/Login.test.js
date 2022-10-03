@@ -1,45 +1,16 @@
+jest.mock("../../utils/userManager", () => ({
+  signinRedirect: jest.fn(),
+  removeUser: jest.fn()
+}))
+
 import React from "react";
-// import store from '../../app/store'
 import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
 import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
+import userManager from "../../utils/userManager";
 
 import Login from "./Login";
-
-const mockSignIn = jest.fn()
-
-jest.mock('redux-oidc', () => ({
-  ...jest.requireActual('redux-oidc'),
-  createUserManager: jest.fn().mockImplementation(() => {
-    return {events: {addAccessTokenExpired: jest.fn()}}
-  })
-}))
-
-// jest.mock('redux-oidc')
-
-jest.mock('oidc-client', () => ({
-  ...jest.requireActual('oidc-client'),
-  UserManager: () => ({
-    signinRedirect: mockSignIn,
-    // createUserManager: jest.fn()
-  })
-}));
-
-// test("Clicking Login button triggers signinRedirect", () => {
-//   const user = null
-//   const { getByText} = render(<MemoryRouter initialEntries={['/']}><Provider store={store}><Login user={user} /></Provider></MemoryRouter>);
-//   const loginButton = getByText("Login")
-//   fireEvent.click(loginButton)
-//   expect(mockSignIn).toHaveBeenCalled()
-// })
-
-// test("Logout button shown when user logged in", () => {
-//   const user = { profile: { email: 'test@example.com' }}
-//   const {getByText} = render(<MemoryRouter initialEntries={['/']}><Provider store={store}><Login user={user} /></Provider></MemoryRouter>)
-
-//   expect(getByText(/Log/).textContent).toBe("Logout")
-// })
 
 describe('When not logged in', () => {
   beforeEach(() => {
@@ -61,11 +32,11 @@ describe('When not logged in', () => {
     expect(screen.getByText(/Log/).textContent).toBe("Login")
   })
 
-  test("Clicking Login button triggers signinRedirect", () => {
+  test("Clicking login button signs the user in", () => {
     const loginButton = screen.getByText("Login")
     fireEvent.click(loginButton)
-    expect(mockSignIn).toHaveBeenCalled()
-})
+    expect(userManager.signinRedirect).toHaveBeenCalled()
+  })
 
 })
 
@@ -87,6 +58,12 @@ describe('When logged in', () => {
 
   test("Log out button shown", () => {
     expect(screen.getByText(/Log/).textContent).toBe("Logout")
+  })
+
+  test("Clicking log out button signs the user out", () => {
+    const loginButton = screen.getByText("Logout")
+    fireEvent.click(loginButton)
+    expect(userManager.removeUser).toHaveBeenCalled()
   })
 
 })
