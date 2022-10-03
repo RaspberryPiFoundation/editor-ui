@@ -1,16 +1,15 @@
-jest.mock("../../utils/userManager", () => ({
-  signinRedirect: jest.fn(),
-  removeUser: jest.fn()
-}))
-
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
 import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import userManager from "../../utils/userManager";
-
 import Login from "./Login";
+
+jest.mock("../../utils/userManager", () => ({
+  signinRedirect: jest.fn(),
+  removeUser: jest.fn()
+}))
 
 describe('When not logged in', () => {
   const project = {
