@@ -7,11 +7,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- The web component `runCompleted` event now returns `duration: null` if the host page's tab loses focus during the code run (#192)
+- Global nav on editor site with link to `raspberrypi.org` and account menu (#195)
+- Footer on editor site with links to Privacy, Cookies, Accessibility and Safeguarding policies (#200)
+- Cookie banner on the editor site (#206)
+
+## [0.5.0]
+
+### Added
+
 - Functionality for renaming a file (#193)
 - Styling for a secondary button (#193)
-- The web component `runCompleted` event now returns `duration: null` if the host page's tab loses focus during the code run (#192)
-- Global nav on editor site with link to `raspberrypi.org` and account menu
-- Cookie banner on the editor site (#206)
 
 ### Changed
 
