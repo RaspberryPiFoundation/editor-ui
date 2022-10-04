@@ -3,6 +3,7 @@ import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
 import { setProject, setProjectLoaded } from "../EditorSlice";
 import { readProject } from "../../../utils/apiCallHandler";
+import axios from "axios";
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -17,6 +18,9 @@ jest.mock('../EditorSlice', () => ({
 jest.mock('../../../utils/apiCallHandler', () => ({
   readProject: (identifier) => Promise.resolve({'data': { 'project': {'identifier': identifier, 'project_type': 'python'}}})
 }))
+
+// jest.mock('axios')
+
 
 const defaultHtmlProject = {
   type: 'html',
@@ -84,6 +88,13 @@ test("If cached project does not match identifer clears cached project", () => {
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', 'hello-world-project'))
   expect(localStorage.getItem('project')).toBeNull()
+})
+
+test("If cached project does not match identifer clears cached project", () => {
+  // axios.get.mockImplementationOnce(() => Promise.resolve(uncachedProject))
+  // localStorage.setItem('project', JSON.stringify(cachedProject))
+  renderHook(() => useProject('python', 'hello-world-project'))
+  expect(readProject).toHaveBeenCalled()
 })
 
 afterEach(() => {
