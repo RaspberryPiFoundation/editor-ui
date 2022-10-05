@@ -117,10 +117,12 @@
     "html-webpack-plugin": "4.5.0",
     "jest": "^29.1.2",
     "jest-circus": "^29.1.2",
+    "jest-css-modules-transform": "^4.4.2",
     "jest-environment-jsdom": "^29.1.2",
     "jest-github-actions-reporter": "^1.0.3",
     "jest-junit": "^14.0.1",
     "jest-resolve": "^29.1.2",
+    "jest-scss-transform": "^1.0.3",
     "jest-transform-stub": "^2.0.0",
     "jest-watch-typeahead": "^2.2.0",
     "mini-css-extract-plugin": "0.11.3",
@@ -177,8 +179,9 @@
     "testRunner": "jest-circus/runner",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+      ".+\\.(css|styl|less|sass)$": "<rootDir>/node_modules/jest-css-modules-transform",
+      "^.+\\.scss$": "<rootDir>/node_modules/jest-scss-transform",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|json)$)": "<rootDir>/node_modules/jest-transform-stub"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
