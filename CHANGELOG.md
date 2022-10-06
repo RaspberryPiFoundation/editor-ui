@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Footer on editor site with links to Privacy, Cookies, Accessibility and Safeguarding policies (#200)
 - Cookie banner on the editor site (#206)
 
+### Updated
+
+- Editor site title and logo (#220)
+
 ## [0.5.0]
 
 ### Added
