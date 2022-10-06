@@ -20,9 +20,9 @@ describe("Testing project API calls", () => {
 
   test("Remixing project", async () => {
     const originalProject = { identifier: 'original-hello-project', project_type: 'python'}
-    axios.post.mockImplementationOnce((url, body, headers) => {
+    axios.post.mockImplementationOnce(() => {
       const remixedProject = {'identifier': 'remixed-hello-project', 'project_type': 'python'}
-      Promise.resolve({data: {project: remixedProject}})
+      Promise.resolve({data: remixedProject})
     })
 
     await remixProject(originalProject, accessToken)
@@ -43,7 +43,7 @@ describe("Testing project API calls", () => {
 
   test("Read project", async () => {
     const projectIdentifier = "hello-world-project"
-    const projectData =  {'data': { 'project': {'identifier': projectIdentifier, 'project_type': 'python'}}}
+    const projectData =  {'data': {'identifier': projectIdentifier, 'project_type': 'python'}}
     axios.get.mockImplementationOnce(() => Promise.resolve(projectData))
 
     await readProject(projectIdentifier)
