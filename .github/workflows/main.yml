@@ -1,9 +1,7 @@
 name: Build and Upload to S3
 
 on:
-  pull_request:
-    types:
-      - synchronize
+  push:
     branches:
       - '**'
     tags:
@@ -25,7 +23,7 @@ jobs:
           CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
-        
+
     - name: Fail job if changelog not updated
       if: steps.changed-files-specific.outputs.any_changed == 'false'
       run: |
