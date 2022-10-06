@@ -1,8 +1,6 @@
-import React from "react";
 import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
-import { setProject, setProjectLoaded } from "../EditorSlice";
-import { readProject } from "../../../utils/apiCallHandler";
+import { setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
 
 
