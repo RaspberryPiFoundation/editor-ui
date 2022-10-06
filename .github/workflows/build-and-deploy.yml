@@ -55,11 +55,6 @@ jobs:
     steps:
     - id: safe_ref_name
       run:
-        echo ${GITHUB_REF_NAME}
-        echo ${GITHUB_REF_NAME//[[:alnum:]]/_}
-        echo ${GITHUB_REF_NAME//[![:alnum:]]/x}
-        echo ${GITHUB_REF_NAME//[\![:alnum:]]/x}
-        echo ${GITHUB_REF_NAME//[\\![:alnum:]]/x}
         echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//[![:alnum:]]/_}"
     - id: deploy_dir
       run:
