@@ -1,4 +1,4 @@
-name: Build and Upload to S3
+name: Build, test, upload
 
 on:
   push:
@@ -8,27 +8,6 @@ on:
       - '**'
 
 jobs:
-  changelog-updated:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Check if changelog updated
-      id: changed-files-specific
-      uses: tj-actions/changed-files@v29.0.4
-      with:
-        base_sha: ${{ github.event.pull_request.base.sha }}
-        files: |
-          CHANGELOG.md
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-
-    - name: Fail job if changelog not updated
-      if: steps.changed-files-specific.outputs.any_changed == 'false'
-      run: |
-        exit 1
-
   lint:
     runs-on: ubuntu-latest
     steps:

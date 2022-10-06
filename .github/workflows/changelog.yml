@@ -1,4 +1,4 @@
-name: Build and Upload to S3
+name: Changelog
 
 on:
   pull_request:
