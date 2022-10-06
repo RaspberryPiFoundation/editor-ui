@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Upgraded to Jest 29 (#211)
+- Update build process to strip non-alphanumeric characters from the branch name (#222)
 
 ## [0.5.0]
 
