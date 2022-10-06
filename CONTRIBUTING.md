@@ -1,18 +1,12 @@
-# Contributor Guidelines for the Code Editor
+# Contributor guidelines for the Code Editor
 
-## Index
-1. [What is the Code Editor from Raspberry Pi Foundation](#1-what-is-the-code-editor-from-raspberry-pi-foundation)
-2. [Latest versioning and future releases](#2-latest-versioning-and-future-releases)
-3. [How you can help contribute to this project](#3-how-you-can-help-contribute-to-this-project)
-4. [How we use your code and licensing](#4-how-we-use-your-code-and-licensing)
-
-## 1. [What is the Code Editor from Raspberry Pi Foundation]
+## 1. What is the Code Editor from Raspberry Pi Foundation?
 
 [Raspberry Pi Foundation](https://www.raspberrypi.org/about/) is a UK-based charity with global reach. Our mission is to enable young people to realise their full potential through the power of computing and digital technologies.
 
-To support young people to learn how to code, in both formal and informal education settings, we’ve designed our [Code Editor](https://editor.raspberrypi.org/) to support text-based programming languages, including Python, CSS and HTML.
+To support young people to learn how to code, in both formal and informal education settings, we’ve designed our [Code Editor][production] to support text-based programming languages, including Python, CSS and HTML.
 
-## 2. [Latest versioning and future releases]
+## 2. Latest versioning and future releases
 
 The Code Editor from Raspberry Pi Foundation is currently live as a beta release. This means there may still be some issues and bugs which we’ll be working on fixing, and where contributors identify particularly useful features we may consider implementing them. 
 
@@ -20,54 +14,35 @@ Our current priorities will be working on bugs, making sure the Editor is stable
 
 As this project is in its infancy, we encourage contributors to check this documentation from time to time, as we refine our processes, and update you on our roadmap changes.
 
-**Q4 2022 priority features:**
-- Beta testing and iterating based on user feedback (i.e. the young people using our Code Editor)
-- Design review including key improvements for supporting smaller screen devices (tablet and mobile responsiveness)
-- Linting v.1
-- Downloading code
-- Auto-saving code
+**Q4 2022 (Oct-Dec)  priority features:**
+- Beta testing and iterating based on user feedback (i.e. the young people using our Code Editor).
+- Design review including key improvements for supporting smaller screen devices (tablet and mobile responsiveness).
+- Linting.
+- Downloading code.
+- Auto-saving code.
 
-**2023 H1 priority features:**
-- Supporting for translations and self-serve content updates by our internal content authors
-- Extending supported libraries
-- Sharing and remixing v.1
+**H1 2023 (Jan-Jun) priority features:**
+- Supporting for translations and self-serve content updates by our internal content authors.
+- Extending supported libraries.
+- Sharing and remixing.
 
-You can track our progress for feature releases and recent changes by checking the [CHANGEOG](/CHANGELOG.md).
+You can track our progress for feature releases and recent changes by checking the [changelog].
 
 ## 3. How you can help contribute to this project
 
 We’re happy to receive pull requests for upcoming versions to fix bugs, add features and refactor code; your suggestions will help us improve our Code Editor, so we can support more young people to learn how to code. 
 
-**But please note:** as this project is in beta, we cannot guarantee that there’ll be capacity to review all Pull Requests and Feature suggestions at this time, so we recommend checking the change log and contacting us (ADD IN MAILBOX OR OUTLINE HOW THEY DO THIS?) before raising any large-scale PRs or commits.
+**Please note:** we cannot guarantee that there’ll be capacity to review all pull requests and feature suggestions at this time, so we recommend checking the [changelog] and [contacting us](mailto:web@raspberrypi.org) before raising any large-scale PRs or commits.
 
-### Our environments 
 
-Our [Production version of our Code Editor](https://editor.raspberrypi.org/)
-
-You can find further information in our [README](./README.md).
-
-### Submitting a Pull Request and adding a Commit
-
-- Restricted to one change or feature each.
-- The commit history should consist of a number of commits that are easy to review as possible. 
-- Where one commit is fixing errors in an earlier commit in the set, please simply merge them.
-- Where a commit is reverting an earlier commit in the set, please remove the commit entirely.
-- Please avoid adding merge commits or any other unnecessary commits.
-- The commit message should have a short line description at the top. Additional lines with more detail should be added as relevant in the code.
-- In general, we don't need to see all the trials, errors and bug-fixes that went into this change, we only want to understand how it works now!
-
-### Testing your code
-
-- Before submitting a pull request, please ensure that all the automated tests are passing for all the commits in the set
-- You can do this using the command prompt tools/run_tests. 
-- Any documentation should be updated accordingly. New examples and tests should be included wherever possible. Also consider making an entry in the change log.
-
-### Examples of a commit and coding conventions
-
-Words here? Or remove for now?
 
 ## 4. How we use your code and licensing
 
-By submitting a Pull Request, you are agreeing to your code and contribution to this project being licensed and shared as part of [our Open Source Licence](insert link to Apache OS licence).
+By submitting a pull request, you are agreeing to your code and contribution to this project being licensed and shared as part of [our Open Source Licence][licence].
  
-**Thank you, your contribution helps us to improve our products, and to help young people around the world to take part in Digital Making!**
+**♥️♥️♥️  Thank you, your contribution helps us to improve our products, and to help young people around the world to take part in Digital Making!**
+
+[production]: https://editor.raspberrypi.org
+[readme]: /README.md
+[changelog]: /CHANGELOG.md
+[licence]: /COPYRIGHT
