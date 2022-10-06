@@ -23,7 +23,7 @@ test('When not logged in renders generic profile image', () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><GlobalNav/></Provider>);
-  expect(screen.queryByAltText(`Account menu`)).toHaveAttribute('src', 'unauthenticated_user.svg')
+  expect(screen.queryByAltText(`Account menu`)).toBeInTheDocument()
 })
 
 test('When logged in renders user\'s profile image', () => {
