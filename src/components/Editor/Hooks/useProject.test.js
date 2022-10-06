@@ -3,7 +3,8 @@ import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
 import { setProject, setProjectLoaded } from "../EditorSlice";
 import { readProject } from "../../../utils/apiCallHandler";
-import axios from "axios";
+// import * as apiCallHandler from "../../../utils/apiCallHandler";
+// import axios from "axios";
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -18,9 +19,6 @@ jest.mock('../EditorSlice', () => ({
 jest.mock('../../../utils/apiCallHandler', () => ({
   readProject: (identifier) => Promise.resolve({'data': { 'project': {'identifier': identifier, 'project_type': 'python'}}})
 }))
-
-// jest.mock('axios')
-
 
 const defaultHtmlProject = {
   type: 'html',
@@ -53,7 +51,7 @@ const uncachedProject = {
 
 const project1 = {
   type: 'python',
-  identifier: 'hello-world-project',
+  identifier: 'my-favourite-project',
 }
 
 test("If no identifier and project type is HTML uses default HTML project", () => {
@@ -84,17 +82,21 @@ test("If cached project does not match identifer does not use cached project", (
   expect(setProject).not.toHaveBeenCalledWith(cachedProject)
 })
 
+test("If cached project does not match identifer loads correct uncached project", () => {
+  localStorage.setItem('project', JSON.stringify(cachedProject))
+  renderHook(() => useProject('python', 'my-favourite-project'))
+  expect(setProject).toHaveBeenCalledWith(project1)
+})
+
 test("If cached project does not match identifer clears cached project", () => {
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', 'hello-world-project'))
   expect(localStorage.getItem('project')).toBeNull()
 })
 
-test("If cached project does not match identifer clears cached project", () => {
-  // axios.get.mockImplementationOnce(() => Promise.resolve(uncachedProject))
-  // localStorage.setItem('project', JSON.stringify(cachedProject))
+test("If no cached project loads uncached project", () => {
   renderHook(() => useProject('python', 'hello-world-project'))
-  expect(readProject).toHaveBeenCalled()
+  expect(setProject).toHaveBeenCalledWith(uncachedProject)
 })
 
 afterEach(() => {

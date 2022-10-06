@@ -36,6 +36,7 @@ export const useProject = (projectType, projectIdentifier = '') => {
   const loadProject = () => {
     (async () => {
       const response = await readProject(projectIdentifier)
+      console.log(response)
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();
