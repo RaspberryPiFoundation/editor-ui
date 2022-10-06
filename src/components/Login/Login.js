@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Login = (props) => {
-  const { className, user } = props;
+  const { className } = props;
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
+  const user = useSelector((state) => state.auth.user)
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
