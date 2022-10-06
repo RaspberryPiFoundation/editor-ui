@@ -3,8 +3,8 @@ import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
 import { setProject, setProjectLoaded } from "../EditorSlice";
 import { readProject } from "../../../utils/apiCallHandler";
-// import * as apiCallHandler from "../../../utils/apiCallHandler";
-// import axios from "axios";
+import { waitFor } from "@testing-library/react";
+
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -17,11 +17,11 @@ jest.mock('../EditorSlice', () => ({
 }))
 
 jest.mock('../../../utils/apiCallHandler', () => ({
-  readProject: (identifier) => Promise.resolve({'data': { 'project': {'identifier': identifier, 'project_type': 'python'}}})
-}))
+  readProject: async (identifier) => Promise.resolve({'data': {'identifier': identifier, 'project_type': 'python'}})
+  }))
 
 const defaultHtmlProject = {
-  type: 'html',
+  project_type: 'html',
   components: [
     { extension: 'html', name: 'index',
       content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>" },
@@ -31,7 +31,7 @@ const defaultHtmlProject = {
 }
 
 const defaultPythonProject = {
-  type: 'python',
+  project_type: 'python',
   components: [
     { extension: 'py', name: 'main',
       content: "", index: 0, default: true },
@@ -39,18 +39,18 @@ const defaultPythonProject = {
 }
 
 const cachedProject = {
-  type: 'python',
+  project_type: 'python',
   identifier: 'hello-world-project',
   components: []
 }
 
 const uncachedProject = {
-  type: 'python',
+  project_type: 'python',
   identifier: 'hello-world-project',
 }
 
 const project1 = {
-  type: 'python',
+  project_type: 'python',
   identifier: 'my-favourite-project',
 }
 
@@ -76,16 +76,16 @@ test("If cached project matches identifer clears cached project", () => {
   expect(localStorage.getItem('project')).toBeNull()
 })
 
-test("If cached project does not match identifer does not use cached project", () => {
+test("If cached project does not match identifer does not use cached project", async () => {
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', 'my-favourite-project'))
-  expect(setProject).not.toHaveBeenCalledWith(cachedProject)
+  await waitFor(() => expect(setProject).not.toHaveBeenCalledWith(cachedProject))
 })
 
-test("If cached project does not match identifer loads correct uncached project", () => {
+test("If cached project does not match identifer loads correct uncached project", async () => {
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', 'my-favourite-project'))
-  expect(setProject).toHaveBeenCalledWith(project1)
+  await waitFor(() => expect(setProject).toHaveBeenCalledWith(project1))
 })
 
 test("If cached project does not match identifer clears cached project", () => {
@@ -94,9 +94,9 @@ test("If cached project does not match identifer clears cached project", () => {
   expect(localStorage.getItem('project')).toBeNull()
 })
 
-test("If no cached project loads uncached project", () => {
+test("If no cached project loads uncached project", async () => {
   renderHook(() => useProject('python', 'hello-world-project'))
-  expect(setProject).toHaveBeenCalledWith(uncachedProject)
+  await waitFor(() => expect(setProject).toHaveBeenCalledWith(uncachedProject))
 })
 
 afterEach(() => {

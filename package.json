@@ -124,6 +124,7 @@
     "jest-resolve": "^29.1.2",
     "jest-scss-transform": "^1.0.3",
     "jest-transform-stub": "^2.0.0",
+    "jest-transformer-svg": "^2.0.0",
     "jest-watch-typeahead": "^2.2.0",
     "mini-css-extract-plugin": "0.11.3",
     "optimize-css-assets-webpack-plugin": "5.0.4",
@@ -181,7 +182,8 @@
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       ".+\\.(css|styl|less|sass)$": "<rootDir>/node_modules/jest-css-modules-transform",
       "^.+\\.scss$": "<rootDir>/node_modules/jest-scss-transform",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|json)$)": "<rootDir>/node_modules/jest-transform-stub"
+      "^.+\\.svg$": "jest-transformer-svg",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|svg|json)$)": "<rootDir>/node_modules/jest-transform-stub"
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",

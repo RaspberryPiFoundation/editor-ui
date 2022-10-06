@@ -13,7 +13,7 @@ import { readProject } from '../../../utils/apiCallHandler';
 // }
 
 const pythonCode = {
-  type: 'python',
+  project_type: 'python',
   components: [
     { extension: 'py', name: 'main',
       content: "", index: 0, default: true },
@@ -21,7 +21,7 @@ const pythonCode = {
 }
 
 const htmlCode = {
-  type: 'html',
+  project_type: 'html',
   components: [
     { extension: 'html', name: 'index',
       content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>" },
@@ -36,7 +36,6 @@ export const useProject = (projectType, projectIdentifier = '') => {
   const loadProject = () => {
     (async () => {
       const response = await readProject(projectIdentifier)
-      console.log(response)
       dispatch(setProject(response.data));
       dispatch(setProjectLoaded(true));
     })();
