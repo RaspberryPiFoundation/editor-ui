@@ -180,7 +180,7 @@
     "testRunner": "jest-circus/runner",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      ".+\\.(css|styl|less|sass)$": "<rootDir>/node_modules/jest-css-modules-transform",
+      ".+\\.css$": "<rootDir>/node_modules/jest-css-modules-transform",
       "^.+\\.scss$": "<rootDir>/node_modules/jest-scss-transform",
       "^.+\\.svg$": "jest-transformer-svg",
       "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|svg|json)$)": "<rootDir>/node_modules/jest-transform-stub"
