@@ -1,4 +1,4 @@
-name: Build, test, upload
+name: CI-CD
 
 on:
   push:
