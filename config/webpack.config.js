@@ -565,6 +565,7 @@ module.exports = function (webpackEnv) {
             favicon: './src/assets/editor_logo.svg',
             inject: true,
             template: paths.appHtml,
+            hash: true
           },
           isEnvProduction
             ? {
