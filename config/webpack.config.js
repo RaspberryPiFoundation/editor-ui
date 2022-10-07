@@ -562,6 +562,7 @@ module.exports = function (webpackEnv) {
         Object.assign(
           {},
           {
+            favicon: './src/assets/editor_logo.svg',
             inject: true,
             template: paths.appHtml,
           },
