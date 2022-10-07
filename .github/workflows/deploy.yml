@@ -1,4 +1,4 @@
-name: Build and Upload to S3
+name: Deploy
 
 on:
   workflow_call:
