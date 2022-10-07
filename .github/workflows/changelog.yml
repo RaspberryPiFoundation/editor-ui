@@ -2,8 +2,6 @@ name: Changelog
 
 on:
   pull_request:
-    types:
-      - synchronize
     branches:
       - '**'
 
