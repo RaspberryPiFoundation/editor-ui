@@ -90,11 +90,11 @@ jobs:
           cypress/videos
 
 
-  build-and-deploy-tag:
+  deploy-tag:
     if: github.ref_type == 'tag'
     needs:
       - test
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       base_url: https://editor.raspberrypi.org/
       environment: production
@@ -103,18 +103,18 @@ jobs:
       react_app_authentication_url: https://auth-v1.raspberrypi.org
     secrets: inherit
 
-  build-and-deploy-main:
+  deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
     needs:
       - test
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
     secrets: inherit
 
-  build-and-deploy-branch:
+  deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       environment: previews/${{ github.ref_name }}
     secrets: inherit
