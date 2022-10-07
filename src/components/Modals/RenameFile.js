@@ -1,26 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
-import { setNameError, updateComponentName } from "../Editor/EditorSlice";
+import { updateComponentName } from "../Editor/EditorSlice";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
 
 const RenameFile = (props) => {
-  const {currentName, currentExtension, fileKey} = props
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+  //const {currentName, currentExtension, fileKey} = props
+  const dispatch = useDispatch()
   const projectType = useSelector((state) => state.editor.project.project_type)
-  const projectComponents = useSelector((state) => state.editor.project.components);
+  const projectComponents = useSelector((state) => state.editor.project.components)
+  const isModalOpen = useSelector((state) => state.editor.renameFileModalShowing)
+  const {name: currentName, ext: currentExtension, key: fileKey} = useSelector((state) => state.editor.modals.fileName);
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
-  const closeModal = () => setIsOpen(false);
-  const showModal = () => {
-    dispatch(setNameError(""));
-    setIsOpen(true)
-  };
+  const closeModal = () => {}//dispatch(closeRenameModal());
 
   const renameComponent = () => {
     const fileName = document.getElementById('name').value
@@ -35,10 +32,8 @@ const RenameFile = (props) => {
 
   return (
     <>
-      <button onClick={showModal}>Rename&nbsp;File</button>
-
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={isModalOpen}
         onRequestClose={closeModal}
         className='modal__content'
         overlayClassName='modal__overlay'
