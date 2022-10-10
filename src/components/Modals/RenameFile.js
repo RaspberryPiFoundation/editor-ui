@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
-import { updateComponentName } from "../Editor/EditorSlice";
+import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
 
@@ -16,10 +16,10 @@ const RenameFile = (props) => {
   const projectType = useSelector((state) => state.editor.project.project_type)
   const projectComponents = useSelector((state) => state.editor.project.components)
   const isModalOpen = useSelector((state) => state.editor.renameFileModalShowing)
-  const {name: currentName, ext: currentExtension, key: fileKey} = useSelector((state) => state.editor.modals.fileName);
+  const {name: currentName, ext: currentExtension, fileKey} = useSelector((state) => state.editor.modals.renameFile);
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
-  const closeModal = () => {}//dispatch(closeRenameModal());
+  const closeModal = () => dispatch(closeRenameFileModal());
 
   const renameComponent = () => {
     const fileName = document.getElementById('name').value

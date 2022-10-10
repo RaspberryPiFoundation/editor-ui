@@ -1,0 +1,12 @@
+@import '../../../colours.scss';
+
+.file-menu__rename {
+    &-btn {
+        background-color: $editor-white;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: $editor-mid-light-grey;
+        }
+    }
+}

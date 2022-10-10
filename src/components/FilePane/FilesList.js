@@ -29,7 +29,7 @@ const FilesList = () => {
             ButtonIcon={EllipsisVerticalIcon}
             buttonText=''
             buttonTextClassName=''
-            MenuContent={() => { return <FileMenu key={i} name={file.name} ext={file.ext} />}} />
+            MenuContent={() => { return <FileMenu fileKey={i} name={file.name} ext={file.extension} />}} />
       </div>
       ))}
       </div>
