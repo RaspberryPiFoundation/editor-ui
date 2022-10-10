@@ -30,6 +30,10 @@ on:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
         type: string
+      react_app_google_tag_manager_id:
+        required: false
+        default: ''
+        type: string
       react_app_login_enabled:
         required: false
         default: "true"
