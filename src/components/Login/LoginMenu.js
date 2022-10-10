@@ -16,7 +16,7 @@ const LoginMenu = () => {
       </>
       : null
     }
-      <Login className='dropdown-container--list__item' user={user}/>
+      <Login className='dropdown-container--list__item'/>
     </div>
   ) 
 }
