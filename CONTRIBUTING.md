@@ -8,23 +8,22 @@ To support young people to learn how to code, in both formal and informal educat
 
 ## 2. Latest versioning and future releases
 
-The Code Editor from Raspberry Pi Foundation is currently live as a beta release. This means there may still be some issues and bugs which we’ll be working on fixing, and where contributors identify particularly useful features we may consider implementing them. 
+The Code Editor from Raspberry Pi Foundation is currently in beta. This means there may still be some issues and bugs which we’ll be working on fixing, and where contributors identify particularly useful features we may consider implementing them. 
 
-Our current priorities will be working on bugs, making sure the Editor is stable, and extending the functionality so that it supports young people to learn to code.
+Our current priority is extending the functionality so that it supports young people to learn to code.
 
 As this project is in its infancy, we encourage contributors to check this documentation from time to time, as we refine our processes, and update you on our roadmap changes.
 
-**Q4 2022 (Oct-Dec)  priority features:**
-- Beta testing and iterating based on user feedback (i.e. the young people using our Code Editor).
-- Design review including key improvements for supporting smaller screen devices (tablet and mobile responsiveness).
-- Linting.
-- Downloading code.
-- Auto-saving code.
+**Q4 2022 (Oct-Dec) priority features:**
+- Beta testing and iterating based on user feedback (i.e. the young people using our Code Editor);
+- design review including key improvements for supporting smaller screen devices (tablet and mobile responsiveness);
+- linting and static error analysis;
+- downloading code;
+- auto-saving code.
 
 **H1 2023 (Jan-Jun) priority features:**
-- Supporting for translations and self-serve content updates by our internal content authors.
-- Extending supported libraries.
-- Sharing and remixing.
+- Supporting for translations and self-serve content updates by our internal content authors;
+- extending supported libraries.
 
 You can track our progress for feature releases and recent changes by checking the [changelog].
 
@@ -33,8 +32,6 @@ You can track our progress for feature releases and recent changes by checking t
 We’re happy to receive pull requests for upcoming versions to fix bugs, add features and refactor code; your suggestions will help us improve our Code Editor, so we can support more young people to learn how to code. 
 
 **Please note:** we cannot guarantee that there’ll be capacity to review all pull requests and feature suggestions at this time, so we recommend checking the [changelog] and [contacting us](mailto:web@raspberrypi.org) before raising any large-scale PRs or commits.
-
-
 
 ## 4. How we use your code and licensing
 
