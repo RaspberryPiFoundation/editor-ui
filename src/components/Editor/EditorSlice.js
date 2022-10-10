@@ -100,6 +100,9 @@ export const EditorSlice = createSlice({
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
+    },
+    closeRenameFileModal: (state) => {
+      state.renameFileModalShowing = false
     }
   },
 })
@@ -126,6 +129,7 @@ export const {
   updateProjectComponent,
   updateProjectName,
   showRenameFileModal,
+  closeRenameFileModal,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer
