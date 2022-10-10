@@ -22,11 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Upgraded to Jest 29 (#211)
+- Updated Editor site title and logo (#220)
 - Updated Codemirror and related dependencies to their latest versions (#221)
-
-### Updated
-
-- Editor site title and logo (#220)
 
 ## [0.5.0]
 
