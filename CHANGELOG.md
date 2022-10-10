@@ -29,6 +29,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Layout and spacing in the Mission Zero Control Panel so web component fits in a narrower container (#191)
 - Updated modal styling (#193)
+- Updated Codemirror and related dependencies to their latest versions (#221)
+
+## Fixed
+
+- Updated text output font to display emojis correctly (#221)
 
 ## [0.4.0]
 
