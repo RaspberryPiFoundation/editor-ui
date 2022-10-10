@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cookie banner on the editor site (#206)
 - Unit tests for login button and 'useProject' hook (#211)
 
+### Fixed
+
+- Styling of Astro Pi orientation reset button on editor site (#202)
+
 ### Changed
 
 - Upgraded to Jest 29 (#211)
