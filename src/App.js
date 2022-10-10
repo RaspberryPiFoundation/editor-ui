@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import GlobalNav from './components/GlobalNav/GlobalNav';
+import Footer from './components/Footer/Footer';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         { isEmbedded ? null : <><GlobalNav/><Header/></> }
         <Routes />
+        { isEmbedded ? null : <Footer/> }
       </BrowserRouter>
     </div>
   );
