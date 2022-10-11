@@ -30,6 +30,10 @@ on:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
         type: string
+      react_app_google_tag_manager_id:
+        required: false
+        default: ''
+        type: string
       react_app_login_enabled:
         required: false
         default: "true"
@@ -92,6 +96,7 @@ jobs:
         REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
         REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
         REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
+        REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
 
     - name: Deploy site to S3 bucket

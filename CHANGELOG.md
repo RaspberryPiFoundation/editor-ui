@@ -13,17 +13,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Footer on editor site with links to Privacy, Cookies, Accessibility and Safeguarding policies (#200)
 - Cookie banner on the editor site (#206)
 - Unit tests for login button and 'useProject' hook (#211)
-
-### Fixed
-
-- Styling of Astro Pi orientation reset button on editor site (#202)
-- Updated text output font to display emojis correctly (#221)
+- Script for Google Tag Manager to be used on the standalone editor site (#225)
 
 ### Changed
 
 - Upgraded to Jest 29 (#211)
 - Updated Editor site title and logo (#220)
 - Updated Codemirror and related dependencies to their latest versions (#221)
+
+### Fixed
+
+- Styling of Astro Pi orientation reset button on editor site (#202)
+- Updated text output font to display emojis correctly (#221)
 
 ## [0.5.0]
 
