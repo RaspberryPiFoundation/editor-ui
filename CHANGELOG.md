@@ -15,16 +15,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Unit tests for login button and 'useProject' hook (#211)
 - Script for Google Tag Manager to be used on the standalone editor site (#225)
 
-### Fixed
-
-- Styling of Astro Pi orientation reset button on editor site (#202)
-- Updated text output font to display emojis correctly (#221)
-
 ### Changed
 
 - Upgraded to Jest 29 (#211)
 - Update build process to strip non-alphanumeric characters from the branch name (#222)
 - Updated Codemirror and related dependencies to their latest versions (#221)
+
+### Fixed
+
+- Styling of Astro Pi orientation reset button on editor site (#202)
+- Updated text output font to display emojis correctly (#221)
 
 ## [0.5.0]
 
