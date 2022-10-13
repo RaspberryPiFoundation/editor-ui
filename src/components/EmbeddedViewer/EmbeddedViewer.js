@@ -14,6 +14,23 @@ const EmbeddedViewer = (props) => {
   useProject('python', projectIdentifier);
   useEmbeddedMode(true);
 
+  window.addEventListener(
+    "CookiebotOnDialogInit",
+    () => {
+      if (window.Cookiebot.consent.stamp === '0') {
+        window.Cookiebot.submitCustomConsent(!1, !1, !1);
+        window.addEventListener(
+          "CookiebotOnLoad",
+          () => {
+            window.Cookiebot.deleteConsentCookie();
+          },
+          false
+        );
+      }
+    },
+    false
+  );
+
   return projectLoaded === true ? (
     <div className='embedded-viewer'>
       <Output />

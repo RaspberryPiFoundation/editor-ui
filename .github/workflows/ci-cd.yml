@@ -101,6 +101,7 @@ jobs:
       prefix: releases
       react_app_api_endpoint: https://editor-api.raspberrypi.org
       react_app_authentication_url: https://auth-v1.raspberrypi.org
+      react_app_google_tag_manager_id: GTM-5FWFWFJ
     secrets: inherit
 
   deploy-main:
