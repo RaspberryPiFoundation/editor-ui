@@ -18,7 +18,7 @@ const EmbeddedViewer = (props) => {
     "CookiebotOnDialogInit",
     () => {
       if (window.Cookiebot.consent.stamp === '0') {
-        window.Cookiebot.submitCustomConsent(0, 0, 0);
+        window.Cookiebot.submitCustomConsent(!1, !1, !1);
         window.addEventListener(
           "CookiebotOnLoad",
           () => {
