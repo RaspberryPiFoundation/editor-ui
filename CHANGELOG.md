@@ -18,8 +18,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Upgraded to Jest 29 (#211)
-- Update build process to strip non-alphanumeric characters from the branch name (#222)
+- Updated Editor site title and logo (#220)
 - Updated Codemirror and related dependencies to their latest versions (#221)
+- Update build process to strip non-alphanumeric characters from the branch name (#222)
 
 ### Fixed
 
