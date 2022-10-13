@@ -1,36 +1,13 @@
-name: Build and Upload to S3
+name: CI-CD
 
 on:
-  pull_request:
-    types:
-      - synchronize
+  push:
     branches:
       - '**'
     tags:
       - '**'
 
 jobs:
-  changelog-updated:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Check if changelog updated
-      id: changed-files-specific
-      uses: tj-actions/changed-files@v29.0.4
-      with:
-        base_sha: ${{ github.event.pull_request.base.sha }}
-        files: |
-          CHANGELOG.md
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-        
-    - name: Fail job if changelog not updated
-      if: steps.changed-files-specific.outputs.any_changed == 'false'
-      run: |
-        exit 1
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -113,11 +90,11 @@ jobs:
           cypress/videos
 
 
-  build-and-deploy-tag:
+  deploy-tag:
     if: github.ref_type == 'tag'
     needs:
       - test
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       base_url: https://editor.raspberrypi.org/
       environment: production
@@ -127,18 +104,18 @@ jobs:
       react_app_google_tag_manager_id: GTM-5FWFWFJ
     secrets: inherit
 
-  build-and-deploy-main:
+  deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
     needs:
       - test
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
     secrets: inherit
 
-  build-and-deploy-branch:
+  deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
-    uses: ./.github/workflows/build-and-deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       environment: previews/${{ github.ref_name }}
     secrets: inherit
