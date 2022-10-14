@@ -1,4 +1,4 @@
-name: Build and Upload to S3
+name: Deploy
 
 on:
   workflow_call:
@@ -59,7 +59,7 @@ jobs:
     steps:
     - id: safe_ref_name
       run:
-        echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//\//_}"
+        echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//[![:alnum:]]/_}"
     - id: deploy_dir
       run:
         echo "::set-output name=deploy_dir::${{inputs.prefix}}/${{steps.safe_ref_name.outputs.safe_ref_name}}"
