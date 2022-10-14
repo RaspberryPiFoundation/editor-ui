@@ -22,21 +22,11 @@
       svg {
         fill: $editor-mid-grey;
       }
-      &:disabled {
-        svg {
-          fill: $editor-mid-light-grey;
-        }
-      }
       &--active {
         background-color: $editor-light-grey;
         border-radius: 5px;
         svg {
           fill: $editor-black;
-        }
-        &:disabled {
-          svg {
-            fill: $editor-mid-grey;
-          }
         }
       }
     }
@@ -46,17 +36,9 @@
 .--dark {
   .output-view-toggle {
     background-color: $editor-dark-dark;
-    &:disabled {
-      background-color: $editor-dark;
-    }
     &__button {
       svg {
         fill: $editor-mid-grey;
-      }
-      &:disabled {
-        svg {
-          fill: $editor-grey;
-        }
       }
       &--active {
         background-color: $editor-grey;
@@ -64,12 +46,28 @@
         svg {
           fill: $editor-white;
         }
-        &:disabled {
-          svg {
-            fill: $editor-mid-grey;
-          }
+      }
+      &:disabled {
+        svg {
+          fill: $editor-grey;
+        }
+      }
+      &--active:disabled {
+        svg {
+          fill: $editor-mid-grey;
         }
       }
     }
   }
 }
+
+.--light .output-view-toggle__button:disabled {
+      svg {
+        fill: $editor-mid-light-grey;
+      }
+    &.output-view-toggle__button--active {
+      svg {
+        fill: $editor-mid-grey;
+      }
+    }
+  }
