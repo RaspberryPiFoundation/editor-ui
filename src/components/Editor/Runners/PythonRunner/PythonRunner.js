@@ -196,6 +196,23 @@ const PythonRunner = () => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
+    span.addEventListener('paste', (event) => {
+      event.preventDefault();
+
+      let paste = (event.clipboardData || window.clipboardData).getData('text/plain');
+      const selection = window.getSelection();
+      
+      if (!selection.rangeCount) return;
+      selection.deleteFromDocument();
+      selection.getRangeAt(0).insertNode(document.createTextNode(paste));
+      const caretStart = selection.focusOffset
+      selection.removeAllRanges()
+
+      const range = document.createRange()
+      range.setStart(span,caretStart)
+      range.collapse(true)
+      selection.addRange(range)
+  });
     return span
   }
 
