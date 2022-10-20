@@ -10,15 +10,16 @@
       outline: none;
     }
 
-    .cm-content {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      flex: 1;
-      padding-top: var(--spacing-1);
-    }
+    .cm-scroller {
+      overflow: auto;
+      overscroll-behavior-x: none;
+      margin-right: var(--spacing-1);
 
-    .cm-line {
-      padding-right: var(--spacing-1)
+      .cm-content {
+        flex: 1;
+        padding-top: var(--spacing-1);
+        margin-right: var(--spacing-1);
+      }
     }
   }
 }
