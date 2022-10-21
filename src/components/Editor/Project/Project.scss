@@ -52,11 +52,19 @@
     flex-flow: column;
     width: 42%;
     box-sizing: border-box;
+
+    .react-tabs__tab-panel--selected {
+    overflow-y: hidden;
+    }
   }
   
   .proj-runner-container {
     display: flex;
     width: 42%;
+
+    .react-tabs__tab-panel--selected {
+      overflow-y: scroll;
+    }
   }
 
   &--wc {
