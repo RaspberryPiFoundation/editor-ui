@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cookie banner on the editor site (#206) but not in the embedded viewer (#231)
 - Unit tests for login button and 'useProject' hook (#211)
 - Script for Google Tag Manager to be used on the standalone editor site (#225)
+- Indentation markers in the editor (#237)
 
 ### Changed
 
