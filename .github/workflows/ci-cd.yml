@@ -92,8 +92,6 @@ jobs:
 
   deploy-tag:
     if: github.ref_type == 'tag'
-    needs:
-      - test
     uses: ./.github/workflows/deploy.yml
     with:
       base_url: https://editor.raspberrypi.org/
@@ -106,8 +104,6 @@ jobs:
 
   deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
-    needs:
-      - test
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging

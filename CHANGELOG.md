@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+- Update Github workflow not to strip dots from the git ref, and remove test dependency for main and ref deploys.
+
 ## [0.6.0]
 
 ### Added
