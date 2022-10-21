@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Switch wrapping in the editor to horizontal scrolling for long lines (#242)
+
 ## [0.7.0]
 
 ### Changed
@@ -32,7 +36,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Editor site title and logo (#220)
 - Updated Codemirror and related dependencies to their latest versions (#221)
 - Update build process to strip non-alphanumeric characters from the branch name (#222)
-- Switch wrapping in the editor to horizontal scrolling for long lines (#242)
 
 ### Fixed
 
