@@ -58,14 +58,12 @@ jobs:
       public_url: ${{ steps.public_url.outputs.public_url }}
     steps:
     - id: safe_ref_name
-      run:
-        echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//[![:alnum:]]/_}"
-    - id: deploy_dir
-      run:
-        echo "::set-output name=deploy_dir::${{inputs.prefix}}/${{steps.safe_ref_name.outputs.safe_ref_name}}"
-    - id: public_url
-      run:
-        echo "::set-output name=public_url::${{inputs.base_url}}/${{steps.deploy_dir.outputs.deploy_dir}}"
+      run: |
+        safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
+        deploy_dir=${{inputs.prefix}}/$safe_ref_name
+        public_url=${{inputs.base_url}}/$deploy_dir
+        echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
+        echo "public_url=$public_url" >> $GITHUB_OUTPUT
 
   build-deploy:
     runs-on: ubuntu-latest
