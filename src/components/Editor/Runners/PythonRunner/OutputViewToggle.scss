@@ -8,6 +8,7 @@
 
   &__button {
     padding: var(--spacing-half) var(--spacing-1) var(--spacing-half) var(--spacing-1);
+    cursor: pointer;
 
     &:disabled {
       cursor: inherit;

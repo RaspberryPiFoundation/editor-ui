@@ -23,7 +23,8 @@ const WebComponentProject = () => {
 
   useEffect(() => {
     dispatch(setIsSplitView(false))
-  }, [])
+  }, [dispatch])
+
   useEffect(() => {
     setCodeHasRun(false)
     if(timeoutId) clearTimeout(timeoutId);
