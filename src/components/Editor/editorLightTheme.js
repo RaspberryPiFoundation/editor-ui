@@ -13,4 +13,12 @@ export const editorLightTheme = EditorView.theme({
     "color": "black",
     "background-color": "white"
   },
+  ".cm-line .cm-indentation-marker": {
+    'background': 'none',
+    'border-left': '1px solid lightgrey',
+    "&.active": {
+      'background': 'none',
+      'border-left': '1px solid grey',
+    }
+  },
 }, {dark: false})

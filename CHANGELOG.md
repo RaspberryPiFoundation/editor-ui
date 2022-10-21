@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.7.0]
+
+### Changed
+
+- Set indentation to 4 spaces to match PEP8 standard (#246)
+- Update Github workflow not to strip dots from the git ref, and remove test dependency for main and ref deploys (#244)
+
+## [0.6.0]
+
 ### Added
 
 - Github action for checking if changelog updated (#189)
@@ -14,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cookie banner on the editor site (#206) but not in the embedded viewer (#231)
 - Unit tests for login button and 'useProject' hook (#211)
 - Script for Google Tag Manager to be used on the standalone editor site (#225)
+- Ability to switch between split and tabbed output views on the editor site and in the web component (#234)
+- Indentation markers in the editor (#237)
 
 ### Changed
 
@@ -96,9 +107,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.7.0...HEAD
 [0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
 [0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
 [0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
 [0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
+[0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
+[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
+[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
 
