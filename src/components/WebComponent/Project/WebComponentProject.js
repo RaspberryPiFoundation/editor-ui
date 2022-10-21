@@ -20,10 +20,7 @@ const WebComponentProject = () => {
   const webComponent = document.querySelector('editor-wc')
   const [codeHasRun, setCodeHasRun] = React.useState(false);
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(setIsSplitView(false))
-  }, [dispatch])
+  dispatch(setIsSplitView(false))
 
   useEffect(() => {
     setCodeHasRun(false)
