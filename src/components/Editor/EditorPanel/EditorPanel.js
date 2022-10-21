@@ -9,7 +9,11 @@ import { basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+<<<<<<< Updated upstream
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
+=======
+import { indentUnit } from '@codemirror/language';
+>>>>>>> Stashed changes
 
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
@@ -72,7 +76,8 @@ const EditorPanel = ({
         mode,
         onUpdate,
         editorTheme,
-        indentationMarkers()
+        indentationMarkers(),
+        indentUnit.of('    '),
       ],
     });
 
