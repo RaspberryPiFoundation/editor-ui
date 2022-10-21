@@ -72,10 +72,12 @@ jobs:
       name: ${{ inputs.environment }}
       url: ${{ needs.setup-environment.outputs.public_url }}
     steps:
+
     - name: Check deployment path
       run: |
-        echo "Deploying to {{ needs.setup-environment.outputs.deploy_dir }}"
-        [ -n "{{ needs.setup-environment.outputs.deploy_dir }}" ]
+        echo "Deploying to ${{ needs.setup-environment.outputs.deploy_dir }}"
+        [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
+        [ -n "" ]
 
     - name: Checkout
       uses: actions/checkout@v1
