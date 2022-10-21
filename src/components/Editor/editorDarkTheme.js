@@ -22,6 +22,14 @@ export const editorDarkTheme = EditorView.theme({
   "&.cm-focused .cm-cursor": {
     borderLeftColor: "white"
   },
+  ".cm-line .cm-indentation-marker": {
+    'background': 'none',
+    'border-left': '1px solid grey',
+    "&.active": {
+      'background': 'none',
+      'border-left': '1px solid lightgrey',
+    }
+  },
   ".ͼb": {color: "#FF00A4"},
   ".ͼc": {color: "#1498D0"},
   ".ͼd": {color: "#1498D0"},
