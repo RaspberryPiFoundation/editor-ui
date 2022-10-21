@@ -10,6 +10,7 @@ export const EditorSlice = createSlice({
     codeRunTriggered: false,
     drawTriggered: false,
     isEmbedded: false,
+    isSplitView: true,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
@@ -27,6 +28,9 @@ export const EditorSlice = createSlice({
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setIsSplitView: (state, action) => {
+      state.isSplitView = action.payload;
     },
     setNameError: (state, action) => {
       state.nameError = action.payload;
@@ -104,6 +108,7 @@ export const {
   codeRunHandled,
   setEmbedded,
   setError,
+  setIsSplitView,
   setNameError,
   setProject,
   setProjectList,

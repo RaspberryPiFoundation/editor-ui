@@ -1,0 +1,74 @@
+@import '../../../../colours.scss';
+
+.output-view-toggle {
+  display: inline-flex;
+  margin: auto var(--spacing-1) auto auto;
+  align-items: center;
+  border-radius: 5px;
+
+  &__button {
+    padding: var(--spacing-half) var(--spacing-1) var(--spacing-half) var(--spacing-1);
+    cursor: pointer;
+
+    &:disabled {
+      cursor: inherit;
+    }
+  }
+}
+
+.--light {
+  .output-view-toggle {
+    background-color: $editor-light-light-grey;
+    &__button {
+      svg {
+        fill: $editor-mid-grey;
+      }
+      &--active {
+        background-color: $editor-light-grey;
+        border-radius: 5px;
+        svg {
+          fill: $editor-black;
+        }
+      }
+    }
+  }
+}
+
+.--dark {
+  .output-view-toggle {
+    background-color: $editor-dark-dark;
+    &__button {
+      svg {
+        fill: $editor-mid-grey;
+      }
+      &--active {
+        background-color: $editor-grey;
+        border-radius: 5px;
+        svg {
+          fill: $editor-white;
+        }
+      }
+      &:disabled {
+        svg {
+          fill: $editor-grey;
+        }
+      }
+      &--active:disabled {
+        svg {
+          fill: $editor-mid-grey;
+        }
+      }
+    }
+  }
+}
+
+.--light .output-view-toggle__button:disabled {
+      svg {
+        fill: $editor-mid-light-grey;
+      }
+    &.output-view-toggle__button--active {
+      svg {
+        fill: $editor-mid-grey;
+      }
+    }
+  }
