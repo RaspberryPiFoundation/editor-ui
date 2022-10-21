@@ -54,20 +54,16 @@ jobs:
   setup-environment:
     runs-on: ubuntu-latest
     outputs:
-      deploy_dir: ${{ steps.deploy_dir.outputs.deploy_dir }}
-      public_url: ${{ steps.public_url.outputs.public_url }}
+      deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
+      public_url: ${{ steps.setup-environment.outputs.public_url }}
     steps:
-    - id: safe_ref_name
+    - id: setup-environment
       run: |
         safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
         deploy_dir=${{inputs.prefix}}/$safe_ref_name
         public_url=${{inputs.base_url}}/$deploy_dir
-        echo $safe_ref_name
-        echo $deploy_dir
-        echo $public_url
         echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
         echo "public_url=$public_url" >> $GITHUB_OUTPUT
-        cat $GITHUB_OUTPUT
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -78,7 +74,7 @@ jobs:
     steps:
     - name: Check deployment path
       run: |
-        echo "Deploying to '{{ needs.setup-environment.outputs.deploy_dir }}'"
+        echo "Deploying to {{ needs.setup-environment.outputs.deploy_dir }}"
         [ -n "{{ needs.setup-environment.outputs.deploy_dir }}" ]
 
     - name: Checkout
