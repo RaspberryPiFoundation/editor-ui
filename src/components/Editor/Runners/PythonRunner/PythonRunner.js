@@ -9,9 +9,11 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 
 import store from '../../../../app/store'
 import VisualOutputPane from './VisualOutputPane';
+import OutputViewToggle from './OutputViewToggle';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
@@ -294,22 +296,24 @@ const PythonRunner = () => {
 
   return (
     <div className={`pythonrunner-container`}>
-      { isEmbedded ?
+      { isSplitView ?
         <>
-          <div className='output-panel output-panel--visual' style={!hasVisualOutput ? {display: 'none'} : {}}>
+          {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
                 <Tab key={0}>Visual Output</Tab>
+                {!isEmbedded ? <OutputViewToggle/> : null }
               </TabList>
               <TabPanel key={0} >
                 <VisualOutputPane/>
               </TabPanel>
             </Tabs>
-          </div>
+          </div> : null}
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
                 <Tab key={0}>Text Output</Tab>
+                { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
               </TabList>
               <ErrorMessage />
               <TabPanel key={0}>
@@ -319,23 +323,24 @@ const PythonRunner = () => {
           </div>
       </>
       :
-        <Tabs forceRenderTabPanel={true} defaultIndex={senseHatAlwaysEnabled ? 0 : 1}>
-          <TabList>
-            {hasVisualOutput ?
-              <Tab key={0}>Visual Output</Tab> : null
-            }
-            <Tab key={1}>Text Output</Tab>
-          </TabList>
-          <ErrorMessage />
+      <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
+        <TabList>
           {hasVisualOutput ?
-            <TabPanel key={0} >
-              <VisualOutputPane/>
-            </TabPanel> : null
+            <Tab key={0}>Visual Output</Tab> : null
           }
-          <TabPanel key={1}>
-            <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
-          </TabPanel>
-        </Tabs>
+          <Tab key={1}>Text Output</Tab>
+          {!isEmbedded ? <OutputViewToggle/> : null }
+        </TabList>
+        <ErrorMessage />
+        {hasVisualOutput ?
+          <TabPanel key={0} >
+            <VisualOutputPane/>
+          </TabPanel> : null
+        }
+        <TabPanel key={1}>
+          <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+        </TabPanel>
+      </Tabs>
       }
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import Style from 'style-it';
 import internalStyles from '../WebComponent.scss';
@@ -9,6 +9,7 @@ import Project from '../../Editor/Project/Project';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
 import Sk from 'skulpt';
 import store from '../../../app/store';
+import { setIsSplitView } from '../../Editor/EditorSlice';
 
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
@@ -18,6 +19,8 @@ const WebComponentProject = () => {
   const [timeoutId, setTimeoutId] = React.useState(null);
   const webComponent = document.querySelector('editor-wc')
   const [codeHasRun, setCodeHasRun] = React.useState(false);
+  const dispatch = useDispatch()
+  dispatch(setIsSplitView(false))
 
   useEffect(() => {
     setCodeHasRun(false)
