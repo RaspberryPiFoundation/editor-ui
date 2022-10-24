@@ -1,4 +1,4 @@
-name: Build and Upload to S3
+name: Deploy
 
 on:
   workflow_call:
@@ -30,6 +30,10 @@ on:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
         type: string
+      react_app_google_tag_manager_id:
+        required: false
+        default: ''
+        type: string
       react_app_login_enabled:
         required: false
         default: "true"
@@ -50,18 +54,16 @@ jobs:
   setup-environment:
     runs-on: ubuntu-latest
     outputs:
-      deploy_dir: ${{ steps.deploy_dir.outputs.deploy_dir }}
-      public_url: ${{ steps.public_url.outputs.public_url }}
+      deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
+      public_url: ${{ steps.setup-environment.outputs.public_url }}
     steps:
-    - id: safe_ref_name
-      run:
-        echo "::set-output name=safe_ref_name::${GITHUB_REF_NAME//\//_}"
-    - id: deploy_dir
-      run:
-        echo "::set-output name=deploy_dir::${{inputs.prefix}}/${{steps.safe_ref_name.outputs.safe_ref_name}}"
-    - id: public_url
-      run:
-        echo "::set-output name=public_url::${{inputs.base_url}}/${{steps.deploy_dir.outputs.deploy_dir}}"
+    - id: setup-environment
+      run: |
+        safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
+        deploy_dir=${{inputs.prefix}}/$safe_ref_name
+        public_url=${{inputs.base_url}}/$deploy_dir
+        echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
+        echo "public_url=$public_url" >> $GITHUB_OUTPUT
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -70,6 +72,12 @@ jobs:
       name: ${{ inputs.environment }}
       url: ${{ needs.setup-environment.outputs.public_url }}
     steps:
+
+    - name: Check deployment path
+      run: |
+        echo "Deploying to '${{ needs.setup-environment.outputs.deploy_dir }}' -- job will fail if this is empty!"
+        [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
+
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -92,6 +100,7 @@ jobs:
         REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
         REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
         REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
+        REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
 
     - name: Deploy site to S3 bucket
