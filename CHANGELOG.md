@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Set indentation to 4 spaces to match PEP8 standard (#246)
-- Update Github workflow not to strip dots from the git ref, and remove test dependency for main and ref deploys (#244)
+- Update Github workflow not to strip dots from the git ref, and remove test dependency for main and ref deploys (#244, #248)
 
 ## [0.6.0]
 
