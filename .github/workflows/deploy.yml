@@ -54,10 +54,10 @@ jobs:
   setup-environment:
     runs-on: ubuntu-latest
     outputs:
-      deploy_dir: ${{ steps.deploy_dir.outputs.deploy_dir }}
-      public_url: ${{ steps.public_url.outputs.public_url }}
+      deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
+      public_url: ${{ steps.setup-environment.outputs.public_url }}
     steps:
-    - id: safe_ref_name
+    - id: setup-environment
       run: |
         safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
         deploy_dir=${{inputs.prefix}}/$safe_ref_name
@@ -72,6 +72,12 @@ jobs:
       name: ${{ inputs.environment }}
       url: ${{ needs.setup-environment.outputs.public_url }}
     steps:
+
+    - name: Check deployment path
+      run: |
+        echo "Deploying to '${{ needs.setup-environment.outputs.deploy_dir }}' -- job will fail if this is empty!"
+        [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
+
     - name: Checkout
       uses: actions/checkout@v1
 
