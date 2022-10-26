@@ -21,6 +21,7 @@
     "@react-three/fiber": "^8.0.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@rpf/sauce": "https://github.com/RaspberryPiFoundation/sauce-design-system.git#next",
+    "@szhsin/react-menu": "^3.2.0",
     "axios": "^0.24.0",
     "codemirror": "^6.0.0",
     "fs-extra": "^9.0.1",
