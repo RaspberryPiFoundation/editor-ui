@@ -20,6 +20,11 @@ i18n
       en: {
         translation: {
           // here we will place our translations...
+          filePane: {
+            files: 'Project Files',
+            images: 'Image Gallery',
+            newFileButton: 'Add file'
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',

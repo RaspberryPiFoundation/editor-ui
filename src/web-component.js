@@ -4,6 +4,7 @@ import * as ReactDOMClient from 'react-dom/client';
 import WebComponentLoader from './components/WebComponent/WebComponentLoader/WebComponentLoader';
 import store from './app/store'
 import { Provider } from 'react-redux'
+import './i18n';
 
 class WebComponent extends HTMLElement {
   root;

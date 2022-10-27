@@ -10,9 +10,11 @@ import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { CloseIcon, NewFileIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
 import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const { t } = useTranslation()
     const dispatch = useDispatch();
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
@@ -39,7 +41,7 @@ const NewComponentButton = () => {
 
     return (
       <div className={`--${theme}`}>
-        <Button buttonText={<><NewFileIcon />Add file</>} onClickHandler={showModal} className="proj-new-component-button" />
+        <Button buttonText={<><NewFileIcon />{t('filePane.newFileButton')}</>} onClickHandler={showModal} className="proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
