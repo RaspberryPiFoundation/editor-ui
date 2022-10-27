@@ -12,7 +12,6 @@ import userManager from './utils/userManager'
 import { CookiesProvider } from 'react-cookie';
 
 Sentry.init({
-  // dsn: "https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376",
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
 
