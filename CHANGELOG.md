@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Copyright and contributing documentation (#207)
+- Sentry integration (#252)
 
 ### Changed
 
