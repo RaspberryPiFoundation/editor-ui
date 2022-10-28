@@ -302,7 +302,7 @@ const PythonRunner = () => {
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>Visual Output</Tab>
+                <Tab key={0}>{t('output.visualOutput')}</Tab>
                 {!isEmbedded ? <OutputViewToggle/> : null }
               </TabList>
               <TabPanel key={0} >
@@ -313,7 +313,7 @@ const PythonRunner = () => {
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>Text Output</Tab>
+                <Tab key={0}>{t('output.textOutput')}</Tab>
                 { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
               </TabList>
               <ErrorMessage />
@@ -327,9 +327,9 @@ const PythonRunner = () => {
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
         <TabList>
           {hasVisualOutput ?
-            <Tab key={0}>Visual Output</Tab> : null
+            <Tab key={0}>{t('output.visualOutput')}</Tab> : null
           }
-          <Tab key={1}>Text Output</Tab>
+          <Tab key={1}>{t('output.textOutput')}</Tab>
           {!isEmbedded ? <OutputViewToggle/> : null }
         </TabList>
         <ErrorMessage />

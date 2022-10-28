@@ -59,6 +59,7 @@ i18n
             },
           },
           header: {
+            newProject: 'New Project',
             projects: 'My Projects',
             save: 'Save',
             settings: 'Settings',
