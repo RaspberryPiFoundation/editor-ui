@@ -23,15 +23,15 @@ describe('When not logged in', () => {
   })
 
   test('Login button renders', () => {
-    expect(screen.queryByText('Login')).toBeInTheDocument()
+    expect(screen.queryByText('globalNav.accountMenu.login')).toBeInTheDocument()
   })
 
   test('My profile does not render', () => {
-    expect(screen.queryByText('My profile')).not.toBeInTheDocument()
+    expect(screen.queryByText('globalNav.accountMenu.profile')).not.toBeInTheDocument()
   })
 
   test('My projects does not render', () => {
-    expect(screen.queryByText('My projects')).not.toBeInTheDocument()
+    expect(screen.queryByText('globalNav.accountMenu.projects')).not.toBeInTheDocument()
   })
 })
 
@@ -57,14 +57,14 @@ describe('When logged in', () => {
   })
 
   test('Logout button renders', () => {
-    expect(screen.queryByText('Logout')).toBeInTheDocument()
+    expect(screen.queryByText('globalNav.accountMenu.logout')).toBeInTheDocument()
   })
 
   test('My profile renders with correct link', () => {
-    expect(screen.queryByText('My profile')).toHaveAttribute('href', 'profile_url/edit')
+    expect(screen.queryByText('globalNav.accountMenu.profile')).toHaveAttribute('href', 'profile_url/edit')
   })
 
   test('My projects renders with correct link', () => {
-    expect(screen.queryByText('My projects')).toHaveAttribute('href', '/projects')
+    expect(screen.queryByText('globalNav.accountMenu.projects')).toHaveAttribute('href', '/projects')
   })
 })

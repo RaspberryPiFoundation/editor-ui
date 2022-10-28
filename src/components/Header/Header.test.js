@@ -44,11 +44,11 @@ describe("When logged in and user owns project", () => {
     }
     store = mockStore(initialState);
     ({getByText, queryByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = getByText(/Save/)
+    saveButton = queryByText('header.save')
   })
 
   test("Save button renders", () => {
-      expect(saveButton.textContent).toBe("Save");
+      expect(saveButton).toBeInTheDocument();
   })
 
   test("Clicking save button sends PUT request to correct endpoint", () => {
@@ -73,7 +73,7 @@ describe("When logged in and user owns project", () => {
   })
 
   test("Renders project gallery link", () => {
-    expect(queryByText("My Projects")).not.toBeNull();
+    expect(queryByText('header.projects')).not.toBeNull();
   })
 })
 
@@ -104,7 +104,7 @@ describe("When logged in and no project identifier", () => {
     }
     store = mockStore(initialState);
     ({getByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = getByText(/Save/)
+    saveButton = getByText('header.save')
   })
 
   test("Clicking save creates new project", () => {
@@ -150,11 +150,11 @@ describe("When logged in and user does not own project", () => {
   })
 
   test("Renders project gallery link", () => {
-    expect(queryByText("My Projects")).not.toBeNull();
+    expect(queryByText('header.projects')).not.toBeNull();
   })
 
   test("No save button", () => {
-    expect(queryByText("Save")).toBeNull()
+    expect(queryByText('header.save')).toBeNull()
   })
 })
 
@@ -181,10 +181,10 @@ describe("When not logged in", () => {
   })
 
   test("No save button", () =>{
-    expect(queryByText("Save")).toBeNull();
+    expect(queryByText('header.save')).toBeNull();
   })
 
   test("No project gallery link", () => {
-    expect(queryByText("My Projects")).toBeNull();
+    expect(queryByText('header.projects')).toBeNull();
   })
 })

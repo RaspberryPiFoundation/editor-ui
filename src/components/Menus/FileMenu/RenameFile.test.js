@@ -39,11 +39,11 @@ describe("Testing the new file modal", () => {
         const editNameButton = getByRole('button');
         fireEvent.click(editNameButton);
         inputBox = document.getElementById('name')
-        saveButton = getByText(/Save/);
+        saveButton = getByText('filePane.renameFileModal.save');
     })
 
     test('Clicking the edit file name button opens the modal', () => {
-      expect(getByText(/Rename/)).not.toBeNull()
+      expect(getByText('filePane.renameFileModal.heading')).not.toBeNull()
     })
 
     test('Input box initially contains original file name', () => {
@@ -61,7 +61,7 @@ describe("Testing the new file modal", () => {
     test("Duplicate file names throws error", () => {
         fireEvent.change(inputBox, {target: {value: "my_file.py"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must be unique.")]
+        const expectedActions = [setNameError(""), setNameError('filePane.errors.notUnique')]
         expect(store.getActions()).toEqual(expectedActions);
     })
 
@@ -74,7 +74,7 @@ describe("Testing the new file modal", () => {
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.csv' or '.txt'.")]
+        const expectedActions = [setNameError(""), setNameError("filePane.errors.unsupportedExtension '.py', '.csv' filePane.errors.or '.txt'.")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })
