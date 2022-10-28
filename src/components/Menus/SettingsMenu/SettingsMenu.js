@@ -10,13 +10,13 @@ const SettingsMenu = () => {
   
   return (
     <div className='dropdown-container dropdown-container--bottom settings-menu'>
-      <h2>{t('settingsMenu.heading')}</h2>
+      <h2>{t('header.settingsMenu.heading')}</h2>
       <div className='settings-menu__theme'>
-        <h3>{t('settingsMenu.theme')}</h3>
+        <h3>{t('header.settingsMenu.theme')}</h3>
         <ThemeToggle />
       </div>
       <div className='settings-menu__font-size'>
-        <h3>{t('settingsMenu.textSize')}</h3>
+        <h3>{t('header.settingsMenu.textSize')}</h3>
         <FontSizeSelector />
       </div>
     </div>

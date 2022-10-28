@@ -26,7 +26,7 @@ const StopButton = (props) => {
       const stopping = <Button buttonText={t('runButton.stopping')} disabled />
       setTimeout(() => { setButton(stopping) }, 100);
     }
-  }, [codeRunStopped]);
+  }, [codeRunStopped, t]);
 
   return (
     button

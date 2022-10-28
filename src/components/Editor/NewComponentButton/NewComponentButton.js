@@ -33,7 +33,7 @@ const NewComponentButton = () => {
       const fileName = document.getElementById('name').value
       const name = fileName.split('.')[0];
       const extension = fileName.split('.').slice(1).join('.');
-      validateFileName(fileName, projectType, componentNames, dispatch, () => {
+      validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
         dispatch(addProjectComponent({extension: extension, name: name}));
         closeModal();
       })
@@ -53,18 +53,18 @@ const NewComponentButton = () => {
           appElement={document.getElementById('app') || undefined}
         >
           <div className='modal__header'>
-            <h2>Add a new file to your project</h2>
+            <h2>{t('filePane.newFileModal.heading')}</h2>
             <button onClick={closeModal}>
               <CloseIcon/>
             </button>
           </div>
 
-          <label htmlFor='name'>Name your file</label>
+          <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
           <NameErrorMessage />
           <input type='text' name='name' id='name'></input>
           <div className='modal__buttons'>
-            <Button className='btn--secondary' buttonText='Cancel' onClickHandler={closeModal} />
-            <Button buttonText='Save' onClickHandler={createComponent} />
+            <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
+            <Button buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
           </div>
 
         </Modal>

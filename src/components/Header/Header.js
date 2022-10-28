@@ -1,5 +1,6 @@
 import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Button from '../Button/Button';
 import { SettingsIcon, SquaresIcon } from '../../Icons';
@@ -19,6 +20,7 @@ const Header = (props) => {
 
   const dispatch = useDispatch();
   let history = useHistory();
+  const { t } = useTranslation()
 
   const onClickSave = async () => {
     if (!project.identifier) {
@@ -47,18 +49,18 @@ const Header = (props) => {
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
             {<><SquaresIcon />
-            <span className='editor-header__text'>My Projects</span></>}</a>
+            <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
         <ProjectName />
         <div className='editor-header__right'>
           <Dropdown
             ButtonIcon={SettingsIcon}
-            buttonText='Settings'
+            buttonText={t('header.settings')}
             buttonTextClassName='editor-header__text'
             MenuContent={SettingsMenu} />
 
           {user !== null && project.user_id === user.profile.user ? (
-            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
+            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>
       </header>

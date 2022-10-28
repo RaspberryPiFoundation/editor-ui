@@ -2,6 +2,7 @@
 import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw, setSenseHatEnabled, triggerDraw } from '../../EditorSlice'
@@ -21,6 +22,7 @@ const PythonRunner = () => {
   const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
   const output = useRef();
   const dispatch = useDispatch();
+  const { t } = useTranslation()
 
   const queryParams = new URLSearchParams(window.location.search)
   const [hasVisualOutput, setHasVisualOutput] = useState(queryParams.get('show_visual_tab') === 'true' || senseHatAlwaysEnabled)
@@ -42,7 +44,7 @@ const PythonRunner = () => {
       const input = getInput()
       input.removeAttribute("id")
       input.removeAttribute("contentEditable")
-      dispatch(setError("Execution interrupted"));
+      dispatch(setError(t('output.errors.interrupted')));
       dispatch(codeRunHandled())
     }
   }, [codeRunStopped]);
@@ -252,7 +254,7 @@ const PythonRunner = () => {
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
-              throw new Error("Execution interrupted");
+              throw new Error(t('output.errors.interrupted'));
             }
           }
         },
