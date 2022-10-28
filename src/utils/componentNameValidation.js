@@ -33,7 +33,7 @@ export const validateFileName = (fileName, projectType="python", componentNames,
   } else if (componentNames.includes(fileName)) {
     dispatch(setNameError(t('filePane.errors.notUnique')));
   } else if (!allowedExtensions[projectType].includes(extension)) {
-    dispatch(setNameError(`${t('filePane.errors.unsupportedExtension')} ${allowedExtensionsString(projectType, t)}.`));
+    dispatch(setNameError(t('filePane.errors.unsupportedExtension', {allowedExtensions: allowedExtensionsString(projectType, t)})));
   } else {
     dispatch(setNameError(t('filePane.errors.generalError')));
   }
