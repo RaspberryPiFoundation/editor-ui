@@ -25,7 +25,7 @@ i18n
               generalError: 'Error',
               notUnique: 'File names must be unique.',
               or: 'or',
-              unsupportedExtension: 'File names must end in %allowedExtensions.'
+              unsupportedExtension: 'File names must end in {{allowedExtensions}}.'
             },
             files: 'Project Files',
             images: 'Image Gallery',
@@ -58,7 +58,7 @@ i18n
               projects: 'My projects',
             },
             accountMenuDefaultAltText: 'Account menu',
-            accountMenuProfileAltText: 'name\'s account`',
+            accountMenuProfileAltText: '{{name}}\'s account`',
             raspberryPiLogoAltText: 'Raspberry Pi logo'
           },
           header: {
