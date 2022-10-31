@@ -53,7 +53,7 @@ test("Renders humidity input with correct value", () => {
 })
 
 test("Renders motion input with correct value", () => {
-  expect(container.queryByLabelText(/Motion/).checked).not.toBeNull()
+  expect(container.queryByLabelText('output.senseHat.controls.motion').checked).toBe(true)
 })
 
 test("Renders colour input with correct value", () => {
