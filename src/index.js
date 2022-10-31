@@ -14,6 +14,8 @@ import { CookiesProvider } from 'react-cookie';
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
+  debug: true,
+  environment: process.env.REACT_APP_SENTRY_ENV,
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.

@@ -42,6 +42,10 @@ on:
         required: false
         default: ''
         type: string
+      react_app_sentry_env:
+        required: false
+        default: 'staging'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -107,6 +111,7 @@ jobs:
         REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
         REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
+        REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
 
     - name: Deploy site to S3 bucket
       run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}

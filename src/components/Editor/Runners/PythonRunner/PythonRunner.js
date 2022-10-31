@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
+import * as Sentry from "@sentry/browser";
 import { useSelector, useDispatch } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
@@ -257,6 +258,7 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
+      Sentry.captureException(err)
       const message = err.message || err.toString();
       dispatch(setError(message));
       dispatch(stopDraw());
