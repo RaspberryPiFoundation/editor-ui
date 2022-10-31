@@ -86,6 +86,26 @@ i18n
             errors: {
               interrupted: 'Execution interrupted',
             },
+            senseHat: {
+              controls: {
+                colour: 'colour',
+                humidity: 'humidity',
+                motion: 'motion',
+                motionSensorOptions: {
+                  no: 'No',
+                  yes: 'Yes',
+                },
+                name: 'Space Station Control Panel',
+                pressure: 'pressure',
+                temperature: 'temperature',
+                timer: 'timer',
+              },
+              model: {
+                pitch: 'pitch',
+                roll: 'roll',
+                yaw: 'yaw',
+              },
+            },
             textOutput: 'Text Output',
             visualOutput: 'Visual Output',
           },
