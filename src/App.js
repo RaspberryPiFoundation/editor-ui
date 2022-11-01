@@ -1,10 +1,12 @@
 import './App.scss';
 
-import Header from './components/Header/Header'
-import Routes from './components/Routes'
+import { useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import Header from './components/Header/Header'
+import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
 
