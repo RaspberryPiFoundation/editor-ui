@@ -40,7 +40,7 @@ const FilesList = () => {
           offestY={0}
           position='anchor'
           viewScroll='initial'
-          portal={target={app}}
+          portal={true}
         >
             <MenuItem><FileMenu fileKey={i} name={file.name} ext={file.extension} /></MenuItem>
         </Menu>
