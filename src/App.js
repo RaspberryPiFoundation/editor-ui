@@ -1,10 +1,10 @@
 import './App.scss';
 
-import { useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { ThemeContext } from './Theme';
 import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
@@ -18,11 +18,13 @@ function App() {
     <div 
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
-      <BrowserRouter>
-        { isEmbedded ? null : <><GlobalNav/><Header/></> }
-        <Routes />
-        { isEmbedded ? null : <Footer/> }
-      </BrowserRouter>
+      <ThemeContext.Provider value={cookies.theme || themeDefault}>
+        <BrowserRouter>
+          { isEmbedded ? null : <><GlobalNav/><Header/></> }
+          <Routes />
+          { isEmbedded ? null : <Footer/> }
+        </BrowserRouter>
+      </ThemeContext.Provider>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
 
-import Dropdown from '../Menus/Dropdown/Dropdown'
+//import Dropdown from '../Menus/Dropdown/Dropdown'
 import { ChevronDown, FileIcon, EllipsisVerticalIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
   const { t } = useTranslation()
-  const app = useRef();
 
   return (
     <details className = "file-pane-section file-pane-section__files" open>
