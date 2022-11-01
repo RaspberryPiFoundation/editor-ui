@@ -15,13 +15,11 @@ const FileMenu = (props) => {
   console.log(props)
 
   return (
-      <div >{/*className='dropdown-container dropdown-container--bottom file-menu'>*/}
-        <div >{/*className='file-menu__rename'>*/}
-          <button className={`btn--${theme}`} onClick={onClickRenameFile}>
-            <PencilIcon/>&nbsp;Rename&nbsp;File
-          </button>
-        </div>
-      </div>
+    <div className='file-menu__rename'>
+      <button className={`btn--${theme}`} onClick={onClickRenameFile}>
+        <PencilIcon/>&nbsp;Rename&nbsp;File
+      </button>
+    </div>
   )
 }
   

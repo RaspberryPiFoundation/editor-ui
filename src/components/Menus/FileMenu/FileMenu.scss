@@ -12,4 +12,12 @@
             background-color: $editor-mid-light-grey;
         }
     }
+
+    .btn--dark svg {
+        fill: white;
+    }
+
+    .btn--light svg {
+        fill: black;
+    }
 }
