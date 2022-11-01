@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
 
@@ -9,6 +9,7 @@ import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton"
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
+  const app = useRef();
 
   return (
     <details className = "file-pane-section file-pane-section__files" open>
@@ -37,7 +38,7 @@ const FilesList = () => {
           offestY={0}
           position='anchor'
           viewScroll='initial'
-          portal={true}
+          portal={target={app}}
         >
             <MenuItem><FileMenu fileKey={i} name={file.name} ext={file.extension} /></MenuItem>
         </Menu>
