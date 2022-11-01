@@ -259,7 +259,7 @@ const PythonRunner = () => {
         },
     ).catch(err => {
 
-      if (err.message != 'Execution interrupted') {
+      if (err.message !== 'Execution interrupted') {
         const errorType = err.tp$name || err.constructor.name
         const errorDetails = (err.tp$str && err.tp$str().v) || err.message
         Sentry.captureMessage(`${errorType}: ${errorDetails}`)
