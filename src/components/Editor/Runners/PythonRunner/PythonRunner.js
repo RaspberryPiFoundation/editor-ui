@@ -258,8 +258,8 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
-      Sentry.captureException(err)
       const message = err.message || err.toString();
+      Sentry.captureException(new Error(message.split(' on line')[0]))
       dispatch(setError(message));
       dispatch(stopDraw());
       if (getInput()) {
