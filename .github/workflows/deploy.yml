@@ -38,6 +38,14 @@ on:
         required: false
         default: "true"
         type: string
+      react_app_plausible_data_domain:
+        required: false
+        default: 'staging-editor.raspberrypi.org'
+        type: string
+      react_app_plausible_source:
+        required: false
+        default: 'https://staging-analytics.raspberrypi.org/js/plausible.js'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -102,6 +110,8 @@ jobs:
         REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
         REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
+        REACT_APP_PLAUSIBLE_DATA_DOMAIN: ${{ inputs.react_app_plausible_data_domain }}
+        REACT_APP_PLAUSIBLE_SOURCE: ${{ inputs.react_app_plausible_source }}
 
     - name: Deploy site to S3 bucket
       run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}
