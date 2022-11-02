@@ -1,7 +1,6 @@
 import { EditorView } from '@codemirror/view';
 
 export const editorLightTheme = EditorView.theme({
-  ".cm-scroller": {overflow: "auto"},
   ".cm-activeLine": {
     "background-color": "inherit",
   },

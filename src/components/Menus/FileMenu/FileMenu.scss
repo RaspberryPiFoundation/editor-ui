@@ -1,7 +1,7 @@
 @import '../../../colours.scss';
 
 .file-menu {
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 16%;
 
   summary {
