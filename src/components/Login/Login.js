@@ -13,6 +13,7 @@ const Login = (props) => {
     event.preventDefault();
     localStorage.setItem('location', location.pathname)
     localStorage.setItem('project', JSON.stringify(project))
+    window.plausible('Login')
     userManager.signinRedirect();
   }
 
