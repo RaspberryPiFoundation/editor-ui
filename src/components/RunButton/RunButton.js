@@ -8,6 +8,7 @@ const RunButton = (props) => {
   const dispatch = useDispatch();
 
   const onClickRun = () => {
+    window.plausible('Run button')
     dispatch(triggerCodeRun());
   }
 

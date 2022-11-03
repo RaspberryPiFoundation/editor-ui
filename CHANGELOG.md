@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Copyright and contributing documentation (#207)
+- Plausbile event tracking for login, remix, save and code run (#250)
 
 ### Changed
 
