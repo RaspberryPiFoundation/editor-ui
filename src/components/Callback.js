@@ -11,7 +11,7 @@ const Callback = () => {
 
   const onSuccess = () => {
     localStorage.removeItem('location')
-    window.plausible('Login')
+    window.plausible('LoginSuccess')
     history.push(previousRoute)
   }
 
