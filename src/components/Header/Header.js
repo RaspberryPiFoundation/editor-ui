@@ -21,6 +21,8 @@ const Header = (props) => {
   let history = useHistory();
 
   const onClickSave = async () => {
+    window.plausible('Save')
+
     if (!project.identifier) {
       const response = await saveProject(project, user.access_token)
       const identifier = response.data.identifier;
