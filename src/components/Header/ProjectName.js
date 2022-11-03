@@ -19,8 +19,8 @@ const ProjectName = () => {
   }
 
   const onClickRemix = async () => {
-    window.plausible('RemixClick')
-    
+    window.plausible('Remix button')
+
     if (!project.identifier || !user) {
       return;
     }
