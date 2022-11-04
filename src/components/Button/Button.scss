@@ -9,7 +9,7 @@
   display: inline-block;
   font-family: sans-serif;
   font-size: inherit;
-  font-weight: 500;
+  font-weight: var(--font-weight-regular);
   margin: 6px;
   padding: 10px;
   position: relative;
@@ -28,6 +28,19 @@
     background-color: $editor-light-grey;
     &:hover {
       background-color: $editor-mid-light-grey;
+    }
+  }
+
+  &--tertiary {
+    background-color: inherit;
+    color: inherit;
+
+    svg {
+      fill: white;
+    }
+    &:hover {
+      background-color: inherit;
+      // color: inherit;
     }
   }
   

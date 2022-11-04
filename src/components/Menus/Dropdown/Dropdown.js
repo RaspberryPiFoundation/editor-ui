@@ -26,11 +26,11 @@ const Dropdown = (props) => {
 
   return (
     <div className='dropdown' ref={dropdown}>
-      <div className={`dropdown-button${isOpen ? ' dropdown-button--active' : ''}`} onClick={() => setOpen(!isOpen)}>
+      <button className={`dropdown-button${isOpen ? ' dropdown-button--active' : ''}`} onClick={() => setOpen(!isOpen)}>
         {buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null}
         <ButtonIcon />
         {buttonText ? <span className={buttonTextClassName}>{buttonText}</span> : null}
-      </div>
+      </button>
       {isOpen ? 
       <>
         <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div>
