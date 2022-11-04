@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Copyright and contributing documentation (#207)
 - Errors when running code now include the name of the file in which the error occurred (#239)
+- Sentry integration (#252)
 
 ### Changed
 

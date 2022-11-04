@@ -1,9 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as ReactDOMClient from 'react-dom/client';
+import * as Sentry from '@sentry/react'
+import { BrowserTracing } from '@sentry/tracing';
 import WebComponentLoader from './components/WebComponent/WebComponentLoader/WebComponentLoader';
 import store from './app/store'
 import { Provider } from 'react-redux'
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [new BrowserTracing()],
+  environment: process.env.REACT_APP_SENTRY_ENV,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+})
 
 class WebComponent extends HTMLElement {
   root;
