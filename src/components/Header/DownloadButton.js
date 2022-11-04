@@ -26,8 +26,6 @@ const DownloadButton = () => {
   const onClickDownload = () => {
     const zip = new JSZip()
 
-    console.log(project)
-
     project.components.forEach((file) => {
       zip.file(`${file.name}.${file.extension}`, file.content)
     })
@@ -37,7 +35,7 @@ const DownloadButton = () => {
     })
 
     zip.generateAsync({type: 'blob'}).then((content) => {
-      FileSaver.saveAs(content, `${toSnakeCase(project.name)}`)
+      FileSaver.saveAs(content, `${toSnakeCase(project.name)}` || `my_${project.project_type}_project`)
     })
   }
 
