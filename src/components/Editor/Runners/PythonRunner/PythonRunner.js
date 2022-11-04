@@ -3,6 +3,7 @@ import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import * as Sentry from "@sentry/browser";
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw, setSenseHatEnabled, triggerDraw } from '../../EditorSlice'
@@ -22,6 +23,7 @@ const PythonRunner = () => {
   const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
   const output = useRef();
   const dispatch = useDispatch();
+  const { t } = useTranslation()
 
   const queryParams = new URLSearchParams(window.location.search)
   const [hasVisualOutput, setHasVisualOutput] = useState(queryParams.get('show_visual_tab') === 'true' || senseHatAlwaysEnabled)
@@ -43,7 +45,7 @@ const PythonRunner = () => {
       const input = getInput()
       input.removeAttribute("id")
       input.removeAttribute("contentEditable")
-      dispatch(setError("Execution interrupted"));
+      dispatch(setError(t('output.errors.interrupted')));
       dispatch(codeRunHandled())
     }
   }, [codeRunStopped]);
@@ -253,7 +255,7 @@ const PythonRunner = () => {
         Sk.importMainWithBody("<stdin>", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
-              throw new Error("Execution interrupted");
+              throw new Error(t('output.errors.interrupted'));
             }
           }
         },
@@ -309,7 +311,7 @@ const PythonRunner = () => {
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>Visual Output</Tab>
+                <Tab key={0}>{t('output.visualOutput')}</Tab>
                 {!isEmbedded ? <OutputViewToggle/> : null }
               </TabList>
               <TabPanel key={0} >
@@ -320,7 +322,7 @@ const PythonRunner = () => {
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>Text Output</Tab>
+                <Tab key={0}>{t('output.textOutput')}</Tab>
                 { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
               </TabList>
               <ErrorMessage />
@@ -334,9 +336,9 @@ const PythonRunner = () => {
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
         <TabList>
           {hasVisualOutput ?
-            <Tab key={0}>Visual Output</Tab> : null
+            <Tab key={0}>{t('output.visualOutput')}</Tab> : null
           }
-          <Tab key={1}>Text Output</Tab>
+          <Tab key={1}>{t('output.textOutput')}</Tab>
           {!isEmbedded ? <OutputViewToggle/> : null }
         </TabList>
         <ErrorMessage />

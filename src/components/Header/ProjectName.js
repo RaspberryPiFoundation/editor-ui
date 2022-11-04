@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import { RemixIcon } from '../../Icons';
@@ -12,6 +13,7 @@ const ProjectName = () => {
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch();
   let history = useHistory()
+  const { t } = useTranslation()
   const nameInput= useRef();
 
   const onNameChange = () => {
@@ -47,7 +49,7 @@ const ProjectName = () => {
       </div>
       :
       <div className='project-name__no-auth'>
-        <h1>{project.name||"New Project"}</h1>
+        <h1>{project.name||t('header.newProject')}</h1>
       </div>
       }
     </div>

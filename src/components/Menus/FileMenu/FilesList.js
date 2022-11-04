@@ -4,14 +4,16 @@ import { ChevronDown, FileIcon } from '../../../Icons';
 import { useSelector } from "react-redux";
 import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
 import RenameFile from "./RenameFile";
+import { useTranslation } from "react-i18next";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
+  const { t } = useTranslation()
 
   return (
     <details className = "file-menu-section file-menu-section__files" open>
       <summary>
-        <h2 className="menu-pop-out-subheading" >Project Files</h2>
+        <h2 className="menu-pop-out-subheading" >{t('filePane.files')}</h2>
         <div className="accordion-icon">
           <ChevronDown />
         </div>

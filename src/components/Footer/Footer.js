@@ -1,15 +1,17 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import './Footer.scss';
 
 const Footer = () => {
+  const { t } = useTranslation()
   return (
     <footer className='editor-footer'>
-      <span className='editor-footer__name'>Raspberry Pi Foundation UK registered charity 1129409</span>
+      <span className='editor-footer__name'>{t('footer.charityNameAndNumber')}</span>
       <div className='editor-footer__links'>
-        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/privacy'>Privacy</a>
-        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/cookies'>Cookies</a>
-        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/accessibility'>Accessibility</a>
-        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/safeguarding'>Safeguarding</a>
+        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/privacy'>{t('footer.privacy')}</a>
+        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/cookies'>{t('footer.cookies')}</a>
+        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/accessibility'>{t('footer.accessibility')}</a>
+        <a className='editor-footer__links-link' href='https://www.raspberrypi.org/safeguarding'>{t('footer.safeguarding')}</a>
       </div>
     </footer>
   )

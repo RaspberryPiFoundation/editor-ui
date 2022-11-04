@@ -29,11 +29,11 @@ describe("When no project images", () => {
 
 
   test("Renders project files section", () => {
-    expect(queryByText("Project Files")).not.toBeNull()
+    expect(queryByText("filePane.files")).not.toBeNull()
   })
 
   test("No project images section", () => {
-    expect(queryByText("Image Gallery")).toBeNull()
+    expect(queryByText("filePane.images")).toBeNull()
   })
 })
 
@@ -65,11 +65,11 @@ describe("When project images", () => {
 
 
   test("Renders project files section", () => {
-    expect(queryByText("Project Files")).not.toBeNull()
+    expect(queryByText("filePane.files")).not.toBeNull()
   })
 
   test("Renders project images section", () => {
-    expect(queryByText("Image Gallery")).not.toBeNull()
+    expect(queryByText("filePane.images")).not.toBeNull()
   })
 })
 

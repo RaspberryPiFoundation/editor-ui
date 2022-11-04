@@ -105,7 +105,7 @@ describe("Testing stopping the code run with input", () => {
   })
 
   test("Sets interruption error", () => {
-    expect(store.getActions()).toEqual(expect.arrayContaining([setError('Execution interrupted')]))
+    expect(store.getActions()).toEqual(expect.arrayContaining([setError('output.errors.interrupted')]))
   })
 
   test("Handles code run", () => {
@@ -139,7 +139,7 @@ describe('When in split view, no visual libraries used and code run', () => {
   })
 
   test('Visual tab is not shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).not.toBeInTheDocument()
   })
 })
@@ -170,7 +170,7 @@ describe('When in split view, p5 imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 
@@ -204,7 +204,7 @@ describe('When in split view, pygal imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
@@ -234,7 +234,7 @@ describe('When in split view, turtle imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
@@ -264,7 +264,7 @@ describe('When in split view, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is shown', async () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()  })
 })
 
@@ -294,7 +294,7 @@ describe('When in tabbed view, no visual libraries used and code run', () => {
   })
 
   test('Visual tab is not shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).not.toBeInTheDocument()
   })
 })
@@ -325,7 +325,7 @@ describe('When in tabbed view, p5 imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 
@@ -359,7 +359,7 @@ describe('When in tabbed view, pygal imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
@@ -389,7 +389,7 @@ describe('When in tabbed view, turtle imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
@@ -419,7 +419,7 @@ describe('When in tabbed view, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is not hidden', async () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
@@ -489,7 +489,7 @@ test('Tabbed view has text and visual tabs with same parent element', () => {
     }
     const store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>)
-    expect(screen.getByText('Visual Output').parentElement).toEqual(screen.getByText('Text Output').parentElement)
+    expect(screen.getByText('output.visualOutput').parentElement).toEqual(screen.getByText('output.textOutput').parentElement)
 })
 
 test('Split view has text and visual tabs with different parent elements', () => {
@@ -504,5 +504,5 @@ test('Split view has text and visual tabs with different parent elements', () =>
     }
     const store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>)
-    expect(screen.getByText('Visual Output').parentElement).not.toEqual(screen.getByText('Text Output').parentElement)
+    expect(screen.getByText('output.visualOutput').parentElement).not.toEqual(screen.getByText('output.textOutput').parentElement)
 })
