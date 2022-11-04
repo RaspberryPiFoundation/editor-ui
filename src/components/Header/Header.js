@@ -56,7 +56,6 @@ const Header = (props) => {
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText='Settings'
-            buttonTextClassName='editor-header__text'
             MenuContent={SettingsMenu} />
 
           {user !== null && project.user_id === user.profile.user ? (

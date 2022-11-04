@@ -6,17 +6,6 @@
   position: relative;
   height: 100%;
 
-  &-button {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    cursor: pointer;
-
-    padding: 0 var(--spacing-2);
-    svg {
-      margin-right: var(--spacing-1)
-    }
-  }
   &-container {
     z-index: 2;
     position: absolute;
@@ -77,11 +66,6 @@
 
 .font-size-large {
   .dropdown {
-    &-button {
-      svg {
-        margin-right: var(--spacing-2);
-      }
-    }
     &-container--list__item {
       padding: var(--spacing-1) var(--spacing-2);
       white-space: inherit;

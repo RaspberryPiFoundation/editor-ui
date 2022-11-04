@@ -42,10 +42,12 @@ const DownloadButton = () => {
   }
 
   return (
-    <Button className='btn--tertiary' onClickHandler={onClickDownload} buttonText={<><DownloadIcon />Download</>} />
-      //{/* <DownloadIcon />
-      //<span>Download</span>
-    //</Button> */}
+    <Button
+      className='btn--tertiary'
+      onClickHandler={onClickDownload}
+      buttonText='Download'
+      ButtonIcon={DownloadIcon}
+    />
   )
 }
 

@@ -22,7 +22,6 @@ beforeEach(() => {
   ({getByText, queryByRole, queryByText, queryByTitle} = render(<Dropdown
     ButtonIcon={buttonIcon}
     buttonText='my button'
-    buttonTextClassName='button_class'
     MenuContent={MenuContent}/>))
 })
 
@@ -32,10 +31,6 @@ test("Button icon renders", () => {
 
 test("Button text renders", () => {
   expect(queryByText('my button')).not.toBeNull()
-})
-
-test("Button has correct class name", () => {
-  expect(getByText('my button')).toHaveClass('button_class')
 })
 
 test("Menu content not disable intially", () => {

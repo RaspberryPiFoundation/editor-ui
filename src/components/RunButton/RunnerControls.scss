@@ -10,7 +10,6 @@
     align-items: center;
 
     svg {
-      margin-right: var(--spacing-1);
       min-width: 0;
     }
   }
@@ -32,14 +31,12 @@
 
 .font-size-large .runner-controls {
   svg {
-    margin-right: var(--spacing-2);
     margin-left: var(--spacing-1);
   }
 }
 
 .font-size-medium .runner-controls {
   svg {
-    margin-right: var(--spacing-1);
     margin-left: var(--spacing-1)
   }
   .btn--stop {

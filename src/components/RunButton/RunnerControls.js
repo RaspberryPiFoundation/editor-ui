@@ -13,7 +13,7 @@ const RunnerControls = () => {
   return (
     <div className="runner-controls">
       {
-        (codeRunTriggered || drawTriggered) ? <StopButton buttonText={<><StopIcon />Stop</>}/> : <RunButton buttonText={<><RunIcon />Run</>}/>
+        (codeRunTriggered || drawTriggered) ? <StopButton buttonText='Stop' ButtonIcon={StopIcon} /> : <RunButton buttonText='Run' ButtonIcon={RunIcon} />
       }
     </div>
   )
