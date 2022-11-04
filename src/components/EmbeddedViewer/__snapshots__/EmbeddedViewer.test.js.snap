@@ -108,7 +108,9 @@ exports[`Renders without crashing 1`] = `
             fill="#1A1A1A"
           />
         </svg>
-        Run
+        <span>
+          Run
+        </span>
       </button>
     </div>
   </div>
