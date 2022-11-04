@@ -38,6 +38,14 @@ on:
         required: false
         default: "true"
         type: string
+      react_app_sentry_dsn:
+        required: false
+        default: 'https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376'
+        type: string
+      react_app_sentry_env:
+        required: false
+        default: 'review'
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -102,6 +110,8 @@ jobs:
         REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
         REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
+        REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
+        REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
 
     - name: Deploy site to S3 bucket
       run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}
