@@ -1,9 +1,7 @@
-import React, { useRef } from "react";
 import { useSelector } from "react-redux";
-import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
 
 //import Dropdown from '../Menus/Dropdown/Dropdown'
-import { ChevronDown, FileIcon, EllipsisVerticalIcon } from '../../Icons';
+import { ChevronDown, FileIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
 import { useTranslation } from "react-i18next";
@@ -31,7 +29,7 @@ const FilesList = () => {
             buttonText=''
             buttonTextClassName=''
             MenuContent={() => { return <FileMenu fileKey={i} name={file.name} ext={file.extension} />}} /> */}
-        <Menu menuButton={<MenuButton><EllipsisVerticalIcon /></MenuButton>}
+        {/*<Menu menuButton={<MenuButton><EllipsisVerticalIcon /></MenuButton>}
           transition
           align='start'
           direction='right'
@@ -40,9 +38,9 @@ const FilesList = () => {
           position='anchor'
           viewScroll='initial'
           portal={true}
-        >
-            <MenuItem><FileMenu fileKey={i} name={file.name} ext={file.extension} /></MenuItem>
-        </Menu>
+          >*/}
+          <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+        {/*</div></Menu>*/}
       </div>
       ))}
       </div>

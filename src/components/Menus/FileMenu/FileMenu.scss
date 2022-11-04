@@ -1,23 +1,60 @@
 @import '../../../colours.scss';
 
-.file-menu__rename {
-    &-btn {
+.file-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-left: var(--spacing-1);
+
+    svg {
+        height: 0.75em;
+        width: auto;
+    }
+
+    &--dark {
+        background-color: $editor-black;
+        color: $editor-white;
+
+        svg {
+            fill: $editor-white;
+        }
+    }
+
+    &--light {
         background-color: $editor-white;
-        white-space: nowrap;
-        text-align: left;
+        color: $editor-black;
+
+        svg {
+            fill: $editor-black;
+        }
+    }
+
+    &--small {
+        font-size: var(--font-size-base);
+    }
+
+    &--medium {
+        font-size: var(--font-size-u-2);
+    }
+
+    &--large {
+        font-size: var(--font-size-u-4);
+    }
+
+    .file-menu__item {
         padding: 0;
+    }
+
+    .btn {
         margin: 0;
+        background-color: inherit;
+        color:  inherit;
+        padding: var(--spacing-1);
+        text-align: left;
+        white-space: nowrap;
 
         &:hover {
             background-color: $editor-mid-light-grey;
         }
-    }
-
-    .btn--dark svg {
-        fill: white;
-    }
-
-    .btn--light svg {
-        fill: black;
     }
 }

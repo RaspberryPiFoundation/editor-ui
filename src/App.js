@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { ThemeContext } from './Theme';
+import { SettingsContext } from './settings';
 import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
@@ -18,13 +18,13 @@ function App() {
     <div 
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
-      <ThemeContext.Provider value={cookies.theme || themeDefault}>
+      <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><Header/></> }
           <Routes />
           { isEmbedded ? null : <Footer/> }
         </BrowserRouter>
-      </ThemeContext.Provider>
+      </SettingsContext.Provider>
     </div>
   );
 }

@@ -1,25 +1,39 @@
 import React, { useContext } from "react"
 import { useDispatch } from 'react-redux'
+import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
 
-import { ThemeContext } from '../../../Theme'
+import { SettingsContext } from '../../../settings'
 import { showRenameFileModal } from '../../Editor/EditorSlice'
-import { PencilIcon } from '../../../Icons';
+import { EllipsisVerticalIcon, PencilIcon } from '../../../Icons';
 import './FileMenu.scss'
 
 const FileMenu = (props) => {
   const dispatch = useDispatch()
-  const theme = useContext(ThemeContext)
+  const settings = useContext(SettingsContext)
 
   const onClickRenameFile = () => dispatch(showRenameFileModal(props))
 
   console.log(props)
 
   return (
-    <div className='file-menu__rename'>
-      <button className={`btn--${theme}`} onClick={onClickRenameFile}>
-        <PencilIcon/>&nbsp;Rename&nbsp;File
-      </button>
-    </div>
+    <Menu menuButton={<MenuButton><EllipsisVerticalIcon /></MenuButton>}
+          transition
+          align='start'
+          direction='right'
+          menuStyle={{padding: '5px'}}
+          offsetX={15}
+          offsetY={-10}
+          position='anchor'
+          viewScroll='initial'
+          portal={true}
+          menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
+        >
+      <MenuItem className='file-menu__item file-menu__rename'>
+        <button className='btn' onClick={onClickRenameFile}>
+          <PencilIcon/>&nbsp;Rename&nbsp;File
+        </button>
+      </MenuItem>
+    </Menu>
   )
 }
   
