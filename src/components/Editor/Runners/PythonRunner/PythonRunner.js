@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.scss';
 import React, { useEffect, useRef, useState } from 'react';
+import * as Sentry from "@sentry/browser";
 import { useSelector, useDispatch } from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
@@ -257,7 +258,15 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
-      const message = err.message || err.toString();
+
+      if (err.message !== 'Execution interrupted') {
+        const errorType = err.tp$name || err.constructor.name
+        const errorDetails = (err.tp$str && err.tp$str().v) || err.message
+        Sentry.captureMessage(`${errorType}: ${errorDetails}`)
+      }
+
+      const message = err.message || 
+        `${err.toString()} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
       dispatch(setError(message));
       dispatch(stopDraw());
       if (getInput()) {
