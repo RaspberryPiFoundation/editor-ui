@@ -265,7 +265,8 @@ const PythonRunner = () => {
         Sentry.captureMessage(`${errorType}: ${errorDetails}`)
       }
 
-      const message = err.message || err.toString();
+      const message = err.message || 
+        `${err.toString()} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
       dispatch(setError(message));
       dispatch(stopDraw());
       if (getInput()) {
