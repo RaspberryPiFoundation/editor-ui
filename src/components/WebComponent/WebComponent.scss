@@ -37,6 +37,10 @@ button {
   svg {
     fill: $editor-black;
   }
+
+  button:focus-visible {
+    outline: 2px solid $editor-black;
+  }
 }
 
 .--dark {
@@ -45,6 +49,10 @@ button {
 
   svg {
     fill: $editor-white;
+  }
+
+  button:focus-visible {
+    outline: 2px solid $editor-white;
   }
 
   button {

@@ -4,9 +4,6 @@
 button {
   all: initial;
   cursor: pointer;
-  &:focus-visible {
-    outline: 2px solid white
-  }
 }
 
 #app {
@@ -46,8 +43,4 @@ button {
   svg {
     fill: $editor-white;
   }
-
-  // .btn svg {
-  //   fill: inherit;
-  // }
 }
