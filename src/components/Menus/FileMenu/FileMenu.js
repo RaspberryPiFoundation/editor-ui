@@ -13,10 +13,8 @@ const FileMenu = (props) => {
 
   const onClickRenameFile = () => dispatch(showRenameFileModal(props))
 
-  console.log(props)
-
   return (
-    <Menu menuButton={<MenuButton><EllipsisVerticalIcon /></MenuButton>}
+    <Menu menuButton={<MenuButton className={`file-menu-item_menu`}><EllipsisVerticalIcon /></MenuButton>}
           transition
           align='start'
           direction='right'
