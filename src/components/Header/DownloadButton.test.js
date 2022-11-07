@@ -6,62 +6,13 @@ import DownloadButton from "./DownloadButton";
 import FileSaver from 'file-saver';
 import JSZip from 'jszip'
 
-// * From following the manual mock section in the jest docs (not currently working) *
-const mockFile = jest.fn()
-
-jest.mock('jszip', () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      file: mockFile,
-      generateAsync: jest.fn()
-    }
-  })
-})
-
-jest.mock('file-saver', () => ({
-  saveAs: jest.fn()
-}))
-
-// * What we were trying to do earlier *
-
-// const mockFile = jest.fn()
-
-// const mockJSZip = jest.fn().mockImplementation( () => ({
-//   file: mockFile,
-//   generateAsync: jest.fn()
-// }))
-
-// const jszip = jest.createMockFromModule('jszip')
-// jszip.JSZip = mockJSZip
-
-// jest.mock('jszip', () => ({
-//   // __esModule: true,
-//   // default: jest.fn().mockImplementation(),
-//   JSZip: jest.fn().mockImplementation( () => ({
-//     file: jest.fn(),
-//     generateAsync: jest.fn()
-// }))
-// }))
-
-// * Some more remnants of other things we've tried... *
-
-// const mockFile = jest.fn()
-
-// const mockJSZip = {
-//   file: mockFile,
-//   generateAsync: jest.fn()
-// }
-
-// jszip.mockImplementation(() => {
-//   return {
-//     file: mockFile,
-//     generateAsync: jest.fn()
-//   }
-// })
+jest.mock("file-saver")
+jest.mock("jszip")
 
 let downloadButton;
 
 beforeEach(() => {
+  JSZip.mockClear();
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -97,5 +48,7 @@ test('Clicking download button creates download with correct name', async () => 
 
 test('zip mocking', async () => {
   fireEvent.click(downloadButton)
+  const JSZipInstance = JSZip.mock.instances[0];
+  const mockFile = JSZipInstance.file;
   await waitFor( () => expect(mockFile).toHaveBeenCalled())
 })
