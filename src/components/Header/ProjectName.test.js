@@ -172,6 +172,6 @@ describe("When project has no name", () => {
   })
 
   test("Renders title as New Project", () => {
-    expect(queryByText("New Project")).not.toBeNull()
+    expect(queryByText('header.newProject')).not.toBeNull()
   })
 })

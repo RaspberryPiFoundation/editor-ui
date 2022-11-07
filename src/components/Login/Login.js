@@ -2,10 +2,12 @@ import React from 'react';
 import userManager from '../../utils/userManager'
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const Login = (props) => {
   const { className } = props;
   const location = useLocation()
+  const { t } = useTranslation()
   const project = useSelector((state) => state.editor.project)
   const user = useSelector((state) => state.auth.user)
 
@@ -22,9 +24,9 @@ const Login = (props) => {
   }
 
   return (user === null ? (
-      <span className={className} onClick={onLoginButtonClick}>Login</span>
+      <span className={className} onClick={onLoginButtonClick}>{t('globalNav.accountMenu.login')}</span>
     ) :  (
-      <span className={className} onClick={onLogoutButtonClick}>Logout</span>
+      <span className={className} onClick={onLogoutButtonClick}>{t('globalNav.accountMenu.logout')}</span>
     )
   )
 }

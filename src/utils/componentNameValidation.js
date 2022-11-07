@@ -8,12 +8,12 @@ const allowedExtensions = {
   ]
 }
 
-const allowedExtensionsString = (projectType) => {
+const allowedExtensionsString = (projectType, t) => {
   const extensionsList = allowedExtensions[projectType];
   if (extensionsList.length === 1) {
     return `'.${extensionsList[0]}'`
   } else {
-    return `'.` + extensionsList.slice(0,-1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length-1] + `'`;
+    return `'.${extensionsList.slice(0,-1).join(`', '.`)}' ${t('filePane.errors.or')} '.${extensionsList[extensionsList.length-1]}'`;
   }
 }
 
@@ -26,16 +26,16 @@ const isValidFileName = (fileName, projectType, componentNames) => {
   }
 }
 
-export const validateFileName = (fileName, projectType="python", componentNames, dispatch, callback, currentFileName=null) => {
+export const validateFileName = (fileName, projectType="python", componentNames, dispatch, t, callback, currentFileName=null) => {
   const extension = fileName.split('.').slice(1).join('.');
   if (isValidFileName(fileName, projectType, componentNames) || (currentFileName && fileName === currentFileName)) {
     callback()
   } else if (componentNames.includes(fileName)) {
-    dispatch(setNameError("File names must be unique."));
+    dispatch(setNameError(t('filePane.errors.notUnique')));
   } else if (!allowedExtensions[projectType].includes(extension)) {
-    dispatch(setNameError(`File names must end in ${allowedExtensionsString(projectType)}.`));
+    dispatch(setNameError(t('filePane.errors.unsupportedExtension', {allowedExtensions: allowedExtensionsString(projectType, t)})));
   } else {
-    dispatch(setNameError("Error"));
+    dispatch(setNameError(t('filePane.errors.generalError')));
   }
 }
 

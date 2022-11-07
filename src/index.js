@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing';
 import './index.css';
 import App from './App';
+import './i18n';
 
 import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'

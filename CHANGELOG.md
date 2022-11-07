@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Switch wrapping in the editor to horizontal scrolling for long lines (#242)
+- Replaced hard-coded text with translatable strings (#253)
 
 ## [0.7.0]
 
