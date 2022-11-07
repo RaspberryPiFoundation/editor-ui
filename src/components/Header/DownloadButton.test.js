@@ -1,27 +1,63 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import DownloadButton from "./DownloadButton";
-// import FileSaver from 'file-saver';
-// import JSZip from 'jszip';
+import FileSaver from 'file-saver';
+import JSZip from 'jszip'
 
-// jest.mock('file-saver', () => ({
-//   saveAs: jest.fn()
+// * From following the manual mock section in the jest docs (not currently working) *
+const mockFile = jest.fn()
+
+jest.mock('jszip', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      file: mockFile,
+      generateAsync: jest.fn()
+    }
+  })
+})
+
+jest.mock('file-saver', () => ({
+  saveAs: jest.fn()
+}))
+
+// * What we were trying to do earlier *
+
+// const mockFile = jest.fn()
+
+// const mockJSZip = jest.fn().mockImplementation( () => ({
+//   file: mockFile,
+//   generateAsync: jest.fn()
 // }))
 
-// jest.mock('jszip')
+// const jszip = jest.createMockFromModule('jszip')
+// jszip.JSZip = mockJSZip
+
+// jest.mock('jszip', () => ({
+//   // __esModule: true,
+//   // default: jest.fn().mockImplementation(),
+//   JSZip: jest.fn().mockImplementation( () => ({
+//     file: jest.fn(),
+//     generateAsync: jest.fn()
+// }))
+// }))
+
+// * Some more remnants of other things we've tried... *
+
+// const mockFile = jest.fn()
 
 // const mockJSZip = {
-//   file: jest.fn(),
-//   generateAsync: jest.fn().mockReturnValue(
-//     {
-//       then: jest.fn()
-//     }
-//   )
+//   file: mockFile,
+//   generateAsync: jest.fn()
 // }
 
-// JSZip.mockImplementation(() => mockJSZip)
+// jszip.mockImplementation(() => {
+//   return {
+//     file: mockFile,
+//     generateAsync: jest.fn()
+//   }
+// })
 
 let downloadButton;
 
@@ -48,13 +84,18 @@ beforeEach(() => {
   const store = mockStore(initialState);
   render(<Provider store={store}><DownloadButton /></Provider>)
   downloadButton = screen.queryByText('header.download').parentElement
-  console.log(downloadButton)
 })
 
 test('Download button renders', ()=> {
   expect(downloadButton).toBeInTheDocument()
 })
 
-// test('Clicking download button creates download with corrent name', () => {
-//   fireEvent.click(downloadButton)
-// })
+test('Clicking download button creates download with correct name', async () => {
+  fireEvent.click(downloadButton)
+  await waitFor( () => expect(FileSaver.saveAs).toHaveBeenCalled())
+})
+
+test('zip mocking', async () => {
+  fireEvent.click(downloadButton)
+  await waitFor( () => expect(mockFile).toHaveBeenCalled())
+})
