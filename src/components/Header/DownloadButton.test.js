@@ -47,7 +47,7 @@ beforeEach(() => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><DownloadButton /></Provider>)
-  downloadButton = screen.queryByText('Download').parentElement
+  downloadButton = screen.queryByText('header.download').parentElement
   console.log(downloadButton)
 })
 
