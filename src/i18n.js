@@ -58,10 +58,12 @@ i18n
               projects: 'My projects',
             },
             accountMenuDefaultAltText: 'Account menu',
-            accountMenuProfileAltText: '{{name}}\'s account`',
+            accountMenuProfileAltText: '{{name}}\'s account',
             raspberryPiLogoAltText: 'Raspberry Pi logo'
           },
           header: {
+            download: 'Download',
+            downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
             newProject: 'New Project',
             projects: 'My Projects',

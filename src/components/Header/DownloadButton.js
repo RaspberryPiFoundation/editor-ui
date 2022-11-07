@@ -3,12 +3,14 @@ import { toSnakeCase } from "js-convert-case";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { DownloadIcon } from "../../Icons";
 import Button from "../Button/Button";
 
 const DownloadButton = () => {
 
+  const { t } = useTranslation()
   const project = useSelector((state) => state.editor.project)
 
   const urlToPromise = (url) => {
@@ -35,7 +37,7 @@ const DownloadButton = () => {
     })
 
     zip.generateAsync({type: 'blob'}).then((content) => {
-      FileSaver.saveAs(content, `${toSnakeCase(project.name)}` || `my_${project.project_type}_project`)
+      FileSaver.saveAs(content, `${toSnakeCase(project.name || t('header.downloadFileNameDefault', {project_type: project.project_type}))}`)
     })
   }
 
@@ -43,7 +45,7 @@ const DownloadButton = () => {
     <Button
       className='btn--tertiary'
       onClickHandler={onClickDownload}
-      buttonText='Download'
+      buttonText={t('header.download')}
       ButtonIcon={DownloadIcon}
     />
   )
