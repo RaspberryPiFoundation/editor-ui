@@ -32,17 +32,6 @@ button {
   font-size: inherit;
 }
 
-.--light {
-  
-  svg {
-    fill: $editor-black;
-  }
-
-  button:focus-visible {
-    outline: 2px solid $editor-black;
-  }
-}
-
 .--dark {
   background-color: $editor-grey;
   color: $editor-white;
@@ -51,13 +40,23 @@ button {
     fill: $editor-white;
   }
 
-  button:focus-visible {
-    outline: 2px solid $editor-white;
-  }
-
   button {
     svg {
       fill: inherit;
+    }
+    &:focus-visible {
+      outline: 2px solid $editor-white;
+    }
+  }
+
+  .--light {
+  
+    svg {
+      fill: $editor-black;
+    }
+  
+    button:focus-visible {
+      outline: 2px solid $editor-black;
     }
   }
 
