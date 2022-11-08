@@ -24,24 +24,7 @@ const FilesList = () => {
       <div className='files-list-item' key={i}>
         <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
-        {/* <Dropdown
-            ButtonIcon={EllipsisVerticalIcon}
-            buttonText=''
-            buttonTextClassName=''
-            MenuContent={() => { return <FileMenu fileKey={i} name={file.name} ext={file.extension} />}} /> */}
-        {/*<Menu menuButton={<MenuButton><EllipsisVerticalIcon /></MenuButton>}
-          transition
-          align='start'
-          direction='right'
-          offsetX={12}
-          offestY={0}
-          position='anchor'
-          viewScroll='initial'
-          portal={true}
-          >*/}
-          <FileMenu fileKey={i} name={file.name} ext={file.extension} />
-        {/*</div></Menu>*/}
-      </div>
+        <FileMenu fileKey={i} name={file.name} ext={file.extension} />      </div>
       ))}
       </div>
     </details>
