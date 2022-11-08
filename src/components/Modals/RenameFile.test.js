@@ -67,21 +67,12 @@ describe("Testing the new file modal", () => {
         expect(store.getActions()).toEqual(expectedActions);
     })
 
-<<<<<<< HEAD
     test("Duplicate file names throws error", () => {
         fireEvent.change(inputBox, {target: {value: "my_file.py"}})
         fireEvent.click(saveButton)
         const expectedActions = [setNameError(""), setNameError('filePane.errors.notUnique')]
         expect(store.getActions()).toEqual(expectedActions);
     })
-=======
-    // test("Duplicate file names throws error", () => {
-    //     fireEvent.change(inputBox, {target: {value: "my_file.py"}})
-    //     fireEvent.click(saveButton)
-    //     const expectedActions = [setNameError(""), setNameError("File names must be unique.")]
-    //     expect(store.getActions()).toEqual(expectedActions);
-    // })
->>>>>>> 655461f (test updates)
 
     test("Unchanged file name does not throw error", () => {
       fireEvent.click(saveButton)
@@ -92,19 +83,10 @@ describe("Testing the new file modal", () => {
       expect(store.getActions()).toEqual(expectedActions);
     })
 
-<<<<<<< HEAD
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
         const expectedActions = [setNameError(""), setNameError("filePane.errors.unsupportedExtension")]
         expect(store.getActions()).toEqual(expectedActions);
     })
-=======
-    // test("Unsupported extension throws error", () => {
-    //     fireEvent.change(inputBox, {target: {value: "file1.js"}})
-    //     fireEvent.click(saveButton)
-    //     const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.csv' or '.txt'.")]
-    //     expect(store.getActions()).toEqual(expectedActions);
-    // })
->>>>>>> 655461f (test updates)
 })
