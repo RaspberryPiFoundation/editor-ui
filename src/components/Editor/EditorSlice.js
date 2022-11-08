@@ -104,6 +104,7 @@ export const EditorSlice = createSlice({
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
+      state.error = ''
     },
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false

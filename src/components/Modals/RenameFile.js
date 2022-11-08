@@ -9,8 +9,7 @@ import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
 
-const RenameFile = (props) => {
-  //const {currentName, currentExtension, fileKey} = props
+const RenameFile = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type)

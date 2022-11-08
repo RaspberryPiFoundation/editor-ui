@@ -20,6 +20,7 @@ test("Showing modal sets file state and showing status", () => {
   const previousState = {
     renameFileModalShowing: false,
     modals: {},
+    error: 'some error'
   }
   const expectedState = {
     renameFileModalShowing: true,
@@ -29,7 +30,8 @@ test("Showing modal sets file state and showing status", () => {
         ext: '.py',
         fileKey: 0
       }
-    }
+    },
+    error: ''
   }
   expect(reducer(previousState, showRenameFileModal({name: 'main', ext: '.py', fileKey: 0}))).toEqual(expectedState)
 })

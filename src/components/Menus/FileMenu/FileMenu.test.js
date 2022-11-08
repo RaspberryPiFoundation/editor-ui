@@ -1,41 +1,37 @@
+import React from "react";
+import { fireEvent, render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
-import { fireEvent, render } from '@testing-library/react'
 
 import FileMenu from './FileMenu'
 import { SettingsContext } from '../../../settings'
 
-const middlewares = []
-const mockStore = configureStore(middlewares)
-
 describe("with file item", () => {
   let getByRole;
   let queryByRole;
-  let store;
 
   beforeEach(() => {
+    const mockStore = configureStore([])
     const initialState = {
       editor: {
         project: {
-          components: []
+          components: [],
+          imageList: []
         },
         isEmbedded: false,
         renameFileModalShowing: false,
         modals: {},
-      },
-      auth: {
-        user: null 
       }
     }
-    store = mockStore(initialState)
-    ({ getByRole, queryByRole } = render(
+    const store = mockStore(initialState)
+    ({queryByText} = render(
       <Provider store={store}>
-        {/* <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'small' }}> */}
+        <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'small' }}>
           <MemoryRouter><div id="app">
             <FileMenu fileKey={0} name={'main'} ext={'file.py'} />
           </div></MemoryRouter>
-        {/* </SettingsContext.Provider> */}
+        </SettingsContext.Provider>
       </Provider>
     ))
   })
