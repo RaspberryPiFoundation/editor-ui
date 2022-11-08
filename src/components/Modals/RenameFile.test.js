@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import RenameFile from "./RenameFile";
-import { updateComponentName, closeRenameFileModal } from "../Editor/EditorSlice";
+import { setNameError, updateComponentName, closeRenameFileModal } from "../Editor/EditorSlice";
 
 describe("Testing the new file modal", () => {
     let store;
@@ -70,7 +70,7 @@ describe("Testing the new file modal", () => {
     test("Duplicate file names throws error", () => {
         fireEvent.change(inputBox, {target: {value: "my_file.py"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError('filePane.errors.notUnique')]
+        const expectedActions = [setNameError('filePane.errors.notUnique')]
         expect(store.getActions()).toEqual(expectedActions);
     })
 
@@ -86,7 +86,7 @@ describe("Testing the new file modal", () => {
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("filePane.errors.unsupportedExtension")]
+        const expectedActions = [setNameError("filePane.errors.unsupportedExtension")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })

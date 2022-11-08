@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { useDispatch } from 'react-redux'
+import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
 
 import { SettingsContext } from '../../../settings'
@@ -9,6 +10,7 @@ import './FileMenu.scss'
 
 const FileMenu = (props) => {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const settings = useContext(SettingsContext)
 
   const onClickRenameFile = () => dispatch(showRenameFileModal(props))
@@ -28,7 +30,7 @@ const FileMenu = (props) => {
         >
       <MenuItem className='file-menu__item file-menu__rename'>
         <button className='btn' onClick={onClickRenameFile}>
-          <PencilIcon/>&nbsp;Rename&nbsp;File
+          <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
         </button>
       </MenuItem>
     </Menu>
