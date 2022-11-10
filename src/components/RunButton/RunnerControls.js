@@ -15,7 +15,10 @@ const RunnerControls = () => {
   return (
     <div className="runner-controls">
       {
-        (codeRunTriggered || drawTriggered) ? <StopButton buttonText={<><StopIcon />{t('runButton.stop')}</>}/> : <RunButton buttonText={<><RunIcon />{t('runButton.run')}</>}/>
+        (codeRunTriggered || drawTriggered) ?
+          <StopButton buttonText={t('runButton.stop')} ButtonIcon={StopIcon} />
+        :
+          <RunButton buttonText={t('runButton.run')} ButtonIcon={RunIcon} />
       }
     </div>
   )

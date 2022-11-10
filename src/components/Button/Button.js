@@ -5,7 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Button = (props) => {
-  const { className, onClickHandler, buttonText, disabled, confirmText } = props;
+  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, disabled, confirmText } = props;
 
   var buttonClass="btn"
   buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
@@ -31,7 +31,11 @@ const Button = (props) => {
   }
 
   return (
-    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>{buttonText}</button>
+    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>
+      { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
+      { ButtonIcon ? <ButtonIcon /> : null }
+      { buttonText ? <span>{buttonText}</span> : null }
+    </button>
   )
 };
 

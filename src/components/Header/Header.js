@@ -12,6 +12,7 @@ import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
 
 import editor_logo from '../../assets/editor_logo.svg'
+import DownloadButton from './DownloadButton';
 
 
 const Header = (props) => {
@@ -53,10 +54,10 @@ const Header = (props) => {
         ) : null }
         <ProjectName />
         <div className='editor-header__right'>
+          <DownloadButton />
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
-            buttonTextClassName='editor-header__text'
             MenuContent={SettingsMenu} />
 
           {user !== null && (project.user_id === user.profile.user || !project.identifier) ? (

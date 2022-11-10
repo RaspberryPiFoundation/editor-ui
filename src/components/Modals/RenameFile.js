@@ -1,28 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { CloseIcon, PencilIcon } from "../../../Icons";
-import { validateFileName } from "../../../utils/componentNameValidation";
-import Button from "../../Button/Button";
-import { setNameError, updateComponentName } from "../../Editor/EditorSlice";
-import NameErrorMessage from "../../Editor/ErrorMessage/NameErrorMessage";
-import '../../../Modal.scss';
+import { CloseIcon } from "../../Icons";
+import { validateFileName } from "../../utils/componentNameValidation";
+import Button from "../Button/Button";
+import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
+import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
+import '../../Modal.scss';
 
-const RenameFile = (props) => {
-  const {currentName, currentExtension, fileKey} = props
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+const RenameFile = () => {
+  const dispatch = useDispatch()
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type)
-  const projectComponents = useSelector((state) => state.editor.project.components);
+  const projectComponents = useSelector((state) => state.editor.project.components)
+  const isModalOpen = useSelector((state) => state.editor.renameFileModalShowing)
+  const {name: currentName, ext: currentExtension, fileKey} = useSelector((state) => state.editor.modals.renameFile);
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
-  const closeModal = () => setIsOpen(false);
-  const showModal = () => {
-    dispatch(setNameError(""));
-    setIsOpen(true)
-  };
+  const closeModal = () => dispatch(closeRenameFileModal());
 
   const renameComponent = () => {
     const fileName = document.getElementById('name').value
@@ -37,10 +33,8 @@ const RenameFile = (props) => {
 
   return (
     <>
-      <button onClick={showModal}><PencilIcon /></button>
-
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={isModalOpen}
         onRequestClose={closeModal}
         className='modal__content'
         overlayClassName='modal__overlay'

@@ -1,76 +1,70 @@
-import React from "react";
-import { render } from "@testing-library/react"
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { MemoryRouter } from "react-router-dom";
+import { fireEvent, render } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
+import configureStore from 'redux-mock-store'
 
-import FileMenu from "./FileMenu";
+import FileMenu from './FileMenu'
+import { showRenameFileModal } from '../../Editor/EditorSlice'
+import { SettingsContext } from '../../../settings'
 
-describe("When no project images", () => {
-  let queryByText;
-
-  beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: []
-        },
-        isEmbedded: false
-      },
-      auth: {
-        user: null 
-      }
-    }
-    const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
-  })
-
-
-  test("Renders project files section", () => {
-    expect(queryByText("filePane.files")).not.toBeNull()
-  })
-
-  test("No project images section", () => {
-    expect(queryByText("filePane.images")).toBeNull()
-  })
-})
-
-describe("When project images", () => {
-  let queryByText;
+describe("with file item", () => {
+  let getByRole;
+  let queryByRole;
+  let getByText;
+  let store;
 
   beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
+    const mockStore = configureStore([])
     const initialState = {
       editor: {
         project: {
           components: [],
-          image_list: [
-            {
-              filename: "hello_world.png"
-            }
-          ]
+          imageList: []
         },
-        isEmbedded: false
-      },
-      auth: {
-        user: null 
+        isEmbedded: false,
+        renameFileModalShowing: false,
+        modals: {},
       }
     }
-    const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><MemoryRouter><div id="app"><FileMenu /></div></MemoryRouter></Provider>))
+    store = mockStore(initialState);
+    ({getByRole, queryByRole, getByText} = render(
+      <MemoryRouter initialEntries={['/']}>
+        <Provider store={store}>
+          <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'small' }}>
+            <div id="app">
+              <FileMenu fileKey={0} name={'main'} ext={'py'} />
+            </div>
+          </SettingsContext.Provider>
+        </Provider>
+      </MemoryRouter>
+    ))
   })
 
-
-  test("Renders project files section", () => {
-    expect(queryByText("filePane.files")).not.toBeNull()
+  test("Menu is not visible initially", () => {
+    expect(queryByRole('menu')).toBeNull()
   })
 
-  test("Renders project images section", () => {
-    expect(queryByText("filePane.images")).not.toBeNull()
+  test("Clicking button makes menu content appear", () => {
+    const button = getByRole('button', { expanded: false })
+    fireEvent.click(button)
+    expect(queryByRole('menu')).not.toBeNull()
   })
+
+  test("All file functions are listed", () => {
+    const button = getByRole('button', { expanded: false })
+    fireEvent.click(button)
+    expect(getByText('filePane.fileMenu.renameItem')).not.toBeNull()
+  })
+
+  test("Clicking rename dispatches modal show with file details", () => {
+    const menuButton = getByRole('button', { expanded: false })
+    fireEvent.click(menuButton)
+    const renameButton = getByText('filePane.fileMenu.renameItem')
+    fireEvent.click(renameButton)
+    const expectedActions = [
+      showRenameFileModal({fileKey: 0, ext: "py", name: "main"})
+    ]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
+
 })
-
-
