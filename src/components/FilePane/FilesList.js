@@ -5,6 +5,8 @@ import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
 import { useTranslation } from "react-i18next";
 
+import './FilesList.scss'
+
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
   const { t } = useTranslation()
@@ -21,9 +23,13 @@ const FilesList = () => {
       <div className='files-list'>
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i}>
-          <FileIcon />
-          <p className='file-list-item-name'>{file.name}.{file.extension}</p>
-          <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+          <div className='files-list-item__label'>
+            <FileIcon />
+            <span className='files-list-item__name'>{file.name}.{file.extension}</span>
+          </div>
+          <div className='files-list-item__menu'>
+            <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+          </div>
         </div>
       ))}
       </div>

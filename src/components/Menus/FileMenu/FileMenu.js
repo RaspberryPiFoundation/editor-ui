@@ -15,8 +15,13 @@ const FileMenu = (props) => {
 
   const onClickRenameFile = () => dispatch(showRenameFileModal(props))
 
+  const checkValidFilename = () => {
+    const { name, ext } = props
+    return !(name === 'main' && ext === 'py')
+  }
+
   return (
-    <Menu menuButton={<MenuButton className={`file-menu-item_menu`}><EllipsisVerticalIcon /></MenuButton>}
+    <Menu menuButton={<MenuButton className={`file-menu__drop`}><EllipsisVerticalIcon /></MenuButton>}
           transition
           align='start'
           direction='right'
@@ -29,7 +34,8 @@ const FileMenu = (props) => {
           menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
         >
       <MenuItem className='file-menu__item file-menu__rename'>
-        <button className='btn' onClick={onClickRenameFile}>
+        <button className='btn' 
+          {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})}>
           <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
         </button>
       </MenuItem>
