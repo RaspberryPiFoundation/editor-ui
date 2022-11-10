@@ -3,23 +3,26 @@ import './Project.scss';
 import React from 'react';
 import { useSelector } from 'react-redux'
 
-import EditorPanel from '../EditorPanel/EditorPanel'
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import 'react-toastify/dist/ReactToastify.css';
-import RunnerControls from '../../RunButton/RunnerControls';
-import FileMenu from '../../Menus/FileMenu/FileMenu';
+
+import EditorPanel from '../EditorPanel/EditorPanel'
+import FilePane from '../../FilePane/FilePane';
 import Output from '../Output/Output';
+import RenameFile from '../../Modals/RenameFile'
+import RunnerControls from '../../RunButton/RunnerControls';
 
 const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
+  const modals = useSelector((state) => state.editor.modals);
+  const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing);
   const {forWebComponent} = props;
 
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FileMenu /> : null}
+      {!forWebComponent ? <FilePane /> : null}
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
@@ -39,6 +42,7 @@ const Project = (props) => {
         </div>
         <Output />
       </div>
+      {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
     </div>
   )
 };
