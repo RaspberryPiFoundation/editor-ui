@@ -14,7 +14,7 @@ import { CookiesProvider } from 'react-cookie';
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing()],
+  integrations: [new BrowserTracing( {tracingOrigins: ["*"]})],
   debug: true,
   environment: process.env.REACT_APP_SENTRY_ENV,
 
