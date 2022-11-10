@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
@@ -8,9 +8,6 @@ import { showRenameFileModal } from '../../Editor/EditorSlice'
 import { SettingsContext } from '../../../settings'
 
 describe("with file item", () => {
-  let getByRole;
-  let queryByRole;
-  let getByText;
   let store;
 
   beforeEach(() => {
@@ -26,8 +23,66 @@ describe("with file item", () => {
         modals: {},
       }
     }
-    store = mockStore(initialState);
-    ({getByRole, queryByRole, getByText} = render(
+    store = mockStore(initialState)
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Provider store={store}>
+          <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'small' }}>
+            <div id="app">
+              <FileMenu fileKey={0} name={'file1'} ext={'py'} />
+            </div>
+          </SettingsContext.Provider>
+        </Provider>
+      </MemoryRouter>
+    )
+  })
+
+  test("Menu is not visible initially", () => {
+    expect(screen.queryByRole('menu')).toBeNull()
+  })
+
+  test("Clicking button makes menu content appear", () => {
+    const button = screen.getByRole('button', { expanded: false })
+    fireEvent.click(button)
+    expect(screen.queryByRole('menu')).not.toBeNull()
+  })
+
+  test("All file functions are listed", () => {
+    const button = screen.getByRole('button', { expanded: false })
+    fireEvent.click(button)
+    expect(screen.getByText('filePane.fileMenu.renameItem')).not.toBeNull()
+  })
+
+  test("Clicking rename dispatches modal show with file details", () => {
+    const menuButton = screen.getByRole('button', { expanded: false })
+    fireEvent.click(menuButton)
+    const renameButton = screen.getByText('filePane.fileMenu.renameItem')
+    fireEvent.click(renameButton)
+    const expectedActions = [
+      showRenameFileModal({fileKey: 0, ext: "py", name: "file1"})
+    ]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
+})
+
+describe("with file item named main.py", () => {
+  let store;
+
+  beforeEach(() => {
+    const mockStore = configureStore([])
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          imageList: []
+        },
+        isEmbedded: false,
+        renameFileModalShowing: false,
+        modals: {},
+      }
+    }
+    store = mockStore(initialState)
+    render(
       <MemoryRouter initialEntries={['/']}>
         <Provider store={store}>
           <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'small' }}>
@@ -37,34 +92,14 @@ describe("with file item", () => {
           </SettingsContext.Provider>
         </Provider>
       </MemoryRouter>
-    ))
+    )
   })
 
-  test("Menu is not visible initially", () => {
-    expect(queryByRole('menu')).toBeNull()
-  })
-
-  test("Clicking button makes menu content appear", () => {
-    const button = getByRole('button', { expanded: false })
-    fireEvent.click(button)
-    expect(queryByRole('menu')).not.toBeNull()
-  })
-
-  test("All file functions are listed", () => {
-    const button = getByRole('button', { expanded: false })
-    fireEvent.click(button)
-    expect(getByText('filePane.fileMenu.renameItem')).not.toBeNull()
-  })
-
-  test("Clicking rename dispatches modal show with file details", () => {
-    const menuButton = getByRole('button', { expanded: false })
+  test("Clicking rename does nothing as button disabled", () => {
+    const menuButton = screen.getByRole('button', { expanded: false })
     fireEvent.click(menuButton)
-    const renameButton = getByText('filePane.fileMenu.renameItem')
+    const renameButton = screen.getByText('filePane.fileMenu.renameItem')
     fireEvent.click(renameButton)
-    const expectedActions = [
-      showRenameFileModal({fileKey: 0, ext: "py", name: "main"})
-    ]
-    expect(store.getActions()).toEqual(expectedActions);
+    expect(store.getActions()).toEqual([]);
   })
-
 })
