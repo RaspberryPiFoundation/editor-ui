@@ -3,7 +3,7 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Button from '../Button/Button';
-import { SettingsIcon, SquaresIcon } from '../../Icons';
+import { SettingsIcon, SquaresIcon, TickIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
@@ -25,21 +25,35 @@ const Header = (props) => {
   const onClickSave = async () => {
     if (!project.identifier) {
       const response = await saveProject(project, user.access_token)
-      const identifier = response.data.identifier;
-      const project_type = response.data.project_type;
-      dispatch(setProjectLoaded(false));
-      history.push(`/${project_type}/${identifier}`)
-      return;
-    }
 
-    const response = await updateProject(project, user.access_token)
-
-    if(response.status === 200) {
-      dispatch(setProject(response.data));
-      toast("Project saved!", {
-        position: toast.POSITION.TOP_CENTER
-      });
+      if (response.status === 200) {
+        const identifier = response.data.identifier;
+        const project_type = response.data.project_type;
+        dispatch(setProjectLoaded(false));
+        history.push(`/${project_type}/${identifier}`)
+        displaySavedMessage()
+      }
     }
+    else {
+      const response = await updateProject(project, user.access_token)
+
+      if(response.status === 200) {
+        dispatch(setProject(response.data));
+        displaySavedMessage()
+      }
+    }
+  }
+
+  const displaySavedMessage = () => {
+    toast("Your project has been saved", {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 3000,
+      bodyClassName: 'toast-bottom-center__body',
+      className: 'toast-bottom-center',
+      closeButton: false,
+      hideProgressBar: true,
+      icon: TickIcon
+    });
   }
 
   return (

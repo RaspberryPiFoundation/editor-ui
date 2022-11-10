@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -21,6 +22,7 @@ function App() {
         <Routes />
         { isEmbedded ? null : <Footer/> }
       </BrowserRouter>
+      <ToastContainer position='bottom-center' />
     </div>
   );
 }

@@ -279,3 +279,11 @@ export const ThemeIcon = () => {
     </svg>
   )
 }
+
+export const TickIcon = () => {
+  return (
+    <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4.37365 8.45376L1.4199 5.50001L0.414062 6.49876L4.37365 10.4583L12.8736 1.95834L11.8749 0.959595L4.37365 8.45376Z"/>
+    </svg>
+  )
+}
