@@ -18,7 +18,6 @@ jest.mock('react-router-dom', () => ({
 describe("When logged in and user owns project", () => {
   let store;
   let saveButton;
-  let getByText;
   let queryByText;
 
   beforeEach(() => {
@@ -43,7 +42,7 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    ({getByText, queryByText} = render(<Provider store={store}><Header/></Provider>));
+    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
     saveButton = queryByText('header.save')
   })
 
@@ -105,6 +104,10 @@ describe("When logged in and no project identifier", () => {
     store = mockStore(initialState);
     ({getByText} = render(<Provider store={store}><Header/></Provider>));
     saveButton = getByText('header.save')
+  })
+
+  test("Save button is shown", () => {
+    expect(saveButton).toBeInTheDocument()
   })
 
   test("Clicking save creates new project", () => {

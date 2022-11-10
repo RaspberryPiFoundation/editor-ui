@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Launch rename modal via redux (#139)
 
 ### Fixed
+- Allow users to save their code as anew project from the root page when logged in (#259)
 - Stop users renaming `main.py` (#203)
 
 ## [0.7.0]
