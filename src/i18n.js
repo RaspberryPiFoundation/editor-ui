@@ -42,6 +42,9 @@ i18n
               inputLabel: 'Name your file',
               save: 'Save'
             },
+            fileMenu: {
+              renameItem: 'Rename&nbsp;File'
+            }
           },
           footer: {
             accessibility: 'Accessibility',

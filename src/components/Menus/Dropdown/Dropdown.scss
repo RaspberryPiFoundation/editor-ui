@@ -6,6 +6,18 @@
   position: relative;
   height: 100%;
 
+  &-button {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+
+    padding: 0 var(--spacing-2);
+    svg {
+      margin-right: var(--spacing-1)
+    }
+  }
+
   &-container {
     z-index: 2;
     position: absolute;
@@ -17,17 +29,21 @@
       top: 100%;
 
       &::before {
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      margin-left: -15px;
-      content: '';
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -15px;
+        content: '';
+      }
     }
-  }
+
+    &--right {
+
+    }
 
     &--list {
       display: flex;
@@ -45,6 +61,7 @@
       }
     }
   }
+  
   &-backdrop {
     position: fixed;
     left: 0px;

@@ -25,6 +25,7 @@
     "@sentry/browser": "^7.17.3",
     "@sentry/react": "7.16.0",
     "@sentry/tracing": "7.16.0",
+    "@szhsin/react-menu": "^3.2.0",
     "axios": "^0.24.0",
     "codemirror": "^6.0.1",
     "file-saver": "^2.0.5",
