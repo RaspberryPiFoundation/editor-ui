@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 
-//import Dropdown from '../Menus/Dropdown/Dropdown'
 import { ChevronDown, FileIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
 import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
