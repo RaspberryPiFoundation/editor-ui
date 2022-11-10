@@ -107,6 +107,10 @@ describe("When logged in and no project identifier", () => {
     saveButton = getByText('header.save')
   })
 
+  test("Save button is shown", () => {
+    expect(saveButton).toBeInTheDocument()
+  })
+
   test("Clicking save creates new project", () => {
     const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
     axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project}))
