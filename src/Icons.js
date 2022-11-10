@@ -52,6 +52,16 @@ export const DoubleChevronIcon = () => {
   )
 }
 
+export const DownloadIcon = () => {
+  const [cookies] = useCookies(['fontSize'])
+  const scale = fontScaleFactors[cookies.fontSize] || 1
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 9L12.6 7.6L10 10.2L10 -3.49691e-07L8 -4.37114e-07L8 10.2L5.4 7.6L4 9L9 14L14 9ZM2 18L-7.86805e-07 18C-8.34888e-07 19.1 0.899999 20 2 20L16 20C17.1 20 18 19.1 18 18L18 17.75L16 17.75L16 18L2 18Z"/>
+    </svg>
+  )
+}
+
 export const EllipsisVerticalIcon = () => {
   const [cookies] = useCookies(['fontSize'])
   const scale = fontScaleFactors[cookies.fontSize] || 1

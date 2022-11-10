@@ -16,6 +16,10 @@
     margin-right: var(--spacing-3);
     height: 100%;
 
+    .btn {
+      padding: 0 var(--spacing-2)
+    }
+
     svg {
       fill:  $editor-white;
       margin: 0;

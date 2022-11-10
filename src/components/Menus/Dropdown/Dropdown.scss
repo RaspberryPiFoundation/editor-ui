@@ -83,11 +83,6 @@
 
 .font-size-large {
   .dropdown {
-    &-button {
-      svg {
-        margin-right: var(--spacing-2);
-      }
-    }
     &-container--list__item {
       padding: var(--spacing-1) var(--spacing-2);
       white-space: inherit;
