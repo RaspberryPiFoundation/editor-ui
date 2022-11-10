@@ -26,7 +26,7 @@ function App() {
           <Routes />
           { isEmbedded ? null : <Footer/> }
         </BrowserRouter>
-        <ToastContainer position='bottom-center' />
+        <ToastContainer position='bottom-center' className='toast-bottom-center' />
       </SettingsContext.Provider>
     </div>
   );

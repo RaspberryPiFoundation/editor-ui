@@ -49,8 +49,7 @@ const Header = (props) => {
     toast("Your project has been saved", {
       position: toast.POSITION.BOTTOM_CENTER,
       autoClose: 3000,
-      bodyClassName: 'toast-bottom-center__body',
-      className: 'toast-bottom-center',
+      className: 'toast-bottom-center__message',
       closeButton: false,
       hideProgressBar: true,
       icon: TickIcon
