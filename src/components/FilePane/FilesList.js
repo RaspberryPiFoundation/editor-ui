@@ -1,9 +1,8 @@
-import React from "react";
-import { ChevronDown, FileIcon } from '../../../Icons';
-
 import { useSelector } from "react-redux";
-import NewComponentButton from "../../Editor/NewComponentButton/NewComponentButton";
-import RenameFile from "./RenameFile";
+
+import { ChevronDown, FileIcon } from '../../Icons';
+import FileMenu from '../Menus/FileMenu/FileMenu';
+import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton";
 import { useTranslation } from "react-i18next";
 
 const FilesList = () => {
@@ -11,7 +10,7 @@ const FilesList = () => {
   const { t } = useTranslation()
 
   return (
-    <details className = "file-menu-section file-menu-section__files" open>
+    <details className = "file-pane-section file-pane-section__files" open>
       <summary>
         <h2 className="menu-pop-out-subheading" >{t('filePane.files')}</h2>
         <div className="accordion-icon">
@@ -24,8 +23,7 @@ const FilesList = () => {
       <div className='files-list-item' key={i}>
         <FileIcon />
         <p className='file-list-item-name'>{file.name}.{file.extension}</p>
-        <RenameFile currentName={file.name} currentExtension={file.extension} fileKey={i}/>
-      </div>
+        <FileMenu fileKey={i} name={file.name} ext={file.extension} />      </div>
       ))}
       </div>
     </details>

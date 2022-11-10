@@ -34,11 +34,12 @@
       }
     }
 
+    .btn {
+      padding: 0 var(--spacing-2)
+    }
+
     .btn--save {
       margin: 0;
-      padding: 0 var(--spacing-2);
-      height: 100%;
-      box-sizing: border-box;
       border-radius: 0;
     }
 

@@ -41,7 +41,7 @@ const NewComponentButton = () => {
 
     return (
       <div className={`--${theme}`}>
-        <Button buttonText={<><NewFileIcon />{t('filePane.newFileButton')}</>} onClickHandler={showModal} className="proj-new-component-button" />
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}

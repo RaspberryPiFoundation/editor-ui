@@ -1,10 +1,12 @@
 import './App.scss';
 
-import Header from './components/Header/Header'
-import Routes from './components/Routes'
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+import { SettingsContext } from './settings';
+import Header from './components/Header/Header'
+import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
@@ -17,12 +19,15 @@ function App() {
     <div 
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
-      <BrowserRouter>
-        { isEmbedded ? null : <><GlobalNav/><Header/></> }
-        <Routes />
-        { isEmbedded ? null : <Footer/> }
-      </BrowserRouter>
-      <ToastContainer position='bottom-center' />
+      
+      <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
+        <BrowserRouter>
+          { isEmbedded ? null : <><GlobalNav/><Header/></> }
+          <Routes />
+          { isEmbedded ? null : <Footer/> }
+        </BrowserRouter>
+        <ToastContainer position='bottom-center' />
+      </SettingsContext.Provider>
     </div>
   );
 }

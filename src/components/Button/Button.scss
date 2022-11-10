@@ -1,19 +1,24 @@
 @import '../../colours.scss';
 
 .btn {
+  align-items: center;
   background-color: $editor-turquoise;
   border-radius: 5px;
   border-width: 0;
   color: $editor-black;
   cursor: pointer;
-  display: inline-block;
+  display: flex;
   font-family: sans-serif;
   font-size: inherit;
-  font-weight: 500;
+  font-weight: var(--font-weight-regular);
   margin: 6px;
   padding: 10px;
   position: relative;
   text-align: center;
+
+  svg {
+    margin-right: var(--spacing-1)
+  }
 
   &:hover {
     background-color: $editor-dark-turquoise;
@@ -28,6 +33,17 @@
     background-color: $editor-light-grey;
     &:hover {
       background-color: $editor-mid-light-grey;
+    }
+  }
+
+  &--tertiary {
+    background-color: inherit;
+    color: inherit;
+    border-radius: 0;
+    margin: 0;
+
+    &:hover {
+      background-color: inherit;
     }
   }
   
@@ -48,5 +64,11 @@
     &:hover {
       background-color: $editor-mid-grey;
     }
+  }
+}
+
+.font-size-large {
+  .btn svg {
+    margin-right: var(--spacing-2);
   }
 }
