@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Replaced hard-coded text with translatable strings (#253)
 - Launch rename modal via redux (#139)
 
+### Fixed
+- Stop users renaming `main.py` (#203)
+
 ## [0.7.0]
 
 ### Changed
@@ -51,7 +54,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Styling of Astro Pi orientation reset button on editor site (#202)
 - Updated text output font to display emojis correctly (#221)
-- Stop users renaming `main.py` (#203)
 
 ## [0.5.0]
 
