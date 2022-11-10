@@ -8,8 +8,7 @@ import FilesList from "./FilesList";
 describe("When project has multiple files", () => {
 
   beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
+    const mockStore = configureStore([])
     const initialState = {
       editor: {
         project: {
@@ -45,36 +44,6 @@ describe("When project has multiple files", () => {
   })
 
   test("Renders a rename file button for each file", () => {
-    expect(screen.getAllByTitle('Edit').length).toBe(3)
-  })
-})
-
-describe("When the file name is main.py", () => {
-
-  beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              name: "main",
-              extension: "py"
-            }
-          ]
-        },
-        isEmbedded: false
-      },
-      auth: {
-        user: null 
-      }
-    }
-    const store = mockStore(initialState);
-    render(<Provider store={store}><div id="app"><FilesList /></div></Provider>)
-  })
-
-  test('Does not render the rename file button', () => {
-    expect(screen.queryByTitle('Edit')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('button', { expanded: false }).length).toBe(3)
   })
 })
