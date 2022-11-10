@@ -1,16 +1,14 @@
 import React from "react";
-import { render } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import FilesList from "./FilesList";
 
 describe("When project has multiple files", () => {
-  let queryByText;
 
   beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
+    const mockStore = configureStore([])
     const initialState = {
       editor: {
         project: {
@@ -36,12 +34,16 @@ describe("When project has multiple files", () => {
       }
     }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><div id="app"><FilesList /></div></Provider>))
+    render(<Provider store={store}><div id="app"><FilesList /></div></Provider>)
   })
 
   test("Renders all file names", () => {
-    expect(queryByText("a.py")).not.toBeNull()
-    expect(queryByText("b.py")).not.toBeNull()
-    expect(queryByText("c.py")).not.toBeNull()
+    expect(screen.queryByText("a.py")).not.toBeNull()
+    expect(screen.queryByText("b.py")).not.toBeNull()
+    expect(screen.queryByText("c.py")).not.toBeNull()
+  })
+
+  test("Renders a rename file button for each file", () => {
+    expect(screen.getAllByRole('button', { expanded: false }).length).toBe(3)
   })
 })
