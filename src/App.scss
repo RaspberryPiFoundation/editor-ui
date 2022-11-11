@@ -40,13 +40,13 @@ button {
 }
 
 .font-size-medium {
-  .toast-bottom-center {
+  .toast--bottom-center {
     font-size: var(--font-size-u-1)
   }
 }
 
 .font-size-large {
-  .toast-bottom-center {
+  .toast--bottom-center {
     font-size: var(--font-size-u-3)
   }
 }
@@ -56,7 +56,7 @@ button {
   display: flex;
   flex-flow: column;
 
-  .toast-bottom-center {
+  .toast--bottom-center {
     width: fit-content;
     font-size: var(--font-size-d-1);
   
@@ -73,7 +73,7 @@ button {
   }
 
   &.--dark {
-    .toast-bottom-center__message {
+    .toast--bottom-center__message {
       background-color: $editor-white;
       color: $editor-black;
       svg {
@@ -83,7 +83,7 @@ button {
   }
 
   &.--light {
-    .toast-bottom-center__message {
+    .toast--bottom-center__message {
       background-color: $editor-black;
       color: $editor-white;
       svg {

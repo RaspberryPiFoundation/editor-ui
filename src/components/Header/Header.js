@@ -1,9 +1,8 @@
 import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import Button from '../Button/Button';
-import { SettingsIcon, SquaresIcon, TickIcon } from '../../Icons';
+import { SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +12,7 @@ import ProjectName from './ProjectName';
 
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
+import { showSavedMessage } from '../../utils/Notifications';
 
 
 const Header = (props) => {
@@ -32,7 +32,7 @@ const Header = (props) => {
         const project_type = response.data.project_type;
         dispatch(setProjectLoaded(false));
         history.push(`/${project_type}/${identifier}`)
-        displaySavedMessage()
+        showSavedMessage(t)
       }
     }
     else {
@@ -40,20 +40,9 @@ const Header = (props) => {
 
       if(response.status === 200) {
         dispatch(setProject(response.data));
-        displaySavedMessage()
+        showSavedMessage(t)
       }
     }
-  }
-
-  const displaySavedMessage = () => {
-    toast("Your project has been saved", {
-      position: toast.POSITION.BOTTOM_CENTER,
-      autoClose: 3000,
-      className: 'toast-bottom-center__message',
-      closeButton: false,
-      hideProgressBar: true,
-      icon: TickIcon
-    });
   }
 
   return (
