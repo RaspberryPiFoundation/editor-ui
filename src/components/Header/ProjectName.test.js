@@ -16,6 +16,14 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
+jest.mock('../../i18n', () => ({
+  t: (string) => string
+}))
+
+jest.mock('../../utils/Notifications', () => ({
+  showRemixedMessage: jest.fn()
+}))
+
 describe("When logged in and user owns project", () => {
   let store;
   let getByRole;
@@ -121,6 +129,13 @@ describe("When logged in and user does not own project", () => {
         }
       },
       {"headers": {"Accept": "application/json", "Authorization": accessToken}})
+  })
+
+  test('Successful remix shows project remixed message', () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200}))
+    remixButton = getByTitle("Remix").parentElement
+    fireEvent.click(remixButton)
+    expect(showRemixMessage).toHaveBeenCalled()
   })
 })
 
