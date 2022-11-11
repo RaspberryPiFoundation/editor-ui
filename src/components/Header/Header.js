@@ -18,6 +18,7 @@ import DownloadButton from './DownloadButton';
 const Header = (props) => {
   const { user } = props;
   const project = useSelector((state) => state.editor.project);
+  const projectLoaded = useSelector((state) => state.editor.projectLoaded)
 
   const dispatch = useDispatch();
   let history = useHistory();
@@ -52,15 +53,15 @@ const Header = (props) => {
             {<><SquaresIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
-        <ProjectName />
+        { projectLoaded ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          <DownloadButton />
+        { projectLoaded ? <DownloadButton /> : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
 
-          {user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
+          {projectLoaded && user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>
