@@ -5,10 +5,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 
-jest.mock('./i18n', () => ({
-  t: (string) => string
-}))
-
 describe('Browser prefers light mode', () => {
   let cookies;
 

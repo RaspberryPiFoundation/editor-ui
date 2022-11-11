@@ -1,9 +1,9 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
-// import { showSavedMessage } from "../../utils/Notifications";
+import { showSavedMessage } from "../../utils/Notifications";
 
 import Header from "./Header";
 
@@ -16,13 +16,8 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-jest.mock('../../i18n', () => ({
-  t: (string) => string
-}))
+jest.mock('../../utils/Notifications')
 
-// jest.mock('../../utils/Notifications', () => ({
-//   showSavedMessage: jest.fn()
-// }))
 
 describe("When logged in and user owns project", () => {
   let store;
@@ -131,10 +126,10 @@ describe("When logged in and no project identifier", () => {
     expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects`, {"project": new_project}, headers)
   })
 
-  test("Successful save prompts success message", () => {
-    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200}))
+  test("Successful save prompts success message", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
     fireEvent.click(saveButton)
-    expect(showSavedMessage).toHaveBeenCalled()
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
   })
 })
 
