@@ -75,6 +75,12 @@ describe("When logged in and user owns project", () => {
     expect(actions).toEqual([expectedPayload])
   })
 
+  test("Successful save prompts success message", async () => {
+    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+  })
+
   test("Renders project gallery link", () => {
     expect(queryByText('header.projects')).not.toBeNull();
   })
