@@ -33,7 +33,7 @@ const ProjectName = () => {
       const project_type = response.data.project_type;
       dispatch(setProjectLoaded(false));
       history.push(`/${project_type}/${identifier}`)
-      showRemixedMessage(t)
+      showRemixedMessage()
     }
   }
 

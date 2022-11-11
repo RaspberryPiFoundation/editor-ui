@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { TickIcon } from "../Icons";
+import i18n from "../i18n";
 
 const bottomCenterSettings = {
   position: toast.POSITION.BOTTOM_CENTER,
@@ -9,15 +10,15 @@ const bottomCenterSettings = {
   hideProgressBar: true
 }
 
-export const showSavedMessage = (t) => {
-  toast(t('notifications.projectSaved'), {
+export const showSavedMessage = () => {
+  toast(i18n.t('notifications.projectSaved'), {
     ...bottomCenterSettings,
     icon: TickIcon
   });
 }
 
-export const showRemixedMessage = (t) => {
-  toast(t('notifications.projectRemixed'), {
+export const showRemixedMessage = () => {
+  toast(i18n.t('notifications.projectRemixed'), {
     ...bottomCenterSettings,
     icon: TickIcon
   });

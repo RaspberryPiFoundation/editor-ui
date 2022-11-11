@@ -32,7 +32,7 @@ const Header = (props) => {
         const project_type = response.data.project_type;
         dispatch(setProjectLoaded(false));
         history.push(`/${project_type}/${identifier}`)
-        showSavedMessage(t)
+        showSavedMessage()
       }
     }
     else {
@@ -40,7 +40,7 @@ const Header = (props) => {
 
       if(response.status === 200) {
         dispatch(setProject(response.data));
-        showSavedMessage(t)
+        showSavedMessage()
       }
     }
   }
