@@ -140,6 +140,7 @@ export const PencilIcon = () => {
   const scale = (fontScaleFactors[cookies.fontSize] || 1)
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <title>Edit</title>
       <path d="M6.75795 3.67889L7.32009 4.24111L1.7842 9.77778H1.22205V9.21556L6.75795 3.67889V3.67889ZM8.95765 0C8.80489 0 8.64602 0.0611111 8.52993 0.177222L7.41175 1.29556L9.7031 3.58722L10.8213 2.46889C11.0596 2.23056 11.0596 1.84556 10.8213 1.60722L9.39147 0.177222C9.26927 0.055 9.11651 0 8.95765 0V0ZM6.75795 1.94944L0 8.70833V11H2.29135L9.0493 4.24111L6.75795 1.94944V1.94944Z"/>
     </svg>
   )

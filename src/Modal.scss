@@ -52,6 +52,10 @@
     button {
       flex: 1;
       margin: 0 var(--spacing-half);
+
+      span {
+        width: 100%;
+      }
     }
   }
 }

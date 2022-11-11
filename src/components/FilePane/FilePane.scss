@@ -1,6 +1,6 @@
 @import '../../colours.scss';
 
-.file-menu {
+.file-pane {
   overflow-y: auto;
   width: 16%;
 
@@ -37,27 +37,6 @@
       transform: rotate(180deg)
     }
   }
-
-  .files-list {
-    padding-top: var(--spacing-1);
-  }
-
-  .files-list-item {
-    display: flex;
-    align-items: center;
-    padding-left: 0;
-    padding-right: 0;
-    white-space: nowrap;
-
-    .file-list-item-name {
-      flex: 1;
-      margin: 0;
-      padding: var(--spacing-1);
-      padding-right: 0;
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-  }
 }
 
 .--dark {
@@ -80,7 +59,7 @@
 .font-size-medium, .font-size-large {
   .file-pane {
     .files-list-item {
-      .file-list-item-name {
+      .file-list-item__name {
         padding-left: var(--spacing-2);
       }
     }
