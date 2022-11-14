@@ -43,7 +43,7 @@ const RenameFile = () => {
         appElement={document.getElementById('app') || undefined}
       >
           <div className='modal__header'>
-            <h2>{t('filePane.renameFileModal.heading')}</h2>
+            <h2 className='modal__heading'>{t('filePane.renameFileModal.heading')}</h2>
             <button onClick={closeModal}>
               <CloseIcon/>
             </button>

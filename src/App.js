@@ -9,6 +9,8 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
+import BetaBanner from './components/BetaBanner/BetaBanner';
+import BetaModal from './components/Modals/BetaModal';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -20,9 +22,10 @@ function App() {
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <BrowserRouter>
-          { isEmbedded ? null : <><GlobalNav/><Header/></> }
+          { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <Routes />
           { isEmbedded ? null : <Footer/> }
+          <BetaModal/>
         </BrowserRouter>
       </SettingsContext.Provider>
     </div>

@@ -53,7 +53,7 @@ const NewComponentButton = () => {
           appElement={document.getElementById('app') || undefined}
         >
           <div className='modal__header'>
-            <h2>{t('filePane.newFileModal.heading')}</h2>
+            <h2 className='modal__heading'>{t('filePane.newFileModal.heading')}</h2>
             <button onClick={closeModal}>
               <CloseIcon/>
             </button>

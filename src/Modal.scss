@@ -18,22 +18,34 @@
 
   .modal__header {
     display: flex;
-    h2 {
-      margin-top: 0;
-      margin-bottom: var(--spacing-3);
-      font-size: var(--font-size-u-2)
-    }
+    align-items: center;
 
     button {
       margin-left: auto;
       height: fit-content;
       margin-right: var(--spacing-1);
-      margin-top: var(--spacing-1);
     }
   }
 
-  label {
+  .modal__heading {
+    margin-top: var(--spacing-half);
     margin-bottom: var(--spacing-1);
+    font-size: var(--font-size-u-2)
+  }
+
+  .modal__subheading {
+    margin: var(--spacing-2) 0 var(--spacing-1) 0;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .modal__text {
+    line-height: var(--line-height-regular);
+    margin: 0
+  }
+
+  label {
+    margin: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
   }
   input {
@@ -96,20 +108,22 @@
 
 .font-size-medium {
   .modal__overlay {
-    .modal__header {
-      h2 {
-        font-size: var(--font-size-u-4)
-      }
+    .modal__heading {
+      font-size: var(--font-size-u-4);
+    }
+    .modal__subheading {
+      font-size: var(--font-size-u-2);
     }
   }
 }
 
 .font-size-large {
   .modal__overlay {
-    .modal__header {
-      h2 {
-        font-size: var(--font-size-u-6)
-      }
+    .modal__heading {
+      font-size: var(--font-size-u-6)
+    }
+    .modal__subheading {
+      font-size: var(--font-size-u-4);
     }
   }
 }
