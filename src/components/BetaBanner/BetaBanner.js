@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { CloseIcon } from "../../Icons";
@@ -10,11 +11,14 @@ import './BetaBanner.scss'
 const BetaBanner = () => {
 
   const dispatch = useDispatch()
-  const [isShowing, setShowing] = useState(true)
   const { t } = useTranslation()
+  const [cookies, setCookie] = useCookies(['betaBannerDismissed'])
 
-  const closeBanner = () => { setShowing(false) }
+  const closeBanner = () => {
+    setCookie('betaBannerDismissed', 'true')
+  }
   const showModal = () => { dispatch(showBetaModal()) }
+  const isShowing = !cookies.betaBannerDismissed
 
   return (
     isShowing ? 
