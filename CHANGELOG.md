@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Allow users to save their code as anew project from the root page when logged in (#259)
 - Stop users renaming `main.py` (#203)
+- Style fixes on the 'My Projects' page (#265)
+- Remove project name, download and save buttons from the header on the 'My Projects' page and when project is still loading (#265)
 
 ## [0.7.0]
 
