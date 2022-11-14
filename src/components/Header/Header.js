@@ -55,7 +55,7 @@ const Header = (props) => {
         ) : null }
         { projectLoaded ? <ProjectName /> : null }
         <div className='editor-header__right'>
-        { projectLoaded ? <DownloadButton /> : null }
+          { projectLoaded ? <DownloadButton /> : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
