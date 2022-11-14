@@ -1,8 +1,9 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
+import { showSavedMessage } from "../../utils/Notifications";
 
 import Header from "./Header";
 
@@ -14,6 +15,9 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   })
 }));
+
+jest.mock('../../utils/Notifications')
+
 
 describe("When logged in and user owns project", () => {
   let store;
@@ -71,6 +75,12 @@ describe("When logged in and user owns project", () => {
     expect(actions).toEqual([expectedPayload])
   })
 
+  test("Successful save prompts success message", async () => {
+    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+  })
+
   test("Renders project gallery link", () => {
     expect(queryByText('header.projects')).not.toBeNull();
   })
@@ -120,6 +130,12 @@ describe("When logged in and no project identifier", () => {
     const new_project = {"components": [], "image_list": [], "user_id": user_id}
     const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
     expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects`, {"project": new_project}, headers)
+  })
+
+  test("Successful save prompts success message", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
   })
 })
 

@@ -3,6 +3,7 @@ import './App.scss';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
 import Header from './components/Header/Header'
@@ -20,6 +21,7 @@ function App() {
     <div 
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
+      
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
@@ -27,6 +29,7 @@ function App() {
           { isEmbedded ? null : <Footer/> }
           <BetaModal/>
         </BrowserRouter>
+        <ToastContainer position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
     </div>
   );

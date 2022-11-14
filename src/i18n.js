@@ -99,6 +99,10 @@ i18n
               },
             },
           },
+          notifications: {
+            projectRemixed: 'Your remixed project has been saved',
+            projectSaved: 'Your project has been saved'
+          },
           output: {
             errors: {
               interrupted: 'Execution interrupted',
