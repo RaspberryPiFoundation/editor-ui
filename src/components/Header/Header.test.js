@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
@@ -18,7 +18,6 @@ jest.mock('react-router-dom', () => ({
 describe("When logged in and user owns project", () => {
   let store;
   let saveButton;
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -31,6 +30,7 @@ describe("When logged in and user owns project", () => {
           image_list: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
+        projectLoaded: true,
       },
       auth: {
         user: {
@@ -42,8 +42,8 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = queryByText('header.save')
+    render(<Provider store={store}><Header/></Provider>);
+    saveButton = screen.queryByText('header.save')
   })
 
   test("Save button renders", () => {
@@ -72,14 +72,21 @@ describe("When logged in and user owns project", () => {
   })
 
   test("Renders project gallery link", () => {
-    expect(queryByText('header.projects')).not.toBeNull();
+    expect(screen.queryByText('header.projects')).not.toBeNull();
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByRole('textbox')).toBeInTheDocument()
   })
 })
 
 describe("When logged in and no project identifier", () => {
   let store;
   let saveButton;
-  let getByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -91,6 +98,7 @@ describe("When logged in and no project identifier", () => {
           image_list: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
+        projectLoaded: true,
       },
       auth: {
         user: {
@@ -102,8 +110,12 @@ describe("When logged in and no project identifier", () => {
       }
     }
     store = mockStore(initialState);
-    ({getByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = getByText('header.save')
+    render(<Provider store={store}><Header/></Provider>);
+    saveButton = screen.getByText('header.save')
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
   })
 
   test("Save button is shown", () => {
@@ -121,11 +133,14 @@ describe("When logged in and no project identifier", () => {
     const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
     expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects`, {"project": new_project}, headers)
   })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByRole('textbox')).toBeInTheDocument()
+  })
 })
 
 describe("When logged in and user does not own project", () => {
   let store;
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -138,6 +153,7 @@ describe("When logged in and user does not own project", () => {
           image_list: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
+        projectLoaded: true,
       },
       auth: {
         user: {
@@ -149,20 +165,27 @@ describe("When logged in and user does not own project", () => {
       }
     }
     store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
+    render(<Provider store={store}><Header/></Provider>);
   })
 
   test("Renders project gallery link", () => {
-    expect(queryByText('header.projects')).not.toBeNull();
+    expect(screen.queryByText('header.projects')).not.toBeNull();
   })
 
   test("No save button", () => {
-    expect(queryByText('header.save')).toBeNull()
+    expect(screen.queryByText('header.save')).toBeNull()
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByText('header.newProject')).toBeInTheDocument()
   })
 })
 
 describe("When not logged in", () => {
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -174,20 +197,60 @@ describe("When not logged in", () => {
             components: [],
             image_list: [],
           },
+          projectLoaded: true,
         },
         auth: {
           user: null
         }
       }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
+    render(<Provider store={store}><Header/></Provider>);
   })
 
   test("No save button", () =>{
-    expect(queryByText('header.save')).toBeNull();
+    expect(screen.queryByText('header.save')).toBeNull();
   })
 
   test("No project gallery link", () => {
-    expect(queryByText('header.projects')).toBeNull();
+    expect(screen.queryByText('header.projects')).toBeNull();
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByText('header.newProject')).toBeInTheDocument()
+  })
+})
+
+describe('When no project loaded', () => {
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+        editor: {
+          project: {},
+          projectLoaded: false,
+        },
+        auth: {
+          user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
+        }
+      }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><Header/></Provider>);
+  })
+
+  test('No project name', () => {
+    expect(screen.queryByText('header.newProject')).not.toBeInTheDocument()
+  })
+
+  test('No download button', () => {
+    expect(screen.queryByText('header.download')).not.toBeInTheDocument()
+  })
+
+  test('No save button', () => {
+    expect(screen.queryByText('header.save')).not.toBeInTheDocument()
   })
 })
