@@ -1,8 +1,9 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
+import { showSavedMessage } from "../../utils/Notifications";
 
 import Header from "./Header";
 
@@ -14,6 +15,9 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   })
 }));
+
+jest.mock('../../utils/Notifications')
+
 
 describe("When logged in and user owns project", () => {
   let store;
@@ -69,6 +73,12 @@ describe("When logged in and user owns project", () => {
     const actions = store.getActions();
     const expectedPayload = { type: 'editor/setProject', payload: project }
     expect(actions).toEqual([expectedPayload])
+  })
+
+  test("Successful save prompts success message", async () => {
+    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
   })
 
   test("Renders project gallery link", () => {
@@ -136,6 +146,12 @@ describe("When logged in and no project identifier", () => {
 
   test('Project name is shown', () => {
     expect(screen.queryByRole('textbox')).toBeInTheDocument()
+   })
+   
+  test("Successful save prompts success message", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: {}}))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
   })
 })
 

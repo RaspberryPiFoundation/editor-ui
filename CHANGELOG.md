@@ -11,7 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Errors when running code now include the name of the file in which the error occurred (#239)
 - Sentry integration (#252)
 - Ability to download a project (#255)
-- FileMenu dropdown(#139)
+- FileMenu dropdown (#139)
+- Confimatory message when a project has been saved (#262)
 
 ### Changed
 

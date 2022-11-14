@@ -9,6 +9,7 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -18,12 +19,14 @@ function App() {
     <div 
     id='app'
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
+      
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><Header/></> }
           <Routes />
           { isEmbedded ? null : <Footer/> }
         </BrowserRouter>
+        <ToastContainer position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
     </div>
   );
