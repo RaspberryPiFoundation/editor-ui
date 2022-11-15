@@ -20,13 +20,22 @@ const BetaBanner = () => {
   const showModal = () => { dispatch(showBetaModal()) }
   const isShowing = !cookies.betaBannerDismissed
 
+  const handleKeyDown = (e) => {
+    const enterKey = 13
+    const spaceKey = 32
+    if (e.keyCode === enterKey || e.keyCode === spaceKey) {
+      e.preventDefault();
+      showModal()
+    }
+  }
+
   return (
     isShowing ? 
       (<div className='editor-banner editor-banner--beta'>
         <span className = 'editor-banner--beta__icon'>Beta</span>
         <span className='editor-banner__message'>
           {t('betaBanner.message')}
-          <Button className='btn--tertiary editor-banner__link' buttonText={t('betaBanner.modalLink')} onClickHandler={showModal}/>
+          <span className='btn btn--tertiary editor-banner__link' onClick={showModal} tabIndex={0} role='button' onKeyDown={handleKeyDown}>{t('betaBanner.modalLink')}</span>
         </span>
         <Button className = 'btn--tertiary editor-banner__close-button' ButtonIcon={CloseIcon} onClickHandler={closeBanner} />
       </div>)

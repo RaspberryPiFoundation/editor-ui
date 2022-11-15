@@ -6,11 +6,11 @@
   padding: var(--spacing-half) var(--spacing-2);
 
   &__message {
-    display: flex;
-    align-items: center;
+    padding: var(--spacing-half) 0
   }
 
   &__link {
+    display: inline;
     font-weight: var(--font-weight-bold);
     text-decoration: underline;
   }

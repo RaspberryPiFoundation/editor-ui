@@ -2,8 +2,9 @@ import App from './App';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
+import { act } from 'react-test-renderer';
 
 describe('Browser prefers light mode', () => {
   let cookies;
@@ -151,5 +152,40 @@ describe("When selecting the font size", ()=>{
       </CookiesProvider>
     )
     expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
+  })
+})
+
+describe('Beta banner', () => {
+  let cookies
+
+  beforeEach(() => {
+    cookies = new Cookies()
+  })
+
+  test('Renders beta banner if betaBannerDismissed cookie not set', () => {
+    render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(screen.queryByText('betaBanner.message')).toBeInTheDocument()
+  })
+
+  test('Does not render beta banner if betaBannerDismissedCookie is true', () => {
+    cookies.set('betaBannerDismissed', 'true')
+    render(
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
+    )
+    expect(screen.queryByText('betaBanner.message')).not.toBeInTheDocument()
+  })
+
+  afterEach(() => {
+    cookies.remove('betaBannerDismissed')
   })
 })
