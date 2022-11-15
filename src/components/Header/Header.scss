@@ -45,6 +45,8 @@
 
     .editor-logo {
       height: 100%;
+      min-height: var(--spacing-6);
+      min-width: var(--spacing-6);
     }
   }
 }
