@@ -2,9 +2,8 @@ import App from './App';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
-import { act } from 'react-test-renderer';
 
 describe('Browser prefers light mode', () => {
   let cookies;
@@ -48,7 +47,7 @@ describe('Browser prefers light mode', () => {
   })
 
   afterEach(() => {
-    cookies.remove("theme")
+    act(() => cookies.remove('theme'))
   })
 })
 
@@ -94,7 +93,7 @@ describe('Browser prefers dark mode', () => {
   })
 
   afterEach(() => {
-    cookies.remove("theme")
+    act(() => cookies.remove('theme'))
   })
 })
 
@@ -186,6 +185,6 @@ describe('Beta banner', () => {
   })
 
   afterEach(() => {
-    cookies.remove('betaBannerDismissed')
+    act(() => cookies.remove('betaBannerDismissed'))
   })
 })
