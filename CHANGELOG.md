@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## Changed
+
+- Removed file menu for `main.py` (#269)
+
+## Fixed
+- Contrast on file menu hover in dark mode (#269)
+- Stylelint errors (#269)
+- Copy changes (#269)
+
 ## [0.8.0]
 
 ### Added
