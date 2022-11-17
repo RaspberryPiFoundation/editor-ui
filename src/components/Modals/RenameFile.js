@@ -38,7 +38,7 @@ const RenameFile = () => {
         onRequestClose={closeModal}
         className='modal__content'
         overlayClassName='modal__overlay'
-        contentLabel="Rename File"
+        contentLabel="Rename file"
         parentSelector={() => document.querySelector('#app')}
         appElement={document.getElementById('app') || undefined}
       >

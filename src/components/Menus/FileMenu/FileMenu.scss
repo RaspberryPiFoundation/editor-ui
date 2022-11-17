@@ -15,6 +15,15 @@
         width: auto;
     }
 
+    .btn {
+        margin: 0;
+        background-color: inherit;
+        color:  inherit;
+        padding: var(--spacing-1);
+        text-align: left;
+        white-space: nowrap;
+    }
+
     &--dark {
         background-color: $editor-black;
         color: $editor-white;
@@ -23,12 +32,12 @@
             fill: $editor-white;
         }
 
-        .btn:disabled {
-            color: $editor-grey;
+        .btn:hover {
+            background-color: $editor-dark;
+        }
 
-            svg {
-                fill: $editor-grey;
-            }
+        .btn:disabled {
+          color: $editor-grey;
         }
     }
 
@@ -40,13 +49,25 @@
             fill: $editor-black;
         }
 
+        .btn:hover {
+            background-color: $editor-mid-light-grey;
+        }
+
         .btn:disabled {
             color: $editor-light-grey;
-
-            svg {
-                fill: $editor-light-grey;
-            }
         }
+    }
+
+    &--dark .btn:disabled svg {
+        fill: $editor-grey;
+    }
+
+    &--light .btn:disabled svg {
+        fill: $editor-light-grey;
+    }
+
+    .btn:disabled:hover {
+        background-color: inherit;
     }
 
     &--small {
@@ -64,22 +85,5 @@
     .file-menu__item {
         padding: 0;
         overflow-x: visible;
-    }
-
-    .btn {
-        margin: 0;
-        background-color: inherit;
-        color:  inherit;
-        padding: var(--spacing-1);
-        text-align: left;
-        white-space: nowrap;
-
-        &:hover {
-            background-color: $editor-mid-light-grey;
-        }
-
-        &:disabled:hover {
-            background-color: inherit;
-        }
     }
 }

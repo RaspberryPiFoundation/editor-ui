@@ -55,7 +55,7 @@ i18n
               save: 'Save'
             },
             fileMenu: {
-              renameItem: 'Rename File'
+              renameItem: 'Rename file'
             }
           },
           footer: {

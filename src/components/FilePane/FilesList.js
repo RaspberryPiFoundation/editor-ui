@@ -27,9 +27,11 @@ const FilesList = () => {
             <FileIcon />
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           </div>
-          <div className='files-list-item__menu'>
-            <FileMenu fileKey={i} name={file.name} ext={file.extension} />
-          </div>
+          {(file.name === 'main' && file.extension === 'py') ? null :
+            <div className='files-list-item__menu'>
+              <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+            </div>
+          }
         </div>
       ))}
       </div>
