@@ -13,18 +13,15 @@ const ProjectComponentLoader = (props) => {
   const embedded = props.embedded || false;
 
   useEmbeddedMode(embedded);
+  console.log(`using the ${projectType} project ${projectIdentifier}`)
   useProject(projectType, projectIdentifier);
 
 
-  return projectLoaded === true ? (
-    <>
-      <Project />
-    </>
-  ) : (
-    <>
-    <p>Loading</p>
-    </>
-  );
+  return projectLoaded === 'success' ? (
+    <Project />
+  ) : projectLoaded === 'failed' ? (
+    <p>Oops we couldn't find that project</p>
+  ) : <p>Loading</p>;
 };
 
 export default ProjectComponentLoader;

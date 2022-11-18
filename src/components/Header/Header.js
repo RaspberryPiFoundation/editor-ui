@@ -3,7 +3,7 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
 import { SettingsIcon, SquaresIcon } from '../../Icons';
-import { saveProject, updateProject } from '../../utils/apiCallHandler';
+import { createProject, updateProject } from '../../utils/apiCallHandler';
 import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
 import Dropdown from '../Menus/Dropdown/Dropdown';
@@ -26,7 +26,7 @@ const Header = (props) => {
 
   const onClickSave = async () => {
     if (!project.identifier) {
-      const response = await saveProject(project, user.access_token)
+      const response = await createProject(project, user.access_token)
 
       if (response.status === 200) {
         const identifier = response.data.identifier;
@@ -55,15 +55,15 @@ const Header = (props) => {
             {<><SquaresIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
-        { projectLoaded ? <ProjectName /> : null }
+        { projectLoaded === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { projectLoaded ? <DownloadButton /> : null }
+          { projectLoaded === 'success' ? <DownloadButton /> : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
 
-          {projectLoaded && user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
+          {projectLoaded === 'success' && user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>

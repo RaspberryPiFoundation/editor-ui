@@ -31,7 +31,7 @@ const EmbeddedViewer = (props) => {
     false
   );
 
-  return projectLoaded === true ? (
+  return projectLoaded === 'success' ? (
     <div className='embedded-viewer'>
       <Output />
       <RunnerControls />

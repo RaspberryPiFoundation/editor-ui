@@ -15,12 +15,12 @@ const ProjectComponentLoader = (props) => {
     }
     dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
-    dispatch(setProjectLoaded(true))
+    // dispatch(setProjectLoaded(true))
   }, []);
 
 
 
-  return projectLoaded === true ? (
+  return projectLoaded === 'success' ? (
     <>
       <WebComponentProject />
     </>
