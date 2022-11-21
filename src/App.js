@@ -3,7 +3,6 @@ import './App.scss';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'lodash';
 
 import { SettingsContext } from './settings';
 import Header from './components/Header/Header'
@@ -13,7 +12,6 @@ import Footer from './components/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { saveProject } from './components/Editor/EditorSlice';
-import { defaultPythonProject } from './utils/defaultProjects';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);

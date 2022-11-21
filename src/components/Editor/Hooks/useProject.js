@@ -1,25 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { loadProject, setProject, setProjectLoaded } from '../EditorSlice'
-import { readProject } from '../../../utils/apiCallHandler';
+import { loadProject, setProject } from '../EditorSlice'
 import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects';
 
 export const useProject = (projectType, projectIdentifier = '') => {
   const dispatch = useDispatch();
 
-  // const loadProject = () => {
-  //   (async () => {
-  //     const response = await readProject(projectIdentifier)
-  //     dispatch(setProject(response.data));
-  //     // dispatch(setProjectLoaded(true));
-  //   })();
-  // }
-
   const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject))
-    // dispatch(setProjectLoaded(true));
     localStorage.removeItem(projectIdentifier || 'project')
   }
 
@@ -30,7 +20,7 @@ export const useProject = (projectType, projectIdentifier = '') => {
       loadCachedProject()
       return
     }
-    
+
     if (projectIdentifier) {
       dispatch(loadProject(projectIdentifier));
       return;
@@ -44,7 +34,6 @@ export const useProject = (projectType, projectIdentifier = '') => {
     }
 
     dispatch(setProject(data));
-    // dispatch(setProjectLoaded(true));
   }, [projectIdentifier]);
 };
 
