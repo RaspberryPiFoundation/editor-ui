@@ -16,11 +16,11 @@ export const useProject = (projectType, projectIdentifier = '') => {
   //   })();
   // }
 
-  const cachedProject = JSON.parse(localStorage.getItem('project'))
+  const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject))
     // dispatch(setProjectLoaded(true));
-    localStorage.removeItem('project')
+    localStorage.removeItem(projectIdentifier || 'project')
   }
 
   useEffect(() => {
@@ -30,14 +30,9 @@ export const useProject = (projectType, projectIdentifier = '') => {
       loadCachedProject()
       return
     }
-    else if (cachedProject) {
-      localStorage.removeItem('project')
-    }
-
+    
     if (projectIdentifier) {
-      console.log(`Loading the project ${projectIdentifier}`)
       dispatch(loadProject(projectIdentifier));
-      console.log('loaded')
       return;
     }
 

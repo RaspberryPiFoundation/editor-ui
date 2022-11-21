@@ -14,7 +14,6 @@ const ProjectComponentLoader = (props) => {
   const embedded = props.embedded || false;
 
   useEmbeddedMode(embedded);
-  console.log(`using the ${initialProjectType} project ${initialProjectIdentifier}`)
   useProject(initialProjectType, initialProjectIdentifier);
 
   const project = useSelector((state) => state.editor.project)
@@ -22,7 +21,6 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     if (projectLoaded === 'idle' && project.identifier) {
-      console.log(project.identifier)
       history.push(`/${project.project_type}/${project.identifier}`)
     }
   }, [projectLoaded])

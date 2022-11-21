@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
 
 export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
-  console.log(`Requesting ${projectIdentifier}`)
   const response =  await readProject(projectIdentifier)
   return response.data
 })
@@ -11,24 +10,9 @@ export const saveProject = createAsyncThunk('editor/saveProjectStatus', async (d
   let response
   if (!data.project.identifier) {
     response = await createProject(data.project, data.user.access_token)
-
-    // if (response.status === 200) {
-    //   const identifier = response.data.identifier;
-    //   const project_type = response.data.project_type;
-    //   dispatch(setProjectLoaded(false));
-    //   history.push(`/${project_type}/${identifier}`)
-    //   // showSavedMessage()
-    // }
   }
   else {
-    console.log(data.project)
-    console.log(data.user)
     response = await updateProject(data.project, data.user.access_token)
-
-    // if(response.status === 200) {
-    //   dispatch(setProject(response.data));
-    //  // showSavedMessage()
-    // }
   }
   return response.data
 })
@@ -151,13 +135,12 @@ export const EditorSlice = createSlice({
     })
     builder.addCase(saveProject.fulfilled, (state, action) => {
       state.saving = 'success'
-      // state.project = action.payload.data;
       if (!state.project.image_list) {
         state.project.image_list = []
       }
 
-      console.log(action.payload)
       if (state.project.identifier!==action.payload.identifier) {
+        localStorage.removeItem(state.project.identifier || 'project')
         state.project = action.payload
         state.projectLoaded = 'idle'
       }
@@ -169,7 +152,6 @@ export const EditorSlice = createSlice({
       state.projectLoaded = 'pending'
     })
     builder.addCase(loadProject.fulfilled, (state, action) => {
-      console.log('Setting project')
       state.project = action.payload
       state.projectLoaded = 'success'
     })

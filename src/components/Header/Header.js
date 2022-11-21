@@ -3,13 +3,11 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
 import { SettingsIcon, SquaresIcon } from '../../Icons';
-import { createProject, updateProject } from '../../utils/apiCallHandler';
-import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
-import { useHistory } from 'react-router-dom';
+import { saveProject } from '../Editor/EditorSlice';
+
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
-
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { showSavedMessage } from '../../utils/Notifications';
@@ -19,30 +17,15 @@ const Header = (props) => {
   const { user } = props;
   const project = useSelector((state) => state.editor.project);
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
+  const savedStatus = useSelector((state) => state.editor.saving)
 
   const dispatch = useDispatch();
-  let history = useHistory();
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    if (!project.identifier) {
-      const response = await createProject(project, user.access_token)
-
-      if (response.status === 200) {
-        const identifier = response.data.identifier;
-        const project_type = response.data.project_type;
-        dispatch(setProjectLoaded(false));
-        history.push(`/${project_type}/${identifier}`)
-        showSavedMessage()
-      }
-    }
-    else {
-      const response = await updateProject(project, user.access_token)
-
-      if(response.status === 200) {
-        dispatch(setProject(response.data));
-        showSavedMessage()
-      }
+    dispatch(saveProject({project: project, user: user}))
+    if (savedStatus === 'success'){
+      showSavedMessage()
     }
   }
 

@@ -29,6 +29,7 @@ const ProjectName = () => {
     const response = await remixProject(project, user.access_token)
 
     if(response.status === 200) {
+      localStorage.removeItem(project.identifier || 'project')
       const identifier = response.data.identifier;
       const project_type = response.data.project_type;
       dispatch(setProjectLoaded(false));
