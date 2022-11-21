@@ -118,6 +118,9 @@ i18n
             textOutput: 'Text Output',
             visualOutput: 'Visual Output',
           },
+          project: {
+            untitled: 'Untitled project'
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',

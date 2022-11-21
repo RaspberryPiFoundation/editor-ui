@@ -38,6 +38,7 @@
     "js-convert-case": "^4.2.0",
     "jszip": "^3.10.1",
     "jszip-utils": "^0.1.0",
+    "lodash": "^4.17.21",
     "oidc-client": "^1.11.5",
     "prompts": "2.4.0",
     "react": "^18.1.0",

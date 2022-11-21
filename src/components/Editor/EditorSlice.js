@@ -155,8 +155,12 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = []
       }
-      // state.projectLoaded=false
-      // state.project = action.payload.data
+
+      console.log(action.payload)
+      if (state.project.identifier!==action.payload.identifier) {
+        state.project = action.payload
+        state.projectLoaded = 'idle'
+      }
     })
     builder.addCase(saveProject.rejected, (state) => {
       state.saving = 'failed'

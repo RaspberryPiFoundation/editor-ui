@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import { saveProject, setProject, setProjectLoaded } from './components/Editor/EditorSlice';
 import { createProject, updateProject } from './utils/apiCallHandler';
 import { showSavedMessage } from './utils/Notifications';
+import _ from 'lodash';
+import { defaultPythonProject } from './utils/defaultProjects';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -26,7 +28,7 @@ function App() {
   const [timeoutId, setTimeoutId] = useState(null);
 
   const dispatch = useDispatch()
-  const history = useHistory()
+  // const history = useHistory()
 
   // const autoSaveProject = async () => {
   //   if (!project.identifier) {
@@ -53,7 +55,7 @@ function App() {
   useEffect(() => {
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(async () => {
-      if (user && projectLoaded === 'success') {
+      if (user && (project.user_id === user.profile.user || !project.identifier ) && projectLoaded === 'success' && !_.isEqual(project, defaultPythonProject)) {
         console.log('saving..........')
         dispatch(saveProject({project: project, user: user}))
 
@@ -68,7 +70,12 @@ function App() {
     }, 2000);
     setTimeoutId(id);
 
-  }, [project, user])
+  }, [project])
+
+  // useEffect(() => {
+  //   if (projectLoaded === 'idle')
+  //     history.push(`/${project.project_type}/${project.identifier}`)
+  // }, [projectLoaded])
 
   return (
     <div 
