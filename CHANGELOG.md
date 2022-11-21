@@ -5,11 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Beta banner and modal (#266)
+
 ## Changed
 
 - Removed file menu for `main.py` (#269)
 
 ## Fixed
+
 - Contrast on file menu hover in dark mode (#269)
 - Stylelint errors (#269)
 - Copy changes (#269)

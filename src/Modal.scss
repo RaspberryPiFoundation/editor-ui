@@ -1,8 +1,8 @@
 @import './colours.scss';
 
-.modal__content {
+.modal-content {
   position: absolute;
-  width: 40%;
+  width: 80%;
   max-width: 450px;
   top: 50%;
   left: 50%;
@@ -16,58 +16,71 @@
   flex-direction: column;
   padding: var(--spacing-2);
 
-  .modal__header {
-    display: flex;
-    h2 {
-      margin-top: 0;
-      margin-bottom: var(--spacing-3);
-      font-size: var(--font-size-u-2)
-    }
-
-    button {
-      margin-left: auto;
-      height: fit-content;
-      margin-right: var(--spacing-1);
-      margin-top: var(--spacing-1);
-    }
-  }
-
   label {
-    margin-bottom: var(--spacing-1);
+    margin: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
   }
+
   input {
     font-size: 1em;
     border-radius: 12px;
     padding: var(--spacing-1);
   }
+}
 
-  .modal__buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--spacing-2);
-    margin-left: calc(-1 * var(--spacing-half));
-    margin-right: calc(-1 * var(--spacing-half));
+.modal-content__header {
+  display: flex;
+  align-items: center;
 
-    button {
-      flex: 1;
-      margin: 0 var(--spacing-half);
+  button {
+    margin-left: auto;
+    height: fit-content;
+    margin-right: var(--spacing-1);
+  }
+}
 
-      span {
-        width: 100%;
-      }
+.modal-content__heading {
+  margin-top: var(--spacing-half);
+  margin-bottom: var(--spacing-1);
+  font-size: var(--font-size-u-2)
+}
+
+.modal-content__subheading {
+  margin: var(--spacing-2) 0 var(--spacing-1) 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.modal-content__text {
+  line-height: var(--line-height-regular);
+  margin: 0
+}
+
+.modal-content__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-2);
+  margin-left: calc(-1 * var(--spacing-half));
+  margin-right: calc(-1 * var(--spacing-half));
+
+  button {
+    flex: 1;
+    margin: 0 var(--spacing-half);
+
+    span {
+      width: 100%;
     }
   }
 }
 
-.modal__overlay {
+.modal-overlay {
   z-index: 1000;
   position: fixed;
   inset: 0px;
 }
 
 .--dark {
-  .modal__overlay {
+  .modal-overlay {
     background-color: rgba(0,0,0,0.5);
 
     input {
@@ -76,40 +89,38 @@
       color: inherit;
     }
   }
-  .modal__content {
+  .modal-content {
     background-color: $editor-dark;
   }
 }
 
 .--light {
-  .modal__overlay{
+  .modal-overlay {
     background-color: rgba(67,69,76,0.5);
     input {
       border: 2px solid $editor-light-grey;
       background-color: $editor-light-light-light-grey;
     }
   }
-  .modal__content {
+  .modal-content {
     background-color: $editor-white;
   }
 }
 
 .font-size-medium {
-  .modal__overlay {
-    .modal__header {
-      h2 {
-        font-size: var(--font-size-u-4)
-      }
-    }
+  .modal-content__heading {
+    font-size: var(--font-size-u-4);
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-2);
   }
 }
 
 .font-size-large {
-  .modal__overlay {
-    .modal__header {
-      h2 {
-        font-size: var(--font-size-u-6)
-      }
-    }
+  .modal-content__heading {
+    font-size: var(--font-size-u-6)
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-4);
   }
 }
