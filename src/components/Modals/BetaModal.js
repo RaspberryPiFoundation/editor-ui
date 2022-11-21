@@ -19,21 +19,21 @@ const BetaModal = () => {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
-        className='modal__content'
-        overlayClassName='modal__overlay'
+        className='modal-content'
+        overlayClassName='modal-overlay'
         contentLabel="Rename File"
         parentSelector={() => document.querySelector('#app')}
         appElement={document.getElementById('app') || undefined}
       >
-        <h2 className='modal__heading'>{t('betaBanner.modal.heading')}</h2>
+        <h2 className='modal-content__heading'>{t('betaBanner.modal.heading')}</h2>
 
-        <h3 className='modal__subheading'>{t('betaBanner.modal.meaningHeading')}</h3>
-        <p className='modal__text'>{t('betaBanner.modal.meaningText')}</p>
+        <h3 className='modal-content__subheading'>{t('betaBanner.modal.meaningHeading')}</h3>
+        <p className='modal-content__text'>{t('betaBanner.modal.meaningText')}</p>
 
-        <h3 className='modal__subheading'>{t('betaBanner.modal.whatNextHeading')}</h3>
-        <p className='modal__text'>{t('betaBanner.modal.whatNextText')}</p>
+        <h3 className='modal-content__subheading'>{t('betaBanner.modal.whatNextHeading')}</h3>
+        <p className='modal-content__text'>{t('betaBanner.modal.whatNextText')}</p>
 
-        <div className='modal__buttons' >
+        <div className='modal-content__buttons' >
           <Button buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
         </div>
       </Modal>

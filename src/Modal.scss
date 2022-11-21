@@ -1,6 +1,6 @@
 @import './colours.scss';
 
-.modal__content {
+.modal-content {
   position: absolute;
   width: 80%;
   max-width: 450px;
@@ -20,6 +20,7 @@
     margin: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
   }
+
   input {
     font-size: 1em;
     border-radius: 12px;
@@ -27,7 +28,7 @@
   }
 }
 
-.modal__header {
+.modal-content__header {
   display: flex;
   align-items: center;
 
@@ -38,24 +39,24 @@
   }
 }
 
-.modal__heading {
+.modal-content__heading {
   margin-top: var(--spacing-half);
   margin-bottom: var(--spacing-1);
   font-size: var(--font-size-u-2)
 }
 
-.modal__subheading {
+.modal-content__subheading {
   margin: var(--spacing-2) 0 var(--spacing-1) 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
 
-.modal__text {
+.modal-content__text {
   line-height: var(--line-height-regular);
   margin: 0
 }
 
-.modal__buttons {
+.modal-content__buttons {
   display: flex;
   justify-content: space-between;
   margin-top: var(--spacing-2);
@@ -72,14 +73,14 @@
   }
 }
 
-.modal__overlay {
+.modal-overlay {
   z-index: 1000;
   position: fixed;
   inset: 0px;
 }
 
 .--dark {
-  .modal__overlay {
+  .modal-overlay {
     background-color: rgba(0,0,0,0.5);
 
     input {
@@ -88,42 +89,38 @@
       color: inherit;
     }
   }
-  .modal__content {
+  .modal-content {
     background-color: $editor-dark;
   }
 }
 
 .--light {
-  .modal__overlay{
+  .modal-overlay {
     background-color: rgba(67,69,76,0.5);
     input {
       border: 2px solid $editor-light-grey;
       background-color: $editor-light-light-light-grey;
     }
   }
-  .modal__content {
+  .modal-content {
     background-color: $editor-white;
   }
 }
 
 .font-size-medium {
-  .modal__overlay {
-    .modal__heading {
-      font-size: var(--font-size-u-4);
-    }
-    .modal__subheading {
-      font-size: var(--font-size-u-2);
-    }
+  .modal-content__heading {
+    font-size: var(--font-size-u-4);
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-2);
   }
 }
 
 .font-size-large {
-  .modal__overlay {
-    .modal__heading {
-      font-size: var(--font-size-u-6)
-    }
-    .modal__subheading {
-      font-size: var(--font-size-u-4);
-    }
+  .modal-content__heading {
+    font-size: var(--font-size-u-6)
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-4);
   }
 }
