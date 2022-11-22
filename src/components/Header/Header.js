@@ -10,23 +10,17 @@ import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
-import { showSavedMessage } from '../../utils/Notifications';
-
 
 const Header = (props) => {
   const { user } = props;
   const project = useSelector((state) => state.editor.project);
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
-  const savedStatus = useSelector((state) => state.editor.saving)
 
   const dispatch = useDispatch();
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    dispatch(saveProject({project: project, user: user}))
-    if (savedStatus === 'success'){
-      showSavedMessage()
-    }
+    dispatch(saveProject({project: project, user: user, autosave: false}))
   }
 
   return (

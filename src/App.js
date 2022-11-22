@@ -14,6 +14,7 @@ import Footer from './components/Footer/Footer';
 import { saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
+import { showSavedMessage } from './utils/Notifications';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -23,6 +24,8 @@ function App() {
   const project = useSelector((state) => state.editor.project)
   const user = useSelector((state) => state.auth.user)
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
+  const saving = useSelector((state) => state.editor.saving)
+  const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
   const [timeoutId, setTimeoutId] = useState(null);
 
   const dispatch = useDispatch()
@@ -31,7 +34,7 @@ function App() {
     if(timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(async () => {
       if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
-        dispatch(saveProject({project: project, user: user}))
+        dispatch(saveProject({project: project, user: user, autosave: true}))
       } else if (projectLoaded === 'success') {
         localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
       }
@@ -39,6 +42,14 @@ function App() {
     setTimeoutId(id);
 
   }, [project])
+
+  useEffect(() => {
+    console.log(autosaved)
+    if (saving === 'success' && autosaved === false) {
+      console.log('displaying saved message')
+      showSavedMessage()
+    }
+  }, [saving, autosaved])
 
   return (
     <div 

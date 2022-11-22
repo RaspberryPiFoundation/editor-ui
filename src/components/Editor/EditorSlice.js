@@ -14,7 +14,7 @@ export const saveProject = createAsyncThunk('editor/saveProjectStatus', async (d
   else {
     response = await updateProject(data.project, data.user.access_token)
   }
-  return response.data
+  return { project: response.data, autosave: data.autosave }
 })
 
 export const EditorSlice = createSlice({
@@ -32,6 +32,7 @@ export const EditorSlice = createSlice({
     projectList: [],
     projectListLoaded: false,
     saving: 'idle',
+    lastSaveAutosaved: false,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
@@ -141,14 +142,15 @@ export const EditorSlice = createSlice({
       state.saving = 'pending'
     })
     builder.addCase(saveProject.fulfilled, (state, action) => {
+      state.lastSaveAutosaved = action.payload.autosave
       state.saving = 'success'
       if (!state.project.image_list) {
         state.project.image_list = []
       }
 
-      if (state.project.identifier!==action.payload.identifier) {
+      if (state.project.identifier!==action.payload.project.identifier) {
         localStorage.removeItem(state.project.identifier || 'project')
-        state.project = action.payload
+        state.project = action.payload.project
         state.projectLoaded = 'idle'
       }
     })

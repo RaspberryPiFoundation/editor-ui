@@ -112,7 +112,7 @@ describe('When project has no identifier', () => {
       saving: 'success',
       projectLoaded: 'idle'
     }
-    expect(reducer(initialState, saveProject.fulfilled(returnedProject))).toEqual(expectedState)
+    expect(reducer(initialState, saveProject.fulfilled({project: returnedProject}))).toEqual(expectedState)
   })
 })
 
@@ -160,6 +160,6 @@ describe('When project has an identifier', () => {
       project: project,
       saving: 'success'
     }
-    expect(reducer(initialState, saveProject.fulfilled(project))).toEqual(expectedState)
+    expect(reducer(initialState, saveProject.fulfilled({project: project}))).toEqual(expectedState)
   })
 })
