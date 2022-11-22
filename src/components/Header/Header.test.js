@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
 import { showSavedMessage } from "../../utils/Notifications";
-
 import Header from "./Header";
 
 jest.mock('axios');
@@ -17,6 +16,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('../../utils/Notifications')
+
+// jest.mock('../Editor/EditorSlice', () => ({
+//   saveProject: jest.fn(() => () => Promise.resolve())
+// }))
 
 
 describe("When logged in and user owns project", () => {
@@ -34,7 +37,7 @@ describe("When logged in and user owns project", () => {
           image_list: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
-        projectLoaded: true,
+        projectLoaded: 'success',
       },
       auth: {
         user: {
@@ -97,26 +100,29 @@ describe("When logged in and user owns project", () => {
 describe("When logged in and no project identifier", () => {
   let store;
   let saveButton;
+  const project = {
+    components: [],
+    image_list: [],
+    user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+  }
+
+  const user = {
+    access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+    profile: {
+      user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+    }
+  }
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          components: [],
-          image_list: [],
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
-        projectLoaded: true,
+        project: project,
+        projectLoaded: 'success',
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
@@ -133,15 +139,15 @@ describe("When logged in and no project identifier", () => {
   })
 
   test("Clicking save creates new project", () => {
-    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
-    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project}))
+    // const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
+    // axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project}))
     fireEvent.click(saveButton)
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
-    const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-    const new_project = {"components": [], "image_list": [], "user_id": user_id}
-    const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects`, {"project": new_project}, headers)
+    // const api_host = process.env.REACT_APP_API_ENDPOINT;
+    // const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
+    // const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+    // const new_project = {"components": [], "image_list": [], "user_id": user_id}
+    // const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
+    expect(store.getActions()).toHaveBeenCalledWith({project: project, user: user})
   })
 
   test('Project name is shown', () => {
@@ -169,7 +175,7 @@ describe("When logged in and user does not own project", () => {
           image_list: [],
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
         },
-        projectLoaded: true,
+        projectLoaded: 'success',
       },
       auth: {
         user: {
@@ -213,7 +219,7 @@ describe("When not logged in", () => {
             components: [],
             image_list: [],
           },
-          projectLoaded: true,
+          projectLoaded: 'success',
         },
         auth: {
           user: null
@@ -248,7 +254,7 @@ describe('When no project loaded', () => {
     const initialState = {
         editor: {
           project: {},
-          projectLoaded: false,
+          projectLoaded: 'idle',
         },
         auth: {
           user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
