@@ -1,0 +1,38 @@
+@import '../../colours.scss';
+
+.editor-banner {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-half) var(--spacing-2);
+
+  &--beta {
+    background-color: $editor-turquoise-tint-50;
+    color: $editor-black;
+
+    svg {
+      fill: $editor-black;
+    }
+  }
+
+  &--beta__icon {
+    padding: var(--spacing-half);
+    border-radius: 8px;
+    background-color: $editor-turquoise-tint-75;
+    font-weight: var(--font-weight-bold);
+    margin-right: var(--spacing-2)
+  }
+}
+
+.editor-banner__message {
+  padding: var(--spacing-half) 0
+}
+
+.editor-banner__link {
+  display: inline;
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+}
+
+.editor-banner__close-button {
+  margin-left: auto;
+}

@@ -20,6 +20,18 @@ i18n
       en: {
         translation: {
           // here we will place our translations...
+          betaBanner: {
+            message: 'The Code Editor is in beta.',
+            modal: {
+              close: 'Close',
+              heading: 'Code Editor is in beta',
+              meaningHeading: 'What does beta mean?',
+              meaningText: 'Beta means that we are not quite finished yet, and some things might not look or work as well as we’d like. However, it also means you are one of the first people to use our new Code Editor!',
+              whatNextHeading: 'What next?',
+              whatNextText: 'We\'ll soon be asking for your feedback, so we can work on making it better for you, and other digital makers.',
+            },
+            modalLink: 'What does this mean?'
+          },
           filePane: {
             errors: {
               generalError: 'Error',
@@ -43,7 +55,7 @@ i18n
               save: 'Save'
             },
             fileMenu: {
-              renameItem: 'Rename File'
+              renameItem: 'Rename file'
             }
           },
           footer: {

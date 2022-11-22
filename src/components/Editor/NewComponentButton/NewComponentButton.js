@@ -47,13 +47,13 @@ const NewComponentButton = () => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           contentLabel="New File"
-          className='modal__content'
-          overlayClassName='modal__overlay'
+          className='modal-content'
+          overlayClassName='modal-overlay'
           parentSelector={() => document.querySelector('#app')}
           appElement={document.getElementById('app') || undefined}
         >
-          <div className='modal__header'>
-            <h2>{t('filePane.newFileModal.heading')}</h2>
+          <div className='modal-content__header'>
+            <h2 className='modal-content__heading'>{t('filePane.newFileModal.heading')}</h2>
             <button onClick={closeModal}>
               <CloseIcon/>
             </button>
@@ -62,7 +62,7 @@ const NewComponentButton = () => {
           <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
           <NameErrorMessage />
           <input type='text' name='name' id='name'></input>
-          <div className='modal__buttons'>
+          <div className='modal-content__buttons'>
             <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
             <Button buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
           </div>

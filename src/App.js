@@ -1,17 +1,20 @@
 import './App.scss';
 
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
 import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
-import { ToastContainer } from 'react-toastify';
-import { useEffect, useState } from 'react';
 import { saveProject } from './components/Editor/EditorSlice';
+import BetaBanner from './components/BetaBanner/BetaBanner';
+import BetaModal from './components/Modals/BetaModal';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -45,9 +48,10 @@ function App() {
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <BrowserRouter>
-          { isEmbedded ? null : <><GlobalNav/><Header/></> }
+          { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <Routes />
           { isEmbedded ? null : <Footer/> }
+          <BetaModal/>
         </BrowserRouter>
         <ToastContainer position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
