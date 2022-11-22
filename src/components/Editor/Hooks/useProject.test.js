@@ -18,7 +18,7 @@ jest.mock('../EditorSlice', () => ({
 
 jest.mock('../../../utils/apiCallHandler', () => ({
   readProject: async (identifier) => Promise.resolve({'data': {'identifier': identifier, 'project_type': 'python'}})
-  }))
+}))
 
 const cachedProject = {
   project_type: 'python',

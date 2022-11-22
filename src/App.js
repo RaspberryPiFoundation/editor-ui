@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
