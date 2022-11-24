@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { setProject, setProjectLoaded, setSenseHatAlwaysEnabled } from '../../Editor/EditorSlice';
+import { setProject, setSenseHatAlwaysEnabled } from '../../Editor/EditorSlice';
 import WebComponentProject from '../Project/WebComponentProject';
 
 const ProjectComponentLoader = (props) => {
@@ -15,7 +15,6 @@ const ProjectComponentLoader = (props) => {
     }
     dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
-    // dispatch(setProjectLoaded(true))
   }, []);
 
 

@@ -12,8 +12,7 @@ jest.mock('react-redux', () => ({
 
 jest.mock('../EditorSlice', () => ({
   loadProject: jest.fn(),
-  setProject: jest.fn(),
-  setProjectLoaded: jest.fn()
+  setProject: jest.fn()
 }))
 
 jest.mock('../../../utils/apiCallHandler', () => ({
@@ -24,11 +23,6 @@ const cachedProject = {
   project_type: 'python',
   identifier: 'hello-world-project',
   components: []
-}
-
-const uncachedProject = {
-  project_type: 'python',
-  identifier: 'hello-world-project',
 }
 
 const project1 = {
