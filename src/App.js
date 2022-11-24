@@ -45,7 +45,6 @@ function App() {
 
   useEffect(() => {
     if (saving === 'success' && autosaved === false) {
-      console.log('displaying saved message')
       showSavedMessage()
     }
   }, [saving, autosaved])
