@@ -23,7 +23,7 @@ const ProjectComponentLoader = (props) => {
     if (projectLoaded === 'idle' && project.identifier) {
       history.push(`/${project.project_type}/${project.identifier}`)
     }
-  }, [projectLoaded])
+  }, [projectLoaded, project, history])
 
 
   return projectLoaded === 'success' ? (

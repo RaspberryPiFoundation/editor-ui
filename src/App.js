@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
 
 import { useEffect, useState } from 'react';
@@ -41,7 +42,7 @@ function App() {
     }, 2000);
     setTimeoutId(id);
 
-  }, [project])
+  }, [project, user, projectLoaded, dispatch])
 
   useEffect(() => {
     if (saving === 'success' && autosaved === false) {
