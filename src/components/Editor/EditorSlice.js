@@ -142,6 +142,7 @@ export const EditorSlice = createSlice({
       state.saving = 'pending'
     })
     builder.addCase(saveProject.fulfilled, (state, action) => {
+      localStorage.removeItem(state.project.identifier || 'project')
       state.lastSaveAutosaved = action.payload.autosave
       state.saving = 'success'
       if (!state.project.image_list) {
@@ -149,7 +150,6 @@ export const EditorSlice = createSlice({
       }
 
       if (state.project.identifier!==action.payload.project.identifier) {
-        localStorage.removeItem(state.project.identifier || 'project')
         state.project = action.payload.project
         state.projectLoaded = 'idle'
       }

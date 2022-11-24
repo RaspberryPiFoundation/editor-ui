@@ -2,8 +2,12 @@ import App from './App';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
+import configureStore from 'redux-mock-store';
+import { showSavedMessage } from './utils/Notifications';
+
+jest.mock('./utils/Notifications')
 
 describe('Browser prefers light mode', () => {
   let cookies;
@@ -187,4 +191,34 @@ describe('Beta banner', () => {
   afterEach(() => {
     act(() => cookies.remove('betaBannerDismissed'))
   })
+})
+
+test('successful manual save prompts project saved message', async () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        saving: 'success',
+        lastSaveAutosaved: false
+      },
+      auth: {}
+    }
+    const mockedStore = mockStore(initialState);
+    render(<Provider store={mockedStore}><App/></Provider>);
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+})
+
+test('successful autosave does not prompt project saved message', async () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        saving: 'success',
+        lastSaveAutosaved: true
+      },
+      auth: {}
+    }
+    const mockedStore = mockStore(initialState);
+    render(<Provider store={mockedStore}><App/></Provider>);
+    await waitFor(() => expect(showSavedMessage).not.toHaveBeenCalled())
 })
