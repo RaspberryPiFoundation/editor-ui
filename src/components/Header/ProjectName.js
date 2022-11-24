@@ -47,7 +47,7 @@ const ProjectName = () => {
         type='text'
         onChange={onNameChange}
         defaultValue={project.name} /> 
-      : user && project.name?
+      : user && project.identifier?
       <div className='project-name__remix' onClick={onClickRemix}>
         <RemixIcon />
         <h1>{project.name}</h1>

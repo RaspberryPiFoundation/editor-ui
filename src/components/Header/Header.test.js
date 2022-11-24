@@ -130,6 +130,7 @@ describe("When logged in and user does not own project", () => {
     const initialState = {
       editor: {
         project: {
+          name: 'My first project',
           identifier: "hello-world-project",
           components: [],
           image_list: [],
@@ -163,7 +164,7 @@ describe("When logged in and user does not own project", () => {
   })
 
   test('Project name is shown', () => {
-    expect(screen.queryByText('header.newProject')).toBeInTheDocument()
+    expect(screen.queryByText('My first project')).toBeInTheDocument()
   })
 })
 

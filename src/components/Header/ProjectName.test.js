@@ -165,7 +165,7 @@ describe("When not logged in", () => {
   })
 })
 
-describe("When project has no name", () => {
+describe("When project has no identifier", () => {
   let queryByText;
 
   beforeEach(() => {
@@ -173,7 +173,9 @@ describe("When project has no name", () => {
     const mockStore = configureStore(middlewares)
     const initialState = {
         editor: {
-          project: {},
+          project: {
+            name: 'Untitled project'
+          },
         },
         auth: {}
       }
@@ -181,7 +183,7 @@ describe("When project has no name", () => {
     ({queryByText} = render(<Provider store={store}><ProjectName/></Provider>));
   })
 
-  test("Renders title as New Project", () => {
-    expect(queryByText('header.newProject')).not.toBeNull()
+  test("Renders title as Untitled project", () => {
+    expect(queryByText('Untitled project')).not.toBeNull()
   })
 })
