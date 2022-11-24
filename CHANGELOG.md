@@ -6,12 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
-- Copyright and contributing documentation (#207)
+
+- Beta banner and modal (#266)
 - Plausbile event tracking for login, remix, save and code run (#250)
+
+## Changed
+
+- Removed file menu for `main.py` (#269)
+
+## Fixed
+
+- Contrast on file menu hover in dark mode (#269)
+- Stylelint errors (#269)
+- Copy changes (#269)
+
+## [0.8.0]
+
+### Added
+
+- Copyright and contributing documentation (#207)
+- Errors when running code now include the name of the file in which the error occurred (#239)
+- Sentry integration (#252)
+- Ability to download a project (#255)
+- FileMenu dropdown (#139)
+- Confimatory message when a project has been saved (#262)
 
 ### Changed
 
 - Switch wrapping in the editor to horizontal scrolling for long lines (#242)
+- Replaced hard-coded text with translatable strings (#253)
+- Launch rename modal via redux (#139)
+
+### Fixed
+- Allow users to save their code as anew project from the root page when logged in (#259)
+- Stop users renaming `main.py` (#203)
+- Style fixes on the 'My Projects' page (#265)
+- Remove project name, download and save buttons from the header on the 'My Projects' page and when project is still loading (#265)
 
 ## [0.7.0]
 
@@ -114,7 +144,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.8.0...HEAD
 [0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
 [0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
 [0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
@@ -122,3 +152,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
 [0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
 [0.7.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
+[0.8.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.8.0
+

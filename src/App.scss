@@ -6,15 +6,14 @@ button {
   cursor: pointer;
 }
 
-#app {
-  height: 100vh;
-  display: flex;
-  flex-flow: column;
-}
-
 .--light {
   background-color: $editor-light-blue;
   caret-color: black;
+
+  button:focus-visible {
+    outline: 2px solid $editor-black;
+  }
+
   .pythonrunner-input {
     color: rgb(36, 103, 236);
   }
@@ -28,14 +27,68 @@ button {
   color: $editor-white;
   caret-color: $editor-white;
 
+  button:focus-visible {
+    outline: 2px solid $editor-white;
+  }
+
   .pythonrunner-input {
     color: rgb(36, 186, 236);
   }
   svg {
     fill: $editor-white;
   }
+}
 
-  .btn svg {
-    fill: inherit;
+.font-size-medium {
+  .toast--bottom-center {
+    font-size: var(--font-size-u-1)
+  }
+}
+
+.font-size-large {
+  .toast--bottom-center {
+    font-size: var(--font-size-u-3)
+  }
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+
+  .toast--bottom-center {
+    width: fit-content;
+    font-size: var(--font-size-d-1);
+  
+    &__message {
+      min-height: fit-content;
+      border-radius: 20px;
+      padding: var(--spacing-half) var(--spacing-1);
+      margin: 0;
+
+      .Toastify__toast-icon {
+        margin: 0;
+      }
+    }
+  }
+
+  &.--dark {
+    .toast--bottom-center__message {
+      background-color: $editor-white;
+      color: $editor-black;
+      svg {
+        fill: $editor-black;
+      }
+    }
+  }
+
+  &.--light {
+    .toast--bottom-center__message {
+      background-color: $editor-black;
+      color: $editor-white;
+      svg {
+        fill: $editor-white;
+      }
+    }
   }
 }

@@ -23,18 +23,16 @@ test('When not logged in renders generic profile image', () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><GlobalNav/></Provider>);
-  expect(screen.queryByAltText(`Account menu`)).toBeInTheDocument()
+  expect(screen.queryByAltText('globalNav.accountMenuDefaultAltText')).toBeInTheDocument()
 })
 
 test('When logged in renders user\'s profile image', () => {
-  const name = "Joe Bloggs"
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
     auth: {
       user: {
         profile: {
-          name: name,
           picture: 'image_url'
         }
       }
@@ -42,5 +40,5 @@ test('When logged in renders user\'s profile image', () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><GlobalNav/></Provider>);
-  expect(screen.queryByAltText(`${name}'s account`)).toHaveAttribute('src', 'image_url')
+  expect(screen.queryByAltText('globalNav.accountMenuProfileAltText')).toHaveAttribute('src', 'image_url')
 })

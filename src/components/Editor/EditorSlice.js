@@ -16,6 +16,9 @@ export const EditorSlice = createSlice({
     projectListLoaded: false,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
+    betaModalShowing: false,
+    renameFileModalShowing: false,
+    modals: {},
   },
   reducers: {
     updateImages: (state, action) => {
@@ -99,6 +102,20 @@ export const EditorSlice = createSlice({
     setProjectListLoaded: (state, action) => {
       state.projectListLoaded = action.payload;
     },
+    showBetaModal: (state) => {
+      state.betaModalShowing = true
+    },
+    closeBetaModal: (state) => {
+      state.betaModalShowing = false
+    },
+    showRenameFileModal: (state, action) => {
+      state.modals.renameFile = action.payload
+      state.renameFileModalShowing = true
+      state.error = ''
+    },
+    closeRenameFileModal: (state) => {
+      state.renameFileModalShowing = false
+    }
   },
 })
 
@@ -124,6 +141,10 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
+  showBetaModal,
+  closeBetaModal,
+  showRenameFileModal,
+  closeRenameFileModal,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

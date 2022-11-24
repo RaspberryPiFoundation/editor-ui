@@ -21,6 +21,7 @@ describe('When not logged in', () => {
       }
     ]
   }
+  let loginButton;
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
@@ -34,26 +35,24 @@ describe('When not logged in', () => {
     }
     const store = mockStore(initialState);
     render(<MemoryRouter initialEntries={['/my_project']}><Provider store={store}><Login /></Provider></MemoryRouter>)
+    loginButton = screen.queryByText('globalNav.accountMenu.login')
   })
 
   test("Login button shown", () => {
-    expect(screen.getByText(/Log/).textContent).toBe("Login")
+    expect(loginButton).toBeInTheDocument()
   })
 
   test("Clicking login button signs the user in", () => {
-    const loginButton = screen.getByText("Login")
     fireEvent.click(loginButton)
     expect(userManager.signinRedirect).toHaveBeenCalled()
   })
 
   test("Clicking login button saves the user's project content in local storage", () => {
-    const loginButton = screen.getByText("Login")
     fireEvent.click(loginButton)
     expect(localStorage.getItem('project')).toBe(JSON.stringify(project))
   })
 
   test("Clicking login button saves user's location to local storage", () => {
-    const loginButton = screen.getByText("Login")
     fireEvent.click(loginButton)
     expect(localStorage.getItem('location')).toBe('/my_project')
   })
@@ -61,6 +60,8 @@ describe('When not logged in', () => {
 })
 
 describe('When logged in', () => {
+  let logoutButton;
+
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
@@ -74,15 +75,15 @@ describe('When logged in', () => {
     }
     const store = mockStore(initialState);
     render(<MemoryRouter initialEntries={['/']}><Provider store={store}><Login /></Provider></MemoryRouter>)
+    logoutButton = screen.queryByText('globalNav.accountMenu.logout')
   })
 
   test("Log out button shown", () => {
-    expect(screen.getByText(/Log/).textContent).toBe("Logout")
+    expect(logoutButton).toBeInTheDocument()
   })
 
   test("Clicking log out button signs the user out", () => {
-    const loginButton = screen.getByText("Logout")
-    fireEvent.click(loginButton)
+    fireEvent.click(logoutButton)
     expect(userManager.removeUser).toHaveBeenCalled()
   })
 

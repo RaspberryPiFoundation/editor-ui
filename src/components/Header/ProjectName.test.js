@@ -1,11 +1,12 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import axios from "axios";
 
 import ProjectName from "./ProjectName";
+import { showRemixedMessage } from '../../utils/Notifications'
 
 jest.mock('axios');
 
@@ -15,6 +16,8 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   })
 }));
+
+jest.mock('../../utils/Notifications')
 
 describe("When logged in and user owns project", () => {
   let store;
@@ -122,6 +125,13 @@ describe("When logged in and user does not own project", () => {
       },
       {"headers": {"Accept": "application/json", "Authorization": accessToken}})
   })
+
+  test('Successful remix shows project remixed message', async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, data: {}}))
+    remixButton = getByTitle("Remix").parentElement
+    fireEvent.click(remixButton)
+    await waitFor(() => expect(showRemixedMessage).toHaveBeenCalled())
+  })
 })
 
 describe("When not logged in", () => {
@@ -172,6 +182,6 @@ describe("When project has no name", () => {
   })
 
   test("Renders title as New Project", () => {
-    expect(queryByText("New Project")).not.toBeNull()
+    expect(queryByText('header.newProject')).not.toBeNull()
   })
 })

@@ -33,7 +33,7 @@ exports[`Renders without crashing 1`] = `
               role="tab"
               tabindex="0"
             >
-              Text Output
+              output.textOutput
             </li>
             <div
               class="output-view-toggle"
@@ -108,7 +108,9 @@ exports[`Renders without crashing 1`] = `
             fill="#1A1A1A"
           />
         </svg>
-        Run
+        <span>
+          runButton.run
+        </span>
       </button>
     </div>
   </div>

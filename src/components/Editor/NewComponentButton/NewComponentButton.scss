@@ -6,23 +6,3 @@
   box-sizing: border-box;
   margin: 0;
 }
-
-.font-size-small .proj-new-component-button {
-  svg {
-    margin-right: var(--spacing-1);
-  }
-}
-
-.font-size-medium .proj-new-component-button {
-  svg {
-    margin-right: var(--spacing-1);
-    margin-left: var(--spacing-1)
-  }
-}
-
-.font-size-large .proj-new-component-button {
-  svg {
-    margin-right: var(--spacing-2);
-    margin-left: var(--spacing-1);
-  }
-}

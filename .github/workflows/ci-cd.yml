@@ -102,6 +102,8 @@ jobs:
       react_app_google_tag_manager_id: GTM-5FWFWFJ
       react_app_plausible_data_domain: 'editor.raspberrypi.org'
       react_app_plausible_source: 'https://plausible.io/js/script.js'
+      react_app_sentry_dsn: https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376
+      react_app_sentry_env: production
     secrets: inherit
 
   deploy-main:
@@ -109,6 +111,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
+      react_app_sentry_env: staging
     secrets: inherit
 
   deploy-branch:

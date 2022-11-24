@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Provider } from 'react-redux';
 import RunnerControls from "./RunnerControls";
 import configureStore from "redux-mock-store";
@@ -15,9 +15,9 @@ test("Run button shows when code is not running", () => {
         }
     }
     const store = mockStore(initialState)
-    const { getByText } = render(<Provider store={store}><RunnerControls /></Provider>);
-    const runnerControls = getByText(/Run/);
-    expect(runnerControls.textContent).toEqual("Run");
+    render(<Provider store={store}><RunnerControls /></Provider>);
+    const runButton = screen.queryByText('runButton.run');
+    expect(runButton).toBeInTheDocument()
 })
 
 test("Stop button shows when code is running", () => {
@@ -28,7 +28,7 @@ test("Stop button shows when code is running", () => {
         }
     }
     const store = mockStore(initialState)
-    const { getByText } = render(<Provider store={store}><RunnerControls /></Provider>);
-    const runnerControls = getByText(/Stop/);
-    expect(runnerControls.textContent).toEqual("Stop");
+    render(<Provider store={store}><RunnerControls /></Provider>);
+    const stopButton = screen.queryByText('runButton.stop');
+    expect(stopButton).toBeInTheDocument()
 })

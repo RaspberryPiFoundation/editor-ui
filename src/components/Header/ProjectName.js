@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import { RemixIcon } from '../../Icons';
 import { remixProject } from '../../utils/apiCallHandler';
+import { showRemixedMessage } from '../../utils/Notifications';
 import { setProjectLoaded, updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
@@ -12,6 +14,7 @@ const ProjectName = () => {
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch();
   let history = useHistory()
+  const { t } = useTranslation()
   const nameInput= useRef();
 
   const onNameChange = () => {
@@ -27,10 +30,13 @@ const ProjectName = () => {
 
     const response = await remixProject(project, user.access_token)
 
-    const identifier = response.data.identifier;
-    const project_type = response.data.project_type;
-    dispatch(setProjectLoaded(false));
-    history.push(`/${project_type}/${identifier}`)
+    if(response.status === 200) {
+      const identifier = response.data.identifier;
+      const project_type = response.data.project_type;
+      dispatch(setProjectLoaded(false));
+      history.push(`/${project_type}/${identifier}`)
+      showRemixedMessage()
+    }
   }
 
   return (
@@ -49,7 +55,7 @@ const ProjectName = () => {
       </div>
       :
       <div className='project-name__no-auth'>
-        <h1>{project.name||"New Project"}</h1>
+        <h1>{project.name||t('header.newProject')}</h1>
       </div>
       }
     </div>

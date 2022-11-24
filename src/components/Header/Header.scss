@@ -34,16 +34,19 @@
       }
     }
 
+    .btn {
+      padding: 0 var(--spacing-2)
+    }
+
     .btn--save {
       margin: 0;
-      padding: 0 var(--spacing-2);
-      height: 100%;
-      box-sizing: border-box;
       border-radius: 0;
     }
 
     .editor-logo {
       height: 100%;
+      min-height: var(--spacing-6);
+      min-width: var(--spacing-6);
     }
   }
 }

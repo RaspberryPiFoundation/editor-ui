@@ -1,0 +1,30 @@
+.files-list {
+    padding-top: var(--spacing-1);
+}
+
+.files-list-item {
+    display: flex;
+    align-items: center;
+    padding-left: var(--spacing-1);
+    padding-right: var(--spacing-1);
+    padding-bottom: var(--spacing-1);
+    white-space: nowrap;
+    justify-content: space-between;
+}
+
+.files-list-item__menu {
+    height: 100%;
+}
+
+.files-list-item__label {
+    align-items: center;
+    display: flex;
+}
+
+.files-list-item__name {
+    margin: 0;
+    padding-left: var(--spacing-1);
+    padding-right: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}

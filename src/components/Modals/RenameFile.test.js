@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import RenameFile from "./RenameFile";
-import { setNameError, updateComponentName } from "../../Editor/EditorSlice";
+import { setNameError, updateComponentName, closeRenameFileModal } from "../Editor/EditorSlice";
 
 describe("Testing the new file modal", () => {
     let store;
@@ -32,18 +32,24 @@ describe("Testing the new file modal", () => {
                     project_type: "python"
                 },
                 nameError: "",
+                modals: {
+                    renameFile: {
+                        name: 'main',
+                        ext: 'py',
+                        fileKey: 0
+                    }
+                },
+                renameFileModalShowing: true
             }
         }
         store = mockStore(initialState);
         ({getByText, getByRole} = render(<Provider store={store}><div id='app'><RenameFile currentName='main' currentExtension='py' fileKey={0} /></div></Provider>))
-        const editNameButton = getByRole('button');
-        fireEvent.click(editNameButton);
         inputBox = document.getElementById('name')
-        saveButton = getByText(/Save/);
+        saveButton = getByText('filePane.renameFileModal.save');
     })
 
-    test('Clicking the edit file name button opens the modal', () => {
-      expect(getByText(/Rename/)).not.toBeNull()
+    test('State being set displays the modal', () => {
+      expect(getByText('filePane.renameFileModal.heading')).not.toBeNull()
     })
 
     test('Input box initially contains original file name', () => {
@@ -54,27 +60,33 @@ describe("Testing the new file modal", () => {
         fireEvent.change(inputBox, {target: {value: "file1.py"}})
         inputBox.innerHTML = "file1.py";
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), updateComponentName({key: 0, extension: "py", name: "file1"})]
+        const expectedActions = [
+            updateComponentName({key: 0, extension: "py", name: "file1"}),
+            closeRenameFileModal()
+        ]
         expect(store.getActions()).toEqual(expectedActions);
     })
 
     test("Duplicate file names throws error", () => {
         fireEvent.change(inputBox, {target: {value: "my_file.py"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must be unique.")]
+        const expectedActions = [setNameError('filePane.errors.notUnique')]
         expect(store.getActions()).toEqual(expectedActions);
     })
 
     test("Unchanged file name does not throw error", () => {
       fireEvent.click(saveButton)
-      const expectedActions = [setNameError(""), updateComponentName({key: 0, extension: "py", name: "main"})]
+      const expectedActions = [
+        updateComponentName({key: 0, extension: "py", name: "main"}),
+        closeRenameFileModal()
+    ]
       expect(store.getActions()).toEqual(expectedActions);
     })
 
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.csv' or '.txt'.")]
+        const expectedActions = [setNameError("filePane.errors.unsupportedExtension")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })
