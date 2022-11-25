@@ -42,7 +42,7 @@ describe("Testing the new file modal", () => {
             }
         }
         store = mockStore(initialState);
-        ({getByText, getByRole} = render(<Provider store={store}><div id='app'><RenameFile currentName='main' currentExtension='py' fileKey={0} /></div></Provider>))
+        ({getByText} = render(<Provider store={store}><div id='app'><RenameFile currentName='main' currentExtension='py' fileKey={0} /></div></Provider>))
         inputBox = document.getElementById('name')
         saveButton = getByText('filePane.renameFileModal.save');
     })
