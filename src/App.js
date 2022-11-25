@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
 
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
@@ -10,14 +12,45 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
+import { saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
+import { showSavedMessage } from './utils/Notifications';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const [cookies] = useCookies(['theme', 'fontSize'])
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
+
+  const project = useSelector((state) => state.editor.project)
+  const user = useSelector((state) => state.auth.user)
+  const projectLoaded = useSelector((state) => state.editor.projectLoaded)
+  const saving = useSelector((state) => state.editor.saving)
+  const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
+  const [timeoutId, setTimeoutId] = useState(null);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(timeoutId) clearTimeout(timeoutId);
+    const id = setTimeout(async () => {
+      if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
+        dispatch(saveProject({project: project, user: user, autosave: true}))
+      } else if (projectLoaded === 'success') {
+        localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+      }
+    }, 2000);
+    setTimeoutId(id);
+
+  }, [project, user, projectLoaded, dispatch])
+
+  useEffect(() => {
+    if (saving === 'success' && autosaved === false) {
+      showSavedMessage()
+    }
+  }, [saving, autosaved])
+
   return (
     <div 
     id='app'

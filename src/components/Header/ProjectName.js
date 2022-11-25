@@ -29,6 +29,7 @@ const ProjectName = () => {
     const response = await remixProject(project, user.access_token)
 
     if(response.status === 200) {
+      localStorage.removeItem(project.identifier || 'project')
       const identifier = response.data.identifier;
       const project_type = response.data.project_type;
       dispatch(setProjectLoaded(false));
@@ -46,7 +47,7 @@ const ProjectName = () => {
         type='text'
         onChange={onNameChange}
         defaultValue={project.name} /> 
-      : user && project.name?
+      : user && project.identifier?
       <div className='project-name__remix' onClick={onClickRemix}>
         <RemixIcon />
         <h1>{project.name}</h1>

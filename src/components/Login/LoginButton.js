@@ -12,7 +12,7 @@ const LoginButton = (props) => {
   const onLoginButtonClick = (event) => {
     event.preventDefault();
     localStorage.setItem('location', location.pathname)
-    localStorage.setItem('project', JSON.stringify(project))
+    localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
     userManager.signinRedirect();
   }
 

@@ -3,17 +3,12 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
 import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
-import { saveProject, updateProject } from '../../utils/apiCallHandler';
-import { setProjectLoaded, setProject, showLoginToSaveModal } from '../Editor/EditorSlice';
-import { useHistory } from 'react-router-dom';
+import { saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
-
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
-import { showSavedMessage } from '../../utils/Notifications';
-
 
 const Header = (props) => {
   const { user } = props;
@@ -21,30 +16,11 @@ const Header = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
 
   const dispatch = useDispatch();
-  let history = useHistory();
   const { t } = useTranslation()
 
   const onClickSave = async () => {
     if (user) {
-      if (!project.identifier) {
-        const response = await saveProject(project, user.access_token)
-  
-        if (response.status === 200) {
-          const identifier = response.data.identifier;
-          const project_type = response.data.project_type;
-          dispatch(setProjectLoaded(false));
-          history.push(`/${project_type}/${identifier}`)
-          showSavedMessage()
-        }
-      }
-      else {
-        const response = await updateProject(project, user.access_token)
-  
-        if(response.status === 200) {
-          dispatch(setProject(response.data));
-          showSavedMessage()
-        }
-      }
+      dispatch(saveProject({project: project, user: user, autosave: false}))
     } else {
       dispatch(showLoginToSaveModal())
     }
@@ -59,17 +35,16 @@ const Header = (props) => {
             {<><SquaresIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
-        { projectLoaded ? <ProjectName /> : null }
+        { projectLoaded === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { projectLoaded ?
+          { projectLoaded === 'success' ?
           <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
           : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
-
-          {projectLoaded && (!user || (user !== null && (project.user_id === user.profile.user || !project.identifier))) ? (
+          {projectLoaded === 'success' && (!user || (user !== null && (project.user_id === user.profile.user || !project.identifier))) ? (
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>
