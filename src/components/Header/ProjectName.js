@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { RemixIcon } from '../../Icons';
 import { remixProject } from '../../utils/apiCallHandler';
 import { showRemixedMessage } from '../../utils/Notifications';
-import { setProjectLoaded, updateProjectName } from '../Editor/EditorSlice';
+import { createRemix, setProjectLoaded, updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
 
@@ -26,16 +26,18 @@ const ProjectName = () => {
       return;
     }
 
-    const response = await remixProject(project, user.access_token)
+    dispatch(createRemix({project: project, user: user}))
 
-    if(response.status === 200) {
-      localStorage.removeItem(project.identifier || 'project')
-      const identifier = response.data.identifier;
-      const project_type = response.data.project_type;
-      dispatch(setProjectLoaded(false));
-      history.push(`/${project_type}/${identifier}`)
-      showRemixedMessage()
-    }
+    // const response = await remixProject(project, user.access_token)
+
+    // if(response.status === 200) {
+    //   localStorage.removeItem(project.identifier || 'project')
+    //   const identifier = response.data.identifier;
+    //   const project_type = response.data.project_type;
+    //   dispatch(setProjectLoaded(false));
+    //   history.push(`/${project_type}/${identifier}`)
+    //   showRemixedMessage()
+    // }
   }
 
   return (

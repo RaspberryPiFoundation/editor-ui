@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
+import { createProject, readProject, remixProject, updateProject } from '../../utils/apiCallHandler';
 
 export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
   const response =  await readProject(projectIdentifier)
+  return response.data
+})
+
+export const createRemix = createAsyncThunk('editor/remixProjectStatus', async (data) => {
+  const response = await remixProject(data.project, data.user.access_token)
   return response.data
 })
 
@@ -166,6 +171,12 @@ export const EditorSlice = createSlice({
     })
     builder.addCase(loadProject.pending, (state) => {
       state.projectLoaded = 'pending'
+    })
+    builder.addCase(createRemix.fulfilled, (state, action) => {
+      state.lastSaveAutosaved = false
+      state.saving = 'success'
+      state.project = action.payload
+      state.projectLoaded = 'idle'
     })
     builder.addCase(loadProject.fulfilled, (state, action) => {
       state.project = action.payload

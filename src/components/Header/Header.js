@@ -19,8 +19,10 @@ const Header = (props) => {
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    if (user) {
+    if (user && (project.user_id === user.profile.user || !project.identifier)) {
       dispatch(saveProject({project: project, user: user, autosave: false}))
+    } else if (user) {
+      console.log('remixing....')
     } else {
       dispatch(showLoginToSaveModal())
     }
@@ -44,9 +46,9 @@ const Header = (props) => {
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
-          {projectLoaded === 'success' && (!user || (user !== null && (project.user_id === user.profile.user || !project.identifier))) ? (
+          {projectLoaded === 'success' ?
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
-          ) : null }
+          : null }
         </div>
       </header>
     </div>
