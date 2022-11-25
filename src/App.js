@@ -12,6 +12,7 @@ import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
+import LoginToSaveModal from './components/Modals/LoginToSaveModal';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -28,6 +29,7 @@ function App() {
           <Routes />
           { isEmbedded ? null : <Footer/> }
           <BetaModal/>
+          <LoginToSaveModal/>
         </BrowserRouter>
         <ToastContainer position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>

@@ -17,6 +17,7 @@ export const EditorSlice = createSlice({
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
+    loginToSaveModalShowing: false,
     renameFileModalShowing: false,
     modals: {},
   },
@@ -108,6 +109,12 @@ export const EditorSlice = createSlice({
     closeBetaModal: (state) => {
       state.betaModalShowing = false
     },
+    showLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = true
+    },
+    closeLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = false
+    },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
@@ -143,6 +150,8 @@ export const {
   updateProjectName,
   showBetaModal,
   closeBetaModal,
+  showLoginToSaveModal,
+  closeLoginToSaveModal,
   showRenameFileModal,
   closeRenameFileModal,
 } = EditorSlice.actions

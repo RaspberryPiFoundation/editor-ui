@@ -2,9 +2,9 @@ import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
-import { SettingsIcon, SquaresIcon } from '../../Icons';
+import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
 import { saveProject, updateProject } from '../../utils/apiCallHandler';
-import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
+import { setProjectLoaded, setProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import { useHistory } from 'react-router-dom';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
@@ -25,24 +25,28 @@ const Header = (props) => {
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    if (!project.identifier) {
-      const response = await saveProject(project, user.access_token)
-
-      if (response.status === 200) {
-        const identifier = response.data.identifier;
-        const project_type = response.data.project_type;
-        dispatch(setProjectLoaded(false));
-        history.push(`/${project_type}/${identifier}`)
-        showSavedMessage()
+    if (user) {
+      if (!project.identifier) {
+        const response = await saveProject(project, user.access_token)
+  
+        if (response.status === 200) {
+          const identifier = response.data.identifier;
+          const project_type = response.data.project_type;
+          dispatch(setProjectLoaded(false));
+          history.push(`/${project_type}/${identifier}`)
+          showSavedMessage()
+        }
       }
-    }
-    else {
-      const response = await updateProject(project, user.access_token)
-
-      if(response.status === 200) {
-        dispatch(setProject(response.data));
-        showSavedMessage()
+      else {
+        const response = await updateProject(project, user.access_token)
+  
+        if(response.status === 200) {
+          dispatch(setProject(response.data));
+          showSavedMessage()
+        }
       }
+    } else {
+      dispatch(showLoginToSaveModal())
     }
   }
 
@@ -57,13 +61,15 @@ const Header = (props) => {
         ) : null }
         { projectLoaded ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { projectLoaded ? <DownloadButton /> : null }
+          { projectLoaded ?
+          <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
+          : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
 
-          {projectLoaded && user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
+          {projectLoaded && !user || (user !== null && (project.user_id === user.profile.user || !project.identifier)) ? (
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>

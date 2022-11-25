@@ -4,7 +4,7 @@ import configureStore from 'redux-mock-store';
 import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import userManager from "../../utils/userManager";
-import Login from "./Login";
+import Login from "./LoginButton";
 
 jest.mock("../../utils/userManager", () => ({
   signinRedirect: jest.fn(),

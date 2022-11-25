@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import { DownloadIcon } from "../../Icons";
 import Button from "../Button/Button";
 
-const DownloadButton = () => {
-
+const DownloadButton = (props) => {
+  const { buttonText, className, Icon } = props
   const { t } = useTranslation()
   const project = useSelector((state) => state.editor.project)
 
@@ -42,10 +42,10 @@ const DownloadButton = () => {
 
   return (
     <Button
-      className='btn--tertiary'
+      className={className}
       onClickHandler={onClickDownload}
-      buttonText={t('header.download')}
-      ButtonIcon={DownloadIcon}
+      buttonText={buttonText}
+      ButtonIcon={Icon}
     />
   )
 }
