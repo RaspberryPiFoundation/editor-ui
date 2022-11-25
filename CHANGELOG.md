@@ -8,10 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Beta banner and modal (#266)
+- Autosave project to database if user logged in and owns project (#270)
+- Autosave project changes to local storage if user not logged in or does not own project (#270)
 
 ## Changed
 
 - Removed file menu for `main.py` (#269)
+- Refactored project saving and loading into redux asynchronous thunks (#270)
 
 ## Fixed
 

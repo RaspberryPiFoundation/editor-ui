@@ -1,10 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
+
+export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
+  const response =  await readProject(projectIdentifier)
+  return response.data
+})
+
+export const saveProject = createAsyncThunk('editor/saveProjectStatus', async (data) => {
+  let response
+  if (!data.project.identifier) {
+    response = await createProject(data.project, data.user.access_token)
+  }
+  else {
+    response = await updateProject(data.project, data.user.access_token)
+  }
+  return { project: response.data, autosave: data.autosave }
+})
 
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
     project: {},
-    projectLoaded: false,
+    projectLoaded: 'idle',
     error: "",
     nameError: "",
     codeRunTriggered: false,
@@ -14,6 +31,8 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
+    saving: 'idle',
+    lastSaveAutosaved: false,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
@@ -43,6 +62,7 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = []
       }
+      state.projectLoaded='success'
     },
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;
@@ -117,6 +137,37 @@ export const EditorSlice = createSlice({
       state.renameFileModalShowing = false
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase(saveProject.pending, (state) => {
+      state.saving = 'pending'
+    })
+    builder.addCase(saveProject.fulfilled, (state, action) => {
+      localStorage.removeItem(state.project.identifier || 'project')
+      state.lastSaveAutosaved = action.payload.autosave
+      state.saving = 'success'
+      if (!state.project.image_list) {
+        state.project.image_list = []
+      }
+
+      if (state.project.identifier!==action.payload.project.identifier) {
+        state.project = action.payload.project
+        state.projectLoaded = 'idle'
+      }
+    })
+    builder.addCase(saveProject.rejected, (state) => {
+      state.saving = 'failed'
+    })
+    builder.addCase(loadProject.pending, (state) => {
+      state.projectLoaded = 'pending'
+    })
+    builder.addCase(loadProject.fulfilled, (state, action) => {
+      state.project = action.payload
+      state.projectLoaded = 'success'
+    })
+    builder.addCase(loadProject.rejected, (state) => {
+      state.projectLoaded = 'failed'
+    })
+  }
 })
 
 // Action creators are generated for each case reducer function

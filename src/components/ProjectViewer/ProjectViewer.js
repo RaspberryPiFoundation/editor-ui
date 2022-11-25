@@ -17,7 +17,7 @@ const ProjectViewer = (props) => {
   }, []);
 
 
-  return projectLoaded === true ? (
+  return projectLoaded === 'success' ? (
     <>
       <div className='main-container'>
         <h1>Shared project</h1>
