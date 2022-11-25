@@ -15,7 +15,7 @@ const ProjectComponentLoader = (props) => {
     }
     dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
-  }, []);
+  }, [code, sense_hat_always_enabled, dispatch]);
 
 
 

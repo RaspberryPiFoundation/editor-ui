@@ -11,7 +11,6 @@ describe("Testing the new file modal", () => {
     let inputBox;
     let saveButton;
     let getByText;
-    let getByRole;
 
     beforeEach(() => {
         const middlewares = []
