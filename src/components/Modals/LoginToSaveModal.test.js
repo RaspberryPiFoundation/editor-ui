@@ -41,7 +41,7 @@ describe('When loginToSaveModalShowing is true', () => {
   })
 })
 
-describe('When loginToSaveModalShowing is true', () => {
+describe('When loginToSaveModalShowing is false', () => {
   beforeEach(() => {
     const initialState = {
       editor: {
@@ -52,7 +52,7 @@ describe('When loginToSaveModalShowing is true', () => {
     render(<Provider store={store}><div id='app'><LoginToSaveModal /></div></Provider>)
   })
 
-  test('Modal rendered', () => {
+  test('Modal not rendered', () => {
     expect(screen.queryByText('loginToSaveModal.heading')).not.toBeInTheDocument()
   })
 })

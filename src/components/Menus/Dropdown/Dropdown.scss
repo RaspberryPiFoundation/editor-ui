@@ -46,6 +46,7 @@
       flex-direction: column;
 
       &__item {
+        box-sizing: border-box;
         color: inherit;
         cursor: pointer;
         font: inherit;
@@ -54,6 +55,7 @@
         padding: var(--spacing-1) var(--spacing-half);
         border-radius: 5px;
         white-space: nowrap;
+        width: 100%;
       }
     }
   }
