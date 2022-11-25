@@ -6,6 +6,7 @@ import DownloadButton from "./DownloadButton";
 import FileSaver from 'file-saver';
 import JSZip from 'jszip'
 import JSZipUtils from 'jszip-utils'
+import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 jest.mock("file-saver")
 jest.mock("jszip")
@@ -43,8 +44,8 @@ describe('Downloading project with name set', () => {
       },
     }
     const store = mockStore(initialState);
-    render(<Provider store={store}><DownloadButton /></Provider>)
-    downloadButton = screen.queryByText('header.download').parentElement
+    render(<Provider store={store}><DownloadButton buttonText='Download'/></Provider>)
+    downloadButton = screen.queryByText('Download').parentElement
   })
   
   test('Download button renders', ()=> {
@@ -91,12 +92,32 @@ describe('Downloading project with no name set', () => {
       },
     }
     const store = mockStore(initialState);
-    render(<Provider store={store}><DownloadButton /></Provider>)
-    downloadButton = screen.queryByText('header.download').parentElement
+    render(<Provider store={store}><DownloadButton buttonText='Download'/></Provider>)
+    downloadButton = screen.queryByText('Download').parentElement
   })
 
   test('Clicking download button creates download with default name', async () => {
     fireEvent.click(downloadButton)
     await waitFor( () => expect(FileSaver.saveAs).toHaveBeenCalledWith(undefined, 'header_download_file_name_default'))
   })
+})
+
+test('If login to save modal open, closes it when download clicked', () => {
+  JSZip.mockClear();
+  const middlewares = []
+  const mockStore = configureStore(middlewares)
+  const initialState = {
+    editor: {
+      project: {
+        components: [],
+        image_list: []
+      },
+      loginToSaveModalShowing: true
+    },
+  }
+  const store = mockStore(initialState);
+  render(<Provider store={store}><DownloadButton buttonText='Download'/></Provider>)
+  const downloadButton = screen.queryByText('Download').parentElement
+  fireEvent.click(downloadButton)
+  expect(store.getActions()).toEqual([closeLoginToSaveModal()])
 })

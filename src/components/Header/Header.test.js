@@ -50,10 +50,6 @@ describe("When logged in and user owns project", () => {
     saveButton = screen.queryByText('header.save')
   })
 
-  test("Save button renders", () => {
-      expect(saveButton).toBeInTheDocument();
-  })
-
   test("Clicking save button sends PUT request to correct endpoint", () => {
     axios.put.mockImplementationOnce(() => Promise.resolve({}))
     fireEvent.click(saveButton)
@@ -128,10 +124,6 @@ describe("When logged in and no project identifier", () => {
     expect(screen.queryByText('header.download')).toBeInTheDocument()
   })
 
-  test("Save button is shown", () => {
-    expect(saveButton).toBeInTheDocument()
-  })
-
   test("Clicking save creates new project", () => {
     const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
     axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project}))
@@ -188,10 +180,6 @@ describe("When logged in and user does not own project", () => {
     expect(screen.queryByText('header.projects')).not.toBeNull();
   })
 
-  test("No save button", () => {
-    expect(screen.queryByText('header.save')).toBeNull()
-  })
-
   test('Download button shown', () => {
     expect(screen.queryByText('header.download')).toBeInTheDocument()
   })
@@ -221,10 +209,6 @@ describe("When not logged in", () => {
       }
     const store = mockStore(initialState);
     render(<Provider store={store}><Header/></Provider>);
-  })
-
-  test("No save button", () =>{
-    expect(screen.queryByText('header.save')).toBeNull();
   })
 
   test("No project gallery link", () => {
