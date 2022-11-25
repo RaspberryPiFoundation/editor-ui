@@ -73,6 +73,14 @@
   }
 }
 
+.modal-content__links {
+  text-align: center;
+  
+  button {
+    text-decoration: underline;
+  }
+}
+
 .modal-overlay {
   z-index: 1000;
   position: fixed;

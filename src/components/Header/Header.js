@@ -69,7 +69,7 @@ const Header = (props) => {
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
 
-          {projectLoaded && !user || (user !== null && (project.user_id === user.profile.user || !project.identifier)) ? (
+          {projectLoaded && (!user || (user !== null && (project.user_id === user.profile.user || !project.identifier))) ? (
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           ) : null }
         </div>
