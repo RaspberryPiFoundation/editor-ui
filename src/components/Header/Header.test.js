@@ -73,7 +73,6 @@ describe("When logged in and user owns project", () => {
 
 describe("When logged in and no project identifier", () => {
   let store;
-  let saveButton;
   const project = {
     components: [],
     image_list: [],
@@ -101,7 +100,6 @@ describe("When logged in and no project identifier", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><Header/></Provider>);
-    saveButton = screen.getByText('header.save')
   })
 
   test('Download button shown', () => {
