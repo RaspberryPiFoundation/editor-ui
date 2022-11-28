@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import Header from "./Header";
-import { saveProject } from "../Editor/EditorSlice";
+import { remixProject, saveProject } from "../Editor/EditorSlice";
 
 jest.mock('axios');
 
@@ -115,28 +115,30 @@ describe("When logged in and no project identifier", () => {
 
 describe("When logged in and user does not own project", () => {
   let store;
+  const project = {
+    name: 'My first project',
+    identifier: "hello-world-project",
+    components: [],
+    image_list: [],
+    user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+  }
+  const user = {
+    access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+    profile: {
+      user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
+    }
+  }
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          name: 'My first project',
-          identifier: "hello-world-project",
-          components: [],
-          image_list: [],
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
+        project: project,
         projectLoaded: 'success',
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
@@ -153,6 +155,15 @@ describe("When logged in and user does not own project", () => {
 
   test('Project name is shown', () => {
     expect(screen.queryByText('My first project')).toBeInTheDocument()
+  })
+
+  test("Clicking save dispatches remixProject with correct parameters", async () => {
+    const remixAction = {type: 'REMIX_PROJECT' }
+    remixProject.mockImplementationOnce(() => (remixAction))
+    const saveButton = screen.getByText('header.save')
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({project, user}))
+    expect(store.getActions()[0]).toEqual(remixAction)
   })
 })
 

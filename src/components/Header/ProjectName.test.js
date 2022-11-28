@@ -1,14 +1,11 @@
 import React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import axios from "axios";
 
 import ProjectName from "./ProjectName";
-import { showRemixedMessage } from '../../utils/Notifications'
-
-jest.mock('axios');
+import { remixProject } from "../Editor/EditorSlice";
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -17,13 +14,16 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-jest.mock('../../utils/Notifications')
+jest.mock('../Editor/EditorSlice', () => {
+  const actual = jest.requireActual('../Editor/EditorSlice')
+  return {
+    ...actual,
+    remixProject: jest.fn()
+  }
+})
 
 describe("When logged in and user owns project", () => {
   let store;
-  let getByRole;
-  let queryByTitle;
-  let queryByRole;
 
   beforeEach(() => {
     const middlewares = []
@@ -46,15 +46,15 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    ({getByRole, queryByRole, queryByTitle} = render(<Provider store={store}><ProjectName/></Provider>));
+    render(<Provider store={store}><ProjectName/></Provider>);
   })
 
   test("Name renders in input box", () => {
-    expect(queryByRole('textbox', {value: "Hello world"})).not.toBeNull()
+    expect(screen.queryByRole('textbox', {value: "Hello world"})).not.toBeNull()
   })
 
   test("Typing in the input box dispatches project update", () => {
-    const textBox = getByRole('textbox');
+    const textBox = screen.getByRole('textbox');
     fireEvent.click(textBox)
     userEvent.type(textBox, '!')
     const expectedActions = [{type: 'editor/updateProjectName', payload: 'Hello world!'}]
@@ -62,81 +62,58 @@ describe("When logged in and user owns project", () => {
   })
 
   test("No remix button", () => {
-    expect(queryByTitle('Remix')).toBeNull();
+    expect(screen.queryByTitle('Remix')).toBeNull();
   })
 })
 
 describe("When logged in and user does not own project", () => {
   let store;
-  let remixButton;
-  let queryByText;
-  let getByTitle;
-  let queryByTitle;
+  const project = {
+    identifier: "hello-world-project",
+    name: 'Hello world',
+    user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+  }
+  const user = {
+    access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+    profile: {
+      user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
+    }
+  }
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          identifier: "hello-world-project",
-          name: 'Hello world',
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
+        project: project,
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
-    ({getByTitle, queryByTitle, queryByText} = render(<Provider store={store}><ProjectName/></Provider>));
+    render(<Provider store={store}><ProjectName/></Provider>);
   })
 
   test("Name renders", () => {
-    expect(queryByText(/Hello world/)).not.toBeNull()
+    expect(screen.queryByText(/Hello world/)).not.toBeNull()
   })
 
   test("Remix button renders", () => {
-    expect(queryByTitle('Remix')).not.toBeNull();
+    expect(screen.queryByTitle('Remix')).not.toBeNull();
   })
 
-  test("Clicking remix button posts to correct remix url", () => {
-    axios.post.mockImplementationOnce(() => Promise.resolve({'data': { 'project': {'identifier': 'remixed-hello-project', 'project_type': 'python'}}}))
-
-    remixButton = getByTitle("Remix").parentElement
+  test("Clicking remix button dispatches remixProject with correct parameters", async () => {
+    const remixAction = {type: 'REMIX_PROJECT' }
+    remixProject.mockImplementationOnce(() => (remixAction))
+    const remixButton = screen.getByTitle("Remix").parentElement
     fireEvent.click(remixButton)
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const projectIdentifier = store.getState()['editor']['project']['identifier']
-    const accessToken = store.getState()['auth']['user']['access_token']
-    expect(axios.post).toHaveBeenCalledWith(
-      `${api_host}/api/projects/${projectIdentifier}/remix`,
-      {
-        "project":
-        {
-          "identifier": "hello-world-project",
-          "name": "Hello world",
-          "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        }
-      },
-      {"headers": {"Accept": "application/json", "Authorization": accessToken}})
-  })
-
-  test('Successful remix shows project remixed message', async () => {
-    axios.post.mockImplementationOnce(() => Promise.resolve({status: 200, data: {}}))
-    remixButton = getByTitle("Remix").parentElement
-    fireEvent.click(remixButton)
-    await waitFor(() => expect(showRemixedMessage).toHaveBeenCalled())
+    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({project, user}))
+    expect(store.getActions()[0]).toEqual(remixAction)
   })
 })
 
 describe("When not logged in", () => {
-  let queryByText;
-  let queryByTitle;
 
   beforeEach(() => {
     const middlewares = []
@@ -153,20 +130,19 @@ describe("When not logged in", () => {
         }
       }
     const store = mockStore(initialState);
-    ({queryByTitle, queryByText} = render(<Provider store={store}><ProjectName/></Provider>));
+    render(<Provider store={store}><ProjectName/></Provider>);
   })
 
   test("Name renders", () => {
-    expect(queryByText(/Hello world/)).not.toBeNull()
+    expect(screen.queryByText(/Hello world/)).not.toBeNull()
   })
 
   test("No remix button", () => {
-    expect(queryByTitle('Remix')).toBeNull();
+    expect(screen.queryByTitle('Remix')).toBeNull();
   })
 })
 
 describe("When project has no identifier", () => {
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
@@ -180,10 +156,10 @@ describe("When project has no identifier", () => {
         auth: {}
       }
     const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><ProjectName/></Provider>));
+    render(<Provider store={store}><ProjectName/></Provider>);
   })
 
   test("Renders title as Untitled project", () => {
-    expect(queryByText('Untitled project')).not.toBeNull()
+    expect(screen.queryByText('Untitled project')).not.toBeNull()
   })
 })
