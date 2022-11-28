@@ -3,7 +3,7 @@ import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
 import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
-import { saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
+import { remixProject, saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
@@ -23,6 +23,7 @@ const Header = (props) => {
       dispatch(saveProject({project: project, user: user, autosave: false}))
     } else if (user) {
       console.log('remixing....')
+      dispatch(remixProject({project: project, user: user}))
     } else {
       dispatch(showLoginToSaveModal())
     }

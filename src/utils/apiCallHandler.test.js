@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getImage, newProject, readProject, remixProject, updateProject, uploadImages } from "./apiCallHandler";
+import { getImage, newProject, readProject, createRemix, updateProject, uploadImages } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -25,7 +25,7 @@ describe("Testing project API calls", () => {
       Promise.resolve({data: remixedProject})
     })
 
-    await remixProject(originalProject, accessToken)
+    await createRemix(originalProject, accessToken)
     expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/${originalProject['identifier']}/remix`), { "project": { "identifier": "original-hello-project", "project_type": "python" } }, authHeaders)
   })
 
