@@ -1,6 +1,8 @@
 import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
+
+import AutosaveStatus from './AutosaveStatus';
 import Button from '../Button/Button';
 import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
 import { remixProject, saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
@@ -39,6 +41,7 @@ const Header = (props) => {
         ) : null }
         { projectLoaded === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
+          { lastSavedTime && lastSaveAutoSaved ? <AutosaveStatus /> : null }
           { projectLoaded === 'success' ?
           <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
           : null }
