@@ -22,6 +22,9 @@ test("Renders with file menu if not for web component", () => {
         project: {
           components: []
         }
+      },
+      auth: {
+        user: null
       }
     }
     const store = mockStore(initialState);
@@ -37,6 +40,9 @@ test("Renders without file menu if for web component", () => {
       project: {
         components: []
       }
+    },
+    auth: {
+      user: null
     }
   }
   const store = mockStore(initialState);

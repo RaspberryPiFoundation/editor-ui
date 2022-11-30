@@ -1,21 +1,18 @@
 import './Project.scss';
 
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector} from 'react-redux'
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import 'react-toastify/dist/ReactToastify.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import 'react-tabs/style/react-tabs.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import EditorPanel from '../EditorPanel/EditorPanel'
-import FilePane from '../../FilePane/FilePane';
-import Output from '../Output/Output';
+import FilePane from '../../FilePane/FilePane'
+import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls';
-
-const isOwner = (user, project) => {
-  return user && user.profile && (user.profile.user === project.user_id)
-}
+import RunnerControls from '../../RunButton/RunnerControls'
+import { isOwner } from '../../../utils/projectHelpers'
 
 const Project = (props) => {
   const dispatch = useDispatch()

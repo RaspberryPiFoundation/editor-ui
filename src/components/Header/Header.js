@@ -11,9 +11,10 @@ import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
+import { isOwner } from '../../utils/projectHelpers'
 
-const Header = (props) => {
-  const { user } = props;
+const Header = () => {
+  const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project);
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
@@ -22,7 +23,7 @@ const Header = (props) => {
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    if (user && (project.user_id === user.profile.user || !project.identifier)) {
+    if (isOwner(user, project)) {
       dispatch(saveProject({project: project, user: user, autosave: false}))
     } else if (user) {
       dispatch(remixProject({project: project, user: user}))
@@ -42,7 +43,7 @@ const Header = (props) => {
         ) : null }
         { projectLoaded === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { lastSavedTime && lastSaveAutoSaved ? <AutosaveStatus /> : null }
+          { lastSavedTime && user ? <AutosaveStatus /> : null }
           { projectLoaded === 'success' ?
           <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
           : null }
@@ -59,10 +60,4 @@ const Header = (props) => {
   )
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.auth.user,
-  };
-}
-
-export default connect(mapStateToProps)(Header);
+export default Header;
