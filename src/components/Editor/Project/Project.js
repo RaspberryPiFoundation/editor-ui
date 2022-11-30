@@ -1,7 +1,7 @@
 import './Project.scss';
 
 import React from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -13,11 +13,37 @@ import Output from '../Output/Output';
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls';
 
+const isOwner = (user, project) => {
+  return user && user.profile && (user.profile.user === project.user_id)
+}
+
 const Project = (props) => {
-  const project = useSelector((state) => state.editor.project);
-  const modals = useSelector((state) => state.editor.modals);
-  const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing);
-  const {forWebComponent} = props;
+  const dispatch = useDispatch()
+  const { forWebComponent } = props;
+  const user = useSelector((state) => state.auth.user)
+  const project = useSelector((state) => state.editor.project)
+  const saving = useSelector((state) => state.editor.saving)
+  const modals = useSelector((state) => state.editor.modals)
+  const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
+  const [timeoutId, setTimeoutId] = useState(null)
+
+  useEffect(() => {
+    if(timeoutId) clearTimeout(timeoutId)
+
+    if (forWebComponent || saving != 'idle') {
+      return
+    }
+
+    const id = setTimeout(async () => {
+      if (isOwner(user, project) && project.identifier) {
+        dispatch(saveProject({project: project, user: user, autosave: true}))
+      } else {
+        localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+      }
+    }, 2000);
+    setTimeoutId(id);
+
+  }, [project, saving, forWebComponent, user, dispatch])
 
   return (
     <div className='proj'>

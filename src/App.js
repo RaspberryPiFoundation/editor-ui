@@ -30,20 +30,20 @@ function App() {
   const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
   const [timeoutId, setTimeoutId] = useState(null);
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  useEffect(() => {
-    if(timeoutId) clearTimeout(timeoutId);
-    const id = setTimeout(async () => {
-      if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
-        dispatch(saveProject({project: project, user: user, autosave: true}))
-      } else if (projectLoaded === 'success') {
-        localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
-      }
-    }, 2000);
-    setTimeoutId(id);
+  // useEffect(() => {
+  //   if(timeoutId) clearTimeout(timeoutId);
+  //   const id = setTimeout(async () => {
+  //     if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
+  //       dispatch(saveProject({project: project, user: user, autosave: true}))
+  //     } else if (projectLoaded === 'success') {
+  //       localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+  //     }
+  //   }, 2000);
+  //   setTimeoutId(id);
 
-  }, [project, user, projectLoaded, dispatch])
+  // }, [project, user, projectLoaded, dispatch])
 
   useEffect(() => {
     if (saving === 'success' && autosaved === false) {

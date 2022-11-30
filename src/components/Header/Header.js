@@ -16,6 +16,7 @@ const Header = (props) => {
   const { user } = props;
   const project = useSelector((state) => state.editor.project);
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
+  const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
   const dispatch = useDispatch();
   const { t } = useTranslation()

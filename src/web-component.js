@@ -56,7 +56,7 @@ class WebComponent extends HTMLElement {
   }
 
   set menuItems(newValue) {
-    // update properties in the web componet via js calls from host app
+    // update properties in the web component via js calls from host app
     // see public/web-component/index.html
     console.log('menu items set')
     this.componentProperties.menuItems = newValue;

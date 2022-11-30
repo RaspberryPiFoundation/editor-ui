@@ -95,6 +95,10 @@ describe('When project has no identifier', () => {
     project: project,
   }
 
+  beforeEach(() => {
+    Date.now = jest.fn(() => 1669808953)
+  })
+
   test('Saving creates new project', async () => {
     const saveThunk = saveProject({project: project, user: user})
     await saveThunk(dispatch, () => initialState)
@@ -114,9 +118,14 @@ describe('When project has no identifier', () => {
     const expectedState = {
       project: returnedProject,
       saving: 'success',
+      lastSavedTime: 1669808953,
       projectLoaded: 'idle'
     }
     expect(reducer(initialState, saveProject.fulfilled({project: returnedProject}))).toEqual(expectedState)
+  })
+
+  test('Autosaving sets autosave state', async () => {
+    const saveThunk = saveProject({project: project, user: user, autosave: true})
   })
 })
 

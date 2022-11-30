@@ -11,24 +11,26 @@ export const remixProject = createAsyncThunk('editor/remixProjectStatus', async 
   return response.data
 })
 
-export const saveProject = createAsyncThunk('editor/saveProjectStatus', async (data) => {
+export const saveProject = createAsyncThunk('editor/saveProject', async ({project, autosave, access_token}) => {
   let response
   if (!data.project.identifier) {
-    response = await createProject(data.project, data.user.access_token)
+    response = await createProject(project, access_token)
   }
   else {
-    response = await updateProject(data.project, data.user.access_token)
+    response = await updateProject(project, access_token)
   }
-  return { project: response.data, autosave: data.autosave }
+  return { project: response.data, autosave }
 })
 
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
     project: {},
-    projectLoaded: 'idle',
+    saving: 'idle',
+    loading: 'idle',
+    loadError: "",
+    saveError: "",
     currentLoadingRequestId: undefined,
-    error: "",
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -37,7 +39,7 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
-    saving: 'idle',
+    autoSaveEnabled: false,
     lastSaveAutosaved: false,
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
@@ -152,19 +154,18 @@ export const EditorSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(saveProject.pending, (state) => {
+    builder.addCase(saveProject.pending, (state, action) => {
       state.saving = 'pending'
+      state.autoSaveEnabled = action.payload.autosave
     })
     builder.addCase(saveProject.fulfilled, (state, action) => {
       localStorage.removeItem(state.project.identifier || 'project')
       state.lastSaveAutosaved = action.payload.autosave
       state.saving = 'success'
       state.lastSavedTime = Date.now()
-      if (!state.project.image_list) {
-        state.project.image_list = []
-      }
+      state.project.image_list = state.project.image_list || []
 
-      if (state.project.identifier!==action.payload.project.identifier) {
+      if (state.project.identifier !== action.payload.project.identifier) {
         state.project = action.payload.project
         state.projectLoaded = 'idle'
       }
