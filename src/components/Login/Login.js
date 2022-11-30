@@ -20,7 +20,6 @@ const Login = (props) => {
   }
 
   const onLogoutButtonClick = async (event) => {
-    console.log('logging user out...')
     event.preventDefault();
     await userManager.removeUser()
     localStorage.clear()
