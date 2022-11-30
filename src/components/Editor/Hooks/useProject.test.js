@@ -30,6 +30,8 @@ const project1 = {
   identifier: 'my-favourite-project',
 }
 
+const accessToken = 'my_access_token'
+
 test("If no identifier and project type is HTML uses default HTML project", () => {
   renderHook(() => useProject('html'))
   expect(setProject).toHaveBeenCalledWith(defaultHtmlProject)
@@ -60,8 +62,8 @@ test("If cached project does not match identifer does not use cached project", a
 
 test("If cached project does not match identifer loads correct uncached project", async () => {
   localStorage.setItem('project', JSON.stringify(cachedProject))
-  renderHook(() => useProject('python', project1.identifier))
-  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: project1.identifier, accessToken: null}))
+  renderHook(() => useProject('python', project1.identifier, accessToken))
+  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: project1.identifier, accessToken}))
 })
 
 test("If cached project does not match identifer clears cached project", () => {
@@ -71,8 +73,8 @@ test("If cached project does not match identifer clears cached project", () => {
 })
 
 test("If no cached project loads uncached project", async () => {
-  renderHook(() => useProject('python', 'hello-world-project'))
-  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: 'hello-world-project', accessToken: null}))
+  renderHook(() => useProject('python', 'hello-world-project', accessToken))
+  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: 'hello-world-project', accessToken}))
 })
 
 afterEach(() => {

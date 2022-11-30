@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useProject } from '../Hooks/useProject'
 import { useEmbeddedMode } from '../Hooks/useEmbeddedMode'
 import Project from '../Project/Project'
