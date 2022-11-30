@@ -6,14 +6,14 @@ export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (d
   return response.data
 })
 
-export const remixProject = createAsyncThunk('editor/remixProjectStatus', async (data) => {
-  const response = await createRemix(data.project, data.user.access_token)
+export const remixProject = createAsyncThunk('editor/remixProjectStatus', async ({project, access_token}) => {
+  const response = await createRemix(project, access_token)
   return response.data
 })
 
 export const saveProject = createAsyncThunk('editor/saveProject', async ({project, autosave, access_token}) => {
   let response
-  if (!data.project.identifier) {
+  if (!project.identifier) {
     response = await createProject(project, access_token)
   }
   else {
