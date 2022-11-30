@@ -4,14 +4,17 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { DownloadIcon } from "../../Icons";
+import { useDispatch, useSelector } from "react-redux";
+
 import Button from "../Button/Button";
+import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
-const DownloadButton = () => {
-
+const DownloadButton = (props) => {
+  const { buttonText, className, Icon } = props
   const { t } = useTranslation()
   const project = useSelector((state) => state.editor.project)
+  const loginToSaveModalShowing = useSelector((state) => state.editor.loginToSaveModalShowing)
+  const dispatch = useDispatch()
 
   const urlToPromise = (url) => {
     return new Promise(function(resolve, reject) {
@@ -26,6 +29,9 @@ const DownloadButton = () => {
   }
 
   const onClickDownload = async () => {
+    if (loginToSaveModalShowing) {
+      dispatch(closeLoginToSaveModal())
+    }
     const zip = new JSZip()
 
     project.components.forEach((file) => {
@@ -42,10 +48,10 @@ const DownloadButton = () => {
 
   return (
     <Button
-      className='btn--tertiary'
+      className={className}
       onClickHandler={onClickDownload}
-      buttonText={t('header.download')}
-      ButtonIcon={DownloadIcon}
+      buttonText={buttonText}
+      ButtonIcon={Icon}
     />
   )
 }

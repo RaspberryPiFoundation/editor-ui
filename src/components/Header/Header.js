@@ -2,9 +2,8 @@ import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
-import { SettingsIcon, SquaresIcon } from '../../Icons';
-import { saveProject } from '../Editor/EditorSlice';
-
+import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
+import { remixProject, saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
@@ -20,7 +19,14 @@ const Header = (props) => {
   const { t } = useTranslation()
 
   const onClickSave = async () => {
-    dispatch(saveProject({project: project, user: user, autosave: false}))
+    if (user && (project.user_id === user.profile.user || !project.identifier)) {
+      dispatch(saveProject({project: project, user: user, autosave: false}))
+    } else if (user) {
+      console.log('remixing....')
+      dispatch(remixProject({project: project, user: user}))
+    } else {
+      dispatch(showLoginToSaveModal())
+    }
   }
 
   return (
@@ -34,15 +40,16 @@ const Header = (props) => {
         ) : null }
         { projectLoaded === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { projectLoaded === 'success' ? <DownloadButton /> : null }
+          { projectLoaded === 'success' ?
+          <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
+          : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
-
-          {projectLoaded === 'success' && user !== null && (project.user_id === user.profile.user || !project.identifier) ? (
+          {projectLoaded === 'success' ?
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
-          ) : null }
+          : null }
         </div>
       </header>
     </div>

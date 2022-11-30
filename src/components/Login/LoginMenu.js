@@ -1,7 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import Login from "./Login";
+import LogoutButton from "./LogoutButton";
+import LoginButton from "./LoginButton";
 import './LoginMenu.scss'
 
 const LoginMenu = () => {
@@ -15,10 +16,11 @@ const LoginMenu = () => {
       <>
         <a className='dropdown-container--list__item' href={`${user.profile.profile}/edit`}>{t('globalNav.accountMenu.profile')}</a>
         <a className='dropdown-container--list__item' href='/projects'>{t('globalNav.accountMenu.projects')}</a>
+        <LogoutButton className='btn--tertiary dropdown-container--list__item' />
       </>
-      : null
+      :
+      <LoginButton buttonText={t('globalNav.accountMenu.login')} className='btn--tertiary dropdown-container--list__item'/>
     }
-      <Login className='dropdown-container--list__item'/>
     </div>
   ) 
 }

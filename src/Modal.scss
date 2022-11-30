@@ -41,19 +41,19 @@
 
 .modal-content__heading {
   margin-top: var(--spacing-half);
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
   font-size: var(--font-size-u-2)
 }
 
 .modal-content__subheading {
-  margin: var(--spacing-2) 0 var(--spacing-1) 0;
+  margin: var(--spacing-1) 0 0 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
 
 .modal-content__text {
   line-height: var(--line-height-regular);
-  margin: 0
+  margin: var(--spacing-1) 0
 }
 
 .modal-content__buttons {
@@ -70,6 +70,15 @@
     span {
       width: 100%;
     }
+  }
+}
+
+.modal-content__links {
+  text-align: center;
+  margin: var(--spacing-1) 0 var(--spacing-half) 0;
+  
+  button {
+    text-decoration: underline;
   }
 }
 

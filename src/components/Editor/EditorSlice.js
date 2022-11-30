@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
+import { createProject, readProject, createRemix, updateProject } from '../../utils/apiCallHandler';
 
 export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
   const response =  await readProject(projectIdentifier)
+  return response.data
+})
+
+export const remixProject = createAsyncThunk('editor/remixProjectStatus', async (data) => {
+  const response = await createRemix(data.project, data.user.access_token)
   return response.data
 })
 
@@ -36,6 +41,7 @@ export const EditorSlice = createSlice({
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
+    loginToSaveModalShowing: false,
     renameFileModalShowing: false,
     modals: {},
   },
@@ -128,6 +134,12 @@ export const EditorSlice = createSlice({
     closeBetaModal: (state) => {
       state.betaModalShowing = false
     },
+    showLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = true
+    },
+    closeLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = false
+    },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
@@ -159,6 +171,12 @@ export const EditorSlice = createSlice({
     })
     builder.addCase(loadProject.pending, (state) => {
       state.projectLoaded = 'pending'
+    })
+    builder.addCase(remixProject.fulfilled, (state, action) => {
+      state.lastSaveAutosaved = false
+      state.saving = 'success'
+      state.project = action.payload
+      state.projectLoaded = 'idle'
     })
     builder.addCase(loadProject.fulfilled, (state, action) => {
       state.project = action.payload
@@ -194,6 +212,8 @@ export const {
   updateProjectName,
   showBetaModal,
   closeBetaModal,
+  showLoginToSaveModal,
+  closeLoginToSaveModal,
   showRenameFileModal,
   closeRenameFileModal,
 } = EditorSlice.actions
