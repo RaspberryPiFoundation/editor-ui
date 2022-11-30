@@ -131,6 +131,8 @@ i18n
             visualOutput: 'Visual Output',
           },
           project: {
+            loading: 'Loading',
+            notFound: 'Oops we couldn\'t find that project',
             untitled: 'Untitled project'
           },
           runButton: {

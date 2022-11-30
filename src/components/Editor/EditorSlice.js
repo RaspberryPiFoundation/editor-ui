@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
 
-export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
-  const response =  await readProject(projectIdentifier)
+export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (data) => {
+  console.log(`loading project ${data.projectIdentifier} with access token ${data.accessToken}`)
+  const response =  await readProject(data.projectIdentifier, data.accessToken)
   return response.data
 })
 
@@ -165,6 +166,7 @@ export const EditorSlice = createSlice({
       state.projectLoaded = 'success'
     })
     builder.addCase(loadProject.rejected, (state) => {
+      if (state.projectLoaded === 'pending')
       state.projectLoaded = 'failed'
     })
   }

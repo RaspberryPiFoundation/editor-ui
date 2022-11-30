@@ -11,6 +11,7 @@ import RunnerControls from '../RunButton/RunnerControls';
 const EmbeddedViewer = (props) => {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded);
   const projectIdentifier = props.match.params.identifier;
+
   useProject('python', projectIdentifier);
   useEmbeddedMode(true);
 

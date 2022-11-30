@@ -1,12 +1,13 @@
 import React from 'react';
 import userManager from '../../utils/userManager'
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 const Login = (props) => {
   const { className } = props;
   const location = useLocation()
+  const history = useHistory()
   const { t } = useTranslation()
   const project = useSelector((state) => state.editor.project)
   const user = useSelector((state) => state.auth.user)
@@ -18,9 +19,12 @@ const Login = (props) => {
     userManager.signinRedirect();
   }
 
-  const onLogoutButtonClick = (event) => {
+  const onLogoutButtonClick = async (event) => {
+    console.log('logging user out...')
     event.preventDefault();
-    userManager.removeUser()
+    await userManager.removeUser()
+    localStorage.clear()
+    history.push('/')
   }
 
   return (user === null ? (
