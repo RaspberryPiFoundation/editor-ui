@@ -17,7 +17,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Removed file menu for `main.py` (#269)
 - Refactored project saving (#270), loading (#270) and remixing (#276) into redux asynchronous thunks
 - Creates remix if save button clicked when logged-in user does not own project (#276)
-- Allow users to view only their own projects and RPF starters and examples (#280)
+- Send user access token with requests to load a project from the API (#280)
+- Redirect users to the home page when they log out (#280)
+- Trigger project reloading when the user changes (#280)
 
 ## Fixed
 
