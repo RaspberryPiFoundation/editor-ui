@@ -9,9 +9,9 @@ const LogoutButton = (props) => {
   const { t } = useTranslation()
   const history = useHistory()
 
-  const onLogoutButtonClick = (event) => {
+  const onLogoutButtonClick = async (event) => {
     event.preventDefault();
-    userManager.removeUser()
+    await userManager.removeUser()
     localStorage.clear()
     history.push('/')
   }
