@@ -99,6 +99,14 @@ i18n
               },
             },
           },
+          loginToSaveModal: {
+            cancel: 'Cancel',
+            downloadButtonText: 'Download',
+            downloadText: 'Or you can download your project and save it on your computer.',
+            heading: 'Save your project',
+            loginButtonText: 'Log in to save',
+            loginText: 'Log in to your Raspberry Pi account to save your work, and you\'ll be able to access and edit your project whenever you need to.'
+          },
           notifications: {
             projectRemixed: 'Your remixed project has been saved',
             projectSaved: 'Your project has been saved'

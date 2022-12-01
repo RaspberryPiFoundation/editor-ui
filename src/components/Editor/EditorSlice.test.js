@@ -1,15 +1,17 @@
-import { createProject, readProject, updateProject } from '../../utils/apiCallHandler';
+import { createProject, createRemix, readProject, updateProject } from '../../utils/apiCallHandler';
 
 import reducer, {
   loadProject,
   stopCodeRun,
   showRenameFileModal,
   closeRenameFileModal,
-  saveProject
+  saveProject,
+  remixProject
 } from "./EditorSlice";
 
 jest.mock('../../utils/apiCallHandler', () => ({
   createProject: jest.fn(),
+  createRemix: jest.fn(),
   readProject: jest.fn(),
   updateProject: jest.fn()
 }))
@@ -163,6 +165,30 @@ describe('When project has an identifier', () => {
       saving: 'success'
     }
     expect(reducer(initialState, saveProject.fulfilled({project: project}))).toEqual(expectedState)
+  })
+
+  test('Remixing triggers createRemix API call', async () => {
+    const remixThunk = remixProject({project: project, user: user})
+    await remixThunk(dispatch, () => initialState)
+    expect(createRemix).toHaveBeenCalledWith(project, user.access_token)
+  })
+
+  test('Successfully remixing project triggers fulfilled action', async () => {
+    createRemix.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    const remixThunk = remixProject({project: project, user: user})
+    await remixThunk(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/remixProjectStatus/fulfilled')
+  })
+
+  test('The remixProject/fulfilled action sets saving, projectLoaded and lastSaveAutosaved', async () => {
+
+    const expectedState = {
+      project: project,
+      saving: 'success',
+      projectLoaded: 'idle',
+      lastSaveAutosaved: false
+    }
+    expect(reducer(initialState, remixProject.fulfilled(project))).toEqual(expectedState)
   })
 })
 

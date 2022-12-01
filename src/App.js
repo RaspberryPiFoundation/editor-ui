@@ -15,6 +15,7 @@ import Footer from './components/Footer/Footer';
 import { saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
+import LoginToSaveModal from './components/Modals/LoginToSaveModal';
 import { showSavedMessage } from './utils/Notifications';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Routes />
           { isEmbedded ? null : <Footer/> }
           <BetaModal/>
+          <LoginToSaveModal/>
         </BrowserRouter>
         <ToastContainer position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
