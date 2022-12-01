@@ -13,7 +13,11 @@
     &__right {
       margin-left: auto;
       display: flex;
-      height: 100%
+      height: 100%;
+      
+      .btn {
+        padding: 0 var(--spacing-2)
+      }
     }
 
     .project-gallery-link {
@@ -32,10 +36,6 @@
       svg {
         margin-right: var(--spacing-1)
       }
-    }
-
-    .btn {
-      padding: 0 var(--spacing-2)
     }
 
     .btn--save {
