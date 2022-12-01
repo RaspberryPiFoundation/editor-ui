@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { loadProject, setProject } from '../EditorSlice'
 import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects';
 
-export const useProject = (projectType, projectIdentifier = '') => {
+export const useProject = (projectType, projectIdentifier = null, accessToken = null) => {
   const dispatch = useDispatch();
 
   const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
@@ -22,7 +22,7 @@ export const useProject = (projectType, projectIdentifier = '') => {
     }
 
     if (projectIdentifier) {
-      dispatch(loadProject(projectIdentifier));
+      dispatch(loadProject({projectIdentifier, accessToken}));
       return;
     }
 
@@ -34,6 +34,5 @@ export const useProject = (projectType, projectIdentifier = '') => {
     }
 
     dispatch(setProject(data));
-  }, [projectIdentifier]);
+  }, [projectIdentifier, accessToken]);
 };
-

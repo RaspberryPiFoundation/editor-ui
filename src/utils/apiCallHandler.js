@@ -44,8 +44,8 @@ export const createRemix = async (project, accessToken) => {
   return await post(`${host}/api/projects/${project.identifier}/remix`, { project: project}, headers(accessToken));
 }
 
-export const readProject = async (projectIdentifier) => {
-  return await get(`${host}/api/projects/${projectIdentifier}`, headers());
+export const readProject = async (projectIdentifier, accessToken) => {
+  return await get(`${host}/api/projects/${projectIdentifier}`, headers(accessToken));
 }
 
 export const readProjectList = async (accessToken) => {

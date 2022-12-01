@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createProject, readProject, createRemix, updateProject } from '../../utils/apiCallHandler';
 
-export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (projectIdentifier) => {
-  const response =  await readProject(projectIdentifier)
+export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (data) => {
+  const response =  await readProject(data.projectIdentifier, data.accessToken)
   return response.data
 })
 
@@ -27,6 +27,7 @@ export const EditorSlice = createSlice({
   initialState: {
     project: {},
     projectLoaded: 'idle',
+    currentLoadingRequestId: undefined,
     error: "",
     nameError: "",
     codeRunTriggered: false,
@@ -169,8 +170,9 @@ export const EditorSlice = createSlice({
     builder.addCase(saveProject.rejected, (state) => {
       state.saving = 'failed'
     })
-    builder.addCase(loadProject.pending, (state) => {
+    builder.addCase(loadProject.pending, (state, action) => {
       state.projectLoaded = 'pending'
+      state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase(remixProject.fulfilled, (state, action) => {
       state.lastSaveAutosaved = false
@@ -179,11 +181,17 @@ export const EditorSlice = createSlice({
       state.projectLoaded = 'idle'
     })
     builder.addCase(loadProject.fulfilled, (state, action) => {
-      state.project = action.payload
-      state.projectLoaded = 'success'
+      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.project = action.payload
+        state.projectLoaded = 'success'
+        state.currentLoadingRequestId = undefined
+      }
     })
-    builder.addCase(loadProject.rejected, (state) => {
-      state.projectLoaded = 'failed'
+    builder.addCase(loadProject.rejected, (state, action) => {
+      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.projectLoaded = 'failed'
+        state.currentLoadingRequestId = undefined
+      }
     })
   }
 })

@@ -6,7 +6,8 @@ export const defaultPythonProject = {
   components: [
     { extension: 'py', name: 'main',
       content: "", index: 0, default: true },
-  ]
+  ],
+  image_list: []
 }
 
 export const defaultHtmlProject = {

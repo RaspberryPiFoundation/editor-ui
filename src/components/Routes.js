@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom'
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import NewProject from './NewProject/NewProject'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
-import ProjectViewer from './ProjectViewer/ProjectViewer'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
@@ -50,11 +49,6 @@ const Routes = () => (
       exact
       path="/embedded/:projectType/:identifier"
       render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
-    />
-    <Route
-      exact
-      path="/python/share/:identifier"
-      component={ProjectViewer}
     />
     <Route
       exact

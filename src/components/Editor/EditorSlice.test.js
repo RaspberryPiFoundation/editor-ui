@@ -1,6 +1,7 @@
-import { createProject, createRemix, updateProject } from '../../utils/apiCallHandler';
+import { createProject, createRemix, readProject, updateProject } from '../../utils/apiCallHandler';
 
 import reducer, {
+  loadProject,
   stopCodeRun,
   showRenameFileModal,
   closeRenameFileModal,
@@ -11,6 +12,7 @@ import reducer, {
 jest.mock('../../utils/apiCallHandler', () => ({
   createProject: jest.fn(),
   createRemix: jest.fn(),
+  readProject: jest.fn(),
   updateProject: jest.fn()
 }))
 
@@ -187,5 +189,88 @@ describe('When project has an identifier', () => {
       lastSaveAutosaved: false
     }
     expect(reducer(initialState, remixProject.fulfilled(project))).toEqual(expectedState)
+  })
+})
+
+describe('When requesting a project', () => {
+  const dispatch = jest.fn()
+  const project = {
+    name: 'hello world',
+    project_type: 'python',
+    identifier: 'my-project-identifier',
+    components: [
+      {
+        name: 'main',
+        extension: 'py',
+        content: '# hello'
+      }
+    ],
+    image_list: []
+  }
+  var fulfilledAction = loadProject.fulfilled(project)
+  fulfilledAction.meta.requestId='my_request_id'
+
+  var rejectedAction = loadProject.rejected()
+  rejectedAction.meta.requestId='my_request_id'
+
+  test('Reads project from database', async () => {
+    const loadThunk = loadProject({projectIdentifier: 'my-project-identifier', accessToken: 'my_token'})
+    await loadThunk(dispatch, () => {})
+    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
+  })
+
+  test('If loading status pending, loading success updates status', () => {
+    const initialState = {
+      projectLoaded: 'pending',
+      currentLoadingRequestId: 'my_request_id'
+    }
+    const expectedState = {
+      projectLoaded: 'success',
+      project: project,
+      currentLoadingRequestId: undefined
+    }
+    expect(reducer(initialState, fulfilledAction)).toEqual(expectedState)
+  })
+
+  test('If not latest request, loading success does not update status', () => {
+    const initialState = {
+      projectLoaded: 'pending',
+      currentLoadingRequestId: 'another_request_id'
+    }
+    expect(reducer(initialState, fulfilledAction)).toEqual(initialState)
+  })
+
+  test('If already rejected, loading success does not update status', () => {
+    const initialState = {
+      projectLoaded: 'failed'
+    }
+    expect(reducer(initialState, loadProject.fulfilled())).toEqual(initialState)
+  })
+
+  test('If loading status pending, loading failure updates status', () => {
+    const initialState = {
+      projectLoaded: 'pending',
+      currentLoadingRequestId: 'my_request_id'
+    }
+    const expectedState = {
+      projectLoaded: 'failed',
+      currentLoadingRequestId: undefined
+    }
+    expect(reducer(initialState, rejectedAction)).toEqual(expectedState)
+  })
+
+  test('If not latest request, loading failure does not update status', () => {
+    const initialState = {
+      projectLoaded: 'pending',
+      currentLoadingRequestId: 'another_request_id'
+    }
+    expect(reducer(initialState, rejectedAction)).toEqual(initialState)
+  })
+
+  test('If already fulfilled, loading rejection does not update status', () => {
+    const initialState = {
+      projectLoaded: 'success'
+    }
+    expect(reducer(initialState, loadProject.rejected())).toEqual(initialState)
   })
 })
