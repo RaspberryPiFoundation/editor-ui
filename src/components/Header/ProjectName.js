@@ -29,12 +29,10 @@ const ProjectName = () => {
   }
 
   const handleKeyDown = (event) => {
-    console.log('user pressed ', event.key)
     if (event.key === 'Enter') {
       event.preventDefault()
       nameInput.current.blur()
     } else if (event.key === 'Escape') {
-      console.log('detected escape key press...')
       event.preventDefault()
       setEditable(false)
     }
