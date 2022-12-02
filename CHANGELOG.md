@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Autosave project to database if user logged in and owns project (#270)
 - Autosave project changes to local storage if user not logged in or does not own project (#270)
 - Modal to prompt login or download if save button clicked when not logged in (#276)
+- Ability to rename any project (#284)
 
 ## Changed
 
@@ -20,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Send user access token with requests to load a project from the API (#280)
 - Redirect users to the home page when they log out (#280)
 - Trigger project reloading when the user changes (#280)
+- Removed remix functionality from project name (#284)
+- Flow for renaming the project (#284)
 
 ## Fixed
 
