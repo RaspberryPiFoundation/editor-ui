@@ -22,7 +22,6 @@ const Header = (props) => {
     if (user && (project.user_id === user.profile.user || !project.identifier)) {
       dispatch(saveProject({project: project, user: user, autosave: false}))
     } else if (user) {
-      console.log('remixing....')
       dispatch(remixProject({project: project, user: user}))
     } else {
       dispatch(showLoginToSaveModal())
