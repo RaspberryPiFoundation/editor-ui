@@ -30,6 +30,8 @@
 
 .project-name__input {
   border-radius: 5px;
+  background-color: inherit;
+  color: inherit;
 
   &:focus-visible {
     border: none;
