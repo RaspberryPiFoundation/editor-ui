@@ -16,11 +16,11 @@ const ProjectListItem = (props) => {
   return (
     <div>
       {project.name || 'Unnamed project'}
-      <a className='btn' href={`/${project.project_type}/${project.identifier}`}>
+      <a className='btn btn--primary' href={`/${project.project_type}/${project.identifier}`}>
         Open Project
       </a>
 
-      <Button onClickHandler={onClickDelete} buttonText='Delete Project' confirmText='Are you sure you want to delete the project?' />
+      <Button className='btn--primary' onClickHandler={onClickDelete} buttonText='Delete Project' confirmText='Are you sure you want to delete the project?' />
 
     </div>
   );

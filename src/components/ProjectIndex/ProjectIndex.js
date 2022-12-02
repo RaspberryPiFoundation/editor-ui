@@ -27,7 +27,7 @@ const ProjectIndex = (props) => {
   return projectListLoaded === true ? (
     <div className='main-container'>
       <div>
-        <Button onClickHandler={onCreateProject} buttonText="Create Project" />
+        <Button className='btn--primary' onClickHandler={onCreateProject} buttonText="Create Project" />
       </div>
       { projectList.map((project, i) => (
           <ProjectListItem project={project} user={user} key={i}/>

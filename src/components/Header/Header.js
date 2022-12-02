@@ -2,7 +2,7 @@ import './Header.scss'
 import { useSelector, connect, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import Button from '../Button/Button';
-import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
+import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
 import { remixProject, saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
@@ -34,7 +34,7 @@ const Header = (props) => {
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
-            {<><SquaresIcon />
+            {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
         { projectLoaded === 'success' ? <ProjectName /> : null }
@@ -47,7 +47,7 @@ const Header = (props) => {
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
           {projectLoaded === 'success' ?
-            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
+            <Button className='btn--primary btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           : null }
         </div>
       </header>

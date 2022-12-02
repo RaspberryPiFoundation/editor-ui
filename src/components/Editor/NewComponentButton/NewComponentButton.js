@@ -41,7 +41,7 @@ const NewComponentButton = () => {
 
     return (
       <div className={`--${theme}`}>
-        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="proj-new-component-button" />
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="btn--primary proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
@@ -64,7 +64,7 @@ const NewComponentButton = () => {
           <input type='text' name='name' id='name'></input>
           <div className='modal-content__buttons'>
             <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
-            <Button buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
+            <Button className='btn--primary' buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
           </div>
 
         </Modal>
