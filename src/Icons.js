@@ -43,9 +43,10 @@ export const EllipsisVerticalIcon = () => {
   )
 }
 
-export const FileIcon = () => {
+export const FileIcon = (props) => {
+  const {scaleFactor} = props
   const [cookies] = useCookies(['fontSize'])
-  const scale = fontScaleFactors[cookies.fontSize] || 1
+  const scale = (fontScaleFactors[cookies.fontSize] || 1) * (scaleFactor || 1)
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0 20V0H10L16 6V20H0ZM9 7V2H2V18H14V7H9ZM2 2V7V2V18V2Z"/>

@@ -39,8 +39,8 @@ i18n
               or: 'or',
               unsupportedExtension: 'File names must end in {{allowedExtensions}}.'
             },
-            files: 'Project Files',
-            images: 'Image Gallery',
+            files: 'Project files',
+            images: 'Image gallery',
             newFileButton: 'Add file',
             newFileModal: {
               cancel: 'Cancel',
@@ -81,7 +81,7 @@ i18n
             downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
             newProject: 'New Project',
-            projects: 'My Projects',
+            projects: 'Your projects',
             save: 'Save',
             settings: 'Settings',
             settingsMenu: {
