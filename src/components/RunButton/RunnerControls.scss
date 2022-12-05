@@ -8,10 +8,6 @@
   button {
     display: flex;
     align-items: center;
-
-    svg {
-      min-width: 0;
-    }
   }
 }
 
@@ -20,6 +16,9 @@
   background-color: $editor-black;
   &:hover {
     background-color: $editor-black;
+  }
+  svg {
+    fill: $editor-white;
   }
 }
 
