@@ -16,7 +16,7 @@ import { isOwner } from '../../utils/projectHelpers'
 const Header = () => {
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project);
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded)
+  const loading = useSelector((state) => state.editor.loading)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
   const dispatch = useDispatch();
@@ -41,17 +41,17 @@ const Header = () => {
             {<><SquaresIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
-        { projectLoaded === 'success' ? <ProjectName /> : null }
+        { loading === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <AutosaveStatus /> : null }
-          { projectLoaded === 'success' ?
+          { loading === 'success' ?
           <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
           : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
-          {projectLoaded === 'success' ?
+          {loading === 'success' ?
             <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           : null }
         </div>

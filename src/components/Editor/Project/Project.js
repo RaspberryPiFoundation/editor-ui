@@ -12,6 +12,7 @@ import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
+import { saveProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 
 const Project = (props) => {
@@ -27,7 +28,7 @@ const Project = (props) => {
   useEffect(() => {
     if(timeoutId) clearTimeout(timeoutId)
 
-    if (forWebComponent || saving != 'idle') {
+    if (forWebComponent || saving !== 'idle') {
       return
     }
 

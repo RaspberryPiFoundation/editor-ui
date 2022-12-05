@@ -236,7 +236,7 @@ test('Successful manual save prompts project saved message', async () => {
     const initialState = {
       editor: {
         saving: 'success',
-        lastSaveAutosaved: false
+        lastSaveAutosave: false
       },
       auth: {}
     }

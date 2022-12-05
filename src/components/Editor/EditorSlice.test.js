@@ -115,7 +115,7 @@ describe('When project has no identifier', () => {
       project: returnedProject,
       saving: 'success',
       lastSavedTime: 1669808953,
-      projectLoaded: 'idle'
+      loading: 'idle'
     }
     expect(reducer(initialState, saveProject.fulfilled({project: returnedProject}))).toEqual(expectedState)
   })
@@ -180,13 +180,13 @@ describe('When project has an identifier', () => {
     expect(dispatch.mock.calls[1][0].type).toBe('editor/remixProjectStatus/fulfilled')
   })
 
-  test('The remixProject/fulfilled action sets saving, projectLoaded and lastSaveAutosaved', async () => {
+  test('The remixProject/fulfilled action sets saving, loading and lastSaveAutosave', async () => {
 
     const expectedState = {
       project: project,
       saving: 'success',
-      projectLoaded: 'idle',
-      lastSaveAutosaved: false
+      loading: 'idle',
+      lastSaveAutosave: false
     }
     expect(reducer(initialState, remixProject.fulfilled(project))).toEqual(expectedState)
   })
@@ -221,11 +221,11 @@ describe('When requesting a project', () => {
 
   test('If loading status pending, loading success updates status', () => {
     const initialState = {
-      projectLoaded: 'pending',
+      loading: 'pending',
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
-      projectLoaded: 'success',
+      loading: 'success',
       project: project,
       currentLoadingRequestId: undefined
     }
@@ -234,7 +234,7 @@ describe('When requesting a project', () => {
 
   test('If not latest request, loading success does not update status', () => {
     const initialState = {
-      projectLoaded: 'pending',
+      loading: 'pending',
       currentLoadingRequestId: 'another_request_id'
     }
     expect(reducer(initialState, fulfilledAction)).toEqual(initialState)
@@ -242,18 +242,18 @@ describe('When requesting a project', () => {
 
   test('If already rejected, loading success does not update status', () => {
     const initialState = {
-      projectLoaded: 'failed'
+      loading: 'failed'
     }
     expect(reducer(initialState, loadProject.fulfilled())).toEqual(initialState)
   })
 
   test('If loading status pending, loading failure updates status', () => {
     const initialState = {
-      projectLoaded: 'pending',
+      loading: 'pending',
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
-      projectLoaded: 'failed',
+      loading: 'failed',
       currentLoadingRequestId: undefined
     }
     expect(reducer(initialState, rejectedAction)).toEqual(expectedState)
@@ -261,7 +261,7 @@ describe('When requesting a project', () => {
 
   test('If not latest request, loading failure does not update status', () => {
     const initialState = {
-      projectLoaded: 'pending',
+      loading: 'pending',
       currentLoadingRequestId: 'another_request_id'
     }
     expect(reducer(initialState, rejectedAction)).toEqual(initialState)
@@ -269,7 +269,7 @@ describe('When requesting a project', () => {
 
   test('If already fulfilled, loading rejection does not update status', () => {
     const initialState = {
-      projectLoaded: 'success'
+      loading: 'success'
     }
     expect(reducer(initialState, loadProject.rejected())).toEqual(initialState)
   })

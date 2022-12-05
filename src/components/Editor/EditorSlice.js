@@ -40,7 +40,7 @@ export const EditorSlice = createSlice({
     projectList: [],
     projectListLoaded: false,
     autoSaveEnabled: false,
-    lastSaveAutosaved: false,
+    lastSaveAutosave: false,
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
@@ -72,10 +72,10 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = []
       }
-      state.projectLoaded='success'
+      state.loading='success'
     },
     setProjectLoaded: (state, action) => {
-      state.projectLoaded = action.payload;
+      state.loading = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -160,39 +160,39 @@ export const EditorSlice = createSlice({
     })
     builder.addCase(saveProject.fulfilled, (state, action) => {
       localStorage.removeItem(state.project.identifier || 'project')
-      state.lastSaveAutosaved = action.payload.autosave
+      state.lastSaveAutosave = action.payload.autosave
       state.saving = 'success'
       state.lastSavedTime = Date.now()
       state.project.image_list = state.project.image_list || []
 
       if (state.project.identifier !== action.payload.project.identifier) {
         state.project = action.payload.project
-        state.projectLoaded = 'idle'
+        state.loading = 'idle'
       }
     })
     builder.addCase(saveProject.rejected, (state) => {
       state.saving = 'failed'
     })
     builder.addCase(loadProject.pending, (state, action) => {
-      state.projectLoaded = 'pending'
+      state.loading = 'pending'
       state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase(remixProject.fulfilled, (state, action) => {
-      state.lastSaveAutosaved = false
+      state.lastSaveAutosave = false
       state.saving = 'success'
       state.project = action.payload
-      state.projectLoaded = 'idle'
+      state.loading = 'idle'
     })
     builder.addCase(loadProject.fulfilled, (state, action) => {
-      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload
-        state.projectLoaded = 'success'
+        state.loading = 'success'
         state.currentLoadingRequestId = undefined
       }
     })
     builder.addCase(loadProject.rejected, (state, action) => {
-      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
-        state.projectLoaded = 'failed'
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.loading = 'failed'
         state.currentLoadingRequestId = undefined
       }
     })

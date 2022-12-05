@@ -45,7 +45,7 @@ describe("When logged in and user owns project", () => {
     const initialState = {
       editor: {
         project: project,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -87,7 +87,7 @@ describe("When logged in and no project identifier", () => {
     const initialState = {
       editor: {
         project: project_without_id,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -125,7 +125,7 @@ describe("When logged in and user does not own project", () => {
     const initialState = {
       editor: {
         project: another_project,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -154,7 +154,7 @@ describe("When not logged in", () => {
     const initialState = {
         editor: {
           project: project,
-          projectLoaded: 'success',
+          loading: 'success',
         },
         auth: {
           user: null
@@ -191,7 +191,7 @@ describe('When no project loaded', () => {
     const initialState = {
         editor: {
           project: {},
-          projectLoaded: 'idle',
+          loading: 'idle',
         },
         auth: {
           user: user

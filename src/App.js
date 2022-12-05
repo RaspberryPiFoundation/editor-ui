@@ -23,33 +23,14 @@ function App() {
   const [cookies] = useCookies(['theme', 'fontSize'])
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
 
-  const project = useSelector((state) => state.editor.project)
-  const user = useSelector((state) => state.auth.user)
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded)
   const saving = useSelector((state) => state.editor.saving)
-  const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
-  const [timeoutId, setTimeoutId] = useState(null);
-
-  // const dispatch = useDispatch()
-
-  // useEffect(() => {
-  //   if(timeoutId) clearTimeout(timeoutId);
-  //   const id = setTimeout(async () => {
-  //     if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
-  //       dispatch(saveProject({project: project, user: user, autosave: true}))
-  //     } else if (projectLoaded === 'success') {
-  //       localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
-  //     }
-  //   }, 2000);
-  //   setTimeoutId(id);
-
-  // }, [project, user, projectLoaded, dispatch])
+  const autosave = useSelector((state) => state.editor.lastSaveAutosave)
 
   useEffect(() => {
-    if (saving === 'success' && autosaved === false) {
+    if (saving === 'success' && autosave === false) {
       showSavedMessage()
     }
-  }, [saving, autosaved])
+  }, [saving, autosave])
 
   return (
     <div 
