@@ -25,9 +25,10 @@ export const ChevronDown = () => {
   )
 }
 
-export const CloseIcon = () => {
+export const CloseIcon = (props) => {
+  const {scaleFactor} = props
   const [cookies] = useCookies(['fontSize'])
-  const scale = fontScaleFactors[cookies.fontSize] || 1
+  const scale = (fontScaleFactors[cookies.fontSize] || 1) * (scaleFactor || 1)
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"/>
@@ -103,6 +104,16 @@ export const HumidityIcon = () => {
         <path d="M7.978 6.032a.339.339 0 1 1 .625.262l-1.605 3.831a.338.338 0 0 1-.624-.261z"/>
         <path fillRule="evenodd" clipRule="evenodd" d="M6.357 8.051c.473 0 .857-.511.857-1.142 0-.632-.384-1.143-.857-1.143S5.5 6.277 5.5 6.909c0 .63.384 1.142.857 1.142zm-.001-.572c.158 0 .286-.256.286-.572 0-.315-.128-.571-.286-.571-.158 0-.286.256-.286.571 0 .316.128.572.286.572zM8.644 10.34c.473 0 .857-.511.857-1.142 0-.632-.384-1.143-.857-1.143s-.857.511-.857 1.143c0 .63.384 1.143.857 1.143zm-.001-.572c.158 0 .286-.256.286-.572 0-.315-.128-.571-.286-.571-.158 0-.286.256-.286.571 0 .316.128.572.286.572z"/>
       </g>
+    </svg>
+  )
+}
+
+export const InfoIcon = () => {
+  const [cookies] = useCookies(['fontSize'])
+  const scale = fontScaleFactors[cookies.fontSize] || 1
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 0C4.928 0 0 4.928 0 11C0 17.072 4.928 22 11 22C17.072 22 22 17.072 22 11C22 4.928 17.072 0 11 0ZM12.1 16.5H9.9V9.9H12.1V16.5ZM12.1 7.7H9.9V5.5H12.1V7.7Z"/>
     </svg>
   )
 }

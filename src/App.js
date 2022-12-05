@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
+import './utils/Notifications.scss';
 
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -16,7 +17,10 @@ import { saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
-import { showSavedMessage } from './utils/Notifications';
+import { showLoginPrompt, showSavedMessage, showSavePrompt } from './utils/Notifications';
+import Button from './components/Button/Button';
+import { CloseIcon } from './Icons';
+import CloseButton from './utils/ToastCloseButton';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -38,6 +42,8 @@ function App() {
       if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
         dispatch(saveProject({project: project, user: user, autosave: true}))
       } else if (projectLoaded === 'success') {
+        console.log('saving to local storage')
+        user ? showSavePrompt() : showLoginPrompt()
         localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
       }
     }, 2000);
@@ -57,6 +63,7 @@ function App() {
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
+        <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={CloseButton}/>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <Routes />
@@ -64,7 +71,7 @@ function App() {
           <BetaModal/>
           <LoginToSaveModal/>
         </BrowserRouter>
-        <ToastContainer position='bottom-center' className='toast--bottom-center' />
+        <ToastContainer enableMultiContainer containerId='bottom-center' position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
     </div>
   );

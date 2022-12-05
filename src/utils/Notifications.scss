@@ -1,0 +1,63 @@
+@import '../colours.scss';
+
+#app {
+  .toast--bottom-center__message, .toast--top-center__message {
+      min-height: fit-content;
+      padding: var(--spacing-half) var(--spacing-1);
+      margin: 0;
+  }
+
+  .toast--bottom-center {
+    width: fit-content;
+    font-size: var(--font-size-d-1);
+    .Toastify__toast-icon {
+      margin: 0;
+    }
+  }
+  .toast--bottom-center__message {
+    border-radius: 20px;
+  }
+
+  .toast--top-center {
+    max-width: fit-content;
+    width: 100%;
+    font-weight: var(--font-weight-bold);
+    top: 20%;
+  }
+  .toast--top-center__message {
+    border-radius: 25px;
+  }
+
+  .toast--info {
+    color: $editor-alert-blue;
+    border: 2px solid $editor-alert-blue;
+    svg {
+      fill: $editor-black;
+    }
+    .Toastify__toast-icon {
+      svg {
+        fill: $editor-alert-blue;
+      }
+    }
+  }
+
+  &.--dark {
+    .toast--bottom-center__message {
+      background-color: $editor-white;
+      color: $editor-black;
+      svg {
+        fill: $editor-black;
+      }
+    }
+  }
+
+  &.--light {
+    .toast--bottom-center__message {
+      background-color: $editor-black;
+      color: $editor-white;
+      svg {
+        fill: $editor-white;
+      }
+    }
+  }
+}
