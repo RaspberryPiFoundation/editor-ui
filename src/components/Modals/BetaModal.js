@@ -34,7 +34,7 @@ const BetaModal = () => {
         <p className='modal-content__text'>{t('betaBanner.modal.whatNextText')}</p>
 
         <div className='modal-content__buttons' >
-          <Button buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
+          <Button className='btn--primary' buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
         </div>
       </Modal>
     </>

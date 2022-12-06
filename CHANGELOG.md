@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Trigger project reloading when the user changes (#280)
 - Removed remix functionality from project name (#284)
 - Flow for renaming the project (#284)
+- Updated icons (#285)
 
 ## Fixed
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import Style from 'style-it';
-import internalStyles from '../WebComponent.scss';
+import internalStyles from '../InternalStyles.scss';
 import externalStyles from '../ExternalStyles.scss';
 
 import Project from '../../Editor/Project/Project';

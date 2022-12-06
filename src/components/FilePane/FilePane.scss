@@ -16,7 +16,9 @@
     }
 
     h2 {
-      font-size: 1.2em;
+      font-size: 1rem;
+      margin-left: var(--spacing-1);
+      margin-right: var(--spacing-half);
     }
   }
 

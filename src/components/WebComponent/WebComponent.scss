@@ -1,14 +1,3 @@
-@use '../../tabs.scss';
-@use '../Editor/Project/Project.scss';
-@use '../Button/Button.scss';
-@use '../RunButton/RunnerControls.scss';
-@use '../ThemeToggle/ThemeToggle.scss';
-@use '../Editor/FontSizeSelector/FontSizeSelector.scss';
-@use '../Editor/EditorPanel/EditorPanel.scss';
-@use '../Editor/Runners/PythonRunner/PythonRunner.scss';
-@use '../Editor/ErrorMessage/ErrorMessage.scss';
-@use '../Editor/Runners/PythonRunner/OutputViewToggle.scss';
-@use '../AstroPiModel/AstroPiModel.scss';
 @import '../../colours.scss';
 
 #wc {
@@ -41,9 +30,6 @@ button {
   }
 
   button {
-    svg {
-      fill: inherit;
-    }
     &:focus-visible {
       outline: 2px solid $editor-white;
     }
