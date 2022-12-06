@@ -1,6 +1,6 @@
 import './Project.scss';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
