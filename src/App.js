@@ -13,7 +13,7 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
-import { saveProject } from './components/Editor/EditorSlice';
+import { expireJustLoaded, saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
@@ -32,22 +32,24 @@ function App() {
   const projectLoaded = useSelector((state) => state.editor.projectLoaded)
   const saving = useSelector((state) => state.editor.saving)
   const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
+  const justLoaded = useSelector((state) => state.editor.justLoaded)
   const [timeoutId, setTimeoutId] = useState(null);
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if(timeoutId) clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(async () => {
+      console.log('saving')
       if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
         dispatch(saveProject({project: project, user: user, autosave: true}))
       } else if (projectLoaded === 'success') {
-        console.log('saving to local storage')
-        user ? showSavePrompt() : showLoginPrompt()
+        user & !justLoaded ? showSavePrompt() : showLoginPrompt()
         localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
       }
     }, 2000);
     setTimeoutId(id);
+    if (justLoaded && projectLoaded === 'success') dispatch(expireJustLoaded())
 
   }, [project, user, projectLoaded, dispatch])
 

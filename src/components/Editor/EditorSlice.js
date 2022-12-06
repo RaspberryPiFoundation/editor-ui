@@ -27,6 +27,7 @@ export const EditorSlice = createSlice({
   initialState: {
     project: {},
     projectLoaded: 'idle',
+    justLoaded: false,
     currentLoadingRequestId: undefined,
     error: "",
     nameError: "",
@@ -70,9 +71,13 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.projectLoaded='success'
+      state.justLoaded = true
     },
     setProjectLoaded: (state, action) => {
       state.projectLoaded = action.payload;
+    },
+    expireJustLoaded: (state) => {
+      state.justLoaded = false
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -174,16 +179,11 @@ export const EditorSlice = createSlice({
       state.projectLoaded = 'pending'
       state.currentLoadingRequestId = action.meta.requestId
     })
-    builder.addCase(remixProject.fulfilled, (state, action) => {
-      state.lastSaveAutosaved = false
-      state.saving = 'success'
-      state.project = action.payload
-      state.projectLoaded = 'idle'
-    })
     builder.addCase(loadProject.fulfilled, (state, action) => {
       if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload
         state.projectLoaded = 'success'
+        state.justLoaded  = true
         state.currentLoadingRequestId = undefined
       }
     })
@@ -193,6 +193,12 @@ export const EditorSlice = createSlice({
         state.currentLoadingRequestId = undefined
       }
     })
+    builder.addCase(remixProject.fulfilled, (state, action) => {
+      state.lastSaveAutosaved = false
+      state.saving = 'success'
+      state.project = action.payload
+      state.projectLoaded = 'idle'
+    })
   }
 })
 
@@ -200,6 +206,7 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   codeRunHandled,
+  expireJustLoaded,
   setEmbedded,
   setError,
   setIsSplitView,
