@@ -7,7 +7,8 @@
   border-radius: 5px;
 
   &__button {
-    padding: var(--spacing-half) var(--spacing-1) var(--spacing-half) var(--spacing-1);
+    display: flex;
+    padding: 0 var(--spacing-half);
     cursor: pointer;
 
     &:disabled {

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Autosave from './Autosave';
 import Button from '../Button/Button';
-import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
+import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
 import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
@@ -39,7 +39,7 @@ const Header = () => {
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
-            {<><SquaresIcon />
+            {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
         { loading === 'success' ? <ProjectName /> : null }
@@ -53,7 +53,7 @@ const Header = () => {
             buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
           {loading === 'success' ?
-            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
+            <Button className='btn--primary btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
           : null }
         </div>
       </header>
