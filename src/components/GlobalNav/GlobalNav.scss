@@ -69,3 +69,9 @@
     }
   }
 }
+
+.--dark {
+  .editor-global-nav {
+    background-color: $rpf-darkmode-grey15;
+  }
+}

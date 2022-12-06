@@ -44,7 +44,7 @@
     width: var(--spacing-7);
 
     &--active {
-      outline: 2px solid $editor-turquoise;
+      outline: 2px solid $rpf-teal;
     }
   }
 }
@@ -60,7 +60,7 @@
     }
 
     &--active {
-      outline: 2.5px solid $editor-turquoise;
+      outline: 2.5px solid $rpf-teal;
     }
   }
 }
@@ -76,7 +76,7 @@
     }
 
     &--active {
-      outline: 3px solid $editor-turquoise;
+      outline: 3px solid $rpf-teal;
     }
   }
 }
