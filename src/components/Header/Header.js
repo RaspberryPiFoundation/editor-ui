@@ -1,11 +1,11 @@
 import './Header.scss'
-import { useSelector, connect, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 
-import AutosaveStatus from './AutosaveStatus';
+import Autosave from './Autosave';
 import Button from '../Button/Button';
 import { DownloadIcon, SettingsIcon, SquaresIcon } from '../../Icons';
-import { remixProject, saveProject, showLoginToSaveModal } from '../Editor/EditorSlice';
+import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
@@ -15,8 +15,9 @@ import { isOwner } from '../../utils/projectHelpers'
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user)
-  const project = useSelector((state) => state.editor.project);
+  const project = useSelector((state) => state.editor.project)
   const loading = useSelector((state) => state.editor.loading)
+  const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
   const dispatch = useDispatch();
@@ -24,9 +25,9 @@ const Header = () => {
 
   const onClickSave = async () => {
     if (isOwner(user, project)) {
-      dispatch(saveProject({project: project, user: user, autosave: false}))
-    } else if (user) {
-      dispatch(remixProject({project: project, user: user}))
+      dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
+    } else if (user && project.identifier) {
+      dispatch(syncProject('remix')({project, accessToken: user.access_token}))
     } else {
       dispatch(showLoginToSaveModal())
     }
@@ -43,7 +44,7 @@ const Header = () => {
         ) : null }
         { loading === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
-          { lastSavedTime && user ? <AutosaveStatus /> : null }
+          { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?
           <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
           : null }

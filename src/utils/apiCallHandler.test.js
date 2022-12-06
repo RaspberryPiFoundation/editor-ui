@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getImage, createProject, readProject, createRemix, updateProject, uploadImages } from "./apiCallHandler";
+import { getImage, createOrUpdateProject, readProject, createRemix, uploadImages } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -22,7 +22,7 @@ describe("Testing project API calls", () => {
       }
     }))
 
-    const data = await createProject(newProject)
+    const data = await createOrUpdateProject(newProject)
     expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects`, {project: newProject}, defaultHeaders)
     expect(data).toStrictEqual({
       status: 204,
@@ -45,7 +45,7 @@ describe("Testing project API calls", () => {
     const project = {'identifier': 'my-wonderful-project', 'project_type': 'python', 'components': []}
     axios.put.mockImplementationOnce(() => Promise.resolve(200))
 
-    await updateProject(project)
+    await createOrUpdateProject(project)
     expect(axios.put).toHaveBeenCalledWith(
       `${host}/api/projects/${project['identifier']}`,
       { project: project },

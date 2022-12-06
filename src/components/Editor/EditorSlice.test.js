@@ -1,20 +1,13 @@
-import { createProject, createRemix, readProject, updateProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, createRemix, readProject } from '../../utils/apiCallHandler';
 
 import reducer, {
-  loadProject,
+  syncProject,
   stopCodeRun,
   showRenameFileModal,
   closeRenameFileModal,
-  saveProject,
-  remixProject
 } from "./EditorSlice";
 
-jest.mock('../../utils/apiCallHandler', () => ({
-  createProject: jest.fn(),
-  createRemix: jest.fn(),
-  readProject: jest.fn(),
-  updateProject: jest.fn()
-}))
+jest.mock('../../utils/apiCallHandler')
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
@@ -86,30 +79,38 @@ describe('When project has no identifier', () => {
     ]
   }
   const access_token = 'myToken'
-  
+
   const initialState = {
-    project: project,
+    editor: {
+      project: project,
+      saving: 'idle',
+    },
+    auth: {
+      isLoadingUser: false
+    }
   }
+
+  let saveThunk
+  let saveAction
 
   beforeEach(() => {
     Date.now = jest.fn(() => 1669808953)
+    saveThunk= syncProject('save')
+    saveAction = saveThunk({ project, accessToken: access_token, autosave: false })
   })
 
   test('Saving creates new project', async () => {
-    const saveThunk = saveProject({project: project, access_token: access_token})
-    await saveThunk(dispatch, () => initialState)
-    expect(createProject).toHaveBeenCalledWith(project, access_token)
+    await saveAction(dispatch, () => initialState)
+    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token)
   })
 
   test('Successfully creating project triggers fulfilled action', async () => {
-    createProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
-    const saveThunk = saveProject({project, access_token})
-    await saveThunk(dispatch, () => initialState)
+    createOrUpdateProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await saveAction(dispatch, () => initialState)
     expect(dispatch.mock.calls[1][0].type).toBe('editor/saveProject/fulfilled')
   })
 
   test('The saveProject/fulfilled action sets saving to success and loaded to idle', async () => {
-
     const returnedProject = {...project, identifier: 'auto-generated-identifier'} 
     const expectedState = {
       project: returnedProject,
@@ -117,12 +118,13 @@ describe('When project has no identifier', () => {
       lastSavedTime: 1669808953,
       loading: 'idle'
     }
-    expect(reducer(initialState, saveProject.fulfilled({project: returnedProject}))).toEqual(expectedState)
+
+    expect(reducer(initialState.editor, saveThunk.fulfilled({ project: returnedProject }))).toEqual(expectedState)
   })
 
-  test('Autosaving sets autosave state', async () => {
-    const saveThunk = saveProject({project, access_token, autosave: true})
-  })
+  // test('Autosaving sets autosave state', async () => {
+  //   const saveThunk = syncProject('save')({project, access_token, autosave: true})
+  // })
 })
 
 describe('When project has an identifier', () => {
@@ -142,53 +144,68 @@ describe('When project has an identifier', () => {
   }
   const access_token = 'myToken'
   const initialState = {
-    project: project,
+    editor: {
+      project: project,
+      saving: 'idle'
+    },
+    auth: {
+      isLoadingUser: false
+    }
   }
 
+  let saveThunk
+  let saveAction
+
+  let remixThunk
+  let remixAction
+
+  beforeEach(() => {
+    saveThunk= syncProject('save')
+    saveAction = saveThunk({ project, accessToken: access_token, autosave: false })
+    remixThunk = syncProject('remix')
+    remixAction = remixThunk({ project, accessToken: access_token })
+  })
+
   test('Saving updates existing project', async () => {
-    const saveThunk = saveProject({project, access_token})
-    await saveThunk(dispatch, () => initialState)
-    expect(updateProject).toHaveBeenCalledWith(project, access_token)
+    await saveAction(dispatch, () => initialState)
+    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token)
   })
 
   test('Successfully updating project triggers fulfilled action', async () => {
-    updateProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
-    const saveThunk = saveProject({project, access_token})
-    await saveThunk(dispatch, () => initialState)
+    createOrUpdateProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await saveAction(dispatch, () => initialState)
     expect(dispatch.mock.calls[1][0].type).toBe('editor/saveProject/fulfilled')
   })
 
   test('The saveProject/fulfilled action sets saving to success', async () => {
-
     const expectedState = {
       project: project,
       saving: 'success'
     }
-    expect(reducer(initialState, saveProject.fulfilled({project: project}))).toEqual(expectedState)
+
+    expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
   })
 
   test('Remixing triggers createRemix API call', async () => {
-    const remixThunk = remixProject({project, access_token})
-    await remixThunk(dispatch, () => initialState)
+    await remixAction(dispatch, () => initialState)
     expect(createRemix).toHaveBeenCalledWith(project, access_token)
   })
 
   test('Successfully remixing project triggers fulfilled action', async () => {
     createRemix.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
-    const remixThunk = remixProject({project, access_token})
-    await remixThunk(dispatch, () => initialState)
-    expect(dispatch.mock.calls[1][0].type).toBe('editor/remixProjectStatus/fulfilled')
+    await remixAction(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/remixProject/fulfilled')
   })
 
   test('The remixProject/fulfilled action sets saving, loading and lastSaveAutosave', async () => {
-
     const expectedState = {
       project: project,
       saving: 'success',
       loading: 'idle',
       lastSaveAutosave: false
     }
-    expect(reducer(initialState, remixProject.fulfilled(project))).toEqual(expectedState)
+
+    expect(reducer(initialState.editor, remixThunk.fulfilled({ project }))).toEqual(expectedState)
   })
 })
 
@@ -207,15 +224,34 @@ describe('When requesting a project', () => {
     ],
     image_list: []
   }
-  var fulfilledAction = loadProject.fulfilled(project)
-  fulfilledAction.meta.requestId='my_request_id'
+  const initialState = {
+    editor: {
+      project: {},
+      loading: 'idle'
+    },
+    auth: {
+      isLoadingUser: false
+    }
+  }
 
-  var rejectedAction = loadProject.rejected()
-  rejectedAction.meta.requestId='my_request_id'
+  let loadThunk
+  let loadAction
+  
+  let loadFulfilledAction
+  let loadRejectedAction
+
+  beforeEach(() => {
+    loadThunk = syncProject('load')
+    loadAction = loadThunk({ identifier: 'my-project-identifier', accessToken: 'my_token' })
+
+    loadFulfilledAction = loadThunk.fulfilled({ project })
+    loadFulfilledAction.meta.requestId='my_request_id'
+    loadRejectedAction = loadThunk.rejected()
+    loadRejectedAction.meta.requestId='my_request_id'
+  })
 
   test('Reads project from database', async () => {
-    const loadThunk = loadProject({projectIdentifier: 'my-project-identifier', accessToken: 'my_token'})
-    await loadThunk(dispatch, () => {})
+    await loadAction(dispatch, () => initialState)
     expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
   })
 
@@ -226,10 +262,11 @@ describe('When requesting a project', () => {
     }
     const expectedState = {
       loading: 'success',
+      saving: 'idle',
       project: project,
       currentLoadingRequestId: undefined
     }
-    expect(reducer(initialState, fulfilledAction)).toEqual(expectedState)
+    expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState)
   })
 
   test('If not latest request, loading success does not update status', () => {
@@ -237,14 +274,14 @@ describe('When requesting a project', () => {
       loading: 'pending',
       currentLoadingRequestId: 'another_request_id'
     }
-    expect(reducer(initialState, fulfilledAction)).toEqual(initialState)
+    expect(reducer(initialState, loadFulfilledAction)).toEqual(initialState)
   })
 
   test('If already rejected, loading success does not update status', () => {
     const initialState = {
       loading: 'failed'
     }
-    expect(reducer(initialState, loadProject.fulfilled())).toEqual(initialState)
+    expect(reducer(initialState, syncProject('load').fulfilled())).toEqual(initialState)
   })
 
   test('If loading status pending, loading failure updates status', () => {
@@ -254,9 +291,10 @@ describe('When requesting a project', () => {
     }
     const expectedState = {
       loading: 'failed',
+      saving: 'idle',
       currentLoadingRequestId: undefined
     }
-    expect(reducer(initialState, rejectedAction)).toEqual(expectedState)
+    expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState)
   })
 
   test('If not latest request, loading failure does not update status', () => {
@@ -264,13 +302,13 @@ describe('When requesting a project', () => {
       loading: 'pending',
       currentLoadingRequestId: 'another_request_id'
     }
-    expect(reducer(initialState, rejectedAction)).toEqual(initialState)
+    expect(reducer(initialState, loadRejectedAction)).toEqual(initialState)
   })
 
   test('If already fulfilled, loading rejection does not update status', () => {
     const initialState = {
       loading: 'success'
     }
-    expect(reducer(initialState, loadProject.rejected())).toEqual(initialState)
+    expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
   })
 })

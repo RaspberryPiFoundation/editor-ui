@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
@@ -12,7 +12,6 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
-import { saveProject } from './components/Editor/EditorSlice';
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
