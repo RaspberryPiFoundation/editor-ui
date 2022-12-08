@@ -60,10 +60,28 @@
   }
 
   &--secondary {
-    background-color: $editor-light-grey;
+    background-color: #D9D9D9; //TODO: update to rpi-grey-15
+
+    &:active {
+      background-color: #F2F2F2; //TODO: update to rpi-grey-5
+      outline: 2px solid $rpf-teal-shade-20;
+    }
+
+    &:disabled {
+      background-color: #F2F2F2;
+      color: #4c4c4c; //TODO: Update to rpi-grey-70 when in
+
+      svg {
+        fill: #4c4c4c; //TODO: Update to rpi-grey-70 when in
+      }
+    }
+
+    &:focus-visible {
+      background-color: #D9D9D9; //TODO: update to rpi-grey-15
+    }
 
     &:hover {
-      background-color: $editor-mid-light-grey;
+      background-color: #999999; //TODO: update to rpi-grey-40
     }
   }
 
