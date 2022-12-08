@@ -1,5 +1,12 @@
 @import '../../colours.scss';
 
+//TODO: These will be added with the colour palette update (I assume)
+$rpf-text: #212121;
+$rpi-grey-5: #F2F2F2;
+$rpi-grey-15: #D9D9D9;
+$rpi-grey-40: #999999;
+$rpi-grey-70: #4c4c4c;
+
 .btn {
   align-items: center;
   border-radius: 5px;
@@ -24,17 +31,18 @@
     color: $editor-white;
     cursor: default;
 
-    &:hover {
-      background-color: $editor-grey;
-    }
+    // TODO: Is this needed?
+    // &:hover {
+    //   background-color: $editor-grey;
+    // }
   }
 
   &--primary {
     background-color: $rpf-teal;
-    color: $editor-black; //TODO: Update to rpi-text when in
+    color: $rpf-text;
 
     svg {
-      fill: $editor-black;
+      fill: $rpf-text;
     }
 
     &:active {
@@ -43,10 +51,10 @@
 
     &:disabled {
       background-color: $rpf-teal-tint-75;
-      color: #4c4c4c; //TODO: Update to rpi-grey-70 when in
+      color: $rpi-grey-70;
 
       svg {
-        fill: #4c4c4c;
+        fill: $rpi-grey-70;
       }
     }
 
@@ -60,28 +68,28 @@
   }
 
   &--secondary {
-    background-color: #D9D9D9; //TODO: update to rpi-grey-15
+    background-color: $rpi-grey-15;
 
     &:active {
-      background-color: #F2F2F2; //TODO: update to rpi-grey-5
+      background-color: $rpi-grey-5;
       outline: 2px solid $rpf-teal-shade-20;
     }
 
     &:disabled {
-      background-color: #F2F2F2;
-      color: #4c4c4c; //TODO: Update to rpi-grey-70 when in
+      background-color: $rpi-grey-5;
+      color: $rpi-grey-70;
 
       svg {
-        fill: #4c4c4c; //TODO: Update to rpi-grey-70 when in
+        fill: $rpi-grey-70;
       }
     }
 
     &:focus-visible {
-      background-color: #D9D9D9; //TODO: update to rpi-grey-15
+      background-color: $rpi-grey-15;
     }
 
     &:hover {
-      background-color: #999999; //TODO: update to rpi-grey-40
+      background-color: $rpi-grey-40;
     }
   }
 
@@ -89,10 +97,39 @@
     background-color: inherit;
     color: inherit;
     border-radius: 0;
-    margin: 0;
+    margin-block: 0;
+
+    &:active {
+      color: $rpf-teal-shade-20;
+
+      svg {
+        fill: $rpf-teal-shade-20;
+      }
+    }
+
+    &:disabled {
+      background-color: inherit;
+      color: $rpi-grey-70;
+
+      svg {
+        fill: $rpi-grey-70;
+      }
+    }
+
+    &:focus-visible {
+      color: $rpf-text;
+
+      svg {
+        fill: $rpf-text;
+      }
+    }
 
     &:hover {
-      background-color: inherit;
+      color: $rpi-grey-70;
+
+      svg {
+        fill: $rpi-grey-70;
+      }
     }
   }
 }
