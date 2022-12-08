@@ -9,7 +9,6 @@
   &-button {
     display: flex;
     align-items: center;
-    height: 100%;
     cursor: pointer;
     padding: 0 var(--spacing-2);
 
@@ -104,10 +103,6 @@
   .dropdown-backdrop {
     background-color: $editor-grey;
   }
-  .dropdown-button--active {
-    border-bottom: 5px solid $rpf-teal;
-    margin-bottom: -5px;
-  }
 }
 
 .--dark {
@@ -128,7 +123,5 @@
   }
   .dropdown-button--active {
     background-color: $editor-turquoise-grey;
-    border-bottom: 5px solid $rpf-teal;
-    margin-bottom: -5px;
   }
 }

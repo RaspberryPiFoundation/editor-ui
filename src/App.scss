@@ -4,10 +4,6 @@
 button {
   all: initial;
   cursor: pointer;
-
-  &:focus-visible {
-    outline: 3px solid #CD2355;
-  }
 }
 
 input {

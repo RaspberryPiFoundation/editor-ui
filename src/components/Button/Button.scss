@@ -6,11 +6,12 @@ $rpi-grey-5: #F2F2F2;
 $rpi-grey-15: #D9D9D9;
 $rpi-grey-40: #999999;
 $rpi-grey-70: #4c4c4c;
+$rpf-brand-raspberry: #CD2355;
 
 .btn {
   align-items: center;
   border-radius: 5px;
-  border-width: 0;
+  border: 3px solid transparent;
   display: inline-flex;
   font-family: sans-serif;
   font-size: inherit;
@@ -21,6 +22,10 @@ $rpi-grey-70: #4c4c4c;
   text-align: center;
   text-decoration: none;
   width: fit-content;
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+  }
 
   svg {
     margin-right: var(--spacing-1);
@@ -72,7 +77,7 @@ $rpi-grey-70: #4c4c4c;
 
     &:active {
       background-color: $rpi-grey-5;
-      outline: 2px solid $rpf-teal-shade-20;
+      border: 3px solid $rpf-teal-shade-20;
     }
 
     &:disabled {
@@ -96,8 +101,7 @@ $rpi-grey-70: #4c4c4c;
   &--tertiary {
     background-color: inherit;
     color: inherit;
-    border-radius: 0;
-    margin-block: 0;
+    margin: 0;
 
     &:active {
       color: $rpf-teal-shade-20;
