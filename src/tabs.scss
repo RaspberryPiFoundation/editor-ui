@@ -1,4 +1,5 @@
 @import './colours.scss';
+@import './components/Button/Button.scss';
 
 #app, #wc {
   .react-tabs {
@@ -9,16 +10,8 @@
     position: relative;
   
     &__tab {
-      border-radius: 5px;
-      padding: var(--spacing-1);
-      margin: var(--spacing-1);
-      margin-right: 0;
-      border: 0;
-  
-      &--selected {
-        color: inherit;
-        border: 0;
-      }
+      @extend .btn;
+      @extend .btn--secondary;
   
       &:focus:after {
         display: none;
@@ -65,11 +58,9 @@
       }
   
       &__tab {
-        color: $editor-mid-grey;
-  
         &--selected {
-          color: inherit;
-          background-color: $editor-light-light-grey;
+          background-color: $rpi-grey-5;
+          border: 3px solid $rpf-teal-shade-20;
         }
       }
     }
