@@ -134,6 +134,12 @@ $rpi-grey-70: #4c4c4c;
   }
 }
 
+.font-size-large {
+  .btn svg {
+    margin-right: var(--spacing-2);
+  }
+}
+
 .--dark {
   .btn--primary {
     background-color: $rpf-teal-tint-50;
@@ -166,11 +172,5 @@ $rpi-grey-70: #4c4c4c;
     &:hover {
       background-color: $editor-mid-grey;
     }
-  }
-}
-
-.font-size-large {
-  .btn svg {
-    margin-right: var(--spacing-2);
   }
 }
