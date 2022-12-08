@@ -8,6 +8,36 @@ $rpi-grey-40: #999999;
 $rpi-grey-70: #4c4c4c;
 $rpf-brand-raspberry: #CD2355;
 
+@mixin button-styling($bg, $c, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg) {
+  background-color: $bg;
+  color: $c;
+
+  svg {
+    fill: $c;
+  }
+
+  &:active {
+    background-color: $active-bg;
+  }
+
+  &:disabled {
+    background-color: $dis-bg;
+    color: $dis-c;
+  
+    svg {
+      fill: $dis-c;
+    }
+  }
+
+  &:focus-visible {
+    background-color: $focus-bg;
+  }
+  
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
 .btn {
   align-items: center;
   border-radius: 5px;
@@ -35,41 +65,11 @@ $rpf-brand-raspberry: #CD2355;
     background-color: $editor-grey;
     color: $editor-white;
     cursor: default;
-
-    // TODO: Is this needed?
-    // &:hover {
-    //   background-color: $editor-grey;
-    // }
   }
 
   &--primary {
-    background-color: $rpf-teal;
-    color: $rpf-text;
-
-    svg {
-      fill: $rpf-text;
-    }
-
-    &:active {
-      background-color: $rpf-teal-tint-25;
-    }
-
-    &:disabled {
-      background-color: $rpf-teal-tint-75;
-      color: $rpi-grey-70;
-
-      svg {
-        fill: $rpi-grey-70;
-      }
-    }
-
-    &:focus-visible {
-      background-color: $rpf-teal;
-    }
-
-    &:hover {
-      background-color: $rpf-teal-shade-20;
-    }
+    $colours: $rpf-teal, $rpf-text, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
+    @include button-styling($colours...);
   }
 
   &--secondary {
@@ -178,3 +178,4 @@ $rpf-brand-raspberry: #CD2355;
     }
   }
 }
+
