@@ -4,6 +4,10 @@
 button {
   all: initial;
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid #CD2355;
+  }
 }
 
 input {
@@ -16,13 +20,10 @@ input {
   background-color: $rpf-teal-tint-90;
   caret-color: black;
 
-  button:focus-visible {
-    outline: 3px solid #CD2355; //TODO: Update to rpf-brand-raspberry when in
-  }
-
   .pythonrunner-input {
     color: rgb(36, 103, 236);
   }
+
   svg {
     fill: $editor-black;
   }
@@ -33,13 +34,10 @@ input {
   color: $editor-white;
   caret-color: $editor-white;
 
-  button:focus-visible {
-    outline: 2px solid $editor-white;
-  }
-
   .pythonrunner-input {
     color: rgb(36, 186, 236);
   }
+
   svg {
     fill: $editor-white;
   }
