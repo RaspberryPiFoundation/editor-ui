@@ -14,7 +14,7 @@
       margin-left: auto;
       display: flex;
       height: 100%;
-      
+
       .btn {
         padding: 0 var(--spacing-2)
       }
@@ -62,7 +62,7 @@
 
 .--dark {
   .editor-header {
-    background-color: $editor-dark;
+    background-color: $rpf-darkmode-grey22;
     .project-gallery-link {
       border-right: 2px solid $editor-grey;
     }

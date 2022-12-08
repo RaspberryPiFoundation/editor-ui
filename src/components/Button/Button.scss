@@ -21,10 +21,10 @@
   }
 
   &--primary {
-    background-color: $editor-turquoise;
+    background-color: $rpf-teal;
     color: $editor-black;
     &:hover {
-      background-color: $editor-dark-turquoise;
+      background-color: $rpf-teal-shade-20;
     }
     svg {
       fill: $editor-black;

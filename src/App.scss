@@ -13,7 +13,7 @@ input {
 }
 
 .--light {
-  background-color: $editor-light-blue;
+  background-color: $rpf-teal-tint-90;
   caret-color: black;
 
   button:focus-visible {
@@ -29,7 +29,7 @@ input {
 }
 
 .--dark {
-  background-color: $editor-grey;
+  background-color: $rpf-darkmode-grey10;
   color: $editor-white;
   caret-color: $editor-white;
 
