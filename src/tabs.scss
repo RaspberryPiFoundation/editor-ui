@@ -12,6 +12,14 @@
     &__tab {
       @extend .btn;
       @extend .btn--secondary;
+
+      &--selected {
+        border: 3px solid $rpf-teal-shade-20;
+      }
+
+      &:focus-visible {
+        outline: none;
+      }
   
       &:focus:after {
         display: none;
@@ -39,11 +47,16 @@
       }
   
       &__tab {
-        color: $editor-light-light-light-grey;
+        background-color: $rpf-darkmode-grey32;
+        color: $rpi-white;
+
+        &:hover {
+          background-color: $rpf-darkmode-grey22;
+        }
   
         &--selected {
           color: inherit;
-          background-color: $editor-grey;
+          background-color: $rpf-darkmode-grey42;
         }
       }
     }
@@ -60,7 +73,6 @@
       &__tab {
         &--selected {
           background-color: $rpi-grey-5;
-          border: 3px solid $rpf-teal-shade-20;
         }
       }
     }
