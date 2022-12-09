@@ -42,15 +42,20 @@
 .proj-container {
   flex: 1;
   display: flex;
+  grid-gap: var(--spacing-1);
   overflow: hidden;
   justify-content: space-between;
-  margin: var(--spacing-1);
-  border-radius: 10px;
+  margin: var(--spacing-2);
+
+  .proj-runner-container, .proj-editor-container {
+    border-radius: 10px;
+  }
 
   .proj-editor-container {
     display: flex;
     flex-flow: column;
-    width: 42%;
+    flex: 5;
+    overflow-y: scroll;
     box-sizing: border-box;
 
     .react-tabs__tab-panel--selected {
@@ -60,7 +65,8 @@
   
   .proj-runner-container {
     display: flex;
-    width: 42%;
+    flex: 5;
+    overflow-y: scroll;
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
@@ -75,24 +81,16 @@
   }
 }
 
-.--dark {
-  .proj-container {
-    border: 2px solid $editor-grey;
-
-    .proj-editor-container {
-      border-right: 5px solid $editor-dark-dark;
-    }
+.--light {
+  .proj-runner-container, .proj-editor-container {
+    background-color: $editor-white;
+    border: 1px solid $rpf-darkmode-grey85;
   }
 }
 
-.--light {
-  .proj-container {
-    background-color: $editor-white;
-    border: 2px solid $editor-light-grey;
-
-    .proj-editor-container, .file-pane {
-      border-right: 5px solid $editor-light-grey;
-      box-sizing: border-box;
-    }
+.--dark {
+  .proj-runner-container, .proj-editor-container {
+    background-color: $rpf-darkmode-grey18;
+    border: 1px solid $rpf-darkmode-grey18;
   }
 }

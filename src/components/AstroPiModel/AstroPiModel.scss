@@ -241,30 +241,30 @@
     background-color: $editor-white;
 
     &-controls {
-      border-top: 5px solid $editor-light-grey;
+      border-top: 5px solid $rpf-darkmode-grey90;
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $editor-light-grey;
-          background-color: $editor-light-light-grey;
+          box-shadow: inset 0 0 var(--spacing-2) $rpf-darkmode-grey90;
+          background-color: $rpf-darkmode-grey95;
           
           &-reading {
-            background-color: $editor-light-grey;
-            border: 2px solid $editor-mid-light-grey;
+            background-color: $rpf-darkmode-grey90;
+            border: 2px solid $rpf-darkmode-grey75;
           }
           
           input[type='color'] {
             background-color: $editor-white;
-            border: 2px solid $editor-mid-light-grey;
+            border: 2px solid $rpf-darkmode-grey75;
           }
 
           &-toggle {
             background-color: $editor-white;
-            border: 2px solid $editor-mid-light-grey;
+            border: 2px solid $rpf-darkmode-grey75;
 
             .react-toggle-thumb {
-              border: 1px solid $editor-light-grey;
-              background-color: $editor-light-grey;
+              border: 1px solid $rpf-darkmode-grey90;
+              background-color: $rpf-darkmode-grey90;
             }
           }
         }
