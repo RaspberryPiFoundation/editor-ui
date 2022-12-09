@@ -5,8 +5,14 @@
   padding: var(--spacing-1);
   overflow: hidden;
 
+  .proj-runner-container {
+    border-radius: 10px;
+    height: 100%;
+  }
+
   .pythonrunner-container {
     border-radius: 10px;
+    height: 100%;
     overflow: hidden;
     box-sizing: border-box;
 
@@ -19,12 +25,10 @@
 
 .--light {
   .embedded-viewer {
-    background-color: $editor-light-turquoise;
     .pythonrunner-container {
-      // border: 2px solid $editor-light-grey;
 
       .visual-output {
-        border-bottom: 5px solid $editor-light-grey;
+        border-bottom: 5px solid $rpf-darkmode-grey90;
       }
     }
   }
@@ -34,7 +38,7 @@
   .embedded-viewer {
     .pythonrunner-container {
       .visual-output {
-        border-bottom: 5px solid $editor-grey;
+        border-bottom: 5px solid $rpf-darkmode-grey32;
       }
     }
   }

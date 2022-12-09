@@ -90,19 +90,18 @@
 
 .--light {
   .dropdown-container {
-    background-color: $editor-white;
-    box-shadow: 0 0 5px 2px $editor-light-grey;
+    background-color: $rpf-white;
 
     &--bottom::before {
-      border-bottom: 15px solid $editor-white;
+      border-bottom: 15px solid $rpf-white;
     }
 
     &--list__item:hover {
-      background-color: $editor-light-grey;
+      background-color: $rpf-darkmode-grey90;
     }
   }
   .dropdown-backdrop {
-    background-color: $editor-grey;
+    background-color: $rpf-darkmode-grey32;
   }
   .dropdown-button--active {
     border-bottom: 5px solid $rpf-teal;
@@ -112,15 +111,14 @@
 
 .--dark {
   .dropdown-container {
-    background-color: $editor-dark;
-    box-shadow: 0 0 5px 2px $editor-dark-dark-dark;
+    background-color: $rpf-darkmode-grey22;
 
     &--bottom::before {
-      border-bottom: 15px solid $editor-dark;
+      border-bottom: 15px solid $rpf-darkmode-grey22;
     }
 
     &--list__item:hover {
-      background-color: $editor-grey;
+      background-color: $rpf-darkmode-grey32;
     }
   }
   .dropdown-backdrop {

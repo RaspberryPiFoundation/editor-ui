@@ -20,6 +20,9 @@
 .--light {
   .output-view-toggle {
     background-color: $rpf-darkmode-grey95;
+    svg {
+      fill: $rpf-black;
+    }
   }
   .output-view-toggle__button--active {
     background-color: $rpf-darkmode-grey85;
@@ -38,7 +41,7 @@
         background-color: $rpf-darkmode-grey42;
         border-radius: 5px;
         svg {
-          fill: $editor-white;
+          fill: $rpf-white;
         }
       }
       &:disabled {

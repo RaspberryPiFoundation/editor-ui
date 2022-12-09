@@ -93,13 +93,13 @@
     background-color: rgba(0,0,0,0.5);
 
     input {
-      border: 2px solid $editor-white;
-      background-color: $editor-dark;
+      border: 2px solid $rpf-white;
+      background-color: $rpf-darkmode-grey22;
       color: inherit;
     }
   }
   .modal-content {
-    background-color: $editor-dark;
+    background-color: $rpf-darkmode-grey22;
   }
 }
 
@@ -111,7 +111,7 @@
     }
   }
   .modal-content {
-    background-color: $editor-white;
+    background-color: $rpf-white;
   }
 }
 
