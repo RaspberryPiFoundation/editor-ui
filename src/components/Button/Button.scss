@@ -8,16 +8,26 @@ $rpi-grey-40: #999999;
 $rpi-grey-70: #4c4c4c;
 $rpf-brand-raspberry: #CD2355;
 
-@mixin button-styling($bg, $c, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg) {
+@mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
   background-color: $bg;
-  color: $c;
 
-  svg {
-    fill: $c;
+  @if $c == 'default' {
+    color: $rpf-text;
+
+    svg {
+      fill: $rpf-text;
+    }
+  } @else {
+    color: $c;
+
+    svg {
+      fill: $c;
+    }
   }
 
   &:active {
     background-color: $active-bg;
+    @content;
   }
 
   &:disabled {
@@ -31,16 +41,18 @@ $rpf-brand-raspberry: #CD2355;
 
   &:focus-visible {
     background-color: $focus-bg;
+    @content;
   }
   
   &:hover {
     background-color: $hover-bg;
+    @content;
   }
 }
 
 .btn {
   align-items: center;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 3px solid transparent;
   display: inline-flex;
   font-family: sans-serif;
@@ -68,39 +80,22 @@ $rpf-brand-raspberry: #CD2355;
   }
 
   &--primary {
-    $colours: $rpf-teal, $rpf-text, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
+    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
     @include button-styling($colours...);
   }
 
   &--secondary {
-    background-color: $rpi-grey-15;
+    $colours: $rpi-grey-15, $rpi-grey-5, $rpi-grey-5, $rpi-grey-70, $rpi-grey-15, $rpi-grey-40;
+    @include button-styling($colours...);
 
     &:active {
-      background-color: $rpi-grey-5;
       border: 3px solid $rpf-teal-shade-20;
-    }
-
-    &:disabled {
-      background-color: $rpi-grey-5;
-      color: $rpi-grey-70;
-
-      svg {
-        fill: $rpi-grey-70;
-      }
-    }
-
-    &:focus-visible {
-      background-color: $rpi-grey-15;
-    }
-
-    &:hover {
-      background-color: $rpi-grey-40;
     }
   }
 
   &--tertiary {
-    background-color: inherit;
-    color: inherit;
+    $colours: inherit, inherit, inherit, $rpi-grey-70, inherit, inherit, inherit;
+    @include button-styling($colours...);
     margin: 0;
 
     &:active {
@@ -108,15 +103,6 @@ $rpf-brand-raspberry: #CD2355;
 
       svg {
         fill: $rpf-teal-shade-20;
-      }
-    }
-
-    &:disabled {
-      background-color: inherit;
-      color: $rpi-grey-70;
-
-      svg {
-        fill: $rpi-grey-70;
       }
     }
 
