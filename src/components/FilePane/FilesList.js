@@ -25,7 +25,7 @@ const FilesList = () => {
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i}>
           <div className='files-list-item__label'>
-            <FileIcon scaleFactor={0.75}/>
+            <FileIcon />
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           </div>
           {(file.name === 'main' && file.extension === 'py') ? null :
