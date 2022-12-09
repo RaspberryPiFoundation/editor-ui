@@ -80,6 +80,8 @@ $rpi-white: #FFFFFF;
     cursor: default;
   }
 
+  // Variants
+
   &--primary {
     $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
     @include button-styling($colours...);
@@ -104,14 +106,6 @@ $rpi-white: #FFFFFF;
 
       svg {
         fill: $rpf-teal-shade-20;
-      }
-    }
-
-    &:focus-visible {
-      color: $rpf-text;
-
-      svg {
-        fill: $rpf-text;
       }
     }
 
@@ -143,6 +137,27 @@ $rpi-white: #FFFFFF;
 
     &:active {
       border: 3px solid $rpf-teal-shade-20;
+    }
+  }
+
+  .btn--tertiary {
+    $colours: inherit, inherit, inherit, $rpf-darkmode-grey90, inherit, inherit, $rpi-white;
+    @include button-styling($colours...);
+
+    &:active {
+      color: $rpf-teal-tint-75;
+
+      svg {
+        fill: $rpf-teal-tint-75;
+      }
+    }
+
+    &:hover {
+      color: $rpf-darkmode-grey85;
+
+      svg {
+        fill: $rpf-darkmode-grey85;
+      }
     }
   }
 }
