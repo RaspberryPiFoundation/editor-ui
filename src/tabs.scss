@@ -38,6 +38,22 @@
     }
   }
 
+  &.--light {
+    .react-tabs {
+      background-color: $editor-white;
+  
+      &__tab-list {
+        border-bottom: 2px solid $editor-light-grey;
+      }
+  
+      &__tab {
+        &--selected {
+          background-color: $rpi-grey-5;
+        }
+      }
+    }
+  }
+
   &.--dark {
     .react-tabs {
       background-color: $rpf-darkmode-grey18;
@@ -57,22 +73,6 @@
         &--selected {
           color: inherit;
           background-color: $rpf-darkmode-grey42;
-        }
-      }
-    }
-  }
-  
-  &.--light {
-    .react-tabs {
-      background-color: $editor-white;
-  
-      &__tab-list {
-        border-bottom: 2px solid $editor-light-grey;
-      }
-  
-      &__tab {
-        &--selected {
-          background-color: $rpi-grey-5;
         }
       }
     }
