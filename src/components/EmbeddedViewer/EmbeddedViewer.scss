@@ -2,7 +2,6 @@
 
 .embedded-viewer {
   height: 100%;
-  padding: var(--spacing-1);
   overflow: hidden;
 
   .proj-runner-container {
@@ -25,21 +24,15 @@
 
 .--light {
   .embedded-viewer {
-    .pythonrunner-container {
-
-      .visual-output {
-        border-bottom: 5px solid $rpf-darkmode-grey90;
-      }
-    }
+    background-color: $editor-white;
+  }
+  .visual-output {
+    border-bottom: 5px solid $rpf-darkmode-grey90;
   }
 }
 
 .--dark {
-  .embedded-viewer {
-    .pythonrunner-container {
-      .visual-output {
-        border-bottom: 5px solid $rpf-darkmode-grey32;
-      }
-    }
+  .visual-output {
+    border-bottom: 5px solid $rpf-darkmode-grey32;
   }
 }
