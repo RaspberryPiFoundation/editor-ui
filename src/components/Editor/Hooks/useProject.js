@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { loadProject, setProject } from '../EditorSlice'
+import { syncProject, setProject } from '../EditorSlice'
 import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects';
 
 export const useProject = (projectType, projectIdentifier = null, accessToken = null) => {
@@ -22,7 +22,7 @@ export const useProject = (projectType, projectIdentifier = null, accessToken = 
     }
 
     if (projectIdentifier) {
-      dispatch(loadProject({projectIdentifier, accessToken}));
+      dispatch(syncProject('load')({identifier: projectIdentifier, accessToken}));
       return;
     }
 

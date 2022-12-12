@@ -9,7 +9,7 @@ import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
 
 const EmbeddedViewer = (props) => {
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded);
+  const loading = useSelector((state) => state.editor.loading);
   const projectIdentifier = props.match.params.identifier;
 
   useProject('python', projectIdentifier);
@@ -32,7 +32,7 @@ const EmbeddedViewer = (props) => {
     false
   );
 
-  return projectLoaded === 'success' ? (
+  return loading === 'success' ? (
     <div className='embedded-viewer'>
       <Output />
       <RunnerControls />

@@ -10,7 +10,7 @@ const mockStore = configureStore(middlewares);
 
 const initialState = {
     editor: {
-      projectLoaded: 'success',
+      loading: 'success',
       project: {
         components: []
       }
