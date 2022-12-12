@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import Header from "./Header";
-import { remixProject, saveProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 
 jest.mock('axios');
 
@@ -16,8 +16,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('../Editor/EditorSlice', () => ({
   ...jest.requireActual('../Editor/EditorSlice'),
-  remixProject: jest.fn(),
-  saveProject: jest.fn()
+  syncProject: jest.fn((_) => jest.fn())
 }))
 
 const project = {
@@ -45,7 +44,7 @@ describe("When logged in and user owns project", () => {
     const initialState = {
       editor: {
         project: project,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -70,9 +69,14 @@ describe("When logged in and user owns project", () => {
 
   test("Clicking save dispatches saveProject with correct parameters", async () => {
     const saveAction = {type: 'SAVE_PROJECT' }
-    saveProject.mockImplementationOnce(() => (saveAction))
+    const saveProject = jest.fn(() => saveAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
     fireEvent.click(saveButton)
-    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project, user, autosave: false}))
+    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
+      project,
+      accessToken: user.access_token,
+      autosave: false
+    }))
     expect(store.getActions()[0]).toEqual(saveAction)
   })
 })
@@ -87,7 +91,7 @@ describe("When logged in and no project identifier", () => {
     const initialState = {
       editor: {
         project: project_without_id,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -107,10 +111,15 @@ describe("When logged in and no project identifier", () => {
 
    test("Clicking save dispatches saveProject with correct parameters", async () => {
     const saveAction = {type: 'SAVE_PROJECT' }
-    saveProject.mockImplementationOnce(() => (saveAction))
+    const saveProject = jest.fn(() => saveAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
     const saveButton = screen.getByText('header.save')
     fireEvent.click(saveButton)
-    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project: project_without_id, user, autosave: false}))
+    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
+      project: project_without_id,
+      accessToken: user.access_token,
+      autosave: false
+    }))
     expect(store.getActions()[0]).toEqual(saveAction)
   })
 })
@@ -125,7 +134,7 @@ describe("When logged in and user does not own project", () => {
     const initialState = {
       editor: {
         project: another_project,
-        projectLoaded: 'success',
+        loading: 'success',
       },
       auth: {
         user: user
@@ -137,10 +146,14 @@ describe("When logged in and user does not own project", () => {
 
   test("Clicking save dispatches remixProject with correct parameters", async () => {
     const remixAction = {type: 'REMIX_PROJECT' }
-    remixProject.mockImplementationOnce(() => (remixAction))
+    const remixProject = jest.fn(() => (remixAction))
+    syncProject.mockImplementationOnce(jest.fn((_) => remixProject))
     const saveButton = screen.getByText('header.save')
     fireEvent.click(saveButton)
-    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({project: another_project, user}))
+    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({
+      project: another_project,
+      accessToken: user.access_token
+    }))
     expect(store.getActions()[0]).toEqual(remixAction)
   })
 })
@@ -154,7 +167,7 @@ describe("When not logged in", () => {
     const initialState = {
         editor: {
           project: project,
-          projectLoaded: 'success',
+          loading: 'success',
         },
         auth: {
           user: null
@@ -191,7 +204,7 @@ describe('When no project loaded', () => {
     const initialState = {
         editor: {
           project: {},
-          projectLoaded: 'idle',
+          loading: 'idle',
         },
         auth: {
           user: user
