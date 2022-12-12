@@ -25,15 +25,27 @@
   }
 }
 
-.--dark {
-  .font-btn__icon {
-    outline: 1px solid $editor-white;
-  }
-}
-
 .--light {
   .font-btn__icon {
     outline: 1px solid $editor-light-grey;
+
+    &:hover {
+      svg {
+        fill: $rpi-grey-70;
+      }
+    }
+  }
+}
+
+.--dark {
+  .font-btn__icon {
+    outline: 1px solid $editor-white;
+
+    &:hover {
+      svg {
+        fill: $rpf-darkmode-grey85;
+      }
+    }
   }
 }
 
@@ -45,6 +57,10 @@
 
     &--active {
       outline: 2px solid $rpf-teal;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $rpf-brand-raspberry;
     }
   }
 }
@@ -62,6 +78,10 @@
     &--active {
       outline: 2.5px solid $rpf-teal;
     }
+
+    &:focus-visible {
+      outline: 2.5px solid $rpf-brand-raspberry;
+    }
   }
 }
 
@@ -78,7 +98,9 @@
     &--active {
       outline: 3px solid $rpf-teal;
     }
+
+    &:focus-visible {
+      outline: 3px solid $rpf-brand-raspberry;
+    }
   }
 }
-
-
