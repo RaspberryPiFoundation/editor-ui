@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Beta banner and modal (#266)
+- Autosave icons and status (#268)
 - Autosave project to database if user logged in and owns project (#270)
 - Autosave project changes to local storage if user not logged in or does not own project (#270)
 - Modal to prompt login or download if save button clicked when not logged in (#276)
@@ -15,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Changed
 
+- Refactor API thunks and save logic (#268)
 - Removed file menu for `main.py` (#269)
 - Refactored project saving (#270), loading (#270) and remixing (#276) into redux asynchronous thunks
 - Creates remix if save button clicked when logged-in user does not own project (#276)

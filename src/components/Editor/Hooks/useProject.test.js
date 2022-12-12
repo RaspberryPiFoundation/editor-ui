@@ -1,19 +1,18 @@
 import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
-import { loadProject, setProject } from "../EditorSlice";
+import { syncProject, setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
 import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects'
 
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
-  useDispatch: () => { return jest.fn() }
+  useDispatch: () => (jest.fn())
 }))
 
-jest.mock('../EditorSlice', () => ({
-  loadProject: jest.fn(),
-  setProject: jest.fn()
-}))
+const loadProject = jest.fn()
+
+jest.mock('../EditorSlice')
 
 jest.mock('../../../utils/apiCallHandler', () => ({
   readProject: async (identifier) => Promise.resolve({'data': {'identifier': identifier, 'project_type': 'python'}})
@@ -55,15 +54,17 @@ test("If cached project matches identifer clears cached project", () => {
 })
 
 test("If cached project does not match identifer does not use cached project", async () => {
+  syncProject.mockImplementationOnce(jest.fn((_) => (jest.fn())))
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', 'my-favourite-project'))
   await waitFor(() => expect(setProject).not.toHaveBeenCalledWith(cachedProject))
 })
 
 test("If cached project does not match identifer loads correct uncached project", async () => {
+  syncProject.mockImplementationOnce(jest.fn((_) => (loadProject)))
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', project1.identifier, accessToken))
-  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: project1.identifier, accessToken}))
+  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({ identifier: project1.identifier, accessToken }))
 })
 
 test("If cached project does not match identifer clears cached project", () => {
@@ -73,8 +74,9 @@ test("If cached project does not match identifer clears cached project", () => {
 })
 
 test("If no cached project loads uncached project", async () => {
+  syncProject.mockImplementationOnce(jest.fn((_) => (loadProject)))
   renderHook(() => useProject('python', 'hello-world-project', accessToken))
-  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({projectIdentifier: 'hello-world-project', accessToken}))
+  await waitFor(() => expect(loadProject).toHaveBeenCalledWith({ identifier: 'hello-world-project', accessToken }))
 })
 
 afterEach(() => {
