@@ -5,7 +5,8 @@ import '@rpf/sauce/scss/properties/_line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
   ".cm-gutters": {
-    "background-color": "#2E3038",
+    "background-color": "#2A2B32",
+    "color": "white",
     "border": "none"
   },
   ".cm-activeLine": {

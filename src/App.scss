@@ -13,35 +13,36 @@ input {
 }
 
 .--light {
-  background-color: $editor-light-blue;
-  caret-color: black;
+  background-color: $rpf-teal-tint-90;
+  color: $rpf-text-black;
+  caret-color: $rpf-black;
 
   button:focus-visible {
-    outline: 2px solid $editor-black;
+    outline: 2px solid $rpf-black;
   }
 
   .pythonrunner-input {
     color: rgb(36, 103, 236);
   }
   svg {
-    fill: $editor-black;
+    fill: $rpf-black;
   }
 }
 
 .--dark {
-  background-color: $editor-grey;
-  color: $editor-white;
-  caret-color: $editor-white;
+  background-color: $rpf-darkmode-grey10;
+  color: $rpf-white;
+  caret-color: $rpf-white;
 
   button:focus-visible {
-    outline: 2px solid $editor-white;
+    outline: 2px solid $rpf-white;
   }
 
   .pythonrunner-input {
     color: rgb(36, 186, 236);
   }
   svg {
-    fill: $editor-white;
+    fill: $rpf-white;
   }
 }
 
@@ -83,20 +84,20 @@ input {
 
   &.--dark {
     .toast--bottom-center__message {
-      background-color: $editor-white;
-      color: $editor-black;
+      background-color: $rpf-white;
+      color: $rpf-text-black;
       svg {
-        fill: $editor-black;
+        fill: $rpf-black;
       }
     }
   }
 
   &.--light {
     .toast--bottom-center__message {
-      background-color: $editor-black;
-      color: $editor-white;
+      background-color: $rpf-black;
+      color: $rpf-white;
       svg {
-        fill: $editor-white;
+        fill: $rpf-white;
       }
     }
   }

@@ -32,7 +32,7 @@
     margin-left: auto;
     display: flex;
     height: 100%;
-    
+
     .btn {
       padding: 0 var(--spacing-2)
     }
@@ -70,21 +70,21 @@
 
 .--light {
   .editor-header {
-    background-color: $editor-white;
+    background-color: $rpf-white;
   }
 
   .project-gallery-link {
-    border-right: 2px solid $editor-light-grey;
+    border-right: 1px solid $rpf-darkmode-grey85;
   }
 }
 
 .--dark {
   .editor-header {
-    background-color: $editor-dark;
+    background-color: $rpf-darkmode-grey22;
   }
 
   .project-gallery-link {
-    border-right: 2px solid $editor-grey;
+    border-right: 1px solid $rpf-darkmode-grey42;
   }
 }
 

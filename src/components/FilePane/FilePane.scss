@@ -2,7 +2,8 @@
 
 .file-pane {
   overflow-y: auto;
-  width: 16%;
+  flex: 2;
+  border-radius: 10px;
 
   summary {
     display: flex;
@@ -43,17 +44,20 @@
 
 .--dark {
   .file-pane {
-    background: $editor-black;
+    background: $rpf-darkmode-grey18;
+    border: 1px solid $rpf-darkmode-grey10;
     &-section {
-      border-bottom: 2px solid $editor-grey;
+      border-bottom: 1px solid $rpf-darkmode-grey42;
     }
   }
 }
 
 .--light {
   .file-pane {
+    background: $rpf-white;
+    border: 1px solid $rpf-darkmode-grey85;
     &-section {
-      border-bottom: 2px solid $editor-light-grey;
+      border-bottom: 1px solid $rpf-darkmode-grey85;
     }
   }
 }

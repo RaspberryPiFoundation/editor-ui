@@ -6,18 +6,18 @@
   padding: var(--spacing-half) var(--spacing-2);
 
   &--beta {
-    background-color: $editor-turquoise-tint-50;
-    color: $editor-black;
+    background-color: $rpf-teal-tint-50;
+    color: $rpf-text-black;
 
     svg {
-      fill: $editor-black;
+      fill: $rpf-black;
     }
   }
 
   &--beta__icon {
     padding: var(--spacing-half);
     border-radius: 8px;
-    background-color: $editor-turquoise-tint-75;
+    background-color: $rpf-teal-tint-75;
     font-weight: var(--font-weight-bold);
     margin-right: var(--spacing-2)
   }

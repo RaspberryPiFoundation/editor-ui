@@ -21,7 +21,7 @@
     }
 
     svg {
-      fill:  $editor-white;
+      fill:  $rpf-white;
       margin: 0 0 0 var(--spacing-1);
     }
 
@@ -38,14 +38,14 @@
     padding: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
     text-decoration: none;
-    color: $editor-white;
+    color: $rpf-white;
 
     span {
       margin-left: var(--spacing-2);
     }
 
     &:visited {
-      color: $editor-white;
+      color: $rpf-white;
     }
   }
 }
@@ -67,5 +67,11 @@
         margin: var(--spacing-1) var(--spacing-1);
       }
     }
+  }
+}
+
+.--dark {
+  .editor-global-nav {
+    background-color: $rpf-darkmode-grey15;
   }
 }
