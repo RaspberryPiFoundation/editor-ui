@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
+import { useUserFont } from './hooks/useUserFont';
 
 const fontScaleFactors = {'small': 1, 'medium': 1.44, 'large': 2.074}
 
@@ -44,10 +45,11 @@ export const EllipsisVerticalIcon = () => {
 }
 
 export const FileIcon = () => {
-  const [cookies] = useCookies(['fontSize'])
-  const scale = fontScaleFactors[cookies.fontSize] || 1
+  const scale = useUserFont()
   return (
-    <svg transform={`scale(${scale}, ${scale})`} xmlns="http://www.w3.org/2000/svg" width="12" height="16" fill="none"><path fill="#212121" d="M0 15.5V.5h7.5L12 5v10.5H0Zm6.75-9.75V2H1.5v12h9V5.75H6.75ZM1.5 2v3.75V2v12V2Z"/></svg>
+    <svg transform={`scale(${scale}, ${scale})`} xmlns="http://www.w3.org/2000/svg" width="12" height="16" fill="none">
+      <path fill="#212121" d="M0 15.5V.5h7.5L12 5v10.5H0Zm6.75-9.75V2H1.5v12h9V5.75H6.75ZM1.5 2v3.75V2v12V2Z"/>
+    </svg>
   )
 }
 
