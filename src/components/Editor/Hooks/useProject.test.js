@@ -61,7 +61,6 @@ test("If cached project does not match identifer does not use cached project", a
 })
 
 test("If cached project does not match identifer loads correct uncached project", async () => {
-  const loadProject = jest.fn()
   syncProject.mockImplementationOnce(jest.fn((_) => (loadProject)))
   localStorage.setItem('project', JSON.stringify(cachedProject))
   renderHook(() => useProject('python', project1.identifier, accessToken))
@@ -75,7 +74,6 @@ test("If cached project does not match identifer clears cached project", () => {
 })
 
 test("If no cached project loads uncached project", async () => {
-  const loadProject = jest.fn()
   syncProject.mockImplementationOnce(jest.fn((_) => (loadProject)))
   renderHook(() => useProject('python', 'hello-world-project', accessToken))
   await waitFor(() => expect(loadProject).toHaveBeenCalledWith({ identifier: 'hello-world-project', accessToken }))

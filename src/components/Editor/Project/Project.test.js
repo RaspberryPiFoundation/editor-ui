@@ -49,3 +49,5 @@ test("Renders without file menu if for web component", () => {
 const {queryByText} = render(<Provider store={store}><Project forWebComponent={true}/></Provider>)
 expect(queryByText('filePane.files')).toBeNull()
 })
+
+// TODO: Write additional tests for autosave functionality

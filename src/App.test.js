@@ -5,7 +5,6 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import configureStore from 'redux-mock-store';
 import { showSavedMessage } from './utils/Notifications';
-import { saveProject } from './components/Editor/EditorSlice';
 
 jest.mock('./utils/Notifications')
 jest.mock('./components/Editor/EditorSlice', () => {
@@ -137,6 +136,7 @@ describe("When selecting the font size", ()=>{
     }
     store = mockStore(initialState);
   })
+
   test("Cookie not set defaults css class to small", () => {
     const appContainer = render(
       <CookiesProvider cookies={cookies}>
@@ -246,133 +246,3 @@ test('Successful manual save prompts project saved message', async () => {
 })
 
 // TODO: Write test for successful autosave not prompting the project saved message as per the above
-
-// describe('When not logged in', () => {
-//   const project = {
-//     name: 'hello world',
-//     project_type: 'python',
-//     identifier: 'hello-world-project',
-//     components: [
-//       {
-//         name: 'main',
-//         extension: 'py',
-//         content: '# hello'
-//       }
-//     ]
-//   }
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project: project,
-//         projectLoaded: 'success'
-//       },
-//       auth: {
-//         user: null
-//       }
-//     }
-//     const mockedStore = mockStore(initialState);
-//     render(<Provider store={mockedStore}><App/></Provider>);
-//   })
-
-//   afterEach(() => {
-//     localStorage.clear()
-//   })
-
-//   test('Project saved in localStorage', async () => {
-//     await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
-//   })
-// })
-
-// describe('When logged in and user does not own project', () => {
-//   const project = {
-//     name: 'hello world',
-//     project_type: 'python',
-//     identifier: 'hello-world-project',
-//     components: [
-//       {
-//         name: 'main',
-//         extension: 'py',
-//         content: '# hello'
-//       }
-//     ],
-//     user_id: 'another_user'
-//   }
-//   const user = {
-//     profile: {
-//       user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-//     }
-//   }
-
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project,
-//         projectLoaded: 'success'
-//       },
-//       auth: {user}
-//     }
-//     const mockedStore = mockStore(initialState);
-//     render(<Provider store={mockedStore}><App/></Provider>);
-//   })
-
-//   afterEach(() => {
-//     localStorage.clear()
-//   })
-
-//   test('Project saved in localStorage', async () => {
-//     await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
-//   })
-
-// })
-
-// describe('When logged in and user owns project', () => {
-//   const project = {
-//     name: 'hello world',
-//     project_type: 'python',
-//     identifier: 'hello-world-project',
-//     components: [
-//       {
-//         name: 'main',
-//         extension: 'py',
-//         content: '# hello'
-//       }
-//     ],
-//     user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-//   }
-//   const user = {
-//     profile: {
-//       user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-//     }
-//   }
-
-//   let mockedStore;
-
-//   beforeEach(() => {
-//     const middlewares = []
-//     const mockStore = configureStore(middlewares)
-//     const initialState = {
-//       editor: {
-//         project,
-//         projectLoaded: 'success'
-//       },
-//       auth: {user}
-//     }
-//     mockedStore = mockStore(initialState);
-//     render(<Provider store={mockedStore}><App/></Provider>);
-//   })
-
-//   afterEach(() => {
-//     localStorage.clear()
-//   })
-
-//   test('Project autosaved to database', async () => {
-//     const saveAction = {type: 'SAVE_PROJECT' }
-//     saveProject.mockImplementationOnce(() => (saveAction))
-//     await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project, user, autosave: true}), {timeout: 2100})
-//     expect(mockedStore.getActions()[1]).toEqual(saveAction)
-//   })
-// })

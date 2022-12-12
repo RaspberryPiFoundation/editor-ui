@@ -122,9 +122,8 @@ describe('When project has no identifier', () => {
     expect(reducer(initialState.editor, saveThunk.fulfilled({ project: returnedProject }))).toEqual(expectedState)
   })
 
-  // test('Autosaving sets autosave state', async () => {
-  //   const saveThunk = syncProject('save')({project, access_token, autosave: true})
-  // })
+  // TODO: Autosave state testing
+
 })
 
 describe('When project has an identifier', () => {
