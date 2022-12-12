@@ -28,6 +28,7 @@ export const EditorSlice = createSlice({
     project: {},
     projectLoaded: 'idle',
     currentLoadingRequestId: undefined,
+    loadingErrorCode: null,
     error: "",
     nameError: "",
     codeRunTriggered: false,
@@ -41,8 +42,10 @@ export const EditorSlice = createSlice({
     lastSaveAutosaved: false,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
+    accessDeniedNoAuthModalShowing: false,
     betaModalShowing: false,
     loginToSaveModalShowing: false,
+    notFoundModalShowing: false,
     renameFileModalShowing: false,
     modals: {},
   },
@@ -129,6 +132,9 @@ export const EditorSlice = createSlice({
     setProjectListLoaded: (state, action) => {
       state.projectListLoaded = action.payload;
     },
+    closeAccessDeniedNoAuthModal: (state) => {
+      state.accessDeniedNoAuthModalShowing = false
+    },
     showBetaModal: (state) => {
       state.betaModalShowing = true
     },
@@ -140,6 +146,9 @@ export const EditorSlice = createSlice({
     },
     closeLoginToSaveModal: (state) => {
       state.loginToSaveModalShowing = false
+    },
+    closeNotFoundModal: (state) => {
+      state.notFoundModalShowing = false
     },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
@@ -172,6 +181,7 @@ export const EditorSlice = createSlice({
     })
     builder.addCase(loadProject.pending, (state, action) => {
       state.projectLoaded = 'pending'
+      state.loadingErrorCode = null
       state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase(remixProject.fulfilled, (state, action) => {
@@ -190,6 +200,13 @@ export const EditorSlice = createSlice({
     builder.addCase(loadProject.rejected, (state, action) => {
       if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.projectLoaded = 'failed'
+        const splitErrorMessage = action.error.message.split(' ')
+        const errorCode = splitErrorMessage[splitErrorMessage.length - 1]
+        if (errorCode === '404') {
+          state.notFoundModalShowing = true
+        } else if (errorCode === '500' || errorCode === '403') {
+          state.accessDeniedNoAuthModalShowing = true
+        }
         state.currentLoadingRequestId = undefined
       }
     })
@@ -218,10 +235,12 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
+  closeAccessDeniedNoAuthModal,
   showBetaModal,
   closeBetaModal,
   showLoginToSaveModal,
   closeLoginToSaveModal,
+  closeNotFoundModal,
   showRenameFileModal,
   closeRenameFileModal,
 } = EditorSlice.actions

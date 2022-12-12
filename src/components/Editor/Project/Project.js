@@ -12,11 +12,15 @@ import FilePane from '../../FilePane/FilePane';
 import Output from '../Output/Output';
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls';
+import NotFoundModal from '../../Modals/NotFoundModal';
+import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 
 const Project = (props) => {
   const project = useSelector((state) => state.editor.project);
   const modals = useSelector((state) => state.editor.modals);
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing);
+  const notFoundModalShowing = useSelector((state) => state.editor.notFoundModalShowing)
+  const accessDeniedNoAuthModalShowing = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
   const {forWebComponent} = props;
 
   return (
@@ -43,6 +47,8 @@ const Project = (props) => {
         <Output />
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
+      {(notFoundModalShowing) ? <NotFoundModal /> : null}
+      {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
     </div>
   )
 };

@@ -139,8 +139,26 @@ i18n
             visualOutput: 'Visual Output',
           },
           project: {
+            accessDeniedNoAuthModal: {
+              heading: 'You are not able to see this project',
+              loginButtonText: 'Log in to your account',
+              newProject: 'Create a new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'If this is your project, log in to see it. If this is not your project you can visit the project site for cool project ideas or start coding in a new project.',
+            },
+            accessDeniedWithAuthModal: {
+              heading: 'You can\'t access this project',
+              newProject: 'Create a new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'Visit the project site for cool project ideas or start coding in a new project.',
+            },
             loading: 'Loading',
-            notFound: 'Oops we couldn\'t find that project',
+            notFoundModal: {
+              heading: 'This project does not exist',
+              newProject: 'Start new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'You can start coding in a new project, or visit the project site for cool project ideas.'
+            },
             untitled: 'Untitled project'
           },
           runButton: {

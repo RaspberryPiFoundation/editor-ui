@@ -9,6 +9,7 @@
   font-family: sans-serif;
   font-size: inherit;
   font-weight: var(--font-weight-regular);
+  justify-content: center;
   margin: 6px;
   padding: 10px;
   position: relative;
@@ -33,6 +34,7 @@
 
   &--secondary {
     background-color: $editor-light-grey;
+    color: $editor-black;
     &:hover {
       background-color: $editor-mid-light-grey;
     }
