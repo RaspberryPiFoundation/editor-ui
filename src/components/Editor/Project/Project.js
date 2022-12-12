@@ -16,6 +16,7 @@ import { syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
+import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -69,7 +70,7 @@ const Project = (props) => {
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
       {(notFoundModalShowing) ? <NotFoundModal /> : null}
-      {(accessDeniedModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+      {(accessDeniedModalShowing) ? (user) ? <AccessDeniedWithAuthModal /> : <AccessDeniedNoAuthModal /> : null}
     </div>
   )
 };

@@ -234,7 +234,7 @@ export const EditorSlice = createSlice({
         if (errorCode === '404') {
           state.notFoundModalShowing = true
         } else if (errorCode === '500' || errorCode === '403') {
-          state.accessDeniedhModalShowing = true
+          state.accessDeniedModalShowing = true
         }
         state.currentLoadingRequestId = undefined
       }

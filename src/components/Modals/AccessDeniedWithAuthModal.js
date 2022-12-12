@@ -9,8 +9,9 @@ import { closeAccessDeniedModal } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
 import { createOrUpdateProject } from "../../utils/apiCallHandler";
 import { useHistory } from "react-router-dom";
+import { defaultPythonProject } from "../../utils/defaultProjects";
 
-const AccessDeniedNoAuthModal = () => {
+const AccessDeniedWithAuthModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const history = useHistory()
@@ -55,4 +56,4 @@ const AccessDeniedNoAuthModal = () => {
   );
 }
 
-export default AccessDeniedNoAuthModal;
+export default AccessDeniedWithAuthModal;
