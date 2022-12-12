@@ -77,6 +77,8 @@ i18n
             raspberryPiLogoAltText: 'Raspberry Pi logo'
           },
           header: {
+            autoSaving: 'Saving',
+            autoSaved: 'Saved',
             download: 'Download',
             downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
