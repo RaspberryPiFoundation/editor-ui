@@ -16,94 +16,84 @@
       justify-content: center;
       align-items: center;
       border-radius: 5px;
+
+      .--dark & {
+        outline: 1px solid $editor-white;
+      }
+
+      .--light & {
+        outline: 1px solid $editor-light-grey;
+      }
+
+      .font-size-small & {
+        height: var(--spacing-7);
+        width: var(--spacing-7);
+
+        &--active {
+          outline: 2px solid $rpf-teal;
+        }
+      }
+
+      .font-size-medium & {
+        height: var(--spacing-8);
+        width: var(--spacing-8);
+
+        &--medium {
+          margin: 0 var(--spacing-1)
+        }
+
+        &--active {
+          outline: 2.5px solid $rpf-teal;
+        }
+      }
+
+      .font-size-large & {
+        height: var(--spacing-9);
+        width: var(--spacing-9);
+
+        &--medium {
+          margin: 0 var(--spacing-2)
+        }
+
+        &--active {
+          outline: 3px solid $rpf-teal;
+        }
+      }
+
+      &:focus-visible {
+        .font-size-small & {
+          outline: 2px solid $rpf-brand-raspberry;
+        }
+
+        .font-size-medium & {
+          outline: 2.5px solid $rpf-brand-raspberry;
+        }
+
+        .font-size-large & {
+          outline: 3px solid $rpf-brand-raspberry;
+        }
+      }
+
+      /* stylelint-disable no-descending-specificity */
+      &:hover {
+        .--light & {
+          svg {
+            fill: $rpi-grey-70;
+          }
+        }
+
+        .--dark & {
+          svg {
+            fill: $rpf-darkmode-grey85;
+          }
+        }
+      }
+      /* stylelint-enable no-descending-specificity */
     }
 
     p {
       text-align: center;
-      margin-top: var(--spacing-1)
+      margin-top: var(--spacing-1);
     }
   }
 }
-
-/* stylelint-disable no-descending-specificity */
-
-.--dark {
-  .font-btn__icon {
-    outline: 1px solid $editor-white;
-
-    &:hover {
-      svg {
-        fill: $rpf-darkmode-grey85;
-      }
-    }
-  }
-}
-
-.--light {
-  .font-btn__icon {
-    outline: 1px solid $editor-light-grey;
-
-    &:hover {
-      svg {
-        fill: $rpi-grey-70;
-      }
-    }
-  }
-}
-
-.font-size-small {
-
-  .font-btn__icon {
-    height: var(--spacing-7);
-    width: var(--spacing-7);
-
-    &--active {
-      outline: 2px solid $rpf-teal;
-    }
-
-    &:focus-visible {
-      outline: 2px solid $rpf-brand-raspberry;
-    }
-  }
-}
-
-.font-size-medium {
-
-  .font-btn__icon{
-    height: var(--spacing-8);
-    width: var(--spacing-8);
-
-    &--medium {
-      margin: 0 var(--spacing-1)
-    }
-
-    &--active {
-      outline: 2.5px solid $rpf-teal;
-    }
-
-    &:focus-visible {
-      outline: 2.5px solid $rpf-brand-raspberry;
-    }
-  }
-}
-
-.font-size-large {
-
-  .font-btn__icon{
-    height: var(--spacing-9);
-    width: var(--spacing-9);
-
-    &--medium {
-      margin: 0 var(--spacing-2)
-    }
-
-    &--active {
-      outline: 3px solid $rpf-teal;
-    }
-
-    &:focus-visible {
-      outline: 3px solid $rpf-brand-raspberry;
-    }
-  }
-}
-/* stylelint-enable no-descending-specificity */
