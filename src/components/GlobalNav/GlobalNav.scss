@@ -16,6 +16,11 @@
     margin-right: var(--spacing-3);
     height: 100%;
 
+    svg {
+      fill:  $editor-white;
+      margin: 0 0 0 var(--spacing-1);
+    }
+
     .dropdown-button {
       padding: 0 var(--spacing-2);
 
@@ -24,11 +29,6 @@
           fill: $editor-white;
         }
       }
-    }
-
-    svg {
-      fill:  $editor-white;
-      margin: 0 0 0 var(--spacing-1);
     }
 
     img {
