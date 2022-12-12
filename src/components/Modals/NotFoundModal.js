@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import '../../Modal.scss';
 import { closeNotFoundModal } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
-import { createProject } from "../../utils/apiCallHandler";
+import { createOrUpdateProject } from "../../utils/apiCallHandler";
 import { useHistory } from "react-router-dom";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
@@ -19,11 +19,11 @@ const NotFoundModal = () => {
   
   const isModalOpen = useSelector((state) => state.editor.notFoundModalShowing)
   const closeModal = () => dispatch(closeNotFoundModal())
-  
+
   const createNewProject = async () => {
     closeModal()
     if (user) {
-      const response = await createProject(defaultPythonProject, user.access_token);
+      const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
       const identifier = response.data.identifier;
       const project_type = response.data.project_type;
       history.push(`/${project_type}/${identifier}`);

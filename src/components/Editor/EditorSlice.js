@@ -18,7 +18,7 @@ export const syncProject = (actionName) => createAsyncThunk(
       default:
         rejectWithValue({ error: 'no such sync action' })
     }
-    return { project: response.data, autosave }
+    return { project: response.data, autosave, accessToken }
   },
   {
     condition: ({ autosave }, { getState }) => {
@@ -50,7 +50,6 @@ export const EditorSlice = createSlice({
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
-    loadingErrorCode: null,
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -64,7 +63,7 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
-    accessDeniedNoAuthModalShowing: false,
+    accessDeniedModalShowing: false,
     betaModalShowing: false,
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
@@ -161,8 +160,8 @@ export const EditorSlice = createSlice({
     setProjectListLoaded: (state, action) => {
       state.projectListLoaded = action.payload;
     },
-    closeAccessDeniedNoAuthModal: (state) => {
-      state.accessDeniedNoAuthModalShowing = false
+    closeAccessDeniedModal: (state) => {
+      state.accessDeniedModalShowing = false
     },
     showBetaModal: (state) => {
       state.betaModalShowing = true
@@ -215,7 +214,6 @@ export const EditorSlice = createSlice({
     })
     builder.addCase('editor/loadProject/pending', (state, action) => {
       state.loading = 'pending'
-      state.loadingErrorCode = null
       state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase('editor/loadProject/fulfilled', (state, action) => {
@@ -236,7 +234,7 @@ export const EditorSlice = createSlice({
         if (errorCode === '404') {
           state.notFoundModalShowing = true
         } else if (errorCode === '500' || errorCode === '403') {
-          state.accessDeniedNoAuthModalShowing = true
+          state.accessDeniedhModalShowing = true
         }
         state.currentLoadingRequestId = undefined
       }
@@ -267,7 +265,7 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
-  closeAccessDeniedNoAuthModal,
+  closeAccessDeniedModal,
   showBetaModal,
   closeBetaModal,
   showLoginToSaveModal,
