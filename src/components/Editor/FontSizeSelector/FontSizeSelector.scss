@@ -28,24 +28,24 @@
 .--light {
   .font-btn__icon {
     outline: 1px solid $editor-light-grey;
-
-    &:hover {
-      svg {
-        fill: $rpi-grey-70;
-      }
-    }
   }
 }
 
 .--dark {
   .font-btn__icon {
     outline: 1px solid $editor-white;
+  }
+}
 
-    &:hover {
-      svg {
-        fill: $rpf-darkmode-grey85;
-      }
-    }
+.--light.font-btn__icon:hover {
+  svg {
+    fill: $rpi-grey-70;
+  }
+}
+
+.--dark.font-btn__icon:hover {
+  svg {
+    fill: $rpf-darkmode-grey85;
   }
 }
 
@@ -57,10 +57,6 @@
 
     &--active {
       outline: 2px solid $rpf-teal;
-    }
-
-    &:focus-visible {
-      outline: 2px solid $rpf-brand-raspberry;
     }
   }
 }
@@ -78,10 +74,6 @@
     &--active {
       outline: 2.5px solid $rpf-teal;
     }
-
-    &:focus-visible {
-      outline: 2.5px solid $rpf-brand-raspberry;
-    }
   }
 }
 
@@ -98,9 +90,17 @@
     &--active {
       outline: 3px solid $rpf-teal;
     }
-
-    &:focus-visible {
-      outline: 3px solid $rpf-brand-raspberry;
-    }
   }
+}
+
+.font-size-small.font-btn__icon:focus-visible {
+  outline: 2px solid $rpf-brand-raspberry;
+}
+
+.font-size-medium.font-btn__icon:focus-visible {
+  outline: 2.5px solid $rpf-brand-raspberry;
+}
+
+.font-size-large.font-btn__icon:focus-visible {
+  outline: 3px solid $rpf-brand-raspberry;
 }
