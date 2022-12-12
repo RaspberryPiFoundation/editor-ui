@@ -123,7 +123,7 @@
   }
 
   .btn--secondary {
-    $colours: $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-darkmode-grey22, $rpf-darkmode-grey90, $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpi-white;
+    $colours: $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-darkmode-grey22, $rpf-darkmode-grey90, $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-white;
     @include button-styling($colours...);
 
     &:active {
@@ -132,7 +132,7 @@
   }
 
   .btn--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-darkmode-grey90, inherit, inherit, $rpi-white;
+    $colours: inherit, inherit, inherit, $rpf-darkmode-grey90, inherit, inherit, $rpf-white;
     @include button-styling($colours...);
 
     &:active {

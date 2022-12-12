@@ -22,32 +22,31 @@ button {
 }
 
 .--dark {
-  background-color: $editor-grey;
-  color: $editor-white;
+  background-color: $rpf-darkmode-grey10;
+  color: $rpf-white;
 
   svg {
-    fill: $editor-white;
+    fill: $rpf-white;
   }
 
   button {
     &:focus-visible {
-      outline: 2px solid $editor-white;
+      outline: 2px solid $rpf-white;
     }
   }
 
   .--light {
   
     svg {
-      fill: $editor-black;
+      fill: $rpf-black;
     }
   
     button:focus-visible {
-      outline: 2px solid $editor-black;
+      outline: 2px solid $rpf-black;
     }
   }
 
   .react-tabs__tab--selected {
-    background-color: $editor-grey;
     color: inherit;
   }
 }

@@ -16,20 +16,18 @@
       border-radius: 5px;
 
       &--light {
-        background-color: $editor-white;
-        outline: 1px solid $editor-dark-dark-dark;
-
+        background-color: $rpf-white;
+        outline: 1px solid $rpf-darkmode-grey18;
         svg {
-          fill: black;
+          fill: $rpf-black;
         }
       }
 
       &--dark {
-        background-color: $editor-dark;
-        outline: 1px solid $editor-light-grey;
-
+        background-color: $rpf-darkmode-grey22;
+        outline: 1px solid $rpf-darkmode-grey85;
         svg {
-          fill: $editor-white;
+          fill: $rpf-white;
         }
       }
 
