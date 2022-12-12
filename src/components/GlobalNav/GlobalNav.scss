@@ -17,7 +17,13 @@
     height: 100%;
 
     .dropdown-button {
-      padding: 0 var(--spacing-2)
+      padding: 0 var(--spacing-2);
+
+      &:hover {
+        svg {
+          fill: $editor-white;
+        }
+      }
     }
 
     svg {
