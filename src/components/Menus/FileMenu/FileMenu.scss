@@ -25,45 +25,45 @@
     }
 
     &--dark {
-        background-color: $editor-black;
-        color: $editor-white;
+        background-color: $rpf-black;
+        color: $rpf-white;
 
         svg {
-            fill: $editor-white;
+            fill: $rpf-white;
         }
 
         .btn:hover {
-            background-color: $editor-dark;
+            background-color: $rpf-darkmode-grey22;
         }
 
         .btn:disabled {
-          color: $editor-grey;
+          color: $rpf-darkmode-grey32;
         }
     }
 
     &--light {
-        background-color: $editor-white;
-        color: $editor-black;
+        background-color: $rpf-white;
+        color: $rpf-text-black;
 
         svg {
-            fill: $editor-black;
+            fill: $rpf-black;
         }
 
         .btn:hover {
-            background-color: $editor-mid-light-grey;
+            background-color: $rpf-darkmode-grey90;
         }
 
         .btn:disabled {
-            color: $editor-light-grey;
+            color: $rpf-darkmode-grey75;
         }
     }
 
     &--dark .btn:disabled svg {
-        fill: $editor-grey;
+        fill: $rpf-darkmode-grey32;
     }
 
     &--light .btn:disabled svg {
-        fill: $editor-light-grey;
+        fill: $rpf-darkmode-grey90;
     }
 
     .btn:disabled:hover {

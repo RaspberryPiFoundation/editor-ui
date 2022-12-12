@@ -12,19 +12,19 @@
 }
 
 .btn--stop {
-  color: $editor-white;
-  background-color: $editor-black;
+  color: $rpf-white;
+  background-color: $rpf-black;
   &:hover {
-    background-color: $editor-black;
+    background-color: $rpf-black;
   }
   svg {
-    fill: $editor-white;
+    fill: $rpf-white;
   }
 }
 
 .--dark {
   .btn--stop {
-    outline: 2px solid $editor-white;
+    outline: 2px solid $rpf-white;
   }
 }
 

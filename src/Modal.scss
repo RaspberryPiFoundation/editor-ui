@@ -93,13 +93,13 @@
     background-color: rgba(0,0,0,0.5);
 
     input {
-      border: 2px solid $editor-white;
-      background-color: $editor-dark;
+      border: 2px solid $rpf-white;
+      background-color: $rpf-darkmode-grey22;
       color: inherit;
     }
   }
   .modal-content {
-    background-color: $editor-dark;
+    background-color: $rpf-darkmode-grey22;
   }
 }
 
@@ -107,12 +107,11 @@
   .modal-overlay {
     background-color: rgba(67,69,76,0.5);
     input {
-      border: 2px solid $editor-light-grey;
-      background-color: $editor-light-light-light-grey;
+      border: 2px solid $rpf-darkmode-grey90;
     }
   }
   .modal-content {
-    background-color: $editor-white;
+    background-color: $rpf-white;
   }
 }
 

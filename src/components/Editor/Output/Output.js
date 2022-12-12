@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 
-import './Output.scss';
-
-
 const Output = () => {
   const project = useSelector((state) => state.editor.project);
   return (

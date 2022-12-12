@@ -2,40 +2,37 @@
 
 .embedded-viewer {
   height: 100%;
-  padding: var(--spacing-1);
   overflow: hidden;
+
+  .proj-runner-container {
+    border-radius: 10px;
+    height: 100%;
+  }
 
   .pythonrunner-container {
     border-radius: 10px;
+    height: 100%;
     overflow: hidden;
     box-sizing: border-box;
+  }
 
-    .visual-output {
-      box-sizing: border-box;
-      overflow: auto;
-    }
+  .visual-output {
+    box-sizing: border-box;
+    overflow: auto;
   }
 }
 
 .--light {
   .embedded-viewer {
-    background-color: $editor-light-turquoise;
-    .pythonrunner-container {
-      border: 2px solid $editor-light-grey;
-
-      .visual-output {
-        border-bottom: 5px solid $editor-light-grey;
-      }
-    }
+    background-color: $editor-white;
+  }
+  .visual-output {
+    border-bottom: 5px solid $rpf-darkmode-grey90;
   }
 }
 
 .--dark {
-  .embedded-viewer {
-    .pythonrunner-container {
-      .visual-output {
-        border-bottom: 5px solid $editor-grey;
-      }
-    }
+  .visual-output {
+    border-bottom: 5px solid $rpf-darkmode-grey32;
   }
 }
