@@ -14,7 +14,7 @@ describe('With logged in user', () => {
     }
 
     test('isOwner returns true', () => {
-      expect(isOwner(user, project)).toBeTruthy
+      expect(isOwner(user, project)).toBeTruthy()
     })
   })
 
@@ -25,7 +25,7 @@ describe('With logged in user', () => {
     }
 
     test('isOwner returns false', () => {
-      expect(isOwner(user, project)).toBeFalsy
+      expect(isOwner(user, project)).toBeFalsy()
     })
   })
 
@@ -35,7 +35,7 @@ describe('With logged in user', () => {
     }
 
     test('isOwner returns true', () => {
-      expect(isOwner(user, project)).toBeTruthy
+      expect(isOwner(user, project)).toBeTruthy()
     })
   })
 })
@@ -49,8 +49,8 @@ describe('With no active user', () => {
       user_id: undefined
     }
 
-    test('isOwner returns true', () => {
-      expect(isOwner(user, project)).toBeTruthy
+    test('isOwner returns false', () => {
+      expect(isOwner(user, project)).toBeFalsy()
     })
   })
 
@@ -61,7 +61,7 @@ describe('With no active user', () => {
     }
 
     test('isOwner returns false', () => {
-      expect(isOwner(user, project)).toBeFalsy
+      expect(isOwner(user, project)).toBeFalsy()
     })
   })
 
@@ -70,8 +70,8 @@ describe('With no active user', () => {
       identifier: undefined,
     }
 
-    test('isOwner returns true', () => {
-      expect(isOwner(user, project)).toBeTruthy
+    test('isOwner returns false', () => {
+      expect(isOwner(user, project)).toBeFalsy()
     })
   })
 })
