@@ -41,8 +41,8 @@ export const EllipsisVerticalIcon = () => {
 export const FileIcon = () => {
   const scale = useUserFont()
   return (
-    <svg transform={`scale(${scale}, ${scale})`} xmlns="http://www.w3.org/2000/svg" width="12" height="16" fill="none">
-      <path fill="#212121" d="M0 15.5V.5h7.5L12 5v10.5H0Zm6.75-9.75V2H1.5v12h9V5.75H6.75ZM1.5 2v3.75V2v12V2Z"/>
+    <svg transform={`scale(${scale}, ${scale})`} viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg" width="12" height="16" fill="none">
+      <path d="M0 15.5V.5h7.5L12 5v10.5H0Zm6.75-9.75V2H1.5v12h9V5.75H6.75ZM1.5 2v3.75V2v12V2Z"/>
     </svg>
   )
 }
@@ -90,7 +90,6 @@ export const NewFileIcon = () => {
     <svg transform={`scale(${scale}, ${scale})`} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M6 14V8H0V6H6V0H8V6H14V8H8V14H6Z"/>
     </svg>
-
   )
 }
 

@@ -31,10 +31,6 @@
   }
 }
 
-.files-list-item__menu {
-  height: 100%;
-}
-
 .files-list-item__label {
   align-items: center;
   display: flex;
@@ -46,4 +42,12 @@
   padding-right: 0;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.--dark {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-darkmode-grey22;
+    }
+  }
 }
