@@ -7,10 +7,13 @@
   height: 100%;
 
   &-button {
-    border-bottom: 5px solid transparent;
-    display: flex;
     align-items: center;
+    border-bottom: 5px solid transparent;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
     cursor: pointer;
+    display: flex;
     padding: 0 var(--spacing-2);
 
     svg {
