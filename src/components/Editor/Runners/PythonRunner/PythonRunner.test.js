@@ -489,7 +489,7 @@ test('Tabbed view has text and visual tabs with same parent element', () => {
     }
     const store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>)
-    expect(screen.getByText('output.visualOutput').parentElement).toEqual(screen.getByText('output.textOutput').parentElement)
+    expect(screen.getByText('output.visualOutput').parentElement.parentElement).toEqual(screen.getByText('output.textOutput').parentElement.parentElement)
 })
 
 test('Split view has text and visual tabs with different parent elements', () => {
