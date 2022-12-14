@@ -49,7 +49,7 @@ const Project = (props) => {
             <TabList>
               { project.components.map((file, i) => (
                   <Tab key={i}>
-                    <span className='react-tabs__tab react-tabs__tab--inner'>{file.name}.{file.extension}</span>
+                    <span className='react-tabs__tab-inner'>{file.name}.{file.extension}</span>
                   </Tab>
                 )
               )}
