@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import '../../Modal.scss';
-import { closeAccessDeniedModal } from "../Editor/EditorSlice";
+import { closeAccessDeniedWithAuthModal } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
 import { createOrUpdateProject } from "../../utils/apiCallHandler";
 import { useHistory } from "react-router-dom";
@@ -17,8 +17,8 @@ const AccessDeniedWithAuthModal = () => {
   const history = useHistory()
   const user = useSelector((state) => state.auth.user)
   
-  const isModalOpen = useSelector((state) => state.editor.accessDeniedModalShowing)
-  const closeModal = () => dispatch(closeAccessDeniedModal());
+  const isModalOpen = useSelector((state) => state.editor.accessDeniedWithAuthModalShowing)
+  const closeModal = () => dispatch(closeAccessDeniedWithAuthModal());
 
   const createNewProject = async () => {
     closeModal()

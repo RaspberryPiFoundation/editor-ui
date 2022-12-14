@@ -3,11 +3,11 @@ import { createOrUpdateProject, readProject, createRemix } from '../../utils/api
 
 export const syncProject = (actionName) => createAsyncThunk(
   `editor/${actionName}Project`,
-  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
+  async({ project, identifier, projectType, accessToken, autosave }, { rejectWithValue }) => {
     let response
     switch(actionName) {
       case 'load':
-        response = await readProject(identifier, accessToken)
+        response = await readProject(identifier, accessToken, projectType)
         break
       case 'remix':
         response = await createRemix(project, accessToken)
@@ -18,7 +18,7 @@ export const syncProject = (actionName) => createAsyncThunk(
       default:
         rejectWithValue({ error: 'no such sync action' })
     }
-    return { project: response.data, autosave, accessToken }
+    return { project: response.data, autosave }
   },
   {
     condition: ({ autosave }, { getState }) => {
@@ -63,7 +63,8 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
-    accessDeniedModalShowing: false,
+    accessDeniedNoAuthModalShowing: false,
+    accessDeniedWithAuthModalShowing: false,
     betaModalShowing: false,
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
@@ -160,8 +161,12 @@ export const EditorSlice = createSlice({
     setProjectListLoaded: (state, action) => {
       state.projectListLoaded = action.payload;
     },
-    closeAccessDeniedModal: (state) => {
-      state.accessDeniedModalShowing = false
+    closeAccessDeniedNoAuthModal: (state) => {
+      state.accessDeniedNoAuthModalShowing = false
+      state.modals = {}
+    },
+    closeAccessDeniedWithAuthModal: (state) => {
+      state.accessDeniedWithAuthModalShowing = false
     },
     showBetaModal: (state) => {
       state.betaModalShowing = true
@@ -220,6 +225,8 @@ export const EditorSlice = createSlice({
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload.project
         state.loading = 'success'
+        state.accessDeniedNoAuthModalShowing = false
+        state.modals = {}
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }
@@ -233,8 +240,14 @@ export const EditorSlice = createSlice({
         const errorCode = splitErrorMessage[splitErrorMessage.length - 1]
         if (errorCode === '404') {
           state.notFoundModalShowing = true
-        } else if (errorCode === '500' || errorCode === '403') {
-          state.accessDeniedModalShowing = true
+        } else if ((errorCode === '500' || errorCode === '403') && action.meta.arg.accessToken) {
+          state.accessDeniedWithAuthModalShowing = true
+        } else if ((errorCode === '500' || errorCode === '403') && !action.meta.arg.accessToken) {
+          state.accessDeniedNoAuthModalShowing = true
+          state.modals.accessDenied = {
+            identifier: action.meta.arg.identifier,
+            projectType: action.meta.arg.projectType
+          }
         }
         state.currentLoadingRequestId = undefined
       }
@@ -265,7 +278,8 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
-  closeAccessDeniedModal,
+  closeAccessDeniedNoAuthModal,
+  closeAccessDeniedWithAuthModal,
   showBetaModal,
   closeBetaModal,
   showLoginToSaveModal,

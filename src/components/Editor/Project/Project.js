@@ -26,7 +26,8 @@ const Project = (props) => {
   const modals = useSelector((state) => state.editor.modals)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
   const notFoundModalShowing = useSelector((state) => state.editor.notFoundModalShowing)
-  const accessDeniedModalShowing = useSelector((state) => state.editor.accessDeniedModalShowing)
+  const accessDeniedNoAuthModalShowing = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
+  const accessDeniedWithAuthModalShowing = useSelector((state) => state.editor.accessDeniedWithAuthModalShowing)
 
   useEffect(() => {
     if (forWebComponent) {
@@ -70,7 +71,8 @@ const Project = (props) => {
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
       {(notFoundModalShowing) ? <NotFoundModal /> : null}
-      {(accessDeniedModalShowing) ? (user) ? <AccessDeniedWithAuthModal /> : <AccessDeniedNoAuthModal /> : null}
+      {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+      {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
     </div>
   )
 };

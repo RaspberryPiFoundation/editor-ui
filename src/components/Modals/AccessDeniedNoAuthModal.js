@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import '../../Modal.scss';
-import { closeAccessDeniedModal } from "../Editor/EditorSlice";
+import { closeAccessDeniedNoAuthModal } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
 import LoginButton from "../Login/LoginButton";
 
@@ -13,8 +13,8 @@ const AccessDeniedNoAuthModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   
-  const isModalOpen = useSelector((state) => state.editor.accessDeniedModalShowing)
-  const closeModal = () => dispatch(closeAccessDeniedModal());
+  const isModalOpen = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
+  const closeModal = () => dispatch(closeAccessDeniedNoAuthModal());
 
   return (
     <>
