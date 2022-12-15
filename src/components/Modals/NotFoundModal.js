@@ -5,29 +5,23 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import '../../Modal.scss';
-import { closeNotFoundModal } from "../Editor/EditorSlice";
+import { closeNotFoundModal, syncProject } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
-import { useHistory } from "react-router-dom";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
 const NotFoundModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
-  const history = useHistory()
   const user = useSelector((state) => state.auth.user)
   
   const isModalOpen = useSelector((state) => state.editor.notFoundModalShowing)
   const closeModal = () => dispatch(closeNotFoundModal())
 
   const createNewProject = async () => {
-    closeModal()
     if (user) {
-      const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
-      const identifier = response.data.identifier;
-      const project_type = response.data.project_type;
-      history.push(`/${project_type}/${identifier}`);
+      dispatch(syncProject('save')({ project: defaultPythonProject, accessToken: user.access_token, autosave: false }))
     }
+    closeModal()
   }
 
   return (
