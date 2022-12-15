@@ -48,6 +48,7 @@ export const EditorSlice = createSlice({
     saving: 'idle',
     loading: 'idle',
     justLoaded: false,
+    hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
@@ -86,6 +87,9 @@ export const EditorSlice = createSlice({
     },
     setNameError: (state, action) => {
       state.nameError = action.payload;
+    },
+    setHasShownSavePrompt: (state) => {
+      state.hasShownSavePrompt = true
     },
     setProject: (state, action) => {
       state.project = action.payload;
@@ -229,12 +233,6 @@ export const EditorSlice = createSlice({
         state.currentLoadingRequestId = undefined
       }
     })
-    builder.addCase(remixProject.fulfilled, (state, action) => {
-      state.lastSaveAutosaved = false
-      state.saving = 'success'
-      state.project = action.payload
-      state.projectLoaded = 'idle'
-    })
   }
 })
 
@@ -248,6 +246,7 @@ export const {
   setError,
   setIsSplitView,
   setNameError,
+  setHasShownSavePrompt,
   setProject,
   setProjectList,
   setProjectListLoaded,

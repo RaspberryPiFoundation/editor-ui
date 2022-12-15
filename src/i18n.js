@@ -113,7 +113,7 @@ i18n
             loginPrompt: 'To save this project and access it later, don\'t forget to log in or sign up!',
             projectRemixed: 'Your remixed project has been saved',
             projectSaved: 'Your project has been saved',
-            savePrompt: 'Remix and save this project to access it later under "Your projects".'
+            savePrompt: 'Save this project to access it later under "Your projects".'
           },
           output: {
             errors: {

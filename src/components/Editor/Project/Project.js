@@ -12,8 +12,9 @@ import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
-import { syncProject } from '../EditorSlice';
+import { expireJustLoaded, setHasShownSavePrompt, syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
+import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -22,6 +23,8 @@ const Project = (props) => {
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
+  const justLoaded = useSelector((state) => state.editor.justLoaded)
+  const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
 
   useEffect(() => {
     if (forWebComponent) {
@@ -34,6 +37,12 @@ const Project = (props) => {
       }
       else {
         localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+        if (justLoaded) {
+          dispatch(expireJustLoaded())
+        } else if (!hasShownSavePrompt) {
+          user ? showSavePrompt() : showLoginPrompt()
+          dispatch(setHasShownSavePrompt())
+        }
       }
     }, 2000);
      

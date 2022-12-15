@@ -29,27 +29,6 @@ function App() {
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
 
   const saving = useSelector((state) => state.editor.saving)
-  // const autosaved = useSelector((state) => state.editor.lastSaveAutosaved)
-  // const justLoaded = useSelector((state) => state.editor.justLoaded)
-  // const [timeoutId, setTimeoutId] = useState(null);
-
-  // const dispatch = useDispatch()
-
-  // useEffect(() => {
-    // if (timeoutId) clearTimeout(timeoutId);
-    // const id = setTimeout(async () => {
-      // console.log('saving')
-      // if (user && project.user_id === user.profile.user && projectLoaded === 'success') {
-        // dispatch(saveProject({project: project, user: user, autosave: true}))
-      // } else if (projectLoaded === 'success') {
-        // user & !justLoaded ? showSavePrompt() : showLoginPrompt()
-       //  localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
-     //  }
-    // }, 2000);
-   //  setTimeoutId(id);
-    // if (justLoaded && projectLoaded === 'success') dispatch(expireJustLoaded())
-
-  // }, [project, user, projectLoaded, dispatch])
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
 
   useEffect(() => {
