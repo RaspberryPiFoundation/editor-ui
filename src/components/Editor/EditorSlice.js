@@ -219,14 +219,14 @@ export const EditorSlice = createSlice({
     })
     builder.addCase('editor/loadProject/pending', (state, action) => {
       state.loading = 'pending'
+      state.accessDeniedNoAuthModalShowing = false
+      state.modals = {}
       state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase('editor/loadProject/fulfilled', (state, action) => {
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload.project
         state.loading = 'success'
-        state.accessDeniedNoAuthModalShowing = false
-        state.modals = {}
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }

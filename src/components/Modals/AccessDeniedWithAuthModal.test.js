@@ -6,11 +6,6 @@ import AccessDeniedWithAuthModal from "./AccessDeniedWithAuthModal";
 import { syncProject } from "../Editor/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
-// jest.mock('react-router-dom', () => ({
-//   useLocation: jest.fn()
-// }))
-
-
 jest.mock('../Editor/EditorSlice', () => ({
   ...jest.requireActual('../Editor/EditorSlice'),
   syncProject: jest.fn((_) => jest.fn())

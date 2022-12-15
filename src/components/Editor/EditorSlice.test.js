@@ -264,8 +264,6 @@ describe('When requesting a project', () => {
       saving: 'idle',
       project: project,
       currentLoadingRequestId: undefined,
-      accessDeniedNoAuthModalShowing: false,
-      modals: {}
     }
     expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState)
   })
