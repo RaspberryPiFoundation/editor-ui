@@ -251,7 +251,7 @@ describe('When requesting a project', () => {
 
   test('Reads project from database', async () => {
     await loadAction(dispatch, () => initialState)
-    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token', 'python')
+    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'python', 'my_token')
   })
 
   test('If loading status pending, loading success updates status', () => {

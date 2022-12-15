@@ -7,7 +7,7 @@ export const syncProject = (actionName) => createAsyncThunk(
     let response
     switch(actionName) {
       case 'load':
-        response = await readProject(identifier, accessToken, projectType)
+        response = await readProject(identifier, projectType, accessToken)
         break
       case 'remix':
         response = await createRemix(project, accessToken)
