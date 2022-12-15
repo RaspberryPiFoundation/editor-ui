@@ -1,35 +1,56 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createProject, readProject, createRemix, updateProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, readProject, createRemix } from '../../utils/apiCallHandler';
 
-export const loadProject = createAsyncThunk('editor/loadProjectStatus', async (data) => {
-  const response =  await readProject(data.projectIdentifier, data.accessToken)
-  return response.data
-})
-
-export const remixProject = createAsyncThunk('editor/remixProjectStatus', async (data) => {
-  const response = await createRemix(data.project, data.user.access_token)
-  return response.data
-})
-
-export const saveProject = createAsyncThunk('editor/saveProjectStatus', async (data) => {
-  let response
-  if (!data.project.identifier) {
-    response = await createProject(data.project, data.user.access_token)
+export const syncProject = (actionName) => createAsyncThunk(
+  `editor/${actionName}Project`,
+  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
+    let response
+    switch(actionName) {
+      case 'load':
+        response = await readProject(identifier, accessToken)
+        break
+      case 'remix':
+        response = await createRemix(project, accessToken)
+        break
+      case 'save':
+        response = await createOrUpdateProject(project, accessToken)
+        break
+      default:
+        rejectWithValue({ error: 'no such sync action' })
+    }
+    return { project: response.data, autosave }
+  },
+  {
+    condition: ({ autosave }, { getState }) => {
+      const { editor, auth } = getState()
+      const saveStatus = editor.saving
+      const loadStatus = editor.loading
+      if (auth.isLoadingUser) {
+        return false
+      }
+      if ((actionName === 'save' && autosave && !editor.autosaveEnabled)) {
+        return false
+      }
+      if ((actionName === 'save' || actionName === 'remix') && saveStatus === 'pending') {
+        return false
+      }
+      if (actionName === 'load' && loadStatus === 'pending' ) {
+        return false
+      }
+    },
   }
-  else {
-    response = await updateProject(data.project, data.user.access_token)
-  }
-  return { project: response.data, autosave: data.autosave }
-})
+)
 
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
     project: {},
-    projectLoaded: 'idle',
+    saving: 'idle',
+    loading: 'idle',
     justLoaded: false,
+    loadError: "",
+    saveError: "",
     currentLoadingRequestId: undefined,
-    error: "",
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -38,8 +59,9 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
-    saving: 'idle',
-    lastSaveAutosaved: false,
+    autosaveEnabled: false,
+    lastSaveAutosave: false,
+    lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
@@ -70,11 +92,11 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = []
       }
-      state.projectLoaded='success'
+      state.loading='success'
       state.justLoaded = true
     },
     setProjectLoaded: (state, action) => {
-      state.projectLoaded = action.payload;
+      state.loading = action.payload;
     },
     expireJustLoaded: (state) => {
       state.justLoaded = false
@@ -100,6 +122,10 @@ export const EditorSlice = createSlice({
 
         return { ...item, ...{ content: code } };
       })
+
+      if (state.project.identifier) {
+        state.autosaveEnabled = true;
+      }
       state.project.components = mapped;
     },
     updateProjectName: (state, action) => {
@@ -111,6 +137,9 @@ export const EditorSlice = createSlice({
       const extension = action.payload.extension
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
+    },
+    enableAutosave: (state) => {
+      state.autosaveEnabled = true;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -156,40 +185,47 @@ export const EditorSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(saveProject.pending, (state) => {
+    builder.addCase('editor/saveProject/pending', (state) => {
       state.saving = 'pending'
     })
-    builder.addCase(saveProject.fulfilled, (state, action) => {
+    builder.addCase('editor/saveProject/fulfilled', (state, action) => {
       localStorage.removeItem(state.project.identifier || 'project')
-      state.lastSaveAutosaved = action.payload.autosave
+      state.lastSaveAutosave = action.payload.autosave
       state.saving = 'success'
-      if (!state.project.image_list) {
-        state.project.image_list = []
-      }
+      state.lastSavedTime = Date.now()
+      state.project.image_list = state.project.image_list || []
 
-      if (state.project.identifier!==action.payload.project.identifier) {
+      if (state.project.identifier !== action.payload.project.identifier) {
         state.project = action.payload.project
-        state.projectLoaded = 'idle'
+        state.loading = 'idle'
       }
     })
-    builder.addCase(saveProject.rejected, (state) => {
+    builder.addCase('editor/saveProject/rejected', (state) => {
       state.saving = 'failed'
     })
-    builder.addCase(loadProject.pending, (state, action) => {
-      state.projectLoaded = 'pending'
+    builder.addCase('editor/remixProject/fulfilled', (state, action) => {
+      state.lastSaveAutosave = false
+      state.saving = 'success'
+      state.project = action.payload.project
+      state.loading = 'idle'
+    })
+    builder.addCase('editor/loadProject/pending', (state, action) => {
+      state.loading = 'pending'
       state.currentLoadingRequestId = action.meta.requestId
     })
-    builder.addCase(loadProject.fulfilled, (state, action) => {
-      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
-        state.project = action.payload
-        state.projectLoaded = 'success'
+    builder.addCase('editor/loadProject/fulfilled', (state, action) => {
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.project = action.payload.project
+        state.loading = 'success'
         state.justLoaded  = true
+        state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }
     })
-    builder.addCase(loadProject.rejected, (state, action) => {
-      if (state.projectLoaded === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
-        state.projectLoaded = 'failed'
+    builder.addCase('editor/loadProject/rejected', (state, action) => {
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.loading = 'failed'
+        state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }
     })
@@ -207,6 +243,7 @@ export const {
   addProjectComponent,
   codeRunHandled,
   expireJustLoaded,
+  enableAutosave,
   setEmbedded,
   setError,
   setIsSplitView,

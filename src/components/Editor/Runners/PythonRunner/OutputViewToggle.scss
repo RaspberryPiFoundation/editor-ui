@@ -7,7 +7,8 @@
   border-radius: 5px;
 
   &__button {
-    padding: var(--spacing-half) var(--spacing-1) var(--spacing-half) var(--spacing-1);
+    display: flex;
+    padding: 0 var(--spacing-half);
     cursor: pointer;
 
     &:disabled {
@@ -18,44 +19,39 @@
 
 .--light {
   .output-view-toggle {
-    background-color: $editor-light-light-grey;
-    &__button {
-      svg {
-        fill: $editor-mid-grey;
-      }
-      &--active {
-        background-color: $editor-light-grey;
-        border-radius: 5px;
-        svg {
-          fill: $editor-black;
-        }
-      }
+    background-color: $rpf-darkmode-grey95;
+    svg {
+      fill: $rpf-black;
     }
+  }
+  .output-view-toggle__button--active {
+    background-color: $rpf-darkmode-grey85;
+    border-radius: 5px;
   }
 }
 
 .--dark {
   .output-view-toggle {
-    background-color: $editor-dark-dark;
+    background-color: $rpf-darkmode-grey22;
     &__button {
       svg {
-        fill: $editor-mid-grey;
+        fill: $rpf-darkmode-grey75;
       }
       &--active {
-        background-color: $editor-grey;
+        background-color: $rpf-darkmode-grey42;
         border-radius: 5px;
         svg {
-          fill: $editor-white;
+          fill: $rpf-white;
         }
       }
       &:disabled {
         svg {
-          fill: $editor-grey;
+          fill: $rpf-darkmode-grey42;
         }
       }
       &--active:disabled {
         svg {
-          fill: $editor-mid-grey;
+          fill: $rpf-darkmode-grey75;
         }
       }
     }
@@ -64,11 +60,11 @@
 
 .--light .output-view-toggle__button:disabled {
       svg {
-        fill: $editor-mid-light-grey;
+        fill: $rpf-darkmode-grey75;
       }
     &.output-view-toggle__button--active {
       svg {
-        fill: $editor-mid-grey;
+        fill: $rpf-darkmode-grey42;
       }
     }
   }

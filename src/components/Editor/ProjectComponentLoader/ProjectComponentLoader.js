@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 const DEFAULT_PROJECT_TYPE = 'python'
 
 const ProjectComponentLoader = (props) => {
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded);
+  const loading = useSelector((state) => state.editor.loading);
   const initialProjectIdentifier = props.match.params.identifier;
   const initialProjectType = props.match.params.projectType || DEFAULT_PROJECT_TYPE;
   const embedded = props.embedded || false;
@@ -24,15 +24,15 @@ const ProjectComponentLoader = (props) => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (projectLoaded === 'idle' && project.identifier) {
+    if (loading === 'idle' && project.identifier) {
       history.push(`/${project.project_type}/${project.identifier}`)
     }
-  }, [projectLoaded, project, history])
+  }, [loading, project, history])
 
 
-  return projectLoaded === 'success' ? (
+  return loading === 'success' ? (
     <Project />
-  ) : projectLoaded === 'failed' ? (
+  ) : loading === 'failed' ? (
     <p>{t('project.notFound')}</p>
   ) : <p>{t('project.loading')}</p>;
 };

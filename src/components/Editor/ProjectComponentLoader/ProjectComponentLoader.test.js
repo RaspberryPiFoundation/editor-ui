@@ -9,7 +9,7 @@ test("Renders loading message if projectloaded is pending", () => {
   const mockStore = configureStore(middlewares)
   const initialState = {
     editor: {
-      projectLoaded: 'pending'
+      loading: 'pending'
     },
     auth: {}
   }
@@ -23,7 +23,7 @@ test("Renders failed message if projectloaded is failed", () => {
   const mockStore = configureStore(middlewares)
   const initialState = {
     editor: {
-      projectLoaded: 'failed'
+      loading: 'failed'
     },
     auth: {}
   }
@@ -40,7 +40,7 @@ test("Does not render loading or failed message if projectloaded is success", ()
       project: {
         components: []
       },
-      projectLoaded: 'success'
+      loading: 'success'
     },
     auth: {}
   }

@@ -2,10 +2,8 @@
 
 .btn {
   align-items: center;
-  background-color: $editor-turquoise;
   border-radius: 5px;
   border-width: 0;
-  color: $editor-black;
   cursor: pointer;
   display: inline-flex;
   font-family: sans-serif;
@@ -19,11 +17,18 @@
   width: fit-content;
 
   svg {
-    margin-right: var(--spacing-1)
+    margin-right: var(--spacing-1);
   }
 
-  &:hover {
-    background-color: $editor-dark-turquoise;
+  &--primary {
+    background-color: $rpf-teal;
+    color: $rpf-text-black;
+    &:hover {
+      background-color: $rpf-teal-shade-20;
+    }
+    svg {
+      fill: $editor-black;
+    }
   }
 
   &--secondary {

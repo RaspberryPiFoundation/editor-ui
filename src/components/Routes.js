@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
-import NewProject from './NewProject/NewProject'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
@@ -24,11 +23,6 @@ const Routes = () => (
       exact
       path="/"
       component={ProjectComponentLoader}
-    />
-    <Route
-      exact
-      path="/new"
-      component={NewProject}
     />
     <Route
       exact
