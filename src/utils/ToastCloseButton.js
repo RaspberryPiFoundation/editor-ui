@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../components/Button/Button";
 import { CloseIcon } from "../Icons";
 
-const CloseButton = ({ closeToast }) => {
+const ToastCloseButton = ({ closeToast }) => {
   return (
     <Button
       className='btn btn--tertiary'
@@ -11,4 +11,4 @@ const CloseButton = ({ closeToast }) => {
   )
 }
 
-export default CloseButton
+export default ToastCloseButton

@@ -16,7 +16,7 @@ import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
 import { showSavedMessage } from './utils/Notifications';
-import CloseButton from './utils/ToastCloseButton';
+import ToastCloseButton from './utils/ToastCloseButton';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -38,7 +38,7 @@ function App() {
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
-        <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={CloseButton}/>
+        <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={ToastCloseButton}/>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <Routes />
