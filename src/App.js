@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
 import './utils/Notifications.scss';
 
@@ -13,14 +12,10 @@ import Header from './components/Header/Header'
 import Routes from './components/Routes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
-import { expireJustLoaded, saveProject } from './components/Editor/EditorSlice';
-
 import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
-import { showLoginPrompt, showSavedMessage, showSavePrompt } from './utils/Notifications';
-import Button from './components/Button/Button';
-import { CloseIcon } from './Icons';
+import { showSavedMessage } from './utils/Notifications';
 import CloseButton from './utils/ToastCloseButton';
 
 function App() {

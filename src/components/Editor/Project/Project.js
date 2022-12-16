@@ -1,12 +1,11 @@
-import './Project.scss';
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
 import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
