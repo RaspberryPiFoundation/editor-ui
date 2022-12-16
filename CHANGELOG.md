@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Message prompting users to login or save if they make non-autosaved changes (#298)
+
 ## [0.9.0]
 
 ### Added
