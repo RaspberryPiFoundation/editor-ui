@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ChevronDown, FileIcon } from '../../Icons';
 import FileMenu from '../Menus/FileMenu/FileMenu';
@@ -6,10 +6,17 @@ import NewComponentButton from "../Editor/NewComponentButton/NewComponentButton"
 import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
+import { openFile } from "../Editor/EditorSlice";
 
 const FilesList = () => {
   const project = useSelector((state) => state.editor.project)
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  
+  const openFileTab = (file) => {
+    const fileName = `${file.name}.${file.extension}`
+    dispatch(openFile(fileName))
+  }
 
   return (
     <details className = "file-pane-section file-pane-section__files" open>
@@ -24,7 +31,7 @@ const FilesList = () => {
       <div className='files-list'>
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i}>
-          <div className='files-list-item__label'>
+          <div className='files-list-item__label' onClick={() => openFileTab(file)}>
             <FileIcon scaleFactor={0.75}/>
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           </div>

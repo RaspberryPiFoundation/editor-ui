@@ -34,6 +34,7 @@ i18n
           },
           filePane: {
             errors: {
+              containsSpaces: 'File names must not contain spaces.',
               generalError: 'Error',
               notUnique: 'File names must be unique.',
               or: 'or',

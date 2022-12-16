@@ -12,8 +12,10 @@ import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
-import { syncProject } from '../EditorSlice';
+import { closeFile, syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
+import { CloseIcon } from '../../../Icons';
+
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -22,6 +24,12 @@ const Project = (props) => {
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
+  const openFiles = useSelector((state) => state.editor.openFiles)
+
+  const closeFileTab = (file) => {
+    const fileName = `${file.name}.${file.extension}`
+    dispatch(closeFile(fileName))
+  }
 
   useEffect(() => {
     if (forWebComponent) {
@@ -40,6 +48,7 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
@@ -47,17 +56,31 @@ const Project = (props) => {
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
-              { project.components.map((file, i) => (
-                  <Tab key={i}>{file.name}.{file.extension}</Tab>
-                )
-              )}
+            { project.components.filter(file => openFiles.includes(`${file.name}.${file.extension}`)).map((file, i) => (
+              <Tab key={i}>
+                <span>{file.name}.{file.extension}</span>
+                {file.name!=='main' || file.extension!=='py' ?
+                  <button onClick={() => closeFileTab(file)}><CloseIcon scaleFactor={0.75}/></button>
+                : null
+                }
+              </Tab>
+            ))}
+            {/* {openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')).map((file, i) => {
+              <Tab key={i}>
+                <span>{file.name}.{file.extension}</span>
+                {file.name!=='main' || file.extension!=='py' ?
+                  <button onClick={() => closeFileTab(file)}><CloseIcon scaleFactor={0.75}/></button>
+                : null
+                }
+            </Tab>
+            }))} */}
             </TabList>
-            { project.components.map((file,i) => (
+            { project.components.filter(file => openFiles.includes(`${file.name}.${file.extension}`)).map((file, i) => (
+            // {openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')).map((file, i) => {
               <TabPanel key={i}>
                 <EditorPanel fileName={file.name} extension={file.extension} />
               </TabPanel>
-              )
-            )}
+            ))}
             <RunnerControls />
           </Tabs>
         </div>
@@ -69,4 +92,3 @@ const Project = (props) => {
 };
 
 export default Project;
-

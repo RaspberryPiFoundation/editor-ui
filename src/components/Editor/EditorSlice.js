@@ -50,6 +50,7 @@ export const EditorSlice = createSlice({
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
+    openFiles: [],
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -69,6 +70,16 @@ export const EditorSlice = createSlice({
     modals: {},
   },
   reducers: {
+    closeFile: (state, action) => {
+      console.log(state.openFiles.filter(fileName => fileName!==action.payload))
+      console.log(action.payload)
+      state.openFiles = state.openFiles.filter(fileName => fileName!==action.payload)
+    },
+    openFile: (state, action) => {
+      if (!state.openFiles.includes(action.payload)) {
+        state.openFiles.push(action.payload)
+      }
+    },
     updateImages: (state, action) => {
       if (!state.project.image_list) {state.project.image_list=[]}
       state.project.image_list = action.payload
@@ -92,6 +103,7 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.loading='success'
+      state.openFiles.push('main.py')
     },
     setProjectLoaded: (state, action) => {
       state.loading = action.payload;
@@ -214,6 +226,7 @@ export const EditorSlice = createSlice({
         state.loading = 'success'
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
+        state.openFiles.push('main.py')
       }
     })
     builder.addCase('editor/loadProject/rejected', (state, action) => {
@@ -231,6 +244,8 @@ export const {
   addProjectComponent,
   codeRunHandled,
   enableAutosave,
+  closeFile,
+  openFile,
   setEmbedded,
   setError,
   setIsSplitView,

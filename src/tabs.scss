@@ -9,6 +9,7 @@
     position: relative;
   
     &__tab {
+      display: flex;
       border-radius: 5px;
       padding: var(--spacing-1);
       margin: var(--spacing-1);
@@ -27,6 +28,7 @@
   
     &__tab-list {
       display: flex;
+      overflow: scroll;
       margin: 0;
     }
   
