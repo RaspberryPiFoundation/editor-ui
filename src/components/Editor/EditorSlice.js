@@ -147,8 +147,12 @@ export const EditorSlice = createSlice({
       const key = action.payload.key;
       const name = action.payload.name;
       const extension = action.payload.extension
+      const oldName = `${state.project.components[key].name}.${state.project.components[key].extension}`
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
+      if (state.openFiles.includes(oldName)) {
+        state.openFiles[state.openFiles.indexOf(oldName)] = `${name}.${extension}`
+      }
     },
     enableAutosave: (state) => {
       state.autosaveEnabled = true;
