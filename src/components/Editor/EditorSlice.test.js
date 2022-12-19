@@ -261,6 +261,7 @@ describe('When requesting a project', () => {
     }
     const expectedState = {
       loading: 'success',
+      justLoaded: true,
       saving: 'idle',
       project: project,
       currentLoadingRequestId: undefined

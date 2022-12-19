@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import './App.scss';
+import './utils/Notifications.scss';
 
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
@@ -16,6 +16,7 @@ import BetaBanner from './components/BetaBanner/BetaBanner';
 import BetaModal from './components/Modals/BetaModal';
 import LoginToSaveModal from './components/Modals/LoginToSaveModal';
 import { showSavedMessage } from './utils/Notifications';
+import ToastCloseButton from './utils/ToastCloseButton';
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -37,6 +38,7 @@ function App() {
     className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
+        <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={ToastCloseButton}/>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <Routes />
@@ -44,7 +46,7 @@ function App() {
           <BetaModal/>
           <LoginToSaveModal/>
         </BrowserRouter>
-        <ToastContainer position='bottom-center' className='toast--bottom-center' />
+        <ToastContainer enableMultiContainer containerId='bottom-center' position='bottom-center' className='toast--bottom-center' />
       </SettingsContext.Provider>
     </div>
   );
