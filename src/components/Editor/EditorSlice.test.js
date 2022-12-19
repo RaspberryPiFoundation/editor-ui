@@ -256,10 +256,12 @@ describe('When requesting a project', () => {
 
   test('If loading status pending, loading success updates status', () => {
     const initialState = {
+      openFiles: [],
       loading: 'pending',
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
+      openFiles: ['main.py'],
       loading: 'success',
       saving: 'idle',
       project: project,

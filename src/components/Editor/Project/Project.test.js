@@ -21,7 +21,8 @@ test("Renders with file menu if not for web component", () => {
       editor: {
         project: {
           components: []
-        }
+        },
+        openFiles: []
       },
       auth: {
         user: null
@@ -39,7 +40,8 @@ test("Renders without file menu if for web component", () => {
     editor: {
       project: {
         components: []
-      }
+      },
+      openFiles: []
     },
     auth: {
       user: null

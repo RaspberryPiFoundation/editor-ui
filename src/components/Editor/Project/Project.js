@@ -48,14 +48,6 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
-  let openFileContent
-
-  useEffect(() => {
-    openFileContent = openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')))
-    console.log(openFileContent)
-  }, [openFiles])
-
-
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>

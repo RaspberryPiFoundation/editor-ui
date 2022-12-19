@@ -72,8 +72,6 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     closeFile: (state, action) => {
-      console.log(state.openFiles.filter(fileName => fileName!==action.payload))
-      console.log(action.payload)
       state.openFiles = state.openFiles.filter(fileName => fileName!==action.payload)
     },
     openFile: (state, action) => {
