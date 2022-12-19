@@ -19,7 +19,7 @@ const allowedExtensionsString = (projectType, t) => {
 
 const isValidFileName = (fileName, projectType, componentNames) => {
   const extension = fileName.split('.').slice(1).join('.')
-  if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName) && fileName.split(' ').length == 1) {
+  if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName) && fileName.split(' ').length === 1) {
     return true;
   } else {
     return false;
