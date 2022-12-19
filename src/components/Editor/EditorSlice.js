@@ -103,7 +103,9 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.loading='success'
-      state.openFiles.push('main.py')
+      if (state.openFiles.length === 0) {
+        state.openFiles.push('main.py')
+      }
     },
     setProjectLoaded: (state, action) => {
       state.loading = action.payload;
@@ -226,7 +228,9 @@ export const EditorSlice = createSlice({
         state.loading = 'success'
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
-        state.openFiles.push('main.py')
+        if (state.openFiles.length === 0) {
+          state.openFiles.push('main.py')
+        }
       }
     })
     builder.addCase('editor/loadProject/rejected', (state, action) => {

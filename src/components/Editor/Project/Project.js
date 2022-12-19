@@ -26,8 +26,7 @@ const Project = (props) => {
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
   const openFiles = useSelector((state) => state.editor.openFiles)
 
-  const closeFileTab = (file) => {
-    const fileName = `${file.name}.${file.extension}`
+  const closeFileTab = (fileName) => {
     dispatch(closeFile(fileName))
   }
 
@@ -48,6 +47,13 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+  let openFileContent
+
+  useEffect(() => {
+    openFileContent = openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')))
+    console.log(openFileContent)
+  }, [openFiles])
+
 
   return (
     <div className='proj'>
@@ -56,29 +62,19 @@ const Project = (props) => {
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
-            { project.components.filter(file => openFiles.includes(`${file.name}.${file.extension}`)).map((file, i) => (
-              <Tab key={i}>
-                <span>{file.name}.{file.extension}</span>
-                {file.name!=='main' || file.extension!=='py' ?
-                  <button onClick={() => closeFileTab(file)}><CloseIcon scaleFactor={0.75}/></button>
-                : null
-                }
-              </Tab>
-            ))}
-            {/* {openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')).map((file, i) => {
-              <Tab key={i}>
-                <span>{file.name}.{file.extension}</span>
-                {file.name!=='main' || file.extension!=='py' ?
-                  <button onClick={() => closeFileTab(file)}><CloseIcon scaleFactor={0.75}/></button>
-                : null
-                }
-            </Tab>
-            }))} */}
+              {openFiles.map((fileName, i) => (
+                <Tab key={i}>
+                  <span>{fileName}</span>
+                  {fileName !== 'main.py' ?
+                    <button onClick={() => closeFileTab(fileName)}><CloseIcon scaleFactor={0.75}/></button>
+                  : null
+                  }
+                </Tab>
+              ))}
             </TabList>
-            { project.components.filter(file => openFiles.includes(`${file.name}.${file.extension}`)).map((file, i) => (
-            // {openFiles.map(file => project.components.filter(component => component.name===file.split('.')[0] && component.extension === file.split('.').slice(1).join('.')).map((file, i) => {
+            {openFiles.map((fileName, i) => (
               <TabPanel key={i}>
-                <EditorPanel fileName={file.name} extension={file.extension} />
+                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
               </TabPanel>
             ))}
             <RunnerControls />
