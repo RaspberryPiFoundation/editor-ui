@@ -51,6 +51,7 @@ export const EditorSlice = createSlice({
     saveError: "",
     currentLoadingRequestId: undefined,
     openFiles: [],
+    focussedFileIndex: 0,
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -79,6 +80,10 @@ export const EditorSlice = createSlice({
       if (!state.openFiles.includes(action.payload)) {
         state.openFiles.push(action.payload)
       }
+      state.focussedFileIndex = state.openFiles.indexOf(action.payload)
+    },
+    setFocussedFileIndex: (state, action) => {
+      state.focussedFileIndex = action.payload
     },
     updateImages: (state, action) => {
       if (!state.project.image_list) {state.project.image_list=[]}
@@ -250,6 +255,7 @@ export const {
   enableAutosave,
   closeFile,
   openFile,
+  setFocussedFileIndex,
   setEmbedded,
   setError,
   setIsSplitView,

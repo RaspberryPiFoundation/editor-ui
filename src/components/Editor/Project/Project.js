@@ -12,7 +12,7 @@ import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
-import { closeFile, syncProject } from '../EditorSlice';
+import { closeFile, setFocussedFileIndex, syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 import { CloseIcon } from '../../../Icons';
 
@@ -25,6 +25,7 @@ const Project = (props) => {
   const modals = useSelector((state) => state.editor.modals)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
   const openFiles = useSelector((state) => state.editor.openFiles)
+  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
 
   const closeFileTab = (fileName) => {
     dispatch(closeFile(fileName))
@@ -60,7 +61,7 @@ const Project = (props) => {
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <FilePane /> : null}
         <div className='proj-editor-container'>
-          <Tabs>
+          <Tabs selectedIndex={focussedFileIndex} onSelect={index => dispatch(setFocussedFileIndex(index))}>
             <TabList>
               {openFiles.map((fileName, i) => (
                 <Tab key={i}>
