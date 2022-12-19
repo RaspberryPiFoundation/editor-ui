@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Message prompting users to login or save if they make non-autosaved changes (#291)
+- Unit tests for the autosave trigger (#291)
 - Project not found and access denied modals shown on project loading error (#298)
 
 ## [0.9.0]

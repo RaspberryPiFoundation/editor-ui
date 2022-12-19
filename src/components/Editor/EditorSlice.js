@@ -47,6 +47,8 @@ export const EditorSlice = createSlice({
     project: {},
     saving: 'idle',
     loading: 'idle',
+    justLoaded: false,
+    hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
@@ -89,15 +91,22 @@ export const EditorSlice = createSlice({
     setNameError: (state, action) => {
       state.nameError = action.payload;
     },
+    setHasShownSavePrompt: (state) => {
+      state.hasShownSavePrompt = true
+    },
     setProject: (state, action) => {
       state.project = action.payload;
       if (!state.project.image_list) {
         state.project.image_list = []
       }
       state.loading='success'
+      state.justLoaded = true
     },
     setProjectLoaded: (state, action) => {
       state.loading = action.payload;
+    },
+    expireJustLoaded: (state) => {
+      state.justLoaded = false
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -227,6 +236,7 @@ export const EditorSlice = createSlice({
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload.project
         state.loading = 'success'
+        state.justLoaded  = true
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }
@@ -259,11 +269,13 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   codeRunHandled,
+  expireJustLoaded,
   enableAutosave,
   setEmbedded,
   setError,
   setIsSplitView,
   setNameError,
+  setHasShownSavePrompt,
   setProject,
   setProjectList,
   setProjectListLoaded,
