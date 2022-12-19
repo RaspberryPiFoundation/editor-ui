@@ -11,6 +11,7 @@ const LoginButton = (props) => {
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
+    window.plausible('Login button')
     localStorage.setItem('location', location.pathname)
     localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
     userManager.signinRedirect();

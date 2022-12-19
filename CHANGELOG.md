@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Plausbile event tracking for login, remix, save and code run (#250)
 - Message prompting users to login or save if they make non-autosaved changes (#298)
 - Unit tests for the autosave trigger (#298)
 
