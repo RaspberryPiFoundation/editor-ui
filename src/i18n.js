@@ -39,8 +39,8 @@ i18n
               or: 'or',
               unsupportedExtension: 'File names must end in {{allowedExtensions}}.'
             },
-            files: 'Project Files',
-            images: 'Image Gallery',
+            files: 'Project files',
+            images: 'Image gallery',
             newFileButton: 'Add file',
             newFileModal: {
               cancel: 'Cancel',
@@ -77,11 +77,13 @@ i18n
             raspberryPiLogoAltText: 'Raspberry Pi logo'
           },
           header: {
+            autoSaving: 'Saving',
+            autoSaved: 'Saved',
             download: 'Download',
             downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
             newProject: 'New Project',
-            projects: 'My Projects',
+            projects: 'Your projects',
             save: 'Save',
             settings: 'Settings',
             settingsMenu: {
@@ -98,6 +100,14 @@ i18n
                 light: 'Light'
               },
             },
+          },
+          loginToSaveModal: {
+            cancel: 'Cancel',
+            downloadButtonText: 'Download',
+            downloadText: 'Or you can download your project and save it on your computer.',
+            heading: 'Save your project',
+            loginButtonText: 'Log in to save',
+            loginText: 'Log in to your Raspberry Pi account to save your work, and you\'ll be able to access and edit your project whenever you need to.'
           },
           notifications: {
             projectRemixed: 'Your remixed project has been saved',
@@ -129,6 +139,11 @@ i18n
             },
             textOutput: 'Text Output',
             visualOutput: 'Visual Output',
+          },
+          project: {
+            loading: 'Loading',
+            notFound: 'Oops we couldn\'t find that project',
+            untitled: 'Untitled project'
           },
           runButton: {
             run: 'Run',

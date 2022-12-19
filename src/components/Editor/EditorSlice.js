@@ -1,11 +1,55 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createOrUpdateProject, readProject, createRemix } from '../../utils/apiCallHandler';
+
+export const syncProject = (actionName) => createAsyncThunk(
+  `editor/${actionName}Project`,
+  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
+    let response
+    switch(actionName) {
+      case 'load':
+        response = await readProject(identifier, accessToken)
+        break
+      case 'remix':
+        response = await createRemix(project, accessToken)
+        break
+      case 'save':
+        response = await createOrUpdateProject(project, accessToken)
+        break
+      default:
+        rejectWithValue({ error: 'no such sync action' })
+    }
+    return { project: response.data, autosave }
+  },
+  {
+    condition: ({ autosave }, { getState }) => {
+      const { editor, auth } = getState()
+      const saveStatus = editor.saving
+      const loadStatus = editor.loading
+      if (auth.isLoadingUser) {
+        return false
+      }
+      if ((actionName === 'save' && autosave && !editor.autosaveEnabled)) {
+        return false
+      }
+      if ((actionName === 'save' || actionName === 'remix') && saveStatus === 'pending') {
+        return false
+      }
+      if (actionName === 'load' && loadStatus === 'pending' ) {
+        return false
+      }
+    },
+  }
+)
 
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
     project: {},
-    projectLoaded: false,
-    error: "",
+    saving: 'idle',
+    loading: 'idle',
+    loadError: "",
+    saveError: "",
+    currentLoadingRequestId: undefined,
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -14,9 +58,13 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: false,
+    autosaveEnabled: false,
+    lastSaveAutosave: false,
+    lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
     betaModalShowing: false,
+    loginToSaveModalShowing: false,
     renameFileModalShowing: false,
     modals: {},
   },
@@ -43,9 +91,10 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = []
       }
+      state.loading='success'
     },
     setProjectLoaded: (state, action) => {
-      state.projectLoaded = action.payload;
+      state.loading = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -68,6 +117,10 @@ export const EditorSlice = createSlice({
 
         return { ...item, ...{ content: code } };
       })
+
+      if (state.project.identifier) {
+        state.autosaveEnabled = true;
+      }
       state.project.components = mapped;
     },
     updateProjectName: (state, action) => {
@@ -79,6 +132,9 @@ export const EditorSlice = createSlice({
       const extension = action.payload.extension
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
+    },
+    enableAutosave: (state) => {
+      state.autosaveEnabled = true;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -108,6 +164,12 @@ export const EditorSlice = createSlice({
     closeBetaModal: (state) => {
       state.betaModalShowing = false
     },
+    showLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = true
+    },
+    closeLoginToSaveModal: (state) => {
+      state.loginToSaveModalShowing = false
+    },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
@@ -117,12 +179,58 @@ export const EditorSlice = createSlice({
       state.renameFileModalShowing = false
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase('editor/saveProject/pending', (state) => {
+      state.saving = 'pending'
+    })
+    builder.addCase('editor/saveProject/fulfilled', (state, action) => {
+      localStorage.removeItem(state.project.identifier || 'project')
+      state.lastSaveAutosave = action.payload.autosave
+      state.saving = 'success'
+      state.lastSavedTime = Date.now()
+      state.project.image_list = state.project.image_list || []
+
+      if (state.project.identifier !== action.payload.project.identifier) {
+        state.project = action.payload.project
+        state.loading = 'idle'
+      }
+    })
+    builder.addCase('editor/saveProject/rejected', (state) => {
+      state.saving = 'failed'
+    })
+    builder.addCase('editor/remixProject/fulfilled', (state, action) => {
+      state.lastSaveAutosave = false
+      state.saving = 'success'
+      state.project = action.payload.project
+      state.loading = 'idle'
+    })
+    builder.addCase('editor/loadProject/pending', (state, action) => {
+      state.loading = 'pending'
+      state.currentLoadingRequestId = action.meta.requestId
+    })
+    builder.addCase('editor/loadProject/fulfilled', (state, action) => {
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.project = action.payload.project
+        state.loading = 'success'
+        state.saving = 'idle'
+        state.currentLoadingRequestId = undefined
+      }
+    })
+    builder.addCase('editor/loadProject/rejected', (state, action) => {
+      if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
+        state.loading = 'failed'
+        state.saving = 'idle'
+        state.currentLoadingRequestId = undefined
+      }
+    })
+  }
 })
 
 // Action creators are generated for each case reducer function
 export const {
   addProjectComponent,
   codeRunHandled,
+  enableAutosave,
   setEmbedded,
   setError,
   setIsSplitView,
@@ -143,6 +251,8 @@ export const {
   updateProjectName,
   showBetaModal,
   closeBetaModal,
+  showLoginToSaveModal,
+  closeLoginToSaveModal,
   showRenameFileModal,
   closeRenameFileModal,
 } = EditorSlice.actions

@@ -11,7 +11,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['redux-oidc/USER_FOUND'],
+        ignoredActions: ['redux-oidc/USER_FOUND', 'redux-odic/SILENT_RENEW_ERROR'],
         ignoredPaths: ['auth.user'],
     },
   }),

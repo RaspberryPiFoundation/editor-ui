@@ -1,11 +1,22 @@
 import App from './App';
-import store from './app/store'
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
+import configureStore from 'redux-mock-store';
+import { showSavedMessage } from './utils/Notifications';
+
+jest.mock('./utils/Notifications')
+jest.mock('./components/Editor/EditorSlice', () => {
+  const actual = jest.requireActual('./components/Editor/EditorSlice')
+  return {
+    ...actual,
+    saveProject: jest.fn()
+  }
+})
 
 describe('Browser prefers light mode', () => {
+  let store
   let cookies;
 
   beforeEach(() => {
@@ -21,6 +32,13 @@ describe('Browser prefers light mode', () => {
     })
 
     cookies = new Cookies()
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {},
+      auth: {}
+    }
+    store = mockStore(initialState);
   })
 
   test('Light mode class name added if no cookie', () => {
@@ -52,8 +70,8 @@ describe('Browser prefers light mode', () => {
 })
 
 describe('Browser prefers dark mode', () => {
-
   let cookies;
+  let store
 
   beforeEach(() => {
     window.matchMedia = (query) => ({
@@ -67,6 +85,13 @@ describe('Browser prefers dark mode', () => {
       dispatchEvent: jest.fn(),
     })
     cookies = new Cookies();
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {},
+      auth: {}
+    }
+    store = mockStore(initialState);
   })
 
   test('Dark mode class name added if no cookie', () => {
@@ -98,12 +123,20 @@ describe('Browser prefers dark mode', () => {
 })
 
 describe("When selecting the font size", ()=>{
-
   let cookies;
+  let store
 
   beforeEach(() => {
     cookies = new Cookies()
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {},
+      auth: {}
+    }
+    store = mockStore(initialState);
   })
+
   test("Cookie not set defaults css class to small", () => {
     const appContainer = render(
       <CookiesProvider cookies={cookies}>
@@ -156,9 +189,17 @@ describe("When selecting the font size", ()=>{
 
 describe('Beta banner', () => {
   let cookies
+  let store
 
   beforeEach(() => {
     cookies = new Cookies()
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {},
+      auth: {}
+    }
+    store = mockStore(initialState);
   })
 
   test('Renders beta banner if betaBannerDismissed cookie not set', () => {
@@ -188,3 +229,20 @@ describe('Beta banner', () => {
     act(() => cookies.remove('betaBannerDismissed'))
   })
 })
+
+test('Successful manual save prompts project saved message', async () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        saving: 'success',
+        lastSaveAutosave: false
+      },
+      auth: {}
+    }
+    const mockedStore = mockStore(initialState);
+    render(<Provider store={mockedStore}><App/></Provider>);
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+})
+
+// TODO: Write test for successful autosave not prompting the project saved message as per the above

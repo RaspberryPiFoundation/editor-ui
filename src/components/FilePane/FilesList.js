@@ -14,7 +14,8 @@ const FilesList = () => {
   return (
     <details className = "file-pane-section file-pane-section__files" open>
       <summary>
-        <h2 className="menu-pop-out-subheading" >{t('filePane.files')}</h2>
+        <FileIcon />
+        <h2>{t('filePane.files')}</h2>
         <div className="accordion-icon">
           <ChevronDown />
         </div>
@@ -24,7 +25,7 @@ const FilesList = () => {
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i}>
           <div className='files-list-item__label'>
-            <FileIcon />
+            <FileIcon scaleFactor={0.75}/>
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           </div>
           {(file.name === 'main' && file.extension === 'py') ? null :

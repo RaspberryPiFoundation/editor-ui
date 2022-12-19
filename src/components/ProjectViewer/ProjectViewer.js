@@ -7,7 +7,7 @@ import { triggerCodeRun } from '../Editor/EditorSlice'
 import RunnerControls from '../RunButton/RunnerControls';
 
 const ProjectViewer = (props) => {
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded);
+  const loading = useSelector((state) => state.editor.loading);
   const projectIdentifier = props.match.params.identifier;
   const dispatch = useDispatch();
   useProject('python', projectIdentifier);
@@ -17,7 +17,7 @@ const ProjectViewer = (props) => {
   }, []);
 
 
-  return projectLoaded === true ? (
+  return loading === 'success' ? (
     <>
       <div className='main-container'>
         <h1>Shared project</h1>

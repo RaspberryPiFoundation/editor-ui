@@ -16,13 +16,13 @@
     margin-right: var(--spacing-3);
     height: 100%;
 
-    .btn {
+    .dropdown-button {
       padding: 0 var(--spacing-2)
     }
 
     svg {
-      fill:  $editor-white;
-      margin: 0;
+      fill:  $rpf-white;
+      margin: 0 0 0 var(--spacing-1);
     }
 
     img {
@@ -38,14 +38,14 @@
     padding: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
     text-decoration: none;
-    color: $editor-white;
+    color: $rpf-white;
 
     span {
       margin-left: var(--spacing-2);
     }
 
     &:visited {
-      color: $editor-white;
+      color: $rpf-white;
     }
   }
 }
@@ -67,5 +67,11 @@
         margin: var(--spacing-1) var(--spacing-1);
       }
     }
+  }
+}
+
+.--dark {
+  .editor-global-nav {
+    background-color: $rpf-darkmode-grey15;
   }
 }

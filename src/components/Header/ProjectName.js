@@ -1,62 +1,58 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom';
-import { RemixIcon } from '../../Icons';
-import { remixProject } from '../../utils/apiCallHandler';
-import { showRemixedMessage } from '../../utils/Notifications';
-import { setProjectLoaded, updateProjectName } from '../Editor/EditorSlice';
+import { PencilIcon } from '../../Icons';
+import Button from '../Button/Button';
+import { updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
 
 const ProjectName = () => {
   const project = useSelector((state) => state.editor.project)
-  const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch();
-  let history = useHistory()
   const { t } = useTranslation()
   const nameInput= useRef();
+  const [isEditable, setEditable] = useState(false)
 
-  const onNameChange = () => {
+  useEffect(() => {
+    if (isEditable) {
+      nameInput.current.focus()
+    }
+  })
+
+  const updateName = () => {
+    setEditable(false)
     dispatch(updateProjectName(nameInput.current.value))
   }
+  const onEditNameButtonClick = () => {
+    setEditable(true)
+  }
 
-  const onClickRemix = async () => {
-    window.plausible('Remix button')
-
-    if (!project.identifier || !user) {
-      return;
-    }
-
-    const response = await remixProject(project, user.access_token)
-
-    if(response.status === 200) {
-      const identifier = response.data.identifier;
-      const project_type = response.data.project_type;
-      dispatch(setProjectLoaded(false));
-      history.push(`/${project_type}/${identifier}`)
-      showRemixedMessage()
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      nameInput.current.blur()
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      setEditable(false)
     }
   }
 
   return (
    <div className='project-name'>
-    {user && (project.user_id === user.profile.user) ? 
+    {isEditable ? 
       <input
         className='project-name__input'
         ref={nameInput}
         type='text'
-        onChange={onNameChange}
-        defaultValue={project.name} /> 
-      : user && project.name?
-      <div className='project-name__remix' onClick={onClickRemix}>
-        <RemixIcon />
-        <h1>{project.name}</h1>
-      </div>
+        onBlur={updateName}
+        onKeyDown={handleKeyDown}
+        defaultValue={project.name} />
       :
-      <div className='project-name__no-auth'>
-        <h1>{project.name||t('header.newProject')}</h1>
-      </div>
+      <>
+        <h1 className='project-name__title'>{project.name||t('header.newProject')}</h1>
+        <Button className='btn--tertiary project-name__button' ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
+      </>
       }
     </div>
   )
