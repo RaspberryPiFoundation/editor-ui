@@ -8,8 +8,9 @@ import { useTranslation } from "react-i18next";
 import './FilesList.scss'
 import { openFile } from "../Editor/EditorSlice";
 
-const FilesList = () => {
+const FilesList = (props) => {
   const project = useSelector((state) => state.editor.project)
+  // const {openFileTab} = props
   const { t } = useTranslation()
   const dispatch = useDispatch()
   
