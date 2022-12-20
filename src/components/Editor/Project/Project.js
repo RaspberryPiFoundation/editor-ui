@@ -13,6 +13,9 @@ import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
 import { expireJustLoaded, setHasShownSavePrompt, syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
+import NotFoundModal from '../../Modals/NotFoundModal';
+import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
+import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
 
 const Project = (props) => {
@@ -22,6 +25,9 @@ const Project = (props) => {
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
+  const notFoundModalShowing = useSelector((state) => state.editor.notFoundModalShowing)
+  const accessDeniedNoAuthModalShowing = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
+  const accessDeniedWithAuthModalShowing = useSelector((state) => state.editor.accessDeniedWithAuthModalShowing)
   const justLoaded = useSelector((state) => state.editor.justLoaded)
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
 
@@ -72,6 +78,9 @@ const Project = (props) => {
         <Output />
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
+      {(notFoundModalShowing) ? <NotFoundModal /> : null}
+      {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+      {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
     </div>
   )
 };
