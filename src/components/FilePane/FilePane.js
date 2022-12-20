@@ -8,11 +8,12 @@ import './FilePane.scss'
 const FilePane = (props) => {
 
   const project = useSelector((state) => state.editor.project)
-  const {openFileTab} = props
+  // const {openFileTab} = props
 
   return (
     <div className = "file-pane">
-      <FilesList openFileTab = {openFileTab}/>
+      {/* <FilesList openFileTab = {openFileTab}/> */}
+      <FilesList />
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>
   )

@@ -31,20 +31,20 @@ const Project = (props) => {
 
   const switchToFileTab = (index) => {
     dispatch(setFocussedFileIndex(index))
-    console.log(tabRefs.current[index])
-    console.log(index)
-    tabRefs.current[index].current.parentElement.scrollIntoView()
+    // console.log(tabRefs.current[index])
+    // console.log(index)
+    // tabRefs.current[index].current.parentElement.scrollIntoView()
   }
 
-  const openFileTab = (fileName) => {
-    if (openFiles.includes(fileName)) {
-      switchToFileTab(openFiles.indexOf(fileName))
-    } else {
-      dispatch(openFile(fileName))
-      tabRefs.current[tabRefs.current.length] = createRef()
-      switchToFileTab(openFiles.length)
-    }
-  }
+  // const openFileTab = (fileName) => {
+  //   if (openFiles.includes(fileName)) {
+  //     switchToFileTab(openFiles.indexOf(fileName))
+  //   } else {
+  //     dispatch(openFile(fileName))
+  //     tabRefs.current[tabRefs.current.length] = createRef()
+  //     switchToFileTab(openFiles.length)
+  //   }
+  // }
 
   const closeFileTab = (fileName) => {
     dispatch(closeFile(fileName))
@@ -70,7 +70,8 @@ const Project = (props) => {
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FilePane openFileTab={openFileTab}/> : null}
+      {/* {!forWebComponent ? <FilePane openFileTab={openFileTab}/> : null} */}
+      {!forWebComponent ? <FilePane /> : null}
         <div className='proj-editor-container'>
           <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <TabList>
