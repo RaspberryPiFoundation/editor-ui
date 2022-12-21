@@ -67,6 +67,16 @@
   svg {
     margin-right: var(--spacing-1)
   }
+
+  + .project-name {
+    .--light & {
+      border-left: 1px solid $rpf-darkmode-grey85;
+    }
+  
+    .--dark & {
+      border-left: 1px solid $rpf-darkmode-grey42;
+    }
+  }
 }
 
 .--light {
