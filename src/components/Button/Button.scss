@@ -59,6 +59,7 @@
 
   &:focus-visible {
     border: 3px solid $rpf-brand-raspberry;
+    outline: none;
   }
 
   svg {

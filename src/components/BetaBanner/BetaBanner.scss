@@ -45,9 +45,9 @@
   margin-left: auto;
 
   &.btn--tertiary {
-
     svg {
       fill: $rpf-text-black;
+      margin-right: 0;
     }
 
     &:hover {
