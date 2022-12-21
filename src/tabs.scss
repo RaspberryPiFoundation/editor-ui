@@ -8,17 +8,30 @@
     flex-flow: column;
     overflow: hidden;
     position: relative;
-  
-    &__tab {
+
+    &__tab-inner {
       @extend .btn;
       @extend .btn--secondary;
 
+      border: 3px solid transparent;
+    }
+
+    &__tab {
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+
       &--selected {
-        border: 3px solid $rpf-teal-shade-20;
+        .react-tabs__tab-inner {
+          border: 3px solid $rpf-teal-shade-20;
+        }
       }
 
-      &:focus {
-        box-shadow: none;
+      &:hover {
+        .react-tabs__tab-inner {
+          background-color: $rpi-grey-40;
+        }
       }
 
       &:focus-visible {
@@ -51,7 +64,9 @@
   
       &__tab {
         &--selected {
-          background-color: $rpi-grey-5;
+          .react-tabs__tab-inner {
+            background-color: $rpi-grey-5;
+          }
         }
       }
     }
