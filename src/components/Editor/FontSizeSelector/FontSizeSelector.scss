@@ -18,11 +18,11 @@
       border-radius: 5px;
 
       .--dark & {
-        outline: 1px solid $editor-white;
+        outline: 1px solid $rpf-white;
       }
 
       .--light & {
-        outline: 1px solid $editor-light-grey;
+        outline: 1px solid $rpf-darkmode-grey85;
       }
 
       .font-size-small & {
