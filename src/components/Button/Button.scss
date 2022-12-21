@@ -1,15 +1,55 @@
 @import '../../colours.scss';
 
+@mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
+  background-color: $bg;
+
+  @if $c == 'default' {
+    color: $rpf-text-black;
+
+    svg {
+      fill: $rpf-text-black;
+    }
+  } @else {
+    color: $c;
+
+    svg {
+      fill: $c;
+    }
+  }
+
+  &:active {
+    background-color: $active-bg;
+    @content;
+  }
+
+  &:disabled {
+    background-color: $dis-bg;
+    color: $dis-c;
+  
+    svg {
+      fill: $dis-c;
+    }
+  }
+
+  &:focus-visible {
+    background-color: $focus-bg;
+    @content;
+  }
+  
+  &:hover {
+    background-color: $hover-bg;
+    @content;
+  }
+}
+
 .btn {
   align-items: center;
-  border-radius: 5px;
-  border-width: 0;
-  cursor: pointer;
+  border-radius: 8px;
+  border: 3px solid transparent;
   display: inline-flex;
   font-family: sans-serif;
   font-size: inherit;
-  font-weight: var(--font-weight-regular);
-  justify-content: center;
+  font-weight: var(--font-weight-bold);
   margin: 6px;
   padding: 10px;
   position: relative;
@@ -17,56 +57,56 @@
   text-decoration: none;
   width: fit-content;
 
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+
   svg {
     margin-right: var(--spacing-1);
   }
 
-  &--primary {
-    background-color: $rpf-teal;
-    color: $rpf-text-black;
-    &:hover {
-      background-color: $rpf-teal-shade-20;
-    }
-    svg {
-      fill: $editor-black;
-    }
-  }
-
-  &--secondary {
-    background-color: $editor-light-grey;
-    color: $editor-black;
-    &:hover {
-      background-color: $editor-mid-light-grey;
-    }
-  }
-
-  &--tertiary {
-    background-color: inherit;
-    color: inherit;
-    border-radius: 0;
-    margin: 0;
-
-    &:hover {
-      background-color: inherit;
-    }
-  }
-  
   &:disabled {
     background-color: $editor-grey;
     color: $editor-white;
     cursor: default;
+  }
 
-    &:hover {
-      background-color: $editor-grey;
+  // Variants
+
+  &--primary {
+    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
+    @include button-styling($colours...);
+  }
+
+  &--secondary {
+    $colours: $rpi-grey-15, $rpi-grey-5, $rpi-grey-5, $rpi-grey-70, $rpi-grey-15, $rpi-grey-40;
+    @include button-styling($colours...);
+
+    &:active {
+      border: 3px solid $rpf-teal-shade-20;
     }
   }
-}
 
-.--dark {
-  .btn--secondary {
-    background-color: $editor-mid-light-grey;
+  &--tertiary {
+    $colours: inherit, inherit, inherit, $rpi-grey-70, inherit, inherit, inherit;
+    @include button-styling($colours...);
+    margin: 0;
+
+    &:active {
+      color: $rpf-teal-shade-20;
+
+      svg {
+        fill: $rpf-teal-shade-20;
+      }
+    }
+
     &:hover {
-      background-color: $editor-mid-grey;
+      color: $rpi-grey-70;
+
+      svg {
+        fill: $rpi-grey-70;
+      }
     }
   }
 }
@@ -76,3 +116,41 @@
     margin-right: var(--spacing-2);
   }
 }
+
+.--dark {
+  .btn--primary {
+    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-darkmode-grey80, $rpf-darkmode-grey22, $rpf-teal-tint-50, $rpf-teal-tint-25;
+    @include button-styling($colours...);
+  }
+
+  .btn--secondary {
+    $colours: $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-darkmode-grey22, $rpf-darkmode-grey90, $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-white;
+    @include button-styling($colours...);
+
+    &:active {
+      border: 3px solid $rpf-teal-shade-20;
+    }
+  }
+
+  .btn--tertiary {
+    $colours: inherit, inherit, inherit, $rpf-darkmode-grey90, inherit, inherit, $rpf-white;
+    @include button-styling($colours...);
+
+    &:active {
+      color: $rpf-teal-tint-75;
+
+      svg {
+        fill: $rpf-teal-tint-75;
+      }
+    }
+
+    &:hover {
+      color: $rpf-darkmode-grey85;
+
+      svg {
+        fill: $rpf-darkmode-grey85;
+      }
+    }
+  }
+}
+
