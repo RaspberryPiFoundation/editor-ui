@@ -142,7 +142,8 @@ describe('When not logged in and just loaded', () => {
       editor: {
         project: project,
         loading: 'success',
-        justLoaded: true
+        justLoaded: true,
+        openFiles: []
       },
       auth: {}
     }
@@ -172,7 +173,8 @@ describe('When not logged in and not just loaded', () => {
       editor: {
         project: project,
         loading: 'success',
-        justLoaded: false
+        justLoaded: false,
+        openFiles: []
       },
       auth: {}
     }
@@ -204,7 +206,8 @@ describe('When not logged in and has been prompted to login to save', () => {
         project: project,
         loading: 'success',
         justLoaded: false,
-        hasShownSavePrompt: true
+        hasShownSavePrompt: true,
+        openFiles: []
       },
       auth: {}
     }
@@ -232,7 +235,8 @@ describe('When logged in and user does not own project and just loaded', () => {
       editor: {
         project,
         loading: 'success',
-        justLoaded: true
+        justLoaded: true,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -264,7 +268,8 @@ describe('When logged in and user does not own project and not just loaded', () 
       editor: {
         project,
         loading: 'success',
-        justLoaded: false
+        justLoaded: false,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -297,7 +302,8 @@ describe('When logged in and user does not own project and prompted to save', ()
         project,
         loading: 'success',
         justLoaded: false,
-        hasShownSavePrompt: true
+        hasShownSavePrompt: true,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -327,7 +333,8 @@ describe('When logged in and user owns project', () => {
     const initialState = {
       editor: {
         project,
-        loading: 'success'
+        loading: 'success',
+        openFiles: []
       },
       auth: {
         user: user1
