@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated buttons and tabs styling (#296)
 - Updated icons (#296)
 
+### Fixed
+
+- Moved `FileMenu` click handler to `MenuItem` for better keyboard support (#300)
+
 ## [0.9.0]
 
 ### Added
