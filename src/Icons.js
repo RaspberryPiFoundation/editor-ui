@@ -38,8 +38,9 @@ export const EllipsisVerticalIcon = () => {
   )
 }
 
-export const FileIcon = () => {
-  const scale = useUserFont()
+export const FileIcon = (props) => {
+  const {scaleFactor} = props
+  const scale = useUserFont() * (scaleFactor || 1)
   return (
     <svg transform={`scale(${scale}, ${scale})`} viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg" width="12" height="16" fill="none">
       <path d="M0 15.5V.5h7.5L12 5v10.5H0Zm6.75-9.75V2H1.5v12h9V5.75H6.75ZM1.5 2v3.75V2v12V2Z"/>
