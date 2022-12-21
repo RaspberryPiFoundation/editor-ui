@@ -5,6 +5,10 @@ import reducer, {
   stopCodeRun,
   showRenameFileModal,
   closeRenameFileModal,
+  openFile,
+  closeFile,
+  setFocussedFileIndex,
+  updateComponentName,
 } from "./EditorSlice";
 
 jest.mock('../../utils/apiCallHandler')
@@ -311,5 +315,124 @@ describe('When requesting a project', () => {
       loading: 'success'
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
+  })
+})
+
+describe('Opening files', () => {
+  const initialState = {
+    openFiles: ['main.py', 'file1.py'],
+    focussedFileIndex: 0
+  }
+
+  test('Opening unopened file adds it to openFiles and focusses that file', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py'],
+      focussedFileIndex: 2
+    }
+    expect(reducer(initialState, openFile('file2.py'))).toEqual(expectedState)
+  })
+
+  test('Opening already open file focusses that file', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, openFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Switching file focus', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, setFocussedFileIndex(1))).toEqual(expectedState)
+  })
+})
+
+describe('Closing files', () => {
+  test('Closing the last file when focussed transfers focus to the left', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py'],
+      focussedFileIndex: 0
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing not the last file when focussed does not change focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file2.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing unfocussed file before file that is in focus keeps same file in focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 2
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing unfocussed file after file that is in focus keeps same file in focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file2.py'))).toEqual(expectedState)
+  })
+})
+
+describe('Updating file name', () => {
+  const initialState = {
+    project: {
+      components: [
+        {name: 'file', extension: 'py' },
+        {name: 'another_file', extension: 'py'}
+      ]
+    },
+    openFiles: ['file.py']
+  }
+
+  test('If file is open updates name in project and openFiles', () => {
+    const expectedState = {
+      project: {
+        components: [
+          {name: 'my_file', extension: 'py' },
+          {name: 'another_file', extension: 'py'}
+        ]
+      },
+      openFiles: ['my_file.py']
+    }
+    expect(reducer(initialState, updateComponentName({key: 0, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
+  })
+
+  test('If file is closed updates name in project', () => {
+    const expectedState = {
+      project: {
+        components: [
+          {name: 'file', extension: 'py' },
+          {name: 'my_file', extension: 'py'}
+        ]
+      },
+      openFiles: ['file.py']
+    }
+    expect(reducer(initialState, updateComponentName({key: 1, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
   })
 })

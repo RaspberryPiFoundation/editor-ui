@@ -46,7 +46,8 @@ const Project = (props) => {
   //   }
   // }
 
-  const closeFileTab = (fileName) => {
+  const closeFileTab = (e, fileName) => {
+    e.stopPropagation()
     dispatch(closeFile(fileName))
   }
 
@@ -79,7 +80,7 @@ const Project = (props) => {
                 <Tab key={i}>
                   <span ref={tabRefs.current[i]}>{fileName}</span>
                   {fileName !== 'main.py' ?
-                    <button onClick={() => closeFileTab(fileName)}><CloseIcon scaleFactor={0.75}/></button>
+                    <button onClick={(e) => closeFileTab(e, fileName)}><CloseIcon scaleFactor={0.75}/></button>
                   : null
                   }
                 </Tab>

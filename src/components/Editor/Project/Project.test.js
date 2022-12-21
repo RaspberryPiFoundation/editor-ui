@@ -1,9 +1,10 @@
 import React from "react";
-import { render } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import Project from "./Project";
+import { closeFile } from "../EditorSlice";
 
 jest.mock('axios');
 
@@ -53,3 +54,46 @@ expect(queryByText('filePane.files')).toBeNull()
 })
 
 // TODO: Write additional tests for autosave functionality
+
+describe('opening and closing different files', () => {
+  let store
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: 'main',
+              extension: 'py',
+              content: 'print("hello")'
+            },
+            {
+              name: 'a',
+              extension: 'py',
+              content: '# Your code here'
+            }
+          ]
+        },
+        openFiles: ['main.py', 'a.py'],
+        focussedFileIndex: 1
+      },
+      auth: {
+        user: null
+      }
+    }
+    store = mockStore(initialState);
+    render(<Provider store={store}><div id="app"><Project/></div></Provider>)
+  })
+
+  test("Renders content of focussed file", () => {
+    expect(screen.queryByText('# Your code here')).toBeInTheDocument()
+  })
+
+  test('Clicking the file close button dispatches close action', () => {
+    const closeButton = screen.queryAllByRole('button')[2]
+    fireEvent.click(closeButton)
+    expect(store.getActions()).toEqual([closeFile('a.py')])
+  })
+})
