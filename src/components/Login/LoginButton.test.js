@@ -26,7 +26,8 @@ beforeEach(() => {
   const mockStore = configureStore(middlewares)
   const initialState = {
     editor: {
-      project: project
+      project: project,
+      modals: {}
     },
     auth: {
       user: null
