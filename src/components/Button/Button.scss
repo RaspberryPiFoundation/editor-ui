@@ -68,8 +68,8 @@
   }
 
   &:disabled {
-    background-color: $editor-grey;
-    color: $editor-white;
+    background-color: $rpf-darkmode-grey32;
+    color: $rpf-white;
     cursor: default;
   }
 
