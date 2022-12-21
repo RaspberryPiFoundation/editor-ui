@@ -12,8 +12,7 @@ export const ChevronDown = () => {
 
 export const CloseIcon = (props) => {
   const {scaleFactor} = props
-  const [cookies] = useCookies(['fontSize'])
-  const scale = (fontScaleFactors[cookies.fontSize] || 1) * (scaleFactor || 1)
+  const scale = useUserFont() * (scaleFactor || 1)
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"/>
@@ -68,8 +67,7 @@ export const HomeIcon = () => {
 }
 
 export const InfoIcon = () => {
-  const [cookies] = useCookies(['fontSize'])
-  const scale = fontScaleFactors[cookies.fontSize] || 1
+  const scale = useUserFont()
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M11 0C4.928 0 0 4.928 0 11C0 17.072 4.928 22 11 22C17.072 22 22 17.072 22 11C22 4.928 17.072 0 11 0ZM12.1 16.5H9.9V9.9H12.1V16.5ZM12.1 7.7H9.9V5.5H12.1V7.7Z"/>
