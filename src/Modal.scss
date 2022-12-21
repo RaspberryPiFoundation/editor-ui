@@ -23,8 +23,14 @@
 
   input {
     font-size: 1em;
+    border: 2px solid transparent;
     border-radius: 12px;
     padding: var(--spacing-1);
+  }
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
   }
 }
 
@@ -63,7 +69,7 @@
   margin-left: calc(-1 * var(--spacing-half));
   margin-right: calc(-1 * var(--spacing-half));
 
-  button {
+  button, a {
     flex: 1;
     margin: 0 var(--spacing-half);
 
@@ -96,6 +102,11 @@
       border: 2px solid $rpf-white;
       background-color: $rpf-darkmode-grey22;
       color: inherit;
+
+      &:focus-visible {
+        border: 2px solid $rpf-teal;
+        outline: none;
+      }
     }
   }
   .modal-content {
@@ -106,8 +117,14 @@
 .--light {
   .modal-overlay {
     background-color: rgba(67,69,76,0.5);
+
     input {
       border: 2px solid $rpf-darkmode-grey90;
+
+      &:focus-visible {
+        border: 2px solid $rpf-teal;
+        outline: none;
+      }
     }
   }
   .modal-content {

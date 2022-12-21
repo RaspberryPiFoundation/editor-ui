@@ -18,6 +18,8 @@ window.matchMedia = (query) => ({
   dispatchEvent: jest.fn(),
 })
 
+window.plausible = jest.fn()
+
 jest.mock('react-i18next', () => ({
   // this mock makes sure any components using the translate hook can use it without a warning being shown
   useTranslation: () => {

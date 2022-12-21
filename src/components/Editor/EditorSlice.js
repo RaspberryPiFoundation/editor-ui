@@ -3,11 +3,11 @@ import { createOrUpdateProject, readProject, createRemix } from '../../utils/api
 
 export const syncProject = (actionName) => createAsyncThunk(
   `editor/${actionName}Project`,
-  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
+  async({ project, identifier, projectType, accessToken, autosave }, { rejectWithValue }) => {
     let response
     switch(actionName) {
       case 'load':
-        response = await readProject(identifier, accessToken)
+        response = await readProject(identifier, projectType, accessToken)
         break
       case 'remix':
         response = await createRemix(project, accessToken)
@@ -47,6 +47,8 @@ export const EditorSlice = createSlice({
     project: {},
     saving: 'idle',
     loading: 'idle',
+    justLoaded: false,
+    hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
@@ -63,8 +65,11 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
+    accessDeniedNoAuthModalShowing: false,
+    accessDeniedWithAuthModalShowing: false,
     betaModalShowing: false,
     loginToSaveModalShowing: false,
+    notFoundModalShowing: false,
     renameFileModalShowing: false,
     modals: {},
   },
@@ -86,15 +91,22 @@ export const EditorSlice = createSlice({
     setNameError: (state, action) => {
       state.nameError = action.payload;
     },
+    setHasShownSavePrompt: (state) => {
+      state.hasShownSavePrompt = true
+    },
     setProject: (state, action) => {
       state.project = action.payload;
       if (!state.project.image_list) {
         state.project.image_list = []
       }
       state.loading='success'
+      state.justLoaded = true
     },
     setProjectLoaded: (state, action) => {
       state.loading = action.payload;
+    },
+    expireJustLoaded: (state) => {
+      state.justLoaded = false
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -158,6 +170,13 @@ export const EditorSlice = createSlice({
     setProjectListLoaded: (state, action) => {
       state.projectListLoaded = action.payload;
     },
+    closeAccessDeniedNoAuthModal: (state) => {
+      state.accessDeniedNoAuthModalShowing = false
+      state.modals = {}
+    },
+    closeAccessDeniedWithAuthModal: (state) => {
+      state.accessDeniedWithAuthModalShowing = false
+    },
     showBetaModal: (state) => {
       state.betaModalShowing = true
     },
@@ -169,6 +188,9 @@ export const EditorSlice = createSlice({
     },
     closeLoginToSaveModal: (state) => {
       state.loginToSaveModalShowing = false
+    },
+    closeNotFoundModal: (state) => {
+      state.notFoundModalShowing = false
     },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
@@ -206,20 +228,37 @@ export const EditorSlice = createSlice({
     })
     builder.addCase('editor/loadProject/pending', (state, action) => {
       state.loading = 'pending'
+      state.accessDeniedNoAuthModalShowing = false
+      state.modals = {}
       state.currentLoadingRequestId = action.meta.requestId
     })
     builder.addCase('editor/loadProject/fulfilled', (state, action) => {
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.project = action.payload.project
         state.loading = 'success'
+        state.justLoaded  = true
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
       }
     })
+
     builder.addCase('editor/loadProject/rejected', (state, action) => {
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.loading = 'failed'
         state.saving = 'idle'
+        const splitErrorMessage = action.error.message.split(' ')
+        const errorCode = splitErrorMessage[splitErrorMessage.length - 1]
+        if (errorCode === '404') {
+          state.notFoundModalShowing = true
+        } else if ((errorCode === '500' || errorCode === '403') && action.meta.arg.accessToken) {
+          state.accessDeniedWithAuthModalShowing = true
+        } else if ((errorCode === '500' || errorCode === '403') && !action.meta.arg.accessToken) {
+          state.accessDeniedNoAuthModalShowing = true
+          state.modals.accessDenied = {
+            identifier: action.meta.arg.identifier,
+            projectType: action.meta.arg.projectType
+          }
+        }
         state.currentLoadingRequestId = undefined
       }
     })
@@ -230,11 +269,13 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   codeRunHandled,
+  expireJustLoaded,
   enableAutosave,
   setEmbedded,
   setError,
   setIsSplitView,
   setNameError,
+  setHasShownSavePrompt,
   setProject,
   setProjectList,
   setProjectListLoaded,
@@ -249,10 +290,13 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
+  closeAccessDeniedNoAuthModal,
+  closeAccessDeniedWithAuthModal,
   showBetaModal,
   closeBetaModal,
   showLoginToSaveModal,
   closeLoginToSaveModal,
+  closeNotFoundModal,
   showRenameFileModal,
   closeRenameFileModal,
 } = EditorSlice.actions

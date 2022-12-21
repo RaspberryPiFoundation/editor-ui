@@ -1,30 +1,53 @@
+@import '../../colours.scss';
+
 .files-list {
-    padding-top: var(--spacing-1);
+  padding-top: var(--spacing-1);
 }
 
 .files-list-item {
-    display: flex;
-    align-items: center;
-    padding-left: var(--spacing-1);
-    padding-right: var(--spacing-1);
-    padding-bottom: var(--spacing-1);
-    white-space: nowrap;
-    justify-content: space-between;
-}
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  box-sizing: border-box;
+  padding: 10px;
+  white-space: nowrap;
+  justify-content: space-between;
+  font-weight: var(--font-weight-medium);
+  min-height: 44px;
 
-.files-list-item__menu {
-    height: 100%;
+  &:active {
+    border: 3px solid $rpf-teal-shade-20;
+  }
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $rpi-grey-15;
+  }
 }
 
 .files-list-item__label {
-    align-items: center;
-    display: flex;
+  align-items: center;
+  display: flex;
 }
 
 .files-list-item__name {
-    margin: 0;
-    padding-left: var(--spacing-1);
-    padding-right: 0;
-    overflow-wrap: break-word;
-    word-break: break-word;
+  margin: 0;
+  padding-left: var(--spacing-1);
+  padding-right: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.--dark {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-darkmode-grey22;
+    }
+  }
 }

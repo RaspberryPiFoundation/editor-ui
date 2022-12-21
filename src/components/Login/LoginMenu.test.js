@@ -12,7 +12,8 @@ describe('When not logged in', () => {
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {}
+        project: {},
+        modals: {}
       },
       auth: {
         user: null

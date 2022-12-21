@@ -24,6 +24,8 @@ const Header = () => {
   const { t } = useTranslation()
 
   const onClickSave = async () => {
+    window.plausible('Save button')
+
     if (isOwner(user, project)) {
       dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
     } else if (user && project.identifier) {

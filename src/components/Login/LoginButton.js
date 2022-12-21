@@ -8,11 +8,17 @@ const LoginButton = (props) => {
   const { buttonText, className } = props;
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
+  const accessDeniedData = useSelector((state) => state.editor.modals.accessDenied)
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
-    localStorage.setItem('location', location.pathname)
-    localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+    window.plausible('Login button')
+    if (accessDeniedData) {
+      localStorage.setItem('location', `/${accessDeniedData.projectType}/${accessDeniedData.identifier}`)
+    } else {
+      localStorage.setItem('location', location.pathname)
+      localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+    }
     userManager.signinRedirect();
   }
 
