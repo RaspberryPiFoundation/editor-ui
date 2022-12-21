@@ -11,6 +11,20 @@
       margin-right: 0;
     }
 
+    &:hover {
+      .--light & {
+        svg {
+          fill: $rpi-grey-70;
+        }
+      }
+
+      .--dark & {
+        svg {
+          fill: $rpf-darkmode-grey85;
+        }
+      }
+    }
+
     &__icon {
       display: flex;
       justify-content: center;
@@ -73,22 +87,6 @@
           outline: 3px solid $rpf-brand-raspberry;
         }
       }
-
-      /* stylelint-disable no-descending-specificity */
-      &:hover {
-        .--light & {
-          svg {
-            fill: $rpi-grey-70;
-          }
-        }
-
-        .--dark & {
-          svg {
-            fill: $rpf-darkmode-grey85;
-          }
-        }
-      }
-      /* stylelint-enable no-descending-specificity */
     }
 
     p {
