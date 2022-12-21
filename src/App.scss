@@ -1,9 +1,21 @@
 @use './tabs.scss';
 @import './colours.scss';
 
+a {
+  border: 3px solid transparent;
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+}
+
 button {
   all: initial;
+  border: 3px solid transparent;
   cursor: pointer;
+
+  @extend a;
 }
 
 input {

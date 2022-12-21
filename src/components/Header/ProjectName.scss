@@ -1,10 +1,18 @@
 @import '../../colours.scss';
 
 .project-name {
-  max-width: 50%;
-  display: flex;
   align-items: center;
-  margin-left: var(--spacing-1);
+  display: flex;
+  height: 100%;
+  max-width: 50%;
+
+  .--light & {
+    border-left: 1px solid $rpf-darkmode-grey85;
+  }
+
+  .--dark & {
+    border-left: 1px solid $rpf-darkmode-grey42;
+  }
 }
 
 .project-name__input, .project-name__title {

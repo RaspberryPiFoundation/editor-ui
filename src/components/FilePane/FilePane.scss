@@ -6,10 +6,16 @@
   border-radius: 10px;
 
   summary {
+    border: 3px solid transparent;
     display: flex;
     align-items: center;
     list-style: none;
     cursor: pointer;
+
+    &:focus-visible {
+      border: 3px solid $rpf-brand-raspberry;
+      outline: none;
+    }
 
     .accordion-icon {
       margin-left: auto;

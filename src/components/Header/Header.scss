@@ -51,6 +51,7 @@
 }
 
 .project-gallery-link {
+  box-sizing: border-box;
   color: inherit;
   text-decoration: none;
   height: 100%;
@@ -73,9 +74,9 @@
     background-color: $rpf-white;
   }
 
-  .project-gallery-link {
-    border-right: 1px solid $rpf-darkmode-grey85;
-  }
+  // .project-gallery-link {
+  //   border-right: 1px solid $rpf-darkmode-grey85;
+  // }
 }
 
 .--dark {
@@ -83,9 +84,9 @@
     background-color: $rpf-darkmode-grey22;
   }
 
-  .project-gallery-link {
-    border-right: 1px solid $rpf-darkmode-grey42;
-  }
+  // .project-gallery-link {
+  //   border-right: 1px solid $rpf-darkmode-grey42;
+  // }
 }
 
 .font-size-medium, .font-size-large {
