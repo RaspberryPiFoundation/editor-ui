@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump terser from 4.8.0 to 4.8.1 (#143)
 - Updated buttons and tabs styling (#296)
 - Updated icons (#296)
+- Increased clickable area for tabs (#299)
 
 ## [0.9.0]
 
@@ -42,7 +43,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Flow for renaming the project (#284)
 - Updated icons (#285, #294)
 - Updated colours to match new palette (#294)
-- Increased clickable area for tabs (#299)
 
 ## Fixed
 
