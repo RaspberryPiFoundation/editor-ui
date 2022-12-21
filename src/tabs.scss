@@ -23,6 +23,8 @@
       margin: 0;
 
       &--selected {
+        border-radius: 0;
+
         .react-tabs__tab-inner {
           border: 3px solid $rpf-teal-shade-20;
         }
@@ -81,17 +83,25 @@
       }
   
       &__tab {
-        background-color: $rpf-darkmode-grey32;
-        color: $rpf-white;
-
         &:hover {
-          background-color: $rpf-darkmode-grey22;
+          .react-tabs__tab-inner {
+            background-color: $rpf-darkmode-grey22;
+          }
         }
   
         &--selected {
-          color: inherit;
-          background-color: $rpf-darkmode-grey42;
+          color: $rpf-white;
+
+          .react-tabs__tab-inner {
+            color: inherit;
+            background-color: $rpf-darkmode-grey42;
+          }
         }
+      }
+
+      &__tab-inner {
+        background-color: $rpf-darkmode-grey32;
+        color: $rpf-white;
       }
     }
   }
