@@ -1,7 +1,8 @@
 @import '../../../colours.scss';
 
 .file-menu__drop {
-    vertical-align: middle;
+    display: flex;
+    padding: 0 10px;
 }
 
 .file-menu {

@@ -1,9 +1,21 @@
 @use './tabs.scss';
 @import './colours.scss';
 
+a {
+  border: 3px solid transparent;
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+}
+
 button {
   all: initial;
+  border: 3px solid transparent;
   cursor: pointer;
+
+  @extend a;
 }
 
 input {
@@ -17,13 +29,10 @@ input {
   color: $rpf-text-black;
   caret-color: $rpf-black;
 
-  button:focus-visible {
-    outline: 2px solid $rpf-black;
-  }
-
   .pythonrunner-input {
     color: rgb(36, 103, 236);
   }
+
   svg {
     fill: $rpf-black;
   }
@@ -34,13 +43,10 @@ input {
   color: $rpf-white;
   caret-color: $rpf-white;
 
-  button:focus-visible {
-    outline: 2px solid $rpf-white;
-  }
-
   .pythonrunner-input {
     color: rgb(36, 186, 236);
   }
+
   svg {
     fill: $rpf-white;
   }

@@ -11,74 +11,87 @@
       margin-right: 0;
     }
 
+    &:hover {
+      .--light & {
+        svg {
+          fill: $rpi-grey-70;
+        }
+      }
+
+      .--dark & {
+        svg {
+          fill: $rpf-darkmode-grey85;
+        }
+      }
+    }
+
     &__icon {
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 5px;
+
+      .--dark & {
+        outline: 1px solid $rpf-white;
+      }
+
+      .--light & {
+        outline: 1px solid $rpf-darkmode-grey85;
+      }
+
+      .font-size-small & {
+        height: var(--spacing-7);
+        width: var(--spacing-7);
+
+        &--active {
+          outline: 2px solid $rpf-teal;
+        }
+      }
+
+      .font-size-medium & {
+        height: var(--spacing-8);
+        width: var(--spacing-8);
+
+        &--medium {
+          margin: 0 var(--spacing-1)
+        }
+
+        &--active {
+          outline: 2.5px solid $rpf-teal;
+        }
+      }
+
+      .font-size-large & {
+        height: var(--spacing-9);
+        width: var(--spacing-9);
+
+        &--medium {
+          margin: 0 var(--spacing-2)
+        }
+
+        &--active {
+          outline: 3px solid $rpf-teal;
+        }
+      }
+
+      &:focus-visible {
+        .font-size-small & {
+          outline: 2px solid $rpf-brand-raspberry;
+        }
+
+        .font-size-medium & {
+          outline: 2.5px solid $rpf-brand-raspberry;
+        }
+
+        .font-size-large & {
+          outline: 3px solid $rpf-brand-raspberry;
+        }
+      }
     }
 
     p {
       text-align: center;
-      margin-top: var(--spacing-1)
+      margin-top: var(--spacing-1);
     }
   }
 }
-
-.--dark {
-  .font-btn__icon {
-    outline: 1px solid $rpf-white;
-  }
-}
-
-.--light {
-  .font-btn__icon {
-    outline: 1px solid $rpf-darkmode-grey85;
-  }
-}
-
-.font-size-small {
-
-  .font-btn__icon {
-    height: var(--spacing-7);
-    width: var(--spacing-7);
-
-    &--active {
-      outline: 2px solid $rpf-teal;
-    }
-  }
-}
-
-.font-size-medium {
-
-  .font-btn__icon{
-    height: var(--spacing-8);
-    width: var(--spacing-8);
-
-    &--medium {
-      margin: 0 var(--spacing-1)
-    }
-
-    &--active {
-      outline: 2.5px solid $rpf-teal;
-    }
-  }
-}
-
-.font-size-large {
-
-  .font-btn__icon{
-    height: var(--spacing-9);
-    width: var(--spacing-9);
-
-    &--medium {
-      margin: 0 var(--spacing-2)
-    }
-
-    &--active {
-      outline: 3px solid $rpf-teal;
-    }
-  }
-}
-
-

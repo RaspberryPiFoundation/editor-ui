@@ -3,6 +3,7 @@
 
 .theme-toggle {
   display: flex;
+
   .theme-btn {
     cursor: pointer;
     
@@ -21,7 +22,7 @@
           fill: $rpf-black;
         }
       }
-  
+
       &--dark {
         background-color: $rpf-darkmode-grey22;
         outline: 1px solid $rpf-darkmode-grey85;
@@ -29,48 +30,71 @@
           fill: $rpf-white;
         }
       }
+
       &--active {
-          outline: 2px solid $rpf-teal;
+        outline: 2px solid $rpf-teal;
+      }
+
+      .font-size-medium & {
+        height: var(--spacing-8);
+        width: var(--spacing-8);
+
+        &--active {
+          outline: 2.5px solid $rpf-teal;
+        }
+      }
+
+      .font-size-large & {
+        height: var(--spacing-9);
+        width: var(--spacing-9);
+
+        &--active {
+          outline: 3px solid $rpf-teal;
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid $rpf-brand-raspberry;
+
+        .font-size-medium & {
+          outline: 2.5px solid $rpf-brand-raspberry;
+        }
+
+        .font-size-large & {
+          outline: 3px solid $rpf-brand-raspberry;
+        }
       }
     }
 
     &--light {
       margin-right: var(--spacing-1);
+
+      &:hover {
+        svg {
+          fill: $rpi-grey-70;
+        }
+      }
+    }
+
+    &--dark {
+      &:hover {
+        svg {
+          fill: $rpf-darkmode-grey85;
+        }
+      }
+    }
+
+    .font-size-medium & {
+      margin-right: var(--spacing-2);
+    }
+
+    .font-size-large & {
+      margin-right: var(--spacing-3);
     }
   }
 
   p {
     text-align: center;
     margin-top: var(--spacing-1)
-  }
-}
-
-.font-size-medium {
-  .theme-btn {
-    margin-right: var(--spacing-2);
-  
-    &__icon {
-      height: var(--spacing-8);
-      width: var(--spacing-8);
-
-      &--active {
-        outline: 2.5px solid $rpf-teal;
-      }
-    }
-  }
-}
-
-.font-size-large {
-  .theme-btn {
-    margin-right: var(--spacing-3);
-  
-    &__icon {
-      height: var(--spacing-9);
-      width: var(--spacing-9);
-
-      &--active {
-        outline: 3px solid $rpf-teal;
-      }
-    }
   }
 }
