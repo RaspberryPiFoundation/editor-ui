@@ -4,7 +4,7 @@ import '../AstroPiModel.scss';
 import Sk from 'skulpt';
 
 const SliderInput = (props) => {
-  const { name, unit, min, max, defaultValue, Icon} = props;
+  const { name, label, unit, min, max, defaultValue, Icon} = props;
   const [value, setValue] = useState(defaultValue);
   
   useEffect(() => {
@@ -15,7 +15,7 @@ const SliderInput = (props) => {
 
   return (
     <div className="sense-hat-controls-panel__control">
-      <label className='sense-hat-controls-panel__control-name' htmlFor={`sense_hat_${name}`}>{name}</label>
+      <label className='sense-hat-controls-panel__control-name' htmlFor={`sense_hat_${name}`}>{label}</label>
       <input id={`sense_hat_${name}`} className="sense-hat-controls-panel__control-input" type="range" min={min} max={max} step="1" defaultValue={value} onChange={e => setValue(parseFloat(e.target.value))}/>
       <div className="sense-hat-controls-panel__control-reading">
         {Icon ? <Icon /> : null}

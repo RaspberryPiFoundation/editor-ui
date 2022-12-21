@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { setProject, setProjectLoaded, setSenseHatAlwaysEnabled } from '../../Editor/EditorSlice';
+import { setProject, setSenseHatAlwaysEnabled } from '../../Editor/EditorSlice';
 import WebComponentProject from '../Project/WebComponentProject';
 
 const ProjectComponentLoader = (props) => {
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded);
+  const loading = useSelector((state) => state.editor.loading);
   const { code, sense_hat_always_enabled } = props;
   const dispatch = useDispatch()
 
@@ -15,12 +15,11 @@ const ProjectComponentLoader = (props) => {
     }
     dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
-    dispatch(setProjectLoaded(true))
-  }, []);
+  }, [code, sense_hat_always_enabled, dispatch]);
 
 
 
-  return projectLoaded === true ? (
+  return loading === 'success' ? (
     <>
       <WebComponentProject />
     </>

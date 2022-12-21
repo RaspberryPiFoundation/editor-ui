@@ -1,11 +1,9 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { MemoryRouter } from "react-router-dom";
-import axios from "axios";
-
 import Header from "./Header";
+import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 
 jest.mock('axios');
 
@@ -16,212 +14,215 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-test("Login button shown when not embedded", () => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: {},
-      isEmbedded: false
-    },
-    auth: {
-      user: null
-    }
+jest.mock('../Editor/EditorSlice', () => ({
+  ...jest.requireActual('../Editor/EditorSlice'),
+  syncProject: jest.fn((_) => jest.fn())
+}))
+
+const project = {
+  name: 'Hello world',
+  identifier: "hello-world-project",
+  components: [],
+  image_list: [],
+  user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
+}
+const user = {
+  access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+  profile: {
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
   }
-  const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><MemoryRouter><Header /></MemoryRouter></Provider>)
+}
 
-  expect(queryByText(/Login/)).not.toBeNull()
-})
-
-test("Login button not shown when embedded", () => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: {},
-      isEmbedded: true
-    },
-    auth: {
-      user: null
-    }
-  }
-  const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><Header /></Provider>)
-
-  expect(queryByText(/Login/)).toBeNull()
-})
 
 describe("When logged in and user owns project", () => {
   let store;
   let saveButton;
-  let getByText;
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          identifier: "hello-world-project",
-          components: [],
-          image_list: [],
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
+        project: project,
+        loading: 'success',
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
-    ({getByText, queryByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = getByText(/Save/)
-  })
-
-  test("Save button renders", () => {
-      expect(saveButton.textContent).toBe("Save");
-  })
-
-  test("Clicking save button sends PUT request to correct endpoint", () => {
-    axios.put.mockImplementationOnce(() => Promise.resolve({}))
-    fireEvent.click(saveButton)
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
-    const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-    const project = {"components": [], "image_list": [], "identifier": "hello-world-project", "user_id": user_id}
-    const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
-    expect(axios.put).toHaveBeenCalledWith(`${api_host}/api/projects/hello-world-project`, {"project": project}, headers)
-  })
-
-  test("Clicking save button dispatches project once returned", async () => {
-    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
-    axios.put.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project }))
-    fireEvent.click(saveButton)
-    await new Promise(process.nextTick);
-    const actions = store.getActions();
-    const expectedPayload = { type: 'editor/setProject', payload: project }
-    expect(actions).toEqual([expectedPayload])
+    render(<Provider store={store}><Header/></Provider>);
+    saveButton = screen.queryByText('header.save')
   })
 
   test("Renders project gallery link", () => {
-    expect(queryByText("My Projects")).not.toBeNull();
+    expect(screen.queryByText('header.projects')).not.toBeNull();
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByText(project.name)).toBeInTheDocument()
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test("Clicking save dispatches saveProject with correct parameters", async () => {
+    const saveAction = {type: 'SAVE_PROJECT' }
+    const saveProject = jest.fn(() => saveAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
+      project,
+      accessToken: user.access_token,
+      autosave: false
+    }))
+    expect(store.getActions()[0]).toEqual(saveAction)
   })
 })
 
 describe("When logged in and no project identifier", () => {
   let store;
-  let saveButton;
-  let getByText;
+  const project_without_id = { ...project, identifier: null }
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          components: [],
-          image_list: [],
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
+        project: project_without_id,
+        loading: 'success',
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
-    ({getByText} = render(<Provider store={store}><Header/></Provider>));
-    saveButton = getByText(/Save/)
+    render(<Provider store={store}><Header/></Provider>);
   })
 
-  test("Clicking save creates new project", () => {
-    const project = {"components": [], "identifier": "hello-world-project", "user_id": "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"}
-    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 200, data: project}))
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByText(project.name)).toBeInTheDocument()
+   })
+
+   test("Clicking save dispatches saveProject with correct parameters", async () => {
+    const saveAction = {type: 'SAVE_PROJECT' }
+    const saveProject = jest.fn(() => saveAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
+    const saveButton = screen.getByText('header.save')
     fireEvent.click(saveButton)
-    const api_host = process.env.REACT_APP_API_ENDPOINT;
-    const access_token = "39a09671-be55-4847-baf5-8919a0c24a25"
-    const user_id = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-    const new_project = {"components": [], "image_list": [], "user_id": user_id}
-    const headers = {"headers": {"Accept": "application/json", "Authorization": access_token}}
-    expect(axios.post).toHaveBeenCalledWith(`${api_host}/api/projects`, {"project": new_project}, headers)
+    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
+      project: project_without_id,
+      accessToken: user.access_token,
+      autosave: false
+    }))
+    expect(store.getActions()[0]).toEqual(saveAction)
   })
 })
 
 describe("When logged in and user does not own project", () => {
+  const another_project = { ...project, user_id: '5254370e-26d2-4c8a-9526-8dbafea43aa9'}
   let store;
-  let queryByText;
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          identifier: "hello-world-project",
-          components: [],
-          image_list: [],
-          user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-        },
+        project: another_project,
+        loading: 'success',
       },
       auth: {
-        user: {
-          access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          profile: {
-            user: "5254370e-26d2-4c8a-9526-8dbafea43aa9"
-          }
-        }
+        user: user
       }
     }
     store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
+    render(<Provider store={store}><Header/></Provider>);
   })
 
-  test("Renders project gallery link", () => {
-    expect(queryByText("My Projects")).not.toBeNull();
-  })
-
-  test("No save button", () => {
-    expect(queryByText("Save")).toBeNull()
+  test("Clicking save dispatches remixProject with correct parameters", async () => {
+    const remixAction = {type: 'REMIX_PROJECT' }
+    const remixProject = jest.fn(() => (remixAction))
+    syncProject.mockImplementationOnce(jest.fn((_) => remixProject))
+    const saveButton = screen.getByText('header.save')
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({
+      project: another_project,
+      accessToken: user.access_token
+    }))
+    expect(store.getActions()[0]).toEqual(remixAction)
   })
 })
 
 describe("When not logged in", () => {
-  let queryByText;
+  let store
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
         editor: {
-          project: {
-            identifier: "hello-world-project",
-            components: [],
-            image_list: [],
-          },
+          project: project,
+          loading: 'success',
         },
         auth: {
           user: null
         }
       }
-    const store = mockStore(initialState);
-    ({queryByText} = render(<Provider store={store}><Header/></Provider>));
-  })
-
-  test("No save button", () =>{
-    expect(queryByText("Save")).toBeNull();
+    store = mockStore(initialState);
+    render(<Provider store={store}><Header/></Provider>);
   })
 
   test("No project gallery link", () => {
-    expect(queryByText("My Projects")).toBeNull();
+    expect(screen.queryByText('header.projects')).toBeNull();
+  })
+
+  test('Download button shown', () => {
+    expect(screen.queryByText('header.download')).toBeInTheDocument()
+  })
+
+  test('Project name is shown', () => {
+    expect(screen.queryByText(project.name)).toBeInTheDocument()
+  })
+
+  test('Clicking save opens login to save modal', () => {
+    const saveButton = screen.getByText('header.save')
+    fireEvent.click(saveButton)
+    expect(store.getActions()).toEqual([showLoginToSaveModal()])
+  })
+})
+
+describe('When no project loaded', () => {
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+        editor: {
+          project: {},
+          loading: 'idle',
+        },
+        auth: {
+          user: user
+        }
+      }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><Header/></Provider>);
+  })
+
+  test('No project name', () => {
+    expect(screen.queryByText(project.name)).not.toBeInTheDocument()
+  })
+
+  test('No download button', () => {
+    expect(screen.queryByText('header.download')).not.toBeInTheDocument()
+  })
+
+  test('No save button', () => {
+    expect(screen.queryByText('header.save')).not.toBeInTheDocument()
   })
 })

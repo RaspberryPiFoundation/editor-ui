@@ -1,51 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { setProject, setProjectLoaded } from '../EditorSlice'
-import { readProject } from '../../../utils/apiCallHandler';
+import { syncProject, setProject } from '../EditorSlice'
+import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects';
 
-// const pythonCode = {
-//   type: 'python',
-//   components: [
-//     { extension: 'py', name: 'main',
-//       content: "import turtle\nt = turtle.Turtle()\nt.forward(100)\nprint(\"Oh yeah!\")" },
-//   ]
-// }
-
-const pythonCode = {
-  type: 'python',
-  components: [
-    { extension: 'py', name: 'main',
-      content: "", index: 0, default: true },
-  ]
-}
-
-const htmlCode = {
-  type: 'html',
-  components: [
-    { extension: 'html', name: 'index',
-      content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>" },
-    { extension: 'css', name: 'style', content: "h1 {\n  color: blue;\n}" },
-    { extension: 'css', name: 'test', content: "p {\n  background-color: red;\n}" }
-  ]
-}
-
-export const useProject = (projectType, projectIdentifier = '') => {
+export const useProject = (projectType, projectIdentifier = null, accessToken = null) => {
   const dispatch = useDispatch();
 
-  const loadProject = () => {
-    (async () => {
-      const response = await readProject(projectIdentifier)
-      dispatch(setProject(response.data));
-      dispatch(setProjectLoaded(true));
-    })();
-  }
-
-  const cachedProject = JSON.parse(localStorage.getItem('project'))
+  const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject))
-    dispatch(setProjectLoaded(true));
-    localStorage.removeItem('project')
+    localStorage.removeItem(projectIdentifier || 'project')
   }
 
   useEffect(() => {
@@ -55,24 +20,19 @@ export const useProject = (projectType, projectIdentifier = '') => {
       loadCachedProject()
       return
     }
-    else if (cachedProject) {
-      localStorage.removeItem('project')
-    }
 
     if (projectIdentifier) {
-      loadProject();
+      dispatch(syncProject('load')({identifier: projectIdentifier, projectType, accessToken}));
       return;
     }
 
     let data = {};
     if(projectType === 'html') {
-      data = htmlCode;
+      data = defaultHtmlProject;
     } else {
-      data = pythonCode;
+      data = defaultPythonProject;
     }
 
     dispatch(setProject(data));
-    dispatch(setProjectLoaded(true));
-  }, [projectIdentifier]);
+  }, [projectIdentifier, accessToken]);
 };
-

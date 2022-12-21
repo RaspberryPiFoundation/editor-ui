@@ -19,18 +19,29 @@
   &__font-size {
     text-align: center;
   }
+
+  &::before {
+    margin-left: var(--spacing-5);
+  }
 }
 
 .--light {
   .settings-menu {
     h3 {
-      color: $editor-mid-grey;
+      color: $rpf-darkmode-grey42;
     }
+  }
+}
+
+.font-size-medium {
+  .settings-menu {
+    padding: var(--spacing-2);
   }
 }
 
 .font-size-large {
   .settings-menu {
+    padding: 0 var(--spacing-2);
     p {
       margin-bottom: var(--spacing-1);
     }

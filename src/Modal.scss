@@ -1,0 +1,134 @@
+@import './colours.scss';
+
+.modal-content {
+  position: absolute;
+  width: 80%;
+  max-width: 450px;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-2);
+
+  label {
+    margin: var(--spacing-1) 0;
+    font-weight: var(--font-weight-bold);
+  }
+
+  input {
+    font-size: 1em;
+    border-radius: 12px;
+    padding: var(--spacing-1);
+  }
+}
+
+.modal-content__header {
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-left: auto;
+    height: fit-content;
+    margin-right: var(--spacing-1);
+  }
+}
+
+.modal-content__heading {
+  margin-top: var(--spacing-half);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-u-2)
+}
+
+.modal-content__subheading {
+  margin: var(--spacing-1) 0 0 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.modal-content__text {
+  line-height: var(--line-height-regular);
+  margin: var(--spacing-1) 0
+}
+
+.modal-content__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-2);
+  margin-left: calc(-1 * var(--spacing-half));
+  margin-right: calc(-1 * var(--spacing-half));
+
+  button, a {
+    flex: 1;
+    margin: 0 var(--spacing-half);
+
+    span {
+      width: 100%;
+    }
+  }
+}
+
+.modal-content__links {
+  text-align: center;
+  margin: var(--spacing-1) 0 var(--spacing-half) 0;
+  
+  button {
+    text-decoration: underline;
+  }
+}
+
+.modal-overlay {
+  z-index: 1000;
+  position: fixed;
+  inset: 0px;
+}
+
+.--dark {
+  .modal-overlay {
+    background-color: rgba(0,0,0,0.5);
+
+    input {
+      border: 2px solid $rpf-white;
+      background-color: $rpf-darkmode-grey22;
+      color: inherit;
+    }
+  }
+  .modal-content {
+    background-color: $rpf-darkmode-grey22;
+  }
+}
+
+.--light {
+  .modal-overlay {
+    background-color: rgba(67,69,76,0.5);
+    input {
+      border: 2px solid $rpf-darkmode-grey90;
+    }
+  }
+  .modal-content {
+    background-color: $rpf-white;
+  }
+}
+
+.font-size-medium {
+  .modal-content__heading {
+    font-size: var(--font-size-u-4);
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-2);
+  }
+}
+
+.font-size-large {
+  .modal-content__heading {
+    font-size: var(--font-size-u-6)
+  }
+  .modal-content__subheading {
+    font-size: var(--font-size-u-4);
+  }
+}

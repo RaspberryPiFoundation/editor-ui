@@ -1,0 +1,70 @@
+@import '../../../../colours.scss';
+
+.output-view-toggle {
+  display: inline-flex;
+  margin: auto var(--spacing-1) auto auto;
+  align-items: center;
+  border-radius: 5px;
+
+  &__button {
+    display: flex;
+    padding: 0 var(--spacing-half);
+    cursor: pointer;
+
+    &:disabled {
+      cursor: inherit;
+    }
+  }
+}
+
+.--light {
+  .output-view-toggle {
+    background-color: $rpf-darkmode-grey95;
+    svg {
+      fill: $rpf-black;
+    }
+  }
+  .output-view-toggle__button--active {
+    background-color: $rpf-darkmode-grey85;
+    border-radius: 5px;
+  }
+}
+
+.--dark {
+  .output-view-toggle {
+    background-color: $rpf-darkmode-grey22;
+    &__button {
+      svg {
+        fill: $rpf-darkmode-grey75;
+      }
+      &--active {
+        background-color: $rpf-darkmode-grey42;
+        border-radius: 5px;
+        svg {
+          fill: $rpf-white;
+        }
+      }
+      &:disabled {
+        svg {
+          fill: $rpf-darkmode-grey42;
+        }
+      }
+      &--active:disabled {
+        svg {
+          fill: $rpf-darkmode-grey75;
+        }
+      }
+    }
+  }
+}
+
+.--light .output-view-toggle__button:disabled {
+      svg {
+        fill: $rpf-darkmode-grey75;
+      }
+    &.output-view-toggle__button--active {
+      svg {
+        fill: $rpf-darkmode-grey42;
+      }
+    }
+  }

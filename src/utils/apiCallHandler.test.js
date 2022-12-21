@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getImage, newProject, readProject, remixProject, updateProject, uploadImages } from "./apiCallHandler";
+import { getImage, createOrUpdateProject, readProject, createRemix, uploadImages } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -11,21 +11,33 @@ const authHeaders = {'headers': {'Accept': 'application/json', 'Authorization': 
 describe("Testing project API calls", () => {
 
   test("Creating project", async () => {
-    const blankProject =  {'data': { 'project': {'identifier': 'new-hello-project', 'project_type': 'python'}}}
-    axios.post.mockImplementationOnce(() => Promise.resolve(blankProject))
+    const newProject =  { project_type: 'python', components: [], name: 'Untitled'}
+    axios.post.mockImplementationOnce(() => Promise.resolve({
+      status: 204,
+      data: {
+        project: {
+          identifier: 'new-project-identifier',
+          ...newProject
+        }
+      }
+    }))
 
-    await newProject()
-    expect(axios.post).toHaveBeenCalledWith(`${host}/api/default_project/`, {}, defaultHeaders)
+    const data = await createOrUpdateProject(newProject)
+    expect(axios.post).toHaveBeenCalledWith(`${host}/api/projects`, {project: newProject}, defaultHeaders)
+    expect(data).toStrictEqual({
+      status: 204,
+      data: { project: { identifier: 'new-project-identifier', project_type: 'python', components: [], name: 'Untitled'}}
+    })
   })
 
   test("Remixing project", async () => {
     const originalProject = { identifier: 'original-hello-project', project_type: 'python'}
-    axios.post.mockImplementationOnce((url, body, headers) => {
+    axios.post.mockImplementationOnce(() => {
       const remixedProject = {'identifier': 'remixed-hello-project', 'project_type': 'python'}
-      Promise.resolve({data: {project: remixedProject}})
+      Promise.resolve({data: remixedProject})
     })
 
-    await remixProject(originalProject, accessToken)
+    await createRemix(originalProject, accessToken)
     expect(axios.post).toHaveBeenCalledWith((`${host}/api/projects/${originalProject['identifier']}/remix`), { "project": { "identifier": "original-hello-project", "project_type": "python" } }, authHeaders)
   })
 
@@ -33,7 +45,7 @@ describe("Testing project API calls", () => {
     const project = {'identifier': 'my-wonderful-project', 'project_type': 'python', 'components': []}
     axios.put.mockImplementationOnce(() => Promise.resolve(200))
 
-    await updateProject(project)
+    await createOrUpdateProject(project)
     expect(axios.put).toHaveBeenCalledWith(
       `${host}/api/projects/${project['identifier']}`,
       { project: project },
@@ -43,7 +55,7 @@ describe("Testing project API calls", () => {
 
   test("Read project", async () => {
     const projectIdentifier = "hello-world-project"
-    const projectData =  {'data': { 'project': {'identifier': projectIdentifier, 'project_type': 'python'}}}
+    const projectData =  {'data': {'identifier': projectIdentifier, 'project_type': 'python'}}
     axios.get.mockImplementationOnce(() => Promise.resolve(projectData))
 
     await readProject(projectIdentifier)

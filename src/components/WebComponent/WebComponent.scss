@@ -1,13 +1,3 @@
-@use '../../tabs.scss';
-@use '../Editor/Project/Project.scss';
-@use '../Button/Button.scss';
-@use '../RunButton/RunnerControls.scss';
-@use '../ThemeToggle/ThemeToggle.scss';
-@use '../Editor/FontSizeSelector/FontSizeSelector.scss';
-@use '../Editor/EditorPanel/EditorPanel.scss';
-@use '../Editor/Runners/PythonRunner/PythonRunner.scss';
-@use '../Editor/ErrorMessage/ErrorMessage.css';
-@use '../AstroPiModel/AstroPiModel.scss';
 @import '../../colours.scss';
 
 #wc {
@@ -31,29 +21,32 @@ button {
   font-size: inherit;
 }
 
-.--light {
-  
-  svg {
-    fill: $editor-black;
-  }
-}
-
 .--dark {
-  background-color: $editor-grey;
-  color: $editor-white;
+  background-color: $rpf-darkmode-grey10;
+  color: $rpf-white;
 
   svg {
-    fill: $editor-white;
+    fill: $rpf-white;
   }
 
   button {
+    &:focus-visible {
+      outline: 2px solid $rpf-white;
+    }
+  }
+
+  .--light {
+  
     svg {
-      fill: inherit;
+      fill: $rpf-black;
+    }
+  
+    button:focus-visible {
+      outline: 2px solid $rpf-black;
     }
   }
 
   .react-tabs__tab--selected {
-    background-color: $editor-grey;
     color: inherit;
   }
 }

@@ -4,9 +4,9 @@ import '@rpf/sauce/scss/properties/_font-size.scss';
 import '@rpf/sauce/scss/properties/_line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
-  ".cm-scroller": {overflow: "auto"},
   ".cm-gutters": {
-    "background-color": "inherit",
+    "background-color": "#2A2B32",
+    "color": "white",
     "border": "none"
   },
   ".cm-activeLine": {
@@ -21,6 +21,14 @@ export const editorDarkTheme = EditorView.theme({
   },
   "&.cm-focused .cm-cursor": {
     borderLeftColor: "white"
+  },
+  ".cm-line .cm-indentation-marker": {
+    'background': 'none',
+    'border-left': '1px solid grey',
+    "&.active": {
+      'background': 'none',
+      'border-left': '1px solid lightgrey',
+    }
   },
   ".ͼb": {color: "#FF00A4"},
   ".ͼc": {color: "#1498D0"},

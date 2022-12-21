@@ -1,4 +1,5 @@
 import axios from 'axios';
+import omit from 'lodash/omit'
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
@@ -24,8 +25,14 @@ const headers = (accessToken) => {
     return {headers: headersHash}
 }
 
-export const createProject = async (accessToken) => {
-  return await post(`${host}/api/projects`, {}, headers(accessToken));
+export const createOrUpdateProject = async (projectWithUserId, accessToken) => {
+  const project = omit(projectWithUserId, ['user_id'])
+  if (!project.identifier) {
+    return await post(`${host}/api/projects`, { project }, headers(accessToken))
+  }
+  else {
+    return await put(`${host}/api/projects/${project.identifier}`, { project }, headers(accessToken))
+  }
 }
 
 export const deleteProject = async (identifier, accessToken) => {
@@ -36,32 +43,16 @@ export const getImage = async (url) => {
   return await get(url, headers())
 }
 
-export const newProject = async () => {
-  return await post(`${host}/api/default_project/`, {}, headers());
-}
-
-export const remixProject = async (project, accessToken) => {
+export const createRemix = async (project, accessToken) => {
   return await post(`${host}/api/projects/${project.identifier}/remix`, { project: project}, headers(accessToken));
 }
 
-export const readProject = async (projectIdentifier) => {
-  return await get(`${host}/api/projects/${projectIdentifier}`, headers());
+export const readProject = async (projectIdentifier, projectType, accessToken) => {
+  return await get(`${host}/api/projects/${projectIdentifier}`, headers(accessToken));
 }
 
 export const readProjectList = async (accessToken) => {
   return await get(`${host}/api/projects`, headers(accessToken));
-}
-
-export const saveProject = async (project, accessToken) => {
-  return await post(`${host}/api/projects`, {project: project}, headers(accessToken));
-}
-
-export const updateProject = async (project, accessToken) => {
-  return await put(
-    `${host}/api/projects/${project.identifier}`,
-    { project: project },
-    headers(accessToken)
-  );
 }
 
 export const uploadImages = async (projectIdentifier, accessToken, images) => {

@@ -1,27 +1,54 @@
 @import '../../colours.scss';
 
 .btn {
-  background-color: $editor-turquoise;
+  align-items: center;
   border-radius: 5px;
   border-width: 0;
-  color: $editor-black;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
   font-family: sans-serif;
   font-size: inherit;
-  font-weight: 500;
+  font-weight: var(--font-weight-regular);
+  justify-content: center;
   margin: 6px;
   padding: 10px;
   position: relative;
   text-align: center;
+  text-decoration: none;
+  width: fit-content;
 
-  &:hover {
-    background-color: $editor-dark-turquoise;
+  svg {
+    margin-right: var(--spacing-1);
   }
 
-  &:visited {
+  &--primary {
+    background-color: $rpf-teal;
+    color: $rpf-text-black;
+    &:hover {
+      background-color: $rpf-teal-shade-20;
+    }
+    svg {
+      fill: $editor-black;
+    }
+  }
+
+  &--secondary {
+    background-color: $editor-light-grey;
+    color: $editor-black;
+    &:hover {
+      background-color: $editor-mid-light-grey;
+    }
+  }
+
+  &--tertiary {
+    background-color: inherit;
     color: inherit;
-    text-decoration: none;
+    border-radius: 0;
+    margin: 0;
+
+    &:hover {
+      background-color: inherit;
+    }
   }
   
   &:disabled {
@@ -35,3 +62,17 @@
   }
 }
 
+.--dark {
+  .btn--secondary {
+    background-color: $editor-mid-light-grey;
+    &:hover {
+      background-color: $editor-mid-grey;
+    }
+  }
+}
+
+.font-size-large {
+  .btn svg {
+    margin-right: var(--spacing-2);
+  }
+}

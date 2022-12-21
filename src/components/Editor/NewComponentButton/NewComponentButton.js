@@ -7,31 +7,22 @@ import Modal from 'react-modal';
 import { addProjectComponent, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
-import { NewFileIcon } from '../../../Icons';
-
-const allowedExtensions = {
-  "python": [
-    "py",
-    "csv",
-    "txt"
-  ]
-}
-
-const allowedExtensionsString = (projectType) => {
-  const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length === 1) {
-    return `'.${extensionsList[0]}'`
-  } else {
-    return `'.` + extensionsList.slice(0,-1).join(`', '.`) + `' or '.` + extensionsList[extensionsList.length-1] + `'`;
-  }
-}
+import { CloseIcon, NewFileIcon } from '../../../Icons';
+import { validateFileName } from '../../../utils/componentNameValidation';
+import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 const NewComponentButton = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const { t } = useTranslation()
     const dispatch = useDispatch();
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+
+    const [cookies] = useCookies(['fontSize', 'theme'])
+    const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
+    const theme = isDarkMode ? "dark" : "light"
 
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
@@ -42,62 +33,42 @@ const NewComponentButton = () => {
       const fileName = document.getElementById('name').value
       const name = fileName.split('.')[0];
       const extension = fileName.split('.').slice(1).join('.');
-      if (isValidFileName(fileName)) {
+      validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
         dispatch(addProjectComponent({extension: extension, name: name}));
         closeModal();
-      } else if (componentNames.includes(fileName)) {
-        dispatch(setNameError("File names must be unique."));
-      } else if (!allowedExtensions[projectType].includes(extension)) {
-        dispatch(setNameError(`File names must end in ${allowedExtensionsString(projectType)}.`));
-      } else {
-        dispatch(setNameError("Error"));
-      }
+      })
     }
-
-    const isValidFileName = (fileName) => {
-      const extension = fileName.split('.').slice(1).join('.')
-      if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    const customStyles = {
-      content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-      },
-      overlay: {
-        zIndex: 1000
-      }
-    };
 
     return (
-      <>
-        <Button buttonText={<><NewFileIcon />Add file</>} onClickHandler={showModal} className="proj-new-component-button" />
+      <div className={`--${theme}`}>
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="btn--primary proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
-          style={customStyles}
           contentLabel="New File"
-          appElement={document.getElementById('root') || undefined}
+          className='modal-content'
+          overlayClassName='modal-overlay'
+          parentSelector={() => document.querySelector('#app')}
+          appElement={document.getElementById('app') || undefined}
         >
-          <h2>Add a new file to your project</h2>
+          <div className='modal-content__header'>
+            <h2 className='modal-content__heading'>{t('filePane.newFileModal.heading')}</h2>
+            <button onClick={closeModal}>
+              <CloseIcon/>
+            </button>
+          </div>
 
+          <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
           <NameErrorMessage />
-          <label htmlFor='name'>Name: </label>
           <input type='text' name='name' id='name'></input>
-          <Button buttonText='Cancel' onClickHandler={closeModal} />
-          <Button buttonText='Save' onClickHandler={createComponent} />
+          <div className='modal-content__buttons'>
+            <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
+            <Button className='btn--primary' buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
+          </div>
 
         </Modal>
-      </>
+      </div>
     );
   }
 

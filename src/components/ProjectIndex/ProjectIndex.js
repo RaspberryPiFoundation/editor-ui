@@ -4,7 +4,8 @@ import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectListItem from '../ProjectListItem/ProjectListItem'
 import Button from '../Button/Button'
-import { createProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject } from '../../utils/apiCallHandler';
+import { defaultPythonProject } from '../../utils/defaultProjects'
 
 const ProjectIndex = (props) => {
   const history = useHistory();
@@ -16,7 +17,7 @@ const ProjectIndex = (props) => {
   const projectList = useSelector((state) => state.editor.projectList);
 
   const onCreateProject = async () => {
-    const response = await createProject(user.access_token);
+    const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
 
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
@@ -26,7 +27,7 @@ const ProjectIndex = (props) => {
   return projectListLoaded === true ? (
     <div className='main-container'>
       <div>
-        <Button onClickHandler={onCreateProject} buttonText="Create Project" />
+        <Button className='btn--primary' onClickHandler={onCreateProject} buttonText="Create Project" />
       </div>
       { projectList.map((project, i) => (
           <ProjectListItem project={project} user={user} key={i}/>

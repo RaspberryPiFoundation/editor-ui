@@ -29,11 +29,11 @@ describe("Testing the new file modal", () => {
             }
         }
         store = mockStore(initialState);
-        const {getByText} = render(<Provider store={store}><div id='root'><NewComponentButton /></div></Provider>)
-        const button = getByText(/Add file/);
+        const {getByText} = render(<Provider store={store}><div id='app'><NewComponentButton /></div></Provider>)
+        const button = getByText('filePane.newFileButton');
         fireEvent.click(button);
         inputBox = document.getElementById('name')
-        saveButton = getByText(/Save/);
+        saveButton = getByText('filePane.newFileModal.save');
     })
 
     test("Pressing save adds new file with the given name", () => {
@@ -47,14 +47,14 @@ describe("Testing the new file modal", () => {
     test("Duplicate file names throws error", () => {
         fireEvent.change(inputBox, {target: {value: "main.py"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must be unique.")]
+        const expectedActions = [setNameError(""), setNameError("filePane.errors.notUnique")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 
     test("Unsupported extension throws error", () => {
         fireEvent.change(inputBox, {target: {value: "file1.js"}})
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), setNameError("File names must end in '.py', '.csv' or '.txt'.")]
+        const expectedActions = [setNameError(""), setNameError("filePane.errors.unsupportedExtension")]
         expect(store.getActions()).toEqual(expectedActions);
     })
 })

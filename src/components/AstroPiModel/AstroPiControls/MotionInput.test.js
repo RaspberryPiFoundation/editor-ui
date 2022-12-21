@@ -28,7 +28,7 @@ describe("No motion and code running", () => {
   })
   
   test("Displays checkbox with correct value", () => {
-    expect(container.queryByLabelText(/Motion/).checked).toBe(false)
+    expect(container.queryByLabelText('output.senseHat.controls.motion').checked).toBe(false)
   })
   
   test("Stop motion function has been called", () => {
@@ -58,7 +58,7 @@ describe("Motion and code running", () => {
   })
   
   test("Displays checkbox with correct value", () => {
-    expect(container.queryByLabelText(/Motion/).checked).toBe(true)
+    expect(container.queryByLabelText('output.senseHat.controls.motion').checked).toBe(true)
   })
   
   test("Stop motion function has been called", () => {

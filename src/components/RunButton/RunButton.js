@@ -8,11 +8,14 @@ const RunButton = (props) => {
   const dispatch = useDispatch();
 
   const onClickRun = () => {
+    if (window.plausible) {
+      window.plausible('Run button')
+    }
     dispatch(triggerCodeRun());
   }
 
   return (
-    <Button className={"btn--run"} onClickHandler={onClickRun} {...props} />
+    <Button className={"btn--primary btn--run"} onClickHandler={onClickRun} {...props} />
   )
 };
 

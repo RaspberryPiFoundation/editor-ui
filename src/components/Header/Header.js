@@ -1,82 +1,66 @@
 import './Header.scss'
-import { useSelector, connect, useDispatch } from 'react-redux'
-import { toast } from 'react-toastify';
-import Login from '../Login/Login'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
+
+import Autosave from './Autosave';
 import Button from '../Button/Button';
-import { SettingsIcon, SquaresIcon } from '../../Icons';
-import { saveProject, updateProject } from '../../utils/apiCallHandler';
-import { setProjectLoaded, setProject } from '../Editor/EditorSlice';
-import { useHistory } from 'react-router-dom';
+import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
+import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
+import editor_logo from '../../assets/editor_logo.svg'
+import DownloadButton from './DownloadButton';
+import { isOwner } from '../../utils/projectHelpers'
 
-
-const Header = (props) => {
-  const { user } = props;
-  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
-  const project = useSelector((state) => state.editor.project);
+const Header = () => {
+  const user = useSelector((state) => state.auth.user)
+  const project = useSelector((state) => state.editor.project)
+  const loading = useSelector((state) => state.editor.loading)
+  const saving = useSelector((state) => state.editor.saving)
+  const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
   const dispatch = useDispatch();
-  let history = useHistory();
+  const { t } = useTranslation()
 
   const onClickSave = async () => {
-    if (!project.identifier) {
-      const response = await saveProject(project, user.access_token)
-      const identifier = response.data.identifier;
-      const project_type = response.data.project_type;
-      dispatch(setProjectLoaded(false));
-      history.push(`/${project_type}/${identifier}`)
-      return;
-    }
+    window.plausible('Save button')
 
-    const response = await updateProject(project, user.access_token)
-
-    if(response.status === 200) {
-      dispatch(setProject(response.data));
-      toast("Project saved!", {
-        position: toast.POSITION.TOP_CENTER
-      });
+    if (isOwner(user, project)) {
+      dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
+    } else if (user && project.identifier) {
+      dispatch(syncProject('remix')({project, accessToken: user.access_token}))
+    } else {
+      dispatch(showLoginToSaveModal())
     }
   }
 
   return (
-    <>
-      { isEmbedded === false ? (
-        <div className='main-container'>
-          <Login user={user} />
-        </div>
-      ): null }
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
-        <img className='editor-logo' src='/editor_logo.svg' alt='Editor logo'/>
+        <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
           <a href='/projects' className='project-gallery-link'>
-            {<><SquaresIcon />
-            <span className='editor-header__text'>My Projects</span></>}</a>
+            {<><HomeIcon />
+            <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
         ) : null }
-        <ProjectName />
+        { loading === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>
+          { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
+          { loading === 'success' ?
+          <DownloadButton buttonText={t('header.download')} className='btn--tertiary' Icon={DownloadIcon}/>
+          : null }
           <Dropdown
             ButtonIcon={SettingsIcon}
-            buttonText='Settings'
-            buttonTextClassName='editor-header__text'
+            buttonText={t('header.settings')}
             MenuContent={SettingsMenu} />
-
-          {user !== null && project.user_id === user.profile.user ? (
-            <Button className='btn--save' onClickHandler = {onClickSave} buttonText = "Save" />
-          ) : null }
+          {loading === 'success' ?
+            <Button className='btn--primary btn--save' onClickHandler = {onClickSave} buttonText = {t('header.save')} />
+          : null }
         </div>
       </header>
     </div>
-    </>
   )
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.auth.user,
-  };
-}
-
-export default connect(mapStateToProps)(Header);
+export default Header;

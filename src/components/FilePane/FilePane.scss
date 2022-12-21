@@ -1,0 +1,82 @@
+@import '../../colours.scss';
+
+.file-pane {
+  overflow-y: auto;
+  flex: 2;
+  border-radius: 10px;
+
+  summary {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+
+    .accordion-icon {
+      margin-left: auto;
+      display: flex;
+    }
+
+    h2 {
+      font-size: 1rem;
+      margin-left: var(--spacing-1);
+      margin-right: var(--spacing-half);
+    }
+  }
+
+  .file-pane-section {
+    padding: var(--spacing-1);
+
+    &__images {
+      padding-left: 0;
+
+      summary {
+        padding-left: var(--spacing-1)
+      }
+    }
+  }
+
+  details[open] summary {
+    .accordion-icon {
+      transform: rotate(180deg)
+    }
+  }
+}
+
+.--dark {
+  .file-pane {
+    background: $rpf-darkmode-grey18;
+    border: 1px solid $rpf-darkmode-grey10;
+    &-section {
+      border-bottom: 1px solid $rpf-darkmode-grey42;
+    }
+  }
+}
+
+.--light {
+  .file-pane {
+    background: $rpf-white;
+    border: 1px solid $rpf-darkmode-grey85;
+    &-section {
+      border-bottom: 1px solid $rpf-darkmode-grey85;
+    }
+  }
+}
+
+.font-size-medium, .font-size-large {
+  .file-pane {
+    .files-list-item {
+      .file-list-item__name {
+        padding-left: var(--spacing-2);
+      }
+    }
+  }
+}
+
+.font-size-large {
+  .file-pane {
+    h2 {
+      margin-top: 0;
+      margin-bottom: var(--spacing-1);
+    }
+  }
+}

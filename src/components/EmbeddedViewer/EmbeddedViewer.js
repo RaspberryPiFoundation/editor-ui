@@ -9,12 +9,30 @@ import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
 
 const EmbeddedViewer = (props) => {
-  const projectLoaded = useSelector((state) => state.editor.projectLoaded);
+  const loading = useSelector((state) => state.editor.loading);
   const projectIdentifier = props.match.params.identifier;
+
   useProject('python', projectIdentifier);
   useEmbeddedMode(true);
 
-  return projectLoaded === true ? (
+  window.addEventListener(
+    "CookiebotOnDialogInit",
+    () => {
+      if (window.Cookiebot.consent.stamp === '0') {
+        window.Cookiebot.submitCustomConsent(!1, !1, !1);
+        window.addEventListener(
+          "CookiebotOnLoad",
+          () => {
+            window.Cookiebot.deleteConsentCookie();
+          },
+          false
+        );
+      }
+    },
+    false
+  );
+
+  return loading === 'success' ? (
     <div className='embedded-viewer'>
       <Output />
       <RunnerControls />

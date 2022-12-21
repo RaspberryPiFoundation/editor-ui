@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
@@ -105,7 +105,7 @@ describe("Testing stopping the code run with input", () => {
   })
 
   test("Sets interruption error", () => {
-    expect(store.getActions()).toEqual(expect.arrayContaining([setError('Execution interrupted')]))
+    expect(store.getActions()).toEqual(expect.arrayContaining([setError('output.errors.interrupted')]))
   })
 
   test("Handles code run", () => {
@@ -113,7 +113,7 @@ describe("Testing stopping the code run with input", () => {
   })
 })
 
-describe('When not embedded, no visual libraries used and code run', () => {
+describe('When in split view, no visual libraries used and code run', () => {
   let store;
   let queryByText;
   
@@ -131,7 +131,7 @@ describe('When not embedded, no visual libraries used and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: false
+        isSplitView: true
       }
     }
     store = mockStore(initialState);
@@ -139,12 +139,12 @@ describe('When not embedded, no visual libraries used and code run', () => {
   })
 
   test('Visual tab is not shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).not.toBeInTheDocument()
   })
 })
 
-describe('When not embedded, p5 imported and code run', () => {
+describe('When in split view, p5 imported and code run', () => {
   let store;
   let queryByText;
   
@@ -162,7 +162,7 @@ describe('When not embedded, p5 imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: false
+        isSplitView: true
       }
     }
     store = mockStore(initialState);
@@ -170,7 +170,7 @@ describe('When not embedded, p5 imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 
@@ -179,7 +179,7 @@ describe('When not embedded, p5 imported and code run', () => {
   })
 })
 
-describe('When not embedded, pygal imported and code run', () => {
+describe('When in split view, pygal imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -196,7 +196,7 @@ describe('When not embedded, pygal imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: false
+        isSplitView: true
       }
     }
     store = mockStore(initialState);
@@ -204,12 +204,12 @@ describe('When not embedded, pygal imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
 
-describe('When not embedded, turtle imported and code run', () => {
+describe('When in split view, turtle imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -226,7 +226,7 @@ describe('When not embedded, turtle imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: false
+        isSplitView: true
       }
     }
     store = mockStore(initialState);
@@ -234,12 +234,12 @@ describe('When not embedded, turtle imported and code run', () => {
   })
 
   test('Visual tab is shown', () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()
   })
 })
 
-describe('When not embedded, sense_hat imported and code run', () => {
+describe('When in split view, sense_hat imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -256,7 +256,7 @@ describe('When not embedded, sense_hat imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: false
+        isSplitView: true
       }
     }
     store = mockStore(initialState);
@@ -264,11 +264,11 @@ describe('When not embedded, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is shown', async () => {
-    const visualTab = queryByText('Visual Output')
+    const visualTab = queryByText('output.visualOutput')
     expect(visualTab).toBeInTheDocument()  })
 })
 
-describe('When embedded, no visual libraries used and code run', () => {
+describe('When in tabbed view, no visual libraries used and code run', () => {
   let store;
   let queryByText;
   
@@ -286,7 +286,7 @@ describe('When embedded, no visual libraries used and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: true
+        isSplitView: false
       }
     }
     store = mockStore(initialState);
@@ -294,12 +294,12 @@ describe('When embedded, no visual libraries used and code run', () => {
   })
 
   test('Visual tab is not shown', () => {
-    const visualTab = queryByText('Visual Output')
-    expect(visualTab).not.toBeVisible()
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).not.toBeInTheDocument()
   })
 })
 
-describe('When embedded, p5 imported and code run', () => {
+describe('When in tabbed view, p5 imported and code run', () => {
   let store;
   let queryByText;
   
@@ -317,7 +317,7 @@ describe('When embedded, p5 imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: true
+        isSplitView: false
       }
     }
     store = mockStore(initialState);
@@ -325,8 +325,8 @@ describe('When embedded, p5 imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
-    expect(visualTab).toBeVisible()
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
   })
 
   test('Draw is triggered', () => {
@@ -334,7 +334,7 @@ describe('When embedded, p5 imported and code run', () => {
   })
 })
 
-describe('When embedded, pygal imported and code run', () => {
+describe('When in tabbed view, pygal imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -351,7 +351,7 @@ describe('When embedded, pygal imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: true
+        isSplitView: false
       }
     }
     store = mockStore(initialState);
@@ -359,12 +359,12 @@ describe('When embedded, pygal imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
-    expect(visualTab).toBeVisible()
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
   })
 })
 
-describe('When embedded, turtle imported and code run', () => {
+describe('When in tabbed view, turtle imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -381,7 +381,7 @@ describe('When embedded, turtle imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: true
+        isSplitView: false
       }
     }
     store = mockStore(initialState);
@@ -389,12 +389,12 @@ describe('When embedded, turtle imported and code run', () => {
   })
 
   test('Visual tab is not hidden', () => {
-    const visualTab = queryByText('Visual Output')
-    expect(visualTab).toBeVisible()
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
   })
 })
 
-describe('When embedded, sense_hat imported and code run', () => {
+describe('When in tabbed view, sense_hat imported and code run', () => {
   let store;
   let queryByText;
   beforeEach(() => {
@@ -411,7 +411,7 @@ describe('When embedded, sense_hat imported and code run', () => {
           image_list: []
         },
         codeRunTriggered: true,
-        isEmbedded: true
+        isSplitView: false
       }
     }
     store = mockStore(initialState);
@@ -419,7 +419,90 @@ describe('When embedded, sense_hat imported and code run', () => {
   })
 
   test('Visual tab is not hidden', async () => {
-    const visualTab = queryByText('Visual Output')
-    expect(visualTab).toBeVisible()
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
   })
+})
+
+test("When embedded in split view with visual output does not render output view toggle", () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import p5"
+            }
+          ],
+        },
+        codeRUnTriggered: true,
+        isSplitView: true,
+        isEmbedded: true
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+})
+
+test("When embedded in split view with no visual output does not render output view toggle", () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {},
+        senseHatAlwaysEnabled: false,
+        isSplitView: true,
+        isEmbedded: true
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+})
+
+test("When embedded in tabbed view does not render output view toggle", () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {},
+        isSplitView: false,
+        isEmbedded: true
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>)
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+})
+
+test('Tabbed view has text and visual tabs with same parent element', () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {},
+        senseHatAlwaysEnabled: true,
+        isSplitView: false
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>)
+    expect(screen.getByText('output.visualOutput').parentElement).toEqual(screen.getByText('output.textOutput').parentElement)
+})
+
+test('Split view has text and visual tabs with different parent elements', () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {},
+        senseHatAlwaysEnabled: true,
+        isSplitView: true
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><PythonRunner /></Provider>)
+    expect(screen.getByText('output.visualOutput').parentElement).not.toEqual(screen.getByText('output.textOutput').parentElement)
 })

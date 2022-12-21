@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt"
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
@@ -16,6 +17,7 @@ const VisualOutputPane = () => {
   const pygalOutput = useRef();
   const p5Output = useRef();
   const dispatch = useDispatch();
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -38,11 +40,11 @@ const VisualOutputPane = () => {
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
       Sk.p5.stop();
-      dispatch(setError('Execution interrupted'))
+      dispatch(setError(t('output.errors.interrupted')))
       dispatch(codeRunHandled())
     }
 
-  }, [drawTriggered, dispatch])
+  }, [drawTriggered, dispatch, t])
 
   return (
     <div className='visual-output'>

@@ -45,5 +45,5 @@ test("Clicking stop button changes it to 'Stopping...' after a time out", () => 
   expect(stopButton.textContent).toEqual("Stop Code")
 
   act(() => { jest.runAllTimers(); } )
-  expect(stopButton.textContent).toEqual("Stopping...")
+  expect(stopButton.textContent).toEqual("runButton.stopping")
 })

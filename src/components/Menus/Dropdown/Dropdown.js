@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import Button from "../../Button/Button";
 
 import './Dropdown.scss'
 
 const Dropdown = (props) => {
-  const {ButtonIcon, buttonText, buttonTextClassName, MenuContent} = props
+  const {ButtonIcon, buttonImage, buttonImageAltText, buttonText, MenuContent} = props
   const [isOpen, setOpen] = useState(false)
   const dropdown = useRef()
   
@@ -26,10 +27,15 @@ const Dropdown = (props) => {
 
   return (
     <div className='dropdown' ref={dropdown}>
-      <div className={`dropdown-button${isOpen ? ' dropdown-button--active' : ''}`} onClick={() => setOpen(!isOpen)}>
-        <ButtonIcon />
-        {buttonText ? <span className={buttonTextClassName}>{buttonText}</span> : null}
-      </div>
+      <Button
+        className={`btn--tertiary dropdown-button${isOpen ? ' dropdown-button--active' : ''}`}
+        onClickHandler={() => setOpen(!isOpen)}
+        buttonText={buttonText}
+        ButtonIcon={ButtonIcon}
+        buttonImage={buttonImage}
+        buttonImageAltText={buttonImageAltText}
+      />
+      
       {isOpen ? 
       <>
         <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div>
