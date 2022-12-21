@@ -22,7 +22,7 @@ export const useProject = (projectType, projectIdentifier = null, accessToken = 
     }
 
     if (projectIdentifier) {
-      dispatch(syncProject('load')({identifier: projectIdentifier, accessToken}));
+      dispatch(syncProject('load')({identifier: projectIdentifier, projectType, accessToken}));
       return;
     }
 
