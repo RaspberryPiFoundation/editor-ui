@@ -11,7 +11,7 @@ import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
-import { closeFile, expireJustLoaded, openFile, setHasShownSavePrompt, setFocussedFileIndex, syncProject } from '../EditorSlice';
+import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 import { CloseIcon } from '../../../Icons';
 import NotFoundModal from '../../Modals/NotFoundModal';
