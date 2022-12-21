@@ -33,10 +33,8 @@ const FileMenu = (props) => {
           portal={true}
           menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
         >
-      <MenuItem className='file-menu__item file-menu__rename'  {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})} >
-        <button className='btn' >
-          <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
-        </button>
+      <MenuItem className='btn file-menu__item file-menu__rename'  {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})} >
+        <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
       </MenuItem>
     </Menu>
   )
