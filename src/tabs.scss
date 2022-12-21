@@ -1,4 +1,5 @@
 @import './colours.scss';
+@import './components/Button/Button.scss';
 
 #app, #wc {
   .react-tabs {
@@ -9,16 +10,19 @@
     position: relative;
   
     &__tab {
-      display: flex;
-      border-radius: 5px;
-      padding: var(--spacing-1);
-      margin: var(--spacing-1);
-      margin-right: 0;
-      border: 0;
-  
+      @extend .btn;
+      @extend .btn--secondary;
+
       &--selected {
-        color: inherit;
-        border: 0;
+        border: 3px solid $rpf-teal-shade-20;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      &:focus-visible {
+        outline: none;
       }
   
       &:focus:after {
@@ -39,24 +43,6 @@
     }
   }
 
-  &.--dark {
-    .react-tabs {
-  
-      &__tab-list {
-        border-bottom: 1px solid $rpf-darkmode-grey42;
-      }
-  
-      &__tab {
-        color: $editor-light-light-light-grey;
-  
-        &--selected {
-          color: inherit;
-          background-color: $editor-grey;
-        }
-      }
-    }
-  }
-  
   &.--light {
     .react-tabs {
   
@@ -65,11 +51,32 @@
       }
   
       &__tab {
-        color: $editor-mid-grey;
+        &--selected {
+          background-color: $rpi-grey-5;
+        }
+      }
+    }
+  }
+
+  &.--dark {
+    .react-tabs {
+      background-color: $rpf-darkmode-grey18;
+  
+      &__tab-list {
+        border-bottom: 1px solid $rpf-darkmode-grey42;
+      }
+  
+      &__tab {
+        background-color: $rpf-darkmode-grey32;
+        color: $rpf-white;
+
+        &:hover {
+          background-color: $rpf-darkmode-grey22;
+        }
   
         &--selected {
           color: inherit;
-          background-color: $editor-light-light-grey;
+          background-color: $rpf-darkmode-grey42;
         }
       }
     }

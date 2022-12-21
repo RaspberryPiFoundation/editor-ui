@@ -31,8 +31,29 @@
   display: inline;
   font-weight: var(--font-weight-bold);
   text-decoration: underline;
+
+  &.btn--tertiary {
+    color: $rpf-text-black;
+
+    &:hover {
+      color: $rpi-grey-70;
+    }
+  }
 }
 
 .editor-banner__close-button {
   margin-left: auto;
+
+  &.btn--tertiary {
+    svg {
+      fill: $rpf-text-black;
+      margin-right: 0;
+    }
+
+    &:hover {
+      svg {
+        fill: $rpi-grey-70;
+      }
+    }
+  }
 }

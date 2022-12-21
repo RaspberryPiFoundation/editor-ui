@@ -16,13 +16,19 @@
     margin-right: var(--spacing-3);
     height: 100%;
 
-    .dropdown-button {
-      padding: 0 var(--spacing-2)
-    }
-
     svg {
       fill:  $rpf-white;
       margin: 0 0 0 var(--spacing-1);
+    }
+
+    .dropdown-button {
+      padding: 0 var(--spacing-2);
+
+      &:hover {
+        svg {
+          fill: $editor-white;
+        }
+      }
     }
 
     img {
