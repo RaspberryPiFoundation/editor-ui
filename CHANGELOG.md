@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Unit tests for the autosave trigger (#291)
 - Project not found and access denied modals shown on project loading error (#298)
 
+## Changed
+
+- Bump terser from 4.8.0 to 4.8.1 (#143)
+- Updated buttons and tabs styling (#296)
+- Updated icons (#296)
+
 ## [0.9.0]
 
 ### Added

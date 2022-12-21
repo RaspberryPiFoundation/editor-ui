@@ -1,5 +1,6 @@
 
 @import '../../colours.scss';
+@import '../Button/Button.scss';
 
 .autosave {
   align-items: center;
@@ -51,12 +52,15 @@
 }
 
 .project-gallery-link {
+  @extend .btn;
+  @extend .btn--tertiary;
+
+  box-sizing: border-box;
   color: inherit;
   text-decoration: none;
   height: 100%;
   display: flex;
   align-items: center;
-  font-weight: var(--font-weight-bold);
   padding: 0 var(--spacing-3);
 
   &a:visited {
@@ -66,25 +70,27 @@
   svg {
     margin-right: var(--spacing-1)
   }
+
+  + .project-name {
+    .--light & {
+      border-left: 1px solid $rpf-darkmode-grey85;
+    }
+  
+    .--dark & {
+      border-left: 1px solid $rpf-darkmode-grey42;
+    }
+  }
 }
 
 .--light {
   .editor-header {
     background-color: $rpf-white;
   }
-
-  .project-gallery-link {
-    border-right: 1px solid $rpf-darkmode-grey85;
-  }
 }
 
 .--dark {
   .editor-header {
     background-color: $rpf-darkmode-grey22;
-  }
-
-  .project-gallery-link {
-    border-right: 1px solid $rpf-darkmode-grey42;
   }
 }
 

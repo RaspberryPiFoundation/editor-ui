@@ -38,6 +38,10 @@
         }
       }
 
+      &:focus {
+        box-shadow: none;
+      }
+
       &:focus-visible {
         outline: none;
       }
