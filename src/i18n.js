@@ -111,8 +111,10 @@ i18n
             loginText: 'Log in to your Raspberry Pi account to save your work, and you\'ll be able to access and edit your project whenever you need to.'
           },
           notifications: {
+            loginPrompt: 'To save this project and access it later, don\'t forget to log in or sign up!',
             projectRemixed: 'Your remixed project has been saved',
-            projectSaved: 'Your project has been saved'
+            projectSaved: 'Your project has been saved',
+            savePrompt: 'Save this project to access it later under "Your projects".'
           },
           output: {
             errors: {
@@ -142,8 +144,26 @@ i18n
             visualOutput: 'Visual Output',
           },
           project: {
+            accessDeniedNoAuthModal: {
+              heading: 'You are not able to see this project',
+              loginButtonText: 'Log in to your account',
+              newProject: 'Create a new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'If this is your project, log in to see it. If this is not your project you can visit the project site for cool project ideas or start coding in a new project.',
+            },
+            accessDeniedWithAuthModal: {
+              heading: 'You can\'t access this project',
+              newProject: 'Create a new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'Visit the project site for cool project ideas or start coding in a new project.',
+            },
             loading: 'Loading',
-            notFound: 'Oops we couldn\'t find that project',
+            notFoundModal: {
+              heading: 'This project does not exist',
+              newProject: 'Start new code project',
+              projectsSiteLinkText: 'Explore project site',
+              text: 'You can start coding in a new project, or visit the project site for cool project ideas.'
+            },
             untitled: 'Untitled project'
           },
           runButton: {

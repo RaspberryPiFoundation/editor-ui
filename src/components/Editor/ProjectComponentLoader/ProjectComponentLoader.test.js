@@ -3,8 +3,17 @@ import { render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import ProjectComponentLoader from "./ProjectComponentLoader";
+import { setProject } from "../EditorSlice";
+import { defaultPythonProject } from "../../../utils/defaultProjects";
 
-test("Renders loading message if projectloaded is pending", () => {
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useHistory: () => ({
+      push: jest.fn()
+  })
+}));
+
+test("Renders loading message if loading is pending", () => {
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -18,7 +27,7 @@ test("Renders loading message if projectloaded is pending", () => {
   expect(screen.queryByText('project.loading')).toBeInTheDocument()
 })
 
-test("Renders failed message if projectloaded is failed", () => {
+test("Loads default project if loading fails", () => {
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -29,10 +38,11 @@ test("Renders failed message if projectloaded is failed", () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><ProjectComponentLoader match={{params: {}}}/></Provider>)
-  expect(screen.queryByText('project.notFound')).toBeInTheDocument()
+  const expectedActions = [setProject(defaultPythonProject)]
+  expect(store.getActions()).toEqual(expectedActions)
 })
 
-test("Does not render loading or failed message if projectloaded is success", () => {
+test("Does not render loading message if loading is success", () => {
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -48,5 +58,4 @@ test("Does not render loading or failed message if projectloaded is success", ()
   const store = mockStore(initialState);
   render(<Provider store={store}><div id='app'></div><ProjectComponentLoader match={{params: {}}}/></Provider>)
   expect(screen.queryByText('project.loading')).not.toBeInTheDocument()
-  expect(screen.queryByText('project.notFound')).not.toBeInTheDocument()
 })

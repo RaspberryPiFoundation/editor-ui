@@ -17,7 +17,8 @@ describe('When loginToSaveModalShowing is true', () => {
   beforeEach(() => {
     const initialState = {
       editor: {
-        loginToSaveModalShowing: true
+        loginToSaveModalShowing: true,
+        modals: {}
       }
     }
     store = mockStore(initialState);

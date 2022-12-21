@@ -27,14 +27,16 @@ const ProjectComponentLoader = (props) => {
     if (loading === 'idle' && project.identifier) {
       history.push(`/${project.project_type}/${project.identifier}`)
     }
+    if (loading === 'failed') {
+      history.push('/')
+    }
   }, [loading, project, history])
-
 
   return loading === 'success' ? (
     <Project />
-  ) : loading === 'failed' ? (
-    <p>{t('project.notFound')}</p>
-  ) : <p>{t('project.loading')}</p>;
+  ) : loading === 'pending' ? (
+    <p>{t('project.loading')}</p>
+  ) : null
 };
 
 export default ProjectComponentLoader;
