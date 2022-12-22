@@ -18,6 +18,7 @@ import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
+import Button from '../../Button/Button';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -91,11 +92,12 @@ const Project = (props) => {
             <TabList>
               {openFiles.map((fileName, i) => (
                 <Tab key={i}>
-                  <span className='react-tabs__tab-inner' ref={tabRefs.current[i]}>{fileName}</span>
+                  <span className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`} ref={tabRefs.current[i]}>{fileName}
                   {fileName !== 'main.py' ?
-                    <button onClick={(e) => closeFileTab(e, fileName)}><CloseIcon scaleFactor={0.75}/></button>
+                    <Button className='btn--tertiary react-tabs__tab-inner-close-btn' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.75}/> }/>
                   : null
                   }
+                  </span>
                 </Tab>
               ))}
             </TabList>

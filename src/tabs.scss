@@ -19,6 +19,18 @@ $spacing-four: calc($spacing-eight / 2);
       border: 3px solid transparent;
       margin: $spacing-eight $spacing-four;
       padding: $spacing-four var(--spacing-1);
+
+      &--split {
+        padding-right: var(--spacing-4);
+      }
+    }
+    &__tab-inner-close-btn {
+      position: absolute;
+      background: transparent;
+      right: 0;
+      svg {
+        margin: 0;
+      }
     }
 
     &__tab {

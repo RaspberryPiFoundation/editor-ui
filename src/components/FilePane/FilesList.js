@@ -14,7 +14,7 @@ const FilesList = (props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   
-  const openFileTab = (file) => {
+  const openFileTab = (e, file) => {
     const fileName = `${file.name}.${file.extension}`
     dispatch(openFile(fileName))
   }
@@ -31,8 +31,8 @@ const FilesList = (props) => {
       <NewComponentButton />
       <div className='files-list'>
       { project.components.map((file, i) => (
-        <div className='files-list-item' key={i}>
-          <div className='files-list-item__label' onClick={() => openFileTab(file)}>
+        <div className='files-list-item' key={i} onClick={(e) => openFileTab(e, file)}>
+          <div className='files-list-item__label'>
             <FileIcon />
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           </div>
