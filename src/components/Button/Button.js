@@ -34,7 +34,7 @@ const Button = (props) => {
     <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>
       { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
       { ButtonIcon ? <ButtonIcon /> : null }
-      { buttonText ? <span>{buttonText} </span> : null }
+      { buttonText ? <span>{buttonText}</span> : null }
     </button>
   );
 
