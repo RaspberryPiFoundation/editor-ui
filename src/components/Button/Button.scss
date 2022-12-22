@@ -58,6 +58,12 @@
   text-decoration: none;
   width: fit-content;
 
+  &:disabled {
+    background-color: $rpf-darkmode-grey32;
+    color: $rpf-white;
+    cursor: default;
+  }
+
   &:focus-visible {
     border: 3px solid $rpf-brand-raspberry;
     outline: none;
@@ -67,14 +73,28 @@
     margin-right: var(--spacing-1);
   }
 
-  &:disabled {
-    background-color: $rpf-darkmode-grey32;
-    color: $rpf-white;
-    cursor: default;
-  }
-
   &--small {
     padding: var(--spacing-four);
+  }
+
+  .btn-outer {
+    background: transparent;
+    cursor: pointer;
+    padding: var(--spacing-eight) 0;
+  
+    &:focus-visible {
+      outline: none;
+  
+      .btn {
+        border: 3px solid $rpf-brand-raspberry;
+      }
+    }
+  }
+  
+  .font-size-large {
+    .btn svg {
+      margin-right: var(--spacing-2);
+    }
   }
 
   // Variants
@@ -112,26 +132,6 @@
         fill: $rpi-grey-70;
       }
     }
-  }
-}
-
-.btn-outer {
-  background: transparent;
-  cursor: pointer;
-  padding: var(--spacing-eight) 0;
-
-  &:focus-visible {
-    outline: none;
-
-    .btn {
-      border: 3px solid $rpf-brand-raspberry;
-    }
-  }
-}
-
-.font-size-large {
-  .btn svg {
-    margin-right: var(--spacing-2);
   }
 }
 
