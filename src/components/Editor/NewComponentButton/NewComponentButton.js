@@ -40,8 +40,8 @@ const NewComponentButton = () => {
     }
 
     return (
-      <div className={`--${theme}`}>
-        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="btn--primary proj-new-component-button" />
+      <div className={`--${theme} btn-outer `}>
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="btn--primary btn--small proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
