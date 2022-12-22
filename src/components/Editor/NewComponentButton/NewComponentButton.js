@@ -20,10 +20,6 @@ const NewComponentButton = () => {
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
-    const [cookies] = useCookies(['fontSize', 'theme'])
-    const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
-    const theme = isDarkMode ? "dark" : "light"
-
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
       dispatch(setNameError(""));
@@ -40,7 +36,7 @@ const NewComponentButton = () => {
     }
 
     return (
-      <div className={`--${theme}`}>
+      <div>
         <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} buttonOuter onClickHandler={showModal} className="btn--primary btn--small proj-new-component-button" />
 
         <Modal

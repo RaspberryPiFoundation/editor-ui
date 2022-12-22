@@ -77,26 +77,6 @@
     padding: var(--spacing-four);
   }
 
-  .btn-outer {
-    background: transparent;
-    cursor: pointer;
-    padding: var(--spacing-eight) 0;
-  
-    &:focus-visible {
-      outline: none;
-  
-      .btn {
-        border: 3px solid $rpf-brand-raspberry;
-      }
-    }
-  }
-  
-  .font-size-large {
-    .btn svg {
-      margin-right: var(--spacing-2);
-    }
-  }
-
   // Variants
   &--primary {
     $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
@@ -132,6 +112,26 @@
         fill: $rpi-grey-70;
       }
     }
+  }
+}
+
+.btn-outer {
+  background: transparent;
+  cursor: pointer;
+  padding: var(--spacing-eight) 0;
+
+  &:focus-visible {
+    outline: none;
+
+    .btn {
+      border: 3px solid $rpf-brand-raspberry;
+    }
+  }
+}
+
+.font-size-large {
+  .btn svg {
+    margin-right: var(--spacing-2);
   }
 }
 
