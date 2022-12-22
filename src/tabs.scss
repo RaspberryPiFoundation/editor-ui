@@ -32,7 +32,6 @@ $spacing-four: calc($spacing-eight / 2);
       padding: var(--spacing-1) calc(1.7 * var(--spacing-1)) var(--spacing-1) var(--spacing-half);
       text-align: center;
       svg {
-        fill: $rpf-white;
         margin: 0;
       }
       &:focus-visible {
@@ -151,6 +150,9 @@ $spacing-four: calc($spacing-eight / 2);
       &__tab-inner {
         background-color: $rpf-darkmode-grey32;
         color: $rpf-white;
+        svg {
+          fill: $rpf-white;
+        }
       }
     }
   }
