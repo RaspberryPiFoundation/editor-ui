@@ -21,15 +21,26 @@ $spacing-four: calc($spacing-eight / 2);
       padding: $spacing-four var(--spacing-1);
 
       &--split {
-        padding-right: var(--spacing-4);
+        padding-right: calc(3.5 * var(--spacing-1));
       }
     }
     &__tab-inner-close-btn {
       position: absolute;
       background: transparent;
-      right: 0;
+      right: calc(-1*var(--spacing-1));
+      height: 100%;
+      padding: var(--spacing-1) calc(1.7 * var(--spacing-1)) var(--spacing-1) var(--spacing-half);
+      text-align: center;
       svg {
+        fill: $rpf-white;
         margin: 0;
+      }
+      &:focus-visible {
+        border: 0;
+
+        svg {
+          border: 3px solid $rpf-brand-raspberry;
+        }
       }
     }
 

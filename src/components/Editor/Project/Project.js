@@ -94,7 +94,7 @@ const Project = (props) => {
                 <Tab key={i}>
                   <span className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`} ref={tabRefs.current[i]}>{fileName}
                   {fileName !== 'main.py' ?
-                    <Button className='btn--tertiary react-tabs__tab-inner-close-btn' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.75}/> }/>
+                    <Button className='btn--tertiary react-tabs__tab-inner-close-btn' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                   : null
                   }
                   </span>
