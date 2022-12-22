@@ -311,7 +311,9 @@ const PythonRunner = () => {
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>{t('output.visualOutput')}</Tab>
+                <Tab key={0}>
+                  <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+                </Tab>
                 {!isEmbedded ? <OutputViewToggle/> : null }
               </TabList>
               <TabPanel key={0} >
@@ -322,7 +324,9 @@ const PythonRunner = () => {
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
               <TabList>
-                <Tab key={0}>{t('output.textOutput')}</Tab>
+                <Tab key={0}>
+                  <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+                </Tab>
                 { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
               </TabList>
               <ErrorMessage />
@@ -336,9 +340,13 @@ const PythonRunner = () => {
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
         <TabList>
           {hasVisualOutput ?
-            <Tab key={0}>{t('output.visualOutput')}</Tab> : null
+            <Tab key={0}>
+              <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+            </Tab> : null
           }
-          <Tab key={1}>{t('output.textOutput')}</Tab>
+          <Tab key={1}>
+            <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+          </Tab>
           {!isEmbedded ? <OutputViewToggle/> : null }
         </TabList>
         <ErrorMessage />
