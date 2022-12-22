@@ -9,7 +9,6 @@ import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { CloseIcon, NewFileIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
-import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 
 const NewComponentButton = () => {
