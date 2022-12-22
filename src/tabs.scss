@@ -1,6 +1,9 @@
 @import './colours.scss';
 @import './components/Button/Button.scss';
 
+$spacing-eight: calc(var(--spacing-1) / 1.25);
+$spacing-four: calc($spacing-eight / 2);
+
 #app, #wc {
   .react-tabs {
     flex: 1;
@@ -8,13 +11,34 @@
     flex-flow: column;
     overflow: hidden;
     position: relative;
-  
-    &__tab {
+
+    &__tab-inner {
       @extend .btn;
       @extend .btn--secondary;
 
+      border: 3px solid transparent;
+      margin: $spacing-eight $spacing-four;
+      padding: $spacing-four var(--spacing-1);
+    }
+
+    &__tab {
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+
       &--selected {
-        border: 3px solid $rpf-teal-shade-20;
+        border-radius: 0;
+
+        .react-tabs__tab-inner {
+          border: 3px solid $rpf-teal-shade-20;
+        }
+      }
+
+      &:hover {
+        .react-tabs__tab-inner {
+          background-color: $rpi-grey-40;
+        }
       }
 
       &:focus {
@@ -23,11 +47,27 @@
 
       &:focus-visible {
         outline: none;
+
+        .react-tabs__tab-inner {
+          border: 3px solid $rpf-brand-raspberry;
+        }
       }
   
       &:focus:after {
         display: none;
-       }
+      }
+
+      &:first-of-type {
+        .react-tabs__tab-inner {
+          margin-left: $spacing-eight;
+        }
+      }
+
+      &:last-of-type {
+        .react-tabs__tab-inner {
+          margin-right: $spacing-eight;
+        }
+      }
     }
   
     &__tab-list {
@@ -51,7 +91,9 @@
   
       &__tab {
         &--selected {
-          background-color: $rpi-grey-5;
+          .react-tabs__tab-inner {
+            background-color: $rpi-grey-5;
+          }
         }
       }
     }
@@ -66,17 +108,25 @@
       }
   
       &__tab {
-        background-color: $rpf-darkmode-grey32;
-        color: $rpf-white;
-
         &:hover {
-          background-color: $rpf-darkmode-grey22;
+          .react-tabs__tab-inner {
+            background-color: $rpf-darkmode-grey22;
+          }
         }
   
         &--selected {
-          color: inherit;
-          background-color: $rpf-darkmode-grey42;
+          color: $rpf-white;
+
+          .react-tabs__tab-inner {
+            color: inherit;
+            background-color: $rpf-darkmode-grey42;
+          }
         }
+      }
+
+      &__tab-inner {
+        background-color: $rpf-darkmode-grey32;
+        color: $rpf-white;
       }
     }
   }
