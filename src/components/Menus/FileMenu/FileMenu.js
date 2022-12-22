@@ -1,7 +1,7 @@
-import React, { createRef, useContext, useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { useDispatch } from 'react-redux'
 import { useTranslation } from "react-i18next";
-import { Menu, MenuItem, MenuButton, ControlledMenu } from '@szhsin/react-menu';
+import { MenuItem, ControlledMenu } from '@szhsin/react-menu';
 
 import { SettingsContext } from '../../../settings'
 import { showRenameFileModal } from '../../Editor/EditorSlice'
@@ -21,7 +21,10 @@ const FileMenu = (props) => {
     setOpen(true)
   }
 
-  const onClickRenameFile = () => dispatch(showRenameFileModal(props))
+  const onClickRenameFile = (e) => {
+    e.syntheticEvent.stopPropagation()
+    dispatch(showRenameFileModal(props))
+  }
 
   const checkValidFilename = () => {
     const { name, ext } = props
@@ -32,7 +35,6 @@ const FileMenu = (props) => {
     <>
       <Button className='btn-tertiary file-menu__drop' ButtonIcon={EllipsisVerticalIcon} onClickHandler={(e) => openMenu(e)} ref={menuButton}/>
       <ControlledMenu
-            // menuButton={<MenuButton className={`file-menu__drop`}><EllipsisVerticalIcon /></MenuButton>}
             state={isOpen ? 'open' : 'closed'}
             anchorRef={menuButton}
             onClose={() => setOpen(false)}
@@ -47,7 +49,7 @@ const FileMenu = (props) => {
             portal={true}
             menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
           >
-        <MenuItem className='btn file-menu__item file-menu__rename'  {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})} >
+        <MenuItem className='btn file-menu__item file-menu__rename' {...(checkValidFilename() ? {onClick: (e) => onClickRenameFile(e)} : {disabled: 'disabled'})} >
           <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
         </MenuItem>
       </ControlledMenu>
