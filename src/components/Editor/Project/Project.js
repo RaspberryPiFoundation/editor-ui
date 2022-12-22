@@ -91,7 +91,7 @@ const Project = (props) => {
             <TabList>
               {openFiles.map((fileName, i) => (
                 <Tab key={i}>
-                  <span ref={tabRefs.current[i]}>{fileName}</span>
+                  <span className='react-tabs__tab-inner' ref={tabRefs.current[i]}>{fileName}</span>
                   {fileName !== 'main.py' ?
                     <button onClick={(e) => closeFileTab(e, fileName)}><CloseIcon scaleFactor={0.75}/></button>
                   : null
