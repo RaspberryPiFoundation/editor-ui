@@ -17,7 +17,7 @@
     }
   }
 
-  &:active {
+  &:active, .btn-outer:active & {
     background-color: $active-bg;
     @content;
   }
@@ -31,12 +31,12 @@
     }
   }
 
-  &:focus-visible {
+  &:focus-visible, .btn-outer:focus-visible & {
     background-color: $focus-bg;
     @content;
   }
   
-  &:hover {
+  &:hover, .btn-outer:hover & {
     background-color: $hover-bg;
     @content;
   }
@@ -58,6 +58,12 @@
   text-decoration: none;
   width: fit-content;
 
+  &:disabled {
+    background-color: $rpf-darkmode-grey32;
+    color: $rpf-white;
+    cursor: default;
+  }
+
   &:focus-visible {
     border: 3px solid $rpf-brand-raspberry;
     outline: none;
@@ -67,14 +73,11 @@
     margin-right: var(--spacing-1);
   }
 
-  &:disabled {
-    background-color: $rpf-darkmode-grey32;
-    color: $rpf-white;
-    cursor: default;
+  &--small {
+    padding: var(--spacing-four);
   }
 
   // Variants
-
   &--primary {
     $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
     @include button-styling($colours...);
@@ -112,6 +115,20 @@
   }
 }
 
+.btn-outer {
+  background: transparent;
+  cursor: pointer;
+  padding: var(--spacing-eight) 0;
+
+  &:focus-visible {
+    outline: none;
+
+    .btn {
+      border: 3px solid $rpf-brand-raspberry;
+    }
+  }
+}
+
 .font-size-large {
   .btn svg {
     margin-right: var(--spacing-2);
@@ -119,6 +136,50 @@
 }
 
 .--dark {
+  .btn-outer {
+    &:hover {
+      .btn--primary {
+        background-color: $rpf-teal-tint-25;
+      }
+
+      .btn--secondary {
+        background-color: $rpf-darkmode-grey22;
+      }
+
+      .btn--tertiary {
+        background-color: inherit;
+      }
+    }
+
+    &:active {
+      .btn--primary {
+        background-color: $rpf-teal-tint-75;
+      }
+
+      .btn--secondary {
+        background-color: $rpf-darkmode-grey22;
+      }
+
+      .btn--tertiary {
+        background-color: inherit;
+      }
+    }
+
+    &:focus-visible {
+      .btn--primary {
+        background-color: $rpf-teal-tint-50;
+      }
+
+      .btn--secondary {
+        background-color: $rpf-darkmode-grey32;
+      }
+
+      .btn--tertiary {
+        background-color: inherit;
+      }
+    }
+  }
+
   .btn--primary {
     $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-darkmode-grey80, $rpf-darkmode-grey22, $rpf-teal-tint-50, $rpf-teal-tint-25;
     @include button-styling($colours...);
