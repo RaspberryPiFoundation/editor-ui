@@ -16,13 +16,11 @@ const FileMenu = (props) => {
   const menuButton = useRef()
   const [isOpen, setOpen] = useState(false)
 
-  const openMenu = (e) => {
-    e.stopPropagation()
+  const openMenu = () => {
     setOpen(true)
   }
 
-  const onClickRenameFile = (e) => {
-    e.syntheticEvent.stopPropagation()
+  const onClickRenameFile = () => {
     dispatch(showRenameFileModal(props))
   }
 
@@ -32,7 +30,7 @@ const FileMenu = (props) => {
   }
 
   return (
-    <>
+    <div onClick = {(e) => e.stopPropagation()}>
       <Button className='btn-tertiary file-menu__drop' ButtonIcon={EllipsisVerticalIcon} onClickHandler={(e) => openMenu(e)} ref={menuButton}/>
       <ControlledMenu
             state={isOpen ? 'open' : 'closed'}
@@ -53,7 +51,7 @@ const FileMenu = (props) => {
           <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
         </MenuItem>
       </ControlledMenu>
-    </>
+    </div>
   )
 }
   
