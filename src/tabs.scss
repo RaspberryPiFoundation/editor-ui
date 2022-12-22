@@ -44,6 +44,10 @@
 
       &:focus-visible {
         outline: none;
+
+        .react-tabs__tab-inner {
+          border: 3px solid $rpf-brand-raspberry;
+        }
       }
   
       &:focus:after {
