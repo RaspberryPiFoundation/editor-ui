@@ -1,6 +1,9 @@
 @import './colours.scss';
 @import './components/Button/Button.scss';
 
+$spacing-eight: calc(var(--spacing-1) / 1.25);
+$spacing-four: calc($spacing-eight / 2);
+
 #app, #wc {
   .react-tabs {
     flex: 1;
@@ -14,8 +17,8 @@
       @extend .btn--secondary;
 
       border: 3px solid transparent;
-      margin: 8px 4px;
-      padding: 6px 10px;
+      margin: $spacing-eight $spacing-four;
+      padding: $spacing-four var(--spacing-1);
     }
 
     &__tab {
@@ -56,7 +59,13 @@
 
       &:first-of-type {
         .react-tabs__tab-inner {
-          margin: 8px 4px 8px 8px;
+          margin-left: $spacing-eight;
+        }
+      }
+
+      &:last-of-type {
+        .react-tabs__tab-inner {
+          margin-right: $spacing-eight;
         }
       }
     }
