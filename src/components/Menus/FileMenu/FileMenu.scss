@@ -1,7 +1,8 @@
 @import '../../../colours.scss';
 
 .file-menu__drop {
-    vertical-align: middle;
+    display: flex;
+    padding: 0 10px;
 }
 
 .file-menu {
@@ -10,18 +11,19 @@
     padding: 0;
     margin-left: var(--spacing-1);
 
-    svg {
-        height: 0.75em;
-        width: auto;
-    }
-
-    .btn {
+    .file-menu__item {
         margin: 0;
         background-color: inherit;
         color:  inherit;
         padding: var(--spacing-1);
         text-align: left;
         white-space: nowrap;
+        overflow-x: visible;
+    }
+
+    svg {
+        height: 0.75em;
+        width: auto;
     }
 
     &--dark {
@@ -80,10 +82,5 @@
 
     &--large {
         font-size: var(--font-size-u-4);
-    }
-
-    .file-menu__item {
-        padding: 0;
-        overflow-x: visible;
     }
 }
