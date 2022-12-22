@@ -6,10 +6,16 @@
   border-radius: 10px;
 
   summary {
+    border: 3px solid transparent;
     display: flex;
     align-items: center;
     list-style: none;
     cursor: pointer;
+
+    &:focus-visible {
+      border: 3px solid $rpf-brand-raspberry;
+      outline: none;
+    }
 
     .accordion-icon {
       margin-left: auto;
@@ -46,6 +52,7 @@
   .file-pane {
     background: $rpf-darkmode-grey18;
     border: 1px solid $rpf-darkmode-grey10;
+
     &-section {
       border-bottom: 1px solid $rpf-darkmode-grey42;
     }
@@ -56,6 +63,7 @@
   .file-pane {
     background: $rpf-white;
     border: 1px solid $rpf-darkmode-grey85;
+
     &-section {
       border-bottom: 1px solid $rpf-darkmode-grey85;
     }
