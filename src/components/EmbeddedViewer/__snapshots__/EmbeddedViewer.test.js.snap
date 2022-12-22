@@ -33,7 +33,11 @@ exports[`Renders without crashing 1`] = `
               role="tab"
               tabindex="0"
             >
-              output.textOutput
+              <span
+                class="react-tabs__tab-inner"
+              >
+                output.textOutput
+              </span>
             </li>
             <div
               class="output-view-toggle"

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Message prompting users to login or save if they make non-autosaved changes (#291)
 - Unit tests for the autosave trigger (#291)
 - Project not found and access denied modals shown on project loading error (#298)
+- Styling for small buttons (#303)
 
 ## Changed
 
@@ -18,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated buttons and tabs styling (#296)
 - Updated icons (#296)
 - Bump engine.io from 6.2.0 to 6.2.1 (#272)
+- Increased clickable area for tabs (#299)
 
 ### Fixed
 
