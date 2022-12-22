@@ -45,7 +45,28 @@
 .btn-outer {
   background: transparent;
   cursor: pointer;
-  padding: 6px 0px;
+  padding: var(--spacing-eight) 0;
+
+  &:active {
+    .btn--primary {
+      background-color: $rpf-teal-tint-25;
+    }
+  }
+
+  &:hover {
+    .btn--primary {
+      background-color: $rpf-teal-shade-20;
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    .btn--primary {
+      background-color: $rpf-teal;
+      border: 3px solid $rpf-brand-raspberry;
+    }
+  }
 }
 
 .btn {

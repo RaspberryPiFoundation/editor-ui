@@ -31,7 +31,7 @@ const Button = (props) => {
   }
 
   const button = (
-    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>
+    <button className={buttonClass} disabled={disabled} onClick={buttonOuter ? null : onButtonClick}>
       { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
       { ButtonIcon ? <ButtonIcon /> : null }
       { buttonText ? <span>{buttonText}</span> : null }
@@ -40,7 +40,7 @@ const Button = (props) => {
 
   if (buttonOuter) {
     return (
-      <div className='btn-outer'>
+      <div className='btn-outer' onClick={onButtonClick}>
         {button}
       </div>
     )
