@@ -1,10 +1,10 @@
 import './Button.scss';
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-const Button = (props) => {
+const Button = forwardRef((props, ref) => {
   const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, disabled, confirmText } = props;
 
   var buttonClass="btn"
@@ -31,13 +31,13 @@ const Button = (props) => {
   }
 
   return (
-    <button className={buttonClass} disabled={disabled} onClick={onButtonClick}>
+    <button ref={ref} className={buttonClass} disabled={disabled} onClick={onButtonClick}>
       { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
       { ButtonIcon ? <ButtonIcon /> : null }
       { buttonText ? <span>{buttonText}</span> : null }
     </button>
   )
-};
+});
 
 export default Button;
 

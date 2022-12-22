@@ -1,17 +1,25 @@
-import React, { useContext } from "react"
+import React, { createRef, useContext, useRef, useState } from "react"
 import { useDispatch } from 'react-redux'
 import { useTranslation } from "react-i18next";
-import { Menu, MenuItem, MenuButton } from '@szhsin/react-menu';
+import { Menu, MenuItem, MenuButton, ControlledMenu } from '@szhsin/react-menu';
 
 import { SettingsContext } from '../../../settings'
 import { showRenameFileModal } from '../../Editor/EditorSlice'
 import { EllipsisVerticalIcon, PencilIcon } from '../../../Icons';
 import './FileMenu.scss'
+import Button from "../../Button/Button";
 
 const FileMenu = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const settings = useContext(SettingsContext)
+  const menuButton = useRef()
+  const [isOpen, setOpen] = useState(false)
+
+  const openMenu = (e) => {
+    e.stopPropagation()
+    setOpen(true)
+  }
 
   const onClickRenameFile = () => dispatch(showRenameFileModal(props))
 
@@ -21,22 +29,29 @@ const FileMenu = (props) => {
   }
 
   return (
-    <Menu menuButton={<MenuButton className={`file-menu__drop`}><EllipsisVerticalIcon /></MenuButton>}
-          transition
-          align='start'
-          direction='right'
-          menuStyle={{padding: '5px'}}
-          offsetX={15}
-          offsetY={-10}
-          position='anchor'
-          viewScroll='initial'
-          portal={true}
-          menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
-        >
-      <MenuItem className='btn file-menu__item file-menu__rename'  {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})} >
-        <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
-      </MenuItem>
-    </Menu>
+    <>
+      <Button className='btn-tertiary file-menu__drop' ButtonIcon={EllipsisVerticalIcon} onClickHandler={(e) => openMenu(e)} ref={menuButton}/>
+      <ControlledMenu
+            // menuButton={<MenuButton className={`file-menu__drop`}><EllipsisVerticalIcon /></MenuButton>}
+            state={isOpen ? 'open' : 'closed'}
+            anchorRef={menuButton}
+            onClose={() => setOpen(false)}
+            transition
+            align='start'
+            direction='right'
+            menuStyle={{padding: '5px'}}
+            offsetX={15}
+            offsetY={-10}
+            position='anchor'
+            viewScroll='initial'
+            portal={true}
+            menuClassName={`file-menu file-menu--${settings.theme} file-menu--${settings.fontSize}`}
+          >
+        <MenuItem className='btn file-menu__item file-menu__rename'  {...(checkValidFilename() ? {onClick: onClickRenameFile} : {disabled: 'disabled'})} >
+          <PencilIcon/>&nbsp;{t('filePane.fileMenu.renameItem')}
+        </MenuItem>
+      </ControlledMenu>
+    </>
   )
 }
   

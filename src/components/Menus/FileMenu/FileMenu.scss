@@ -3,6 +3,9 @@
 .file-menu__drop {
     display: flex;
     padding: 0 10px;
+    svg {
+      margin: 0;
+    }
 }
 
 .file-menu {
