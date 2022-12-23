@@ -9,7 +9,6 @@ import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { CloseIcon, NewFileIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
-import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 
 const NewComponentButton = () => {
@@ -19,10 +18,6 @@ const NewComponentButton = () => {
     const projectType = useSelector((state) => state.editor.project.project_type)
     const projectComponents = useSelector((state) => state.editor.project.components);
     const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
-
-    const [cookies] = useCookies(['fontSize', 'theme'])
-    const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
-    const theme = isDarkMode ? "dark" : "light"
 
     const closeModal = () => setIsOpen(false);
     const showModal = () => {
@@ -41,8 +36,8 @@ const NewComponentButton = () => {
     }
 
     return (
-      <div className={`--${theme}`}>
-        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} onClickHandler={showModal} className="btn--primary proj-new-component-button" />
+      <div>
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} buttonOuter onClickHandler={showModal} className="btn--primary btn--small proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}
