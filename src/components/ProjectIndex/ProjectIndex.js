@@ -2,9 +2,10 @@ import { useSelector, connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
+import ProjectHeader from '../ProjectHeader/ProjectHeader'
 import ProjectListItem from '../ProjectListItem/ProjectListItem'
 import Button from '../Button/Button'
-import { createOrUpdateProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
 
 const ProjectIndex = (props) => {
@@ -25,18 +26,23 @@ const ProjectIndex = (props) => {
   }
 
   return projectListLoaded === true ? (
-    <div className='main-container'>
-      <div>
-        <Button className='btn--primary' onClickHandler={onCreateProject} buttonText="Create Project" />
+    <>
+      <ProjectHeader>
+        <Button
+          className='btn--primary'
+          onClickHandler={onCreateProject}
+          buttonText='Create Project'
+        />
+      </ProjectHeader>
+      <div className='main-container'>
+        {projectList.map((project, i) => (
+          <ProjectListItem project={project} user={user} key={i} />
+        ))}
       </div>
-      { projectList.map((project, i) => (
-          <ProjectListItem project={project} user={user} key={i}/>
-        )
-      )}
-    </div>
+    </>
   ) : (
     <>
-    <p>Loading</p>
+      <p>Loading</p>
     </>
   );
 };

@@ -35,7 +35,7 @@ const Header = () => {
     }
   }
 
-  return (
+  return loading === 'success' && (
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
