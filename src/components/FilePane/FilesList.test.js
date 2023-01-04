@@ -50,7 +50,7 @@ describe("When project has multiple files", () => {
   })
 
   test('Clicking file name opens file tab',() => {
-    fireEvent.click(screen.queryByText('a.py')).parentElement
+    fireEvent.click(screen.queryByText('a.py').parentElement)
     expect(openFileTab).toHaveBeenCalledWith('a.py')
   })
 })
