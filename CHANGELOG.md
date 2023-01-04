@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Styling for small buttons (#303)
 - Ability to open and focus files from the left hand file pane (#301)
 - Ability to close file tabs (#301)
+- Validation to prevent file names containing spaces (#301)
 
 ## Changed
 
