@@ -10,7 +10,7 @@ const ProjectHeader = (props) => {
       <div className='editor-project-header__content'>
         <h2>{t('projectHeader.subTitle')}</h2>
         <h1 className='editor-project-header__title'>{t('projectHeader.title')}</h1>
-        <p>{t('projectHeader.text')}</p>
+        <h3>{t('projectHeader.text')}</h3>
       </div>
       <div className='editor-project-header__action'>
         {props.children}
