@@ -20,7 +20,7 @@ const Header = () => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const onClickSave = async () => {

@@ -1,5 +1,6 @@
 import { useSelector, connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectHeader from '../ProjectHeader/ProjectHeader'
@@ -31,7 +32,7 @@ const ProjectIndex = (props) => {
         <Button
           className='btn--primary'
           onClickHandler={onCreateProject}
-          buttonText='Create Project'
+          buttonText='Create a new project'
         />
       </ProjectHeader>
       <div className='main-container'>

@@ -1,0 +1,23 @@
+@import '../../colours.scss';
+
+.editor-project-header {
+  box-sizing: border-box;
+  align-items: flex-end;
+  display: flex;
+  margin: 0 auto;
+  max-width: 1570px;
+  padding: var(--spacing-5) var(--spacing-8);
+  width: 100%;
+
+  &__action {
+    margin-left: auto;
+  }
+
+  .--dark & {
+    background: $rpf-darkmode-grey32;
+  }
+
+  .--light & {
+    background: $rpf-white;
+  }
+}
