@@ -19,6 +19,7 @@ $spacing-four: calc($spacing-eight / 2);
       border: 3px solid transparent;
       margin: $spacing-eight $spacing-four;
       padding: $spacing-four var(--spacing-1);
+      white-space: nowrap;
 
       &--split {
         padding-right: calc(3.5 * var(--spacing-1));

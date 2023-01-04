@@ -25,6 +25,8 @@ jest.mock('../../../utils/Notifications')
 
 jest.useFakeTimers()
 
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
+
 const user1 = {
   access_token: 'myAccessToken',
   profile: {
@@ -124,11 +126,14 @@ describe('opening and closing different files', () => {
     expect(screen.queryByText('# Your code here')).toBeInTheDocument()
   })
 
+  test("Scrolls focussed file into view", () => {
+    expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled()
+  })
+
   test('Clicking the file close button dispatches close action', () => {
     const closeButton = screen.queryAllByRole('button')[2]
     fireEvent.click(closeButton)
     expect(store.getActions()).toEqual([closeFile('a.py')])
-    
   })
 })
 

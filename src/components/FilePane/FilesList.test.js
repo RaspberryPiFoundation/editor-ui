@@ -1,9 +1,11 @@
 import React from "react";
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import FilesList from "./FilesList";
+
+const openFileTab = jest.fn()
 
 describe("When project has multiple files", () => {
 
@@ -34,7 +36,7 @@ describe("When project has multiple files", () => {
       }
     }
     const store = mockStore(initialState);
-    render(<Provider store={store}><div id="app"><FilesList /></div></Provider>)
+    render(<Provider store={store}><div id="app"><FilesList openFileTab={openFileTab}/></div></Provider>)
   })
 
   test("Renders all file names", () => {
@@ -45,5 +47,10 @@ describe("When project has multiple files", () => {
 
   test("Renders a rename file button for each file", () => {
     expect(screen.getAllByRole('button', { expanded: false }).length).toBe(3)
+  })
+
+  test('Clicking file name opens file tab',() => {
+    fireEvent.click(screen.queryByText('a.py')).parentElement
+    expect(openFileTab).toHaveBeenCalledWith('a.py')
   })
 })
