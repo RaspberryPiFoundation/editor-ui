@@ -24,8 +24,6 @@
   }
 
   &__action {
-    font-size: var(--font-size-u-1);
-
     @include md-width {
       margin-left: auto;
     }

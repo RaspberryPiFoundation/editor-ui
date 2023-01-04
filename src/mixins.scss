@@ -3,3 +3,9 @@
     @content;
   }
 }
+
+@mixin sm-width-only {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
