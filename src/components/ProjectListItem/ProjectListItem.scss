@@ -137,6 +137,14 @@ $small-table-grid: 600px;
 
     .--dark & {
       color: $rpf-white;
+
+      &:active {
+        color: $rpf-teal-tint-75;
+      }
+
+      &:hover {
+        color: $rpf-darkmode-grey85;
+      }
     }
 
     &:active {
