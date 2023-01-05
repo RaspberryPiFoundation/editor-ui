@@ -1,4 +1,5 @@
 import React from "react"
+import Button from "../../Button/Button"
 
 const MenuSideBarOption = (props) => {
   const { Icon, isActive, name, toggleOption } = props
@@ -8,9 +9,11 @@ const MenuSideBarOption = (props) => {
   }
 
   return (
-    <div className={`menu-sidebar-option${isActive ? " --active":""}`} onClick = {onClickHandler}>
-      <Icon />
-    </div>
+    <Button
+      className = {`btn--tertiary menu-sidebar-option${isActive ? " menu-sidebar-option--active" : ""}`}
+      ButtonIcon = {Icon}
+      onClickHandler = {onClickHandler}
+    />
   )
 }
 

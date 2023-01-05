@@ -1,5 +1,5 @@
 import React from "react"
-import { ExpandIcon } from "../../../Icons"
+import { DoubleChevronRight } from "../../../Icons"
 import Button from "../../Button/Button"
 import MenuSideBarOption from "./MenuSideBarOption"
 
@@ -20,7 +20,7 @@ const MenuSideBar = (props) => {
         {bottomMenuOptions.map((menuOption, i) => (
             <MenuSideBarOption key={i} Icon={menuOption.icon} isActive={option===menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
           ))}
-        <Button className='btn--secondary btn--small' ButtonIcon={ExpandIcon} onClickHandler={() => toggleOption('file')}/>
+        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronRight} buttonOuter buttonOuterClassName = 'menu-expand-button' onClickHandler={() => toggleOption('file')}/>
       </div>
     </div>
   )

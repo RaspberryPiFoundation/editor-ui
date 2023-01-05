@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { FileIcon } from "../../../Icons"
+import { DoubleChevronLeft, FileIcon } from "../../../Icons"
+import Button from "../../Button/Button"
 import FilePane from "./FilePane/FilePane"
 import MenuSideBar from "./MenuSideBar"
 
@@ -25,6 +26,10 @@ const SideMenu = () => {
         <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
       }
       <MenuPopOut />
+      {option ?
+        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' onClickHandler={() => toggleOption(option)} />
+      : null
+      }
     </div>
   )
 }

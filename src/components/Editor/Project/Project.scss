@@ -89,7 +89,7 @@
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container .menu {
+  .proj-runner-container, .proj-editor-container, .menu {
     background-color: $rpf-darkmode-grey18;
     border: 1px solid $rpf-darkmode-grey10;
   }

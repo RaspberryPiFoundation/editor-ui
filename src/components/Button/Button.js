@@ -5,7 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Button = (props) => {
-  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, disabled, confirmText } = props;
+  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, buttonOuterClassName, disabled, confirmText } = props;
 
   var buttonClass="btn"
   buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
@@ -40,7 +40,7 @@ const Button = (props) => {
 
   if (buttonOuter) {
     return (
-      <div className='btn-outer' onClick={onButtonClick}>
+      <div className={`btn-outer${buttonOuterClassName ? ` ${buttonOuterClassName}` : ''}`} onClick={onButtonClick}>
         {button}
       </div>
     )

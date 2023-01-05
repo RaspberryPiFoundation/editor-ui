@@ -20,6 +20,24 @@ export const CloseIcon = (props) => {
   )
 }
 
+export const DoubleChevronLeft = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.16663 10L0.166626 5L5.16663 0L6.33329 1.16667L2.52079 5L6.33329 8.83333L5.16663 10ZM10.6666 10L5.66663 5L10.6666 0L11.8333 1.16667L8.02079 5L11.8333 8.83333L10.6666 10Z"/>
+    </svg>
+  )
+}
+
+export const DoubleChevronRight = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.33334 10L0.166672 8.83333L3.97917 5L0.166672 1.16667L1.33334 0L6.33334 5L1.33334 10ZM6.83334 10L5.66667 8.83333L9.47917 5L5.66667 1.16667L6.83334 0L11.8333 5L6.83334 10Z"/>
+    </svg>
+  )
+}
+
 export const DownloadIcon = () => {
   const scale = useUserFont()
   return (
@@ -35,16 +53,6 @@ export const EllipsisVerticalIcon = () => {
     <svg transform={`scale(${scale}, ${scale})`} width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M2 16C1.45 16 0.979334 15.8043 0.588 15.413C0.196 15.021 0 14.55 0 14C0 13.45 0.196 12.979 0.588 12.587C0.979334 12.1957 1.45 12 2 12C2.55 12 3.021 12.1957 3.413 12.587C3.80433 12.979 4 13.45 4 14C4 14.55 3.80433 15.021 3.413 15.413C3.021 15.8043 2.55 16 2 16ZM2 10C1.45 10 0.979334 9.804 0.588 9.412C0.196 9.02067 0 8.55 0 8C0 7.45 0.196 6.979 0.588 6.587C0.979334 6.19567 1.45 6 2 6C2.55 6 3.021 6.19567 3.413 6.587C3.80433 6.979 4 7.45 4 8C4 8.55 3.80433 9.02067 3.413 9.412C3.021 9.804 2.55 10 2 10ZM2 4C1.45 4 0.979334 3.804 0.588 3.412C0.196 3.02067 0 2.55 0 2C0 1.45 0.196 0.979333 0.588 0.588C0.979334 0.196 1.45 0 2 0C2.55 0 3.021 0.196 3.413 0.588C3.80433 0.979333 4 1.45 4 2C4 2.55 3.80433 3.02067 3.413 3.412C3.021 3.804 2.55 4 2 4Z"/>
     </svg>
-  )
-}
-
-export const ExpandIcon = () => {
-  const scale = useUserFont()
-  return (
-    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1.33334 10L0.166672 8.83333L3.97917 5L0.166672 1.16667L1.33334 0L6.33334 5L1.33334 10ZM6.83334 10L5.66667 8.83333L9.47917 5L5.66667 1.16667L6.83334 0L11.8333 5L6.83334 10Z"/>
-    </svg>
-
   )
 }
 
