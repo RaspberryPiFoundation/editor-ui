@@ -101,11 +101,6 @@ i18n
               },
             },
           },
-          projectHeader: {
-            subTitle: 'Code Editor',
-            title: 'Your Projects',
-            text: 'Select a project to edit, view and open to continue coding.'
-          },
           loginToSaveModal: {
             cancel: 'Cancel',
             downloadButtonText: 'Download',
@@ -169,6 +164,11 @@ i18n
               text: 'You can start coding in a new project, or visit the project site for cool project ideas.'
             },
             untitled: 'Untitled project'
+          },
+          projectHeader: {
+            subTitle: 'Code Editor',
+            title: 'Your Projects',
+            text: 'Select a project to edit, view and open to continue coding.'
           },
           runButton: {
             run: 'Run',
