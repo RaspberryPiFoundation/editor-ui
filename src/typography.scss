@@ -61,7 +61,7 @@ h3 {
   }
 
   @include sm-width-only {
-    font-size: var(--font-size-u-base);
+    font-size: var(--font-size-base);
 
     .font-size-medium & {
       font-size: var(--font-size-u-1);
