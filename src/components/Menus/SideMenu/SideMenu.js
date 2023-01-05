@@ -20,7 +20,7 @@ const SideMenu = () => {
   const MenuPopOut = optionDict && optionDict.popOut ? optionDict.popOut : () => {}
 
   return (
-    <div className = "side_menu">
+    <div className = "menu">
       { option ? null :
         <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
       }
