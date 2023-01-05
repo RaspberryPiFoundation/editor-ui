@@ -78,7 +78,7 @@ export const EditorSlice = createSlice({
   reducers: {
     closeFile: (state, action) => {
       const closedFileIndex = state.openFiles.indexOf(action.payload)
-      state.openFiles = state.openFiles.filter(fileName => fileName!==action.payload)
+      state.openFiles = state.openFiles.filter(fileName => fileName !== action.payload)
       if (state.focussedFileIndex >= state.openFiles.length || closedFileIndex < state.focussedFileIndex) {
         state.focussedFileIndex--
       }
