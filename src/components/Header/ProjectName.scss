@@ -19,7 +19,8 @@
   margin: 0;
   padding-right: var(--spacing-1);
 
-  .font-size-large & {
+  .font-size-large &,
+  .font-size-medium & {
     font-size: 1em;
   }
 }
