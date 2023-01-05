@@ -8,7 +8,8 @@
   padding-inline-start: var(--spacing-1);
 }
 
-.project-name__input, .project-name__title {
+.project-name__input,
+.project-name__title {
   font-size: 1em;
   font-weight: var(--font-weight-bold);
   padding: var(--spacing-1) var(--spacing-2);
@@ -17,11 +18,16 @@
 .project-name__title {
   margin: 0;
   padding-right: var(--spacing-1);
+
+  .font-size-large & {
+    font-size: 1em;
+  }
 }
 
 .project-name__button {
   height: fit-content;
   padding: var(--spacing-1);
+
   svg {
     height: 1rem;
     width: 1rem;
