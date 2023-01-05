@@ -8,6 +8,7 @@ import ProjectListItem from '../ProjectListItem/ProjectListItem'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
+import { NewFileIcon } from '../../Icons';
 
 const ProjectIndex = (props) => {
   const history = useHistory();
@@ -33,6 +34,7 @@ const ProjectIndex = (props) => {
           className='btn--primary'
           onClickHandler={onCreateProject}
           buttonText='Create a new project'
+          ButtonIcon={NewFileIcon}
         />
       </ProjectHeader>
       <div className='main-container'>
