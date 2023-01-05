@@ -1,7 +1,8 @@
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
-$medium-table-grid: 1165px;
+$medium-table-grid: 900px;
+$small-table-grid: 600px;
 
 .editor-project-list {
   margin: 0 auto;
@@ -17,6 +18,10 @@ $medium-table-grid: 1165px;
       margin: var(--spacing-3) 0;
     }
 
+    @include unique-width($small-table-grid) {
+      padding-top: 0;
+    }
+
     .--light & {
       background: $rpf-white;
     }
@@ -26,8 +31,12 @@ $medium-table-grid: 1165px;
     }
   }
 
+  &__heading {
+    font-size: var(--font-size-base);
+  }
+
   &__heading:first-of-type {
-    grid-column: span 7;
+    grid-column: span 6;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 8;
@@ -35,7 +44,7 @@ $medium-table-grid: 1165px;
   }
 
   &__heading:last-of-type {
-    grid-column: span 5;
+    grid-column: span 6;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 4;
@@ -50,10 +59,24 @@ $medium-table-grid: 1165px;
     justify-content: space-between;
     list-style: none;
     padding: 0 var(--spacing-1);
+
+    &:first-of-type {
+      border-top: none;
+
+      @include unique-max-width($small-table-grid) {
+        display: none;
+      }
+    }
+
+    &:nth-of-type(2) {
+      @include unique-max-width($small-table-grid) {
+        border-top: none;
+      }
+    }
   }
 
   &__title {
-    grid-column: span 7;
+    grid-column: span 6;
     overflow: hidden;
     padding: var(--spacing-1) 0;
     text-overflow: ellipsis;
@@ -62,22 +85,38 @@ $medium-table-grid: 1165px;
     @include unique-width($medium-table-grid) {
       grid-column: span 8;
     }
+
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 8;
+      padding: 0;
+      margin: 0;
+    }
   }
 
   &__info {
     align-items: center;
     display: grid;
-    grid-column: span 5;
-    grid-template-columns: repeat(4, 1fr);
+    grid-column: span 8;
+    grid-template-columns: repeat(8, 1fr);
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 4;
+      grid-column: span 9;
+      grid-template-columns: repeat(9, 1fr);
     }
   }
 
   &__updated {
-    grid-column: span 1;
+    border: 3px solid transparent;
+    grid-column: span 2;
     font-size: var(--font-size-d-1);
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 1;
+    }
+
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 8;
+    }
   }
 
   &__actions {
