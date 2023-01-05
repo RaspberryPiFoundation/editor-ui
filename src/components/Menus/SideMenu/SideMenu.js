@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { FileIcon } from "../../../Icons"
 import FilePane from "./FilePane/FilePane"
-import MenuSideBar from "./MenuSidebar"
+import MenuSideBar from "./MenuSideBar"
 
-// import './Menu.scss'
+import './SideMenu.scss'
 
 const SideMenu = () => {
   const menuOptions = [
@@ -20,8 +20,10 @@ const SideMenu = () => {
   const MenuPopOut = optionDict && optionDict.popOut ? optionDict.popOut : () => {}
 
   return (
-    <div className = "menu">
-      <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
+    <div className = "side_menu">
+      { option ? null :
+        <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
+      }
       <MenuPopOut />
     </div>
   )

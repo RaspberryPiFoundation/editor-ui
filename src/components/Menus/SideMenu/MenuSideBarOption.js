@@ -1,6 +1,6 @@
 import React from "react"
 
-const MenuSidebarOption = (props) => {
+const MenuSideBarOption = (props) => {
   const { Icon, isActive, name, toggleOption } = props
 
   const onClickHandler = () => {
@@ -14,4 +14,4 @@ const MenuSidebarOption = (props) => {
   )
 }
 
-export default MenuSidebarOption
+export default MenuSideBarOption

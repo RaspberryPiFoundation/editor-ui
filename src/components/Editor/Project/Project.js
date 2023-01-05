@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
-import FilePane from '../../Menus/SideMenu/FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
@@ -17,6 +16,7 @@ import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
+import SideMenu from '../../Menus/SideMenu/SideMenu';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -57,7 +57,7 @@ const Project = (props) => {
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FilePane /> : null}
+      {!forWebComponent ? <SideMenu /> : null}
         <div className='proj-editor-container'>
           <Tabs>
             <TabList>
