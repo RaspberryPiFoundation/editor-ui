@@ -49,24 +49,14 @@
 }
 
 .--dark {
-  .file-pane {
-    background: $rpf-darkmode-grey18;
-    border: 1px solid $rpf-darkmode-grey10;
-
-    &-section {
-      border-bottom: 1px solid $rpf-darkmode-grey42;
-    }
+  .file-pane-section {
+    border-bottom: 1px solid $rpf-darkmode-grey42;
   }
 }
 
 .--light {
-  .file-pane {
-    background: $rpf-white;
-    border: 1px solid $rpf-darkmode-grey85;
-
-    &-section {
-      border-bottom: 1px solid $rpf-darkmode-grey85;
-    }
+  .file-pane-section {
+    border-bottom: 1px solid $rpf-darkmode-grey85;
   }
 }
 

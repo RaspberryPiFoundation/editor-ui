@@ -2,6 +2,7 @@
 
 .files-list {
   padding: var(--spacing-1) 0;
+  overflow-x: hidden;
 }
 
 .files-list-item {
@@ -11,9 +12,9 @@
   border: 3px solid transparent;
   box-sizing: border-box;
   white-space: nowrap;
-  justify-content: space-between;
   font-weight: var(--font-weight-medium);
   min-height: 44px;
+  padding: var(--spacing-1) 0 var(--spacing-1) var(--spacing-1);
 
   &:active {
     border: 3px solid $rpf-teal-shade-20;
@@ -30,18 +31,14 @@
   }
 }
 
-.files-list-item__label {
-  align-items: center;
-  display: flex;
-  padding: var(--spacing-1) 0 var(--spacing-1) var(--spacing-1);
-}
-
 .files-list-item__name {
   margin: 0;
   padding-left: var(--spacing-1);
   padding-right: 0;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  // overflow-wrap: break-word;
+  // word-break: break-word;
 }
 
 .--dark {
