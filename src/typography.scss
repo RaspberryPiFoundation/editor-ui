@@ -1,0 +1,74 @@
+@import './mixins.scss';
+
+h1 {
+  font-size: var(--font-size-u-5);
+
+  .font-size-medium & {
+    font-size: var(--font-size-u-6);
+  }
+
+  .font-size-large & {
+    font-size: var(--font-size-u-7);
+  }
+
+  @include sm-width-only {
+    font-size: var(--font-size-u-2);
+
+    .font-size-medium & {
+      font-size: var(--font-size-u-5);
+    }
+
+    .font-size-large & {
+      font-size: var(--font-size-u-6);
+    }
+  }
+}
+
+h2 {
+  font-size: var(--font-size-u-2);
+
+  .font-size-medium & {
+    font-size: var(--font-size-u-3);
+  }
+
+  .font-size-large & {
+    font-size: var(--font-size-u-4);
+  }
+
+  @include sm-width-only {
+    font-size: var(--font-size-d-1);
+
+    .font-size-medium & {
+      font-size: var(--font-size-u-2);
+    }
+
+    .font-size-large & {
+      font-size: var(--font-size-u-3);
+    }
+  }
+}
+
+h3 {
+  font-size: var(--font-size-u-1);
+  font-weight: var(--font-weight-regular);
+
+  .font-size-medium & {
+    font-size: var(--font-size-u-2);
+  }
+
+  .font-size-large & {
+    font-size: var(--font-size-u-3);
+  }
+
+  @include sm-width-only {
+    font-size: var(--font-size-base);
+
+    .font-size-medium & {
+      font-size: var(--font-size-u-1);
+    }
+
+    .font-size-large & {
+      font-size: var(--font-size-u-2);
+    }
+  }
+}

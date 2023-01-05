@@ -20,7 +20,7 @@ const Header = () => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const onClickSave = async () => {
@@ -35,7 +35,7 @@ const Header = () => {
     }
   }
 
-  return (
+  return loading === 'success' && (
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
