@@ -1,4 +1,5 @@
 @import '../../colours.scss';
+@import '../../mixins.scss';
 
 .editor-footer {
   margin-top: auto;
@@ -6,9 +7,18 @@
   display: flex;
   font-size: var(--font-size-d-1);
 
+  @include sm-width-only {
+    flex-direction: column;
+  }
+
   &__links {
     margin-left: auto;
-    
+
+    @include sm-width-only {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     &-link {
       margin: 0 var(--spacing-1);
       color: inherit;
