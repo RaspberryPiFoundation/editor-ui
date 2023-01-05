@@ -29,10 +29,14 @@ const ProjectIndex = (props) => {
       <div>
         <Button className='btn--primary' onClickHandler={onCreateProject} buttonText="Create Project" />
       </div>
-      { projectList.map((project, i) => (
-          <ProjectListItem project={project} user={user} key={i}/>
-        )
-      )}
+      <div className='editor-project-list'>
+        <ul className='editor-project-list__container'>
+          { projectList.map((project, i) => (
+              <ProjectListItem project={project} user={user} key={i}/>
+            )
+          )}
+        </ul>
+      </div>
     </div>
   ) : (
     <>
