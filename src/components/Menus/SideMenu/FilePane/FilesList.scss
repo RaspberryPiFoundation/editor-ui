@@ -10,7 +10,6 @@
   border-radius: 8px;
   border: 3px solid transparent;
   box-sizing: border-box;
-  padding: 10px;
   white-space: nowrap;
   justify-content: space-between;
   font-weight: var(--font-weight-medium);
@@ -34,6 +33,7 @@
 .files-list-item__label {
   align-items: center;
   display: flex;
+  padding: var(--spacing-1) 0 var(--spacing-1) var(--spacing-1);
 }
 
 .files-list-item__name {

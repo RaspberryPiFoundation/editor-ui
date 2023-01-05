@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
-import FilePane from '../../FilePane/FilePane'
+import FilePane from '../../Menus/SideMenu/FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
