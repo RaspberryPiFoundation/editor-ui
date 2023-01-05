@@ -54,7 +54,10 @@ $medium-table-grid: 1165px;
 
   &__title {
     grid-column: span 7;
+    overflow: hidden;
     padding: var(--spacing-1) 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 8;
@@ -74,6 +77,7 @@ $medium-table-grid: 1165px;
 
   &__updated {
     grid-column: span 1;
+    font-size: var(--font-size-d-1);
   }
 
   &__actions {

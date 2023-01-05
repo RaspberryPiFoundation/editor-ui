@@ -19,7 +19,6 @@ const ProjectListItem = (props) => {
       <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
         {project.name || 'Unnamed project'}
       </a>
-
       <div className='editor-project-list__info'>
         <div className='editor-project-list__updated'>15 mins ago</div>
         <div className='editor-project-list__actions'>
