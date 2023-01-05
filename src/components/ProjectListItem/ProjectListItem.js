@@ -15,14 +15,16 @@ const ProjectListItem = (props) => {
   }
 
   return (
-    <li className='editor-project-list__item'>
+    <div className='editor-project-list__item'>
       <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
         {project.name || 'Unnamed project'}
       </a>
 
-      <Button className='editor-project-list__action' onClickHandler={onClickDelete} buttonText='Delete Project' confirmText='Are you sure you want to delete the project?' />
-
-    </li>
+      <div className='editor-project-list__actions'>
+        <div className='editor-project-list__updated'>15 mins ago</div>
+        <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
+      </div>
+    </div>
   );
 };
 

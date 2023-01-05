@@ -37,14 +37,12 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      <div className='main-container'>
-        <div className='editor-project-list'>
-          <ul className='editor-project-list__container'>
-            { projectList.map((project, i) => (
-                <ProjectListItem project={project} user={user} key={i}/>
-              )
-            )}
-          </ul>
+      <div className='editor-project-list'>
+        <div className='editor-project-list__container'>
+          { projectList.map((project, i) => (
+              <ProjectListItem project={project} user={user} key={i}/>
+            )
+          )}
         </div>
       </div>
     </>

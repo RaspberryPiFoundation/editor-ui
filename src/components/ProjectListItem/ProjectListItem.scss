@@ -1,13 +1,19 @@
 @import '../../colours.scss';
+@import '../../mixins.scss';
 
 .editor-project-list {
   margin: 0 auto;
   max-width: 1570px;
+  width: 100%;
 
   &__container {
     border-radius: 8px;
     margin: var(--spacing-3);
     padding: var(--spacing-2);
+
+    @include unique-width(1670px) {
+      margin: var(--spacing-3) 0;
+    }
 
     .--light & {
       background: $rpf-white;
@@ -19,13 +25,28 @@
   }
 
   &__item {
+    align-items: center;
+    display: grid;
     border-top: 1px solid $rpi-grey-15;
+    grid-template-columns: repeat(12,1fr);
+    justify-content: space-between;
     list-style: none;
     padding: 0 var(--spacing-1);
   }
 
+  &__title {
+    grid-column: span 8;
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    grid-column: span 4;
+    justify-content: flex-end;
+  }
+
   &__title,
-  &__action {
+  &__delete {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
     text-decoration: none;

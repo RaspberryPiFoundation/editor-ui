@@ -9,3 +9,9 @@
     @content;
   }
 }
+
+@mixin unique-width($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
