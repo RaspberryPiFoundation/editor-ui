@@ -20,9 +20,11 @@ const ProjectListItem = (props) => {
         {project.name || 'Unnamed project'}
       </a>
 
-      <div className='editor-project-list__actions'>
+      <div className='editor-project-list__info'>
         <div className='editor-project-list__updated'>15 mins ago</div>
-        <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
+        <div className='editor-project-list__actions'>
+          <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
+        </div>
       </div>
     </div>
   );

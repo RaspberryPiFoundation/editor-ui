@@ -1,6 +1,8 @@
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
+$medium-table-grid: 1165px;
+
 .editor-project-list {
   margin: 0 auto;
   max-width: 1570px;
@@ -24,6 +26,22 @@
     }
   }
 
+  &__heading:first-of-type {
+    grid-column: span 7;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 8;
+    }
+  }
+
+  &__heading:last-of-type {
+    grid-column: span 5;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 4;
+    }
+  }
+
   &__item {
     align-items: center;
     display: grid;
@@ -35,14 +53,33 @@
   }
 
   &__title {
-    grid-column: span 8;
+    grid-column: span 7;
+    padding: var(--spacing-1) 0;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 8;
+    }
+  }
+
+  &__info {
+    align-items: center;
+    display: grid;
+    grid-column: span 5;
+    grid-template-columns: repeat(4, 1fr);
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 4;
+    }
+  }
+
+  &__updated {
+    grid-column: span 1;
   }
 
   &__actions {
-    align-items: center;
-    display: flex;
-    grid-column: span 4;
-    justify-content: flex-end;
+    display: grid;
+    grid-column: span 3;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   &__title,
@@ -57,6 +94,14 @@
 
     .--dark & {
       color: $rpf-white;
+    }
+
+    &:active {
+      color: $rpf-teal-shade-20;
+    }
+
+    &:hover {
+      color: $rpi-grey-70;
     }
   }
 }
