@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import './ProjectHeader.scss'
+import './ProjectIndexHeader.scss'
 
 
-const ProjectHeader = (props) => {
+const ProjectIndexHeader = (props) => {
   const { t } = useTranslation()
 
   return (
@@ -21,4 +21,4 @@ const ProjectHeader = (props) => {
   );
 };
 
-export default ProjectHeader;
+export default ProjectIndexHeader;

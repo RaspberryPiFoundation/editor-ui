@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
-import ProjectHeader from '../ProjectHeader/ProjectHeader'
+import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
 import ProjectListItem from '../ProjectListItem/ProjectListItem'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
@@ -29,14 +29,14 @@ const ProjectIndex = (props) => {
 
   return projectListLoaded === true ? (
     <>
-      <ProjectHeader>
+      <ProjectIndexHeader>
         <Button
           className='btn--primary'
           onClickHandler={onCreateProject}
           buttonText='Create a new project'
           ButtonIcon={PlusIcon}
         />
-      </ProjectHeader>
+      </ProjectIndexHeader>
       <div className='main-container'>
         {projectList.map((project, i) => (
           <ProjectListItem project={project} user={user} key={i} />
