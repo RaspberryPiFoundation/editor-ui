@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Unit tests for the autosave trigger (#291)
 - Project not found and access denied modals shown on project loading error (#298)
 - Styling for small buttons (#303)
+- Project page header and styling (#314)
 - Ability to open and focus files from the left hand file pane (#301)
 - Ability to close file tabs (#301)
 - Validation to prevent file names containing spaces (#301)

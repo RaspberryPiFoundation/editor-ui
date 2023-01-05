@@ -166,6 +166,11 @@ i18n
             },
             untitled: 'Untitled project'
           },
+          projectHeader: {
+            subTitle: 'Code Editor',
+            title: 'Your Projects',
+            text: 'Select a project to edit, view and open to continue coding.'
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',
