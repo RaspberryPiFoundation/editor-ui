@@ -17,7 +17,6 @@ const ProjectIndex = (props) => {
   useRequiresUser(isLoading, user);
   useProjectList(user);
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
-  const projectList = useSelector((state) => state.editor.projectList);
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
@@ -37,7 +36,7 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      <ProjectListTable projects={projectList} user={user}/>
+      <ProjectListTable />
     </>
   ) : (
     <>
