@@ -22,7 +22,7 @@ const ProjectListItem = (props) => {
       <div className='editor-project-list__info'>
         <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
-          <div className='editor-project-list__name'>{project.name || t('projectList.unnamed')}</div>
+          <div className='editor-project-list__name'>{project.name}</div>
         </a>
         {/* <div className='editor-project-list__updated'>15 mins ago</div> */}
       </div>
