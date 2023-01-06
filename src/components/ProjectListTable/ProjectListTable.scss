@@ -64,6 +64,10 @@ $small-table-grid: 600px;
       padding: var(--spacing-1);
     }
 
+    .--dark & {
+      border-top: 1px solid $rpf-darkmode-grey42;
+    }
+
     &:first-of-type {
       border-top: none;
 
