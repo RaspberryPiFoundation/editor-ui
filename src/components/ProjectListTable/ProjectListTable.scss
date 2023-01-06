@@ -12,14 +12,14 @@ $small-table-grid: 600px;
   &__container {
     border-radius: 8px;
     margin: var(--spacing-3);
-    padding: var(--spacing-2);
+    padding: var(--spacing-1) var(--spacing-2);
 
     @include unique-width(1670px) {
       margin: var(--spacing-3) 0;
     }
 
     @include unique-width($small-table-grid) {
-      padding-top: 0;
+      padding: 0 var(--spacing-2) var(--spacing-2);
     }
 
     .--light & {
