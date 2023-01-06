@@ -15,7 +15,11 @@
     @include md-width {
       align-items: flex-end;
       flex-direction: row;
-      padding: var(--spacing-5) var(--spacing-8);
+      padding: var(--spacing-5);
+    }
+
+    @include unique-width(1670px) {
+      padding: var(--spacing-5) 0;
     }
   }
 
