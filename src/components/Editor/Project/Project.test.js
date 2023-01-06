@@ -131,7 +131,7 @@ describe('opening and closing different files', () => {
   })
 
   test('Clicking the file close button dispatches close action', () => {
-    const closeButton = screen.queryAllByRole('button')[2]
+    const closeButton = screen.queryAllByRole('button')[3]
     fireEvent.click(closeButton)
     expect(store.getActions()).toEqual([closeFile('a.py')])
   })
