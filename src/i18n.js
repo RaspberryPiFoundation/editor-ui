@@ -176,6 +176,11 @@ i18n
             stop: 'Stop',
             stopping: 'Stopping...',
           },
+          sideMenu: {
+            collapse: 'Collapse file pane',
+            expand: 'Expand file pane',
+            file: 'Project files'
+          }
         }
       }
     }

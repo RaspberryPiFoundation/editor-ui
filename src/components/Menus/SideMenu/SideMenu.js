@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { DoubleChevronLeft, FileIcon } from "../../../Icons"
 import Button from "../../Button/Button"
 import FilePane from "./FilePane/FilePane"
@@ -8,8 +9,9 @@ import './SideMenu.scss'
 
 const SideMenu = (props) => {
   const { openFileTab } = props
+  const { t } = useTranslation()
   const menuOptions = [
-    { name: "file", icon: FileIcon, position: "top", popOut: () => FilePane({ openFileTab: openFileTab }) }
+    { name: "file", icon: FileIcon, title: t('sideMenu.file'), position: "top", popOut: () => FilePane({ openFileTab: openFileTab }) }
   ]
   const [option, setOption] = useState('file')
   const toggleOption = (newOption) => {
@@ -28,7 +30,7 @@ const SideMenu = (props) => {
       }
       <MenuPopOut />
       {option ?
-        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' onClickHandler={() => toggleOption(option)} />
+        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' title={t('sideMenu.collapse')} onClickHandler={() => toggleOption(option)} />
       : null
       }
     </div>
