@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import NewComponentButton from "./NewComponentButton";
-import {addProjectComponent, setNameError} from "../EditorSlice"
+import {addProjectComponent, openFile, setNameError} from "../EditorSlice"
 
 describe("Testing the new file modal", () => {
     let store;
@@ -40,7 +40,11 @@ describe("Testing the new file modal", () => {
         fireEvent.change(inputBox, {target: {value: "file1.py"}})
         inputBox.innerHTML = "file1.py";
         fireEvent.click(saveButton)
-        const expectedActions = [setNameError(""), addProjectComponent({extension: "py", name: "file1"})]
+        const expectedActions = [
+          setNameError(""),
+          addProjectComponent({extension: "py", name: "file1"}),
+          openFile('file1.py')
+        ]
         expect(store.getActions()).toEqual(expectedActions);
     })
 

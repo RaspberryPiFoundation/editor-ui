@@ -4,7 +4,7 @@ import {React, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
-import { addProjectComponent, setNameError } from '../EditorSlice';
+import { addProjectComponent, openFile, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
 import { CloseIcon, PlusIcon } from '../../../Icons';
@@ -30,6 +30,7 @@ const NewComponentButton = () => {
       const extension = fileName.split('.').slice(1).join('.');
       validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
         dispatch(addProjectComponent({extension: extension, name: name}));
+        dispatch(openFile(fileName))
         closeModal();
       })
     }

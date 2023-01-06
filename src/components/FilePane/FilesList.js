@@ -7,8 +7,9 @@ import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
 
-const FilesList = () => {
+const FilesList = (props) => {
   const project = useSelector((state) => state.editor.project)
+  const {openFileTab} = props
   const { t } = useTranslation()
 
   return (
@@ -23,7 +24,7 @@ const FilesList = () => {
       <NewComponentButton />
       <div className='files-list'>
       { project.components.map((file, i) => (
-        <div className='files-list-item' key={i}>
+        <div className='files-list-item' key={i} onClick={() => openFileTab(`${file.name}.${file.extension}`)}>
           <div className='files-list-item__label'>
             <FileIcon />
             <span className='files-list-item__name'>{file.name}.{file.extension}</span>

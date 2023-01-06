@@ -19,7 +19,7 @@ const allowedExtensionsString = (projectType, t) => {
 
 const isValidFileName = (fileName, projectType, componentNames) => {
   const extension = fileName.split('.').slice(1).join('.')
-  if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName)) {
+  if (allowedExtensions[projectType].includes(extension) && !componentNames.includes(fileName) && fileName.split(' ').length === 1) {
     return true;
   } else {
     return false;
@@ -32,6 +32,8 @@ export const validateFileName = (fileName, projectType="python", componentNames,
     callback()
   } else if (componentNames.includes(fileName)) {
     dispatch(setNameError(t('filePane.errors.notUnique')));
+  } else if (fileName.split(' ').length > 1) {
+    dispatch(setNameError(t('filePane.errors.containsSpaces')))
   } else if (!allowedExtensions[projectType].includes(extension)) {
     dispatch(setNameError(t('filePane.errors.unsupportedExtension', {allowedExtensions: allowedExtensionsString(projectType, t)})));
   } else {
