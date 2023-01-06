@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Styling of the projects list (#317)
+
 ## [0.10.0] - 2023-01-06
 
 ### Added
@@ -19,7 +23,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to open and focus files from the left hand file pane (#301)
 - Ability to close file tabs (#301)
 - Validation to prevent file names containing spaces (#301)
-- Styling of the projects list (#317)
 
 ## Changed
 
