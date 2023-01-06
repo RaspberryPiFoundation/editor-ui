@@ -1,5 +1,6 @@
 import { useSelector, connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
@@ -13,6 +14,7 @@ import { PlusIcon } from '../../Icons';
 const ProjectIndex = (props) => {
   const history = useHistory();
   const { isLoading, user } = props;
+  const { t } = useTranslation();
 
   useRequiresUser(isLoading, user);
   useProjectList(user);
@@ -26,7 +28,7 @@ const ProjectIndex = (props) => {
     history.push(`/${project_type}/${identifier}`);
   }
 
-  return projectListLoaded === true ? (
+  return (
     <>
       <ProjectIndexHeader>
         <Button
@@ -36,11 +38,7 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      <ProjectListTable />
-    </>
-  ) : (
-    <>
-      <p>Loading</p>
+      { projectListLoaded === true ? <ProjectListTable /> : <p>{t('projectList.loading')}...</p> }
     </>
   );
 };

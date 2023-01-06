@@ -174,7 +174,8 @@ i18n
           projectList: {
             name: 'Project name',
             updated: 'Last updated',
-            unnamed: 'Unnamed project'
+            unnamed: 'Unnamed project',
+            loading: 'Loading'
           },
           runButton: {
             run: 'Run',
