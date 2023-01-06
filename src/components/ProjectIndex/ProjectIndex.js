@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
-import ProjectListItem from '../ProjectListItem/ProjectListItem'
+import ProjectListTable from '../ProjectListTable/ProjectListTable'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
@@ -37,18 +37,7 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      <div className='editor-project-list'>
-        <div className='editor-project-list__container'>
-          <div className='editor-project-list__item'>
-            <h4 className='editor-project-list__heading'>Project Name</h4>
-            <h4 className='editor-project-list__heading'>Last Updated</h4>
-          </div>
-          { projectList.map((project, i) => (
-              <ProjectListItem project={project} user={user} key={i}/>
-            )
-          )}
-        </div>
-      </div>
+      <ProjectListTable projects={projectList} user={user}/>
     </>
   ) : (
     <>
