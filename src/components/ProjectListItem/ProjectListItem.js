@@ -24,7 +24,7 @@ const ProjectListItem = (props) => {
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
         </a>
-        {/* <div className='editor-project-list__updated'>15 mins ago</div> */}
+        <div className='editor-project-list__updated'>15 mins ago</div>
       </div>
       <div className='editor-project-list__actions'>
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
