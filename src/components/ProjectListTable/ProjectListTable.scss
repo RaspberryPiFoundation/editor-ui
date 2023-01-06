@@ -60,6 +60,10 @@ $small-table-grid: 600px;
     list-style: none;
     padding: 0 var(--spacing-1);
 
+    @include unique-max-width($small-table-grid) {
+      padding: var(--spacing-1);
+    }
+
     &:first-of-type {
       border-top: none;
 

@@ -5,12 +5,24 @@ $medium-table-grid: 900px;
 $small-table-grid: 600px;
 
 .editor-project-list {
+  &__info {
+    align-items: center;
+    display: grid;
+    grid-column: span 8;
+    grid-template-columns: repeat(8, 1fr);
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 9;
+      grid-template-columns: repeat(9, 1fr);
+    }
+  }
+
   &__title {
+    align-items: center;
+    display: flex;
     grid-column: span 6;
-    overflow: hidden;
+    min-width: 0;
     padding: var(--spacing-1) 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 8;
@@ -23,16 +35,16 @@ $small-table-grid: 600px;
     }
   }
 
-  &__info {
-    align-items: center;
-    display: grid;
-    grid-column: span 8;
-    grid-template-columns: repeat(8, 1fr);
+  &__type {
+    border-radius: 4px;
+    width: 35px;
+    padding-right: var(--spacing-1);
+  }
 
-    @include unique-width($medium-table-grid) {
-      grid-column: span 9;
-      grid-template-columns: repeat(9, 1fr);
-    }
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__updated {

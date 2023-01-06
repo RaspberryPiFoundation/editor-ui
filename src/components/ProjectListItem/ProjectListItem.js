@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { deleteProject } from '../../utils/apiCallHandler';
 import { setProjectListLoaded } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
+import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
 
 const ProjectListItem = (props) => {
@@ -18,7 +19,8 @@ const ProjectListItem = (props) => {
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
         <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
-          {project.name || 'Unnamed project'}
+          <img className='editor-project-list__type' src={editor_logo} alt='logo'/>
+          <div className='editor-project-list__name'>{project.name || 'Unnamed project'}</div>
         </a>
         <div className='editor-project-list__updated'>15 mins ago</div>
       </div>
