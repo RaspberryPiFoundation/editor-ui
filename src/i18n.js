@@ -172,8 +172,8 @@ i18n
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
-            name: 'Project Name',
-            updated: 'Last Updated',
+            name: 'Project name',
+            updated: 'Last updated',
             unnamed: 'Unnamed project'
           },
           runButton: {
