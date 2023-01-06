@@ -171,6 +171,11 @@ i18n
             title: 'Your Projects',
             text: 'Select a project to edit, view and open to continue coding.'
           },
+          projectList: {
+            name: 'Project Name',
+            updated: 'Last Updated',
+            unnamed: 'Unnamed project'
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',
