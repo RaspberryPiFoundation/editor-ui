@@ -9,3 +9,15 @@
     @content;
   }
 }
+
+@mixin unique-width($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin unique-max-width($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}

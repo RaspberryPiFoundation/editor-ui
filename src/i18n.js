@@ -171,11 +171,21 @@ i18n
             title: 'Your Projects',
             text: 'Select a project to edit, view and open to continue coding.'
           },
+          projectList: {
+            name: 'Project name',
+            updated: 'Last updated',
+            loading: 'Loading'
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',
             stopping: 'Stopping...',
           },
+          sideMenu: {
+            collapse: 'Collapse file pane',
+            expand: 'Expand file pane',
+            file: 'Project files'
+          }
         }
       }
     }

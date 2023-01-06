@@ -1,10 +1,11 @@
 import { useSelector, connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 
 import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
-import ProjectListItem from '../ProjectListItem/ProjectListItem'
+import ProjectListTable from '../ProjectListTable/ProjectListTable'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
@@ -13,11 +14,11 @@ import { PlusIcon } from '../../Icons';
 const ProjectIndex = (props) => {
   const history = useHistory();
   const { isLoading, user } = props;
+  const { t } = useTranslation();
 
   useRequiresUser(isLoading, user);
   useProjectList(user);
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
-  const projectList = useSelector((state) => state.editor.projectList);
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
@@ -27,7 +28,7 @@ const ProjectIndex = (props) => {
     history.push(`/${project_type}/${identifier}`);
   }
 
-  return projectListLoaded === true ? (
+  return (
     <>
       <ProjectIndexHeader>
         <Button
@@ -37,15 +38,7 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      <div className='main-container'>
-        {projectList.map((project, i) => (
-          <ProjectListItem project={project} user={user} key={i} />
-        ))}
-      </div>
-    </>
-  ) : (
-    <>
-      <p>Loading</p>
+      { projectListLoaded === true ? <ProjectListTable /> : <p>{t('projectList.loading')}...</p> }
     </>
   );
 };
