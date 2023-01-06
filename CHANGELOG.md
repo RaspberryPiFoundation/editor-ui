@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Styling of the projects list (#317)
+
 ## [0.10.0] - 2023-01-06
 
 ### Added
