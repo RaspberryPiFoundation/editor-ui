@@ -47,7 +47,7 @@
   justify-content: space-between;
   margin: var(--spacing-2);
 
-  .proj-runner-container, .proj-editor-container {
+  .proj-runner-container, .proj-editor-container, .menu {
     border-radius: 10px;
   }
 
@@ -82,14 +82,14 @@
 }
 
 .--light {
-  .proj-runner-container, .proj-editor-container {
+  .proj-runner-container, .proj-editor-container, .menu {
     background-color: $rpf-white;
     border: 1px solid $rpf-darkmode-grey85;
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container {
+  .proj-runner-container, .proj-editor-container, .menu {
     background-color: $rpf-darkmode-grey18;
     border: 1px solid $rpf-darkmode-grey10;
   }

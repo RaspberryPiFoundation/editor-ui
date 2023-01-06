@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Styling of the projects list (#317)
+- Ability to collapse and expand the left hand file pane (#316)
+
+### Changed
+
+- Long file names truncated rather than scrolling in left hand file pane (#316)
 
 ## [0.10.0] - 2023-01-06
 
