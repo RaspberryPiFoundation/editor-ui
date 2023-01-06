@@ -2,7 +2,12 @@
 
 .file-menu__drop {
     display: flex;
-    padding: 0 10px;
+    padding: calc(1.1 * var(--spacing-1)) calc(1.7 * var(--spacing-1));
+    margin: 0;
+
+    svg {
+      margin: 0;
+    }
 }
 
 .file-menu {

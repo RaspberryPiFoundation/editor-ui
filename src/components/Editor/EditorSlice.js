@@ -52,6 +52,8 @@ export const EditorSlice = createSlice({
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
+    openFiles: [],
+    focussedFileIndex: 0,
     nameError: "",
     codeRunTriggered: false,
     drawTriggered: false,
@@ -74,6 +76,22 @@ export const EditorSlice = createSlice({
     modals: {},
   },
   reducers: {
+    closeFile: (state, action) => {
+      const closedFileIndex = state.openFiles.indexOf(action.payload)
+      state.openFiles = state.openFiles.filter(fileName => fileName !== action.payload)
+      if (state.focussedFileIndex >= state.openFiles.length || closedFileIndex < state.focussedFileIndex) {
+        state.focussedFileIndex--
+      }
+    },
+    openFile: (state, action) => {
+      if (!state.openFiles.includes(action.payload)) {
+        state.openFiles.push(action.payload)
+      }
+      state.focussedFileIndex = state.openFiles.indexOf(action.payload)
+    },
+    setFocussedFileIndex: (state, action) => {
+      state.focussedFileIndex = action.payload
+    },
     updateImages: (state, action) => {
       if (!state.project.image_list) {state.project.image_list=[]}
       state.project.image_list = action.payload
@@ -100,6 +118,9 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.loading='success'
+      if (state.openFiles.length === 0) {
+        state.openFiles.push('main.py')
+      }
       state.justLoaded = true
     },
     setProjectLoaded: (state, action) => {
@@ -142,8 +163,12 @@ export const EditorSlice = createSlice({
       const key = action.payload.key;
       const name = action.payload.name;
       const extension = action.payload.extension
+      const oldName = `${state.project.components[key].name}.${state.project.components[key].extension}`
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
+      if (state.openFiles.includes(oldName)) {
+        state.openFiles[state.openFiles.indexOf(oldName)] = `${name}.${extension}`
+      }
     },
     enableAutosave: (state) => {
       state.autosaveEnabled = true;
@@ -239,6 +264,9 @@ export const EditorSlice = createSlice({
         state.justLoaded  = true
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
+        if (state.openFiles.length === 0) {
+          state.openFiles.push('main.py')
+        }
       }
     })
 
@@ -271,6 +299,9 @@ export const {
   codeRunHandled,
   expireJustLoaded,
   enableAutosave,
+  closeFile,
+  openFile,
+  setFocussedFileIndex,
   setEmbedded,
   setError,
   setIsSplitView,

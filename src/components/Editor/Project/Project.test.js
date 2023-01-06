@@ -1,10 +1,10 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import Project from "./Project";
-import { expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
+import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../../../utils/Notifications";
 
 jest.mock('axios');
@@ -24,6 +24,8 @@ jest.mock('../EditorSlice', () => ({
 jest.mock('../../../utils/Notifications')
 
 jest.useFakeTimers()
+
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
 const user1 = {
   access_token: 'myAccessToken',
@@ -60,7 +62,8 @@ test("Renders with file menu if not for web component", () => {
       editor: {
         project: {
           components: []
-        }
+        },
+        openFiles: []
       },
       auth: {}
     }
@@ -76,13 +79,62 @@ test("Renders without file menu if for web component", () => {
     editor: {
       project: {
         components: []
-      }
+      },
+      openFiles: []
     },
     auth: {}
   }
   const store = mockStore(initialState);
   const {queryByText} = render(<Provider store={store}><Project forWebComponent={true}/></Provider>)
   expect(queryByText('filePane.files')).toBeNull()
+})
+
+describe('opening and closing different files', () => {
+  let store
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: 'main',
+              extension: 'py',
+              content: 'print("hello")'
+            },
+            {
+              name: 'a',
+              extension: 'py',
+              content: '# Your code here'
+            }
+          ]
+        },
+        openFiles: ['main.py', 'a.py'],
+        focussedFileIndex: 1
+      },
+      auth: {
+        user: null
+      }
+    }
+    store = mockStore(initialState);
+    render(<Provider store={store}><div id="app"><Project/></div></Provider>)
+  })
+
+  test("Renders content of focussed file", () => {
+    expect(screen.queryByText('# Your code here')).toBeInTheDocument()
+  })
+
+  test("Scrolls focussed file into view", () => {
+    expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled()
+  })
+
+  test('Clicking the file close button dispatches close action', () => {
+    const closeButton = screen.queryAllByRole('button')[2]
+    fireEvent.click(closeButton)
+    expect(store.getActions()).toEqual([closeFile('a.py')])
+  })
 })
 
 describe('When not logged in and just loaded', () => {
@@ -95,7 +147,8 @@ describe('When not logged in and just loaded', () => {
       editor: {
         project: project,
         loading: 'success',
-        justLoaded: true
+        justLoaded: true,
+        openFiles: []
       },
       auth: {}
     }
@@ -125,7 +178,8 @@ describe('When not logged in and not just loaded', () => {
       editor: {
         project: project,
         loading: 'success',
-        justLoaded: false
+        justLoaded: false,
+        openFiles: []
       },
       auth: {}
     }
@@ -157,7 +211,8 @@ describe('When not logged in and has been prompted to login to save', () => {
         project: project,
         loading: 'success',
         justLoaded: false,
-        hasShownSavePrompt: true
+        hasShownSavePrompt: true,
+        openFiles: []
       },
       auth: {}
     }
@@ -185,7 +240,8 @@ describe('When logged in and user does not own project and just loaded', () => {
       editor: {
         project,
         loading: 'success',
-        justLoaded: true
+        justLoaded: true,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -217,7 +273,8 @@ describe('When logged in and user does not own project and not just loaded', () 
       editor: {
         project,
         loading: 'success',
-        justLoaded: false
+        justLoaded: false,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -250,7 +307,8 @@ describe('When logged in and user does not own project and prompted to save', ()
         project,
         loading: 'success',
         justLoaded: false,
-        hasShownSavePrompt: true
+        hasShownSavePrompt: true,
+        openFiles: []
       },
       auth: {
         user: user2
@@ -280,7 +338,8 @@ describe('When logged in and user owns project', () => {
     const initialState = {
       editor: {
         project,
-        loading: 'success'
+        loading: 'success',
+        openFiles: []
       },
       auth: {
         user: user1
