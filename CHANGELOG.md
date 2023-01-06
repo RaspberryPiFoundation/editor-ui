@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Ability to collapse and expand the left hand file pane (#316)
+
+### Changed
+
+- Long file names truncated rather than scrolling in left hand file pane (#316)
+
 ## [0.10.0] - 2023-01-06
 
 ### Added
@@ -19,7 +27,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to open and focus files from the left hand file pane (#301)
 - Ability to close file tabs (#301)
 - Validation to prevent file names containing spaces (#301)
-- Ability to collapse and expand the left hand file pane (#316)
 
 ## Changed
 
@@ -31,7 +38,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump decode-uri-component from 0.2.0 to 0.2.2 (#295)
 - File tab bar scrolls rather than wraps (#301)
 - Long file names no longer wrap in tab bar (#301)
-- Long file names truncated rather than scrolling in left hand file pane (#316)
 
 ### Fixed
 
