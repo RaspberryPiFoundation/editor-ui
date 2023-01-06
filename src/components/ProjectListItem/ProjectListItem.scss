@@ -75,6 +75,14 @@ $small-table-grid: 600px;
 
     .--light & {
       color: $rpf-black;
+
+      &:active {
+        color: $rpf-teal-shade-20;
+      }
+  
+      &:hover {
+        color: $rpi-grey-70;
+      }
     }
 
     .--dark & {
@@ -87,14 +95,6 @@ $small-table-grid: 600px;
       &:hover {
         color: $rpf-darkmode-grey85;
       }
-    }
-
-    &:active {
-      color: $rpf-teal-shade-20;
-    }
-
-    &:hover {
-      color: $rpi-grey-70;
     }
   }
 }
