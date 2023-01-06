@@ -73,6 +73,7 @@ export const EditorSlice = createSlice({
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
     renameFileModalShowing: false,
+    renameProjectModalShowing: false,
     modals: {},
   },
   reducers: {
@@ -224,6 +225,14 @@ export const EditorSlice = createSlice({
     },
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false
+    },
+    showRenameProjectModal: (state, action) => {
+      state.modals.renameProject = action.payload
+      state.renameProjectModalShowing = true
+    },
+    closeRenameProjectModal: (state) => {
+      state.modals.renameProject = null
+      state.renameProjectModalShowing = false
     }
   },
   extraReducers: (builder) => {
@@ -330,6 +339,8 @@ export const {
   closeNotFoundModal,
   showRenameFileModal,
   closeRenameFileModal,
+  showRenameProjectModal,
+  closeRenameProjectModal,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

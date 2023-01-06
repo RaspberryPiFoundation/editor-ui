@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import { deleteProject } from '../../utils/apiCallHandler';
-import { setProjectListLoaded } from '../Editor/EditorSlice';
+import { setProjectListLoaded, showRenameProjectModal } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
@@ -19,7 +19,8 @@ const ProjectListItem = (props) => {
   }
 
   const openRenameProjectModal = () => {
-
+    dispatch(showRenameProjectModal(project))
+    // dispatch(syncProject('save')({project: {...project, name: name}, accessToken: user.accessToken, autosave: false}))
   }
 
   return (
@@ -32,7 +33,7 @@ const ProjectListItem = (props) => {
         {/* <div className='editor-project-list__updated'>15 mins ago</div> */}
       </div>
       <div className='editor-project-list__actions'>
-        <Button className='btn--tertiary editor-project-list__rename' buttonText='Rename' ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
+        <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
       </div>
     </div>

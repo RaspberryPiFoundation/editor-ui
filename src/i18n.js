@@ -172,9 +172,16 @@ i18n
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
+            loading: 'Loading',
             name: 'Project name',
+            rename: 'Rename',
+            renameProjectModal: {
+              cancel: 'Do not save',
+              heading: 'Rename project',
+              inputLabel: 'Change the name of your project',
+              save: 'Save'
+            },
             updated: 'Last updated',
-            loading: 'Loading'
           },
           runButton: {
             run: 'Run',
