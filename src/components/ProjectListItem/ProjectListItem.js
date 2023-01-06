@@ -1,3 +1,4 @@
+import { intlFormatDistance } from 'date-fns'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import { deleteProject } from '../../utils/apiCallHandler';
@@ -11,6 +12,7 @@ const ProjectListItem = (props) => {
   const user = props.user;
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });
 
   const onClickDelete = async () => {
     await deleteProject(project.identifier, user.access_token)
@@ -24,7 +26,7 @@ const ProjectListItem = (props) => {
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
         </a>
-        <div className='editor-project-list__updated'>15 mins ago</div>
+        <div className='editor-project-list__updated'>{lastSaved}</div>
       </div>
       <div className='editor-project-list__actions'>
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
