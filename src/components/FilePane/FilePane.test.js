@@ -72,5 +72,3 @@ describe("When project images", () => {
     expect(queryByText("filePane.images")).not.toBeNull()
   })
 })
-
-

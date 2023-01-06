@@ -13,6 +13,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Project not found and access denied modals shown on project loading error (#298)
 - Styling for small buttons (#303)
 - Project page header and styling (#314)
+- Ability to open and focus files from the left hand file pane (#301)
+- Ability to close file tabs (#301)
+- Validation to prevent file names containing spaces (#301)
 - Styling of the projects list (#317)
 
 ## Changed
@@ -23,10 +26,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump engine.io from 6.2.0 to 6.2.1 (#272)
 - Increased clickable area for tabs (#299)
 - Bump decode-uri-component from 0.2.0 to 0.2.2 (#295)
+- File tab bar scrolls rather than wraps (#301)
+- Long file names no longer wrap in tab bar (#301)
 
 ### Fixed
 
 - Moved `FileMenu` click handler to `MenuItem` for better keyboard support (#300)
+- Touch target size on button to open file context menu (#301)
 
 ## [0.9.0]
 
