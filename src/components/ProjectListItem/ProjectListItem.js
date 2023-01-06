@@ -5,6 +5,7 @@ import { setProjectListLoaded } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
+import { PencilIcon } from '../../Icons';
 
 const ProjectListItem = (props) => {
   const project = props.project;
@@ -17,6 +18,10 @@ const ProjectListItem = (props) => {
     dispatch(setProjectListLoaded(false));
   }
 
+  const openRenameProjectModal = () => {
+
+  }
+
   return (
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
@@ -27,6 +32,7 @@ const ProjectListItem = (props) => {
         {/* <div className='editor-project-list__updated'>15 mins ago</div> */}
       </div>
       <div className='editor-project-list__actions'>
+        <Button className='btn--tertiary editor-project-list__rename' buttonText='Rename' ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
       </div>
     </div>
