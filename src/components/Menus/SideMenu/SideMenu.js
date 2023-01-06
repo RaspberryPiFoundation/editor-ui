@@ -6,11 +6,12 @@ import MenuSideBar from "./MenuSideBar"
 
 import './SideMenu.scss'
 
-const SideMenu = () => {
+const SideMenu = (props) => {
+  const { openFileTab } = props
   const menuOptions = [
-    { name: "file", icon: FileIcon, position: "top", popOut: FilePane }
+    { name: "file", icon: FileIcon, position: "top", popOut: () => FilePane({ openFileTab: openFileTab }) }
   ]
-  const [option, setOption] = useState(null)
+  const [option, setOption] = useState('file')
   const toggleOption = (newOption) => {
     option !== newOption ? setOption(newOption) : setOption(null)
   }
