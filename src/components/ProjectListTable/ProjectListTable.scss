@@ -12,16 +12,15 @@ $small-table-grid: 600px;
   &__container {
     border-radius: 8px;
     margin: var(--spacing-3);
-    padding: var(--spacing-2);
-    // padding: var(--spacing-1) var(--spacing-2);
+    padding: var(--spacing-1);
 
     @include unique-width(1670px) {
       margin: var(--spacing-3) 0;
     }
 
-    // @include unique-width($small-table-grid) {
-    //   padding: 0 var(--spacing-2) var(--spacing-2);
-    // }
+    @include unique-width($small-table-grid) {
+      padding: var(--spacing-2);
+    }
 
     .--light & {
       background: $rpf-white;
@@ -34,6 +33,7 @@ $small-table-grid: 600px;
 
   &__heading {
     font-size: var(--font-size-base);
+    margin-top: var(--spacing-half);
   }
 
   &__heading:first-of-type {
@@ -86,8 +86,8 @@ $small-table-grid: 600px;
 
   &__empty {
     background: $rpi-grey-5;
-    text-align: center;
     border-radius: 8px;
+    text-align: center;
 
     .--dark & {
       background: $rpf-darkmode-grey22;
