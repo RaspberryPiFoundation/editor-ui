@@ -23,6 +23,11 @@ const SideMenu = (props) => {
   })
   const MenuPopOut = optionDict && optionDict.popOut ? optionDict.popOut : () => {}
 
+  const collapsePopOut = () => {
+    toggleOption(option)
+    window.plausible('Collapse file pane')
+  }
+
   return (
     <div className = "menu">
       { option ? null :
@@ -30,7 +35,7 @@ const SideMenu = (props) => {
       }
       <MenuPopOut />
       {option ?
-        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' title={t('sideMenu.collapse')} onClickHandler={() => toggleOption(option)} />
+        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' title={t('sideMenu.collapse')} onClickHandler={collapsePopOut} />
       : null
       }
     </div>
