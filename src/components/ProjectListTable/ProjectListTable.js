@@ -11,14 +11,20 @@ const ProjectListTable = () => {
   return (
     <div className='editor-project-list'>
       <div className='editor-project-list__container'>
-        <div className='editor-project-list__item'>
-          <h4 className='editor-project-list__heading'>{t('projectList.name')}</h4>
-          {/* <h4 className='editor-project-list__heading'>{t('projectList.updated')}</h4> */}
-        </div>
-        { projectList.map((project, i) => (
-            <ProjectListItem project={project} user={user} key={i}/>
-          )
-        )}
+        { projectList.length > 0 ?
+          <>
+            <div className='editor-project-list__item'>
+              <h4 className='editor-project-list__heading'>{t('projectList.name')}</h4>
+              <h4 className='editor-project-list__heading'>{t('projectList.updated')}</h4>
+            </div>
+            { projectList.map((project, i) => (
+                <ProjectListItem project={project} user={user} key={i}/>
+              )
+            )}
+          </>
+          :
+          <p>No projects</p>
+        }
       </div>
     </div>
   )
