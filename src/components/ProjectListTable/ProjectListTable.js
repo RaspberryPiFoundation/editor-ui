@@ -5,8 +5,13 @@ import './ProjectListTable.scss'
 
 const ProjectListTable = () => {
   const { t } = useTranslation();
-  const projectList = useSelector((state) => state.editor.projectList);
+  let projectList = useSelector((state) => state.editor.projectList);
   const user = useSelector((state) => state.auth.user);
+  const projectSortList = [...projectList]
+
+  projectList = projectSortList.sort((x, y) => {
+    return new Date(y.updated_at) - new Date(x.updated_at);
+  })
 
   return (
     <div className='editor-project-list'>
