@@ -82,4 +82,17 @@ $small-table-grid: 600px;
       }
     }
   }
+
+  &__empty {
+    background: $rpi-grey-5;
+    text-align: center;
+    border-radius: 8px;
+
+    p {
+      font-size: var(--font-size-u-1);
+      font-weight: var(--font-weight-bold);
+      margin: 0;
+      padding: var(--spacing-2);
+    }
+  }
 }

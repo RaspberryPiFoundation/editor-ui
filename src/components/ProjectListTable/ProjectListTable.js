@@ -23,7 +23,9 @@ const ProjectListTable = () => {
             )}
           </>
           :
-          <p>No projects</p>
+          <div className='editor-project-list__empty'>
+            <p>No projects</p>
+          </div>
         }
       </div>
     </div>
