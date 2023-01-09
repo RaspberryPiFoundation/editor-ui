@@ -168,7 +168,7 @@ i18n
           },
           projectHeader: {
             subTitle: 'Code Editor',
-            title: 'Your Projects',
+            title: 'Your projects',
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
