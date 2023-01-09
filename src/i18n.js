@@ -172,6 +172,7 @@ i18n
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
+            empty: 'No projects created yet',
             name: 'Project name',
             updated: 'Last updated',
             loading: 'Loading'

@@ -29,7 +29,7 @@ const ProjectListTable = () => {
           </>
           :
           <div className='editor-project-list__empty'>
-            <p>No projects</p>
+            <p>{t('projectList.empty')}</p>
           </div>
         }
       </div>
