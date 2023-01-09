@@ -11,6 +11,11 @@ const MenuSideBar = (props) => {
   const topMenuOptions = menuOptions.filter((menuOption => menuOption.position === "top"))
   const bottomMenuOptions = menuOptions.filter((menuOption => menuOption.position === "bottom"))
 
+  const expandPopOut = () => {
+    toggleOption('file')
+    window.plausible('Expand file pane')
+  }
+
   return (
     <div className="menu-sidebar">
       <div className={`menu-options-top`}>
@@ -22,7 +27,7 @@ const MenuSideBar = (props) => {
         {bottomMenuOptions.map((menuOption, i) => (
             <MenuSideBarOption key={i} Icon={menuOption.icon} title={menuOption.title} isActive={option === menuOption.name} toggleOption={toggleOption} name={menuOption.name}/>
           ))}
-        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronRight} title={t('sideMenu.expand')} buttonOuter buttonOuterClassName = 'menu-expand-button' onClickHandler={() => toggleOption('file')}/>
+        <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronRight} title={t('sideMenu.expand')} buttonOuter buttonOuterClassName = 'menu-expand-button' onClickHandler={expandPopOut}/>
       </div>
     </div>
   )
