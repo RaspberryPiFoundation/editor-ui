@@ -11,8 +11,6 @@ const user = {
 }
 
 describe('When the logged in user has projects', () => {
-  let store;
-
   const project = {
     name: 'hello world',
       project_type: 'python',
@@ -39,11 +37,32 @@ describe('When the logged in user has projects', () => {
         user: user
       }
     }
-    store = mockStore(initialState);
+    const store = mockStore(initialState);
     render(<Provider store={store}><ProjectListTable/></Provider>);
   });
 
   test('The projects page show a list of projects', () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
+  });
+});
+
+describe('When the logged in user has no projects', () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        projectList: []
+      },
+      auth: {
+        user: user
+      }
+    }
+    const store = mockStore(initialState);
+    render(<Provider store={store}><ProjectListTable/></Provider>);
+  });
+
+  test('The projects page show an empty state message', () => {
+    expect(screen.queryByText('projectList.empty')).toBeInTheDocument();
   });
 });
