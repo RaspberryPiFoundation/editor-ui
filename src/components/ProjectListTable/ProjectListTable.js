@@ -7,7 +7,7 @@ const ProjectListTable = () => {
   const { t } = useTranslation();
   let projectList = useSelector((state) => state.editor.projectList);
   const user = useSelector((state) => state.auth.user);
-  const projectSortList = [...projectList]
+  const projectSortList = [...projectList];
 
   projectList = projectSortList.sort((x, y) => {
     return new Date(y.updated_at) - new Date(x.updated_at);
