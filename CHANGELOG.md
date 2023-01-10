@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Change port number to fix 'no consent token' error (#326)
 - Long file names truncated rather than scrolling in left hand file pane (#316)
 
+
+### Fixed
+- Button text not always being centered (#328)
+
 ## [0.10.0] - 2023-01-06
 
 ### Added
