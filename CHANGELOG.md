@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to collapse and expand the left hand file pane (#316)
 - Plausible event tracking for left hand file pane (#325)
 - Last updated field added to the projects table (#319)
+- Message for empty state on projects (#327)
 
 ### Changed
 
