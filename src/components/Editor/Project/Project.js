@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
-import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
@@ -18,6 +17,7 @@ import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
+import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
 
 const Project = (props) => {
@@ -107,7 +107,7 @@ const Project = (props) => {
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FilePane openFileTab={openFileTab}/> : null}
+      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
         <div className='proj-editor-container'>
           <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <TabList>

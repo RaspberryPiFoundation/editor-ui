@@ -1,7 +1,7 @@
 import './ProjectImages.scss';
 
 import { useSelector } from 'react-redux'
-import { ChevronDown } from '../../../Icons';
+import { ChevronDown } from '../../../../../Icons';
 import { useTranslation } from 'react-i18next'
 
 const ProjectImages = () => {

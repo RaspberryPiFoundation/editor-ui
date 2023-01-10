@@ -20,6 +20,24 @@ export const CloseIcon = (props) => {
   )
 }
 
+export const DoubleChevronLeft = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.16663 10L0.166626 5L5.16663 0L6.33329 1.16667L2.52079 5L6.33329 8.83333L5.16663 10ZM10.6666 10L5.66663 5L10.6666 0L11.8333 1.16667L8.02079 5L11.8333 8.83333L10.6666 10Z"/>
+    </svg>
+  )
+}
+
+export const DoubleChevronRight = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.33334 10L0.166672 8.83333L3.97917 5L0.166672 1.16667L1.33334 0L6.33334 5L1.33334 10ZM6.83334 10L5.66667 8.83333L9.47917 5L5.66667 1.16667L6.83334 0L11.8333 5L6.83334 10Z"/>
+    </svg>
+  )
+}
+
 export const DownloadIcon = () => {
   const scale = useUserFont()
   return (

@@ -169,7 +169,7 @@ i18n
           },
           projectHeader: {
             subTitle: 'Code Editor',
-            title: 'Your Projects',
+            title: 'Your projects',
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
@@ -189,6 +189,11 @@ i18n
             stop: 'Stop',
             stopping: 'Stopping...',
           },
+          sideMenu: {
+            collapse: 'Collapse file pane',
+            expand: 'Expand file pane',
+            file: 'Project files'
+          }
         }
       }
     }
