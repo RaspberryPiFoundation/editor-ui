@@ -16,8 +16,6 @@ const RenameProjectModal = () => {
   const closeModal = () => dispatch(closeRenameProjectModal());
 
   const renameProject = () => {
-    console.log(user.access_token)
-    console.log(project)
     const newName = document.getElementById('name').value
     dispatch(syncProject('save')({project: {...project, name: newName}, accessToken: user.access_token, autosave: false}))
   }

@@ -250,7 +250,6 @@ export const EditorSlice = createSlice({
         state.renameProjectModalShowing = false
         state.projectListLoaded = false
       } else if (state.project.identifier !== action.payload.project.identifier) {
-        console.log('updating the project')
         state.project.image_list = state.project.image_list || []
         state.project = action.payload.project
         state.loading = 'idle'
