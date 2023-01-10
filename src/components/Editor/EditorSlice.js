@@ -244,9 +244,14 @@ export const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload.autosave
       state.saving = 'success'
       state.lastSavedTime = Date.now()
-      state.project.image_list = state.project.image_list || []
 
-      if (state.project.identifier !== action.payload.project.identifier) {
+      if (state.renameProjectModalShowing){
+        state.modals.renameProject = null
+        state.renameProjectModalShowing = false
+        state.projectListLoaded = false
+      } else if (state.project.identifier !== action.payload.project.identifier) {
+        console.log('updating the project')
+        state.project.image_list = state.project.image_list || []
         state.project = action.payload.project
         state.loading = 'idle'
       }
