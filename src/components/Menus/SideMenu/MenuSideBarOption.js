@@ -6,6 +6,9 @@ const MenuSideBarOption = (props) => {
 
   const onClickHandler = () => {
     toggleOption(name)
+    if (name === 'file') {
+      window.plausible('Side menu open project files')
+    }
   }
 
   return (
