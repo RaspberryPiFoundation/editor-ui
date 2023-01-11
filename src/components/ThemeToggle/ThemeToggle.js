@@ -12,13 +12,13 @@ const ThemeToggle = () => {
 
   return (
     <div className='theme-toggle'>
-      <div className='theme-btn theme-btn--light' onClick={() => setCookie('theme', 'light')}>
+      <div className='theme-btn theme-btn--light' onClick={() => setCookie('theme', 'light', { path: '/' })}>
         <div className={`theme-btn__icon theme-btn__icon--light ${!isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <SunIcon />
         </div>
         <p>{t('header.settingsMenu.themeOptions.light')}</p>
       </div>
-      <div className='theme-btn theme-btn--dark' onClick={() => setCookie('theme', 'dark')}>
+      <div className='theme-btn theme-btn--dark' onClick={() => setCookie('theme', 'dark', { path: '/' })}>
         <div className={`theme-btn__icon theme-btn__icon--dark ${isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <MoonIcon />
         </div>
