@@ -1,9 +1,7 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useDispatch } from 'react-redux'
 import { useTranslation } from "react-i18next";
-import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
 
-import { SettingsContext } from '../../../settings'
 import { showRenameFileModal } from '../../Editor/EditorSlice'
 import { EllipsisVerticalIcon, PencilIcon } from '../../../Icons';
 import ContextMenu from "../ContextMenu/ContextMenu";
@@ -11,7 +9,6 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 const FileMenu = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const settings = useContext(SettingsContext)
 
   const onClickRenameFile = () => {
     dispatch(showRenameFileModal(props))
@@ -30,6 +27,8 @@ const FileMenu = (props) => {
             action: onClickRenameFile
           }
         ]}
+        offsetX={15}
+        offsetY={-10}
       />
     </div>
   )

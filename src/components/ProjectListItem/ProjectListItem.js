@@ -7,9 +7,6 @@ import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
 import { EllipsisVerticalIcon, PencilIcon } from '../../Icons';
-import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
-import { useContext } from 'react';
-import { SettingsContext } from '../../settings';
 import ContextMenu from '../Menus/ContextMenu/ContextMenu';
 
 const ProjectListItem = (props) => {
@@ -18,7 +15,6 @@ const ProjectListItem = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });
-  const settings = useContext(SettingsContext)
 
   const onClickDelete = async () => {
     await deleteProject(project.identifier, user.access_token)
@@ -54,6 +50,7 @@ const ProjectListItem = (props) => {
               action: openRenameProjectModal
             }
           ]}
+          offsetX={-10}
         />
     </div>
   );

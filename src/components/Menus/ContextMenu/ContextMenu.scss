@@ -15,6 +15,7 @@
     margin: 0;
     padding: 0;
     margin-left: var(--spacing-1);
+    border-radius: 5px;
 
     .context-menu__item {
         margin: 0;
@@ -34,6 +35,7 @@
     &--dark {
         background-color: $rpf-black;
         color: $rpf-white;
+        border: 1px solid transparent;
 
         svg {
             fill: $rpf-white;
@@ -51,6 +53,7 @@
     &--light {
         background-color: $rpf-white;
         color: $rpf-text-black;
+        border: 1px solid $rpf-darkmode-grey85;
 
         svg {
             fill: $rpf-black;

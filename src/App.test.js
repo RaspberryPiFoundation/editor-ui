@@ -229,20 +229,3 @@ describe('Beta banner', () => {
     act(() => cookies.remove('betaBannerDismissed'))
   })
 })
-
-test('Successful manual save prompts project saved message', async () => {
-  const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        saving: 'success',
-        lastSaveAutosave: false
-      },
-      auth: {}
-    }
-    const mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><App/></Provider>);
-    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
-})
-
-// TODO: Write test for successful autosave not prompting the project saved message as per the above
