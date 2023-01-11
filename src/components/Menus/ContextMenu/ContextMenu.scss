@@ -1,0 +1,91 @@
+@import '../../../colours.scss';
+
+.context-menu__drop {
+    display: flex;
+    padding: calc(1.1 * var(--spacing-1)) calc(1.7 * var(--spacing-1));
+    margin: 0;
+
+    svg {
+      margin: 0;
+    }
+}
+
+.context-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-left: var(--spacing-1);
+
+    .context-menu__item {
+        margin: 0;
+        background-color: inherit;
+        color:  inherit;
+        padding: var(--spacing-1);
+        text-align: left;
+        white-space: nowrap;
+        overflow-x: visible;
+    }
+
+    svg {
+        height: 0.75em;
+        width: auto;
+    }
+
+    &--dark {
+        background-color: $rpf-black;
+        color: $rpf-white;
+
+        svg {
+            fill: $rpf-white;
+        }
+
+        .btn:hover {
+            background-color: $rpf-darkmode-grey22;
+        }
+
+        .btn:disabled {
+          color: $rpf-darkmode-grey32;
+        }
+    }
+
+    &--light {
+        background-color: $rpf-white;
+        color: $rpf-text-black;
+
+        svg {
+            fill: $rpf-black;
+        }
+
+        .btn:hover {
+            background-color: $rpf-darkmode-grey90;
+        }
+
+        .btn:disabled {
+            color: $rpf-darkmode-grey75;
+        }
+    }
+
+    &--dark .btn:disabled svg {
+        fill: $rpf-darkmode-grey32;
+    }
+
+    &--light .btn:disabled svg {
+        fill: $rpf-darkmode-grey90;
+    }
+
+    .btn:disabled:hover {
+        background-color: inherit;
+    }
+
+    &--small {
+        font-size: var(--font-size-base);
+    }
+
+    &--medium {
+        font-size: var(--font-size-u-2);
+    }
+
+    &--large {
+        font-size: var(--font-size-u-4);
+    }
+}

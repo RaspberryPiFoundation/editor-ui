@@ -39,7 +39,7 @@ $small-table-grid: 600px;
     grid-column: span 6;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 8;
+      grid-column: span 7;
     }
   }
 
@@ -47,7 +47,7 @@ $small-table-grid: 600px;
     grid-column: span 6;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 4;
+      grid-column: span 5;
     }
   }
 

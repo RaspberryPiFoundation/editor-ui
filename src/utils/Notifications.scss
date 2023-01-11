@@ -9,9 +9,16 @@
 
   .toast--bottom-center {
     width: fit-content;
+    max-width: 100%;
     font-size: var(--font-size-d-1);
+    bottom: 1em;
+    padding: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    
     .Toastify__toast-icon {
-      margin: 0;
+      margin: 0 var(--spacing-half) 0 0;
     }
   }
   .toast--bottom-center__message {

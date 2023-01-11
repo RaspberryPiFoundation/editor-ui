@@ -6,7 +6,11 @@ import { setProjectListLoaded, showRenameProjectModal } from '../Editor/EditorSl
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
-import { PencilIcon } from '../../Icons';
+import { EllipsisVerticalIcon, PencilIcon } from '../../Icons';
+import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
+import { useContext } from 'react';
+import { SettingsContext } from '../../settings';
+import ContextMenu from '../Menus/ContextMenu/ContextMenu';
 
 const ProjectListItem = (props) => {
   const project = props.project;
@@ -14,6 +18,7 @@ const ProjectListItem = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });
+  const settings = useContext(SettingsContext)
 
   const onClickDelete = async () => {
     await deleteProject(project.identifier, user.access_token)
@@ -22,7 +27,6 @@ const ProjectListItem = (props) => {
 
   const openRenameProjectModal = () => {
     dispatch(showRenameProjectModal(project))
-    // dispatch(syncProject('save')({project: {...project, name: name}, accessToken: user.accessToken, autosave: false}))
   }
 
   return (
@@ -38,6 +42,19 @@ const ProjectListItem = (props) => {
         <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
       </div>
+      <ContextMenu
+          align = 'end'
+          direction = 'bottom'
+          menuButtonClassName = 'editor-project-list__menu'
+          MenuButtonIcon = {EllipsisVerticalIcon}
+          menuOptions = {[
+            {
+              icon: PencilIcon,
+              text: t('projectList.rename'),
+              action: openRenameProjectModal
+            }
+          ]}
+        />
     </div>
   );
 };
