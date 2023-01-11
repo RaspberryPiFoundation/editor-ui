@@ -2,7 +2,6 @@ import './App.scss';
 import './typography.scss';
 import './utils/Notifications.scss';
 
-import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
