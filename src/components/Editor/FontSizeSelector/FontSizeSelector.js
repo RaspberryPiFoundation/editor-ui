@@ -11,7 +11,9 @@ const FontSizeSelector = () => {
 
   const setFontSize = (fontSize) => {
     if (cookies.fontSize) {
-      removeCookie('fontSize')
+      removeCookie('fontSize', { path: '/' })
+      removeCookie('fontSize', { path: '/python' })
+      removeCookie('fontSize', { path: '/projects' })
     }
     setCookie('fontSize', fontSize, { path: '/' })
   }

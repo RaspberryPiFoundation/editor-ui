@@ -12,7 +12,9 @@ const ThemeToggle = () => {
 
   const setTheme = (theme) => {
     if (cookies.theme) {
-      removeCookie('theme')
+      removeCookie('theme', { path: '/' })
+      removeCookie('theme', { path: '/python' })
+      removeCookie('theme', { path: '/projects' })
     }
     setCookie('theme', theme, { path: '/' })
   }
