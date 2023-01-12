@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { FontIcon } from "../../../Icons";
 import './FontSizeSelector.scss'
 
+const COOKIE_PATHS = ['/', '/projects', '/python']
+
 const FontSizeSelector = () => {
   const [ cookies , setCookie, removeCookie] = useCookies(['fontSize'])
   const fontSize = cookies.fontSize || "small"
@@ -11,9 +13,9 @@ const FontSizeSelector = () => {
 
   const setFontSize = (fontSize) => {
     if (cookies.fontSize) {
-      removeCookie('fontSize', { path: '/' })
-      removeCookie('fontSize', { path: '/python' })
-      removeCookie('fontSize', { path: '/projects' })
+      COOKIE_PATHS.forEach((path) => {
+        removeCookie('fontSize', {path})
+      })
     }
     setCookie('fontSize', fontSize, { path: '/' })
   }

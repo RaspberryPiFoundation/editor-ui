@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import './ThemeToggle.scss'
 import { MoonIcon, SunIcon } from '../../Icons';
 
+const COOKIE_PATHS = ['/', '/projects', '/python']
+
 const ThemeToggle = () => {
   const [ cookies, setCookie, removeCookie ] = useCookies(['theme'])
   const isDarkMode = cookies.theme==="dark" || (!cookies.theme && window.matchMedia("(prefers-color-scheme:dark)").matches)
@@ -12,9 +14,9 @@ const ThemeToggle = () => {
 
   const setTheme = (theme) => {
     if (cookies.theme) {
-      removeCookie('theme', { path: '/' })
-      removeCookie('theme', { path: '/python' })
-      removeCookie('theme', { path: '/projects' })
+      COOKIE_PATHS.forEach((path) => {
+        removeCookie('theme', {path})
+      })
     }
     setCookie('theme', theme, { path: '/' })
   }
