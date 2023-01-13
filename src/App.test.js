@@ -1,10 +1,9 @@
 import App from './App';
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import configureStore from 'redux-mock-store';
-import { showSavedMessage } from './utils/Notifications';
 
 jest.mock('./utils/Notifications')
 jest.mock('./components/Editor/EditorSlice', () => {

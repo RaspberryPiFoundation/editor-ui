@@ -226,11 +226,9 @@ describe('When renaming a project from the rename project modal', () => {
   }
 
   let saveThunk
-  let saveAction
 
   beforeEach(() => {
     saveThunk= syncProject('save')
-    saveAction = saveThunk({ project, accessToken: access_token, autosave: false })
   })
 
   test('The saveProject/fulfilled action closes rename project modal and reloads projects list', () => {
