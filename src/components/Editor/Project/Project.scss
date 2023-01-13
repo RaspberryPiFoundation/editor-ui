@@ -55,6 +55,7 @@
     display: flex;
     flex-flow: column;
     flex: 5;
+    overflow-y: hidden;
     box-sizing: border-box;
 
     .react-tabs__tab-panel--selected {
@@ -65,6 +66,7 @@
   .proj-runner-container {
     display: flex;
     flex: 5;
+    overflow-y: hidden;
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;

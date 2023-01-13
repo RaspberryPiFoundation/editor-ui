@@ -96,7 +96,7 @@ $spacing-four: calc($spacing-eight / 2);
   
     &__tab-list {
       display: flex;
-      overflow-x: scroll;
+      overflow-x: auto;
       overflow-y: hidden;
       margin: 0;
     }
