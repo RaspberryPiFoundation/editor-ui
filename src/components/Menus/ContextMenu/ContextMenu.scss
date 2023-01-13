@@ -16,6 +16,9 @@
     padding: 0;
     margin-left: var(--spacing-1);
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
 
     .context-menu__item {
         margin: 0;
@@ -25,6 +28,9 @@
         text-align: left;
         white-space: nowrap;
         overflow-x: visible;
+        box-sizing: border-box;
+        width: 100%;
+        justify-content: left;
     }
 
     svg {

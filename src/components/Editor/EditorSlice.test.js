@@ -1,4 +1,4 @@
-import { createOrUpdateProject, createRemix, readProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, createRemix, deleteProject, readProject } from '../../utils/apiCallHandler';
 
 import reducer, {
   syncProject,
@@ -240,6 +240,50 @@ describe('When renaming a project from the rename project modal', () => {
       projectListLoaded: false
     }
     expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
+  })
+})
+
+describe('When deleting a project', () => {
+  const dispatch = jest.fn()
+  let project = { identifier: 'my-amazing-project', name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {deleteProject: project},
+      deleteProjectModalShowing: true,
+      projectListLoaded: true
+    },
+    auth: {user: {access_token}}
+  }
+
+  let deleteThunk
+  let deleteAction
+
+  beforeEach(() => {
+    deleteThunk= syncProject('delete')
+    deleteAction = deleteThunk({ identifier: project.identifier, accessToken: access_token })
+  })
+
+  test('Deleting a project triggers deleteProject API call', async () => {
+    await deleteAction(dispatch, () => initialState)
+    expect(deleteProject).toHaveBeenCalledWith(project.identifier, access_token)
+  })
+
+  test('Successfully deleting project triggers fulfilled action', async () => {
+    deleteProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await deleteAction(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/deleteProject/fulfilled')
+  })
+
+  test('The deleteProject/fulfilled action closes delete project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      modals: { deleteProject: null },
+      deleteProjectModalShowing: false,
+      projectListLoaded: false
+    }
+    expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(expectedState)
   })
 })
 

@@ -7,7 +7,11 @@ import ProjectListItem from "./ProjectListItem";
 jest.mock('date-fns')
 
 let store
+<<<<<<< HEAD
 let project = {name: 'my amazing project'}
+=======
+let project = {identifier: 'hello-world-project', name: 'my amazing project'}
+>>>>>>> 8e7ac27 (Delete project action)
 
 beforeEach(() => {
   const mockStore = configureStore([])
@@ -26,3 +30,12 @@ test('Clicking rename button opens rename project modal', () => {
   fireEvent.click(renameButton)
   expect(store.getActions()).toEqual([{type: "editor/showRenameProjectModal", payload: project}])
 })
+<<<<<<< HEAD
+=======
+
+test('Clicking delete button opens delete project modal', () => {
+  const deleteButton = screen.queryByText('projectList.delete')
+  fireEvent.click(deleteButton)
+  expect(store.getActions()).toEqual([{type: "editor/showDeleteProjectModal", payload: project}])
+})
+>>>>>>> 8e7ac27 (Delete project action)

@@ -31,3 +31,14 @@ test('Clicking rename option opens the rename project modal', () => {
   fireEvent.click(renameOption)
   expect(store.getActions()).toEqual([{type: "editor/showRenameProjectModal", payload: {"name": "my amazing project"}}])
 })
+<<<<<<< HEAD
+=======
+
+test('Clicking delete option opens the delete project modal', () => {
+  const button = screen.getByRole('button', { expanded: false })
+  fireEvent.click(button)
+  const deleteOption = screen.getByText('projectList.delete')
+  fireEvent.click(deleteOption)
+  expect(store.getActions()).toEqual([{type: "editor/showDeleteProjectModal", payload: {"name": "my amazing project"}}])
+})
+>>>>>>> 8e7ac27 (Delete project action)

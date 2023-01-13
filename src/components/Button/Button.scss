@@ -114,6 +114,11 @@
       }
     }
   }
+
+  &--danger {
+    $colours: $rpf-alerts-errors, $rpf-alerts-errors, $rpf-alerts-errors, $rpf-white, $rpf-alerts-errors, $rpf-alerts-errors, $rpf-white;
+    @include button-styling($colours...);
+  }
 }
 
 .btn-outer {
