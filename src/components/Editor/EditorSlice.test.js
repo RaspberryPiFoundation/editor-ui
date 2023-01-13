@@ -220,7 +220,7 @@ describe('When renaming a project from the rename project modal', () => {
       project: {},
       modals: {renameProject: project},
       renameProjectModalShowing: true,
-      projectListLoaded: true
+      projectListLoaded: 'success'
     },
     auth: {user: {access_token}}
   }
@@ -237,7 +237,7 @@ describe('When renaming a project from the rename project modal', () => {
       saving: 'success',
       modals: { renameProject: null },
       renameProjectModalShowing: false,
-      projectListLoaded: false
+      projectListLoaded: 'idle'
     }
     expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
   })
@@ -252,7 +252,7 @@ describe('When deleting a project', () => {
       project: {},
       modals: {deleteProject: project},
       deleteProjectModalShowing: true,
-      projectListLoaded: true
+      projectListLoaded: 'success'
     },
     auth: {user: {access_token}}
   }
@@ -281,7 +281,7 @@ describe('When deleting a project', () => {
       project: {},
       modals: { deleteProject: null },
       deleteProjectModalShowing: false,
-      projectListLoaded: false
+      projectListLoaded: 'idle'
     }
     expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(expectedState)
   })

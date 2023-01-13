@@ -15,7 +15,7 @@ beforeEach(() => {
   const initialState = {}
   store = mockStore(initialState);
 
-  render(<Provider store={store}><ProjectListItem project = {project} user={{}}/></Provider>)
+  render(<Provider store={store}><ProjectListItem project = {project}/></Provider>)
 })
 
 test('Renders project name', () => {

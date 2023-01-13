@@ -10,7 +10,6 @@ import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
 
 const ProjectListItem = (props) => {
   const project = props.project;
-  const user = props.user;
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });

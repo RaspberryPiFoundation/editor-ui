@@ -25,7 +25,7 @@ describe ('When user has projects', () => {
           { name: 'my project 1' },
           { name: 'my project 2' }
         ],
-        projectListLoaded: true
+        projectListLoaded: 'success'
       },
       auth: {}
     }
