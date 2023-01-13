@@ -113,6 +113,7 @@ i18n
           notifications: {
             loginPrompt: 'To save this project and access it later, don\'t forget to log in or sign up!',
             projectRemixed: 'Your remixed project has been saved',
+            projectRenamed: 'You have renamed your project.',
             projectSaved: 'Your project has been saved',
             savePrompt: 'Save this project to access it later under "Your projects".'
           },
@@ -173,9 +174,16 @@ i18n
           },
           projectList: {
             empty: 'No projects created yet',
+            loading: 'Loading',
             name: 'Project name',
+            rename: 'Rename',
+            renameProjectModal: {
+              cancel: 'Do not save',
+              heading: 'Rename project',
+              inputLabel: 'Change the name of your project',
+              save: 'Save'
+            },
             updated: 'Last updated',
-            loading: 'Loading'
           },
           runButton: {
             run: 'Run',

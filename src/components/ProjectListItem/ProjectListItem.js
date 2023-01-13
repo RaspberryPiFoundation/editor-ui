@@ -2,10 +2,12 @@ import { intlFormatDistance } from 'date-fns'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
 import { deleteProject } from '../../utils/apiCallHandler';
-import { setProjectListLoaded } from '../Editor/EditorSlice';
+import { setProjectListLoaded, showRenameProjectModal } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
+import { PencilIcon } from '../../Icons';
+import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
 
 const ProjectListItem = (props) => {
   const project = props.project;
@@ -19,6 +21,10 @@ const ProjectListItem = (props) => {
     dispatch(setProjectListLoaded(false));
   }
 
+  const openRenameProjectModal = () => {
+    dispatch(showRenameProjectModal(project))
+  }
+
   return (
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
@@ -29,8 +35,10 @@ const ProjectListItem = (props) => {
         <div className='editor-project-list__updated'>{lastSaved}</div>
       </div>
       <div className='editor-project-list__actions'>
+        <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
         <Button className='editor-project-list__delete' onClickHandler={onClickDelete} buttonText='Delete' confirmText='Are you sure you want to delete the project?' />
       </div>
+      <ProjectActionsMenu project = {project} />
     </div>
   );
 };
