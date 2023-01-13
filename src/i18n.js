@@ -182,6 +182,7 @@ i18n
             },
             empty: 'No projects created yet',
             loading: 'Loading',
+            loadingFailed: 'Failed to load projects',
             name: 'Project name',
             rename: 'Rename',
             renameProjectModal: {

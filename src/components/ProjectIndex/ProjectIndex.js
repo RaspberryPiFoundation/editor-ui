@@ -52,8 +52,8 @@ const ProjectIndex = (props) => {
         />
       </ProjectIndexHeader>
       { projectListLoaded === 'success' ? <ProjectListTable /> :
-        projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}...</p> :
-        <p>{t('projectList.loading')}...</p> }
+        projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}</p> :
+        <p>{t('projectList.loading')}</p> }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }
       { deleteProjectModalShowing ? <DeleteProjectModal /> : null }
     </>

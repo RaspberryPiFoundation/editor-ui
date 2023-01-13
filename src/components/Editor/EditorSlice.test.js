@@ -1,4 +1,4 @@
-import { createOrUpdateProject, createRemix, deleteProject, readProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, createRemix, deleteProject, readProject, readProjectList } from '../../utils/apiCallHandler';
 
 import reducer, {
   syncProject,
@@ -9,6 +9,7 @@ import reducer, {
   closeFile,
   setFocussedFileIndex,
   updateComponentName,
+  loadProjectList,
 } from "./EditorSlice";
 
 jest.mock('../../utils/apiCallHandler')
@@ -261,7 +262,7 @@ describe('When deleting a project', () => {
   let deleteAction
 
   beforeEach(() => {
-    deleteThunk= syncProject('delete')
+    deleteThunk = syncProject('delete')
     deleteAction = deleteThunk({ identifier: project.identifier, accessToken: access_token })
   })
 
@@ -391,6 +392,42 @@ describe('When requesting a project', () => {
       loading: 'success'
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
+  })
+})
+
+describe('When requesting project list', () => {
+  const dispatch = jest.fn()
+  const projects = [
+    { name: 'project1' },
+    { name: 'project2' }
+  ]
+  const initialState = {
+    projectList: [],
+    projectListLoaded: 'pending'
+  }
+  let loadProjectListThunk
+
+  beforeEach(() => {
+    loadProjectListThunk = loadProjectList('access_token')
+  })
+
+  test('Loading project list triggers loadProjectList API call', async () => {
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(readProjectList).toHaveBeenCalledWith('access_token')
+  })
+
+  test('Successfully loading project list triggers fulfilled action', async () => {
+    readProjectList.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/loadProjectList/fulfilled')
+  })
+
+  test('The loadProjectList/fulfilled action sets the projectList', () => {
+    const expectedState = {
+      projectList: projects,
+      projectListLoaded: 'success'
+    }
+    expect(reducer(initialState, loadProjectList.fulfilled(projects))).toEqual(expectedState)
   })
 })
 

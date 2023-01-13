@@ -33,9 +33,7 @@ const RenameProjectModal = () => {
       >
           <div className='modal-content__header'>
             <h2 className='modal-content__heading'>{t('projectList.renameProjectModal.heading')}</h2>
-            <button onClick={closeModal}>
-              <CloseIcon/>
-            </button>
+            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
 
           <label htmlFor='name'>{t('projectList.renameProjectModal.inputLabel')}</label>

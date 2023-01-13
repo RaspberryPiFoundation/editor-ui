@@ -74,15 +74,24 @@ $small-table-grid: 600px;
     display: grid;
     grid-column: span 2;
     grid-template-columns: repeat(2, 1fr);
+    min-width: 44px;
 
     span {
       display: none;
+    }
+
+    svg {
+      margin: 0;
     }
 
     @include unique-width($medium-table-grid) {
       grid-column: span 4;
       span {
         display: grid;
+      }
+
+      svg {
+        margin-right: var(--spacing-1);
       }
     }
 
@@ -100,7 +109,7 @@ $small-table-grid: 600px;
   }
 
   &__title,
-  &__delete {
+  &__actions {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
     text-decoration: none;

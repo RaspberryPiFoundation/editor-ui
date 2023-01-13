@@ -6,9 +6,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Button = (props) => {
   const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, buttonOuterClassName, disabled, confirmText, title } = props;
-
-  var buttonClass="btn"
-  buttonClass = (className ? buttonClass += ` ${className}`: buttonClass)
+  
+  const buttonClass = `btn${className ? ` ${className}` : ""}${buttonText ? "" : " btn--svg-only"}`
 
   const onButtonClick = (e) => {
     if (!confirmText) {

@@ -136,9 +136,6 @@ export const EditorSlice = createSlice({
       }
       state.justLoaded = true
     },
-    setProjectLoaded: (state, action) => {
-      state.loading = action.payload;
-    },
     expireJustLoaded: (state) => {
       state.justLoaded = false
     },
@@ -201,12 +198,6 @@ export const EditorSlice = createSlice({
     codeRunHandled: (state) => {
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
-    },
-    setProjectList: (state, action) => {
-      state.projectList = action.payload;
-    },
-    setProjectListLoaded: (state, action) => {
-      state.projectListLoaded = action.payload;
     },
     closeAccessDeniedNoAuthModal: (state) => {
       state.accessDeniedNoAuthModalShowing = false
@@ -355,9 +346,6 @@ export const {
   setNameError,
   setHasShownSavePrompt,
   setProject,
-  setProjectList,
-  setProjectListLoaded,
-  setProjectLoaded,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   stopCodeRun,

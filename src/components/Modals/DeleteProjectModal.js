@@ -32,9 +32,7 @@ const DeleteProjectModal = () => {
       >
           <div className='modal-content__header'>
             <h2 className='modal-content__heading'>{t('projectList.deleteProjectModal.heading')}</h2>
-            <button onClick={closeModal}>
-              <CloseIcon/>
-            </button>
+            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
           <p className='modal-content__text'>{t('projectList.deleteProjectModal.text', {name: project.name})}</p>
           <div className='modal-content__buttons' >
