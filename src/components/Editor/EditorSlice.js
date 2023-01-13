@@ -73,6 +73,7 @@ export const EditorSlice = createSlice({
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
     renameFileModalShowing: false,
+    renameProjectModalShowing: false,
     modals: {},
   },
   reducers: {
@@ -224,6 +225,14 @@ export const EditorSlice = createSlice({
     },
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false
+    },
+    showRenameProjectModal: (state, action) => {
+      state.modals.renameProject = action.payload
+      state.renameProjectModalShowing = true
+    },
+    closeRenameProjectModal: (state) => {
+      state.modals.renameProject = null
+      state.renameProjectModalShowing = false
     }
   },
   extraReducers: (builder) => {
@@ -235,9 +244,13 @@ export const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload.autosave
       state.saving = 'success'
       state.lastSavedTime = Date.now()
-      state.project.image_list = state.project.image_list || []
 
-      if (state.project.identifier !== action.payload.project.identifier) {
+      if (state.renameProjectModalShowing){
+        state.modals.renameProject = null
+        state.renameProjectModalShowing = false
+        state.projectListLoaded = false
+      } else if (state.project.identifier !== action.payload.project.identifier) {
+        state.project.image_list = state.project.image_list || []
         state.project = action.payload.project
         state.loading = 'idle'
       }
@@ -330,6 +343,8 @@ export const {
   closeNotFoundModal,
   showRenameFileModal,
   closeRenameFileModal,
+  showRenameProjectModal,
+  closeRenameProjectModal,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

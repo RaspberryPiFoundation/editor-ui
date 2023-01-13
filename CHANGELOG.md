@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Plausible event tracking for left hand file pane (#325)
 - Last updated field added to the projects table (#319)
 - Message for empty state on projects (#327)
+- Rename project action on project index page (#324)
+- Context menu for project index page actions on mobile (#324)
 
 ### Changed
 

@@ -212,6 +212,37 @@ describe('When project has an identifier', () => {
   })
 })
 
+describe('When renaming a project from the rename project modal', () => {
+  let project = { name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {renameProject: project},
+      renameProjectModalShowing: true,
+      projectListLoaded: true
+    },
+    auth: {user: {access_token}}
+  }
+
+  let saveThunk
+
+  beforeEach(() => {
+    saveThunk= syncProject('save')
+  })
+
+  test('The saveProject/fulfilled action closes rename project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      saving: 'success',
+      modals: { renameProject: null },
+      renameProjectModalShowing: false,
+      projectListLoaded: false
+    }
+    expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
+  })
+})
+
 describe('When requesting a project', () => {
   const dispatch = jest.fn()
   const project = {

@@ -10,6 +10,9 @@ import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
 import { PlusIcon } from '../../Icons';
+import RenameProjectModal from '../Modals/RenameProjectModal';
+import { showRenamedMessage } from '../../utils/Notifications';
+import { useEffect } from 'react';
 
 const ProjectIndex = (props) => {
   const history = useHistory();
@@ -19,6 +22,14 @@ const ProjectIndex = (props) => {
   useRequiresUser(isLoading, user);
   useProjectList(user);
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
+  const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
+  const saving = useSelector((state) => state.editor.saving)
+
+  useEffect(() => {
+    if (saving === 'success') {
+      showRenamedMessage()
+    }
+  }, [saving])
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
@@ -39,6 +50,7 @@ const ProjectIndex = (props) => {
         />
       </ProjectIndexHeader>
       { projectListLoaded === true ? <ProjectListTable /> : <p>{t('projectList.loading')}...</p> }
+      { renameProjectModalShowing ? <RenameProjectModal /> : null }
     </>
   );
 };

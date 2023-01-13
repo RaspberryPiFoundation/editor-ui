@@ -11,9 +11,8 @@ $small-table-grid: 600px;
     grid-column: span 8;
     grid-template-columns: repeat(8, 1fr);
 
-    @include unique-width($medium-table-grid) {
-      grid-column: span 9;
-      grid-template-columns: repeat(9, 1fr);
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 11;
     }
   }
 
@@ -25,7 +24,7 @@ $small-table-grid: 600px;
     padding: var(--spacing-1) 0;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 8;
+      grid-column: span 7;
     }
 
     @include unique-max-width($small-table-grid) {
@@ -63,8 +62,30 @@ $small-table-grid: 600px;
 
   &__actions {
     display: grid;
-    grid-column: span 3;
+    grid-column: span 4;
     grid-template-columns: repeat(3, 1fr);
+
+    span {
+      display: none;
+    }
+
+    @include unique-width($medium-table-grid) {
+      span {
+        display: grid;
+      }
+    }
+
+    @include unique-max-width($small-table-grid) {
+      display: none;
+    }
+  }
+
+  &__menu {
+    display: none;
+    @include unique-max-width($small-table-grid) {
+      display: block;
+      grid-column: span 1;
+    }
   }
 
   &__title,
