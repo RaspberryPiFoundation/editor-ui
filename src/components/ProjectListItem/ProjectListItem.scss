@@ -16,6 +16,11 @@ $small-table-grid: 600px;
       grid-template-columns: repeat(8, 1fr)
     }
 
+    @include unique-width($medium-table-grid) {
+      grid-column: span 8;
+      grid-template-columns: repeat(8, 1fr)
+    }
+
     @include unique-max-width($small-table-grid) {
       grid-column: span 11;
     }

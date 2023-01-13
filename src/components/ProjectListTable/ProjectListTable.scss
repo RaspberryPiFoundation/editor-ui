@@ -44,15 +44,7 @@ $small-table-grid: 600px;
     grid-column: span 8;
 
     @include unique-width($medium-table-grid) {
-<<<<<<< HEAD
-      grid-column: span 7;
-=======
-<<<<<<< Updated upstream
-      grid-column: span 8;
-=======
       grid-column: span 6;
->>>>>>> Stashed changes
->>>>>>> 8e7ac27 (Delete project action)
     }
   }
 
@@ -60,15 +52,7 @@ $small-table-grid: 600px;
     grid-column: span 4;
 
     @include unique-width($medium-table-grid) {
-<<<<<<< HEAD
-      grid-column: span 5;
-=======
-<<<<<<< Updated upstream
-      grid-column: span 4;
-=======
       grid-column: span 6;
->>>>>>> Stashed changes
->>>>>>> 8e7ac27 (Delete project action)
     }
   }
 
