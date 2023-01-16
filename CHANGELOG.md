@@ -27,9 +27,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Make sure button text is always centered (#328)
 - Make theme and font size persist across all pages of the app (#329)
 - Make dismissing the Beta banner persist across all pages of the app (#329)
+- Touch area of icon-only buttons (#330, #336)
 - Delete project action on project index page (#330)
 - Refactored project list loading to allow loading states to be shown (#330)
-- Touch area of icon-only buttons (#330)
 - Removed unneeded scrollbars on the editor and output panels (#331)
 - Make Your projects page background extend below the fold (#334)
 
