@@ -66,6 +66,7 @@ input {
 
 #app {
   height: 100vh;
+  overflow: auto;
   min-height: fit-content;
   display: flex;
   flex-flow: column;
