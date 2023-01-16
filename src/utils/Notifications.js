@@ -42,6 +42,13 @@ export const showSavedMessage = () => {
   });
 }
 
+export const showRenamedMessage = () => {
+  toast(i18n.t('notifications.projectRenamed'), {
+    ...bottomCenterSettings,
+    icon: TickIcon
+  })
+}
+
 export const showRemixedMessage = () => {
   toast(i18n.t('notifications.projectRemixed'), {
     ...bottomCenterSettings,

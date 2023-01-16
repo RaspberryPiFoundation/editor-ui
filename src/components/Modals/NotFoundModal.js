@@ -37,9 +37,7 @@ const NotFoundModal = () => {
       >
         <div className='modal-content__header'>
           <h2 className='modal-content__heading'>{t('project.notFoundModal.heading')}</h2>
-          <button onClick={closeModal}>
-            <CloseIcon/>
-          </button>
+          <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
         </div>
         <p className='modal-content__text'>{t('project.notFoundModal.text')}</p>
 

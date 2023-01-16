@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createOrUpdateProject, readProject, createRemix } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, readProject, createRemix, deleteProject, readProjectList } from '../../utils/apiCallHandler';
 
 export const syncProject = (actionName) => createAsyncThunk(
   `editor/${actionName}Project`,
@@ -14,6 +14,9 @@ export const syncProject = (actionName) => createAsyncThunk(
         break
       case 'save':
         response = await createOrUpdateProject(project, accessToken)
+        break
+      case 'delete':
+        response = await deleteProject(identifier, accessToken)
         break
       default:
         rejectWithValue({ error: 'no such sync action' })
@@ -41,6 +44,14 @@ export const syncProject = (actionName) => createAsyncThunk(
   }
 )
 
+export const loadProjectList = createAsyncThunk(
+  `editor/loadProjectList`,
+  async (accessToken) => {
+    const response = await readProjectList(accessToken)
+    return response.data
+  }
+)
+
 export const EditorSlice = createSlice({
   name: 'editor',
   initialState: {
@@ -61,7 +72,7 @@ export const EditorSlice = createSlice({
     isSplitView: true,
     codeRunStopped: false,
     projectList: [],
-    projectListLoaded: false,
+    projectListLoaded: 'idle',
     autosaveEnabled: false,
     lastSaveAutosave: false,
     lastSavedTime: null,
@@ -73,6 +84,8 @@ export const EditorSlice = createSlice({
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
     renameFileModalShowing: false,
+    renameProjectModalShowing: false,
+    deleteProjectModalShowing: false,
     modals: {},
   },
   reducers: {
@@ -122,9 +135,6 @@ export const EditorSlice = createSlice({
         state.openFiles.push('main.py')
       }
       state.justLoaded = true
-    },
-    setProjectLoaded: (state, action) => {
-      state.loading = action.payload;
     },
     expireJustLoaded: (state) => {
       state.justLoaded = false
@@ -189,12 +199,6 @@ export const EditorSlice = createSlice({
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
-    setProjectList: (state, action) => {
-      state.projectList = action.payload;
-    },
-    setProjectListLoaded: (state, action) => {
-      state.projectListLoaded = action.payload;
-    },
     closeAccessDeniedNoAuthModal: (state) => {
       state.accessDeniedNoAuthModalShowing = false
       state.modals = {}
@@ -224,7 +228,23 @@ export const EditorSlice = createSlice({
     },
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false
-    }
+    },
+    showRenameProjectModal: (state, action) => {
+      state.modals.renameProject = action.payload
+      state.renameProjectModalShowing = true
+    },
+    closeRenameProjectModal: (state) => {
+      state.modals.renameProject = null
+      state.renameProjectModalShowing = false
+    },
+    showDeleteProjectModal: (state, action) => {
+      state.modals.deleteProject = action.payload
+      state.deleteProjectModalShowing = true
+    },
+    closeDeleteProjectModal: (state) => {
+      state.modals.deleteProject = null
+      state.deleteProjectModalShowing = false
+    },
   },
   extraReducers: (builder) => {
     builder.addCase('editor/saveProject/pending', (state) => {
@@ -235,9 +255,13 @@ export const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload.autosave
       state.saving = 'success'
       state.lastSavedTime = Date.now()
-      state.project.image_list = state.project.image_list || []
 
-      if (state.project.identifier !== action.payload.project.identifier) {
+      if (state.renameProjectModalShowing){
+        state.modals.renameProject = null
+        state.renameProjectModalShowing = false
+        state.projectListLoaded = 'idle'
+      } else if (state.project.identifier !== action.payload.project.identifier) {
+        state.project.image_list = state.project.image_list || []
         state.project = action.payload.project
         state.loading = 'idle'
       }
@@ -269,7 +293,6 @@ export const EditorSlice = createSlice({
         }
       }
     })
-
     builder.addCase('editor/loadProject/rejected', (state, action) => {
       if (state.loading === 'pending' && state.currentLoadingRequestId === action.meta.requestId) {
         state.loading = 'failed'
@@ -290,6 +313,21 @@ export const EditorSlice = createSlice({
         state.currentLoadingRequestId = undefined
       }
     })
+    builder.addCase('editor/deleteProject/fulfilled', (state) => {
+      state.projectListLoaded = 'idle'
+      state.modals.deleteProject = null
+      state.deleteProjectModalShowing = false
+    })
+    builder.addCase('editor/loadProjectList/pending', (state) => {
+      state.projectListLoaded = 'pending'
+    })
+    builder.addCase('editor/loadProjectList/fulfilled', (state, action) => {
+      state.projectListLoaded = 'success'
+      state.projectList = action.payload
+    })
+    builder.addCase('editor/loadProjectList/rejected', (state) => {
+      state.projectListLoaded = 'failed'
+    })
   }
 })
 
@@ -308,9 +346,6 @@ export const {
   setNameError,
   setHasShownSavePrompt,
   setProject,
-  setProjectList,
-  setProjectListLoaded,
-  setProjectLoaded,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   stopCodeRun,
@@ -330,6 +365,10 @@ export const {
   closeNotFoundModal,
   showRenameFileModal,
   closeRenameFileModal,
+  showRenameProjectModal,
+  closeRenameProjectModal,
+  showDeleteProjectModal,
+  closeDeleteProjectModal,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

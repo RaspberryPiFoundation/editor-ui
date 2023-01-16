@@ -1,4 +1,4 @@
-import { createOrUpdateProject, createRemix, readProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, createRemix, deleteProject, readProject, readProjectList } from '../../utils/apiCallHandler';
 
 import reducer, {
   syncProject,
@@ -9,6 +9,7 @@ import reducer, {
   closeFile,
   setFocussedFileIndex,
   updateComponentName,
+  loadProjectList,
 } from "./EditorSlice";
 
 jest.mock('../../utils/apiCallHandler')
@@ -212,6 +213,81 @@ describe('When project has an identifier', () => {
   })
 })
 
+describe('When renaming a project from the rename project modal', () => {
+  let project = { name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {renameProject: project},
+      renameProjectModalShowing: true,
+      projectListLoaded: 'success'
+    },
+    auth: {user: {access_token}}
+  }
+
+  let saveThunk
+
+  beforeEach(() => {
+    saveThunk= syncProject('save')
+  })
+
+  test('The saveProject/fulfilled action closes rename project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      saving: 'success',
+      modals: { renameProject: null },
+      renameProjectModalShowing: false,
+      projectListLoaded: 'idle'
+    }
+    expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
+  })
+})
+
+describe('When deleting a project', () => {
+  const dispatch = jest.fn()
+  let project = { identifier: 'my-amazing-project', name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {deleteProject: project},
+      deleteProjectModalShowing: true,
+      projectListLoaded: 'success'
+    },
+    auth: {user: {access_token}}
+  }
+
+  let deleteThunk
+  let deleteAction
+
+  beforeEach(() => {
+    deleteThunk = syncProject('delete')
+    deleteAction = deleteThunk({ identifier: project.identifier, accessToken: access_token })
+  })
+
+  test('Deleting a project triggers deleteProject API call', async () => {
+    await deleteAction(dispatch, () => initialState)
+    expect(deleteProject).toHaveBeenCalledWith(project.identifier, access_token)
+  })
+
+  test('Successfully deleting project triggers fulfilled action', async () => {
+    deleteProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await deleteAction(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/deleteProject/fulfilled')
+  })
+
+  test('The deleteProject/fulfilled action closes delete project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      modals: { deleteProject: null },
+      deleteProjectModalShowing: false,
+      projectListLoaded: 'idle'
+    }
+    expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(expectedState)
+  })
+})
+
 describe('When requesting a project', () => {
   const dispatch = jest.fn()
   const project = {
@@ -316,6 +392,42 @@ describe('When requesting a project', () => {
       loading: 'success'
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
+  })
+})
+
+describe('When requesting project list', () => {
+  const dispatch = jest.fn()
+  const projects = [
+    { name: 'project1' },
+    { name: 'project2' }
+  ]
+  const initialState = {
+    projectList: [],
+    projectListLoaded: 'pending'
+  }
+  let loadProjectListThunk
+
+  beforeEach(() => {
+    loadProjectListThunk = loadProjectList('access_token')
+  })
+
+  test('Loading project list triggers loadProjectList API call', async () => {
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(readProjectList).toHaveBeenCalledWith('access_token')
+  })
+
+  test('Successfully loading project list triggers fulfilled action', async () => {
+    readProjectList.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/loadProjectList/fulfilled')
+  })
+
+  test('The loadProjectList/fulfilled action sets the projectList', () => {
+    const expectedState = {
+      projectList: projects,
+      projectListLoaded: 'success'
+    }
+    expect(reducer(initialState, loadProjectList.fulfilled(projects))).toEqual(expectedState)
   })
 })
 

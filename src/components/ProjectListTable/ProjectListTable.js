@@ -6,7 +6,6 @@ import './ProjectListTable.scss'
 const ProjectListTable = () => {
   const { t } = useTranslation();
   let projectList = useSelector((state) => state.editor.projectList);
-  const user = useSelector((state) => state.auth.user);
   const projectSortList = [...projectList];
 
   projectList = projectSortList.sort((x, y) => {
@@ -23,7 +22,7 @@ const ProjectListTable = () => {
               <h4 className='editor-project-list__heading'>{t('projectList.updated')}</h4>
             </div>
             { projectList.map((project, i) => (
-                <ProjectListItem project={project} user={user} key={i}/>
+                <ProjectListItem project={project} key={i}/>
               )
             )}
           </>

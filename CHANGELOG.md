@@ -13,16 +13,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Plausible event tracking for left hand file pane (#325)
 - Last updated field added to the projects table (#319)
 - Message for empty state on projects (#327)
+- Rename project action on project index page (#324)
+- Context menu for project index page actions on mobile (#324)
+- Danger button styling (#330)
 
 ### Changed
 
 - Change port number to fix 'no consent token' error (#326)
 - Long file names truncated rather than scrolling in left hand file pane (#316)
+- Delete project action on project index page (#330)
+- Refactored project list loading to allow loading states to be shown (#330)
 
 ### Fixed
 - Make sure button text is always centered (#328)
 - Make theme and font size persist across all pages of the app (#329)
 - Make dismissing the Beta banner persist across all pages of the app (#329)
+- Touch area of icon-only buttons (#330)
 
 ## [0.10.0] - 2023-01-06
 
