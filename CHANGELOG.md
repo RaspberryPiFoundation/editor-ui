@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Refactored project list loading to allow loading states to be shown (#330)
 - Touch area of icon-only buttons (#330)
 - Removed unneeded scrollbars on the editor and output panels (#331)
+- Make Your projects page background extend below the fold (#334)
 
 ## [0.10.0] - 2023-01-06
 
