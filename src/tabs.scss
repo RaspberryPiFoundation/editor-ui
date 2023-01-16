@@ -14,6 +14,7 @@ $spacing-four: calc($spacing-eight / 2);
 
     &__tab-inner {
       @extend .btn;
+      @extend .btn--small;
       @extend .btn--secondary;
 
       border: 3px solid transparent;
