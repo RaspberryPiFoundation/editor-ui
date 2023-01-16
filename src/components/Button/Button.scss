@@ -129,6 +129,11 @@
     }
   }
 
+  &--small {
+    min-height: unset;
+    min-width: unset;
+  }
+
   &--svg-only {
     svg {
       margin: 0;
