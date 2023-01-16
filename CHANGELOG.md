@@ -26,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Make sure button text is always centered (#328)
-- Touch area of icon-only buttons (#330)
+- Touch area of icon-only buttons (#330, #336)
 
 ## [0.10.0] - 2023-01-06
 
