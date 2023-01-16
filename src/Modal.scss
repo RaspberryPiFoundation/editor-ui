@@ -37,6 +37,7 @@
 .modal-content__header {
   display: flex;
   align-items: center;
+  margin-bottom: calc(1.5 * var(--spacing-1));
 
   button {
     margin-left: auto;
@@ -46,8 +47,7 @@
 }
 
 .modal-content__heading {
-  margin-top: var(--spacing-half);
-  margin-bottom: var(--spacing-2);
+  margin: var(--spacing-half) 0;
   font-size: var(--font-size-u-2)
 }
 
