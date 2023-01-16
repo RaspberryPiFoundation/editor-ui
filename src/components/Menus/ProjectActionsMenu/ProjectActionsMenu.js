@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { EllipsisVerticalIcon, PencilIcon } from "../../../Icons";
-import { showRenameProjectModal } from "../../Editor/EditorSlice";
+import { BinIcon, EllipsisVerticalIcon, PencilIcon } from "../../../Icons";
+import { showDeleteProjectModal, showRenameProjectModal } from "../../Editor/EditorSlice";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
 const ProjectActionsMenu = (props) => {
@@ -12,6 +12,10 @@ const ProjectActionsMenu = (props) => {
 
   const openRenameProjectModal = () => {
     dispatch(showRenameProjectModal(project))
+  }
+
+  const openDeleteProjectModal = () => {
+    dispatch(showDeleteProjectModal(project))
   }
 
   return (
@@ -25,6 +29,11 @@ const ProjectActionsMenu = (props) => {
           icon: PencilIcon,
           text: t('projectList.rename'),
           action: openRenameProjectModal
+        },
+        {
+          icon: BinIcon,
+          text: t('projectList.delete'),
+          action: openDeleteProjectModal
         }
       ]}
       offsetX={-10}

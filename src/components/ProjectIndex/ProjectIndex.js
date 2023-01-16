@@ -13,6 +13,7 @@ import { PlusIcon } from '../../Icons';
 import RenameProjectModal from '../Modals/RenameProjectModal';
 import { showRenamedMessage } from '../../utils/Notifications';
 import { useEffect } from 'react';
+import DeleteProjectModal from '../Modals/DeleteProjectModal';
 
 const ProjectIndex = (props) => {
   const history = useHistory();
@@ -23,6 +24,7 @@ const ProjectIndex = (props) => {
   useProjectList(user);
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
   const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
+  const deleteProjectModalShowing = useSelector((state) => state.editor.deleteProjectModalShowing)
   const saving = useSelector((state) => state.editor.saving)
 
   useEffect(() => {
@@ -49,8 +51,11 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      { projectListLoaded === true ? <ProjectListTable /> : <p>{t('projectList.loading')}...</p> }
+      { projectListLoaded === 'success' ? <ProjectListTable /> :
+        projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}</p> :
+        <p>{t('projectList.loading')}</p> }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }
+      { deleteProjectModalShowing ? <DeleteProjectModal /> : null }
     </>
   );
 };

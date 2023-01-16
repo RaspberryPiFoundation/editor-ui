@@ -173,8 +173,16 @@ i18n
             text: 'Select a project to edit, view and open to continue coding.'
           },
           projectList: {
+            delete: 'Delete',
+            deleteProjectModal: {
+              cancel: 'Cancel',
+              delete: 'Delete',
+              heading: 'Delete project',
+              text: 'Are you sure you want to delete your project \'{{name}}\'?'
+            },
             empty: 'No projects created yet',
             loading: 'Loading',
+            loadingFailed: 'Failed to load projects',
             name: 'Project name',
             rename: 'Rename',
             renameProjectModal: {

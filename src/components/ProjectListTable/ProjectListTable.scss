@@ -41,18 +41,18 @@ $small-table-grid: 600px;
   }
 
   &__heading:first-of-type {
-    grid-column: span 6;
+    grid-column: span 8;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 7;
+      grid-column: span 6;
     }
   }
 
   &__heading:last-of-type {
-    grid-column: span 6;
+    grid-column: span 4;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 5;
+      grid-column: span 6;
     }
   }
 
