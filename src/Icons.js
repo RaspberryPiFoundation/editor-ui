@@ -1,6 +1,15 @@
 import React from 'react';
 import { useUserFont } from './hooks/useUserFont';
 
+export const BinIcon = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.16659 15.5V3H0.333252V1.33333H4.49992V0.5H9.49992V1.33333H13.6666V3H12.8333V15.5H1.16659ZM2.83325 13.8333H11.1666V3H2.83325V13.8333ZM4.49992 12.1667H6.16658V4.66667H4.49992V12.1667ZM7.83325 12.1667H9.49992V4.66667H7.83325V12.1667ZM2.83325 3V13.8333V3Z"/>
+    </svg>
+  )
+}
+
 export const ChevronDown = () => {
   const scale = useUserFont()
   return (

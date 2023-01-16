@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Message for empty state on projects (#327)
 - Rename project action on project index page (#324)
 - Context menu for project index page actions on mobile (#324)
+- Danger button styling (#330)
 
 ### Changed
 
@@ -24,6 +25,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Make sure button text is always centered (#328)
+- Delete project action on project index page (#330)
+- Refactored project list loading to allow loading states to be shown (#330)
+- Touch area of icon-only buttons (#330)
 - Removed unneeded scrollbars on the editor and output panels (#331)
 
 ## [0.10.0] - 2023-01-06
