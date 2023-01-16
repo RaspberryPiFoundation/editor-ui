@@ -9,7 +9,8 @@
 }
 
 .pythonrunner-console {
-  margin: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
+  margin: 0;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
