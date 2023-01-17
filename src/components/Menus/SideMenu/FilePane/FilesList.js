@@ -25,7 +25,9 @@ const FilesList = (props) => {
       <div className='files-list'>
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i} onClick={() => openFileTab(`${file.name}.${file.extension}`)}>
-          <FileIcon />
+          <div className='files-list-icon'>
+            <FileIcon />
+          </div>
           <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           {(file.name === 'main' && file.extension === 'py') ? null :
             <div className='files-list-item__menu'>
