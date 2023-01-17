@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { ChevronLeft, ChevronRight, DoubleChevronLeft, DoubleChevronRight } from "../../Icons";
+import './ProjectIndexPagination.scss'
 
 const ProjectIndexPagination = (props) => {
   const {currentPage} = props
