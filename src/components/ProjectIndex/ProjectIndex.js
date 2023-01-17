@@ -12,16 +12,19 @@ import { defaultPythonProject } from '../../utils/defaultProjects'
 import { PlusIcon } from '../../Icons';
 import RenameProjectModal from '../Modals/RenameProjectModal';
 import { showRenamedMessage } from '../../utils/Notifications';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
+import ProjectIndexPagination from './ProjectIndexPagination';
 
 const ProjectIndex = (props) => {
   const history = useHistory();
   const { isLoading, user } = props;
   const { t } = useTranslation();
+  const queryParams = new URLSearchParams(window.location.search)
+  const [page] = useState(parseInt(queryParams.get('page')) || 1)
 
   useRequiresUser(isLoading, user);
-  useProjectList(user);
+  useProjectList(page, user);
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
   const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
   const deleteProjectModalShowing = useSelector((state) => state.editor.deleteProjectModalShowing)
@@ -51,7 +54,12 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      { projectListLoaded === 'success' ? <ProjectListTable /> :
+      { projectListLoaded === 'success' ?
+        <>
+          <ProjectListTable />
+          <ProjectIndexPagination currentPage={page}/>
+        </>
+        :
         projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}</p> :
         <p>{t('projectList.loading')}</p> }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }

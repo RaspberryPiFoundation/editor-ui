@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { loadProjectList } from '../EditorSlice'
 
-export const useProjectList = (user) => {
+export const useProjectList = (page, user) => {
   const dispatch = useDispatch();
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
 
@@ -11,7 +11,7 @@ export const useProjectList = (user) => {
     if(!user || projectListLoaded === 'success') {
       return;
     }
-    dispatch(loadProjectList(user.access_token));
+    dispatch(loadProjectList({page, accessToken: user.access_token}));
   }, [user, projectListLoaded]);
 };
 

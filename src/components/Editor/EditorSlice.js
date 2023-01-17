@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import parseLinkHeader from 'parse-link-header';
 import { createOrUpdateProject, readProject, createRemix, deleteProject, readProjectList } from '../../utils/apiCallHandler';
 
 export const syncProject = (actionName) => createAsyncThunk(
@@ -46,9 +47,10 @@ export const syncProject = (actionName) => createAsyncThunk(
 
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
-  async (accessToken) => {
-    const response = await readProjectList(accessToken)
-    return response.data
+  async ({page, accessToken}) => {
+    console.log(`Loading projects page ${page} for user ${accessToken}`)
+    const response = await readProjectList(page, accessToken)
+    return {projects: response.data, links: parseLinkHeader(response.headers.link)}
   }
 )
 
@@ -73,6 +75,7 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: 'idle',
+    projectIndexLinks: {},
     autosaveEnabled: false,
     lastSaveAutosave: false,
     lastSavedTime: null,
@@ -323,7 +326,8 @@ export const EditorSlice = createSlice({
     })
     builder.addCase('editor/loadProjectList/fulfilled', (state, action) => {
       state.projectListLoaded = 'success'
-      state.projectList = action.payload
+      state.projectList = action.payload.projects
+      state.projectIndexLinks = action.payload.links
     })
     builder.addCase('editor/loadProjectList/rejected', (state) => {
       state.projectListLoaded = 'failed'
