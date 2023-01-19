@@ -10,21 +10,25 @@ const ProjectIndexPagination = (props) => {
 
   return (
     <div className='editor-project-list-pagination'>
-      { currentPage > 1 ? 
-        <>
-          <a className='btn btn--tertiary' href = '/projects?page=1'><DoubleChevronLeft/></a>
-          <a className='btn btn--primary' href = {`/projects?page=${currentPage-1}`}><ChevronLeft/></a>
-        </>
-        : null
-      }
-      <span>{currentPage}/{totalPages}</span>
-      { currentPage < totalPages ? 
-        <>
-          <a className='btn btn--primary' href = {`/projects?page=${currentPage+1}`}><ChevronRight/></a>
-          <a className='btn btn--tertiary' href = {`/projects?page=${totalPages}`}><DoubleChevronRight/></a>
-        </>
-        : null
-      }
+      <div className='editor-project-pagination__buttons'>
+        { currentPage > 1 ? 
+          <>
+            <a className='btn btn--tertiary' href = '/projects?page=1'><DoubleChevronLeft/></a>
+            <a className='btn btn--primary' href = {`/projects?page=${currentPage-1}`}><ChevronLeft/></a>
+          </>
+          : null
+        }
+      </div>
+      <span className='editor-project-list-pagination__current-page'>{currentPage} / {totalPages}</span>
+      <div className='editor-project-pagination__buttons'>
+        { currentPage < totalPages ? 
+          <>
+            <a className='btn btn--primary' href = {`/projects?page=${currentPage+1}`}><ChevronRight/></a>
+            <a className='btn btn--tertiary' href = {`/projects?page=${totalPages}`}><DoubleChevronRight/></a>
+          </>
+          : null
+        }
+      </div>
     </div>
   )
 }
