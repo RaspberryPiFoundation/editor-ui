@@ -6,7 +6,7 @@ import './ProjectIndexPagination.scss'
 const ProjectIndexPagination = (props) => {
   const {currentPage} = props
   const links = useSelector((state) => state.editor.projectIndexLinks)
-  const totalPages = links.last ? links.last.page : currentPage
+  const totalPages = links && links.last ? links.last.page : currentPage
 
   return (
     <div className='editor-project-list-pagination'>
