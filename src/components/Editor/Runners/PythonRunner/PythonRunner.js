@@ -261,7 +261,7 @@ const PythonRunner = () => {
         },
     ).catch(err => {
 
-      if (err.message !== 'Execution interrupted') {
+      if (err.message !== t('output.errors.interrupted')) {
         const errorType = err.tp$name || err.constructor.name
         const errorDetails = (err.tp$str && err.tp$str().v) || err.message
         Sentry.captureMessage(`${errorType}: ${errorDetails}`)
@@ -278,6 +278,7 @@ const PythonRunner = () => {
       }
     }).finally(()=>{
       dispatch(codeRunHandled());
+      console.log('Code run finished!')
     });
     myPromise.then(function (_mod) {
     });

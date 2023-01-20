@@ -1422,6 +1422,7 @@ const $builtinmodule = function (name) {
   //  //////////////////////////////////////////////////////////////////////
   _run = function (frame_rate) {
     const sketchProc = (sketch) => {
+      console.log('starting the sketch proc')
       const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "window_resized": "windowResized", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped", "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted", "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
 
       mod.pInst = sketch;
@@ -1449,11 +1450,17 @@ const $builtinmodule = function (name) {
       sketch.draw = function () {
         Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
         if (Sk.globals["draw"]) {
-          try {
+          // try {
+            console.log('calling the draw function')
             Sk.misceval.callsimArray(Sk.globals["draw"]);
-          } catch(e) {
-            Sk.uncaughtException(e);
-          }
+          // } catch(e) {
+          //   console.log(e)
+          //   // throw e
+          //   Sk.uncaughtException(e);
+
+          //   // throw new Sk.builtin.Exception(e)
+          //   // throw new Error(e.args.v[0].message)
+          // }
         }
       };
 
@@ -1469,7 +1476,30 @@ const $builtinmodule = function (name) {
     }
 
     const p5Sketch = document.getElementById(Sk.p5.sketch);
+    window.p5._friendlyError = function(message, func, color) {
+      
+      console.log('ERROR!!!');
+      console.log(message)
+      console.log(func)
+      console.log(color)
+      throw new Sk.builtin.Exception(message)
+    };
     mod.p = new window.p5(sketchProc, p5Sketch);
+
+    const timer = ms => new Promise(res => setTimeout(res, ms))
+
+    //throw new Sk.builtin.Exception("blah");
+
+    
+
+    async function load() { // We need to wrap the loop into an async function for this to work
+      while(1){
+        console.log("hi");
+        await timer(3000); // then the created Promise can be awaited
+      }
+    }
+
+    load();
   };
 
   _run.co_varnames = ['frame_rate'];
