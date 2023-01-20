@@ -1476,14 +1476,10 @@ const $builtinmodule = function (name) {
     const p5Sketch = document.getElementById(Sk.p5.sketch);
 
     window.p5._friendlyError = function (message, func, color) {
-      console.log('ERROR!!!');
       throw new Sk.builtin.Exception(message)
     };
 
-
     mod.p = new window.p5(sketchProc, p5Sketch);
-
-    
   
   };
 
@@ -1596,11 +1592,6 @@ const $builtinmodule = function (name) {
   mod.loadPixels = new Sk.builtin.func(function () {
     mod.pInst.loadPixels();
   });
-
-
-
-
-
 
   // Image class and functions
   imageClass = function ($gbl, $loc) {

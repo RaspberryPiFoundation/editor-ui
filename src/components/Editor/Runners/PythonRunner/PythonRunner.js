@@ -237,19 +237,13 @@ const PythonRunner = () => {
 
 
   function handle_exception(err) {
-    //var Sk = this;
-    //var error_message = err.args.v[0].$mangled
+
     const lineno = err.traceback[0].lineno
-    //var colno = error.traceback[0].colno
-   // Sk.output("Error: " + error_message + " on line " + lineno)
-    //dispatch(setError("Error: " + error_message + " on line " + lineno));
-    //dispatch(stopDraw());
 
     const errorType = err.tp$name || err.constructor.name
     let error_message = (err.tp$str && err.tp$str().v) || err.message
 
     if (err.message !== 'Execution interrupted') {
-      //const errorType = err.tp$name || err.constructor.name
       Sentry.captureMessage(`${errorType}: ${error_message}`)
     }
 
@@ -269,13 +263,6 @@ const PythonRunner = () => {
       input.removeAttribute("contentEditable")
     }
   }
-
-
-  /*window.addEventListener("log", (event) => {
-    log.textContent = `${log.textContent}${event.type}: ${event.message}\n`;
-    //console.log(event);
-    Sk.output("Error: ")
-  });*/
 
   const runCode = () => {
     // clear previous output
@@ -304,8 +291,6 @@ const PythonRunner = () => {
         },
     ).catch(err => {
 
-      console.log("errr")
-
       if (err.message !== 'Execution interrupted') {
         const errorType = err.tp$name || err.constructor.name
         const errorDetails = (err.tp$str && err.tp$str().v) || err.message
@@ -322,15 +307,11 @@ const PythonRunner = () => {
         input.removeAttribute("contentEditable")
       }
     }).finally(()=>{
-      console.log("FINALLY")
       dispatch(codeRunHandled());
     });
 
     myPromise.then(function (_mod) {
-      console.log("FINISH")
     })
-
-    //await myPromise
   }
 
   function shiftFocusToInput(e) {
