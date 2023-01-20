@@ -235,6 +235,48 @@ const PythonRunner = () => {
     })
   }
 
+
+  function handle_exception(err) {
+    //var Sk = this;
+    //var error_message = err.args.v[0].$mangled
+    const lineno = err.traceback[0].lineno
+    //var colno = error.traceback[0].colno
+   // Sk.output("Error: " + error_message + " on line " + lineno)
+    //dispatch(setError("Error: " + error_message + " on line " + lineno));
+    //dispatch(stopDraw());
+
+    const errorType = err.tp$name || err.constructor.name
+    let error_message = (err.tp$str && err.tp$str().v) || err.message
+
+    if (err.message !== 'Execution interrupted') {
+      //const errorType = err.tp$name || err.constructor.name
+      Sentry.captureMessage(`${errorType}: ${error_message}`)
+    }
+
+    if(error_message.endsWith(".")){
+      error_message = error_message.substring(0, error_message.length - 1)
+    }
+
+
+    const message = err.message ||
+      `${errorType}: ${error_message} on line ${lineno} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
+
+    dispatch(setError(message.replace(/\[(.*?)\]/, "")));
+    dispatch(stopDraw());
+    if (getInput()) {
+      const input = getInput()
+      input.removeAttribute("id")
+      input.removeAttribute("contentEditable")
+    }
+  }
+
+
+  /*window.addEventListener("log", (event) => {
+    log.textContent = `${log.textContent}${event.type}: ${event.message}\n`;
+    //console.log(event);
+    Sk.output("Error: ")
+  });*/
+
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
@@ -248,7 +290,8 @@ const PythonRunner = () => {
       output: outf,
       read: builtinRead,
       debugging: true,
-      inputTakesPrompt: true
+      inputTakesPrompt: true,
+      uncaughtException: handle_exception
     });
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
@@ -260,6 +303,8 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
+
+      console.log("errr")
 
       if (err.message !== 'Execution interrupted') {
         const errorType = err.tp$name || err.constructor.name
@@ -277,10 +322,15 @@ const PythonRunner = () => {
         input.removeAttribute("contentEditable")
       }
     }).finally(()=>{
+      console.log("FINALLY")
       dispatch(codeRunHandled());
     });
+
     myPromise.then(function (_mod) {
-    });
+      console.log("FINISH")
+    })
+
+    //await myPromise
   }
 
   function shiftFocusToInput(e) {

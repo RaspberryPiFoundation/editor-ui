@@ -318,6 +318,7 @@ const $builtinmodule = function (name) {
   // Shape
   // =====
 
+
   // 2D Primitives
   mod.arc = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
@@ -350,7 +351,11 @@ const $builtinmodule = function (name) {
 
   mod.rect = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    mod.pInst.rect(...argVals);
+    //try {
+      mod.pInst.rect(...argVals);
+    //} catch (e) { 
+      //throw new Sk.builtin.Exception("blahhhhhh");
+    //}
   });
 
   mod.square = new Sk.builtin.func(function () {
@@ -1469,7 +1474,17 @@ const $builtinmodule = function (name) {
     }
 
     const p5Sketch = document.getElementById(Sk.p5.sketch);
+
+    window.p5._friendlyError = function (message, func, color) {
+      console.log('ERROR!!!');
+      throw new Sk.builtin.Exception(message)
+    };
+
+
     mod.p = new window.p5(sketchProc, p5Sketch);
+
+    
+  
   };
 
   _run.co_varnames = ['frame_rate'];
