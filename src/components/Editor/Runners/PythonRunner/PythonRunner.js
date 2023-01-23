@@ -235,7 +235,7 @@ const PythonRunner = () => {
     })
   }
 
-  function handleError(err) {
+  const handleError = (err) => {
     let errorMessage
     if (err.message === t('output.errors.interrupted')) {
       errorMessage = err.message
