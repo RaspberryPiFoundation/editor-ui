@@ -236,26 +236,21 @@ const PythonRunner = () => {
   }
 
 
-  function handle_exception(err) {
+  function handleError(err) {
+    let errorMessage
+    if (err.message === t('output.errors.interrupted')) {
+      errorMessage = err.message
+    } else {
+      const errorDetails = (err.tp$str && err.tp$str().v).replace(/\[(.*?)\]/, "").replace(/\.$/, '')
+      const errorType = err.tp$name || err.constructor.name
+      const lineNumber = err.traceback[0].lineno
+      const fileName = err.traceback[0].filename.replace(/^\.\//, '')
 
-    const lineno = err.traceback[0].lineno
-
-    const errorType = err.tp$name || err.constructor.name
-    let error_message = (err.tp$str && err.tp$str().v) || err.message
-
-    if (err.message !== 'Execution interrupted') {
-      Sentry.captureMessage(`${errorType}: ${error_message}`)
+      Sentry.captureMessage(`${errorType}: ${errorDetails}`)
+      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
     }
 
-    if(error_message.endsWith(".")){
-      error_message = error_message.substring(0, error_message.length - 1)
-    }
-
-
-    const message = err.message ||
-      `${errorType}: ${error_message} on line ${lineno} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
-
-    dispatch(setError(message.replace(/\[(.*?)\]/, "")));
+    dispatch(setError(errorMessage));
     dispatch(stopDraw());
     if (getInput()) {
       const input = getInput()
@@ -278,11 +273,11 @@ const PythonRunner = () => {
       read: builtinRead,
       debugging: true,
       inputTakesPrompt: true,
-      uncaughtException: handle_exception
+      uncaughtException: handleError
     });
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
-        Sk.importMainWithBody("<stdin>", false, prog, true), {
+        Sk.importMainWithBody("main", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
               throw new Error(t('output.errors.interrupted'));
@@ -290,22 +285,7 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
-
-      if (err.message !== 'Execution interrupted') {
-        const errorType = err.tp$name || err.constructor.name
-        const errorDetails = (err.tp$str && err.tp$str().v) || err.message
-        Sentry.captureMessage(`${errorType}: ${errorDetails}`)
-      }
-
-      const message = err.message || 
-        `${err.toString()} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
-      dispatch(setError(message));
-      dispatch(stopDraw());
-      if (getInput()) {
-        const input = getInput()
-        input.removeAttribute("id")
-        input.removeAttribute("contentEditable")
-      }
+      handleError(err)
     }).finally(()=>{
       dispatch(codeRunHandled());
     });
