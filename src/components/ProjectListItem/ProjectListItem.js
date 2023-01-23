@@ -25,7 +25,7 @@ const ProjectListItem = (props) => {
   return (
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
-        <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
+        <a className='editor-project-list__title' href={`/projects/${project.identifier}`}>
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
         </a>
