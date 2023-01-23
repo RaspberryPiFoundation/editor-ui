@@ -351,11 +351,7 @@ const $builtinmodule = function (name) {
 
   mod.rect = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    //try {
-      mod.pInst.rect(...argVals);
-    //} catch (e) { 
-      //throw new Sk.builtin.Exception("blahhhhhh");
-    //}
+    mod.pInst.rect(...argVals);
   });
 
   mod.square = new Sk.builtin.func(function () {
@@ -1478,6 +1474,7 @@ const $builtinmodule = function (name) {
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message)
     };
+    window.p5._clearValidateParamsCache()
 
     mod.p = new window.p5(sketchProc, p5Sketch);
   
