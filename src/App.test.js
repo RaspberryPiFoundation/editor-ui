@@ -1,10 +1,9 @@
 import App from './App';
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import configureStore from 'redux-mock-store';
-import { showSavedMessage } from './utils/Notifications';
 
 jest.mock('./utils/Notifications')
 jest.mock('./components/Editor/EditorSlice', () => {
@@ -229,20 +228,3 @@ describe('Beta banner', () => {
     act(() => cookies.remove('betaBannerDismissed'))
   })
 })
-
-test('Successful manual save prompts project saved message', async () => {
-  const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        saving: 'success',
-        lastSaveAutosave: false
-      },
-      auth: {}
-    }
-    const mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><App/></Provider>);
-    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
-})
-
-// TODO: Write test for successful autosave not prompting the project saved message as per the above

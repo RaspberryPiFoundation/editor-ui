@@ -1,7 +1,7 @@
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
-$medium-table-grid: 900px;
+$medium-table-grid: 990px;
 $small-table-grid: 600px;
 
 .editor-project-list {
@@ -11,15 +11,19 @@ $small-table-grid: 600px;
 
   &__container {
     border-radius: 8px;
-    margin: var(--spacing-3);
-    padding: var(--spacing-1) var(--spacing-2);
-
-    @include unique-width(1670px) {
-      margin: var(--spacing-3) 0;
-    }
+    margin: var(--spacing-2) var(--spacing-3);
+    padding: var(--spacing-1);
 
     @include unique-width($small-table-grid) {
-      padding: 0 var(--spacing-2) var(--spacing-2);
+      padding: var(--spacing-2);
+    }
+
+    @include unique-width(767px) {
+      margin: var(--spacing-4) var(--spacing-5);
+    }
+
+    @include unique-width(1670px) {
+      margin: var(--spacing-4) 0;
     }
 
     .--light & {
@@ -33,21 +37,22 @@ $small-table-grid: 600px;
 
   &__heading {
     font-size: var(--font-size-base);
+    margin-top: var(--spacing-half);
   }
 
   &__heading:first-of-type {
-    grid-column: span 6;
+    grid-column: span 8;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 8;
+      grid-column: span 6;
     }
   }
 
   &__heading:last-of-type {
-    grid-column: span 6;
+    grid-column: span 4;
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 4;
+      grid-column: span 6;
     }
   }
 
@@ -80,6 +85,23 @@ $small-table-grid: 600px;
       @include unique-max-width($small-table-grid) {
         border-top: none;
       }
+    }
+  }
+
+  &__empty {
+    background: $rpi-grey-5;
+    border-radius: 8px;
+    text-align: center;
+
+    .--dark & {
+      background: $rpf-darkmode-grey22;
+    }
+
+    p {
+      font-size: var(--font-size-u-1);
+      font-weight: var(--font-weight-bold);
+      margin: 0;
+      padding: var(--spacing-2);
     }
   }
 }

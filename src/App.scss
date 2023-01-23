@@ -10,10 +10,6 @@ a {
   }
 }
 
-svg {
-  min-width: min-content;
-}
-
 button {
   all: initial;
   border: 3px solid transparent;
@@ -70,6 +66,8 @@ input {
 
 #app {
   height: 100vh;
+  overflow: auto;
+  min-height: fit-content;
   display: flex;
   flex-flow: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

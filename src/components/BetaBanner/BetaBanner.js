@@ -15,7 +15,7 @@ const BetaBanner = () => {
   const [cookies, setCookie] = useCookies(['betaBannerDismissed'])
 
   const closeBanner = () => {
-    setCookie('betaBannerDismissed', 'true')
+    setCookie('betaBannerDismissed', 'true', { path: '/' })
   }
   const showModal = () => { dispatch(showBetaModal()) }
   const isShowing = !cookies.betaBannerDismissed

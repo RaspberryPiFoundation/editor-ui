@@ -11,9 +11,11 @@ $spacing-four: calc($spacing-eight / 2);
     flex-flow: column;
     overflow: hidden;
     position: relative;
+    border-radius: 10px;
 
     &__tab-inner {
       @extend .btn;
+      @extend .btn--small;
       @extend .btn--secondary;
 
       border: 3px solid transparent;
@@ -95,7 +97,7 @@ $spacing-four: calc($spacing-eight / 2);
   
     &__tab-list {
       display: flex;
-      overflow-x: scroll;
+      overflow-x: auto;
       overflow-y: hidden;
       margin: 0;
     }

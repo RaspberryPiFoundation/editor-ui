@@ -6,15 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.11.0] - 2023-01-17
+
 ### Added
 
 - Styling of the projects list (#317)
 - Ability to collapse and expand the left hand file pane (#316)
+- Plausible event tracking for left hand file pane (#325)
+- Last updated field added to the projects table (#319)
+- Message for empty state on projects (#327)
+- Rename project action on project index page (#324)
+- Context menu for project index page actions on mobile (#324)
+- Danger button styling (#330)
 
 ### Changed
 
 - Change port number to fix 'no consent token' error (#326)
-- Long file names truncated rather than scrolling in left hand file pane (#316)
+- Long file names truncated rather than scrolling in left hand file pane (#316, #337)
+- Tab scrollbars only appear when necessary (#331)
+- Added merge=union gitattribute for this file (#339)
+
+### Fixed
+
+- Make sure button text is always centered (#328)
+- Make theme and font size persist across all pages of the app (#329)
+- Make dismissing the Beta banner persist across all pages of the app (#329)
+- Touch area of icon-only buttons (#330, #336)
+- Delete project action on project index page (#330)
+- Refactored project list loading to allow loading states to be shown (#330)
+- Removed unneeded scrollbars on the editor and output panels (#331)
+- Make Your projects page background extend below the fold (#334)
+
 
 ## [0.10.0] - 2023-01-06
 
@@ -201,14 +223,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.10.0...HEAD
-[0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
-[0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
-[0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
-[0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
-[0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
-[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
-[0.7.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
-[0.8.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.8.0
-[0.9.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.9.0
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.11.0
 [0.10.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.10.0
+[0.9.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.9.0
+[0.8.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.8.0
+[0.7.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
+[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
+[0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
+[0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
+[0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
+[0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
+[0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0

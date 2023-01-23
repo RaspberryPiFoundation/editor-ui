@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import Project from "./Project";
 import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
-import { showLoginPrompt, showSavePrompt } from "../../../utils/Notifications";
+import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 
 jest.mock('axios');
 
@@ -357,3 +357,24 @@ describe('When logged in and user owns project', () => {
     expect(mockedStore.getActions()[0]).toEqual(saveAction)
   })
 })
+
+test('Successful manual save prompts project saved message', async () => {
+  const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: []
+        },
+        openFiles: [],
+        saving: 'success',
+        lastSaveAutosave: false
+      },
+      auth: {}
+    }
+    const mockedStore = mockStore(initialState);
+    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+})
+
+// TODO: Write test for successful autosave not prompting the project saved message as per the above

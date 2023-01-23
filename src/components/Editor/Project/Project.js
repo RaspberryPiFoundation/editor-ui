@@ -16,7 +16,7 @@ import { CloseIcon } from '../../../Icons';
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
-import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
+import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
 
@@ -34,6 +34,15 @@ const Project = (props) => {
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
+
+  const saving = useSelector((state) => state.editor.saving)
+  const autosave = useSelector((state) => state.editor.lastSaveAutosave)
+
+  useEffect(() => {
+    if (saving === 'success' && autosave === false) {
+      showSavedMessage()
+    }
+  }, [saving, autosave])
 
   const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
   let tabRefs = useRef(project.components.map(createRef))
