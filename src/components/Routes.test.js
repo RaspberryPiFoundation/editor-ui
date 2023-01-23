@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Route, Router, MemoryRouter, Link } from "react-router-dom";
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux'
@@ -7,57 +7,100 @@ import configureStore from 'redux-mock-store';
 import App from '../App';
 
 let store
-let project = {identifier: 'hello-world-project', name: 'my amazing project', project_type: 'python'}
-let testHistory, testLocation;
+// let testHistory, testLocation;
+
+const project = {
+  name: 'hello world',
+    project_type: 'python',
+    identifier: 'hello-world-project',
+    components: [
+      {
+        name: 'main',
+        extension: 'py',
+        content: '# hello'
+      }
+    ],
+}
 
 beforeEach(() => {
   const mockStore = configureStore([])
   const initialState = {
     editor: {
-      project: project,
+      project,
     },
     auth: {}
   }
   store = mockStore(initialState);
 })
 
-const ProjectRoute = () => (
-  <div>
-    <Route
-      path='/'
-      render={({ history, location }) => {
-        testHistory = history;
-        testLocation = location;
-        return (
-          <div>
-            <Link to='/python/hello-world-project' id='click-me'>
-              Project Page
-            </Link>
-          </div>
-        )
-      }}
-    />
-  </div>
-);
+// const ProjectRoute = () => (
+//   <div>
+//     <Route
+//       path='/'
+//       render={({ history, location }) => {
+//         testHistory = history;
+//         testLocation = location;
+//         return (
+//           <div>
+//             <Link to='/python/hello-world-project' id='click-me'>
+//               Project Page
+//             </Link>
+//           </div>
+//         )
+//       }}
+//     />
+//   </div>
+// );
 
-test('shows the redirected project page', () => {
+// const ProjectLink = () => {
+//   return (
+//     <div>
+//       <Link to='/python/hello-world-project' id='click-me'>
+//         Project Page
+//       </Link>
+//     </div>
+//   )
+// }
+
+// test('shows the redirected project page', () => {
+//   render(
+//     <MemoryRouter>
+//       <Provider store={store}>
+//         <Routes />
+//         <ProjectLink />
+//       </Provider>
+//     </MemoryRouter>
+//   );
+
+//   // console.log(testLocation.pathname)
+
+//   act(() => {
+//     const goToProjectPage = document.querySelector('#click-me');
+//     fireEvent.click(goToProjectPage)
+//   });
+
+//   // console.log(testLocation.pathname)
+// });
+
+test('landing on a bad page', () => {
+  const history = createMemoryHistory()
+  history.push(`/${project.project_type}/${project.identifier}`)
   render(
-    <MemoryRouter initialEntries={['/']}>
-      <Provider store={store}>
-        <ProjectRoute />
-      </Provider>
-    </MemoryRouter>
-  );
+    <Provider store={store}>
+      <Router history={history} forceRefresh={true}>
+        <App />
+        {/* <ProjectLink /> */}
+      </Router>
+    </Provider>
+  )
+  console.log(history)
+  // expect(screen.getByText(/no match/i)).toBeInTheDocument()
+  // await waitFor(() => console.log(history));
 
-
-  act(() => {
-      const goToProjectPage = document.querySelector('#click-me');
-      fireEvent.click(goToProjectPage)
-  });
-
-  console.log('YOYO')
-  console.log(testHistory.pathname)
-  console.log(testLocation.pathname)
-  console.log(window.location.pathname)
-  // expect(screen.queryByText(project.name)).toBeInTheDocument()
-});
+  // act(() => {
+  //   const goToProjectPage = document.querySelector('#click-me');
+  //   fireEvent.click(goToProjectPage)
+  //   console.log(goToProjectPage)
+  //   console.log(history)
+  // });
+})
