@@ -318,7 +318,6 @@ const $builtinmodule = function (name) {
   // Shape
   // =====
 
-
   // 2D Primitives
   mod.arc = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
@@ -1477,7 +1476,6 @@ const $builtinmodule = function (name) {
     window.p5._clearValidateParamsCache()
 
     mod.p = new window.p5(sketchProc, p5Sketch);
-  
   };
 
   _run.co_varnames = ['frame_rate'];

@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.11.0] - 2023-01-17
 
+### Fixed
+
+- Show `p5` error messages in the user interface (#346)
+
 ### Added
 
 - Styling of the projects list (#317)

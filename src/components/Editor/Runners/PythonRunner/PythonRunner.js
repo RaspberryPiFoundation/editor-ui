@@ -235,7 +235,6 @@ const PythonRunner = () => {
     })
   }
 
-
   function handleError(err) {
     let errorMessage
     if (err.message === t('output.errors.interrupted')) {
@@ -289,7 +288,6 @@ const PythonRunner = () => {
     }).finally(()=>{
       dispatch(codeRunHandled());
     });
-
     myPromise.then(function (_mod) {
     })
   }
