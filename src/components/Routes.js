@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
@@ -31,17 +31,12 @@ const Routes = () => (
     />
     <Route
       exact
-      path="/:projectType"
+      path="/projects/:identifier"
       component={ProjectComponentLoader}
     />
     <Route
       exact
-      path="/:projectType/:identifier"
-      component={ProjectComponentLoader}
-    />
-    <Route
-      exact
-      path="/embedded/:projectType/:identifier"
+      path="/embedded/projects/:identifier"
       render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
     />
     <Route
@@ -49,6 +44,8 @@ const Routes = () => (
       path="/embed/viewer/:identifier"
       component={EmbeddedViewer}
     />
+    <Redirect exact from="/:projectType/:identifier" to="/projects/:identifier" />
+    <Redirect exact from="/embedded/:projectType/:identifier" to="/embedded/projects/:identifier" />
   </Switch>
 )
 
