@@ -23,9 +23,7 @@ beforeEach(() => {
   const mockStore = configureStore([])
   const initialState = {
     editor: {
-      project,
-      loading: 'success',
-      openFiles: []
+      project
     },
     auth: {}
   }
@@ -39,13 +37,11 @@ test('using a stale project link', async () => {
   render(
     <Provider store={store}>
       <Router history={history}>
-        <Route exact path={`/projects/${project.identifier}`}/>
         <Redirect exact path={`/${project.project_type}/${project.identifier}`} to={`/projects/${project.identifier}`}/>
       </Router>
     </Provider>
   )
-  console.log(history)
 
   act(() => history.push(`/${project.project_type}/${project.identifier}`))
-  await waitFor(() => console.log(history))
+  expect(history.entries[0].pathname).toEqual(`/projects/${project.identifier}`)
 })
