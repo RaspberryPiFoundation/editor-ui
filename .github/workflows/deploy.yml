@@ -80,10 +80,10 @@ jobs:
         public_url=${{inputs.base_url}}/$deploy_dir
         echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
         echo "public_url=$public_url" >> $GITHUB_OUTPUT
-        if [ -z "${{inputs.react_app_basename}}" ] ; then
-          echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
-        else
+        if [ -n "${{inputs.react_app_basename}}" ] ; then
           echo "react_app_base_url=${{inputs.react_app_base_url}}" >> $GITHUB_OUTPUT
+        else
+          echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
         fi
 
   build-deploy:
