@@ -11,9 +11,7 @@ jest.mock('date-fns')
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn()
-  })
+  useNavigate: () => jest.fn()
 }));
 
 describe ('When user has projects', () => {

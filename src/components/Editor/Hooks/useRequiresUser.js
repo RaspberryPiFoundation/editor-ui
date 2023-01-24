@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const useRequiresUser = (isLoading, user) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if(isLoading) {
@@ -11,7 +11,7 @@ export const useRequiresUser = (isLoading, user) => {
     }
 
     if(!isLoading && !user) {
-      history.push('/')
+      navigate('/')
     }
   }, [isLoading, user]);
 };

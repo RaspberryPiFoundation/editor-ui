@@ -5,24 +5,28 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 
-const middlewares = [];
-const mockStore = configureStore(middlewares);
+let store
 
-const initialState = {
-    editor: {
-      loading: 'success',
-      project: {
-        components: []
+beforeEach(() => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+
+  const initialState = {
+      editor: {
+        loading: 'success',
+        project: {
+          components: []
+        }
       }
-    }
-};
-const store = mockStore(initialState);
+  };
+  store = mockStore(initialState);
+
+})
 
 test('Renders without crashing', () => {
-  const match = { params: { } }
   const { asFragment } = render(
     <Provider store={store}>
-      <EmbeddedViewer match={match} />
+      <EmbeddedViewer />
     </Provider>
   );
   expect(asFragment()).toMatchSnapshot();

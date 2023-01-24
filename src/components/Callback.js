@@ -1,22 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import { CallbackComponent } from "redux-oidc";
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import userManager from "../utils/userManager";
 
 const Callback = () => {
-  let history = useHistory()
+  let navigate = useNavigate()
 
   const previousRoute = localStorage.getItem('location')
 
   const onSuccess = () => {
     localStorage.removeItem('location')
     window.plausible('Login successful')
-    history.push(previousRoute)
+    navigate(previousRoute)
   }
 
   const onError = (error) => {
-    history.push(previousRoute);
+    navigate(previousRoute);
     console.error(error);
   }
 
