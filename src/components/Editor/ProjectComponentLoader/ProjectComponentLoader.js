@@ -15,9 +15,10 @@ const ProjectComponentLoader = (props) => {
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
   const project = useSelector((state) => state.editor.project)
+  const projectType = project ? project.project_type : DEFAULT_PROJECT_TYPE
 
   useEmbeddedMode(embedded);
-  useProject(project.project_type || DEFAULT_PROJECT_TYPE, identifier, accessToken);
+  useProject(projectType, identifier, accessToken);
 
   const navigate = useNavigate()
   const { t } = useTranslation()
