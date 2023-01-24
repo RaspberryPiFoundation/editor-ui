@@ -15,8 +15,6 @@ const ProjectComponentLoader = (props) => {
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
 
-  console.log(`The base url is ${process.env.REACT_APP_BASE_URL}`)
-
   useEmbeddedMode(embedded);
   useProject(projectType || DEFAULT_PROJECT_TYPE, identifier, accessToken);
 
