@@ -6,11 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [0.11.0] - 2023-01-17
-
 ### Fixed
 
 - Show `p5` error messages in the user interface (#346)
+
+## [0.11.0] - 2023-01-17
 
 ### Added
 
@@ -40,7 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Refactored project list loading to allow loading states to be shown (#330)
 - Removed unneeded scrollbars on the editor and output panels (#331)
 - Make Your projects page background extend below the fold (#334)
-
 
 ## [0.10.0] - 2023-01-06
 
