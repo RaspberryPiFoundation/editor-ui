@@ -25,7 +25,7 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
-      history.push(`/${project.project_type}/${project.identifier}`)
+      history.push(`/projects/${project.identifier}`)
     }
     if (loading === 'failed') {
       history.push('/')
