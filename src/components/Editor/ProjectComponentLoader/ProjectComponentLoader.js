@@ -10,15 +10,15 @@ const DEFAULT_PROJECT_TYPE = 'python'
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier, projectType } = useParams()
+  const { identifier } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
+  const project = useSelector((state) => state.editor.project)
 
   useEmbeddedMode(embedded);
-  useProject(projectType || DEFAULT_PROJECT_TYPE, identifier, accessToken);
+  useProject(project.project_type || DEFAULT_PROJECT_TYPE, identifier, accessToken);
 
-  const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
   const { t } = useTranslation()
 
