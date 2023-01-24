@@ -13,6 +13,8 @@ const VisualOutputPane = () => {
   const senseHatAlwaysEnabled = useSelector((state) => state.editor.senseHatAlwaysEnabled);
   const senseHatEnabled = useSelector((state) => state.editor.senseHatEnabled);
   const projectImages = useSelector((state) => state.editor.project.image_list);
+  const error = useSelector((state) => state.editor.error);
+
   const outputCanvas = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
@@ -40,11 +42,13 @@ const VisualOutputPane = () => {
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
       Sk.p5.stop();
-      dispatch(setError(t('output.errors.interrupted')))
+      if(error === ''){
+        dispatch(setError(t('output.errors.interrupted')))
+      }
       dispatch(codeRunHandled())
     }
 
-  }, [drawTriggered, dispatch, t])
+  }, [drawTriggered, dispatch, t, error])
 
   return (
     <div className='visual-output'>
