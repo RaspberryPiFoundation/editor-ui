@@ -1,5 +1,5 @@
 import { useSelector, connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
 import { useProjectList } from '../Editor/Hooks/useProjectList'
@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
 
 const ProjectIndex = (props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isLoading, user } = props;
   const { t } = useTranslation();
 
@@ -38,7 +38,7 @@ const ProjectIndex = (props) => {
 
     const identifier = response.data.identifier;
     const project_type = response.data.project_type;
-    history.push(`/${project_type}/${identifier}`);
+    navigate(`/${project_type}/${identifier}`);
   }
 
   return (
