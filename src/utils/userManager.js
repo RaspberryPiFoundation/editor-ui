@@ -7,11 +7,11 @@ const host = `${window.location.protocol}//${window.location.hostname}${
 
 const userManagerConfig = {
   client_id: process.env.REACT_APP_AUTHENTICATION_CLIENT_ID,
-  redirect_uri: `${host}/auth/callback`,
+  redirect_uri: `${host}${process.env.REACT_APP_BASE_URL}/auth/callback`,
   response_type: 'code',
   scope: 'openid email profile force-consent',
   authority: process.env.REACT_APP_AUTHENTICATION_URL,
-  silent_redirect_uri: `${host}/auth/silent_renew`,
+  silent_redirect_uri: `${host}${process.env.REACT_APP_BASE_URL}/auth/silent_renew`,
   automaticSilentRenew: true,
   filterProtocolClaims: false,
   loadUserInfo: false,
