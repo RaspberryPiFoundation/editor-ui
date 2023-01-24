@@ -19,6 +19,7 @@ const RenameFile = () => {
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
   const closeModal = () => dispatch(closeRenameFileModal());
+
   const renameComponent = () => {
     const fileName = document.getElementById('name').value
     const name = fileName.split('.')[0];
