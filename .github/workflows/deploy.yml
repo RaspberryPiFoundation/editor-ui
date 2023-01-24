@@ -26,6 +26,10 @@ on:
         required: false
         default: "https://staging-auth-v1.raspberrypi.org"
         type: string
+      react_app_base_url:
+        required: false
+        default: ''
+        type: string
       react_app_cookiebot_domain_group_id:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
