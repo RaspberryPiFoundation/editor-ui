@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
 import Header from './components/Header/Header'
-import Routes from './components/Routes'
+import AppRoutes from './components/AppRoutes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';
 import BetaBanner from './components/BetaBanner/BetaBanner';
@@ -31,7 +31,7 @@ function App() {
         <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={ToastCloseButton}/>
         <BrowserRouter>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
-          <Routes />
+          <AppRoutes />
           { isEmbedded ? null : <Footer/> }
           <BetaModal/>
           <LoginToSaveModal/>

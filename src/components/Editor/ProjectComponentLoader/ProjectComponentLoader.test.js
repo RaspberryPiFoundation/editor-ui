@@ -8,9 +8,7 @@ import { defaultPythonProject } from "../../../utils/defaultProjects";
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-      push: jest.fn()
-  })
+    useNavigate: () => jest.fn()
 }));
 
 test("Renders loading message if loading is pending", () => {

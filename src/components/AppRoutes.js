@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
@@ -7,49 +7,41 @@ import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
-const Routes = () => (
-  <Switch>
+const AppRoutes = () => (
+  <Routes>
     <Route
-      exact
       path="/auth/callback"
-      component={Callback}
+      element={<Callback/>}
     />
     <Route
-      exact
       path="/auth/silent_renew"
-      component={SilentRenew}
+      element={<SilentRenew/>}
     />
     <Route
-      exact
       path="/"
-      component={ProjectComponentLoader}
+      element={<ProjectComponentLoader/>}
     />
     <Route
-      exact
       path="/projects"
-      component={ProjectIndex}
+      element={<ProjectIndex/>}
     />
     <Route
-      exact
       path="/:projectType"
-      component={ProjectComponentLoader}
+      element={<ProjectComponentLoader/>}
     />
     <Route
-      exact
       path="/:projectType/:identifier"
-      component={ProjectComponentLoader}
+      element={<ProjectComponentLoader/>}
     />
     <Route
-      exact
       path="/embedded/:projectType/:identifier"
-      render={(props) => <ProjectComponentLoader {...props} embedded={true} />}
+      element={<ProjectComponentLoader embedded={true} />}
     />
     <Route
-      exact
       path="/embed/viewer/:identifier"
-      component={EmbeddedViewer}
+      element={<EmbeddedViewer/>}
     />
-  </Switch>
+  </Routes>
 )
 
-export default Routes
+export default AppRoutes
