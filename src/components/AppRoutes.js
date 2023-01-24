@@ -25,12 +25,12 @@ const AppRoutes = () => (
       path="/projects"
       element={<ProjectIndex/>}
     />
-    <Route
+    {/* <Route
       path="/:projectType"
       element={<ProjectComponentLoader/>}
-    />
+    /> */}
     <Route
-      path="/:projectType/:identifier"
+      path="/projects/:identifier"
       element={<ProjectComponentLoader/>}
     />
     <Route
