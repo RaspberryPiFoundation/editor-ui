@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
 import { syncProject, setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
-import { defaultHtmlProject, defaultPythonProject } from '../../../utils/defaultProjects'
+import { defaultPythonProject } from '../../../utils/defaultProjects'
 
 
 jest.mock('react-redux', () => ({
