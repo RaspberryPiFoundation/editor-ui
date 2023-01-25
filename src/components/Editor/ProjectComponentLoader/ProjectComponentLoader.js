@@ -6,20 +6,17 @@ import Project from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const DEFAULT_PROJECT_TYPE = 'python'
-
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
-  const project = useSelector((state) => state.editor.project)
-  const projectType = project ? project.project_type : DEFAULT_PROJECT_TYPE
 
   useEmbeddedMode(embedded);
-  useProject(projectType, identifier, accessToken);
+  useProject(identifier, accessToken);
 
+  const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
   const { t } = useTranslation()
 
