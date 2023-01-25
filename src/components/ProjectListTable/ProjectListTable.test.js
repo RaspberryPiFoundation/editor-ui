@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import ProjectListTable from './ProjectListTable';
 
@@ -38,7 +39,7 @@ describe('When the logged in user has projects', () => {
       }
     }
     const store = mockStore(initialState);
-    render(<Provider store={store}><ProjectListTable/></Provider>);
+    render(<Provider store={store}><MemoryRouter><ProjectListTable/></MemoryRouter></Provider>);
   });
 
   test('The projects page show a list of projects', () => {
@@ -59,7 +60,7 @@ describe('When the logged in user has no projects', () => {
       }
     }
     const store = mockStore(initialState);
-    render(<Provider store={store}><ProjectListTable/></Provider>);
+    render(<Provider store={store}><MemoryRouter><ProjectListTable/></MemoryRouter></Provider>);
   });
 
   test('The projects page show an empty state message', () => {

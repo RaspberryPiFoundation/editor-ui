@@ -1,7 +1,7 @@
 import App from './App';
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, prettyDOM, render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import configureStore from 'redux-mock-store';
 
@@ -212,7 +212,7 @@ describe('Beta banner', () => {
     expect(screen.queryByText('betaBanner.message')).toBeInTheDocument()
   })
 
-  test('Does not render beta banner if betaBannerDismissedCookie is true', () => {
+  test('Does not render beta banner if betaBannerDismissed cookie is true', () => {
     cookies.set('betaBannerDismissed', 'true')
     render(
       <CookiesProvider cookies={cookies}>
