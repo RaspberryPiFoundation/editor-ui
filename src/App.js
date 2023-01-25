@@ -22,8 +22,6 @@ function App() {
   const [cookies] = useCookies(['theme', 'fontSize'])
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"
 
-  console.log(`The base url is ${process.env.REACT_APP_BASE_URL}`)
-
   return (
     <div 
     id='app'
