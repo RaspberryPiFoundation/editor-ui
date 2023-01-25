@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 const GlobalNav = () => {
   const { t } = useTranslation()
-  console.log(`The base url is ${process.env.REACT_APP_BASE_URL}`)
 
   const user = useSelector((state) => state.auth.user)
   return (
