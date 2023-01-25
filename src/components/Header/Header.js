@@ -35,7 +35,6 @@ const Header = () => {
       dispatch(showLoginToSaveModal())
     }
   }
-  console.log(process.env.REACT_APP_BASE_URL)
 
   return loading === 'success' && (
     <div className='editor-header-wrapper'>
