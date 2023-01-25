@@ -28,7 +28,7 @@ on:
         type: string
       react_app_base_url:
         required: false
-        default: ""
+        default: "unspecified"
         type: string
       react_app_cookiebot_domain_group_id:
         required: false
