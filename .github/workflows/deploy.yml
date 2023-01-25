@@ -86,7 +86,8 @@ jobs:
         echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
         echo "public_url=$public_url" >> $GITHUB_OUTPUT
         echo "SORTING THE BASE URL NOW...."
-        if [ "${{inputs.react_app_base_url}}" == "unspecified"] ; then
+        echo ${{inputs.react_app_base_url}}
+        if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
           echo "setting base_url to the deploy_dir"
           echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
         else
