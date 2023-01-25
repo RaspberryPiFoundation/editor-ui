@@ -76,7 +76,7 @@ jobs:
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
-      react_app_base_url: ${{ steps.setup-environment.react_app_base_url }}
+      react_app_base_url: ${{ steps.setup-environment.outputs.react_app_base_url }}
     steps:
     - id: setup-environment
       run: |
