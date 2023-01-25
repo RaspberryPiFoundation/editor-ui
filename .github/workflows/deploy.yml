@@ -28,6 +28,7 @@ on:
         type: string
       react_app_base_url:
         required: false
+        defaukt: "unspecified"
         type: string
       react_app_cookiebot_domain_group_id:
         required: false
@@ -75,6 +76,7 @@ jobs:
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
+      react_app_base_url: ${{ steps.setup-environment.react_app_base_url }}
     steps:
     - id: setup-environment
       run: |
@@ -83,7 +85,7 @@ jobs:
         public_url=${{inputs.base_url}}/$deploy_dir
         echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
         echo "public_url=$public_url" >> $GITHUB_OUTPUT
-        if [ -z "${{inputs.react_app_base_url}}" ] ; then
+        if [ "${{inputs.react_app_base_url}}" == "unspecified"] ; then
           echo "setting base_url to the deploy_dir"
           echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
         else
