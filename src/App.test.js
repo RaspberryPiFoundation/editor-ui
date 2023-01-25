@@ -1,7 +1,7 @@
 import App from './App';
 import { Provider } from 'react-redux'
 import React from 'react';
-import { act, prettyDOM, render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import configureStore from 'redux-mock-store';
 
