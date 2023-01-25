@@ -121,5 +121,5 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: previews/${{ github.ref_name }}
-      react_app_base_url: /branches/${{ github.ref_name//[![:alnum:].]/_ }}
+      react_app_base_url: "/branches/${{ github.ref_name//[![:alnum:].]/_ }}"
     secrets: inherit
