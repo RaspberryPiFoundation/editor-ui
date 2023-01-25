@@ -41,7 +41,7 @@ const Header = () => {
       <header className='editor-header'>
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
-          <Link to='/projects' className='project-gallery-link'>
+          <Link to='/projects' className='project-gallery-link' reloadDocument>
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
