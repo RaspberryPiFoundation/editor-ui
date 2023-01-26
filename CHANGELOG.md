@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Simplified the URL structure to replace project type (#347)
 - Upgrade `react-router` to `v6`
+- Bump json5 from 1.0.1 to 1.0.2 (#321)
 
 ### Fixed
 
