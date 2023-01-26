@@ -7,6 +7,7 @@ import editor_logo from '../../assets/editor_logo.svg'
 import './ProjectListItem.scss'
 import { BinIcon, PencilIcon } from '../../Icons';
 import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
+import { Link } from 'react-router-dom';
 
 const ProjectListItem = (props) => {
   const project = props.project;
@@ -25,10 +26,10 @@ const ProjectListItem = (props) => {
   return (
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
-        <a className='editor-project-list__title' href={`/${project.project_type}/${project.identifier}`}>
+        <Link className='editor-project-list__title' to={`/${project.project_type}/${project.identifier}`}>
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
-        </a>
+        </Link>
         <div className='editor-project-list__updated'>{lastSaved}</div>
       </div>
       <div className='editor-project-list__actions'>
