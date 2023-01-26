@@ -26,6 +26,10 @@ on:
         required: false
         default: "https://staging-auth-v1.raspberrypi.org"
         type: string
+      react_app_base_url:
+        required: false
+        default: "unspecified"
+        type: string
       react_app_cookiebot_domain_group_id:
         required: false
         default: "1e9a6bdd-5870-4d54-8e5f-adcf6b5c5499"
@@ -72,6 +76,7 @@ jobs:
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
+      react_app_base_url: ${{ steps.setup-environment.outputs.react_app_base_url }}
     steps:
     - id: setup-environment
       run: |
@@ -80,6 +85,11 @@ jobs:
         public_url=${{inputs.base_url}}/$deploy_dir
         echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
         echo "public_url=$public_url" >> $GITHUB_OUTPUT
+        if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
+          echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
+        else
+          echo "react_app_base_url=${{inputs.react_app_base_url}}" >> $GITHUB_OUTPUT
+        fi
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -115,6 +125,7 @@ jobs:
         REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
         REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
         REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
+        REACT_APP_BASE_URL: ${{ needs.setup-environment.outputs.react_app_base_url }}
         REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
         REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
         REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}

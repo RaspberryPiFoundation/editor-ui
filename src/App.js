@@ -29,7 +29,7 @@ function App() {
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={ToastCloseButton}/>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
           { isEmbedded ? null : <><GlobalNav/><BetaBanner/><Header/></> }
           <AppRoutes />
           { isEmbedded ? null : <Footer/> }
