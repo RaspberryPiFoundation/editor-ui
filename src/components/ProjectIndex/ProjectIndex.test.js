@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store'
 import { showRenamedMessage } from "../../utils/Notifications";
 
@@ -11,9 +12,7 @@ jest.mock('date-fns')
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn()
-  })
+  useNavigate: () => jest.fn()
 }));
 
 describe ('When user has projects', () => {
@@ -32,7 +31,9 @@ describe ('When user has projects', () => {
     const store = mockStore(initialState)
     render (
       <Provider store={store}>
-        <ProjectIndex/>
+        <MemoryRouter>
+          <ProjectIndex/>
+        </MemoryRouter>
       </Provider>
     )
   })

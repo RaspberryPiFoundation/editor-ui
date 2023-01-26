@@ -4,11 +4,11 @@ import { createOrUpdateProject, readProject, createRemix, deleteProject, readPro
 
 export const syncProject = (actionName) => createAsyncThunk(
   `editor/${actionName}Project`,
-  async({ project, identifier, projectType, accessToken, autosave }, { rejectWithValue }) => {
+  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
     let response
     switch(actionName) {
       case 'load':
-        response = await readProject(identifier, projectType, accessToken)
+        response = await readProject(identifier, accessToken)
         break
       case 'remix':
         response = await createRemix(project, accessToken)

@@ -7,12 +7,13 @@ import { useProject } from '../Editor/Hooks/useProject'
 import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
+import { useParams } from 'react-router-dom';
 
-const EmbeddedViewer = (props) => {
+const EmbeddedViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
-  const projectIdentifier = props.match.params.identifier;
+  const { identifier } = useParams();
 
-  useProject('python', projectIdentifier);
+  useProject(identifier);
   useEmbeddedMode(true);
 
   window.addEventListener(

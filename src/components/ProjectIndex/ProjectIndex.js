@@ -1,5 +1,5 @@
 import { useSelector, connect } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
 import { useProjectList } from '../Editor/Hooks/useProjectList'
@@ -17,7 +17,7 @@ import DeleteProjectModal from '../Modals/DeleteProjectModal';
 import ProjectIndexPagination from './ProjectIndexPagination';
 
 const ProjectIndex = (props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isLoading, user } = props;
   const { t } = useTranslation();
   const queryParams = new URLSearchParams(window.location.search)
@@ -40,8 +40,7 @@ const ProjectIndex = (props) => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
 
     const identifier = response.data.identifier;
-    const project_type = response.data.project_type;
-    history.push(`/${project_type}/${identifier}`);
+    navigate(`/projects/${identifier}`);
   }
 
   return (
