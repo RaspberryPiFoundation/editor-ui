@@ -26,15 +26,11 @@ const AppRoutes = () => (
       element={<ProjectIndex/>}
     />
     <Route
-      path="/:projectType"
+      path="/projects/:identifier"
       element={<ProjectComponentLoader/>}
     />
     <Route
-      path="/:projectType/:identifier"
-      element={<ProjectComponentLoader/>}
-    />
-    <Route
-      path="/embedded/:projectType/:identifier"
+      path="/embedded/projects/:identifier"
       element={<ProjectComponentLoader embedded={true} />}
     />
     <Route
