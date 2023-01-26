@@ -13,7 +13,7 @@ const EmbeddedViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
 
-  useProject('python', identifier);
+  useProject(identifier);
   useEmbeddedMode(true);
 
   window.addEventListener(

@@ -37,8 +37,7 @@ const ProjectIndex = (props) => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
 
     const identifier = response.data.identifier;
-    const project_type = response.data.project_type;
-    navigate(`/${project_type}/${identifier}`);
+    navigate(`/projects/${identifier}`);
   }
 
   return (

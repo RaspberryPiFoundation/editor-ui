@@ -8,11 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Simplified the URL structure to replace project type (#347)
 - Upgrade `react-router` to `v6`
 
 ### Fixed
 
 - Show `p5` error messages in the user interface (#346)
+- Get review apps working (#351)
 
 ## [0.11.0] - 2023-01-17
 

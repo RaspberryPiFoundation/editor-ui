@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store'
 import { showRenamedMessage } from "../../utils/Notifications";
 
@@ -30,7 +31,9 @@ describe ('When user has projects', () => {
     const store = mockStore(initialState)
     render (
       <Provider store={store}>
-        <ProjectIndex/>
+        <MemoryRouter>
+          <ProjectIndex/>
+        </MemoryRouter>
       </Provider>
     )
   })

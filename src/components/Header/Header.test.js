@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import Header from "./Header";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import { MemoryRouter } from "react-router-dom";
 
 jest.mock('axios');
 
@@ -49,7 +50,7 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><Header/></Provider>);
+    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
     saveButton = screen.queryByText('header.save')
   })
 
@@ -96,7 +97,7 @@ describe("When logged in and no project identifier", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><Header/></Provider>);
+    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
   })
 
   test('Download button shown', () => {
@@ -139,7 +140,7 @@ describe("When logged in and user does not own project", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><Header/></Provider>);
+    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
   })
 
   test("Clicking save dispatches remixProject with correct parameters", async () => {
@@ -172,7 +173,7 @@ describe("When not logged in", () => {
         }
       }
     store = mockStore(initialState);
-    render(<Provider store={store}><Header/></Provider>);
+    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
   })
 
   test("No project gallery link", () => {
@@ -209,7 +210,7 @@ describe('When no project loaded', () => {
         }
       }
     const store = mockStore(initialState);
-    render(<Provider store={store}><Header/></Provider>);
+    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
   })
 
   test('No project name', () => {
