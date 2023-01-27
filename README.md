@@ -67,7 +67,7 @@ For example, to load the page with the Sense Hat always showing, add [`?sense_ha
 
 ## Deployment
 
-Deployment is managed through Giithub actions.  The UI is deployed to staging and production environments via an S3 bucket.  This requires the following environment variables to be set
+Deployment is managed through Github actions.  The UI is deployed to staging and production environments via an S3 bucket.  This requires the following environment variables to be set
 
 * `AWS_ACCESS_KEY_ID`
 * `AWS_REGION`
@@ -80,3 +80,19 @@ Other variables that pertain to the app, rather than its deployment are set with
 
 Currently the build is deployed to both S3 and Heroku.  The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
 
+### Release Process
+
+A new release of `editor-ui` is created via following process:
+
+1. Create a branch on Github for the release.
+2. Update `CHANGELOG.md` with new version number and date in the list of changes under `Unreleased`.
+3. At the bottom of `CHANGELOG.md`, add a link for the new version and update the `Unreleased` link to point to the latest version`…HEAD`.
+4. Update the version number in `package.json` to the new version number.
+5. Push these changes to the release branch on Github.
+6. Create a PR on Github for the release branch and put the `CHANGELOG` diff for the new release in the description.
+7. Get someone to approve the PR and then merge.
+8. Within the releases tab, create a new tag with the version number of the new release with the target set to `main`.
+9. Give the release the same name as the tag and paste the `CHANGELOG` diff in the description.
+10. Set the release to be the latest release and publish.
+11. Go to Cloudflare and under `Workers > KV` select `editor` and change the `production-ref` to `releases/<new_version_number>`.
+12. Go to `editor.raspberrypi.org` to see the new changes on production... 🚀
