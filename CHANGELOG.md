@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 
+### Changed
+
+- Increased the cypress defaultCommandTimeout config (#357)
+
 ## [0.12.0] - 2023-01-27
 
 ### Changed
