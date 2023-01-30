@@ -11,14 +11,39 @@ $spacing-four: calc($spacing-eight / 2);
     flex-flow: column;
     overflow: hidden;
     position: relative;
+    border-radius: 10px;
 
     &__tab-inner {
       @extend .btn;
+      @extend .btn--small;
       @extend .btn--secondary;
 
       border: 3px solid transparent;
       margin: $spacing-eight $spacing-four;
       padding: $spacing-four var(--spacing-1);
+      white-space: nowrap;
+
+      &--split {
+        padding-right: calc(3.5 * var(--spacing-1));
+      }
+    }
+    &__tab-inner-close-btn {
+      position: absolute;
+      background: transparent;
+      right: calc(-1*var(--spacing-1));
+      height: 100%;
+      padding: var(--spacing-1) calc(1.7 * var(--spacing-1)) var(--spacing-1) var(--spacing-half);
+      text-align: center;
+      svg {
+        margin: 0;
+      }
+      &:focus-visible {
+        border: 0;
+
+        svg {
+          border: 3px solid $rpf-brand-raspberry;
+        }
+      }
     }
 
     &__tab {
@@ -72,6 +97,8 @@ $spacing-four: calc($spacing-eight / 2);
   
     &__tab-list {
       display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
       margin: 0;
     }
   
@@ -127,6 +154,9 @@ $spacing-four: calc($spacing-eight / 2);
       &__tab-inner {
         background-color: $rpf-darkmode-grey32;
         color: $rpf-white;
+        svg {
+          fill: $rpf-white;
+        }
       }
     }
   }

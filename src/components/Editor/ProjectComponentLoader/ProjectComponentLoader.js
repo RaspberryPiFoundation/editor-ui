@@ -3,34 +3,31 @@ import { useSelector } from 'react-redux'
 import { useProject } from '../Hooks/useProject'
 import { useEmbeddedMode } from '../Hooks/useEmbeddedMode'
 import Project from '../Project/Project'
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-const DEFAULT_PROJECT_TYPE = 'python'
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const initialProjectIdentifier = props.match.params.identifier;
-  const initialProjectType = props.match.params.projectType || DEFAULT_PROJECT_TYPE;
+  const { identifier } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
 
   useEmbeddedMode(embedded);
-  useProject(initialProjectType, initialProjectIdentifier, accessToken);
+  useProject(identifier, accessToken);
 
   const project = useSelector((state) => state.editor.project)
-  const history = useHistory()
+  const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
-      history.push(`/${project.project_type}/${project.identifier}`)
+      navigate(`/projects/${project.identifier}`)
     }
     if (loading === 'failed') {
-      history.push('/')
+      navigate('/')
     }
-  }, [loading, project, history])
+  }, [loading, project, navigate])
 
   return loading === 'success' ? (
     <Project />

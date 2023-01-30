@@ -1,6 +1,15 @@
 import React from 'react';
 import { useUserFont } from './hooks/useUserFont';
 
+export const BinIcon = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.16659 15.5V3H0.333252V1.33333H4.49992V0.5H9.49992V1.33333H13.6666V3H12.8333V15.5H1.16659ZM2.83325 13.8333H11.1666V3H2.83325V13.8333ZM4.49992 12.1667H6.16658V4.66667H4.49992V12.1667ZM7.83325 12.1667H9.49992V4.66667H7.83325V12.1667ZM2.83325 3V13.8333V3Z"/>
+    </svg>
+  )
+}
+
 export const ChevronDown = () => {
   const scale = useUserFont()
   return (
@@ -16,6 +25,24 @@ export const CloseIcon = (props) => {
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"/>
+    </svg>
+  )
+}
+
+export const DoubleChevronLeft = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.16663 10L0.166626 5L5.16663 0L6.33329 1.16667L2.52079 5L6.33329 8.83333L5.16663 10ZM10.6666 10L5.66663 5L10.6666 0L11.8333 1.16667L8.02079 5L11.8333 8.83333L10.6666 10Z"/>
+    </svg>
+  )
+}
+
+export const DoubleChevronRight = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.33334 10L0.166672 8.83333L3.97917 5L0.166672 1.16667L1.33334 0L6.33334 5L1.33334 10ZM6.83334 10L5.66667 8.83333L9.47917 5L5.66667 1.16667L6.83334 0L11.8333 5L6.83334 10Z"/>
     </svg>
   )
 }
@@ -94,7 +121,7 @@ export const MoonIcon = () => {
   )
 }
 
-export const NewFileIcon = () => {
+export const PlusIcon = () => {
   const scale = useUserFont()
   return (
     <svg transform={`scale(${scale}, ${scale})`} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

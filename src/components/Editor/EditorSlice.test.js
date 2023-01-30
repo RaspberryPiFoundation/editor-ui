@@ -1,10 +1,15 @@
-import { createOrUpdateProject, createRemix, readProject } from '../../utils/apiCallHandler';
+import { createOrUpdateProject, createRemix, deleteProject, readProject, readProjectList } from '../../utils/apiCallHandler';
 
 import reducer, {
   syncProject,
   stopCodeRun,
   showRenameFileModal,
   closeRenameFileModal,
+  openFile,
+  closeFile,
+  setFocussedFileIndex,
+  updateComponentName,
+  loadProjectList,
 } from "./EditorSlice";
 
 jest.mock('../../utils/apiCallHandler')
@@ -208,6 +213,81 @@ describe('When project has an identifier', () => {
   })
 })
 
+describe('When renaming a project from the rename project modal', () => {
+  let project = { name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {renameProject: project},
+      renameProjectModalShowing: true,
+      projectListLoaded: 'success'
+    },
+    auth: {user: {access_token}}
+  }
+
+  let saveThunk
+
+  beforeEach(() => {
+    saveThunk= syncProject('save')
+  })
+
+  test('The saveProject/fulfilled action closes rename project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      saving: 'success',
+      modals: { renameProject: null },
+      renameProjectModalShowing: false,
+      projectListLoaded: 'idle'
+    }
+    expect(reducer(initialState.editor, saveThunk.fulfilled({ project }))).toEqual(expectedState)
+  })
+})
+
+describe('When deleting a project', () => {
+  const dispatch = jest.fn()
+  let project = { identifier: 'my-amazing-project', name: 'hello world' }
+  const access_token = 'myToken'
+  const initialState = {
+    editor: {
+      project: {},
+      modals: {deleteProject: project},
+      deleteProjectModalShowing: true,
+      projectListLoaded: 'success'
+    },
+    auth: {user: {access_token}}
+  }
+
+  let deleteThunk
+  let deleteAction
+
+  beforeEach(() => {
+    deleteThunk = syncProject('delete')
+    deleteAction = deleteThunk({ identifier: project.identifier, accessToken: access_token })
+  })
+
+  test('Deleting a project triggers deleteProject API call', async () => {
+    await deleteAction(dispatch, () => initialState)
+    expect(deleteProject).toHaveBeenCalledWith(project.identifier, access_token)
+  })
+
+  test('Successfully deleting project triggers fulfilled action', async () => {
+    deleteProject.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await deleteAction(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/deleteProject/fulfilled')
+  })
+
+  test('The deleteProject/fulfilled action closes delete project modal and reloads projects list', () => {
+    const expectedState = {
+      project: {},
+      modals: { deleteProject: null },
+      deleteProjectModalShowing: false,
+      projectListLoaded: 'idle'
+    }
+    expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(expectedState)
+  })
+})
+
 describe('When requesting a project', () => {
   const dispatch = jest.fn()
   const project = {
@@ -241,7 +321,7 @@ describe('When requesting a project', () => {
 
   beforeEach(() => {
     loadThunk = syncProject('load')
-    loadAction = loadThunk({ identifier: 'my-project-identifier', projectType: 'python', accessToken: 'my_token' })
+    loadAction = loadThunk({ identifier: 'my-project-identifier', accessToken: 'my_token' })
 
     loadFulfilledAction = loadThunk.fulfilled({ project })
     loadFulfilledAction.meta.requestId='my_request_id'
@@ -251,15 +331,17 @@ describe('When requesting a project', () => {
 
   test('Reads project from database', async () => {
     await loadAction(dispatch, () => initialState)
-    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'python', 'my_token')
+    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
   })
 
   test('If loading status pending, loading success updates status', () => {
     const initialState = {
+      openFiles: [],
       loading: 'pending',
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
+      openFiles: ['main.py'],
       loading: 'success',
       justLoaded: true,
       saving: 'idle',
@@ -310,5 +392,160 @@ describe('When requesting a project', () => {
       loading: 'success'
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
+  })
+})
+
+describe('When requesting project list', () => {
+  const dispatch = jest.fn()
+  const projects = [
+    { name: 'project1' },
+    { name: 'project2' }
+  ]
+  const initialState = {
+    projectList: [],
+    projectListLoaded: 'pending'
+  }
+  let loadProjectListThunk
+
+  beforeEach(() => {
+    loadProjectListThunk = loadProjectList('access_token')
+  })
+
+  test('Loading project list triggers loadProjectList API call', async () => {
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(readProjectList).toHaveBeenCalledWith('access_token')
+  })
+
+  test('Successfully loading project list triggers fulfilled action', async () => {
+    readProjectList.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    await loadProjectListThunk(dispatch, () => initialState)
+    expect(dispatch.mock.calls[1][0].type).toBe('editor/loadProjectList/fulfilled')
+  })
+
+  test('The loadProjectList/fulfilled action sets the projectList', () => {
+    const expectedState = {
+      projectList: projects,
+      projectListLoaded: 'success'
+    }
+    expect(reducer(initialState, loadProjectList.fulfilled(projects))).toEqual(expectedState)
+  })
+})
+
+describe('Opening files', () => {
+  const initialState = {
+    openFiles: ['main.py', 'file1.py'],
+    focussedFileIndex: 0
+  }
+
+  test('Opening unopened file adds it to openFiles and focusses that file', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py'],
+      focussedFileIndex: 2
+    }
+    expect(reducer(initialState, openFile('file2.py'))).toEqual(expectedState)
+  })
+
+  test('Opening already open file focusses that file', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, openFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Switching file focus', () => {
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, setFocussedFileIndex(1))).toEqual(expectedState)
+  })
+})
+
+describe('Closing files', () => {
+  test('Closing the last file when focussed transfers focus to the left', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py'],
+      focussedFileIndex: 0
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing not the last file when focussed does not change focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file2.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing unfocussed file before file that is in focus keeps same file in focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 2
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
+  })
+
+  test('Closing unfocussed file after file that is in focus keeps same file in focus', () => {
+    const initialState = {
+      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    const expectedState = {
+      openFiles: ['main.py', 'file1.py', 'file3.py'],
+      focussedFileIndex: 1
+    }
+    expect(reducer(initialState, closeFile('file2.py'))).toEqual(expectedState)
+  })
+})
+
+describe('Updating file name', () => {
+  const initialState = {
+    project: {
+      components: [
+        {name: 'file', extension: 'py' },
+        {name: 'another_file', extension: 'py'}
+      ]
+    },
+    openFiles: ['file.py']
+  }
+
+  test('If file is open updates name in project and openFiles', () => {
+    const expectedState = {
+      project: {
+        components: [
+          {name: 'my_file', extension: 'py' },
+          {name: 'another_file', extension: 'py'}
+        ]
+      },
+      openFiles: ['my_file.py']
+    }
+    expect(reducer(initialState, updateComponentName({key: 0, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
+  })
+
+  test('If file is closed updates name in project', () => {
+    const expectedState = {
+      project: {
+        components: [
+          {name: 'file', extension: 'py' },
+          {name: 'my_file', extension: 'py'}
+        ]
+      },
+      openFiles: ['file.py']
+    }
+    expect(reducer(initialState, updateComponentName({key: 1, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
   })
 })

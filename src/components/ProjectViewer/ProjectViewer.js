@@ -5,12 +5,13 @@ import { useProject } from '../Editor/Hooks/useProject'
 import PythonRunner from '../Editor/Runners/PythonRunner/PythonRunner'
 import { triggerCodeRun } from '../Editor/EditorSlice'
 import RunnerControls from '../RunButton/RunnerControls';
+import { useParams } from 'react-router-dom';
 
-const ProjectViewer = (props) => {
+const ProjectViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
-  const projectIdentifier = props.match.params.identifier;
+  const { identifier } = useParams()
   const dispatch = useDispatch();
-  useProject('python', projectIdentifier);
+  useProject(identifier);
 
   useEffect(() => {
     dispatch(triggerCodeRun());

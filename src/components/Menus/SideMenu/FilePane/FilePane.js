@@ -5,13 +5,14 @@ import FilesList from "./FilesList"
 
 import './FilePane.scss'
 
-const FilePane = () => {
+const FilePane = (props) => {
 
   const project = useSelector((state) => state.editor.project)
+  const {openFileTab} = props
 
   return (
     <div className = "file-pane">
-      <FilesList />
+      <FilesList openFileTab = {openFileTab}/>
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>
   )

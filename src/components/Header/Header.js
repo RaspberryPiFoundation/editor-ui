@@ -12,6 +12,7 @@ import ProjectName from './ProjectName';
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const user = useSelector((state) => state.auth.user)
@@ -20,7 +21,7 @@ const Header = () => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const onClickSave = async () => {
@@ -35,14 +36,14 @@ const Header = () => {
     }
   }
 
-  return (
+  return loading === 'success' && (
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
-          <a href='/projects' className='project-gallery-link'>
+          <Link to='/projects' className='project-gallery-link' reloadDocument>
             {<><HomeIcon />
-            <span className='editor-header__text'>{t('header.projects')}</span></>}</a>
+            <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
         { loading === 'success' ? <ProjectName /> : null }
         <div className='editor-header__right'>

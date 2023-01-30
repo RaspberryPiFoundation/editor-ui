@@ -1,27 +1,42 @@
+import { intlFormatDistance } from 'date-fns'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
+import { showDeleteProjectModal, showRenameProjectModal } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
-import { deleteProject } from '../../utils/apiCallHandler';
-import { setProjectListLoaded } from '../Editor/EditorSlice';
+import editor_logo from '../../assets/editor_logo.svg'
+import './ProjectListItem.scss'
+import { BinIcon, PencilIcon } from '../../Icons';
+import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
+import { Link } from 'react-router-dom';
 
 const ProjectListItem = (props) => {
   const project = props.project;
-  const user = props.user;
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });
 
-  const onClickDelete = async () => {
-    await deleteProject(project.identifier, user.access_token)
-    dispatch(setProjectListLoaded(false));
+  const openRenameProjectModal = () => {
+    dispatch(showRenameProjectModal(project))
+  }
+
+  const openDeleteProjectModal = () => {
+    dispatch(showDeleteProjectModal(project))
   }
 
   return (
-    <div>
-      {project.name || 'Unnamed project'}
-      <a className='btn btn--primary' href={`/${project.project_type}/${project.identifier}`}>
-        Open Project
-      </a>
-
-      <Button className='btn--primary' onClickHandler={onClickDelete} buttonText='Delete Project' confirmText='Are you sure you want to delete the project?' />
-
+    <div className='editor-project-list__item'>
+      <div className='editor-project-list__info'>
+        <Link className='editor-project-list__title' to={`/projects/${project.identifier}`}>
+          <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
+          <div className='editor-project-list__name'>{project.name}</div>
+        </Link>
+        <div className='editor-project-list__updated'>{lastSaved}</div>
+      </div>
+      <div className='editor-project-list__actions'>
+        <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
+        <Button className='btn--tertiary editor-project-list__delete' buttonText={t('projectList.delete')} ButtonIcon={BinIcon} onClickHandler={openDeleteProjectModal} />
+      </div>
+      <ProjectActionsMenu project = {project} />
     </div>
   );
 };

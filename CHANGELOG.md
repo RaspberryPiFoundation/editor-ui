@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -7,11 +8,65 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Added release notes to `README.md` (#354)
+
+## [0.12.0] - 2023-01-27
+
+### Changed
+
+- Simplified the URL structure to replace project type (#347)
+- Upgrade `react-router` to `v6`
+- Bump json5 from 1.0.1 to 1.0.2 (#321)
+
+### Fixed
+
+- Show `p5` error messages in the user interface (#346)
+- Get review apps working (#351)
+
+## [0.11.0] - 2023-01-17
+
+### Added
+
+- Styling of the projects list (#317)
+- Ability to collapse and expand the left hand file pane (#316)
+- Plausible event tracking for left hand file pane (#325)
+- Last updated field added to the projects table (#319)
+- Message for empty state on projects (#327)
+- Rename project action on project index page (#324)
+- Context menu for project index page actions on mobile (#324)
+- Danger button styling (#330)
+
+### Changed
+
+- Change port number to fix 'no consent token' error (#326)
+- Long file names truncated rather than scrolling in left hand file pane (#316, #337)
+- Tab scrollbars only appear when necessary (#331)
+- Added merge=union gitattribute for this file (#339)
+
+### Fixed
+
+- Make sure button text is always centered (#328)
+- Make theme and font size persist across all pages of the app (#329)
+- Make dismissing the Beta banner persist across all pages of the app (#329)
+- Touch area of icon-only buttons (#330, #336)
+- Delete project action on project index page (#330)
+- Refactored project list loading to allow loading states to be shown (#330)
+- Removed unneeded scrollbars on the editor and output panels (#331)
+- Make Your projects page background extend below the fold (#334)
+
+## [0.10.0] - 2023-01-06
+
+### Added
+
 - Plausbile event tracking for login, remix, save and code run (#250)
 - Message prompting users to login or save if they make non-autosaved changes (#291)
 - Unit tests for the autosave trigger (#291)
 - Project not found and access denied modals shown on project loading error (#298)
 - Styling for small buttons (#303)
+- Project page header and styling (#314)
+- Ability to open and focus files from the left hand file pane (#301)
+- Ability to close file tabs (#301)
+- Validation to prevent file names containing spaces (#301)
 
 ## Changed
 
@@ -21,10 +76,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump engine.io from 6.2.0 to 6.2.1 (#272)
 - Increased clickable area for tabs (#299)
 - Bump decode-uri-component from 0.2.0 to 0.2.2 (#295)
+- File tab bar scrolls rather than wraps (#301)
+- Long file names no longer wrap in tab bar (#301)
 
 ### Fixed
 
 - Moved `FileMenu` click handler to `MenuItem` for better keyboard support (#300)
+- Touch target size on button to open file context menu (#301)
 
 ## [0.9.0]
 
@@ -181,13 +239,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.9.0...HEAD
-[0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0
-[0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
-[0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
-[0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
-[0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
-[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
-[0.7.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
-[0.8.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.8.0
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0
+[0.11.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.11.0
+[0.10.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.10.0
 [0.9.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.9.0
+[0.8.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.8.0
+[0.7.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.7.0
+[0.6.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.6.0
+[0.5.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.5.0
+[0.4.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.4.0
+[0.3.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.3.0
+[0.2.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.2.0
+[0.1.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.1.0

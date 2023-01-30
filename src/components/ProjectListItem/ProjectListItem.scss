@@ -1,0 +1,141 @@
+@import '../../colours.scss';
+@import '../../mixins.scss';
+
+$medium-table-grid: 990px;
+$small-table-grid: 600px;
+
+.editor-project-list {
+  &__info {
+    align-items: center;
+    display: grid;
+    grid-column: span 10;
+    grid-template-columns: repeat(10, 1fr);
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 8;
+      grid-template-columns: repeat(8, 1fr)
+    }
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 8;
+      grid-template-columns: repeat(8, 1fr)
+    }
+
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 11;
+    }
+  }
+
+  &__title {
+    align-items: center;
+    display: flex;
+    grid-column: span 8;
+    min-width: 0;
+    padding: var(--spacing-1) 0;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 6;
+    }
+
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 8;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &__type {
+    border-radius: 4px;
+    width: 35px;
+    padding-right: var(--spacing-1);
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__updated {
+    border: 3px solid transparent;
+    grid-column: span 2;
+    font-size: var(--font-size-d-1);
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 2;
+    }
+
+    @include unique-max-width($small-table-grid) {
+      grid-column: span 8;
+    }
+  }
+
+  &__actions {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: repeat(2, 1fr);
+    min-width: 44px;
+
+    span {
+      display: none;
+    }
+
+    svg {
+      margin: 0;
+    }
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 4;
+      span {
+        display: grid;
+      }
+
+      svg {
+        margin-right: var(--spacing-1);
+      }
+    }
+
+    @include unique-max-width($small-table-grid) {
+      display: none;
+    }
+  }
+
+  &__menu {
+    display: none;
+    @include unique-max-width($small-table-grid) {
+      display: block;
+      grid-column: span 1;
+    }
+  }
+
+  &__title,
+  &__actions {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+
+    .--light & {
+      color: $rpf-black;
+
+      &:active {
+        color: $rpf-teal-shade-20;
+      }
+  
+      &:hover {
+        color: $rpi-grey-70;
+      }
+    }
+
+    .--dark & {
+      color: $rpf-white;
+
+      &:active {
+        color: $rpf-teal-tint-75;
+      }
+
+      &:hover {
+        color: $rpf-darkmode-grey85;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
@@ -7,16 +7,18 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
-import FilePane from '../../FilePane/FilePane'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import RunnerControls from '../../RunButton/RunnerControls'
-import { expireJustLoaded, setHasShownSavePrompt, syncProject } from '../EditorSlice';
+import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
+import { CloseIcon } from '../../../Icons';
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
-import { showLoginPrompt, showSavePrompt } from '../../../utils/Notifications';
+import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
+import SideMenu from '../../Menus/SideMenu/SideMenu';
+import Button from '../../Button/Button';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -30,6 +32,54 @@ const Project = (props) => {
   const accessDeniedWithAuthModalShowing = useSelector((state) => state.editor.accessDeniedWithAuthModalShowing)
   const justLoaded = useSelector((state) => state.editor.justLoaded)
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
+  const openFiles = useSelector((state) => state.editor.openFiles)
+  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
+
+  const saving = useSelector((state) => state.editor.saving)
+  const autosave = useSelector((state) => state.editor.lastSaveAutosave)
+
+  useEffect(() => {
+    if (saving === 'success' && autosave === false) {
+      showSavedMessage()
+    }
+  }, [saving, autosave])
+
+  const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
+  let tabRefs = useRef(project.components.map(createRef))
+
+  useEffect(() => {
+    setNumberOfComponents(project.components.length)
+    Array(project.components.length).fill().forEach((_, i) => {
+      tabRefs.current[i] = tabRefs.current[i] || React.createRef();
+    })
+  }, [project])
+
+  useEffect(() => {
+    const fileName = openFiles[focussedFileIndex]
+    const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
+    const fileRef = tabRefs.current[componentIndex]
+    if (fileRef && fileRef.current) {
+      fileRef.current.parentElement.scrollIntoView()
+    }
+  }, [focussedFileIndex, openFiles, numberOfComponents])
+
+  const switchToFileTab = (index) => {
+    dispatch(setFocussedFileIndex(index))
+  }
+
+  const openFileTab = (fileName) => {
+    if (openFiles.includes(fileName)) {
+      switchToFileTab(openFiles.indexOf(fileName), fileName)
+    } else {
+      dispatch(openFile(fileName))
+      switchToFileTab(openFiles.length)
+    }
+  }
+
+  const closeFileTab = (e, fileName) => {
+    e.stopPropagation()
+    dispatch(closeFile(fileName))
+  }
 
   useEffect(() => {
     if (forWebComponent) {
@@ -57,23 +107,29 @@ const Project = (props) => {
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <FilePane /> : null}
+      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
         <div className='proj-editor-container'>
-          <Tabs>
+          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <TabList>
-              { project.components.map((file, i) => (
-                  <Tab key={i}>
-                    <span className='react-tabs__tab-inner'>{file.name}.{file.extension}</span>
-                  </Tab>
-                )
-              )}
+              {openFiles.map((fileName, i) => (
+                <Tab key={i}>
+                  <span
+                    className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
+                    ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
+                      {fileName}
+                      {fileName !== 'main.py' ?
+                        <Button className='btn--tertiary react-tabs__tab-inner-close-btn' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                      : null
+                      }
+                  </span>
+                </Tab>
+              ))}
             </TabList>
-            { project.components.map((file,i) => (
+            {openFiles.map((fileName, i) => (
               <TabPanel key={i}>
-                <EditorPanel fileName={file.name} extension={file.extension} />
+                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
               </TabPanel>
-              )
-            )}
+            ))}
             <RunnerControls />
           </Tabs>
         </div>
@@ -88,4 +144,3 @@ const Project = (props) => {
 };
 
 export default Project;
-

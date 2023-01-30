@@ -4,10 +4,10 @@ import {React, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
-import { addProjectComponent, setNameError } from '../EditorSlice';
+import { addProjectComponent, openFile, setNameError } from '../EditorSlice';
 import Button from '../../Button/Button'
 import NameErrorMessage from '../ErrorMessage/NameErrorMessage';
-import { CloseIcon, NewFileIcon } from '../../../Icons';
+import { CloseIcon, PlusIcon } from '../../../Icons';
 import { validateFileName } from '../../../utils/componentNameValidation';
 import { useTranslation } from 'react-i18next';
 
@@ -30,13 +30,14 @@ const NewComponentButton = () => {
       const extension = fileName.split('.').slice(1).join('.');
       validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
         dispatch(addProjectComponent({extension: extension, name: name}));
+        dispatch(openFile(fileName))
         closeModal();
       })
     }
 
     return (
       <div>
-        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={NewFileIcon} buttonOuter onClickHandler={showModal} className="btn--primary btn--small proj-new-component-button" />
+        <Button buttonText={t('filePane.newFileButton')} ButtonIcon={PlusIcon} buttonOuter onClickHandler={showModal} className="btn--primary btn--small proj-new-component-button" />
 
         <Modal
           isOpen={modalIsOpen}

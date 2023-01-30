@@ -235,6 +235,29 @@ const PythonRunner = () => {
     })
   }
 
+  const handleError = (err) => {
+    let errorMessage
+    if (err.message === t('output.errors.interrupted')) {
+      errorMessage = err.message
+    } else {
+      const errorDetails = (err.tp$str && err.tp$str().v).replace(/\[(.*?)\]/, "").replace(/\.$/, '')
+      const errorType = err.tp$name || err.constructor.name
+      const lineNumber = err.traceback[0].lineno
+      const fileName = err.traceback[0].filename.replace(/^\.\//, '')
+
+      Sentry.captureMessage(`${errorType}: ${errorDetails}`)
+      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
+    }
+
+    dispatch(setError(errorMessage));
+    dispatch(stopDraw());
+    if (getInput()) {
+      const input = getInput()
+      input.removeAttribute("id")
+      input.removeAttribute("contentEditable")
+    }
+  }
+
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
@@ -248,11 +271,12 @@ const PythonRunner = () => {
       output: outf,
       read: builtinRead,
       debugging: true,
-      inputTakesPrompt: true
+      inputTakesPrompt: true,
+      uncaughtException: handleError
     });
 
     var myPromise = Sk.misceval.asyncToPromise(() =>
-        Sk.importMainWithBody("<stdin>", false, prog, true), {
+        Sk.importMainWithBody("main", false, prog, true), {
           "*": () => {
             if (store.getState().editor.codeRunStopped) {
               throw new Error(t('output.errors.interrupted'));
@@ -260,27 +284,12 @@ const PythonRunner = () => {
           }
         },
     ).catch(err => {
-
-      if (err.message !== 'Execution interrupted') {
-        const errorType = err.tp$name || err.constructor.name
-        const errorDetails = (err.tp$str && err.tp$str().v) || err.message
-        Sentry.captureMessage(`${errorType}: ${errorDetails}`)
-      }
-
-      const message = err.message || 
-        `${err.toString()} of ${err.traceback[0].filename === "<stdin>.py" ? "main.py" : err.traceback[0].filename.slice(2)}`;
-      dispatch(setError(message));
-      dispatch(stopDraw());
-      if (getInput()) {
-        const input = getInput()
-        input.removeAttribute("id")
-        input.removeAttribute("contentEditable")
-      }
+      handleError(err)
     }).finally(()=>{
       dispatch(codeRunHandled());
     });
     myPromise.then(function (_mod) {
-    });
+    })
   }
 
   function shiftFocusToInput(e) {

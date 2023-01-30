@@ -34,6 +34,7 @@ i18n
           },
           filePane: {
             errors: {
+              containsSpaces: 'File names must not contain spaces.',
               generalError: 'Error',
               notUnique: 'File names must be unique.',
               or: 'or',
@@ -112,6 +113,7 @@ i18n
           notifications: {
             loginPrompt: 'To save this project and access it later, don\'t forget to log in or sign up!',
             projectRemixed: 'Your remixed project has been saved',
+            projectRenamed: 'You have renamed your project.',
             projectSaved: 'Your project has been saved',
             savePrompt: 'Save this project to access it later under "Your projects".'
           },
@@ -165,11 +167,42 @@ i18n
             },
             untitled: 'Untitled project'
           },
+          projectHeader: {
+            subTitle: 'Code Editor',
+            title: 'Your projects',
+            text: 'Select a project to edit, view and open to continue coding.'
+          },
+          projectList: {
+            delete: 'Delete',
+            deleteProjectModal: {
+              cancel: 'Cancel',
+              delete: 'Delete',
+              heading: 'Delete project',
+              text: 'Are you sure you want to delete your project \'{{name}}\'?'
+            },
+            empty: 'No projects created yet',
+            loading: 'Loading',
+            loadingFailed: 'Failed to load projects',
+            name: 'Project name',
+            rename: 'Rename',
+            renameProjectModal: {
+              cancel: 'Do not save',
+              heading: 'Rename project',
+              inputLabel: 'Change the name of your project',
+              save: 'Save'
+            },
+            updated: 'Last updated',
+          },
           runButton: {
             run: 'Run',
             stop: 'Stop',
             stopping: 'Stopping...',
           },
+          sideMenu: {
+            collapse: 'Collapse file pane',
+            expand: 'Expand file pane',
+            file: 'Project files'
+          }
         }
       }
     }
