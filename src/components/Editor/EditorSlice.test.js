@@ -408,16 +408,16 @@ describe('When requesting project list', () => {
   let loadProjectListThunk
 
   beforeEach(() => {
-    loadProjectListThunk = loadProjectList('access_token')
+    loadProjectListThunk = loadProjectList({page: 12, accessToken: 'access_token'})
   })
 
   test('Loading project list triggers loadProjectList API call', async () => {
     await loadProjectListThunk(dispatch, () => initialState)
-    expect(readProjectList).toHaveBeenCalledWith('access_token')
+    expect(readProjectList).toHaveBeenCalledWith(12, 'access_token')
   })
 
   test('Successfully loading project list triggers fulfilled action', async () => {
-    readProjectList.mockImplementationOnce(() => Promise.resolve({ status: 200 }))
+    readProjectList.mockImplementationOnce(() => Promise.resolve({ status: 200, headers: {}}))
     await loadProjectListThunk(dispatch, () => initialState)
     expect(dispatch.mock.calls[1][0].type).toBe('editor/loadProjectList/fulfilled')
   })
@@ -427,7 +427,7 @@ describe('When requesting project list', () => {
       projectList: projects,
       projectListLoaded: 'success'
     }
-    expect(reducer(initialState, loadProjectList.fulfilled(projects))).toEqual(expectedState)
+    expect(reducer(initialState, loadProjectList.fulfilled({projects}))).toEqual(expectedState)
   })
 })
 
