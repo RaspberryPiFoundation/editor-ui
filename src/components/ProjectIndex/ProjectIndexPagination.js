@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { ChevronLeft, ChevronRight, DoubleChevronLeft, DoubleChevronRight } from "../../Icons";
 import Button from "../Button/Button";
@@ -10,6 +11,7 @@ const ProjectIndexPagination = () => {
   const totalPages = useSelector((state) => state.editor.projectIndexTotalPages)
 
   const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   const goToPage = (pageNumber) => {
     dispatch(setProjectIndexPage(pageNumber))
@@ -20,8 +22,8 @@ const ProjectIndexPagination = () => {
       <div className='editor-project-pagination__buttons'>
         { currentPage > 1 ? 
           <>
-            <Button className='btn--tertiary' ButtonIcon={DoubleChevronLeft} onClickHandler={() => goToPage(1)}/>
-            <Button className='btn--primary' ButtonIcon={ChevronLeft} onClickHandler={() => goToPage(currentPage-1)}/>
+            <Button className='btn--tertiary' ButtonIcon={DoubleChevronLeft} onClickHandler={() => goToPage(1)} title={t('projectList.pagination.first')}/>
+            <Button className='btn--primary' ButtonIcon={ChevronLeft} onClickHandler={() => goToPage(currentPage-1)} title={t('projectList.pagination.previous')}/>
           </>
           : null
         }
@@ -30,8 +32,8 @@ const ProjectIndexPagination = () => {
       <div className='editor-project-pagination__buttons'>
         { currentPage < totalPages ? 
           <>
-            <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => goToPage(currentPage+1)}/>
-            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => goToPage(totalPages)}/>
+            <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => goToPage(currentPage+1)} title={t('projectList.pagination.next')}/>
+            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => goToPage(totalPages)} title={t('projectList.pagination.last')}/>
           </>
           : null
         }
