@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 
+### Fixed
+
+- Make sure accessDeniedData login button redirects to /projects (#356)
+
 ## [0.12.0] - 2023-01-27
 
 ### Changed
