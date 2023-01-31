@@ -21,39 +21,72 @@ const project = {
 }
 let loginButton;
 
-beforeEach(() => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: project,
-      modals: {}
-    },
-    auth: {
-      user: null
+describe('When accessDeniedData is false', () => {
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: project,
+        modals: {}
+      },
+      auth: {
+        user: null
+      }
     }
-  }
-  const store = mockStore(initialState);
-  render(<MemoryRouter initialEntries={['/my_project']}><Provider store={store}><LoginButton buttonText='Login' /></Provider></MemoryRouter>)
-  loginButton = screen.queryByText('Login')
+    const store = mockStore(initialState);
+    render(<MemoryRouter initialEntries={['/my_project']}><Provider store={store}><LoginButton buttonText='Login' /></Provider></MemoryRouter>)
+    loginButton = screen.queryByText('Login')
+  })
+
+  test("Login button shown", () => {
+    expect(loginButton).toBeInTheDocument()
+  })
+
+  test("Clicking login button signs the user in", () => {
+    fireEvent.click(loginButton)
+    expect(userManager.signinRedirect).toHaveBeenCalled()
+  })
+
+  test("Clicking login button saves the user's project content in local storage", () => {
+    fireEvent.click(loginButton)
+    expect(localStorage.getItem('project')).toBe(JSON.stringify(project))
+  })
+
+  test("Clicking login button saves user's location to local storage", () => {
+    fireEvent.click(loginButton)
+    expect(localStorage.getItem('location')).toBe('/my_project')
+  })
 })
 
-test("Login button shown", () => {
-  expect(loginButton).toBeInTheDocument()
-})
+describe('When accessDeniedData is true', () => {
+  beforeEach(() => {
+    project.identifier = 'hello-world-project'
+    project.projectType = 'python'
 
-test("Clicking login button signs the user in", () => {
-  fireEvent.click(loginButton)
-  expect(userManager.signinRedirect).toHaveBeenCalled()
-})
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: project,
+        modals: {
+          accessDenied: {
+            identifier: project.identifier,
+            projectType: project.projectType
+          }
+        }
+      },
+      auth: {
+        user: null
+      }
+    }
+    const store = mockStore(initialState);
+    render(<MemoryRouter initialEntries={['/hello-world-project']}><Provider store={store}><LoginButton buttonText='Login' /></Provider></MemoryRouter>)
+    loginButton = screen.queryByText('Login')
+  })
 
-test("Clicking login button saves the user's project content in local storage", () => {
-  fireEvent.click(loginButton)
-  expect(localStorage.getItem('project')).toBe(JSON.stringify(project))
+  test("Clicking the login button saves user's location to local storage", () => {
+    fireEvent.click(loginButton)
+    expect(localStorage.getItem('location')).toBe('/projects/hello-world-project')
+  })
 })
-
-test("Clicking login button saves user's location to local storage", () => {
-  fireEvent.click(loginButton)
-  expect(localStorage.getItem('location')).toBe('/my_project')
-})
-

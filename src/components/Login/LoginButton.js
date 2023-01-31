@@ -14,7 +14,7 @@ const LoginButton = (props) => {
     event.preventDefault();
     window.plausible('Login button')
     if (accessDeniedData) {
-      localStorage.setItem('location', `/${accessDeniedData.projectType}/${accessDeniedData.identifier}`)
+      localStorage.setItem('location', `/projects/${accessDeniedData.identifier}`)
     } else {
       localStorage.setItem('location', location.pathname)
       localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
