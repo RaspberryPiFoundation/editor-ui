@@ -58,11 +58,20 @@
 .output-panel {
   display: flex;
   overflow: hidden;
+
   &--text {
     flex: 3;
   }
 
   &--visual {
     flex: 7;
+
+    .--light & {
+      border-bottom: 5px solid $rpf-darkmode-grey90;
+    }
+
+    .--dark & {
+      border-bottom: 5px solid $rpf-darkmode-grey32;
+    }
   }
 }
