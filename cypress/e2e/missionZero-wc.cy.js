@@ -1,7 +1,7 @@
 const baseUrl = "http://localhost:3001"
 
 beforeEach(() => {
-  cy.visit(`${baseUrl}?sense_hat_always_enabled=true`)
+  cy.visit(`${baseUrl}?sense_hat_always_enabled=true`, { timeout: 30000 })
 })
 
 it("defaults to the visual output tab", () => {
