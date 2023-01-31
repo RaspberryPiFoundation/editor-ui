@@ -52,7 +52,6 @@ export const readProject = async (projectIdentifier, accessToken) => {
 }
 
 export const readProjectList = async (page, accessToken) => {
-  // console.log({params: {page}, ...headers(accessToken)})
   return await get(`${host}/api/projects`, {params: {page}, ...headers(accessToken)});
 }
 

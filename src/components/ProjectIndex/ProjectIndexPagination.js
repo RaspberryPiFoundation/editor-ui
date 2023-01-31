@@ -5,11 +5,9 @@ import Button from "../Button/Button";
 import { setProjectIndexPage } from "../Editor/EditorSlice";
 import './ProjectIndexPagination.scss'
 
-const ProjectIndexPagination = (props) => {
-  // const {currentPage} = props
+const ProjectIndexPagination = () => {
   const currentPage = useSelector((state) => state.editor.projectIndexCurrentPage)
   const totalPages = useSelector((state) => state.editor.projectIndexTotalPages)
-  // const totalPages = links && links.last ? links.last.page : currentPage
 
   const dispatch = useDispatch()
 
@@ -22,8 +20,6 @@ const ProjectIndexPagination = (props) => {
       <div className='editor-project-pagination__buttons'>
         { currentPage > 1 ? 
           <>
-            {/* <a className='btn btn--tertiary' href = '/projects?page=1'><DoubleChevronLeft/></a>
-            <a className='btn btn--primary' href = {`/projects?page=${currentPage-1}`}><ChevronLeft/></a> */}
             <Button className='btn--tertiary' ButtonIcon={DoubleChevronLeft} onClickHandler={() => goToPage(1)}/>
             <Button className='btn--primary' ButtonIcon={ChevronLeft} onClickHandler={() => goToPage(currentPage-1)}/>
           </>
@@ -34,8 +30,6 @@ const ProjectIndexPagination = (props) => {
       <div className='editor-project-pagination__buttons'>
         { currentPage < totalPages ? 
           <>
-            {/* <a className='btn btn--primary' href = {`/projects?page=${currentPage+1}`}><ChevronRight/></a>
-            <a className='btn btn--tertiary' href = {`/projects?page=${totalPages}`}><DoubleChevronRight/></a> */}
             <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => goToPage(currentPage+1)}/>
             <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => goToPage(totalPages)}/>
           </>
