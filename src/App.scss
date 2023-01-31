@@ -74,3 +74,8 @@ input {
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
 }
+
+// Removes the scrollbar flash on first load
+html {
+  overflow: hidden;
+}
