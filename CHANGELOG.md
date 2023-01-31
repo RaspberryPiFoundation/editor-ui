@@ -13,6 +13,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Make sure accessDeniedData login button redirects to /projects (#356)
+- Scrollbar flash on first load (#358)
+- Scrollbar appearing in visual output (#358)
+- Sense hat visual output height (#358)
 
 ## [0.12.0] - 2023-01-27
 
