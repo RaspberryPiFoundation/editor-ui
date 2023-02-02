@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { prettyDOM, render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -63,5 +63,52 @@ describe ('When saving is success', () => {
 
   test('Shows project renamed message', () => {
     expect(showRenamedMessage).toHaveBeenCalled()
+  })
+})
+
+describe('When more than one page of projects', () => {
+  let dom
+  beforeEach(() => {
+    const mockStore = configureStore([])
+    const initialState = {
+      editor: {
+        projectIndexCurrentPage: 1,
+        projectIndexTotalPages: 3,
+        projectListLoaded: 'success',
+        projectList: []
+      },
+      auth: {}
+    }
+    const store = mockStore(initialState)
+    dom = render (
+      <Provider store={store}>
+        <ProjectIndex/>
+      </Provider>
+    )
+  })
+  test('Shows pagination component', () => {
+    expect(screen.queryByText('1 / 3')).toBeInTheDocument()
+  })
+})
+
+describe('When only one page of projects', () => {
+  beforeEach(() => {
+    const mockStore = configureStore([])
+    const initialState = {
+      editor: {
+        projectIndexCurrentPage: 1,
+        projectIndexTotalPages: 1
+      },
+      auth: {}
+    }
+    const store = mockStore(initialState)
+    render (
+      <Provider store={store}>
+        <ProjectIndex/>
+      </Provider>
+    )
+  })
+  test('Shows pagination component', () => {
+    expect(screen.queryByText('1 / 1')).not.toBeInTheDocument()
   })
 })

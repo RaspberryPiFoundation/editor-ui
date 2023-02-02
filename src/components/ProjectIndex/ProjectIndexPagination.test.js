@@ -1,9 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store'
-import { showRenamedMessage } from "../../utils/Notifications";
 import { setProjectIndexPage } from "../Editor/EditorSlice";
 
 import ProjectIndexPagination from "./ProjectIndexPagination";
