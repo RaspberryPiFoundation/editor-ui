@@ -48,7 +48,6 @@ export const syncProject = (actionName) => createAsyncThunk(
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
   async ({page, accessToken}) => {
-    console.log(`Loading projects page ${page} for user ${accessToken}`)
     const response = await readProjectList(page, accessToken)
     return {projects: response.data, page, links: parseLinkHeader(response.headers.link)}
   }
@@ -336,9 +335,6 @@ export const EditorSlice = createSlice({
         const links = action.payload.links
         state.projectIndexTotalPages = links && links.last ? parseInt(links.last.page) : action.payload.page
       } else {
-        console.log('going back a page...')
-        console.log(action.payload.projects.length)
-        console.log(action.payload.page)
         state.projectIndexCurrentPage = state.projectIndexCurrentPage - 1
         state.projectListLoaded = 'idle'
       }
