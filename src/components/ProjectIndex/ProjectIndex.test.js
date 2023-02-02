@@ -1,4 +1,4 @@
-import { prettyDOM, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -67,7 +67,6 @@ describe ('When saving is success', () => {
 })
 
 describe('When more than one page of projects', () => {
-  let dom
   beforeEach(() => {
     const mockStore = configureStore([])
     const initialState = {
@@ -80,7 +79,7 @@ describe('When more than one page of projects', () => {
       auth: {}
     }
     const store = mockStore(initialState)
-    dom = render (
+    render (
       <Provider store={store}>
         <ProjectIndex/>
       </Provider>
