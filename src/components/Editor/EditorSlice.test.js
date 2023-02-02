@@ -403,7 +403,8 @@ describe('When requesting project list', () => {
   ]
   const initialState = {
     projectList: [],
-    projectListLoaded: 'pending'
+    projectListLoaded: 'pending',
+    projectIndexCurrentPage: 4
   }
   let loadProjectListThunk
 
@@ -422,12 +423,33 @@ describe('When requesting project list', () => {
     expect(dispatch.mock.calls[1][0].type).toBe('editor/loadProjectList/fulfilled')
   })
 
-  test('The loadProjectList/fulfilled action sets the projectList', () => {
+  test('The loadProjectList/fulfilled action with projects returned sets the projectList and total pages', () => {
     const expectedState = {
       projectList: projects,
-      projectListLoaded: 'success'
+      projectListLoaded: 'success',
+      projectIndexCurrentPage: 4,
+      projectIndexTotalPages: 12
     }
-    expect(reducer(initialState, loadProjectList.fulfilled({projects}))).toEqual(expectedState)
+    expect(reducer(initialState, loadProjectList.fulfilled({projects, page: 4, links: {last: {page: 12}}}))).toEqual(expectedState)
+  })
+
+  test('The loadProjectList/fulfilled action with no projects loads previous page', () => {
+    const expectedState = {
+      projectList: [],
+      projectListLoaded: 'idle',
+      projectIndexCurrentPage: 3
+    }
+    expect(reducer(initialState, loadProjectList.fulfilled({projects: [], page: 4}))).toEqual(expectedState)
+  })
+
+  test('The loadProjectList/fulfilled action with no projects on page 1 sets loading to success', () => {
+    const expectedState = {
+      projectList: [],
+      projectListLoaded: 'success',
+      projectIndexCurrentPage: 1,
+      projectIndexTotalPages: 1
+    }
+    expect(reducer({...initialState, projectIndexCurrentPage: 1}, loadProjectList.fulfilled({projects: [], page: 1}))).toEqual(expectedState)
   })
 })
 
