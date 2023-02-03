@@ -156,7 +156,7 @@ describe('When in split view, p5 imported and code run', () => {
         project: {
           components: [
             {
-              content: "import p5"
+              content: "import py5"
             }
           ],
           image_list: []
@@ -311,7 +311,7 @@ describe('When in tabbed view, p5 imported and code run', () => {
         project: {
           components: [
             {
-              content: "import p5"
+              content: "import py5"
             }
           ],
           image_list: []
