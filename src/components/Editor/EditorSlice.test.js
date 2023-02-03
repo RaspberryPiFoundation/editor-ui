@@ -288,21 +288,8 @@ describe('When deleting a project', () => {
   })
 })
 
-describe('When requesting a project', () => {
+const requestingAProject = function(project, projectFile) {
   const dispatch = jest.fn()
-  const project = {
-    name: 'hello world',
-    project_type: 'python',
-    identifier: 'my-project-identifier',
-    components: [
-      {
-        name: 'main',
-        extension: 'py',
-        content: '# hello'
-      }
-    ],
-    image_list: []
-  }
   const initialState = {
     editor: {
       project: {},
@@ -341,7 +328,7 @@ describe('When requesting a project', () => {
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
-      openFiles: ['main.py'],
+      openFiles: [projectFile],
       loading: 'success',
       justLoaded: true,
       saving: 'idle',
@@ -393,10 +380,26 @@ describe('When requesting a project', () => {
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
   })
+}
+
+describe('When requesting a python project', () => {
+  const project = {
+    name: 'hello world',
+    project_type: 'python',
+    identifier: 'my-project-identifier',
+    components: [
+      {
+        name: 'main',
+        extension: 'py',
+        content: '# hello'
+      }
+    ],
+    image_list: []
+  }
+  requestingAProject(project, 'main.py')
 })
 
 describe('When requesting a HTML project', () => {
-  const dispatch = jest.fn()
   const project = {
     name: 'hello html world',
     project_type: 'html',
@@ -410,53 +413,7 @@ describe('When requesting a HTML project', () => {
     ],
     image_list: []
   }
-  const initialState = {
-    editor: {
-      project: {},
-      loading: 'idle'
-    },
-    auth: {
-      isLoadingUser: false
-    }
-  }
-
-  let loadThunk
-  let loadAction
-
-  let loadFulfilledAction
-  let loadRejectedAction
-
-  beforeEach(() => {
-    loadThunk = syncProject('load')
-    loadAction = loadThunk({ identifier: 'my-project-identifier', accessToken: 'my_token' })
-
-    loadFulfilledAction = loadThunk.fulfilled({ project })
-    loadFulfilledAction.meta.requestId='my_request_id'
-    loadRejectedAction = loadThunk.rejected()
-    loadRejectedAction.meta.requestId='my_request_id'
-  })
-
-  test('Reads project from database', async () => {
-    await loadAction(dispatch, () => initialState)
-    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
-  })
-
-  test('If loading status pending, loading success updates status', () => {
-    const initialState = {
-      openFiles: [],
-      loading: 'pending',
-      currentLoadingRequestId: 'my_request_id'
-    }
-    const expectedState = {
-      openFiles: ['index.html'],
-      loading: 'success',
-      justLoaded: true,
-      saving: 'idle',
-      project: project,
-      currentLoadingRequestId: undefined,
-    }
-    expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState)
-  })
+  requestingAProject(project, 'index.html')
 })
 
 describe('When requesting project list', () => {
