@@ -403,7 +403,7 @@ describe('When requesting a HTML project', () => {
   const project = {
     name: 'hello html world',
     project_type: 'html',
-    identifier: 'my-other-project-identifier',
+    identifier: 'my-project-identifier',
     components: [
       {
         name: 'index',
