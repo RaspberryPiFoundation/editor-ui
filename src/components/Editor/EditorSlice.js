@@ -100,6 +100,7 @@ export const EditorSlice = createSlice({
       if (!state.openFiles.includes(action.payload)) {
         state.openFiles.push(action.payload)
       }
+      console.log('YOYOYOYOOY')
       state.focussedFileIndex = state.openFiles.indexOf(action.payload)
     },
     setFocussedFileIndex: (state, action) => {
@@ -289,7 +290,12 @@ export const EditorSlice = createSlice({
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
         if (state.openFiles.length === 0) {
-          state.openFiles.push('main.py')
+          if (state.project.project_type === 'python') {
+            state.openFiles.push('main.py')
+          }
+          if (state.project.project_type === 'html') {
+            state.openFiles.push('index.html')
+          }
         }
       }
     })

@@ -13,6 +13,7 @@ const ProjectComponentLoader = (props) => {
       type: 'python',
       components: [{ name: 'main', extension: 'py', content: code }]
     }
+
     dispatch(setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== 'undefined'))
     dispatch(setProject(proj))
   }, [code, sense_hat_always_enabled, dispatch]);

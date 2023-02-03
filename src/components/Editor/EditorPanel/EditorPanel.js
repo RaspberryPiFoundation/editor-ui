@@ -63,6 +63,8 @@ const EditorPanel = ({
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
+    console.log(project)
+    console.log(extension, fileName)
     const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
     const mode = getMode();
     const startState = EditorState.create({

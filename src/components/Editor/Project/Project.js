@@ -55,7 +55,9 @@ const Project = (props) => {
   }, [project])
 
   useEffect(() => {
+    console.log(openFiles)
     const fileName = openFiles[focussedFileIndex]
+    console.log(fileName)
     const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
     const fileRef = tabRefs.current[componentIndex]
     if (fileRef && fileRef.current) {
@@ -103,6 +105,7 @@ const Project = (props) => {
      
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
+
 
   return (
     <div className='proj'>
