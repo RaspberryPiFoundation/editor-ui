@@ -135,7 +135,12 @@ export const EditorSlice = createSlice({
       }
       state.loading='success'
       if (state.openFiles.length === 0) {
-        state.openFiles.push('main.py')
+        if (state.project.project_type === 'python') {
+          state.openFiles.push('main.py')
+        }
+        if (state.project.project_type === 'html') {
+          state.openFiles.push('index.html')
+        }
       }
       state.justLoaded = true
     },
