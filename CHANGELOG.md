@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Switched `processing` implementation from `p5.py` to `py5.py`
+
 ### Added
 
 - Added release notes to `README.md` (#354)
