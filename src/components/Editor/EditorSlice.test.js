@@ -315,7 +315,7 @@ describe('When requesting a project', () => {
 
   let loadThunk
   let loadAction
-  
+
   let loadFulfilledAction
   let loadRejectedAction
 
@@ -392,6 +392,70 @@ describe('When requesting a project', () => {
       loading: 'success'
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
+  })
+})
+
+describe('When requesting a HTML project', () => {
+  const dispatch = jest.fn()
+  const project = {
+    name: 'hello html world',
+    project_type: 'html',
+    identifier: 'my-other-project-identifier',
+    components: [
+      {
+        name: 'index',
+        extension: 'html',
+        content: '# hello world'
+      }
+    ],
+    image_list: []
+  }
+  const initialState = {
+    editor: {
+      project: {},
+      loading: 'idle'
+    },
+    auth: {
+      isLoadingUser: false
+    }
+  }
+
+  let loadThunk
+  let loadAction
+
+  let loadFulfilledAction
+  let loadRejectedAction
+
+  beforeEach(() => {
+    loadThunk = syncProject('load')
+    loadAction = loadThunk({ identifier: 'my-project-identifier', accessToken: 'my_token' })
+
+    loadFulfilledAction = loadThunk.fulfilled({ project })
+    loadFulfilledAction.meta.requestId='my_request_id'
+    loadRejectedAction = loadThunk.rejected()
+    loadRejectedAction.meta.requestId='my_request_id'
+  })
+
+  test('Reads project from database', async () => {
+    await loadAction(dispatch, () => initialState)
+    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
+  })
+
+  test('If loading status pending, loading success updates status', () => {
+    const initialState = {
+      openFiles: [],
+      loading: 'pending',
+      currentLoadingRequestId: 'my_request_id'
+    }
+    const expectedState = {
+      openFiles: ['index.html'],
+      loading: 'success',
+      justLoaded: true,
+      saving: 'idle',
+      project: project,
+      currentLoadingRequestId: undefined,
+    }
+    expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState)
   })
 })
 
