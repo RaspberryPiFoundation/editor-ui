@@ -135,7 +135,11 @@ export const EditorSlice = createSlice({
       }
       state.loading='success'
       if (state.openFiles.length === 0) {
-        state.openFiles.push('main.py')
+        if (state.project.project_type === 'html') {
+          state.openFiles.push('index.html')
+        } else {
+          state.openFiles.push('main.py')
+        }
       }
       state.justLoaded = true
     },
@@ -296,7 +300,11 @@ export const EditorSlice = createSlice({
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
         if (state.openFiles.length === 0) {
-          state.openFiles.push('main.py')
+          if (state.project.project_type === 'html') {
+            state.openFiles.push('index.html')
+          } else {
+            state.openFiles.push('main.py')
+          }
         }
       }
     })
