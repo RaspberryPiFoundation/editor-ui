@@ -51,8 +51,8 @@ export const readProject = async (projectIdentifier, accessToken) => {
   return await get(`${host}/api/projects/${projectIdentifier}`, headers(accessToken));
 }
 
-export const readProjectList = async (accessToken) => {
-  return await get(`${host}/api/projects`, headers(accessToken));
+export const readProjectList = async (page, accessToken) => {
+  return await get(`${host}/api/projects`, {params: {page}, ...headers(accessToken)});
 }
 
 export const uploadImages = async (projectIdentifier, accessToken, images) => {

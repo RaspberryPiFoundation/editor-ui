@@ -185,6 +185,12 @@ i18n
             loadingFailed: 'Failed to load projects',
             name: 'Project name',
             rename: 'Rename',
+            pagination: {
+              first: 'First page',
+              last: 'Last page',
+              next: 'Next page',
+              previous: 'Previous page',
+            },
             renameProjectModal: {
               cancel: 'Do not save',
               heading: 'Rename project',
