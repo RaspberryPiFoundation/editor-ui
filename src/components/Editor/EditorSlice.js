@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import parseLinkHeader from 'parse-link-header';
 import { createOrUpdateProject, readProject, createRemix, deleteProject, readProjectList } from '../../utils/apiCallHandler';
 
 export const syncProject = (actionName) => createAsyncThunk(
@@ -46,9 +47,9 @@ export const syncProject = (actionName) => createAsyncThunk(
 
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
-  async (accessToken) => {
-    const response = await readProjectList(accessToken)
-    return response.data
+  async ({page, accessToken}) => {
+    const response = await readProjectList(page, accessToken)
+    return {projects: response.data, page, links: parseLinkHeader(response.headers.link)}
   }
 )
 
@@ -73,6 +74,8 @@ export const EditorSlice = createSlice({
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: 'idle',
+    projectIndexCurrentPage: 1,
+    projectIndexTotalPages: 1,
     autosaveEnabled: false,
     lastSaveAutosave: false,
     lastSavedTime: null,
@@ -245,6 +248,10 @@ export const EditorSlice = createSlice({
       state.modals.deleteProject = null
       state.deleteProjectModalShowing = false
     },
+    setProjectIndexPage: (state, action) => {
+      state.projectIndexCurrentPage = action.payload
+      state.projectListLoaded = 'idle'
+    }
   },
   extraReducers: (builder) => {
     builder.addCase('editor/saveProject/pending', (state) => {
@@ -322,8 +329,15 @@ export const EditorSlice = createSlice({
       state.projectListLoaded = 'pending'
     })
     builder.addCase('editor/loadProjectList/fulfilled', (state, action) => {
-      state.projectListLoaded = 'success'
-      state.projectList = action.payload
+      if (action.payload.projects.length > 0 || action.payload.page === 1) {
+        state.projectListLoaded = 'success'
+        state.projectList = action.payload.projects
+        const links = action.payload.links
+        state.projectIndexTotalPages = links && links.last ? parseInt(links.last.page) : action.payload.page
+      } else {
+        state.projectIndexCurrentPage = state.projectIndexCurrentPage - 1
+        state.projectListLoaded = 'idle'
+      }
     })
     builder.addCase('editor/loadProjectList/rejected', (state) => {
       state.projectListLoaded = 'failed'
@@ -369,6 +383,7 @@ export const {
   closeRenameProjectModal,
   showDeleteProjectModal,
   closeDeleteProjectModal,
+  setProjectIndexPage,
 } = EditorSlice.actions
 
 export default EditorSlice.reducer

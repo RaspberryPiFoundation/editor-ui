@@ -14,6 +14,7 @@ import RenameProjectModal from '../Modals/RenameProjectModal';
 import { showRenamedMessage } from '../../utils/Notifications';
 import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
+import ProjectIndexPagination from './ProjectIndexPagination';
 
 const ProjectIndex = (props) => {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ const ProjectIndex = (props) => {
 
   useRequiresUser(isLoading, user);
   useProjectList(user);
+
+  const projectIndexTotalPages = useSelector((state) => state.editor.projectIndexTotalPages) 
   const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
   const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
   const deleteProjectModalShowing = useSelector((state) => state.editor.deleteProjectModalShowing)
@@ -50,7 +53,14 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      { projectListLoaded === 'success' ? <ProjectListTable /> :
+      { projectListLoaded === 'success' ?
+        <>
+          <ProjectListTable />
+          { projectIndexTotalPages > 1 ?
+            <ProjectIndexPagination /> : null
+          }
+        </>
+        :
         projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}</p> :
         <p>{t('projectList.loading')}</p> }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }

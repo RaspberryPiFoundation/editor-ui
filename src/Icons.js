@@ -19,6 +19,24 @@ export const ChevronDown = () => {
   )
 }
 
+export const ChevronLeft = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 12L0 6L6 0L7.4 1.4L2.8 6L7.4 10.6L6 12Z"/>
+    </svg>
+  )
+}
+
+export const ChevronRight = () => {
+  const scale = useUserFont()
+  return (
+    <svg transform={`scale(${scale}, ${scale})`} width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.4 12L0 10.6L4.6 6L0 1.4L1.4 0L7.4 6L1.4 12Z"/>
+    </svg>
+  )
+}
+
 export const CloseIcon = (props) => {
   const {scaleFactor} = props
   const scale = useUserFont() * (scaleFactor || 1)

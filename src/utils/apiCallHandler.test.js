@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getImage, createOrUpdateProject, readProject, createRemix, uploadImages } from "./apiCallHandler";
+import { getImage, createOrUpdateProject, readProject, createRemix, uploadImages, readProjectList } from "./apiCallHandler";
 
 jest.mock('axios');
 const host = process.env.REACT_APP_API_ENDPOINT;
@@ -82,5 +82,14 @@ describe("Testing project API calls", () => {
 
     await getImage(imageUrl)
     expect(axios.get).toHaveBeenCalledWith(imageUrl, defaultHeaders)
+  })
+})
+
+describe('Index page API calls', () => {
+  test('Loading project list', async () => {
+    axios.get.mockImplementationOnce(() => Promise.resolve(200))
+    const page = 3
+    await readProjectList(page, accessToken)
+    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects`, {...authHeaders, params: {page}})
   })
 })
