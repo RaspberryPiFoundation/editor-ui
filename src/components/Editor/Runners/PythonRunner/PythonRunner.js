@@ -70,7 +70,7 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
     },
-    "./p5/__init__.js": {
+    "./py5/__init__.js": {
       path: `${process.env.PUBLIC_URL}/p5-shim.js`,
       dependencies: [
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
@@ -86,7 +86,7 @@ const PythonRunner = () => {
 
   const visualLibraries =[
     "./pygal/__init__.js",
-    "./p5/__init__.js",
+    "./py5/__init__.js",
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
   ]
@@ -108,7 +108,7 @@ const PythonRunner = () => {
       dispatch(setSenseHatEnabled(true))
     }
 
-    if(x === "./p5/__init__.js") {
+    if(x === "./py5/__init__.js") {
       dispatch(triggerDraw())
     }
 
