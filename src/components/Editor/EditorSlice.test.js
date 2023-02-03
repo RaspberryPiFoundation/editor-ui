@@ -288,21 +288,8 @@ describe('When deleting a project', () => {
   })
 })
 
-describe('When requesting a project', () => {
+const requestingAProject = function(project, projectFile) {
   const dispatch = jest.fn()
-  const project = {
-    name: 'hello world',
-    project_type: 'python',
-    identifier: 'my-project-identifier',
-    components: [
-      {
-        name: 'main',
-        extension: 'py',
-        content: '# hello'
-      }
-    ],
-    image_list: []
-  }
   const initialState = {
     editor: {
       project: {},
@@ -315,7 +302,7 @@ describe('When requesting a project', () => {
 
   let loadThunk
   let loadAction
-  
+
   let loadFulfilledAction
   let loadRejectedAction
 
@@ -341,7 +328,7 @@ describe('When requesting a project', () => {
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
-      openFiles: ['main.py'],
+      openFiles: [projectFile],
       loading: 'success',
       justLoaded: true,
       saving: 'idle',
@@ -393,6 +380,40 @@ describe('When requesting a project', () => {
     }
     expect(reducer(initialState, loadThunk.rejected())).toEqual(initialState)
   })
+}
+
+describe('When requesting a python project', () => {
+  const project = {
+    name: 'hello world',
+    project_type: 'python',
+    identifier: 'my-project-identifier',
+    components: [
+      {
+        name: 'main',
+        extension: 'py',
+        content: '# hello'
+      }
+    ],
+    image_list: []
+  }
+  requestingAProject(project, 'main.py')
+})
+
+describe('When requesting a HTML project', () => {
+  const project = {
+    name: 'hello html world',
+    project_type: 'html',
+    identifier: 'my-project-identifier',
+    components: [
+      {
+        name: 'index',
+        extension: 'html',
+        content: '# hello world'
+      }
+    ],
+    image_list: []
+  }
+  requestingAProject(project, 'index.html')
 })
 
 describe('When requesting project list', () => {
