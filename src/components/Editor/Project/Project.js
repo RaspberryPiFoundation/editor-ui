@@ -104,7 +104,6 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
-
   return (
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
