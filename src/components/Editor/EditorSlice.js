@@ -137,8 +137,9 @@ export const EditorSlice = createSlice({
       if (state.openFiles.length === 0) {
         if (state.project.project_type === 'html') {
           state.openFiles.push('index.html')
+        } else {
+          state.openFiles.push('main.py')
         }
-        state.openFiles.push('main.py')
       }
       state.justLoaded = true
     },
@@ -301,8 +302,9 @@ export const EditorSlice = createSlice({
         if (state.openFiles.length === 0) {
           if (state.project.project_type === 'html') {
             state.openFiles.push('index.html')
+          } else {
+            state.openFiles.push('main.py')
           }
-          state.openFiles.push('main.py')
         }
       }
     })
