@@ -232,7 +232,7 @@ const $builtinmodule = function (name) {
       new Sk.builtin.float_(colorArgs[1]),
       new Sk.builtin.float_(colorArgs[2])
     ]
-    return new Sk.misceval.callsimArray(mod.Color, colorArgsArray)
+    return new Sk.misceval.callsimArray(mod.color, colorArgsArray)
   });
 
   mod.green = new Sk.builtin.func(function () {
