@@ -1220,9 +1220,9 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // frameRate is only a function, not a variable:
   // use environment.frameRate for value
-  // mod.frame_rate = new Sk.builtin.func(function (fr) {
-  //   mod.pInst.frameRate(fr.v);
-  // });
+  mod.frame_rate = new Sk.builtin.func(function (fr) {
+    mod.pInst.frameRate(fr.v);
+  });
 
   // NOTE: difference with ProcessingJS
   // Use mouse.pressed rather than mousePressed
@@ -1387,7 +1387,7 @@ const $builtinmodule = function (name) {
   //
   //
   //  //////////////////////////////////////////////////////////////////////
-  _run = function (frame_rate) {
+  _run = function () {
     const sketchProc = (sketch) => {
       const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped", "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted", "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
 
@@ -1404,8 +1404,6 @@ const $builtinmodule = function (name) {
           }
         }
       };
-
-      mod.pInst.frameRate(frame_rate.v)
 
       sketch.draw = function () {
         Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
@@ -1439,7 +1437,6 @@ const $builtinmodule = function (name) {
     mod.p = new window.p5(sketchProc, p5Sketch);
   };
 
-  _run.co_varnames = ['frame_rate'];
   _run.$defaults = [new Sk.builtin.int_(60)];
 
   mod.run_sketch = new Sk.builtin.func(_run)
