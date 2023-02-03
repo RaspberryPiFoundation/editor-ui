@@ -65,3 +65,49 @@ describe ('When saving is success', () => {
     expect(showRenamedMessage).toHaveBeenCalled()
   })
 })
+
+describe('When more than one page of projects', () => {
+  beforeEach(() => {
+    const mockStore = configureStore([])
+    const initialState = {
+      editor: {
+        projectIndexCurrentPage: 1,
+        projectIndexTotalPages: 3,
+        projectListLoaded: 'success',
+        projectList: []
+      },
+      auth: {}
+    }
+    const store = mockStore(initialState)
+    render (
+      <Provider store={store}>
+        <ProjectIndex/>
+      </Provider>
+    )
+  })
+  test('Shows pagination component', () => {
+    expect(screen.queryByText('1 / 3')).toBeInTheDocument()
+  })
+})
+
+describe('When only one page of projects', () => {
+  beforeEach(() => {
+    const mockStore = configureStore([])
+    const initialState = {
+      editor: {
+        projectIndexCurrentPage: 1,
+        projectIndexTotalPages: 1
+      },
+      auth: {}
+    }
+    const store = mockStore(initialState)
+    render (
+      <Provider store={store}>
+        <ProjectIndex/>
+      </Provider>
+    )
+  })
+  test('Shows pagination component', () => {
+    expect(screen.queryByText('1 / 1')).not.toBeInTheDocument()
+  })
+})
