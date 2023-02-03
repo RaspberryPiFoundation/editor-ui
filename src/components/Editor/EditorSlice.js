@@ -103,7 +103,6 @@ export const EditorSlice = createSlice({
       if (!state.openFiles.includes(action.payload)) {
         state.openFiles.push(action.payload)
       }
-      console.log('YOYOYOYOOY')
       state.focussedFileIndex = state.openFiles.indexOf(action.payload)
     },
     setFocussedFileIndex: (state, action) => {
