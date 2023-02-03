@@ -30,6 +30,8 @@
       justify-content: center;
       align-items: center;
       border-radius: 5px;
+      height: var(--spacing-7);
+      width: var(--spacing-7);
 
       .--dark & {
         outline: 1px solid $rpf-white;
@@ -40,8 +42,8 @@
       }
 
       .font-size-small & {
-        height: var(--spacing-7);
-        width: var(--spacing-7);
+        // height: var(--spacing-7);
+        // width: var(--spacing-7);
 
         &--active {
           outline: 2px solid $rpf-teal;
@@ -49,12 +51,12 @@
       }
 
       .font-size-medium & {
-        height: var(--spacing-8);
-        width: var(--spacing-8);
+        // height: var(--spacing-8);
+        // width: var(--spacing-8);
 
-        &--medium {
-          margin: 0 var(--spacing-1)
-        }
+        // &--medium {
+        //   margin: 0 var(--spacing-1)
+        // }
 
         &--active {
           outline: 2.5px solid $rpf-teal;
@@ -62,12 +64,12 @@
       }
 
       .font-size-large & {
-        height: var(--spacing-9);
-        width: var(--spacing-9);
+        // height: var(--spacing-9);
+        // width: var(--spacing-9);
 
-        &--medium {
-          margin: 0 var(--spacing-2)
-        }
+        // &--medium {
+        //   margin: 0 var(--spacing-2)
+        // }
 
         &--active {
           outline: 3px solid $rpf-teal;

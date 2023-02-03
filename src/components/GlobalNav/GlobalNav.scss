@@ -56,26 +56,6 @@
   }
 }
 
-.font-size-medium {
-  .editor-global-nav {
-    &__account {
-      img {
-        margin: var(--spacing-1) var(--spacing-half);
-      }
-    }
-  }
-}
-
-.font-size-large {
-  .editor-global-nav {
-    &__account {
-      img {
-        margin: var(--spacing-1) var(--spacing-1);
-      }
-    }
-  }
-}
-
 .--dark {
   .editor-global-nav {
     background-color: $rpf-darkmode-grey15;
