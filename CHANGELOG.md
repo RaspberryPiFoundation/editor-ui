@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added release notes to `README.md` (#354)
 - Pagination on 'Your projects' page (#338)
 
+### Changed
+
+- Font size only scales code, text output and error messages rather than the whole UI (#365)
+
 ### Fixed
 
 - Make sure accessDeniedData login button redirects to /projects (#356)
