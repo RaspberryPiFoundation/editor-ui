@@ -76,16 +76,4 @@
     .btn:disabled:hover {
         background-color: inherit;
     }
-
-    &--small {
-        font-size: var(--font-size-base);
-    }
-
-    &--medium {
-        font-size: var(--font-size-u-2);
-    }
-
-    &--large {
-        font-size: var(--font-size-u-4);
-    }
 }

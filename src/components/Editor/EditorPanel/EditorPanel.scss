@@ -22,5 +22,13 @@
         margin-right: var(--spacing-1);
       }
     }
+
+    .font-size-medium & {
+      font-size: var(--font-size-u-2);
+    }
+
+    .font-size-large & {
+      font-size: var(--font-size-u-4);
+    }
   }
 }

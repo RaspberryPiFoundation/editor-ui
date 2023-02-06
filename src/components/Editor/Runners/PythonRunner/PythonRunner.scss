@@ -65,4 +65,14 @@
   &--visual {
     flex: 7;
   }
+
+  .react-tabs__tab-panel {
+    .font-size-medium & {
+      font-size: var(--font-size-u-2);
+    }
+  
+    .font-size-large & {
+      font-size: var(--font-size-u-4);
+    }
+  }
 }
