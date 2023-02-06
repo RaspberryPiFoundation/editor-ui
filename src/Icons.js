@@ -1,5 +1,4 @@
 import React from 'react';
-import { useUserFont } from './hooks/useUserFont';
 
 export const BinIcon = () => {
   return (
