@@ -27,20 +27,3 @@
     outline: 2px solid $rpf-white;
   }
 }
-
-.font-size-large .runner-controls {
-  svg {
-    margin-left: var(--spacing-1);
-  }
-}
-
-.font-size-medium .runner-controls {
-  svg {
-    margin-left: var(--spacing-1)
-  }
-  .btn--stop {
-    svg {
-      margin-right: var(--spacing-2)
-    }
-  }
-}

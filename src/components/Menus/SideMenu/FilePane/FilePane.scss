@@ -59,22 +59,3 @@
     border-bottom: 1px solid $rpf-darkmode-grey85;
   }
 }
-
-.font-size-medium, .font-size-large {
-  .file-pane {
-    .files-list-item {
-      .file-list-item__name {
-        padding-left: var(--spacing-2);
-      }
-    }
-  }
-}
-
-.font-size-large {
-  .file-pane {
-    h2 {
-      margin-top: 0;
-      margin-bottom: var(--spacing-1);
-    }
-  }
-}
