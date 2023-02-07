@@ -1394,6 +1394,9 @@ const $builtinmodule = function (name) {
       mod.pInst = sketch;
 
       sketch.setup = function () {
+        if (Sk.globals["settings"]) {
+          Sk.misceval.callsimArray(Sk.globals["settings"]);
+        }
         if (Sk.globals["setup"]) {
           Sk.misceval.callsimArray(Sk.globals["setup"]);
 
