@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import PythonRunner from "./PythonRunner";
 import { codeRunHandled, setError, triggerDraw } from "../../EditorSlice";
+import { SettingsContext } from "../../../../settings";
 
 describe("Testing basic input span functionality", () => {
   let input;
@@ -505,4 +506,31 @@ test('Split view has text and visual tabs with different parent elements', () =>
     const store = mockStore(initialState);
     render(<Provider store={store}><PythonRunner /></Provider>)
     expect(screen.getByText('output.visualOutput').parentElement).not.toEqual(screen.getByText('output.textOutput').parentElement)
+})
+
+describe('When font size is set', () => {
+  let runnerContainer
+  
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {}
+      }
+    }
+    const store = mockStore(initialState);
+    runnerContainer = render(
+      <Provider store={store}>
+        <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'myFontSize' }}>
+          <PythonRunner />
+        </SettingsContext.Provider>
+      </Provider>
+    )
+  })
+
+  test('Font size class is set correctly', () => {
+    const runnerConsole = runnerContainer.container.querySelector('.pythonrunner-console')
+    expect(runnerConsole).toHaveClass("pythonrunner-console--myFontSize")
+  })
 })

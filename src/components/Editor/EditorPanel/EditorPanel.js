@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './EditorPanel.scss'
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
 import { useCookies } from 'react-cookie';
@@ -18,6 +18,7 @@ import { python } from '@codemirror/lang-python'
 
 import { editorLightTheme } from '../editorLightTheme'
 import { editorDarkTheme } from '../editorDarkTheme'
+import { SettingsContext } from '../../../settings';
 
 const EditorPanel = ({
   extension = 'html',
@@ -27,6 +28,7 @@ const EditorPanel = ({
   const project = useSelector((state) => state.editor.project);
   const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
+  const settings = useContext(SettingsContext)
   let timeout;
 
   const updateStoredProject = (content) => {
@@ -90,7 +92,7 @@ const EditorPanel = ({
   }, [cookies]);
 
   return (
-    <div className='editor' ref={editor}></div>
+    <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
   );
 }
 

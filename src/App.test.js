@@ -121,70 +121,70 @@ describe('Browser prefers dark mode', () => {
   })
 })
 
-describe("When selecting the font size", ()=>{
-  let cookies;
-  let store
+// describe("When selecting the font size", ()=>{
+//   let cookies;
+//   let store
 
-  beforeEach(() => {
-    cookies = new Cookies()
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {},
-      auth: {}
-    }
-    store = mockStore(initialState);
-  })
+//   beforeEach(() => {
+//     cookies = new Cookies()
+//     const middlewares = []
+//     const mockStore = configureStore(middlewares)
+//     const initialState = {
+//       editor: {},
+//       auth: {}
+//     }
+//     store = mockStore(initialState);
+//   })
 
-  test("Cookie not set defaults css class to small", () => {
-    const appContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CookiesProvider>
-    )
-    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
-  })
+//   test("Cookie not set defaults css class to small", () => {
+//     const appContainer = render(
+//       <CookiesProvider cookies={cookies}>
+//         <Provider store={store}>
+//           <App />
+//         </Provider>
+//       </CookiesProvider>
+//     )
+//     expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
+//   })
 
-  test("Cookie set to large sets correct css class on app", () => {
-    cookies.set('fontSize', 'large')
-    const appContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CookiesProvider>
-    )
-    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-large")
+//   test("Cookie set to large sets correct css class on app", () => {
+//     cookies.set('fontSize', 'large')
+//     const appContainer = render(
+//       <CookiesProvider cookies={cookies}>
+//         <Provider store={store}>
+//           <App />
+//         </Provider>
+//       </CookiesProvider>
+//     )
+//     expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-large")
     
-  })
+//   })
 
-  test("Cookie set to medium sets correct css class on app", () => {
-    cookies.set('fontSize', 'medium')
-    const appContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CookiesProvider>
-    )
-    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-medium")
+//   test("Cookie set to medium sets correct css class on app", () => {
+//     cookies.set('fontSize', 'medium')
+//     const appContainer = render(
+//       <CookiesProvider cookies={cookies}>
+//         <Provider store={store}>
+//           <App />
+//         </Provider>
+//       </CookiesProvider>
+//     )
+//     expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-medium")
     
-  })
+//   })
 
-  test("Cookie set to small sets correct css class on app", () => {
-    cookies.set('fontSize', 'small')
-    const appContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CookiesProvider>
-    )
-    expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
-  })
-})
+//   test("Cookie set to small sets correct css class on app", () => {
+//     cookies.set('fontSize', 'small')
+//     const appContainer = render(
+//       <CookiesProvider cookies={cookies}>
+//         <Provider store={store}>
+//           <App />
+//         </Provider>
+//       </CookiesProvider>
+//     )
+//     expect(appContainer.container.querySelector('#app')).toHaveClass("font-size-small")
+//   })
+// })
 
 describe('Beta banner', () => {
   let cookies
