@@ -8,7 +8,8 @@
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-flow: column;
-  height: 100%
+  height: 100%;
+  font-size: var(--font-size-base);
 }
 
 code {
@@ -19,6 +20,14 @@ code {
 button {
   all: initial;
   font-size: inherit;
+}
+
+svg {
+  fill: $rpf-black;
+}
+
+button:focus-visible {
+  outline: 2px solid $rpf-black;
 }
 
 .--dark {
@@ -35,16 +44,16 @@ button {
     }
   }
 
-  .--light {
+  // .--light {
   
-    svg {
-      fill: $rpf-black;
-    }
+  //   svg {
+  //     fill: $rpf-black;
+  //   }
   
-    button:focus-visible {
-      outline: 2px solid $rpf-black;
-    }
-  }
+  //   button:focus-visible {
+  //     outline: 2px solid $rpf-black;
+  //   }
+  // }
 
   .react-tabs__tab--selected {
     color: inherit;
