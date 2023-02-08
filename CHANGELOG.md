@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Font size only scales code, text output and error messages rather than the whole UI (#365)
+- Clicking 'login to save' triggers save/remix after successful login (#368)
 
 ### Fixed
 
