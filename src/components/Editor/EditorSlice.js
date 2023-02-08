@@ -25,14 +25,11 @@ export const syncProject = (actionName) => createAsyncThunk(
     return { project: response.data, autosave }
   },
   {
-    condition: ({ autosave }, { getState }) => {
+    condition: ({}, { getState }) => {
       const { editor, auth } = getState()
       const saveStatus = editor.saving
       const loadStatus = editor.loading
       if (auth.isLoadingUser) {
-        return false
-      }
-      if ((actionName === 'save' && autosave && !editor.autosaveEnabled)) {
         return false
       }
       if ((actionName === 'save' || actionName === 'remix') && saveStatus === 'pending') {
@@ -76,7 +73,6 @@ export const EditorSlice = createSlice({
     projectListLoaded: 'idle',
     projectIndexCurrentPage: 1,
     projectIndexTotalPages: 1,
-    autosaveEnabled: false,
     lastSaveAutosave: false,
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
@@ -115,6 +111,7 @@ export const EditorSlice = createSlice({
     addProjectComponent: (state, action) => {
       const count = state.project.components.length;
       state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": '', index: count})
+      state.saving = 'idle'
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
@@ -167,14 +164,11 @@ export const EditorSlice = createSlice({
 
         return { ...item, ...{ content: code } };
       })
-
-      if (state.project.identifier) {
-        state.autosaveEnabled = true;
-      }
       state.project.components = mapped;
     },
     updateProjectName: (state, action) => {
       state.project.name = action.payload;
+      state.saving = 'idle'
     },
     updateComponentName: (state, action) => {
       const key = action.payload.key;
@@ -186,9 +180,7 @@ export const EditorSlice = createSlice({
       if (state.openFiles.includes(oldName)) {
         state.openFiles[state.openFiles.indexOf(oldName)] = `${name}.${extension}`
       }
-    },
-    enableAutosave: (state) => {
-      state.autosaveEnabled = true;
+      state.saving = 'idle'
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -358,7 +350,6 @@ export const {
   addProjectComponent,
   codeRunHandled,
   expireJustLoaded,
-  enableAutosave,
   closeFile,
   openFile,
   setFocussedFileIndex,

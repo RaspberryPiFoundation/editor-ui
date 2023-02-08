@@ -85,7 +85,6 @@ const Project = (props) => {
     if (forWebComponent) {
       return
     }
-  
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
