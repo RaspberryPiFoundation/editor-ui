@@ -90,3 +90,55 @@ describe('When accessDeniedData is true', () => {
     expect(localStorage.getItem('location')).toBe('/projects/hello-world-project')
   })
 })
+
+describe('When login button has triggerSave set', () => {
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: project,
+        modals: {}
+      },
+      auth: {
+        user: null
+      }
+    }
+    const store = mockStore(initialState);
+    render(<MemoryRouter initialEntries={['/my_project']}><Provider store={store}><LoginButton buttonText='Login' triggerSave/></Provider></MemoryRouter>)
+    loginButton = screen.queryByText('Login')
+  })
+
+  test("Clicking login button sets 'awaitingSave' in local storage", () => {
+    fireEvent.click(loginButton)
+    expect(localStorage.getItem('awaitingSave')).toBe('true')
+  })
+})
+
+describe('When login button does not have triggerSave set', () => {
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: project,
+        modals: {}
+      },
+      auth: {
+        user: null
+      }
+    }
+    const store = mockStore(initialState);
+    render(<MemoryRouter initialEntries={['/my_project']}><Provider store={store}><LoginButton buttonText='Login'/></Provider></MemoryRouter>)
+    loginButton = screen.queryByText('Login')
+  })
+
+  test("Clicking login button does not set 'awaitingSave' in local storage", () => {
+    fireEvent.click(loginButton)
+    expect(localStorage.getItem('awaitingSave')).toBeNull()
+  })
+})
+
+afterEach(() => {
+  localStorage.clear()
+})
