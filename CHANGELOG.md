@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Make sure accessDeniedData login button redirects to /projects (#356)
 - Allowed HTML projects to load (#362)
+- Renaming project, adding new file or renaming file triggers autosave (#368)
 
 ## [0.12.0] - 2023-01-27
 
