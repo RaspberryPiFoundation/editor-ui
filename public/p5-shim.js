@@ -23,7 +23,7 @@ const $builtinmodule = function (name) {
   let vectorClass;
   let fontClass;
 
-  const mod = {__name__: new Sk.builtin.str("p5")};
+  const mod = {__name__: new Sk.builtin.str("py5")};
 
   // Helper function for extracting values from arguments
   const processArgs = function processArgumentValues(arguments_) {
@@ -1242,8 +1242,8 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // Use environment.focused
 
-  Sk.builtins.width = new Sk.builtin.int_(0);
-  Sk.builtins.height = new Sk.builtin.int_(0);
+  mod.width = new Sk.builtin.int_(0);
+  mod.height = new Sk.builtin.int_(0);
   mod.renderMode = mod.P2D;
 
   mod.size = new Sk.builtin.func(function (w, h, mode) {
@@ -1251,8 +1251,8 @@ const $builtinmodule = function (name) {
       mode = mod.P2D;
     }
     mod.pInst.createCanvas(w.v, h.v, mode.v);
-    Sk.builtins.width = new Sk.builtin.int_(mod.pInst.width);
-    Sk.builtins.height = new Sk.builtin.int_(mod.pInst.height);
+    mod.width = new Sk.builtin.int_(mod.pInst.width);
+    mod.height = new Sk.builtin.int_(mod.pInst.height);
     mod.renderMode = mode;
   });
 
@@ -1264,13 +1264,13 @@ const $builtinmodule = function (name) {
   Sk.builtins.mouse_y = new Sk.builtin.float_(0)
 
   const updateMouseCoords = (e) => {
-    if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= Sk.builtins.width && mod.pInst.mouseY <= Sk.builtins.height) {
+    if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= mod.width && mod.pInst.mouseY <= mod.height) {
       Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
       Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
     }
   }
 
-  document.getElementById(Sk.p5.sketch).addEventListener('mousemove', updateMouseCoords)
+  document.getElementById(Sk.py5.sketch).addEventListener('mousemove', updateMouseCoords)
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1419,7 +1419,7 @@ const $builtinmodule = function (name) {
         }
       };
 
-      Sk.p5.stop = function () {
+      Sk.py5.stop = function () {
         mod.pInst.noLoop();
 
         for (const cb of Object.keys(callBacks)) {
@@ -1430,7 +1430,7 @@ const $builtinmodule = function (name) {
       }
     }
 
-    const p5Sketch = document.getElementById(Sk.p5.sketch);
+    const p5Sketch = document.getElementById(Sk.py5.sketch);
 
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message)
@@ -1564,7 +1564,7 @@ const $builtinmodule = function (name) {
   };
 
   mod.load_image = new Sk.builtin.func(function (path) {
-    const asset = Sk.p5.assets.find((el) => el.filename === path.v);
+    const asset = Sk.py5.assets.find((el) => el.filename === path.v);
     if (asset) {
       path.v = asset.url
     }
