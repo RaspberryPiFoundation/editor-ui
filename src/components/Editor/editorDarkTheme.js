@@ -24,10 +24,10 @@ export const editorDarkTheme = EditorView.theme({
   },
   ".cm-line .cm-indentation-marker": {
     'background': 'none',
-    'border-left': '1px solid grey',
+    'border-left': 'solid grey',
     "&.active": {
       'background': 'none',
-      'border-left': '1px solid lightgrey',
+      'border-left': 'solid lightgrey',
     }
   },
   ".ͼb": {color: "#FF00A4"},

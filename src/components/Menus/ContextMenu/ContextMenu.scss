@@ -1,99 +1,87 @@
 @import '../../../colours.scss';
 
 .context-menu__drop {
-    display: flex;
-    padding: calc(1.1 * var(--spacing-1)) calc(1.7 * var(--spacing-1));
-    margin: 0;
+  display: flex;
+  padding: calc(1.1 * var(--spacing-1)) calc(1.7 * var(--spacing-1));
+  margin: 0;
 
-    svg {
-      margin: 0;
-    }
+  svg {
+    margin: 0;
+  }
 }
 
 .context-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    margin-left: var(--spacing-1);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-left: var(--spacing-1);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
 
-    .context-menu__item {
-        margin: 0;
-        background-color: inherit;
-        color:  inherit;
-        padding: var(--spacing-1);
-        text-align: left;
-        white-space: nowrap;
-        overflow-x: visible;
-        box-sizing: border-box;
-        width: 100%;
-        justify-content: left;
-    }
+  .context-menu__item {
+    margin: 0;
+    background-color: inherit;
+    color:  inherit;
+    padding: var(--spacing-1);
+    text-align: left;
+    white-space: nowrap;
+    overflow-x: visible;
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: left;
+  }
+
+  svg {
+    height: 0.75em;
+    width: auto;
+  }
+
+  &--dark {
+    background-color: $rpf-black;
+    color: $rpf-white;
+    border: 1px solid transparent;
 
     svg {
-        height: 0.75em;
-        width: auto;
+      fill: $rpf-white;
     }
 
-    &--dark {
-        background-color: $rpf-black;
-        color: $rpf-white;
-        border: 1px solid transparent;
-
-        svg {
-            fill: $rpf-white;
-        }
-
-        .btn:hover {
-            background-color: $rpf-darkmode-grey22;
-        }
-
-        .btn:disabled {
-          color: $rpf-darkmode-grey32;
-        }
+    .btn:hover {
+      background-color: $rpf-darkmode-grey22;
     }
 
-    &--light {
-        background-color: $rpf-white;
-        color: $rpf-text-black;
-        border: 1px solid $rpf-darkmode-grey85;
+    .btn:disabled {
+      color: $rpf-darkmode-grey32;
+    }
+  }
 
-        svg {
-            fill: $rpf-black;
-        }
+  &--light {
+    background-color: $rpf-white;
+    color: $rpf-text-black;
+    border: 1px solid $rpf-darkmode-grey85;
 
-        .btn:hover {
-            background-color: $rpf-darkmode-grey90;
-        }
-
-        .btn:disabled {
-            color: $rpf-darkmode-grey75;
-        }
+    svg {
+      fill: $rpf-black;
     }
 
-    &--dark .btn:disabled svg {
-        fill: $rpf-darkmode-grey32;
+    .btn:hover {
+      background-color: $rpf-darkmode-grey90;
     }
 
-    &--light .btn:disabled svg {
-        fill: $rpf-darkmode-grey90;
+    .btn:disabled {
+      color: $rpf-darkmode-grey75;
     }
+  }
 
-    .btn:disabled:hover {
-        background-color: inherit;
-    }
+  &--dark .btn:disabled svg {
+    fill: $rpf-darkmode-grey32;
+  }
 
-    &--small {
-        font-size: var(--font-size-base);
-    }
+  &--light .btn:disabled svg {
+    fill: $rpf-darkmode-grey90;
+  }
 
-    &--medium {
-        font-size: var(--font-size-u-2);
-    }
-
-    &--large {
-        font-size: var(--font-size-u-4);
-    }
+  .btn:disabled:hover {
+    background-color: inherit;
+  }
 }

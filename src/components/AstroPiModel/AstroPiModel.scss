@@ -286,26 +286,3 @@
     }
   }
 }
-
-.font-size-medium {
-  .sense-hat-controls {
-    &-heading  {
-      font-size: var(--font-size-u-2);
-    }
-  }
-  .sense-hat-model-orientation__reading {
-    font-size: var(--font-size-u-1);
-  }
-}
-
-.font-size-large {
-  .sense-hat-controls {
-    &-heading  {
-      font-size: var(--font-size-u-4);
-    }
-  }
-  .sense-hat-model-orientation__reading {
-    font-size: var(--font-size-u-3);
-  }
-}
-

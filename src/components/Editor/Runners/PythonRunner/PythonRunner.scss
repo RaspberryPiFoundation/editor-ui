@@ -17,6 +17,14 @@
   white-space: -o-pre-wrap;
   word-wrap: break-word;
   overflow-y: auto;
+
+  .font-size-medium & {
+    font-size: var(--font-size-u-2);
+  }
+
+  .font-size-large & {
+    font-size: var(--font-size-u-4);
+  }
 }
 
 .pythonrunner-console-output-line {
