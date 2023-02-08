@@ -25,7 +25,7 @@ export const syncProject = (actionName) => createAsyncThunk(
     return { project: response.data, autosave }
   },
   {
-    condition: ({}, { getState }) => {
+    condition: (_, { getState }) => {
       const { editor, auth } = getState()
       const saveStatus = editor.saving
       const loadStatus = editor.loading
