@@ -6,7 +6,7 @@ const NameErrorMessage = () => {
 
   return error ? (
     <div className='error-message'>
-      <p className='error-message--content'>{ error }</p>
+      <p className='error-message__content'>{ error }</p>
     </div>
   ) : null;
 };

@@ -87,7 +87,7 @@ exports[`Renders without crashing 1`] = `
             role="tabpanel"
           >
             <pre
-              class="pythonrunner-console"
+              class="pythonrunner-console pythonrunner-console--small"
             />
           </div>
         </div>

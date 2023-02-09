@@ -11,6 +11,6 @@ it("Interrupts p5 draws when stop button clicked", () => {
   cy.get(".btn--run").click()
   
   cy.get(".btn--stop").click()
-  cy.get(".error-message--content").should("contain", "Execution interrupted")
+  cy.get(".error-message__content").should("contain", "Execution interrupted")
 
 })
