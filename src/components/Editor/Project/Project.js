@@ -92,6 +92,7 @@ const Project = (props) => {
         dispatch(syncProject('remix')({project, accessToken: user.access_token}))
       }
       localStorage.removeItem('awaitingSave')
+      return
     }
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
