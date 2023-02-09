@@ -1260,13 +1260,13 @@ const $builtinmodule = function (name) {
     mod.pInst.exit();
   });
 
-  Sk.builtins.mouse_x = new Sk.builtin.float_(0)
-  Sk.builtins.mouse_y = new Sk.builtin.float_(0)
+  mod.mouse_x = new Sk.builtin.float_(0)
+  mod.mouse_y = new Sk.builtin.float_(0)
 
   const updateMouseCoords = (e) => {
     if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= mod.width && mod.pInst.mouseY <= mod.height) {
-      Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
-      Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+      mod.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
+      mod.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
     }
   }
 
@@ -1409,7 +1409,7 @@ const $builtinmodule = function (name) {
       };
 
       sketch.draw = function () {
-        Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
+        mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
         if (Sk.globals["draw"]) {
           try {
             Sk.misceval.callsimArray(Sk.globals["draw"]);
