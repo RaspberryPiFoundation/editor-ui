@@ -18,11 +18,11 @@
   word-wrap: break-word;
   overflow-y: auto;
 
-  .font-size-medium & {
+  &--medium {
     font-size: var(--font-size-u-2);
   }
 
-  .font-size-large & {
+  &--large {
     font-size: var(--font-size-u-4);
   }
 }
