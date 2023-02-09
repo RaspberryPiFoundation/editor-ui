@@ -4,7 +4,7 @@ import { SettingsContext } from "../../../settings"
 import { render } from '@testing-library/react'
 import EditorPanel from './EditorPanel'
 
-describe('When error is set', () => {
+describe('When font size is set', () => {
 
   let editorContainer
   
