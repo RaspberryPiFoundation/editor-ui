@@ -16,7 +16,7 @@ License: Apache-2.0
   See the License for the specific language governing permissions and
   limitations under the License.
 
-Files: public/p5-shim.js
+Files: public/p5-shim.js, public/py5-shim.js
 Copyright: 2021 Nick McIntyre <https://github.com/mcintyrelabs/skulpt>
 License: MIT
 
