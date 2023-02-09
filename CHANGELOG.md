@@ -16,12 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Font size only scales code, text output and error messages rather than the whole UI (#365)
 - Refactored font size settings to use React `ContextProvider` (#366)
 - Clicking 'login to save' triggers save/remix after successful login (#368)
+- Renaming project, adding new file or renaming file triggers autosave immediately (#368)
 
 ### Fixed
 
 - Make sure accessDeniedData login button redirects to /projects (#356)
 - Allowed HTML projects to load (#362)
-- Renaming project, adding new file or renaming file triggers autosave (#368)
+- Renaming project, adding new file or renaming file always triggers autosave (#368)
 
 ## [0.12.0] - 2023-01-27
 
