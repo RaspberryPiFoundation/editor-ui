@@ -26,13 +26,4 @@
   .embedded-viewer {
     background-color: $editor-white;
   }
-  .visual-output {
-    border-bottom: 5px solid $rpf-darkmode-grey90;
-  }
-}
-
-.--dark {
-  .visual-output {
-    border-bottom: 5px solid $rpf-darkmode-grey32;
-  }
 }
