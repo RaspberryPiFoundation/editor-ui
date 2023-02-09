@@ -38,7 +38,7 @@ const LoginToSaveModal = () => {
 
         <div className='modal-content__buttons' >
           <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />
-          <LoginButton className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} />
+          <LoginButton className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} triggerSave />
         </div>
         <div className='modal-content__links'>
           <Button buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>

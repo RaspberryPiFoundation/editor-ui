@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Font size only scales code, text output and error messages rather than the whole UI (#365)
 - Refactored font size settings to use React `ContextProvider` (#366)
+- Clicking 'login to save' triggers save/remix after successful login (#368)
+- Renaming project, adding new file or renaming file triggers autosave immediately (#368)
 
 ### Fixed
 
@@ -25,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Sense hat visual output height (#358)
 - Web component font size (#358)
 - Web component icon visibility (#358)
+- Renaming project, adding new file or renaming file always triggers autosave (#368)
 
 ## [0.12.0] - 2023-01-27
 

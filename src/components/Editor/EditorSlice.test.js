@@ -566,7 +566,7 @@ describe('Updating file name', () => {
     openFiles: ['file.py']
   }
 
-  test('If file is open updates name in project and openFiles', () => {
+  test('If file is open updates name in project and openFiles and saves', () => {
     const expectedState = {
       project: {
         components: [
@@ -574,12 +574,13 @@ describe('Updating file name', () => {
           {name: 'another_file', extension: 'py'}
         ]
       },
-      openFiles: ['my_file.py']
+      openFiles: ['my_file.py'],
+      saving: "idle",
     }
     expect(reducer(initialState, updateComponentName({key: 0, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
   })
 
-  test('If file is closed updates name in project', () => {
+  test('If file is closed updates name in project and saves', () => {
     const expectedState = {
       project: {
         components: [
@@ -587,7 +588,8 @@ describe('Updating file name', () => {
           {name: 'my_file', extension: 'py'}
         ]
       },
-      openFiles: ['file.py']
+      openFiles: ['file.py'],
+      saving: "idle",
     }
     expect(reducer(initialState, updateComponentName({key: 1, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
   })

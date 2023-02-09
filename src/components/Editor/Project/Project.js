@@ -85,7 +85,15 @@ const Project = (props) => {
     if (forWebComponent) {
       return
     }
-  
+    if (user && localStorage.getItem('awaitingSave')) {
+      if (isOwner(user, project)) {
+        dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
+      } else if (user && project.identifier) {
+        dispatch(syncProject('remix')({project, accessToken: user.access_token}))
+      }
+      localStorage.removeItem('awaitingSave')
+      return
+    }
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
