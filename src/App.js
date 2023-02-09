@@ -25,7 +25,7 @@ function App() {
   return (
     <div 
     id='app'
-    className = {`--${cookies.theme || themeDefault } font-size-${cookies.fontSize || 'small' }`}>
+    className = {`--${cookies.theme || themeDefault }`}>
       
       <SettingsContext.Provider value={{theme: cookies.theme || themeDefault, fontSize: cookies.fontSize || 'small' }}>
         <ToastContainer enableMultiContainer containerId='top-center' position='top-center' className='toast--top-center' closeButton={ToastCloseButton}/>

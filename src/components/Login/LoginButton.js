@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Button from '../Button/Button';
 
 const LoginButton = (props) => {
-  const { buttonText, className } = props;
+  const { buttonText, className, triggerSave } = props;
   const location = useLocation()
   const project = useSelector((state) => state.editor.project)
   const accessDeniedData = useSelector((state) => state.editor.modals.accessDenied)
@@ -18,6 +18,9 @@ const LoginButton = (props) => {
     } else {
       localStorage.setItem('location', location.pathname)
       localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+    }
+    if (triggerSave) {
+      localStorage.setItem('awaitingSave', 'true')
     }
     userManager.signinRedirect();
   }

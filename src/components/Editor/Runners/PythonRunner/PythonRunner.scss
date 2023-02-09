@@ -18,11 +18,11 @@
   word-wrap: break-word;
   overflow-y: auto;
 
-  .font-size-medium & {
+  &--medium {
     font-size: var(--font-size-u-2);
   }
 
-  .font-size-large & {
+  &--large {
     font-size: var(--font-size-u-4);
   }
 }
@@ -66,11 +66,20 @@
 .output-panel {
   display: flex;
   overflow: hidden;
+
   &--text {
     flex: 3;
   }
 
   &--visual {
     flex: 7;
+
+    .--light & {
+      border-bottom: 5px solid $rpf-darkmode-grey90;
+    }
+
+    .--dark & {
+      border-bottom: 5px solid $rpf-darkmode-grey32;
+    }
   }
 }

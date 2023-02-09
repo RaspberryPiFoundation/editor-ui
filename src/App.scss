@@ -63,3 +63,8 @@ input {
   sans-serif;
   font-size: var(--font-size-base)
 }
+
+// Removes the scrollbar flash on first load
+html {
+  overflow: hidden;
+}
