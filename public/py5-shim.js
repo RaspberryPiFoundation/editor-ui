@@ -684,13 +684,13 @@ const $builtinmodule = function (name) {
     // createFont(name, size, smooth)
     // createFont(name, size, smooth, charset)
     const font = Sk.misceval.callsimArray(mod.PFont);
-    if (typeof(smooth) === "undefined") {
-	    font.v = mod.pInst.createFont(name.v, size.v);
-    } else if (typeof(charset) === "undefined") {
-	    font.v = mod.pInst.createFont(name.v, size.v, smooth.v);
-    } else {
-	    font.v = mod.pInst.createFont(name.v, size.v, smooth.v, charset.v);
-    }
+    // if (typeof(smooth) === "undefined") {
+	  //   font.v = mod.pInst.createFont(name.v, size.v);
+    // } else if (typeof(charset) === "undefined") {
+	  //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v);
+    // } else {
+	  //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v, charset.v);
+    // }
     return font;
   });
 
