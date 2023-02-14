@@ -326,6 +326,78 @@ describe('When logged in and user does not own project and prompted to save', ()
   })
 })
 
+describe('When logged in and user does not own project and awaiting save', () => {
+  let mockedStore
+  let remixProject
+  let remixAction
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project,
+        loading: 'success',
+        openFiles: []
+      },
+      auth: {
+        user: user2
+      }
+    }
+    mockedStore = mockStore(initialState);
+    localStorage.setItem('awaitingSave', 'true')
+    remixAction = {type: 'REMIX_PROJECT' }
+    remixProject = jest.fn(() => remixAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (remixProject)))
+    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+  })
+
+  afterEach(() => {
+    localStorage.clear()
+  })
+
+  test('Project remixed and saved to database', async () => {
+    await waitFor(() => expect(remixProject).toHaveBeenCalledWith({project, accessToken: user2.access_token}), {timeout: 2100})
+    expect(mockedStore.getActions()[0]).toEqual(remixAction)
+  })
+})
+
+describe('When logged in and project has no identifier and awaiting save', () => {
+  let mockedStore
+  let saveProject
+  let saveAction
+
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {...project, identifier: null},
+        loading: 'success',
+        openFiles: []
+      },
+      auth: {
+        user: user2
+      }
+    }
+    mockedStore = mockStore(initialState);
+    localStorage.setItem('awaitingSave', 'true')
+    saveAction = {type: 'SAVE_PROJECT' }
+    saveProject = jest.fn(() => saveAction)
+    syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
+    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+  })
+
+  afterEach(() => {
+    localStorage.clear()
+  })
+
+  test('Project saved to database', async () => {
+    await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project: {...project, identifier: null}, accessToken: user2.access_token, autosave: false}), {timeout: 2100})
+    expect(mockedStore.getActions()[0]).toEqual(saveAction)
+  })
+})
+
 describe('When logged in and user owns project', () => {
 
   let mockedStore;

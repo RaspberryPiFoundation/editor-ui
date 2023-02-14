@@ -20,7 +20,7 @@ const ContextMenu = (props) => {
       position='anchor'
       viewScroll='initial'
       portal={true}
-      menuClassName={`context-menu context-menu--${settings.theme} context-menu--${settings.fontSize}`}
+      menuClassName={`context-menu context-menu--${settings.theme}`}
     >
       {menuOptions.map((option, i) => (
         <MenuItem key={i} className='btn context-menu__item'  onClick={option.action} >

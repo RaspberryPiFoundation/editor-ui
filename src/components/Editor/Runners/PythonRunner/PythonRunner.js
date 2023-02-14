@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './PythonRunner.scss';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from "@sentry/browser";
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage'
 import store from '../../../../app/store'
 import VisualOutputPane from './VisualOutputPane';
 import OutputViewToggle from './OutputViewToggle';
+import { SettingsContext } from '../../../../settings';
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -24,6 +25,7 @@ const PythonRunner = () => {
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation()
+  const settings = useContext(SettingsContext)
 
   const queryParams = new URLSearchParams(window.location.search)
   const [hasVisualOutput, setHasVisualOutput] = useState(queryParams.get('show_visual_tab') === 'true' || senseHatAlwaysEnabled)
@@ -70,6 +72,12 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
     },
+    "./py5/__init__.js": {
+      path: `${process.env.PUBLIC_URL}/py5-shim.js`,
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
+    },
     "./p5/__init__.js": {
       path: `${process.env.PUBLIC_URL}/p5-shim.js`,
       dependencies: [
@@ -86,6 +94,7 @@ const PythonRunner = () => {
 
   const visualLibraries =[
     "./pygal/__init__.js",
+    "./py5/__init__.js",
     "./p5/__init__.js",
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
@@ -108,7 +117,7 @@ const PythonRunner = () => {
       dispatch(setSenseHatEnabled(true))
     }
 
-    if(x === "./p5/__init__.js") {
+    if(x === "./py5/__init__.js" || x === "./p5/__init__.js") {
       dispatch(triggerDraw())
     }
 
@@ -340,7 +349,7 @@ const PythonRunner = () => {
               </TabList>
               <ErrorMessage />
               <TabPanel key={0}>
-                <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+                <pre className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`} onClick={shiftFocusToInput} ref={output}></pre>
               </TabPanel>
             </Tabs>
           </div>
@@ -365,7 +374,7 @@ const PythonRunner = () => {
           </TabPanel> : null
         }
         <TabPanel key={1}>
-          <pre className="pythonrunner-console" onClick={shiftFocusToInput} ref={output}></pre>
+          <pre className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`} onClick={shiftFocusToInput} ref={output}></pre>
         </TabPanel>
       </Tabs>
       }

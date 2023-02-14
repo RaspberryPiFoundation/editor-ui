@@ -52,18 +52,6 @@ input {
   }
 }
 
-.font-size-medium {
-  .toast--bottom-center {
-    font-size: var(--font-size-u-1)
-  }
-}
-
-.font-size-large {
-  .toast--bottom-center {
-    font-size: var(--font-size-u-3)
-  }
-}
-
 #app {
   height: 100vh;
   overflow: auto;
@@ -73,4 +61,10 @@ input {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
+  font-size: var(--font-size-base)
+}
+
+// Removes the scrollbar flash on first load
+html {
+  overflow: hidden;
 }

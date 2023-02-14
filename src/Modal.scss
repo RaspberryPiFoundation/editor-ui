@@ -131,21 +131,3 @@
     background-color: $rpf-white;
   }
 }
-
-.font-size-medium {
-  .modal-content__heading {
-    font-size: var(--font-size-u-4);
-  }
-  .modal-content__subheading {
-    font-size: var(--font-size-u-2);
-  }
-}
-
-.font-size-large {
-  .modal-content__heading {
-    font-size: var(--font-size-u-6)
-  }
-  .modal-content__subheading {
-    font-size: var(--font-size-u-4);
-  }
-}

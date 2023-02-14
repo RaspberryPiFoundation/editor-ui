@@ -27,6 +27,10 @@ const VisualOutputPane = () => {
       pygalOutput.current.innerHTML = '';
       p5Output.current.innerHTML = '';
 
+      Sk.py5 = {}
+      Sk.py5.sketch = "p5Sketch";
+      Sk.py5.assets = projectImages;
+
       Sk.p5 = {}
       Sk.p5.sketch = "p5Sketch";
       Sk.p5.assets = projectImages;
@@ -41,7 +45,12 @@ const VisualOutputPane = () => {
 
   useEffect(() => {
     if (!drawTriggered && p5Output.current && p5Output.current.innerHTML !== '') {
-      Sk.p5.stop();
+      if (Sk.py5.stop) {
+        Sk.py5.stop()
+      } else {
+        Sk.p5.stop()
+      }
+      
       if(error === ''){
         dispatch(setError(t('output.errors.interrupted')))
       }

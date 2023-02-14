@@ -15,10 +15,10 @@ export const editorLightTheme = EditorView.theme({
   },
   ".cm-line .cm-indentation-marker": {
     'background': 'none',
-    'border-left': '1px solid lightgrey',
+    'border-left': 'solid lightgrey',
     "&.active": {
       'background': 'none',
-      'border-left': '1px solid grey',
+      'border-left': 'solid grey',
     }
   },
 }, {dark: false})

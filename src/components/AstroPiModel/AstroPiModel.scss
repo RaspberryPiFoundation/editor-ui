@@ -2,7 +2,6 @@
 @import '../../editor-spacing.scss';
 
 .sense-hat {
-  height: fit-content;
   width: 100%;
   flex: 1;
   display: flex;
@@ -287,26 +286,3 @@
     }
   }
 }
-
-.font-size-medium {
-  .sense-hat-controls {
-    &-heading  {
-      font-size: var(--font-size-u-2);
-    }
-  }
-  .sense-hat-model-orientation__reading {
-    font-size: var(--font-size-u-1);
-  }
-}
-
-.font-size-large {
-  .sense-hat-controls {
-    &-heading  {
-      font-size: var(--font-size-u-4);
-    }
-  }
-  .sense-hat-model-orientation__reading {
-    font-size: var(--font-size-u-3);
-  }
-}
-
