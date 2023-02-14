@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Refactored font size settings to use React `ContextProvider` (#366)
 - Clicking 'login to save' triggers save/remix after successful login (#368)
 - Renaming project, adding new file or renaming file triggers autosave immediately (#368)
+- Bump http-cache-semantics from 4.1.0 to 4.1.1 (#361)
 
 ### Fixed
 
