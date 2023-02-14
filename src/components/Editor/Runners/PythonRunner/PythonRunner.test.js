@@ -145,7 +145,7 @@ describe('When in split view, no visual libraries used and code run', () => {
   })
 })
 
-describe('When in split view, p5 imported and code run', () => {
+describe('When in split view, py5 imported and code run', () => {
   let store;
   let queryByText;
   
@@ -157,7 +157,7 @@ describe('When in split view, p5 imported and code run', () => {
         project: {
           components: [
             {
-              content: "import p5"
+              content: "import py5"
             }
           ],
           image_list: []
@@ -300,7 +300,7 @@ describe('When in tabbed view, no visual libraries used and code run', () => {
   })
 })
 
-describe('When in tabbed view, p5 imported and code run', () => {
+describe('When in tabbed view, py5 imported and code run', () => {
   let store;
   let queryByText;
   
@@ -312,7 +312,7 @@ describe('When in tabbed view, p5 imported and code run', () => {
         project: {
           components: [
             {
-              content: "import p5"
+              content: "import py5"
             }
           ],
           image_list: []

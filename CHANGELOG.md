@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Switched `processing` implementation from `p5.py` to `py5.py` (#364)
 - Font size only scales code, text output and error messages rather than the whole UI (#365)
 - Refactored font size settings to use React `ContextProvider` (#366)
 - Clicking 'login to save' triggers save/remix after successful login (#368)
