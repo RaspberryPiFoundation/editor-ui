@@ -10857,7 +10857,7 @@ js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-jsbi@^3.1.4:
+jsbi@^3.2.3:
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/jsbi/-/jsbi-3.2.5.tgz#b37bb90e0e5c2814c1c2a1bcd8c729888a2e37d6"
   integrity sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==
@@ -15897,12 +15897,11 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-skulpt@^1.2.0:
+"skulpt@https://github.com/skulpt/skulpt#master":
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/skulpt/-/skulpt-1.2.0.tgz#ee37764be9d75811f69bd4e573dbdecbd1743a80"
-  integrity sha512-T0cv0sdSOXLlIJTuyXSeYJ3TFdWYSZfX2PcBLpRKrKZ3dTbVQXRMiYudSuko2xzcyMif47DS2ShatCwjCbsSsA==
+  resolved "https://github.com/skulpt/skulpt#a2e614061f6a0e0fb80f91aa53bffa86f19f4e68"
   dependencies:
-    jsbi "^3.1.4"
+    jsbi "^3.2.3"
 
 slash@^2.0.0:
   version "2.0.0"
