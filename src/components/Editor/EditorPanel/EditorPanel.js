@@ -92,8 +92,8 @@ const EditorPanel = ({
     view.scrollDOM.setAttribute('aria-hidden', 'true')
 
     // Add alt text to hidden images to fix accessibility error
-    const images = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
-    for (let img of images) {
+    const hiddenImages = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
+    for (let img of hiddenImages) {
       img.setAttribute('alt', null)
     }
 
