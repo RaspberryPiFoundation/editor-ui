@@ -10,6 +10,7 @@
     display: flex;
     padding: 0 var(--spacing-half);
     cursor: pointer;
+    margin: 0;
 
     &:disabled {
       cursor: inherit;
@@ -19,7 +20,10 @@
 
 .--light {
   .output-view-toggle {
-    background-color: $rpf-darkmode-grey95;
+    &__button {
+      background-color: $rpf-darkmode-grey95;
+    }
+
     svg {
       fill: $rpf-black;
     }
@@ -32,23 +36,28 @@
 
 .--dark {
   .output-view-toggle {
-    background-color: $rpf-darkmode-grey22;
     &__button {
+      background-color: $rpf-darkmode-grey22;
+
       svg {
         fill: $rpf-darkmode-grey75;
       }
+
       &--active {
         background-color: $rpf-darkmode-grey42;
         border-radius: 5px;
+
         svg {
           fill: $rpf-white;
         }
       }
+
       &:disabled {
         svg {
           fill: $rpf-darkmode-grey42;
         }
       }
+
       &--active:disabled {
         svg {
           fill: $rpf-darkmode-grey75;
