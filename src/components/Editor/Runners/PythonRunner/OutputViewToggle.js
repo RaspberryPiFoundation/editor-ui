@@ -22,10 +22,10 @@ const OutputViewToggle = () => {
 
   return (
     <div className = {`output-view-toggle`} disabled = {codeRunTriggered || drawTriggered}>
-      <button className = {`output-view-toggle__button output-view-toggle__button--tabbed${isSplitView ? "" : " output-view-toggle__button--active"}` } disabled = {codeRunTriggered || drawTriggered} onClick={switchToTabbedView}>
+      <button className = {`output-view-toggle__button output-view-toggle__button--tabbed${isSplitView ? "" : " output-view-toggle__button--active"}` } disabled = {codeRunTriggered || drawTriggered} arai-label='Tabbed view' title='Tabbed view' onClick={switchToTabbedView}>
         <TabbedViewIcon />
       </button>
-      <button className = {`output-view-toggle__button output-view-toggle__button--split${isSplitView ? " output-view-toggle__button--active" : ""}`} disabled = {codeRunTriggered || drawTriggered} onClick={switchToSplitView}>
+      <button className = {`output-view-toggle__button output-view-toggle__button--split${isSplitView ? " output-view-toggle__button--active" : ""}`} disabled = {codeRunTriggered || drawTriggered} arai-label='Split view' title='Split view' onClick={switchToSplitView}>
         <SplitViewIcon />
       </button>
     </div>
