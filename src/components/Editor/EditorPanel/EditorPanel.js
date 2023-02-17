@@ -91,6 +91,12 @@ const EditorPanel = ({
     // 'aria-hidden' to fix keyboard access accessibility error
     view.scrollDOM.setAttribute('aria-hidden', 'true')
 
+    // Add alt text to hidden images to fix accessibility error
+    const images = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
+    for (let img of images) {
+      img.setAttribute('alt', null)
+    }
+
     return () => {
       view.destroy();
     };
