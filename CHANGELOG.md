@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component font size (#358)
 - Web component icon visibility (#358)
 - Renaming project, adding new file or renaming file always triggers autosave (#368)
+- Accessibility Fixes (#373)
 
 ## [0.12.0] - 2023-01-27
 
