@@ -86,6 +86,8 @@ const EditorPanel = ({
       parent: editor.current,
     });
 
+    view.contentDOM.setAttribute('aria-label', 'editor text input')
+
     return () => {
       view.destroy();
     };
