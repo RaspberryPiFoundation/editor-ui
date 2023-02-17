@@ -328,7 +328,7 @@ const PythonRunner = () => {
         <>
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
-              <div className='output-panel output-panel--tabs'>
+              <div className='react-tabs__tab-container'>
                 <TabList>
                   <Tab key={0}>
                     <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
@@ -343,7 +343,7 @@ const PythonRunner = () => {
           </div> : null}
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
-              <div className='output-panel output-panel--tabs'>
+              <div className='react-tabs__tab-container'>
                 <TabList>
                   <Tab key={0}>
                     <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
@@ -360,7 +360,7 @@ const PythonRunner = () => {
       </>
       :
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
-        <div className='output-panel output-panel--tabs'>
+        <div className='react-tabs__tab-container'>
           <TabList>
             {hasVisualOutput ?
               <Tab key={0}>
