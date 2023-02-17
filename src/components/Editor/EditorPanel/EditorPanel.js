@@ -86,7 +86,11 @@ const EditorPanel = ({
       parent: editor.current,
     });
 
+    // 'aria-label' for accessibility
     view.contentDOM.setAttribute('aria-label', 'editor text input')
+
+    // 'aria-hidden' to fix keyboard access accessibility error
+    view.scrollDOM.setAttribute('aria-hidden', 'true')
 
     return () => {
       view.destroy();
