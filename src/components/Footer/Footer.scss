@@ -20,8 +20,13 @@
     }
 
     &-link {
-      margin: 0 var(--spacing-1);
+      padding: calc(var(--spacing-1) * 1.25) var(--spacing-1);
       color: inherit;
+      text-decoration: none;
+
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
     }
   }
 
