@@ -35,6 +35,7 @@ const EditorPanel = ({
     dispatch(updateProjectComponent({ extension: extension, name: fileName, code: content}));
   }
 
+  const label = EditorView.contentAttributes.of({ 'aria-label': 'editor text input' });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if(viewUpdate.docChanged) {
       if (['html', 'css'].includes(extension)) {
@@ -73,6 +74,7 @@ const EditorPanel = ({
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
         mode,
+        label,
         onUpdate,
         editorTheme,
         indentationMarkers(),
@@ -85,9 +87,6 @@ const EditorPanel = ({
       state: startState,
       parent: editor.current,
     });
-
-    // 'aria-label' for accessibility
-    view.contentDOM.setAttribute('aria-label', 'editor text input')
 
     // 'aria-hidden' to fix keyboard access accessibility error
     view.scrollDOM.setAttribute('aria-hidden', 'true')
