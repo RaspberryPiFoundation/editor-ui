@@ -6,11 +6,11 @@ import './ContextMenu.scss'
 
 const ContextMenu = (props) => {
 
-  const { align, direction, menuButtonClassName, MenuButtonIcon, menuOptions, offsetX, offsetY} = props
+  const { align, direction, label, menuButtonClassName, MenuButtonIcon, menuOptions, offsetX, offsetY,} = props
   const settings = useContext(SettingsContext)
 
   return (
-    <Menu menuButton={<MenuButton className={`btn btn-tertiary context-menu__drop${menuButtonClassName ? ` ${menuButtonClassName}` : ''}`}><MenuButtonIcon/></MenuButton>}
+    <Menu menuButton={<MenuButton className={`btn btn-tertiary context-menu__drop${menuButtonClassName ? ` ${menuButtonClassName}` : ''}`} title={label} aria-label={label}><MenuButtonIcon/></MenuButton>}
       transition
       align={align}
       direction={direction}
