@@ -3,6 +3,7 @@
   "version": "0.12.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.8",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
     "@codemirror/lang-css": "^6.0.0",
@@ -31,6 +32,7 @@
     "date-fns": "^2.29.3",
     "file-saver": "^2.0.5",
     "fs-extra": "^9.0.1",
+    "graphql": "^16.6.0",
     "highcharts": "^9.3.1",
     "highcharts-react-official": "^3.1.0",
     "i18next": "^22.0.3",
