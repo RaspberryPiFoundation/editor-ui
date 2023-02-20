@@ -8,12 +8,21 @@ import './ProjectListItem.scss'
 import { BinIcon, PencilIcon } from '../../Icons';
 import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
 import { Link } from 'react-router-dom';
+import { gql } from '@apollo/client';
+
+export const PROJECT_LIST_ITEM_FRAGMENT = gql`
+  fragment ProjectListItemFragment on Project {
+    name
+    identifier
+    updatedAt
+  }
+`;
 
 const ProjectListItem = (props) => {
   const project = props.project;
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const lastSaved = intlFormatDistance(new Date(project.updated_at), Date.now(), { style: 'short' });
+  const lastSaved = intlFormatDistance(new Date(project.updatedAt), Date.now(), { style: 'short' });
 
   const openRenameProjectModal = () => {
     dispatch(showRenameProjectModal(project))
@@ -40,5 +49,6 @@ const ProjectListItem = (props) => {
     </div>
   );
 };
+
 
 export default ProjectListItem;

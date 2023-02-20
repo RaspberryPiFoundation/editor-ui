@@ -6,6 +6,8 @@ import './index.css';
 import App from './App';
 import './i18n';
 
+import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+
 import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'
 import store from './app/store'
@@ -24,16 +26,21 @@ Sentry.init({
   tracesSampleRate: 1.0,
 })
 
+const ApiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
+const client = new ApolloClient({ link: ApiEndpointLink, cache: new InMemoryCache() });
+
 const div = document.getElementById('root')
 const root = createRoot(div)
 root.render(
   <React.StrictMode>
     <CookiesProvider>
-      <Provider store={store}>
-        <OidcProvider store={store} userManager={userManager}>
-          <App />
-        </OidcProvider>
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <OidcProvider store={store} userManager={userManager}>
+            <App />
+          </OidcProvider>
+        </Provider>
+      </ApolloProvider>
     </CookiesProvider>
   </React.StrictMode>
 );
