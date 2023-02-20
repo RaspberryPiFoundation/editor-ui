@@ -5,9 +5,8 @@ import { BrowserTracing } from '@sentry/tracing';
 import './index.css';
 import App from './App';
 import './i18n';
-
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-
+import { setContext } from '@apollo/client/link/context';
 import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'
 import store from './app/store'
@@ -26,8 +25,20 @@ Sentry.init({
   tracesSampleRate: 1.0,
 })
 
-const ApiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
-const client = new ApolloClient({ link: ApiEndpointLink, cache: new InMemoryCache() });
+const apiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
+const apiAuthLink = setContext((_, { headers }) => {
+  // TODO: ... better way to handle state in Apollo
+  const user = store.getState().auth.user;
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      Authorization: user ? user.access_token : "",
+    }
+  }
+});
+const client = new ApolloClient({ link: apiAuthLink.concat(apiEndpointLink), cache: new InMemoryCache() });
 
 const div = document.getElementById('root')
 const root = createRoot(div)

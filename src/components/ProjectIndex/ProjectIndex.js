@@ -18,8 +18,8 @@ import ProjectIndexPagination from './ProjectIndexPagination';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_PROJECTS = gql`
-  query GetProjects {
-    projects {
+  query GetProjects($userId: String!) {
+    projects(userId: $userId) {
       ...ProjectListTableFragment
     }
   }
@@ -32,11 +32,9 @@ const ProjectIndex = (props) => {
   const { isLoading, user } = props;
   const { t } = useTranslation();
 
-  const { loading, error, data } = useQuery(GET_PROJECTS);
+  const { loading, error, data } = useQuery(GET_PROJECTS, { variables: { userId: user.profile.user } } );
   //  if (loading) return 'Loading...';
   // if (error) return `Error! ${error.message}`;
-
-  console.log(data);
 
   useRequiresUser(isLoading, user);
   useProjectList(user);
