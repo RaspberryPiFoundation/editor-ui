@@ -24,15 +24,15 @@ const ThemeToggle = () => {
   return (
     <div className='theme-toggle'>
       <div className='theme-btn theme-btn--light' onClick={() => setTheme('light')}>
-        <div className={`theme-btn__icon theme-btn__icon--light ${!isDarkMode ? 'theme-btn__icon--active' : null}`}>
+        <button className={`theme-btn__icon theme-btn__icon--light ${!isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <SunIcon />
-        </div>
+        </button>
         <p>{t('header.settingsMenu.themeOptions.light')}</p>
       </div>
       <div className='theme-btn theme-btn--dark' onClick={() => setTheme('dark')}>
-        <div className={`theme-btn__icon theme-btn__icon--dark ${isDarkMode ? 'theme-btn__icon--active' : null}`}>
+        <button className={`theme-btn__icon theme-btn__icon--dark ${isDarkMode ? 'theme-btn__icon--active' : null}`}>
           <MoonIcon />
-        </div>
+        </button>
         <p>{t('header.settingsMenu.themeOptions.dark')}</p>
       </div>
     </div>
