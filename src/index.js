@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import './i18n';
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { relayStylePagination } from "@apollo/client/utilities";
 import { setContext } from '@apollo/client/link/context';
 import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux'
@@ -38,7 +39,17 @@ const apiAuthLink = setContext((_, { headers }) => {
     }
   }
 });
-const client = new ApolloClient({ link: apiAuthLink.concat(apiEndpointLink), cache: new InMemoryCache() });
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        projects: relayStylePagination(),
+      },
+    },
+  },
+});
+const client = new ApolloClient({ link: apiAuthLink.concat(apiEndpointLink), cache: cache});
 
 const div = document.getElementById('root')
 const root = createRoot(div)
