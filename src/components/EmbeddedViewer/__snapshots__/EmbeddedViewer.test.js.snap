@@ -50,9 +50,9 @@ exports[`Renders without crashing 1`] = `
                 class="btn-outer"
               >
                 <button
-                  aria-label="Tabbed view"
+                  aria-label="outputViewToggle.buttonTabLabel"
                   class="btn btn--small output-view-toggle__button output-view-toggle__button--tabbed output-view-toggle__button--active btn--svg-only"
-                  title="Tabbed view"
+                  title="outputViewToggle.buttonTabTitle"
                 >
                   <svg
                     fill="none"
@@ -74,9 +74,9 @@ exports[`Renders without crashing 1`] = `
                 class="btn-outer"
               >
                 <button
-                  aria-label="Split view"
+                  aria-label="outputViewToggle.buttonSplitLabel"
                   class="btn btn--small output-view-toggle__button output-view-toggle__button--split btn--svg-only"
-                  title="Split view"
+                  title="outputViewToggle.buttonSplitTitle"
                 >
                   <svg
                     fill="none"
