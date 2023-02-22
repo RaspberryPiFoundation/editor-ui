@@ -6,12 +6,12 @@ import './index.css';
 import App from './App';
 import './i18n';
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { relayStylePagination } from "@apollo/client/utilities";
 import { setContext } from '@apollo/client/link/context';
 import { OidcProvider } from 'redux-oidc';
-import { Provider } from 'react-redux'
-import store from './app/store'
-import userManager from './utils/userManager'
+import { Provider } from 'react-redux';
+import store from './app/store';
+import userManager from './utils/userManager';
+import apolloCache from './utils/apolloCache';
 import { CookiesProvider } from 'react-cookie';
 
 Sentry.init({
@@ -40,16 +40,7 @@ const apiAuthLink = setContext((_, { headers }) => {
   }
 });
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        projects: relayStylePagination(),
-      },
-    },
-  },
-});
-const client = new ApolloClient({ link: apiAuthLink.concat(apiEndpointLink), cache: cache});
+const client = new ApolloClient({ link: apiAuthLink.concat(apiEndpointLink), cache: apolloCache});
 
 const div = document.getElementById('root')
 const root = createRoot(div)
