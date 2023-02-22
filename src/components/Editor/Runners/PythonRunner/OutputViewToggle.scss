@@ -4,16 +4,48 @@
   display: inline-flex;
   margin: auto var(--spacing-1) auto auto;
   align-items: center;
-  border-radius: 5px;
 
   &__button {
+    border: 0px;
     display: flex;
-    padding: 0 var(--spacing-half);
+    padding: var(--spacing-half) var(--spacing-1);
     cursor: pointer;
     margin: 0;
 
     &:disabled {
       cursor: inherit;
+    }
+
+    &:focus-visible {
+      border: none;
+
+      &::before {
+        border: 3px solid $rpf-brand-raspberry;
+      }
+    }
+
+    &::before {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      content: "";
+      position: absolute;
+      border-radius: 5px;
+    }
+  }
+
+  .btn-outer {
+    &:first-of-type {
+      .btn {
+        border-radius: 5px 0px 0px 5px;
+      }
+    }
+
+    &:last-of-type {
+      .btn {
+        border-radius: 0px 5px 5px 0px;
+      }
     }
   }
 }
@@ -29,8 +61,9 @@
     }
   }
   .output-view-toggle__button--active {
-    background-color: $rpf-darkmode-grey85;
-    border-radius: 5px;
+    &::before {
+      background-color: $rpf-darkmode-grey85;
+    }
   }
 }
 
@@ -44,9 +77,9 @@
       }
 
       &--active {
-        background-color: $rpf-darkmode-grey42;
-        border-radius: 5px;
-
+        &::before {
+          background-color: $rpf-darkmode-grey42;
+        }
         svg {
           fill: $rpf-white;
         }
