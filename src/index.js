@@ -5,7 +5,7 @@ import { BrowserTracing } from '@sentry/tracing';
 import './index.css';
 import App from './App';
 import './i18n';
-import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloProvider, ApolloClient, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { OidcProvider } from 'redux-oidc';
 import { Provider } from 'react-redux';
