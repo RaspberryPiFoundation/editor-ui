@@ -19,7 +19,7 @@ const FileMenu = (props) => {
       <ContextMenu
         align = 'start'
         direction = 'right'
-        label='action menu'
+        label={t('filePane.fileMenu.label')}
         MenuButtonIcon = {EllipsisVerticalIcon}
         menuOptions = {[
           {

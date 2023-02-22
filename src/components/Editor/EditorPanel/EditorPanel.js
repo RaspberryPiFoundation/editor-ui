@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
 import { useCookies } from 'react-cookie';
-
+import { useTranslation } from "react-i18next";
 import { basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
@@ -28,6 +28,7 @@ const EditorPanel = ({
   const project = useSelector((state) => state.editor.project);
   const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const settings = useContext(SettingsContext)
   let timeout;
 
@@ -35,7 +36,7 @@ const EditorPanel = ({
     dispatch(updateProjectComponent({ extension: extension, name: fileName, code: content}));
   }
 
-  const label = EditorView.contentAttributes.of({ 'aria-label': 'editor text input' });
+  const label = EditorView.contentAttributes.of({ 'aria-label': t('editorPanel.ariaLabel') });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if(viewUpdate.docChanged) {
       if (['html', 'css'].includes(extension)) {
