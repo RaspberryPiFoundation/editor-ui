@@ -1,5 +1,6 @@
 import { useSelector, connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 import { gql,useQuery } from '@apollo/client';
 
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
@@ -29,6 +30,8 @@ const PROJECT_INDEX_QUERY = gql`
 const ProjectIndex = (props) => {
   const navigate = useNavigate();
   const { isLoading, user } = props;
+  const { t } = useTranslation();
+
   const pageSize = 8;
 
   useRequiresUser(isLoading, user);
@@ -67,13 +70,14 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      { data ?
+      { !loading && data ?
         <>
           <ProjectListTable projectData={data.projects} />
           <ProjectIndexPagination paginationData={data.projects} fetchMore={fetchMore} pageSize={pageSize} />
         </>
-        : null
-      }
+        : null }
+      { loading ? <p>{t('projectList.loading')}</p> : null }
+      { error ? <p>{t('projectList.loadingFailed')}</p> : null }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }
       { deleteProjectModalShowing ? <DeleteProjectModal /> : null }
     </>
