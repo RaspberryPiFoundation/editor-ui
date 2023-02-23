@@ -5,7 +5,6 @@ import { gql,useQuery } from '@apollo/client';
 
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
-import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
 import { ProjectListTable, PROJECT_LIST_TABLE_FRAGMENT } from '../ProjectListTable/ProjectListTable'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
@@ -15,6 +14,7 @@ import RenameProjectModal from '../Modals/RenameProjectModal';
 import { showRenamedMessage } from '../../utils/Notifications';
 import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
+import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
 
 const PROJECT_INDEX_QUERY = gql`
   query ProjectIndexQuery($userId: String, $first: Int, $last: Int, $before: String, $after: String) {
@@ -56,9 +56,6 @@ const ProjectIndex = (props) => {
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {
     variables: { userId: user.profile.user, first: pageSize }
   });
-
-  console.log(loading)
-  console.log(data)
 
   return (
     <>
