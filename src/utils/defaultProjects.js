@@ -5,7 +5,7 @@ export const defaultPythonProject = {
   name: i18n.t('project.untitled'),
   components: [
     { extension: 'py', name: 'main',
-      content: "", index: 0, default: true },
+      content: "", default: true },
   ],
   image_list: []
 }
