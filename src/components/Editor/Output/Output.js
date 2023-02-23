@@ -9,7 +9,7 @@ const Output = () => {
     <>
       <ExternalFiles />
       <div className='proj-runner-container'>
-        <RunnerFactory projectType={project.type} />
+        <RunnerFactory projectType={project.project_type} />
       </div>
     </>
   )

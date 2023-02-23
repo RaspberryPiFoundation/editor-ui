@@ -109,8 +109,7 @@ export const EditorSlice = createSlice({
       state.project.image_list = action.payload
     },
     addProjectComponent: (state, action) => {
-      const count = state.project.components.length;
-      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": '', index: count})
+      state.project.components.push({"name": action.payload.name, "extension": action.payload.extension, "content": ''})
       state.saving = 'idle'
     },
     setEmbedded: (state, _action) => {
