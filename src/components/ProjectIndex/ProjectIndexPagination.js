@@ -1,39 +1,53 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { gql } from '@apollo/client'
+
 import { ChevronLeft, ChevronRight, DoubleChevronLeft, DoubleChevronRight } from "../../Icons";
 import Button from "../Button/Button";
-import { setProjectIndexPage } from "../Editor/EditorSlice";
 import './ProjectIndexPagination.scss'
 
-const ProjectIndexPagination = () => {
-  const currentPage = useSelector((state) => state.editor.projectIndexCurrentPage)
-  const totalPages = useSelector((state) => state.editor.projectIndexTotalPages)
-
-  const dispatch = useDispatch()
-  const { t } = useTranslation()
-
-  const goToPage = (pageNumber) => {
-    dispatch(setProjectIndexPage(pageNumber))
+export const PROJECT_INDEX_PAGINATION_FRAGMENT = gql`
+  fragment ProjectIndexPaginationFragment on ProjectConnection {
+    totalCount
+    pageInfo {
+      hasPreviousPage
+      startCursor
+      endCursor
+      hasNextPage
+    }
   }
+`;
+
+export const ProjectIndexPagination = (props) => {
+  const { t } = useTranslation();
+  const { paginationData, pageSize, fetchMore } = props;
+
+  const pageInfo = paginationData.pageInfo;
+  const totalCount = paginationData.totalCount || 0;
+  if (totalCount === 0) return null;
+
+  const lastPageSize = (totalCount % pageSize || pageSize);
+  const totalPages = Math.ceil(totalCount / pageSize)
+  // Yes, decoding this cursor is BAD.
+  const currentPage = Math.ceil((pageInfo?.endCursor ? atob(pageInfo.endCursor) : pageSize) / pageSize);
 
   return (
     <div className='editor-project-list-pagination'>
       <div className='editor-project-pagination__buttons'>
-        { currentPage > 1 ? 
+        { pageInfo.hasPreviousPage ?
           <>
-            <Button className='btn--tertiary' ButtonIcon={DoubleChevronLeft} onClickHandler={() => goToPage(1)} title={t('projectList.pagination.first')}/>
-            <Button className='btn--primary' ButtonIcon={ChevronLeft} onClickHandler={() => goToPage(currentPage-1)} title={t('projectList.pagination.previous')}/>
+            <Button className='btn--tertiary' ButtonIcon={DoubleChevronLeft} onClickHandler={() => fetchMore({variables: {first: pageSize}})} title={t('projectList.pagination.first')}/>
+            <Button className='btn--primary' ButtonIcon={ChevronLeft} onClickHandler={() => fetchMore({variables: {first: null, before: pageInfo.startCursor, last: pageSize}})} title={t('projectList.pagination.previous')}/>
           </>
           : null
         }
       </div>
       <span className='editor-project-list-pagination__current-page'>{currentPage} / {totalPages}</span>
       <div className='editor-project-pagination__buttons'>
-        { currentPage < totalPages ? 
+        { pageInfo.hasNextPage ?
           <>
-            <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => goToPage(currentPage+1)} title={t('projectList.pagination.next')}/>
-            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => goToPage(totalPages)} title={t('projectList.pagination.last')}/>
+            <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => fetchMore({variables: {first: pageSize, after: pageInfo.endCursor}})} title={t('projectList.pagination.next')}/>
+            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => fetchMore({variables: {first: null, last: lastPageSize}})} title={t('projectList.pagination.first')}/>
           </>
           : null
         }
@@ -42,4 +56,3 @@ const ProjectIndexPagination = () => {
   )
 }
 
-export default ProjectIndexPagination

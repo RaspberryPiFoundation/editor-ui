@@ -18,7 +18,7 @@ export const PROJECT_LIST_ITEM_FRAGMENT = gql`
   }
 `;
 
-const ProjectListItem = (props) => {
+export const ProjectListItem = (props) => {
   const project = props.project;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -50,5 +50,3 @@ const ProjectListItem = (props) => {
   );
 };
 
-
-export default ProjectListItem;
