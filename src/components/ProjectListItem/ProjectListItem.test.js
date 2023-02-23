@@ -3,13 +3,12 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
-import ProjectListItem from "./ProjectListItem";
+import { ProjectListItem } from "./ProjectListItem";
 
 jest.mock('date-fns')
 
 let store
-let project = {identifier: 'hello-world-project', name: 'my amazing project'}
-
+let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now() }
 
 beforeEach(() => {
   const mockStore = configureStore([])
