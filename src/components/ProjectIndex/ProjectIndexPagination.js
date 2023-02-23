@@ -47,7 +47,7 @@ export const ProjectIndexPagination = (props) => {
         { pageInfo.hasNextPage ?
           <>
             <Button className='btn--primary' ButtonIcon={ChevronRight} onClickHandler={() => fetchMore({variables: {first: pageSize, after: pageInfo.endCursor}})} title={t('projectList.pagination.next')}/>
-            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => fetchMore({variables: {first: null, last: lastPageSize}})} title={t('projectList.pagination.first')}/>
+            <Button className='btn--tertiary' ButtonIcon={DoubleChevronRight} onClickHandler={() => fetchMore({variables: {first: null, last: lastPageSize}})} title={t('projectList.pagination.last')}/>
           </>
           : null
         }
