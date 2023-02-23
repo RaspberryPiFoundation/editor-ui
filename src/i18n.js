@@ -61,7 +61,7 @@ i18n
               save: 'Save'
             },
             fileMenu: {
-              label: 'Action menu',
+              label: 'Open file menu',
               renameItem: 'Rename file'
             }
           },
@@ -86,8 +86,8 @@ i18n
           header: {
             autoSaving: 'Saving',
             autoSaved: 'Saved',
-            buttonLabel: 'Project name',
-            buttonTitle: 'Project name',
+            buttonLabel: 'Edit project name',
+            buttonTitle: 'Edit project name',
             download: 'Download',
             downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
@@ -195,7 +195,7 @@ i18n
               text: 'Are you sure you want to delete your project \'{{name}}\'?'
             },
             empty: 'No projects created yet',
-            label: 'Action menu',
+            label: 'Open project menu',
             loading: 'Loading',
             loadingFailed: 'Failed to load projects',
             name: 'Project name',
