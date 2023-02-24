@@ -328,12 +328,14 @@ const PythonRunner = () => {
         <>
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
-              <TabList>
-                <Tab key={0}>
-                  <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
-                </Tab>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  <Tab key={0}>
+                    <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+                  </Tab>
+                </TabList>
                 {!isEmbedded ? <OutputViewToggle/> : null }
-              </TabList>
+              </div>
               <TabPanel key={0} >
                 <VisualOutputPane/>
               </TabPanel>
@@ -341,12 +343,14 @@ const PythonRunner = () => {
           </div> : null}
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
-              <TabList>
-                <Tab key={0}>
-                  <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
-                </Tab>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  <Tab key={0}>
+                    <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+                  </Tab>
+                </TabList>
                 { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
-              </TabList>
+              </div>
               <ErrorMessage />
               <TabPanel key={0}>
                 <pre className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`} onClick={shiftFocusToInput} ref={output}></pre>
@@ -356,17 +360,19 @@ const PythonRunner = () => {
       </>
       :
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
-        <TabList>
-          {hasVisualOutput ?
-            <Tab key={0}>
-              <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
-            </Tab> : null
-          }
-          <Tab key={1}>
-            <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
-          </Tab>
+        <div className='react-tabs__tab-container'>
+          <TabList>
+            {hasVisualOutput ?
+              <Tab key={0}>
+                <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+              </Tab> : null
+            }
+            <Tab key={1}>
+              <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+            </Tab>
+          </TabList>
           {!isEmbedded ? <OutputViewToggle/> : null }
-        </TabList>
+        </div>
         <ErrorMessage />
         {hasVisualOutput ?
           <TabPanel key={0} >
