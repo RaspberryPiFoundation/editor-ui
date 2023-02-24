@@ -18,7 +18,7 @@ describe('When pageInfo is missing', () => {
   })
 
   test('It doesn\'t show the navigation', () => {
-    expect(screen).toBeEmpty
+    expect(screen.queryByTestId('projectIndexPagination')).not.toBeInTheDocument()
   })
 })
 
@@ -34,7 +34,7 @@ describe('When totalCount is missing', () => {
   })
 
   test('It doesn\'t show the navigation', () => {
-    expect(screen).toBeEmpty
+    expect(screen.queryByTestId('projectIndexPagination')).not.toBeInTheDocument()
   })
 })
 

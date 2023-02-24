@@ -34,7 +34,7 @@ export const ProjectIndexPagination = (props) => {
   const currentPage = Math.ceil((pageInfo.endCursor ? atob(pageInfo.endCursor) : pageSize) / pageSize);
 
   return (
-    <div className='editor-project-list-pagination'>
+    <div data-testid="projectIndexPagination" className='editor-project-list-pagination'>
       <div className='editor-project-pagination__buttons'>
         { pageInfo.hasPreviousPage ?
           <>
