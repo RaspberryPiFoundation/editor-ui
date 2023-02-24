@@ -20,7 +20,7 @@ const bottomCenterSettings = {
 
 const topCenterSettings = {
   position: toast.POSITION.TOP_CENTER,
-  autoClose: false,
+  autoClose: 6000,
   className: 'toast--top-center__message',
   closeButton: CloseButton,
   containerId: 'top-center',
