@@ -5,7 +5,7 @@ import Button from "../components/Button/Button";
 
 const CloseButton = ({ closeToast }) => {
   return (
-    <Button ButtonIcon = {CloseIcon} onClickHandler = {closeToast} title='close' label='close'/>
+    <Button ButtonIcon = {CloseIcon} onClickHandler = {closeToast} title={i18n.t('notifications.close')} label={i18n.t('notifications.close')} />
   )
 }
 
