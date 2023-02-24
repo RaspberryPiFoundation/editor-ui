@@ -22,14 +22,16 @@ export const ProjectIndexPagination = (props) => {
   const { t } = useTranslation();
   const { paginationData, pageSize, fetchMore } = props;
 
-  const pageInfo = paginationData.pageInfo;
   const totalCount = paginationData.totalCount || 0;
   if (totalCount === 0) return null;
+
+  const pageInfo = paginationData.pageInfo || {};
+  if (Object.keys(pageInfo).length === 0) return null;
 
   const lastPageSize = (totalCount % pageSize || pageSize);
   const totalPages = Math.ceil(totalCount / pageSize)
   // Yes, decoding this cursor is BAD.
-  const currentPage = Math.ceil((pageInfo?.endCursor ? atob(pageInfo.endCursor) : pageSize) / pageSize);
+  const currentPage = Math.ceil((pageInfo.endCursor ? atob(pageInfo.endCursor) : pageSize) / pageSize);
 
   return (
     <div className='editor-project-list-pagination'>
