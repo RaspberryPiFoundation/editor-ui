@@ -21,12 +21,12 @@ export const ProjectListTable = (props) => {
   const { t } = useTranslation();
   const { projectData } = props;
 
-  const projectList = projectData.edges.map((edge) => edge.node);
+  const projectList = projectData?.edges?.map((edge) => edge.node);
 
   return (
     <div className='editor-project-list'>
       <div className='editor-project-list__container'>
-        { projectList.length > 0 ?
+        { projectList && projectList.length > 0 ?
           <>
             <div className='editor-project-list__item'>
               <h4 className='editor-project-list__heading'>{t('projectList.name')}</h4>

@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
 import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
 
-const PROJECT_INDEX_QUERY = gql`
+export const PROJECT_INDEX_QUERY = gql`
   query ProjectIndexQuery($userId: String, $first: Int, $last: Int, $before: String, $after: String) {
     projects(userId: $userId, first: $first, last: $last, before: $before, after: $after) {
       ...ProjectListTableFragment
@@ -31,7 +31,6 @@ const ProjectIndex = (props) => {
   const navigate = useNavigate();
   const { isLoading, user } = props;
   const { t } = useTranslation();
-
   const pageSize = 8;
 
   useRequiresUser(isLoading, user);
@@ -54,7 +53,8 @@ const ProjectIndex = (props) => {
   }
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {
-    variables: { userId: user.profile.user, first: pageSize }
+    variables: { userId: user?.profile?.user, first: pageSize },
+    skip: (user === undefined)
   });
 
   return (
