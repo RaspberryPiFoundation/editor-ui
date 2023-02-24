@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Renaming project, adding new file or renaming file triggers autosave immediately (#368)
 - Bump http-cache-semantics from 4.1.0 to 4.1.1 (#361)
 - Removed redundant file indices (#377)
+- Use GraphQL API to fetch project index page (#376)
 
 ### Fixed
 
