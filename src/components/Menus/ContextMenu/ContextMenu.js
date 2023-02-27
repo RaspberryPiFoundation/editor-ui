@@ -31,7 +31,7 @@ const ContextMenu = (props) => {
         type="button"
         ref={menuButton}
         onClick={() => setMenuOpenState(true)}
-        >
+      >
         <MenuButtonIcon/>
       </button>
       <ControlledMenu
