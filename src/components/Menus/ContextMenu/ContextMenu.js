@@ -8,7 +8,7 @@ const ContextMenu = (props) => {
 
   const { align, direction, menuButtonLabel, menuButtonClassName, MenuButtonIcon, menuOptions, offsetX, offsetY,} = props
   const settings = useContext(SettingsContext)
-  const ref = useRef(null)
+  const menuButton = useRef(null)
   const contextMenu = useRef()
   const [isOpen, setOpen] = useState(false)
   const setMenuOpenState = (isMenuOpen) => {
@@ -17,6 +17,8 @@ const ContextMenu = (props) => {
       const hiddenDiv = contextMenu.current.firstChild
       hiddenDiv.setAttribute('role', 'menuitem')
       hiddenDiv.setAttribute('aria-hidden', 'true')
+    } else {
+      menuButton.current.focus()
     }
   }
 
@@ -27,9 +29,8 @@ const ContextMenu = (props) => {
         className = {`btn btn-tertiary context-menu__drop${menuButtonClassName ? ` ${menuButtonClassName}` : ''}`}
         title={menuButtonLabel}
         type="button"
-        ref={ref}
+        ref={menuButton}
         onClick={() => setMenuOpenState(true)}
-        aria-expanded={false}
         >
         <MenuButtonIcon/>
       </button>
@@ -45,7 +46,7 @@ const ContextMenu = (props) => {
         portal={true}
         menuClassName={`context-menu context-menu--${settings.theme}`}
         state={isOpen ? 'open' : 'closed'}
-        anchorRef={ref}
+        anchorRef={menuButton}
         ref={contextMenu}
         onClose={() => setMenuOpenState(false)}
       >
