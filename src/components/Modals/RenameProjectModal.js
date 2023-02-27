@@ -1,23 +1,42 @@
 import React from "react";
 import Modal from 'react-modal';
+import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { closeRenameProjectModal, syncProject } from "../Editor/EditorSlice";
+import { closeRenameProjectModal } from "../Editor/EditorSlice";
+import { showRenamedMessage } from '../../utils/Notifications';
 import { CloseIcon } from "../../Icons";
 import Button from "../Button/Button";
+
+const RENAME_PROJECT = gql`
+  mutation RenameProject($id: String!, $name: String!) {
+    updateProject(input: {id: $id, name: $name}) {
+      project {
+        id
+        name
+        updatedAt
+      }
+    }
+  }
+`;
 
 const RenameProjectModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const isModalOpen = useSelector((state) => state.editor.renameProjectModalShowing)
   const project = useSelector((state) => state.editor.modals.renameProject)
-  const user = useSelector((state) => state.auth.user)
+  const closeModal = () => dispatch(closeRenameProjectModal())
 
-  const closeModal = () => dispatch(closeRenameProjectModal());
+  const onCompleted = () => {
+    closeModal()
+    showRenamedMessage()
+  }
+
+  const [renameProjectMutation, { data, loading, error }] = useMutation(RENAME_PROJECT);
 
   const renameProject = () => {
     const newName = document.getElementById('name').value
-    dispatch(syncProject('save')({project: {...project, name: newName}, accessToken: user.access_token, autosave: false}))
+    renameProjectMutation({variables: {id: project.id, name: newName}, onCompleted: onCompleted})
   }
 
   return (

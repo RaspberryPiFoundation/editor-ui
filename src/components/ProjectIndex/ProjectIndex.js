@@ -11,8 +11,6 @@ import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
 import { PlusIcon } from '../../Icons';
 import RenameProjectModal from '../Modals/RenameProjectModal';
-import { showRenamedMessage } from '../../utils/Notifications';
-import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
 import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
 
@@ -37,13 +35,6 @@ const ProjectIndex = (props) => {
 
   const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
   const deleteProjectModalShowing = useSelector((state) => state.editor.deleteProjectModalShowing)
-  const saving = useSelector((state) => state.editor.saving)
-
-  useEffect(() => {
-    if (saving === 'success') {
-      showRenamedMessage()
-    }
-  }, [saving])
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
