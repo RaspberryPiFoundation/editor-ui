@@ -1,6 +1,13 @@
 import { toast } from "react-toastify";
-import { InfoIcon, TickIcon } from "../Icons";
+import { CloseIcon, InfoIcon, TickIcon } from "../Icons";
 import i18n from "../i18n";
+import Button from "../components/Button/Button";
+
+const CloseButton = ({ closeToast }) => {
+  return (
+    <Button ButtonIcon = {CloseIcon} onClickHandler = {closeToast} title={i18n.t('notifications.close')} label={i18n.t('notifications.close')} />
+  )
+}
 
 const bottomCenterSettings = {
   position: toast.POSITION.BOTTOM_CENTER,
@@ -15,6 +22,7 @@ const topCenterSettings = {
   position: toast.POSITION.TOP_CENTER,
   autoClose: 6000,
   className: 'toast--top-center__message',
+  closeButton: CloseButton,
   containerId: 'top-center',
   hideProgressBar: true
 }
