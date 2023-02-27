@@ -1,7 +1,9 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { axe, toHaveNoViolations }from 'jest-axe'
 import ContextMenu from './ContextMenu'
 
+expect.extend(toHaveNoViolations)
 const action1 = jest.fn()
 
 describe("With file items", () => {
@@ -10,6 +12,7 @@ describe("With file items", () => {
     render(
       <ContextMenu
         MenuButtonIcon = {() => {}}
+        menuButtonLabel = 'button'
         menuOptions={[{text: 'option1', action: action1, icon: () => {}}]}
       />
     )
@@ -31,5 +34,17 @@ describe("With file items", () => {
     const menuOption = screen.queryByText('option1')
     fireEvent.click(menuOption)
     expect(action1).toHaveBeenCalled()
+  })
+
+  test("It passes AXE accessibility testing when menu is closed", async () => {
+    const axeResults = await axe(screen.queryByRole("button"))
+    expect(axeResults).toHaveNoViolations()
+  })
+
+  test("It passes AXE accessibility testing when menu is open", async () => {
+    const button = screen.getByRole('button', { expanded: false })
+    fireEvent.click(button)
+    const axeResults = await axe(screen.queryByRole("menu"))
+    expect(axeResults).toHaveNoViolations()
   })
 })
