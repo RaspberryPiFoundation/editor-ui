@@ -96,6 +96,7 @@ const EditorPanel = ({
     const hiddenImages = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
     for (let img of hiddenImages) {
       img.setAttribute('alt', null)
+      img.style.visibility = 'hidden'
     }
 
     return () => {
