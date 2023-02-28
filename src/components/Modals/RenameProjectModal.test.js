@@ -18,6 +18,7 @@ describe("RenameProjectModal", () => {
     id: 'XYZ'
   }
   let newName = 'renamed project'
+  let mocks
 
   beforeEach(() => {
     const mocks = [
@@ -26,13 +27,13 @@ describe("RenameProjectModal", () => {
           query: RENAME_PROJECT_MUTATION,
           variables: { id: project.id, name: newName }
         },
-        result: {
+        result: jest.fn(() => ({
           data: {
             id: project.id,
             name: newName,
             updatedAt: '2023-02-257T14:48:00Z'
           }
-        }
+        }))
       }
     ]
 
@@ -79,13 +80,20 @@ describe("RenameProjectModal", () => {
     expect(inputBox.value).toEqual('my first project')
   })
 
-  test("Clicking save calls the mutation and closes the modal", async () => {
+  test("Clicking save calls the mutation", async () => {
+    const renameProjectMutationMock = mocks[0].result
+    fireEvent.change(inputBox, {target: {value: "renamed project"}})
+    fireEvent.click(saveButton)
+    await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
+  })
+
+  test("Clicking save eventually closes the modal", async () => {
       fireEvent.change(inputBox, {target: {value: "renamed project"}})
       fireEvent.click(saveButton)
       await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
   })
 
-  test("Clicking save calls the mutation and pops up the toast notification", async () => {
+  test("Clicking save eventually pops up the toast notification", async () => {
       fireEvent.change(inputBox, {target: {value: "renamed project"}})
       fireEvent.click(saveButton)
       await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())

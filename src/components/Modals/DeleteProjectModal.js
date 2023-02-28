@@ -8,7 +8,7 @@ import { CloseIcon } from "../../Icons";
 import Button from "../Button/Button";
 
 // Define mutation
-const DELETE_PROJECT = gql`
+export const DELETE_PROJECT_MUTATION = gql`
   mutation DeleteProject($id: String!) {
     deleteProject(input: {id: $id}) {
       id
@@ -16,7 +16,7 @@ const DELETE_PROJECT = gql`
   }
 `;
 
-const DeleteProjectModal = () => {
+export const DeleteProjectModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const isModalOpen = useSelector((state) => state.editor.deleteProjectModalShowing)
@@ -24,7 +24,7 @@ const DeleteProjectModal = () => {
 
   const closeModal = () => dispatch(closeDeleteProjectModal());
 
-  const [deleteProjectMutation, { data, loading, error }] = useMutation(DELETE_PROJECT, {refetchQueries: ["ProjectIndexQuery"]})
+  const [deleteProjectMutation, { data, loading, error }] = useMutation(DELETE_PROJECT_MUTATION, {refetchQueries: ["ProjectIndexQuery"]})
 
   const onClickDelete = async () => {
     deleteProjectMutation({variables: {id: project.id}, onCompleted: closeModal})
