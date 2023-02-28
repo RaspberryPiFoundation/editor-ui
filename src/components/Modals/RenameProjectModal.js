@@ -32,7 +32,9 @@ export const RenameProjectModal = () => {
     showRenamedMessage()
   }
 
-  const [renameProjectMutation, { data, loading, error }] = useMutation(RENAME_PROJECT_MUTATION);
+  // This can capture data, error, loading as per normal queries, but we're not
+  // using them yet.
+  const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION);
 
   const renameProject = () => {
     const newName = document.getElementById('name').value

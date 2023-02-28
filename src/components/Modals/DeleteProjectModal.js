@@ -24,7 +24,9 @@ export const DeleteProjectModal = () => {
 
   const closeModal = () => dispatch(closeDeleteProjectModal());
 
-  const [deleteProjectMutation, { data, loading, error }] = useMutation(DELETE_PROJECT_MUTATION, {refetchQueries: ["ProjectIndexQuery"]})
+  // This can capture data, error, loading as per normal queries, but we're not
+  // using them yet.
+  const [deleteProjectMutation] = useMutation(DELETE_PROJECT_MUTATION, {refetchQueries: ["ProjectIndexQuery"]})
 
   const onClickDelete = async () => {
     deleteProjectMutation({variables: {id: project.id}, onCompleted: closeModal})
