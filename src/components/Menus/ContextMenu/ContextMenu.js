@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { ControlledMenu, MenuButton, MenuItem } from "@szhsin/react-menu";
+import { ControlledMenu, MenuItem } from "@szhsin/react-menu";
 import { SettingsContext } from "../../../settings";
 
 import './ContextMenu.scss'
