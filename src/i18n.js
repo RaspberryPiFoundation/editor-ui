@@ -189,6 +189,7 @@ i18n
           },
           projectList: {
             delete: 'Delete',
+            deleteLabel: 'Delete project',
             deleteProjectModal: {
               cancel: 'Cancel',
               delete: 'Delete',
@@ -200,13 +201,14 @@ i18n
             loading: 'Loading',
             loadingFailed: 'Failed to load projects',
             name: 'Project name',
-            rename: 'Rename',
             pagination: {
               first: 'First page',
               last: 'Last page',
               next: 'Next page',
               previous: 'Previous page',
             },
+            rename: 'Rename',
+            renameLabel: 'Rename project',
             renameProjectModal: {
               cancel: 'Do not save',
               heading: 'Rename project',
