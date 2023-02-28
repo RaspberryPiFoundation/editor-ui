@@ -21,7 +21,7 @@ describe("RenameProjectModal", () => {
   let mocks
 
   beforeEach(() => {
-    const mocks = [
+    mocks = [
       {
         request: {
           query: RENAME_PROJECT_MUTATION,
