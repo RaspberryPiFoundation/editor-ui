@@ -2,40 +2,59 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { MockedProvider } from "@apollo/client/testing";
 
-import RenameProjectModal from "./RenameProjectModal";
-import { syncProject } from "../Editor/EditorSlice";
+import { RenameProjectModal, RENAME_PROJECT_MUTATION } from "./RenameProjectModal";
+import { showRenamedMessage } from '../../utils/Notifications';
 
-jest.mock('../Editor/EditorSlice', () => ({
-  ...jest.requireActual('../Editor/EditorSlice'),
-  syncProject: jest.fn((_) => jest.fn())
-}))
+jest.mock('../../utils/Notifications')
 
-describe("Testing the rename project modal", () => {
-  let store;
-  let inputBox;
-  let saveButton;
-  let user = {
-    access_token: 'my_access_token'
-  }
+describe("RenameProjectModal", () => {
+  let store
+  let inputBox
+  let saveButton
   let project = {
-    name: 'my first project'
+    name: 'my first project',
+    id: 'XYZ'
   }
+  let newName = 'renamed project'
 
   beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
+    const mocks = [
+      {
+        request: {
+          query: RENAME_PROJECT_MUTATION,
+          variables: { id: project.id, name: newName }
+        },
+        result: {
+          data: {
+            id: project.id,
+            name: newName,
+            updatedAt: '2023-02-257T14:48:00Z'
+          }
+        }
+      }
+    ]
+
+    const mockStore = configureStore([])
     const initialState = {
       editor: {
         modals: {
           renameProject: project
         },
         renameProjectModalShowing: true
-      },
-      auth: {user}
+      }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><div id='app'><RenameProjectModal currentName='main' currentExtension='py' fileKey={0} /></div></Provider>)
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <Provider store={store}>
+          <div id='app'><RenameProjectModal /></div>
+        </Provider>
+      </MockedProvider>
+    )
+
     inputBox = screen.getByRole('textbox')
     saveButton = screen.getByText('projectList.renameProjectModal.save')
   })
@@ -60,14 +79,15 @@ describe("Testing the rename project modal", () => {
     expect(inputBox.value).toEqual('my first project')
   })
 
-  test("Clicking save renames the project to the given name", async () => {
-      const saveAction = {type: 'SAVE_PROJECT' }
-      const saveProject = jest.fn(() => saveAction)
-      syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
-
+  test("Clicking save calls the mutation and closes the modal", async () => {
       fireEvent.change(inputBox, {target: {value: "renamed project"}})
       fireEvent.click(saveButton)
-      await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project: {name: 'renamed project'}, accessToken: user.access_token, autosave: false}))
-      expect(store.getActions()[0]).toEqual(saveAction)
+      await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
+  })
+
+  test("Clicking save calls the mutation and pops up the toast notification", async () => {
+      fireEvent.change(inputBox, {target: {value: "renamed project"}})
+      fireEvent.click(saveButton)
+      await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())
   })
 })

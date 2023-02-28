@@ -8,7 +8,7 @@ import { showRenamedMessage } from '../../utils/Notifications';
 import { CloseIcon } from "../../Icons";
 import Button from "../Button/Button";
 
-const RENAME_PROJECT = gql`
+export const RENAME_PROJECT_MUTATION = gql`
   mutation RenameProject($id: String!, $name: String!) {
     updateProject(input: {id: $id, name: $name}) {
       project {
@@ -20,7 +20,7 @@ const RENAME_PROJECT = gql`
   }
 `;
 
-const RenameProjectModal = () => {
+export const RenameProjectModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const isModalOpen = useSelector((state) => state.editor.renameProjectModalShowing)
@@ -32,7 +32,7 @@ const RenameProjectModal = () => {
     showRenamedMessage()
   }
 
-  const [renameProjectMutation, { data, loading, error }] = useMutation(RENAME_PROJECT);
+  const [renameProjectMutation, { data, loading, error }] = useMutation(RENAME_PROJECT_MUTATION);
 
   const renameProject = () => {
     const newName = document.getElementById('name').value

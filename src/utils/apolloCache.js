@@ -2,10 +2,11 @@ import { InMemoryCache } from '@apollo/client';
 
 const apolloCache = new InMemoryCache({
   typePolicies: {
+    Project: { keyFields: ["id"] },
     Query: {
       fields: {
         projects: {
-          keyArgs: ["$userId"],
+          keyArgs: ["userId"],
 
           read(existing, {canRead}) {
             if (!existing) return;

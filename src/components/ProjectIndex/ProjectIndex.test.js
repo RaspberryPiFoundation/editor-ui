@@ -5,10 +5,8 @@ import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store'
 import { MockedProvider } from "@apollo/client/testing"
 
-import { showRenamedMessage } from "../../utils/Notifications";
 import { default as ProjectIndex, PROJECT_INDEX_QUERY } from "./ProjectIndex";
 
-jest.mock('../../utils/Notifications')
 jest.mock('date-fns')
 
 const mockedUseNavigate = jest.fn()
@@ -108,41 +106,6 @@ describe('When authenticated', () => {
       expect(await screen.findByText('1 / 2')).toBeInTheDocument()
     })
   }) // User has projects
-
-  describe ('When saving is success', () => {
-    const mocks = [
-      {
-        request: {
-          query: PROJECT_INDEX_QUERY,
-          variables: { userId: user.profile.user, first: 8 }
-        },
-        result: { data: { projects: {} } },
-      }
-    ]
-
-    beforeEach(() => {
-      const mockStore = configureStore([])
-      const initialState = {
-        editor: {
-          saving: 'success'
-        },
-        auth: auth
-      }
-
-      const store = mockStore(initialState)
-      render (
-        <MockedProvider mocks={mocks}>
-          <Provider store={store}>
-            <ProjectIndex/>
-          </Provider>
-        </MockedProvider>
-      )
-    })
-
-    test('Shows project renamed message', () => {
-      expect(showRenamedMessage).toHaveBeenCalled()
-    })
-  })
 }) // Authenticated
 
 
