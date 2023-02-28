@@ -42,19 +42,19 @@ describe("with file item", () => {
   })
 
   test("Clicking button makes menu content appear", () => {
-    const button = screen.getByRole('button', { expanded: false })
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     expect(screen.queryByRole('menu')).not.toBeNull()
   })
 
   test("All file functions are listed", () => {
-    const button = screen.getByRole('button', { expanded: false })
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     expect(screen.getByText('filePane.fileMenu.renameItem')).not.toBeNull()
   })
 
   test("Clicking rename dispatches modal show with file details", () => {
-    const menuButton = screen.getByRole('button', { expanded: false })
+    const menuButton = screen.getByRole('button')
     fireEvent.click(menuButton)
     const renameButton = screen.getByText('filePane.fileMenu.renameItem')
     fireEvent.click(renameButton)

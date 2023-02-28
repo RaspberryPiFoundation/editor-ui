@@ -45,8 +45,8 @@ describe("When project has multiple files", () => {
     expect(screen.queryByText("c.py")).not.toBeNull()
   })
 
-  test("Renders a rename file button for each file", () => {
-    expect(screen.getAllByRole('button', { expanded: false }).length).toBe(3)
+  test("Renders a menu button for each file", () => {
+    expect(screen.getAllByTitle('filePane.fileMenu.label').length).toBe(3)
   })
 
   test('Clicking file name opens file tab',() => {

@@ -23,13 +23,13 @@ describe("With file items", () => {
   })
 
   test("Clicking button makes menu content appear", () => {
-    const button = screen.getByRole('button', { expanded: false })
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     expect(screen.queryByRole('menu')).toBeInTheDocument()
   })
 
   test("Clicking option button calls action", () => {
-    const button = screen.getByRole('button', { expanded: false })
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     const menuOption = screen.queryByText('option1')
     fireEvent.click(menuOption)
@@ -42,7 +42,7 @@ describe("With file items", () => {
   })
 
   test("It passes AXE accessibility testing when menu is open", async () => {
-    const button = screen.getByRole('button', { expanded: false })
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     const axeResults = await axe(screen.queryByRole("menu"))
     expect(axeResults).toHaveNoViolations()
