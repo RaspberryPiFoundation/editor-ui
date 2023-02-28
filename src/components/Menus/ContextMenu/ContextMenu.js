@@ -25,6 +25,7 @@ const ContextMenu = (props) => {
   return (
     <>
       <button
+        aria-haspopup="menu"
         aria-label={menuButtonLabel}
         className = {`btn btn-tertiary context-menu__drop${menuButtonClassName ? ` ${menuButtonClassName}` : ''}`}
         title={menuButtonLabel}
@@ -45,6 +46,7 @@ const ContextMenu = (props) => {
         viewScroll='initial'
         portal={true}
         menuClassName={`context-menu context-menu--${settings.theme}`}
+        menuItemFocus={{position: 'first'}}
         state={isOpen ? 'open' : 'closed'}
         anchorRef={menuButton}
         ref={contextMenu}
@@ -57,24 +59,6 @@ const ContextMenu = (props) => {
       ))}
     </ControlledMenu>
   </>
-    // <Menu menuButton={<MenuButton className={`btn btn-tertiary context-menu__drop${menuButtonClassName ? ` ${menuButtonClassName}` : ''}`} title={menuButtonLabel} aria-label={menuButtonLabel}><MenuButtonIcon/></MenuButton>}
-    //   transition
-    //   align={align}
-    //   direction={direction}
-    //   menuStyle={{padding: '5px'}}
-    //   offsetX={offsetX}
-    //   offsetY={offsetY}
-    //   position='anchor'
-    //   viewScroll='initial'
-    //   portal={true}
-    //   menuClassName={`context-menu context-menu--${settings.theme}`}
-    // >
-    //   {menuOptions.map((option, i) => (
-    //     <MenuItem key={i} className='btn context-menu__item'  onClick={option.action} >
-    //       <option.icon/>&nbsp;{option.text}
-    //     </MenuItem>
-    //   ))}
-    // </Menu>
   )
 }
 
