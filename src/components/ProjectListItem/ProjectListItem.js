@@ -42,8 +42,8 @@ export const ProjectListItem = (props) => {
         <div className='editor-project-list__updated'>{lastSaved}</div>
       </div>
       <div className='editor-project-list__actions'>
-        <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} />
-        <Button className='btn--tertiary editor-project-list__delete' buttonText={t('projectList.delete')} ButtonIcon={BinIcon} onClickHandler={openDeleteProjectModal} />
+        <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} label={t('projectList.renameLabel')} title={t('projectList.renameLabel')} />
+        <Button className='btn--tertiary editor-project-list__delete' buttonText={t('projectList.delete')} ButtonIcon={BinIcon} onClickHandler={openDeleteProjectModal} label={t('projectList.deleteLabel')} title={t('projectList.deleteLabel')}/>
       </div>
       <ProjectActionsMenu project = {project} />
     </div>

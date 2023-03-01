@@ -21,6 +21,8 @@ i18n
         translation: {
           // here we will place our translations...
           betaBanner: {
+            buttonLabel: 'close',
+            buttonTitle: 'close',
             message: 'The Code Editor is in beta.',
             modal: {
               close: 'Close',
@@ -31,6 +33,9 @@ i18n
               whatNextText: 'We\'ll soon be asking for your feedback, so we can work on making it better for you, and other digital makers.',
             },
             modalLink: 'What does this mean?'
+          },
+          editorPanel: {
+            ariaLabel: 'editor text input',
           },
           filePane: {
             errors: {
@@ -56,6 +61,7 @@ i18n
               save: 'Save'
             },
             fileMenu: {
+              label: 'Open file menu',
               renameItem: 'Rename file'
             }
           },
@@ -80,6 +86,8 @@ i18n
           header: {
             autoSaving: 'Saving',
             autoSaved: 'Saved',
+            buttonLabel: 'Edit project name',
+            buttonTitle: 'Edit project name',
             download: 'Download',
             downloadFileNameDefault: 'my {{project_type}} project',
             editorLogoAltText: 'Editor logo',
@@ -111,6 +119,7 @@ i18n
             loginText: 'Log in to your Raspberry Pi account to save your work, and you\'ll be able to access and edit your project whenever you need to.'
           },
           notifications: {
+            close: 'close',
             loginPrompt: 'To save this project and access it later, don\'t forget to log in or sign up!',
             projectRemixed: 'Your remixed project has been saved',
             projectRenamed: 'You have renamed your project.',
@@ -144,6 +153,12 @@ i18n
             textOutput: 'Text Output',
             visualOutput: 'Visual Output',
           },
+          outputViewToggle: {
+            buttonTabLabel: 'Tabbed view',
+            buttonTabTitle: 'Tabbed view',
+            buttonSplitLabel: 'Split view',
+            buttonSplitTitle: 'Split view',
+          },
           project: {
             accessDeniedNoAuthModal: {
               heading: 'You are not able to see this project',
@@ -174,6 +189,7 @@ i18n
           },
           projectList: {
             delete: 'Delete',
+            deleteLabel: 'Delete project',
             deleteProjectModal: {
               cancel: 'Cancel',
               delete: 'Delete',
@@ -181,16 +197,18 @@ i18n
               text: 'Are you sure you want to delete your project \'{{name}}\'?'
             },
             empty: 'No projects created yet',
+            label: 'Open project menu',
             loading: 'Loading',
             loadingFailed: 'Failed to load projects',
             name: 'Project name',
-            rename: 'Rename',
             pagination: {
               first: 'First page',
               last: 'Last page',
               next: 'Next page',
               previous: 'Previous page',
             },
+            rename: 'Rename',
+            renameLabel: 'Rename project',
             renameProjectModal: {
               cancel: 'Do not save',
               heading: 'Rename project',

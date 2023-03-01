@@ -1,5 +1,6 @@
 :root,
 :host {
+  --spacing-one-quart: calc(var(--spacing-1) * 1.25);
   --spacing-half: calc(0.5rem * var(--spacing-multiplier));
   --spacing-eight: calc(var(--spacing-1) / 1.25);
   --spacing-four: calc(var(--spacing-eight) / 2);

@@ -51,7 +51,7 @@ const ProjectName = () => {
       :
       <>
         <h1 className='project-name__title'>{project.name||t('header.newProject')}</h1>
-        <Button className='btn--tertiary project-name__button' ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
+        <Button className='btn--tertiary project-name__button' label={t('header.buttonLabel')} title={t('header.buttonTitle')} ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
       </>
       }
     </div>
