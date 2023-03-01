@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import { MockedProvider } from "@apollo/client/testing";
 
 import { DeleteProjectModal, DELETE_PROJECT_MUTATION } from "./DeleteProjectModal";
-import { syncProject } from "../Editor/EditorSlice";
 
 describe("Testing the delete project modal", () => {
   let store;
