@@ -19,13 +19,13 @@ test("Menu is not visible initially", () => {
 })
 
 test("Clicking button makes menu content appear", () => {
-  const button = screen.getByRole('button', { expanded: false })
+  const button = screen.getByRole('button')
   fireEvent.click(button)
   expect(screen.queryByRole('menu')).not.toBeNull()
 })
 
 test('Clicking rename option opens the rename project modal', () => {
-  const button = screen.getByRole('button', { expanded: false })
+  const button = screen.getByRole('button')
   fireEvent.click(button)
   const renameOption = screen.getByText('projectList.rename')
   fireEvent.click(renameOption)
@@ -33,7 +33,7 @@ test('Clicking rename option opens the rename project modal', () => {
 })
 
 test('Clicking delete option opens the delete project modal', () => {
-  const button = screen.getByRole('button', { expanded: false })
+  const button = screen.getByRole('button')
   fireEvent.click(button)
   const deleteOption = screen.getByText('projectList.delete')
   fireEvent.click(deleteOption)

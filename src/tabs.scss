@@ -94,8 +94,13 @@ $spacing-four: calc($spacing-eight / 2);
         }
       }
     }
+
+    &__tab-container {
+      display: flex;
+    }
   
     &__tab-list {
+      border-bottom: none;
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
@@ -112,7 +117,7 @@ $spacing-four: calc($spacing-eight / 2);
   &.--light {
     .react-tabs {
   
-      &__tab-list {
+      &__tab-container {
         border-bottom: 1px solid $rpf-darkmode-grey85;
       }
   
@@ -130,7 +135,7 @@ $spacing-four: calc($spacing-eight / 2);
     .react-tabs {
       background-color: $rpf-darkmode-grey18;
   
-      &__tab-list {
+      &__tab-container {
         border-bottom: 1px solid $rpf-darkmode-grey42;
       }
   
