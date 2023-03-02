@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Use `HtmlRunner` for `html` projects (#378)
 - Accessibility Fixes (#373, #382, #383)
 - Add `visibility: hidden` to the codemirror `cm-widgetBuffer` (#384)
+- Height discrepancy of the tab containers (#385)
 
 ## [0.12.0] - 2023-01-27
 
