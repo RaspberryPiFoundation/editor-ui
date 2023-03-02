@@ -1,22 +1,35 @@
 import React from "react";
 import Modal from 'react-modal';
+import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { closeDeleteProjectModal, syncProject } from "../Editor/EditorSlice";
+import { closeDeleteProjectModal } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
 import Button from "../Button/Button";
 
-const DeleteProjectModal = () => {
+// Define mutation
+export const DELETE_PROJECT_MUTATION = gql`
+  mutation DeleteProject($id: String!) {
+    deleteProject(input: {id: $id}) {
+      id
+    }
+  }
+`;
+
+export const DeleteProjectModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const isModalOpen = useSelector((state) => state.editor.deleteProjectModalShowing)
   const project = useSelector((state) => state.editor.modals.deleteProject)
-  const user = useSelector((state) => state.auth.user)
 
   const closeModal = () => dispatch(closeDeleteProjectModal());
 
+  // This can capture data, error, loading as per normal queries, but we're not
+  // using them yet.
+  const [deleteProjectMutation] = useMutation(DELETE_PROJECT_MUTATION, {refetchQueries: ["ProjectIndexQuery"]})
+
   const onClickDelete = async () => {
-    dispatch(syncProject('delete')({identifier: project.identifier, accessToken: user.access_token}));
+    deleteProjectMutation({variables: {id: project.id}, onCompleted: closeModal})
   }
 
   return (

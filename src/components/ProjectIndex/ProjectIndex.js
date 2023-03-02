@@ -1,40 +1,40 @@
 import { useSelector, connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
+import { gql,useQuery } from '@apollo/client';
 
-import { useProjectList } from '../Editor/Hooks/useProjectList'
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
-import ProjectListTable from '../ProjectListTable/ProjectListTable'
+import { ProjectListTable, PROJECT_LIST_TABLE_FRAGMENT } from '../ProjectListTable/ProjectListTable'
 import Button from '../Button/Button'
 import { createOrUpdateProject } from '../../utils/apiCallHandler'
 import { defaultPythonProject } from '../../utils/defaultProjects'
 import { PlusIcon } from '../../Icons';
 import RenameProjectModal from '../Modals/RenameProjectModal';
-import { showRenamedMessage } from '../../utils/Notifications';
-import { useEffect } from 'react';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
-import ProjectIndexPagination from './ProjectIndexPagination';
+import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
+
+export const PROJECT_INDEX_QUERY = gql`
+  query ProjectIndexQuery($userId: String, $first: Int, $last: Int, $before: String, $after: String) {
+    projects(userId: $userId, first: $first, last: $last, before: $before, after: $after) {
+      ...ProjectListTableFragment
+      ...ProjectIndexPaginationFragment
+    }
+  }
+  ${PROJECT_LIST_TABLE_FRAGMENT}
+  ${PROJECT_INDEX_PAGINATION_FRAGMENT}
+`;
 
 const ProjectIndex = (props) => {
   const navigate = useNavigate();
   const { isLoading, user } = props;
   const { t } = useTranslation();
+  const pageSize = 8;
 
   useRequiresUser(isLoading, user);
-  useProjectList(user);
 
-  const projectIndexTotalPages = useSelector((state) => state.editor.projectIndexTotalPages) 
-  const projectListLoaded = useSelector((state) => state.editor.projectListLoaded);
   const renameProjectModalShowing = useSelector((state) => state.editor.renameProjectModalShowing)
   const deleteProjectModalShowing = useSelector((state) => state.editor.deleteProjectModalShowing)
-  const saving = useSelector((state) => state.editor.saving)
-
-  useEffect(() => {
-    if (saving === 'success') {
-      showRenamedMessage()
-    }
-  }, [saving])
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
@@ -42,6 +42,11 @@ const ProjectIndex = (props) => {
     const identifier = response.data.identifier;
     navigate(`/projects/${identifier}`);
   }
+
+  const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {
+    variables: { userId: user?.profile?.user, first: pageSize },
+    skip: (user === undefined)
+  });
 
   return (
     <>
@@ -53,16 +58,14 @@ const ProjectIndex = (props) => {
           ButtonIcon={PlusIcon}
         />
       </ProjectIndexHeader>
-      { projectListLoaded === 'success' ?
+      { !loading && data ?
         <>
-          <ProjectListTable />
-          { projectIndexTotalPages > 1 ?
-            <ProjectIndexPagination /> : null
-          }
+          <ProjectListTable projectData={data.projects} />
+          <ProjectIndexPagination paginationData={data.projects} fetchMore={fetchMore} pageSize={pageSize} />
         </>
-        :
-        projectListLoaded === 'failed' ? <p>{t('projectList.loadingFailed')}</p> :
-        <p>{t('projectList.loading')}</p> }
+        : null }
+      { loading ? <p>{t('projectList.loading')}</p> : null }
+      { error ? <p>{t('projectList.loadingFailed')}</p> : null }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }
       { deleteProjectModalShowing ? <DeleteProjectModal /> : null }
     </>
