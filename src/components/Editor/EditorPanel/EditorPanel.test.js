@@ -2,11 +2,14 @@ import configureStore from 'redux-mock-store'
 import { Provider } from "react-redux"
 import { SettingsContext } from "../../../settings"
 import { render } from '@testing-library/react'
+import { axe, toHaveNoViolations }from 'jest-axe'
 import EditorPanel from './EditorPanel'
+
+expect.extend(toHaveNoViolations)
 
 describe('When font size is set', () => {
 
-  let editorContainer
+  let editor
   
   beforeEach(() => {
     const middlewares = []
@@ -21,17 +24,22 @@ describe('When font size is set', () => {
       }
     }
     const store = mockStore(initialState);
-    editorContainer = render(
+    const editorContainer = render(
       <Provider store={store}>
         <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'myFontSize' }}>
           <EditorPanel fileName='main' extension='py'/>
         </SettingsContext.Provider>
       </Provider>
     )
+    editor = editorContainer.container.querySelector('.editor')
   })
 
   test('Font size class is set correctly', () => {
-    const editor = editorContainer.container.querySelector('.editor')
     expect(editor).toHaveClass("editor--myFontSize")
+  })
+
+  test('Editor panel has no AXE violations', async () => {
+    const axeResults = await axe(editor)
+    expect(axeResults).toHaveNoViolations()
   })
 })

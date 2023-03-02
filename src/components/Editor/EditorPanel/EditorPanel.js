@@ -95,8 +95,7 @@ const EditorPanel = ({
     // Add alt text to hidden images to fix accessibility error
     const hiddenImages = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
     for (let img of hiddenImages) {
-      img.setAttribute('alt', null)
-      img.style.visibility = 'hidden'
+      img.setAttribute('role', 'presentation')
     }
 
     return () => {
