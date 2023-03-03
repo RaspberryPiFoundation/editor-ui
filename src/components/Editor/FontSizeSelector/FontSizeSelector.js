@@ -23,21 +23,21 @@ const FontSizeSelector = () => {
   return (
     <div className='font-size-selector'>
       <div className='font-btn font-btn--small' onClick={() => setFontSize('small')}>
-        <div className={`font-btn__icon font-btn__icon--small ${fontSize==='small' ? 'font-btn__icon--active' : ''}`}>
+        <button className={`font-btn__icon font-btn__icon--small ${fontSize==='small' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={15}/>
-        </div>
+        </button>
         <p>{t('header.settingsMenu.textSizeOptions.small')}</p>
       </div>
       <div className='font-btn font-btn--medium' onClick={() => setFontSize('medium')}>
-      <div className={`font-btn__icon font-btn__icon--medium ${fontSize==='medium' ? 'font-btn__icon--active' : ''}`}>
+        <button className={`font-btn__icon font-btn__icon--medium ${fontSize==='medium' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={23}/>
-        </div>
+        </button>
         <p>{t('header.settingsMenu.textSizeOptions.medium')}</p>
       </div>
       <div className='font-btn font-btn--large' onClick={() => setFontSize('large')}>
-      <div className={`font-btn__icon font-btn__icon--large ${fontSize==='large' ? 'font-btn__icon--active' : ''}`}>
+        <button className={`font-btn__icon font-btn__icon--large ${fontSize==='large' ? 'font-btn__icon--active' : ''}`}>
           <FontIcon size={36}/>
-        </div>
+        </button>
         <p>{t('header.settingsMenu.textSizeOptions.large')}</p>
       </div>
     </div>
