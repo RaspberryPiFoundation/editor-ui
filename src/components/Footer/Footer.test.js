@@ -10,7 +10,7 @@ test('Footer renders', () => {
 
 test('Links to privacy policy', () => {
   render(<Footer/>)
-  expect(screen.queryByText('footer.privacy')).toHaveAttribute('href', 'https://www.raspberrypi.org/privacy')
+  expect(screen.queryByText('footer.privacy')).toHaveAttribute('href', 'https://www.raspberrypi.org/privacy/child-friendly')
 })
 
 test('Links to cookie policy', () => {
