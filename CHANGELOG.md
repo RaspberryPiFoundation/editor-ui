@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Updated privacy policy link to use the child friendly privacy policy (#397)
+
 ## [0.13.0] - 2023-03-02
 
 ### Added
