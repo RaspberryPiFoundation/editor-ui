@@ -25,8 +25,14 @@ const Dropdown = (props) => {
     };
   }, [dropdown]);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Escape'){
+      setOpen(false);
+    }
+  }
+
   return (
-    <div className='dropdown' ref={dropdown}>
+    <div className='dropdown' ref={dropdown} onKeyDown={handleKeyDown}>
       <Button
         className={`btn--tertiary dropdown-button${isOpen ? ' dropdown-button--active' : ''}`}
         onClickHandler={() => setOpen(!isOpen)}
