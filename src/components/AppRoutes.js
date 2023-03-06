@@ -1,11 +1,16 @@
 import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, useParams } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
+
+const ProjectsRedirect = () => {
+  const { identifier } = useParams();
+  return <Navigate replace to={`/en/projects/${identifier}`} />
+}
 
 const AppRoutes = () => (
   <Routes>
@@ -36,6 +41,9 @@ const AppRoutes = () => (
     <Route
       path="/:locale/projects/:identifier"
       element={<ProjectComponentLoader/>}
+    />
+    <Route path="/projects/:identifier"
+      element={<ProjectsRedirect />}
     />
     <Route
       path="/embedded/projects/:identifier"
