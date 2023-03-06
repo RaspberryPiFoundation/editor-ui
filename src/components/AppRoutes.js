@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
@@ -18,12 +18,20 @@ const AppRoutes = () => (
       element={<SilentRenew/>}
     />
     <Route
-      path="/"
+      path="/:locale"
       element={<ProjectComponentLoader/>}
     />
     <Route
-      path="/projects"
+      path="/"
+      element={<Navigate replace to="/en" />}
+    />
+    <Route
+      path="/:locale/projects"
       element={<ProjectIndex/>}
+    />
+    <Route
+      path="/projects"
+      element={<Navigate replace to="/en/projects" />}
     />
     <Route
       path="/:locale/projects/:identifier"
