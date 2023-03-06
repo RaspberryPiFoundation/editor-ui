@@ -14,14 +14,14 @@ export const PROJECT_LIST_ITEM_FRAGMENT = gql`
   fragment ProjectListItemFragment on Project {
     name
     identifier
-    projectLocale
+    locale
     updatedAt
   }
 `;
 
 export const ProjectListItem = (props) => {
   const project = props.project;
-  const locale = project.projectLocale || 'en'
+  const locale = project.locale || 'en'
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updatedAt), Date.now(), { style: 'short' });
