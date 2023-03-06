@@ -22,7 +22,7 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
-      navigate(`/projects/${project.identifier}`)
+      navigate(`/${project.project_locale}/projects/${project.identifier}`)
     }
     if (loading === 'failed') {
       navigate('/')

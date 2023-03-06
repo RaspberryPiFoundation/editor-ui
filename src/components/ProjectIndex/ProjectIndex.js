@@ -38,9 +38,8 @@ const ProjectIndex = (props) => {
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
-
     const identifier = response.data.identifier;
-    const locale = response.data.project_locale || 'en'
+    const locale = response.data.project_locale || 'en';
     navigate(`/${locale}/projects/${identifier}`);
   }
 

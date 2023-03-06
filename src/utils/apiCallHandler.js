@@ -44,6 +44,7 @@ export const getImage = async (url) => {
 }
 
 export const createRemix = async (project, accessToken) => {
+  console.log('createRemix')
   return await post(`${host}/api/projects/${project.identifier}/remix`, { project: project}, headers(accessToken));
 }
 
