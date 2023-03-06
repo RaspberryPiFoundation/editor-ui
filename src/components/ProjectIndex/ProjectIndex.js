@@ -40,7 +40,8 @@ const ProjectIndex = (props) => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
 
     const identifier = response.data.identifier;
-    navigate(`/projects/${identifier}`);
+    const locale = response.data.project_locale || 'en'
+    navigate(`/${locale}/projects/${identifier}`);
   }
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {

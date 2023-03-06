@@ -26,7 +26,7 @@ const AppRoutes = () => (
       element={<ProjectIndex/>}
     />
     <Route
-      path="/projects/:identifier"
+      path="/:locale/projects/:identifier"
       element={<ProjectComponentLoader/>}
     />
     <Route
