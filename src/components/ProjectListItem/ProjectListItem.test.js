@@ -8,7 +8,7 @@ import { ProjectListItem } from "./ProjectListItem";
 jest.mock('date-fns')
 
 let store
-let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now() }
+let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now(), locale: 'ja-JP' }
 
 beforeEach(() => {
   const mockStore = configureStore([])
@@ -32,4 +32,8 @@ test('Clicking delete button opens delete project modal', () => {
   const deleteButtons = screen.queryAllByText('projectList.delete')
   fireEvent.click(deleteButtons[0])
   expect(store.getActions()).toEqual([{type: "editor/showDeleteProjectModal", payload: project}])
+})
+
+test('Renders project locale in link', () => {
+  expect(screen.getByRole('link')).toHaveAttribute('href', `/${project.locale}/projects/${project.identifier}`)
 })

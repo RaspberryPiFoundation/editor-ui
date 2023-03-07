@@ -21,7 +21,6 @@ export const PROJECT_LIST_ITEM_FRAGMENT = gql`
 
 export const ProjectListItem = (props) => {
   const project = props.project;
-  const locale = project.locale || 'en'
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updatedAt), Date.now(), { style: 'short' });
@@ -37,7 +36,7 @@ export const ProjectListItem = (props) => {
   return (
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
-        <Link className='editor-project-list__title' to={`/${locale}/projects/${project.identifier}`}>
+        <Link className='editor-project-list__title' to={`/${project.locale}/projects/${project.identifier}`}>
           <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
         </Link>
