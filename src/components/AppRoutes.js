@@ -42,7 +42,7 @@ const AppRoutes = () => (
       path="/:locale/projects/:identifier"
       element={<ProjectComponentLoader/>}
     />
-    <Route path="null/projects/:identifier"
+    <Route path="/null/projects/:identifier"
       element={<ProjectsRedirect />}
     />
     <Route path="/projects/:identifier"
