@@ -7,6 +7,10 @@ import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
+const availableLocales = ['en']
+const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
+const localeRedirects = ['/', '/projects']
+
 const ProjectsRedirect = () => {
   const { identifier } = useParams();
   return <Navigate replace to={`/en/projects/${identifier}`} />
@@ -18,44 +22,39 @@ const AppRoutes = () => (
       path="/auth/callback"
       element={<Callback/>}
     />
+
     <Route
       path="/auth/silent_renew"
       element={<SilentRenew/>}
     />
-    <Route
-      path="/:locale"
-      element={<ProjectComponentLoader/>}
-    />
-    <Route
-      path="/"
-      element={<Navigate replace to="/en" />}
-    />
-    <Route
-      path="/:locale/projects"
-      element={<ProjectIndex/>}
-    />
-    <Route
-      path="/projects"
-      element={<Navigate replace to="/en/projects" />}
-    />
-    <Route
-      path="/:locale/projects/:identifier"
-      element={<ProjectComponentLoader/>}
-    />
-    <Route path="/null/projects/:identifier"
-      element={<ProjectsRedirect />}
-    />
-    <Route path="/projects/:identifier"
-      element={<ProjectsRedirect />}
-    />
+
+    { availableLocales.map(locale => {
+      return (
+        <>
+          <Route path={`/${locale}`} element={<ProjectComponentLoader />} />
+          <Route path={`/${locale}/projects`} element={<ProjectIndex />} />
+          <Route path={`/${locale}/projects/:identifier`} element={<ProjectComponentLoader />} />
+        </>
+      )
+    }) }
+
     <Route
       path="/embedded/projects/:identifier"
       element={<ProjectComponentLoader embedded={true} />}
     />
+
     <Route
       path="/embed/viewer/:identifier"
       element={<EmbeddedViewer/>}
     />
+
+    { projectLinkRedirects.map(link => {
+      return <Route path={link} element={<ProjectsRedirect />} />
+    }) }
+
+    { localeRedirects.map(link => {
+      return <Route path={link} element={<Navigate replace to={`/en${link}`} />} />
+    }) }
   </Routes>
 )
 
