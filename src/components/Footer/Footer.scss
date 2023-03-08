@@ -24,11 +24,7 @@
       color: inherit;
       cursor: pointer;
       padding: var(--spacing-one-quart) var(--spacing-1);
-      text-decoration: none;
-
-      &:hover, &:focus {
-        text-decoration: underline;
-      }
+      text-decoration: underline;
     }
   }
 
