@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, Fragment } from 'react'
 import { Route, Routes, Navigate, useParams } from 'react-router-dom'
 
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
@@ -30,11 +30,11 @@ const AppRoutes = () => (
 
     { availableLocales.map(locale => {
       return (
-        <>
+        <Fragment key={locale}>
           <Route path={`/${locale}`} element={<ProjectComponentLoader />} />
           <Route path={`/${locale}/projects`} element={<ProjectIndex />} />
           <Route path={`/${locale}/projects/:identifier`} element={<ProjectComponentLoader />} />
-        </>
+        </Fragment>
       )
     }) }
 
@@ -49,11 +49,11 @@ const AppRoutes = () => (
     />
 
     { projectLinkRedirects.map(link => {
-      return <Route path={link} element={<ProjectsRedirect />} />
+      return <Route key={link} path={link} element={<ProjectsRedirect />} />
     }) }
 
     { localeRedirects.map(link => {
-      return <Route path={link} element={<Navigate replace to={`/en${link}`} />} />
+      return <Route key={link} path={link} element={<Navigate replace to={`/en${link}`} />} />
     }) }
   </Routes>
 )
