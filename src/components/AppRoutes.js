@@ -7,7 +7,7 @@ import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
-const availableLocales = i18n.languages
+const availableLocales = i18n.languages || ['en']
 const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
 const localeRedirects = ['/', '/projects']
 
