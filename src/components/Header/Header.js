@@ -1,7 +1,7 @@
 import './Header.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
-
+import i18n from 'i18next';
 import Autosave from './Autosave';
 import Button from '../Button/Button';
 import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
@@ -20,7 +20,7 @@ const Header = () => {
   const loading = useSelector((state) => state.editor.loading)
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
-  const locale = document.documentElement.lang
+  const locale = i18n.language
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

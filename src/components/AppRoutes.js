@@ -48,6 +48,8 @@ const AppRoutes = () => (
       element={<EmbeddedViewer/>}
     />
 
+    {/* Redirects will be moved into a cloudflare worker. This is just interim */}
+
     { projectLinkRedirects.map(link => {
       return <Route key={link} path={link} element={<ProjectsRedirect />} />
     }) }
