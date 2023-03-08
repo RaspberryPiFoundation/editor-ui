@@ -13,10 +13,7 @@ i18n
   .init({
     debug: true,
     whitelist: ['en'],
-    fallbackLng: {
-      'en-GB': ['en'],
-      'default': ['en']
-    },
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
