@@ -1,13 +1,13 @@
 import { React, Fragment } from 'react'
 import { Route, Routes, Navigate, useParams } from 'react-router-dom'
-
+import i18n from 'i18next';
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
 
-const availableLocales = ['en']
+const availableLocales = i18n.languages
 const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
 const localeRedirects = ['/', '/projects']
 
