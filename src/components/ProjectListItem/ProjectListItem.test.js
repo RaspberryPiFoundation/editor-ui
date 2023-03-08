@@ -8,7 +8,7 @@ import { ProjectListItem } from "./ProjectListItem";
 jest.mock('date-fns')
 
 let store
-let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now(), locale: 'ja-JP' }
+let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now()}
 
 beforeEach(() => {
   const mockStore = configureStore([])
