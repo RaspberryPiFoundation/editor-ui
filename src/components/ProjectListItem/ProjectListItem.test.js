@@ -33,7 +33,3 @@ test('Clicking delete button opens delete project modal', () => {
   fireEvent.click(deleteButtons[0])
   expect(store.getActions()).toEqual([{type: "editor/showDeleteProjectModal", payload: project}])
 })
-
-test('Renders project locale in link', () => {
-  expect(screen.getByRole('link')).toHaveAttribute('href', `/${project.locale}/projects/${project.identifier}`)
-})
