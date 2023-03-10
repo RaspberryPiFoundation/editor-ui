@@ -13,6 +13,8 @@ i18n
   .init({
     debug: true,
     fallbackLng: 'en',
+    lng: 'en',
+    locales: ['en'],
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
@@ -228,7 +230,7 @@ i18n
             file: 'Project files'
           }
         }
-      }
+      },
     }
   });
 

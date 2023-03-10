@@ -2,7 +2,7 @@ import { useSelector, connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { gql,useQuery } from '@apollo/client';
-
+import i18n from 'i18next';
 import { useRequiresUser } from '../Editor/Hooks/useRequiresUser'
 import ProjectIndexHeader from '../ProjectIndexHeader/ProjectIndexHeader'
 import { ProjectListTable, PROJECT_LIST_TABLE_FRAGMENT } from '../ProjectListTable/ProjectListTable'
@@ -38,9 +38,9 @@ const ProjectIndex = (props) => {
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(defaultPythonProject, user.access_token);
-
     const identifier = response.data.identifier;
-    navigate(`/projects/${identifier}`);
+    const locale = i18n.language;
+    navigate(`/${locale}/projects/${identifier}`);
   }
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {

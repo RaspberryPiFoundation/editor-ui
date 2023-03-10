@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated privacy policy link to use the child friendly privacy policy (#397)
+- Update URL structure to include locale (#407)
 
 ### Fixed
 
