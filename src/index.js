@@ -1,9 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import * as Sentry from '@sentry/react'
-import { BrowserTracing } from '@sentry/tracing';
-import { SentryLink, excludeGraphQLFetch } from 'apollo-link-sentry';
+
+import { SentryLink } from 'apollo-link-sentry';
+
 import './index.css';
+import './sentry';
 import App from './App';
 import './i18n';
 import { ApolloLink, ApolloProvider, ApolloClient, createHttpLink } from '@apollo/client';
@@ -14,16 +15,6 @@ import store from './app/store';
 import userManager from './utils/userManager';
 import apolloCache from './utils/apolloCache';
 import { CookiesProvider } from 'react-cookie';
-
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing({
-    tracePropagationTargets: [process.env.REACT_APP_API_ENDPOINT, /\//],
-  })],
-  environment: process.env.REACT_APP_SENTRY_ENV,
-  beforeBreadcrumb: excludeGraphQLFetch,
-  tracesSampleRate: 0.8,
-})
 
 const apiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
 const apiAuthLink = setContext((_, { headers }) => {
