@@ -6,23 +6,17 @@ import Project from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-import i18next from 'i18next';
+import LocaleWrapper from '../../LocaleWrapper/LocaleWrapper';
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier, locale } = useParams()
+  const { identifier } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
 
-  // i18n.changeLanguage(locale, (err, t) => {
-  //   if (err) return console.log('something went wrong loading', err);
-  //   t('key'); // -> same as i18next.t
-  // });
-  // console.log('changed language to', locale)
-
   useEmbeddedMode(embedded);
-  useProject(identifier, locale, accessToken);
+  useProject(identifier, i18n.language, accessToken);
 
   const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
@@ -30,18 +24,24 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
-      navigate(`/${locale}/projects/${project.identifier}`)
+      navigate(`/${i18n.language}/projects/${project.identifier}`)
     }
     if (loading === 'failed') {
       navigate('/')
     }
-  }, [loading, locale, project, navigate])
+  }, [loading, project, navigate])
 
-  return loading === 'success' ? (
-    <Project />
-  ) : loading === 'pending' ? (
-    <p>{t('project.loading')}</p>
-  ) : null
+  return (
+    <LocaleWrapper>
+      {
+        loading === 'success' ? (
+          <Project />
+        ) : loading === 'pending' ? (
+          <p>{t('project.loading')}</p>
+        ) : null
+      }
+    </LocaleWrapper>
+  )
 };
 
 export default ProjectComponentLoader;

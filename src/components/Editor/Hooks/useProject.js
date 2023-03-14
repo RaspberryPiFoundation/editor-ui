@@ -29,5 +29,5 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
 
     const data = defaultPythonProject;
     dispatch(setProject(data));
-  }, [projectIdentifier, accessToken]);
+  }, [projectIdentifier, locale, accessToken]);
 };

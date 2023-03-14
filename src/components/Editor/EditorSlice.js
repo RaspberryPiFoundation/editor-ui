@@ -8,7 +8,6 @@ export const syncProject = (actionName) => createAsyncThunk(
     let response
     switch(actionName) {
       case 'load':
-        console.log(`the locale is ${locale}`)
         response = await readProject(identifier, locale, accessToken)
         break
       case 'remix':

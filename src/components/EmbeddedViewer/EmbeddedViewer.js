@@ -8,12 +8,14 @@ import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
 import { useParams } from 'react-router-dom';
+import i18n from 'i18next';
+import LocaleWrapper from '../LocaleWrapper/LocaleWrapper';
 
 const EmbeddedViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
 
-  useProject(identifier);
+  useProject(identifier, i18n.language);
   useEmbeddedMode(true);
 
   window.addEventListener(
@@ -35,8 +37,10 @@ const EmbeddedViewer = () => {
 
   return loading === 'success' ? (
     <div className='embedded-viewer'>
-      <Output />
-      <RunnerControls />
+      <LocaleWrapper>
+        <Output />
+        <RunnerControls />
+      </LocaleWrapper>
     </div>
   ) : null;
 };

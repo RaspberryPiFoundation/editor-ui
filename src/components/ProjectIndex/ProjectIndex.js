@@ -13,6 +13,7 @@ import { PlusIcon } from '../../Icons';
 import RenameProjectModal from '../Modals/RenameProjectModal';
 import DeleteProjectModal from '../Modals/DeleteProjectModal';
 import { ProjectIndexPagination, PROJECT_INDEX_PAGINATION_FRAGMENT } from './ProjectIndexPagination.js'
+import LocaleWrapper from '../LocaleWrapper/LocaleWrapper';
 
 export const PROJECT_INDEX_QUERY = gql`
   query ProjectIndexQuery($userId: String, $first: Int, $last: Int, $before: String, $after: String) {
@@ -49,7 +50,7 @@ const ProjectIndex = (props) => {
   });
 
   return (
-    <>
+    <LocaleWrapper>
       <ProjectIndexHeader>
         <Button
           className='btn--primary'
@@ -68,7 +69,7 @@ const ProjectIndex = (props) => {
       { error ? <p>{t('projectList.loadingFailed')}</p> : null }
       { renameProjectModalShowing ? <RenameProjectModal /> : null }
       { deleteProjectModalShowing ? <DeleteProjectModal /> : null }
-    </>
+    </LocaleWrapper>
   );
 };
 
