@@ -4,11 +4,12 @@ import { createOrUpdateProject, readProject, createRemix, deleteProject, readPro
 
 export const syncProject = (actionName) => createAsyncThunk(
   `editor/${actionName}Project`,
-  async({ project, identifier, accessToken, autosave }, { rejectWithValue }) => {
+  async({ project, identifier, locale, accessToken, autosave }, { rejectWithValue }) => {
     let response
     switch(actionName) {
       case 'load':
-        response = await readProject(identifier, accessToken)
+        console.log(`the locale is ${locale}`)
+        response = await readProject(identifier, locale, accessToken)
         break
       case 'remix':
         response = await createRemix(project, accessToken)

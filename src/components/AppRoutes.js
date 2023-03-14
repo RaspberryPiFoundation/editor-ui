@@ -27,7 +27,7 @@ const AppRoutes = () => (
       path="/auth/silent_renew"
       element={<SilentRenew/>}
     />
-
+{/* 
     { availableLocales.map(locale => {
       return (
         <Fragment key={locale}>
@@ -36,7 +36,10 @@ const AppRoutes = () => (
           <Route path={`/${locale}/projects/:identifier`} element={<ProjectComponentLoader />} />
         </Fragment>
       )
-    }) }
+    }) } */}
+    <Route path={"/:locale"} element={<ProjectComponentLoader />} />
+    <Route path={"/:locale/projects"} element={<ProjectIndex />} />
+    <Route path={"/:locale/projects/:identifier"} element={<ProjectComponentLoader />} />
 
     <Route
       path="/embedded/projects/:identifier"

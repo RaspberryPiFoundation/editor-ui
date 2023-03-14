@@ -6,19 +6,25 @@ import Project from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
+import i18next from 'i18next';
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier } = useParams()
+  const { identifier, locale } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
 
+  // i18n.changeLanguage(locale, (err, t) => {
+  //   if (err) return console.log('something went wrong loading', err);
+  //   t('key'); // -> same as i18next.t
+  // });
+  // console.log('changed language to', locale)
+
   useEmbeddedMode(embedded);
-  useProject(identifier, accessToken);
+  useProject(identifier, locale, accessToken);
 
   const project = useSelector((state) => state.editor.project)
-  const locale = i18n.language
   const navigate = useNavigate()
   const { t } = useTranslation()
 

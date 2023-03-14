@@ -14,7 +14,7 @@ i18n
     debug: true,
     fallbackLng: 'en',
     lng: 'en',
-    locales: ['en'],
+    locales: ['en', 'es-LA', 'fr-FR'],
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
