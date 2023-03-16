@@ -23,5 +23,3 @@ Sentry.init({
   beforeBreadcrumb: excludeGraphQLFetch,
   tracesSampleRate: 0.8,
 })
-
-console.log("there")
