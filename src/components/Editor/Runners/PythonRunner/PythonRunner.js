@@ -8,7 +8,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw, setSenseHatEnabled, triggerDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
-import { py5_imported_mode } from './py5_imported_mode';
 
 import store from '../../../../app/store'
 import VisualOutputPane from './VisualOutputPane';
@@ -92,7 +91,7 @@ const PythonRunner = () => {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
     },
     "./py5_imported_mode.py": {
-      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
+      path: `${process.env.PUBLIC_URL}/py5_imported_mode.py`
     }
   };
 
@@ -103,12 +102,6 @@ const PythonRunner = () => {
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
   ]
-
-  const customLibraries = {
-    "./py5_imported_mode.py": {
-      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
-    }
-  };
 
   const outf = (text) => {
     if (text !== "") {
@@ -122,11 +115,6 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    // if (customLibraries[x] !== undefined) {
-    //   console.log(customLibraries[x].path)
-    //   return customLibraries[x].path
-    // }
-
     if (x==="./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true))
     }
@@ -155,7 +143,6 @@ const PythonRunner = () => {
 
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
-      console.log('external library info', externalLibraryInfo)
       return Sk.misceval.promiseToSuspension(
         new Promise(function (resolve, reject) {
           // get the main skulpt extenstion
@@ -163,7 +150,6 @@ const PythonRunner = () => {
           request.open("GET", externalLibraryInfo.path);
           request.onload = function () {
             if (request.status === 200) {
-              console.log('resolving')
               resolve(request.responseText);
             } else {
               reject("File not found: '" + x + "'");
@@ -292,10 +278,8 @@ const PythonRunner = () => {
     var prog = projectCode[0].content;
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
-      prog = `${py5_imported_mode}\n${prog}`
+      prog = `from py5_imported_mode import *\n${prog}`
     }
-
-    console.log(prog)
 
     Sk.configure({
       inputfun: inf,
@@ -305,7 +289,7 @@ const PythonRunner = () => {
       inputTakesPrompt: true,
       uncaughtException: handleError
     });
-    console.log('Sk config')
+
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("main", false, prog, true), {
           "*": () => {

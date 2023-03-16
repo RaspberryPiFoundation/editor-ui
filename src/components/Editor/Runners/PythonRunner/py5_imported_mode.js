@@ -1,1 +1,0 @@
-export const py5_imported_mode = `print("This line will be printed.")\n`
