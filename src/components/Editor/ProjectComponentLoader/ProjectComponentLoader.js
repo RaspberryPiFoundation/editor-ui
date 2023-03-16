@@ -28,7 +28,7 @@ const ProjectComponentLoader = (props) => {
     if (loading === 'failed') {
       navigate('/')
     }
-  }, [loading, project, navigate])
+  }, [loading, project, i18n, navigate])
 
   return (
     <LocaleWrapper>

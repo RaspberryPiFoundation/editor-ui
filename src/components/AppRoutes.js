@@ -5,7 +5,6 @@ import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
-import LocaleWrapper from './LocaleWrapper/LocaleWrapper';
 
 const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
 const localeRedirects = ['/', '/projects']

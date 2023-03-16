@@ -14,7 +14,7 @@ const LocaleWrapper = ({ children }) => {
         t('key'); // -> same as i18next.t
       });
     }
-  }, [locale])
+  }, [locale, i18n])
 
   return children
 }
