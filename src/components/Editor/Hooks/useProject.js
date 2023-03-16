@@ -3,10 +3,11 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { syncProject, setProject } from '../EditorSlice'
 import { defaultPythonProject } from '../../../utils/defaultProjects';
-import i18n from 'i18next'
+import { useTranslation } from 'react-i18next';
 
 export const useProject = (projectIdentifier = null, locale = null, accessToken = null) => {
   const dispatch = useDispatch();
+  const { i18n } = useTranslation()
 
   const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {

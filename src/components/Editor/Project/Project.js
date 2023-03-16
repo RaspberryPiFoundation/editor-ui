@@ -101,7 +101,6 @@ const Project = (props) => {
       else {
         if (justLoaded) {
           dispatch(expireJustLoaded())
-          return
         } else {
           localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
           if (!hasShownSavePrompt) {

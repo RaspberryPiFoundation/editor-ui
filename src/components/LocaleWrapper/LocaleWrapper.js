@@ -1,10 +1,11 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
-import i18n from 'i18next';
+import { useTranslation } from "react-i18next";
 
 const LocaleWrapper = ({ children }) => {
 
   const { locale } = useParams()
+  const { i18n } = useTranslation()
 
   useLayoutEffect(() => {
     if (locale !== i18n.language) {

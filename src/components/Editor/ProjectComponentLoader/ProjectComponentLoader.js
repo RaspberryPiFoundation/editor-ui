@@ -5,7 +5,6 @@ import { useEmbeddedMode } from '../Hooks/useEmbeddedMode'
 import Project from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import LocaleWrapper from '../../LocaleWrapper/LocaleWrapper';
 
 const ProjectComponentLoader = (props) => {
@@ -15,12 +14,12 @@ const ProjectComponentLoader = (props) => {
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
 
-  useEmbeddedMode(embedded);
-  useProject(identifier, i18n.language, accessToken);
-
   const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  useEmbeddedMode(embedded);
+  useProject(identifier, i18n.language, accessToken);
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
