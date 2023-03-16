@@ -267,6 +267,10 @@ const PythonRunner = () => {
     }
   }
 
+  const py5ImportedMode = () => {
+    console.log('I am a Py5')
+  }
+
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
@@ -274,6 +278,10 @@ const PythonRunner = () => {
     dispatch(setSenseHatEnabled(false))
 
     var prog = projectCode[0].content;
+
+    if (prog.includes(`# ${t('input.comment.py5')}`)) {
+      py5ImportedMode(prog)
+    }
 
     Sk.configure({
       inputfun: inf,
