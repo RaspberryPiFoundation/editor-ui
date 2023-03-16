@@ -89,9 +89,6 @@ const PythonRunner = () => {
     },
     "./sense_hat.py": {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
-    },
-    "./py5_imported_mode.py": {
-      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
     }
   };
 
@@ -102,6 +99,12 @@ const PythonRunner = () => {
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
   ]
+
+  const customLibraries = {
+    "./py5_imported_mode.py": {
+      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
+    }
+  };
 
   const outf = (text) => {
     if (text !== "") {
@@ -115,7 +118,10 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    // console.log(x)
+    if (customLibraries[x] !== undefined) {
+      return customLibraries[x].path
+    }
+
     if (x==="./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true))
     }
@@ -144,7 +150,7 @@ const PythonRunner = () => {
 
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
-      console.log(externalLibraryInfo)
+      console.log('external library info', externalLibraryInfo)
       return Sk.misceval.promiseToSuspension(
         new Promise(function (resolve, reject) {
           // get the main skulpt extenstion
@@ -291,7 +297,7 @@ const PythonRunner = () => {
       inputTakesPrompt: true,
       uncaughtException: handleError
     });
-
+    console.log('Sk config')
     var myPromise = Sk.misceval.asyncToPromise(() =>
         Sk.importMainWithBody("main", false, prog, true), {
           "*": () => {
