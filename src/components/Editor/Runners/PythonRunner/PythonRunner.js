@@ -91,7 +91,7 @@ const PythonRunner = () => {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
     },
     "./py5_imported_mode.py": {
-      path: `${process.env.PUBLIC_URL}/p5_imported_mode_blob.py`
+      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
     }
   };
 
