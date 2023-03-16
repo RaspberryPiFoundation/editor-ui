@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## Added
+
+- Load project based on locale (#410)
+
 ### Changed
 
 - Updated privacy policy link to use the child friendly privacy policy (#397)
 - Update URL structure to include locale (#407)
 - Update Sentry configuration to allow distributed tracing (#411)
+- Only persist project to `localStorage` if changed rather than on load (#410)
 
 ### Fixed
 

@@ -3,8 +3,6 @@ import {useProject} from './useProject';
 import { syncProject, setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
 import { defaultPythonProject } from '../../../utils/defaultProjects'
-import { useTranslation } from "react-i18next";
-
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
