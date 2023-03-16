@@ -99,12 +99,15 @@ const Project = (props) => {
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
       }
       else {
-        localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
         if (justLoaded) {
           dispatch(expireJustLoaded())
-        } else if (!hasShownSavePrompt) {
-          user ? showSavePrompt() : showLoginPrompt()
-          dispatch(setHasShownSavePrompt())
+          return
+        } else {
+          localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+          if (!hasShownSavePrompt) {
+            user ? showSavePrompt() : showLoginPrompt()
+            dispatch(setHasShownSavePrompt())
+          }
         }
       }
     }, 2000);
