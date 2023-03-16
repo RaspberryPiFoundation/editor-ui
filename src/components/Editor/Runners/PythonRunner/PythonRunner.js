@@ -115,6 +115,7 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
+
     if (x==="./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true))
     }
