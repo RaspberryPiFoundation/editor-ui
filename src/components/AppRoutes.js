@@ -1,5 +1,7 @@
 import { React, Fragment } from 'react'
 import { Route, Routes, Navigate, useParams } from 'react-router-dom'
+import * as Sentry from "@sentry/react";
+
 import i18n from 'i18next';
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
@@ -16,8 +18,10 @@ const ProjectsRedirect = () => {
   return <Navigate replace to={`/en/projects/${identifier}`} />
 }
 
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes)
+
 const AppRoutes = () => (
-  <Routes>
+  <SentryRoutes>
     <Route
       path="/auth/callback"
       element={<Callback/>}
@@ -57,7 +61,7 @@ const AppRoutes = () => (
     { localeRedirects.map(link => {
       return <Route key={link} path={link} element={<Navigate replace to={`/en${link}`} />} />
     }) }
-  </Routes>
+  </SentryRoutes>
 )
 
 export default AppRoutes
