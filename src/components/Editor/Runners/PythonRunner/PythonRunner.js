@@ -89,6 +89,9 @@ const PythonRunner = () => {
     },
     "./sense_hat.py": {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
+    },
+    "./py5_imported_mode.py": {
+      path: `${process.env.PUBLIC_URL}/p5_imported_mode_blob.py`
     }
   };
 
@@ -112,7 +115,7 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-
+    // console.log(x)
     if (x==="./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true))
     }
@@ -141,6 +144,7 @@ const PythonRunner = () => {
 
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
+      console.log(externalLibraryInfo)
       return Sk.misceval.promiseToSuspension(
         new Promise(function (resolve, reject) {
           // get the main skulpt extenstion
@@ -267,10 +271,6 @@ const PythonRunner = () => {
     }
   }
 
-  const py5ImportedMode = () => {
-    console.log('I am a Py5')
-  }
-
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
@@ -280,7 +280,7 @@ const PythonRunner = () => {
     var prog = projectCode[0].content;
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
-      py5ImportedMode(prog)
+      prog = 'from py5_imported_mode import * ' + prog
     }
 
     Sk.configure({
