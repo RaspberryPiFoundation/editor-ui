@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Sk from "skulpt"
 import { setError, codeRunHandled, stopDraw, setSenseHatEnabled, triggerDraw } from '../../EditorSlice'
 import ErrorMessage from '../../ErrorMessage/ErrorMessage'
+import { py5_imported_mode } from './py5_imported_mode';
 
 import store from '../../../../app/store'
 import VisualOutputPane from './VisualOutputPane';
@@ -89,6 +90,9 @@ const PythonRunner = () => {
     },
     "./sense_hat.py": {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
+    },
+    "./py5_imported_mode.py": {
+      path: `${process.env.PUBLIC_URL}/py5_imported_mode_blob.py`
     }
   };
 
@@ -118,9 +122,10 @@ const PythonRunner = () => {
   }
 
   const builtinRead = (x) => {
-    if (customLibraries[x] !== undefined) {
-      return customLibraries[x].path
-    }
+    // if (customLibraries[x] !== undefined) {
+    //   console.log(customLibraries[x].path)
+    //   return customLibraries[x].path
+    // }
 
     if (x==="./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true))
@@ -158,6 +163,7 @@ const PythonRunner = () => {
           request.open("GET", externalLibraryInfo.path);
           request.onload = function () {
             if (request.status === 200) {
+              console.log('resolving')
               resolve(request.responseText);
             } else {
               reject("File not found: '" + x + "'");
@@ -286,8 +292,10 @@ const PythonRunner = () => {
     var prog = projectCode[0].content;
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
-      prog = 'from py5_imported_mode import * ' + prog
+      prog = `${py5_imported_mode}\n${prog}`
     }
+
+    console.log(prog)
 
     Sk.configure({
       inputfun: inf,
