@@ -78,6 +78,13 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
       ]
     },
+    "./py5_imported/__init__.js": {
+      path: `${process.env.PUBLIC_URL}/py5_imported.js`,
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
+    },
+
     "./p5/__init__.js": {
       path: `${process.env.PUBLIC_URL}/p5-shim.js`,
       dependencies: [
@@ -95,6 +102,7 @@ const PythonRunner = () => {
   const visualLibraries =[
     "./pygal/__init__.js",
     "./py5/__init__.js",
+    "./py5_imported/__init__.js",
     "./p5/__init__.js",
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
@@ -110,6 +118,8 @@ const PythonRunner = () => {
       node.scrollTop = node.scrollHeight;
     }
   }
+
+  // let fetchedPy5 = false
 
   const builtinRead = (x) => {
 
@@ -140,6 +150,20 @@ const PythonRunner = () => {
     }
 
     if (externalLibraries[x]) {
+      // if (fetchedPy5) {
+      //   return externalLibraries[x]
+      // }
+      // const promises = []
+      // for (const [x, url] of Object.entries(externalLibraries)) {
+      //   promises.push(
+      //     // fetch(url).then((response) => {
+      //     //   externalLibraries[x] = response.text()
+      //     // }).then((source) => {
+      //     //   externalLibraries[x] = source
+      //     // })
+
+      //   )
+      // }
       var externalLibraryInfo = externalLibraries[x];
       return Sk.misceval.promiseToSuspension(
         new Promise(function (resolve, reject) {
