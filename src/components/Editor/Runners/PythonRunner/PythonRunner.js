@@ -72,6 +72,12 @@ const PythonRunner = () => {
         'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
       ],
     },
+    "./py5/__init__.js": {
+      path: `${process.env.PUBLIC_URL}/py5-shim.js`,
+      dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+      ]
+    },
     "./p5/__init__.js": {
       path: `${process.env.PUBLIC_URL}/p5-shim.js`,
       dependencies: [
@@ -88,6 +94,7 @@ const PythonRunner = () => {
 
   const visualLibraries =[
     "./pygal/__init__.js",
+    "./py5/__init__.js",
     "./p5/__init__.js",
     "./_internal_sense_hat/__init__.js",
     "src/builtin/turtle/__init__.js"
@@ -110,7 +117,7 @@ const PythonRunner = () => {
       dispatch(setSenseHatEnabled(true))
     }
 
-    if(x === "./p5/__init__.js") {
+    if(x === "./py5/__init__.js" || x === "./p5/__init__.js") {
       dispatch(triggerDraw())
     }
 
@@ -321,12 +328,14 @@ const PythonRunner = () => {
         <>
           {hasVisualOutput ? <div className='output-panel output-panel--visual'>
             <Tabs forceRenderTabPanel={true}>
-              <TabList>
-                <Tab key={0}>
-                  <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
-                </Tab>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  <Tab key={0}>
+                    <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+                  </Tab>
+                </TabList>
                 {!isEmbedded ? <OutputViewToggle/> : null }
-              </TabList>
+              </div>
               <TabPanel key={0} >
                 <VisualOutputPane/>
               </TabPanel>
@@ -334,12 +343,14 @@ const PythonRunner = () => {
           </div> : null}
           <div className='output-panel output-panel--text'>
             <Tabs forceRenderTabPanel={true}>
-              <TabList>
-                <Tab key={0}>
-                  <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
-                </Tab>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  <Tab key={0}>
+                    <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+                  </Tab>
+                </TabList>
                 { hasVisualOutput || isEmbedded ? null : <OutputViewToggle /> }
-              </TabList>
+              </div>
               <ErrorMessage />
               <TabPanel key={0}>
                 <pre className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`} onClick={shiftFocusToInput} ref={output}></pre>
@@ -349,17 +360,19 @@ const PythonRunner = () => {
       </>
       :
       <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
-        <TabList>
-          {hasVisualOutput ?
-            <Tab key={0}>
-              <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
-            </Tab> : null
-          }
-          <Tab key={1}>
-            <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
-          </Tab>
+        <div className='react-tabs__tab-container'>
+          <TabList>
+            {hasVisualOutput ?
+              <Tab key={0}>
+                <span className='react-tabs__tab-inner'>{t('output.visualOutput')}</span>
+              </Tab> : null
+            }
+            <Tab key={1}>
+              <span className='react-tabs__tab-inner'>{t('output.textOutput')}</span>
+            </Tab>
+          </TabList>
           {!isEmbedded ? <OutputViewToggle/> : null }
-        </TabList>
+        </div>
         <ErrorMessage />
         {hasVisualOutput ?
           <TabPanel key={0} >

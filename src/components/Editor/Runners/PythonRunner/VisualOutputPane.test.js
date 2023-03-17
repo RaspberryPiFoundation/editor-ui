@@ -87,7 +87,7 @@ describe("When code run is triggered",() => {
   })
 
   test('Sets up p5 canvas', () => {
-    expect(Sk.p5.sketch).not.toBeNull()
+    expect(Sk.py5.sketch).not.toBeNull()
   })
 
   test('Sets up pygal canvas', () => {

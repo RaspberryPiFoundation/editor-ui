@@ -2,20 +2,14 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { MockedProvider } from "@apollo/client/testing";
 
-import DeleteProjectModal from "./DeleteProjectModal";
-import { syncProject } from "../Editor/EditorSlice";
-
-jest.mock('../Editor/EditorSlice', () => ({
-  ...jest.requireActual('../Editor/EditorSlice'),
-  syncProject: jest.fn((_) => jest.fn())
-}))
+import { DeleteProjectModal, DELETE_PROJECT_MUTATION } from "./DeleteProjectModal";
 
 describe("Testing the delete project modal", () => {
   let store;
-  let deleteButton;
-  let user = { access_token: 'my_access_token' }
-  let project = { identifier: 'project-to-delete', name: 'my first project' }
+  let mocks;
+  let project = { id: 'abc', name: 'my first project' }
 
   beforeEach(() => {
     const middlewares = []
@@ -26,12 +20,36 @@ describe("Testing the delete project modal", () => {
           deleteProject: project
         },
         deleteProjectModalShowing: true
-      },
-      auth: {user}
+      }
     }
+
+    mocks = [
+      {
+        request: {
+          query: DELETE_PROJECT_MUTATION,
+          variables: { id: project.id }
+        },
+        result:  jest.fn(() => ({
+          data: {
+            deleteProject: {
+              id: project.id
+            }
+          }
+        }))
+      }
+    ]
+
     store = mockStore(initialState);
-    render(<Provider store={store}><div id='app'><DeleteProjectModal currentName='main' currentExtension='py' fileKey={0} /></div></Provider>)
-    deleteButton = screen.getByText('projectList.deleteProjectModal.delete')
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <Provider store={store}>
+          <div id='app'>
+            <DeleteProjectModal />
+          </div>
+        </Provider>
+      </MockedProvider>
+    )
   })
 
   test('Modal renders', () => {
@@ -50,12 +68,16 @@ describe("Testing the delete project modal", () => {
     expect(store.getActions()).toEqual([{type: 'editor/closeDeleteProjectModal'}])
   })
 
-  test("Clicking delete button deletes the project", async () => {
-      const deleteAction = {type: 'DELETE_PROJECT' }
-      const deleteProject = jest.fn(() => deleteAction)
-      syncProject.mockImplementationOnce(jest.fn((_) => (deleteProject)))
-      fireEvent.click(deleteButton)
-      await waitFor(() => expect(deleteProject).toHaveBeenCalledWith({ identifier: 'project-to-delete', accessToken: user.access_token }))
-      expect(store.getActions()[0]).toEqual(deleteAction)
+  test("Clicking delete button (eventually) closes the modal", async () => {
+    const deleteButton = screen.getByText('projectList.deleteProjectModal.delete')
+    fireEvent.click(deleteButton)
+    await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeDeleteProjectModal'}]))
+  })
+
+  test("Clicking delete button calls the mutation", async () => {
+    const deleteButton = screen.getByText('projectList.deleteProjectModal.delete')
+    const deleteProjectMutationMock = mocks[0].result
+    fireEvent.click(deleteButton)
+    await waitFor(() => expect(deleteProjectMutationMock).toHaveBeenCalled())
   })
 })

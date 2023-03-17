@@ -5,7 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Button = (props) => {
-  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, buttonOuterClassName, disabled, confirmText, title } = props;
+  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, buttonOuterClassName, disabled, confirmText, title, label } = props;
   
   const buttonClass = `btn${className ? ` ${className}` : ""}${buttonText ? "" : " btn--svg-only"}`
 
@@ -30,7 +30,7 @@ const Button = (props) => {
   }
 
   const button = (
-    <button className={buttonClass} disabled={disabled} title={title} onClick={buttonOuter ? null : onButtonClick}>
+    <button className={buttonClass} disabled={disabled} aria-label={label} title={title} onClick={buttonOuter ? null : onButtonClick}>
       { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
       { ButtonIcon ? <ButtonIcon /> : null }
       { buttonText ? <span>{buttonText}</span> : null }

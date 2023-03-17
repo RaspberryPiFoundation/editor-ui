@@ -22,6 +22,7 @@ const ProjectActionsMenu = (props) => {
     <ContextMenu
       align = 'end'
       direction = 'bottom'
+      menuButtonLabel = {t('projectList.label')}
       menuButtonClassName = 'editor-project-list__menu'
       MenuButtonIcon = {EllipsisVerticalIcon}
       menuOptions = {[

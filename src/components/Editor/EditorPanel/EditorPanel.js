@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
 import { useCookies } from 'react-cookie';
-
+import { useTranslation } from "react-i18next";
 import { basicSetup } from 'codemirror'
 import { EditorView, keymap } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
@@ -28,6 +28,7 @@ const EditorPanel = ({
   const project = useSelector((state) => state.editor.project);
   const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const settings = useContext(SettingsContext)
   let timeout;
 
@@ -35,6 +36,7 @@ const EditorPanel = ({
     dispatch(updateProjectComponent({ extension: extension, name: fileName, code: content}));
   }
 
+  const label = EditorView.contentAttributes.of({ 'aria-label': t('editorPanel.ariaLabel') });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if(viewUpdate.docChanged) {
       if (['html', 'css'].includes(extension)) {
@@ -73,6 +75,7 @@ const EditorPanel = ({
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
         mode,
+        label,
         onUpdate,
         editorTheme,
         indentationMarkers(),
@@ -85,6 +88,15 @@ const EditorPanel = ({
       state: startState,
       parent: editor.current,
     });
+
+    // 'aria-hidden' to fix keyboard access accessibility error
+    view.scrollDOM.setAttribute('aria-hidden', 'true')
+
+    // Add alt text to hidden images to fix accessibility error
+    const hiddenImages = view.contentDOM.getElementsByClassName('cm-widgetBuffer');
+    for (let img of hiddenImages) {
+      img.setAttribute('role', 'presentation')
+    }
 
     return () => {
       view.destroy();

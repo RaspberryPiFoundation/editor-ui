@@ -3,13 +3,12 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
-import ProjectListItem from "./ProjectListItem";
+import { ProjectListItem } from "./ProjectListItem";
 
 jest.mock('date-fns')
 
 let store
-let project = {identifier: 'hello-world-project', name: 'my amazing project'}
-
+let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now() }
 
 beforeEach(() => {
   const mockStore = configureStore([])
@@ -24,13 +23,13 @@ test('Renders project name', () => {
 })
 
 test('Clicking rename button opens rename project modal', () => {
-  const renameButton = screen.queryByText('projectList.rename')
-  fireEvent.click(renameButton)
+  const renameButtons = screen.queryAllByText('projectList.rename')
+  fireEvent.click(renameButtons[0])
   expect(store.getActions()).toEqual([{type: "editor/showRenameProjectModal", payload: project}])
 })
 
 test('Clicking delete button opens delete project modal', () => {
-  const deleteButton = screen.queryByText('projectList.delete')
-  fireEvent.click(deleteButton)
+  const deleteButtons = screen.queryAllByText('projectList.delete')
+  fireEvent.click(deleteButtons[0])
   expect(store.getActions()).toEqual([{type: "editor/showDeleteProjectModal", payload: project}])
 })

@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Updated privacy policy link to use the child friendly privacy policy (#397)
+- Update URL structure to include locale (#407)
+- Update Sentry configuration to allow distributed tracing (#411)
+
+### Fixed
+
+- Fix keyboard navigation (#375)
+- Reverted footer links back to underlined (#398)
+
+## [0.13.0] - 2023-03-02
+
 ### Added
 
 - Added release notes to `README.md` (#354)
@@ -13,10 +26,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Switched `processing` implementation from `p5.py` to `py5.py` (#364)
 - Font size only scales code, text output and error messages rather than the whole UI (#365)
 - Refactored font size settings to use React `ContextProvider` (#366)
 - Clicking 'login to save' triggers save/remix after successful login (#368)
 - Renaming project, adding new file or renaming file triggers autosave immediately (#368)
+- Bump http-cache-semantics from 4.1.0 to 4.1.1 (#361)
+- Removed redundant file indices (#377)
+- Use GraphQL API to fetch project index page (#376)
 
 ### Fixed
 
@@ -28,6 +45,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component font size (#358)
 - Web component icon visibility (#358)
 - Renaming project, adding new file or renaming file always triggers autosave (#368)
+- Use `HtmlRunner` for `html` projects (#378)
+- Accessibility Fixes (#373, #382, #383)
+- Hide the codemirror `cm-widgetBuffer` (#384, #395)
+- Height discrepancy of the tab containers (#385)
 
 ## [0.12.0] - 2023-01-27
 
@@ -258,7 +279,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
 [0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0
 [0.11.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.11.0
 [0.10.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.10.0

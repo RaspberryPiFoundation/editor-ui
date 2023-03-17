@@ -1,39 +1,56 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import * as Sentry from '@sentry/react'
-import { BrowserTracing } from '@sentry/tracing';
+
+import { SentryLink } from 'apollo-link-sentry';
+
 import './index.css';
+import './sentry';
 import App from './App';
 import './i18n';
-
+import { ApolloLink, ApolloProvider, ApolloClient, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { OidcProvider } from 'redux-oidc';
-import { Provider } from 'react-redux'
-import store from './app/store'
-import userManager from './utils/userManager'
+import { Provider } from 'react-redux';
+import store from './app/store';
+import userManager from './utils/userManager';
+import apolloCache from './utils/apolloCache';
 import { CookiesProvider } from 'react-cookie';
 
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing({tracingOrigins: ["*"]})],
-  debug: true,
-  environment: process.env.REACT_APP_SENTRY_ENV,
+const apiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
+const apiAuthLink = setContext((_, { headers }) => {
+  // TODO: ... better way to handle state in Apollo
+  const user = store.getState().auth.user;
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-})
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      Authorization: user ? user.access_token : "",
+    }
+  }
+});
+
+const client = new ApolloClient({
+  link: ApolloLink.from([
+    new SentryLink(),
+    apiAuthLink,
+    apiEndpointLink
+  ]),
+  cache: apolloCache
+});
 
 const div = document.getElementById('root')
 const root = createRoot(div)
 root.render(
   <React.StrictMode>
     <CookiesProvider>
-      <Provider store={store}>
-        <OidcProvider store={store} userManager={userManager}>
-          <App />
-        </OidcProvider>
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <OidcProvider store={store} userManager={userManager}>
+            <App />
+          </OidcProvider>
+        </Provider>
+      </ApolloProvider>
     </CookiesProvider>
   </React.StrictMode>
 );

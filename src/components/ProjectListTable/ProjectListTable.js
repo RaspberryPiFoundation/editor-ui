@@ -1,21 +1,32 @@
-import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next';
-import ProjectListItem from '../ProjectListItem/ProjectListItem'
+import { ProjectListItem, PROJECT_LIST_ITEM_FRAGMENT } from '../ProjectListItem/ProjectListItem'
 import './ProjectListTable.scss'
+import { gql } from '@apollo/client';
 
-const ProjectListTable = () => {
+export const PROJECT_LIST_TABLE_FRAGMENT = gql`
+  fragment ProjectListTableFragment on ProjectConnection {
+    edges {
+      cursor
+      node {
+        id
+        ...ProjectListItemFragment
+      }
+    }
+  }
+  ${PROJECT_LIST_ITEM_FRAGMENT}
+`;
+
+
+export const ProjectListTable = (props) => {
   const { t } = useTranslation();
-  let projectList = useSelector((state) => state.editor.projectList);
-  const projectSortList = [...projectList];
+  const { projectData } = props;
 
-  projectList = projectSortList.sort((x, y) => {
-    return new Date(y.updated_at) - new Date(x.updated_at);
-  })
+  const projectList = projectData?.edges?.map((edge) => edge.node);
 
   return (
     <div className='editor-project-list'>
       <div className='editor-project-list__container'>
-        { projectList.length > 0 ?
+        { projectList && projectList.length > 0 ?
           <>
             <div className='editor-project-list__item'>
               <h4 className='editor-project-list__heading'>{t('projectList.name')}</h4>
@@ -36,4 +47,3 @@ const ProjectListTable = () => {
   )
 };
 
-export default ProjectListTable;
