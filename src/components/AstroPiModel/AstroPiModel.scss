@@ -1,5 +1,5 @@
 @import '../../colours.scss';
-@import '../../editor-spacing.scss';
+@import '../../spacing.scss';
 
 .sense-hat {
   width: 100%;
@@ -27,13 +27,13 @@
       &__spacing {
         flex: 1;
       }
-  
+
       &__values {
         flex: 10;
         display: flex;
         margin: 0 var(--spacing-1);
       }
-  
+
       &__reading {
         flex: 1;
         text-transform: uppercase;
@@ -41,7 +41,7 @@
         margin: 0 var(--spacing-1);
         font-size: var(--font-size-d-1);
       }
-  
+
       &__reset-btn {
         flex:1;
         display: flex;
@@ -192,12 +192,12 @@
         &__control {
           box-shadow: inset 0 0 var(--spacing-2) $rpf-white-opacity8;
           background-color: $rpf-darkmode-grey22;
-          
+
           &-reading {
             background-color: $rpf-darkmode-grey18;
             border: 1px solid $rpf-darkmode-grey42
           }
-          
+
           input[type='color'] {
             background-color: $rpf-darkmode-grey18;
             border: 1px solid $rpf-darkmode-grey42;
@@ -217,14 +217,14 @@
         }
       }
     }
-    
+
     &-model {
       background-color: $editor-dark-blue;
-      
+
       &-orientation {
         background-color: $editor-dark-blue;
         color: $rpf-white;
-        
+
         &__reset-btn {
           svg {
             background-color: $rpf-white;
@@ -246,12 +246,12 @@
         &__control {
           box-shadow: inset 0 0 var(--spacing-2) $rpf-darkmode-grey90;
           background-color: $rpf-darkmode-grey95;
-          
+
           &-reading {
             background-color: $rpf-darkmode-grey90;
             border: 2px solid $rpf-darkmode-grey75;
           }
-          
+
           input[type='color'] {
             background-color: $rpf-white;
             border: 2px solid $rpf-darkmode-grey75;
@@ -269,14 +269,14 @@
         }
       }
   }
-    
+
     &-model {
       background-color: $editor-dark-blue;
-      
+
       &-orientation {
         background-color: $editor-dark-blue;
         color: $rpf-white;
-        
+
         &__reset-btn {
           svg {
             background-color: $rpf-white;

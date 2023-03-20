@@ -1,4 +1,4 @@
-@forward '@rpf/sauce/scss/properties/_spacing';
+@forward '../../spacing.scss';
 @import '../../colours.scss';
 
 .theme-toggle {
@@ -6,7 +6,7 @@
 
   .theme-btn {
     cursor: pointer;
-    
+
     &__icon {
       display: flex;
       align-items: center;
