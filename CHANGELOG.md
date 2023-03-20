@@ -17,6 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix keyboard navigation (#375)
 - Reverted footer links back to underlined (#398)
 
+### Removed
+
+- Dependency on Sauce Deign System (#418)
+
 ## [0.13.0] - 2023-03-02
 
 ### Added
