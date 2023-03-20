@@ -281,7 +281,7 @@ const PythonRunner = () => {
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
       prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
 
-      if (prog.indexOf('py5.run_sketch()') === -1) {
+      if (! prog.match(/(py5.run_sketch|run)/)) {
         prog = prog.concat('\npy5.run_sketch()')
       }
     }
