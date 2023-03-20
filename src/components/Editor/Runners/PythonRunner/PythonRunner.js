@@ -280,10 +280,11 @@ const PythonRunner = () => {
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
       prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
-      prog = prog.concat('py5.run()')
-    }
 
-    console.log(prog)
+      if (prog.indexOf('py5.run_sketch()') === -1) {
+        prog = prog.concat('py5.run_sketch()')
+      }
+    }
 
     Sk.configure({
       inputfun: inf,
