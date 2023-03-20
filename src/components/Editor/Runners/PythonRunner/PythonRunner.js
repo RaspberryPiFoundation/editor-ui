@@ -64,7 +64,7 @@ const PythonRunner = () => {
   [drawTriggered, codeRunTriggered]
   )
 
-  const externalLibraries = {
+  var externalLibraries = {
     "./pygal/__init__.js": {
       path: `${process.env.PUBLIC_URL}/pygal.js`,
       dependencies: [
@@ -150,44 +150,18 @@ const PythonRunner = () => {
     }
 
     if (externalLibraries[x]) {
-      // if (fetchedPy5) {
-      //   return externalLibraries[x]
-      // }
-      // const promises = []
-      // for (const [x, url] of Object.entries(externalLibraries)) {
-      //   promises.push(
-      //     // fetch(url).then((response) => {
-      //     //   externalLibraries[x] = response.text()
-      //     // }).then((source) => {
-      //     //   externalLibraries[x] = source
-      //     // })
-
-      //   )
-      // }
       var externalLibraryInfo = externalLibraries[x];
+      console.log(externalLibraries[x])
+      if (externalLibraryInfo.code) {
+        return externalLibraryInfo.code
+      }
       return Sk.misceval.promiseToSuspension(
-        new Promise(function (resolve, reject) {
-          // get the main skulpt extenstion
-          var request = new XMLHttpRequest();
-          request.open("GET", externalLibraryInfo.path);
-          request.onload = function () {
-            if (request.status === 200) {
-              resolve(request.responseText);
-            } else {
-              reject("File not found: '" + x + "'");
-            }
-          };
-
-          request.onerror = function () {
-            reject("File not found: '" + x + "'");
-          }
-
-          request.send();
-        }).then(function (code) {
+        fetch(externalLibraryInfo.path).then((response) => response.text()).then((code) => {
           if (!code) {
             throw new Sk.builtin.ImportError("Failed to load remote module");
           }
-
+          console.log(externalLibraryInfo.code)
+          externalLibraries[x]['code'] = code
           var promise;
 
           function mapUrlToPromise(path) {
@@ -273,6 +247,7 @@ const PythonRunner = () => {
     if (err.message === t('output.errors.interrupted')) {
       errorMessage = err.message
     } else {
+      console.log(err)
       const errorDetails = (err.tp$str && err.tp$str().v).replace(/\[(.*?)\]/, "").replace(/\.$/, '')
       const errorType = err.tp$name || err.constructor.name
       const lineNumber = err.traceback[0].lineno
