@@ -1,0 +1,18 @@
+:root, :host {
+  --spacing-multiplier: 0.625;
+  --spacing-0: 0;
+  --spacing-1: calc(1rem * var(--spacing-multiplier)); // 0.625rem
+  --spacing-2: calc(2rem * var(--spacing-multiplier)); // 1.25rem
+  --spacing-3: calc(3rem * var(--spacing-multiplier)); // 1.875rem
+  --spacing-4: calc(4rem * var(--spacing-multiplier)); // 2.5rem
+  --spacing-5: calc(5rem * var(--spacing-multiplier)); // 3.125rem
+  --spacing-6: calc(6rem * var(--spacing-multiplier)); // 3.75rem
+  --spacing-7: calc(7rem * var(--spacing-multiplier)); // 4.375rem
+  --spacing-8: calc(8rem * var(--spacing-multiplier)); // 5rem
+  --spacing-9: calc(9rem * var(--spacing-multiplier)); // 5.625rem
+
+  --spacing-one-quart: calc(var(--spacing-1) * 1.25);
+  --spacing-half: calc(0.5rem * var(--spacing-multiplier));
+  --spacing-eight: calc(var(--spacing-1) / 1.25);
+  --spacing-four: calc(var(--spacing-eight) / 2);
+}
