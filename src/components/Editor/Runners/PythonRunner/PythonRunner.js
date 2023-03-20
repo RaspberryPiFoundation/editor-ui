@@ -89,6 +89,9 @@ const PythonRunner = () => {
     },
     "./sense_hat.py": {
       path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
+    },
+    "./py5_imported_mode.py": {
+      path: `${process.env.PUBLIC_URL}/py5_imported_mode.py`
     }
   };
 
@@ -275,13 +278,12 @@ const PythonRunner = () => {
 
     var prog = projectCode[0].content;
 
-    if (prog.includes('# Py5: imported mode')) {
-      console.log('imported mode')
+    if (prog.includes(`# ${t('input.comment.py5')}`)) {
+      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
       prog = prog.concat('py5.run()')
-      console.log(prog)
     }
 
-    console.log('____')
+    console.log(prog)
 
     Sk.configure({
       inputfun: inf,
