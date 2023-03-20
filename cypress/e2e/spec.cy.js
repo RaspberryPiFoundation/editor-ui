@@ -14,3 +14,11 @@ it("Interrupts py5 draws when stop button clicked", () => {
   cy.get(".error-message__content").should("contain", "Execution interrupted")
 
 })
+
+it("runs with the magic comment present", () => {
+  cy.visit(baseUrl)
+  cy.get("div[class=cm-content]").invoke('text', '# Py5: imported mode\nprint("hello world")')
+  cy.get(".btn--run").click()
+
+  cy.get(".pythonrunner-console-output-line").should("contain", "hello world")
+})
