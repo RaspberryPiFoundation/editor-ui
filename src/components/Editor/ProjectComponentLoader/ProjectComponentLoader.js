@@ -5,7 +5,6 @@ import { useEmbeddedMode } from '../Hooks/useEmbeddedMode'
 import Project from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LocaleWrapper from '../../LocaleWrapper/LocaleWrapper';
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -31,15 +30,11 @@ const ProjectComponentLoader = (props) => {
   }, [loading, project, i18n, navigate])
 
   return (
-    <LocaleWrapper>
-      {
-        loading === 'success' ? (
-          <Project />
-        ) : loading === 'pending' ? (
-          <p>{t('project.loading')}</p>
-        ) : null
-      }
-    </LocaleWrapper>
+    loading === 'success' ? (
+      <Project />
+    ) : loading === 'pending' ? (
+      <p>{t('project.loading')}</p>
+    ) : null
   )
 };
 

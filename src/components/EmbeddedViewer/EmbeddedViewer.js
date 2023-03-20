@@ -8,7 +8,6 @@ import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
 import { useParams } from 'react-router-dom';
-import LocaleWrapper from '../LocaleWrapper/LocaleWrapper';
 import { useTranslation } from 'react-i18next';
 
 const EmbeddedViewer = () => {
@@ -38,10 +37,8 @@ const EmbeddedViewer = () => {
 
   return loading === 'success' ? (
     <div className='embedded-viewer'>
-      <LocaleWrapper>
-        <Output />
-        <RunnerControls />
-      </LocaleWrapper>
+      <Output />
+      <RunnerControls />
     </div>
   ) : null;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import LocaleWrapper from "./LocaleWrapper";
+import LocaleLayout from "./LocaleLayout";
 import { useTranslation } from "react-i18next";
 
 jest.mock('react-router', () => ({
@@ -22,7 +22,7 @@ beforeEach(() => {
     }
   })
 
-  render(<LocaleWrapper><p>Hello world</p></LocaleWrapper>)
+  render(<LocaleLayout><p>Hello world</p></LocaleLayout>)
 })
 
 test('Renders children', () => {

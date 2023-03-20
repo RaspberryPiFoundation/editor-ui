@@ -7,6 +7,7 @@ import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
+import LocaleLayout from './LocaleLayout/LocaleLayout';
 
 const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
 const localeRedirects = ['/', '/projects']
@@ -29,18 +30,16 @@ const AppRoutes = () => (
       path="/auth/silent_renew"
       element={<SilentRenew/>}
     />
-    <Route path={"/:locale"} element={<ProjectComponentLoader />} />
-    <Route path={"/:locale/projects"} element={<ProjectIndex />} />
-    <Route path={"/:locale/projects/:identifier"} element={<ProjectComponentLoader />} />
+    <Route path={":locale"} element={<LocaleLayout/>}>
+      <Route index element={<ProjectComponentLoader />} />
+      <Route path={"projects"} element={<ProjectIndex />} />
+      <Route path={"projects/:identifier"} element={<ProjectComponentLoader />} />
+      <Route path="embed/viewer/:identifier" element={<EmbeddedViewer/>} />
+    </Route>
 
     <Route
       path="/embedded/projects/:identifier"
       element={<ProjectComponentLoader embedded={true} />}
-    />
-
-    <Route
-      path="/:locale/embed/viewer/:identifier"
-      element={<EmbeddedViewer/>}
     />
 
     {/* Redirects will be moved into a cloudflare worker. This is just interim */}

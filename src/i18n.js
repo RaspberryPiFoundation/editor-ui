@@ -13,6 +13,7 @@ i18n
   .init({
     debug: true,
     fallbackLng: 'en',
+    locales: ['en', 'es-LA', 'fr-FR', 'ja-JP'],
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
