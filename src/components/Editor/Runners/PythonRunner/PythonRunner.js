@@ -275,6 +275,14 @@ const PythonRunner = () => {
 
     var prog = projectCode[0].content;
 
+    if (prog.includes('# Py5: imported mode')) {
+      console.log('imported mode')
+      prog = prog.concat('py5.run()')
+      console.log(prog)
+    }
+
+    console.log('____')
+
     Sk.configure({
       inputfun: inf,
       output: outf,

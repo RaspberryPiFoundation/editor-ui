@@ -44,6 +44,8 @@ const $builtinmodule = function (name) {
   mod.pInst = null;
   mod.p = null;
 
+  console.log(mod)
+
   // =========
   // Constants
   // =========
@@ -1441,6 +1443,9 @@ const $builtinmodule = function (name) {
   };
 
   _run.$defaults = [new Sk.builtin.int_(60)];
+
+  console.log('******')
+  console.log(_run.$defaults)
 
   mod.run_sketch = new Sk.builtin.func(_run)
   mod.run = new Sk.builtin.func(_run)
