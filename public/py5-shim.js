@@ -1443,6 +1443,7 @@ const $builtinmodule = function (name) {
   _run.$defaults = [new Sk.builtin.int_(60)];
 
   mod.run_sketch = new Sk.builtin.func(_run)
+  mod.run = new Sk.builtin.func(_run)
 
   mouseClass = function ($gbl, $loc) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
