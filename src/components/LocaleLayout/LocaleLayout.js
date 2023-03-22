@@ -19,7 +19,9 @@ const LocaleLayout = () => {
     }
   }, [locale, i18n])
 
-  return isValidLocale ? <Outlet /> : <Navigate to={location.pathname.replace(`/${locale}/`, '/en/')} replace />
+  const localeRegex = new RegExp(`^/${locale}`)
+  
+  return isValidLocale ? <Outlet /> : <Navigate to={location.pathname.replace(localeRegex, '/en')} replace />
 }
 
 export default LocaleLayout
