@@ -1,7 +1,7 @@
 import { EditorView } from '@codemirror/view';
-import '@rpf/sauce/scss/properties/_font-weight.scss';
-import '@rpf/sauce/scss/properties/_font-size.scss';
-import '@rpf/sauce/scss/properties/_line-height.scss';
+import '../../font-weight.scss';
+import '../../font-size.scss';
+import '../../line-height.scss';
 
 export const editorDarkTheme = EditorView.theme({
   ".cm-gutters": {

@@ -267,6 +267,10 @@ const PythonRunner = () => {
 
     var prog = projectCode[0].content;
 
+    if (prog.includes(`# ${t('input.comment.py5')}`)) {
+      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
+    }
+
     Sk.configure({
       inputfun: inf,
       output: outf,
