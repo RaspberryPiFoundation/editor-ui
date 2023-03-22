@@ -31,8 +31,8 @@ let externalLibraries = {
   "./py5_imported/__init__.js": {
     path: `${process.env.PUBLIC_URL}/py5_imported.js`,
   },
-  "./py5_imported_blob.py": {
-    path: `${process.env.PUBLIC_URL}/py5_imported_blob.py`
+  "./py5_imported_mode.py": {
+    path: `${process.env.PUBLIC_URL}/py5_imported_mode.py`
   },
   "./p5/__init__.js": {
     path: `${process.env.PUBLIC_URL}/p5-shim.js`,
