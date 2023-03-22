@@ -36,12 +36,9 @@ export const Header = (props) => {
 
   const client = useApolloClient();
   const projectCache = client.readFragment({
-    id: `Project:${projectHeaderData.id}`,
+    id: `Project:{"id":"${projectHeaderData.id}"}`,
     fragment: PROJECT_HEADER_FRAGMENT,
   });
-
-  console.log(client.cache)
-  console.log('project cache', projectCache)
 
   const onClickSave = async () => {
     window.plausible('Save button')
@@ -64,7 +61,7 @@ export const Header = (props) => {
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
-        { loading === 'success' ? <ProjectName name={projectHeaderData.name} /> : null }
+        { loading === 'success' ? <ProjectName projectData={projectCache} /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?
