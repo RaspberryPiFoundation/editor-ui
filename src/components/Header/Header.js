@@ -13,8 +13,16 @@ import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
+import { gql } from '@apollo/client'
 
-const Header = () => {
+export const PROJECT_HEADER_FRAGMENT = gql`
+  fragment ProjectHeaderFragment on Project {
+    id
+    name
+  }
+`
+
+export const Header = (props) => {
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const loading = useSelector((state) => state.editor.loading)
@@ -36,6 +44,10 @@ const Header = () => {
       dispatch(showLoginToSaveModal())
     }
   }
+  const { projectHeaderData } = props;
+  console.log('HEADER')
+  console.log('props', props)
+  console.log('projectHeaderData', projectHeaderData)
 
   return loading === 'success' && (
     <div className='editor-header-wrapper'>
@@ -64,5 +76,3 @@ const Header = () => {
     </div>
   )
 };
-
-export default Header;

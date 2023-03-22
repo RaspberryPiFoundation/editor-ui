@@ -20,6 +20,19 @@ import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../util
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
 
+import { gql, useQuery } from '@apollo/client';
+import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
+
+const PROJECT_QUERY = gql`
+  query ProjectQuery($identifier: String!) {
+    project(identifier: $identifier){
+      ...ProjectHeaderFragment
+    }
+  }
+  ${PROJECT_HEADER_FRAGMENT}
+`;
+
+
 const Project = (props) => {
   const dispatch = useDispatch()
   const { forWebComponent } = props;
@@ -37,6 +50,13 @@ const Project = (props) => {
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
+
+  const { data, loading, error } = useQuery(PROJECT_QUERY, {
+    variables: { identifier: project.identifier },
+    skip: (project.identifier === undefined)
+  })
+
+  console.log(data.project)
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
@@ -113,43 +133,48 @@ const Project = (props) => {
   }, [dispatch, forWebComponent, project, user])
 
   return (
-    <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <div className='proj-editor-container'>
-          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
-            <div className='react-tabs__tab-container'>
-              <TabList>
-                {openFiles.map((fileName, i) => (
-                  <Tab key={i}>
-                    <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                      ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
-                        {fileName}
-                        {fileName !== 'main.py' ?
-                          <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                        : null
-                        }
-                    </span>
-                  </Tab>
-                ))}
-              </TabList>
-            </div>
-            {openFiles.map((fileName, i) => (
-              <TabPanel key={i}>
-                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
-              </TabPanel>
-            ))}
-            <RunnerControls />
-          </Tabs>
+    <>
+      <Header projectHeaderData={data.project} />
+      <div className='proj'>
+        <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
+        {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
+          <div className='proj-editor-container'>
+            <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  {openFiles.map((fileName, i) => (
+                    <Tab key={i}>
+                      <span
+                        className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
+                        ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
+                          {fileName}
+                          {fileName !== 'main.py' ?
+                            <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                          : null
+                          }
+                      </span>
+                    </Tab>
+                  ))}
+                </TabList>
+              </div>
+              {openFiles.map((fileName, i) => (
+                <TabPanel key={i}>
+                  <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
+                </TabPanel>
+              ))}
+              <RunnerControls />
+            </Tabs>
+          </div>
+          <Output />
         </div>
-        <Output />
+        { loading ? <p>Loading</p> : null }
+        { error ? <p>Error</p> : null }
+        {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
+        {(notFoundModalShowing) ? <NotFoundModal /> : null}
+        {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+        {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
       </div>
-      {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
-      {(notFoundModalShowing) ? <NotFoundModal /> : null}
-      {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
-      {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
-    </div>
+    </>
   )
 };
 
