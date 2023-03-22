@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import { SettingsContext } from './settings';
-import { Header } from './components/Header/Header'
 import AppRoutes from './components/AppRoutes'
 import GlobalNav from './components/GlobalNav/GlobalNav';
 import Footer from './components/Footer/Footer';

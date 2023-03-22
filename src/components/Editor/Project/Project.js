@@ -132,10 +132,17 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+  if (loading) {
+    return <p>loading...</p>
+  }
+
+  if (error) {
+    return <p>Error</p>
+  }
+
   return (
     <>
-      { loading ? <p>Loading</p> : <Header projectHeaderData={headerData} /> }
-      { error ? <p>Error</p> : null }
+      <Header projectHeaderData={headerData} />
       <div className='proj'>
         <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
