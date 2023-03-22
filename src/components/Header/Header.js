@@ -29,6 +29,7 @@ export const Header = (props) => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
+  const { projectHeaderData } = props;
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -44,10 +45,6 @@ export const Header = (props) => {
       dispatch(showLoginToSaveModal())
     }
   }
-  const { projectHeaderData } = props;
-  console.log('HEADER')
-  console.log('props', props)
-  console.log('projectHeaderData', projectHeaderData)
 
   return loading === 'success' && (
     <div className='editor-header-wrapper'>
@@ -58,7 +55,7 @@ export const Header = (props) => {
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
-        { loading === 'success' ? <ProjectName /> : null }
+        { loading === 'success' ? <ProjectName name={projectHeaderData.name} /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?

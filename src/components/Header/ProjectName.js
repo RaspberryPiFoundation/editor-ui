@@ -7,12 +7,14 @@ import { updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
 
-const ProjectName = () => {
+const ProjectName = (props) => {
   const project = useSelector((state) => state.editor.project)
   const dispatch = useDispatch();
   const { t } = useTranslation()
   const nameInput= useRef();
   const [isEditable, setEditable] = useState(false)
+
+  const { name } = props;
 
   useEffect(() => {
     if (isEditable) {
@@ -50,7 +52,7 @@ const ProjectName = () => {
         defaultValue={project.name} />
       :
       <>
-        <h1 className='project-name__title'>{project.name||t('header.newProject')}</h1>
+        <h1 className='project-name__title'>{name||t('project.untitled')}</h1>
         <Button className='btn--tertiary project-name__button' label={t('header.buttonLabel')} title={t('header.buttonTitle')} ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
       </>
       }

@@ -51,12 +51,12 @@ const Project = (props) => {
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
 
-  const { data, loading, error } = useQuery(PROJECT_QUERY, {
+  const { loading, error, data } = useQuery(PROJECT_QUERY, {
     variables: { identifier: project.identifier },
     skip: (project.identifier === undefined)
   })
 
-  console.log(data.project)
+  const headerData = data ? data.project : []
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
@@ -134,7 +134,8 @@ const Project = (props) => {
 
   return (
     <>
-      <Header projectHeaderData={data.project} />
+      { loading ? <p>Loading</p> : <Header projectHeaderData={headerData} /> }
+      { error ? <p>Error</p> : null }
       <div className='proj'>
         <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
@@ -167,8 +168,6 @@ const Project = (props) => {
           </div>
           <Output />
         </div>
-        { loading ? <p>Loading</p> : null }
-        { error ? <p>Error</p> : null }
         {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
         {(notFoundModalShowing) ? <NotFoundModal /> : null}
         {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
