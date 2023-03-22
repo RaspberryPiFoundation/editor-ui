@@ -240,7 +240,6 @@ const PythonRunner = () => {
     if (err.message === t('output.errors.interrupted')) {
       errorMessage = err.message
     } else {
-      console.log(err)
       const errorDetails = (err.tp$str && err.tp$str().v).replace(/\[(.*?)\]/, "").replace(/\.$/, '')
       const errorType = err.tp$name || err.constructor.name
       const lineNumber = err.traceback[0].lineno
