@@ -112,6 +112,11 @@ i18n
               },
             },
           },
+          input: {
+            comment: {
+              py5: 'Py5: imported mode',
+            }
+          },
           loginToSaveModal: {
             cancel: 'Cancel',
             downloadButtonText: 'Download',
