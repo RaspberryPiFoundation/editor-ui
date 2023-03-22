@@ -14,6 +14,40 @@ import VisualOutputPane from './VisualOutputPane';
 import OutputViewToggle from './OutputViewToggle';
 import { SettingsContext } from '../../../../settings';
 
+let externalLibraries = {
+  "./pygal/__init__.js": {
+    path: `${process.env.PUBLIC_URL}/pygal.js`,
+    dependencies: [
+      'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
+    ],
+  },
+  "./py5/__init__.js": {
+    path: `${process.env.PUBLIC_URL}/py5-shim.js`,
+    dependencies: [
+      'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+    ],
+  },
+  "./py5_imported/__init__.js": {
+    path: `${process.env.PUBLIC_URL}/py5_imported.js`,
+  },
+  "./py5_imported_blob.py": {
+    path: `${process.env.PUBLIC_URL}/py5_imported_blob.py`
+  },
+  "./p5/__init__.js": {
+    path: `${process.env.PUBLIC_URL}/p5-shim.js`,
+    dependencies: [
+      'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+    ]
+  },
+  "./_internal_sense_hat/__init__.js": {
+    path: `${process.env.PUBLIC_URL}/_internal_sense_hat.js`
+  },
+  "./sense_hat.py": {
+    path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
+  }
+};
+
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
@@ -64,41 +98,6 @@ const PythonRunner = () => {
   [drawTriggered, codeRunTriggered]
   )
 
-  var externalLibraries = {
-    "./pygal/__init__.js": {
-      path: `${process.env.PUBLIC_URL}/pygal.js`,
-      dependencies: [
-        'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
-      ],
-    },
-    "./py5/__init__.js": {
-      path: `${process.env.PUBLIC_URL}/py5-shim.js`,
-      dependencies: [
-        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
-      ]
-    },
-    "./py5_imported/__init__.js": {
-      path: `${process.env.PUBLIC_URL}/py5_imported.js`,
-      dependencies: [
-        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
-      ]
-    },
-
-    "./p5/__init__.js": {
-      path: `${process.env.PUBLIC_URL}/p5-shim.js`,
-      dependencies: [
-        'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
-      ]
-    },
-    "./_internal_sense_hat/__init__.js": {
-      path: `${process.env.PUBLIC_URL}/_internal_sense_hat.js`
-    },
-    "./sense_hat.py": {
-      path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
-    }
-  };
-
   const visualLibraries =[
     "./pygal/__init__.js",
     "./py5/__init__.js",
@@ -118,8 +117,6 @@ const PythonRunner = () => {
       node.scrollTop = node.scrollHeight;
     }
   }
-
-  // let fetchedPy5 = false
 
   const builtinRead = (x) => {
 
@@ -151,17 +148,13 @@ const PythonRunner = () => {
 
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
-      console.log(externalLibraries[x])
-      if (externalLibraryInfo.code) {
-        return externalLibraryInfo.code
-      }
-      return Sk.misceval.promiseToSuspension(
+
+      return externalLibraryInfo.code || Sk.misceval.promiseToSuspension(
         fetch(externalLibraryInfo.path).then((response) => response.text()).then((code) => {
           if (!code) {
             throw new Sk.builtin.ImportError("Failed to load remote module");
           }
-          console.log(externalLibraryInfo.code)
-          externalLibraries[x]['code'] = code
+          externalLibraries[x].code = code
           var promise;
 
           function mapUrlToPromise(path) {
