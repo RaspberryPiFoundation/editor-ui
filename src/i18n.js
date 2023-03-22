@@ -13,7 +13,13 @@ i18n
   .init({
     debug: true,
     fallbackLng: 'en',
-    locales: ['en', 'es-LA', 'fr-FR', 'ja-JP'],
+    locales: [
+      'en', 'ar-SA', 'ca-ES', 'cs-CZ', 'me-ME', 'cy-GB', 'da-DK', 'de-DE', 'el-GR',
+      'et-EE', 'es-ES', 'es-LA', 'fr-FR', 'he-IL', 'hi-IN', 'hr-HR', 'it-IT', 'ja-JP',
+      'kn-IN', 'ko-KR', 'mr-IN', 'hu-HU', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT',
+      'ro-RO', 'ru-RU', 'sk-SK', 'sl-SI', 'fi-FI', 'sv-SE', 'vls-BE', 'sr-SP', 'tr-TR',
+      'uk-UA', 'zh-CN', 'zh-TW'
+    ],
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
