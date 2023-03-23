@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux'
 import { PencilIcon } from '../../Icons';
 import Button from '../Button/Button';
-import { updateProjectName } from '../Editor/EditorSlice';
 import { gql, useMutation } from '@apollo/client';
 
 import './ProjectName.scss';
@@ -20,15 +18,12 @@ const RENAME_PROJECT_MUTATION = gql`
 `
 
 const ProjectName = (props) => {
-  // const project = useSelector((state) => state.editor.project)
   const { t } = useTranslation()
   const { project } = props;
-  // const dispatch = useDispatch();
-
   const nameInput = useRef();
   const [isEditable, setEditable] = useState(false)
   const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION)
-  console.log(project)
+
   useEffect(() => {
     if (isEditable) {
       nameInput.current.focus()
@@ -38,9 +33,9 @@ const ProjectName = (props) => {
   const updateName = () => {
     setEditable(false)
     console.log(nameInput.current.value)
-    // dispatch(updateProjectName(nameInput.current.value))
     renameProjectMutation({variables: {id: project.id, name: nameInput.current.value}})
   }
+
   const onEditNameButtonClick = () => {
     setEditable(true)
   }
