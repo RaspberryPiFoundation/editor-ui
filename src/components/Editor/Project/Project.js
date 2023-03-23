@@ -45,6 +45,7 @@ const Project = (props) => {
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded)
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
@@ -140,7 +141,7 @@ const Project = (props) => {
 
   return (
     <>
-      <Header projectHeaderData={headerData} />
+      { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
       <div className='proj'>
         <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
