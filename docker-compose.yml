@@ -9,7 +9,7 @@ services:
     stdin_open: true
     volumes:
       - .:/app
-      - node_modules:/app/node_modules # ensures we retain node_modules from docker build
+      - /app/node_modules
   react-ui-wc:
     build: .
     command: yarn start:wc
@@ -19,7 +19,4 @@ services:
     stdin_open: true
     volumes:
       - .:/app
-      - node_modules:/app/node_modules # ensures we retain node_modules from docker build
-
-volumes:
-  node_modules:
+      - /app/node_modules
