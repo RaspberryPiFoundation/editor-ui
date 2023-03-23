@@ -2,14 +2,15 @@ import React from "react";
 import { render } from "@testing-library/react";
 import LocaleLayout from "./LocaleLayout";
 import { useTranslation } from "react-i18next";
-import { MemoryRouter, useLocation } from "react-router-dom";
+import { MemoryRouter, useLocation, useParams } from "react-router-dom";
+
+const mockNavigate = jest.fn()
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
-  useParams: () => ({
-    locale: 'es-LA'
-  }),
-  useNavigate: jest.fn()
+  useParams: jest.fn(),
+  useNavigate: () => mockNavigate,
+  useLocation: jest.fn()
 }))
 
 jest.mock('react-i18next', () => ({
@@ -26,37 +27,47 @@ beforeEach(() => {
       }
     }
   })
-  render(<MemoryRouter pathname='/es-LA/projects/my-amazing-project'><LocaleLayout/></MemoryRouter>)
 })
 
 describe('When locale is allowed', () => {
   beforeEach(() => {
-    render(
-      <MemoryRouter pathname='/es-LA/projects/my-amazing-project'>
-        <LocaleLayout/>
-      </MemoryRouter>
-    )
+
+    useParams.mockReturnValue({
+      locale: 'es-LA'
+    })
+
+    render(<MemoryRouter><LocaleLayout/></MemoryRouter>)
   })
 
   test('Sets the language', () => {
     expect(useTranslation().i18n.changeLanguage).toHaveBeenCalledWith('es-LA', expect.anything())
   })
+
+  test('Does not redirect', () => {
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
 })
 
 describe('When locale is not allowed', () => {
   beforeEach(() => {
-    render(
-      <MemoryRouter pathname='/anything/projects/my-amazing-project'>
-        <LocaleLayout/>
-      </MemoryRouter>
-    )
+    useParams.mockReturnValueOnce({
+      locale: 'anything'
+    }).mockReturnValue({
+      locale: 'en'
+    })
+
+    useLocation.mockReturnValue({
+      pathname: '/anything/projects/my-amazing-project'
+    })
+
+    render(<MemoryRouter><LocaleLayout/></MemoryRouter>)
   })
 
   test('Does not set the language to the requested locale', () => {
     expect(useTranslation().i18n.changeLanguage).not.toHaveBeenCalledWith('anything', expect.anything())
   })
 
-  // test('Redirects to English', () => {
-  //   expect(useLocation().pathname).toBe('/en/')
-  // })
+  test("Redirects to English", () => {
+    expect(mockNavigate).toHaveBeenCalledWith('/en/projects/my-amazing-project')
+  })
 })
