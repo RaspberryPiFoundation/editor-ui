@@ -13,7 +13,7 @@ import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const PROJECT_HEADER_FRAGMENT = gql`
   fragment ProjectHeaderFragment on Project {
@@ -29,7 +29,7 @@ export const Header = (props) => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
-  const { projectHeaderData } = props;
+  const { projectHeaderData } = props
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

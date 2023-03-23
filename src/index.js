@@ -38,7 +38,7 @@ const client = new ApolloClient({
   ]),
   cache: apolloCache
 });
-console.log('CACHE', apolloCache)
+
 const div = document.getElementById('root')
 const root = createRoot(div)
 root.render(
