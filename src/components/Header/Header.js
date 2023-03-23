@@ -55,7 +55,7 @@ export const Header = (props) => {
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
-        { loading === 'success' ? <ProjectName projectData={projectHeaderData.name} /> : null }
+        { loading === 'success' ? <ProjectName project={projectHeaderData} /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?

@@ -4,18 +4,31 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PencilIcon } from '../../Icons';
 import Button from '../Button/Button';
 import { updateProjectName } from '../Editor/EditorSlice';
+import { gql, useMutation } from '@apollo/client';
 
 import './ProjectName.scss';
 
+const RENAME_PROJECT_MUTATION = gql`
+  mutation RenameProject($id: String!, $name: String!) {
+    updateProject(input: {id: $id, name: $name}) {
+      project {
+        id
+        name
+      }
+    }
+  }
+`
+
 const ProjectName = (props) => {
-  const project = useSelector((state) => state.editor.project)
-  const dispatch = useDispatch();
+  // const project = useSelector((state) => state.editor.project)
   const { t } = useTranslation()
-  const nameInput= useRef();
+  const { project } = props;
+  // const dispatch = useDispatch();
+
+  const nameInput = useRef();
   const [isEditable, setEditable] = useState(false)
-
-  const { projectData } = props;
-
+  const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION)
+  console.log(project)
   useEffect(() => {
     if (isEditable) {
       nameInput.current.focus()
@@ -24,7 +37,9 @@ const ProjectName = (props) => {
 
   const updateName = () => {
     setEditable(false)
-    dispatch(updateProjectName(nameInput.current.value))
+    console.log(nameInput.current.value)
+    // dispatch(updateProjectName(nameInput.current.value))
+    renameProjectMutation({variables: {id: project.id, name: nameInput.current.value}})
   }
   const onEditNameButtonClick = () => {
     setEditable(true)
@@ -52,7 +67,7 @@ const ProjectName = (props) => {
         defaultValue={project.name} />
       :
       <>
-        <h1 className='project-name__title'>{projectData||t('project.untitled')}</h1>
+        <h1 className='project-name__title'>{project.name||t('project.untitled')}</h1>
         <Button className='btn--tertiary project-name__button' label={t('header.buttonLabel')} title={t('header.buttonTitle')} ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
       </>
       }
