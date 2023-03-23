@@ -8,7 +8,7 @@ import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
 import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
-import ProjectName from './ProjectName';
+import { ProjectName } from './ProjectName';
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'

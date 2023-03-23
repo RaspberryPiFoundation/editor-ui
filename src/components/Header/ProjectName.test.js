@@ -2,30 +2,50 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-
-import ProjectName from "./ProjectName";
+import { MockedProvider } from "@apollo/client/testing"
 import { updateProjectName } from "../Editor/EditorSlice";
+import { ProjectName, RENAME_PROJECT_MUTATION} from "./ProjectName";
+import { act } from "react-test-renderer";
 
 const project = {
+  id: "ABC",
   identifier: "hello-world-project",
   name: "Hello world",
   user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
 }
 
+let updatedName = "New project name"
+
 let store
 let editButton
+let mocks
 
 beforeEach(() => {
-  const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: project,
-      }
+  mocks = [
+    {
+      request: {
+        query: RENAME_PROJECT_MUTATION,
+        variables: { id: project.id, name: updatedName }
+      },
+      result: jest.fn(() => ({
+        data: {
+          id: project.id,
+          name: updatedName
+        }
+      }))
     }
-    store = mockStore(initialState);
-    render(<Provider store={store}><ProjectName/></Provider>);
-    editButton = screen.queryByRole('button')
+  ]
+
+  const middlewares = []
+  const mockStore = configureStore(middlewares)
+  const initialState = {
+    editor: {
+      project: project,
+    }
+  }
+  store = mockStore(initialState);
+  render(<MockedProvider mocks={mocks}><Provider store={store}><ProjectName project={project}/></Provider></MockedProvider>);
+  editButton = screen.queryByRole('button')
 })
 
 test('Project name renders in a heading', () => {
@@ -46,11 +66,13 @@ describe('When input field loses focus', () => {
   beforeEach(() => {
     fireEvent.click(editButton)
     const inputField = screen.queryByRole('textbox')
+    fireEvent.change(inputField, { target: {value: updatedName} })
     inputField.blur()
   })
 
-  test('Updates project name', () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)])
+  test('Updates project name', async () => {
+    expect(store.getActions()).toEqual([updateProjectName(updatedName)])
+    await waitFor(() => expect(mocks[0].result).toHaveBeenCalled())
   })
 
   test('Changes project name to heading', async () => {
@@ -62,11 +84,12 @@ describe('When Enter is pressed', () => {
   beforeEach(() => {
     fireEvent.click(editButton)
     const inputField = screen.queryByRole('textbox')
+    fireEvent.change(inputField, { target: {value: updatedName} })
     fireEvent.keyDown(inputField, { key: 'Enter'})
   })
 
   test('Updates project name', () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)])
+    expect(store.getActions()).toEqual([updateProjectName(updatedName)])
   })
 
   test('Changes project name to heading', () => {

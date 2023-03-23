@@ -8,7 +8,7 @@ import { updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
 
-const RENAME_PROJECT_MUTATION = gql`
+export const RENAME_PROJECT_MUTATION = gql`
   mutation RenameProject($id: String!, $name: String!) {
     updateProject(input: {id: $id, name: $name}) {
       project {
@@ -19,7 +19,7 @@ const RENAME_PROJECT_MUTATION = gql`
   }
 `
 
-const ProjectName = (props) => {
+export const ProjectName = (props) => {
   const { t } = useTranslation()
   const { project } = props
   const localProject = useSelector((state) => state.editor.project)
@@ -88,5 +88,3 @@ const ProjectName = (props) => {
     </div>
   )
 };
-
-export default ProjectName;
