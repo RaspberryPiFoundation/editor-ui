@@ -30,10 +30,22 @@ const ProjectName = (props) => {
     }
   })
 
+  // TODO: Fix name to local state when not logged in (ie. project is not saved in DB)
   const updateName = () => {
     setEditable(false)
-    console.log(nameInput.current.value)
-    renameProjectMutation({variables: {id: project.id, name: nameInput.current.value}})
+    renameProjectMutation({
+      variables: {id: project.id, name: nameInput.current.value},
+      optimisticResponse: {
+        __typename: "Mutation",
+        updateProject: {
+          project: {
+            id: project.id,
+            name: nameInput.current.value,
+            __typename: "Project"
+          }
+        }
+      }
+    })
   }
 
   const onEditNameButtonClick = () => {
