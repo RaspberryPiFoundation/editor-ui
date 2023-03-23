@@ -1,6 +1,7 @@
 const $builtinmodule = function(name) {
   var py5 = Sk.importModule('p5', false, false)
   const mod = py5.$d
+  mod.__name__ = new Sk.builtin.str("py5_imported")
 
   const processArgs = function processArgumentValues(arguments_) {
     const argVals = [];
@@ -12,6 +13,7 @@ const $builtinmodule = function(name) {
 
     return argVals;
   };
+
   mod.frame_rate = new Sk.builtin.func(function (fr) {
     console.log(fr)
     mod.pInst.frameRate(fr.v);
@@ -35,6 +37,16 @@ const $builtinmodule = function(name) {
     Sk.misceval.callsim(runFunction)
   })
   delete mod.run
+
+  mod.remap = mod.map
+  delete mod.map
+
+  delete mod.DEGREES
+  delete mod.RADIANS
+  delete mod.lightness
+  delete mod.erase
+  delete mod.no_erase
+  delete mod.text_style
   
   return mod
 }
