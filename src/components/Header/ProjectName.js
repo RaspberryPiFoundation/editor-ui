@@ -52,7 +52,7 @@ const ProjectName = (props) => {
         defaultValue={project.name} />
       :
       <>
-        <h1 className='project-name__title'>{projectData.name||t('project.untitled')}</h1>
+        <h1 className='project-name__title'>{projectData||t('project.untitled')}</h1>
         <Button className='btn--tertiary project-name__button' label={t('header.buttonLabel')} title={t('header.buttonTitle')} ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
       </>
       }
