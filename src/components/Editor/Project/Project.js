@@ -4,7 +4,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
 import Output from '../Output/Output'
@@ -19,9 +19,7 @@ import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
-
 import { gql, useQuery } from '@apollo/client';
-import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 
 const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
