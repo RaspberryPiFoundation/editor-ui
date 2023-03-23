@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PencilIcon } from '../../Icons';
 import Button from '../Button/Button';
 import { gql, useMutation } from '@apollo/client';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
@@ -22,10 +22,12 @@ const RENAME_PROJECT_MUTATION = gql`
 const ProjectName = (props) => {
   const { t } = useTranslation()
   const { project } = props
+  const localProject = useSelector((state) => state.editor.project)
   const dispatch = useDispatch()
   const nameInput = useRef()
   const [isEditable, setEditable] = useState(false)
   const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION)
+  const projectName = project.id ? project.name : localProject.name
 
   useEffect(() => {
     if (isEditable) {
@@ -33,22 +35,23 @@ const ProjectName = (props) => {
     }
   })
 
-  // TODO: Fix name to local state when not logged in (ie. project is not saved in DB)
   const updateName = () => {
     setEditable(false)
-    renameProjectMutation({
-      variables: {id: project.id, name: nameInput.current.value},
-      optimisticResponse: {
-        __typename: "Mutation",
-        updateProject: {
-          project: {
-            id: project.id,
-            name: nameInput.current.value,
-            __typename: "Project"
+    if (project.id) {
+      renameProjectMutation({
+        variables: {id: project.id, name: nameInput.current.value},
+        optimisticResponse: {
+          __typename: "Mutation",
+          updateProject: {
+            project: {
+              id: project.id,
+              name: nameInput.current.value,
+              __typename: "Project"
+            }
           }
         }
-      }
-    })
+      })
+    }
     dispatch(updateProjectName(nameInput.current.value))
   }
 
@@ -75,10 +78,10 @@ const ProjectName = (props) => {
         type='text'
         onBlur={updateName}
         onKeyDown={handleKeyDown}
-        defaultValue={project.name} />
+        defaultValue={projectName} />
       :
       <>
-        <h1 className='project-name__title'>{project.name||t('project.untitled')}</h1>
+        <h1 className='project-name__title'>{projectName||t('project.untitled')}</h1>
         <Button className='btn--tertiary project-name__button' label={t('header.buttonLabel')} title={t('header.buttonTitle')} ButtonIcon={PencilIcon} onClickHandler={onEditNameButtonClick} />
       </>
       }
