@@ -13,7 +13,8 @@ import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
+import { RENAME_PROJECT_MUTATION } from '../Modals/RenameProjectModal';
 
 export const PROJECT_HEADER_FRAGMENT = gql`
   fragment ProjectHeaderFragment on Project {
@@ -30,6 +31,7 @@ export const Header = (props) => {
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
   const { projectHeaderData } = props
+  const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -39,6 +41,7 @@ export const Header = (props) => {
 
     if (isOwner(user, project)) {
       dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
+      renameProjectMutation({variables: {id: projectHeaderData.id, name: projectHeaderData.name}})
     } else if (user && project.identifier) {
       dispatch(syncProject('remix')({project, accessToken: user.access_token}))
     } else {
