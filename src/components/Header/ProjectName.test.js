@@ -88,7 +88,7 @@ describe('When Enter is pressed', () => {
     fireEvent.keyDown(inputField, { key: 'Enter'})
   })
 
-  test('Updates project name', () => {
+  test('Updates project name', async () => {
     expect(store.getActions()).toEqual([updateProjectName(updatedName)])
   })
 
