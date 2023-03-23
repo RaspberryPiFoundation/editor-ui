@@ -13,7 +13,7 @@ import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
-import { useApolloClient, gql } from '@apollo/client'
+import { gql } from '@apollo/client'
 
 export const PROJECT_HEADER_FRAGMENT = gql`
   fragment ProjectHeaderFragment on Project {
@@ -33,12 +33,6 @@ export const Header = (props) => {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
-
-  const client = useApolloClient();
-  const projectCache = client.readFragment({
-    id: `Project:{"id":"${projectHeaderData.id}"}`,
-    fragment: PROJECT_HEADER_FRAGMENT,
-  });
 
   const onClickSave = async () => {
     window.plausible('Save button')
