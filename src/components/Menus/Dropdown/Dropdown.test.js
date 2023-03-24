@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Dropdown from "./Dropdown";
@@ -38,14 +38,16 @@ test("Menu content not disable intially", () => {
 })
 
 test("Clicking button makes menu content appear", () => {
+  const user = userEvent.setup()
   const button = getByText('my button').parentElement
-  fireEvent.click(button)
+  user.click(button)
   expect(queryByRole('heading', {level: 1, name: "Menu"})).not.toBeNull()
 })
 
 test("Clicking outside menu makes it close", () => {
+  const user = userEvent.setup()
   const button = getByText('my button').parentElement
-  fireEvent.click(button)
-  userEvent.click(document.body)
+  user.click(button)
+  user.click(document.body)
   expect(queryByRole('heading', {level: 1, name: "Menu"})).toBeNull()
 })
