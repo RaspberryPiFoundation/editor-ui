@@ -1,4 +1,5 @@
 const $builtinmodule = function(name) {
+  console.log('importing p5 in the py5_imported shim')
   var py5 = Sk.importModule('p5', false, false)
   const mod = py5.$d
   mod.__name__ = new Sk.builtin.str("py5_imported")

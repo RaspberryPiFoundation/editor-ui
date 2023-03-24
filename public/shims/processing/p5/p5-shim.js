@@ -1407,14 +1407,16 @@ const $builtinmodule = function (name) {
 
       mod.pInst = sketch;
 
+      const isPy5Version = [Sk.builtin.str("py5"), Sk.builtin.str("py5_imported")].includes(mod.__name__)
+
       sketch.preload = function () {
-        if (Sk.globals["preload"] && mod.__name__ === Sk.builtin.str("p5")) {
+        if (Sk.globals["preload"] && !isPy5Version) {
           Sk.misceval.callsimArray(Sk.globals["preload"]);
         }
       };
 
       sketch.setup = function () {
-        if (Sk.globals["settings"] && mod.__name__ !== Sk.builtin.str("p5")) {
+        if (Sk.globals["settings"] && isPy5Version) {
           Sk.misceval.callsimArray(Sk.globals["settings"]);
         }
         if (Sk.globals["setup"]) {
@@ -1431,7 +1433,12 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v)
 
       sketch.draw = function () {
-        Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
+        if (mod.__name__ === Sk.builtin.str("py5")) {
+          mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
+        } else {
+          Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
+        }
+
         if (Sk.globals["draw"]) {
           try {
             Sk.misceval.callsimArray(Sk.globals["draw"]);

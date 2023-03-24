@@ -14,7 +14,7 @@ import VisualOutputPane from './VisualOutputPane';
 import OutputViewToggle from './OutputViewToggle';
 import { SettingsContext } from '../../../../settings';
 
-let externalLibraries = {
+const externalLibraries = {
   "./pygal/__init__.js": {
     path: `${process.env.PUBLIC_URL}/pygal.js`,
     dependencies: [
@@ -23,19 +23,22 @@ let externalLibraries = {
     ],
   },
   "./py5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/py5-shim.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5/py5-shim.js`,
     dependencies: [
       'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
-    ],
+    ]
   },
   "./py5_imported/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/py5_imported.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
+    dependencies: [
+      'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
+    ]
   },
-  "./py5_imported_mode.py": {
-    path: `${process.env.PUBLIC_URL}/py5_imported_mode.py`
-  },
+  // "./py5_imported_mode.py": {
+  //   path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`
+  // },
   "./p5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/p5-shim.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
     dependencies: [
       'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
     ]
@@ -124,8 +127,15 @@ const PythonRunner = () => {
       dispatch(setSenseHatEnabled(true))
     }
 
-    if(x === "./py5/__init__.js" || x === "./p5/__init__.js") {
+    if(x === "./p5/__init__.js") {
       dispatch(triggerDraw())
+    }
+    // if(x==='./py5/__init__.js') {
+    //   builtinRead('./p5/__init__.js')
+    //   builtinRead('./py5_imported/__init__.js')
+    // }
+    if (x==='./py5_imported/__init__.js') {
+      builtinRead('./p5/__init__.js')
     }
 
     if (visualLibraries.includes(x)) {
@@ -149,12 +159,12 @@ const PythonRunner = () => {
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
 
-      return externalLibraryInfo.code || Sk.misceval.promiseToSuspension(
+      return localStorage.getItem(x) || Sk.misceval.promiseToSuspension(
         fetch(externalLibraryInfo.path).then((response) => response.text()).then((code) => {
           if (!code) {
             throw new Sk.builtin.ImportError("Failed to load remote module");
           }
-          externalLibraries[x].code = code
+          localStorage.setItem(x, code)
           var promise;
 
           function mapUrlToPromise(path) {
@@ -267,7 +277,7 @@ const PythonRunner = () => {
     var prog = projectCode[0].content;
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
-      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
+      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported import *')
     }
 
     Sk.configure({
