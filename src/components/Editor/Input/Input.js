@@ -29,7 +29,7 @@ const Input = (props) => {
     const fileName = openFiles[focussedFileIndex]
     const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
     const fileRef = tabRefs.current[componentIndex]
-    if (fileRef && fileRef.current) {
+    if (fileRef?.current) {
       fileRef.current.parentElement.scrollIntoView()
     }
   }, [focussedFileIndex, openFiles, numberOfComponents])
@@ -56,7 +56,7 @@ const Input = (props) => {
                     ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
                       {fileName}
                       {fileName !== 'main.py' ?
-                        <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                        <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label={`close ${fileName}`} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                       : null
                       }
                   </span>
