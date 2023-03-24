@@ -55,7 +55,7 @@ const project = {
     user_id: user1.profile.user
 }
 
-test("Renders with file menu if not for web component", () => {
+test("Renders with file menu", () => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
@@ -70,23 +70,6 @@ test("Renders with file menu if not for web component", () => {
     const store = mockStore(initialState);
   const {queryByText} = render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
   expect(queryByText('filePane.files')).not.toBeNull()
-})
-
-test("Renders without file menu if for web component", () => {
-  const middlewares = []
-  const mockStore = configureStore(middlewares)
-  const initialState = {
-    editor: {
-      project: {
-        components: []
-      },
-      openFiles: []
-    },
-    auth: {}
-  }
-  const store = mockStore(initialState);
-  const {queryByText} = render(<MockedProvider><Provider store={store}><Project forWebComponent={true}/></Provider></MockedProvider>)
-  expect(queryByText('filePane.files')).toBeNull()
 })
 
 describe('opening and closing different files', () => {
