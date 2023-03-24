@@ -50,6 +50,7 @@ export const ProjectName = (props) => {
         optimisticResponse: {
           __typename: "Mutation",
           updateProject: {
+            __typename: "UpdateProjectPayload",
             project: {
               id: project.id,
               name: nameInput.current.value,
