@@ -1,13 +1,13 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
+import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
 
 import { Project, PROJECT_QUERY } from "./Project";
 import { expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter } from "react-router-dom";
 
 jest.mock('axios');
 
