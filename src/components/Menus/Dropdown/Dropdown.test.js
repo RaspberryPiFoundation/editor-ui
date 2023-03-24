@@ -37,17 +37,17 @@ test("Menu content not disable intially", () => {
   expect(queryByRole('heading', {level: 1, name: "Menu"})).toBeNull()
 })
 
-test("Clicking button makes menu content appear", () => {
+test("Clicking button makes menu content appear", async () => {
   const user = userEvent.setup()
   const button = getByText('my button').parentElement
-  user.click(button)
+  await user.click(button)
   expect(queryByRole('heading', {level: 1, name: "Menu"})).not.toBeNull()
 })
 
-test("Clicking outside menu makes it close", () => {
+test("Clicking outside menu makes it close", async () => {
   const user = userEvent.setup()
   const button = getByText('my button').parentElement
-  user.click(button)
-  user.click(document.body)
+  await user.click(button)
+  await user.click(document.body)
   expect(queryByRole('heading', {level: 1, name: "Menu"})).toBeNull()
 })
