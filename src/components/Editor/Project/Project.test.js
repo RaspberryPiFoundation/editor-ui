@@ -1,14 +1,13 @@
 import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
+import { render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
-import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
 
 import { Project, PROJECT_QUERY } from "./Project";
-import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
+import { expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 import { MockedProvider } from "@apollo/client/testing";
+import { MemoryRouter } from "react-router-dom";
 
 jest.mock('axios');
 
@@ -42,7 +41,6 @@ const user2 = {
 
 const project = {
   name: 'hello world',
-    id: 'ABC',
     project_type: 'python',
     identifier: 'hello-world-project',
     components: [
@@ -65,7 +63,7 @@ const graphqlMocks = [
       data: {
         project: {
           __typename: "Project",
-          id: project.id,
+          id: "Graphql project ID",
           name: project.name,
         },
       },
@@ -353,7 +351,7 @@ describe('When logged in and project has no identifier and awaiting save', () =>
     saveAction = {type: 'SAVE_PROJECT' }
     saveProject = jest.fn(() => saveAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
-    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MemoryRouter><MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider></MemoryRouter>);
   })
 
   afterEach(() => {
