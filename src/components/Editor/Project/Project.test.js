@@ -1,5 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
@@ -86,7 +87,7 @@ test("Renders with file menu", () => {
       auth: {}
     }
     const store = mockStore(initialState);
-  const {queryByText} = render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
+  const {queryByText} = render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
   expect(queryByText('filePane.files')).not.toBeNull()
 })
 
@@ -120,7 +121,7 @@ describe('opening and closing different files', () => {
       }
     }
     store = mockStore(initialState);
-    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
+    render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
   })
 
   test("Renders content of focussed file", () => {
@@ -131,9 +132,10 @@ describe('opening and closing different files', () => {
     expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled()
   })
 
-  test('Clicking the file close button dispatches close action', () => {
+  test('Clicking the file close button dispatches close action', async () => {
+    const user = userEvent.setup()
     const closeButton = screen.queryAllByRole('button')[3]
-    fireEvent.click(closeButton)
+    await user.click(closeButton)
     expect(store.getActions()).toEqual([closeFile('a.py')])
   })
 })
