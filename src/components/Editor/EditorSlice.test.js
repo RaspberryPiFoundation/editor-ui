@@ -308,7 +308,7 @@ const requestingAProject = function(project, projectFile) {
 
   beforeEach(() => {
     loadThunk = syncProject('load')
-    loadAction = loadThunk({ identifier: 'my-project-identifier', accessToken: 'my_token' })
+    loadAction = loadThunk({ identifier: 'my-project-identifier', locale: 'ja-JP', accessToken: 'my_token' })
 
     loadFulfilledAction = loadThunk.fulfilled({ project })
     loadFulfilledAction.meta.requestId='my_request_id'
@@ -318,7 +318,7 @@ const requestingAProject = function(project, projectFile) {
 
   test('Reads project from database', async () => {
     await loadAction(dispatch, () => initialState)
-    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'my_token')
+    expect(readProject).toHaveBeenCalledWith('my-project-identifier', 'ja-JP', 'my_token')
   })
 
   test('If loading status pending, loading success updates status', () => {

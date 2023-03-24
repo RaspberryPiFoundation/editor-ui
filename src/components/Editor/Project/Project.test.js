@@ -158,9 +158,6 @@ describe('When not logged in and just loaded', () => {
     localStorage.clear()
   })
 
-  test('Project saved in localStorage', async () => {
-    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
-  })
   test('Expires justLoaded', async () => {
     await waitFor(() => expect(mockedStore.getActions()).toEqual([expireJustLoaded()]), {timeout: 2100})
   })
@@ -196,6 +193,10 @@ describe('When not logged in and not just loaded', () => {
   test('Dispatches save prompt shown action', async () => {
     await waitFor(() => expect(mockedStore.getActions()).toEqual([setHasShownSavePrompt()]), {timeout: 2100})
   })
+
+  test('Project saved in localStorage', async () => {
+    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
+  })
 })
 
 describe('When not logged in and has been prompted to login to save', () => {
@@ -226,6 +227,10 @@ describe('When not logged in and has been prompted to login to save', () => {
     jest.runAllTimers()
     await waitFor(() => expect(showLoginPrompt).not.toHaveBeenCalled(), {timeout: 2100})
   })
+
+  test('Project saved in localStorage', async () => {
+    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
+  })
 })
 
 describe('When logged in and user does not own project and just loaded', () => {
@@ -253,9 +258,6 @@ describe('When logged in and user does not own project and just loaded', () => {
     localStorage.clear()
   })
 
-  test('Project saved in localStorage', async () => {
-    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
-  })
   test('Expires justLoaded', async () => {
     await waitFor(() => expect(mockedStore.getActions()).toEqual([expireJustLoaded()]), {timeout: 2100})
   })
@@ -289,8 +291,13 @@ describe('When logged in and user does not own project and not just loaded', () 
   test('Save prompt shown', async () => {
     await waitFor(() => expect(showSavePrompt).toHaveBeenCalled(), {timeout: 2100})
   })
+
   test('Dispatches save prompt shown action', async () => {
     await waitFor(() => expect(mockedStore.getActions()).toEqual([setHasShownSavePrompt()]), {timeout: 2100})
+  })
+
+  test('Project saved in localStorage', async () => {
+    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
   })
 })
 
@@ -323,6 +330,10 @@ describe('When logged in and user does not own project and prompted to save', ()
   test('Save prompt not shown again', async () => {
     jest.runAllTimers()
     await waitFor(() => expect(showSavePrompt).not.toHaveBeenCalled(), {timeout: 2100})
+  })
+
+  test('Project saved in localStorage', async () => {
+    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
   })
 })
 

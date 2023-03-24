@@ -1,7 +1,6 @@
 import './Header.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import Autosave from './Autosave';
 import Button from '../Button/Button';
 import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
@@ -15,15 +14,15 @@ import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const { t, i18n } = useTranslation()
+  
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const loading = useSelector((state) => state.editor.loading)
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
-
-  const dispatch = useDispatch()
-  const { t } = useTranslation()
 
   const onClickSave = async () => {
     window.plausible('Save button')
