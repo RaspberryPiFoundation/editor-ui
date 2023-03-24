@@ -42,6 +42,7 @@ const user2 = {
 
 const project = {
   name: 'hello world',
+    id: 'ABC',
     project_type: 'python',
     identifier: 'hello-world-project',
     components: [
