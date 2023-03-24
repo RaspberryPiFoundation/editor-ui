@@ -8,6 +8,13 @@ import { updateProjectName } from '../Editor/EditorSlice';
 
 import './ProjectName.scss';
 
+export const PROJECT_NAME_FRAGMENT = gql`
+  fragment ProjectNameFragment on Project {
+    id
+    name
+  }
+`
+
 export const RENAME_PROJECT_MUTATION = gql`
   mutation RenameProject($id: String!, $name: String!) {
     updateProject(input: {id: $id, name: $name}) {
@@ -71,7 +78,7 @@ export const ProjectName = (props) => {
 
   return (
    <div className='project-name'>
-    {isEditable ? 
+    {isEditable ?
       <input
         className='project-name__input'
         ref={nameInput}
