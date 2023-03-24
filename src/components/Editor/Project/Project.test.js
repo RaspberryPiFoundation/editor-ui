@@ -7,7 +7,6 @@ import Project from "./Project";
 import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 import { MockedProvider } from "@apollo/client/testing";
-import { MemoryRouter } from "react-router-dom";
 
 jest.mock('axios');
 

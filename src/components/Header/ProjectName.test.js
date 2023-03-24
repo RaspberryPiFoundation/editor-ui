@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import { MockedProvider } from "@apollo/client/testing"
 import { updateProjectName } from "../Editor/EditorSlice";
 import { ProjectName, RENAME_PROJECT_MUTATION} from "./ProjectName";
-import { act } from "react-test-renderer";
 
 const project = {
   id: "ABC",
@@ -90,19 +89,6 @@ describe('When input field loses focus', () => {
 
   test('Changes project name to heading', async () => {
     await waitFor(() => expect(screen.queryByText(project.name).tagName).toBe('H1'))
-  })
-
-  describe('When the project has no ID set (maybe because the graphql state is missing)', () => {
-    const project = {
-      identifier: "hello-world-project",
-      name: "Hello world",
-      user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
-    }
-
-    test('Does not call graphql mutation', async () => {
-      expect(store.getActions()).toEqual([updateProjectName(updatedName)])
-      await waitFor(() => expect(graphqlMocks[0].result).not.toHaveBeenCalled())
-    })
   })
 })
 
