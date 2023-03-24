@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import Project from "./Project";
+import { Project, PROJECT_QUERY } from "./Project";
 import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 import { MockedProvider } from "@apollo/client/testing";
@@ -54,6 +54,24 @@ const project = {
     user_id: user1.profile.user
 }
 
+const graphqlMocks = [
+  {
+    request: {
+      query: PROJECT_QUERY,
+      variables: { identifier: project.identifier }
+    },
+    result: {
+      data: {
+        project: {
+          __typename: "Project",
+          id: project.id,
+          name: project.name,
+        },
+      },
+    }
+  }
+]
+
 test("Renders with file menu", () => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
@@ -67,7 +85,7 @@ test("Renders with file menu", () => {
       auth: {}
     }
     const store = mockStore(initialState);
-  const {queryByText} = render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
+  const {queryByText} = render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
   expect(queryByText('filePane.files')).not.toBeNull()
 })
 
@@ -101,7 +119,7 @@ describe('opening and closing different files', () => {
       }
     }
     store = mockStore(initialState);
-    render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
   })
 
   test("Renders content of focussed file", () => {
@@ -135,7 +153,7 @@ describe('When not logged in and just loaded', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -166,7 +184,7 @@ describe('When not logged in and not just loaded', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -199,7 +217,7 @@ describe('When not logged in and has been prompted to login to save', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -230,7 +248,7 @@ describe('When logged in and user does not own project and just loaded', () => {
       }
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -263,7 +281,7 @@ describe('When logged in and user does not own project and not just loaded', () 
       }
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -297,7 +315,7 @@ describe('When logged in and user does not own project and prompted to save', ()
       }
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -333,7 +351,7 @@ describe('When logged in and user does not own project and awaiting save', () =>
     remixAction = {type: 'REMIX_PROJECT' }
     remixProject = jest.fn(() => remixAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (remixProject)))
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -369,7 +387,7 @@ describe('When logged in and project has no identifier and awaiting save', () =>
     saveAction = {type: 'SAVE_PROJECT' }
     saveProject = jest.fn(() => saveAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -400,7 +418,7 @@ describe('When logged in and user owns project', () => {
       }
     }
     mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   test('Project autosaved to database', async () => {
@@ -427,7 +445,7 @@ test('Successful manual save prompts project saved message', async () => {
       auth: {}
     }
     const mockedStore = mockStore(initialState);
-    render(<MockedProvider><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
     await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
 })
 

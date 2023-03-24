@@ -16,7 +16,7 @@ import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../util
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import { gql, useQuery } from '@apollo/client';
 
-const PROJECT_QUERY = gql`
+export const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
     project(identifier: $identifier){
       ...ProjectHeaderFragment
@@ -25,7 +25,7 @@ const PROJECT_QUERY = gql`
   ${PROJECT_HEADER_FRAGMENT}
 `;
 
-const Project = (props) => {
+export const Project = (props) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
@@ -121,5 +121,3 @@ const Project = (props) => {
     </>
   )
 };
-
-export default Project;
