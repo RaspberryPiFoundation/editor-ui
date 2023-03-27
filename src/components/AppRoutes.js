@@ -1,15 +1,14 @@
-import { React, Fragment } from 'react'
+import { React } from 'react'
 import { Route, Routes, Navigate, useParams } from 'react-router-dom'
 import * as Sentry from "@sentry/react";
 
-import i18n from 'i18next';
 import ProjectComponentLoader from './Editor/ProjectComponentLoader/ProjectComponentLoader'
 import ProjectIndex from './ProjectIndex/ProjectIndex'
 import EmbeddedViewer from './EmbeddedViewer/EmbeddedViewer'
 import Callback from './Callback'
 import SilentRenew from './SilentRenew'
+import LocaleLayout from './LocaleLayout/LocaleLayout';
 
-const availableLocales = i18n.options.locales || ['en']
 const projectLinkRedirects = ['/null/projects/:identifier', '/projects/:identifier']
 const localeRedirects = ['/', '/projects']
 
@@ -31,25 +30,16 @@ const AppRoutes = () => (
       path="/auth/silent_renew"
       element={<SilentRenew/>}
     />
-
-    { availableLocales.map(locale => {
-      return (
-        <Fragment key={locale}>
-          <Route path={`/${locale}`} element={<ProjectComponentLoader />} />
-          <Route path={`/${locale}/projects`} element={<ProjectIndex />} />
-          <Route path={`/${locale}/projects/:identifier`} element={<ProjectComponentLoader />} />
-        </Fragment>
-      )
-    }) }
+    <Route path={":locale"} element={<LocaleLayout/>}>
+      <Route index element={<ProjectComponentLoader />} />
+      <Route path={"projects"} element={<ProjectIndex />} />
+      <Route path={"projects/:identifier"} element={<ProjectComponentLoader />} />
+      <Route path="embed/viewer/:identifier" element={<EmbeddedViewer/>} />
+    </Route>
 
     <Route
       path="/embedded/projects/:identifier"
       element={<ProjectComponentLoader embedded={true} />}
-    />
-
-    <Route
-      path="/embed/viewer/:identifier"
-      element={<EmbeddedViewer/>}
     />
 
     {/* Redirects will be moved into a cloudflare worker. This is just interim */}

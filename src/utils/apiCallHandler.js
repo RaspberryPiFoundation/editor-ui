@@ -47,8 +47,9 @@ export const createRemix = async (project, accessToken) => {
   return await post(`${host}/api/projects/${project.identifier}/remix`, { project: project}, headers(accessToken));
 }
 
-export const readProject = async (projectIdentifier, accessToken) => {
-  return await get(`${host}/api/projects/${projectIdentifier}`, headers(accessToken));
+export const readProject = async (projectIdentifier, locale, accessToken) => {
+  const queryString = locale ? `?locale=${locale}` : ""
+  return await get(`${host}/api/projects/${projectIdentifier}${queryString}`, headers(accessToken));
 }
 
 export const readProjectList = async (page, accessToken) => {

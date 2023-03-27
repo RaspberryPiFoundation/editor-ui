@@ -53,13 +53,29 @@ describe("Testing project API calls", () => {
     )
   })
 
-  test("Read project", async () => {
+  test("Read project with identifier only", async () => {
     const projectIdentifier = "hello-world-project"
-    const projectData =  {'data': {'identifier': projectIdentifier, 'project_type': 'python'}}
-    axios.get.mockImplementationOnce(() => Promise.resolve(projectData))
+    axios.get.mockImplementationOnce(() => Promise.resolve())
 
     await readProject(projectIdentifier)
     expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, defaultHeaders)
+  })
+
+  test("Read project with locale", async () => {
+    const projectIdentifier = "hello-world-project"
+    const locale = 'es-LA'
+    axios.get.mockImplementationOnce(() => Promise.resolve())
+
+    await readProject(projectIdentifier, locale)
+    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}?locale=${locale}`, defaultHeaders)
+  })
+
+  test("Read project with access token", async () => {
+    const projectIdentifier = "hello-world-project"
+    axios.get.mockImplementationOnce(() => Promise.resolve())
+
+    await readProject(projectIdentifier, null, accessToken)
+    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects/${projectIdentifier}`, authHeaders)
   })
 
   test("Upload image", async () => {
