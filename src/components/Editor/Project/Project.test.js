@@ -86,7 +86,7 @@ test("Renders with file menu", () => {
   }
   const store = mockStore(initialState);
   const {queryByText} = render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
-  expect(queryByText('filePane.files')).not.toBeNull()
+  expect(queryByText('filePane.files')).toBeInTheDocument()
 })
 
 describe('When not logged in and just loaded', () => {

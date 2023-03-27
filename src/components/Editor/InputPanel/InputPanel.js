@@ -11,8 +11,8 @@ import { CloseIcon } from '../../../Icons';
 import Button from '../../Button/Button';
 import { gql } from '@apollo/client';
 
-export const EDITOR_INPUT_FRAGMENT = gql`
-  fragment EditorInputFragment on Project {
+export const INPUT_PANEL_FRAGMENT = gql`
+  fragment InputPanelFragment on Project {
     components {
       nodes {
         ...EditorPanelFragment
@@ -22,16 +22,16 @@ export const EDITOR_INPUT_FRAGMENT = gql`
   ${EDITOR_PANEL_FRAGMENT}
 `
 
-export const Input = (props) => {
+export const InputPanel = (props) => {
   const dispatch = useDispatch()
-  const { editorInputData } = props
-  console.log(editorInputData)
-  const componentsData = editorInputData.components.nodes
+  const { inputPanelData } = props
+  console.log(inputPanelData)
+  const componentsData = inputPanelData.components.nodes
   console.log(componentsData)
 
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-  const numberOfComponents = editorInputData.components.length
+  const numberOfComponents = inputPanelData.components.length
 
   let tabRefs = useRef(componentsData.map(createRef))
 
@@ -39,7 +39,7 @@ export const Input = (props) => {
     Array(componentsData.length).fill().forEach((_, i) => {
       tabRefs.current[i] = tabRefs.current[i] || React.createRef();
     })
-  }, [editorInputData])
+  }, [inputPanelData])
 
   useEffect(() => {
     const fileName = openFiles[focussedFileIndex]
@@ -92,4 +92,4 @@ export const Input = (props) => {
   )
 };
 
-export default Input;
+export default InputPanel;

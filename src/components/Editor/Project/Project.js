@@ -5,8 +5,12 @@ import { gql, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css'
 import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
-import { Input, EDITOR_INPUT_FRAGMENT } from '../Input/Input'
-import Output from '../Output/Output'
+import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css'
+import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
+import './Project.scss';
+import { InputPanel, INPUT_PANEL_FRAGMENT } from '../Input/Input'
+import OutputPanel from '../OutputPanel/OutputPanel'
 import RenameFile from '../../Modals/RenameFile'
 import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
@@ -26,7 +30,7 @@ export const PROJECT_QUERY = gql`
     }
   }
   ${PROJECT_HEADER_FRAGMENT}
-  ${EDITOR_INPUT_FRAGMENT}
+  ${INPUT_PANEL_FRAGMENT}
   ${SIDE_MENU_FRAGMENT}
 `;
 
@@ -43,6 +47,8 @@ export const Project = (props) => {
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
   const isEmbedded = useSelector((state) => state.editor.isEmbedded)
+
+   const { t } = useTranslation();
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
@@ -88,14 +94,6 @@ export const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, project, user])
 
-  if (loading) {
-    return <p>loading...</p>
-  }
-
-  if (error) {
-    return <p>Error</p>
-  }
-
   const openFileTab = (fileName) => {
     if (openFiles.includes(fileName)) {
       switchToFileTab(openFiles.indexOf(fileName), fileName)
@@ -111,12 +109,19 @@ export const Project = (props) => {
 
   return (
     <>
-      { isEmbedded ? null : <Header projectHeaderData={projectData} /> }
+      { !loading && data ?
+        <>
+          { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
+        </>
+        : null
+      }
+      { loading ? <p>{t('project.loading')}</p> : null }
+      { error ? <p>{t('project.loadingFailed')}</p> : null }
       <div className='proj'>
         <div className='proj-container'>
-          <SideMenu openFileTab={openFileTab} sideMenuData={projectData}/>
-          <Input editorInputData={projectData}/>
-          <Output />
+          <SideMenu openFileTab={openFileTab}/>
+          <InputPanel inputPanelData={projectData} />
+          <OutputPanel />
         </div>
         {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
         {(notFoundModalShowing) ? <NotFoundModal /> : null}
