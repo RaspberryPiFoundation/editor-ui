@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 
-const Output = () => {
+const OutputPanel = () => {
   const project = useSelector((state) => state.editor.project);
   return (
     <>
@@ -15,4 +15,4 @@ const Output = () => {
   )
 }
 
-export default Output
+export default OutputPanel

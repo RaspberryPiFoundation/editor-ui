@@ -1,28 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import 'react-tabs/style/react-tabs.css'
+import { gql, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css'
-
+import { useTranslation } from 'react-i18next';
+import { Header, HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
-import EditorPanel from '../EditorPanel/EditorPanel'
-import Output from '../Output/Output'
+import { InputPanel, INPUT_PANEL_FRAGMENT } from '../InputPanel/InputPanel'
+import OutputPanel from '../OutputPanel/OutputPanel'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls'
-import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
+import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
-import { CloseIcon } from '../../../Icons';
+import { defaultPythonProject } from '../../../utils/defaultProjects'
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
-import SideMenu from '../../Menus/SideMenu/SideMenu';
-import Button from '../../Button/Button';
+import { SideMenu, SIDE_MENU_FRAGMENT } from '../../Menus/SideMenu/SideMenu';
 
-const Project = (props) => {
+export const PROJECT_QUERY = gql`
+  query ProjectQuery($identifier: String!) {
+    project(identifier: $identifier){
+      ...HeaderFragment
+      ...InputPanelFragment
+      ...SideMenuFragment
+    }
+  }
+  ${HEADER_FRAGMENT}
+  ${INPUT_PANEL_FRAGMENT}
+  ${SIDE_MENU_FRAGMENT}
+`;
+
+export const Project = (props) => {
   const dispatch = useDispatch()
-  const { forWebComponent } = props;
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
@@ -33,10 +43,19 @@ const Project = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded)
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
-  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded)
+
+   const { t } = useTranslation();
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
+
+  const { loading, error, data } = useQuery(PROJECT_QUERY, {
+    variables: { identifier: project.identifier },
+    skip: (typeof project.identifier !== "string")
+  })
+
+  const projectData = data?.project ? data.project : defaultPythonProject
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
@@ -44,47 +63,7 @@ const Project = (props) => {
     }
   }, [saving, autosave])
 
-  const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
-  let tabRefs = useRef(project.components.map(createRef))
-
   useEffect(() => {
-    setNumberOfComponents(project.components.length)
-    Array(project.components.length).fill().forEach((_, i) => {
-      tabRefs.current[i] = tabRefs.current[i] || React.createRef();
-    })
-  }, [project])
-
-  useEffect(() => {
-    const fileName = openFiles[focussedFileIndex]
-    const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
-    const fileRef = tabRefs.current[componentIndex]
-    if (fileRef && fileRef.current) {
-      fileRef.current.parentElement.scrollIntoView()
-    }
-  }, [focussedFileIndex, openFiles, numberOfComponents])
-
-  const switchToFileTab = (index) => {
-    dispatch(setFocussedFileIndex(index))
-  }
-
-  const openFileTab = (fileName) => {
-    if (openFiles.includes(fileName)) {
-      switchToFileTab(openFiles.indexOf(fileName), fileName)
-    } else {
-      dispatch(openFile(fileName))
-      switchToFileTab(openFiles.length)
-    }
-  }
-
-  const closeFileTab = (e, fileName) => {
-    e.stopPropagation()
-    dispatch(closeFile(fileName))
-  }
-
-  useEffect(() => {
-    if (forWebComponent) {
-      return
-    }
     if (user && localStorage.getItem('awaitingSave')) {
       if (isOwner(user, project)) {
         dispatch(syncProject('save')({project, accessToken: user.access_token, autosave: false}))
@@ -108,49 +87,43 @@ const Project = (props) => {
         }
       }
     }, 2000);
-     
+
     return () => clearTimeout(debouncer)
-  }, [dispatch, forWebComponent, project, user])
+  }, [dispatch, project, user])
+
+  const openFileTab = (fileName) => {
+    if (openFiles.includes(fileName)) {
+      switchToFileTab(openFiles.indexOf(fileName), fileName)
+    } else {
+      dispatch(openFile(fileName))
+      switchToFileTab(openFiles.length)
+    }
+  }
+
+  const switchToFileTab = (index) => {
+    dispatch(setFocussedFileIndex(index))
+  }
 
   return (
-    <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <div className='proj-editor-container'>
-          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
-            <div className='react-tabs__tab-container'>
-              <TabList>
-                {openFiles.map((fileName, i) => (
-                  <Tab key={i}>
-                    <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                      ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
-                        {fileName}
-                        {fileName !== 'main.py' ?
-                          <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                        : null
-                        }
-                    </span>
-                  </Tab>
-                ))}
-              </TabList>
+    <>
+      { !loading && projectData ?
+        <>
+          { isEmbedded ? null : <Header headerData={projectData} /> }
+          <div className='proj'>
+            <div className='proj-container'>
+              <SideMenu openFileTab={openFileTab} sideMenuData={projectData} />
+              <InputPanel inputPanelData={projectData} />
+              <OutputPanel />
             </div>
-            {openFiles.map((fileName, i) => (
-              <TabPanel key={i}>
-                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
-              </TabPanel>
-            ))}
-            <RunnerControls />
-          </Tabs>
-        </div>
-        <Output />
-      </div>
-      {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
-      {(notFoundModalShowing) ? <NotFoundModal /> : null}
-      {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
-      {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
-    </div>
+            {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
+            {(notFoundModalShowing) ? <NotFoundModal /> : null}
+            {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+            {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
+          </div>
+        </>
+        : null
+      }
+      { loading ? <p>{t('project.loading')}</p> : null }
+    </>
   )
 };
-
-export default Project;

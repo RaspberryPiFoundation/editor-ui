@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import { useProject } from '../Hooks/useProject'
 import { useEmbeddedMode } from '../Hooks/useEmbeddedMode'
-import Project from '../Project/Project'
+import { Project } from '../Project/Project'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';

@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { syncProject, setProject } from '../EditorSlice'
-import { defaultPythonProject } from '../../../utils/defaultProjects';
+import { legacyDefaultPythonProject } from '../../../utils/defaultProjects';
 
 export const useProject = (projectIdentifier = null, accessToken = null) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
       return;
     }
 
-    const data = defaultPythonProject;
+    const data = legacyDefaultPythonProject;
     dispatch(setProject(data));
   }, [projectIdentifier, accessToken]);
 };

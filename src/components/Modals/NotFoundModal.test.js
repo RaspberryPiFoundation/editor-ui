@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import NotFoundModal from "./NotFoundModal";
 import { closeNotFoundModal, syncProject } from "../Editor/EditorSlice";
-import { defaultPythonProject } from "../../utils/defaultProjects";
+import { legacyDefaultPythonProject } from "../../utils/defaultProjects";
 
 jest.mock('../Editor/EditorSlice', () => ({
   ...jest.requireActual('../Editor/EditorSlice'),
@@ -54,7 +54,7 @@ describe('When logged in and notFoundModalShowing is true', () => {
     syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
     fireEvent.click(newProjectLink)
     await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
-      project: defaultPythonProject,
+      project: legacyDefaultPythonProject,
       accessToken: user.access_token,
       autosave: false
     }))

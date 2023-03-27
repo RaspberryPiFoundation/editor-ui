@@ -5,7 +5,7 @@ import React from 'react';
 import { useSelector } from 'react-redux'
 import { useProject } from '../Editor/Hooks/useProject'
 import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
-import Output from '../Editor/Output/Output';
+import OutputPanel from '../Editor/OutputPanel/OutputPanel';
 import RunnerControls from '../RunButton/RunnerControls';
 import { useParams } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ const EmbeddedViewer = () => {
 
   return loading === 'success' ? (
     <div className='embedded-viewer'>
-      <Output />
+      <OutputPanel />
       <RunnerControls />
     </div>
   ) : null;

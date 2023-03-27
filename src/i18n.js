@@ -181,6 +181,7 @@ i18n
               text: 'Visit the project site for cool project ideas or start coding in a new project.',
             },
             loading: 'Loading',
+            loadingFailed: 'Failed to load project',
             notFoundModal: {
               heading: 'This project does not exist',
               newProject: 'Start new code project',

@@ -1,11 +1,13 @@
 import React from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { render, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
+import { MemoryRouter } from "react-router-dom";
 import configureStore from 'redux-mock-store';
 
-import Project from "./Project";
-import { closeFile, expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
+import { Project, PROJECT_QUERY } from "./Project";
+import { expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
+import { MockedProvider } from "@apollo/client/testing";
 
 jest.mock('axios');
 
@@ -22,8 +24,6 @@ jest.mock('../EditorSlice', () => ({
 jest.mock('../../../utils/Notifications')
 
 jest.useFakeTimers()
-
-window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
 const user1 = {
   access_token: 'myAccessToken',
@@ -53,24 +53,26 @@ const project = {
     user_id: user1.profile.user
 }
 
-test("Renders with file menu if not for web component", () => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
+const graphqlMocks = [
+  {
+    request: {
+      query: PROJECT_QUERY,
+      variables: { identifier: project.identifier }
+    },
+    result: {
+      data: {
         project: {
-          components: []
+          __typename: "Project",
+          id: "Graphql project ID",
+          name: project.name,
         },
-        openFiles: []
       },
-      auth: {}
     }
-    const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><div id="app"><Project/></div></Provider>)
-  expect(queryByText('filePane.files')).not.toBeNull()
-})
+  }
+]
 
-test("Renders without file menu if for web component", () => {
+
+test("Renders with file menu", () => {
   const middlewares = []
   const mockStore = configureStore(middlewares)
   const initialState = {
@@ -83,56 +85,8 @@ test("Renders without file menu if for web component", () => {
     auth: {}
   }
   const store = mockStore(initialState);
-  const {queryByText} = render(<Provider store={store}><Project forWebComponent={true}/></Provider>)
-  expect(queryByText('filePane.files')).toBeNull()
-})
-
-describe('opening and closing different files', () => {
-  let store
-
-  beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              name: 'main',
-              extension: 'py',
-              content: 'print("hello")'
-            },
-            {
-              name: 'a',
-              extension: 'py',
-              content: '# Your code here'
-            }
-          ]
-        },
-        openFiles: ['main.py', 'a.py'],
-        focussedFileIndex: 1
-      },
-      auth: {
-        user: null
-      }
-    }
-    store = mockStore(initialState);
-    render(<Provider store={store}><div id="app"><Project/></div></Provider>)
-  })
-
-  test("Renders content of focussed file", () => {
-    expect(screen.queryByText('# Your code here')).toBeInTheDocument()
-  })
-
-  test("Scrolls focussed file into view", () => {
-    expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled()
-  })
-
-  test('Clicking the file close button dispatches close action', () => {
-    const closeButton = screen.queryAllByRole('button')[3]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([closeFile('a.py')])
-  })
+  const {queryByText} = render(<MockedProvider><Provider store={store}><div id="app"><Project/></div></Provider></MockedProvider>)
+  expect(queryByText('filePane.files')).toBeInTheDocument()
 })
 
 describe('When not logged in and just loaded', () => {
@@ -151,7 +105,7 @@ describe('When not logged in and just loaded', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -159,10 +113,13 @@ describe('When not logged in and just loaded', () => {
   })
 
   test('Project saved in localStorage', async () => {
-    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
+    jest.runAllTimers()
+    await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)))
   })
+
   test('Expires justLoaded', async () => {
-    await waitFor(() => expect(mockedStore.getActions()).toEqual([expireJustLoaded()]), {timeout: 2100})
+    jest.runAllTimers()
+    await waitFor(() => expect(mockedStore.getActions()).toEqual([expireJustLoaded()]))
   })
 })
 
@@ -182,7 +139,7 @@ describe('When not logged in and not just loaded', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -190,10 +147,12 @@ describe('When not logged in and not just loaded', () => {
   })
 
   test('Login prompt shown', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(showLoginPrompt).toHaveBeenCalled(), {timeout: 2100})
   })
 
   test('Dispatches save prompt shown action', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(mockedStore.getActions()).toEqual([setHasShownSavePrompt()]), {timeout: 2100})
   })
 })
@@ -215,7 +174,7 @@ describe('When not logged in and has been prompted to login to save', () => {
       auth: {}
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -246,7 +205,7 @@ describe('When logged in and user does not own project and just loaded', () => {
       }
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -254,9 +213,12 @@ describe('When logged in and user does not own project and just loaded', () => {
   })
 
   test('Project saved in localStorage', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(localStorage.getItem('hello-world-project')).toEqual(JSON.stringify(project)), {timeout: 2100})
   })
+
   test('Expires justLoaded', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(mockedStore.getActions()).toEqual([expireJustLoaded()]), {timeout: 2100})
   })
 })
@@ -279,7 +241,7 @@ describe('When logged in and user does not own project and not just loaded', () 
       }
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -287,9 +249,12 @@ describe('When logged in and user does not own project and not just loaded', () 
   })
 
   test('Save prompt shown', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(showSavePrompt).toHaveBeenCalled(), {timeout: 2100})
   })
+
   test('Dispatches save prompt shown action', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(mockedStore.getActions()).toEqual([setHasShownSavePrompt()]), {timeout: 2100})
   })
 })
@@ -313,7 +278,7 @@ describe('When logged in and user does not own project and prompted to save', ()
       }
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -349,7 +314,7 @@ describe('When logged in and user does not own project and awaiting save', () =>
     remixAction = {type: 'REMIX_PROJECT' }
     remixProject = jest.fn(() => remixAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (remixProject)))
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   afterEach(() => {
@@ -357,6 +322,7 @@ describe('When logged in and user does not own project and awaiting save', () =>
   })
 
   test('Project remixed and saved to database', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(remixProject).toHaveBeenCalledWith({project, accessToken: user2.access_token}), {timeout: 2100})
     expect(mockedStore.getActions()[0]).toEqual(remixAction)
   })
@@ -385,7 +351,7 @@ describe('When logged in and project has no identifier and awaiting save', () =>
     saveAction = {type: 'SAVE_PROJECT' }
     saveProject = jest.fn(() => saveAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MemoryRouter><MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider></MemoryRouter>);
   })
 
   afterEach(() => {
@@ -393,6 +359,7 @@ describe('When logged in and project has no identifier and awaiting save', () =>
   })
 
   test('Project saved to database', async () => {
+    jest.runAllTimers()
     await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project: {...project, identifier: null}, accessToken: user2.access_token, autosave: false}), {timeout: 2100})
     expect(mockedStore.getActions()[0]).toEqual(saveAction)
   })
@@ -416,13 +383,14 @@ describe('When logged in and user owns project', () => {
       }
     }
     mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
   })
 
   test('Project autosaved to database', async () => {
     const saveAction = {type: 'SAVE_PROJECT' }
     const saveProject = jest.fn(() => saveAction)
     syncProject.mockImplementationOnce(jest.fn((_) => (saveProject)))
+    jest.runAllTimers()
     await waitFor(() => expect(saveProject).toHaveBeenCalledWith({project, accessToken: user1.access_token, autosave: true}), {timeout: 2100})
     expect(mockedStore.getActions()[0]).toEqual(saveAction)
   })
@@ -443,7 +411,8 @@ test('Successful manual save prompts project saved message', async () => {
       auth: {}
     }
     const mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+    render(<MockedProvider mocks={graphqlMocks} addTypename={true}><Provider store={mockedStore}><div id="app"><Project/></div></Provider></MockedProvider>);
+    jest.runAllTimers()
     await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
 })
 

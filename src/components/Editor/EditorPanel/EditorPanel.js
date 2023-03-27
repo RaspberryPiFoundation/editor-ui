@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './EditorPanel.scss'
 import React, { useRef, useEffect, useContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { updateProjectComponent } from '../EditorSlice'
 import { useCookies } from 'react-cookie';
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ import { EditorState } from '@codemirror/state'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { indentationMarkers } from '@replit/codemirror-indentation-markers'
 import { indentUnit } from '@codemirror/language';
+import { gql } from '@apollo/client';
 
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
@@ -20,12 +21,21 @@ import { editorLightTheme } from '../editorLightTheme'
 import { editorDarkTheme } from '../editorDarkTheme'
 import { SettingsContext } from '../../../settings';
 
-const EditorPanel = ({
-  extension = 'html',
-  fileName = 'index'
-}) => {
+export const EDITOR_PANEL_FRAGMENT = gql`
+  fragment EditorPanelFragment on Component {
+    content
+    default
+    extension
+    name
+  }
+`;
+
+
+export const EditorPanel = (props) => {
+  const { componentData } = props
+  const extension = componentData.extension
+  const fileName  = componentData.name
   const editor = useRef();
-  const project = useSelector((state) => state.editor.project);
   const [cookies] = useCookies(['theme', 'fontSize'])
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -67,7 +77,7 @@ const EditorPanel = ({
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme
 
   useEffect(() => {
-    const code = project.components.find(item => item.extension === extension && item.name === fileName).content;
+    const code = componentData.content;
     const mode = getMode();
     const startState = EditorState.create({
       doc: code,
@@ -107,5 +117,3 @@ const EditorPanel = ({
     <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
   );
 }
-
-export default EditorPanel;
