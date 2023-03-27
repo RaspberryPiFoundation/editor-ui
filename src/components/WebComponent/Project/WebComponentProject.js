@@ -5,6 +5,7 @@ import Style from 'style-it';
 import internalStyles from '../InternalStyles.scss';
 import externalStyles from '../ExternalStyles.scss';
 
+import { defaultPythonProject } from '../../../utils/defaultProjects'
 import Input from '../../Editor/Input/Input';
 import Output from '../../Editor/Output/Output';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
@@ -72,7 +73,7 @@ const WebComponentProject = () => {
         <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
           <div className='proj'>
             <div className={`proj-container proj-container--wc`}>
-              <Input />
+              <Input editorInputData={ defaultPythonProject } />
               <Output />
             </div>
           </div>

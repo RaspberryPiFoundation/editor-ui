@@ -15,26 +15,25 @@ export const EDITOR_INPUT_FRAGMENT = gql`
   fragment EditorInputFragment on Project {
     components {
       nodes {
-        id
         ...EditorPanelFragment
       }
-      totalCount
     }
   }
   ${EDITOR_PANEL_FRAGMENT}
 `
 
-
 export const Input = (props) => {
   const dispatch = useDispatch()
   const { editorInputData } = props
+  console.log(editorInputData)
   const componentsData = editorInputData.components.nodes
+  console.log(componentsData)
 
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-  const numberOfComponents = editorInputData.components.totalCount
-  let tabRefs = useRef(componentsData.map(createRef))
+  const numberOfComponents = editorInputData.components.length
 
+  let tabRefs = useRef(componentsData.map(createRef))
 
   useEffect(() => {
     Array(componentsData.length).fill().forEach((_, i) => {

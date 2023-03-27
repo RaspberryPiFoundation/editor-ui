@@ -7,18 +7,18 @@ import Button from "../Button/Button";
 import '../../Modal.scss';
 import { closeAccessDeniedWithAuthModal, syncProject } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
-import { defaultPythonProject } from "../../utils/defaultProjects";
+import { legacyDefaultPythonProject } from "../../utils/defaultProjects";
 
 const AccessDeniedWithAuthModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const user = useSelector((state) => state.auth.user)
-  
+
   const isModalOpen = useSelector((state) => state.editor.accessDeniedWithAuthModalShowing)
   const closeModal = () => dispatch(closeAccessDeniedWithAuthModal());
 
   const createNewProject = async () => {
-    dispatch(syncProject('save')({ project: defaultPythonProject, accessToken: user.access_token, autosave: false }))
+    dispatch(syncProject('save')({ project: legacyDefaultPythonProject, accessToken: user.access_token, autosave: false }))
   }
 
   return (

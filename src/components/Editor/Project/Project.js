@@ -10,6 +10,7 @@ import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
+import { defaultPythonProject } from '../../../utils/defaultProjects'
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
@@ -51,7 +52,7 @@ export const Project = (props) => {
     skip: (typeof project.identifier !== "string")
   })
 
-  const projectData = data ? data.project : []
+  const projectData = data ? data.project : defaultPythonProject
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
