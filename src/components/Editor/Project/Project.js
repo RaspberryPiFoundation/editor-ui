@@ -3,13 +3,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import { gql, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css'
-import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
-import './Project.scss';
 import { useTranslation } from 'react-i18next';
-import 'react-toastify/dist/ReactToastify.css'
-import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
+import { Header, HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
-import { InputPanel, INPUT_PANEL_FRAGMENT } from '../Input/Input'
+import { InputPanel, INPUT_PANEL_FRAGMENT } from '../InputPanel/InputPanel'
 import OutputPanel from '../OutputPanel/OutputPanel'
 import RenameFile from '../../Modals/RenameFile'
 import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
@@ -24,12 +21,12 @@ import { SideMenu, SIDE_MENU_FRAGMENT } from '../../Menus/SideMenu/SideMenu';
 export const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
     project(identifier: $identifier){
-      ...ProjectHeaderFragment
-      ...EditorInputFragment
+      ...HeaderFragment
+      ...InputPanelFragment
       ...SideMenuFragment
     }
   }
-  ${PROJECT_HEADER_FRAGMENT}
+  ${HEADER_FRAGMENT}
   ${INPUT_PANEL_FRAGMENT}
   ${SIDE_MENU_FRAGMENT}
 `;
@@ -58,7 +55,7 @@ export const Project = (props) => {
     skip: (typeof project.identifier !== "string")
   })
 
-  const projectData = data ? data.project : defaultPythonProject
+  const projectData = data?.project ? data.project : defaultPythonProject
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
@@ -109,25 +106,24 @@ export const Project = (props) => {
 
   return (
     <>
-      { !loading && data ?
+      { !loading && projectData ?
         <>
-          { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
+          { isEmbedded ? null : <Header headerData={projectData} /> }
+          <div className='proj'>
+            <div className='proj-container'>
+              <SideMenu openFileTab={openFileTab} sideMenuData={projectData} />
+              <InputPanel inputPanelData={projectData} />
+              <OutputPanel />
+            </div>
+            {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
+            {(notFoundModalShowing) ? <NotFoundModal /> : null}
+            {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
+            {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
+          </div>
         </>
         : null
       }
       { loading ? <p>{t('project.loading')}</p> : null }
-      { error ? <p>{t('project.loadingFailed')}</p> : null }
-      <div className='proj'>
-        <div className='proj-container'>
-          <SideMenu openFileTab={openFileTab}/>
-          <InputPanel inputPanelData={projectData} />
-          <OutputPanel />
-        </div>
-        {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
-        {(notFoundModalShowing) ? <NotFoundModal /> : null}
-        {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
-        {(accessDeniedWithAuthModalShowing) ? <AccessDeniedWithAuthModal /> : null}
-      </div>
     </>
   )
 };

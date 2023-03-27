@@ -15,8 +15,8 @@ import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
 import { gql } from '@apollo/client';
 
-export const PROJECT_HEADER_FRAGMENT = gql`
-  fragment ProjectHeaderFragment on Project {
+export const HEADER_FRAGMENT = gql`
+  fragment HeaderFragment on Project {
     ...ProjectNameFragment
   }
   ${PROJECT_NAME_FRAGMENT}

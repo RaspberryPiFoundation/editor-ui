@@ -25,9 +25,7 @@ export const INPUT_PANEL_FRAGMENT = gql`
 export const InputPanel = (props) => {
   const dispatch = useDispatch()
   const { inputPanelData } = props
-  console.log(inputPanelData)
   const componentsData = inputPanelData.components.nodes
-  console.log(componentsData)
 
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)

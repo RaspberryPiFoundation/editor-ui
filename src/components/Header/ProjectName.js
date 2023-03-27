@@ -34,7 +34,7 @@ export const ProjectName = (props) => {
   const nameInput = useRef()
   const [isEditable, setEditable] = useState(false)
   const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION)
-  const projectName = project.id ? project.name : localProject.name
+  const projectName = project?.id ? project.name : localProject.name
 
   useEffect(() => {
     if (isEditable) {
