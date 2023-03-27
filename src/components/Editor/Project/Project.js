@@ -4,8 +4,8 @@ import { useDispatch, useSelector} from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
-import Input from '../Input/Input'
-import Output from '../Output/Output'
+import InputPanel from '../InputPanel/InputPanel'
+import OutputPanel from '../OutputPanel/OutputPanel'
 import RenameFile from '../../Modals/RenameFile'
 import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
@@ -110,8 +110,8 @@ export const Project = (props) => {
       <div className='proj'>
         <div className='proj-container'>
           <SideMenu openFileTab={openFileTab}/>
-          <Input />
-          <Output />
+          <InputPanel />
+          <OutputPanel />
         </div>
         {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
         {(notFoundModalShowing) ? <NotFoundModal /> : null}

@@ -10,7 +10,7 @@ import { closeFile, setFocussedFileIndex } from '../EditorSlice';
 import { CloseIcon } from '../../../Icons';
 import Button from '../../Button/Button';
 
-const Input = (props) => {
+const InputPanel = (props) => {
   const dispatch = useDispatch()
   const project = useSelector((state) => state.editor.project)
   const openFiles = useSelector((state) => state.editor.openFiles)
@@ -76,4 +76,4 @@ const Input = (props) => {
   )
 };
 
-export default Input;
+export default InputPanel;
