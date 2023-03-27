@@ -30,13 +30,10 @@ const externalLibraries = {
   },
   "./py5_imported/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
-    dependencies: [
-      'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js'
-    ]
   },
-  // "./py5_imported_mode.py": {
-  //   path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`
-  // },
+  "./py5_imported_mode.py": {
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`
+  },
   "./p5/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
     dependencies: [
@@ -127,16 +124,14 @@ const PythonRunner = () => {
       dispatch(setSenseHatEnabled(true))
     }
 
-    if(x === "./p5/__init__.js") {
+    if(x === "./p5/__init__.js" || x === "./py5/__init__.js") {
       dispatch(triggerDraw())
     }
+    
     // if(x==='./py5/__init__.js') {
-    //   builtinRead('./p5/__init__.js')
-    //   builtinRead('./py5_imported/__init__.js')
+    //   localStorage.setItem('./p5/__init__.js', builtinRead('./p5/__init__.js'))
+    //   localStorage.setItem('./py5_imported/__init__.js', builtinRead('./py5_imported/__init__.js'))
     // }
-    if (x==='./py5_imported/__init__.js') {
-      builtinRead('./p5/__init__.js')
-    }
 
     if (visualLibraries.includes(x)) {
       setHasVisualOutput(true)
@@ -159,12 +154,12 @@ const PythonRunner = () => {
     if (externalLibraries[x]) {
       var externalLibraryInfo = externalLibraries[x];
 
-      return localStorage.getItem(x) || Sk.misceval.promiseToSuspension(
+      return externalLibraries[x].code || Sk.misceval.promiseToSuspension(
         fetch(externalLibraryInfo.path).then((response) => response.text()).then((code) => {
           if (!code) {
             throw new Sk.builtin.ImportError("Failed to load remote module");
           }
-          localStorage.setItem(x, code)
+          externalLibraries[x].code = code
           var promise;
 
           function mapUrlToPromise(path) {
@@ -184,7 +179,6 @@ const PythonRunner = () => {
               });
             }
           }
-
           if (externalLibraryInfo.loadDepsSynchronously) {
             promise = (externalLibraryInfo.dependencies || []).reduce((p, url) => {
               return p.then(() => mapUrlToPromise(url));
@@ -277,7 +271,7 @@ const PythonRunner = () => {
     var prog = projectCode[0].content;
 
     if (prog.includes(`# ${t('input.comment.py5')}`)) {
-      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported import *')
+      prog = prog.replace(`# ${t('input.comment.py5')}`,'from py5_imported_mode import *')
     }
 
     Sk.configure({
