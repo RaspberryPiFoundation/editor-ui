@@ -128,10 +128,7 @@ const PythonRunner = () => {
       dispatch(triggerDraw())
     }
     
-    // if(x==='./py5/__init__.js') {
-    //   localStorage.setItem('./p5/__init__.js', builtinRead('./p5/__init__.js'))
-    //   localStorage.setItem('./py5_imported/__init__.js', builtinRead('./py5_imported/__init__.js'))
-    // }
+    // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
 
     if (visualLibraries.includes(x)) {
       setHasVisualOutput(true)

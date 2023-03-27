@@ -1,5 +1,4 @@
 const $builtinmodule = function(name) {
-  console.log('importing p5 in the py5_imported shim')
   var py5 = Sk.importModule('p5', false, false)
   const mod = py5.$d
   mod.__name__ = new Sk.builtin.str("py5_imported")
@@ -16,7 +15,6 @@ const $builtinmodule = function(name) {
   };
 
   mod.frame_rate = new Sk.builtin.func(function (fr) {
-    console.log(fr)
     mod.pInst.frameRate(fr.v);
   });
   

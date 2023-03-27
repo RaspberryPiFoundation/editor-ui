@@ -1726,7 +1726,6 @@ const $builtinmodule = function (name) {
 
 // TODO: Make the below work without suspension error when run for the first time
 // const $builtinmodule = function (name) {
-//   console.log('importing py5_imported in the py5 shim')
 //   var py5 = Sk.importModule('py5_imported', false, false)
 //   const mod = py5.$d
 //   mod.__name__ = new Sk.builtin.str("py5")
@@ -1741,7 +1740,6 @@ const $builtinmodule = function (name) {
 //       mode = mod.P2D;
 //     }
 //     mod.pInst.createCanvas(w.v, h.v, mode.v);
-//     console.log('setting width and height to', mod.pInst.width, 'and', mod.pInst.height)
 //     mod.width = new Sk.builtin.int_(mod.pInst.width);
 //     mod.height = new Sk.builtin.int_(mod.pInst.height);
 //     mod.renderMode = mode;
@@ -1752,7 +1750,6 @@ const $builtinmodule = function (name) {
 
 //   const updateMouseCoords = (e) => {
 //     if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= mod.width && mod.pInst.mouseY <= mod.height) {
-//       console.log('setting mouse_x and mouse_y')
 //       mod.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
 //       mod.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
 //     }
