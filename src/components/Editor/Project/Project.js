@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import 'react-toastify/dist/ReactToastify.css'
 import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
@@ -38,6 +39,8 @@ export const Project = (props) => {
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
   const isEmbedded = useSelector((state) => state.editor.isEmbedded)
+
+   const { t } = useTranslation();
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
@@ -83,14 +86,6 @@ export const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, project, user])
 
-  if (loading) {
-    return <p>loading...</p>
-  }
-
-  if (error) {
-    return <p>Error</p>
-  }
-
   const openFileTab = (fileName) => {
     if (openFiles.includes(fileName)) {
       switchToFileTab(openFiles.indexOf(fileName), fileName)
@@ -106,7 +101,14 @@ export const Project = (props) => {
 
   return (
     <>
-      { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
+      { !loading && data ?
+        <>
+          { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
+        </>
+        : null
+      }
+      { loading ? <p>{t('project.loading')}</p> : null }
+      { error ? <p>{t('project.loadingFailed')}</p> : null }
       <div className='proj'>
         <div className='proj-container'>
           <SideMenu openFileTab={openFileTab}/>
