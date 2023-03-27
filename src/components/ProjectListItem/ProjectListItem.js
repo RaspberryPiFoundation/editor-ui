@@ -1,7 +1,6 @@
 import { intlFormatDistance } from 'date-fns'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
 import { showDeleteProjectModal, showRenameProjectModal } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
@@ -22,9 +21,9 @@ export const PROJECT_LIST_ITEM_FRAGMENT = gql`
 
 export const ProjectListItem = (props) => {
   const project = props.project;
+  const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const dispatch = useDispatch();
-  const { t } = useTranslation();
   const lastSaved = intlFormatDistance(new Date(project.updatedAt), Date.now(), { style: 'short' });
 
   const openRenameProjectModal = () => {

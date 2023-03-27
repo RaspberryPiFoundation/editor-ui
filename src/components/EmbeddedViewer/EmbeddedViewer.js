@@ -8,12 +8,14 @@ import { useEmbeddedMode } from '../Editor/Hooks/useEmbeddedMode'
 import Output from '../Editor/Output/Output';
 import RunnerControls from '../RunButton/RunnerControls';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const EmbeddedViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
+  const { i18n } = useTranslation()
 
-  useProject(identifier);
+  useProject(identifier, i18n.language);
   useEmbeddedMode(true);
 
   window.addEventListener(
