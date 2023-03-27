@@ -16,7 +16,7 @@ import { SettingsContext } from '../../../../settings';
 
 const externalLibraries = {
   "./pygal/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/pygal.js`,
+    path: `${process.env.PUBLIC_URL}/shims/pygal/pygal.js`,
     dependencies: [
       'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js',
       'https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js'
@@ -41,10 +41,10 @@ const externalLibraries = {
     ]
   },
   "./_internal_sense_hat/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/_internal_sense_hat.js`
+    path: `${process.env.PUBLIC_URL}/shims/sense_hat/_internal_sense_hat.js`
   },
   "./sense_hat.py": {
-    path: `${process.env.PUBLIC_URL}/sense_hat_blob.py`
+    path: `${process.env.PUBLIC_URL}/shims/sense_hat/sense_hat_blob.py`
   }
 };
 
