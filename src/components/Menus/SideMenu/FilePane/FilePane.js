@@ -1,21 +1,34 @@
 import React from "react"
-import { useSelector } from "react-redux"
-import ProjectImages from "./ProjectImages/ProjectImages"
-import FilesList from "./FilesList"
+import { gql } from '@apollo/client';
+
+import { ProjectImages, PROJECT_IMAGES_FRAGMENT } from "./ProjectImages/ProjectImages"
+import { FilesList, FILES_LIST_FRAGMENT } from "./FilesList"
 
 import './FilePane.scss'
 
-const FilePane = (props) => {
+export const FILE_PANE_FRAGMENT = gql`
+  fragment FilePaneFragment on Project {
+    components {
+      ...FilesListFragment
+    }
+    images {
+      ...ProjectImagesFragment
+      totalCount
+    }
+  }
 
-  const project = useSelector((state) => state.editor.project)
-  const {openFileTab} = props
+  ${FILES_LIST_FRAGMENT}
+  ${PROJECT_IMAGES_FRAGMENT}
+`
+
+export const FilePane = (props) => {
+  const {openFileTab, filePaneData}  = props
 
   return (
     <div className = "file-pane">
-      <FilesList openFileTab = {openFileTab}/>
-      {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
+      <FilesList openFileTab = {openFileTab} filesListData={filePaneData.components} />
+      {filePaneData.images.totalCount > 0 ? <ProjectImages projectImagesData={filePaneData.images} /> : null}
     </div>
   )
 }
 
-export default FilePane

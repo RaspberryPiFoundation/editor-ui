@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
+import { gql, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css'
 import { Header, PROJECT_HEADER_FRAGMENT } from '../../Header/Header.js'
 import './Project.scss';
-import Input from '../Input/Input'
+import { Input, EDITOR_INPUT_FRAGMENT } from '../Input/Input'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
 import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
@@ -13,16 +14,19 @@ import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
-import SideMenu from '../../Menus/SideMenu/SideMenu';
-import { gql, useQuery } from '@apollo/client';
+import { SideMenu, SIDE_MENU_FRAGMENT } from '../../Menus/SideMenu/SideMenu';
 
 export const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
     project(identifier: $identifier){
       ...ProjectHeaderFragment
+      ...EditorInputFragment
+      ...SideMenuFragment
     }
   }
   ${PROJECT_HEADER_FRAGMENT}
+  ${EDITOR_INPUT_FRAGMENT}
+  ${SIDE_MENU_FRAGMENT}
 `;
 
 export const Project = (props) => {
@@ -44,10 +48,10 @@ export const Project = (props) => {
 
   const { loading, error, data } = useQuery(PROJECT_QUERY, {
     variables: { identifier: project.identifier },
-    skip: (project.identifier === undefined)
+    skip: (typeof project.identifier !== "string")
   })
 
-  const headerData = data ? data.project : []
+  const projectData = data ? data.project : []
 
   useEffect(() => {
     if (saving === 'success' && autosave === false) {
@@ -106,11 +110,11 @@ export const Project = (props) => {
 
   return (
     <>
-      { isEmbedded ? null : <Header projectHeaderData={headerData} /> }
+      { isEmbedded ? null : <Header projectHeaderData={projectData} /> }
       <div className='proj'>
         <div className='proj-container'>
-          <SideMenu openFileTab={openFileTab}/>
-          <Input />
+          <SideMenu openFileTab={openFileTab} sideMenuData={projectData}/>
+          <Input editorInputData={projectData}/>
           <Output />
         </div>
         {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}

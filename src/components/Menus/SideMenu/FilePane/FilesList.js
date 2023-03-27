@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { gql } from '@apollo/client';
 
 import { ChevronDown, FileIcon } from '../../../../Icons';
 import FileMenu from '../../FileMenu/FileMenu';
@@ -7,9 +7,17 @@ import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
 
-const FilesList = (props) => {
-  const project = useSelector((state) => state.editor.project)
-  const {openFileTab} = props
+export const FILES_LIST_FRAGMENT = gql`
+  fragment FilesListFragment on ComponentConnection {
+    nodes {
+      name
+      extension
+    }
+  }
+`
+
+export const FilesList = (props) => {
+  const {openFileTab, filesListData} = props
   const { t } = useTranslation()
 
   return (
@@ -23,7 +31,7 @@ const FilesList = (props) => {
       </summary>
       <NewComponentButton />
       <div className='files-list'>
-      { project.components.map((file, i) => (
+      { filesListData.nodes.map((file, i) => (
         <div className='files-list-item' key={i} onClick={() => openFileTab(`${file.name}.${file.extension}`)}>
           <div className='files-list-icon'>
             <FileIcon />
@@ -41,4 +49,3 @@ const FilesList = (props) => {
   )
 }
 
-export default FilesList

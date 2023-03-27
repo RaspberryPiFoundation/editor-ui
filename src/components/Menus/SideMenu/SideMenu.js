@@ -1,17 +1,25 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { gql } from '@apollo/client'
 import { DoubleChevronLeft, FileIcon } from "../../../Icons"
 import Button from "../../Button/Button"
-import FilePane from "./FilePane/FilePane"
+import { FilePane, FILE_PANE_FRAGMENT } from "./FilePane/FilePane"
 import MenuSideBar from "./MenuSideBar"
 
 import './SideMenu.scss'
 
-const SideMenu = (props) => {
-  const { openFileTab } = props
+export const SIDE_MENU_FRAGMENT = gql`
+  fragment SideMenuFragment on Project {
+    ...FilePaneFragment
+  }
+  ${FILE_PANE_FRAGMENT}
+`
+
+export const SideMenu = (props) => {
+  const { openFileTab, sideMenuData } = props
   const { t } = useTranslation()
   const menuOptions = [
-    { name: "file", icon: FileIcon, title: t('sideMenu.file'), position: "top", popOut: () => FilePane({ openFileTab: openFileTab }) }
+    { name: "file", icon: FileIcon, title: t('sideMenu.file'), position: "top", popOut: () => FilePane({ openFileTab: openFileTab, filePaneData: sideMenuData }) }
   ]
   const [option, setOption] = useState('file')
   const toggleOption = (newOption) => {
@@ -42,4 +50,3 @@ const SideMenu = (props) => {
   )
 }
 
-export default SideMenu

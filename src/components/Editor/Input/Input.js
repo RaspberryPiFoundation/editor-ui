@@ -1,33 +1,50 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, useEffect, useRef } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
-import EditorPanel from '../EditorPanel/EditorPanel'
+import { EditorPanel, EDITOR_PANEL_FRAGMENT } from '../EditorPanel/EditorPanel'
 import RunnerControls from '../../RunButton/RunnerControls'
 import { closeFile, setFocussedFileIndex } from '../EditorSlice';
 import { CloseIcon } from '../../../Icons';
 import Button from '../../Button/Button';
+import { gql } from '@apollo/client';
 
-const Input = (props) => {
+export const EDITOR_INPUT_FRAGMENT = gql`
+  fragment EditorInputFragment on Project {
+    components {
+      nodes {
+        id
+        ...EditorPanelFragment
+      }
+      totalCount
+    }
+  }
+  ${EDITOR_PANEL_FRAGMENT}
+`
+
+
+export const Input = (props) => {
   const dispatch = useDispatch()
-  const project = useSelector((state) => state.editor.project)
+  const { editorInputData } = props
+  const componentsData = editorInputData.components.nodes
+
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-  const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
-  let tabRefs = useRef(project.components.map(createRef))
+  const numberOfComponents = editorInputData.components.totalCount
+  let tabRefs = useRef(componentsData.map(createRef))
+
 
   useEffect(() => {
-    setNumberOfComponents(project.components.length)
-    Array(project.components.length).fill().forEach((_, i) => {
+    Array(componentsData.length).fill().forEach((_, i) => {
       tabRefs.current[i] = tabRefs.current[i] || React.createRef();
     })
-  }, [project])
+  }, [editorInputData])
 
   useEffect(() => {
     const fileName = openFiles[focussedFileIndex]
-    const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
+    const componentIndex = componentsData.findIndex(file => `${file.name}.${file.extension}`=== fileName)
     const fileRef = tabRefs.current[componentIndex]
     if (fileRef?.current) {
       fileRef.current.parentElement.scrollIntoView()
@@ -53,7 +70,7 @@ const Input = (props) => {
                 <Tab key={i}>
                   <span
                     className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                    ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
+                    ref={tabRefs.current[componentsData.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
                       {fileName}
                       {fileName !== 'main.py' ?
                         <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label={`close ${fileName}`} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
@@ -66,7 +83,7 @@ const Input = (props) => {
           </div>
           {openFiles.map((fileName, i) => (
             <TabPanel key={i}>
-              <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
+              <EditorPanel componentData={ componentsData.find(file => `${file.name}.${file.extension}`===fileName) } />
             </TabPanel>
           ))}
           <RunnerControls />

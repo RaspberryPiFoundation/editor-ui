@@ -1,11 +1,20 @@
 import './ProjectImages.scss';
 
-import { useSelector } from 'react-redux'
 import { ChevronDown } from '../../../../../Icons';
 import { useTranslation } from 'react-i18next'
+import { gql } from '@apollo/client';
 
-const ProjectImages = () => {
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+export const PROJECT_IMAGES_FRAGMENT = gql`
+  fragment ProjectImagesFragment on ImageConnection {
+    nodes {
+      filename
+      url
+    }
+  }
+`
+
+export const ProjectImages = (props) => {
+  const { projectImagesData } = props
   const { t } = useTranslation()
 
   return (
@@ -17,7 +26,7 @@ const ProjectImages = () => {
         </div>
       </summary>
       <div className='project-images'>
-        {projectImages.map((image, i) => (
+        {projectImagesData.nodes.map((image, i) => (
           <div key={i} className='project-images__block'>
             <div className='project-images__image-wrapper'>
               <img className='project-images__image' src={image.url} alt={image.filename}/>
@@ -30,4 +39,3 @@ const ProjectImages = () => {
   )
 }
 
-export default ProjectImages
