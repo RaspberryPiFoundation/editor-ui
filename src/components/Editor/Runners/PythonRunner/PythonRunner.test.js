@@ -180,6 +180,36 @@ describe('When in split view, py5 imported and code run', () => {
   })
 })
 
+describe('When in split view, py5_imported imported and code run', () => {
+  let store;
+  let queryByText;
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import py5_imported"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isSplitView: true
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
+
+  test('Visual tab is shown', async () => {
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
+  })
+})
+
 describe('When in split view, pygal imported and code run', () => {
   let store;
   let queryByText;
@@ -332,6 +362,36 @@ describe('When in tabbed view, py5 imported and code run', () => {
 
   test('Draw is triggered', () => {
     expect(store.getActions()).toEqual(expect.arrayContaining([triggerDraw()]))
+  })
+})
+
+describe('When in tabbed view, py5_imported imported and code run', () => {
+  let store;
+  let queryByText;
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "import py5_imported"
+            }
+          ],
+          image_list: []
+        },
+        codeRunTriggered: true,
+        isSplitView: false
+      }
+    }
+    store = mockStore(initialState);
+    ({queryByText} = render(<Provider store={store}><PythonRunner /></Provider>));
+  })
+
+  test('Visual tab is not hidden', async () => {
+    const visualTab = queryByText('output.visualOutput')
+    expect(visualTab).toBeInTheDocument()
   })
 })
 

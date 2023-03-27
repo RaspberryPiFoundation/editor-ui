@@ -1723,3 +1723,43 @@ const $builtinmodule = function (name) {
 
   return mod;
 };
+
+// TODO: Make the below work without suspension error when run for the first time
+// const $builtinmodule = function (name) {
+//   var py5 = Sk.importModule('py5_imported', false, false)
+//   const mod = py5.$d
+//   mod.__name__ = new Sk.builtin.str("py5")
+
+//   mod.py5 = {}
+
+//   mod.height = new Sk.builtin.int_(0)
+//   mod.width = new Sk.builtin.int_(0)
+
+//   mod.size = new Sk.builtin.func(function (w, h, mode) {
+//     if (typeof(mode) === "undefined") {
+//       mode = mod.P2D;
+//     }
+//     mod.pInst.createCanvas(w.v, h.v, mode.v);
+//     mod.width = new Sk.builtin.int_(mod.pInst.width);
+//     mod.height = new Sk.builtin.int_(mod.pInst.height);
+//     mod.renderMode = mode;
+//   });
+
+//   mod.mouse_x = new Sk.builtin.float_(0)
+//   mod.mouse_y = new Sk.builtin.float_(0)
+
+//   const updateMouseCoords = (e) => {
+//     if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= mod.width && mod.pInst.mouseY <= mod.height) {
+//       mod.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
+//       mod.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+//     }
+//   }
+//   document.getElementById(Sk.p5.sketch).addEventListener('mousemove', updateMouseCoords)
+
+//   delete Sk.builtins.height
+//   delete Sk.builtins.width
+//   delete Sk.builtins.mouse_x
+//   delete Sk.builtins.mouse_y
+
+//   return mod
+// }
