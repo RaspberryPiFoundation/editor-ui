@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import ProjectComponentLoader from "./ProjectComponentLoader";
 import { setProject } from "../EditorSlice";
-import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { legacyDefaultPythonProject } from "../../../utils/defaultProjects";
 import { MockedProvider } from "@apollo/client/testing";
 
 jest.mock('react-router-dom', () => ({
@@ -37,7 +37,7 @@ test("Loads default project if loading fails", () => {
   }
   const store = mockStore(initialState);
   render(<Provider store={store}><ProjectComponentLoader match={{params: {}}}/></Provider>)
-  const expectedActions = [setProject(defaultPythonProject)]
+  const expectedActions = [setProject(legacyDefaultPythonProject)]
   expect(store.getActions()).toEqual(expectedActions)
 })
 
