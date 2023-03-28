@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Load project based on locale (#410)
+- Load project based on locale (#410, #425)
 - Ability to recognise py5 magic comment (#412)
 - Allow py5 imported mode not to need run_sketch (#417)
 - Python blob and skulpt module for py5 imported mode (#414)
