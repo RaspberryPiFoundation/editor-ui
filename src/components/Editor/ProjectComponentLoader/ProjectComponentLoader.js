@@ -16,7 +16,7 @@ const ProjectComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
-
+  console.log('rendering project component loader with locale', i18n.language)
   useEmbeddedMode(embedded);
   useProject(identifier, i18n.language, accessToken);
 
