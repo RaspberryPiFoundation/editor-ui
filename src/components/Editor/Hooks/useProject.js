@@ -15,7 +15,10 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
   }
 
   useEffect(() => {
+    console.log('trying to load project...')
+    console.log('the locale is', locale)
     if (locale === i18n.language) {
+      console.log('loading project with locale', locale)
       var is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
       var is_cached_unsaved_project = (!projectIdentifier && cachedProject)
 
