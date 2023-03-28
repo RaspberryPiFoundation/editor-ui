@@ -62,7 +62,7 @@ describe("When logged in and user owns project", () => {
       <Provider store={store}>
         <MemoryRouter>
           <MockedProvider>
-            <Header projectHeaderData={projectData}/>
+            <Header headerData={projectData}/>
           </MockedProvider>
         </MemoryRouter>
       </Provider>
@@ -117,7 +117,7 @@ describe("When logged in and no project identifier", () => {
       <Provider store={store}>
         <MemoryRouter>
           <MockedProvider>
-            <Header projectHeaderData={projectData}/>
+            <Header headerData={projectData}/>
           </MockedProvider>
         </MemoryRouter>
       </Provider>
@@ -168,7 +168,7 @@ describe("When logged in and user does not own project", () => {
       <Provider store={store}>
         <MemoryRouter>
           <MockedProvider>
-            <Header projectHeaderData={projectData}/>
+            <Header headerData={projectData}/>
           </MockedProvider>
         </MemoryRouter>
       </Provider>
@@ -209,7 +209,7 @@ describe("When not logged in", () => {
       <Provider store={store}>
         <MemoryRouter>
           <MockedProvider>
-            <Header projectHeaderData={projectData}/>
+            <Header headerData={projectData}/>
           </MockedProvider>
         </MemoryRouter>
       </Provider>
@@ -254,7 +254,7 @@ describe('When no project loaded', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MockedProvider>
-            <Header projectHeaderData={[]}/>
+            <Header headerData={[]}/>
           </MockedProvider>
         </MemoryRouter>
       </Provider>
