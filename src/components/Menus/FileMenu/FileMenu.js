@@ -1,17 +1,27 @@
 import React from "react"
 import { useDispatch } from 'react-redux'
 import { useTranslation } from "react-i18next";
+import { gql } from '@apollo/client'
 
 import { showRenameFileModal } from '../../Editor/EditorSlice'
 import { EllipsisVerticalIcon, PencilIcon } from '../../../Icons';
 import ContextMenu from "../ContextMenu/ContextMenu";
 
-const FileMenu = (props) => {
+export const FILE_MENU_FRAGMENT = gql`
+  fragment FileMenuFragment on Component {
+    id
+    name
+    extension
+  }
+`
+
+export const FileMenu = (props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { fileData } = props
 
   const onClickRenameFile = () => {
-    dispatch(showRenameFileModal(props))
+    dispatch(showRenameFileModal({name: fileData.name, componentId: fileData.id, extension: fileData.extension}))
   }
 
   return (
@@ -34,5 +44,4 @@ const FileMenu = (props) => {
     </div>
   )
 }
-  
-export default FileMenu
+

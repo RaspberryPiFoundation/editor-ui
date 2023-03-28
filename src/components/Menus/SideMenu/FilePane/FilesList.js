@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { ChevronDown, FileIcon } from '../../../../Icons';
-import FileMenu from '../../FileMenu/FileMenu';
+import { FileMenu, FILE_MENU_FRAGMENT } from '../../FileMenu/FileMenu';
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import { useTranslation } from "react-i18next";
 
@@ -12,8 +12,10 @@ export const FILES_LIST_FRAGMENT = gql`
     nodes {
       name
       extension
+      ...FileMenuFragment
     }
   }
+  ${FILE_MENU_FRAGMENT}
 `
 
 export const FilesList = (props) => {
@@ -39,7 +41,7 @@ export const FilesList = (props) => {
           <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           {(file.name === 'main' && file.extension === 'py') ? null :
             <div className='files-list-item__menu'>
-              <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+              <FileMenu fileData={file} />
             </div>
           }
         </div>

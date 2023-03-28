@@ -21,6 +21,7 @@ import { SideMenu, SIDE_MENU_FRAGMENT } from '../../Menus/SideMenu/SideMenu';
 export const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
     project(identifier: $identifier){
+      id
       ...HeaderFragment
       ...InputPanelFragment
       ...SideMenuFragment
@@ -45,7 +46,7 @@ export const Project = (props) => {
   const openFiles = useSelector((state) => state.editor.openFiles)
   const isEmbedded = useSelector((state) => state.editor.isEmbedded)
 
-   const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)

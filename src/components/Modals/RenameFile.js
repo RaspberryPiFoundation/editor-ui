@@ -2,33 +2,48 @@ import React from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { gql, useMutation } from '@apollo/client'
 import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
-import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
+import { closeRenameFileModal } from "../Editor/EditorSlice";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
+
+export const RENAME_FILE_MUTATION = gql`
+  mutation RenameFile($id: String!, $name: String!) {
+    updateComponent(input: {id: $id, name: $name}) {
+      component {
+        id
+        name
+        updatedAt
+      }
+    }
+  }
+`;
 
 const RenameFile = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
-  const projectType = useSelector((state) => state.editor.project.project_type)
-  const projectComponents = useSelector((state) => state.editor.project.components)
+//  const projectType = useSelector((state) => state.editor.project.project_type)
+//  const projectComponents = useSelector((state) => state.editor.project.components)
   const isModalOpen = useSelector((state) => state.editor.renameFileModalShowing)
-  const {name: currentName, ext: currentExtension, fileKey} = useSelector((state) => state.editor.modals.renameFile);
-  const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+  const {name: currentName, extension: currentExtension, componentId} = useSelector((state) => state.editor.modals.renameFile);
+//  const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
-  const closeModal = () => dispatch(closeRenameFileModal());
+  const closeModal = () => {
+    dispatch(closeRenameFileModal())
+  }
 
-  const renameComponent = () => {
+  // This can capture data, error, loading as per normal queries, but we're not
+  // using them yet.
+  const [renameFileMutation] = useMutation(RENAME_FILE_MUTATION);
+
+  const renameFile = () => {
     const fileName = document.getElementById('name').value
     const name = fileName.split('.')[0];
     const extension = fileName.split('.').slice(1).join('.');
-
-    validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
-      dispatch(updateComponentName({key: fileKey, extension: extension, name: name}));
-      closeModal();
-    }, `${currentName}.${currentExtension}`)
+    renameFileMutation({variables: {id: componentId, name: name, extension: extension}, onCompleted: closeModal})
   }
 
   return (
@@ -52,7 +67,7 @@ const RenameFile = () => {
           <input type='text' name='name' id='name' defaultValue={`${currentName}.${currentExtension}`}></input>
           <div className='modal-content__buttons' >
             <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
-            <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
+            <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameFile} />
           </div>
       </Modal>
     </>

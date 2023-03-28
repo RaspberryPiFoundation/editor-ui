@@ -13,6 +13,7 @@ export const FILE_PANE_FRAGMENT = gql`
     }
     images {
       ...ProjectImagesFragment
+      totalCount
     }
   }
 
@@ -26,7 +27,7 @@ export const FilePane = (props) => {
   return (
     <div className = "file-pane">
       <FilesList openFileTab = {openFileTab} filesListData={filePaneData.components} />
-      {filePaneData.images && filePaneData.images.length > 0 ? <ProjectImages projectImagesData={filePaneData.images} /> : null}
+      {filePaneData?.images?.totalCount && filePaneData.images.totalCount > 0 ? <ProjectImages projectImagesData={filePaneData.images} /> : null}
     </div>
   )
 }
