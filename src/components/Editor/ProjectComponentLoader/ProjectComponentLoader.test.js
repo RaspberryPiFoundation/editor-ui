@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import ProjectComponentLoader from "./ProjectComponentLoader";
 import { setProject } from "../EditorSlice";
 import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { MockedProvider } from "@apollo/client/testing";
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -54,6 +55,6 @@ test("Does not render loading message if loading is success", () => {
     auth: {}
   }
   const store = mockStore(initialState);
-  render(<Provider store={store}><div id='app'></div><ProjectComponentLoader match={{params: {}}}/></Provider>)
+  render(<Provider store={store}><MockedProvider><div id='app'></div><ProjectComponentLoader match={{params: {}}}/></MockedProvider></Provider>)
   expect(screen.queryByText('project.loading')).not.toBeInTheDocument()
 })

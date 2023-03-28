@@ -5,7 +5,8 @@ import Style from 'style-it';
 import internalStyles from '../InternalStyles.scss';
 import externalStyles from '../ExternalStyles.scss';
 
-import Project from '../../Editor/Project/Project';
+import InputPanel from '../../Editor/InputPanel/InputPanel';
+import OutputPanel from '../../Editor/OutputPanel/OutputPanel';
 import { defaultMZCriteria } from '../../AstroPiModel/DefaultMZCriteria'
 import Sk from 'skulpt';
 import store from '../../../app/store';
@@ -69,7 +70,12 @@ const WebComponentProject = () => {
       <Style>
         {internalStyles}
         <div id='wc' className = {`--${cookies.theme || defaultTheme} font-size-${cookies.fontSize || 'small'}`}>
-          <Project forWebComponent={true}/>
+          <div className='proj'>
+            <div className={`proj-container proj-container--wc`}>
+              <InputPanel />
+              <OutputPanel />
+            </div>
+          </div>
         </div>
       </Style>
     </>

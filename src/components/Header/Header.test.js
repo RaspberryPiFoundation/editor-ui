@@ -2,9 +2,10 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import Header from "./Header";
+import { Header } from "./Header";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
+import { MockedProvider } from "@apollo/client/testing";
 
 jest.mock('axios');
 
@@ -19,19 +20,26 @@ jest.mock('../Editor/EditorSlice', () => ({
 }))
 
 const project = {
+  id: 'ABC',
   name: 'Hello world',
   identifier: "hello-world-project",
   components: [],
   image_list: [],
   user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
 }
+
+const projectData = {
+  id: "ABC",
+  name: "Hello world",
+  __typename: "Project"
+}
+
 const user = {
   access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
   profile: {
     user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf"
   }
 }
-
 
 describe("When logged in and user owns project", () => {
   let store;
@@ -50,7 +58,15 @@ describe("When logged in and user owns project", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <MockedProvider>
+            <Header projectHeaderData={projectData}/>
+          </MockedProvider>
+        </MemoryRouter>
+      </Provider>
+    );
     saveButton = screen.queryByText('header.save')
   })
 
@@ -82,14 +98,14 @@ describe("When logged in and user owns project", () => {
 
 describe("When logged in and no project identifier", () => {
   let store;
-  const project_without_id = { ...project, identifier: null }
+  const project_without_identifier = { ...project, identifier: null }
 
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: project_without_id,
+        project: project_without_identifier,
         loading: 'success',
       },
       auth: {
@@ -97,7 +113,15 @@ describe("When logged in and no project identifier", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <MockedProvider>
+            <Header projectHeaderData={projectData}/>
+          </MockedProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   })
 
   test('Download button shown', () => {
@@ -115,7 +139,7 @@ describe("When logged in and no project identifier", () => {
     const saveButton = screen.getByText('header.save')
     fireEvent.click(saveButton)
     await waitFor(() => expect(saveProject).toHaveBeenCalledWith({
-      project: project_without_id,
+      project: project_without_identifier,
       accessToken: user.access_token,
       autosave: false
     }))
@@ -140,7 +164,15 @@ describe("When logged in and user does not own project", () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <MockedProvider>
+            <Header projectHeaderData={projectData}/>
+          </MockedProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   })
 
   test("Clicking save dispatches remixProject with correct parameters", async () => {
@@ -173,7 +205,15 @@ describe("When not logged in", () => {
         }
       }
     store = mockStore(initialState);
-    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <MockedProvider>
+            <Header projectHeaderData={projectData}/>
+          </MockedProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   })
 
   test("No project gallery link", () => {
@@ -210,7 +250,15 @@ describe('When no project loaded', () => {
         }
       }
     const store = mockStore(initialState);
-    render(<Provider store={store}><MemoryRouter><Header/></MemoryRouter></Provider>);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <MockedProvider>
+            <Header projectHeaderData={[]}/>
+          </MockedProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   })
 
   test('No project name', () => {

@@ -8,19 +8,28 @@ import { DownloadIcon, HomeIcon, SettingsIcon } from '../../Icons';
 import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
-import ProjectName from './ProjectName';
+import { PROJECT_NAME_FRAGMENT, ProjectName } from './ProjectName';
 import editor_logo from '../../assets/editor_logo.svg'
 import DownloadButton from './DownloadButton';
 import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
+import { gql } from '@apollo/client';
 
-const Header = () => {
+export const PROJECT_HEADER_FRAGMENT = gql`
+  fragment ProjectHeaderFragment on Project {
+    ...ProjectNameFragment
+  }
+  ${PROJECT_NAME_FRAGMENT}
+`
+
+export const Header = (props) => {
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const loading = useSelector((state) => state.editor.loading)
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
+  const { projectHeaderData } = props
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -42,11 +51,11 @@ const Header = () => {
       <header className='editor-header'>
         <img className='editor-logo' src={editor_logo} alt={t('header.editorLogoAltText')}/>
         { user !== null ? (
-          <Link to={`${locale}/projects`} className='project-gallery-link' reloadDocument>
+          <Link to={`/${locale}/projects`} className='project-gallery-link' reloadDocument>
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
-        { loading === 'success' ? <ProjectName /> : null }
+        { loading === 'success' ? <ProjectName project={projectHeaderData} /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?
@@ -64,5 +73,3 @@ const Header = () => {
     </div>
   )
 };
-
-export default Header;

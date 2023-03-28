@@ -3,7 +3,7 @@ import { render } from "@testing-library/react"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import Output from "./Output";
+import OutputPanel from "./OutputPanel";
 
 test("Component renders", () => {
   const middlewares = []
@@ -16,6 +16,6 @@ test("Component renders", () => {
       }
     }
     const store = mockStore(initialState);
-  const {container} = render(<Provider store={store}><Output/></Provider>)
+  const {container} = render(<Provider store={store}><OutputPanel/></Provider>)
   expect(container.lastChild).toHaveClass("proj-runner-container");
 })
