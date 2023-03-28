@@ -7,19 +7,19 @@ import Button from "../Button/Button";
 import '../../Modal.scss';
 import { closeNotFoundModal, syncProject } from "../Editor/EditorSlice";
 import { CloseIcon } from "../../Icons";
-import { defaultPythonProject } from "../../utils/defaultProjects";
+import { legacyDefaultPythonProject } from "../../utils/defaultProjects";
 
 const NotFoundModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user)
-  
+
   const isModalOpen = useSelector((state) => state.editor.notFoundModalShowing)
   const closeModal = () => dispatch(closeNotFoundModal())
 
   const createNewProject = async () => {
     if (user) {
-      dispatch(syncProject('save')({ project: defaultPythonProject, accessToken: user.access_token, autosave: false }))
+      dispatch(syncProject('save')({ project: legacyDefaultPythonProject, accessToken: user.access_token, autosave: false }))
     }
     closeModal()
   }

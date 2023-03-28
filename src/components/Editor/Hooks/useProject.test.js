@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import {useProject} from './useProject';
 import { syncProject, setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
-import { defaultPythonProject } from '../../../utils/defaultProjects'
+import { legacyDefaultPythonProject } from '../../../utils/defaultProjects'
 
 
 jest.mock('react-redux', () => ({
@@ -33,7 +33,7 @@ const accessToken = 'my_access_token'
 
 test("If no identifier uses default python project", () => {
   renderHook(() => useProject())
-  expect(setProject).toHaveBeenCalledWith(defaultPythonProject)
+  expect(setProject).toHaveBeenCalledWith(legacyDefaultPythonProject)
 })
 
 test("If cached project matches identifer uses cached project", () => {
