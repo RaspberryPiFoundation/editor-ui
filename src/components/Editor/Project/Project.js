@@ -21,7 +21,6 @@ import SideMenu from '../../Menus/SideMenu/SideMenu';
 export const PROJECT_QUERY = gql`
   query ProjectQuery($identifier: String!) {
     project(identifier: $identifier){
-      ...ProjectHeaderFragment
       id
       ...HeaderFragment
       ...InputPanelFragment

@@ -3,31 +3,23 @@ import { Provider } from "react-redux"
 import { SettingsContext } from "../../../settings"
 import { render } from '@testing-library/react'
 import { axe, toHaveNoViolations }from 'jest-axe'
-import EditorPanel from './EditorPanel'
+import { EditorPanel } from './EditorPanel'
 
 expect.extend(toHaveNoViolations)
 
 describe('When font size is set', () => {
 
   let editor
-  
+
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {name: 'main', extension: 'py', content: ''}
-          ]
-        }
-      }
-    }
+    const initialState = { }
     const store = mockStore(initialState);
     const editorContainer = render(
       <Provider store={store}>
         <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'myFontSize' }}>
-          <EditorPanel fileName='main' extension='py'/>
+          <EditorPanel componentData={{ fileName:'main', extension: 'py', content: '' }}/>
         </SettingsContext.Provider>
       </Provider>
     )
