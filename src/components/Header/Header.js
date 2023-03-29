@@ -15,8 +15,8 @@ import { isOwner } from '../../utils/projectHelpers'
 import { Link } from 'react-router-dom';
 import { gql } from '@apollo/client';
 
-export const PROJECT_HEADER_FRAGMENT = gql`
-  fragment ProjectHeaderFragment on Project {
+export const HEADER_FRAGMENT = gql`
+  fragment HeaderFragment on Project {
     ...ProjectNameFragment
   }
   ${PROJECT_NAME_FRAGMENT}
@@ -29,7 +29,7 @@ export const Header = (props) => {
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
   const locale = i18n.language
-  const { projectHeaderData } = props
+  const { headerData } = props
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -55,7 +55,7 @@ export const Header = (props) => {
             {<><HomeIcon />
             <span className='editor-header__text'>{t('header.projects')}</span></>}</Link>
         ) : null }
-        { loading === 'success' ? <ProjectName project={projectHeaderData} /> : null }
+        { loading === 'success' ? <ProjectName project={headerData} /> : null }
         <div className='editor-header__right'>
           { lastSavedTime && user ? <Autosave saving={saving} lastSavedTime={lastSavedTime} /> : null }
           { loading === 'success' ?

@@ -4,20 +4,76 @@ export const defaultPythonProject = {
   project_type: 'python',
   name: i18n.t('project.untitled'),
   locale: null,
-  components: [
-    { extension: 'py', name: 'main',
-      content: "", default: true },
-  ],
-  image_list: []
+  components: {
+    nodes: [
+      {
+        extension: 'py',
+        name: 'main',
+        content: "",
+        default: true
+      }
+    ]
+  }
 }
+
 
 export const defaultHtmlProject = {
   project_type: 'html',
   name: i18n.t('project.untitled'),
+  components: {
+    nodes: [
+      {
+        extension: 'html',
+        name: 'index',
+        content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>"
+      },
+      {
+        extension: 'css',
+        name: 'style',
+        content: "h1 {\n  color: blue;\n}"
+      },
+      {
+        extension: 'css',
+        name: 'test',
+        content: "p {\n  background-color: red;\n}"
+      }
+    ]
+  }
+}
+
+export const legacyDefaultPythonProject = {
+  project_type: 'python',
+  name: i18n.t('project.untitled'),
+  locale: null,
   components: [
-    { extension: 'html', name: 'index',
-      content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>" },
-    { extension: 'css', name: 'style', content: "h1 {\n  color: blue;\n}" },
-    { extension: 'css', name: 'test', content: "p {\n  background-color: red;\n}" }
+    {
+      extension: 'py',
+      name: 'main',
+      content: "",
+      default: true
+    },
+  ],
+  image_list: []
+}
+
+export const legacyDefaultHtmlProject = {
+  project_type: 'html',
+  name: i18n.t('project.untitled'),
+  components: [
+    {
+      extension: 'html',
+      name: 'index',
+      content: "<html>\n  <head>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>"
+    },
+    {
+      extension: 'css',
+      name: 'style',
+      content: "h1 {\n  color: blue;\n}"
+    },
+    {
+      extension: 'css',
+      name: 'test',
+      content: "p {\n  background-color: red;\n}"
+    }
   ]
 }

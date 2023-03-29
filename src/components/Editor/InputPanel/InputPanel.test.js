@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event"
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import InputPanel from "./InputPanel";
+import { InputPanel } from "./InputPanel";
 import { closeFile } from "../EditorSlice";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
@@ -15,22 +15,24 @@ describe('opening and closing different files', () => {
   beforeEach(() => {
     const middlewares = []
     const mockStore = configureStore(middlewares)
+    const inputPanelData = {
+      components: {
+        nodes: [
+          {
+            name: 'main',
+            extension: 'py',
+            content: 'print("hello")'
+          },
+          {
+            name: 'a',
+            extension: 'py',
+            content: '# Your code here'
+          }
+        ]
+      }
+    }
     const initialState = {
       editor: {
-        project: {
-          components: [
-            {
-              name: 'main',
-              extension: 'py',
-              content: 'print("hello")'
-            },
-            {
-              name: 'a',
-              extension: 'py',
-              content: '# Your code here'
-            }
-          ]
-        },
         openFiles: ['main.py', 'a.py'],
         focussedFileIndex: 1
       },
@@ -39,7 +41,7 @@ describe('opening and closing different files', () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><div id="app"><InputPanel/></div></Provider>)
+    render(<Provider store={store}><div id="app"><InputPanel inputPanelData={inputPanelData} /></div></Provider>)
   })
 
   test("Renders content of focussed file", () => {
