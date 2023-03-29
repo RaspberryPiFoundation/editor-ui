@@ -13,8 +13,9 @@ import { gql } from '@apollo/client';
 
 export const INPUT_PANEL_FRAGMENT = gql`
   fragment InputPanelFragment on Project {
-    components {
+    components(first: 10) {
       nodes {
+        id
         ...EditorPanelFragment
       }
     }
@@ -29,7 +30,7 @@ export const InputPanel = (props) => {
 
   const openFiles = useSelector((state) => state.editor.openFiles)
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-  const numberOfComponents = inputPanelData.components.length
+  const numberOfComponents = inputPanelData.components.nodes.length
 
   let tabRefs = useRef(componentsData.map(createRef))
 
