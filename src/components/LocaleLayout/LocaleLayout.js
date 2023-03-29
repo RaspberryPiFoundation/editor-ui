@@ -12,18 +12,26 @@ const LocaleLayout = () => {
   useLayoutEffect(() => {
     const isValidLocale = i18n.options.locales.includes(locale)
 
-    if (!isValidLocale) {
-      const localeRegex = new RegExp(`^/${locale}`)
-      navigate(location.pathname.replace(localeRegex, '/en'))
-    }
-    else if (locale !== i18n.language) {
-      i18n.changeLanguage(locale, (err, t) => {
+    // Changing language is async.
+    async function changeLanguage(locale) {
+      await i18n.changeLanguage(locale, (err, t) => {
         if (err) return console.log('something went wrong loading', err);
         t('key'); // -> same as i18next.t
       })
     }
+
+    if (locale === i18n.language) {
+      return
+    }
+    else if (!isValidLocale) {
+      const localeRegex = new RegExp(`^/${locale}`)
+      navigate(location.pathname.replace(localeRegex, '/en'))
+    }
+    else {
+      changeLanguage(locale)
+    }
   }, [locale, i18n, location, navigate])
-  
+
   return (
     <Outlet />
   )
