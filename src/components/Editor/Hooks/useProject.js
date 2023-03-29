@@ -16,11 +16,14 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
 
   useEffect(() => {
     console.log('trying to load project...')
-    console.log('the locale is', locale)
+    console.log('the locale is', locale, i18n.language)
+
     if (locale === i18n.language) {
       console.log('loading project from locale', locale)
-      var is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
-      var is_cached_unsaved_project = (!projectIdentifier && cachedProject)
+      console.log('identifiers', projectIdentifier, cachedProject?.identifier)
+
+      const is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
+      const is_cached_unsaved_project = (!projectIdentifier && cachedProject)
 
       if (is_cached_saved_project || is_cached_unsaved_project) {
         loadCachedProject()
@@ -34,5 +37,5 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
       const data = defaultPythonProject;
       dispatch(setProject(data));
     }
-  }, [projectIdentifier, locale, accessToken, i18n]);
+  }, [projectIdentifier, cachedProject, locale, accessToken, i18n]);
 };
