@@ -16,18 +16,20 @@ const ProjectComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project)
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
+  const currentLanguage = i18n.language
+
   console.log('rendering project component loader with locale', i18n.language, loading)
   useEmbeddedMode(embedded);
   useProject(identifier, i18n.language, accessToken);
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
-      navigate(`/${i18n.language}/projects/${project.identifier}`)
+      navigate(`/${currentLanguage}/projects/${project.identifier}`)
     }
     if (loading === 'failed') {
       navigate('/')
     }
-  }, [loading, project, i18n, navigate])
+  }, [loading, project, currentLanguage, navigate])
 
   return (
     loading === 'success' ? (

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 export const useProject = (projectIdentifier = null, locale = null, accessToken = null) => {
   const dispatch = useDispatch();
   const { i18n } = useTranslation()
+  const currentLanguage = i18n.language
 
   const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {
@@ -15,13 +16,7 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
   }
 
   useEffect(() => {
-    console.log('trying to load project...')
-    console.log('the locale is', locale, i18n.language)
-
-    if (locale === i18n.language) {
-      console.log('loading project from locale', locale)
-      console.log('identifiers', projectIdentifier, cachedProject?.identifier)
-
+    if (locale === currentLanguage) {
       const is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
       const is_cached_unsaved_project = (!projectIdentifier && cachedProject)
 
@@ -37,5 +32,5 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
       const data = defaultPythonProject;
       dispatch(setProject(data));
     }
-  }, [projectIdentifier, cachedProject, locale, accessToken, i18n]);
+  }, [projectIdentifier, cachedProject, locale, accessToken, currentLanguage]);
 };
