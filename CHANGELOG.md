@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## GraphQL branch changes
 
 - Move Header component inside the Editor/Project component, adding GraphQL goodness (#419)
+- Use GraphQL to seed InputPanel (#423)
 
 ## [Unreleased]
 
