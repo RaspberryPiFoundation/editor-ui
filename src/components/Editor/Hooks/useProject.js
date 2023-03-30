@@ -16,21 +16,19 @@ export const useProject = (projectIdentifier = null, locale = null, accessToken 
   }
 
   useEffect(() => {
-    if (locale === currentLanguage) {
-      const is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
-      const is_cached_unsaved_project = (!projectIdentifier && cachedProject)
+    const is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
+    const is_cached_unsaved_project = (!projectIdentifier && cachedProject)
 
-      if (is_cached_saved_project || is_cached_unsaved_project) {
-        loadCachedProject()
-        return
-      }
-
-      if (projectIdentifier) {
-        dispatch(syncProject('load')({identifier: projectIdentifier, locale, accessToken}));
-        return;
-      }
-      const data = defaultPythonProject;
-      dispatch(setProject(data));
+    if (is_cached_saved_project || is_cached_unsaved_project) {
+      loadCachedProject()
+      return
     }
+
+    if (projectIdentifier) {
+      dispatch(syncProject('load')({identifier: projectIdentifier, locale, accessToken}));
+      return;
+    }
+    const data = defaultPythonProject;
+    dispatch(setProject(data));
   }, [projectIdentifier, cachedProject, locale, accessToken, currentLanguage]);
 };
