@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier } = useParams()
+  const { locale, identifier } = useParams()
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user)
   const accessToken = user ? user.access_token : null
@@ -20,7 +20,7 @@ const ProjectComponentLoader = (props) => {
 
   console.log('rendering project component loader with locale', i18n.language, loading)
   useEmbeddedMode(embedded);
-  useProject(identifier, i18n.language, accessToken);
+  useProject(identifier, locale, accessToken);
 
   useEffect(() => {
     if (loading === 'idle' && project.identifier) {
