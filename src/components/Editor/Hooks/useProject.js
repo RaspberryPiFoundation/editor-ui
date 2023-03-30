@@ -1,34 +1,62 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux'
-import { syncProject, setProject } from '../EditorSlice'
-import { defaultPythonProject } from '../../../utils/defaultProjects';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { syncProject, setProject } from "../EditorSlice";
+import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { useTranslation } from "react-i18next";
 
-export const useProject = (projectIdentifier = null, locale = null, accessToken = null) => {
+export const useProject = (projectIdentifier = null, accessToken = null) => {
+  const getCachedProject = (id) =>
+    JSON.parse(localStorage.getItem(id || "project"));
+  const [cachedProject, setCachedProject] = useState(
+    getCachedProject(projectIdentifier)
+  );
+  const { i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   const dispatch = useDispatch();
-  const { i18n } = useTranslation()
-  const currentLanguage = i18n.language
 
-  const cachedProject = JSON.parse(localStorage.getItem(projectIdentifier || 'project'))
   const loadCachedProject = () => {
-    dispatch(setProject(cachedProject))
-  }
+    dispatch(setProject(cachedProject));
+  };
 
   useEffect(() => {
-    const is_cached_saved_project = (projectIdentifier && cachedProject && cachedProject.identifier === projectIdentifier)
-    const is_cached_unsaved_project = (!projectIdentifier && cachedProject)
+    setCachedProject(getCachedProject(projectIdentifier));
+  }, [projectIdentifier]);
 
-    if (is_cached_saved_project || is_cached_unsaved_project) {
-      loadCachedProject()
-      return
-    }
+  useEffect(() => {
+    if (i18n.language === currentLanguage) {
+      const is_cached_saved_project =
+        projectIdentifier &&
+        cachedProject &&
+        cachedProject.identifier === projectIdentifier;
+      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-    if (projectIdentifier) {
-      dispatch(syncProject('load')({identifier: projectIdentifier, locale, accessToken}));
-      return;
+      if (is_cached_saved_project || is_cached_unsaved_project) {
+        loadCachedProject();
+        setCurrentLanguage(i18n.language);
+        return;
+      }
+
+      if (projectIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: projectIdentifier,
+            locale: i18n.language,
+            accessToken,
+          })
+        );
+        setCurrentLanguage(i18n.language);
+        return;
+      }
+      const data = defaultPythonProject;
+      dispatch(setProject(data));
+      setCurrentLanguage(i18n.language);
     }
-    const data = defaultPythonProject;
-    dispatch(setProject(data));
-  }, [projectIdentifier, cachedProject, locale, accessToken, currentLanguage]);
+  }, [
+    projectIdentifier,
+    cachedProject,
+    i18n.language,
+    accessToken,
+    currentLanguage,
+  ]);
 };
