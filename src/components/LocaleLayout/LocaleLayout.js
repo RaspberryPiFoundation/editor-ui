@@ -16,7 +16,6 @@ const LocaleLayout = () => {
     async function changeLanguage(locale) {
       await i18n.changeLanguage(locale, (err, t) => {
         if (err) return console.log('something went wrong loading', err);
-        t('key'); // -> same as i18next.t
       })
     }
 
@@ -24,6 +23,7 @@ const LocaleLayout = () => {
       return
     }
     else if (!isValidLocale) {
+      changeLanguage('en')
       const localeRegex = new RegExp(`^/${locale}`)
       navigate(location.pathname.replace(localeRegex, '/en'))
     }
