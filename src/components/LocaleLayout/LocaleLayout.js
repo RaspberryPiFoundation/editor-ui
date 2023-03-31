@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +9,7 @@ const LocaleLayout = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const isValidLocale = i18n.options.locales.includes(locale)
 
     if (!isValidLocale) {
