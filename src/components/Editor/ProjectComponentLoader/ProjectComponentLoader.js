@@ -17,11 +17,6 @@ const ProjectComponentLoader = (props) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
-  console.log(
-    "rendering project component loader with locale",
-    i18n.language,
-    loading
-  );
   useEmbeddedMode(embedded);
   useProject(identifier, accessToken);
 
