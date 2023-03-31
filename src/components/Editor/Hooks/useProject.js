@@ -12,7 +12,6 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
     getCachedProject(projectIdentifier)
   );
   const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
   const dispatch = useDispatch();
 
   const loadCachedProject = () => {
@@ -24,39 +23,28 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (i18n.language === currentLanguage) {
-      const is_cached_saved_project =
-        projectIdentifier &&
-        cachedProject &&
-        cachedProject.identifier === projectIdentifier;
-      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
+    const is_cached_saved_project =
+      projectIdentifier &&
+      cachedProject &&
+      cachedProject.identifier === projectIdentifier;
+    const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-      if (is_cached_saved_project || is_cached_unsaved_project) {
-        loadCachedProject();
-        setCurrentLanguage(i18n.language);
-        return;
-      }
-
-      if (projectIdentifier) {
-        dispatch(
-          syncProject("load")({
-            identifier: projectIdentifier,
-            locale: i18n.language,
-            accessToken,
-          })
-        );
-        setCurrentLanguage(i18n.language);
-        return;
-      }
-      const data = defaultPythonProject;
-      dispatch(setProject(data));
-      setCurrentLanguage(i18n.language);
+    if (is_cached_saved_project || is_cached_unsaved_project) {
+      loadCachedProject();
+      return;
     }
-  }, [
-    projectIdentifier,
-    cachedProject,
-    i18n.language,
-    accessToken,
-    currentLanguage,
-  ]);
+
+    if (projectIdentifier) {
+      dispatch(
+        syncProject("load")({
+          identifier: projectIdentifier,
+          locale: i18n.language,
+          accessToken,
+        })
+      );
+      return;
+    }
+    const data = defaultPythonProject;
+    dispatch(setProject(data));
+  }, [projectIdentifier, cachedProject, i18n.language, accessToken]);
 };
