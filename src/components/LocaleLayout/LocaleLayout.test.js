@@ -4,70 +4,84 @@ import LocaleLayout from "./LocaleLayout";
 import { useTranslation } from "react-i18next";
 import { MemoryRouter, useLocation, useParams } from "react-router-dom";
 
-const mockNavigate = jest.fn()
+const mockNavigate = jest.fn();
 
-jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router'),
+jest.mock("react-router", () => ({
+  ...jest.requireActual("react-router"),
   useParams: jest.fn(),
   useNavigate: () => mockNavigate,
-  useLocation: jest.fn()
-}))
+  useLocation: jest.fn(),
+}));
 
-jest.mock('react-i18next', () => ({
-  useTranslation: jest.fn()
-}))
+jest.mock("react-i18next", () => ({
+  useTranslation: jest.fn(),
+}));
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  jest.clearAllMocks();
   useTranslation.mockReturnValue({
     i18n: {
       changeLanguage: jest.fn(() => new Promise(() => {})),
       options: {
-        locales: ['en', 'es-LA']
-      }
-    }
-  })
-})
+        locales: ["en", "es-LA"],
+      },
+    },
+  });
+});
 
-describe('When locale is allowed', () => {
+describe("When locale is allowed", () => {
   beforeEach(() => {
-
     useParams.mockReturnValue({
-      locale: 'es-LA'
-    })
+      locale: "es-LA",
+    });
 
-    render(<MemoryRouter><LocaleLayout/></MemoryRouter>)
-  })
+    render(
+      <MemoryRouter>
+        <LocaleLayout />
+      </MemoryRouter>
+    );
+  });
 
-  test('Sets the language', () => {
-    expect(useTranslation().i18n.changeLanguage).toHaveBeenCalledWith('es-LA', expect.anything())
-  })
+  test("Does not redirect", () => {
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+});
 
-  test('Does not redirect', () => {
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
-})
-
-describe('When locale is not allowed', () => {
+describe("When locale is not allowed", () => {
   beforeEach(() => {
-    useParams.mockReturnValueOnce({
-      locale: 'anything'
-    }).mockReturnValue({
-      locale: 'en'
-    })
+    useParams
+      .mockReturnValueOnce({
+        locale: "anything",
+      })
+      .mockReturnValue({
+        locale: "en",
+      });
 
     useLocation.mockReturnValue({
-      pathname: '/anything/projects/my-amazing-project'
-    })
+      pathname: "/anything/projects/my-amazing-project",
+    });
 
-    render(<MemoryRouter><LocaleLayout/></MemoryRouter>)
-  })
+    useTranslation.mockReturnValue({
+      i18n: {
+        language: "default",
+        changeLanguage: jest.fn(() => new Promise(() => {})),
+        options: {
+          locales: ["en", "es-LA", "default"],
+          fallbackLng: "default",
+        },
+      },
+    });
 
-  test('Does not set the language to the requested locale', () => {
-    expect(useTranslation().i18n.changeLanguage).not.toHaveBeenCalledWith('anything', expect.anything())
-  })
+    render(
+      <MemoryRouter>
+        <LocaleLayout />
+      </MemoryRouter>
+    );
+  });
 
-  test("Redirects to English", () => {
-    expect(mockNavigate).toHaveBeenCalledWith('/en/projects/my-amazing-project')
-  })
-})
+  test("Redirects to default language", () => {
+    expect(mockNavigate).toHaveBeenCalledWith(
+      "/default/projects/my-amazing-project"
+    );
+  });
+});

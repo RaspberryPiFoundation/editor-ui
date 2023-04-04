@@ -1,32 +1,23 @@
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const LocaleLayout = () => {
+  const { locale } = useParams();
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const { locale } = useParams()
-  const { i18n } = useTranslation()
-  const location = useLocation()
-  const navigate = useNavigate()
-
-  useLayoutEffect(() => {
-    const isValidLocale = i18n.options.locales.includes(locale)
+  useEffect(() => {
+    const isValidLocale = i18n.options.locales.includes(locale);
 
     if (!isValidLocale) {
-      const localeRegex = new RegExp(`^/${locale}`)
-      navigate(location.pathname.replace(localeRegex, '/en'))
+      const localeRegex = new RegExp(`^/${locale}`);
+      navigate(location.pathname.replace(localeRegex, `/${i18n.language}`));
     }
-    else if (locale !== i18n.language) {
-      i18n.changeLanguage(locale, (err, t) => {
-        if (err) return console.log('something went wrong loading', err);
-        t('key'); // -> same as i18next.t
-      })
-    }
-  }, [locale, i18n, location, navigate])
-  
-  return (
-    <Outlet />
-  )
-}
+  }, [locale, i18n, location, navigate]);
 
-export default LocaleLayout
+  return <Outlet />;
+};
+
+export default LocaleLayout;
