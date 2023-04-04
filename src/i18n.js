@@ -169,8 +169,8 @@ i18n
           },
           globalNav: {
             accountMenu: {
-              login: "Login",
-              logout: "Logout",
+              login: "Log in",
+              logout: "Log out",
               profile: "My profile",
               projects: "My projects",
             },
