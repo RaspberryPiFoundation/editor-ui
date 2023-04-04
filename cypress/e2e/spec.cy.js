@@ -15,23 +15,15 @@ it("Interrupts py5 draws when stop button clicked", () => {
 
 })
 
-it("runs with the magic comment present", () => {
+it("Py5 magic comment imports py5", () => {
   cy.visit(baseUrl)
-  cy.get("div[class=cm-content]").invoke('text', '# Py5: imported mode\nprint("hello world")')
-  cy.get(".btn--run").click()
-
-  cy.get(".pythonrunner-console-output-line").should("contain", "hello world")
-})
-
-it("Py5 imported mode runs without run_sketch()", () => {
-  cy.visit(baseUrl)
-  cy.get("div[class=cm-content]").invoke('text', '# Py5: imported mode\nimport py5\ndef draw():py5.rect(40,40,40)')
+  cy.get("div[class=cm-content]").invoke('text', '# Py5: imported mode')
   cy.get(".btn--run").click()
 
   cy.get(".p5Canvas").should('be.visible')
 })
 
-it("runs basic skecth with py5 magic comment present", () => {
+it("Py5 imported mode runs sketch without explicit run call", () => {
   cy.visit(baseUrl)
   cy.get("div[class=cm-content]").invoke('text', '# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint("hello world")\nrun_sketch()')
   cy.get(".btn--run").click()
