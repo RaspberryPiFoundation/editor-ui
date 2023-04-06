@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update URL structure to include locale (#407)
 - Update Sentry configuration to allow distributed tracing (#411)
 - Only persist project to `localStorage` if changed rather than on load (#410)
+- Allow u13s accounts with additional parameters in userManager (#436)
 
 ### Fixed
 
