@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Editor Web component</title>
-  </head>
-  <body>
-    <p id="results"></p>
-  </body>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', (e) => {
-      const webComp = document.createElement('editor-wc')
-      const queryParams = new URLSearchParams(window.location.search)
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Editor Web component</title>
+</head>
 
-      // Pre-set the code attribute with an empty string.
-      webComp.setAttribute('code', '')
-      // Set any attribute you like in the query string, including class, style, hidden, script, etc.
-      queryParams.forEach((value, key) => { webComp.setAttribute(key, value) })
+<body>
+  <p id="results"></p>
+</body>
 
-      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
-      webComp.addEventListener('codeChanged', function(e) {
-        console.log('listener in index html');
-        const code = webComp.editorCode
-        console.log(code)
-      });
+<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
-      webComp.addEventListener('runCompleted', (e) => {
-        // const error = webComp.isErrorFree
-        console.log(e.detail)
-        document.getElementById("results").innerText = JSON.stringify(e.detail)
-      })
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@v0.151.3/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@v0.151.3/examples/jsm/"
+    }
+  }
+</script>
 
-      document.getElementsByTagName('body')[0].prepend(webComp)
+<script>
+  document.addEventListener('DOMContentLoaded', (e) => {
+    const webComp = document.createElement('editor-wc')
+    const queryParams = new URLSearchParams(window.location.search)
+
+    // Pre-set the code attribute with an empty string.
+    webComp.setAttribute('code', '')
+    // Set any attribute you like in the query string, including class, style, hidden, script, etc.
+    queryParams.forEach((value, key) => {
+      webComp.setAttribute(key, value)
+    })
+
+    // subscribe to the 'codeChanged' custom event which is pushed by the project react component
+    webComp.addEventListener('codeChanged', function (e) {
+      console.log('listener in index html');
+      const code = webComp.editorCode
+      console.log(code)
     });
-  </script>
+
+    webComp.addEventListener('runCompleted', (e) => {
+      // const error = webComp.isErrorFree
+      console.log(e.detail)
+      document.getElementById("results").innerText = JSON.stringify(e.detail)
+    })
+
+    document.getElementsByTagName('body')[0].prepend(webComp)
+  });
+</script>
+
 </html>
