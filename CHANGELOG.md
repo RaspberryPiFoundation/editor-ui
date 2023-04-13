@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.15.0] - 2023-04-13
+
+### Added
+
+- Container queries (#4455)
+
+
+## [0.14.0] - 2023-03-28
+
 ### Added
 
 - Load project based on locale (#410, #425)
 - Ability to recognise py5 magic comment (#412)
-- Allow py5 imported mode not to need run_sketch (#417)
+- Allow py5 imported mode not to need `run_sketch` (#417)
 - Python blob and skulpt module for py5 imported mode (#414)
 - Cypress tests for `py5` imported mode (#412, #414, #417, #426)
 
@@ -20,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update URL structure to include locale (#407)
 - Update Sentry configuration to allow distributed tracing (#411)
 - Only persist project to `localStorage` if changed rather than on load (#410)
+- Allow u13s accounts with additional parameters in userManager (#436)
 
 ### Fixed
 
@@ -37,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 - Pagination on 'Your projects' page (#338)
+
 
 ### Changed
 
@@ -304,7 +315,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.13.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
 [0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0
 [0.11.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.11.0
