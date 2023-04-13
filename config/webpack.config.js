@@ -26,6 +26,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -557,12 +558,19 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      // Copies the logo over to the output folder so that it can be referenced
+      // in the Web App Manifest at public/manifest.json.
+      new CopyPlugin({
+        patterns: [
+          { from: path.join(paths.appSrc, 'assets', 'editor_logo.svg') },
+        ],
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
           {},
           {
-            favicon: './src/assets/editor_logo.svg',
+            favicon: path.join(paths.appSrc, 'assets', 'editor_logo.svg'),
             inject: true,
             template: paths.appHtml,
             hash: true

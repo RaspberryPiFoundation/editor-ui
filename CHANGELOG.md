@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix language loading - i18n initialisation setup (#430)
 - Fix keyboard navigation (#375)
 - Reverted footer links back to underlined (#398)
+- Fix Web App Manifest logos, colors, and titles (#446)
 
 ### Removed
 
