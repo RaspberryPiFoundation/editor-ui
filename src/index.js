@@ -39,6 +39,12 @@ const client = new ApolloClient({
   cache: apolloCache
 });
 
+const supportsContainerQueries = 'container' in document.documentElement.style
+if (!supportsContainerQueries) {
+  // eslint-disable-next-line no-unused-expressions
+  import('container-query-polyfill')
+}
+
 const div = document.getElementById('root')
 const root = createRoot(div)
 root.render(
