@@ -85,6 +85,7 @@ export const EditorSlice = createSlice({
     renameFileModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
+    chatGPTModalShowing: false,
     modals: {},
   },
   reducers: {
@@ -243,6 +244,12 @@ export const EditorSlice = createSlice({
       state.modals.deleteProject = null
       state.deleteProjectModalShowing = false
     },
+    showChatGPTModal: (state, action) => {
+      state.chatGPTModalShowing = true
+    },
+    closeChatGPTModal: (state) => {
+      state.chatGPTModalShowing = false
+    },
     setProjectIndexPage: (state, action) => {
       state.projectIndexCurrentPage = action.payload
       state.projectListLoaded = 'idle'
@@ -381,6 +388,8 @@ export const {
   closeRenameProjectModal,
   showDeleteProjectModal,
   closeDeleteProjectModal,
+  closeChatGPTModal,
+  showChatGPTModal,
   setProjectIndexPage,
 } = EditorSlice.actions
 

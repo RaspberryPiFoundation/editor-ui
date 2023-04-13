@@ -331,6 +331,12 @@ i18n
             expand: "Expand file pane",
             file: "Project files",
           },
+          chatGptModal: {
+            error: "Shiver me timbers! It seems that something has gone awry, me hearty. ",
+            loading: "Ahoy matey! Ye be wonderin' about that pesky error, arrr! Fear not, I be on the hunt fer an explanation fer ye. Jus' hoist the sails and bide yer time, and I'll be back with ye soon enough.",
+            heading: "Cap'n Chatbeard is here for you",
+          }
+
         },
       },
     },
