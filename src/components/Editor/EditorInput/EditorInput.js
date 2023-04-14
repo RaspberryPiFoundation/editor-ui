@@ -18,8 +18,8 @@ const EditorInput = () => {
     if(!result.destination) return
     const { source, destination } = result
     var openFilesData = [...openFiles]
-    console.log(source)
-    console.log(destination)
+    // console.log(source)
+    // console.log(destination)
     var oldPane = [...openFilesData[source.droppableId]]
     const [removed] = oldPane.splice(source.index, 1)
     openFilesData[source.droppableId] = [...oldPane]
@@ -27,21 +27,21 @@ const EditorInput = () => {
     var newPane = [...openFilesData[destination.droppableId]]
     newPane.splice(destination.index, 0, removed)
     openFilesData[destination.droppableId] = [...newPane]
-    console.log(openFilesData)
+    // console.log(openFilesData)
     dispatch(setOpenFiles(openFilesData))
   }
-  
+
   return (
     <div className='proj-editor-container'>
-      <DragDropContext onDragEnd={result => onDragEnd(result)}>
+      <DragDropContext onDragStart={e => console.log(e)} onDragEnd={result => onDragEnd(result)}>
         {isMounted ?
           <div style={{display: 'flex'}}>
             {openFiles.map((panel, index) => (
               <Droppable droppableId={`${index}`} key={index} index={index}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef} style={{background: snapshot.isDraggingOver ? 'pink' : 'blue', width: '50%', minHeight: 500 }}>
-                      {panel.map((fileName, index) => (
-                        <Draggable key={`draggable${index}`} draggableId={`draggable${index}`} index={index}>
+                      {panel.map((fileName, item_index) => (
+                        <Draggable key={item_index} draggableId={`draggable${index}_${item_index}`} index={item_index}>
                           {(provided, snapshot) => (
                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{userSelect: 'none', minHeight: '50px', backgroundColor: snapshot.isDragging ? 'crimson' : 'red', ...provided.draggableProps.style}}>
                               <span>{fileName}</span>
@@ -56,7 +56,6 @@ const EditorInput = () => {
             ))}
           </div> : null
         }
-        
       </DragDropContext>
     </div>
   )
