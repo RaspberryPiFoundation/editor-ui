@@ -47,6 +47,7 @@
     "prompts": "2.4.0",
     "react": "^18.1.0",
     "react-app-polyfill": "^2.0.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-confirm-alert": "^2.8.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.1.0",

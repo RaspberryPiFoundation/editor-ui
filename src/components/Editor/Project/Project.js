@@ -19,6 +19,7 @@ import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
+import EditorInput from '../EditorInput/EditorInput';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -55,7 +56,7 @@ const Project = (props) => {
   }, [project])
 
   useEffect(() => {
-    const fileName = openFiles[focussedFileIndex]
+    const fileName = openFiles[0][focussedFileIndex]
     const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
     const fileRef = tabRefs.current[componentIndex]
     if (fileRef && fileRef.current) {
@@ -68,11 +69,11 @@ const Project = (props) => {
   }
 
   const openFileTab = (fileName) => {
-    if (openFiles.includes(fileName)) {
-      switchToFileTab(openFiles.indexOf(fileName), fileName)
+    if (openFiles[0].includes(fileName)) {
+      switchToFileTab(openFiles[0].indexOf(fileName), fileName)
     } else {
       dispatch(openFile(fileName))
-      switchToFileTab(openFiles.length)
+      switchToFileTab(openFiles[0].length)
     }
   }
 
@@ -118,8 +119,8 @@ const Project = (props) => {
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <div className='proj-editor-container'>
-          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
+        {/* <div className='proj-editor-container'> */}
+          {/* <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <div className='react-tabs__tab-container'>
               <TabList>
                 {openFiles.map((fileName, i) => (
@@ -143,8 +144,9 @@ const Project = (props) => {
               </TabPanel>
             ))}
             <RunnerControls />
-          </Tabs>
-        </div>
+          </Tabs> */}
+        {/* </div> */}
+        <EditorInput />
         <Output />
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}

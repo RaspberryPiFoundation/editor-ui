@@ -61,7 +61,7 @@ export const EditorSlice = createSlice({
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
-    openFiles: [],
+    openFiles: [[], [], []],
     focussedFileIndex: 0,
     nameError: "",
     codeRunTriggered: false,
@@ -89,17 +89,20 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     closeFile: (state, action) => {
-      const closedFileIndex = state.openFiles.indexOf(action.payload)
-      state.openFiles = state.openFiles.filter(fileName => fileName !== action.payload)
-      if (state.focussedFileIndex >= state.openFiles.length || closedFileIndex < state.focussedFileIndex) {
+      const closedFileIndex = state.openFiles[0].indexOf(action.payload)
+      state.openFiles[0] = state.openFiles[0].filter(fileName => fileName !== action.payload)
+      if (state.focussedFileIndex >= state.openFiles[0].length || closedFileIndex < state.focussedFileIndex) {
         state.focussedFileIndex--
       }
     },
     openFile: (state, action) => {
-      if (!state.openFiles.includes(action.payload)) {
-        state.openFiles.push(action.payload)
+      if (!state.openFiles[0].includes(action.payload)) {
+        state.openFiles[0].push(action.payload)
       }
-      state.focussedFileIndex = state.openFiles.indexOf(action.payload)
+      state.focussedFileIndex = state.openFiles[0].indexOf(action.payload)
+    },
+    setOpenFiles: (state, action) => {
+      state.openFiles = action.payload
     },
     setFocussedFileIndex: (state, action) => {
       state.focussedFileIndex = action.payload
@@ -130,11 +133,11 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.loading='success'
-      if (state.openFiles.length === 0) {
+      if (state.openFiles[0].length === 0) {
         if (state.project.project_type === 'html') {
-          state.openFiles.push('index.html')
+          state.openFiles[0].push('index.html')
         } else {
-          state.openFiles.push('main.py')
+          state.openFiles[0].push('main.py')
         }
       }
       state.justLoaded = true
@@ -176,8 +179,8 @@ export const EditorSlice = createSlice({
       const oldName = `${state.project.components[key].name}.${state.project.components[key].extension}`
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
-      if (state.openFiles.includes(oldName)) {
-        state.openFiles[state.openFiles.indexOf(oldName)] = `${name}.${extension}`
+      if (state.openFiles[0].includes(oldName)) {
+        state.openFiles[0][state.openFiles[0].indexOf(oldName)] = `${name}.${extension}`
       }
       state.saving = 'idle'
     },
@@ -290,11 +293,11 @@ export const EditorSlice = createSlice({
         state.justLoaded  = true
         state.saving = 'idle'
         state.currentLoadingRequestId = undefined
-        if (state.openFiles.length === 0) {
+        if (state.openFiles[0].length === 0) {
           if (state.project.project_type === 'html') {
-            state.openFiles.push('index.html')
+            state.openFiles[0].push('index.html')
           } else {
-            state.openFiles.push('main.py')
+            state.openFiles[0].push('main.py')
           }
         }
       }
@@ -351,6 +354,7 @@ export const {
   expireJustLoaded,
   closeFile,
   openFile,
+  setOpenFiles,
   setFocussedFileIndex,
   setEmbedded,
   setError,
