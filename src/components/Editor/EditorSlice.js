@@ -61,7 +61,7 @@ export const EditorSlice = createSlice({
     loadError: "",
     saveError: "",
     currentLoadingRequestId: undefined,
-    openFiles: [[], [], []],
+    openFiles: [[]],
     focussedFileIndex: 0,
     nameError: "",
     codeRunTriggered: false,
@@ -103,6 +103,9 @@ export const EditorSlice = createSlice({
     },
     setOpenFiles: (state, action) => {
       state.openFiles = action.payload
+    },
+    addFilePanel: (state) => {
+      state.openFiles.push([])
     },
     setFocussedFileIndex: (state, action) => {
       state.focussedFileIndex = action.payload
@@ -355,6 +358,7 @@ export const {
   closeFile,
   openFile,
   setOpenFiles,
+  addFilePanel,
   setFocussedFileIndex,
   setEmbedded,
   setError,
