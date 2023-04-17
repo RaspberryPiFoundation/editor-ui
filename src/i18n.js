@@ -312,8 +312,6 @@ i18n
             },
             rename: "Rename",
             renameLabel: "Rename project",
-            duplicate: "Duplicate",
-            duplicateLabel: "Duplicate project",
             renameProjectModal: {
               cancel: "Do not save",
               heading: "Rename project",

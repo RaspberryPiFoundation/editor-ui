@@ -2,7 +2,6 @@
 import "./HtmlRunner.scss";
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -38,13 +37,6 @@ function HtmlRunner() {
 
   return (
     <div className="htmlrunner-container">
-      <div className="react-tabs__tab-container">
-        <TabList>
-          <Tab><span>Website preview</span></Tab>
-          <Tab><span>Preview size</span></Tab>
-          <Tab><span>Open in a new tab</span></Tab>
-        </TabList>
-      </div>
       <iframe
         className="htmlrunner-iframe"
         id="output-frame"
