@@ -36,7 +36,6 @@ $small-table-grid: 600px;
   }
 
   &__heading {
-    font-size: var(--font-size-base);
     margin-top: var(--spacing-half);
   }
 
@@ -47,7 +46,6 @@ $small-table-grid: 600px;
       grid-column: span 6;
     }
   }
-
   &__heading:last-of-type {
     grid-column: span 4;
 
