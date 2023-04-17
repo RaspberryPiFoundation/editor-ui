@@ -45,24 +45,24 @@ const Project = (props) => {
     }
   }, [saving, autosave])
 
-  const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
-  let tabRefs = useRef(project.components.map(createRef))
+  // const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
+  // let tabRefs = useRef(project.components.map(createRef))
 
-  useEffect(() => {
-    setNumberOfComponents(project.components.length)
-    Array(project.components.length).fill().forEach((_, i) => {
-      tabRefs.current[i] = tabRefs.current[i] || React.createRef();
-    })
-  }, [project])
+  // useEffect(() => {
+  //   setNumberOfComponents(project.components.length)
+  //   Array(project.components.length).fill().forEach((_, i) => {
+  //     tabRefs.current[i] = tabRefs.current[i] || React.createRef();
+  //   })
+  // }, [project])
 
-  useEffect(() => {
-    const fileName = openFiles[0][focussedFileIndex]
-    const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
-    const fileRef = tabRefs.current[componentIndex]
-    if (fileRef && fileRef.current) {
-      fileRef.current.parentElement.scrollIntoView()
-    }
-  }, [focussedFileIndex, openFiles, numberOfComponents])
+  // useEffect(() => {
+  //   const fileName = openFiles[0][focussedFileIndex]
+  //   const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
+  //   const fileRef = tabRefs.current[componentIndex]
+  //   if (fileRef && fileRef.current) {
+  //     fileRef.current.parentElement.scrollIntoView()
+  //   }
+  // }, [focussedFileIndex, openFiles, numberOfComponents])
 
   const switchToFileTab = (index) => {
     dispatch(setFocussedFileIndex(index))
@@ -77,10 +77,10 @@ const Project = (props) => {
     }
   }
 
-  const closeFileTab = (e, fileName) => {
-    e.stopPropagation()
-    dispatch(closeFile(fileName))
-  }
+  // const closeFileTab = (e, fileName) => {
+  //   e.stopPropagation()
+  //   dispatch(closeFile(fileName))
+  // }
 
   useEffect(() => {
     if (forWebComponent) {

@@ -34,11 +34,7 @@ const EditorInput = () => {
     newPane.splice(destination.index, 0, removed)
     openFilesData[destination.droppableId] = [...newPane]
     dispatch(setOpenFiles(openFilesData))
-  }
-
-  const switchToFileTab = (index) => {
-    console.log('setting focussed file index...')
-    dispatch(setFocussedFileIndex(index))
+    dispatch(setFocussedFileIndex(destination.index))
   }
 
   const closeFileTab = (e, fileName) => {
@@ -72,22 +68,22 @@ const EditorInput = () => {
       <div className='proj-editor-container'>
         <DragDropContext onDragEnd={result => onDragEnd(result)}>
           {isMounted ?
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              {openFiles.map((panel, index) => (
-                <Tabs key={index} selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
+            <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+              {openFiles.map((panel, panelIndex) => (
+                <Tabs key={panelIndex} selectedIndex={focussedFileIndex} onSelect={() => {}}>
                   <div className='react-tabs__tab-container'>
-                    <DroppableTabList index={index}>
-                      {panel.map((fileName, item_index) => (
-                        <DraggableTab key={item_index} item_index={item_index} index={index}>
+                    <DroppableTabList index={panelIndex}>
+                      {panel.map((fileName, fileIndex) => (
+                        <DraggableTab key={fileIndex} fileIndex={fileIndex} panelIndex={panelIndex} >
                           <span
                             className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
                             ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}
-                            >
-                              {fileName}
-                              {fileName !== 'main.py' ?
-                                <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                              : null
-                              }
+                          >
+                            {fileName}
+                            {fileName !== 'main.py' ?
+                              <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                            : null
+                            }
                           </span>  
                         </DraggableTab>
                       ))}
