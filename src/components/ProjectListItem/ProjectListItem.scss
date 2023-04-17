@@ -71,6 +71,11 @@ $small-table-grid: 600px;
     }
   }
 
+  &__type {
+    color: $rpf-text-secondary;
+    font-size: var(--font-size-d-1);
+  }
+
   &__heading {
     color: $rpf-text-secondary;
     font-size: var(--font-size-d-1);
@@ -79,7 +84,7 @@ $small-table-grid: 600px;
   &__actions {
     display: grid;
     grid-column: span 2;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     min-width: 44px;
 
     span {
