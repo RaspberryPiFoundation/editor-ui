@@ -81,7 +81,7 @@ const EditorInput = () => {
                               <Draggable key={item_index} draggableId={`draggable${index}_${item_index}`} index={item_index}>
                                 {(provided, snapshot) => (
                                   <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{userSelect: 'none', ...provided.draggableProps.style}}>
-                                    <Tab key={item_index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{userSelect: 'none', ...provided.draggableProps.style}}>
+                                    <Tab key={item_index}>
                                       <span
                                         className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
                                         ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}
