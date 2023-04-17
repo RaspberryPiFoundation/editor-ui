@@ -320,7 +320,7 @@ i18n
               inputLabel: "Change the name of your project",
               save: "Save",
             },
-            updated: "Last updated",
+            updated: "Edited",
           },
           runButton: {
             run: "Run",

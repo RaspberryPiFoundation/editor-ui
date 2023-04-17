@@ -58,6 +58,7 @@ $small-table-grid: 600px;
 
   &__updated {
     border: 3px solid transparent;
+    color: $rpf-text-secondary;
     grid-column: span 2;
     font-size: var(--font-size-d-1);
 
@@ -68,6 +69,11 @@ $small-table-grid: 600px;
     @include unique-max-width($small-table-grid) {
       grid-column: span 8;
     }
+  }
+
+  &__heading {
+    color: $rpf-text-secondary;
+    font-size: var(--font-size-d-1);
   }
 
   &__actions {
@@ -107,6 +113,11 @@ $small-table-grid: 600px;
       grid-column: span 1;
     }
   }
+
+  // &__title {
+  //   display: flex;
+  //   flex-direction: column;
+  // }
 
   &__title,
   &__actions {
