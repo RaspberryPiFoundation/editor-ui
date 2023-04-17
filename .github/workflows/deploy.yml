@@ -36,7 +36,7 @@ on:
         type: string
       react_app_google_tag_manager_id:
         required: false
-        default: ''
+        default: 'GTM-5FWFWFJ'
         type: string
       react_app_login_enabled:
         required: false
