@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.16.0] - 2023-04-17
+
+### Changed
+
+- Projects tab layout (#447)
+
 ## [0.15.0] - 2023-04-13
 
 ### Added
 
-- Container queries (#4455)
+- Container queries (#445)
 
 
 ## [0.14.0] - 2023-03-28
