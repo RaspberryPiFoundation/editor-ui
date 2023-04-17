@@ -106,6 +106,7 @@ $spacing-four: calc($spacing-eight / 2);
       overflow-x: auto;
       overflow-y: hidden;
       margin: 0;
+      width: 100%;
     }
   
     &__tab-panel--selected {
