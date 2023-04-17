@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { showDeleteProjectModal, showRenameProjectModal } from '../Editor/EditorSlice';
 import Button from '../Button/Button';
 import editor_logo from '../../assets/editor_logo.svg'
+import python_logo from '../../assets/python_icon.svg'
 import './ProjectListItem.scss'
 import { BinIcon, PencilIcon } from '../../Icons';
 import ProjectActionsMenu from '../Menus/ProjectActionsMenu/ProjectActionsMenu';
@@ -38,13 +39,16 @@ export const ProjectListItem = (props) => {
     <div className='editor-project-list__item'>
       <div className='editor-project-list__info'>
         <Link className='editor-project-list__title' to={`/${locale}/projects/${project.identifier}`}>
-          <img className='editor-project-list__type' src={editor_logo} alt={t('header.editorLogoAltText')}/>
+          {/* check for the project type to display proper icon */}
+          <img className='editor-project-list__type' src={python_logo} alt={t('header.editorLogoAltText')}/>
           <div className='editor-project-list__name'>{project.name}</div>
+          <span className='editor-project-list__updated'>{lastSaved}</span>
+          {/* <span className='editor-project-list__heading'>{t('projectList.updated')}</span> */}
         </Link>
-        <div className='editor-project-list__updated'>{lastSaved}</div>
       </div>
       <div className='editor-project-list__actions'>
         <Button className='btn--tertiary editor-project-list__rename' buttonText={t('projectList.rename')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} label={t('projectList.renameLabel')} title={t('projectList.renameLabel')} />
+        <Button className='btn--tertiary editor-project-list__delete' buttonText={t('projectList.duplicate')} ButtonIcon={PencilIcon} onClickHandler={openRenameProjectModal} label={t('projectList.duplicateLabel')} title={t('projectList.duplicateLabel')} />
         <Button className='btn--tertiary editor-project-list__delete' buttonText={t('projectList.delete')} ButtonIcon={BinIcon} onClickHandler={openDeleteProjectModal} label={t('projectList.deleteLabel')} title={t('projectList.deleteLabel')}/>
       </div>
       <ProjectActionsMenu project = {project} />

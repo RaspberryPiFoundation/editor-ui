@@ -73,7 +73,7 @@ $small-table-grid: 600px;
   &__actions {
     display: grid;
     grid-column: span 2;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     min-width: 44px;
 
     span {

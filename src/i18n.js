@@ -304,7 +304,6 @@ i18n
             label: "Open project menu",
             loading: "Loading",
             loadingFailed: "Failed to load projects",
-            name: "Project name",
             pagination: {
               first: "First page",
               last: "Last page",
@@ -313,6 +312,8 @@ i18n
             },
             rename: "Rename",
             renameLabel: "Rename project",
+            duplicate: "Duplicate",
+            duplicateLabel: "Duplicate project",
             renameProjectModal: {
               cancel: "Do not save",
               heading: "Rename project",

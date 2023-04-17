@@ -53,7 +53,8 @@
   
   .proj-runner-container {
     display: flex;
-    flex: 5;
+    flex-flow: column;
+    flex: 5 1;
     overflow-y: hidden;
 
     .react-tabs__tab-panel--selected {
