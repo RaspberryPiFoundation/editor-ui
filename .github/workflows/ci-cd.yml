@@ -114,6 +114,7 @@ jobs:
       environment: staging
       react_app_base_url: ''
       react_app_sentry_env: staging
+      react_app_google_tag_manager_id: GTM-5FWFWFJ
     secrets: inherit
 
   deploy-branch:
@@ -121,4 +122,5 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: previews/${{ github.ref_name }}
+      react_app_google_tag_manager_id: GTM-5FWFWFJ
     secrets: inherit
