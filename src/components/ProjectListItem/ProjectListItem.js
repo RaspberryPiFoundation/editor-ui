@@ -6,10 +6,9 @@ import {
   showRenameProjectModal,
 } from "../Editor/EditorSlice";
 import Button from "../Button/Button";
-import editor_logo from "../../assets/editor_logo.svg";
 import python_logo from "../../assets/python_icon.svg";
 import "./ProjectListItem.scss";
-import { BinIcon, PencilIcon, DuplicateIcon } from "../../Icons";
+import { BinIcon, PencilIcon } from "../../Icons";
 import ProjectActionsMenu from "../Menus/ProjectActionsMenu/ProjectActionsMenu";
 import { Link } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -72,14 +71,6 @@ export const ProjectListItem = (props) => {
           onClickHandler={openRenameProjectModal}
           label={t("projectList.renameLabel")}
           title={t("projectList.renameLabel")}
-        />
-        <Button
-          className="btn--tertiary editor-project-list__delete"
-          buttonText={t("projectList.duplicate")}
-          ButtonIcon={DuplicateIcon}
-          onClickHandler={openRenameProjectModal}
-          label={t("projectList.duplicateLabel")}
-          title={t("projectList.duplicateLabel")}
         />
         <Button
           className="btn--tertiary editor-project-list__delete"
