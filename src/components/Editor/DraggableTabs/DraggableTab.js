@@ -7,8 +7,8 @@ import { setFocussedFileIndex } from "../EditorSlice";
 const DraggableTab = ({children, panelIndex, fileIndex, ...otherProps}) => {
   const dispatch = useDispatch()
 
-  const switchToFileTab = (index) => {
-    dispatch(setFocussedFileIndex(index))
+  const switchToFileTab = (panelIndex, fileIndex) => {
+    dispatch(setFocussedFileIndex({panelIndex, fileIndex}))
   }
   
   return (
@@ -17,7 +17,7 @@ const DraggableTab = ({children, panelIndex, fileIndex, ...otherProps}) => {
         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{userSelect: 'none', ...provided.draggableProps.style}}>
           <Tab onClick = {(e) => {
             e.stopPropagation()
-            switchToFileTab(fileIndex)
+            switchToFileTab(panelIndex, fileIndex)
           }} {...otherProps} >
             {children}
           </Tab>

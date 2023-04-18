@@ -45,6 +45,7 @@
     flex: 5;
     overflow-y: hidden;
     box-sizing: border-box;
+    position: relative;
 
     .react-tabs__tab-panel--selected {
     overflow-y: hidden;

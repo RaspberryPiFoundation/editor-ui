@@ -34,8 +34,6 @@ const Project = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded)
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
-  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
 
@@ -45,42 +43,22 @@ const Project = (props) => {
     }
   }, [saving, autosave])
 
-  // const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
-  // let tabRefs = useRef(project.components.map(createRef))
-
-  // useEffect(() => {
-  //   setNumberOfComponents(project.components.length)
-  //   Array(project.components.length).fill().forEach((_, i) => {
-  //     tabRefs.current[i] = tabRefs.current[i] || React.createRef();
-  //   })
-  // }, [project])
-
-  // useEffect(() => {
-  //   const fileName = openFiles[0][focussedFileIndex]
-  //   const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
-  //   const fileRef = tabRefs.current[componentIndex]
-  //   if (fileRef && fileRef.current) {
-  //     fileRef.current.parentElement.scrollIntoView()
-  //   }
-  // }, [focussedFileIndex, openFiles, numberOfComponents])
-
-  const switchToFileTab = (index) => {
-    dispatch(setFocussedFileIndex(index))
+  const switchToFileTab = (panelIndex, fileIndex) => {
+    dispatch(setFocussedFileIndex({panelIndex, fileIndex}))
   }
 
   const openFileTab = (fileName) => {
-    if (openFiles[0].includes(fileName)) {
-      switchToFileTab(openFiles[0].indexOf(fileName), fileName)
+    if (openFiles.flat().includes(fileName)) {
+      const panelIndex = openFiles.map((fileNames) => (
+        fileNames.includes(fileName)
+      )).indexOf(true)
+      const fileIndex = openFiles[panelIndex].indexOf(fileName)
+      switchToFileTab(panelIndex, fileIndex)
     } else {
       dispatch(openFile(fileName))
-      switchToFileTab(openFiles[0].length)
+      switchToFileTab(0, openFiles[0].length)
     }
   }
-
-  // const closeFileTab = (e, fileName) => {
-  //   e.stopPropagation()
-  //   dispatch(closeFile(fileName))
-  // }
 
   useEffect(() => {
     if (forWebComponent) {
@@ -119,33 +97,6 @@ const Project = (props) => {
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        {/* <div className='proj-editor-container'> */}
-          {/* <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
-            <div className='react-tabs__tab-container'>
-              <TabList>
-                {openFiles.map((fileName, i) => (
-                  <Tab key={i}>
-                    <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                      ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
-                        {fileName}
-                        {fileName !== 'main.py' ?
-                          <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                        : null
-                        }
-                    </span>
-                  </Tab>
-                ))}
-              </TabList>
-            </div>
-            {openFiles.map((fileName, i) => (
-              <TabPanel key={i}>
-                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
-              </TabPanel>
-            ))}
-            <RunnerControls />
-          </Tabs> */}
-        {/* </div> */}
         <EditorInput />
         <Output />
       </div>

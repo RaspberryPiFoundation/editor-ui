@@ -6,6 +6,7 @@ import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentB
 import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
+import NewInputPanelButton from "../../../Editor/NewInputPanelButton/NewInputPanelButton";
 
 const FilesList = (props) => {
   const project = useSelector((state) => state.editor.project)
@@ -36,6 +37,7 @@ const FilesList = (props) => {
           }
         </div>
       ))}
+      <NewInputPanelButton/>
       </div>
     </details>
   )
