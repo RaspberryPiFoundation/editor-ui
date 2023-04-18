@@ -1,9 +1,8 @@
 import React, { createRef, useEffect, useRef, useState } from 'react'
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd'
+import {DragDropContext} from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeFile, setFocussedFileIndex, setOpenFiles } from '../EditorSlice'
-import NewInputPanelButton from '../NewInputPanelButton/NewInputPanelButton'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { TabPanel, Tabs } from 'react-tabs'
 import Button from '../../Button/Button'
 import { CloseIcon } from '../../../Icons'
 import EditorPanel from '../EditorPanel/EditorPanel'
@@ -19,7 +18,7 @@ const EditorInput = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     setIsMounted(true)
-  })
+  }, [])
 
   const onDragEnd = (result) => {
     if(!result.destination) return
@@ -62,7 +61,7 @@ const EditorInput = () => {
         fileRef.current.parentElement.scrollIntoView()
       }
     })
-  }, [focussedFileIndices, openFiles, numberOfComponents])
+  }, [focussedFileIndices, openFiles, numberOfComponents, project])
 
   return (
     <div className='proj-editor-container'>

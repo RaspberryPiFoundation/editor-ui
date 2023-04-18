@@ -1,24 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, {  useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 import './Project.scss';
-import EditorPanel from '../EditorPanel/EditorPanel'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls'
-import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
+import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
-import { CloseIcon } from '../../../Icons';
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
-import Button from '../../Button/Button';
 import EditorInput from '../EditorInput/EditorInput';
 
 const Project = (props) => {
