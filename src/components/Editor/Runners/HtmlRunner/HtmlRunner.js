@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './HtmlRunner.css';
+import './HtmlRunner.scss';
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux'
 
