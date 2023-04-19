@@ -57,11 +57,14 @@ export const RenameProjectModal = () => {
             <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
 
-          <label htmlFor='name'>{t('projectList.renameProjectModal.inputLabel')}</label>
-          <input type='text' name='name' id='name' defaultValue={project.name}></input>
-          <div className='modal-content__buttons' >
-            <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
+          <div className='modal-content__body'>
+            <label htmlFor='name'>{t('projectList.renameProjectModal.inputLabel')}</label>
+            <input type='text' name='name' id='name' defaultValue={project.name}></input>
+          </div>
+          
+          <div className='modal-content__buttons'>
             <Button className='btn--primary' buttonText={t('projectList.renameProjectModal.save')} onClickHandler={renameProject} />
+            <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
           </div>
       </Modal>
     </>

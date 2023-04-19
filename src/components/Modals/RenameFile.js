@@ -47,12 +47,15 @@ const RenameFile = () => {
             <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
 
-          <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
-          <NameErrorMessage />
-          <input type='text' name='name' id='name' defaultValue={`${currentName}.${currentExtension}`}></input>
+          <div className='modal-content__body'>
+            <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
+            <NameErrorMessage />
+            <input type='text' name='name' id='name' defaultValue={`${currentName}.${currentExtension}`}></input>
+          </div>
+
           <div className='modal-content__buttons' >
-            <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
             <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
+            <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
           </div>
       </Modal>
     </>

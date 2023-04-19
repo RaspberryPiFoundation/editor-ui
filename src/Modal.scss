@@ -14,10 +14,8 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2);
 
   label {
-    margin: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
   }
 
@@ -26,6 +24,7 @@
     border: 2px solid transparent;
     border-radius: 12px;
     padding: var(--spacing-1);
+    display: block;
   }
 
   &:focus-visible {
@@ -37,41 +36,44 @@
 .modal-content__header {
   display: flex;
   align-items: center;
-  margin-bottom: calc(1.5 * var(--spacing-1));
+  min-height: 44px;
+  padding: var(--spacing-1) var(--spacing-half) var(--spacing-1) calc(1.6 * var(--spacing-1));
 
   button {
     margin-left: auto;
     height: fit-content;
-    margin-right: var(--spacing-1);
   }
 }
 
 .modal-content__heading {
-  margin: var(--spacing-half) 0;
-  font-size: var(--font-size-u-2)
+  margin: 0;
+  font-size: var(--font-size-u-2);
+}
+
+.modal-content__body {
+  margin: calc(2.4 * var(--spacing-1));
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-1);
 }
 
 .modal-content__subheading {
-  margin: var(--spacing-1) 0 0 0;
+  margin: 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
 
 .modal-content__text {
+  margin: 0;
   line-height: var(--line-height-regular);
-  margin: var(--spacing-1) 0
 }
 
 .modal-content__buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--spacing-2);
-  margin-left: calc(-1 * var(--spacing-half));
-  margin-right: calc(-1 * var(--spacing-half));
+  padding: calc(1.6*var(--spacing-1));
 
   button, a {
-    flex: 1;
-    margin: 0 var(--spacing-half);
+    float: right;
+    margin: 0 0 0 var(--spacing-1);
 
     span {
       width: 100%;
@@ -111,6 +113,12 @@
   }
   .modal-content {
     background-color: $rpf-darkmode-grey22;
+  }
+  .modal-content__header {
+    border-bottom: 1px solid $rpf-darkmode-grey42;
+  }
+  .modal-content__buttons {
+    border-top: 1px solid $rpf-darkmode-grey42;
   }
 }
 
