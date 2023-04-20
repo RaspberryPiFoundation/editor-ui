@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- CookieBot consent request in iframes (#437)
+
 ## [0.15.0] - 2023-04-13
 
 ### Added
@@ -47,7 +51,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 - Pagination on 'Your projects' page (#338)
-
 
 ### Changed
 
