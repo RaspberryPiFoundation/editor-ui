@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import RenameFile from "./RenameFile";
 import { setNameError, updateComponentName, closeRenameFileModal } from "../Editor/EditorSlice";
 
-describe("Testing the new file modal", () => {
+describe("Testing the rename file modal", () => {
     let store;
     let inputBox;
     let saveButton;
