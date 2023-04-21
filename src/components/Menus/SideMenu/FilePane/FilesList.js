@@ -15,7 +15,6 @@ const FilesList = (props) => {
   return (
     <details className = "file-pane-section file-pane-section__files" open>
       <summary>
-        <FileIcon scaleFactor={1.25}/>
         <h2>{t('filePane.files')}</h2>
         <div className="accordion-icon">
           <ChevronDown />
@@ -26,7 +25,7 @@ const FilesList = (props) => {
       { project.components.map((file, i) => (
         <div className='files-list-item' key={i} onClick={() => openFileTab(`${file.name}.${file.extension}`)}>
           <div className='files-list-icon'>
-            <FileIcon />
+            <FileIcon ext={file.extension} />
           </div>
           <span className='files-list-item__name'>{file.name}.{file.extension}</span>
           {(file.name === 'main' && file.extension === 'py') ? null :

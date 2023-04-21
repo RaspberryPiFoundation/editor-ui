@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Projects tab layout (#447)
+### Fixed
+
+- CookieBot consent request in iframes (#437)
 
 ## [0.15.0] - 2023-04-13
 
@@ -18,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Container queries (#445)
 
+- Container queries (#4455)
+- File type icons (#449)
 
 ## [0.14.0] - 2023-03-28
 
@@ -53,7 +58,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 - Pagination on 'Your projects' page (#338)
-
 
 ### Changed
 
