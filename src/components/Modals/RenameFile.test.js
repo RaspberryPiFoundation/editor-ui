@@ -7,85 +7,96 @@ import RenameFile from "./RenameFile";
 import { setNameError, updateComponentName, closeRenameFileModal } from "../Editor/EditorSlice";
 
 describe("Testing the rename file modal", () => {
-    let store;
-    let inputBox;
-    let saveButton;
-    let getByText;
+  let store;
+  let inputBox;
+  let saveButton;
+  let getByText;
 
-    beforeEach(() => {
-        const middlewares = []
-        const mockStore = configureStore(middlewares)
-        const initialState = {
-            editor: {
-                project: {
-                    components: [
-                        {
-                            name: "main",
-                            extension: "py"
-                        },
-                        {
-                          name: "my_file",
-                          extension: "py"
-                        }
-                    ],
-                    project_type: "python"
-                },
-                nameError: "",
-                modals: {
-                    renameFile: {
-                        name: 'main',
-                        ext: 'py',
-                        fileKey: 0
-                    }
-                },
-                renameFileModalShowing: true
+  beforeEach(() => {
+    const middlewares = []
+    const mockStore = configureStore(middlewares)
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py"
+            },
+            {
+              name: "my_file",
+              extension: "py"
             }
-        }
-        store = mockStore(initialState);
-        ({getByText} = render(<Provider store={store}><div id='app'><RenameFile currentName='main' currentExtension='py' fileKey={0} /></div></Provider>))
-        inputBox = document.getElementById('name')
-        saveButton = getByText('filePane.renameFileModal.save');
-    })
+          ],
+          project_type: "python"
+        },
+        nameError: "",
+        modals: {
+          renameFile: {
+            name: 'main',
+            ext: 'py',
+            fileKey: 0
+          }
+        },
+        renameFileModalShowing: true
+      }
+    }
+    store = mockStore(initialState);
+    ({getByText} = render(<Provider store={store}><div id='app'><RenameFile currentName='main' currentExtension='py' fileKey={0} /></div></Provider>))
+    inputBox = document.getElementById('name')
+    saveButton = getByText('filePane.renameFileModal.save');
+  })
 
-    test('State being set displays the modal', () => {
-      expect(getByText('filePane.renameFileModal.heading')).not.toBeNull()
-    })
+  test('State being set displays the modal', () => {
+    expect(getByText('filePane.renameFileModal.heading')).not.toBeNull()
+  })
 
-    test('Input box initially contains original file name', () => {
-      expect(inputBox.value).toEqual('main.py')
-    })
+  test('Input box initially contains original file name', () => {
+    expect(inputBox.value).toEqual('main.py')
+  })
 
-    test("Pressing save renames the file to the given name", () => {
-        fireEvent.change(inputBox, {target: {value: "file1.py"}})
-        inputBox.innerHTML = "file1.py";
-        fireEvent.click(saveButton)
-        const expectedActions = [
-            updateComponentName({key: 0, extension: "py", name: "file1"}),
-            closeRenameFileModal()
-        ]
-        expect(store.getActions()).toEqual(expectedActions);
-    })
-
-    test("Duplicate file names throws error", () => {
-        fireEvent.change(inputBox, {target: {value: "my_file.py"}})
-        fireEvent.click(saveButton)
-        const expectedActions = [setNameError('filePane.errors.notUnique')]
-        expect(store.getActions()).toEqual(expectedActions);
-    })
-
-    test("Unchanged file name does not throw error", () => {
-      fireEvent.click(saveButton)
-      const expectedActions = [
-        updateComponentName({key: 0, extension: "py", name: "main"}),
-        closeRenameFileModal()
+  test("Pressing save renames the file to the given name", () => {
+    fireEvent.change(inputBox, {target: {value: "file1.py"}})
+    inputBox.innerHTML = "file1.py";
+    fireEvent.click(saveButton)
+    const expectedActions = [
+      updateComponentName({key: 0, extension: "py", name: "file1"}),
+      closeRenameFileModal()
     ]
-      expect(store.getActions()).toEqual(expectedActions);
-    })
+    expect(store.getActions()).toEqual(expectedActions);
+  })
 
-    test("Unsupported extension throws error", () => {
-        fireEvent.change(inputBox, {target: {value: "file1.js"}})
-        fireEvent.click(saveButton)
-        const expectedActions = [setNameError("filePane.errors.unsupportedExtension")]
-        expect(store.getActions()).toEqual(expectedActions);
-    })
+  test("Pressing Enter renames the file to the given name", () => {
+    fireEvent.change(inputBox, {target: {value: "file1.py"}})
+    inputBox.innerHTML = "file1.py";
+    fireEvent.keyDown(inputBox, { key: 'Enter'})
+    const expectedActions = [
+      updateComponentName({key: 0, extension: "py", name: "file1"}),
+      closeRenameFileModal()
+    ]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
+
+  test("Duplicate file names throws error", () => {
+    fireEvent.change(inputBox, {target: {value: "my_file.py"}})
+    fireEvent.click(saveButton)
+    const expectedActions = [setNameError('filePane.errors.notUnique')]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
+
+  test("Unchanged file name does not throw error", () => {
+    fireEvent.click(saveButton)
+    const expectedActions = [
+      updateComponentName({key: 0, extension: "py", name: "main"}),
+      closeRenameFileModal()
+  ]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
+
+  test("Unsupported extension throws error", () => {
+    fireEvent.change(inputBox, {target: {value: "file1.js"}})
+    fireEvent.click(saveButton)
+    const expectedActions = [setNameError("filePane.errors.unsupportedExtension")]
+    expect(store.getActions()).toEqual(expectedActions);
+  })
 })
