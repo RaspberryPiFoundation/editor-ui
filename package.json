@@ -72,10 +72,14 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build:dev": "node scripts/build.js && yarn run build-storybook",
+    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/design-system --loglevel warn",
     "lint": "eslint src/. --ext .js",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
+    "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
+    "watch-css": "sass --load-path=./ -q --watch src:src",
     "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
     "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
     "heroku-postbuild": "export PUBLIC_URL='' && yarn build && yarn build:wc"

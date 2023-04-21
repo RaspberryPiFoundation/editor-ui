@@ -2,21 +2,22 @@
 import React from "react";
 import { addDecorator } from "@storybook/react";
 import { withRootAttribute } from "storybook-addon-root-attribute";
-import { withRouter } from 'storybook-addon-react-router-v6';
+// TODO: Fix router implementation that works on projects site
+// import { withRouter } from "storybook-addon-react-router-v6";
 
-import i18n from "helpers/i18n" // importing the same i18n
+import i18n from "i18n"; // importing the same i18n
 
-import 'index.css';
+import "index.css";
 
 // https://storybook.js.org/addons/storybook-addon-react-router-v6
-addDecorator(withRouter)
-addDecorator(withRootAttribute)
+// addDecorator(withRouter);
+addDecorator(withRootAttribute);
 
 export const parameters = {
   i18n,
-  locale: 'en',
+  locale: "en",
   locales: {
-    en: {title: "English", left: '🇺🇸'},
+    en: { title: "English", left: "🇺🇸" },
   },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -30,8 +31,8 @@ export const parameters = {
     attribute: "data-sauce-theme",
     defaultState: {
       name: "Default",
-      value: "editor-ui"
+      value: "editor-ui",
     },
-    states: []
+    states: [],
   },
-}
+};
