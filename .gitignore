@@ -4,7 +4,7 @@
 .env.webcomponent
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -12,10 +12,10 @@
 /coverage
 /cypress/screenshots
 /cypress/videos
-/node_modules
 
 # production
 /build
+/public/design-system
 
 # misc
 .DS_Store

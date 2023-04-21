@@ -3,11 +3,15 @@
   "name": "storybook",
   "version": "0.1.0",
   "scripts": {
-    "storybook": "PORT=6006 start-storybook -p 6006 --no-manager-cache",
-    "build-storybook": "build-storybook"
+    "storybook": "yarn watch-css & yarn start-storybook",
+    "build-css": "sass --load-path=./ --load-path=./node_modules/@rpf/sauce --quiet src:src",
+    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/design-system --loglevel warn",
+    "start-storybook": "yarn run build-css && cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
+    "watch-css": "yarn run build-css && sass --load-path=./ --load-path=./node_modules/@rpf/sauce -q --watch src:src"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
+    "@rpf/sauce": "git+https://github.com/RaspberryPiFoundation/sauce-design-system#next",
     "@storybook/addon-actions": "6.5.10",
     "@storybook/addon-essentials": "6.5.10",
     "@storybook/addon-interactions": "6.5.10",
@@ -25,6 +29,10 @@
     "storybook-addon-root-attribute": "^1.0.2",
     "storybook-react-i18next": "^1.1.2",
     "style-loader": "^2.0.0"
+  },
+  "devDependencies": {
+    "sass": "^1.53.0",
+    "storybook-addon-react-router-v6": "^0.2.1"
   },
   "eslintConfig": {
     "overrides": [
