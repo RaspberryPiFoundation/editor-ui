@@ -43,7 +43,7 @@
 .modal-content__header {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: fit-content;
   padding: var(--spacing-1) var(--spacing-half) var(--spacing-1) calc(1.6 * var(--spacing-1));
 
   button {
@@ -58,8 +58,7 @@
 }
 
 .modal-content__body {
-  margin: calc(2.4 * var(--spacing-1)) 0;
-  padding: 0 calc(2.4 * var(--spacing-1));
+  padding: calc(2.4 * var(--spacing-1));
   display: flex;
   flex-direction: column;
   row-gap: var(--spacing-1);
@@ -79,25 +78,26 @@
 
 .modal-content__buttons {
   padding: calc(1.6*var(--spacing-1));
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  gap: var(--spacing-1);
+  justify-content: end;
 
   @include mobile-only {
     display: flex;
     flex-direction: column;
-    row-gap: var(--spacing-1);
   }
 
   button, a {
-    float: right;
-    margin: 0 0 0 var(--spacing-1);
+    margin: 0;
 
     span {
       width: 100%;
     }
 
     @include mobile-only {
-      float: none;
       width: 100%;
-      margin: 0;
     }
   }
 }
