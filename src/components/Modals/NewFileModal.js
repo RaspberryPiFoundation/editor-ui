@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import Modal from 'react-modal';
 
 import NameErrorMessage from '../Editor/ErrorMessage/NameErrorMessage'
@@ -19,6 +19,18 @@ const NewFileModal = () => {
 
   const isModalOpen = useSelector((state) => state.editor.newFileModalShowing)
   const closeModal = () => dispatch(closeNewFileModal())
+
+  const nameInput = useCallback((node) => {
+    if (node) {
+      node.focus()
+    }
+  })
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      createComponent()
+    }
+  }
 
   const createComponent = () => {
     const fileName = document.getElementById('name').value
@@ -48,15 +60,16 @@ const NewFileModal = () => {
 
       <div className='modal-content__body'>
         <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
-        <NameErrorMessage />
-        <input type='text' name='name' id='name'></input>
+        <div>
+          <NameErrorMessage />
+          <input ref={nameInput} type='text' name='name' id='name' onKeyDown={onKeyDown}></input>
+        </div>
       </div>
 
       <div className='modal-content__buttons'>
         <Button className='btn--primary' buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
         <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
       </div>
-
     </Modal>
   )
 }

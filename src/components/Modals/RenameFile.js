@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,18 @@ const RenameFile = () => {
 
   const closeModal = () => dispatch(closeRenameFileModal());
 
+  const nameInput = useCallback((node) => {
+    if (node) {
+      node.select()
+    }
+  })
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      renameComponent()
+    }
+  }
+
   const renameComponent = () => {
     const fileName = document.getElementById('name').value
     const name = fileName.split('.')[0];
@@ -32,33 +44,33 @@ const RenameFile = () => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className='modal-content'
-        overlayClassName='modal-overlay'
-        contentLabel="Rename file"
-        parentSelector={() => document.querySelector('#app')}
-        appElement={document.getElementById('app') || undefined}
-      >
-          <div className='modal-content__header'>
-            <h2 className='modal-content__heading'>{t('filePane.renameFileModal.heading')}</h2>
-            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-          </div>
+    <Modal
+      isOpen={isModalOpen}
+      onRequestClose={closeModal}
+      className='modal-content'
+      overlayClassName='modal-overlay'
+      contentLabel="Rename file"
+      parentSelector={() => document.querySelector('#app')}
+      appElement={document.getElementById('app') || undefined}
+    >
+        <div className='modal-content__header'>
+          <h2 className='modal-content__heading'>{t('filePane.renameFileModal.heading')}</h2>
+          <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
+        </div>
 
-          <div className='modal-content__body'>
-            <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
+        <div className='modal-content__body'>
+          <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
+          <div>
             <NameErrorMessage />
-            <input type='text' name='name' id='name' defaultValue={`${currentName}.${currentExtension}`}></input>
+            <input type='text' ref={nameInput} name='name' id='name' defaultValue={`${currentName}.${currentExtension}`} onKeyDown={onKeyDown}></input>
           </div>
+        </div>
 
-          <div className='modal-content__buttons' >
-            <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
-            <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
-          </div>
-      </Modal>
-    </>
+        <div className='modal-content__buttons' >
+          <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
+          <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
+        </div>
+    </Modal>
   );
 }
 
