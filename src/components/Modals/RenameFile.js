@@ -24,7 +24,7 @@ const RenameFile = () => {
     if (node) {
       node.select()
     }
-  })
+  }, [])
 
   const onKeyDown = (e) => {
     if (e.key === 'Enter') {

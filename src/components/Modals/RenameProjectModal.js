@@ -31,7 +31,7 @@ export const RenameProjectModal = () => {
     if (node) {
       node.select()
     }
-  })
+  }, [])
 
   const onCompleted = () => {
     closeModal()

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback } from 'react'
 import Modal from 'react-modal';
 
 import NameErrorMessage from '../Editor/ErrorMessage/NameErrorMessage'
@@ -24,7 +24,7 @@ const NewFileModal = () => {
     if (node) {
       node.focus()
     }
-  })
+  }, [])
 
   const onKeyDown = (e) => {
     if (e.key === 'Enter') {
