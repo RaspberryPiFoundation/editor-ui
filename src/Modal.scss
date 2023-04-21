@@ -8,6 +8,7 @@
   padding: var(--spacing-8);
 
   @include mobile-only {
+    // NOTE: Already using scaling for new design system - this will be space-2
     padding: calc(3.2 * var(--spacing-1));
   }
 }
@@ -44,7 +45,8 @@
   display: flex;
   align-items: center;
   min-height: fit-content;
-  padding: var(--spacing-1) var(--spacing-half) var(--spacing-1) calc(1.6 * var(--spacing-1));
+  // NOTE: Already using scaling for new design system - this will be space-1/space-0-5
+  padding: calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*0.8) calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*1.6);
 
   button {
     margin-left: auto;
@@ -53,11 +55,12 @@
 }
 
 .modal-content__heading {
-  margin: var(--spacing-1) var(--spacing-1) var(--spacing-1)0;
+  margin: var(--spacing-1) var(--spacing-1) var(--spacing-1) 0;
   font-size: var(--font-size-u-2);
 }
 
 .modal-content__body {
+  // NOTE: Already using scaling for new design system - this will be space-1-5
   padding: calc(2.4 * var(--spacing-1));
   display: flex;
   flex-direction: column;
@@ -77,11 +80,13 @@
 }
 
 .modal-content__buttons {
-  padding: calc(1.6*var(--spacing-1));
+  // NOTE: Already using scaling for new design system - this will be space-1
+  padding: calc(1.6 * var(--spacing-1));
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
-  gap: var(--spacing-1);
+  // NOTE: Already using scaling for new design system - this will be space-1
+  gap: calc(1.6 * var(--spacing-1));
   justify-content: end;
 
   @include mobile-only {
