@@ -54,7 +54,7 @@ export const ProjectListItem = (props) => {
             alt={t("header.editorLogoAltText")}
           />
           <div className="editor-project-list__copy">
-            <h2 className="editor-project-list__name">{project.name}</h2>
+            <div className="editor-project-list__name">{project.name}</div>
             <span className="editor-project-list__tag">Python</span>
             <span className="editor-project-list__heading">
               {t("projectList.updated")}
