@@ -1,5 +1,5 @@
 import React from 'react';
-import * as THREE from 'three';
+// import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import Sk from "skulpt";
 
@@ -8,28 +8,28 @@ const FlightCase = () => {
   const { scene } = useGLTF(`${process.env.PUBLIC_URL}/models/raspi-compressed.glb`)
   window.mod=scene
 
-  function setPixel(ledIndex,r,g,b) {
-    var x = ledIndex % 8;
-    var y = Math.floor(ledIndex / 8);
-    var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
-    var object = scene.getObjectByName(`circle${x}_${7-y}-1`);
+  // function setPixel(ledIndex,r,g,b) {
+  //   var x = ledIndex % 8;
+  //   var y = Math.floor(ledIndex / 8);
+  //   var newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
+  //   var object = scene.getObjectByName(`circle${x}_${7-y}-1`);
 
-    if(object != null){
-      object.material = newMaterial;
-    }
-  }
+  //   if(object != null){
+  //     object.material = newMaterial;
+  //   }
+  // }
 
-  function setPixels(indexes, pix) {
-    if(indexes == null){
-      indexes = Array.from(Array(8*8).keys())
-    }
+  // function setPixels(indexes, pix) {
+  //   if(indexes == null){
+  //     indexes = Array.from(Array(8*8).keys())
+  //   }
 
-    var i = 0;
-    for (const ledIndex of indexes){
-      setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2])
-      i += 1;
-    }
-  }
+  //   var i = 0;
+  //   for (const ledIndex of indexes){
+  //     setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2])
+  //     i += 1;
+  //   }
+  // }
 
   Sk.sense_hat_emit = function(event, data) {
 
