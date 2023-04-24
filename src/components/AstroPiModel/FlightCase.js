@@ -31,7 +31,7 @@ const FlightCase = () => {
   //   }
   // }
 
-  Sk.sense_hat_emit = function(event, data) {
+  // Sk.sense_hat_emit = function(event, data) {
 
     // if (event && event === 'setpixel') {
     //   // change the led
@@ -50,7 +50,7 @@ const FlightCase = () => {
     // else if (event && event === 'setpixels') {
     //   setPixels(data, Sk.sense_hat.pixels);
     // }
-  }
+  // }
 
   return (
     <primitive object={scene} scale={4} />
