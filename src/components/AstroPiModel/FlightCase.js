@@ -1,7 +1,7 @@
 import React from 'react';
 // import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
-import Sk from "skulpt";
+// import Sk from "skulpt";
 
 const FlightCase = () => {
 
