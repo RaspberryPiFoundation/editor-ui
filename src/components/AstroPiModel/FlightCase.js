@@ -9,21 +9,24 @@ const FlightCase = () => {
   const { scene } = useGLTF(`${process.env.PUBLIC_URL}/models/raspi-compressed.glb`)
   window.mod=scene
 
-  const blankLED = new THREE.MeshStandardMaterial({color: `rgb(0,0,0)`})
+  var leds = {
+    '0_0_0': new THREE.MeshStandardMaterial({color: `rgb(0,0,0)`})
+  }
 
   function setPixel(ledIndex,r,g,b) {
     var x = ledIndex % 8;
     var y = Math.floor(ledIndex / 8);
-    let newMaterial
-    if (r===0 && g===0 && b===0) {
-      newMaterial = blankLED
+    let ledMaterial
+    if (`${r}_${g}_${b}` in leds) {
+      ledMaterial = leds[`${r}_${g}_${b}`]
     } else {
-      newMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
+      ledMaterial = new THREE.MeshStandardMaterial({color: `rgb(${r},${g},${b})`});
+      leds[`${r}_${g}_${b}`] = ledMaterial
     }
     var object = scene.getObjectByName(`circle${x}_${7-y}-1`);
 
     if(object != null){
-      object.material = newMaterial;
+      object.material = ledMaterial;
     }
   }
 
