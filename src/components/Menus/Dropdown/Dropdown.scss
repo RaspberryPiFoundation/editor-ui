@@ -11,10 +11,10 @@
     border-radius: 0;
     cursor: pointer;
     display: flex;
-    padding: 0 var(--spacing-2);
+    padding: 0 var(--space-1-5);
 
     svg {
-      margin-right: var(--spacing-1)
+      margin-right: var(--space-0-5)
     }
 
     &--active {
@@ -25,9 +25,9 @@
   &-container {
     z-index: 2;
     position: absolute;
-    padding: var(--spacing-1);
+    padding: var(--space-0-5);
     border-radius: 10px;
-    margin-top: var(--spacing-2);
+    margin-top: var(--space-1-5);
 
     &--bottom {
       top: 100%;
@@ -57,7 +57,7 @@
         justify-content: left;
         font-weight: var(--font-weight-regular);
         text-decoration: none;
-        padding: var(--spacing-1) var(--spacing-half);
+        padding: var(--space-0-5) var(--space-0-25);
         border-radius: 5px;
         white-space: nowrap;
         width: 100%;

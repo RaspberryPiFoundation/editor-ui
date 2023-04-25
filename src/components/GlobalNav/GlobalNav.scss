@@ -13,16 +13,16 @@
 
   &__account {
     margin-left: auto;
-    margin-right: var(--spacing-3);
+    margin-right: var(--space-2);
     height: 100%;
 
     svg {
       fill:  $rpf-white;
-      margin: 0 0 0 var(--spacing-1);
+      margin: 0 0 0 var(--space-0-5);
     }
 
     .dropdown-button {
-      padding: 0 var(--spacing-2);
+      padding: 0 var(--space-1-5);
 
       &:hover {
         svg {
@@ -32,22 +32,22 @@
     }
 
     img {
-      height: var(--spacing-4);
-      margin: var(--spacing-half) 0;
+      height: var(--space-2-5);
+      margin: var(--space-0-25) 0;
     }
   }
 
   &__home {
     display: flex;
     align-items: center;
-    margin-left: var(--spacing-8);
-    padding: var(--spacing-1) 0;
+    margin-left: var(--space-5);
+    padding: var(--space-0-5) 0;
     font-weight: var(--font-weight-bold);
     text-decoration: none;
     color: $rpf-white;
 
     span {
-      margin-left: var(--spacing-2);
+      margin-left: var(--space-1-5);
     }
 
     &:visited {

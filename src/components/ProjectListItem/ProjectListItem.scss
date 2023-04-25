@@ -31,7 +31,7 @@ $small-table-grid: 600px;
     display: flex;
     grid-column: span 8;
     min-width: 0;
-    padding: var(--spacing-1) 0;
+    padding: var(--space-0-5) 0;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 6;
@@ -47,7 +47,7 @@ $small-table-grid: 600px;
   &__type {
     border-radius: 4px;
     width: 35px;
-    padding-right: var(--spacing-1);
+    padding-right: var(--space-0-5);
   }
 
   &__name {
@@ -91,7 +91,7 @@ $small-table-grid: 600px;
       }
 
       svg {
-        margin-right: var(--spacing-1);
+        margin-right: var(--space-0-5);
       }
     }
 

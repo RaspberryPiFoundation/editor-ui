@@ -11,19 +11,19 @@ $small-table-grid: 600px;
 
   &__container {
     border-radius: 8px;
-    margin: var(--spacing-2) var(--spacing-3);
-    padding: var(--spacing-1);
+    margin: var(--space-1-5) var(--space-2);
+    padding: var(--space-0-5);
 
     @include unique-width($small-table-grid) {
-      padding: var(--spacing-2);
+      padding: var(--space-1-5);
     }
 
     @include unique-width(767px) {
-      margin: var(--spacing-4) var(--spacing-5);
+      margin: var(--space-2-5) var(--space-3);
     }
 
     @include unique-width(1670px) {
-      margin: var(--spacing-4) 0;
+      margin: var(--space-2-5) 0;
     }
 
     .--light & {
@@ -37,7 +37,7 @@ $small-table-grid: 600px;
 
   &__heading {
     font-size: var(--font-size-base);
-    margin-top: var(--spacing-half);
+    margin-top: var(--space-0-25);
   }
 
   &__heading:first-of-type {
@@ -63,10 +63,10 @@ $small-table-grid: 600px;
     grid-template-columns: repeat(12,1fr);
     justify-content: space-between;
     list-style: none;
-    padding: 0 var(--spacing-1);
+    padding: 0 var(--space-0-5);
 
     @include unique-max-width($small-table-grid) {
-      padding: var(--spacing-1);
+      padding: var(--space-0-5);
     }
 
     .--dark & {
@@ -101,7 +101,7 @@ $small-table-grid: 600px;
       font-size: var(--font-size-u-1);
       font-weight: var(--font-weight-bold);
       margin: 0;
-      padding: var(--spacing-2);
+      padding: var(--space-1-5);
     }
   }
 }

@@ -14,13 +14,13 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-left: var(--spacing-1);
+    margin-left: var(--space-0-5);
 
     .file-menu__item {
         margin: 0;
         background-color: inherit;
         color:  inherit;
-        padding: var(--spacing-1);
+        padding: var(--space-0-5);
         text-align: left;
         white-space: nowrap;
         overflow-x: visible;

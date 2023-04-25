@@ -29,13 +29,13 @@
   }
 
   .file-pane-section {
-    padding: 0 var(--spacing-1);
+    padding: 0 var(--space-0-5);
 
     &__images {
       padding-left: 0;
 
       summary {
-        padding-left: var(--spacing-1)
+        padding-left: var(--space-0-5)
       }
     }
   }

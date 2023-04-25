@@ -30,10 +30,10 @@
 .proj-container {
   flex: 1;
   display: flex;
-  grid-gap: var(--spacing-1);
+  grid-gap: var(--space-0-5);
   overflow: hidden;
   justify-content: space-between;
-  margin: var(--spacing-2);
+  margin: var(--space-1-5);
 
   .proj-runner-container, .proj-editor-container, .menu {
     border-radius: 10px;

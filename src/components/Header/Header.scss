@@ -8,7 +8,7 @@
 }
 
 .autosave__icon {
-  margin-right: var(--spacing-1)
+  margin-right: var(--space-0-5)
 }
 
 .autosave__status {
@@ -35,7 +35,7 @@
     height: 100%;
 
     .btn {
-      padding: 0 var(--spacing-2)
+      padding: 0 var(--space-1-5)
     }
   }
 
@@ -47,8 +47,8 @@
 
 .editor-logo {
   height: 100%;
-  min-height: var(--spacing-6);
-  min-width: var(--spacing-6);
+  min-height: var(--space-4);
+  min-width: var(--space-4);
 }
 
 .project-gallery-link {
@@ -61,14 +61,14 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 var(--spacing-3);
+  padding: 0 var(--space-2);
 
   &a:visited {
     color: inherit;
   }
 
   svg {
-    margin-right: var(--spacing-1)
+    margin-right: var(--space-0-5)
   }
 
   + .project-name {
