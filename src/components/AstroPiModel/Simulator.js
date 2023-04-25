@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as THREE from 'three';
 import { ResizeObserver } from "@juggle/resize-observer";
 import { Canvas } from "@react-three/fiber";
@@ -55,15 +55,15 @@ const Simulator = (props) => {
     }
   };
 
-  const [dpr, setDpr] = useState(1.5)
-  const increaseResolution = () => {
-    console.log('upping resolution')
-    setDpr(2)
-  }
-  const decreaseResolution = () => {
-    console.log('downing resolution')
-    setDpr(1)
-  }
+  // const [dpr, setDpr] = useState(2)
+  // const increaseResolution = () => {
+  //   console.log('upping resolution')
+  //   setDpr(2)
+  // }
+  // const decreaseResolution = () => {
+  //   console.log('downing resolution')
+  //   setDpr(1)
+  // }
 
   return (
     <Canvas
@@ -73,9 +73,9 @@ const Simulator = (props) => {
       onPointerOut={handleDragStop}
       onPointerMove={dragModel}
       resize={{polyfill: ResizeObserver}}
-      dpr={dpr}
+      dpr={0.25}
     >
-      <PerformanceMonitor onIncline={increaseResolution} onDecline={decreaseResolution}>
+      <PerformanceMonitor>
         <Lighting />
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault fov={25} near={1} far={20000} position={[0, 1.5, 0]} />
