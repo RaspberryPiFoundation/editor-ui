@@ -19,6 +19,7 @@ import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
+import NewFileModal from '../../Modals/NewFileModal';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ const Project = (props) => {
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
+  const newFileModalShowing = useSelector((state) => state.editor.newFileModalShowing)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
   const notFoundModalShowing = useSelector((state) => state.editor.notFoundModalShowing)
   const accessDeniedNoAuthModalShowing = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
@@ -147,6 +149,7 @@ const Project = (props) => {
         </div>
         <Output />
       </div>
+      {(newFileModalShowing) ? <NewFileModal /> : null}
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
       {(notFoundModalShowing) ? <NotFoundModal /> : null}
       {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}
