@@ -64,12 +64,12 @@ const Simulator = (props) => {
       onPointerMove={dragModel}
       resize={{polyfill: ResizeObserver}}
     >
-        <Lighting />
-        <Suspense fallback={null}>
-          <PerspectiveCamera makeDefault fov={25} near={1} far={20000} position={[0, 1.5, 0]} />
-          <FlightCase />
-          <OrbitControls enableRotate = {false} enablePan = {false} enableZoom = {false} enabled = {false} />
-        </Suspense>
+      <Lighting />
+      <Suspense fallback={null}>
+        <PerspectiveCamera makeDefault fov={25} near={1} far={20000} position={[0, 1.5, 0]} />
+        <FlightCase />
+        <OrbitControls enableRotate = {false} enablePan = {false} enableZoom = {false} enabled = {false} />
+      </Suspense>
     </Canvas>
   )
 };
