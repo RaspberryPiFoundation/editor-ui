@@ -9,8 +9,9 @@ const FlightCase = () => {
   const { scene } = useGLTF(`${process.env.PUBLIC_URL}/models/raspi-compressed.glb`)
   window.mod=scene
 
+  const blankLED = new THREE.MeshStandardMaterial({color: `rgb(0,0,0)`})
   var leds = {
-    '0_0_0': new THREE.MeshStandardMaterial({color: `rgb(0,0,0)`})
+    '0_0_0': blankLED
   }
 
   function setPixel(ledIndex,r,g,b) {
