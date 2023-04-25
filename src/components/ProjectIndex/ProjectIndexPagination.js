@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 
-import { PlusIcon } from "../../Icons";
 import Button from "../Button/Button";
 import "./ProjectIndexPagination.scss";
 
@@ -45,8 +44,6 @@ export const ProjectIndexPagination = (props) => {
               }}
               title={t("projectList.pagination.more")}
               buttonText={t("projectList.pagination.more")}
-              ButtonIcon={PlusIcon}
-              buttonIconLeft={false}
             />
           </>
         ) : null}

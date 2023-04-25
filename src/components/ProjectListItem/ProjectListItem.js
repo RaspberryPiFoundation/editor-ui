@@ -57,9 +57,8 @@ export const ProjectListItem = (props) => {
             <div className="editor-project-list__name">{project.name}</div>
             <span className="editor-project-list__tag">Python</span>
             <span className="editor-project-list__heading">
-              {t("projectList.updated")}
+              {t("projectList.updated")} {lastSaved}
             </span>
-            <span className="editor-project-list__updated">{lastSaved}</span>
           </div>
         </Link>
       </div>
