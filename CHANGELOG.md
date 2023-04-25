@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Initial storybook setup (#440)
 - `NewFileModal` component (#450)
 - Autofocus input when modal opened (#450)
 - Submit form in modals when 'Enter' pressed (#450)
