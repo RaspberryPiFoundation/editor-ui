@@ -15,7 +15,6 @@ const safePostCssParser = require("postcss-safe-parser");
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin");
 const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
 const ESLintPlugin = require("eslint-webpack-plugin");
@@ -24,8 +23,8 @@ const modules = require("./modules");
 const getClientEnvironment = require("./env");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
-const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+// const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const postcssNormalize = require("postcss-normalize");
 
@@ -154,6 +153,7 @@ module.exports = function (webpackEnv) {
   };
 
   return {
+    target: "node",
     mode: isEnvProduction ? "production" : "development",
     devServer: {
       hot: true,
@@ -329,6 +329,10 @@ module.exports = function (webpackEnv) {
         ]),
       ],
       fallback: {
+        // fs: false,
+        // tls: false,
+        // net: false,
+        // https: false,
         querystring: require.resolve("querystring-es3"),
         path: require.resolve("path-browserify"),
         buffer: require.resolve("buffer/"),
@@ -384,6 +388,9 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               // include: paths.appSrc,
               loader: require.resolve("babel-loader"),
+              resolve: {
+                fullySpecified: false,
+              },
               options: {
                 customize: require.resolve(
                   "babel-preset-react-app/webpack-overrides"
@@ -428,6 +435,9 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve("babel-loader"),
+              resolve: {
+                fullySpecified: false,
+              },
               options: {
                 babelrc: false,
                 configFile: false,
@@ -547,6 +557,7 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       new FaviconsWebpackPlugin("./src/assets/editor_logo.svg"),
+      // new NodePolyfillPlugin(),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -615,12 +626,6 @@ module.exports = function (webpackEnv) {
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240
       isEnvDevelopment && new CaseSensitivePathsPlugin(),
-      // If you require a missing module and then `npm install` it, you still have
-      // to restart the development server for webpack to discover it. This plugin
-      // makes the discovery automatic so you don't have to restart.
-      // See https://github.com/facebook/create-react-app/issues/186
-      isEnvDevelopment &&
-        new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       isEnvProduction &&
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
@@ -673,34 +678,52 @@ module.exports = function (webpackEnv) {
         }),
       // TypeScript type checking
       useTypeScript &&
+        // from https://github.com/facebook/create-react-app/pull/10004/files#diff-8e25c4f6f592c1fcfc38f0d43d62cbd68399f44f494c1b60f0cf9ccd7344d697
         new ForkTsCheckerWebpackPlugin({
-          typescript: resolve.sync("typescript", {
-            basedir: paths.appNodeModules,
-          }),
           async: isEnvDevelopment,
-          checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp
-            ? `${__dirname}/pnpTs.js`
-            : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp
-            ? `${__dirname}/pnpTs.js`
-            : undefined,
-          tsconfig: paths.appTsConfig,
-          reportFiles: [
+          typescript: {
+            typescriptPath: resolve.sync("typescript", {
+              basedir: paths.appNodeModules,
+            }),
+            configOverwrite: {
+              compilerOptions: {
+                sourceMap: isEnvProduction
+                  ? shouldUseSourceMap
+                  : isEnvDevelopment,
+                skipLibCheck: true,
+                inlineSourceMap: false,
+                declarationMap: false,
+                noEmit: true,
+                incremental: true,
+                tsBuildInfoFile: paths.appTsBuildInfoFile,
+              },
+            },
+            context: paths.appPath,
+            diagnosticOptions: {
+              syntactic: true,
+            },
+            mode: "write-references",
+            // profile: true,
+          },
+          issue: {
             // This one is specifically to match during CI tests,
             // as micromatch doesn't match
             // '../cra-template-typescript/template/src/App.tsx'
             // otherwise.
-            "../**/src/**/*.{ts,tsx}",
-            "**/src/**/*.{ts,tsx}",
-            "!**/src/**/__tests__/**",
-            "!**/src/**/?(*.)(spec|test).*",
-            "!**/src/setupProxy.*",
-            "!**/src/setupTests.*",
-          ],
-          silent: true,
-          // The formatter is invoked directly in WebpackDevServerUtils during development
-          formatter: isEnvProduction ? typescriptFormatter : undefined,
+            include: [
+              { file: "../**/src/**/*.{ts,tsx}" },
+              { file: "**/src/**/*.{ts,tsx}" },
+            ],
+            exclude: [
+              { file: "**/src/**/__tests__/**" },
+              { file: "**/src/**/?(*.){spec|test}.*" },
+              { file: "**/src/setupProxy.*" },
+              { file: "**/src/setupTests.*" },
+            ],
+          },
+          logger: {
+            infrastructure: "silent",
+          },
         }),
       !disableESLintPlugin &&
         new ESLintPlugin({
