@@ -72,16 +72,6 @@ $small-table-grid: 600px;
 
     &:first-of-type {
       border-top: none;
-
-      @include unique-max-width($small-table-grid) {
-        display: none;
-      }
-    }
-
-    &:nth-of-type(2) {
-      @include unique-max-width($small-table-grid) {
-        border-top: none;
-      }
     }
   }
 
