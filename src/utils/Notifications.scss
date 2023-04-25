@@ -3,7 +3,7 @@
 #app {
   .toast--bottom-center__message, .toast--top-center__message {
       min-height: fit-content;
-      padding: var(--spacing-half) var(--spacing-1);
+      padding: var(--space-0-25) var(--space-0-5);
       margin: 0;
   }
 
@@ -18,7 +18,7 @@
     white-space: nowrap;
     
     .Toastify__toast-icon {
-      margin: 0 var(--spacing-half) 0 0;
+      margin: 0 var(--space-0-25) 0 0;
     }
   }
   .toast--bottom-center__message {

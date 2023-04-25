@@ -28,7 +28,7 @@
   height: 44px;
   width: 44px;
   box-sizing: border-box;
-  padding: calc(0.4 * var(--spacing-1)) 0;
+  padding: var(--space-0-25) 0;
   text-align: center;
 
   .btn {
