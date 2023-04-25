@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - CookieBot consent request in iframes (#437)
 - Resetting name error if file creation/renaming is cancelled (#450)
+- Mission Zero performance gains (#457)
 
 ## [0.15.0] - 2023-04-13
 
