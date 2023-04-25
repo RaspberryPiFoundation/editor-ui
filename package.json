@@ -67,8 +67,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:dev": "node scripts/build.js && yarn run build-storybook",
-    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/design-system --loglevel warn",
+    "build:dev": "yarn run build-storybook && node scripts/build.js",
+    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint src/. --ext .js",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
