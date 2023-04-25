@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Modal from 'react-modal';
 import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,12 @@ export const RenameProjectModal = () => {
   const project = useSelector((state) => state.editor.modals.renameProject)
   const closeModal = () => dispatch(closeRenameProjectModal())
 
+  const nameInput = useCallback((node) => {
+    if (node) {
+      node.select()
+    }
+  }, [])
+
   const onCompleted = () => {
     closeModal()
     showRenamedMessage()
@@ -39,6 +45,12 @@ export const RenameProjectModal = () => {
   const renameProject = () => {
     const newName = document.getElementById('name').value
     renameProjectMutation({variables: {id: project.id, name: newName}, onCompleted: onCompleted})
+  }
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      renameProject()
+    }
   }
 
   return (
@@ -57,11 +69,14 @@ export const RenameProjectModal = () => {
             <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
 
-          <label htmlFor='name'>{t('projectList.renameProjectModal.inputLabel')}</label>
-          <input type='text' name='name' id='name' defaultValue={project.name}></input>
-          <div className='modal-content__buttons' >
-            <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
+          <div className='modal-content__body'>
+            <label htmlFor='name'>{t('projectList.renameProjectModal.inputLabel')}</label>
+            <input type='text' ref={nameInput} name='name' id='name' defaultValue={project.name} onKeyDown={onKeyDown}></input>
+          </div>
+          
+          <div className='modal-content__buttons'>
             <Button className='btn--primary' buttonText={t('projectList.renameProjectModal.save')} onClickHandler={renameProject} />
+            <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
           </div>
       </Modal>
     </>

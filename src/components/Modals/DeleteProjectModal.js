@@ -47,10 +47,12 @@ export const DeleteProjectModal = () => {
             <h2 className='modal-content__heading'>{t('projectList.deleteProjectModal.heading')}</h2>
             <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
           </div>
-          <p className='modal-content__text'>{t('projectList.deleteProjectModal.text', {name: project.name})}</p>
+          <div className='modal-content__body'>
+            <p className='modal-content__text'>{t('projectList.deleteProjectModal.text', {name: project.name})}</p>
+          </div>
           <div className='modal-content__buttons' >
-            <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
             <Button className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />
+            <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
           </div>
       </Modal>
     </>

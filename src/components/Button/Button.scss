@@ -88,11 +88,25 @@
   }
 
   &--secondary {
-    $colours: $rpi-grey-15, $rpi-grey-5, $rpi-grey-5, $rpi-grey-70, $rpi-grey-15, $rpi-grey-40;
+    $colours: inherit, inherit, $rpi-grey-5, $rpi-grey-70, inherit, inherit;
     @include button-styling($colours...);
 
+    border: 2px solid $rpf-teal;
+
     &:active {
-      border: 3px solid $rpf-teal-shade-20;
+      border: 2px solid $rpf-teal-shade-20;
+    }
+
+    &:hover {
+      color: $rpi-grey-70;
+
+      svg {
+        fill: $rpi-grey-70;
+      }
+    }
+
+    &:focus-visible {
+      outline: 3px solid $rpf-brand-raspberry;
     }
   }
 
@@ -165,7 +179,7 @@
       }
 
       .btn--secondary {
-        background-color: $rpf-darkmode-grey22;
+        background-color: inherit;
       }
 
       .btn--tertiary {
@@ -179,7 +193,7 @@
       }
 
       .btn--secondary {
-        background-color: $rpf-darkmode-grey22;
+        background-color: inherit;
       }
 
       .btn--tertiary {
@@ -193,7 +207,7 @@
       }
 
       .btn--secondary {
-        background-color: $rpf-darkmode-grey32;
+        background-color: inherit;
       }
 
       .btn--tertiary {
@@ -208,11 +222,25 @@
   }
 
   .btn--secondary {
-    $colours: $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-darkmode-grey22, $rpf-darkmode-grey90, $rpf-darkmode-grey32, $rpf-darkmode-grey22, $rpf-white;
+    $colours: inherit, inherit, $rpf-darkmode-grey22, $rpf-darkmode-grey90, inherit, inherit, $rpf-white;
     @include button-styling($colours...);
 
+    border: 2px solid $rpf-teal-tint-50;
+
     &:active {
-      border: 3px solid $rpf-teal-shade-20;
+      border: 2px solid $rpf-teal-shade-20;
+    }
+
+    &:hover {
+      color: $rpf-darkmode-grey85;
+
+      svg {
+        fill: $rpf-darkmode-grey85;
+      }
+    }
+
+    &:focus-visible {
+      outline: 3px solid $rpf-brand-raspberry;
     }
   }
 

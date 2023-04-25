@@ -31,13 +31,12 @@ const AccessDeniedNoAuthModal = () => {
           <h2 className='modal-content__heading'>{t('project.accessDeniedNoAuthModal.heading')}</h2>
           <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
         </div>
-        <p className='modal-content__text'>{t('project.accessDeniedNoAuthModal.text')}</p>
-
-        <div className='modal-content__buttons' >
-          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>
-          <LoginButton className='btn--primary' buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} />
+        <div className='modal-content__body'>
+          <p className='modal-content__text'>{t('project.accessDeniedNoAuthModal.text')}</p>
         </div>
-        <div className='modal-content__links'>
+        <div className='modal-content__buttons' >
+          <LoginButton className='btn--primary' buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} />
+          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>
           <Button buttonText = {t('project.accessDeniedNoAuthModal.newProject')} className='btn--tertiary' onClickHandler={closeModal}/>
         </div>
       </Modal>

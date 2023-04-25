@@ -80,22 +80,47 @@ describe("RenameProjectModal", () => {
     expect(inputBox.value).toEqual('my first project')
   })
 
-  test("Clicking save calls the mutation", async () => {
-    const renameProjectMutationMock = mocks[0].result
-    fireEvent.change(inputBox, {target: {value: "renamed project"}})
-    fireEvent.click(saveButton)
-    await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
-  })
+  describe('Clicking save', () => {
+    let renameProjectMutationMock;
 
-  test("Clicking save eventually closes the modal", async () => {
+    beforeEach(() => {
+      renameProjectMutationMock = mocks[0].result
       fireEvent.change(inputBox, {target: {value: "renamed project"}})
       fireEvent.click(saveButton)
+    })
+
+    test("Clicking save calls the mutation", async () => {
+      await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
+    })
+  
+    test("Clicking save eventually closes the modal", async () => {
       await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
+    })
+  
+    test("Clicking save eventually pops up the toast notification", async () => {
+      await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())
+    })
   })
 
-  test("Clicking save eventually pops up the toast notification", async () => {
+  describe('Pressing Enter', () => {
+    let renameProjectMutationMock;
+
+    beforeEach(() => {
+      renameProjectMutationMock = mocks[0].result
       fireEvent.change(inputBox, {target: {value: "renamed project"}})
-      fireEvent.click(saveButton)
+      fireEvent.keyDown(inputBox, { key: 'Enter'})
+    })
+
+    test("Clicking save calls the mutation", async () => {
+      await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
+    })
+  
+    test("Clicking save eventually closes the modal", async () => {
+      await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
+    })
+  
+    test("Clicking save eventually pops up the toast notification", async () => {
       await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())
+    })
   })
 })
