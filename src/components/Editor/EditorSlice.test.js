@@ -26,11 +26,10 @@ test("Action stopCodeRun sets codeRunStopped to true", () => {
   expect(reducer(previousState, stopCodeRun())).toEqual(expectedState)
 })
 
-test("Showing modal sets file state and showing status", () => {
+test("Showing rename modal sets file state and showing status", () => {
   const previousState = {
     renameFileModalShowing: false,
     modals: {},
-    error: 'some error'
   }
   const expectedState = {
     renameFileModalShowing: true,
@@ -41,13 +40,13 @@ test("Showing modal sets file state and showing status", () => {
         fileKey: 0
       }
     },
-    error: ''
   }
   expect(reducer(previousState, showRenameFileModal({name: 'main', ext: '.py', fileKey: 0}))).toEqual(expectedState)
 })
 
-test("closing modal updates showing status", () => {
+test("closing rename modal updates showing status", () => {
   const previousState = {
+    nameError: 'some error',
     renameFileModalShowing: true,
     modals: {
       renameFile: {
@@ -58,6 +57,7 @@ test("closing modal updates showing status", () => {
     }
   }
   const expectedState = {
+    nameError: '',
     renameFileModalShowing: false,
     modals: {
       renameFile: {

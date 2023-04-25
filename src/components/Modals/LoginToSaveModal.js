@@ -33,14 +33,14 @@ const LoginToSaveModal = () => {
           <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
         </div>
 
-        <p className='modal-content__text'>{t('loginToSaveModal.loginText')}</p>
-        <p className='modal-content__text'>{t('loginToSaveModal.downloadText')}</p>
+        <div className='modal-content__body'>
+          <p className='modal-content__text'>{t('loginToSaveModal.loginText')}</p>
+          <p className='modal-content__text'>{t('loginToSaveModal.downloadText')}</p>
+        </div>
 
         <div className='modal-content__buttons' >
-          <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />
           <LoginButton className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} triggerSave />
-        </div>
-        <div className='modal-content__links'>
+          <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />
           <Button buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>
         </div>
         

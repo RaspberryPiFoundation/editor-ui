@@ -1,31 +1,38 @@
 @import './colours.scss';
+@import './mixins.scss';
+
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+
+  @include mobile-only {
+    // NOTE: Already using scaling for new design system - this will be space-2
+    padding: calc(3.2 * var(--spacing-1));
+  }
+}
 
 .modal-content {
-  position: absolute;
-  width: 80%;
-  max-width: 450px;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  width: 560px;
+  max-height: 100%;
   border: 0;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-2);
 
   label {
-    margin: var(--spacing-1) 0;
     font-weight: var(--font-weight-bold);
   }
 
   input {
     font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
     border: 2px solid transparent;
     border-radius: 12px;
     padding: var(--spacing-1);
+    display: block;
   }
 
   &:focus-visible {
@@ -37,43 +44,64 @@
 .modal-content__header {
   display: flex;
   align-items: center;
-  margin-bottom: calc(1.5 * var(--spacing-1));
+  min-height: fit-content;
+  // NOTE: Already using scaling for new design system - this will be space-1/space-0-5
+  padding: calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*0.8) calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*1.6);
 
   button {
     margin-left: auto;
     height: fit-content;
-    margin-right: var(--spacing-1);
   }
 }
 
 .modal-content__heading {
-  margin: var(--spacing-half) 0;
-  font-size: var(--font-size-u-2)
+  margin: var(--spacing-1) var(--spacing-1) var(--spacing-1) 0;
+  font-size: var(--font-size-u-2);
+}
+
+.modal-content__body {
+  // NOTE: Already using scaling for new design system - this will be space-1-5
+  padding: calc(2.4 * var(--spacing-1));
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-1);
+  overflow-y: auto;
 }
 
 .modal-content__subheading {
-  margin: var(--spacing-1) 0 0 0;
+  margin: 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
 
 .modal-content__text {
+  margin: 0;
   line-height: var(--line-height-regular);
-  margin: var(--spacing-1) 0
 }
 
 .modal-content__buttons {
+  // NOTE: Already using scaling for new design system - this will be space-1
+  padding: calc(1.6 * var(--spacing-1));
   display: flex;
-  justify-content: space-between;
-  margin-top: var(--spacing-2);
-  margin-left: calc(-1 * var(--spacing-half));
-  margin-right: calc(-1 * var(--spacing-half));
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  // NOTE: Already using scaling for new design system - this will be space-1
+  gap: calc(1.6 * var(--spacing-1));
+  justify-content: end;
+
+  @include mobile-only {
+    display: flex;
+    flex-direction: column;
+  }
 
   button, a {
-    flex: 1;
-    margin: 0 var(--spacing-half);
+    margin: 0;
 
     span {
+      width: 100%;
+    }
+
+    @include mobile-only {
       width: 100%;
     }
   }
@@ -112,6 +140,12 @@
   .modal-content {
     background-color: $rpf-darkmode-grey22;
   }
+  .modal-content__header {
+    border-bottom: 1px solid $rpf-darkmode-grey42;
+  }
+  .modal-content__buttons {
+    border-top: 1px solid $rpf-darkmode-grey42;
+  }
 }
 
 .--light {
@@ -129,5 +163,12 @@
   }
   .modal-content {
     background-color: $rpf-white;
+  }
+
+  .modal-content__header {
+    border-bottom: 1px solid $rpf-darkmode-grey85;
+  }
+  .modal-content__buttons {
+    border-top: 1px solid $rpf-darkmode-grey85;
   }
 }

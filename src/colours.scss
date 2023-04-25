@@ -63,3 +63,25 @@ $rpf-alerts-errors-tint: #86151E;
 $rpf-text-black: #212121;
 $rpf-white: #FFFFFF;
 $rpf-white-opacity8: #FFFFFF14;
+
+:root,
+:host {
+  --rpf-white: #{$rpf-white};
+  --rpi-grey-5: #{$rpi-grey-5};
+  --rpi-grey-15: #{$rpi-grey-15};
+  --rpi-grey-40: #{$rpi-grey-40};
+  --rpi-grey-70: #{$rpi-grey-70};
+}
+
+// Webpack exports
+/* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
+:export {
+  grey: {
+    rpi-grey-15: $rpi-grey-15;
+    rpi-grey-40: $rpi-grey-40;
+    rpi-grey-5: $rpi-grey-5;
+    rpi-grey-70: $rpi-grey-70;
+    rpf-white: $rpf-white;
+  }
+}
+/* stylelint-enable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
