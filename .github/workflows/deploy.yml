@@ -118,7 +118,11 @@ jobs:
 
     - name: Build site and WC bundle
       run: |
-        yarn build
+        if [[ "${{ inputs.environment }}" == "production" ]]; then
+          yarn build
+        else
+          yarn build:dev
+        fi
         yarn build:wc
       env:
         PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}

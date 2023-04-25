@@ -6,12 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Initial storybook setup (#440)
+- `NewFileModal` component (#450)
+- Autofocus input when modal opened (#450)
+- Submit form in modals when 'Enter' pressed (#450)
+
+### Changed
+
+- Refactored `NewComponentButton` (#450)
+- Modal styling (#450)
+
+### Fixed
+
+- CookieBot consent request in iframes (#437)
+- Resetting name error if file creation/renaming is cancelled (#450)
+
 ## [0.15.0] - 2023-04-13
 
 ### Added
 
-- Container queries (#4455)
-
+- Container queries (#445)
+- File type icons (#449)
 
 ## [0.14.0] - 2023-03-28
 
@@ -47,7 +64,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added release notes to `README.md` (#354)
 - Pagination on 'Your projects' page (#338)
-
 
 ### Changed
 
