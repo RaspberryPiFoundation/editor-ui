@@ -120,10 +120,8 @@ jobs:
       run: |
         if [[ "${{ inputs.environment }}" == "production" ]]; then
           yarn build
-        elif [[ "${{ inputs.environment }}" == "staging" ]]; then
-          yarn build:dev
         else
-          REACT_APP_DEPLOY_DIR="${{ needs.setup-environment.outputs.deploy_dir }}" yarn build:dev
+          yarn build:dev
         fi
         yarn build:wc
       env:
