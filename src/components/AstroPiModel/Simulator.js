@@ -2,7 +2,7 @@ import React from 'react';
 import * as THREE from 'three';
 import { ResizeObserver } from "@juggle/resize-observer";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, PerformanceMonitor } from "@react-three/drei";
 import Lighting from './Lighting';
 import { Suspense } from 'react';
 
@@ -55,6 +55,16 @@ const Simulator = (props) => {
     }
   };
 
+  const [dpr, setDpr] = useState(1.5)
+  const increaseResolution = () => {
+    console.log('upping resolution')
+    setDpr(2)
+  }
+  const decreaseResolution = () => {
+    console.log('downing resolution')
+    setDpr(1)
+  }
+
   return (
     <Canvas
       frameloop='demand'
@@ -63,13 +73,16 @@ const Simulator = (props) => {
       onPointerOut={handleDragStop}
       onPointerMove={dragModel}
       resize={{polyfill: ResizeObserver}}
+      dpr={dpr}
     >
-      <Lighting />
-      <Suspense fallback={null}>
-        <PerspectiveCamera makeDefault fov={25} near={1} far={20000} position={[0, 1.5, 0]} />
-        <FlightCase />
-        <OrbitControls enableRotate = {false} enablePan = {false} enableZoom = {false} enabled = {false} />
-      </Suspense>
+      <PerformanceMonitor onIncline={increaseResolution} onDecline={decreaseResolution}>
+        <Lighting />
+        <Suspense fallback={null}>
+          <PerspectiveCamera makeDefault fov={25} near={1} far={20000} position={[0, 1.5, 0]} />
+          <FlightCase />
+          <OrbitControls enableRotate = {false} enablePan = {false} enableZoom = {false} enabled = {false} />
+        </Suspense>
+      </PerformanceMonitor>
     </Canvas>
   )
 };
