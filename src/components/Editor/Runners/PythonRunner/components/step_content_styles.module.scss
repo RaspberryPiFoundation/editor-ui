@@ -1,0 +1,345 @@
+.step_content_container {
+  flex: 1;
+}
+
+.step_content {
+  border-radius: 0.625rem;
+
+  // @include skateboard;
+
+  &.inScratchOverlay {
+    // @include rollerskate;
+
+    // h2 {
+    //   @include scooter;
+    // }
+
+    img {
+      width: auto;
+    }
+
+    iframe {
+      margin-bottom: 0;
+      height: 21rem;
+    }
+  }
+
+  &.text_project {
+    .wrapped_top_level_elements {
+      code {
+        background-color: #2d2d2d;
+        border-radius: 5px;
+        color: #fff;
+        direction: ltr;
+        padding: 0.1em 0.2em;
+        text-align: left;
+      }
+
+      pre {
+        background: #2d2d2d;
+        margin: 0.5em 0;
+        overflow: auto;
+        padding: 1em;
+        color: #ccc;
+        direction: ltr;
+        hyphens: none;
+        line-height: 1.5;
+        tab-size: 4;
+        text-align: left;
+        white-space: pre;
+        word-break: normal;
+        word-spacing: normal;
+        word-wrap: normal;
+      }
+    }
+  }
+
+  &.block_project {
+    .wrapped_top_level_elements {
+      pre {
+        margin: 0.5em 0;
+      }
+    }
+  }
+
+  a {
+    color: black;
+  }
+
+  :global(.c-project-task),
+  .wrapped_top_level_elements {
+    // @include dog(padding);
+
+    background: white;
+    border-radius: 0.625rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+
+    :global(.c-project-task__checkbox) {
+      // @include bee(top);
+      // @include bee(right);
+      // @include dog(width);
+      // @include dog(height);
+
+      position: absolute;
+      -webkit-appearance: none;
+      appearance: none;
+      // background-image: url("../assets/check_box.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 28px 28px;
+      border-radius: 0.625rem;
+      border: 2px solid black;
+      cursor: pointer;
+      opacity: 0.2;
+      outline: none;
+    }
+
+    :global(.c-project-task__checkbox):checked {
+      // background-image: url("../assets/check_box_checked.svg");
+      background-color: green;
+      border: 2px solid green;
+      opacity: 1;
+    }
+
+    :global(.c-project-task__checkbox):not(:checked):hover {
+      border: 2px solid black;
+      opacity: 1;
+    }
+
+    & > :first-child {
+      margin-top: 0;
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
+
+    a:hover {
+      color: green;
+    }
+  }
+
+  img,
+  iframe,
+  svg {
+    display: block;
+    margin: 2.5rem auto;
+    max-width: 100%;
+  }
+
+  :global(.scratchblocks) svg {
+    margin-bottom: 0;
+    max-width: 150%;
+    width: 100%;
+  }
+
+  :global(.scratch-preview),
+  :global(.trinket) {
+    img {
+      display: none;
+    }
+  }
+
+  // h2 {
+  //   @include bike;
+  // }
+
+  // h3 {
+  //   @include scooter;
+  // }
+
+  p,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.25rem;
+  }
+
+  ul {
+    list-style-type: disc;
+
+    // @include chaffinch(padding-left);
+  }
+
+  li {
+    margin-top: 0.5rem;
+  }
+
+  :global {
+    code.blockcontrol,
+    code.blockdata,
+    code.blockevents,
+    code.blockextension,
+    code.blocklooks,
+    code.blockmoreblocks,
+    code.blockmotion,
+    code.blockoperators,
+    code.blockpen,
+    code.blocksensing,
+    code.blocksound,
+    code.block3control,
+    code.block3events,
+    code.block3extensions,
+    code.block3looks,
+    code.block3motion,
+    code.block3myblocks,
+    code.block3operators,
+    code.block3sensing,
+    code.block3sound,
+    code.block3variables {
+      border-radius: 3px;
+      color: #fff;
+    }
+
+    code.blockcontrol {
+      background: #e9aa00;
+    }
+
+    code.blockdata {
+      background: #ff7500;
+    }
+
+    code.blockevents {
+      background: #d38117;
+    }
+
+    code.blockextension {
+      background: #4e4a61;
+    }
+
+    code.blocklooks {
+      background: #9b33d9;
+    }
+
+    code.blockmoreblocks {
+      background: #71009a;
+    }
+
+    code.blockmotion {
+      background: #505fd7;
+    }
+
+    code.blockoperators {
+      background: #00c114;
+    }
+
+    code.blockpen {
+      background: #00a16f;
+    }
+
+    code.blocksensing {
+      background: #00a3e6;
+    }
+
+    code.blocksound {
+      background: #d000c2;
+    }
+
+    code.block3control {
+      background-color: #ffab19;
+    }
+
+    code.block3events {
+      background-color: #ffbf00;
+    }
+
+    code.block3extensions {
+      background-color: #0fbd8c;
+    }
+
+    code.block3looks {
+      background-color: #96f;
+    }
+
+    code.block3motion {
+      background-color: #4c97ff;
+    }
+
+    code.block3myblocks {
+      background-color: #ff6680;
+    }
+
+    code.block3operators {
+      background-color: #59c059;
+    }
+
+    code.block3sensing {
+      background-color: #5cb1d6;
+    }
+
+    code.block3sound {
+      background-color: #cf63cf;
+    }
+
+    code.block3variables {
+      background-color: #ff8c1a;
+    }
+  }
+
+  .wrapped_tip_box {
+    background-color: blue;
+    border-left: 10px solid navy;
+
+    // @include ant(padding);
+    // @include bee(margin-top);
+    // @include bee(margin-bottom);
+
+    p {
+      margin-top: 0;
+    }
+
+    strong {
+      color: black;
+      font-weight: bold;
+    }
+  }
+
+  :global(.c-project-panel--save) {
+    h3 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 0;
+    }
+
+    // h3::before {
+    //   content: url("../assets/save_icon.svg");
+
+    //   @include ant(margin-right);
+    // }
+  }
+
+  // Python content
+  .wrapped_unwanted_python_content {
+    display: none;
+  }
+}
+
+@media screen {
+  :global(.u-print-only) {
+    display: none;
+  }
+}
+
+@media print {
+  :global(.u-no-print) {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .step_content {
+    margin-top: 1rem;
+
+    :global(.c-project-task),
+    .wrapped_top_level_elements {
+      :global(.c-project-task__checkbox) {
+        background-size: 20px 20px;
+      }
+    }
+  }
+}

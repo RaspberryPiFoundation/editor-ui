@@ -1,0 +1,89 @@
+@import "root/palette";
+@import "root/spacing";
+@import "root/typography";
+
+.survey {
+  .responses {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    padding-left: 0;
+
+    @include bee(padding-top);
+
+    li {
+      width: 33.33%;
+      border: 2px solid $primary_black;
+      box-sizing: border-box;
+      border-radius: 10px;
+      margin: 2.5%;
+      text-align: center;
+
+      button {
+        color: $primary_black;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline;
+        flex-direction: column;
+        margin-bottom: 0.75rem;
+
+        svg {
+          margin: 0.75rem auto;
+        }
+
+        @include skateboard;
+
+        &:focus {
+          outline: 0;
+          color: $primary_green;
+        }
+      }
+
+      &:hover {
+        border-color: $primary_green;
+
+        a,
+        button {
+          color: $primary_green;
+        }
+
+        path,
+        circle,
+        rect {
+          fill: $primary_green;
+          stroke: $primary_green;
+        }
+      }
+
+      &.active_response {
+        border-color: $primary_green;
+        background-color: $primary_green;
+
+        a,
+        button {
+          color: $primary_white;
+        }
+
+        path,
+        circle,
+        rect {
+          fill: $primary_white;
+          stroke: $primary_white;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $max-mobile-width + 340px) {
+  .survey {
+    .responses {
+      flex-direction: column;
+
+      li {
+        margin: 1rem auto;
+        width: 13.125rem;
+      }
+    }
+  }
+}
