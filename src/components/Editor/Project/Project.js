@@ -19,6 +19,7 @@ import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
+import ResizableWithHandle from '../../../utils/ResizableWithHandle';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -110,7 +111,7 @@ const Project = (props) => {
         }
       }
     }, 2000);
-     
+
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
@@ -118,7 +119,7 @@ const Project = (props) => {
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <div className='proj-editor-container'>
+        <ResizableWithHandle className='proj-editor-container'>
           <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <div className='react-tabs__tab-container'>
               <TabList>
@@ -144,7 +145,7 @@ const Project = (props) => {
             ))}
             <RunnerControls />
           </Tabs>
-        </div>
+        </ResizableWithHandle>
         <Output />
       </div>
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}

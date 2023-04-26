@@ -2,6 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import ProjectImages from "./ProjectImages/ProjectImages"
 import FilesList from "./FilesList"
+import ResizableWithHandle from '../../../../utils/ResizableWithHandle';
 
 import './FilePane.scss'
 
@@ -11,10 +12,10 @@ const FilePane = (props) => {
   const {openFileTab} = props
 
   return (
-    <div className = "file-pane">
+    <ResizableWithHandle className='file-pane' minWidth='200px'>
       <FilesList openFileTab = {openFileTab}/>
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
-    </div>
+    </ResizableWithHandle>
   )
 }
 
