@@ -18,20 +18,20 @@ function HtmlRunner() {
 
   const runCode = () => {
     // TODO: get html files and handle urls for non index pages
-    var indexPage = projectCode[0].content;
+    let indexPage = projectCode[0].content;
 
-    var cssFiles = projectCode.filter(
+    const cssFiles = projectCode.filter(
       (component) => component.extension === "css"
     );
     cssFiles.forEach((cssFile) => {
-      var cssFileBlob = getBlobURL(cssFile.content, "text/css");
+      const cssFileBlob = getBlobURL(cssFile.content, "text/css");
       indexPage = indexPage.replace(
         `href="${cssFile.name}.css"`,
         `href="${cssFileBlob}"`
       );
     });
 
-    var blob = getBlobURL(indexPage, "text/html");
+    const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
   };
 

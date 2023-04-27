@@ -82,7 +82,7 @@ const ProjectIndex = (props) => {
           onClickHandler={onCreateProject}
           buttonText="Create a new project"
           ButtonIcon={PlusIcon}
-          buttonIconLeft={false}
+          buttonIconPosition="right"
         />
       </ProjectIndexHeader>
       {!loading && data ? (

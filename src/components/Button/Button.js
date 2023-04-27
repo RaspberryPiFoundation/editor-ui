@@ -18,7 +18,7 @@ const Button = (props) => {
     confirmText,
     title,
     label,
-    buttonIconLeft = true,
+    buttonIconPosition = "left",
   } = props;
 
   const buttonClass = `btn${className ? ` ${className}` : ""}${
@@ -54,9 +54,9 @@ const Button = (props) => {
       onClick={buttonOuter ? null : onButtonClick}
     >
       {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
-      {ButtonIcon && buttonIconLeft ? <ButtonIcon /> : null}
+      {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
       {buttonText ? <span>{buttonText}</span> : null}
-      {ButtonIcon && !buttonIconLeft ? <ButtonIcon /> : null}
+      {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>
   );
 
