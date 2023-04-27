@@ -2,6 +2,7 @@ import axios from "axios";
 import omit from "lodash/omit";
 
 const host = process.env.REACT_APP_API_ENDPOINT;
+const projectsAdmin = process.env.REACT_APP_PROJECTS_ADMIN_API;
 
 const get = async (url, headers) => {
   return await axios.get(url, headers);
@@ -77,15 +78,12 @@ export const readProjectList = async (page, accessToken) => {
 };
 
 export const getInstructions = async (slug, locale = "en") => {
-  return await get(
-    `http://localhost:3005/api/v1/${locale}/projects/${slug}`,
-    {}
-  );
+  return await get(`${projectsAdmin}/api/v1/${locale}/projects/${slug}`, {});
 };
 
 export const getQuiz = async (slug, quizName, locale = "en") => {
   return await get(
-    `http://localhost:3005/api/v1/${locale}/projects/${slug}/quizzes/${quizName}`,
+    `${projectsAdmin}/api/v1/${locale}/projects/${slug}/quizzes/${quizName}`,
     {}
   );
 };
