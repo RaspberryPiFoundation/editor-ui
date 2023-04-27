@@ -20,6 +20,7 @@ import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../util
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
 import NewFileModal from '../../Modals/NewFileModal';
+import RunBar from '../../RunButton/RunBar';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -144,7 +145,7 @@ const Project = (props) => {
                 <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
               </TabPanel>
             ))}
-            <RunnerControls />
+            <RunBar/>
           </Tabs>
         </div>
         <Output />

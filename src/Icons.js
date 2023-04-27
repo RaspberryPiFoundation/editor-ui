@@ -430,9 +430,8 @@ export const RunIcon = () => {
       height="14"
       viewBox="0 0 11 14"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M0 14V0L11 7L0 14ZM2 10.35L7.25 7L2 3.65V10.35Z" />
+      xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 14V0L11 7L0 14Z"/>
     </svg>
   );
 };
@@ -478,9 +477,8 @@ export const StopIcon = () => {
       height="12"
       viewBox="0 0 12 12"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M2 2V10V2ZM0 12V0H12V12H0ZM2 10H10V2H2V10Z" />
+      xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 12V0H12V12H0Z"/>
     </svg>
   );
 };
