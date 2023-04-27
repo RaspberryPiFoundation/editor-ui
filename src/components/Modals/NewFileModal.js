@@ -43,6 +43,8 @@ const NewFileModal = () => {
     })
   }
 
+  const fileNameExamples = (projectType === 'python' ? t('filePane.newFileModal.helpTextExamplePython') : t('filePane.newFileModal.helpTextExampleHTML'))
+
   return (
     <Modal
       isOpen={isModalOpen}
@@ -59,8 +61,10 @@ const NewFileModal = () => {
       </div>
 
       <div className='modal-content__body'>
-        <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
-        <p>{t('filePane.newFileModal.helpText')}</p>
+        <div>
+          <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
+          <p className='modal-content__help-text'>{t('filePane.newFileModal.helpText')}, {fileNameExamples}</p>
+        </div>
         <div>
           <NameErrorMessage />
           <input ref={nameInput} type='text' name='name' id='name' onKeyDown={onKeyDown}></input>
