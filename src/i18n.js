@@ -145,8 +145,10 @@ i18n
             newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
+              helpText: "Remember to add the file extension at the end of your file name",
+              helpTextExampleHTML: "for example, 'file.html' or 'file.css'",
               inputLabel: "Name your file",
-              save: "Save",
+              addFile: "Add file",
             },
             renameFileModal: {
               cancel: "Cancel",

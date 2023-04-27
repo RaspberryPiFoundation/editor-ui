@@ -60,6 +60,7 @@ const NewFileModal = () => {
 
       <div className='modal-content__body'>
         <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
+        <p>{t('filePane.newFileModal.helpText')}</p>
         <div>
           <NameErrorMessage />
           <input ref={nameInput} type='text' name='name' id='name' onKeyDown={onKeyDown}></input>
@@ -67,7 +68,7 @@ const NewFileModal = () => {
       </div>
 
       <div className='modal-content__buttons'>
-        <Button className='btn--primary' buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />
+        <Button className='btn--primary' buttonText={t('filePane.newFileModal.addFile')} onClickHandler={createComponent} />
         <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
       </div>
     </Modal>

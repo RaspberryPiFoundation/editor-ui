@@ -31,7 +31,7 @@ describe("Testing the new file modal", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><div id='app'><NewFileModal /></div></Provider>)
-    saveButton = screen.getByText('filePane.newFileModal.save')
+    saveButton = screen.getByText('filePane.newFileModal.addFile')
     inputBox = screen.getByRole('textbox')
   })
 
