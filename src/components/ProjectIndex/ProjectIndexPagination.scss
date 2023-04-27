@@ -1,10 +1,11 @@
 @import '../../colours.scss';
+@import '../../spacing.scss';
 
 .editor-project-list-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: var(--space-2-5);
+  margin-bottom: $space-2-5;
   svg {
     margin: 0;
   }
@@ -17,15 +18,15 @@
   justify-content: center;
 
   .btn {
-    margin: 0 var(--space-0-25)
+    margin: 0 $space-0-25
   }
 }
 
 .editor-project-list-pagination__current-page {
   height: 100%;
   box-sizing: border-box;
-  padding: var(--space-0-5) var(--space-1);
-  margin: 0 var(--space-0-25);
+  padding: $space-0-5 $space-1;
+  margin: 0 $space-0-25;
   border-radius: 10px;
   display: flex;
   align-items: center;

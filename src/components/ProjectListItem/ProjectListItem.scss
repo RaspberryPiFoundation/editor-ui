@@ -1,5 +1,6 @@
 @import '../../colours.scss';
 @import '../../mixins.scss';
+@import '../../spacing.scss';
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -31,7 +32,7 @@ $small-table-grid: 600px;
     display: flex;
     grid-column: span 8;
     min-width: 0;
-    padding: var(--space-0-5) 0;
+    padding: $space-0-5 0;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 6;
@@ -47,7 +48,7 @@ $small-table-grid: 600px;
   &__type {
     border-radius: 4px;
     width: 35px;
-    padding-right: var(--space-0-5);
+    padding-right: $space-0-5;
   }
 
   &__name {
@@ -91,7 +92,7 @@ $small-table-grid: 600px;
       }
 
       svg {
-        margin-right: var(--space-0-5);
+        margin-right: $space-0-5;
       }
     }
 

@@ -1,14 +1,15 @@
 @import './colours.scss';
 @import './mixins.scss';
+@import './spacing.scss';
 
 .modal-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-5);
+  padding: $space-5;
 
   @include mobile-only {
-    padding: var(--space-2);
+    padding: $space-2;
   }
 }
 
@@ -30,7 +31,7 @@
     box-sizing: border-box;
     border: 2px solid transparent;
     border-radius: 12px;
-    padding: var(--space-0-5);
+    padding: $space-0-5;
     display: block;
   }
 
@@ -44,7 +45,7 @@
   display: flex;
   align-items: center;
   min-height: fit-content;
-  padding: var(--space-1) var(--space-0-5) var(--space-1) var(--space-1);
+  padding: $space-1 $space-0-5 $space-1 $space-1;
 
   button {
     margin-left: auto;
@@ -53,15 +54,15 @@
 }
 
 .modal-content__heading {
-  margin: var(--space-0-5) var(--space-0-5) var(--space-0-5) 0;
+  margin: $space-0-5 $space-0-5 $space-0-5 0;
   font-size: var(--font-size-u-2);
 }
 
 .modal-content__body {
-  padding: var(--space-1-5);
+  padding: $space-1-5;
   display: flex;
   flex-direction: column;
-  row-gap: var(--space-0-5);
+  row-gap: $space-0-5;
   overflow-y: auto;
 }
 
@@ -77,11 +78,11 @@
 }
 
 .modal-content__buttons {
-  padding: var(--space-1);
+  padding: $space-1;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
-  gap: var(--space-1);
+  gap: $space-1;
   justify-content: flex-start;
 
   @include mobile-only {
@@ -104,7 +105,7 @@
 
 .modal-content__links {
   text-align: center;
-  margin: var(--space-0-5) 0 var(--space-0-25) 0;
+  margin: $space-0-5 0 $space-0-25 0;
   
   button {
     text-decoration: underline;

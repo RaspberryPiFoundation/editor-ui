@@ -1,4 +1,4 @@
-@forward '../../spacing.scss';
+@import '../../spacing.scss';
 @import '../../colours.scss';
 
 .theme-toggle {
@@ -11,8 +11,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: var(--space-4-5);
-      width: var(--space-4-5);
+      height: $space-4-5;
+      width: $space-4-5;
       border-radius: 5px;
 
       &--light {
@@ -41,7 +41,7 @@
     }
 
     &--light {
-      margin-right: var(--space-0-5);
+      margin-right: $space-0-5;
 
       &:hover {
         svg {
@@ -61,6 +61,6 @@
 
   p {
     text-align: center;
-    margin-top: var(--space-0-5)
+    margin-top: $space-0-5
   }
 }

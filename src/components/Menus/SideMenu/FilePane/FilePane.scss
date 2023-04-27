@@ -1,4 +1,5 @@
 @import '../../../../colours.scss';
+@import '../../../../spacing.scss';
 
 .file-pane {
   overflow-y: auto;
@@ -29,13 +30,13 @@
   }
 
   .file-pane-section {
-    padding: 0 var(--space-0-5);
+    padding: 0 $space-0-5;
 
     &__images {
       padding-left: 0;
 
       summary {
-        padding-left: var(--space-0-5)
+        padding-left: $space-0-5
       }
     }
   }

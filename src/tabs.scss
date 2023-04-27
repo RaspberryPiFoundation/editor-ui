@@ -1,5 +1,6 @@
 @import './colours.scss';
 @import './components/Button/Button.scss';
+@import './spacing.scss';
 
 #app, #wc {
   .react-tabs {
@@ -16,20 +17,20 @@
       @extend .btn--secondary;
 
       border: 3px solid transparent;
-      margin: var(--space-0-5) var(--space-0-25);
-      padding: var(--space-0-25) var(--space-0-5);
+      margin: $space-0-5 $space-0-25;
+      padding: $space-0-25 $space-0-5;
       white-space: nowrap;
 
       &--split {
-        padding-right: var(--space-2-5);
+        padding-right: $space-2-5;
       }
     }
     &__tab-inner-close-btn {
       position: absolute;
       background: transparent;
-      right: calc(-1 * var(--space-0-125));
+      right: calc(-1 * $space-0-125);
       height: 100%;
-      padding: var(--space-0-5);
+      padding: $space-0-5;
       text-align: center;
       svg {
         margin: 0;
@@ -81,13 +82,13 @@
 
       &:first-of-type {
         .react-tabs__tab-inner {
-          margin-left: var(--space-0-5);
+          margin-left: $space-0-5;
         }
       }
 
       &:last-of-type {
         .react-tabs__tab-inner {
-          margin-right: var(--space-0-5);
+          margin-right: $space-0-5;
         }
       }
     }

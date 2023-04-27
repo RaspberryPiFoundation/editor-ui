@@ -1,7 +1,8 @@
 @import '../../../../colours.scss';
+@import '../../../../spacing.scss';
 
 .files-list {
-  padding: var(--space-0-5) 0;
+  padding: $space-0-5 0;
   overflow-x: hidden;
 }
 
@@ -15,7 +16,7 @@
   white-space: nowrap;
   font-weight: var(--font-weight-medium);
   min-height: 44px;
-  padding: var(--space-0-5) var(--space-2-5) var(--space-0-5) var(--space-0-5);
+  padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
 
   .files-list-icon {
     display: flex;
@@ -40,7 +41,7 @@
 
 .files-list-item__name {
   margin: 0;
-  padding-left: var(--space-0-5);
+  padding-left: $space-0-5;
   padding-right: 0;
   overflow-x: hidden;
   text-overflow: ellipsis;

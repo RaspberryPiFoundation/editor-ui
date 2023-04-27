@@ -1,4 +1,5 @@
 @import '../../../colours.scss';
+@import '../../../spacing.scss';
 
 .proj {
   flex: 1;
@@ -30,10 +31,10 @@
 .proj-container {
   flex: 1;
   display: flex;
-  grid-gap: var(--space-0-5);
+  grid-gap: $space-0-5;
   overflow: hidden;
   justify-content: space-between;
-  margin: var(--space-1-5);
+  margin: $space-1-5;
 
   .proj-runner-container, .proj-editor-container, .menu {
     border-radius: 10px;

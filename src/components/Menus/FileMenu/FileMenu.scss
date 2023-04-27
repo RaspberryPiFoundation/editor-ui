@@ -1,8 +1,9 @@
 @import '../../../colours.scss';
+@import '../../../spacing.scss';
 
 .file-menu__drop {
     display: flex;
-    padding: var(--space-0-5) var(--space-1);
+    padding: $space-0-5 $space-1;
     margin: 0;
 
     svg {
@@ -14,13 +15,13 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-left: var(--space-0-5);
+    margin-left: $space-0-5;
 
     .file-menu__item {
         margin: 0;
         background-color: inherit;
         color:  inherit;
-        padding: var(--space-0-5);
+        padding: $space-0-5;
         text-align: left;
         white-space: nowrap;
         overflow-x: visible;

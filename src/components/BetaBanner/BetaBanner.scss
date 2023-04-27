@@ -1,9 +1,10 @@
 @import '../../colours.scss';
+@import '../../spacing.scss';
 
 .editor-banner {
   display: flex;
   align-items: center;
-  padding: var(--space-0-25) var(--space-1-5);
+  padding: $space-0-25 $space-1-5;
 
   &--beta {
     background-color: $rpf-teal-tint-50;
@@ -15,16 +16,16 @@
   }
 
   &--beta__icon {
-    padding: var(--space-0-25);
+    padding: $space-0-25;
     border-radius: 8px;
     background-color: $rpf-teal-tint-75;
     font-weight: var(--font-weight-bold);
-    margin-right: var(--space-1-5)
+    margin-right: $space-1-5
   }
 }
 
 .editor-banner__message {
-  padding: var(--space-0-25) 0
+  padding: $space-0-25 0
 }
 
 .editor-banner__link {

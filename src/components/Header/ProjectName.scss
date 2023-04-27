@@ -1,28 +1,29 @@
 @import '../../colours.scss';
+@import '../../spacing.scss';
 
 .project-name {
   align-items: center;
   display: flex;
   height: 100%;
   max-width: 50%;
-  padding-inline-start: var(--space-0-5);
+  padding-inline-start: $space-0-5;
 }
 
 .project-name__input,
 .project-name__title {
   font-size: 1em;
   font-weight: var(--font-weight-bold);
-  padding: var(--space-0-5) var(--space-1-5);
+  padding: $space-0-5 $space-1-5;
 }
 
 .project-name__title {
   margin: 0;
-  padding-right: var(--space-0-5);
+  padding-right: $space-0-5;
 }
 
 .project-name__button {
   height: fit-content;
-  padding: var(--space-0-5);
+  padding: $space-0-5;
 
   svg {
     height: 1rem;
