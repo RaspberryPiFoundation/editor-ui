@@ -13,10 +13,6 @@
     display: flex;
     padding: 0 var(--spacing-2);
 
-    svg {
-      margin-right: var(--spacing-1)
-    }
-
     &--active {
       border-bottom: 3px solid $rpf-teal;
     }

@@ -7,10 +7,6 @@
   display: flex;
 }
 
-.autosave__icon {
-  margin-right: var(--spacing-1)
-}
-
 .autosave__status {
   margin-right: 0.2rem
 }
@@ -65,10 +61,6 @@
 
   &a:visited {
     color: inherit;
-  }
-
-  svg {
-    margin-right: var(--spacing-1)
   }
 
   + .project-name {

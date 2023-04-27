@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './HtmlRunner.css';
-import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import "./HtmlRunner.scss";
+import React, { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
   const output = useRef();
 
   const getBlobURL = (code, type) => {
-    const blob = new Blob([code], { type })
-    return URL.createObjectURL(blob)
-  }
+    const blob = new Blob([code], { type });
+    return URL.createObjectURL(blob);
+  };
 
   useEffect(() => {
     runCode();
@@ -18,21 +18,31 @@ function HtmlRunner() {
 
   const runCode = () => {
     // TODO: get html files and handle urls for non index pages
-    var indexPage = projectCode[0].content;
+    let indexPage = projectCode[0].content;
 
-    var cssFiles = projectCode.filter(component => component.extension === 'css');
-    cssFiles.forEach(cssFile => {
-      var cssFileBlob = getBlobURL(cssFile.content, 'text/css');
-      indexPage = indexPage.replace(`href="${cssFile.name}.css"`, `href="${cssFileBlob}"`)
+    const cssFiles = projectCode.filter(
+      (component) => component.extension === "css"
+    );
+    cssFiles.forEach((cssFile) => {
+      const cssFileBlob = getBlobURL(cssFile.content, "text/css");
+      indexPage = indexPage.replace(
+        `href="${cssFile.name}.css"`,
+        `href="${cssFileBlob}"`
+      );
     });
 
-    var blob = getBlobURL(indexPage, 'text/html');
+    const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
-  }
+  };
 
   return (
     <div className="htmlrunner-container">
-      <iframe className="htmlrunner-iframe" id="output-frame" title="html-output-frame" ref={output} />
+      <iframe
+        className="htmlrunner-iframe"
+        id="output-frame"
+        title="html-output-frame"
+        ref={output}
+      />
     </div>
   );
 }

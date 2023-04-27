@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Refactored `NewComponentButton` (#450)
 - Modal styling (#450)
+- Projects tab layout (#447)
 
 ### Fixed
 

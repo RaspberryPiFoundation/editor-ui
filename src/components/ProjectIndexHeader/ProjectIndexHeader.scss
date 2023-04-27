@@ -27,6 +27,12 @@
     margin: var(--spacing-1) 0;
   }
 
+  h3 {
+    @include md-width {
+      margin-bottom: 0;
+    }
+  }
+
   &__action {
     @include md-width {
       margin-left: auto;
