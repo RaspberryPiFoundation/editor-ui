@@ -82,7 +82,7 @@
   flex-wrap: wrap;
   flex-direction: row-reverse;
   gap: var(--space-1);
-  justify-content: end;
+  justify-content: flex-start;
 
   @include mobile-only {
     display: flex;
