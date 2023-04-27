@@ -38,11 +38,10 @@ const ProjectComponentLoader = (props) => {
         loadInstructions({
           slug: "target-practice", // TODO: associate editor projects with project site slugs
           locale: i18n.language,
-          accessToken,
         })
       );
     }
-  }, [project, i18n.language, navigate]);
+  }, [project, i18n.language, navigate, dispatch]);
 
   return loading === "success" ? (
     <Project />

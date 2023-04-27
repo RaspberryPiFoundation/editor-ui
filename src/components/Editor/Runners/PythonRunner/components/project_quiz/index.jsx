@@ -31,7 +31,7 @@ const ProjectQuiz = ({
   const feedbackRef = useRef();
 
   const hasLoadedQuestions = questions.length > 0;
-  const isLastQuestion = questionNumber == questions.length - 1;
+  const isLastQuestion = questionNumber === questions.length - 1;
   const isCorrectAnswer =
     quizQuestion && quizQuestion.isCorrectAnswer(submittedAnswerId);
   const questionHTML = hasLoadedQuestions && questions[questionNumber];
@@ -46,7 +46,7 @@ const ProjectQuiz = ({
         })
       );
     }
-  }, [quizName, i18n.language]);
+  }, [quizName, i18n.language, dispatch]);
 
   useEffect(() => {
     if (quiz) {

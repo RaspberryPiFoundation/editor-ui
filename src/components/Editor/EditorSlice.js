@@ -71,8 +71,8 @@ export const loadProjectList = createAsyncThunk(
 
 export const loadInstructions = createAsyncThunk(
   `editor/loadInstructions`,
-  async ({ slug, locale, accessToken }) => {
-    const response = await getInstructions(slug, locale, accessToken);
+  async ({ slug, locale }) => {
+    const response = await getInstructions(slug, locale);
     return {
       instructions: response.data,
     };

@@ -69,7 +69,7 @@ const PythonRunner = () => {
   const scrollToTop = useRef(null);
   // const [stepNavigationVisible, setStepNavigationVisible] = useState(false);
   const instructions = useSelector((state) => state.editor.instructions);
-  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false); // eslint-disable-line no-unused-vars
   const [stepIndex, setStepIndex] = useState(0);
   const [step, setStep] = useState();
   const [showNextButton, setShowNextButton] = useState(true);
