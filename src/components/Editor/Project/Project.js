@@ -121,7 +121,7 @@ const Project = (props) => {
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <ResizableWithHandle className='proj-editor-container'>
+        <ResizableWithHandle className='proj-editor-container' minWidth='15%' maxWidth='75%'>
           <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
             <div className='react-tabs__tab-container'>
               <TabList>

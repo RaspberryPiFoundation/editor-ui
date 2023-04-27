@@ -1,5 +1,3 @@
-
-import React from "react";
 import { Resizable } from 're-resizable'
 
 import './ResizableWithHandle.scss';

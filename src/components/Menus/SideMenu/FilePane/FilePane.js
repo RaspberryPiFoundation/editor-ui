@@ -12,7 +12,7 @@ const FilePane = (props) => {
   const {openFileTab} = props
 
   return (
-    <ResizableWithHandle className='file-pane' minWidth='200px'>
+    <ResizableWithHandle className='file-pane' minWidth='200px' maxWidth='500px'>
       <FilesList openFileTab = {openFileTab}/>
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </ResizableWithHandle>
