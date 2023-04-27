@@ -57,7 +57,7 @@
     }
 
     @include md-width {
-      margin-left: var(--spacing-5);
+      margin-left: $space-3;
     }
   }
 }
