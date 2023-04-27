@@ -29,6 +29,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Container queries (#445)
+- Resize handle #453
+- Container queries (#4455)
 - File type icons (#449)
 
 ## [0.14.0] - 2023-03-28
