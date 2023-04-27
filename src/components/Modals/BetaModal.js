@@ -25,13 +25,17 @@ const BetaModal = () => {
         parentSelector={() => document.querySelector('#app')}
         appElement={document.getElementById('app') || undefined}
       >
-        <h2 className='modal-content__heading'>{t('betaBanner.modal.heading')}</h2>
+        <div className='modal-content__header'>
+          <h2 className='modal-content__heading'>{t('betaBanner.modal.heading')}</h2>
+        </div>
 
-        <h3 className='modal-content__subheading'>{t('betaBanner.modal.meaningHeading')}</h3>
-        <p className='modal-content__text'>{t('betaBanner.modal.meaningText')}</p>
+        <div className='modal-content__body'>
+          <h3 className='modal-content__subheading'>{t('betaBanner.modal.meaningHeading')}</h3>
+          <p className='modal-content__text'>{t('betaBanner.modal.meaningText')}</p>
 
-        <h3 className='modal-content__subheading'>{t('betaBanner.modal.whatNextHeading')}</h3>
-        <p className='modal-content__text'>{t('betaBanner.modal.whatNextText')}</p>
+          <h3 className='modal-content__subheading'>{t('betaBanner.modal.whatNextHeading')}</h3>
+          <p className='modal-content__text'>{t('betaBanner.modal.whatNextText')}</p>
+        </div>
 
         <div className='modal-content__buttons' >
           <Button className='btn--primary' buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />

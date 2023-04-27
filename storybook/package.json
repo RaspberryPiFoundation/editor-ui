@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "storybook",
+  "version": "0.1.0",
+  "scripts": {
+    "storybook": "PORT=6006 start-storybook -p 6006 --no-manager-cache",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.3",
+    "@storybook/addon-actions": "6.5.10",
+    "@storybook/addon-essentials": "6.5.10",
+    "@storybook/addon-interactions": "6.5.10",
+    "@storybook/builder-webpack4": "6.5.10",
+    "@storybook/manager-webpack4": "6.5.10",
+    "@storybook/mdx2-csf": "0.0.3",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "6.5.10",
+    "css-loader": "^5.2.6",
+    "react": "^16.8.6",
+    "react-dom": "16.14.0",
+    "react-i18next": "^7.5.1",
+    "react-router-dom": "4.3.1",
+    "sass-loader": "^10.1.1",
+    "storybook-addon-root-attribute": "^1.0.2",
+    "storybook-react-i18next": "^1.1.2",
+    "style-loader": "^2.0.0"
+  },
+  "eslintConfig": {
+    "overrides": [{
+      "files": [
+        "**/*.stories.*"
+      ],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }]
+  },
+  "baseUrl": "../src"
+}
