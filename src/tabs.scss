@@ -27,9 +27,9 @@
     &__tab-inner-close-btn {
       position: absolute;
       background: transparent;
-      right: calc(-1 * var(--space-0-5));
+      right: calc(-1 * var(--space-0-125));
       height: 100%;
-      padding: var(--space-0-5) var(--space-1) var(--space-0-5) var(--space-0-25);
+      padding: var(--space-0-5);
       text-align: center;
       svg {
         margin: 0;
