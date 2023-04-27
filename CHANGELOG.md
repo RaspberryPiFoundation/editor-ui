@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+
+## [0.15.0] - 2023-04-27
+
 ### Added
 
 - Initial storybook setup (#440)
@@ -333,7 +336,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.14.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0
 [0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
 [0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0
