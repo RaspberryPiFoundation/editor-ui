@@ -10,16 +10,6 @@ const Handle = () => (
   </svg>
 );
 
-const handleStyles = {
-  position: 'absolute',
-  userSelect: 'none',
-  height: '100%',
-  top: '0px',
-  cursor: 'col-resize',
-  right: '6px',
-  zIndex: '10',
-};
-
 const ResizableWithHandle = props => {
   const {children, ...rest} = props
 
@@ -28,7 +18,6 @@ const ResizableWithHandle = props => {
       enable={{ top: false, right: true, bottom: false, left: false }}
       handleComponent={{right: <Handle />}}
       handleWrapperClass='resizable-with-handle__handle'
-      handleStyles={{right: handleStyles}}
       {...rest}
     >
       {children}
