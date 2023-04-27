@@ -9,7 +9,6 @@ import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls'
 import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 import { CloseIcon } from '../../../Icons';
