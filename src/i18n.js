@@ -256,6 +256,7 @@ i18n
             },
             textOutput: "Text Output",
             visualOutput: "Visual Output",
+            instructionsOutput: "Instructions",
           },
           outputViewToggle: {
             buttonTabLabel: "Tabbed view",

@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useProject } from "../Hooks/useProject";
 import { useEmbeddedMode } from "../Hooks/useEmbeddedMode";
 import Project from "../Project/Project";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { loadInstructions } from "../EditorSlice";
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -16,6 +18,7 @@ const ProjectComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
 
   useEmbeddedMode(embedded);
   useProject(identifier, accessToken);
@@ -28,6 +31,17 @@ const ProjectComponentLoader = (props) => {
       navigate("/");
     }
   }, [loading, project, i18n.language, navigate]);
+
+  useEffect(() => {
+    if (project) {
+      dispatch(
+        loadInstructions({
+          slug: "target-practice", // TODO: associate editor projects with project site slugs
+          locale: i18n.language,
+        })
+      );
+    }
+  }, [project, i18n.language, navigate, dispatch]);
 
   return loading === "success" ? (
     <Project />
