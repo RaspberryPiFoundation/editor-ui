@@ -53,6 +53,7 @@
   font-family: sans-serif;
   font-size: inherit;
   font-weight: var(--font-weight-bold);
+  gap: var(--spacing-1);
   justify-content: center;
   margin: 6px;
   min-height: 44px;
@@ -72,10 +73,6 @@
   &:focus-visible {
     border: 3px solid $rpf-brand-raspberry;
     outline: none;
-  }
-
-  svg {
-    margin-right: $space-0-5;
   }
 
   &--small {

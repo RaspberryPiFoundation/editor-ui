@@ -12,10 +12,11 @@
 }
 
 .editor-project-pagination__buttons {
-  width: 100px;
-  height: 100%;
   display: flex;
+  height: 100%;
   justify-content: center;
+  min-width: fit-content;
+  width: 100px;
 
   .btn {
     margin: 0 $space-0-25

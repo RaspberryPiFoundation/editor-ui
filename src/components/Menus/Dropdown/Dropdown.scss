@@ -14,10 +14,6 @@
     display: flex;
     padding: 0 $space-1-5;
 
-    svg {
-      margin-right: $space-0-5
-    }
-
     &--active {
       border-bottom: 3px solid $rpf-teal;
     }

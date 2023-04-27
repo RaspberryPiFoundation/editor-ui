@@ -8,10 +8,6 @@
   display: flex;
 }
 
-.autosave__icon {
-  margin-right: $space-0-5
-}
-
 .autosave__status {
   margin-right: 0.2rem
 }
@@ -66,10 +62,6 @@
 
   &a:visited {
     color: inherit;
-  }
-
-  svg {
-    margin-right: $space-0-5
   }
 
   + .project-name {
