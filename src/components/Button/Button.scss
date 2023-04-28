@@ -80,7 +80,7 @@
 
   // Variants
   &--primary {
-    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal, $rpf-teal-shade-20;
+    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal, $rpf-teal-900;
     @include button-styling($colours...);
   }
 
@@ -88,10 +88,10 @@
     $colours: inherit, inherit, $rpf-grey-50, $rpf-grey-600, inherit, inherit;
     @include button-styling($colours...);
 
-    border: 2px solid $rpf-teal;
+    border: 2px solid $rpf-teal-800;
 
     &:active {
-      border: 2px solid $rpf-teal-shade-20;
+      border: 2px solid $rpf-teal-900;
     }
 
     &:hover {
@@ -113,10 +113,10 @@
     margin: 0;
 
     &:active {
-      color: $rpf-teal-shade-20;
+      color: $rpf-teal-900;
 
       svg {
-        fill: $rpf-teal-shade-20;
+        fill: $rpf-teal-900;
       }
     }
 
@@ -172,7 +172,7 @@
   .btn-outer {
     &:hover {
       .btn--primary {
-        background-color: $rpf-teal-tint-25;
+        background-color: $rpf-teal-600;
       }
 
       .btn--secondary {
@@ -186,7 +186,7 @@
 
     &:active {
       .btn--primary {
-        background-color: $rpf-teal-tint-75;
+        background-color: $rpf-teal-200;
       }
 
       .btn--secondary {
@@ -200,7 +200,7 @@
 
     &:focus-visible {
       .btn--primary {
-        background-color: $rpf-teal-tint-50;
+        background-color: $rpf-teal-400;
       }
 
       .btn--secondary {
@@ -214,7 +214,7 @@
   }
 
   .btn--primary {
-    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-tint-25;
+    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-600;
     @include button-styling($colours...);
   }
 
@@ -222,10 +222,10 @@
     $colours: inherit, inherit, $rpf-grey-700, $rpf-grey-100, inherit, inherit, $rpf-white;
     @include button-styling($colours...);
 
-    border: 2px solid $rpf-teal-tint-50;
+    border: 2px solid $rpf-teal-400;
 
     &:active {
-      border: 2px solid $rpf-teal-shade-20;
+      border: 2px solid $rpf-teal-900;
     }
 
     &:hover {
@@ -246,10 +246,10 @@
     @include button-styling($colours...);
 
     &:active {
-      color: $rpf-teal-tint-75;
+      color: $rpf-teal-200;
 
       svg {
-        fill: $rpf-teal-tint-75;
+        fill: $rpf-teal-200;
       }
     }
 

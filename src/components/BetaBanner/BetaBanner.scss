@@ -6,7 +6,7 @@
   padding: var(--spacing-half) var(--spacing-2);
 
   &--beta {
-    background-color: $rpf-teal-tint-50;
+    background-color: $rpf-teal-400;
     color: $rpf-text-primary;
 
     svg {
@@ -17,7 +17,7 @@
   &--beta__icon {
     padding: var(--spacing-half);
     border-radius: 8px;
-    background-color: $rpf-teal-tint-75;
+    background-color: $rpf-teal-200;
     font-weight: var(--font-weight-bold);
     margin-right: var(--spacing-2);
   }
