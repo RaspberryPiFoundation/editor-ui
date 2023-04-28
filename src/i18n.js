@@ -146,8 +146,10 @@ i18n
               cancel: "Cancel",
               heading: "Add a new file to your project",
               helpText: "Remember to add the file extension at the end of your file name, for example, {{examples}}",
-              helpTextExampleHTML: "'file.html' or 'file.css'",
-              helpTextExamplePython: "'file.py'",
+              helpTextExample:{
+                html: "'file.html' or 'file.css'",
+                python: "'file.py'"
+              },
               inputLabel: "Name your file",
               addFile: "Add file",
             },
