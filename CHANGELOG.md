@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
+- Help text in the new file modal (#478)
 
 ## [0.15.0] - 2023-04-27
 
