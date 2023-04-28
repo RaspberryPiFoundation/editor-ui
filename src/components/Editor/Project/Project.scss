@@ -1,3 +1,4 @@
+@use '../../../spacing' as *;
 @import '../../../colours.scss';
 
 .proj {
@@ -30,10 +31,10 @@
 .proj-container {
   flex: 1;
   display: flex;
-  grid-gap: var(--spacing-1);
+  grid-gap: $space-0-5;
   overflow: hidden;
   justify-content: space-between;
-  margin: var(--spacing-2);
+  margin: $space-1-5;
 
   .proj-runner-container, .proj-editor-container, .menu {
     border-radius: 10px;
@@ -42,18 +43,34 @@
   .proj-editor-container {
     display: flex;
     flex-flow: column;
-    flex: 5;
-    overflow-y: hidden;
     box-sizing: border-box;
+    flex-basis: 45%;
+
+    @media only screen and (max-width: 1600px) {
+      flex-basis: 43%;
+    }
+
+    @media only screen and (max-width: 960px) {
+      flex-basis: 39%;
+    }
+
+    @media only screen and (max-width: 768px) {
+      flex-basis: 37%;
+    }
+
+    @media only screen and (max-width: 456px) {
+      flex-basis: 22%;
+    }
 
     .react-tabs__tab-panel--selected {
-    overflow-y: hidden;
+      overflow-y: hidden;
     }
   }
-  
+
   .proj-runner-container {
     display: flex;
-    flex: 5;
+    flex-flow: column;
+    flex: 5 1;
     overflow-y: hidden;
 
     .react-tabs__tab-panel--selected {

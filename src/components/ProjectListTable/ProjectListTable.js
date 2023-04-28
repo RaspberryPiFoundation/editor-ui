@@ -28,10 +28,6 @@ export const ProjectListTable = (props) => {
       <div className='editor-project-list__container'>
         { projectList && projectList.length > 0 ?
           <>
-            <div className='editor-project-list__item'>
-              <h4 className='editor-project-list__heading'>{t('projectList.name')}</h4>
-              <h4 className='editor-project-list__heading'>{t('projectList.updated')}</h4>
-            </div>
             { projectList.map((project, i) => (
                 <ProjectListItem project={project} key={i}/>
               )

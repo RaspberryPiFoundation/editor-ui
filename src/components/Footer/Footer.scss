@@ -1,9 +1,10 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
 .editor-footer {
   margin-top: auto;
-  padding: 0 var(--spacing-2) var(--spacing-2);
+  padding: 0 $space-1-5 $space-1-5;
   display: flex;
   font-size: var(--font-size-d-1);
 
@@ -23,12 +24,12 @@
       border-radius: 8px;
       color: inherit;
       cursor: pointer;
-      padding: var(--spacing-one-quart) var(--spacing-1);
+      padding: $space-1 $space-0-5;
       text-decoration: underline;
     }
   }
 
   &__name {
-    padding-left: var(--spacing-1)
+    padding-left: $space-0-5
   }
 }
