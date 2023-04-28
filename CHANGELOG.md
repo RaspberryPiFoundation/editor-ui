@@ -13,6 +13,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Position run button in separate bar (#471)
 
 ### Fixed
+### Changed
+
+- Updated spacing variables to match the new design system (#460)
+
+### Fixed
+
+- Modal button alignment support (#460)
 
 ## [0.15.0] - 2023-04-27
 
@@ -25,9 +32,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Projects tab layout (#447)
 - Refactored `NewComponentButton` (#450)
 - Modal styling (#450)
-- Projects tab layout (#447)
 
 ### Fixed
 

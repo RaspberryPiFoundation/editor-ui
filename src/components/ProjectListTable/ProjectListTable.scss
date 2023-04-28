@@ -1,5 +1,7 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
+
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -11,19 +13,19 @@ $small-table-grid: 600px;
 
   &__container {
     border-radius: 8px;
-    margin: var(--spacing-2) var(--spacing-3);
-    padding: var(--spacing-1);
+    margin: $space-1-5 $space-2;
+    padding: $space-0-5;
 
     @include unique-width($small-table-grid) {
-      padding: var(--spacing-1) var(--spacing-2);
+      padding: $space-0-5 $space-1-5;
     }
 
     @include unique-width(767px) {
-      margin: var(--spacing-4) var(--spacing-5);
+      margin: $space-2-5 $space-3;
     }
 
     @include unique-width(1670px) {
-      margin: var(--spacing-4) 0;
+      margin: $space-2-5 0;
     }
 
     .--light & {
@@ -36,7 +38,7 @@ $small-table-grid: 600px;
   }
 
   &__heading {
-    margin-top: var(--spacing-half);
+    margin-top: $space-0-25;
   }
 
   &__heading:first-of-type {
@@ -60,10 +62,10 @@ $small-table-grid: 600px;
     border-top: 1px solid $rpi-grey-15;
     justify-content: space-between;
     list-style: none;
-    padding: 0 var(--spacing-1);
+    padding: 0 $space-0-5;
 
     @include unique-max-width($small-table-grid) {
-      padding: var(--spacing-1);
+      padding: $space-0-5;
     }
 
     .--dark & {
@@ -88,7 +90,7 @@ $small-table-grid: 600px;
       font-size: var(--font-size-u-1);
       font-weight: var(--font-weight-bold);
       margin: 0;
-      padding: var(--spacing-2);
+      padding: $space-1-5;
     }
   }
 }
