@@ -34,7 +34,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $rpf-grey-15;
+    background-color: $rpf-grey-150;
   }
 }
 
@@ -54,7 +54,7 @@
 .--dark {
   .files-list-item {
     &:hover {
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
     }
   }
 

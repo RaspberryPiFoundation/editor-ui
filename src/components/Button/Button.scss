@@ -64,7 +64,7 @@
   width: fit-content;
 
   &:disabled {
-    background-color: $rpf-darkmode-grey32;
+    background-color: $rpf-grey-600;
     color: $rpf-white;
     cursor: default;
   }
@@ -80,12 +80,12 @@
 
   // Variants
   &--primary {
-    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-70, $rpf-teal, $rpf-teal-shade-20;
+    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal, $rpf-teal-shade-20;
     @include button-styling($colours...);
   }
 
   &--secondary {
-    $colours: inherit, inherit, $rpf-grey-5, $rpf-grey-70, inherit, inherit;
+    $colours: inherit, inherit, $rpf-grey-50, $rpf-grey-600, inherit, inherit;
     @include button-styling($colours...);
 
     border: 2px solid $rpf-teal;
@@ -95,10 +95,10 @@
     }
 
     &:hover {
-      color: $rpf-grey-70;
+      color: $rpf-grey-600;
 
       svg {
-        fill: $rpf-grey-70;
+        fill: $rpf-grey-600;
       }
     }
 
@@ -108,7 +108,7 @@
   }
 
   &--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-70, inherit, inherit, inherit;
+    $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit, inherit;
     @include button-styling($colours...);
     margin: 0;
 
@@ -121,10 +121,10 @@
     }
 
     &:hover {
-      color: $rpf-grey-70;
+      color: $rpf-grey-600;
 
       svg {
-        fill: $rpf-grey-70;
+        fill: $rpf-grey-600;
       }
     }
   }
@@ -214,12 +214,12 @@
   }
 
   .btn--primary {
-    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-darkmode-grey80, $rpf-darkmode-grey22, $rpf-teal-tint-50, $rpf-teal-tint-25;
+    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-tint-25;
     @include button-styling($colours...);
   }
 
   .btn--secondary {
-    $colours: inherit, inherit, $rpf-darkmode-grey22, $rpf-darkmode-grey90, inherit, inherit, $rpf-white;
+    $colours: inherit, inherit, $rpf-grey-700, $rpf-grey-100, inherit, inherit, $rpf-white;
     @include button-styling($colours...);
 
     border: 2px solid $rpf-teal-tint-50;
@@ -229,10 +229,10 @@
     }
 
     &:hover {
-      color: $rpf-darkmode-grey85;
+      color: $rpf-grey-150;
 
       svg {
-        fill: $rpf-darkmode-grey85;
+        fill: $rpf-grey-150;
       }
     }
 
@@ -242,7 +242,7 @@
   }
 
   .btn--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-darkmode-grey90, inherit, inherit, $rpf-white;
+    $colours: inherit, inherit, inherit, $rpf-grey-100, inherit, inherit, $rpf-white;
     @include button-styling($colours...);
 
     &:active {
@@ -254,10 +254,10 @@
     }
 
     &:hover {
-      color: $rpf-darkmode-grey85;
+      color: $rpf-grey-150;
 
       svg {
-        fill: $rpf-darkmode-grey85;
+        fill: $rpf-grey-150;
       }
     }
   }

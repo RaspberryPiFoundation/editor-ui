@@ -5,41 +5,33 @@ $editor-turquoise-grey: #72D7CD1A;
 $rpf-dark-blue: #2A3E4F;
 
 // Basic colors
-
 $rpf-black: #000000;
 $rpf-white: #FFFFFF;
+$rpf-off-white: #F5F6F9;
 $rpf-white-opacity8: #FFFFFF14;
 
 // Text
-
 $rpf-text-primary: #212121;
 $rpf-text-primary-darkmode: $rpf-white;
 $rpf-text-secondary: #4D575B;
 $rpf-text-secondary-darkmode: #CCCCCC;
 
 //Greys
+$rpf-grey-50: #F1F2F3;
+$rpf-grey-100: #E3E4E8;
+$rpf-grey-150: #D5D7DC;
+$rpf-grey-200: #C7C9D1;
+$rpf-grey-300: #BABCC5;
+$rpf-grey-400: #9497A4;
+$rpf-grey-500: #636674;
+$rpf-grey-600: #4A4D59;
+$rpf-grey-700: #33353D;
+$rpf-grey-800: #2A2B32;
+$rpf-grey-850: #23242A;
+$rpf-grey-900: #17181C;
+$rpf-grey-950: #0C0C0E;
 
-$rpf-darkmode-grey42: #616575;
-$rpf-darkmode-grey32: #4A4D59;
-$rpf-darkmode-grey22: #33353D;
-$rpf-darkmode-grey18: #2A2B32;
-$rpf-darkmode-grey15: #23242A;
-$rpf-darkmode-grey10: #17181C;
-$rpf-darkmode-grey5: #0C0C0E;
-
-$rpf-darkmode-grey75: #BABCC5;
-$rpf-darkmode-grey80: #C7C9D1;
-$rpf-darkmode-grey85: #D5D7DC;
-$rpf-darkmode-grey90: #E3E4E8;
-$rpf-darkmode-grey95: #F1F2F3;
-
-
-$rpf-grey-5: #F2F2F2;
-$rpf-grey-15: #D9D9D9;
-$rpf-grey-40: #999999;
-$rpf-grey-70: #4c4c4c;
-
-//Teals
+//Decorative
 $rpf-teal-shade-20: #10968A;
 $rpf-teal: #14BCAC;
 $rpf-teal-tint-25: #4FCDC1;
@@ -66,20 +58,20 @@ $rpf-alerts-error-tint: #86151E;
 :root,
 :host {
   --rpf-white: #{$rpf-white};
-  --rpi-grey-5: #{$rpf-grey-5};
+  --rpi-grey-5: #{$rpf-grey-50};
   --rpi-grey-15: #{$rpf-grey-15};
-  --rpi-grey-40: #{$rpf-grey-40};
-  --rpi-grey-70: #{$rpf-grey-70};
+  --rpi-grey-40: #{$rpf-grey-400};
+  --rpi-grey-70: #{$rpf-grey-600};
 }
 
 // Webpack exports
 /* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
 :export {
   grey: {
-    rpi-grey-15: $rpf-grey-15;
-    rpi-grey-40: $rpf-grey-40;
-    rpi-grey-5: $rpf-grey-5;
-    rpi-grey-70: $rpf-grey-70;
+    rpi-grey-15: $rpf-grey-150;
+    rpi-grey-40: $rpf-grey-400;
+    rpi-grey-5: $rpf-grey-50;
+    rpi-grey-70: $rpf-grey-600;
     rpf-white: $rpf-white;
   }
 }

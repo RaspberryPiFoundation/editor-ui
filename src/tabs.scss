@@ -62,7 +62,7 @@ $spacing-four: calc($spacing-eight / 2);
 
       &:hover {
         .react-tabs__tab-inner {
-          background-color: $rpf-grey-40;
+          background-color: $rpf-grey-400;
         }
       }
 
@@ -119,13 +119,13 @@ $spacing-four: calc($spacing-eight / 2);
     .react-tabs {
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-darkmode-grey85;
+        border-bottom: 1px solid $rpf-grey-150;
       }
   
       &__tab {
         &--selected {
           .react-tabs__tab-inner {
-            background-color: $rpf-grey-5;
+            background-color: $rpf-grey-50;
           }
         }
       }
@@ -134,16 +134,16 @@ $spacing-four: calc($spacing-eight / 2);
 
   &.--dark {
     .react-tabs {
-      background-color: $rpf-darkmode-grey18;
+      background-color: $rpf-grey-800;
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-darkmode-grey42;
+        border-bottom: 1px solid $rpf-grey-500;
       }
   
       &__tab {
         &:hover {
           .react-tabs__tab-inner {
-            background-color: $rpf-darkmode-grey22;
+            background-color: $rpf-grey-700;
           }
         }
   
@@ -152,13 +152,13 @@ $spacing-four: calc($spacing-eight / 2);
 
           .react-tabs__tab-inner {
             color: inherit;
-            background-color: $rpf-darkmode-grey42;
+            background-color: $rpf-grey-500;
           }
         }
       }
 
       &__tab-inner {
-        background-color: $rpf-darkmode-grey32;
+        background-color: $rpf-grey-600;
         color: $rpf-white;
         svg {
           fill: $rpf-white;

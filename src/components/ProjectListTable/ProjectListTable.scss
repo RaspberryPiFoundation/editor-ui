@@ -31,7 +31,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      background: $rpf-darkmode-grey32;
+      background: $rpf-grey-600;
     }
   }
 
@@ -57,7 +57,7 @@ $small-table-grid: 600px;
   &__item {
     align-items: center;
     display: flex;
-    border-top: 1px solid $rpf-grey-15;
+    border-top: 1px solid $rpf-grey-150;
     justify-content: space-between;
     list-style: none;
     padding: 0 var(--spacing-1);
@@ -67,7 +67,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      border-top: 1px solid $rpf-darkmode-grey42;
+      border-top: 1px solid $rpf-grey-500;
     }
 
     &:first-of-type {
@@ -76,12 +76,12 @@ $small-table-grid: 600px;
   }
 
   &__empty {
-    background: $rpf-grey-5;
+    background: $rpf-grey-50;
     border-radius: 8px;
     text-align: center;
 
     .--dark & {
-      background: $rpf-darkmode-grey22;
+      background: $rpf-grey-700;
     }
 
     p {

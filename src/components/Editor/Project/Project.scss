@@ -73,13 +73,13 @@
 .--light {
   .proj-runner-container, .proj-editor-container, .menu {
     background-color: $rpf-white;
-    border: 1px solid $rpf-darkmode-grey85;
+    border: 1px solid $rpf-grey-150;
   }
 }
 
 .--dark {
   .proj-runner-container, .proj-editor-container, .menu {
-    background-color: $rpf-darkmode-grey18;
-    border: 1px solid $rpf-darkmode-grey10;
+    background-color: $rpf-grey-800;
+    border: 1px solid $rpf-grey-900;
   }
 }
