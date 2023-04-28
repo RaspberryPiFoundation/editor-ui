@@ -50,7 +50,7 @@
 
   &.--dark {
     .toast--bottom-center__message {
-      background-color: $editor-white;
+      background-color: $rpf-white;
       color: $editor-black;
       svg {
         fill: $editor-black;
@@ -61,9 +61,9 @@
   &.--light {
     .toast--bottom-center__message {
       background-color: $editor-black;
-      color: $editor-white;
+      color: $rpf-white;
       svg {
-        fill: $editor-white;
+        fill: $rpf-white;
       }
     }
   }

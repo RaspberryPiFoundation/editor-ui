@@ -57,7 +57,7 @@ $small-table-grid: 600px;
   &__item {
     align-items: center;
     display: flex;
-    border-top: 1px solid $rpi-grey-15;
+    border-top: 1px solid $rpf-grey-15;
     justify-content: space-between;
     list-style: none;
     padding: 0 var(--spacing-1);
@@ -76,7 +76,7 @@ $small-table-grid: 600px;
   }
 
   &__empty {
-    background: $rpi-grey-5;
+    background: $rpf-grey-5;
     border-radius: 8px;
     text-align: center;
 

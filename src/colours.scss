@@ -1,4 +1,4 @@
-$editor-white: white;
+// Editor colors
 $editor-light-light-light-grey: #FFFFFF80;
 $editor-light-light-grey: #F3F4F6;
 $editor-light-grey: #E8E9ED;
@@ -30,6 +30,9 @@ $rpf-dark-blue: #2A3E4F;
 $rpf-alert-blue: #1E3888;
 
 $rpf-black: #000000;
+$rpf-text-black: #212121;
+$rpf-white: #FFFFFF;
+$rpf-white-opacity8: #FFFFFF14;
 
 $rpf-darkmode-grey42: #616575;
 $rpf-darkmode-grey32: #4A4D59;
@@ -52,17 +55,13 @@ $rpf-teal-tint-50: #89DED5;
 $rpf-teal-tint-75: #C4EEEA;
 $rpf-teal-tint-90: #E7F8F7;
 
-$rpi-grey-5: #F2F2F2;
-$rpi-grey-15: #D9D9D9;
-$rpi-grey-40: #999999;
-$rpi-grey-70: #4c4c4c;
+$rpf-grey-5: #F2F2F2;
+$rpf-grey-15: #D9D9D9;
+$rpf-grey-40: #999999;
+$rpf-grey-70: #4c4c4c;
 $rpf-brand-raspberry: #CD2355;
 $rpf-alerts-errors: #A81A26;
 $rpf-alerts-errors-tint: #86151E;
-
-$rpf-text-black: #212121;
-$rpf-white: #FFFFFF;
-$rpf-white-opacity8: #FFFFFF14;
 
 $rpf-text-secondary: #4D575B;
 $rpf-darkmode-text-secondary: #CCCCCC;
@@ -70,20 +69,20 @@ $rpf-darkmode-text-secondary: #CCCCCC;
 :root,
 :host {
   --rpf-white: #{$rpf-white};
-  --rpi-grey-5: #{$rpi-grey-5};
-  --rpi-grey-15: #{$rpi-grey-15};
-  --rpi-grey-40: #{$rpi-grey-40};
-  --rpi-grey-70: #{$rpi-grey-70};
+  --rpi-grey-5: #{$rpf-grey-5};
+  --rpi-grey-15: #{$rpf-grey-15};
+  --rpi-grey-40: #{$rpf-grey-40};
+  --rpi-grey-70: #{$rpf-grey-70};
 }
 
 // Webpack exports
 /* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
 :export {
   grey: {
-    rpi-grey-15: $rpi-grey-15;
-    rpi-grey-40: $rpi-grey-40;
-    rpi-grey-5: $rpi-grey-5;
-    rpi-grey-70: $rpi-grey-70;
+    rpi-grey-15: $rpf-grey-15;
+    rpi-grey-40: $rpf-grey-40;
+    rpi-grey-5: $rpf-grey-5;
+    rpi-grey-70: $rpf-grey-70;
     rpf-white: $rpf-white;
   }
 }

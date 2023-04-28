@@ -62,7 +62,7 @@ $spacing-four: calc($spacing-eight / 2);
 
       &:hover {
         .react-tabs__tab-inner {
-          background-color: $rpi-grey-40;
+          background-color: $rpf-grey-40;
         }
       }
 
@@ -125,7 +125,7 @@ $spacing-four: calc($spacing-eight / 2);
       &__tab {
         &--selected {
           .react-tabs__tab-inner {
-            background-color: $rpi-grey-5;
+            background-color: $rpf-grey-5;
           }
         }
       }

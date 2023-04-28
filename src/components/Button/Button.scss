@@ -80,12 +80,12 @@
 
   // Variants
   &--primary {
-    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpi-grey-70, $rpf-teal, $rpf-teal-shade-20;
+    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-70, $rpf-teal, $rpf-teal-shade-20;
     @include button-styling($colours...);
   }
 
   &--secondary {
-    $colours: inherit, inherit, $rpi-grey-5, $rpi-grey-70, inherit, inherit;
+    $colours: inherit, inherit, $rpf-grey-5, $rpf-grey-70, inherit, inherit;
     @include button-styling($colours...);
 
     border: 2px solid $rpf-teal;
@@ -95,10 +95,10 @@
     }
 
     &:hover {
-      color: $rpi-grey-70;
+      color: $rpf-grey-70;
 
       svg {
-        fill: $rpi-grey-70;
+        fill: $rpf-grey-70;
       }
     }
 
@@ -108,7 +108,7 @@
   }
 
   &--tertiary {
-    $colours: inherit, inherit, inherit, $rpi-grey-70, inherit, inherit, inherit;
+    $colours: inherit, inherit, inherit, $rpf-grey-70, inherit, inherit, inherit;
     @include button-styling($colours...);
     margin: 0;
 
@@ -121,10 +121,10 @@
     }
 
     &:hover {
-      color: $rpi-grey-70;
+      color: $rpf-grey-70;
 
       svg {
-        fill: $rpi-grey-70;
+        fill: $rpf-grey-70;
       }
     }
   }
