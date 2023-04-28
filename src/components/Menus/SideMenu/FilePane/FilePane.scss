@@ -1,4 +1,6 @@
 @use '../../../../colours' as *;
+@use '../../../../spacing' as *;
+
 
 .file-pane {
   border-radius: 10px;
@@ -28,13 +30,13 @@
   }
 
   .file-pane-section {
-    padding: 0 var(--spacing-1);
+    padding: 0 $space-0-5;
 
     &__images {
       padding-left: 0;
 
       summary {
-        padding-left: var(--spacing-1)
+        padding-left: $space-0-5
       }
     }
   }

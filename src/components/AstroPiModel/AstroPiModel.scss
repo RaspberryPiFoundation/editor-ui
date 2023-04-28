@@ -1,5 +1,5 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
-@import '../../spacing.scss';
 
 .sense-hat {
   width: 100%;
@@ -12,7 +12,7 @@
     flex-flow: column;
     max-height: 50%;
     flex: 1;
-    padding-bottom: var(--spacing-1);
+    padding-bottom: $space-0-5;
 
     canvas {
       cursor: grab;
@@ -22,7 +22,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 var(--spacing-1);
+      margin: 0 $space-0-5;
 
       &__spacing {
         flex: 1;
@@ -31,14 +31,14 @@
       &__values {
         flex: 10;
         display: flex;
-        margin: 0 var(--spacing-1);
+        margin: 0 $space-0-5;
       }
 
       &__reading {
         flex: 1;
         text-transform: uppercase;
         font-weight: var(--font-weight-bold);
-        margin: 0 var(--spacing-1);
+        margin: 0 $space-0-5;
         font-size: var(--font-size-d-1);
       }
 
@@ -47,7 +47,7 @@
         display: flex;
         margin-left: auto;
         svg {
-          padding: var(--spacing-1);
+          padding: $space-0-5;
           border-radius: 5px;
           fill: $rpf-black;
         }
@@ -60,7 +60,7 @@
 
   &-controls {
 
-    padding: var(--spacing-1);
+    padding: $space-0-5;
     display: flex;
     flex-flow: column;
 
@@ -68,7 +68,7 @@
       font-weight: var(--font-weight-base);
       font-size: var(--font-size-base);
       margin: 0;
-      margin-bottom: var(--spacing-1);
+      margin-bottom: $space-0-5;
     }
 
     &-panel {
@@ -81,8 +81,8 @@
         flex-flow: column;
         align-items: center;
         text-align: center;
-        padding: var(--spacing-1);
-        padding-top: var(--spacing-half);
+        padding: $space-0-5;
+        padding-top: $space-0-25;
         box-sizing: border-box;
         border-radius: 5px;
         width: 32%;
@@ -91,8 +91,8 @@
         &-reading {
           width: 100%;
           border-radius: 5px;
-          margin-top: var(--spacing-half);
-          padding: var(--spacing-half);
+          margin-top: $space-0-25;
+          padding: $space-0-25;
           box-sizing: border-box;
           display: flex;
           align-items: center;
@@ -102,7 +102,7 @@
 
           &-timer {
             margin-top: 0;
-            padding: var(--spacing-1) 0;
+            padding: $space-0-5 0;
             width: 100%;
           }
         }
@@ -131,21 +131,21 @@
           border-radius: 5px;
           flex: 1;
           width: 100%;
-          padding: var(--spacing-half) var(--spacing-2);
+          padding: $space-0-25 $space-1-5;
         }
 
         &-name {
           font-variant: small-caps;
           text-transform: lowercase;
-          margin: var(--spacing-half) 0;
+          margin: $space-0-25 0;
         }
 
         &-value {
-          margin-left: var(--spacing-half);
+          margin-left: $space-0-25;
         }
 
         &-last {
-          margin-top: var(--spacing-1);
+          margin-top: $space-0-5;
           flex-flow: row;
           width: 100%;
           align-items: inherit;
@@ -190,7 +190,7 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $rpf-white-opacity8;
+          box-shadow: inset 0 0 $space-1-5 $rpf-white-opacity8;
           background-color: $rpf-darkmode-grey22;
 
           &-reading {
@@ -244,7 +244,7 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $rpf-darkmode-grey90;
+          box-shadow: inset 0 0 $space-1-5 $rpf-darkmode-grey90;
           background-color: $rpf-darkmode-grey95;
 
           &-reading {

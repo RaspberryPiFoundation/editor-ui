@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -7,31 +8,15 @@ $small-table-grid: 600px;
 .editor-project-list {
   &__info {
     align-items: center;
-    display: grid;
-    grid-column: span 10;
-    grid-template-columns: repeat(10, 1fr);
-
-    @include unique-width($medium-table-grid) {
-      grid-column: span 8;
-      grid-template-columns: repeat(8, 1fr)
-    }
-
-    @include unique-width($medium-table-grid) {
-      grid-column: span 8;
-      grid-template-columns: repeat(8, 1fr)
-    }
-
-    @include unique-max-width($small-table-grid) {
-      grid-column: span 11;
-    }
   }
+
 
   &__title {
     align-items: center;
     display: flex;
     grid-column: span 8;
     min-width: 0;
-    padding: var(--spacing-1) 0;
+    padding: $space-1-5 0;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 6;
@@ -45,36 +30,32 @@ $small-table-grid: 600px;
   }
 
   &__type {
-    border-radius: 4px;
-    width: 35px;
-    padding-right: var(--spacing-1);
+    width: 40px;
+    padding-right: $space-1-5;
   }
 
   &__name {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    font-weight: var(--font-weight-bold);
   }
 
-  &__updated {
-    border: 3px solid transparent;
-    grid-column: span 2;
-    font-size: var(--font-size-d-1);
+  &__tag {
+    padding-right: 0.5rem;
+    margin-right: 0.5rem;
 
-    @include unique-width($medium-table-grid) {
-      grid-column: span 2;
+    .--light & {
+      border-right: 1px $rpf-text-secondary solid;
     }
 
-    @include unique-max-width($small-table-grid) {
-      grid-column: span 8;
+    .--dark & {
+      border-right: 1px $rpf-darkmode-text-secondary solid;
     }
   }
 
   &__actions {
-    display: grid;
-    grid-column: span 2;
-    grid-template-columns: repeat(2, 1fr);
-    min-width: 44px;
+    display: flex;
+    gap: 8px;
 
     span {
       display: none;
@@ -85,19 +66,18 @@ $small-table-grid: 600px;
     }
 
     @include unique-width($medium-table-grid) {
-      grid-column: span 4;
       span {
-        display: grid;
-      }
-
-      svg {
-        margin-right: var(--spacing-1);
+        display: flex;
       }
     }
 
     @include unique-max-width($small-table-grid) {
       display: none;
     }
+  }
+
+  &__rename {
+    margin: 12px 16px;
   }
 
   &__menu {
@@ -108,10 +88,22 @@ $small-table-grid: 600px;
     }
   }
 
+  &__tag,
+  &__heading {
+    font-size: var(--font-size-d-1);
+
+    .--light & {
+      color: $rpf-text-secondary;
+    }
+
+    .--dark & {
+      color: $rpf-darkmode-text-secondary;
+    }
+  }
+
   &__title,
   &__actions {
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
     text-decoration: none;
 
     .--light & {

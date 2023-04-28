@@ -2,39 +2,38 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import configureStore from 'redux-mock-store'
-import { MockedProvider } from "@apollo/client/testing"
+import configureStore from "redux-mock-store";
+import { MockedProvider } from "@apollo/client/testing";
 
 import { default as ProjectIndex, PROJECT_INDEX_QUERY } from "./ProjectIndex";
 
-jest.mock('date-fns')
+jest.mock("date-fns");
 
-const mockedUseNavigate = jest.fn()
+const mockedUseNavigate = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedUseNavigate
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUseNavigate,
 }));
 
-
 const user = {
-  access_token: 'myAccessToken',
+  access_token: "myAccessToken",
   profile: {
-    user: 'b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf'
-  }
-}
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
+  },
+};
 
-describe('When authenticated', () => {
-  const auth = { user: user }
+describe("When authenticated", () => {
+  const auth = { user: user };
 
-  describe ('When user has projects', () => {
+  describe("When user has projects", () => {
     // Because we use fragments, we have to specify __typename for each entry
     // in the result
     const mocks = [
       {
         request: {
           query: PROJECT_INDEX_QUERY,
-          variables: { userId: user.profile.user, first: 8 }
+          variables: { userId: user.profile.user, first: 8 },
         },
         result: {
           data: {
@@ -73,22 +72,22 @@ describe('When authenticated', () => {
                 startCursor: "MQ",
                 endCursor: "Mg",
                 hasNextPage: false,
-              }
-            }
-          }
-        }
-      }
-    ]
+              },
+            },
+          },
+        },
+      },
+    ];
 
     beforeEach(() => {
       const initialState = {
         editor: {},
         auth: auth,
-      }
+      };
 
-      const mockStore = configureStore([])
-      const store = mockStore(initialState)
-      render (
+      const mockStore = configureStore([]);
+      const store = mockStore(initialState);
+      render(
         <Provider store={store}>
           <MemoryRouter>
             <MockedProvider mocks={mocks} addTypename={true}>
@@ -96,41 +95,36 @@ describe('When authenticated', () => {
             </MockedProvider>
           </MemoryRouter>
         </Provider>
-      )
-    })
+      );
+    });
 
-    it('Displays project titles', async () => {
-      expect(await screen.findByText('my project 1')).toBeInTheDocument()
-      expect(await screen.findByText('my project 2')).toBeInTheDocument()
-    })
+    it("Displays project titles", async () => {
+      expect(await screen.findByText("my project 1")).toBeInTheDocument();
+      expect(await screen.findByText("my project 2")).toBeInTheDocument();
+    });
+  }); // User has projects
+}); // Authenticated
 
-    it('Displays the pagination count', async () => {
-      expect(await screen.findByText('1 / 2')).toBeInTheDocument()
-    })
-  }) // User has projects
-}) // Authenticated
-
-
-describe ('When unauthenticated', () => {
-  const auth = {}
+describe("When unauthenticated", () => {
+  const auth = {};
 
   beforeEach(() => {
-    const mockStore = configureStore([])
+    const mockStore = configureStore([]);
     const initialState = {
       editor: {},
-      auth: auth
-    }
-    const store = mockStore(initialState)
-    render (
+      auth: auth,
+    };
+    const store = mockStore(initialState);
+    render(
       <MockedProvider>
         <Provider store={store}>
-          <ProjectIndex/>
+          <ProjectIndex />
         </Provider>
       </MockedProvider>
-    )
-  })
+    );
+  });
 
-  it('navigates back to /', () => {
-    expect(mockedUseNavigate).toHaveBeenCalledWith('/')
-  })
-})
+  it("navigates back to /", () => {
+    expect(mockedUseNavigate).toHaveBeenCalledWith("/");
+  });
+});

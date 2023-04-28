@@ -1,14 +1,15 @@
+@use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
 .output-view-toggle {
   display: inline-flex;
-  margin: auto var(--spacing-1) auto auto;
+  margin: auto $space-0-5 auto auto;
   align-items: center;
 
   &__button {
     border: 0px;
     display: flex;
-    padding: var(--spacing-half) var(--spacing-1);
+    padding: $space-0-25 $space-0-5;
     cursor: pointer;
     margin: 0;
 
