@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Position run button in separate bar (#471)
 
 ## [0.15.0] - 2023-04-27
 
@@ -21,7 +24,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Refactored `NewComponentButton` (#450)
 - Modal styling (#450)
 - Projects tab layout (#447)
-- Position run button in separate bar (#471)
 
 ### Fixed
 
