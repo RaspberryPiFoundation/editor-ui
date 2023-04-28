@@ -19,6 +19,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Color naming convention 
+### Changed
+
+- Updated spacing variables to match the new design system (#460)
+
+### Fixed
+
+- Modal button alignment support (#460)
 
 ## [0.15.0] - 2023-04-27
 
@@ -31,9 +38,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Projects tab layout (#447)
 - Refactored `NewComponentButton` (#450)
 - Modal styling (#450)
-- Projects tab layout (#447)
 
 ### Fixed
 
@@ -46,6 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Container queries (#445)
+- Resize handle #453
 - File type icons (#449)
 
 ## [0.14.0] - 2023-03-28

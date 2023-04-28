@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -15,7 +16,7 @@ $small-table-grid: 600px;
     display: flex;
     grid-column: span 8;
     min-width: 0;
-    padding: var(--spacing-2) 0;
+    padding: $space-1-5 0;
 
     @include unique-width($medium-table-grid) {
       grid-column: span 6;
@@ -29,9 +30,8 @@ $small-table-grid: 600px;
   }
 
   &__type {
-    // border-radius: 4px;
     width: 40px;
-    padding-right: 24px;
+    padding-right: $space-1-5;
   }
 
   &__name {

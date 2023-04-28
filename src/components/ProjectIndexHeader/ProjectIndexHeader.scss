@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -7,7 +8,7 @@
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-3);
+    padding: $space-2;
     margin: 0 auto;
     width: 100%;
     max-width: 1570px;
@@ -15,16 +16,16 @@
     @include md-width {
       align-items: flex-end;
       flex-direction: row;
-      padding: var(--spacing-5);
+      padding: $space-3;
     }
 
     @include unique-width(1670px) {
-      padding: var(--spacing-5) 0;
+      padding: $space-3 0;
     }
   }
 
   h1 {
-    margin: var(--spacing-1) 0;
+    margin: $space-0-5 0;
   }
 
   h3 {
