@@ -32,17 +32,19 @@ function HtmlRunner() {
     return URL.createObjectURL(blob);
   };
 
+  let timeout;
+
   useEffect(() => {
     if (justLoaded) {
       runCode()
       dispatch(expireJustLoaded())
     } else {
-      let timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         runCode()
       }, 2000);
       return () => clearTimeout(timeout)
     }
-  }, [projectCode]);
+  }, [projectCode, focussedFileIndex]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -71,6 +73,7 @@ function HtmlRunner() {
     const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
     dispatch(codeRunHandled())
+    clearTimeout(timeout)
   };
 
   return (
