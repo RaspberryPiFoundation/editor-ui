@@ -190,7 +190,7 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $rpf-white-opacity8;
+          box-shadow: inset 0 0 var(--spacing-2) $rpf-grey-700;
           background-color: $rpf-grey-700;
 
           &-reading {
@@ -219,10 +219,10 @@
     }
 
     &-model {
-      background-color: $editor-dark-blue;
+      background-color: $astropi-dark-blue;
 
       &-orientation {
-        background-color: $editor-dark-blue;
+        background-color: $astropi-dark-blue;
         color: $rpf-white;
 
         &__reset-btn {
@@ -271,10 +271,10 @@
   }
 
     &-model {
-      background-color: $editor-dark-blue;
+      background-color: $astropi-dark-blue;
 
       &-orientation {
-        background-color: $editor-dark-blue;
+        background-color: $astropi-dark-blue;
         color: $rpf-white;
 
         &__reset-btn {

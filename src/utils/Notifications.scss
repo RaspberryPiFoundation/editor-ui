@@ -40,7 +40,7 @@
     color: $rpf-alert-information;
     border: 2px solid $rpf-alert-information;
     svg {
-      fill: $editor-black;
+      fill: $rpf-grey-900;
     }
     .Toastify__toast-icon {
       svg {
@@ -52,16 +52,16 @@
   &.--dark {
     .toast--bottom-center__message {
       background-color: $rpf-white;
-      color: $editor-black;
+      color: $rpf-grey-900;
       svg {
-        fill: $editor-black;
+        fill: $rpf-grey-900;
       }
     }
   }
 
   &.--light {
     .toast--bottom-center__message {
-      background-color: $editor-black;
+      background-color: $rpf-grey-900;
       color: $rpf-white;
       svg {
         fill: $rpf-white;
