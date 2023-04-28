@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Updated spacing variables to match the new design system (#460)
 
 ## [0.15.0] - 2023-04-27
 
@@ -21,7 +24,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Projects tab layout (#447)
 - Refactored `NewComponentButton` (#450)
 - Modal styling (#450)
-- Updated spacing variables to match the new design system (#460)
 
 ### Fixed
 

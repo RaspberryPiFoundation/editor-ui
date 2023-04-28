@@ -1,6 +1,6 @@
+@use './spacing' as *;
 @import './colours.scss';
 @import './mixins.scss';
-@import './spacing.scss';
 
 .modal-overlay {
   display: flex;

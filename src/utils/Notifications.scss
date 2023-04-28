@@ -1,5 +1,5 @@
+@use '../spacing' as *;
 @import '../colours.scss';
-@import '../spacing.scss';
 
 #app {
   .toast--bottom-center__message, .toast--top-center__message {

@@ -1,4 +1,4 @@
-@import '../../../spacing.scss';
+@use '../../../spacing' as *;
 
 .editor {
   display: flex;

@@ -1,4 +1,4 @@
-@import '../../../spacing.scss';
+@use '../../../spacing' as *;
 
 .menu {
   display: flex;

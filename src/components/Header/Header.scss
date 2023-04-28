@@ -1,6 +1,5 @@
-
+@use '../../spacing' as *;
 @import '../../colours.scss';
-@import '../../spacing.scss';
 @import '../Button/Button.scss';
 
 .autosave {

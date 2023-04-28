@@ -1,6 +1,6 @@
+@use './spacing' as *;
 @import './colours.scss';
 @import './components/Button/Button.scss';
-@import './spacing.scss';
 
 #app, #wc {
   .react-tabs {
