@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Modal button alignment support (#460)
+- Storybook setup and dev deployment (#461)
 
 ## [0.15.0] - 2023-04-27
 
@@ -47,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Container queries (#445)
+- Resize handle #453
 - File type icons (#449)
 
 ## [0.14.0] - 2023-03-28
