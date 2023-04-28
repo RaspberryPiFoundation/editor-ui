@@ -1,11 +1,10 @@
+@use '../../../../colours' as *;
 @use '../../../../spacing' as *;
-@import '../../../../colours.scss';
 
 
 .file-pane {
-  overflow-y: auto;
-  width: 200px;
   border-radius: 10px;
+  width: 100%;
 
   summary {
     border: 3px solid transparent;

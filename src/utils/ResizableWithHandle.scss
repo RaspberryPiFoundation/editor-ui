@@ -1,0 +1,8 @@
+.resizable-with-handle__handle div  {
+  right: 6px !important;
+  z-index: 10;
+
+  svg {
+    height: 100%;
+  }
+}
