@@ -36,14 +36,14 @@
   }
 
   .toast--info {
-    color: $rpf-alert-blue;
-    border: 2px solid $rpf-alert-blue;
+    color: $rpf-alert-information;
+    border: 2px solid $rpf-alert-information;
     svg {
       fill: $editor-black;
     }
     .Toastify__toast-icon {
       svg {
-        fill: $rpf-alert-blue;
+        fill: $rpf-alert-information;
       }
     }
   }
