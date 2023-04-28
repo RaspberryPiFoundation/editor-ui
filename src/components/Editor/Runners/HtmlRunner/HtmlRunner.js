@@ -1,11 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./HtmlRunner.scss";
 import React, { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { codeRunHandled } from "../../EditorSlice";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex);
+  const openFiles = useSelector((state) => state.editor.openFiles);
+  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
+
+  const dispatch = useDispatch()
   const output = useRef();
+
+
+  const htmlFiles = projectCode.filter(
+    (component) => component.extension === 'html'
+  )
+
+  const cssFiles = projectCode.filter(
+    (component) => component.extension === "css"
+  );
+
+  const fileName = openFiles[focussedFileIndex]
+  const focussedComponent = projectCode.find((component) => `${component.name}.${component.extension}` === fileName)
+
 
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
@@ -13,16 +32,23 @@ function HtmlRunner() {
   };
 
   useEffect(() => {
-    runCode();
-  }, [projectCode]);
+    if (focussedComponent.extension === 'html') {
+      runCode()
+    }
+  }, [projectCode, focussedFileIndex]);
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      runCode()
+    }
+  }, [codeRunTriggered])
 
   const runCode = () => {
     // TODO: get html files and handle urls for non index pages
-    let indexPage = projectCode[0].content;
+    const indexHTML = htmlFiles.find((component) => `${component.name}.${component.extension}` === 'index.html')
+    const componentToPreview = focussedComponent.extension === 'html' ? focussedComponent : indexHTML
+    let indexPage = componentToPreview.content;
 
-    const cssFiles = projectCode.filter(
-      (component) => component.extension === "css"
-    );
     cssFiles.forEach((cssFile) => {
       const cssFileBlob = getBlobURL(cssFile.content, "text/css");
       indexPage = indexPage.replace(
@@ -33,6 +59,7 @@ function HtmlRunner() {
 
     const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
+    dispatch(codeRunHandled())
   };
 
   return (
