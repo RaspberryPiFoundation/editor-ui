@@ -1,3 +1,5 @@
+@use '../../../spacing' as *;
+
 .editor {
   display: flex;
   flex-flow: column;
@@ -18,8 +20,8 @@
 
       .cm-content {
         flex: 1;
-        padding-top: var(--spacing-1);
-        margin-right: var(--spacing-1);
+        padding-top: $space-0-5;
+        margin-right: $space-0-5;
       }
     }
   }

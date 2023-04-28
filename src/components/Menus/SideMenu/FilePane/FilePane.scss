@@ -1,9 +1,10 @@
-@import '../../../../colours.scss';
+@use '../../../../colours' as *;
+@use '../../../../spacing' as *;
+
 
 .file-pane {
-  overflow-y: auto;
-  width: 200px;
   border-radius: 10px;
+  width: 100%;
 
   summary {
     border: 3px solid transparent;
@@ -29,13 +30,13 @@
   }
 
   .file-pane-section {
-    padding: 0 var(--spacing-1);
+    padding: 0 $space-0-5;
 
     &__images {
       padding-left: 0;
 
       summary {
-        padding-left: var(--spacing-1)
+        padding-left: $space-0-5
       }
     }
   }
