@@ -7,7 +7,7 @@
 
   &--beta {
     background-color: $rpf-teal-tint-50;
-    color: $rpf-text-black;
+    color: $rpf-text-primary;
 
     svg {
       fill: $rpf-black;
@@ -33,7 +33,7 @@
   text-decoration: underline;
 
   &.btn--tertiary {
-    color: $rpf-text-black;
+    color: $rpf-text-primary;
 
     &:hover {
       color: $rpf-grey-70;
@@ -46,7 +46,7 @@
 
   &.btn--tertiary {
     svg {
-      fill: $rpf-text-black;
+      fill: $rpf-text-primary;
       margin-right: 0;
     }
 

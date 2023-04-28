@@ -49,7 +49,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      border-right: 1px $rpf-darkmode-text-secondary solid;
+      border-right: 1px $rpf-text-secondary-darkmode solid;
     }
   }
 
@@ -97,7 +97,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      color: $rpf-darkmode-text-secondary;
+      color: $rpf-text-secondary-darkmode;
     }
   }
 

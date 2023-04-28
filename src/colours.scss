@@ -9,9 +9,7 @@ $editor-dark: #2E3038;
 $editor-dark-dark: #24262D;
 $editor-dark-dark-dark: #1B1D22;
 $editor-black: #1B1D22;
-
 $editor-pale-purple: #BBCAF7;
-
 $editor-pale-blue: #F0F3FD;
 $editor-light-blue: #B2E3EF;
 $editor-blue: #2143B3;
@@ -26,13 +24,20 @@ $editor-turquoise-grey: #72D7CD1A;
 
 $rpf-dark-blue: #2A3E4F;
 
-// New colour palette colours
+// Basic colors
 $rpf-alert-blue: #1E3888;
 
 $rpf-black: #000000;
-$rpf-text-black: #212121;
+$rpf-text-primary: #212121;
+
 $rpf-white: #FFFFFF;
+$rpf-text-primary-darkmode: $rpf-white;
 $rpf-white-opacity8: #FFFFFF14;
+
+$rpf-text-secondary: #4D575B;
+$rpf-text-secondary-darkmode: #CCCCCC;
+
+//Greys
 
 $rpf-darkmode-grey42: #616575;
 $rpf-darkmode-grey32: #4A4D59;
@@ -48,6 +53,13 @@ $rpf-darkmode-grey85: #D5D7DC;
 $rpf-darkmode-grey90: #E3E4E8;
 $rpf-darkmode-grey95: #F1F2F3;
 
+
+$rpf-grey-5: #F2F2F2;
+$rpf-grey-15: #D9D9D9;
+$rpf-grey-40: #999999;
+$rpf-grey-70: #4c4c4c;
+
+//Teals
 $rpf-teal-shade-20: #10968A;
 $rpf-teal: #14BCAC;
 $rpf-teal-tint-25: #4FCDC1;
@@ -55,16 +67,13 @@ $rpf-teal-tint-50: #89DED5;
 $rpf-teal-tint-75: #C4EEEA;
 $rpf-teal-tint-90: #E7F8F7;
 
-$rpf-grey-5: #F2F2F2;
-$rpf-grey-15: #D9D9D9;
-$rpf-grey-40: #999999;
-$rpf-grey-70: #4c4c4c;
-$rpf-brand-raspberry: #CD2355;
+//Brand colors
+$rpf-brand-raspberry: #CD2356;
+$rpf-brand-leaf: #46AF4B;
+$rpf-brand-black: $rpf-black;
 $rpf-alerts-errors: #A81A26;
 $rpf-alerts-errors-tint: #86151E;
 
-$rpf-text-secondary: #4D575B;
-$rpf-darkmode-text-secondary: #CCCCCC;
 
 :root,
 :host {

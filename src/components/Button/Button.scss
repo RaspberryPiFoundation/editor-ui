@@ -4,10 +4,10 @@
   background-color: $bg;
 
   @if $c == 'default' {
-    color: $rpf-text-black;
+    color: $rpf-text-primary;
 
     svg {
-      fill: $rpf-text-black;
+      fill: $rpf-text-primary;
     }
   } @else {
     color: $c;
