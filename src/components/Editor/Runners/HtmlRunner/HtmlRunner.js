@@ -2,13 +2,14 @@
 import "./HtmlRunner.scss";
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { codeRunHandled } from "../../EditorSlice";
+import { codeRunHandled, expireJustLoaded } from "../../EditorSlice";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
   const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
+  const justLoaded = useSelector((state) => state.editor.justLoaded)
 
   const dispatch = useDispatch()
   const output = useRef();
@@ -32,10 +33,16 @@ function HtmlRunner() {
   };
 
   useEffect(() => {
-    if (focussedComponent.extension === 'html') {
+    if (justLoaded) {
       runCode()
+      dispatch(expireJustLoaded())
+    } else {
+      let timeout = setTimeout(() => {
+        runCode()
+      }, 2000);
+      return () => clearTimeout(timeout)
     }
-  }, [projectCode, focussedFileIndex]);
+  }, [projectCode]);
 
   useEffect(() => {
     if (codeRunTriggered) {
