@@ -81,7 +81,7 @@
 
   // Variants
   &--primary {
-    $colours: $rpf-teal, $rpf-teal-tint-25, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal, $rpf-teal-900;
+    $colours: $rpf-teal-800, $rpf-teal-600, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal-800, $rpf-teal-900;
     @include button-styling($colours...);
   }
 
