@@ -145,9 +145,9 @@ i18n
             newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
-              helpText: "Remember to add the file extension at the end of your file name",
-              helpTextExampleHTML: "for example, 'file.html' or 'file.css'",
-              helpTextExamplePython: "for example, 'file.py'",
+              helpText: "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+              helpTextExampleHTML: "'file.html' or 'file.css'",
+              helpTextExamplePython: "'file.py'",
               inputLabel: "Name your file",
               addFile: "Add file",
             },
