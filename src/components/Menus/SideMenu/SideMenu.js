@@ -4,7 +4,6 @@ import { DoubleChevronLeft, FileIcon } from "../../../Icons"
 import Button from "../../Button/Button"
 import FilePane from "./FilePane/FilePane"
 import MenuSideBar from "./MenuSideBar"
-import ResizableWithHandle from '../../../utils/ResizableWithHandle';
 
 import './SideMenu.scss'
 
