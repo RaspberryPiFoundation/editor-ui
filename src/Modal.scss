@@ -1,3 +1,4 @@
+@use './spacing' as *;
 @import './colours.scss';
 @import './mixins.scss';
 
@@ -5,11 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-8);
+  padding: $space-5;
 
   @include mobile-only {
-    // NOTE: Already using scaling for new design system - this will be space-2
-    padding: calc(3.2 * var(--spacing-1));
+    padding: $space-2;
   }
 }
 
@@ -31,7 +31,7 @@
     box-sizing: border-box;
     border: 2px solid transparent;
     border-radius: 12px;
-    padding: var(--spacing-1);
+    padding: $space-0-5;
     display: block;
   }
 
@@ -45,8 +45,7 @@
   display: flex;
   align-items: center;
   min-height: fit-content;
-  // NOTE: Already using scaling for new design system - this will be space-1/space-0-5
-  padding: calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*0.8) calc(var(--spacing-1)*1.6) calc(var(--spacing-1)*1.6);
+  padding: $space-1 $space-0-5 $space-1 $space-1;
 
   button {
     margin-left: auto;
@@ -55,16 +54,15 @@
 }
 
 .modal-content__heading {
-  margin: var(--spacing-1) var(--spacing-1) var(--spacing-1) 0;
+  margin: $space-0-5 $space-0-5 $space-0-5 0;
   font-size: var(--font-size-u-2);
 }
 
 .modal-content__body {
-  // NOTE: Already using scaling for new design system - this will be space-1-5
-  padding: calc(2.4 * var(--spacing-1));
+  padding: $space-1-5;
   display: flex;
   flex-direction: column;
-  row-gap: var(--spacing-1);
+  row-gap: $space-0-5;
   overflow-y: auto;
 }
 
@@ -80,14 +78,12 @@
 }
 
 .modal-content__buttons {
-  // NOTE: Already using scaling for new design system - this will be space-1
-  padding: calc(1.6 * var(--spacing-1));
+  padding: $space-1;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row-reverse;
-  // NOTE: Already using scaling for new design system - this will be space-1
-  gap: calc(1.6 * var(--spacing-1));
-  justify-content: end;
+  gap: $space-1;
+  justify-content: flex-start;
 
   @include mobile-only {
     display: flex;
@@ -109,7 +105,7 @@
 
 .modal-content__links {
   text-align: center;
-  margin: var(--spacing-1) 0 var(--spacing-half) 0;
+  margin: $space-0-5 0 $space-0-25 0;
   
   button {
     text-decoration: underline;
