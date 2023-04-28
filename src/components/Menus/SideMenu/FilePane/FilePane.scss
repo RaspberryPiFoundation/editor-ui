@@ -1,7 +1,8 @@
-@import '../../../../colours.scss';
+@use '../../../../colours' as *;
 
 .file-pane {
   border-radius: 10px;
+  width: 100%;
 
   summary {
     border: 3px solid transparent;

@@ -4,6 +4,7 @@ import { DoubleChevronLeft, FileIcon } from "../../../Icons"
 import Button from "../../Button/Button"
 import FilePane from "./FilePane/FilePane"
 import MenuSideBar from "./MenuSideBar"
+import ResizableWithHandle from '../../../utils/ResizableWithHandle';
 
 import './SideMenu.scss'
 
@@ -29,7 +30,7 @@ const SideMenu = (props) => {
   }
 
   return (
-    <div className = "menu">
+    <div className='menu'>
       { option ? null :
         <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
       }
