@@ -2,9 +2,11 @@
 import "./HtmlRunner.scss";
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { parse } from "node-html-parser";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
   const output = useRef();
 
   const getBlobURL = (code, type) => {
@@ -18,17 +20,51 @@ function HtmlRunner() {
 
   const runCode = () => {
     // TODO: get html files and handle urls for non index pages
-    let indexPage = projectCode[0].content;
+    let indexPage = parse(projectCode[0].content);
 
-    const cssFiles = projectCode.filter(
-      (component) => component.extension === "css"
-    );
-    cssFiles.forEach((cssFile) => {
-      const cssFileBlob = getBlobURL(cssFile.content, "text/css");
-      indexPage = indexPage.replace(
-        `href="${cssFile.name}.css"`,
-        `href="${cssFileBlob}"`
+    // get all href's
+    const hrefNodes = indexPage.querySelectorAll("[href]");
+
+    // replace href's with blob urls
+    hrefNodes.forEach((hrefNode) => {
+      const projectFile = projectCode.filter(
+        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href
       );
+      if (!!projectFile.length) {
+        console.log("ALLOWED");
+        const projectFileBlob = getBlobURL(
+          projectFile[0].content,
+          `text/${projectFile[0].extension}`
+        );
+        hrefNode.setAttribute("href", projectFileBlob);
+      } else if (hrefNode.parentNode.tagName.toLowerCase() === "head") {
+        console.log("STYLE ALLOWED");
+      } else {
+        console.log("BLOCKED");
+        hrefNode.setAttribute("href", "#");
+        hrefNode.setAttribute(
+          "title",
+          "Unfortunately external links are not allowed"
+        );
+        // hrefNode.setAttribute("onclick", () => setBlocked(true));
+      }
+    });
+
+    // get all src's
+    const srcNodes = indexPage.querySelectorAll("[src]");
+
+    // replace src's with image urls
+    srcNodes.forEach((srcNode) => {
+      const projectImage = projectImages.filter(
+        (component) => component.filename === srcNode.attrs.src
+      );
+      if (!!projectImage.length) {
+        console.log("ALLOWED");
+        srcNode.setAttribute("src", projectImage[0].url);
+      } else {
+        console.log("BLOCKED");
+        srcNode.setAttribute("src", "");
+      }
     });
 
     const blob = getBlobURL(indexPage, "text/html");
