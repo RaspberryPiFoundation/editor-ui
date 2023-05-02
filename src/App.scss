@@ -25,8 +25,8 @@ input {
 }
 
 .--light {
-  background-color: $rpf-teal-tint-90;
-  color: $rpf-text-black;
+  background-color: $rpf-teal-100;
+  color: $rpf-text-primary;
   caret-color: $rpf-black;
 
   .pythonrunner-input {
@@ -39,7 +39,7 @@ input {
 }
 
 .--dark {
-  background-color: $rpf-darkmode-grey10;
+  background-color: $rpf-grey-900;
   color: $rpf-white;
   caret-color: $rpf-white;
 

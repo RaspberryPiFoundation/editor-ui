@@ -49,7 +49,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      border-right: 1px $rpf-darkmode-text-secondary solid;
+      border-right: 1px $rpf-text-secondary-darkmode solid;
     }
   }
 
@@ -97,7 +97,7 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      color: $rpf-darkmode-text-secondary;
+      color: $rpf-text-secondary-darkmode;
     }
   }
 
@@ -110,11 +110,11 @@ $small-table-grid: 600px;
       color: $rpf-black;
 
       &:active {
-        color: $rpf-teal-shade-20;
+        color: $rpf-teal-900;
       }
   
       &:hover {
-        color: $rpi-grey-70;
+        color: $rpf-grey-600;
       }
     }
 
@@ -122,11 +122,11 @@ $small-table-grid: 600px;
       color: $rpf-white;
 
       &:active {
-        color: $rpf-teal-tint-75;
+        color: $rpf-teal-200;
       }
 
       &:hover {
-        color: $rpf-darkmode-grey85;
+        color: $rpf-grey-150;
       }
     }
   }
