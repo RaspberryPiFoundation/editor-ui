@@ -124,23 +124,23 @@
 
     input {
       border: 2px solid $rpf-white;
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
       color: inherit;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal;
+        border: 2px solid $rpf-teal-800;
         outline: none;
       }
     }
   }
   .modal-content {
-    background-color: $rpf-darkmode-grey22;
+    background-color: $rpf-grey-700;
   }
   .modal-content__header {
-    border-bottom: 1px solid $rpf-darkmode-grey42;
+    border-bottom: 1px solid $rpf-grey-500;
   }
   .modal-content__buttons {
-    border-top: 1px solid $rpf-darkmode-grey42;
+    border-top: 1px solid $rpf-grey-500;
   }
 }
 
@@ -149,10 +149,10 @@
     background-color: rgba(67,69,76,0.5);
 
     input {
-      border: 2px solid $rpf-darkmode-grey90;
+      border: 2px solid $rpf-grey-100;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal;
+        border: 2px solid $rpf-teal-800;
         outline: none;
       }
     }
@@ -162,9 +162,9 @@
   }
 
   .modal-content__header {
-    border-bottom: 1px solid $rpf-darkmode-grey85;
+    border-bottom: 1px solid $rpf-grey-150;
   }
   .modal-content__buttons {
-    border-top: 1px solid $rpf-darkmode-grey85;
+    border-top: 1px solid $rpf-grey-150;
   }
 }

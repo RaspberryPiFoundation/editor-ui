@@ -25,7 +25,7 @@
   }
 
   &:active {
-    border: 3px solid $rpf-teal-shade-20;
+    border: 3px solid $rpf-teal-900;
   }
 
   &:focus-visible {
@@ -35,7 +35,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $rpi-grey-15;
+    background-color: $rpf-grey-150;
   }
 }
 
@@ -55,7 +55,7 @@
 .--dark {
   .files-list-item {
     &:hover {
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
     }
   }
 

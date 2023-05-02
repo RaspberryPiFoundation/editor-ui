@@ -65,11 +65,11 @@
 
   + .project-name {
     .--light & {
-      border-left: 1px solid $rpf-darkmode-grey85;
+      border-left: 1px solid $rpf-grey-150;
     }
   
     .--dark & {
-      border-left: 1px solid $rpf-darkmode-grey42;
+      border-left: 1px solid $rpf-grey-500;
     }
   }
 }
@@ -82,6 +82,6 @@
 
 .--dark {
   .editor-header {
-    background-color: $rpf-darkmode-grey22;
+    background-color: $rpf-grey-700;
   }
 }
