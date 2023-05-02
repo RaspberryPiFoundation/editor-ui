@@ -136,9 +136,16 @@
   .modal-content {
     background-color: $rpf-darkmode-grey22;
   }
+
   .modal-content__header {
     border-bottom: 1px solid $rpf-darkmode-grey42;
   }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary-dark;
+    margin: $space-0-25 0;
+  }
+
   .modal-content__buttons {
     border-top: 1px solid $rpf-darkmode-grey42;
   }
@@ -157,6 +164,7 @@
       }
     }
   }
+
   .modal-content {
     background-color: $rpf-white;
   }
@@ -164,6 +172,11 @@
   .modal-content__header {
     border-bottom: 1px solid $rpf-darkmode-grey85;
   }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary;
+  }
+
   .modal-content__buttons {
     border-top: 1px solid $rpf-darkmode-grey85;
   }
