@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Ability to run HTML projects by clicking run button (#481)
 
+### Fixed
+
+- Updated Sentry to fix compile-time error (#481)
+
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
@@ -38,6 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix storybook build error (#484)
 - CookieBot consent request in iframes (#437)
 - Resetting name error if file creation/renaming is cancelled (#450)
 - Mission Zero performance gains (#457)
