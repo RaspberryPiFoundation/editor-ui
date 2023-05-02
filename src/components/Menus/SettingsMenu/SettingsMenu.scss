@@ -1,11 +1,13 @@
+@use '../../../spacing' as *;
 @import '../../../colours.scss';
+
 
 .settings-menu {
   width: fit-content;
   right: 0;
 
   h2 {
-    margin-top: var(--spacing-1)
+    margin-top: $space-0-5
   }
 
   h3 {
@@ -13,7 +15,7 @@
     font-weight: var(--font-weight-base);
     text-align: center;
     margin-top: 0;
-    margin-bottom: var(--spacing-1);
+    margin-bottom: $space-0-5;
   }
 
   &__font-size {
@@ -21,7 +23,7 @@
   }
 
   &::before {
-    margin-left: var(--spacing-5);
+    margin-left: $space-3;
   }
 }
 
