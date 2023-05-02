@@ -71,7 +71,9 @@ function HtmlRunner() {
 
     const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
-    dispatch(codeRunHandled())
+    if (codeRunTriggered) {
+      dispatch(codeRunHandled())
+    }
     clearTimeout(timeout)
   };
 
