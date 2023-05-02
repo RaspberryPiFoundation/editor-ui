@@ -109,6 +109,24 @@ exports[`Renders without crashing 1`] = `
         </div>
       </div>
     </div>
+    <button
+      class="btn btn--primary btn--run"
+    >
+      <span>
+        runButton.run
+      </span>
+      <svg
+        fill="none"
+        height="14"
+        viewBox="0 0 11 14"
+        width="11"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 14V0L11 7L0 14Z"
+        />
+      </svg>
+    </button>
   </div>
 </DocumentFragment>
 `;
