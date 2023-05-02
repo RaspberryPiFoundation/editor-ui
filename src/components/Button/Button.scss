@@ -215,7 +215,7 @@
   }
 
   .btn--primary {
-    $colours: $rpf-teal-tint-50, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-600;
+    $colours: $rpf-teal-400, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700, $rpf-teal-400, $rpf-teal-600;
     @include button-styling($colours...);
   }
 
