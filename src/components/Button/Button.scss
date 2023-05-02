@@ -81,7 +81,7 @@
 
   // Variants
   &--primary {
-    $colours: $rpf-teal-800, $rpf-teal-600, $rpf-teal-tint-75, $rpf-grey-600, $rpf-teal-800, $rpf-teal-900;
+    $colours: $rpf-teal-800, $rpf-teal-600, $rpf-teal-200, $rpf-grey-600, $rpf-teal-800, $rpf-teal-900;
     @include button-styling($colours...);
   }
 
@@ -215,7 +215,7 @@
   }
 
   .btn--primary {
-    $colours: $rpf-teal-tint-50, $rpf-teal-tint-75, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-600;
+    $colours: $rpf-teal-tint-50, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700, $rpf-teal-tint-50, $rpf-teal-600;
     @include button-styling($colours...);
   }
 
