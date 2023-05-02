@@ -2,7 +2,7 @@
 import "./HtmlRunner.scss";
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { codeRunHandled, expireJustLoaded } from "../../EditorSlice";
+import { codeRunHandled } from "../../EditorSlice";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
