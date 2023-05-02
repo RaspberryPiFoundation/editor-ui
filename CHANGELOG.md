@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.16.0] - 2023-04-28
+
+### Added
+
+- New colors 
+
+### Changed
+
+- Color usage
+
+### Fixed
+
+- Color naming convention 
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)

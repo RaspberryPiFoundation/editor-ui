@@ -1,89 +1,118 @@
-$editor-white: white;
-$editor-light-light-light-grey: #FFFFFF80;
-$editor-light-light-grey: #F3F4F6;
-$editor-light-grey: #E8E9ED;
-$editor-mid-light-grey: #BFC3CE;
-$editor-mid-grey: #8C93A4;
-$editor-grey: #43454C;
-$editor-dark: #2E3038;
-$editor-dark-dark: #24262D;
-$editor-dark-dark-dark: #1B1D22;
-$editor-black: #1B1D22;
-
-$editor-pale-purple: #BBCAF7;
-
-$editor-pale-blue: #F0F3FD;
-$editor-light-blue: #B2E3EF;
-$editor-blue: #2143B3;
-$editor-dark-blue: #002B3F;
-
-$editor-turquoise-tint-75: #C4EEEA;
-$editor-light-turquoise: #B8EBE6;
-$editor-turquoise-tint-50: #89DED5;
-$editor-turquoise: #14BCAC;
-$editor-dark-turquoise: #11A99A;
-$editor-turquoise-grey: #72D7CD1A;
-
+// Basic colors
+$rpf-black: #000000;
+$rpf-white: #FFFFFF;
+$rpf-off-white: #F5F6F9;
 $rpf-dark-blue: #2A3E4F;
 
-// New colour palette colours
-$rpf-alert-blue: #1E3888;
-
-$rpf-black: #000000;
-
-$rpf-darkmode-grey42: #616575;
-$rpf-darkmode-grey32: #4A4D59;
-$rpf-darkmode-grey22: #33353D;
-$rpf-darkmode-grey18: #2A2B32;
-$rpf-darkmode-grey15: #23242A;
-$rpf-darkmode-grey10: #17181C;
-$rpf-darkmode-grey5: #0C0C0E;
-
-$rpf-darkmode-grey75: #BABCC5;
-$rpf-darkmode-grey80: #C7C9D1;
-$rpf-darkmode-grey85: #D5D7DC;
-$rpf-darkmode-grey90: #E3E4E8;
-$rpf-darkmode-grey95: #F1F2F3;
-
-$rpf-teal-shade-20: #10968A;
-$rpf-teal: #14BCAC;
-$rpf-teal-tint-25: #4FCDC1;
-$rpf-teal-tint-50: #89DED5;
-$rpf-teal-tint-75: #C4EEEA;
-$rpf-teal-tint-90: #E7F8F7;
-
-$rpi-grey-5: #F2F2F2;
-$rpi-grey-15: #D9D9D9;
-$rpi-grey-40: #999999;
-$rpi-grey-70: #4c4c4c;
-$rpf-brand-raspberry: #CD2355;
-$rpf-alerts-errors: #A81A26;
-$rpf-alerts-errors-tint: #86151E;
-
-$rpf-text-black: #212121;
-$rpf-white: #FFFFFF;
-$rpf-white-opacity8: #FFFFFF14;
-
+// Text
+$rpf-text-primary: #212121;
+$rpf-text-primary-darkmode: $rpf-white;
 $rpf-text-secondary: #4D575B;
-$rpf-darkmode-text-secondary: #CCCCCC;
+$rpf-text-secondary-darkmode: #CCCCCC;
+
+//Greys
+$rpf-grey-50: #F1F2F3;
+$rpf-grey-100: #E3E4E8;
+$rpf-grey-150: #D5D7DC;
+$rpf-grey-200: #C7C9D1;
+$rpf-grey-300: #BABCC5;
+$rpf-grey-400: #9497A4;
+$rpf-grey-500: #636674;
+$rpf-grey-600: #4A4D59;
+$rpf-grey-700: #33353D;
+$rpf-grey-800: #2A2B32;
+$rpf-grey-850: #23242A;
+$rpf-grey-900: #17181C;
+$rpf-grey-950: #0C0C0E;
+
+//Decorative
+$rpf-red-100: #FEEEED;
+$rpf-red-200: #FCD4D3;
+$rpf-red-400: #F9A8A7;
+$rpf-red-600: #F67D7B;
+$rpf-red-800: #F3514F;
+$rpf-red-900: #C2423F;
+
+$rpf-green-100: #ECF7ED;
+$rpf-green-200: #D1EBD2;
+$rpf-green-400: #A2D7A5;
+$rpf-green-600: #74C378;
+$rpf-green-800: #46AF4B;
+$rpf-green-900: #358539;
+
+$rpf-teal-100: #E7F8F7;
+$rpf-teal-200: #C4EEEA;
+$rpf-teal-400: #89DDD5;
+$rpf-teal-600: #4FCDC1;
+$rpf-teal-800: #14BDAC;
+$rpf-teal-900: #0E857A;
+
+$rpf-orange-100: #FFF4E8;
+$rpf-orange-200: #FFE3C4;
+$rpf-orange-400: #FFC78A;
+$rpf-orange-600: #FEAA50;
+$rpf-orange-800: #FE8E15;
+$rpf-orange-900: #AF620E;
+
+$rpf-yellow-100: #FFFBE5;
+$rpf-yellow-200: #FFF6BF;
+$rpf-yellow-400: #FFED80;
+$rpf-yellow-600: #FFE540;
+$rpf-yellow-800: #FFDD00;
+$rpf-yellow-900: #877500;
+
+$rpf-purple-100: #F3ECF6;
+$rpf-purple-200: #E1D0EA;
+$rpf-purple-400: #C3A1D5;
+$rpf-purple-600: #A573BF;
+$rpf-purple-800: #8744AB;
+$rpf-purple-900: #6C3688;
+
+$rpf-navy-100: #E9EAF5;
+$rpf-navy-200: #C8CBE6;
+$rpf-navy-400: #9196CD;
+$rpf-navy-600: #5A62B4;
+$rpf-navy-800: #232D9A;
+$rpf-navy-900: #1C257C;
+
+$rpf-blue-100: #E5F4FD;
+$rpf-blue-200: #BFE3FB;
+$rpf-blue-400: #80C7F7;
+$rpf-blue-600: #40ABF4;
+$rpf-blue-800: #0090F0;
+$rpf-blue-900: #0072C0;
+
+
+//Brand colours
+$rpf-brand-raspberry: #CD2356;
+$rpf-brand-leaf: #46AF4B;
+$rpf-brand-black: #1D1D1B;
+$astropi-dark-blue: #002B3F;
+
+//Alert
+$rpf-alert-information: #1E398A;
+$rpf-alert-information-highlight: #F2F5FC;
+$rpf-alert-success: #05611E;
+$rpf-alert-success-highlight: #F0FEF4;
+$rpf-alert-warning: #7E4316;
+$rpf-alert-warning-highlight: #FCF4EE;
+$rpf-alert-error-highlight-highlight: #FFEBEB;
+$rpf-alert-error: #9E0A0A;
+$rpf-alerts-error-tint: #86151E;
 
 :root,
 :host {
   --rpf-white: #{$rpf-white};
-  --rpi-grey-5: #{$rpi-grey-5};
-  --rpi-grey-15: #{$rpi-grey-15};
-  --rpi-grey-40: #{$rpi-grey-40};
-  --rpi-grey-70: #{$rpi-grey-70};
 }
 
 // Webpack exports
 /* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
 :export {
   grey: {
-    rpi-grey-15: $rpi-grey-15;
-    rpi-grey-40: $rpi-grey-40;
-    rpi-grey-5: $rpi-grey-5;
-    rpi-grey-70: $rpi-grey-70;
+    rpi-grey-15: $rpf-grey-150;
+    rpi-grey-40: $rpf-grey-400;
+    rpi-grey-5: $rpf-grey-50;
+    rpi-grey-70: $rpf-grey-600;
     rpf-white: $rpf-white;
   }
 }

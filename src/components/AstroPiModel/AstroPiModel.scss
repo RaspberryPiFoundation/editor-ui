@@ -183,29 +183,29 @@
 
 .--dark {
   .sense-hat {
-    background-color: $rpf-darkmode-grey18;
+    background-color: $rpf-grey-800;
 
     &-controls {
-      border-top: 7px solid $rpf-darkmode-grey10;
+      border-top: 7px solid $rpf-grey-900;
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 $space-1-5 $rpf-white-opacity8;
-          background-color: $rpf-darkmode-grey22;
+          box-shadow: inset 0 0 var(--spacing-2) $rpf-grey-700;
+          background-color: $rpf-grey-700;
 
           &-reading {
-            background-color: $rpf-darkmode-grey18;
-            border: 1px solid $rpf-darkmode-grey42
+            background-color: $rpf-grey-800;
+            border: 1px solid $rpf-grey-500
           }
 
           input[type='color'] {
-            background-color: $rpf-darkmode-grey18;
-            border: 1px solid $rpf-darkmode-grey42;
+            background-color: $rpf-grey-800;
+            border: 1px solid $rpf-grey-500;
           }
 
           &-toggle {
-            background-color: $rpf-darkmode-grey18;
-            border: 1px solid $rpf-darkmode-grey42;
+            background-color: $rpf-grey-800;
+            border: 1px solid $rpf-grey-500;
 
             .react-toggle {
               &-thumb {
@@ -219,10 +219,10 @@
     }
 
     &-model {
-      background-color: $editor-dark-blue;
+      background-color: $astropi-dark-blue;
 
       &-orientation {
-        background-color: $editor-dark-blue;
+        background-color: $astropi-dark-blue;
         color: $rpf-white;
 
         &__reset-btn {
@@ -240,30 +240,30 @@
     background-color: $rpf-white;
 
     &-controls {
-      border-top: 5px solid $rpf-darkmode-grey90;
+      border-top: 5px solid $rpf-grey-100;
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 $space-1-5 $rpf-darkmode-grey90;
-          background-color: $rpf-darkmode-grey95;
+          box-shadow: inset 0 0 var(--spacing-2) $rpf-grey-100;
+          background-color: $rpf-grey-50;
 
           &-reading {
-            background-color: $rpf-darkmode-grey90;
-            border: 2px solid $rpf-darkmode-grey75;
+            background-color: $rpf-grey-100;
+            border: 2px solid $rpf-grey-300;
           }
 
           input[type='color'] {
             background-color: $rpf-white;
-            border: 2px solid $rpf-darkmode-grey75;
+            border: 2px solid $rpf-grey-300;
           }
 
           &-toggle {
             background-color: $rpf-white;
-            border: 2px solid $rpf-darkmode-grey75;
+            border: 2px solid $rpf-grey-300;
 
             .react-toggle-thumb {
-              border: 1px solid $rpf-darkmode-grey90;
-              background-color: $rpf-darkmode-grey90;
+              border: 1px solid $rpf-grey-100;
+              background-color: $rpf-grey-100;
             }
           }
         }
@@ -271,10 +271,10 @@
   }
 
     &-model {
-      background-color: $editor-dark-blue;
+      background-color: $astropi-dark-blue;
 
       &-orientation {
-        background-color: $editor-dark-blue;
+        background-color: $astropi-dark-blue;
         color: $rpf-white;
 
         &__reset-btn {
