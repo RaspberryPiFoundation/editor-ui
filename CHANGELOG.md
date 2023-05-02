@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Modal button alignment support (#460)
+- Storybook setup and dev deployment (#461)
 
 ## [0.15.0] - 2023-04-27
 
@@ -44,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix storybook build error (#484)
 - CookieBot consent request in iframes (#437)
 - Resetting name error if file creation/renaming is cancelled (#450)
 - Mission Zero performance gains (#457)
