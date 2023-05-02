@@ -14,7 +14,7 @@ module.exports = {
     previewMdx2: true,
   },
   webpackFinal: async (config, { configType }) => {
-    config.output.publicPath = "/design-system/";
+    config.output.publicPath = "/storybook/";
     // add SCSS support for CSS Modules
     config.module.rules.push({
       test: /\.scss$/,
@@ -26,14 +26,14 @@ module.exports = {
     return config;
   },
   managerWebpack: async (config) => {
-    config.output.publicPath = "/design-system/";
+    config.output.publicPath = "/storybook/";
     return config;
   },
   // https://github.com/storybookjs/storybook/issues/7775#issuecomment-968992047
   managerHead: (head, { configType }) => {
     return `
       ${head}
-      <base href="/design-system/">
+      <base href="/storybook/">
     `;
   },
 };
