@@ -69,6 +69,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "build:dev": "yarn run build-storybook && node scripts/build.js",
+    "package-install": "sh scripts/with-builder.sh",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint src/. --ext .js",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",

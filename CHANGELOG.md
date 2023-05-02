@@ -32,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix local package build process ()
 - Fix storybook build error (#484)
 - CookieBot consent request in iframes (#437)
 - Resetting name error if file creation/renaming is cancelled (#450)
