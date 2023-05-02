@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 
 import ErrorModal from "../../../Modals/ErrorModal";
-import { showErrorModal, closeErrorModal } from "../../EditorSlice";
+import { showErrorModal } from "../../EditorSlice";
 
 function HtmlRunner() {
   const dispatch = useDispatch();
