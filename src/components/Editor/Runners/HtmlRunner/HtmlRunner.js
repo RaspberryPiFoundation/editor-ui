@@ -37,7 +37,6 @@ function HtmlRunner() {
   useEffect(() => {
     if (justLoaded) {
       runCode()
-      dispatch(expireJustLoaded())
     } else {
       timeout = setTimeout(() => {
         runCode()
