@@ -5,6 +5,10 @@ const allowedExtensions = {
     "py",
     "csv",
     "txt"
+  ],
+  "html": [
+    "html",
+    "css"
   ]
 }
 
