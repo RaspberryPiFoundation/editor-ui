@@ -8,11 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
+- Help text in the new file modal (#478)
 ### Changed
 
 - Position run button in separate bar (#471)
 
 ### Fixed
+
+- Updated Sentry to fix compile-time error
+
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
@@ -21,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Modal button alignment support (#460)
 - Storybook setup and dev deployment (#461)
+- Updating Sentry to fix compile-time error (#487)
 
 ## [0.15.0] - 2023-04-27
 
@@ -39,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix storybook build error (#484)
 - CookieBot consent request in iframes (#437)
 - Resetting name error if file creation/renaming is cancelled (#450)
 - Mission Zero performance gains (#457)

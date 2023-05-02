@@ -3,7 +3,6 @@ var path = require("path");
 module.exports = {
   stories: ["../**/*.stories.mdx", "../**/*.stories.js"],
   addons: [
-    "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "storybook-react-i18next",

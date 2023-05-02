@@ -1,9 +1,16 @@
 import { setNameError } from "../components/Editor/EditorSlice";
 
 const allowedExtensions = {
-  python: ["py", "csv", "txt"],
-  html: ["html", "css"],
-};
+  "python": [
+    "py",
+    "csv",
+    "txt"
+  ],
+  "html": [
+    "html",
+    "css"
+  ]
+}
 
 const allowedExtensionsString = (projectType, t) => {
   const extensionsList = allowedExtensions[projectType];
