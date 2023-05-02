@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Modal button alignment support (#460)
 - Storybook setup and dev deployment (#461)
+- Updating Sentry to fix compile-time error (#487)
 
 ## [0.15.0] - 2023-04-27
 
