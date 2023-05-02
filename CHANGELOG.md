@@ -13,6 +13,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Position run button in separate bar (#471)
 
 ### Fixed
+
+- Updated Sentry to fix compile-time error
+
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
