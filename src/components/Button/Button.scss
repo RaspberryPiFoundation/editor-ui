@@ -131,7 +131,7 @@
   }
 
   &--danger {
-    $colours:  $rpf-white, $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
+    $colours:  $rpf-alert-error, $rpf-alert-error, $rpf-alert-error, $rpf-white, $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
     @include button-styling($colours...);
 
     &:focus-visible {
