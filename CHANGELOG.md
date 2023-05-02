@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+- Position run button in separate bar (#471)
+
+### Fixed
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
