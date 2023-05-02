@@ -196,6 +196,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
+    "testEnvironmentOptions": { "resources": "usable" },
     "testRunner": "jest-circus/runner",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
