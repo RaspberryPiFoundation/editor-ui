@@ -64,7 +64,7 @@ const EditorInput = () => {
   }, [focussedFileIndices, openFiles, numberOfComponents, project])
 
   return (
-    <div className='proj-editor-container'>
+    <>
       <DragDropContext onDragEnd={result => onDragEnd(result)}>
         {isMounted ?
           <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
@@ -99,7 +99,7 @@ const EditorInput = () => {
         }
       </DragDropContext>
       <RunnerControls />
-    </div>
+    </>
   )
 }
 export default EditorInput
