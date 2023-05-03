@@ -99,6 +99,9 @@ const Project = (props) => {
     }
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
+        if (justLoaded) {
+          dispatch(expireJustLoaded())
+        }
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
       }
       else {
