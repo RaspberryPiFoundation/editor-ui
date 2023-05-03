@@ -36,7 +36,7 @@
       }
 
       &__reading {
-        @include font-0-75(regular);
+        @include font-size-0-75(regular);
         flex: 1;
         text-transform: uppercase;
         font-weight: var(--font-weight-bold);

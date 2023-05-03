@@ -10,7 +10,7 @@
   }
 
   .toast--bottom-center {
-    @include font-0-75(regular);
+    @include font-size-0-75(regular);
     width: fit-content;
     max-width: 100%;
     bottom: 1em;

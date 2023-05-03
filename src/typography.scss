@@ -13,7 +13,7 @@ h2 {
   @include font-size-1-5(regular);
 
   @include sm-width-only {
-    @include font-0-75(regular);
+    @include font-size-0-75(regular);
   }
 }
 

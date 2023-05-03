@@ -4,7 +4,7 @@
 @import '../../mixins.scss';
 
 .editor-footer {
-  @include font-0-75(regular);
+  @include font-size-0-75(regular);
   margin-top: auto;
   padding: 0 $space-1-5 $space-1-5;
   display: flex;

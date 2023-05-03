@@ -91,7 +91,7 @@ $small-table-grid: 600px;
 
   &__tag,
   &__heading {
-    @include font-0-75(regular);
+    @include font-size-0-75(regular);
 
     .--light & {
       color: $rpf-text-secondary;

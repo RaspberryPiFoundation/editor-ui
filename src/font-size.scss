@@ -75,14 +75,14 @@
   }
 }
 
-@mixin font-0-75($line-height: regular) {
+@mixin font-size-0-75($line-height: regular) {
   font-size: 0.75rem;
   @if $line-height == regular {
     line-height: 1rem;
   }
 }
 
-@mixin font-0-5($line-height: regular) {
+@mixin font-size-0-5($line-height: regular) {
   font-size: 0.5rem;
   @if $line-height == regular {
     line-height: 0.75rem;
