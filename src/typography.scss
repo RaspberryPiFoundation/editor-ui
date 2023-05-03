@@ -21,6 +21,6 @@ h3 {
   font-weight: var(--font-weight-regular);
 
   @include sm-width-only {
-    font-size: var(--font-size-base);
+    @include font-size-1(regular);
   }
 }

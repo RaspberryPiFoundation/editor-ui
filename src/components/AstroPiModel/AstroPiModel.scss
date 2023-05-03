@@ -65,8 +65,8 @@
     flex-flow: column;
 
     &-heading {
+      @include font-size-1(regular);
       font-weight: var(--font-weight-base);
-      font-size: var(--font-size-base);
       margin: 0;
       margin-bottom: $space-0-5;
     }

@@ -103,7 +103,7 @@ $small-table-grid: 600px;
 
   &__title,
   &__actions {
-    font-size: var(--font-size-base);
+    @include font-size-1(regular);
     text-decoration: none;
 
     .--light & {

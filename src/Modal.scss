@@ -67,8 +67,8 @@
 }
 
 .modal-content__subheading {
+  @include font-size-1(regular);
   margin: 0;
-  font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
 
