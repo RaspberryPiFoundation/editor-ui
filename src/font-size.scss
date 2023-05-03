@@ -42,7 +42,94 @@ $_d-3: math.pow($_r, -3) * $_b; // 0.579rem == 9.26px
   --font-size-root-clamp-fallback: 1em;
 }
 
-@mixin font-size-5{
+@mixin font-size-5($line-height: regular) {
   font-size: 5rem;
-  line-height: 6.5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-4-5($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-4($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-3-5($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-3($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-2-5($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-2($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-1-75($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-1-5($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-1-25($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-size-1($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+//not consitent naming - missing size?
+@mixin font-0-75($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
+}
+
+@mixin font-0-5($line-height: regular) {
+  font-size: 5rem;
+  @if $line-height == regular {
+    line-height: 6.5rem;
+  }
 }
