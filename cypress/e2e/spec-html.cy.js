@@ -18,9 +18,12 @@ it('renders the html runner', () => {
 })
 
 it('updates the preview after a change', () => {
+  localStorage.clear()
   cy.visit(baseUrl)
-  cy.get('div[class=cm-content]').invoke('text', '<p class="test">hello world</p>')
-  getIframeBody().find('.test').should('include.text', 'hello world')
+  getIframeBody().should('not.include.text', 'hello world')
+  cy.get('div[class=cm-content]').invoke('text', '<p>hello world</p>')
+  cy.wait(2050)
+  getIframeBody().find('p').should('include.text', 'hello world')
 })
 
 
