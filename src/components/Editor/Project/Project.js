@@ -15,6 +15,9 @@ import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import EditorInput from '../EditorInput/EditorInput';
+import NewFileModal from '../../Modals/NewFileModal';
+import ResizableWithHandle from '../../../utils/ResizableWithHandle';
+
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -22,6 +25,7 @@ const Project = (props) => {
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
   const modals = useSelector((state) => state.editor.modals)
+  const newFileModalShowing = useSelector((state) => state.editor.newFileModalShowing)
   const renameFileModalShowing = useSelector((state) => state.editor.renameFileModalShowing)
   const notFoundModalShowing = useSelector((state) => state.editor.notFoundModalShowing)
   const accessDeniedNoAuthModalShowing = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
@@ -84,7 +88,7 @@ const Project = (props) => {
         }
       }
     }, 2000);
-     
+
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
@@ -92,9 +96,12 @@ const Project = (props) => {
     <div className='proj'>
       <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
       {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <EditorInput />
+        <ResizableWithHandle className='proj-editor-container' minWidth='15%' maxWidth='75%'>
+          <EditorInput />
+        </ResizableWithHandle>
         <Output />
       </div>
+      {(newFileModalShowing) ? <NewFileModal /> : null}
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
       {(notFoundModalShowing) ? <NotFoundModal /> : null}
       {(accessDeniedNoAuthModalShowing) ? <AccessDeniedNoAuthModal /> : null}

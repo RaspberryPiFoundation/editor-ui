@@ -82,6 +82,7 @@ export const EditorSlice = createSlice({
     betaModalShowing: false,
     loginToSaveModalShowing: false,
     notFoundModalShowing: false,
+    newFileModalShowing: false,
     renameFileModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
@@ -229,13 +230,20 @@ export const EditorSlice = createSlice({
     closeNotFoundModal: (state) => {
       state.notFoundModalShowing = false
     },
+    showNewFileModal: (state) => {
+      state.newFileModalShowing = true
+    },
+    closeNewFileModal: (state) => {
+      state.newFileModalShowing = false
+      state.nameError = ''
+    },
     showRenameFileModal: (state, action) => {
       state.modals.renameFile = action.payload
       state.renameFileModalShowing = true
-      state.error = ''
     },
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false
+      state.nameError = ''
     },
     showRenameProjectModal: (state, action) => {
       state.modals.renameProject = action.payload
@@ -387,6 +395,8 @@ export const {
   showLoginToSaveModal,
   closeLoginToSaveModal,
   closeNotFoundModal,
+  showNewFileModal,
+  closeNewFileModal,
   showRenameFileModal,
   closeRenameFileModal,
   showRenameProjectModal,

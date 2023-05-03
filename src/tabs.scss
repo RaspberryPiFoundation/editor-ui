@@ -1,8 +1,6 @@
+@use './spacing' as *;
 @import './colours.scss';
 @import './components/Button/Button.scss';
-
-$spacing-eight: calc(var(--spacing-1) / 1.25);
-$spacing-four: calc($spacing-eight / 2);
 
 #app, #wc {
   .react-tabs {
@@ -19,20 +17,20 @@ $spacing-four: calc($spacing-eight / 2);
       @extend .btn--secondary;
 
       border: 3px solid transparent;
-      margin: $spacing-eight $spacing-four;
-      padding: $spacing-four var(--spacing-1);
+      margin: $space-0-5 $space-0-25;
+      padding: $space-0-25 $space-0-5;
       white-space: nowrap;
 
       &--split {
-        padding-right: calc(3.5 * var(--spacing-1));
+        padding-right: $space-2-5;
       }
     }
     &__tab-inner-close-btn {
       position: absolute;
       background: transparent;
-      right: calc(-1*var(--spacing-1));
+      right: calc(-1 * $space-0-125);
       height: 100%;
-      padding: var(--spacing-1) calc(1.7 * var(--spacing-1)) var(--spacing-1) var(--spacing-half);
+      padding: $space-0-5;
       text-align: center;
       svg {
         margin: 0;
@@ -56,13 +54,13 @@ $spacing-four: calc($spacing-eight / 2);
         border-radius: 0;
 
         .react-tabs__tab-inner {
-          border: 3px solid $rpf-teal-shade-20;
+          border: 3px solid $rpf-teal-900;
         }
       }
 
       &:hover {
         .react-tabs__tab-inner {
-          background-color: $rpi-grey-40;
+          background-color: $rpf-grey-400;
         }
       }
 
@@ -84,13 +82,13 @@ $spacing-four: calc($spacing-eight / 2);
 
       &:first-of-type {
         .react-tabs__tab-inner {
-          margin-left: $spacing-eight;
+          margin-left: $space-0-5;
         }
       }
 
       &:last-of-type {
         .react-tabs__tab-inner {
-          margin-right: $spacing-eight;
+          margin-right: $space-0-5;
         }
       }
     }
@@ -120,13 +118,13 @@ $spacing-four: calc($spacing-eight / 2);
     .react-tabs {
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-darkmode-grey85;
+        border-bottom: 1px solid $rpf-grey-150;
       }
   
       &__tab {
         &--selected {
           .react-tabs__tab-inner {
-            background-color: $rpi-grey-5;
+            background-color: $rpf-grey-50;
           }
         }
       }
@@ -135,16 +133,16 @@ $spacing-four: calc($spacing-eight / 2);
 
   &.--dark {
     .react-tabs {
-      background-color: $rpf-darkmode-grey18;
+      background-color: $rpf-grey-800;
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-darkmode-grey42;
+        border-bottom: 1px solid $rpf-grey-500;
       }
   
       &__tab {
         &:hover {
           .react-tabs__tab-inner {
-            background-color: $rpf-darkmode-grey22;
+            background-color: $rpf-grey-700;
           }
         }
   
@@ -153,13 +151,13 @@ $spacing-four: calc($spacing-eight / 2);
 
           .react-tabs__tab-inner {
             color: inherit;
-            background-color: $rpf-darkmode-grey42;
+            background-color: $rpf-grey-500;
           }
         }
       }
 
       &__tab-inner {
-        background-color: $rpf-darkmode-grey32;
+        background-color: $rpf-grey-600;
         color: $rpf-white;
         svg {
           fill: $rpf-white;

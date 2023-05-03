@@ -1,13 +1,29 @@
-import './Button.scss';
+import "./Button.scss";
 
-import React from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import React from "react";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const Button = (props) => {
-  const { className, onClickHandler, ButtonIcon, buttonImage, buttonImageAltText, buttonText, buttonOuter, buttonOuterClassName, disabled, confirmText, title, label } = props;
-  
-  const buttonClass = `btn${className ? ` ${className}` : ""}${buttonText ? "" : " btn--svg-only"}`
+  const {
+    className,
+    onClickHandler,
+    ButtonIcon,
+    buttonImage,
+    buttonImageAltText,
+    buttonText,
+    buttonOuter,
+    buttonOuterClassName,
+    disabled,
+    confirmText,
+    title,
+    label,
+    buttonIconPosition = "left",
+  } = props;
+
+  const buttonClass = `btn${className ? ` ${className}` : ""}${
+    buttonText ? "" : " btn--svg-only"
+  }`;
 
   const onButtonClick = (e) => {
     if (!confirmText) {
@@ -19,34 +35,45 @@ const Button = (props) => {
       message: confirmText,
       buttons: [
         {
-          label: 'Yes',
-          onClick: () => onClickHandler(e)
+          label: "Yes",
+          onClick: () => onClickHandler(e),
         },
         {
-          label: 'No',
-        }
-      ]
+          label: "No",
+        },
+      ],
     });
-  }
+  };
 
   const button = (
-    <button className={buttonClass} disabled={disabled} aria-label={label} title={title} onClick={buttonOuter ? null : onButtonClick}>
-      { buttonImage ? <img src={buttonImage} alt={buttonImageAltText}/> : null }
-      { ButtonIcon ? <ButtonIcon /> : null }
-      { buttonText ? <span>{buttonText}</span> : null }
+    <button
+      className={buttonClass}
+      disabled={disabled}
+      aria-label={label}
+      title={title}
+      onClick={buttonOuter ? null : onButtonClick}
+    >
+      {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
+      {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
+      {buttonText ? <span>{buttonText}</span> : null}
+      {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>
   );
 
   if (buttonOuter) {
     return (
-      <div className={`btn-outer${buttonOuterClassName ? ` ${buttonOuterClassName}` : ''}`} onClick={onButtonClick}>
+      <div
+        className={`btn-outer${
+          buttonOuterClassName ? ` ${buttonOuterClassName}` : ""
+        }`}
+        onClick={onButtonClick}
+      >
         {button}
       </div>
-    )
+    );
   }
 
   return button;
 };
 
 export default Button;
-
