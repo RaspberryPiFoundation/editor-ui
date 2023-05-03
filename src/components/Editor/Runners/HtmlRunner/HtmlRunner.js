@@ -5,12 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 
 import ErrorModal from "../../../Modals/ErrorModal";
-import { showErrorModal } from "../../EditorSlice";
+import { showErrorModal, codeRunHandled } from "../../EditorSlice";
 
 function HtmlRunner() {
-  const dispatch = useDispatch();
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
+  const focussedFileIndex = useSelector(
+    (state) => state.editor.focussedFileIndex
+  );
+  const openFiles = useSelector((state) => state.editor.openFiles);
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered
+  );
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
+
+  const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
 
@@ -20,6 +29,15 @@ function HtmlRunner() {
 
   const closeModal = () => setError(null);
 
+  const htmlFiles = projectCode.filter(
+    (component) => component.extension === "html"
+  );
+
+  const fileName = openFiles[focussedFileIndex];
+  const focussedComponent = projectCode.find(
+    (component) => `${component.name}.${component.extension}` === fileName
+  );
+
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
     return URL.createObjectURL(blob);
@@ -27,17 +45,37 @@ function HtmlRunner() {
 
   const errorListener = () => {
     window.addEventListener("message", (event) => {
-      if (event.data === "ERROR: External link") {
-        setError("externalLink");
+      if (typeof event.data === "string" || event.data instanceof String) {
+        if (event.data === "ERROR: External link") {
+          setError("externalLink");
+        }
       }
     });
   };
 
   useEffect(() => errorListener(), []);
+  let timeout;
+
+  useEffect(() => {
+    if (justLoaded) {
+      runCode();
+    } else {
+      timeout = setTimeout(() => {
+        runCode();
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [projectCode, focussedFileIndex]);
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      runCode();
+    }
+  }, [codeRunTriggered]);
 
   useEffect(() => {
     runCode();
-  }, [projectCode]);
+  }, [focussedFileIndex]);
 
   useEffect(() => {
     if (error) {
@@ -48,7 +86,12 @@ function HtmlRunner() {
 
   const runCode = () => {
     // TODO: get html files and handle urls for non index pages
-    let indexPage = parse(projectCode[0].content);
+    const indexHTML = htmlFiles.find(
+      (component) => `${component.name}.${component.extension}` === "index.html"
+    );
+    const componentToPreview =
+      focussedComponent.extension === "html" ? focussedComponent : indexHTML;
+    let indexPage = parse(componentToPreview.content);
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
@@ -87,6 +130,10 @@ function HtmlRunner() {
 
     const blob = getBlobURL(indexPage, "text/html");
     output.current.src = blob;
+    if (codeRunTriggered) {
+      dispatch(codeRunHandled());
+    }
+    clearTimeout(timeout);
   };
 
   return (

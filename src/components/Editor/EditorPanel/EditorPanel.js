@@ -30,7 +30,6 @@ const EditorPanel = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext)
-  let timeout;
 
   const updateStoredProject = (content) => {
     dispatch(updateProjectComponent({ extension: extension, name: fileName, code: content}));
@@ -39,15 +38,7 @@ const EditorPanel = ({
   const label = EditorView.contentAttributes.of({ 'aria-label': t('editorPanel.ariaLabel') });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if(viewUpdate.docChanged) {
-      if (['html', 'css'].includes(extension)) {
-        if(timeout) clearTimeout(timeout);
-        timeout = window.setTimeout(
-          function() {
-            updateStoredProject(viewUpdate.state.doc.toString());
-          }, 2000);
-      } else {
-        updateStoredProject(viewUpdate.state.doc.toString());
-      }
+      updateStoredProject(viewUpdate.state.doc.toString());
     }
   });
 
