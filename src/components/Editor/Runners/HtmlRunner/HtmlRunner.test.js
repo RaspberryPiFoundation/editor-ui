@@ -1,5 +1,5 @@
 import configureStore from 'redux-mock-store';
-import { render, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
