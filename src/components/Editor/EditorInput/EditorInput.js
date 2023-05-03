@@ -81,14 +81,18 @@ const EditorInput = () => {
                 <div className='react-tabs__tab-container'>
                   <DroppableTabList index={panelIndex}>
                     {panel.map((fileName, fileIndex) => (
-                      <DraggableTab key={fileIndex} fileIndex={fileIndex} panelIndex={panelIndex} >
+                      <DraggableTab
+                        key={fileIndex}
+                        fileIndex={fileIndex}
+                        panelIndex={panelIndex}
+                      >
                         <span
                           className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
                           ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}
                         >
                           {fileName}
                           {fileName !== 'main.py' ?
-                            <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                            <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onKeyDown={(e) => e.stopPropagation()} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                           : null
                           }
                         </span>  
@@ -96,13 +100,11 @@ const EditorInput = () => {
                     ))}
                   </DroppableTabList>
                 </div>
-                {panel.map((fileName, i) => {
-                  console.log(fileName)
-                  return (
+                {panel.map((fileName, i) => (
                   <TabPanel key={i}>
                     <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
                   </TabPanel>
-                )})}
+                ))}
                 <RunBar />
               </Tabs>
             ))}
