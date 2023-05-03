@@ -7,7 +7,7 @@
 cmd="$*"
 
 # The image we're working against
-image="editor-ui_react-ui:latest"
+image="editor-ui-react-ui:latest"
 
 # Files we copy in to the builder, and then out again.  These files are the
 # ones in the builder target of the Dockerfile.
@@ -36,9 +36,6 @@ log "Copying files to $image container"
 for f in $files ; do
 	docker cp $f $builder:/app/
 done
-
-log "Starting $image container"
-docker start -ai $builder
 
 # Now the command has run, commit the changes, so that if we run this again,
 # we'll start from this point.

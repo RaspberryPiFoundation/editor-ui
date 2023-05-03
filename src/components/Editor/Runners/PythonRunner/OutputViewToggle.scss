@@ -1,14 +1,15 @@
+@use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
 .output-view-toggle {
   display: inline-flex;
-  margin: auto var(--spacing-1) auto auto;
+  margin: auto $space-0-5 auto auto;
   align-items: center;
 
   &__button {
     border: 0px;
     display: flex;
-    padding: var(--spacing-half) var(--spacing-1);
+    padding: $space-0-25 $space-0-5;
     cursor: pointer;
     margin: 0;
 
@@ -53,7 +54,7 @@
 .--light {
   .output-view-toggle {
     &__button {
-      background-color: $rpf-darkmode-grey95;
+      background-color: $rpf-grey-50;
     }
 
     svg {
@@ -62,7 +63,7 @@
   }
   .output-view-toggle__button--active {
     &::before {
-      background-color: $rpf-darkmode-grey85;
+      background-color: $rpf-grey-150;
     }
   }
 }
@@ -70,15 +71,15 @@
 .--dark {
   .output-view-toggle {
     &__button {
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
 
       svg {
-        fill: $rpf-darkmode-grey75;
+        fill: $rpf-grey-300;
       }
 
       &--active {
         &::before {
-          background-color: $rpf-darkmode-grey42;
+          background-color: $rpf-grey-500;
         }
         svg {
           fill: $rpf-white;
@@ -87,13 +88,13 @@
 
       &:disabled {
         svg {
-          fill: $rpf-darkmode-grey42;
+          fill: $rpf-grey-500;
         }
       }
 
       &--active:disabled {
         svg {
-          fill: $rpf-darkmode-grey75;
+          fill: $rpf-grey-300;
         }
       }
     }
@@ -102,11 +103,11 @@
 
 .--light .output-view-toggle__button:disabled {
       svg {
-        fill: $rpf-darkmode-grey75;
+        fill: $rpf-grey-300;
       }
     &.output-view-toggle__button--active {
       svg {
-        fill: $rpf-darkmode-grey42;
+        fill: $rpf-grey-500;
       }
     }
   }

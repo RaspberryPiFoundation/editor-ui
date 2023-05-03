@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 
 #wc {
@@ -31,7 +32,7 @@ button:focus-visible {
 }
 
 .--dark {
-  background-color: $rpf-darkmode-grey10;
+  background-color: $rpf-grey-900;
   color: $rpf-white;
 
   svg {

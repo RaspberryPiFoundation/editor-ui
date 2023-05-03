@@ -1,4 +1,4 @@
-
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../Button/Button.scss';
 
@@ -31,7 +31,7 @@
     height: 100%;
 
     .btn {
-      padding: 0 var(--spacing-2)
+      padding: 0 $space-1-5
     }
   }
 
@@ -43,8 +43,8 @@
 
 .editor-logo {
   height: 100%;
-  min-height: var(--spacing-6);
-  min-width: var(--spacing-6);
+  min-height: $space-4;
+  min-width: $space-4;
 }
 
 .project-gallery-link {
@@ -57,7 +57,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 var(--spacing-3);
+  padding: 0 $space-2;
 
   &a:visited {
     color: inherit;
@@ -65,11 +65,11 @@
 
   + .project-name {
     .--light & {
-      border-left: 1px solid $rpf-darkmode-grey85;
+      border-left: 1px solid $rpf-grey-150;
     }
   
     .--dark & {
-      border-left: 1px solid $rpf-darkmode-grey42;
+      border-left: 1px solid $rpf-grey-500;
     }
   }
 }
@@ -82,6 +82,6 @@
 
 .--dark {
   .editor-header {
-    background-color: $rpf-darkmode-grey22;
+    background-color: $rpf-grey-700;
   }
 }
