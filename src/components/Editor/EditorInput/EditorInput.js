@@ -6,9 +6,9 @@ import { TabPanel, Tabs } from 'react-tabs'
 import Button from '../../Button/Button'
 import { CloseIcon } from '../../../Icons'
 import EditorPanel from '../EditorPanel/EditorPanel'
-import RunnerControls from '../../RunButton/RunnerControls'
 import DraggableTab from '../DraggableTabs/DraggableTab'
 import DroppableTabList from '../DraggableTabs/DroppableTabList'
+import RunBar from '../../RunButton/RunBar'
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project)
@@ -103,12 +103,12 @@ const EditorInput = () => {
                     <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
                   </TabPanel>
                 )})}
+                <RunBar />
               </Tabs>
             ))}
           </div> : null
         }
       </DragDropContext>
-      <RunnerControls />
     </>
   )
 }

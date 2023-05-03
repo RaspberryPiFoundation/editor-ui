@@ -39,3 +39,6 @@ jest.mock('react-i18next', () => ({
 jest.mock('./i18n', () => ({
   t: (string) => string
 }))
+
+global.Blob = jest.fn()
+window.URL.createObjectURL = jest.fn()

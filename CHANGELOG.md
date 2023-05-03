@@ -9,16 +9,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - New colors (#474)
+- Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
+- Help text in the new file modal (#478)
+- Ability to run HTML projects by clicking run button (#481)
 
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
 - Color usage (#474)
+- Position run button in separate bar (#471)
 
 ### Fixed
 
 - Modal button alignment support (#460)
 - Storybook setup and dev deployment (#461)
+- HTML auto-run functionality (#481)
 - Updating Sentry to fix compile-time error (#487)
 - Fix local package build process (#488)
 - Color naming convention (#474)
