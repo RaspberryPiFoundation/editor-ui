@@ -1,45 +1,3 @@
-/**
- * Based on a scale with a base of 1rem and a ratio of 1.2
- * https://www.modularscale.com/?1&rem&1.2
- * Each step up:   (previous-step) * 1.2
- * Each step down: (previous-step) / 1.2
- */
-@use 'sass:math';
-
-$_b: 1rem; // BASE: 1rem == 16.00px
-$_r: 1.2; // RATIO
-
-$_u-1: math.pow($_r, +1) * $_b; // 1.2rem   == 19.20px
-$_u-2: math.pow($_r, +2) * $_b; // 1.44rem  == 23.04px
-$_u-3: math.pow($_r, +3) * $_b; // 1.728rem == 27.65px
-$_u-4: math.pow($_r, +4) * $_b; // 2.074rem == 33.18px
-$_u-5: math.pow($_r, +5) * $_b; // 2.488rem == 39.81px
-$_u-6: math.pow($_r, +6) * $_b; // 2.986rem == 47.78px
-$_u-7: math.pow($_r, +7) * $_b; // 3.583rem == 57.33px
-$_u-8: math.pow($_r, +8) * $_b; // 4.3rem   == 68.80px
-
-$_d-1: math.pow($_r, -1) * $_b; // 0.833rem == 13.33px
-$_d-2: math.pow($_r, -2) * $_b; // 0.694rem == 11.11px
-$_d-3: math.pow($_r, -3) * $_b; // 0.579rem == 9.26px
-
-:root, :host {
-  --font-size-ratio: #{$_r};
-  --font-size-u-7: #{$_u-7};
-  --font-size-u-6: #{$_u-6};
-  --font-size-u-5: #{$_u-5};
-  --font-size-u-4: #{$_u-4};
-  --font-size-u-3: #{$_u-3};
-  --font-size-u-2: #{$_u-2};
-  --font-size-u-1: #{$_u-1};
-  --font-size-d-1: #{$_d-1};
-  --font-size-d-2: #{$_d-2};
-  --font-size-d-3: #{$_d-3};
-  --font-size-root-clamp-ideal: 3vmin;
-  --font-size-root-clamp-min: 1em;
-  --font-size-root-clamp-max: 1.25em;
-  --font-size-root-clamp-fallback: 1em;
-}
-
 @mixin font-size-5($line-height: regular) {
   font-size: 5rem;
   @if $line-height == regular {
@@ -117,7 +75,6 @@ $_d-3: math.pow($_r, -3) * $_b; // 0.579rem == 9.26px
   }
 }
 
-//not consitent naming - missing size?
 @mixin font-0-75($line-height: regular) {
   font-size: 0.75rem;
   @if $line-height == regular {

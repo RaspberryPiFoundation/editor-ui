@@ -1,12 +1,13 @@
 @use '../../spacing' as *;
+@use '../../font-size' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
 .editor-footer {
+  @include font-0-75(regular);
   margin-top: auto;
   padding: 0 $space-1-5 $space-1-5;
   display: flex;
-  font-size: var(--font-size-d-1);
 
   @include sm-width-only {
     flex-direction: column;

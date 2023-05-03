@@ -1,4 +1,5 @@
 @use '../../spacing' as *;
+@use '../../font-size' as *;
 @import '../../colours.scss';
 
 .sense-hat {
@@ -35,11 +36,11 @@
       }
 
       &__reading {
+        @include font-0-75(regular);
         flex: 1;
         text-transform: uppercase;
         font-weight: var(--font-weight-bold);
         margin: 0 $space-0-5;
-        font-size: var(--font-size-d-1);
       }
 
       &__reset-btn {

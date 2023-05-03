@@ -1,4 +1,5 @@
 @use '../../spacing' as *;
+@use '../../font-size' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -90,7 +91,7 @@ $small-table-grid: 600px;
 
   &__tag,
   &__heading {
-    font-size: var(--font-size-d-1);
+    @include font-0-75(regular);
 
     .--light & {
       color: $rpf-text-secondary;
