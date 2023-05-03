@@ -6,8 +6,8 @@ import { codeRunHandled } from "../../EditorSlice";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex);
-  const openFiles = useSelector((state) => state.editor.openFiles);
+  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndices)[0];
+  const openFiles = useSelector((state) => state.editor.openFiles)[0];
   const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
   const justLoaded = useSelector((state) => state.editor.justLoaded)
 
