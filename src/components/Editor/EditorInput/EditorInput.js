@@ -16,9 +16,15 @@ const EditorInput = () => {
   const focussedFileIndices = useSelector((state) => state.editor.focussedFileIndices)
   const [isMounted, setIsMounted] = useState(false)
   const dispatch = useDispatch()
+
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const onDragStart = (input) => {
+    const { source } = input
+    dispatch(setFocussedFileIndex({panelIndex: parseInt(source.droppableId), fileIndex: source.index}))
+  }
 
   const onDragEnd = (result) => {
     if(!result.destination) return
@@ -34,7 +40,9 @@ const EditorInput = () => {
     openFilesData[destination.droppableId] = [...newPane]
     dispatch(setOpenFiles(openFilesData))
     dispatch(setFocussedFileIndex({panelIndex: parseInt(destination.droppableId), fileIndex: destination.index}))
-    dispatch(setFocussedFileIndex({panelIndex: parseInt(source.droppableId), fileIndex: Math.max(source.index - 1, 0)}))
+    if (destination.droppableId !== source.droppableId) {
+      dispatch(setFocussedFileIndex({panelIndex: parseInt(source.droppableId), fileIndex: Math.max(source.index - 1, 0)}))
+    }
   }
 
   const closeFileTab = (e, fileName) => {
@@ -65,7 +73,7 @@ const EditorInput = () => {
 
   return (
     <>
-      <DragDropContext onDragEnd={result => onDragEnd(result)}>
+      <DragDropContext onDragStart={input => onDragStart(input)} onDragEnd={result => onDragEnd(result)}>
         {isMounted ?
           <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
             {openFiles.map((panel, panelIndex) => (
@@ -88,11 +96,13 @@ const EditorInput = () => {
                     ))}
                   </DroppableTabList>
                 </div>
-                {panel.map((fileName, i) => (
+                {panel.map((fileName, i) => {
+                  console.log(fileName)
+                  return (
                   <TabPanel key={i}>
                     <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
                   </TabPanel>
-                ))}
+                )})}
               </Tabs>
             ))}
           </div> : null
