@@ -42,7 +42,7 @@
 	// "postCreateCommand": "",
 
 	// Configure tool-specific properties.
-  "customizations": {
+	"customizations": {
 		"vscode": {
 			"extensions": [
 				"ms-azuretools.vscode-docker",
@@ -64,7 +64,8 @@
 				"wingrunr21.vscode-ruby",
 				"ms-vscode.remote-repositories",
 				"github.remotehub",
-				"circleci.circleci"
+				"circleci.circleci",
+				"stylelint.vscode-stylelint"
 			],
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "zsh"
