@@ -1,9 +1,9 @@
 import React from "react"
 import configureStore from 'redux-mock-store'
 import EditorInput from "./EditorInput"
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, prettyDOM, render, screen } from "@testing-library/react"
 import { Provider } from "react-redux"
-import { closeFile } from "../EditorSlice"
+import { closeFile, setFocussedFileIndex } from "../EditorSlice"
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
@@ -53,4 +53,22 @@ describe('opening and closing different files', () => {
     fireEvent.click(closeButton)
     expect(store.getActions()).toEqual([closeFile('a.py')])
   })
+
+  // test('Focusses tab when dragged', () => {
+  //   const tab = screen.queryByText('main.py')
+  //   console.log(prettyDOM(tab))
+  //   // fireEvent.mouseDown(tab)
+  //   // fireEvent.mouseMove(tab, {clientX: 100, clientY: 100})
+  //   fireEvent.keyDown(tab, {keyCode: 32})
+  //   expect(store.getActions()).toEqual([setFocussedFileIndex({panelIndex: 0, fileIndex: 0})])
+  // })
+
+  // // test('Pressing right arrow key focusses next tab', () => {
+  // //   const firstTab = screen.queryByText('main.py').parentElement
+  // //   const secondTab = screen.queryByText('a.py').parentElement
+  // //   // firstTab.focus()
+  // //   fireEvent.keyDown(firstTab, {code: 'RightArrow'})
+  // //   console.log(store.getActions())
+  // //   expect(false).toEqual(true)
+  // // })
 })

@@ -22,6 +22,7 @@ const EditorInput = () => {
   }, [])
 
   const onDragStart = (input) => {
+    console.log('dragging....')
     const { source } = input
     dispatch(setFocussedFileIndex({panelIndex: parseInt(source.droppableId), fileIndex: source.index}))
   }
@@ -69,7 +70,7 @@ const EditorInput = () => {
         fileRef.current.parentElement.scrollIntoView()
       }
     })
-  }, [focussedFileIndices, openFiles, numberOfComponents, project])
+  }, [focussedFileIndices, openFiles, numberOfComponents, project, isMounted])
 
   return (
     <>
@@ -108,7 +109,8 @@ const EditorInput = () => {
                 <RunBar />
               </Tabs>
             ))}
-          </div> : null
+          </div>
+          : null
         }
       </DragDropContext>
     </>
