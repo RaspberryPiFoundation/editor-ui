@@ -1,6 +1,6 @@
-:root, :host {
-  --font-weight-light: 300;
+:root,
+:host {
   --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
+  --font-weight-bold: 700; 
+  --font-style-italic: italic;
 }
