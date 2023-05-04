@@ -1,5 +1,5 @@
 import React from "react"
-import { Droppable } from "react-beautiful-dnd"
+import { Droppable } from "@hello-pangea/dnd"
 import { TabList } from "react-tabs"
 
 const DroppableTabList = ({children, index, ...otherProps}) => {
