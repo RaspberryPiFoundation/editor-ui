@@ -1,13 +1,14 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 
 .editor-banner {
   display: flex;
   align-items: center;
-  padding: var(--spacing-half) var(--spacing-2);
+  padding: $space-0-25 $space-1-5;
 
   &--beta {
-    background-color: $rpf-teal-tint-50;
-    color: $rpf-text-black;
+    background-color: $rpf-teal-400;
+    color: $rpf-text-primary;
 
     svg {
       fill: $rpf-black;
@@ -15,16 +16,16 @@
   }
 
   &--beta__icon {
-    padding: var(--spacing-half);
+    padding: $space-0-25;
     border-radius: 8px;
-    background-color: $rpf-teal-tint-75;
+    background-color: $rpf-teal-200;
     font-weight: var(--font-weight-bold);
-    margin-right: var(--spacing-2);
+    margin-right: $space-1-5
   }
 }
 
 .editor-banner__message {
-  padding: var(--spacing-half) 0
+  padding: $space-0-25 0
 }
 
 .editor-banner__link {
@@ -33,10 +34,10 @@
   text-decoration: underline;
 
   &.btn--tertiary {
-    color: $rpf-text-black;
+    color: $rpf-text-primary;
 
     &:hover {
-      color: $rpi-grey-70;
+      color: $rpf-grey-600;
     }
   }
 }
@@ -46,13 +47,13 @@
 
   &.btn--tertiary {
     svg {
-      fill: $rpf-text-black;
+      fill: $rpf-text-primary;
       margin-right: 0;
     }
 
     &:hover {
       svg {
-        fill: $rpi-grey-70;
+        fill: $rpf-grey-600;
       }
     }
   }

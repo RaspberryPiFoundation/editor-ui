@@ -1,4 +1,4 @@
-@forward '../../spacing.scss';
+@use '../../spacing' as *;
 @import '../../colours.scss';
 
 .theme-toggle {
@@ -11,28 +11,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: var(--spacing-7);
-      width: var(--spacing-7);
+      height: $space-4-5;
+      width: $space-4-5;
       border-radius: 5px;
 
       &--light {
         background-color: $rpf-white;
-        outline: 1px solid $rpf-darkmode-grey18;
+        outline: 1px solid $rpf-grey-800;
         svg {
           fill: $rpf-black;
         }
       }
 
       &--dark {
-        background-color: $rpf-darkmode-grey22;
-        outline: 1px solid $rpf-darkmode-grey85;
+        background-color: $rpf-grey-700;
+        outline: 1px solid $rpf-grey-150;
         svg {
           fill: $rpf-white;
         }
       }
 
       &--active {
-        outline: 2px solid $rpf-teal;
+        outline: 2px solid $rpf-teal-800;
       }
 
       &:focus-visible {
@@ -41,11 +41,11 @@
     }
 
     &--light {
-      margin-right: var(--spacing-1);
+      margin-right: $space-0-5;
 
       &:hover {
         svg {
-          fill: $rpi-grey-70;
+          fill: $rpf-grey-600;
         }
       }
     }
@@ -53,7 +53,7 @@
     &--dark {
       &:hover {
         svg {
-          fill: $rpf-darkmode-grey85;
+          fill: $rpf-grey-150;
         }
       }
     }
@@ -61,6 +61,6 @@
 
   p {
     text-align: center;
-    margin-top: var(--spacing-1)
+    margin-top: $space-0-5
   }
 }

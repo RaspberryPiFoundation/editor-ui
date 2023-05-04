@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 
 .project-name {
@@ -5,24 +6,24 @@
   display: flex;
   height: 100%;
   max-width: 50%;
-  padding-inline-start: var(--spacing-1);
+  padding-inline-start: $space-0-5;
 }
 
 .project-name__input,
 .project-name__title {
   font-size: 1em;
   font-weight: var(--font-weight-bold);
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: $space-0-5 $space-1-5;
 }
 
 .project-name__title {
   margin: 0;
-  padding-right: var(--spacing-1);
+  padding-right: $space-0-5;
 }
 
 .project-name__button {
   height: fit-content;
-  padding: var(--spacing-1);
+  padding: $space-0-5;
 
   svg {
     height: 1rem;
@@ -38,6 +39,6 @@
 
   &:focus-visible {
     border: none;
-    outline: 2px solid $rpf-teal;
+    outline: 2px solid $rpf-teal-800;
   }
 }

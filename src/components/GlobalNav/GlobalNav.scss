@@ -1,3 +1,4 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -14,41 +15,41 @@
 
   &__account {
     margin-left: auto;
-    margin-right: var(--spacing-3);
+    margin-right: $space-2;
     height: 100%;
 
     svg {
       fill:  $rpf-white;
-      margin: 0 0 0 var(--spacing-1);
+      margin: 0 0 0 $space-0-5;
     }
 
     .dropdown-button {
-      padding: 0 var(--spacing-2);
+      padding: 0 $space-1-5;
 
       &:hover {
         svg {
-          fill: $editor-white;
+          fill: $rpf-white;
         }
       }
     }
 
     img {
-      height: var(--spacing-4);
-      margin: var(--spacing-half) 0;
+      height: $space-2-5;
+      margin: $space-0-25 0;
     }
   }
 
   &__home {
     display: flex;
     align-items: center;
-    margin-left: var(--spacing-3);
-    padding: var(--spacing-1) 0;
+    margin-left: $space-2;
+    padding: $space-0-5 0;
     font-weight: var(--font-weight-bold);
     text-decoration: none;
     color: $rpf-white;
 
     span {
-      margin-left: var(--spacing-2);
+      margin-left: $space-1-5;
     }
 
     &:visited {
@@ -56,13 +57,13 @@
     }
 
     @include md-width {
-      margin-left: var(--spacing-5);
+      margin-left: $space-3;
     }
   }
 }
 
 .--dark {
   .editor-global-nav {
-    background-color: $rpf-darkmode-grey15;
+    background-color: $rpf-grey-850;
   }
 }

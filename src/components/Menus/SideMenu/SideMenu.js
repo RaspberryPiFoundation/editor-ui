@@ -29,7 +29,7 @@ const SideMenu = (props) => {
   }
 
   return (
-    <div className = "menu">
+    <div className='menu'>
       { option ? null :
         <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
       }

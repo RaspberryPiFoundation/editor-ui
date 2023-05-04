@@ -1,7 +1,8 @@
+@use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
 .files-list {
-  padding: var(--spacing-1) 0;
+  padding: $space-0-5 0;
   overflow-x: hidden;
 }
 
@@ -15,7 +16,7 @@
   white-space: nowrap;
   font-weight: var(--font-weight-medium);
   min-height: 44px;
-  padding: var(--spacing-1) var(--spacing-4) var(--spacing-1) var(--spacing-1);
+  padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
 
   .files-list-icon {
     display: flex;
@@ -24,7 +25,7 @@
   }
 
   &:active {
-    border: 3px solid $rpf-teal-shade-20;
+    border: 3px solid $rpf-teal-900;
   }
 
   &:focus-visible {
@@ -34,13 +35,13 @@
 
   &:hover {
     cursor: pointer;
-    background-color: $rpi-grey-15;
+    background-color: $rpf-grey-150;
   }
 }
 
 .files-list-item__name {
   margin: 0;
-  padding-left: var(--spacing-1);
+  padding-left: $space-0-5;
   padding-right: 0;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -54,7 +55,7 @@
 .--dark {
   .files-list-item {
     &:hover {
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
     }
   }
 
