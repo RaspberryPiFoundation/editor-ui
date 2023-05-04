@@ -7,6 +7,7 @@ import {
 } from "../Editor/EditorSlice";
 import Button from "../Button/Button";
 import python_logo from "../../assets/python_icon.svg";
+import html_logo from "../../assets/html_icon.svg";
 import "./ProjectListItem.scss";
 import { BinIcon, PencilIcon } from "../../Icons";
 import ProjectActionsMenu from "../Menus/ProjectActionsMenu/ProjectActionsMenu";
