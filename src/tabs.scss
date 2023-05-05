@@ -79,23 +79,11 @@
       &:focus:after {
         display: none;
       }
-
-      &:first-of-type {
-        .react-tabs__tab-inner {
-          margin-left: $space-0-5;
-        }
-      }
-
-      &:last-of-type {
-        .react-tabs__tab-inner {
-          margin-right: $space-0-5;
-        }
-      }
     }
 
     &__tab-container {
       display: flex;
-      height: 50px;
+      height: fit-content;
     }
   
     &__tab-list {
@@ -104,6 +92,7 @@
       overflow-x: auto;
       overflow-y: hidden;
       margin: 0;
+      padding: 0 $space-0-25;
       width: 100%;
     }
   

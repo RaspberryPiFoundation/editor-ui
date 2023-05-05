@@ -10,6 +10,8 @@ import DraggableTab from '../DraggableTabs/DraggableTab'
 import DroppableTabList from '../DraggableTabs/DroppableTabList'
 import RunBar from '../../RunButton/RunBar'
 
+import './EditorInput.scss'
+
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project)
   const openFiles = useSelector((state) => state.editor.openFiles)
@@ -68,7 +70,7 @@ const EditorInput = () => {
 
   return (
     <DragDropContext onDragStart={input => onDragStart(input)} onDragEnd={result => onDragEnd(result)}>
-      <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+      <div className = 'editor-input'>
         {openFiles.map((panel, panelIndex) => (
           <Tabs key={panelIndex} selectedIndex={focussedFileIndices[panelIndex]} onSelect={() => {}}>
             <div className='react-tabs__tab-container'>

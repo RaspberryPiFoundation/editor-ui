@@ -2,12 +2,14 @@ import React from "react"
 import { Droppable } from "@hello-pangea/dnd"
 import { TabList } from "react-tabs"
 
+import './DraggableTabs.scss'
+
 const DroppableTabList = ({children, index, ...otherProps}) => {
   return (
     <TabList {...otherProps }>
       <Droppable direction='horizontal' droppableId={`${index}`}>
         {(provided) => (
-          <div {...provided.droppableProps} ref={provided.innerRef} style={{ display: 'flex', width: '100%' }}>
+          <div className = 'droppable-tab-list' {...provided.droppableProps} ref={provided.innerRef}>
             {children}
             {provided.placeholder}
           </div>

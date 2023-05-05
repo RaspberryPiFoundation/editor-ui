@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "react-tabs";
 import { setFocussedFileIndex } from "../EditorSlice";
 
+import './DraggableTabs.scss'
+
 const DraggableTab = ({children, panelIndex, fileIndex, ...otherProps}) => {
   const openFiles = useSelector((state) => state.editor.openFiles)
   const openFilesCount = openFiles[panelIndex].length
@@ -24,7 +26,7 @@ const DraggableTab = ({children, panelIndex, fileIndex, ...otherProps}) => {
   return (
     <Draggable  draggableId={`draggable${panelIndex}_${fileIndex}`} index={fileIndex}>
       {(provided) => (
-        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{userSelect: 'none', ...provided.draggableProps.style}}>
+        <div className = 'draggable-tab' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={...provided.draggableProps.style}>
           <Tab onClick = {(e) => {
             e.stopPropagation()
             switchToFileTab(panelIndex, fileIndex)
