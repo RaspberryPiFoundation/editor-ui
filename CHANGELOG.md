@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Help text in the new file modal (#478)
 - Ability to run HTML projects by clicking run button (#481)
 - Add dev-container support (#489)
+- Ability to drag and drop input panel tabs (#438)
 
 ### Changed
 
