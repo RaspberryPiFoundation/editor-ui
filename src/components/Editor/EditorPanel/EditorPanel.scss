@@ -1,4 +1,5 @@
 @use '../../../spacing' as *;
+@use '../../../font-size' as *;
 
 .editor {
   display: flex;
@@ -27,10 +28,10 @@
   }
   
   &--medium {
-    font-size: var(--font-size-u-2);
+    @include font-size-1-5(regular);
   }
 
   &--large {
-    font-size: var(--font-size-u-4);
+    @include font-size-2(regular);
   }
 }
