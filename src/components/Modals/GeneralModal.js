@@ -5,7 +5,7 @@ import Button from "../Button/Button";
 import '../../Modal.scss';
 import { CloseIcon } from "../../Icons";
 
-const GeneralModal = ({buttons, children, contentLabel, heading, isOpen, text, withCloseButton = false, closeModal }) => {
+const GeneralModal = ({buttons, children, contentLabel, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
   const buttonComponents = buttons.map((ButtonFromProps) => (
     () => ButtonFromProps
   ))
@@ -34,8 +34,8 @@ const GeneralModal = ({buttons, children, contentLabel, heading, isOpen, text, w
           :
             <p className='modal-content__text' key={i}>{textItem.content}</p>
         ))}
+        {children}
       </div>
-      {children}
       <div className='modal-content__buttons' >
         {buttonComponents.map((ButtonComponent, i) => (
           <ButtonComponent key={i}/>
