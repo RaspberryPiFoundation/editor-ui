@@ -1,4 +1,5 @@
 @use '../spacing' as *;
+@use '../font-size' as *;
 @import '../colours.scss';
 
 #app {
@@ -9,9 +10,9 @@
   }
 
   .toast--bottom-center {
+    @include font-size-0-75(regular);
     width: fit-content;
     max-width: 100%;
-    font-size: var(--font-size-d-1);
     bottom: 1em;
     padding: 4px;
     left: 50%;
@@ -37,34 +38,34 @@
   }
 
   .toast--info {
-    color: $rpf-alert-blue;
-    border: 2px solid $rpf-alert-blue;
+    color: $rpf-alert-information;
+    border: 2px solid $rpf-alert-information;
     svg {
-      fill: $editor-black;
+      fill: $rpf-grey-900;
     }
     .Toastify__toast-icon {
       svg {
-        fill: $rpf-alert-blue;
+        fill: $rpf-alert-information;
       }
     }
   }
 
   &.--dark {
     .toast--bottom-center__message {
-      background-color: $editor-white;
-      color: $editor-black;
+      background-color: $rpf-white;
+      color: $rpf-grey-900;
       svg {
-        fill: $editor-black;
+        fill: $rpf-grey-900;
       }
     }
   }
 
   &.--light {
     .toast--bottom-center__message {
-      background-color: $editor-black;
-      color: $editor-white;
+      background-color: $rpf-grey-900;
+      color: $rpf-white;
       svg {
-        fill: $editor-white;
+        fill: $rpf-white;
       }
     }
   }

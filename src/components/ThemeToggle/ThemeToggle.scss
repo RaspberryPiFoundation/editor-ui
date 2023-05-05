@@ -17,22 +17,22 @@
 
       &--light {
         background-color: $rpf-white;
-        outline: 1px solid $rpf-darkmode-grey18;
+        outline: 1px solid $rpf-grey-800;
         svg {
           fill: $rpf-black;
         }
       }
 
       &--dark {
-        background-color: $rpf-darkmode-grey22;
-        outline: 1px solid $rpf-darkmode-grey85;
+        background-color: $rpf-grey-700;
+        outline: 1px solid $rpf-grey-150;
         svg {
           fill: $rpf-white;
         }
       }
 
       &--active {
-        outline: 2px solid $rpf-teal;
+        outline: 2px solid $rpf-teal-800;
       }
 
       &:focus-visible {
@@ -45,7 +45,7 @@
 
       &:hover {
         svg {
-          fill: $rpi-grey-70;
+          fill: $rpf-grey-600;
         }
       }
     }
@@ -53,7 +53,7 @@
     &--dark {
       &:hover {
         svg {
-          fill: $rpf-darkmode-grey85;
+          fill: $rpf-grey-150;
         }
       }
     }

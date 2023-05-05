@@ -15,13 +15,13 @@
     &:hover {
       .--light & {
         svg {
-          fill: $rpi-grey-70;
+          fill: $rpf-grey-600;
         }
       }
 
       .--dark & {
         svg {
-          fill: $rpf-darkmode-grey85;
+          fill: $rpf-grey-150;
         }
       }
     }
@@ -39,11 +39,11 @@
       }
 
       .--light & {
-        outline: 1px solid $rpf-darkmode-grey85;
+        outline: 1px solid $rpf-grey-150;
       }
 
       &.font-btn__icon--active {
-        outline: 2px solid $rpf-teal;
+        outline: 2px solid $rpf-teal-800;
       }
 
       &:focus-visible {
