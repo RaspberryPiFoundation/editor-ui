@@ -28,7 +28,6 @@ const NotFoundModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      contentLabel={t('project.notFoundModal.heading')}
       heading={t('project.notFoundModal.heading')}
       text={[
         {type: 'paragraph', content: t('project.notFoundModal.text')}

@@ -5,7 +5,7 @@ import Button from "../Button/Button";
 import '../../Modal.scss';
 import { CloseIcon } from "../../Icons";
 
-const GeneralModal = ({buttons, children, contentLabel, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
+const GeneralModal = ({buttons, children, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
   const buttonComponents = buttons.map((ButtonFromProps) => (
     () => ButtonFromProps
   ))
@@ -16,7 +16,7 @@ const GeneralModal = ({buttons, children, contentLabel, heading, isOpen, text=[]
       onRequestClose={closeModal}
       className='modal-content'
       overlayClassName='modal-overlay'
-      contentLabel={contentLabel}
+      contentLabel={heading}
       parentSelector={() => document.querySelector('#app')}
       appElement={document.getElementById('app') || undefined}
     >

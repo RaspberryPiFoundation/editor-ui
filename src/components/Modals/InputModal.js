@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import GeneralModal from "./GeneralModal";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 
-const InputModal = ({inputLabel, submitCallback, ...otherProps}) => {
+const InputModal = ({inputLabel, inputDefaultValue, submitCallback, ...otherProps}) => {
 
   const inputBox = useCallback((node) => {
     if (node) {
@@ -21,7 +21,7 @@ const InputModal = ({inputLabel, submitCallback, ...otherProps}) => {
       <label htmlFor='name'>{inputLabel}</label>
       <div>
         <NameErrorMessage />
-        <input ref={inputBox} type='text' name='name' id='name' onKeyDown={onKeyDown}></input>
+        <input ref={inputBox} type='text' name='name' id='name' defaultValue={inputDefaultValue} onKeyDown={onKeyDown}></input>
       </div>
     </GeneralModal>
   )

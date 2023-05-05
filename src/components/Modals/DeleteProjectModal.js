@@ -36,7 +36,6 @@ export const DeleteProjectModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      contentLabel={t('projectList.deleteProjectModal.heading')}
       heading={t('projectList.deleteProjectModal.heading')}
       text={[
         {type: 'paragraph', content: t('projectList.deleteProjectModal.text')}

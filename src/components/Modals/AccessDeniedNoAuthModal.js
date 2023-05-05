@@ -17,14 +17,13 @@ const AccessDeniedNoAuthModal = () => {
 
   return (
     <GeneralModal
-      contentLabel={t('project.accessDeniedNoAuthModal.heading')}
-      heading={t('project.accessDeniedNoAuthModal.heading')}
       isOpen={isModalOpen}
+      closeModal={closeModal}
+      withCloseButton
+      heading={t('project.accessDeniedNoAuthModal.heading')}
       text={[
         {type: 'paragraph', content: t('project.accessDeniedNoAuthModal.text')}
       ]}
-      withCloseButton
-      closeModal={closeModal}
       buttons={[
         <LoginButton buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} className = 'btn--primary'/>,
         <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>,

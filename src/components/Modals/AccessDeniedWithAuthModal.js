@@ -25,7 +25,6 @@ const AccessDeniedWithAuthModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      contentLabel={t('project.accessDeniedWithAuthModal.heading')}
       heading={t('project.accessDeniedWithAuthModal.heading')}
       text={[
         {type: 'paragraph', content: t('project.accessDeniedWithAuthModal.text')}

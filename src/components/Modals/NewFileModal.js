@@ -34,7 +34,6 @@ const NewFileModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      contentLabel={t('filePane.newFileModal.heading')}
       heading={t('filePane.newFileModal.heading')}
       inputLabel={t('filePane.newFileModal.inputLabel')}
       submitCallback={createComponent}

@@ -8,6 +8,7 @@ import Button from "../Button/Button";
 import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
+import InputModal from "./InputModal";
 
 const RenameFile = () => {
   const dispatch = useDispatch()
@@ -19,18 +20,6 @@ const RenameFile = () => {
   const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
 
   const closeModal = () => dispatch(closeRenameFileModal());
-
-  const nameInput = useCallback((node) => {
-    if (node) {
-      node.select()
-    }
-  }, [])
-
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      renameComponent()
-    }
-  }
 
   const renameComponent = () => {
     const fileName = document.getElementById('name').value
@@ -44,33 +33,19 @@ const RenameFile = () => {
   }
 
   return (
-    <Modal
+    <InputModal
       isOpen={isModalOpen}
-      onRequestClose={closeModal}
-      className='modal-content'
-      overlayClassName='modal-overlay'
-      contentLabel="Rename file"
-      parentSelector={() => document.querySelector('#app')}
-      appElement={document.getElementById('app') || undefined}
-    >
-        <div className='modal-content__header'>
-          <h2 className='modal-content__heading'>{t('filePane.renameFileModal.heading')}</h2>
-          <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-        </div>
-
-        <div className='modal-content__body'>
-          <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
-          <div>
-            <NameErrorMessage />
-            <input type='text' ref={nameInput} name='name' id='name' defaultValue={`${currentName}.${currentExtension}`} onKeyDown={onKeyDown}></input>
-          </div>
-        </div>
-
-        <div className='modal-content__buttons' >
-          <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
-          <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
-        </div>
-    </Modal>
+      closeModal={closeModal}
+      withCloseButton
+      heading={t('filePane.renameFileModal.heading')}
+      inputLabel={t('filePane.renameFileModal.inputLabel')}
+      inputDefaultValue={`${currentName}.${currentExtension}`}
+      submitCallback={renameComponent}
+      buttons={[
+        <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />,
+        <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
+      ]}
+    />
   );
 }
 

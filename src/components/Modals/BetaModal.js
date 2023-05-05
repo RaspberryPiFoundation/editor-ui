@@ -18,7 +18,6 @@ const BetaModal = () => {
     <GeneralModal
       isOpen={isModalOpen}
       closeModal={closeModal}
-      contentLabel={t('betaBanner.modal.heading')}
       heading={t('betaBanner.modal.heading')}
       text={[
         {type: 'subheading', content: t('betaBanner.modal.meaningHeading')},

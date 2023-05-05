@@ -21,7 +21,6 @@ const LoginToSaveModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      contentLabel={t('loginToSaveModal.heading')}
       heading={t('loginToSaveModal.heading')}
       text={[
         {type: 'paragraph', content: t('loginToSaveModal.loginText')},
