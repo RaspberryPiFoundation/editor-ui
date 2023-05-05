@@ -26,7 +26,7 @@ const DraggableTab = ({children, panelIndex, fileIndex, ...otherProps}) => {
   return (
     <Draggable  draggableId={`draggable${panelIndex}_${fileIndex}`} index={fileIndex}>
       {(provided) => (
-        <div className = 'draggable-tab' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={...provided.draggableProps.style}>
+        <div className = 'draggable-tab' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={provided.draggableProps.style}>
           <Tab onClick = {(e) => {
             e.stopPropagation()
             switchToFileTab(panelIndex, fileIndex)
