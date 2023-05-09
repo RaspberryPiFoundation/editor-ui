@@ -8,7 +8,7 @@ import { ProjectListItem } from "./ProjectListItem";
 jest.mock('date-fns')
 
 let store
-let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now(), projectType: 'html' }
+let project = { identifier: 'hello-world-project', name: 'my amazing project', updatedAt: Date.now() }
 
 beforeEach(() => {
   const mockStore = configureStore([])
@@ -20,10 +20,6 @@ beforeEach(() => {
 
 test('Renders project name', () => {
   expect(screen.queryByText(project.name)).toBeInTheDocument()
-})
-
-test('Renders project type', () => {
-  expect(screen.queryByText(project.projectType)).toBeInTheDocument()
 })
 
 test('Clicking rename button opens rename project modal', () => {
