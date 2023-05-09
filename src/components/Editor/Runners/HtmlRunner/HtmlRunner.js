@@ -85,7 +85,6 @@ function HtmlRunner() {
   }, [error]);
 
   const runCode = () => {
-    // TODO: get html files and handle urls for non index pages
     const indexHTML = htmlFiles.find(
       (component) => `${component.name}.${component.extension}` === "index.html"
     );
