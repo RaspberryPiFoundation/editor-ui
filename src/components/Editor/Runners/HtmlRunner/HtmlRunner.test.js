@@ -207,27 +207,4 @@ describe("When an external link is clicked", () => {
       type: "text/html",
     });
   });
-
-  // test("When clicked it dispatches an error", () => {
-  //   const iframe = document.getElementsByClassName("htmlrunner-iframe")[0];
-  //   const iframeContent = document.createElement(output);
-  //   iframe.appendChild(iframeContent);
-  //   // const iframeContent =
-  //   //   iframe.contentDocument || iframe.contentWindow.document;
-  //   // iframeContent.onload = () => {
-  //   iframeContent.querySelector("a").click();
-  //   const expectedActions = [showErrorModal()];
-  //   expect(store.getActions()).toContain(expectedActions);
-  //   // };
-  // });
-
-  // test("When clicked it displays an externalLink error", () => {
-  //   const iframe = document.getElementsByClassName("htmlrunner-iframe")[0];
-  //   const iframeContent =
-  //     iframe.contentDocument || iframe.contentWindow.document;
-  //   iframeContent.onload = () => {
-  //     iframeContent.querySelector("a").click();
-  //     expect(getByText("modal.error.externalLink.message")).not.toBeNull();
-  //   };
-  // });
 });
