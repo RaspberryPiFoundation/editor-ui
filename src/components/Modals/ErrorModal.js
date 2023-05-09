@@ -27,7 +27,7 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
         onRequestClose={closeModal}
         className="modal-content"
         overlayClassName="modal-overlay"
-        contentLabel="Rename File"
+        contentLabel="Error"
         parentSelector={() => document.querySelector("#app")}
         appElement={document.getElementById("app") || undefined}
       >

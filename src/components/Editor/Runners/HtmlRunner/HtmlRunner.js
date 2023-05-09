@@ -107,7 +107,10 @@ function HtmlRunner() {
         );
         hrefNode.setAttribute("href", projectFileBlob);
       } else {
-        if (hrefNode.parentNode.tagName.toLowerCase() !== "head") {
+        if (
+          !hrefNode.parentNode?.tagName ||
+          hrefNode.parentNode.tagName.toLowerCase() !== "head"
+        ) {
           hrefNode.setAttribute("href", "#");
           hrefNode.setAttribute(
             "onclick",

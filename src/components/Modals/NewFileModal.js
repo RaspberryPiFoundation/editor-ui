@@ -63,7 +63,7 @@ const NewFileModal = () => {
           <label htmlFor='name'>{t('filePane.newFileModal.inputLabel')}</label>
           <p className='modal-content__help-text'>{t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})}</p>
         </div>
-        <div>
+        <div className='modal-content__input'>
           <NameErrorMessage />
           <input ref={nameInput} type='text' name='name' id='name' onKeyDown={onKeyDown}></input>
         </div>
