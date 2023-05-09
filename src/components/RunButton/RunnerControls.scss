@@ -1,9 +1,10 @@
+@use '../../spacing' as *;
 @import '../../colours.scss';
 
 .runner-controls {
   position: absolute;
-  bottom: var(--spacing-2);
-  right: var(--spacing-2);
+  bottom: $space-1-5;
+  right: $space-1-5;
 
   button {
     display: flex;

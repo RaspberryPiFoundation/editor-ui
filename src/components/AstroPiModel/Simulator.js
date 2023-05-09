@@ -57,6 +57,7 @@ const Simulator = (props) => {
 
   return (
     <Canvas
+      frameloop='demand'
       onPointerDown={handleDragStart}
       onPointerUp={handleDragStop}
       onPointerOut={handleDragStop}

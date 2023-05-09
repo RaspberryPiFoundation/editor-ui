@@ -11,7 +11,7 @@ const FilePane = (props) => {
   const {openFileTab} = props
 
   return (
-    <div className = "file-pane">
+    <div className='file-pane'>
       <FilesList openFileTab = {openFileTab}/>
       {project.image_list && project.image_list.length>0? <ProjectImages /> : null}
     </div>

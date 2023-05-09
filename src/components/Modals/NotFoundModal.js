@@ -39,11 +39,14 @@ const NotFoundModal = () => {
           <h2 className='modal-content__heading'>{t('project.notFoundModal.heading')}</h2>
           <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
         </div>
-        <p className='modal-content__text'>{t('project.notFoundModal.text')}</p>
+
+        <div className='modal-content__body'>
+          <p className='modal-content__text'>{t('project.notFoundModal.text')}</p>
+        </div>
 
         <div className='modal-content__buttons' >
-          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.notFoundModal.projectsSiteLinkText')}</a>
           <Button className='btn--primary' buttonText={t('project.notFoundModal.newProject')} onClickHandler={createNewProject} />
+          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.notFoundModal.projectsSiteLinkText')}</a>
         </div>
       </Modal>
     </>

@@ -1,3 +1,4 @@
+@use '../../../spacing' as *;
 @import '../../../colours.scss';
 
 .dropdown {
@@ -11,23 +12,19 @@
     border-radius: 0;
     cursor: pointer;
     display: flex;
-    padding: 0 var(--spacing-2);
-
-    svg {
-      margin-right: var(--spacing-1)
-    }
+    padding: 0 $space-1-5;
 
     &--active {
-      border-bottom: 3px solid $rpf-teal;
+      border-bottom: 3px solid $rpf-teal-800;
     }
   }
 
   &-container {
     z-index: 2;
     position: absolute;
-    padding: var(--spacing-1);
+    padding: $space-0-5;
     border-radius: 10px;
-    margin-top: var(--spacing-2);
+    margin-top: $space-1-5;
 
     &--bottom {
       top: 100%;
@@ -57,7 +54,7 @@
         justify-content: left;
         font-weight: var(--font-weight-regular);
         text-decoration: none;
-        padding: var(--spacing-1) var(--spacing-half);
+        padding: $space-0-5 $space-0-25;
         border-radius: 5px;
         white-space: nowrap;
         width: 100%;
@@ -85,30 +82,30 @@
     }
 
     &--list__item:hover {
-      background-color: $rpf-darkmode-grey90;
+      background-color: $rpf-grey-100;
     }
   }
   .dropdown-backdrop {
-    background-color: $rpf-darkmode-grey32;
+    background-color: $rpf-grey-600;
   }
 }
 
 .--dark {
   .dropdown-container {
-    background-color: $rpf-darkmode-grey22;
+    background-color: $rpf-grey-700;
 
     &--bottom::before {
-      border-bottom: 15px solid $rpf-darkmode-grey22;
+      border-bottom: 15px solid $rpf-grey-700;
     }
 
     &--list__item:hover {
-      background-color: $rpf-darkmode-grey32;
+      background-color: $rpf-grey-600;
     }
   }
   .dropdown-backdrop {
     background-color: black;
   }
   .dropdown-button--active {
-    background-color: $editor-turquoise-grey;
+    background-color: $rpf-teal-400;
   }
 }

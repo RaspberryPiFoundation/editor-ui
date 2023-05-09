@@ -6,6 +6,55 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- New colors (#474)
+- New typography (#475)
+- Add dev-container support (#489)
+
+### Changed
+
+- Updated spacing variables to match the new design system (#460)
+- Color usage (#474)
+
+### Fixed
+
+- Modal button alignment support (#460)
+- Storybook setup and dev deployment (#461)
+- Updating Sentry to fix compile-time error (#487)
+- Fix local package build process (#488)
+- Color naming convention (#474)
+
+## [0.15.0] - 2023-04-27
+
+### Added
+
+- Initial storybook setup (#440)
+- `NewFileModal` component (#450)
+- Autofocus input when modal opened (#450)
+- Submit form in modals when 'Enter' pressed (#450)
+
+### Changed
+
+- Projects tab layout (#447)
+- Refactored `NewComponentButton` (#450)
+- Modal styling (#450)
+
+### Fixed
+
+- Fix storybook build error (#484)
+- CookieBot consent request in iframes (#437)
+- Resetting name error if file creation/renaming is cancelled (#450)
+- Mission Zero performance gains (#457)
+
+## [0.15.0] - 2023-04-13
+
+### Added
+
+- Container queries (#445)
+- Resize handle #453
+- File type icons (#449)
+
 ## [0.14.0] - 2023-03-28
 
 ### Added
@@ -308,7 +357,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.14.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0
 [0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
 [0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0

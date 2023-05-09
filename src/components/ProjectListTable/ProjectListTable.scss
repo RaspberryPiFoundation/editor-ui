@@ -1,5 +1,8 @@
+@use '../../spacing' as *;
+@use '../../font-size' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
+
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -11,19 +14,19 @@ $small-table-grid: 600px;
 
   &__container {
     border-radius: 8px;
-    margin: var(--spacing-2) var(--spacing-3);
-    padding: var(--spacing-1);
+    margin: $space-1-5 $space-2;
+    padding: $space-0-5;
 
     @include unique-width($small-table-grid) {
-      padding: var(--spacing-2);
+      padding: $space-0-5 $space-1-5;
     }
 
     @include unique-width(767px) {
-      margin: var(--spacing-4) var(--spacing-5);
+      margin: $space-2-5 $space-3;
     }
 
     @include unique-width(1670px) {
-      margin: var(--spacing-4) 0;
+      margin: $space-2-5 0;
     }
 
     .--light & {
@@ -31,13 +34,12 @@ $small-table-grid: 600px;
     }
 
     .--dark & {
-      background: $rpf-darkmode-grey32;
+      background: $rpf-grey-600;
     }
   }
 
   &__heading {
-    font-size: var(--font-size-base);
-    margin-top: var(--spacing-half);
+    margin-top: $space-0-25;
   }
 
   &__heading:first-of-type {
@@ -47,7 +49,6 @@ $small-table-grid: 600px;
       grid-column: span 6;
     }
   }
-
   &__heading:last-of-type {
     grid-column: span 4;
 
@@ -58,50 +59,39 @@ $small-table-grid: 600px;
 
   &__item {
     align-items: center;
-    display: grid;
-    border-top: 1px solid $rpi-grey-15;
-    grid-template-columns: repeat(12,1fr);
+    display: flex;
+    border-top: 1px solid $rpf-grey-150;
     justify-content: space-between;
     list-style: none;
-    padding: 0 var(--spacing-1);
+    padding: 0 $space-0-5;
 
     @include unique-max-width($small-table-grid) {
-      padding: var(--spacing-1);
+      padding: $space-0-5;
     }
 
     .--dark & {
-      border-top: 1px solid $rpf-darkmode-grey42;
+      border-top: 1px solid $rpf-grey-500;
     }
 
     &:first-of-type {
       border-top: none;
-
-      @include unique-max-width($small-table-grid) {
-        display: none;
-      }
-    }
-
-    &:nth-of-type(2) {
-      @include unique-max-width($small-table-grid) {
-        border-top: none;
-      }
     }
   }
 
   &__empty {
-    background: $rpi-grey-5;
+    background: $rpf-grey-50;
     border-radius: 8px;
     text-align: center;
 
     .--dark & {
-      background: $rpf-darkmode-grey22;
+      background: $rpf-grey-700;
     }
 
     p {
-      font-size: var(--font-size-u-1);
+      @include font-size-1-25(regular);
       font-weight: var(--font-weight-bold);
       margin: 0;
-      padding: var(--spacing-2);
+      padding: $space-1-5;
     }
   }
 }

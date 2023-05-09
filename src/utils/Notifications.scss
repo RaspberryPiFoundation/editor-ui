@@ -1,16 +1,18 @@
+@use '../spacing' as *;
+@use '../font-size' as *;
 @import '../colours.scss';
 
 #app {
   .toast--bottom-center__message, .toast--top-center__message {
       min-height: fit-content;
-      padding: var(--spacing-half) var(--spacing-1);
+      padding: $space-0-25 $space-0-5;
       margin: 0;
   }
 
   .toast--bottom-center {
+    @include font-size-0-75(regular);
     width: fit-content;
     max-width: 100%;
-    font-size: var(--font-size-d-1);
     bottom: 1em;
     padding: 4px;
     left: 50%;
@@ -18,7 +20,7 @@
     white-space: nowrap;
     
     .Toastify__toast-icon {
-      margin: 0 var(--spacing-half) 0 0;
+      margin: 0 $space-0-25 0 0;
     }
   }
   .toast--bottom-center__message {
@@ -36,34 +38,34 @@
   }
 
   .toast--info {
-    color: $rpf-alert-blue;
-    border: 2px solid $rpf-alert-blue;
+    color: $rpf-alert-information;
+    border: 2px solid $rpf-alert-information;
     svg {
-      fill: $editor-black;
+      fill: $rpf-grey-900;
     }
     .Toastify__toast-icon {
       svg {
-        fill: $rpf-alert-blue;
+        fill: $rpf-alert-information;
       }
     }
   }
 
   &.--dark {
     .toast--bottom-center__message {
-      background-color: $editor-white;
-      color: $editor-black;
+      background-color: $rpf-white;
+      color: $rpf-grey-900;
       svg {
-        fill: $editor-black;
+        fill: $rpf-grey-900;
       }
     }
   }
 
   &.--light {
     .toast--bottom-center__message {
-      background-color: $editor-black;
-      color: $editor-white;
+      background-color: $rpf-grey-900;
+      color: $rpf-white;
       svg {
-        fill: $editor-white;
+        fill: $rpf-white;
       }
     }
   }

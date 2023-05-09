@@ -1,3 +1,4 @@
+@use '../../../../../spacing' as *;
 @import "../../../../../colours.scss";
 
 .project-images {
@@ -6,7 +7,7 @@
   &__block {
     display: inline-block;
     box-sizing: border-box;
-    padding-left: var(--spacing-1);
+    padding-left: $space-0-5;
     overflow-wrap: break-word;
     word-break: break-word;
     text-align: center;
@@ -14,8 +15,8 @@
   }
 
   &__image-wrapper {
-    height: var(--spacing-9);
-    width: var(--spacing-9);
+    height: $space-5-5;
+    width: $space-5-5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,8 +29,8 @@
   }
 
   p {
-    width: var(--spacing-9);
+    width: $space-5-5;
     margin-top: 0;
-    margin-bottom: var(--spacing-1)
+    margin-bottom: $space-0-5
   }
 }
