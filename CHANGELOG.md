@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updating Sentry to fix compile-time error (#487)
 - Fix local package build process (#488)
 - Color naming convention (#474)
+- Fix Web App Manifest logos, colors, and titles (#446)
 
 ## [0.15.0] - 2023-04-27
 
@@ -78,7 +79,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix language loading - i18n initialisation setup (#430)
 - Fix keyboard navigation (#375)
 - Reverted footer links back to underlined (#398)
-- Fix Web App Manifest logos, colors, and titles (#446)
 
 ### Removed
 
