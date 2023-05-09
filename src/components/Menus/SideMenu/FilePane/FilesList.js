@@ -28,7 +28,7 @@ const FilesList = (props) => {
             <FileIcon ext={file.extension} />
           </div>
           <span className='files-list-item__name'>{file.name}.{file.extension}</span>
-          {(file.name === 'main' && file.extension === 'py' || file.name === 'index' && file.extension === 'html') ? null :
+          {((file.name === 'main' && file.extension === 'py') || (file.name === 'index' && file.extension === 'html')) ? null :
             <div className='files-list-item__menu'>
               <FileMenu fileKey={i} name={file.name} ext={file.extension} />
             </div>

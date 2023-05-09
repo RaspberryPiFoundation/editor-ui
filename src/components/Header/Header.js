@@ -8,7 +8,6 @@ import { syncProject, showLoginToSaveModal } from '../Editor/EditorSlice';
 import Dropdown from '../Menus/Dropdown/Dropdown';
 import SettingsMenu from '../Menus/SettingsMenu/SettingsMenu';
 import ProjectName from './ProjectName';
-// import editor_logo from '../../assets/editor_logo.svg'
 import htmlLogo from '../../assets/html_icon.svg'
 import pythonLogo from '../../assets/python_icon.svg'
 import DownloadButton from './DownloadButton';
@@ -42,7 +41,8 @@ const Header = () => {
   return loading === 'success' && (
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
-        <img className='editor-logo' src={type == 'python' ? pythonLogo : htmlLogo } alt={t('header.editorLogoAltText')}/>
+        <img className='editor-logo' src={type === 'python' ? pythonLogo : htmlLogo } alt={t('header.editorLogoAltText')}/>
+        <p>{type} type</p>
         { user !== null ? (
           <Link to={`${locale}/projects`} className='project-gallery-link' reloadDocument>
             {<><HomeIcon />
