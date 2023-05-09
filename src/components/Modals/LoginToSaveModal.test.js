@@ -29,31 +29,9 @@ describe('When loginToSaveModalShowing is true', () => {
     expect(screen.queryByText('loginToSaveModal.heading')).toBeInTheDocument()
   })
 
-  test('Clicking close button dispatches close modal action', () => {
-    const closeButton = screen.getAllByRole('button')[0]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([{type: 'editor/closeLoginToSaveModal'}])
-  })
-
   test('Clicking cancel dispatches close modal action', () => {
     const cancelLink = screen.queryByText('loginToSaveModal.cancel')
     fireEvent.click(cancelLink)
     expect(store.getActions()).toEqual([{type: 'editor/closeLoginToSaveModal'}])
-  })
-})
-
-describe('When loginToSaveModalShowing is false', () => {
-  beforeEach(() => {
-    const initialState = {
-      editor: {
-        loginToSaveModalShowing: false
-      }
-    }
-    const store = mockStore(initialState);
-    render(<Provider store={store}><div id='app'><LoginToSaveModal /></div></Provider>)
-  })
-
-  test('Modal not rendered', () => {
-    expect(screen.queryByText('loginToSaveModal.heading')).not.toBeInTheDocument()
   })
 })

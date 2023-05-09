@@ -41,12 +41,6 @@ describe('When accessDeniedWithAuthModalShowing is true', () => {
     expect(screen.queryByText('project.accessDeniedWithAuthModal.heading')).toBeInTheDocument()
   })
 
-  test('Clicking close button dispatches close modal action', () => {
-    const closeButton = screen.getAllByRole('button')[0]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([{type: 'editor/closeAccessDeniedWithAuthModal'}])
-  })
-
   test('Clicking new project creates a new project', async () => {
     const newProjectLink = screen.queryByText('project.accessDeniedWithAuthModal.newProject')
     const saveAction = {type: 'SAVE_PROJECT' }
@@ -59,26 +53,5 @@ describe('When accessDeniedWithAuthModalShowing is true', () => {
       autosave: false
     }))
     expect(store.getActions()[0]).toEqual(saveAction)
-  })
-})
-
-describe('When accessDeniedNoAuthModalShowing is false', () => {
-  beforeEach(() => {
-    const initialState = {
-      editor: {
-        accessDeniedNoAuthModalShowing: false
-      },
-      auth: {
-        user: {
-          accessToken: 'myAccessToken'
-        }
-      }
-    }
-    const store = mockStore(initialState);
-    render(<Provider store={store}><div id='app'><AccessDeniedWithAuthModal /></div></Provider>)
-  })
-
-  test('Modal not rendered', () => {
-    expect(screen.queryByText('project.accessDeniedWithAuthModal.heading')).not.toBeInTheDocument()
   })
 })

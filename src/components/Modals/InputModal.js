@@ -10,12 +10,6 @@ const InputModal = ({inputLabel, inputDefaultValue, ...otherProps}) => {
     }
   }, [])
 
-  // const onKeyDown = (e) => {
-  //   if (e.key === 'Enter') {
-  //     submitCallback()
-  //   }
-  // }
-
   return (
     <GeneralModal {...otherProps}>
       <label htmlFor='name'>{inputLabel}</label>

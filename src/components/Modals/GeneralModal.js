@@ -4,8 +4,10 @@ import Modal from 'react-modal';
 import Button from "../Button/Button";
 import '../../Modal.scss';
 import { CloseIcon } from "../../Icons";
+import { useTranslation } from "react-i18next";
 
-const GeneralModal = ({buttons, children, defaultCallback, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
+const GeneralModal = ({buttons=[], children, defaultCallback, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
+  const { t } = useTranslation()
   const buttonComponents = buttons.map((ButtonFromProps) => (
     () => ButtonFromProps
   ))
@@ -29,7 +31,7 @@ const GeneralModal = ({buttons, children, defaultCallback, heading, isOpen, text
         <div className='modal-content__header'>
           <h2 className='modal-content__heading'>{heading}</h2>
           { withCloseButton ? 
-            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
+            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} label={t('modals.close')} title={t('modals.close')}/>
             : null
           }
         </div>
