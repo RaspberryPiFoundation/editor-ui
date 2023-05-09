@@ -36,6 +36,7 @@ const NotFoundModal = () => {
         <Button className='btn--primary' buttonText={t('project.notFoundModal.newProject')} onClickHandler={createNewProject} />,
         <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.notFoundModal.projectsSiteLinkText')}</a>
       ]}
+      defaultCallback={createNewProject}
     />
   );
 }

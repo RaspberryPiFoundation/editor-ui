@@ -1,8 +1,8 @@
 import React from 'react';
-import userManager from '../../utils/userManager'
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Button from '../Button/Button';
+import { login } from '../../utils/login';
 
 const LoginButton = (props) => {
   const { buttonText, className, triggerSave } = props;
@@ -12,17 +12,7 @@ const LoginButton = (props) => {
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
-    window.plausible('Login button')
-    if (accessDeniedData) {
-      localStorage.setItem('location', `/projects/${accessDeniedData.identifier}`)
-    } else {
-      localStorage.setItem('location', location.pathname)
-      localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
-    }
-    if (triggerSave) {
-      localStorage.setItem('awaitingSave', 'true')
-    }
-    userManager.signinRedirect();
+    login({project, location, triggerSave, accessDeniedData})
   }
 
   return (

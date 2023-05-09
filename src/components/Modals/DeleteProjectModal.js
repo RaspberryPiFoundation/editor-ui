@@ -44,6 +44,7 @@ export const DeleteProjectModal = () => {
         <Button className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />,
         <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
       ]}
+      defaultCallback={onClickDelete}
     />
   );
 }

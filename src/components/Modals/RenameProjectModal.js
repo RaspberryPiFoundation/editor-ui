@@ -48,7 +48,7 @@ export const RenameProjectModal = () => {
       heading={t('projectList.renameProjectModal.heading')}
       inputLabel={t('projectList.renameProjectModal.inputLabel')}
       inputDefaultValue={project.name}
-      submitCallback={renameProject}
+      defaultCallback={renameProject}
       buttons={[
         <Button className='btn--primary' buttonText={t('projectList.renameProjectModal.save')} onClickHandler={renameProject} />,
         <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />

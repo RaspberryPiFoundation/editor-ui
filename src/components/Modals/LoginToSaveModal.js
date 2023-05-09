@@ -8,13 +8,20 @@ import LoginButton from "../Login/LoginButton";
 import '../../Modal.scss';
 import Button from "../Button/Button";
 import GeneralModal from "./GeneralModal";
+import { login } from "../../utils/login";
+import { useLocation } from "react-router-dom";
 
 const LoginToSaveModal = () => {
   const dispatch = useDispatch()
-  const { t } = useTranslation();
-  
+  const { t } = useTranslation()
+  const location = useLocation()
+  const project = useSelector((state) => state.editor.project)
   const isModalOpen = useSelector((state) => state.editor.loginToSaveModalShowing)
   const closeModal = () => dispatch(closeLoginToSaveModal());
+
+  const defaultCallback = () => {
+    login({project, location, triggerSave: true})
+  }
 
   return (
     <GeneralModal
@@ -31,6 +38,7 @@ const LoginToSaveModal = () => {
         <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />,
         <Button buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>
       ]}
+      defaultCallback={defaultCallback}
     />
   );
 }

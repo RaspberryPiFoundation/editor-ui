@@ -36,7 +36,7 @@ const NewFileModal = () => {
       withCloseButton
       heading={t('filePane.newFileModal.heading')}
       inputLabel={t('filePane.newFileModal.inputLabel')}
-      submitCallback={createComponent}
+      defaultCallback={createComponent}
       buttons={[
         <Button className='btn--primary' buttonText={t('filePane.newFileModal.save')} onClickHandler={createComponent} />,
         <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />

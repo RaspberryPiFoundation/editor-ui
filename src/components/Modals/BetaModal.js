@@ -28,6 +28,7 @@ const BetaModal = () => {
       buttons={[
         <Button className='btn--primary' buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
       ]}
+      defaultCallback={closeModal}
     />
   );
 }
