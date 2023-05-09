@@ -128,7 +128,7 @@ function HtmlRunner() {
       );
     });
 
-    const blob = getBlobURL(indexPage, "text/html");
+    const blob = getBlobURL(indexPage.toString(), "text/html");
     output.current.src = blob;
     if (codeRunTriggered) {
       dispatch(codeRunHandled());
