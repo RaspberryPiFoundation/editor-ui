@@ -11,11 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New colors (#474)
 - New typography (#475)
 - Add dev-container support (#489)
+- Custom callback when Enter pressed in modals (#491)
+- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491)
 
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
 - Color usage (#474)
+- Existing modals to use `GeneralModal` or `InputModal` (#491)
+- Refactored login logic to make this available outside of the login button (#491)
 
 ### Fixed
 
