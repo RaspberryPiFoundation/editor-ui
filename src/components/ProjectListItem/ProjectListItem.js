@@ -61,7 +61,7 @@ export const ProjectListItem = (props) => {
             <span className="editor-project-list__tag">
               {projectType === "html"
                 ? t("projectList.html_type")
-                : t("proOjectList.python_type")}
+                : t("projectList.python_type")}
             </span>
             <span className="editor-project-list__heading">
               {t("projectList.updated")} {lastSaved}
