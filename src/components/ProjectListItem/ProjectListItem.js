@@ -7,7 +7,7 @@ import {
 } from "../Editor/EditorSlice";
 import Button from "../Button/Button";
 import python_logo from "../../assets/python_icon.svg";
-import html_logo from "../../assets/html_icon.svg";
+// import html_logo from "../../assets/html_icon.svg";
 import "./ProjectListItem.scss";
 import { BinIcon, PencilIcon } from "../../Icons";
 import ProjectActionsMenu from "../Menus/ProjectActionsMenu/ProjectActionsMenu";
@@ -33,6 +33,7 @@ export const ProjectListItem = (props) => {
     Date.now(),
     { style: "short" }
   );
+  const projectType = props.project.projectType;
 
   const openRenameProjectModal = () => {
     dispatch(showRenameProjectModal(project));
@@ -56,7 +57,11 @@ export const ProjectListItem = (props) => {
           />
           <div className="editor-project-list__copy">
             <div className="editor-project-list__name">{project.name}</div>
-            <span className="editor-project-list__tag">Python</span>
+            <span className="editor-project-list__tag">{t("projectList.python_type")}</span>
+            <p>Project type  {project.projectType}</p>
+            <p>Project type  {project.project_type}</p>
+            <p>Project type const {projectType}</p>
+            {/* <p>Output {projectType === 'html' ? 'Html' : 'Python'}</p> */}
             <span className="editor-project-list__heading">
               {t("projectList.updated")} {lastSaved}
             </span>

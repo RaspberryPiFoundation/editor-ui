@@ -320,6 +320,8 @@ i18n
               save: "Save",
             },
             updated: "Edited",
+            python_type: "Python",
+            html_type: "Html"
           },
           runButton: {
             run: "Run",
