@@ -1,12 +1,9 @@
-import React, { useCallback } from "react";
-import Modal from 'react-modal';
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
 import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
-import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import '../../Modal.scss';
 import InputModal from "./InputModal";
 
