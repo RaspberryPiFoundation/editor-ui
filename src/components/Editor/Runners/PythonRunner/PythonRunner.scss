@@ -1,4 +1,5 @@
 @use '../../../../spacing' as *;
+@use '../../../../font-size' as *;
 @import '../../../../colours.scss';
 
 .pythonrunner-container {
@@ -20,11 +21,11 @@
   overflow-y: auto;
 
   &--medium {
-    font-size: var(--font-size-u-2);
+    @include font-size-1-5(regular);
   }
 
   &--large {
-    font-size: var(--font-size-u-4);
+    @include font-size-2(regular);
   }
 }
 
@@ -76,11 +77,11 @@
     flex: 7;
 
     .--light & {
-      border-bottom: 5px solid $rpf-darkmode-grey90;
+      border-bottom: 5px solid $rpf-grey-100;
     }
 
     .--dark & {
-      border-bottom: 5px solid $rpf-darkmode-grey32;
+      border-bottom: 5px solid $rpf-grey-600;
     }
   }
 }
