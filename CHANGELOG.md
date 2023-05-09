@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - New colors (#474)
 - Add dev-container support (#489)
+- Distinguish icon type (#470)
 
 ### Changed
 
