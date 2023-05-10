@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - New colors (#474)
+- New typography (#475)
 - Add dev-container support (#489)
 - Add input/output responsiveness (#473)
 

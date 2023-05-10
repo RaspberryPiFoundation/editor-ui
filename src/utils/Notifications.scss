@@ -1,4 +1,5 @@
 @use '../spacing' as *;
+@use '../font-size' as *;
 @import '../colours.scss';
 
 #app {
@@ -9,9 +10,9 @@
   }
 
   .toast--bottom-center {
+    @include font-size-0-75(regular);
     width: fit-content;
     max-width: 100%;
-    font-size: var(--font-size-d-1);
     bottom: 1em;
     padding: 4px;
     left: 50%;
