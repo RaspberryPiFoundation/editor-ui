@@ -27,6 +27,7 @@
     "codemirror": "^6.0.1",
     "container-query-polyfill": "^1.0.2",
     "date-fns": "^2.29.3",
+    "eslint-config-prettier": "^8.8.0",
     "file-saver": "^2.0.5",
     "fs-extra": "^9.0.1",
     "graphql": "^16.6.0",
@@ -42,6 +43,7 @@
     "oidc-client": "^1.11.5",
     "parse-link-header": "^2.0.0",
     "prompts": "2.4.0",
+    "re-resizable": "6.9.9",
     "react": "^18.1.0",
     "react-app-polyfill": "^2.0.0",
     "react-confirm-alert": "^2.8.0",
@@ -57,7 +59,6 @@
     "react-timer-hook": "^3.0.5",
     "react-toastify": "^8.1.0",
     "react-toggle": "^4.1.3",
-    "re-resizable": "6.9.9",
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
     "three": "^0.140.0",
@@ -70,7 +71,9 @@
     "build": "node scripts/build.js",
     "build:dev": "yarn run build-storybook && node scripts/build.js",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
-    "lint": "eslint src/. --ext .js",
+    "lint": "eslint src/**/*.{js,jsx,json}",
+    "lint:fix": "eslint --fix src/**/*.{js,jsx,json}",
+    "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
@@ -79,12 +82,6 @@
     "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
     "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
     "heroku-postbuild": "export PUBLIC_URL='' && yarn build && yarn build:wc"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -128,6 +125,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.9.2",
@@ -153,6 +151,7 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "5.0.2",
+    "prettier": "^2.8.8",
     "react-dev-utils": "^11.0.3",
     "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.4",
