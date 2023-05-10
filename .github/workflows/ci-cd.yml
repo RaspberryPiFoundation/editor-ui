@@ -70,7 +70,7 @@ jobs:
       run: yarn install --frozen-lock-file
 
     - name: Cypress run
-      uses: cypress-io/github-action@v4
+      uses: cypress-io/github-action@v5
       with:
         install: false
         start: |
@@ -88,7 +88,6 @@ jobs:
         name: cypress-artifacts
         path: |
           cypress/screenshots
-          cypress/videos
 
 
   deploy-tag:
