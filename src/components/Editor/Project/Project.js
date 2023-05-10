@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState, useMemo } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { useContainerQuery } from 'react-container-query';
 
 import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
@@ -117,38 +118,68 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+  const query = {
+    'width-larger-than-880': {
+      minWidth: 880,
+    }
+  };
+
+  const [params, containerRef] = useContainerQuery(query);
+  const [defaultWidth, setDefaultWidth] = useState('auto');
+  const [defaultHeight, setDefaultHeight] = useState('auto');
+  const [maxWidth, setMaxWidth] = useState('100%');
+  const [handleDirection, setHandleDirection] = useState('right');
+
+  useMemo(() => {
+    const isDesktop = params['width-larger-than-880'];
+
+    setDefaultWidth(isDesktop ? '50%' : '100%');
+    setDefaultHeight(isDesktop ? '100%' : '50%');
+    setMaxWidth(isDesktop ? '75%' : '100%');
+    setHandleDirection(isDesktop ? 'right' : 'bottom');
+  }, [params['width-larger-than-880']]);
+
   return (
     <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <ResizableWithHandle className='proj-editor-container' minWidth='15%' maxWidth='75%'>
-          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
-            <div className='react-tabs__tab-container'>
-              <TabList>
-                {openFiles.map((fileName, i) => (
-                  <Tab key={i}>
-                    <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                      ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
-                        {fileName}
-                        {fileName !== 'main.py' ?
-                          <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                        : null
-                        }
-                    </span>
-                  </Tab>
-                ))}
-              </TabList>
-            </div>
-            {openFiles.map((fileName, i) => (
-              <TabPanel key={i}>
-                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
-              </TabPanel>
-            ))}
-            <RunnerControls />
-          </Tabs>
-        </ResizableWithHandle>
-        <Output />
+      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`} ref={containerRef}>
+        {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
+        <div className='proj-editor-wrapper'>
+          <ResizableWithHandle
+            className='proj-editor-container'
+            defaultWidth={defaultWidth}
+            defaultHeight={defaultHeight}
+            handleDirection={handleDirection}
+            minWidth='25%'
+            maxWidth={maxWidth}
+          >
+            <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
+              <div className='react-tabs__tab-container'>
+                <TabList>
+                  {openFiles.map((fileName, i) => (
+                    <Tab key={i}>
+                      <span
+                        className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
+                        ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
+                          {fileName}
+                          {fileName !== 'main.py' ?
+                            <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
+                          : null
+                          }
+                      </span>
+                    </Tab>
+                  ))}
+                </TabList>
+              </div>
+              {openFiles.map((fileName, i) => (
+                <TabPanel key={i}>
+                  <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
+                </TabPanel>
+              ))}
+              <RunnerControls />
+            </Tabs>
+          </ResizableWithHandle>
+          <Output />
+        </div>
       </div>
       {(newFileModalShowing) ? <NewFileModal /> : null}
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}
