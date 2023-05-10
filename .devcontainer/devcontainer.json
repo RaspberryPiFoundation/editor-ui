@@ -6,7 +6,7 @@
   // Update the 'dockerComposeFile' list if you have more compose files or use different names.
   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
   "dockerComposeFile": [
-    "../docker-compose.yml",
+    "../docker-compose.yml"
   ],
 
   // The 'service' property is the name of the service for the container that VS Code should
@@ -20,7 +20,6 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
     "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
       "omzPlugins": "git docker-compose macos zsh-autosuggestions yarn fzf-zsh-plugin asdf zsh-nvm"
     }
@@ -65,7 +64,8 @@
         "ms-vscode.remote-repositories",
         "github.remotehub",
         "circleci.circleci",
-        "stylelint.vscode-stylelint"
+        "stylelint.vscode-stylelint",
+        "Orta.vscode-jest"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh"
