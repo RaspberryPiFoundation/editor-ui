@@ -111,6 +111,16 @@ i18n
       en: {
         translation: {
           // here we will place our translations...
+          modal: {
+            close: "close",
+            error: {
+              heading: "An error has occurred",
+              externalLink: {
+                message:
+                  "Unfortunately links to external sites are not available in the editor.",
+              },
+            },
+          },
           betaBanner: {
             buttonLabel: "close",
             buttonTitle: "close",
@@ -145,8 +155,13 @@ i18n
             newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
+              helpText: "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+              helpTextExample:{
+                html: "'file.html' or 'file.css'",
+                python: "'file.py'"
+              },
               inputLabel: "Name your file",
-              save: "Save",
+              addFile: "Add file",
             },
             renameFileModal: {
               cancel: "Cancel",

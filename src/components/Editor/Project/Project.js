@@ -9,7 +9,6 @@ import './Project.scss';
 import EditorPanel from '../EditorPanel/EditorPanel'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls'
 import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
 import { CloseIcon } from '../../../Icons';
@@ -20,6 +19,7 @@ import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../util
 import SideMenu from '../../Menus/SideMenu/SideMenu';
 import Button from '../../Button/Button';
 import NewFileModal from '../../Modals/NewFileModal';
+import RunBar from '../../RunButton/RunBar';
 import ResizableWithHandle from '../../../utils/ResizableWithHandle';
 
 const Project = (props) => {
@@ -99,6 +99,9 @@ const Project = (props) => {
     }
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
+        if (justLoaded) {
+          dispatch(expireJustLoaded())
+        }
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
       }
       else {
@@ -145,7 +148,7 @@ const Project = (props) => {
                 <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
               </TabPanel>
             ))}
-            <RunnerControls />
+            <RunBar/>
           </Tabs>
         </ResizableWithHandle>
         <Output />
