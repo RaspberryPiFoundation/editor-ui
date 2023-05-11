@@ -9,12 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - New colors (#474)
-- New typography (#475)
+- New typography (#475, #513)
 - Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
 - Help text in the new file modal (#478)
-- Ability to run HTML projects by clicking run button (#481)
 - Add dev-container support (#489)
 - Ability to drag and drop input panel tabs (#438)
+- Distinguish icon type (#470)
 
 ### Changed
 
@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Color usage (#474)
 - Position run button in separate bar (#471)
 - Color usage (#474)
-
+- Handling of internal/external links for HTML/CSS projects (#483)
 
 ### Fixed
 
@@ -32,6 +32,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updating Sentry to fix compile-time error (#487)
 - Fix local package build process (#488)
 - Color naming convention (#474)
+- Fix Web App Manifest logos, colors, and titles (#446)
+- Ability to run HTML projects by clicking run button (#481)
 
 ## [0.15.0] - 2023-04-27
 

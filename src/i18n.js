@@ -111,6 +111,16 @@ i18n
       en: {
         translation: {
           // here we will place our translations...
+          modal: {
+            close: "close",
+            error: {
+              heading: "An error has occurred",
+              externalLink: {
+                message:
+                  "Unfortunately links to external sites are not available in the editor.",
+              },
+            },
+          },
           betaBanner: {
             buttonLabel: "close",
             buttonTitle: "close",
@@ -325,6 +335,8 @@ i18n
               save: "Save",
             },
             updated: "Edited",
+            python_type: "Python",
+            html_type: "HTML"
           },
           runButton: {
             run: "Run",
