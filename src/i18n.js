@@ -336,7 +336,7 @@ i18n
             },
             updated: "Edited",
             python_type: "Python",
-            html_type: "Html"
+            html_type: "HTML"
           },
           runButton: {
             run: "Run",
