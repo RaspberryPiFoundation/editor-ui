@@ -1,5 +1,6 @@
 @use '../../../../colours' as *;
 @use '../../../../spacing' as *;
+@use '../../../../font-size.scss' as *;
 
 
 .file-pane {
@@ -25,7 +26,7 @@
     }
 
     h2 {
-      font-size: 1rem;
+      @include font-size-1(regular);
     }
   }
 

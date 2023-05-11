@@ -27,7 +27,7 @@
   }
 
   input {
-    font-size: 1em;
+    @include font-size-1(regular);
     width: 100%;
     box-sizing: border-box;
     border: 2px solid transparent;
