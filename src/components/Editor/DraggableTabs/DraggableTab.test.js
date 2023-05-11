@@ -37,7 +37,7 @@ describe('when tab is in focus', () => {
       }
     }
     store = mockStore(initialState);
-    render(<Provider store={store}><DragDropContext><DroppableTabList><DraggableTab panelIndex={0} fileIndex={1}>main.py</DraggableTab></DroppableTabList></DragDropContext></Provider>)
+    render(<Provider store={store}><DragDropContext><DroppableTabList index={0}><DraggableTab panelIndex={0} fileIndex={1}>main.py</DraggableTab></DroppableTabList></DragDropContext></Provider>)
   })
   test('pressing right arrow key moves focus to right', () => {
     const tab = screen.queryByText('main.py')
