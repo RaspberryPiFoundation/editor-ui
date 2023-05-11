@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New colors (#474)
 - New typography (#475)
 - Add dev-container support (#489)
+- Move eslint config to `.eslintrc.json` with prettier support
+- Add `.editorconfig`
 
 ### Changed
 
