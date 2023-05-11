@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Sentry to fix compile-time error
 - Ability to run HTML projects by clicking run button (#481)
 - Add dev-container support (#489)
+- Distinguish icon type (#470)
 
 ### Changed
 
