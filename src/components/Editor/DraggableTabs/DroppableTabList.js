@@ -7,11 +7,11 @@ import './DraggableTabs.scss'
 const DroppableTabList = ({children, index, ...otherProps}) => {
   return (
     <TabList {...otherProps }>
-      <Droppable direction='horizontal' droppableId={`${index}`}>
-        {(provided) => (
-          <div className = 'droppable-tab-list' {...provided.droppableProps} ref={provided.innerRef}>
+      <Droppable direction='horizontal' droppableId={index.toString()}>
+        {({innerRef, droppableProps, placeholder}) => (
+          <div className = 'droppable-tab-list' {...droppableProps} ref={innerRef}>
             {children}
-            {provided.placeholder}
+            {placeholder}
           </div>
         )}
       </Droppable>

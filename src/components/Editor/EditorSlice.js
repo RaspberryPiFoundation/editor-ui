@@ -139,7 +139,7 @@ export const EditorSlice = createSlice({
         state.project.image_list = []
       }
       state.loading='success'
-      if (state.openFiles[0].length === 0) {
+      if (state.openFiles.flat().length === 0) {
         if (state.project.project_type === 'html') {
           state.openFiles[0].push('index.html')
         } else {
