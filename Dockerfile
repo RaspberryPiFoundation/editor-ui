@@ -1,6 +1,6 @@
 FROM node:16.13.1
 
-RUN apt-get update && apt-get install -y curl wget git zsh docker.io
+RUN apt-get update && apt-get install -y sudo curl wget vim git zsh docker.io
 
 RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
