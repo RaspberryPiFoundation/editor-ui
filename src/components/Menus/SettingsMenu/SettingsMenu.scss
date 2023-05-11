@@ -1,6 +1,6 @@
 @use '../../../spacing' as *;
+@use '../../../font-size.scss' as *;
 @import '../../../colours.scss';
-
 
 .settings-menu {
   width: fit-content;
@@ -11,7 +11,7 @@
   }
 
   h3 {
-    font-size: 1.2em;
+    @include font-size-1-25(regular);
     font-weight: var(--font-weight-base);
     text-align: center;
     margin-top: 0;
