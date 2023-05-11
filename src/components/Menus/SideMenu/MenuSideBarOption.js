@@ -13,7 +13,7 @@ const MenuSideBarOption = (props) => {
 
   return (
     <Button
-      className = {`btn--tertiary menu-sidebar-option${isActive ? " menu-sidebar-option--active" : ""}`}
+      className = {`menu-sidebar-option${isActive ? " menu-sidebar-option--active" : ""}`}
       ButtonIcon = {Icon}
       title = {title}
       onClickHandler = {onClickHandler}

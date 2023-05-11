@@ -1,4 +1,5 @@
 @use '../../../spacing' as *;
+@import '../../../colours.scss';
 
 .menu {
   display: flex;
@@ -44,3 +45,17 @@
     margin: 0;
   }
 }
+
+.--dark .menu-sidebar-option--active, .--light .menu-sidebar-option--active {
+  background-color: $rpf-teal-600;
+  border-radius: 100%;
+
+  &:hover {
+    background-color: inherit;
+  }
+
+  svg {
+    fill: $rpf-black;
+  }
+}
+

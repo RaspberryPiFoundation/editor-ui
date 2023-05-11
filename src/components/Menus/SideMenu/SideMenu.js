@@ -30,12 +30,12 @@ const SideMenu = (props) => {
 
   return (
     <div className='menu'>
-      { option ? null :
-        <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
-      }
-      <MenuPopOut />
+      <MenuSideBar menuOptions={menuOptions} option={option} toggleOption = {toggleOption}/>
       {option ?
+      <>
+        <MenuPopOut />
         <Button className='btn--secondary btn--small' ButtonIcon={DoubleChevronLeft} buttonOuter buttonOuterClassName = 'menu-collapse-button' title={t('sideMenu.collapse')} onClickHandler={collapsePopOut} />
+      </>
       : null
       }
     </div>
