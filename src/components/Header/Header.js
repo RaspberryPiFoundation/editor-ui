@@ -20,7 +20,7 @@ const Header = () => {
   
   const user = useSelector((state) => state.auth.user)
   const project = useSelector((state) => state.editor.project)
-  const type = useSelector((state) => state.editor.project.project_type)
+  const type = project ? useSelector((state) => state.editor.project.project_type) : null
   const loading = useSelector((state) => state.editor.loading)
   const saving = useSelector((state) => state.editor.saving)
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime)
@@ -42,7 +42,6 @@ const Header = () => {
     <div className='editor-header-wrapper'>
       <header className='editor-header'>
         <img className='editor-logo' src={type === 'python' ? pythonLogo : htmlLogo } alt={t('header.editorLogoAltText')}/>
-        <p>{type} type</p>
         { user !== null ? (
           <Link to={`${locale}/projects`} className='project-gallery-link' reloadDocument>
             {<><HomeIcon />
