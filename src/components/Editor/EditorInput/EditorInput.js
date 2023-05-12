@@ -24,10 +24,10 @@ const EditorInput = () => {
   }
 
   const onDragEnd = (result) => {
-    if(!result.destination) return
     const { source, destination } = result
-    let openFilesData = [...openFiles]
+    if (!destination) return
 
+    let openFilesData = [...openFiles]
     let oldPane = [...openFilesData[source.droppableId]]
     const [removed] = oldPane.splice(source.index, 1)
     openFilesData[source.droppableId] = [...oldPane]

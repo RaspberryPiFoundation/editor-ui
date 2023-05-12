@@ -19,7 +19,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
-- Color usage (#474)
 - Position run button in separate bar (#471)
 - Color usage (#474)
 - Handling of internal/external links for HTML/CSS projects (#483)
