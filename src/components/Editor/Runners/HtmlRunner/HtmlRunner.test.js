@@ -11,17 +11,6 @@ const indexPage = {
   content:
     '<!DOCTYPE html><html lang="en"><head></head><body><p>hello world</p></body></html>',
 };
-const anotherHTMLPage = {
-  name: "amazing",
-  extension: "html",
-  content:
-    '<!DOCTYPE html><html lang="en"><head></head><body><p>My amazing page</p></body></html>',
-};
-const stylesheet = {
-  name: "styles",
-  extension: "css",
-  content: "p {color: red}",
-};
 
 describe("When page first loaded", () => {
   let store;
