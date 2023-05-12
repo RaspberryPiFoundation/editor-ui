@@ -155,8 +155,13 @@ i18n
             newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
+              helpText: "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+              helpTextExample:{
+                html: "'file.html' or 'file.css'",
+                python: "'file.py'"
+              },
               inputLabel: "Name your file",
-              save: "Save",
+              addFile: "Add file",
             },
             renameFileModal: {
               cancel: "Cancel",
@@ -330,6 +335,8 @@ i18n
               save: "Save",
             },
             updated: "Edited",
+            python_type: "Python",
+            html_type: "HTML"
           },
           runButton: {
             run: "Run",
