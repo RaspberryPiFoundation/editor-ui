@@ -119,10 +119,11 @@ export const EditorSlice = createSlice({
       }
     },
     openFile: (state, action) => {
-      if (!state.openFiles[0].includes(action.payload)) {
-        state.openFiles[0].push(action.payload)
+      const firstPanelIndex = 0
+      if (!state.openFiles.flat().includes(action.payload)) {
+        state.openFiles[firstPanelIndex].push(action.payload)
       }
-      state.focussedFileIndices[0] = state.openFiles[0].indexOf(action.payload)
+      state.focussedFileIndices[firstPanelIndex] = state.openFiles[firstPanelIndex].indexOf(action.payload)
     },
     setOpenFiles: (state, action) => {
       state.openFiles = action.payload
@@ -167,10 +168,11 @@ export const EditorSlice = createSlice({
       }
       state.loading="success"
       if (state.openFiles.flat().length === 0) {
+        const firstPanelIndex = 0
         if (state.project.project_type === "html") {
-          state.openFiles[0].push("index.html")
+          state.openFiles[firstPanelIndex].push("index.html")
         } else {
-          state.openFiles[0].push("main.py")
+          state.openFiles[firstPanelIndex].push("main.py")
         }
       }
       state.justLoaded = true;
@@ -347,10 +349,11 @@ export const EditorSlice = createSlice({
         state.saving = "idle";
         state.currentLoadingRequestId = undefined;
         if (state.openFiles.flat().length === 0) {
+          const firstPanelIndex = 0
           if (state.project.project_type === "html") {
-            state.openFiles[0].push("index.html");
+            state.openFiles[firstPanelIndex].push("index.html");
           } else {
-            state.openFiles[0].push("main.py");
+            state.openFiles[firstPanelIndex].push("main.py");
           }
         }
       }
