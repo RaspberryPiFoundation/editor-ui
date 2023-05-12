@@ -323,12 +323,12 @@ const requestingAProject = function(project, projectFile) {
 
   test('If loading status pending, loading success updates status', () => {
     const initialState = {
-      openFiles: [],
+      openFiles: [[]],
       loading: 'pending',
       currentLoadingRequestId: 'my_request_id'
     }
     const expectedState = {
-      openFiles: [projectFile],
+      openFiles: [[projectFile]],
       loading: 'success',
       justLoaded: true,
       saving: 'idle',
@@ -476,80 +476,80 @@ describe('When requesting project list', () => {
 
 describe('Opening files', () => {
   const initialState = {
-    openFiles: ['main.py', 'file1.py'],
-    focussedFileIndex: 0
+    openFiles: [['main.py', 'file1.py']],
+    focussedFileIndices: [0]
   }
 
   test('Opening unopened file adds it to openFiles and focusses that file', () => {
     const expectedState = {
-      openFiles: ['main.py', 'file1.py', 'file2.py'],
-      focussedFileIndex: 2
+      openFiles: [['main.py', 'file1.py', 'file2.py']],
+      focussedFileIndices: [2]
     }
     expect(reducer(initialState, openFile('file2.py'))).toEqual(expectedState)
   })
 
   test('Opening already open file focusses that file', () => {
     const expectedState = {
-      openFiles: ['main.py', 'file1.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py']],
+      focussedFileIndices: [1]
     }
     expect(reducer(initialState, openFile('file1.py'))).toEqual(expectedState)
   })
 
   test('Switching file focus', () => {
     const expectedState = {
-      openFiles: ['main.py', 'file1.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py']],
+      focussedFileIndices: [1]
     }
-    expect(reducer(initialState, setFocussedFileIndex(1))).toEqual(expectedState)
+    expect(reducer(initialState, setFocussedFileIndex({panelIndex: 0, fileIndex: 1}))).toEqual(expectedState)
   })
 })
 
 describe('Closing files', () => {
   test('Closing the last file when focussed transfers focus to the left', () => {
     const initialState = {
-      openFiles: ['main.py', 'file1.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py']],
+      focussedFileIndices: [1]
     }
     const expectedState = {
-      openFiles: ['main.py'],
-      focussedFileIndex: 0
+      openFiles: [['main.py']],
+      focussedFileIndices: [0]
     }
     expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
   })
 
   test('Closing not the last file when focussed does not change focus', () => {
     const initialState = {
-      openFiles: ['main.py', 'file1.py', 'file2.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py', 'file2.py']],
+      focussedFileIndices: [1]
     }
     const expectedState = {
-      openFiles: ['main.py', 'file2.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file2.py']],
+      focussedFileIndices: [1]
     }
     expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
   })
 
   test('Closing unfocussed file before file that is in focus keeps same file in focus', () => {
     const initialState = {
-      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
-      focussedFileIndex: 2
+      openFiles: [['main.py', 'file1.py', 'file2.py', 'file3.py']],
+      focussedFileIndices: [2]
     }
     const expectedState = {
-      openFiles: ['main.py', 'file2.py', 'file3.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file2.py', 'file3.py']],
+      focussedFileIndices: [1]
     }
     expect(reducer(initialState, closeFile('file1.py'))).toEqual(expectedState)
   })
 
   test('Closing unfocussed file after file that is in focus keeps same file in focus', () => {
     const initialState = {
-      openFiles: ['main.py', 'file1.py', 'file2.py', 'file3.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py', 'file2.py', 'file3.py']],
+      focussedFileIndices: [1]
     }
     const expectedState = {
-      openFiles: ['main.py', 'file1.py', 'file3.py'],
-      focussedFileIndex: 1
+      openFiles: [['main.py', 'file1.py', 'file3.py']],
+      focussedFileIndices: [1]
     }
     expect(reducer(initialState, closeFile('file2.py'))).toEqual(expectedState)
   })
@@ -563,7 +563,7 @@ describe('Updating file name', () => {
         {name: 'another_file', extension: 'py'}
       ]
     },
-    openFiles: ['file.py']
+    openFiles: [['file.py']]
   }
 
   test('If file is open updates name in project and openFiles and saves', () => {
@@ -574,7 +574,7 @@ describe('Updating file name', () => {
           {name: 'another_file', extension: 'py'}
         ]
       },
-      openFiles: ['my_file.py'],
+      openFiles: [['my_file.py']],
       saving: "idle",
     }
     expect(reducer(initialState, updateComponentName({key: 0, name: 'my_file', extension: 'py'}))).toEqual(expectedState)
@@ -588,7 +588,7 @@ describe('Updating file name', () => {
           {name: 'my_file', extension: 'py'}
         ]
       },
-      openFiles: ['file.py'],
+      openFiles: [['file.py']],
       saving: "idle",
     }
     expect(reducer(initialState, updateComponentName({key: 1, name: 'my_file', extension: 'py'}))).toEqual(expectedState)

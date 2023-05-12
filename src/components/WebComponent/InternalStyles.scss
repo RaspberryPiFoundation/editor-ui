@@ -2,7 +2,10 @@
 @use '../../tabs.scss';
 @use '../Editor/Project/Project.scss';
 @use '../Button/Button.scss';
-@use '../RunButton/RunnerControls.scss';
+@use '../Editor/DraggableTabs/DraggableTabs.scss';
+@use '../../utils/ResizableWithHandle.scss';
+@use '../Editor/EditorInput/EditorInput.scss';
+@use '../RunButton/RunBar.scss';
 @use '../ThemeToggle/ThemeToggle.scss';
 @use '../Editor/FontSizeSelector/FontSizeSelector.scss';
 @use '../Editor/EditorPanel/EditorPanel.scss';
