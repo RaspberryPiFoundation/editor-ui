@@ -34,8 +34,8 @@ describe("When page first loaded", () => {
         project: {
           components: [indexPage],
         },
-        focussedFileIndex: 0,
-        openFiles: ["index.html"],
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
         justLoaded: true,
         errorModalShowing: false,
       },
@@ -71,11 +71,11 @@ describe("When focussed on another HTML file", () => {
         project: {
           components: [indexPage, anotherHTMLPage],
         },
-        focussedFileIndex: 1,
-        openFiles: ["index.html", "amazing.html"],
+        focussedFileIndices: [1],
+        openFiles: [["index.html", "amazing.html"]],
         errorModalShowing: false,
-      },
-    };
+      }
+    }
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -104,11 +104,11 @@ describe("When focussed on CSS file", () => {
         project: {
           components: [indexPage, stylesheet],
         },
-        focussedFileIndex: 1,
-        openFiles: ["index.html", "styles.css"],
+        focussedFileIndices: [1],
+        openFiles: [["index.html", "styles.css"]],
         errorModalShowing: false,
-      },
-    };
+      }
+    }
     store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -137,8 +137,8 @@ describe("When run button clicked", () => {
         project: {
           components: [indexPage],
         },
-        focussedFileIndex: 0,
-        openFiles: ["index.html"],
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
         codeRunTriggered: true,
         errorModalShowing: false,
       },
@@ -186,8 +186,8 @@ describe("When an external link is clicked", () => {
             },
           ],
         },
-        focussedFileIndex: 0,
-        openFiles: ["index.html"],
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
         codeRunTriggered: true,
         errorModalShowing: false,
       },

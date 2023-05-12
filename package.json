@@ -12,6 +12,7 @@
     "@codemirror/lang-python": "^6.0.2",
     "@codemirror/language": "^6.2.1",
     "@codemirror/view": "^6.3.0",
+    "@hello-pangea/dnd": "^16.2.0",
     "@juggle/resize-observer": "^3.3.1",
     "@lezer/highlight": "^1.0.0",
     "@react-three/drei": "^9.65.5",

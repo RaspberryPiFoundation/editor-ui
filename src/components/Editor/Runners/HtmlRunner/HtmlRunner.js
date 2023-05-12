@@ -10,10 +10,12 @@ import { showErrorModal, codeRunHandled } from "../../EditorSlice";
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
+
+  const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
-    (state) => state.editor.focussedFileIndex
-  );
-  const openFiles = useSelector((state) => state.editor.openFiles);
+    (state) => state.editor.focussedFileIndices
+  )[firstPanelIndex];
+  const openFiles = useSelector((state) => state.editor.openFiles)[firstPanelIndex];
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered
   );

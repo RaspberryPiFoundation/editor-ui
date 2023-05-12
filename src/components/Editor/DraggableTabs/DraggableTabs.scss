@@ -1,0 +1,10 @@
+@use '../../../spacing' as *;
+
+.draggable-tab {
+  user-select: none;
+}
+
+.droppable-tab-list {
+  display: flex;
+  width: 100%;
+}

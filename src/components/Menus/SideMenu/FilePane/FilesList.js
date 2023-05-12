@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { ChevronDown, FileIcon } from '../../../../Icons';
 import FileMenu from '../../FileMenu/FileMenu';
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
-import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
 

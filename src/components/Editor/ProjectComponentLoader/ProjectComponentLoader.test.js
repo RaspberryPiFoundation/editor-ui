@@ -48,7 +48,8 @@ test("Does not render loading message if loading is success", () => {
       project: {
         components: []
       },
-      openFiles: [],
+      openFiles: [[]],
+      focussedFileIndices: [0],
       loading: 'success'
     },
     auth: {}
