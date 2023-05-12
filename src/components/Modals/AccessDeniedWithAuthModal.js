@@ -37,7 +37,7 @@ const AccessDeniedWithAuthModal = () => {
           <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
         </div>
 
-        <div className='modla-content__body'>
+        <div className='modal-content__body'>
           <p className='modal-content__text'>{t('project.accessDeniedWithAuthModal.text')}</p>
         </div>
 

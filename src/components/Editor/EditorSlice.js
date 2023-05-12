@@ -64,6 +64,7 @@ export const EditorSlice = createSlice({
     openFiles: [],
     focussedFileIndex: 0,
     nameError: "",
+    autorunEnabled: false,
     codeRunTriggered: false,
     drawTriggered: false,
     isEmbedded: false,
