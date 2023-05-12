@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Resizable } from 're-resizable';
 
 import './ResizableWithHandle.scss';
 
 const VerticalHandle = () => (
-  <svg width="44" height="56" viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg data-testid="verticalHandle" width="44" height="56" viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="20" width="4" height="56" rx="2" fill="#616575" />
   </svg>
 );
 
 const HorizontalHandle = () => (
-  <svg width="56" height="44" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg data-testid="horizontalHandle" width="56" height="44" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="56" y="20" width="4" height="56" rx="2" transform="rotate(90 56 20)" fill="#616575"/>
   </svg>
 );
@@ -22,8 +22,8 @@ const ResizableWithHandle = props => {
   const [width, setWidth] = useState('auto');
   const [height, setHeight] = useState('auto');
 
-  useEffect(() => setWidth(defaultWidth), [defaultWidth]);
-  useEffect(() => setHeight(defaultHeight), [defaultHeight]);
+  useMemo(() => setWidth(defaultWidth), [defaultWidth]);
+  useMemo(() => setHeight(defaultHeight), [defaultHeight]);
 
   const onResizeStop = (...[,,, d]) => {
     setWidth(width + d.width);
@@ -50,10 +50,10 @@ const ResizableWithHandle = props => {
 }
 
 ResizableWithHandle.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.object.isRequired,
   defaultWidth: PropTypes.string,
   defaultHeight: PropTypes.string,
-  handleDirection: PropTypes.oneOf(['right', 'left', 'top', 'bottom']),
+  handleDirection: PropTypes.oneOf(['right', 'left', 'top', 'bottom']).isRequired,
 };
 
 export default ResizableWithHandle;

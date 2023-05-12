@@ -54,18 +54,18 @@ const project = {
 }
 
 test("Renders with file menu if not for web component", () => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: []
-        },
-        openFiles: []
+  const middlewares = []
+  const mockStore = configureStore(middlewares)
+  const initialState = {
+    editor: {
+      project: {
+        components: []
       },
-      auth: {}
-    }
-    const store = mockStore(initialState);
+      openFiles: []
+    },
+    auth: {}
+  }
+  const store = mockStore(initialState);
   const {queryByText} = render(<Provider store={store}><div id="app"><Project/></div></Provider>)
   expect(queryByText('filePane.files')).not.toBeNull()
 })
@@ -459,3 +459,42 @@ test('Successful manual save prompts project saved message', async () => {
 })
 
 // TODO: Write test for successful autosave not prompting the project saved message as per the above
+
+describe('When not logged in and falling on default container size', () => {
+  const createMockStore = function(params) {
+    const mockStore = configureStore([])
+    return mockStore({
+      editor: {
+        project: {
+          components: [
+            {
+              name: 'a',
+              extension: 'py',
+              content: '# Your code here'
+            }
+          ],
+        },
+        ...params,
+        openFiles: ['a.py'],
+        focussedFileIndex: 1,
+      },
+      auth: {
+        user: null
+      },
+    });
+  }
+
+  test("Shows bottom drag bar with expected params", () => {
+    render(<Provider store={createMockStore()}><div id="app"><Project/></div></Provider>);
+
+    const container = screen.getByTestId('proj-editor-container')
+    expect(container).toHaveStyle({
+      'min-width': '25%',
+      'max-width': '100%',
+      'width': '100%',
+      'height': '50%',
+    });
+
+    expect(container.getElementsByClassName('resizable-with-handle__handle--bottom').length).toBe(1);
+  })
+})

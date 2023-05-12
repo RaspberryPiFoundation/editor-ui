@@ -145,6 +145,7 @@ const Project = (props) => {
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
         <div className='proj-editor-wrapper'>
           <ResizableWithHandle
+            data-testid='proj-editor-container'
             className='proj-editor-container'
             defaultWidth={defaultWidth}
             defaultHeight={defaultHeight}
