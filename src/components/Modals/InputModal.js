@@ -17,7 +17,7 @@ const InputModal = ({inputLabel, inputDefaultValue, inputHelpText, ...otherProps
         <p className='modal-content__help-text'>{inputHelpText}</p>
       </div>
       
-      <div>
+      <div className='modal-content__input'>
         <NameErrorMessage />
         <input ref={inputBox} type='text' name='name' id='name' defaultValue={inputDefaultValue}></input>
       </div>
