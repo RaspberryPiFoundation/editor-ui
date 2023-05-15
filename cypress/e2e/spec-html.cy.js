@@ -33,6 +33,7 @@ it("can make a new file", () => {
 it("updates the preview after a change when you click run", () => {
   localStorage.clear();
   cy.visit(baseUrl);
+  cy.get(".btn--run").click()
   getIframeBody().should("not.include.text", "hello world");
   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
   cy.get(".btn--run").click()
