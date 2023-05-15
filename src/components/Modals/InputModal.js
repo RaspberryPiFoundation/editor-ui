@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import GeneralModal from "./GeneralModal";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 
-const InputModal = ({inputLabel, inputDefaultValue, inputHelpText, ...otherProps}) => {
+const InputModal = ({inputs, ...otherProps}) => {
 
   const inputBox = useCallback((node) => {
     if (node) {
@@ -12,15 +12,18 @@ const InputModal = ({inputLabel, inputDefaultValue, inputHelpText, ...otherProps
 
   return (
     <GeneralModal {...otherProps}>
-      <div>
-        <label htmlFor='name'>{inputLabel}</label>
-        <p className='modal-content__help-text'>{inputHelpText}</p>
-      </div>
-      
-      <div className='modal-content__input'>
-        <NameErrorMessage />
-        <input ref={inputBox} type='text' name='name' id='name' defaultValue={inputDefaultValue}></input>
-      </div>
+      {inputs.map((input, i) => (
+        <>
+          <div>
+            <label htmlFor='name'>{input.label}</label>
+            <p className='modal-content__help-text'>{input.helpText}</p>
+          </div>
+          <div className='modal-content__input' key={i}>
+            <NameErrorMessage />
+            <input ref={inputBox} type='text' name='name' id='name' defaultValue={input.defaultValue}></input>
+          </div>
+        </>
+      ))}
     </GeneralModal>
   )
 }

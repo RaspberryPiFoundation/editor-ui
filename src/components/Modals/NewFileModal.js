@@ -35,8 +35,14 @@ const NewFileModal = () => {
       closeModal={closeModal}
       withCloseButton
       heading={t('filePane.newFileModal.heading')}
-      inputLabel={t('filePane.newFileModal.inputLabel')}
-      inputHelpText={t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})}
+      // inputLabel={t('filePane.newFileModal.inputLabel')}
+      // inputHelpText={t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})}
+      inputs={[
+        {
+          label: t('filePane.newFileModal.inputLabel'),
+          helpText: t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})
+        }
+      ]}
       defaultCallback={createComponent}
       buttons={[
         <Button className='btn--primary' buttonText={t('filePane.newFileModal.addFile')} onClickHandler={createComponent} />,
