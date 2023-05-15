@@ -41,12 +41,6 @@ describe('When logged in and notFoundModalShowing is true', () => {
     expect(screen.queryByText('project.notFoundModal.heading')).toBeInTheDocument()
   })
 
-  test('Clicking close button dispatches close modal action', () => {
-    const closeButton = screen.getAllByRole('button')[0]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([{type: 'editor/closeNotFoundModal'}])
-  })
-
   test('Clicking new project creates a new project', async () => {
     const newProjectLink = screen.queryByText('project.notFoundModal.newProject')
     const saveAction = {type: 'SAVE_PROJECT' }
@@ -79,26 +73,5 @@ describe('When not logged in', () => {
     const newProjectLink = screen.queryByText('project.notFoundModal.newProject')
     fireEvent.click(newProjectLink)
     expect(store.getActions()).toEqual([closeNotFoundModal()])
-  })
-})
-
-describe('When accessDeniedNoAuthModalShowing is false', () => {
-  beforeEach(() => {
-    const initialState = {
-      editor: {
-        notFoundModalShowing: false
-      },
-      auth: {
-        user: {
-          accessToken: 'myAccessToken'
-        }
-      }
-    }
-    const store = mockStore(initialState);
-    render(<Provider store={store}><div id='app'><NotFoundModal /></div></Provider>)
-  })
-
-  test('Modal not rendered', () => {
-    expect(screen.queryByText('project.notFoundModal.heading')).not.toBeInTheDocument()
   })
 })

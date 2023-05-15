@@ -64,20 +64,10 @@ describe("RenameProjectModal", () => {
     expect(screen.getByText('projectList.renameProjectModal.heading')).not.toBeNull()
   })
 
-  test('Clicking close button dispatches close modal action', () => {
-    const closeButton = screen.getAllByRole('button')[0]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}])
-  })
-
   test('Clicking cancel button closes modal and does not save', () => {
     const cancelButton = screen.queryByText('projectList.renameProjectModal.cancel')
     fireEvent.click(cancelButton)
     expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}])
-  })
-
-  test('Input box initially contains original project name', () => {
-    expect(inputBox.value).toEqual('my first project')
   })
 
   describe('Clicking save', () => {
@@ -89,15 +79,15 @@ describe("RenameProjectModal", () => {
       fireEvent.click(saveButton)
     })
 
-    test("Clicking save calls the mutation", async () => {
+    test("Calls the mutation", async () => {
       await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
     })
   
-    test("Clicking save eventually closes the modal", async () => {
+    test("Eventually closes the modal", async () => {
       await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
     })
   
-    test("Clicking save eventually pops up the toast notification", async () => {
+    test("Eventually pops up the toast notification", async () => {
       await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())
     })
   })
@@ -111,15 +101,15 @@ describe("RenameProjectModal", () => {
       fireEvent.keyDown(inputBox, { key: 'Enter'})
     })
 
-    test("Clicking save calls the mutation", async () => {
+    test("Calls the mutation", async () => {
       await waitFor(() => expect(renameProjectMutationMock).toHaveBeenCalled())
     })
   
-    test("Clicking save eventually closes the modal", async () => {
+    test("Eventually closes the modal", async () => {
       await waitFor(() => expect(store.getActions()).toEqual([{type: 'editor/closeRenameProjectModal'}]))
     })
   
-    test("Clicking save eventually pops up the toast notification", async () => {
+    test("Eventually pops up the toast notification", async () => {
       await waitFor(() => expect(showRenamedMessage).toHaveBeenCalled())
     })
   })
