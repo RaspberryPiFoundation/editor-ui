@@ -64,6 +64,8 @@ it("allows internal links", () => {
     '<a href="index.html">some internal link</a>'
   );
   cy.wait(2050);
-  getIframeBody().find("a").click();
-  getIframeBody().find("p").should("include.text", "hello world");
+  const internalLink = getIframeBody().find("a")
+  internalLink.click();
+  const content = getIframeBody().find("p")
+  content.should("include.text", "hello world");
 });
