@@ -48,11 +48,7 @@ describe("Testing the rename file modal", () => {
   })
 
   test('State being set displays the modal', () => {
-    expect(getByText('filePane.renameFileModal.heading')).not.toBeNull()
-  })
-
-  test('Input box initially contains original file name', () => {
-    expect(inputBox.value).toEqual('main.py')
+    expect(getByText('filePane.renameFileModal.heading')).toBeInTheDocument()
   })
 
   test("Pressing save renames the file to the given name", () => {

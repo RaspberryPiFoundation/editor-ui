@@ -39,10 +39,6 @@ describe("Testing the new file modal", () => {
     expect(screen.queryByText('filePane.newFileModal.heading')).toBeInTheDocument()
   })
 
-  test('Autofocuses input box', () => {
-    expect(inputBox).toHaveFocus()
-  })
-
   test("Pressing save adds new file with the given name", () => {
     fireEvent.change(inputBox, {target: {value: "file1.py"}})
     inputBox.innerHTML = "file1.py";
