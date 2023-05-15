@@ -1,5 +1,5 @@
 import configureStore from "redux-mock-store";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
@@ -26,6 +26,8 @@ describe("When page first loaded", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         justLoaded: true,
+        autorunEnabled: false,
+        codeHasBeenRun: false,
         errorModalShowing: false,
       },
     };
@@ -39,15 +41,8 @@ describe("When page first loaded", () => {
     );
   });
 
-  test("iframe exists", () => {
-    const iframe = document.getElementsByClassName("htmlrunner-iframe")[0];
-    expect(iframe).toBeInTheDocument();
-  });
-
-  test("Runs HTML code", async () => {
-    expect(Blob).not.toHaveBeenCalledWith([indexPage.content], {
-      type: "text/html",
-    });
+  test("iframe does not exist", () => {
+    expect(screen.queryByTitle('runners.HtmlOutput')).not.toBeInTheDocument()
   });
 });
 
@@ -80,8 +75,7 @@ describe("When page first loaded in embedded viewer", () => {
   });
 
   test("iframe exists", () => {
-    const iframe = document.getElementsByClassName("htmlrunner-iframe")[0];
-    expect(iframe).toBeInTheDocument();
+    expect(screen.queryByTitle('runners.HtmlOutput')).toBeInTheDocument()
   });
 
   test("Runs HTML code", async () => {
@@ -105,6 +99,7 @@ describe("When run button clicked", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         codeRunTriggered: true,
+        codeHasBeenRun: true,
         errorModalShowing: false,
       },
     };
@@ -154,6 +149,7 @@ describe("When an external link is clicked", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         codeRunTriggered: true,
+        codeHasBeenRun: true,
         errorModalShowing: false,
       },
     };
