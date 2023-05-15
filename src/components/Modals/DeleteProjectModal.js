@@ -1,11 +1,10 @@
 import React from "react";
-import Modal from 'react-modal';
 import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { closeDeleteProjectModal } from "../Editor/EditorSlice";
-import { CloseIcon } from "../../Icons";
 import Button from "../Button/Button";
+import GeneralModal from "./GeneralModal";
 
 // Define mutation
 export const DELETE_PROJECT_MUTATION = gql`
@@ -33,29 +32,20 @@ export const DeleteProjectModal = () => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className='modal-content'
-        overlayClassName='modal-overlay'
-        contentLabel={t('projectList.deleteProjectModal.heading')}
-        parentSelector={() => document.querySelector('#app')}
-        appElement={document.getElementById('app') || undefined}
-      >
-          <div className='modal-content__header'>
-            <h2 className='modal-content__heading'>{t('projectList.deleteProjectModal.heading')}</h2>
-            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-          </div>
-          <div className='modal-content__body'>
-            <p className='modal-content__text'>{t('projectList.deleteProjectModal.text', {name: project.name})}</p>
-          </div>
-          <div className='modal-content__buttons' >
-            <Button className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />
-            <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
-          </div>
-      </Modal>
-    </>
+    <GeneralModal
+      isOpen={isModalOpen}
+      closeModal={closeModal}
+      withCloseButton
+      heading={t('projectList.deleteProjectModal.heading')}
+      text={[
+        {type: 'paragraph', content: t('projectList.deleteProjectModal.text')}
+      ]}
+      buttons={[
+        <Button className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />,
+        <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
+      ]}
+      defaultCallback={onClickDelete}
+    />
   );
 }
 

@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add input/output responsiveness (#473)
 - Ability to drag and drop input panel tabs (#438)
 - Distinguish icon type (#470)
+- Custom callback when Enter pressed in modals (#491)
+- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491)
 
 ### Changed
 
@@ -23,6 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Position run button in separate bar (#471)
 - Color usage (#474)
 - Handling of internal/external links for HTML/CSS projects (#483)
+- Existing modals to use `GeneralModal` or `InputModal` (#491)
+- Refactored login logic to make this available outside of the login button (#491)
 
 ### Fixed
 
