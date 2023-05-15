@@ -22,11 +22,16 @@ beforeEach(() => {
           isOpen={true}
           inputDefaultValue='my amazing default'
           inputLabel='input'
+          inputHelpText='help me'
         />
       </div>
     </Provider>
   )
   inputBox = screen.getByLabelText('input')
+})
+
+test('Renders help text', () => {
+  expect(screen.queryByText('help me')).toBeInTheDocument()
 })
 
 test('Input renders with default value', () => {
