@@ -119,7 +119,7 @@ const Project = (props) => {
 
   return (
     <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
+      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`} ref={containerRef}>
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
         <div className='proj-editor-wrapper'>
           <ResizableWithHandle
