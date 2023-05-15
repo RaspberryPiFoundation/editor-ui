@@ -46,7 +46,7 @@ it("blocks external links", () => {
     "text",
     '<a href="https://raspberrypi.org/en/">some external link</a>'
   );
-  cy.wait(2050);
+  cy.get(".btn--run").click()
   getIframeBody().find("a").click();
   cy.get("div[class=modal-content__header]")
     .find("h2")
@@ -57,13 +57,13 @@ it("allows internal links", () => {
   localStorage.clear();
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.wait(2050);
+  cy.get(".btn--run").click()
   makeNewFile();
   cy.get("div[class=cm-content]").invoke(
     "text",
     '<a href="index.html">some internal link</a>'
   );
-  cy.wait(2050);
+  cy.get(".btn--run").click()
   const internalLink = getIframeBody().find("a")
   internalLink.click();
   const content = getIframeBody().find("p")
