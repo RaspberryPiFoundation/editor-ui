@@ -33,7 +33,7 @@ function Editor() {
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [code, onUpdate]);
 
   return (
     <div>

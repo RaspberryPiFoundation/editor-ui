@@ -4,6 +4,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { useContainerQuery } from 'react-container-query';
+import classnames from 'classnames';
 
 import './Project.scss';
 import Output from '../Output/Output'
@@ -18,7 +19,7 @@ import SideMenu from '../../Menus/SideMenu/SideMenu';
 import EditorInput from '../EditorInput/EditorInput';
 import NewFileModal from '../../Modals/NewFileModal';
 import ResizableWithHandle from '../../../utils/ResizableWithHandle';
-
+import { projContainer } from '../../../utils/containerQueries';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -96,13 +97,7 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
-  const query = {
-    'width-larger-than-880': {
-      minWidth: 880,
-    }
-  };
-
-  const [params, containerRef] = useContainerQuery(query);
+  const [params, containerRef] = useContainerQuery(projContainer);
   const [defaultWidth, setDefaultWidth] = useState('auto');
   const [defaultHeight, setDefaultHeight] = useState('auto');
   const [maxWidth, setMaxWidth] = useState('100%');
@@ -115,11 +110,11 @@ const Project = (props) => {
     setDefaultHeight(isDesktop ? '100%' : '50%');
     setMaxWidth(isDesktop ? '75%' : '100%');
     setHandleDirection(isDesktop ? 'right' : 'bottom');
-  }, [params['width-larger-than-880']]);
+  }, [params]);
 
   return (
     <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`} ref={containerRef}>
+      <div ref={containerRef} className={classnames('proj-container', {'proj-container--wc': forWebComponent})}>
         {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
         <div className='proj-editor-wrapper'>
           <ResizableWithHandle

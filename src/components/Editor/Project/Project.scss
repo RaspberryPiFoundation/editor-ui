@@ -35,7 +35,7 @@
   margin: $space-1-5;
   height: 100%;
   overflow: hidden;
-  container-type: inline-size;
+  // container-type: inline-size;
 
   .proj-editor-wrapper {
     display: flex;
@@ -44,7 +44,8 @@
     width: 100%;
   }
 
-  @container (min-width: 880px) {
+  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
+  @media (min-width: 928px) { // width is 880px for the container + the rest of the page
     .proj-editor-wrapper {
       flex-flow: row;
     }
