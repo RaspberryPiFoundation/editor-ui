@@ -5,25 +5,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 
 import ErrorModal from "../../../Modals/ErrorModal";
-import { showErrorModal, codeRunHandled } from "../../EditorSlice";
+import {
+  showErrorModal,
+  codeRunHandled,
+  triggerCodeRun,
+} from "../../EditorSlice";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
-
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered
+  );
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
     (state) => state.editor.focussedFileIndices
   )[firstPanelIndex];
-  const openFiles = useSelector((state) => state.editor.openFiles)[firstPanelIndex];
-  const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
-  );
-  const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const openFiles = useSelector((state) => state.editor.openFiles)[
+    firstPanelIndex
+  ];
 
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
+  const allowedHrefs = ["#"];
+
+  const focussedComponent = (fileName = "index.html") =>
+    projectCode.filter(
+      (component) => `${component.name}.${component.extension}` === fileName
+    )[0];
+
+  const previewable = (file) => file.endsWith(".html");
+
+  const [previewFile, setPreviewFile] = useState(
+    focussedComponent(
+      previewable(openFiles[focussedFileIndex])
+        ? openFiles[focussedFileIndex]
+        : "index.html"
+    )
+  );
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -31,43 +51,34 @@ function HtmlRunner() {
 
   const closeModal = () => setError(null);
 
-  const htmlFiles = projectCode.filter(
-    (component) => component.extension === "html"
-  );
-
-  const fileName = openFiles[focussedFileIndex];
-  const focussedComponent = projectCode.find(
-    (component) => `${component.name}.${component.extension}` === fileName
-  );
-
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
     return URL.createObjectURL(blob);
   };
 
-  const errorListener = () => {
+  const parentTag = (node, tag) =>
+    node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
+
+  const eventListener = () => {
     window.addEventListener("message", (event) => {
-      if (typeof event.data === "string" || event.data instanceof String) {
+      if (typeof event.data === "string" || typeof event.data === "string") {
         if (event.data === "ERROR: External link") {
           setError("externalLink");
         }
+      } else if (event.data?.msg && typeof event.data?.msg === "string") {
+        setPreviewFile(focussedComponent(`${event.data.payload.linkTo}.html`));
+        dispatch(triggerCodeRun());
       }
     });
   };
 
-  useEffect(() => errorListener(), []);
-  let timeout;
+  useEffect(() => eventListener(), []);
 
   useEffect(() => {
-    if (justLoaded) {
-      runCode();
-    } else {
-      timeout = setTimeout(() => {
-        runCode();
-      }, 2000);
-      return () => clearTimeout(timeout);
+    if (previewable(openFiles[focussedFileIndex])) {
+      setPreviewFile(focussedComponent(openFiles[focussedFileIndex]));
     }
-  }, [projectCode, focussedFileIndex]);
+  }, [projectCode, focussedFileIndex, openFiles]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -76,23 +87,19 @@ function HtmlRunner() {
   }, [codeRunTriggered]);
 
   useEffect(() => {
+    // setPreviewFile(openFiles[focussedFileIndex]);
     runCode();
-  }, [focussedFileIndex]);
+  }, [previewFile]);
 
   useEffect(() => {
     if (error) {
       showModal();
-      errorListener();
+      eventListener();
     }
   }, [error]);
 
   const runCode = () => {
-    const indexHTML = htmlFiles.find(
-      (component) => `${component.name}.${component.extension}` === "index.html"
-    );
-    const componentToPreview =
-      focussedComponent.extension === "html" ? focussedComponent : indexHTML;
-    let indexPage = parse(componentToPreview.content);
+    let indexPage = parse(previewFile.content);
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
@@ -101,24 +108,34 @@ function HtmlRunner() {
       const projectFile = projectCode.filter(
         (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href
       );
+      // remove target blanks
+      if (hrefNode.attrs?.target === "_blank") {
+        hrefNode.removeAttribute("target");
+      }
+
+      let onClickMsg;
+
       if (!!projectFile.length) {
-        const projectFileBlob = getBlobURL(
-          projectFile[0].content,
-          `text/${projectFile[0].extension}`
-        );
-        hrefNode.setAttribute("href", projectFileBlob);
+        if (parentTag(hrefNode, "head")) {
+          const projectFileBlob = getBlobURL(
+            projectFile[0].content,
+            `text/${projectFile[0].extension}`
+          );
+          hrefNode.setAttribute("href", projectFileBlob);
+        } else {
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClickMsg = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
+        }
       } else {
         if (
-          !hrefNode.parentNode?.tagName ||
-          hrefNode.parentNode.tagName.toLowerCase() !== "head"
+          !allowedHrefs.includes(hrefNode.attrs.href) &&
+          !parentTag(hrefNode, "head")
         ) {
-          hrefNode.setAttribute("href", "#");
-          hrefNode.setAttribute(
-            "onclick",
-            "window.parent.postMessage('ERROR: External link')"
-          );
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClickMsg = "window.parent.postMessage('ERROR: External link')";
         }
       }
+      hrefNode.setAttribute("onclick", onClickMsg);
     });
 
     const srcNodes = indexPage.querySelectorAll("[src]");
@@ -137,7 +154,6 @@ function HtmlRunner() {
     if (codeRunTriggered) {
       dispatch(codeRunHandled());
     }
-    clearTimeout(timeout);
   };
 
   return (

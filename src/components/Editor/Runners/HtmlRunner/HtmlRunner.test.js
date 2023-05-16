@@ -8,14 +8,12 @@ import { codeRunHandled } from "../../EditorSlice";
 const indexPage = {
   name: "index",
   extension: "html",
-  content:
-    '<!DOCTYPE html><html lang="en"><head></head><body><p>hello world</p></body></html>',
+  content: "<head></head><body><p>hello world</p></body>",
 };
 const anotherHTMLPage = {
   name: "amazing",
   extension: "html",
-  content:
-    '<!DOCTYPE html><html lang="en"><head></head><body><p>My amazing page</p></body></html>',
+  content: "<head></head><body><p>My amazing page</p></body>",
 };
 const stylesheet = {
   name: "styles",
@@ -74,8 +72,8 @@ describe("When focussed on another HTML file", () => {
         focussedFileIndices: [1],
         openFiles: [["index.html", "amazing.html"]],
         errorModalShowing: false,
-      }
-    }
+      },
+    };
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -107,8 +105,8 @@ describe("When focussed on CSS file", () => {
         focussedFileIndices: [1],
         openFiles: [["index.html", "styles.css"]],
         errorModalShowing: false,
-      }
-    }
+      },
+    };
     store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -169,8 +167,8 @@ describe("When run button clicked", () => {
 describe("When an external link is clicked", () => {
   let store;
   const input =
-    '<!DOCTYPE html><html lang="en"><head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body></html>';
-  const output = `<!DOCTYPE html><html lang="en"><head></head><body><a href="#" onclick="window.parent.postMessage('ERROR: External link')">EXTERNAL LINK!</a></body></html>`;
+    '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage('ERROR: External link')">EXTERNAL LINK!</a></body>`;
 
   beforeEach(() => {
     const middlewares = [];
