@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { ChevronDown, FileIcon } from '../../../../Icons';
 import FileMenu from '../../FileMenu/FileMenu';
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
-import { useTranslation } from "react-i18next";
 
 import './FilesList.scss'
 
@@ -28,7 +28,7 @@ const FilesList = (props) => {
             <FileIcon ext={file.extension} />
           </div>
           <span className='files-list-item__name'>{file.name}.{file.extension}</span>
-          {(file.name === 'main' && file.extension === 'py') ? null :
+          {((file.name === 'main' && file.extension === 'py') || (file.name === 'index' && file.extension === 'html')) ? null :
             <div className='files-list-item__menu'>
               <FileMenu fileKey={i} name={file.name} ext={file.extension} />
             </div>
