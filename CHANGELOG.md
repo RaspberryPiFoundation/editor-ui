@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to drag and drop input panel tabs (#438)
 - Distinguish icon type (#470)
 - Custom callback when Enter pressed in modals (#491)
-- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491)
+- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491, #517)
 
 ### Changed
 
