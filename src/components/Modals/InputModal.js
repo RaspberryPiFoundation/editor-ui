@@ -13,16 +13,21 @@ const InputModal = ({inputs, ...otherProps}) => {
   return (
     <GeneralModal {...otherProps}>
       {inputs.map((input, i) => (
-        <>
+        <div key={i}>
           <div>
-            <label htmlFor='name'>{input.label}</label>
+            <label htmlFor={i}>{input.label}</label>
             <p className='modal-content__help-text'>{input.helpText}</p>
           </div>
-          <div className='modal-content__input' key={i}>
+          <div className='modal-content__input'>
             <NameErrorMessage />
-            <input ref={inputBox} type='text' name='name' id='name' defaultValue={input.defaultValue}></input>
+            <input
+              ref={inputBox}
+              type='text'
+              id={i}
+              onChange={(e) => input.setValue(e.target.value)}
+              value={input.value}/>
           </div>
-        </>
+        </div>
       ))}
     </GeneralModal>
   )

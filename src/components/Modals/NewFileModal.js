@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Button from '../Button/Button'
 import { addProjectComponent, closeNewFileModal, openFile } from '../Editor/EditorSlice';
@@ -18,8 +18,9 @@ const NewFileModal = () => {
   const isModalOpen = useSelector((state) => state.editor.newFileModalShowing)
   const closeModal = () => dispatch(closeNewFileModal())
 
+  const [fileName, setFileName] = useState('')
+
   const createComponent = () => {
-    const fileName = document.getElementById('name').value
     const name = fileName.split('.')[0];
     const extension = fileName.split('.').slice(1).join('.');
     validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
@@ -35,12 +36,12 @@ const NewFileModal = () => {
       closeModal={closeModal}
       withCloseButton
       heading={t('filePane.newFileModal.heading')}
-      // inputLabel={t('filePane.newFileModal.inputLabel')}
-      // inputHelpText={t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})}
       inputs={[
         {
           label: t('filePane.newFileModal.inputLabel'),
-          helpText: t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)})
+          helpText: t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)}),
+          value: fileName,
+          setValue: setFileName
         }
       ]}
       defaultCallback={createComponent}
