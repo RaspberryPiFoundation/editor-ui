@@ -1,4 +1,4 @@
-import { useSelector, connect } from "react-redux";
+import { useSelector, connect, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
@@ -18,6 +18,8 @@ import {
   ProjectIndexPagination,
   PROJECT_INDEX_PAGINATION_FRAGMENT,
 } from "./ProjectIndexPagination.js";
+import { showNewProjectModal } from "../Editor/EditorSlice";
+import NewProjectModal from "../Modals/NewProjectModal";
 
 export const PROJECT_INDEX_QUERY = gql`
   query ProjectIndexQuery(
@@ -50,6 +52,9 @@ const ProjectIndex = (props) => {
 
   useRequiresUser(isLoading, user);
 
+  const newProjectModalShowing = useSelector(
+    (state) => state.editor.newProjectModalShowing
+  );
   const renameProjectModalShowing = useSelector(
     (state) => state.editor.renameProjectModalShowing
   );
@@ -57,14 +62,16 @@ const ProjectIndex = (props) => {
     (state) => state.editor.deleteProjectModalShowing
   );
 
+  const dispatch = useDispatch()
   const onCreateProject = async () => {
-    const response = await createOrUpdateProject(
-      defaultPythonProject,
-      user.access_token
-    );
-    const identifier = response.data.identifier;
-    const locale = i18n.language;
-    navigate(`/${locale}/projects/${identifier}`);
+    // const response = await createOrUpdateProject(
+    //   defaultPythonProject,
+    //   user.access_token
+    // );
+    // const identifier = response.data.identifier;
+    // const locale = i18n.language;
+    // navigate(`/${locale}/projects/${identifier}`);
+    dispatch(showNewProjectModal())
   };
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {
@@ -97,6 +104,7 @@ const ProjectIndex = (props) => {
       ) : null}
       {loading ? <p>{t("projectList.loading")}</p> : null}
       {error ? <p>{t("projectList.loadingFailed")}</p> : null}
+      {newProjectModalShowing ? <NewProjectModal /> : null}
       {renameProjectModalShowing ? <RenameProjectModal /> : null}
       {deleteProjectModalShowing ? <DeleteProjectModal /> : null}
     </>

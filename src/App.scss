@@ -11,6 +11,10 @@ a {
   }
 }
 
+svg {
+  min-width: fit-content;
+}
+
 button {
   all: initial;
   border: 3px solid transparent;

@@ -1,0 +1,64 @@
+@use '../colours.scss' as *;
+@use '../spacing.scss' as *;
+@import '../mixins.scss';
+
+.select-buttons {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.select-buttons__legend {
+  padding: 0;
+  margin-bottom: $space-1;
+}
+
+.select-buttons__options {
+  display: flex;
+  width: 100%;
+  gap: $space-1;
+
+  @include mobile-only {
+    flex-direction: column;
+  }
+}
+
+.select-buttons__button {
+  opacity: 0;
+  position: absolute;
+}
+
+.select-buttons__tick {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.select-buttons__option {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: $space-0-75;
+  gap: $space-0-75;
+  border-radius: 8px;
+}
+
+.--light {
+  .select-buttons__option {
+    border: 2px solid $rpf-grey-150;
+  }
+
+  .select-buttons__option--selected {
+    border: 2px solid $rpf-text-primary;
+  }
+}
+
+.--dark {
+  .select-buttons__option {
+    border: 2px solid $rpf-grey-500;
+  }
+
+  .select-buttons__option--selected {
+    border: 2px solid $rpf-grey-300;
+  }
+}

@@ -238,6 +238,19 @@ i18n
           modals: {
             close: 'Close'
           },
+          newProjectModal: {
+            cancel: 'Cancel',
+            createProject: 'Create project',
+            heading: 'Create a new project',
+            projectName: {
+              default: 'Untitled',
+              helpText: 'You can always rename your project later',
+              inputLabel: 'Project name',
+            },
+            projectType: {
+              inputLabel: 'What kind of project do you want to make?'
+            }
+          },
           notifications: {
             close: "close",
             loginPrompt:
