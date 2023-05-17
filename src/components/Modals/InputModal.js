@@ -17,22 +17,18 @@ const InputModal = ({inputs, ...otherProps}) => {
         {inputs.map((input, i) => (
           <div key={i}>
             {input.type==='radio' ?
-            <>
               <SelectButtons
                 label={input.label}
                 options={input.options}
                 value={input.value}
                 setValue={input.setValue}
               />
-            </>
             :
-            <>
-              {/* <div> */}
-                <label htmlFor={i}>
-                  {input.label}
-                  <p className='modal-content__help-text'>{input.helpText}</p>
-                </label>
-              {/* </div> */}
+            <div className='modal-content__input-section'>
+              <label htmlFor={i}>
+                {input.label}
+                <p className='modal-content__help-text'>{input.helpText}</p>
+              </label>
               <div className='modal-content__input'>
                 {input.validateName ? <NameErrorMessage /> : null }
                 <input
@@ -42,7 +38,7 @@ const InputModal = ({inputs, ...otherProps}) => {
                   onChange={(e) => input.setValue(e.target.value)}
                   value={input.value}/>
               </div>
-            </>
+            </div>
             }
           </div>
         ))}

@@ -84,6 +84,12 @@
   gap: $space-2;
 }
 
+.modal-content__input-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-0-5;
+}
+
 .modal-content__buttons {
   padding: $space-1;
   display: flex;

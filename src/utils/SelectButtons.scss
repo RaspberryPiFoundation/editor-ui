@@ -26,10 +26,9 @@
 .select-buttons__button {
   opacity: 0;
   position: absolute;
-
-  // &:focus-visible {
-  //   outline: 3px solid $rpf-brand-raspberry;
-  // }
+  // height: 100%;
+  // width: 100%;
+  // margin: 0;
 }
 
 .select-buttons__tick {
@@ -45,9 +44,13 @@
   padding: $space-0-75;
   gap: $space-0-75;
   border-radius: 8px;
-  
+  position: relative;
+
   &:focus-within {
     outline: 3px solid $rpf-brand-raspberry;
+  }
+  &:focus {
+    outline: none;
   }
 }
 
