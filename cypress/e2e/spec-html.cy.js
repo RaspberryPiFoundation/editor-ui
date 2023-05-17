@@ -30,12 +30,13 @@ it("can make a new file", () => {
   cy.get(".htmlrunner-container").should("be.visible");
 });
 
-it("updates the preview after a change", () => {
+it("updates the preview after a change when you click run", () => {
   localStorage.clear();
   cy.visit(baseUrl);
+  cy.get(".btn--run").click()
   getIframeBody().should("not.include.text", "hello world");
   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.wait(2050);
+  cy.get(".btn--run").click()
   getIframeBody().find("p").should("include.text", "hello world");
 });
 
@@ -64,6 +65,7 @@ it("allows internal links", () => {
     '<a href="index.html">some internal link</a>'
   );
   cy.get(".btn--run").click()
+ 
   const internalLink = getIframeBody().find("a")
   internalLink.click();
   const content = getIframeBody().find("p")

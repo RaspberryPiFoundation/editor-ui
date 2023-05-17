@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Handling of internal/external links for HTML/CSS projects (#483)
 - Existing modals to use `GeneralModal` or `InputModal` (#491)
 - Refactored login logic to make this available outside of the login button (#491)
+- Turned off HTML autorun (#515)
 
 ### Fixed
 

@@ -6,6 +6,7 @@
 .file-pane {
   border-radius: 10px;
   width: 100%;
+  overflow: auto;
 
   summary {
     border: 3px solid transparent;
