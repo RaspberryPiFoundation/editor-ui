@@ -82,11 +82,11 @@ const EditorInput = () => {
                     panelIndex={panelIndex}
                   >
                     <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
+                      className={`react-tabs__tab-inner${!["main.py", "index.html"].includes(fileName) ? ' react-tabs__tab-inner--split': ''}`}
                       ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}
                     >
                       {fileName}
-                      {fileName !== 'main.py' ?
+                      {!["main.py", "index.html"].includes(fileName) ?
                         <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onKeyDown={(e) => e.stopPropagation()} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                       : null
                       }

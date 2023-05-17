@@ -56,6 +56,20 @@ function HtmlRunner() {
     return URL.createObjectURL(blob);
   };
 
+  const cssProjectImgs = (projectFile) => {
+    var updatedProjectFile = { ...projectFile };
+    if (projectFile.extension === "css") {
+      projectImages.forEach((image) => {
+        updatedProjectFile.content = updatedProjectFile.content.replace(
+          image.filename,
+          image.url
+        );
+      });
+    }
+    console.log(updatedProjectFile);
+    return updatedProjectFile;
+  };
+
   const parentTag = (node, tag) =>
     node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
 
@@ -118,7 +132,7 @@ function HtmlRunner() {
       if (!!projectFile.length) {
         if (parentTag(hrefNode, "head")) {
           const projectFileBlob = getBlobURL(
-            projectFile[0].content,
+            cssProjectImgs(projectFile[0]).content,
             `text/${projectFile[0].extension}`
           );
           hrefNode.setAttribute("href", projectFileBlob);
