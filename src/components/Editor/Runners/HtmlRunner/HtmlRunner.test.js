@@ -15,6 +15,11 @@ const anotherHTMLPage = {
   extension: "html",
   content: "<head></head><body><p>My amazing page</p></body>",
 };
+const allowedLinkHTMLPage = {
+  name: "allowed_link",
+  extension: "html",
+  content: '<head></head><body><a href="#">ANCHOR LINK!</a></body>',
+};
 
 describe("When page first loaded", () => {
   let store;
@@ -163,7 +168,7 @@ describe("When run button clicked", () => {
   });
 });
 
-describe("When an external link is clicked", () => {
+describe("When an external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
@@ -202,6 +207,86 @@ describe("When an external link is clicked", () => {
 
   test("Runs HTML code without the link", () => {
     expect(Blob).toHaveBeenCalledWith([output], {
+      type: "text/html",
+    });
+  });
+});
+
+describe("When a new tab link is rendered", () => {
+  let store;
+  const input =
+    '<head></head><body><a href="index.html" target="_blank">NEW TAB LINK!</a></body>';
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a></body>`;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            indexPage,
+            {
+              name: "some_file",
+              extension: "html",
+              content: input,
+            },
+          ],
+        },
+        focussedFileIndices: [1],
+        openFiles: [["index.html", "some_file.html"]],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        errorModalShowing: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <HtmlRunner />
+        </div>
+      </Provider>
+    );
+  });
+
+  test("Runs HTML code removes target attribute", () => {
+    expect(Blob).toHaveBeenCalledWith([output], {
+      type: "text/html",
+    });
+  });
+});
+
+describe("When an allowed link is rendered", () => {
+  let store;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [allowedLinkHTMLPage],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["allowed_link.html"]],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        errorModalShowing: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <HtmlRunner />
+        </div>
+      </Provider>
+    );
+  });
+
+  test("Runs HTML code without changes", () => {
+    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLPage.content], {
       type: "text/html",
     });
   });

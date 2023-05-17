@@ -141,7 +141,7 @@ function HtmlRunner() {
         hrefNode.removeAttribute("target");
       }
 
-      let onClickMsg;
+      let onClick;
 
       if (!!projectFile.length) {
         if (parentTag(hrefNode, "head")) {
@@ -151,19 +151,23 @@ function HtmlRunner() {
           );
           hrefNode.setAttribute("href", projectFileBlob);
         } else {
+          // eslint-disable-next-line no-script-url
           hrefNode.setAttribute("href", "javascript:void(0)");
-          onClickMsg = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
+          onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
         }
       } else {
         if (
           !allowedHrefs.includes(hrefNode.attrs.href) &&
           !parentTag(hrefNode, "head")
         ) {
+          // eslint-disable-next-line no-script-url
           hrefNode.setAttribute("href", "javascript:void(0)");
-          onClickMsg = "window.parent.postMessage('ERROR: External link')";
+          onClick = "window.parent.postMessage('ERROR: External link')";
         }
       }
-      hrefNode.setAttribute("onclick", onClickMsg);
+      if (onClick) {
+        hrefNode.setAttribute("onclick", onClick);
+      }
     });
 
     const srcNodes = indexPage.querySelectorAll("[src]");
