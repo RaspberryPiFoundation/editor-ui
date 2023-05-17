@@ -33,10 +33,10 @@ it("can make a new file", () => {
 it("updates the preview after a change when you click run", () => {
   localStorage.clear();
   cy.visit(baseUrl);
-  cy.get(".btn--run").click()
+  cy.get(".btn--run").click();
   getIframeBody().should("not.include.text", "hello world");
   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.get(".btn--run").click()
+  cy.get(".btn--run").click();
   getIframeBody().find("p").should("include.text", "hello world");
 });
 
@@ -47,7 +47,7 @@ it("blocks external links", () => {
     "text",
     '<a href="https://raspberrypi.org/en/">some external link</a>'
   );
-  cy.get(".btn--run").click()
+  cy.get(".btn--run").click();
   getIframeBody().find("a").click();
   cy.get("div[class=modal-content__header]")
     .find("h2")
@@ -58,16 +58,16 @@ it("allows internal links", () => {
   localStorage.clear();
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.get(".btn--run").click()
+  cy.get(".btn--run").click();
   makeNewFile();
   cy.get("div[class=cm-content]").invoke(
     "text",
     '<a href="index.html">some internal link</a>'
   );
-  cy.get(".btn--run").click()
- 
-  const internalLink = getIframeBody().find("a")
+  cy.get(".btn--run").click();
+
+  const internalLink = getIframeBody().find("a");
   internalLink.click();
-  const content = getIframeBody().find("p")
+  const content = getIframeBody().find("p");
   content.should("include.text", "hello world");
 });

@@ -44,11 +44,9 @@ function HtmlRunner() {
   const previewable = (file) => file.endsWith(".html");
 
   const [previewFile, setPreviewFile] = useState(
-    focussedComponent(
-      previewable(openFiles[focussedFileIndex])
-        ? openFiles[focussedFileIndex]
-        : "index.html"
-    )
+    previewable(openFiles[focussedFileIndex])
+      ? openFiles[focussedFileIndex]
+      : "index.html"
   );
 
   const showModal = () => {
@@ -86,7 +84,7 @@ function HtmlRunner() {
           setError("externalLink");
         }
       } else if (event.data?.msg && typeof event.data?.msg === "string") {
-        setPreviewFile(focussedComponent(`${event.data.payload.linkTo}.html`));
+        setPreviewFile(`${event.data.payload.linkTo}.html`);
         dispatch(triggerCodeRun());
       }
     });
@@ -98,14 +96,14 @@ function HtmlRunner() {
 
   useEffect(() => {
     if (justLoaded && isEmbedded) {
-      runCode();
+      dispatch(triggerCodeRun());
     } else if (!justLoaded && autorunEnabled) {
       timeout = setTimeout(() => {
-        runCode();
+        dispatch(triggerCodeRun());
       }, 2000);
       return () => clearTimeout(timeout);
     }
-  }, [projectCode]);
+  }, [previewFile]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -115,7 +113,7 @@ function HtmlRunner() {
 
   useEffect(() => {
     if (previewable(openFiles[focussedFileIndex])) {
-      setPreviewFile(focussedComponent(openFiles[focussedFileIndex]));
+      setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
 
@@ -127,7 +125,7 @@ function HtmlRunner() {
   }, [error]);
 
   const runCode = () => {
-    let indexPage = parse(previewFile.content);
+    let indexPage = parse(focussedComponent(previewFile).content);
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
