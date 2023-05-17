@@ -39,7 +39,8 @@ const RenameFile = () => {
         {
           label: t('filePane.renameFileModal.inputLabel'),
           value: fileName,
-          setValue: setFileName
+          setValue: setFileName,
+          validateName: true
         }
       ]}
       defaultCallback={renameComponent}

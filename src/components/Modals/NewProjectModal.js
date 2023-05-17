@@ -20,7 +20,7 @@ const NewProjectModal = () => {
   const closeModal = () => dispatch(closeNewProjectModal())
 
   const [projectName, setProjectName] = useState(t('newProjectModal.projectName.default'))
-  const [projectType, setProjectType] = useState('python')
+  const [projectType, setProjectType] = useState()
 
   const navigate = useNavigate()
 

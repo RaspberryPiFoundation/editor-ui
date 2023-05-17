@@ -41,7 +41,8 @@ const NewFileModal = () => {
           label: t('filePane.newFileModal.inputLabel'),
           helpText: t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)}),
           value: fileName,
-          setValue: setFileName
+          setValue: setFileName,
+          validateName: true
         }
       ]}
       defaultCallback={createComponent}

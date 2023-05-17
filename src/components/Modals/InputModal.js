@@ -7,7 +7,7 @@ const InputModal = ({inputs, ...otherProps}) => {
 
   const inputBox = useCallback((node) => {
     if (node) {
-      node.focus()
+      node.select()
     }
   }, [])
 
@@ -18,10 +18,6 @@ const InputModal = ({inputs, ...otherProps}) => {
           <div key={i}>
             {input.type==='radio' ?
             <>
-              {/* <div>
-                <label htmlFor={i}>{input.label}</label>
-                <p className='modal-content__help-text'>{input.helpText}</p>
-              </div> */}
               <SelectButtons
                 label={input.label}
                 options={input.options}
@@ -31,14 +27,16 @@ const InputModal = ({inputs, ...otherProps}) => {
             </>
             :
             <>
-              <div>
-                <label htmlFor={i}>{input.label}</label>
-                <p className='modal-content__help-text'>{input.helpText}</p>
-              </div>
+              {/* <div> */}
+                <label htmlFor={i}>
+                  {input.label}
+                  <p className='modal-content__help-text'>{input.helpText}</p>
+                </label>
+              {/* </div> */}
               <div className='modal-content__input'>
-                <NameErrorMessage />
+                {input.validateName ? <NameErrorMessage /> : null }
                 <input
-                  ref={inputBox}
+                  ref={i===0 ? inputBox : null}
                   type='text'
                   id={i}
                   onChange={(e) => input.setValue(e.target.value)}

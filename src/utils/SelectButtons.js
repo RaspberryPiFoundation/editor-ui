@@ -25,7 +25,6 @@ const SelectButtons = ({label, options, value, setValue}) => {
               </div>
               : null}
             </label>
-          // </div>
         ))}
       </div>
 
