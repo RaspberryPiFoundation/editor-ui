@@ -31,7 +31,7 @@ beforeEach(() => {
       </div>
     </Provider>
   )
-  inputBox = screen.getByLabelText('input')
+  inputBox = screen.getByLabelText(/input/)
 })
 
 test('Renders help text', () => {

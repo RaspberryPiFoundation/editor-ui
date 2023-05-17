@@ -42,10 +42,6 @@
   box-sizing: border-box;
 }
 
-.select-buttons__button:focus-visible + .select-buttons__label {
-  outline: 3px solid $rpf-brand-raspberry;
-}
-
 .select-buttons__tick {
   display: flex;
   align-items: center;
@@ -70,4 +66,8 @@
   .select-buttons__label--selected {
     border: 2px solid $rpf-grey-300;
   }
+}
+
+.select-buttons__button:focus-visible + .select-buttons__label {
+  outline: 3px solid $rpf-brand-raspberry;
 }
