@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
-import { codeRunHandled } from "../../EditorSlice";
+import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
 
 const indexPage = {
   name: "index",
@@ -120,14 +120,14 @@ describe("When page first loaded in embedded viewer", () => {
     expect(screen.queryByTitle("runners.HtmlOutput")).toBeInTheDocument();
   });
 
-  test("Runs HTML code", async () => {
-    expect(Blob).toHaveBeenCalledWith([indexPage.content], {
-      type: "text/html",
-    });
+  test("Dispatches action to trigger code run", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([triggerCodeRun()])
+    );
   });
 });
 
-describe("When run button clicked", () => {
+describe("When run run triggered", () => {
   let store;
 
   beforeEach(() => {
