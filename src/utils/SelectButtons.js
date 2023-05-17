@@ -8,23 +8,26 @@ const SelectButtons = ({label, options, value, setValue}) => {
       <legend className='select-buttons__legend'>{label}</legend>
       <div className='select-buttons__options'>
         {options.map((option, i) => (
-            <label className={`select-buttons__option${option.value === value ? ' select-buttons__option--selected': ''}`} key={i} htmlFor={`option${i}`}>
+          <div className='select-buttons__option'>
+            <input
+              className='select-buttons__button'
+              type='radio'
+              id={`option${i}`}
+              value={option.value}
+              onChange={(e) => setValue(e.target.value)}
+              checked={option.value === value}
+            />
+            <label className={`select-buttons__label${option.value === value ? ' select-buttons__label--selected': ''}`} key={i} htmlFor={`option${i}`}>
               {option.Icon ? <option.Icon/> : null}
                 {option.label}
-              <input
-                className='select-buttons__button'
-                type='radio'
-                id={`option${i}`}
-                value={option.value}
-                onChange={(e) => setValue(e.target.value)}
-                checked={option.value === value}
-              />
+              {/* <div className='dodgy-div'></div> */}
               {option.value === value ?
               <div className='select-buttons__tick'>
                 <SelectButtonsTick />
               </div>
               : null}
             </label>
+          </div>
         ))}
       </div>
 
