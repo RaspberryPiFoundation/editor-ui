@@ -10,6 +10,7 @@ import {
   codeRunHandled,
   triggerCodeRun,
 } from "../../EditorSlice";
+import { useTranslation } from "react-i18next";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -24,7 +25,12 @@ function HtmlRunner() {
   const openFiles = useSelector((state) => state.editor.openFiles)[
     firstPanelIndex
   ];
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
+  const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
@@ -88,11 +94,18 @@ function HtmlRunner() {
 
   useEffect(() => eventListener(), []);
 
+  let timeout;
+
   useEffect(() => {
-    if (previewable(openFiles[focussedFileIndex])) {
-      setPreviewFile(focussedComponent(openFiles[focussedFileIndex]));
+    if (justLoaded && isEmbedded) {
+      runCode();
+    } else if (!justLoaded && autorunEnabled) {
+      timeout = setTimeout(() => {
+        runCode();
+      }, 2000);
+      return () => clearTimeout(timeout);
     }
-  }, [projectCode, focussedFileIndex, openFiles]);
+  }, [projectCode]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -101,9 +114,10 @@ function HtmlRunner() {
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    // setPreviewFile(openFiles[focussedFileIndex]);
-    runCode();
-  }, [previewFile]);
+    if (previewable(openFiles[focussedFileIndex])) {
+      setPreviewFile(focussedComponent(openFiles[focussedFileIndex]));
+    }
+  }, [focussedFileIndex, openFiles]);
 
   useEffect(() => {
     if (error) {
@@ -173,12 +187,14 @@ function HtmlRunner() {
   return (
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
-      <iframe
-        className="htmlrunner-iframe"
-        id="output-frame"
-        title="html-output-frame"
-        ref={output}
-      />
+      {isEmbedded || autorunEnabled || codeHasBeenRun ? (
+        <iframe
+          className="htmlrunner-iframe"
+          id="output-frame"
+          title={t("runners.HtmlOutput")}
+          ref={output}
+        />
+      ) : null}
     </div>
   );
 }

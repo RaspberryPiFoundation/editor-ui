@@ -1,15 +1,12 @@
 @use '../../../../colours' as *;
 
 .htmlrunner-container {
-  border-top: 1px solid #aaa;
-  margin-right: 20px;
-  margin-top: 30px;
-  padding-top: 10px;
   height: 100%;
   width: 100%;
 }
 
 .htmlrunner-iframe {
+  border: none;
   background-color: $rpf-white;
   border: 1px solid #ddd;
   height: 100%;

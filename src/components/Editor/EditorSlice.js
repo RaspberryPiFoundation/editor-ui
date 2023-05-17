@@ -81,7 +81,9 @@ export const EditorSlice = createSlice({
     openFiles: [[]],
     focussedFileIndices: [0],
     nameError: "",
+    autorunEnabled: false,
     codeRunTriggered: false,
+    codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
     isSplitView: true,
@@ -226,6 +228,7 @@ export const EditorSlice = createSlice({
     },
     triggerCodeRun: (state) => {
       state.codeRunTriggered = true;
+      state.codeHasBeenRun = true;
     },
     stopCodeRun: (state) => {
       state.codeRunStopped = true;
