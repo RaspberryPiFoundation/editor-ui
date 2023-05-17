@@ -90,7 +90,7 @@ const EditorInput = () => {
                         <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onKeyDown={(e) => e.stopPropagation()} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                       : null
                       }
-                    </span>  
+                    </span>
                   </DraggableTab>
                 ))}
               </DroppableTabList>

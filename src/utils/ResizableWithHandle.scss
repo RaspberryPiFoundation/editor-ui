@@ -1,8 +1,19 @@
 .resizable-with-handle__handle div  {
-  right: 6px !important;
   z-index: 10;
+}
+
+.resizable-with-handle__handle--right div {
+  right: 7px !important;
 
   svg {
     height: 100%;
+  }
+}
+
+.resizable-with-handle__handle--bottom div {
+  bottom: 7px !important;
+
+  svg {
+    width: 100%;
   }
 }

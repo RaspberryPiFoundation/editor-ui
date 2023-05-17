@@ -7,6 +7,8 @@ import Project from "./Project";
 import { expireJustLoaded, setHasShownSavePrompt, syncProject } from "../EditorSlice";
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from "../../../utils/Notifications";
 
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
+
 jest.mock('axios');
 
 jest.mock('react-router-dom', () => ({
@@ -52,19 +54,19 @@ const project = {
 }
 
 test("Renders with file menu if not for web component", () => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
-    const initialState = {
-      editor: {
-        project: {
-          components: []
-        },
-        openFiles: [[]],
-        focussedFileIndices: [0]
+  const middlewares = []
+  const mockStore = configureStore(middlewares)
+  const initialState = {
+    editor: {
+      project: {
+        components: []
       },
-      auth: {}
-    }
-    const store = mockStore(initialState);
+      openFiles: [[]],
+      focussedFileIndices: [0]
+    },
+    auth: {}
+  }
+  const store = mockStore(initialState);
   const {queryByText} = render(<Provider store={store}><div id="app"><Project/></div></Provider>)
   expect(queryByText('filePane.files')).not.toBeNull()
 })
@@ -402,22 +404,49 @@ describe('When logged in and user owns project', () => {
 
 test('Successful manual save prompts project saved message', async () => {
   const middlewares = []
+  const mockStore = configureStore(middlewares)
+  const initialState = {
+    editor: {
+      project: {
+        components: []
+      },
+      openFiles: [[]],
+      focussedFileIndices: [0],
+      saving: 'success',
+      lastSaveAutosave: false
+    },
+    auth: {}
+  }
+  const mockedStore = mockStore(initialState);
+  render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
+  await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
+})
+
+// TODO: Write test for successful autosave not prompting the project saved message as per the above
+
+describe('When not logged in and falling on default container width', () => {
+  test("Shows bottom drag bar with expected params", () => {
+    const middlewares = []
     const mockStore = configureStore(middlewares)
     const initialState = {
       editor: {
-        project: {
-          components: []
-        },
-        openFiles: [[]],
-        focussedFileIndices: [0],
-        saving: 'success',
-        lastSaveAutosave: false
+        project: project,
+        openFiles: [['main.py']],
+        focussedFileIndices: [0]
       },
       auth: {}
     }
     const mockedStore = mockStore(initialState);
-    render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
-    await waitFor(() => expect(showSavedMessage).toHaveBeenCalled())
-})
+    const { getByTestId } = render(<Provider store={mockedStore}><div id="app"><Project/></div></Provider>);
 
-// TODO: Write test for successful autosave not prompting the project saved message as per the above
+    const container = getByTestId('proj-editor-container');
+    expect(container).toHaveStyle({
+      'min-width': '25%',
+      'max-width': '100%',
+      'width': '100%',
+      'height': '50%',
+    });
+
+    expect(container.getElementsByClassName('resizable-with-handle__handle--bottom').length).toBe(1);
+  })
+})

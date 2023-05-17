@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
 - Help text in the new file modal (#478)
 - Add dev-container support (#489)
+- Add input/output responsiveness (#473)
 - Ability to drag and drop input panel tabs (#438)
 - Distinguish icon type (#470)
 - Custom callback when Enter pressed in modals (#491)
