@@ -1,5 +1,5 @@
 import configureStore from "redux-mock-store";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
@@ -10,17 +10,6 @@ const indexPage = {
   extension: "html",
   content:
     '<!DOCTYPE html><html lang="en"><head></head><body><p>hello world</p></body></html>',
-};
-const anotherHTMLPage = {
-  name: "amazing",
-  extension: "html",
-  content:
-    '<!DOCTYPE html><html lang="en"><head></head><body><p>My amazing page</p></body></html>',
-};
-const stylesheet = {
-  name: "styles",
-  extension: "css",
-  content: "p {color: red}",
 };
 
 describe("When page first loaded", () => {
@@ -37,6 +26,8 @@ describe("When page first loaded", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         justLoaded: true,
+        autorunEnabled: false,
+        codeHasBeenRun: false,
         errorModalShowing: false,
       },
     };
@@ -50,50 +41,12 @@ describe("When page first loaded", () => {
     );
   });
 
-  test("iframe exists", () => {
-    const iframe = document.getElementsByClassName("htmlrunner-iframe")[0];
-    expect(iframe).toBeInTheDocument();
-  });
-
-  test("Runs HTML code", async () => {
-    expect(Blob).toHaveBeenCalledWith([indexPage.content], {
-      type: "text/html",
-    });
+  test("iframe does not exist", () => {
+    expect(screen.queryByTitle('runners.HtmlOutput')).not.toBeInTheDocument()
   });
 });
 
-describe("When focussed on another HTML file", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage, anotherHTMLPage],
-        },
-        focussedFileIndices: [1],
-        openFiles: [["index.html", "amazing.html"]],
-        errorModalShowing: false,
-      }
-    }
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
-      </Provider>
-    );
-  });
-
-  test("Shows page related to focussed file", () => {
-    expect(Blob).toHaveBeenCalledWith([anotherHTMLPage.content], {
-      type: "text/html",
-    });
-  });
-});
-
-describe("When focussed on CSS file", () => {
+describe("When page first loaded in embedded viewer", () => {
   let store;
 
   beforeEach(() => {
@@ -102,13 +55,15 @@ describe("When focussed on CSS file", () => {
     const initialState = {
       editor: {
         project: {
-          components: [indexPage, stylesheet],
+          components: [indexPage],
         },
-        focussedFileIndices: [1],
-        openFiles: [["index.html", "styles.css"]],
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        justLoaded: true,
         errorModalShowing: false,
-      }
-    }
+        isEmbedded: true
+      },
+    };
     store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -119,7 +74,11 @@ describe("When focussed on CSS file", () => {
     );
   });
 
-  test("Runs HTML code", () => {
+  test("iframe exists", () => {
+    expect(screen.queryByTitle('runners.HtmlOutput')).toBeInTheDocument()
+  });
+
+  test("Runs HTML code", async () => {
     expect(Blob).toHaveBeenCalledWith([indexPage.content], {
       type: "text/html",
     });
@@ -140,6 +99,7 @@ describe("When run button clicked", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         codeRunTriggered: true,
+        codeHasBeenRun: true,
         errorModalShowing: false,
       },
     };
@@ -189,6 +149,7 @@ describe("When an external link is clicked", () => {
         focussedFileIndices: [0],
         openFiles: [["index.html"]],
         codeRunTriggered: true,
+        codeHasBeenRun: true,
         errorModalShowing: false,
       },
     };

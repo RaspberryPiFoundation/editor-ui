@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
 - Help text in the new file modal (#478)
 - Add dev-container support (#489)
+- Add input/output responsiveness (#473)
 - Ability to drag and drop input panel tabs (#438)
 - Distinguish icon type (#470)
 - Custom callback when Enter pressed in modals (#491)
@@ -26,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Handling of internal/external links for HTML/CSS projects (#483)
 - Existing modals to use `GeneralModal` or `InputModal` (#491)
 - Refactored login logic to make this available outside of the login button (#491)
+- Turned off HTML autorun (#515)
 
 ### Fixed
 

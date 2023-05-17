@@ -112,12 +112,12 @@ i18n
         translation: {
           // here we will place our translations...
           modal: {
-            close: "close",
+            close: "Close",
             error: {
               heading: "An error has occurred",
               externalLink: {
                 message:
-                  "Unfortunately links to external sites are not available in the editor.",
+                  "Unfortunately links to external sites are not available in the Editor.",
               },
             },
           },
@@ -358,6 +358,9 @@ i18n
             run: "Run",
             stop: "Stop",
             stopping: "Stopping...",
+          },
+          runners: {
+            HtmlOutput: 'HTML Output Preview'
           },
           sideMenu: {
             collapse: "Collapse file pane",

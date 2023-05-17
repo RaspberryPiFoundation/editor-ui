@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {  useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { useContainerQuery } from 'react-container-query';
+import classnames from 'classnames';
 
 import './Project.scss';
 import Output from '../Output/Output'
@@ -17,7 +19,7 @@ import SideMenu from '../../Menus/SideMenu/SideMenu';
 import EditorInput from '../EditorInput/EditorInput';
 import NewFileModal from '../../Modals/NewFileModal';
 import ResizableWithHandle from '../../../utils/ResizableWithHandle';
-
+import { projContainer } from '../../../utils/containerQueries';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -95,14 +97,39 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+  const [params, containerRef] = useContainerQuery(projContainer);
+  const [defaultWidth, setDefaultWidth] = useState('auto');
+  const [defaultHeight, setDefaultHeight] = useState('auto');
+  const [maxWidth, setMaxWidth] = useState('100%');
+  const [handleDirection, setHandleDirection] = useState('right');
+
+  useMemo(() => {
+    const isDesktop = params['width-larger-than-880'];
+
+    setDefaultWidth(isDesktop ? '50%' : '100%');
+    setDefaultHeight(isDesktop ? '100%' : '50%');
+    setMaxWidth(isDesktop ? '75%' : '100%');
+    setHandleDirection(isDesktop ? 'right' : 'bottom');
+  }, [params]);
+
   return (
     <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <ResizableWithHandle className='proj-editor-container' minWidth='15%' maxWidth='75%'>
-          <EditorInput />
-        </ResizableWithHandle>
-        <Output />
+      <div ref={containerRef} className={classnames('proj-container', {'proj-container--wc': forWebComponent})}>
+        {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
+        <div className='proj-editor-wrapper'>
+          <ResizableWithHandle
+            data-testid='proj-editor-container'
+            className='proj-editor-container'
+            defaultWidth={defaultWidth}
+            defaultHeight={defaultHeight}
+            handleDirection={handleDirection}
+            minWidth='25%'
+            maxWidth={maxWidth}
+          >
+            <EditorInput />
+          </ResizableWithHandle>
+          <Output />
+        </div>
       </div>
       {(newFileModalShowing) ? <NewFileModal /> : null}
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}

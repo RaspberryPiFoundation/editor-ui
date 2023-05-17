@@ -6,6 +6,7 @@ import { parse } from "node-html-parser";
 
 import ErrorModal from "../../../Modals/ErrorModal";
 import { showErrorModal, codeRunHandled } from "../../EditorSlice";
+import { useTranslation } from "react-i18next";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
@@ -20,7 +21,11 @@ function HtmlRunner() {
     (state) => state.editor.codeRunTriggered
   );
   const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
+  const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
 
+  const { t } = useTranslation()
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
@@ -57,27 +62,23 @@ function HtmlRunner() {
 
   useEffect(() => errorListener(), []);
   let timeout;
-
+  
   useEffect(() => {
-    if (justLoaded) {
+    if (justLoaded && isEmbedded) {
       runCode();
-    } else {
+    } else if (!justLoaded && autorunEnabled) {
       timeout = setTimeout(() => {
         runCode();
       }, 2000);
       return () => clearTimeout(timeout);
     }
-  }, [projectCode, focussedFileIndex]);
+  }, [projectCode]);
 
   useEffect(() => {
     if (codeRunTriggered) {
       runCode();
     }
   }, [codeRunTriggered]);
-
-  useEffect(() => {
-    runCode();
-  }, [focussedFileIndex]);
 
   useEffect(() => {
     if (error) {
@@ -143,12 +144,14 @@ function HtmlRunner() {
   return (
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
-      <iframe
-        className="htmlrunner-iframe"
-        id="output-frame"
-        title="html-output-frame"
-        ref={output}
-      />
+      {isEmbedded || autorunEnabled || codeHasBeenRun ?
+        <iframe
+          className="htmlrunner-iframe"
+          id="output-frame"
+          title={t('runners.HtmlOutput')}
+          ref={output}
+        /> : null
+      }
     </div>
   );
 }
