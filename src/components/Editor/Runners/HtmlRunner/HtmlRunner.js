@@ -70,7 +70,6 @@ function HtmlRunner() {
         );
       });
     }
-    console.log(updatedProjectFile);
     return updatedProjectFile;
   };
 
@@ -79,13 +78,13 @@ function HtmlRunner() {
 
   const eventListener = () => {
     window.addEventListener("message", (event) => {
-      if (typeof event.data === "string" || typeof event.data === "string") {
-        if (event.data === "ERROR: External link") {
+      if (event.data?.msg && typeof event.data?.msg === "string") {
+        if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
+        } else {
+          setPreviewFile(`${event.data.payload.linkTo}.html`);
+          dispatch(triggerCodeRun());
         }
-      } else if (event.data?.msg && typeof event.data?.msg === "string") {
-        setPreviewFile(`${event.data.payload.linkTo}.html`);
-        dispatch(triggerCodeRun());
       }
     });
   };
@@ -160,7 +159,7 @@ function HtmlRunner() {
         ) {
           // eslint-disable-next-line no-script-url
           hrefNode.setAttribute("href", "javascript:void(0)");
-          onClick = "window.parent.postMessage('ERROR: External link')";
+          onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
         }
       }
       if (onClick) {

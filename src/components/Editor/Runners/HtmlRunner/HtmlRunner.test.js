@@ -172,7 +172,7 @@ describe("When an external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage('ERROR: External link')">EXTERNAL LINK!</a></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a></body>`;
 
   beforeEach(() => {
     const middlewares = [];
