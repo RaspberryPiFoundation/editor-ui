@@ -9,6 +9,7 @@ services:
     stdin_open: true
     volumes:
       - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
       - node_modules:/app/node_modules # ensures we retain node_modules from docker build
   react-ui-wc:
     build: .
