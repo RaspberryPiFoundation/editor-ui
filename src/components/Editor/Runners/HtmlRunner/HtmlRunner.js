@@ -78,7 +78,7 @@ function HtmlRunner() {
 
   const eventListener = () => {
     window.addEventListener("message", (event) => {
-      if (event.data?.msg && typeof event.data?.msg === "string") {
+      if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
         } else {
