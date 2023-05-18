@@ -1,8 +1,10 @@
 import React, { createRef, useEffect, useRef, useState } from 'react'
 import { DragDropContext } from '@hello-pangea/dnd'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeFile, setFocussedFileIndex, setOpenFiles } from '../EditorSlice'
 import { TabPanel, Tabs } from 'react-tabs'
+import classNames from 'classnames';
+
+import { closeFile, setFocussedFileIndex, setOpenFiles } from '../EditorSlice'
 import Button from '../../Button/Button'
 import { CloseIcon } from '../../../Icons'
 import EditorPanel from '../EditorPanel/EditorPanel'
@@ -82,11 +84,14 @@ const EditorInput = () => {
                     panelIndex={panelIndex}
                   >
                     <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
+                      className={classNames(
+                        'react-tabs__tab-inner',
+                        {'react-tabs__tab-inner--split': !["main.py", "index.html"].includes(fileName)}
+                      )}
                       ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}
                     >
                       {fileName}
-                      {fileName !== 'main.py' ?
+                      {!["main.py", "index.html"].includes(fileName) ?
                         <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onKeyDown={(e) => e.stopPropagation()} onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
                       : null
                       }

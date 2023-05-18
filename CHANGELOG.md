@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Color naming convention (#474)
 - Fix Web App Manifest logos, colors, and titles (#446)
 - Ability to run HTML projects by clicking run button (#481)
+- Internal/external HTML project links (#521)
 
 ## [0.15.0] - 2023-04-27
 

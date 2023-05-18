@@ -5,30 +5,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 
 import ErrorModal from "../../../Modals/ErrorModal";
-import { showErrorModal, codeRunHandled } from "../../EditorSlice";
+import {
+  showErrorModal,
+  codeRunHandled,
+  triggerCodeRun,
+} from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
 
 function HtmlRunner() {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectImages = useSelector((state) => state.editor.project.image_list);
-
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered
+  );
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
     (state) => state.editor.focussedFileIndices
   )[firstPanelIndex];
-  const openFiles = useSelector((state) => state.editor.openFiles)[firstPanelIndex];
-  const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
-  );
+  const openFiles = useSelector((state) => state.editor.openFiles)[
+    firstPanelIndex
+  ];
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
+  const allowedHrefs = ["#"];
+
+  const focussedComponent = (fileName = "index.html") =>
+    projectCode.filter(
+      (component) => `${component.name}.${component.extension}` === fileName
+    )[0];
+
+  const previewable = (file) => file.endsWith(".html");
+
+  const [previewFile, setPreviewFile] = useState(
+    previewable(openFiles[focussedFileIndex])
+      ? openFiles[focussedFileIndex]
+      : "index.html"
+  );
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -36,43 +55,54 @@ function HtmlRunner() {
 
   const closeModal = () => setError(null);
 
-  const htmlFiles = projectCode.filter(
-    (component) => component.extension === "html"
-  );
-
-  const fileName = openFiles[focussedFileIndex];
-  const focussedComponent = projectCode.find(
-    (component) => `${component.name}.${component.extension}` === fileName
-  );
-
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
     return URL.createObjectURL(blob);
   };
 
-  const errorListener = () => {
+  const cssProjectImgs = (projectFile) => {
+    var updatedProjectFile = { ...projectFile };
+    if (projectFile.extension === "css") {
+      projectImages.forEach((image) => {
+        updatedProjectFile.content = updatedProjectFile.content.replace(
+          image.filename,
+          image.url
+        );
+      });
+    }
+    return updatedProjectFile;
+  };
+
+  const parentTag = (node, tag) =>
+    node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
+
+  const eventListener = () => {
     window.addEventListener("message", (event) => {
-      if (typeof event.data === "string" || event.data instanceof String) {
-        if (event.data === "ERROR: External link") {
+      if (typeof event.data?.msg === "string") {
+        if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
+        } else {
+          setPreviewFile(`${event.data.payload.linkTo}.html`);
+          dispatch(triggerCodeRun());
         }
       }
     });
   };
 
-  useEffect(() => errorListener(), []);
+  useEffect(() => eventListener(), []);
+
   let timeout;
-  
+
   useEffect(() => {
     if (justLoaded && isEmbedded) {
-      runCode();
+      dispatch(triggerCodeRun());
     } else if (!justLoaded && autorunEnabled) {
       timeout = setTimeout(() => {
-        runCode();
+        dispatch(triggerCodeRun());
       }, 2000);
       return () => clearTimeout(timeout);
     }
-  }, [projectCode]);
+  }, [previewFile]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -81,19 +111,20 @@ function HtmlRunner() {
   }, [codeRunTriggered]);
 
   useEffect(() => {
+    if (previewable(openFiles[focussedFileIndex])) {
+      setPreviewFile(openFiles[focussedFileIndex]);
+    }
+  }, [focussedFileIndex, openFiles]);
+
+  useEffect(() => {
     if (error) {
       showModal();
-      errorListener();
+      eventListener();
     }
   }, [error]);
 
   const runCode = () => {
-    const indexHTML = htmlFiles.find(
-      (component) => `${component.name}.${component.extension}` === "index.html"
-    );
-    const componentToPreview =
-      focussedComponent.extension === "html" ? focussedComponent : indexHTML;
-    let indexPage = parse(componentToPreview.content);
+    let indexPage = parse(focussedComponent(previewFile).content);
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
@@ -102,23 +133,37 @@ function HtmlRunner() {
       const projectFile = projectCode.filter(
         (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href
       );
+      // remove target blanks
+      if (hrefNode.attrs?.target === "_blank") {
+        hrefNode.removeAttribute("target");
+      }
+
+      let onClick;
+
       if (!!projectFile.length) {
-        const projectFileBlob = getBlobURL(
-          projectFile[0].content,
-          `text/${projectFile[0].extension}`
-        );
-        hrefNode.setAttribute("href", projectFileBlob);
+        if (parentTag(hrefNode, "head")) {
+          const projectFileBlob = getBlobURL(
+            cssProjectImgs(projectFile[0]).content,
+            `text/${projectFile[0].extension}`
+          );
+          hrefNode.setAttribute("href", projectFileBlob);
+        } else {
+          // eslint-disable-next-line no-script-url
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
+        }
       } else {
         if (
-          !hrefNode.parentNode?.tagName ||
-          hrefNode.parentNode.tagName.toLowerCase() !== "head"
+          !allowedHrefs.includes(hrefNode.attrs.href) &&
+          !parentTag(hrefNode, "head")
         ) {
-          hrefNode.setAttribute("href", "#");
-          hrefNode.setAttribute(
-            "onclick",
-            "window.parent.postMessage('ERROR: External link')"
-          );
+          // eslint-disable-next-line no-script-url
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
         }
+      }
+      if (onClick) {
+        hrefNode.setAttribute("onclick", onClick);
       }
     });
 
@@ -138,20 +183,19 @@ function HtmlRunner() {
     if (codeRunTriggered) {
       dispatch(codeRunHandled());
     }
-    clearTimeout(timeout);
   };
 
   return (
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
-      {isEmbedded || autorunEnabled || codeHasBeenRun ?
+      {isEmbedded || autorunEnabled || codeHasBeenRun ? (
         <iframe
           className="htmlrunner-iframe"
           id="output-frame"
-          title={t('runners.HtmlOutput')}
+          title={t("runners.HtmlOutput")}
           ref={output}
-        /> : null
-      }
+        />
+      ) : null}
     </div>
   );
 }
