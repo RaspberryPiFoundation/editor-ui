@@ -22,12 +22,14 @@ const makeNewFile = (filename = "new.html") => {
 
 it("renders the html runner", () => {
   cy.visit(baseUrl);
+  cy.get('.btn--run').click()
   cy.get(".htmlrunner-container").should("be.visible");
 });
 
 it("can make a new file", () => {
   cy.visit(baseUrl);
-  cy.get(".htmlrunner-container").should("be.visible");
+  makeNewFile("amazing.html");
+  cy.get(".files-list").should("include.text", "amazing.html");
 });
 
 it("updates the preview after a change when you click run", () => {
