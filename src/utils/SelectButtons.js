@@ -20,7 +20,6 @@ const SelectButtons = ({label, options, value, setValue}) => {
             <label className={`select-buttons__label${option.value === value ? ' select-buttons__label--selected': ''}`} key={i} htmlFor={`option${i}`}>
               {option.Icon ? <option.Icon/> : null}
                 {option.label}
-              {/* <div className='dodgy-div'></div> */}
               {option.value === value ?
               <div className='select-buttons__tick'>
                 <SelectButtonsTick />
@@ -30,7 +29,6 @@ const SelectButtons = ({label, options, value, setValue}) => {
           </div>
         ))}
       </div>
-
     </fieldset>
   )
 }
