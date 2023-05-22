@@ -20,6 +20,7 @@ const RenameFile = () => {
   const [fileName, setFileName] = useState(`${currentName}.${currentExtension}`)
 
   const renameComponent = () => {
+    console.log('renaming component')
     const name = fileName.split('.')[0];
     const extension = fileName.split('.').slice(1).join('.');
 

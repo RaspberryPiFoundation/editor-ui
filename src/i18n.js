@@ -248,7 +248,9 @@ i18n
               inputLabel: 'Project name',
             },
             projectType: {
-              inputLabel: 'What kind of project do you want to make?'
+              html: 'HTML',
+              inputLabel: 'What kind of project do you want to make?',
+              python: 'Python'
             }
           },
           notifications: {

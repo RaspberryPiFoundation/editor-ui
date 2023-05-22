@@ -54,7 +54,18 @@ const NewProjectModal = () => {
           label: t('newProjectModal.projectType.inputLabel'),
           value: projectType,
           setValue: setProjectType,
-          options: [{value: 'python', label: 'Python', Icon: PythonIcon}, {value: 'html', label: 'HTML', Icon: HTMLIcon}]
+          options: [
+            {
+              value: 'python',
+              label: t('newProjectModal.projectType.python'),
+              Icon: PythonIcon
+            },
+            {
+              value: 'html',
+              label: t('newProjectModal.projectType.html'),
+              Icon: HTMLIcon
+            }
+          ]
         }
       ]}
       defaultCallback={createProject}
