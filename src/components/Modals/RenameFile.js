@@ -46,8 +46,8 @@ const RenameFile = () => {
       ]}
       defaultCallback={renameComponent}
       buttons={[
-        <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />,
-        <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
+        <Button key='rename' className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />,
+        <Button key='close' className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
       ]}
     />
   );

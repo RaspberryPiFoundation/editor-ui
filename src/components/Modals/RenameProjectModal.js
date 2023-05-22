@@ -58,8 +58,8 @@ export const RenameProjectModal = () => {
       ]}
       defaultCallback={renameProject}
       buttons={[
-        <Button className='btn--primary' buttonText={t('projectList.renameProjectModal.save')} onClickHandler={renameProject} />,
-        <Button className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
+        <Button key='rename' className='btn--primary' buttonText={t('projectList.renameProjectModal.save')} onClickHandler={renameProject} />,
+        <Button key='close' className='btn--secondary' buttonText={t('projectList.renameProjectModal.cancel')} onClickHandler={closeModal} />
       ]}
     />
   );

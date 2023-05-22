@@ -48,8 +48,8 @@ const NewFileModal = () => {
       ]}
       defaultCallback={createComponent}
       buttons={[
-        <Button className='btn--primary' buttonText={t('filePane.newFileModal.addFile')} onClickHandler={createComponent} />,
-        <Button className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
+        <Button key='create' className='btn--primary' buttonText={t('filePane.newFileModal.addFile')} onClickHandler={createComponent} />,
+        <Button key='close' className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
       ]}
     />
   )

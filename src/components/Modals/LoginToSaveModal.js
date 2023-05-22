@@ -34,9 +34,9 @@ const LoginToSaveModal = () => {
         {type: 'paragraph', content: t('loginToSaveModal.downloadText')}
       ]}
       buttons={[
-        <LoginButton className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} triggerSave />,
-        <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />,
-        <Button buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>
+        <LoginButton key='login' className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} triggerSave />,
+        <DownloadButton key='download' buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />,
+        <Button key='close' buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>
       ]}
       defaultCallback={defaultCallback}
     />

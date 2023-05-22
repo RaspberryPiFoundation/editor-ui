@@ -26,7 +26,7 @@ const BetaModal = () => {
         {type: 'paragraph', content: t('betaBanner.modal.whatNextText')}
       ]}
       buttons={[
-        <Button className='btn--primary' buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
+        <Button key={'close'} className='btn--primary' buttonText={t('betaBanner.modal.close')} onClickHandler={closeModal} />
       ]}
       defaultCallback={closeModal}
     />

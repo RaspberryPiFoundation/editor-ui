@@ -70,8 +70,8 @@ const NewProjectModal = () => {
       ]}
       defaultCallback={createProject}
       buttons={[
-        <Button className='btn--primary' buttonText={t('newProjectModal.createProject')} onClickHandler={createProject} />,
-        <Button className='btn--secondary' buttonText={t('newProjectModal.cancel')} onClickHandler={closeModal} />
+        <Button key='create' className='btn--primary' buttonText={t('newProjectModal.createProject')} onClickHandler={createProject} />,
+        <Button key='close' className='btn--secondary' buttonText={t('newProjectModal.cancel')} onClickHandler={closeModal} />
       ]}
     />
   )

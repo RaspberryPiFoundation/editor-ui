@@ -31,9 +31,9 @@ const AccessDeniedNoAuthModal = () => {
         {type: 'paragraph', content: t('project.accessDeniedNoAuthModal.text')}
       ]}
       buttons={[
-        <LoginButton buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} className = 'btn--primary'/>,
-        <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>,
-        <Button buttonText = {t('project.accessDeniedNoAuthModal.newProject')} className='btn--tertiary' onClickHandler={closeModal}/>
+        <LoginButton key='login' buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} className = 'btn--primary'/>,
+        <a key='link' className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>,
+        <Button key='close' buttonText = {t('project.accessDeniedNoAuthModal.newProject')} className='btn--tertiary' onClickHandler={closeModal}/>
       ]}
       defaultCallback={defaultCallback}
     />
