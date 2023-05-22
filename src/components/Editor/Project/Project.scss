@@ -40,6 +40,7 @@
     display: flex;
     flex-flow: column;
     grid-gap: $space-0-5;
+    overflow: hidden;
     width: 100%;
   }
 
@@ -79,7 +80,7 @@
     display: flex;
     box-sizing: border-box;
     flex: 5;
-    overflow-y: hidden;
+    overflow: hidden;
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;

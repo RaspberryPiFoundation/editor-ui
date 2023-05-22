@@ -8,6 +8,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.16.1] - 2023-05-19
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Sentry CORS errors (#523)
+
+## [0.16.0] - 2023-05-18
+
+### Added
+
 - New colors (#474)
 - New typography (#475, #513)
 - Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
@@ -39,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Color naming convention (#474)
 - Fix Web App Manifest logos, colors, and titles (#446)
 - Ability to run HTML projects by clicking run button (#481)
+- Internal/external HTML project links (#521)
 
 ## [0.15.0] - 2023-04-27
 
@@ -371,7 +390,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.15.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.16.1...HEAD
+[0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.1
+[0.16.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.0
 [0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0
 [0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
