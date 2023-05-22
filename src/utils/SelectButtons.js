@@ -8,7 +8,7 @@ const SelectButtons = ({label, options, value, setValue}) => {
       <legend className='select-buttons__legend'>{label}</legend>
       <div className='select-buttons__options'>
         {options.map((option, i) => (
-          <div className='select-buttons__option'>
+          <div className='select-buttons__option' key={i}>
             <input
               className='select-buttons__button'
               type='radio'
@@ -17,7 +17,7 @@ const SelectButtons = ({label, options, value, setValue}) => {
               onChange={(e) => setValue(e.target.value)}
               checked={option.value === value}
             />
-            <label className={`select-buttons__label${option.value === value ? ' select-buttons__label--selected': ''}`} key={i} htmlFor={`option${i}`}>
+            <label className={`select-buttons__label${option.value === value ? ' select-buttons__label--selected': ''}`} htmlFor={`option${i}`}>
               {option.Icon ? <option.Icon/> : null}
                 {option.label}
               {option.value === value ?

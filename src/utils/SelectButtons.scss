@@ -17,14 +17,12 @@
   display: flex;
   width: 100%;
   gap: $space-1;
-
-  @include mobile-only {
-    flex-direction: column;
-  }
+  flex-wrap: wrap;
 }
 
 .select-buttons__option {
   flex: 1;
+  min-width: 150px;
 }
 
 .select-buttons__button {
