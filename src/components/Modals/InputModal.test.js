@@ -36,6 +36,7 @@ beforeEach(() => {
 
 test('Renders help text', () => {
   expect(screen.queryByText('help me')).toBeInTheDocument()
+})
 
 test('Input renders with default value', () => {
   expect(inputBox).toHaveValue('my amazing default')
