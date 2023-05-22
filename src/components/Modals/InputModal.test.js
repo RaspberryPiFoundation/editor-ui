@@ -41,7 +41,3 @@ test('Renders help text', () => {
 test('Input renders with default value', () => {
   expect(inputBox).toHaveValue('my amazing default')
 })
-
-// test('Selects text from input box on load', () => {
-//   expect(inputBox).toHaveFocus()
-// })

@@ -9,8 +9,6 @@ import {
   PROJECT_LIST_TABLE_FRAGMENT,
 } from "../ProjectListTable/ProjectListTable";
 import Button from "../Button/Button";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
-import { defaultPythonProject } from "../../utils/defaultProjects";
 import { PlusIcon } from "../../Icons";
 import RenameProjectModal from "../Modals/RenameProjectModal";
 import DeleteProjectModal from "../Modals/DeleteProjectModal";
@@ -45,9 +43,8 @@ export const PROJECT_INDEX_QUERY = gql`
 `;
 
 const ProjectIndex = (props) => {
-  const navigate = useNavigate();
   const { isLoading, user } = props;
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const pageSize = 8;
 
   useRequiresUser(isLoading, user);
@@ -64,13 +61,6 @@ const ProjectIndex = (props) => {
 
   const dispatch = useDispatch()
   const onCreateProject = async () => {
-    // const response = await createOrUpdateProject(
-    //   defaultPythonProject,
-    //   user.access_token
-    // );
-    // const identifier = response.data.identifier;
-    // const locale = i18n.language;
-    // navigate(`/${locale}/projects/${identifier}`);
     dispatch(showNewProjectModal())
   };
 
