@@ -14,6 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Input modal help text styling in light mode (#519)
+- Propagation of key press events in modals (#519)
+
 ## [0.16.1] - 2023-05-19
 
 ### Added
