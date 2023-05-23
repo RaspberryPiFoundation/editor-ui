@@ -20,11 +20,11 @@ const SelectButtons = ({label, options, value, setValue}) => {
             <label className={`select-buttons__label${option.value === value ? ' select-buttons__label--selected': ''}`} htmlFor={`option${i}`}>
               {option.Icon ? <option.Icon/> : null}
                 {option.label}
-              {option.value === value ?
-              <div className='select-buttons__tick'>
+              {/* {option.value === value ? */}
+              <div className={`select-buttons__tick${option.value === value ? ' select-buttons__tick--selected': ''}`}>
                 <SelectButtonsTick />
               </div>
-              : null}
+              {/* : null} */}
             </label>
           </div>
         ))}

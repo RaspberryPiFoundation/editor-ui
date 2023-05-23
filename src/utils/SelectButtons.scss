@@ -22,7 +22,6 @@
 
 .select-buttons__option {
   flex: 1;
-  min-width: 150px;
 }
 
 .select-buttons__button {
@@ -44,6 +43,11 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+  visibility: hidden;
+}
+
+.select-buttons__tick--selected {
+  visibility: visible;
 }
 
 .--light {
