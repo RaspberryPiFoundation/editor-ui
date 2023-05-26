@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import parseLinkHeader from "parse-link-header"
+import parseLinkHeader from "parse-link-header";
 import {
   createOrUpdateProject,
   readProject,
@@ -13,7 +13,7 @@ export const syncProject = (actionName) =>
     `editor/${actionName}Project`,
     async (
       { project, identifier, locale, accessToken, autosave },
-      { rejectWithValue }
+      { rejectWithValue },
     ) => {
       let response;
       switch (actionName) {
@@ -52,7 +52,7 @@ export const syncProject = (actionName) =>
           return false;
         }
       },
-    }
+    },
   );
 
 export const loadProjectList = createAsyncThunk(
@@ -64,7 +64,7 @@ export const loadProjectList = createAsyncThunk(
       page,
       links: parseLinkHeader(response.headers.link),
     };
-  }
+  },
 );
 
 export const EditorSlice = createSlice({
@@ -110,32 +110,42 @@ export const EditorSlice = createSlice({
   },
   reducers: {
     closeFile: (state, action) => {
-      const panelIndex = state.openFiles.map((fileNames) => fileNames.includes(action.payload)).indexOf(true)
-      const closedFileIndex = state.openFiles[panelIndex].indexOf(action.payload)
-      state.openFiles[panelIndex] = state.openFiles[panelIndex].filter(fileName => fileName !== action.payload)
+      const panelIndex = state.openFiles
+        .map((fileNames) => fileNames.includes(action.payload))
+        .indexOf(true);
+      const closedFileIndex = state.openFiles[panelIndex].indexOf(
+        action.payload,
+      );
+      state.openFiles[panelIndex] = state.openFiles[panelIndex].filter(
+        (fileName) => fileName !== action.payload,
+      );
       if (
-        state.focussedFileIndices[panelIndex] >= state.openFiles[panelIndex].length ||
+        state.focussedFileIndices[panelIndex] >=
+          state.openFiles[panelIndex].length ||
         closedFileIndex < state.focussedFileIndices[panelIndex]
       ) {
-        state.focussedFileIndices[panelIndex]--
+        state.focussedFileIndices[panelIndex]--;
       }
     },
     openFile: (state, action) => {
-      const firstPanelIndex = 0
+      const firstPanelIndex = 0;
       if (!state.openFiles.flat().includes(action.payload)) {
-        state.openFiles[firstPanelIndex].push(action.payload)
+        state.openFiles[firstPanelIndex].push(action.payload);
       }
-      state.focussedFileIndices[firstPanelIndex] = state.openFiles[firstPanelIndex].indexOf(action.payload)
+      state.focussedFileIndices[firstPanelIndex] = state.openFiles[
+        firstPanelIndex
+      ].indexOf(action.payload);
     },
     setOpenFiles: (state, action) => {
-      state.openFiles = action.payload
+      state.openFiles = action.payload;
     },
     addFilePanel: (state) => {
-      state.openFiles.push([])
-      state.focussedFileIndices.push(0)
+      state.openFiles.push([]);
+      state.focussedFileIndices.push(0);
     },
     setFocussedFileIndex: (state, action) => {
-      state.focussedFileIndices[action.payload.panelIndex] = action.payload.fileIndex
+      state.focussedFileIndices[action.payload.panelIndex] =
+        action.payload.fileIndex;
     },
     updateImages: (state, action) => {
       if (!state.project.image_list) {
@@ -168,13 +178,13 @@ export const EditorSlice = createSlice({
       if (!state.project.image_list) {
         state.project.image_list = [];
       }
-      state.loading="success"
+      state.loading = "success";
       if (state.openFiles.flat().length === 0) {
-        const firstPanelIndex = 0
+        const firstPanelIndex = 0;
         if (state.project.project_type === "html") {
-          state.openFiles[firstPanelIndex].push("index.html")
+          state.openFiles[firstPanelIndex].push("index.html");
         } else {
-          state.openFiles[firstPanelIndex].push("main.py")
+          state.openFiles[firstPanelIndex].push("main.py");
         }
       }
       state.justLoaded = true;
@@ -217,9 +227,11 @@ export const EditorSlice = createSlice({
       state.project.components[key].name = name;
       state.project.components[key].extension = extension;
       if (state.openFiles.flat().includes(oldName)) {
-        const panelIndex = state.openFiles.map((fileNames) => fileNames.includes(oldName)).indexOf(true)
-        const fileIndex = state.openFiles[panelIndex].indexOf(oldName)
-        state.openFiles[panelIndex][fileIndex] = `${name}.${extension}`
+        const panelIndex = state.openFiles
+          .map((fileNames) => fileNames.includes(oldName))
+          .indexOf(true);
+        const fileIndex = state.openFiles[panelIndex].indexOf(oldName);
+        state.openFiles[panelIndex][fileIndex] = `${name}.${extension}`;
       }
       state.saving = "idle";
     },
@@ -352,7 +364,7 @@ export const EditorSlice = createSlice({
         state.saving = "idle";
         state.currentLoadingRequestId = undefined;
         if (state.openFiles.flat().length === 0) {
-          const firstPanelIndex = 0
+          const firstPanelIndex = 0;
           if (state.project.project_type === "html") {
             state.openFiles[firstPanelIndex].push("index.html");
           } else {

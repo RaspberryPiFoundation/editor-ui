@@ -1,20 +1,20 @@
-import { Geometry } from './Geometry';
-import Sk from 'skulpt';
+import { Geometry } from "./Geometry";
+import Sk from "skulpt";
 
-function getTimestamp () {
+function getTimestamp() {
   var time = Date.now(); // millis
-  var timestamp = time * 1e+3; // milliseconds
+  var timestamp = time * 1e3; // milliseconds
   return timestamp;
 }
 
 /**
-* Update call for periodically updating our internal sensehat data object.
-*
-* The UI events and the polling are async and therefore we can "simulate"
-* even changes when the user does not rotate.
-*/
+ * Update call for periodically updating our internal sensehat data object.
+ *
+ * The UI events and the polling are async and therefore we can "simulate"
+ * even changes when the user does not rotate.
+ */
 export function updateRTIMU() {
-// Retriev the previous timestamp
+  // Retriev the previous timestamp
   var oldTimestamp = Sk.sense_hat.rtimu.timestamp;
 
   // Special case, if we call this function the first time and
@@ -25,7 +25,7 @@ export function updateRTIMU() {
 
   // Get a new timestamp and calc the delta
   var newTimestamp = getTimestamp();
-  var timeDelta = (newTimestamp - oldTimestamp) / 1e+6;
+  var timeDelta = (newTimestamp - oldTimestamp) / 1e6;
 
   // Special case, when the delta is 0, everything gets null
   // Using a sane interval should avoid this case
@@ -39,7 +39,7 @@ export function updateRTIMU() {
   var oldOrientation = Sk.sense_hat.rtimu.raw_old_orientation;
 
   if (oldOrientation === null || oldOrientation === undefined) {
-    oldOrientation = [0,90,0];
+    oldOrientation = [0, 90, 0];
   }
   var newOrientation = Geometry.degToRad(Sk.sense_hat.rtimu.raw_orientation);
 
@@ -48,7 +48,7 @@ export function updateRTIMU() {
   var _gyro = [
     newOrientation[0] - oldOrientation[0],
     newOrientation[1] - oldOrientation[1],
-    newOrientation[2] - oldOrientation[2]
+    newOrientation[2] - oldOrientation[2],
   ];
 
   // Divide the orientation delta by the time delta
@@ -71,8 +71,8 @@ export function updateRTIMU() {
   var R = [
     [c1 * c2, c1 * s2 * s3 - c3 * s1, s1 * s3 + c1 * c3 * s2],
     [c2 * s1, c1 * c3 + s1 * s2 * s3, c3 * s1 * s2 - c1 * s3],
-    [-s2,     c2 * s3,                c2 * c3],
-  ]
+    [-s2, c2 * s3, c2 * c3],
+  ];
 
   // Transposed R matrix
   var T = Geometry.transpose3x3Matrix(R);
@@ -97,17 +97,12 @@ export function updateRTIMU() {
   Sk.sense_hat.rtimu.accel = [
     Geometry.clamp(_accel[0], -8, 8),
     Geometry.clamp(_accel[1], -8, 8),
-    Geometry.clamp(_accel[2], -8, 8)
+    Geometry.clamp(_accel[2], -8, 8),
   ];
 
   // _gyro = perturb(_gyro, .5);
   // radians per second
-  Sk.sense_hat.rtimu.gyro = [
-    _gyro[0],
-    _gyro[1],
-    _gyro[2],
-  ];
-
+  Sk.sense_hat.rtimu.gyro = [_gyro[0], _gyro[1], _gyro[2]];
 
   // _compass = perturb(_compass, .01);
   // multiply with 100 -> from Gauss to microteslas (µT)
@@ -118,24 +113,28 @@ export function updateRTIMU() {
   ];
 }
 
-window.rotatemodel = function(x, y, z){
+window.rotatemodel = function (x, y, z) {
   window.mod.rotation.x = x;
   window.mod.rotation.y = y;
   window.mod.rotation.z = z;
-}
+};
 
 export function resetModel(event) {
   event.preventDefault();
 
-    var x = 0
-      , y = 0
-      , z = 0;
-    window.rotatemodel(Geometry.degToRad(x), Geometry.degToRad(y), Geometry.degToRad(z));
+  var x = 0,
+    y = 0,
+    z = 0;
+  window.rotatemodel(
+    Geometry.degToRad(x),
+    Geometry.degToRad(y),
+    Geometry.degToRad(z),
+  );
 }
 
 export function extractRollPitchYaw(x, y, z) {
-  const roll = ((y * 180 / Math.PI) + 360) % 360
-  const pitch = ((x * 180 / Math.PI) + 90 + 360) % 360
-  const yaw = ((z * 180 / Math.PI) + 360) % 360
-  return [roll, pitch, yaw]
+  const roll = ((y * 180) / Math.PI + 360) % 360;
+  const pitch = ((x * 180) / Math.PI + 90 + 360) % 360;
+  const yaw = ((z * 180) / Math.PI + 360) % 360;
+  return [roll, pitch, yaw];
 }

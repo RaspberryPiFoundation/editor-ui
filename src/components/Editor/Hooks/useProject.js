@@ -9,7 +9,7 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
   const getCachedProject = (id) =>
     JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
-    getCachedProject(projectIdentifier)
+    getCachedProject(projectIdentifier),
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
           identifier: projectIdentifier,
           locale: i18n.language,
           accessToken,
-        })
+        }),
       );
       return;
     }

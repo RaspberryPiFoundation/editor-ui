@@ -36,8 +36,8 @@
       "error",
       {
         "singleQuote": false,
-        "trailingComma": "all",
         "jsxSingleQuote": false,
+        "trailingComma": "all",
         "semi": true,
         "bracketSpacing": true,
         "arrowParens": "always"

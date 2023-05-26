@@ -10,41 +10,51 @@ import Button from "../Button/Button";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
-  const { buttonText, className, Icon } = props
-  const { t } = useTranslation()
-  const project = useSelector((state) => state.editor.project)
-  const loginToSaveModalShowing = useSelector((state) => state.editor.loginToSaveModalShowing)
-  const dispatch = useDispatch()
+  const { buttonText, className, Icon } = props;
+  const { t } = useTranslation();
+  const project = useSelector((state) => state.editor.project);
+  const loginToSaveModalShowing = useSelector(
+    (state) => state.editor.loginToSaveModalShowing,
+  );
+  const dispatch = useDispatch();
 
   const urlToPromise = (url) => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       JSZipUtils.getBinaryContent(url, function (err, data) {
-        if(err) {
+        if (err) {
           reject(err);
         } else {
           resolve(data);
         }
       });
     });
-  }
+  };
 
   const onClickDownload = async () => {
     if (loginToSaveModalShowing) {
-      dispatch(closeLoginToSaveModal())
+      dispatch(closeLoginToSaveModal());
     }
-    const zip = new JSZip()
+    const zip = new JSZip();
 
     project.components.forEach((file) => {
-      zip.file(`${file.name}.${file.extension}`, file.content)
-    })
+      zip.file(`${file.name}.${file.extension}`, file.content);
+    });
 
     project.image_list.forEach((image) => {
-      zip.file(image.filename, urlToPromise(image.url), {binary: true} )
-    })
+      zip.file(image.filename, urlToPromise(image.url), { binary: true });
+    });
 
-    const content = await zip.generateAsync({type: 'blob'})
-    FileSaver.saveAs(content, `${toSnakeCase(project.name || t('header.downloadFileNameDefault', {project_type: project.project_type}))}`)
-  }
+    const content = await zip.generateAsync({ type: "blob" });
+    FileSaver.saveAs(
+      content,
+      `${toSnakeCase(
+        project.name ||
+          t("header.downloadFileNameDefault", {
+            project_type: project.project_type,
+          }),
+      )}`,
+    );
+  };
 
   return (
     <Button
@@ -53,7 +63,7 @@ const DownloadButton = (props) => {
       buttonText={buttonText}
       ButtonIcon={Icon}
     />
-  )
-}
+  );
+};
 
-export default DownloadButton
+export default DownloadButton;

@@ -51,16 +51,16 @@ const ProjectIndex = (props) => {
   useRequiresUser(isLoading, user);
 
   const renameProjectModalShowing = useSelector(
-    (state) => state.editor.renameProjectModalShowing
+    (state) => state.editor.renameProjectModalShowing,
   );
   const deleteProjectModalShowing = useSelector(
-    (state) => state.editor.deleteProjectModalShowing
+    (state) => state.editor.deleteProjectModalShowing,
   );
 
   const onCreateProject = async () => {
     const response = await createOrUpdateProject(
       defaultPythonProject,
-      user.access_token
+      user.access_token,
     );
     const identifier = response.data.identifier;
     const locale = i18n.language;

@@ -2,42 +2,38 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import GeneralModal from "./GeneralModal";
 
-const defaultCallback = jest.fn()
-const closeModal = jest.fn()
+const defaultCallback = jest.fn();
+const closeModal = jest.fn();
 
 beforeEach(() => {
   render(
-    <div id='app'>
+    <div id="app">
       <GeneralModal
         isOpen={true}
         closeModal={closeModal}
         withCloseButton
         defaultCallback={defaultCallback}
-        heading='My modal heading'
-        text={[
-          { content: 'Paragraph1', type: 'paragraph' }
-        ]}
-        buttons={[
-          <button onClick={jest.fn()}>My amazing button</button>
-        ]}
+        heading="My modal heading"
+        text={[{ content: "Paragraph1", type: "paragraph" }]}
+        buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
       />
-    </div>
-  )
-})
+    </div>,
+  );
+});
 
-test('Renders', () => {
-  expect(screen.queryByText('My modal heading')).toBeInTheDocument()
-  expect(screen.queryByText('Paragraph1')).toBeInTheDocument()
-  expect(screen.queryByText('My amazing button')).toBeInTheDocument()
-})
+test("Renders", () => {
+  expect(screen.queryByText("My modal heading")).toBeInTheDocument();
+  expect(screen.queryByText("Paragraph1")).toBeInTheDocument();
+  expect(screen.queryByText("My amazing button")).toBeInTheDocument();
+});
 
-test('Clicking close button closes modal', () => {
-  const closeButton = screen.queryByTitle('modals.close')
-  fireEvent.click(closeButton)
-  expect(closeModal).toHaveBeenCalled()
-})
+test("Clicking close button closes modal", () => {
+  const closeButton = screen.queryByTitle("modals.close");
+  fireEvent.click(closeButton);
+  expect(closeModal).toHaveBeenCalled();
+});
 
-test('Pressing Enter calls the default callback', () => {
-  const modal = screen.getByRole('dialog')
-  fireEvent.keyDown(modal, {key: 'Enter'})
-})
+test("Pressing Enter calls the default callback", () => {
+  const modal = screen.getByRole("dialog");
+  fireEvent.keyDown(modal, { key: "Enter" });
+});
