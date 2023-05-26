@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react"
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from 'react-redux';
 import AstroPiModel from "./AstroPiModel";
 import configureStore from 'redux-mock-store';

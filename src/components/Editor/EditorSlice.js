@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import parseLinkHeader from "parse-link-header";
+import parseLinkHeader from "parse-link-header"
 import {
   createOrUpdateProject,
   readProject,

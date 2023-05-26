@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import MenuSideBarOption from "./MenuSideBarOption";
 
-const toggleOption = jest.fn()
+const toggleOption = jest.fn();
 
 beforeEach(() => {
   render(

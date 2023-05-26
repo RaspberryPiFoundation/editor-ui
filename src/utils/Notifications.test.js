@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 import { showLoginPrompt, showRemixedMessage, showSavedMessage, showSavePrompt } from "./Notifications";
 
 jest.mock('../i18n', () => ({

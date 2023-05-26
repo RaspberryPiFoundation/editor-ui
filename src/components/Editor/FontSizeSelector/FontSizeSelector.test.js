@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react"
+import { render, fireEvent } from "@testing-library/react";
 import FontSizeSelector from "./FontSizeSelector";
 import { Cookies, CookiesProvider } from 'react-cookie';
 
