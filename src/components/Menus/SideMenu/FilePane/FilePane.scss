@@ -1,10 +1,12 @@
 @use '../../../../colours' as *;
 @use '../../../../spacing' as *;
+@use '../../../../font-size.scss' as *;
 
 
 .file-pane {
   border-radius: 10px;
   width: 100%;
+  overflow: auto;
 
   summary {
     border: 3px solid transparent;
@@ -25,7 +27,7 @@
     }
 
     h2 {
-      font-size: 1rem;
+      @include font-size-1(regular);
     }
   }
 

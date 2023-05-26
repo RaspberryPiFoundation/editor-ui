@@ -27,7 +27,7 @@
   }
 
   input {
-    font-size: 1em;
+    @include font-size-1(regular);
     width: 100%;
     box-sizing: border-box;
     border: 2px solid transparent;
@@ -137,9 +137,16 @@
   .modal-content {
     background-color: $rpf-grey-700;
   }
+
   .modal-content__header {
     border-bottom: 1px solid $rpf-grey-500;
   }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary-dark;
+    margin: $space-0-25 0;
+  }
+
   .modal-content__buttons {
     border-top: 1px solid $rpf-grey-500;
   }
@@ -158,6 +165,7 @@
       }
     }
   }
+
   .modal-content {
     background-color: $rpf-white;
   }
@@ -165,6 +173,11 @@
   .modal-content__header {
     border-bottom: 1px solid $rpf-grey-150;
   }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary;
+  }
+
   .modal-content__buttons {
     border-top: 1px solid $rpf-grey-150;
   }

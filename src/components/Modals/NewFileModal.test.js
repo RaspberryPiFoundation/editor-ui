@@ -31,16 +31,12 @@ describe("Testing the new file modal", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><div id='app'><NewFileModal /></div></Provider>)
-    saveButton = screen.getByText('filePane.newFileModal.save')
+    saveButton = screen.getByText('filePane.newFileModal.addFile')
     inputBox = screen.getByRole('textbox')
   })
 
   test('Modal renders',() => {
     expect(screen.queryByText('filePane.newFileModal.heading')).toBeInTheDocument()
-  })
-
-  test('Autofocuses input box', () => {
-    expect(inputBox).toHaveFocus()
   })
 
   test("Pressing save adds new file with the given name", () => {

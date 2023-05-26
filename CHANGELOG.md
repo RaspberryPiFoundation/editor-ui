@@ -8,24 +8,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.16.1] - 2023-05-19
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Sentry CORS errors (#523)
+
+## [0.16.0] - 2023-05-18
+
+### Added
+
 - New colors (#474)
-- New typography (#475)
+- New typography (#475, #513)
+- Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
+- Help text in the new file modal (#478)
 - Add dev-container support (#489)
+- Add input/output responsiveness (#473)
+- Ability to drag and drop input panel tabs (#438)
+- Distinguish icon type (#470)
+- Custom callback when Enter pressed in modals (#491)
+- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491, #517)
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
 
 ### Changed
 
 - Updated spacing variables to match the new design system (#460)
+- Position run button in separate bar (#471)
 - Color usage (#474)
+- Handling of internal/external links for HTML/CSS projects (#483)
+- Existing modals to use `GeneralModal` or `InputModal` (#491)
+- Refactored login logic to make this available outside of the login button (#491)
+- Turned off HTML autorun (#515)
 
 ### Fixed
 
 - Modal button alignment support (#460)
 - Storybook setup and dev deployment (#461)
+- HTML auto-run functionality (#481)
 - Updating Sentry to fix compile-time error (#487)
 - Fix local package build process (#488)
 - Color naming convention (#474)
+- Fix Web App Manifest logos, colors, and titles (#446)
+- Ability to run HTML projects by clicking run button (#481)
+- Internal/external HTML project links (#521)
 
 ## [0.15.0] - 2023-04-27
 
@@ -358,7 +392,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.15.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.16.1...HEAD
+[0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.1
+[0.16.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.0
 [0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0
 [0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0

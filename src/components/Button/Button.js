@@ -8,6 +8,7 @@ const Button = (props) => {
   const {
     className,
     onClickHandler,
+    onKeyDown,
     ButtonIcon,
     buttonImage,
     buttonImageAltText,
@@ -52,6 +53,7 @@ const Button = (props) => {
       aria-label={label}
       title={title}
       onClick={buttonOuter ? null : onButtonClick}
+      onKeyDown={onKeyDown}
     >
       {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
       {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}

@@ -56,12 +56,6 @@ describe("Testing the delete project modal", () => {
     expect(screen.queryByText('projectList.deleteProjectModal.heading')).toBeInTheDocument()
   })
 
-  test('Clicking close button dispatches close modal action', () => {
-    const closeButton = screen.getAllByRole('button')[0]
-    fireEvent.click(closeButton)
-    expect(store.getActions()).toEqual([{type: 'editor/closeDeleteProjectModal'}])
-  })
-
   test('Clicking cancel button closes modal and does not save', () => {
     const cancelButton = screen.queryByText('projectList.deleteProjectModal.cancel')
     fireEvent.click(cancelButton)

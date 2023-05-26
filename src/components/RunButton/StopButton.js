@@ -18,7 +18,7 @@ const StopButton = (props) => {
     dispatch(stopDraw());
   }
 
-  const stop = <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
+  const stop = <Button className='btn--primary btn--stop' onClickHandler={onClickStop} {...props} />
   const [button, setButton] = useState(stop)
 
   useEffect(() => {
