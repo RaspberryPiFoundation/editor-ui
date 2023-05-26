@@ -35,10 +35,12 @@
     "prettier/prettier": [
       "error",
       {
-        "singleQuote": true,
+        "singleQuote": false,
         "trailingComma": "all",
-        "jsxSingleQuote": true,
-        "semi": true
+        "jsxSingleQuote": false,
+        "semi": true,
+        "bracketSpacing": true,
+        "arrowParens": "always"
       }
     ]
   }
