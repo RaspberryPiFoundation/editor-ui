@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
+- Move eslint config to `.eslintrc.json` with prettier support
+- Add `.editorconfig`
 
 ### Fixed
 
@@ -36,8 +38,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Distinguish icon type (#470)
 - Custom callback when Enter pressed in modals (#491)
 - `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491, #517)
-- Move eslint config to `.eslintrc.json` with prettier support
-- Add `.editorconfig`
 
 ### Changed
 
