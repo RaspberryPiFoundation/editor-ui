@@ -19,7 +19,6 @@ const allowedLinkHTMLPage = {
   name: "allowed_link",
   extension: "html",
   content: '<head></head><body><a href="#">ANCHOR LINK!</a></body>',
-
 };
 
 describe("When page first loaded", () => {
@@ -129,7 +128,6 @@ describe("When page first loaded in embedded viewer", () => {
 });
 
 describe("When run run triggered", () => {
-
   let store;
 
   beforeEach(() => {

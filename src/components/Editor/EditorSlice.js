@@ -297,10 +297,10 @@ export const EditorSlice = createSlice({
       state.nameError = "";
     },
     showNewProjectModal: (state) => {
-      state.newProjectModalShowing = true
+      state.newProjectModalShowing = true;
     },
     closeNewProjectModal: (state) => {
-      state.newProjectModalShowing = false
+      state.newProjectModalShowing = false;
     },
     showRenameProjectModal: (state, action) => {
       state.modals.renameProject = action.payload;

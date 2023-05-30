@@ -46,8 +46,8 @@ const Button = (props) => {
   };
 
   const onKeyDown = (e) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
 
   const button = (
     <button
