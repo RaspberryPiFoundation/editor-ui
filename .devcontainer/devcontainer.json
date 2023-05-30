@@ -64,10 +64,20 @@
         "github.remotehub",
         "circleci.circleci",
         "stylelint.vscode-stylelint",
-        "Orta.vscode-jest"
+        "Orta.vscode-jest",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "avraammavridis.vsc-react-documentation",
+        "ofhumanbondage.react-proptypes-intellisense",
+        "syler.sass-indented",
+        "codezombiech.gitignore"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "jest.autoRun": {
+          "watch": false,
+          "onSave": "test-src-file"
+        }
       }
     }
   },

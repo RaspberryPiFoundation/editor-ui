@@ -49,18 +49,18 @@ const ProjectIndex = (props) => {
   useRequiresUser(isLoading, user);
 
   const newProjectModalShowing = useSelector(
-    (state) => state.editor.newProjectModalShowing
+    (state) => state.editor.newProjectModalShowing,
   );
   const renameProjectModalShowing = useSelector(
-    (state) => state.editor.renameProjectModalShowing
+    (state) => state.editor.renameProjectModalShowing,
   );
   const deleteProjectModalShowing = useSelector(
-    (state) => state.editor.deleteProjectModalShowing
+    (state) => state.editor.deleteProjectModalShowing,
   );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const onCreateProject = async () => {
-    dispatch(showNewProjectModal())
+    dispatch(showNewProjectModal());
   };
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {

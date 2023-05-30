@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to specify project name and type on creation (#519)
 
 ### Changed
+- Move eslint config to `.eslintrc.json` with prettier support
+- Add `.editorconfig`
 
 ### Fixed
 

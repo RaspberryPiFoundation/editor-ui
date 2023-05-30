@@ -1,20 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../Button/Button";
 
-import './Dropdown.scss'
+import "./Dropdown.scss";
 
 const Dropdown = (props) => {
-  const {ButtonIcon, buttonImage, buttonImageAltText, buttonText, MenuContent} = props
-  const [isOpen, setOpen] = useState(false)
-  const dropdown = useRef()
-  
+  const {
+    ButtonIcon,
+    buttonImage,
+    buttonImageAltText,
+    buttonText,
+    MenuContent,
+  } = props;
+  const [isOpen, setOpen] = useState(false);
+  const dropdown = useRef();
+
   useEffect(() => {
     /**
      * Close menu if clicked outside of element
      */
     function handleClickOutside(event) {
       if (dropdown.current && !dropdown.current.contains(event.target)) {
-        setOpen(false)
+        setOpen(false);
       }
     }
     // Bind the event listener
@@ -26,29 +32,35 @@ const Dropdown = (props) => {
   }, [dropdown]);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape'){
+    if (event.key === "Escape") {
       setOpen(false);
     }
-  }
+  };
 
   return (
-    <div className='dropdown' ref={dropdown} onKeyDown={handleKeyDown}>
+    <div className="dropdown" ref={dropdown} onKeyDown={handleKeyDown}>
       <Button
-        className={`btn--tertiary dropdown-button${isOpen ? ' dropdown-button--active' : ''}`}
+        className={`btn--tertiary dropdown-button${
+          isOpen ? " dropdown-button--active" : ""
+        }`}
         onClickHandler={() => setOpen(!isOpen)}
         buttonText={buttonText}
         ButtonIcon={ButtonIcon}
         buttonImage={buttonImage}
         buttonImageAltText={buttonImageAltText}
       />
-      
-      {isOpen ? 
-      <>
-        <div className='dropdown-backdrop' onClick={() => setOpen(false)}></div>
-        <MenuContent />
-      </> : null}
-    </div>
-  )
-}
 
-export default Dropdown
+      {isOpen ? (
+        <>
+          <div
+            className="dropdown-backdrop"
+            onClick={() => setOpen(false)}
+          ></div>
+          <MenuContent />
+        </>
+      ) : null}
+    </div>
+  );
+};
+
+export default Dropdown;

@@ -1,22 +1,29 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-import { SentryLink } from 'apollo-link-sentry';
+import { SentryLink } from "apollo-link-sentry";
 
-import './index.css';
-import './sentry';
-import App from './App';
-import './i18n';
-import { ApolloLink, ApolloProvider, ApolloClient, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { OidcProvider } from 'redux-oidc';
-import { Provider } from 'react-redux';
-import store from './app/store';
-import userManager from './utils/userManager';
-import apolloCache from './utils/apolloCache';
-import { CookiesProvider } from 'react-cookie';
+import "./index.css";
+import "./sentry";
+import App from "./App";
+import "./i18n";
+import {
+  ApolloLink,
+  ApolloProvider,
+  ApolloClient,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { OidcProvider } from "redux-oidc";
+import { Provider } from "react-redux";
+import store from "./app/store";
+import userManager from "./utils/userManager";
+import apolloCache from "./utils/apolloCache";
+import { CookiesProvider } from "react-cookie";
 
-const apiEndpointLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT + '/graphql' });
+const apiEndpointLink = createHttpLink({
+  uri: process.env.REACT_APP_API_ENDPOINT + "/graphql",
+});
 const apiAuthLink = setContext((_, { headers }) => {
   // TODO: ... better way to handle state in Apollo
   const user = store.getState().auth.user;
@@ -26,27 +33,23 @@ const apiAuthLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       Authorization: user ? user.access_token : "",
-    }
-  }
+    },
+  };
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([
-    new SentryLink(),
-    apiAuthLink,
-    apiEndpointLink
-  ]),
-  cache: apolloCache
+  link: ApolloLink.from([new SentryLink(), apiAuthLink, apiEndpointLink]),
+  cache: apolloCache,
 });
 
-const supportsContainerQueries = 'container' in document.documentElement.style
+const supportsContainerQueries = "container" in document.documentElement.style;
 if (!supportsContainerQueries) {
   // eslint-disable-next-line no-unused-expressions
-  import('container-query-polyfill')
+  import("container-query-polyfill");
 }
 
-const div = document.getElementById('root')
-const root = createRoot(div)
+const div = document.getElementById("root");
+const root = createRoot(div);
 root.render(
   <React.StrictMode>
     <CookiesProvider>
@@ -58,7 +61,7 @@ root.render(
         </Provider>
       </ApolloProvider>
     </CookiesProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

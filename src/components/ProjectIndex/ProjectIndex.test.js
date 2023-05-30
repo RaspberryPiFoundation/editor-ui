@@ -94,7 +94,7 @@ describe("When authenticated", () => {
               <ProjectIndex user={user} isLoading={false} />
             </MockedProvider>
           </MemoryRouter>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -120,7 +120,7 @@ describe("When unauthenticated", () => {
         <Provider store={store}>
           <ProjectIndex />
         </Provider>
-      </MockedProvider>
+      </MockedProvider>,
     );
   });
 

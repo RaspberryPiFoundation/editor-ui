@@ -4,14 +4,18 @@ import { useDispatch } from "react-redux";
 import { addFilePanel } from "../EditorSlice";
 
 const NewInputPanelButton = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const openNewPanel = () => {
-    dispatch(addFilePanel())
-  }
+    dispatch(addFilePanel());
+  };
   return (
-    <Button className={'btn--primary'} buttonText='Add another panel' onClickHandler={openNewPanel} />
-  )
-}
+    <Button
+      className={"btn--primary"}
+      buttonText="Add another panel"
+      onClickHandler={openNewPanel}
+    />
+  );
+};
 
-export default NewInputPanelButton
+export default NewInputPanelButton;

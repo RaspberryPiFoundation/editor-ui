@@ -17,13 +17,13 @@ describe("When pageInfo is missing", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("It doesn't show the navigation", () => {
     expect(
-      screen.queryByTestId("projectIndexPagination")
+      screen.queryByTestId("projectIndexPagination"),
     ).not.toBeInTheDocument();
   });
 });
@@ -39,13 +39,13 @@ describe("When totalCount is missing", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("It doesn't show the navigation", () => {
     expect(
-      screen.queryByTestId("projectIndexPagination")
+      screen.queryByTestId("projectIndexPagination"),
     ).not.toBeInTheDocument();
   });
 });
@@ -66,13 +66,13 @@ describe("When on the first page of projects", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("More buttons shown", () => {
     expect(
-      screen.queryByTitle("projectList.pagination.more")
+      screen.queryByTitle("projectList.pagination.more"),
     ).toBeInTheDocument();
   });
 });
@@ -91,13 +91,13 @@ describe("When the endCursor is missing", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("Assume there is more to load", () => {
     expect(
-      screen.queryByTitle("projectList.pagination.more")
+      screen.queryByTitle("projectList.pagination.more"),
     ).toBeInTheDocument();
   });
 });
@@ -119,13 +119,13 @@ describe("When on a middle page of projects", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("More buttons shown", () => {
     expect(
-      screen.queryByTitle("projectList.pagination.more")
+      screen.queryByTitle("projectList.pagination.more"),
     ).toBeInTheDocument();
   });
 
@@ -154,13 +154,13 @@ describe("When on the last page of projects", () => {
         pageSize={pageSize}
         paginationData={paginationData}
         fetchMore={fetchMore}
-      />
+      />,
     );
   });
 
   test("More button not shown", () => {
     expect(
-      screen.queryByTitle("projectList.pagination.more")
+      screen.queryByTitle("projectList.pagination.more"),
     ).not.toBeInTheDocument();
   });
 });

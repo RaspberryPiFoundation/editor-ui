@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
-import EditorReducer from '../components/Editor/EditorSlice'
-import { reducer, loadUser } from 'redux-oidc'
-import userManager from '../utils/userManager'
+import { configureStore } from "@reduxjs/toolkit";
+import EditorReducer from "../components/Editor/EditorSlice";
+import { reducer, loadUser } from "redux-oidc";
+import userManager from "../utils/userManager";
 
 const store = configureStore({
   reducer: {
@@ -11,11 +11,14 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['redux-oidc/USER_FOUND', 'redux-odic/SILENT_RENEW_ERROR'],
-        ignoredPaths: ['auth.user'],
-    },
-  }),
-})
+        ignoredActions: [
+          "redux-oidc/USER_FOUND",
+          "redux-odic/SILENT_RENEW_ERROR",
+        ],
+        ignoredPaths: ["auth.user"],
+      },
+    }),
+});
 
 loadUser(store, userManager);
 

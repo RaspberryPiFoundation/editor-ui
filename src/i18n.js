@@ -155,10 +155,11 @@ i18n
             newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
-              helpText: "Remember to add the file extension at the end of your file name, for example, {{examples}}",
-              helpTextExample:{
+              helpText:
+                "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+              helpTextExample: {
                 html: "'file.html' or 'file.css'",
-                python: "'file.py'"
+                python: "'file.py'",
               },
               inputLabel: "Name your file",
               addFile: "Add file",
@@ -236,7 +237,7 @@ i18n
               "Log in to your Raspberry Pi account to save your work, and you'll be able to access and edit your project whenever you need to.",
           },
           modals: {
-            close: 'Close'
+            close: "Close",
           },
           newProjectModal: {
             cancel: 'Cancel',
@@ -301,21 +302,21 @@ i18n
               heading: "You are not able to see this project",
               loginButtonText: "Log in to your account",
               newProject: "Create a new code project",
-              projectsSiteLinkText: "Explore project site",
-              text: "If this is your project, log in to see it. If this is not your project you can visit the project site for cool project ideas or start coding in a new project.",
+              projectsSiteLinkText: "Explore Projects site",
+              text: "If this is your project, log in to see it. If this is not your project you can visit the Projects site for cool project ideas or to start coding in a new project.",
             },
             accessDeniedWithAuthModal: {
               heading: "You can't access this project",
               newProject: "Create a new code project",
-              projectsSiteLinkText: "Explore project site",
-              text: "Visit the project site for cool project ideas or start coding in a new project.",
+              projectsSiteLinkText: "Explore Projects site",
+              text: "Visit the Projects site for cool project ideas or start coding in a new project.",
             },
             loading: "Loading",
             notFoundModal: {
               heading: "This project does not exist",
               newProject: "Start new code project",
-              projectsSiteLinkText: "Explore project site",
-              text: "You can start coding in a new project, or visit the project site for cool project ideas.",
+              projectsSiteLinkText: "Explore Projects site",
+              text: "You can start coding in a new project, or visit the Projects site for cool project ideas.",
             },
             untitled: "Untitled project",
           },
@@ -354,7 +355,7 @@ i18n
             },
             updated: "Edited",
             python_type: "Python",
-            html_type: "HTML"
+            html_type: "HTML",
           },
           runButton: {
             run: "Run",
@@ -362,7 +363,7 @@ i18n
             stopping: "Stopping...",
           },
           runners: {
-            HtmlOutput: 'HTML Output Preview'
+            HtmlOutput: "HTML Output Preview",
           },
           sideMenu: {
             collapse: "Collapse file pane",

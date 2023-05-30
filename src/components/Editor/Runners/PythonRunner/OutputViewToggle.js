@@ -5,44 +5,54 @@ import Button from "../../../Button/Button";
 import { setIsSplitView } from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
 
-import './OutputViewToggle.scss';
+import "./OutputViewToggle.scss";
 
 const OutputViewToggle = () => {
-
-  const isSplitView = useSelector((state) => state.editor.isSplitView)
-  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered)
-  const drawTriggered = useSelector((state) => state.editor.drawTriggered)
-  const dispatch = useDispatch()
-  const { t } = useTranslation()
+  const isSplitView = useSelector((state) => state.editor.isSplitView);
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered,
+  );
+  const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const switchToTabbedView = () => {
-    dispatch(setIsSplitView(false))
-  }
+    dispatch(setIsSplitView(false));
+  };
 
   const switchToSplitView = () => {
-    dispatch(setIsSplitView(true))
-  }
+    dispatch(setIsSplitView(true));
+  };
 
   return (
-    <div className = {`output-view-toggle`} disabled = {codeRunTriggered || drawTriggered}>
-      <Button className = {`btn--small output-view-toggle__button output-view-toggle__button--tabbed${isSplitView ? "" : " output-view-toggle__button--active"}` }
+    <div
+      className={`output-view-toggle`}
+      disabled={codeRunTriggered || drawTriggered}
+    >
+      <Button
+        className={`btn--small output-view-toggle__button output-view-toggle__button--tabbed${
+          isSplitView ? "" : " output-view-toggle__button--active"
+        }`}
         buttonOuter
-        disabled = {codeRunTriggered || drawTriggered}
-        label={t('outputViewToggle.buttonTabLabel')}
-        title={t('outputViewToggle.buttonTabTitle')}
+        disabled={codeRunTriggered || drawTriggered}
+        label={t("outputViewToggle.buttonTabLabel")}
+        title={t("outputViewToggle.buttonTabTitle")}
         ButtonIcon={TabbedViewIcon}
         onClickHandler={switchToTabbedView}
       />
-      <Button className = {`btn--small output-view-toggle__button output-view-toggle__button--split${isSplitView ? " output-view-toggle__button--active" : ""}` }
+      <Button
+        className={`btn--small output-view-toggle__button output-view-toggle__button--split${
+          isSplitView ? " output-view-toggle__button--active" : ""
+        }`}
         buttonOuter
-        disabled = {codeRunTriggered || drawTriggered}
-        label={t('outputViewToggle.buttonSplitLabel')}
-        title={t('outputViewToggle.buttonSplitTitle')}
+        disabled={codeRunTriggered || drawTriggered}
+        label={t("outputViewToggle.buttonSplitLabel")}
+        title={t("outputViewToggle.buttonSplitTitle")}
         ButtonIcon={SplitViewIcon}
         onClickHandler={switchToSplitView}
       />
     </div>
-  )
-}
+  );
+};
 
-export default OutputViewToggle
+export default OutputViewToggle;
