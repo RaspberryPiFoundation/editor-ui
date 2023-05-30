@@ -21,7 +21,6 @@ const NewFileModal = () => {
   const [fileName, setFileName] = useState('')
 
   const createComponent = () => {
-    console.log('creating component...')
     const name = fileName.split('.')[0];
     const extension = fileName.split('.').slice(1).join('.');
     validateFileName(fileName, projectType, componentNames, dispatch, t, () => {

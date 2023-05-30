@@ -465,7 +465,7 @@ export const RunIcon = () => {
   );
 };
 
-export const SelectButtonsTick = () => {
+export const SelectButtonsTickIcon = () => {
   return (
     <svg
       width="24"

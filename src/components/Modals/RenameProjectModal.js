@@ -29,7 +29,6 @@ export const RenameProjectModal = () => {
   const [projectName, setProjectName] = useState(project.name)
 
   const onCompleted = () => {
-    console.log('completed')
     closeModal()
     showRenamedMessage()
   }
@@ -39,7 +38,6 @@ export const RenameProjectModal = () => {
   const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION);
 
   const renameProject = () => {
-    console.log('renaming')
     renameProjectMutation({variables: {id: project.id, name: projectName}, onCompleted: onCompleted})
   }
 

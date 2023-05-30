@@ -1,6 +1,6 @@
 import React from "react";
 import './SelectButtons.scss'
-import { SelectButtonsTick } from "../Icons";
+import { SelectButtonsTickIcon } from "../Icons";
 
 const SelectButtons = ({label, options, value, setValue}) => {
   return (
@@ -22,7 +22,7 @@ const SelectButtons = ({label, options, value, setValue}) => {
                 {option.label}
               {/* {option.value === value ? */}
               <div className={`select-buttons__tick${option.value === value ? ' select-buttons__tick--selected': ''}`}>
-                <SelectButtonsTick />
+                <SelectButtonsTickIcon />
               </div>
               {/* : null} */}
             </label>
