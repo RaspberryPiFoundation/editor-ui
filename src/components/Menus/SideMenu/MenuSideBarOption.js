@@ -13,10 +13,12 @@ const MenuSideBarOption = (props) => {
 
   return (
     <Button
-      className = {`menu-sidebar-option${isActive ? " menu-sidebar-option--active" : ""}`}
-      ButtonIcon = {Icon}
-      title = {title}
-      onClickHandler = {onClickHandler}
+      className={`menu-sidebar-option${
+        isActive ? " menu-sidebar-option--active" : ""
+      }`}
+      ButtonIcon={Icon}
+      title={title}
+      onClickHandler={onClickHandler}
     />
   );
 };

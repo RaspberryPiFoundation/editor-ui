@@ -8,10 +8,10 @@ const MenuSideBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "top",
+    (menuOption) => menuOption.position === "top"
   );
   const bottomMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "bottom",
+    (menuOption) => menuOption.position === "bottom"
   );
 
   const expandPopOut = () => {
@@ -44,7 +44,7 @@ const MenuSideBar = (props) => {
             name={menuOption.name}
           />
         ))}
-        {option ? null : 
+        {option ? null : (
           <Button
             className="btn--secondary btn--small"
             ButtonIcon={DoubleChevronRight}
@@ -53,7 +53,7 @@ const MenuSideBar = (props) => {
             buttonOuterClassName="menu-expand-button"
             onClickHandler={expandPopOut}
           />
-        }
+        )}
       </div>
     </div>
   );
