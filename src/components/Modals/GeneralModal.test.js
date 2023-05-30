@@ -40,4 +40,5 @@ test('Clicking close button closes modal', () => {
 test('Pressing Enter calls the default callback', () => {
   const modal = screen.getByRole('dialog')
   fireEvent.keyDown(modal, {key: 'Enter'})
+  expect(defaultCallback).toHaveBeenCalled()
 })

@@ -8,9 +8,7 @@ import { useTranslation } from "react-i18next";
 
 const GeneralModal = ({buttons=[], children, defaultCallback, heading, isOpen, text=[], withCloseButton = false, closeModal }) => {
   const { t } = useTranslation()
-  const buttonComponents = buttons.map((ButtonFromProps) => (
-    () => ButtonFromProps
-  ))
+
   const onKeyDown = (e) => {
     if (e.key === 'Enter' && defaultCallback) {
       defaultCallback()
@@ -45,9 +43,7 @@ const GeneralModal = ({buttons=[], children, defaultCallback, heading, isOpen, t
           {children}
         </div>
         <div className='modal-content__buttons' >
-          {buttonComponents.map((ButtonComponent, i) => (
-            <ButtonComponent key={i}/>
-          ))}
+          {buttons}
         </div>
       </Modal>
     </div>

@@ -41,7 +41,6 @@ describe("Testing the new file modal", () => {
 
   test("Pressing save adds new file with the given name", () => {
     fireEvent.change(inputBox, {target: {value: "file1.py"}})
-    inputBox.innerHTML = "file1.py";
     fireEvent.click(saveButton)
     const expectedActions = [
       addProjectComponent({extension: "py", name: "file1"}),
@@ -53,7 +52,6 @@ describe("Testing the new file modal", () => {
 
   test("Pressing Enter adds new file with the given name", () => {
     fireEvent.change(inputBox, {target: {value: "file1.py"}})
-    inputBox.innerHTML = "file1.py";
     fireEvent.keyDown(inputBox, { key: 'Enter'})
     const expectedActions = [
       addProjectComponent({extension: "py", name: "file1"}),

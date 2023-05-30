@@ -41,8 +41,8 @@ export const DeleteProjectModal = () => {
         {type: 'paragraph', content: t('projectList.deleteProjectModal.text')}
       ]}
       buttons={[
-        <Button className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />,
-        <Button className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
+        <Button key='delete' className='btn--danger' buttonText={t('projectList.deleteProjectModal.delete')} onClickHandler={onClickDelete} />,
+        <Button key='close' className='btn--secondary' buttonText={t('projectList.deleteProjectModal.cancel')} onClickHandler={closeModal} />
       ]}
       defaultCallback={onClickDelete}
     />

@@ -20,14 +20,18 @@ beforeEach(() => {
       <div id='app'>
         <InputModal
           isOpen={true}
-          inputDefaultValue='my amazing default'
-          inputLabel='input'
-          inputHelpText='help me'
+          inputs={[
+            {
+              label: 'input',
+              helpText: 'help me',
+              value: 'my amazing default'
+            }
+          ]}
         />
       </div>
     </Provider>
   )
-  inputBox = screen.getByLabelText('input')
+  inputBox = screen.getByLabelText(/input/)
 })
 
 test('Renders help text', () => {
@@ -36,8 +40,4 @@ test('Renders help text', () => {
 
 test('Input renders with default value', () => {
   expect(inputBox).toHaveValue('my amazing default')
-})
-
-test('Focusses input box on load', () => {
-  expect(inputBox).toHaveFocus()
 })

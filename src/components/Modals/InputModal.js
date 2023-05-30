@@ -1,25 +1,47 @@
 import React, { useCallback } from "react";
 import GeneralModal from "./GeneralModal";
 import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
+import SelectButtons from "../../utils/SelectButtons";
 
-const InputModal = ({inputLabel, inputDefaultValue, inputHelpText, ...otherProps}) => {
+const InputModal = ({inputs, ...otherProps}) => {
 
   const inputBox = useCallback((node) => {
     if (node) {
-      node.focus()
+      node.select()
     }
   }, [])
 
   return (
     <GeneralModal {...otherProps}>
-      <div>
-        <label htmlFor='name'>{inputLabel}</label>
-        <p className='modal-content__help-text'>{inputHelpText}</p>
-      </div>
-      
-      <div className='modal-content__input'>
-        <NameErrorMessage />
-        <input ref={inputBox} type='text' name='name' id='name' defaultValue={inputDefaultValue}></input>
+      <div className='modal-content__inputs'>
+        {inputs.map((input, i) => (
+          <div key={i}>
+            {input.type==='radio' ?
+              <SelectButtons
+                label={input.label}
+                options={input.options}
+                value={input.value}
+                setValue={input.setValue}
+              />
+            :
+            <div className='modal-content__input-section'>
+              <label htmlFor={i}>
+                {input.label}
+                <p className='modal-content__help-text'>{input.helpText}</p>
+              </label>
+              <div className='modal-content__input'>
+                {input.validateName ? <NameErrorMessage /> : null }
+                <input
+                  ref={i===0 ? inputBox : null}
+                  type='text'
+                  id={i}
+                  onChange={(e) => input.setValue(e.target.value)}
+                  value={input.value}/>
+              </div>
+            </div>
+            }
+          </div>
+        ))}
       </div>
     </GeneralModal>
   )

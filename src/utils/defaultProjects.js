@@ -21,3 +21,8 @@ export const defaultHtmlProject = {
     { extension: 'css', name: 'test', content: "p {\n  background-color: red;\n}" }
   ]
 }
+
+export const DEFAULT_PROJECTS = {
+  'python': defaultPythonProject,
+  'html': defaultHtmlProject
+}
