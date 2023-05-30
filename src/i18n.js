@@ -240,19 +240,19 @@ i18n
             close: "Close",
           },
           newProjectModal: {
-            cancel: 'Cancel',
-            createProject: 'Create project',
-            heading: 'Create a new project',
+            cancel: "Cancel",
+            createProject: "Create project",
+            heading: "Create a new project",
             projectName: {
-              default: 'Untitled',
-              helpText: 'You can always rename your project later',
-              inputLabel: 'Project name',
+              default: "Untitled",
+              helpText: "You can always rename your project later",
+              inputLabel: "Project name",
             },
             projectType: {
-              html: 'HTML',
-              inputLabel: 'What kind of project do you want to make?',
-              python: 'Python'
-            }
+              html: "HTML",
+              inputLabel: "What kind of project do you want to make?",
+              python: "Python",
+            },
           },
           notifications: {
             close: "close",
