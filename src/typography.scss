@@ -1,5 +1,5 @@
+@use './font-size.scss' as *;
 @import './mixins.scss';
-@import './font-size.scss';
 
 h1 {
   @include font-size-2-5(regular);

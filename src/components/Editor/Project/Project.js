@@ -1,26 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { useContainerQuery } from 'react-container-query';
+import classnames from 'classnames';
 
 import './Project.scss';
-import EditorPanel from '../EditorPanel/EditorPanel'
 import Output from '../Output/Output'
 import RenameFile from '../../Modals/RenameFile'
-import RunnerControls from '../../RunButton/RunnerControls'
-import { closeFile, expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
+import { expireJustLoaded, setHasShownSavePrompt, setFocussedFileIndex, syncProject, openFile } from '../EditorSlice';
 import { isOwner } from '../../../utils/projectHelpers'
-import { CloseIcon } from '../../../Icons';
 import NotFoundModal from '../../Modals/NotFoundModal';
 import AccessDeniedNoAuthModal from '../../Modals/AccessDeniedNoAuthModal';
 import AccessDeniedWithAuthModal from '../../Modals/AccessDeniedWithAuthModal';
 import { showLoginPrompt, showSavedMessage, showSavePrompt } from '../../../utils/Notifications';
 import SideMenu from '../../Menus/SideMenu/SideMenu';
-import Button from '../../Button/Button';
+import EditorInput from '../EditorInput/EditorInput';
 import NewFileModal from '../../Modals/NewFileModal';
 import ResizableWithHandle from '../../../utils/ResizableWithHandle';
+import { projContainer } from '../../../utils/containerQueries';
 
 const Project = (props) => {
   const dispatch = useDispatch()
@@ -36,8 +35,6 @@ const Project = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded)
   const hasShownSavePrompt = useSelector((state) => state.editor.hasShownSavePrompt)
   const openFiles = useSelector((state) => state.editor.openFiles)
-  const focussedFileIndex = useSelector((state) => state.editor.focussedFileIndex)
-
   const saving = useSelector((state) => state.editor.saving)
   const autosave = useSelector((state) => state.editor.lastSaveAutosave)
 
@@ -47,41 +44,21 @@ const Project = (props) => {
     }
   }, [saving, autosave])
 
-  const [numberOfComponents, setNumberOfComponents] = useState(project.components.length)
-  let tabRefs = useRef(project.components.map(createRef))
-
-  useEffect(() => {
-    setNumberOfComponents(project.components.length)
-    Array(project.components.length).fill().forEach((_, i) => {
-      tabRefs.current[i] = tabRefs.current[i] || React.createRef();
-    })
-  }, [project])
-
-  useEffect(() => {
-    const fileName = openFiles[focussedFileIndex]
-    const componentIndex = project.components.findIndex(file => `${file.name}.${file.extension}`=== fileName)
-    const fileRef = tabRefs.current[componentIndex]
-    if (fileRef && fileRef.current) {
-      fileRef.current.parentElement.scrollIntoView()
-    }
-  }, [focussedFileIndex, openFiles, numberOfComponents])
-
-  const switchToFileTab = (index) => {
-    dispatch(setFocussedFileIndex(index))
+  const switchToFileTab = (panelIndex, fileIndex) => {
+    dispatch(setFocussedFileIndex({panelIndex, fileIndex}))
   }
 
   const openFileTab = (fileName) => {
-    if (openFiles.includes(fileName)) {
-      switchToFileTab(openFiles.indexOf(fileName), fileName)
+    if (openFiles.flat().includes(fileName)) {
+      const panelIndex = openFiles.map((fileNames) => (
+        fileNames.includes(fileName)
+      )).indexOf(true)
+      const fileIndex = openFiles[panelIndex].indexOf(fileName)
+      switchToFileTab(panelIndex, fileIndex)
     } else {
       dispatch(openFile(fileName))
-      switchToFileTab(openFiles.length)
+      switchToFileTab(0, openFiles[0].length)
     }
-  }
-
-  const closeFileTab = (e, fileName) => {
-    e.stopPropagation()
-    dispatch(closeFile(fileName))
   }
 
   useEffect(() => {
@@ -99,6 +76,9 @@ const Project = (props) => {
     }
     let debouncer = setTimeout(() => {
       if (isOwner(user, project) && project.identifier) {
+        if (justLoaded) {
+          dispatch(expireJustLoaded())
+        }
         dispatch(syncProject('save')({ project, accessToken: user.access_token, autosave: true }));
       }
       else {
@@ -117,38 +97,39 @@ const Project = (props) => {
     return () => clearTimeout(debouncer)
   }, [dispatch, forWebComponent, project, user])
 
+  const [params, containerRef] = useContainerQuery(projContainer);
+  const [defaultWidth, setDefaultWidth] = useState('auto');
+  const [defaultHeight, setDefaultHeight] = useState('auto');
+  const [maxWidth, setMaxWidth] = useState('100%');
+  const [handleDirection, setHandleDirection] = useState('right');
+
+  useMemo(() => {
+    const isDesktop = params['width-larger-than-880'];
+
+    setDefaultWidth(isDesktop ? '50%' : '100%');
+    setDefaultHeight(isDesktop ? '100%' : '50%');
+    setMaxWidth(isDesktop ? '75%' : '100%');
+    setHandleDirection(isDesktop ? 'right' : 'bottom');
+  }, [params]);
+
   return (
     <div className='proj'>
-      <div className={`proj-container${forWebComponent ? ' proj-container--wc': ''}`}>
-      {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
-        <ResizableWithHandle className='proj-editor-container' minWidth='15%' maxWidth='75%'>
-          <Tabs selectedIndex={focussedFileIndex} onSelect={index => switchToFileTab(index)}>
-            <div className='react-tabs__tab-container'>
-              <TabList>
-                {openFiles.map((fileName, i) => (
-                  <Tab key={i}>
-                    <span
-                      className={`react-tabs__tab-inner${fileName !== 'main.py'? ' react-tabs__tab-inner--split': ''}`}
-                      ref={tabRefs.current[project.components.findIndex(file => `${file.name}.${file.extension}`===fileName)]}>
-                        {fileName}
-                        {fileName !== 'main.py' ?
-                          <Button className='btn--tertiary react-tabs__tab-inner-close-btn' label='close' onClickHandler={(e) => closeFileTab(e, fileName)} ButtonIcon={() => <CloseIcon scaleFactor={0.85}/> }/>
-                        : null
-                        }
-                    </span>
-                  </Tab>
-                ))}
-              </TabList>
-            </div>
-            {openFiles.map((fileName, i) => (
-              <TabPanel key={i}>
-                <EditorPanel fileName={fileName.split('.')[0]} extension={fileName.split('.').slice(1).join('.')} />
-              </TabPanel>
-            ))}
-            <RunnerControls />
-          </Tabs>
-        </ResizableWithHandle>
-        <Output />
+      <div ref={containerRef} className={classnames('proj-container', {'proj-container--wc': forWebComponent})}>
+        {!forWebComponent ? <SideMenu openFileTab={openFileTab}/> : null}
+        <div className='proj-editor-wrapper'>
+          <ResizableWithHandle
+            data-testid='proj-editor-container'
+            className='proj-editor-container'
+            defaultWidth={defaultWidth}
+            defaultHeight={defaultHeight}
+            handleDirection={handleDirection}
+            minWidth='25%'
+            maxWidth={maxWidth}
+          >
+            <EditorInput />
+          </ResizableWithHandle>
+          <Output />
+        </div>
       </div>
       {(newFileModalShowing) ? <NewFileModal /> : null}
       {(renameFileModalShowing && modals.renameFile) ? <RenameFile /> : null}

@@ -1,5 +1,5 @@
 @use '../../../spacing' as *;
-@import '../../../colours.scss';
+@use '../../../colours' as *;
 
 .proj {
   flex: 1;
@@ -32,35 +32,44 @@
   flex: 1;
   display: flex;
   grid-gap: $space-0-5;
-  overflow: hidden;
-  justify-content: space-between;
   margin: $space-1-5;
+  height: 100%;
+  overflow: hidden;
 
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-editor-wrapper {
+    display: flex;
+    flex-flow: column;
+    grid-gap: $space-0-5;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
+  @media (min-width: 928px) { // width is 880px for the container + the rest of the page
+    .proj-editor-wrapper {
+      flex-flow: row;
+    }
+
+    .proj-editor-container {
+      max-height: 100% !important;
+    }
+
+    &--wc {
+      .proj-runner-container, .proj-editor-container {
+        width: 50%;
+      }
+    }
+  }
+
+  .menu, .proj-editor-container, .proj-runner-container {
     border-radius: 10px;
   }
 
   .proj-editor-container {
     display: flex;
-    flex-flow: column;
     box-sizing: border-box;
-    flex-basis: 45%;
-
-    @media only screen and (max-width: 1600px) {
-      flex-basis: 43%;
-    }
-
-    @media only screen and (max-width: 960px) {
-      flex-basis: 39%;
-    }
-
-    @media only screen and (max-width: 768px) {
-      flex-basis: 37%;
-    }
-
-    @media only screen and (max-width: 456px) {
-      flex-basis: 22%;
-    }
+    min-height: 30%;
+    max-height: 70%;
 
     .react-tabs__tab-panel--selected {
       overflow-y: hidden;
@@ -69,9 +78,9 @@
 
   .proj-runner-container {
     display: flex;
-    flex-flow: column;
-    flex: 5 1;
-    overflow-y: hidden;
+    box-sizing: border-box;
+    flex: 5;
+    overflow: hidden;
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
@@ -80,8 +89,9 @@
 
   &--wc {
     min-height: 200px;
+
     .proj-runner-container, .proj-editor-container {
-      width: 50%;
+      width: 100%;
     }
   }
 }

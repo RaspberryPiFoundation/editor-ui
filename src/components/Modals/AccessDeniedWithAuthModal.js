@@ -1,13 +1,12 @@
 import React from "react";
-import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import '../../Modal.scss';
 import { closeAccessDeniedWithAuthModal, syncProject } from "../Editor/EditorSlice";
-import { CloseIcon } from "../../Icons";
 import { defaultPythonProject } from "../../utils/defaultProjects";
+import GeneralModal from "./GeneralModal";
 
 const AccessDeniedWithAuthModal = () => {
   const dispatch = useDispatch()
@@ -22,31 +21,20 @@ const AccessDeniedWithAuthModal = () => {
   }
 
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className='modal-content'
-        overlayClassName='modal-overlay'
-        contentLabel={t('project.notFoundModal.heading')}
-        parentSelector={() => document.querySelector('#app')}
-        appElement={document.getElementById('app') || undefined}
-      >
-        <div className='modal-content__header'>
-          <h2 className='modal-content__heading'>{t('project.accessDeniedWithAuthModal.heading')}</h2>
-          <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-        </div>
-
-        <div className='modla-content__body'>
-          <p className='modal-content__text'>{t('project.accessDeniedWithAuthModal.text')}</p>
-        </div>
-
-        <div className='modal-content__buttons' >
-          <Button className='btn--primary' buttonText={t('project.accessDeniedWithAuthModal.newProject')} onClickHandler={createNewProject} />
-          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedWithAuthModal.projectsSiteLinkText')}</a>
-        </div>
-      </Modal>
-    </>
+    <GeneralModal
+      isOpen={isModalOpen}
+      closeModal={closeModal}
+      withCloseButton
+      heading={t('project.accessDeniedWithAuthModal.heading')}
+      text={[
+        {type: 'paragraph', content: t('project.accessDeniedWithAuthModal.text')}
+      ]}
+      buttons={[
+        <Button key='new' className='btn--primary' buttonText={t('project.accessDeniedWithAuthModal.newProject')} onClickHandler={createNewProject} />,
+        <a key='link' className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedWithAuthModal.projectsSiteLinkText')}</a>
+      ]}
+      defaultCallback={createNewProject}
+    />
   );
 }
 

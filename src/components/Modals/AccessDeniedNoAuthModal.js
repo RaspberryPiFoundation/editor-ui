@@ -1,46 +1,42 @@
 import React from "react";
-import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import '../../Modal.scss';
 import { closeAccessDeniedNoAuthModal } from "../Editor/EditorSlice";
-import { CloseIcon } from "../../Icons";
 import LoginButton from "../Login/LoginButton";
+import GeneralModal from "./GeneralModal";
+import { login } from "../../utils/login";
 
 const AccessDeniedNoAuthModal = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation();
   
   const isModalOpen = useSelector((state) => state.editor.accessDeniedNoAuthModalShowing)
+  const accessDeniedData = useSelector((state) => state.editor.modals.accessDenied)
   const closeModal = () => dispatch(closeAccessDeniedNoAuthModal());
 
+  const defaultCallback = () => {
+    login({accessDeniedData})
+  }
+
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className='modal-content'
-        overlayClassName='modal-overlay'
-        contentLabel={t('project.accessDeniedNoAuthModal.heading')}
-        parentSelector={() => document.querySelector('#app')}
-        appElement={document.getElementById('app') || undefined}
-      >
-        <div className='modal-content__header'>
-          <h2 className='modal-content__heading'>{t('project.accessDeniedNoAuthModal.heading')}</h2>
-          <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-        </div>
-        <div className='modal-content__body'>
-          <p className='modal-content__text'>{t('project.accessDeniedNoAuthModal.text')}</p>
-        </div>
-        <div className='modal-content__buttons' >
-          <LoginButton className='btn--primary' buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} />
-          <a className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>
-          <Button buttonText = {t('project.accessDeniedNoAuthModal.newProject')} className='btn--tertiary' onClickHandler={closeModal}/>
-        </div>
-      </Modal>
-    </>
+    <GeneralModal
+      isOpen={isModalOpen}
+      closeModal={closeModal}
+      withCloseButton
+      heading={t('project.accessDeniedNoAuthModal.heading')}
+      text={[
+        {type: 'paragraph', content: t('project.accessDeniedNoAuthModal.text')}
+      ]}
+      buttons={[
+        <LoginButton key='login' buttonText={t('project.accessDeniedNoAuthModal.loginButtonText')} className = 'btn--primary'/>,
+        <a key='link' className='btn btn--secondary' href='https://projects.raspberrypi.org'>{t('project.accessDeniedNoAuthModal.projectsSiteLinkText')}</a>,
+        <Button key='close' buttonText = {t('project.accessDeniedNoAuthModal.newProject')} className='btn--tertiary' onClickHandler={closeModal}/>
+      ]}
+      defaultCallback={defaultCallback}
+    />
   );
 }
 

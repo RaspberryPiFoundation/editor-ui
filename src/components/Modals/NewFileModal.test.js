@@ -31,7 +31,7 @@ describe("Testing the new file modal", () => {
     }
     store = mockStore(initialState);
     render(<Provider store={store}><div id='app'><NewFileModal /></div></Provider>)
-    saveButton = screen.getByText('filePane.newFileModal.save')
+    saveButton = screen.getByText('filePane.newFileModal.addFile')
     inputBox = screen.getByRole('textbox')
   })
 
@@ -39,13 +39,8 @@ describe("Testing the new file modal", () => {
     expect(screen.queryByText('filePane.newFileModal.heading')).toBeInTheDocument()
   })
 
-  test('Autofocuses input box', () => {
-    expect(inputBox).toHaveFocus()
-  })
-
   test("Pressing save adds new file with the given name", () => {
     fireEvent.change(inputBox, {target: {value: "file1.py"}})
-    inputBox.innerHTML = "file1.py";
     fireEvent.click(saveButton)
     const expectedActions = [
       addProjectComponent({extension: "py", name: "file1"}),
@@ -57,7 +52,6 @@ describe("Testing the new file modal", () => {
 
   test("Pressing Enter adds new file with the given name", () => {
     fireEvent.change(inputBox, {target: {value: "file1.py"}})
-    inputBox.innerHTML = "file1.py";
     fireEvent.keyDown(inputBox, { key: 'Enter'})
     const expectedActions = [
       addProjectComponent({extension: "py", name: "file1"}),

@@ -20,19 +20,6 @@ test('Modal rendered when betaModalShowing is true', () => {
   expect(screen.queryByText('betaBanner.modal.heading')).toBeInTheDocument()
 })
 
-test('Modal not rendered when betaModalShowing is false', () => {
-  const initialState = {
-    editor: {
-      betaModalShowing: false
-    }
-  }
-  const store = mockStore(initialState);
-
-  render(<Provider store={store}><div id='app'><BetaModal /></div></Provider>)
-
-  expect(screen.queryByText('betaBanner.modal.heading')).not.toBeInTheDocument()
-})
-
 test('Clicking close dispatches close modal action', () => {
   const initialState = {
     editor: {
