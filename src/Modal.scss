@@ -78,6 +78,10 @@
   line-height: var(--line-height-regular);
 }
 
+.modal-content__help-text {
+  margin: $space-0-25 0;
+}
+
 .modal-content__buttons {
   padding: $space-1;
   display: flex;
@@ -144,7 +148,6 @@
 
   .modal-content__help-text {
     color: $rpf-text-secondary-dark;
-    margin: $space-0-25 0;
   }
 
   .modal-content__buttons {
