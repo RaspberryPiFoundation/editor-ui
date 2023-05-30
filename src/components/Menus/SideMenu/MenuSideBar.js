@@ -8,10 +8,10 @@ const MenuSideBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "top"
+    (menuOption) => menuOption.position === "top",
   );
   const bottomMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "bottom"
+    (menuOption) => menuOption.position === "bottom",
   );
 
   const expandPopOut = () => {
