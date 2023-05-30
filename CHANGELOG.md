@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
+- Move eslint config to `.eslintrc.json` with prettier support
+- Add `.editorconfig`
 
 ### Fixed
 

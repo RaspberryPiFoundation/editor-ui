@@ -5,5 +5,5 @@ export const defaultMZCriteria = {
   readHumidity: false,
   readPressure: false,
   readTemperature: false,
-  usedLEDs: false
-}
+  usedLEDs: false,
+};

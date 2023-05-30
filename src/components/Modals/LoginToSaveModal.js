@@ -5,42 +5,55 @@ import { useTranslation } from "react-i18next";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 import DownloadButton from "../Header/DownloadButton";
 import LoginButton from "../Login/LoginButton";
-import '../../Modal.scss';
+import "../../Modal.scss";
 import Button from "../Button/Button";
 import GeneralModal from "./GeneralModal";
 import { login } from "../../utils/login";
 import { useLocation } from "react-router-dom";
 
 const LoginToSaveModal = () => {
-  const dispatch = useDispatch()
-  const { t } = useTranslation()
-  const location = useLocation()
-  const project = useSelector((state) => state.editor.project)
-  const isModalOpen = useSelector((state) => state.editor.loginToSaveModalShowing)
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const location = useLocation();
+  const project = useSelector((state) => state.editor.project);
+  const isModalOpen = useSelector(
+    (state) => state.editor.loginToSaveModalShowing,
+  );
   const closeModal = () => dispatch(closeLoginToSaveModal());
 
   const defaultCallback = () => {
-    login({project, location, triggerSave: true})
-  }
+    login({ project, location, triggerSave: true });
+  };
 
   return (
     <GeneralModal
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t('loginToSaveModal.heading')}
+      heading={t("loginToSaveModal.heading")}
       text={[
-        {type: 'paragraph', content: t('loginToSaveModal.loginText')},
-        {type: 'paragraph', content: t('loginToSaveModal.downloadText')}
+        { type: "paragraph", content: t("loginToSaveModal.loginText") },
+        { type: "paragraph", content: t("loginToSaveModal.downloadText") },
       ]}
       buttons={[
-        <LoginButton className='btn--primary' buttonText={t('loginToSaveModal.loginButtonText')} triggerSave />,
-        <DownloadButton buttonText = {t('loginToSaveModal.downloadButtonText')} className = 'btn--secondary' />,
-        <Button buttonText = {t('loginToSaveModal.cancel')} className='btn--tertiary' onClickHandler={closeModal}/>
+        <LoginButton
+          className="btn--primary"
+          buttonText={t("loginToSaveModal.loginButtonText")}
+          triggerSave
+        />,
+        <DownloadButton
+          buttonText={t("loginToSaveModal.downloadButtonText")}
+          className="btn--secondary"
+        />,
+        <Button
+          buttonText={t("loginToSaveModal.cancel")}
+          className="btn--tertiary"
+          onClickHandler={closeModal}
+        />,
       ]}
       defaultCallback={defaultCallback}
     />
   );
-}
+};
 
 export default LoginToSaveModal;
