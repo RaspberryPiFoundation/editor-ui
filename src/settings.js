@@ -1,8 +1,10 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
 const SettingsContext = createContext({
-    theme: window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light",
-    fontSize: 'small'
-})
+  theme: window.matchMedia("(prefers-color-scheme:dark)").matches
+    ? "dark"
+    : "light",
+  fontSize: "small",
+});
 
-export { SettingsContext }
+export { SettingsContext };

@@ -1,57 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import Button from '../Button/Button'
-import { addProjectComponent, closeNewFileModal, openFile } from '../Editor/EditorSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { validateFileName } from '../../utils/componentNameValidation';
-import InputModal from './InputModal';
+import Button from "../Button/Button";
+import {
+  addProjectComponent,
+  closeNewFileModal,
+  openFile,
+} from "../Editor/EditorSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { validateFileName } from "../../utils/componentNameValidation";
+import InputModal from "./InputModal";
 
 const NewFileModal = () => {
-
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const projectType = useSelector((state) => state.editor.project.project_type)
-  const projectComponents = useSelector((state) => state.editor.project.components);
-  const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const projectComponents = useSelector(
+    (state) => state.editor.project.components,
+  );
+  const componentNames = projectComponents.map(
+    (component) => `${component.name}.${component.extension}`,
+  );
 
-  const isModalOpen = useSelector((state) => state.editor.newFileModalShowing)
-  const closeModal = () => dispatch(closeNewFileModal())
+  const isModalOpen = useSelector((state) => state.editor.newFileModalShowing);
+  const closeModal = () => dispatch(closeNewFileModal());
 
-  const [fileName, setFileName] = useState('')
+  const [fileName, setFileName] = useState("");
 
   const createComponent = () => {
-    const name = fileName.split('.')[0];
-    const extension = fileName.split('.').slice(1).join('.');
+    const name = fileName.split(".")[0];
+    const extension = fileName.split(".").slice(1).join(".");
     validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
-      dispatch(addProjectComponent({extension: extension, name: name}));
-      dispatch(openFile(fileName))
+      dispatch(addProjectComponent({ extension: extension, name: name }));
+      dispatch(openFile(fileName));
       closeModal();
-    })
-  }
+    });
+  };
 
   return (
     <InputModal
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t('filePane.newFileModal.heading')}
+      heading={t("filePane.newFileModal.heading")}
       inputs={[
         {
-          label: t('filePane.newFileModal.inputLabel'),
-          helpText: t('filePane.newFileModal.helpText', {examples: t(`filePane.newFileModal.helpTextExample.${projectType}`)}),
+          label: t("filePane.newFileModal.inputLabel"),
+          helpText: t("filePane.newFileModal.helpText", {
+            examples: t(`filePane.newFileModal.helpTextExample.${projectType}`),
+          }),
           value: fileName,
           setValue: setFileName,
-          validateName: true
-        }
+          validateName: true,
+        },
       ]}
       defaultCallback={createComponent}
       buttons={[
-        <Button key='create' className='btn--primary' buttonText={t('filePane.newFileModal.addFile')} onClickHandler={createComponent} />,
-        <Button key='close' className='btn--secondary' buttonText={t('filePane.newFileModal.cancel')} onClickHandler={closeModal} />
+        <Button
+          key="create"
+          className="btn--primary"
+          buttonText={t("filePane.newFileModal.addFile")}
+          onClickHandler={createComponent}
+        />,
+        <Button
+          key="close"
+          className="btn--secondary"
+          buttonText={t("filePane.newFileModal.cancel")}
+          onClickHandler={closeModal}
+        />,
       ]}
     />
-  )
-}
+  );
+};
 
-export default NewFileModal
+export default NewFileModal;

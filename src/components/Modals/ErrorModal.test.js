@@ -20,12 +20,12 @@ test("Modal rendered when errorModalShowing is true", () => {
       <div id="app">
         <ErrorModal />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   expect(screen.queryByText("modal.error.heading")).toBeInTheDocument();
   expect(
-    screen.queryByText("modal.error.null.message")
+    screen.queryByText("modal.error.null.message"),
   ).not.toBeInTheDocument();
 });
 
@@ -42,7 +42,7 @@ test("Modal not rendered when errorModalShowing is false", () => {
       <div id="app">
         <ErrorModal />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   expect(screen.queryByText("modal.error.heading")).not.toBeInTheDocument();
@@ -61,7 +61,7 @@ test("Clicking close dispatches close modal action", () => {
       <div id="app">
         <ErrorModal />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   const closeButton = screen.queryByText("modal.close");
@@ -82,11 +82,11 @@ test("Error message shown", () => {
       <div id="app">
         <ErrorModal errorType="someTestError" />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   expect(
-    screen.queryByText("modal.error.someTestError.message")
+    screen.queryByText("modal.error.someTestError.message"),
   ).toBeInTheDocument();
 });
 
@@ -104,7 +104,7 @@ test("Additional closeModal function fired", () => {
       <div id="app">
         <ErrorModal additionalOnClose={testOnClose} />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   const closeButton = screen.queryByText("modal.close");

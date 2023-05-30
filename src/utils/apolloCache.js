@@ -25,7 +25,7 @@ const apolloCache = new InMemoryCache({
             // Find prefix
             if (startCursor) {
               const index = existing.edges.findIndex(
-                (edge) => edge.cursor === startCursor
+                (edge) => edge.cursor === startCursor,
               );
               prefix =
                 index > -1 ? existing.edges.slice(0, index) : existing.edges;
@@ -34,7 +34,7 @@ const apolloCache = new InMemoryCache({
             // Find suffix
             if (endCursor) {
               const index = existing.edges.findIndex(
-                (edge) => edge.cursor === endCursor
+                (edge) => edge.cursor === endCursor,
               );
               suffix = index > -1 ? existing.edges.slice(index + 1) : [];
             }

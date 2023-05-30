@@ -32,7 +32,7 @@ export const ProjectListItem = (props) => {
   const lastSaved = intlFormatDistance(
     new Date(project.updatedAt),
     Date.now(),
-    { style: "short" }
+    { style: "short" },
   );
   const projectType = props.project.projectType;
 

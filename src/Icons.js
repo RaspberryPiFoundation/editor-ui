@@ -460,7 +460,7 @@ export const RunIcon = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M0 14V0L11 7L0 14Z"/>
+      <path d="M0 14V0L11 7L0 14Z" />
     </svg>
   );
 };
@@ -523,7 +523,7 @@ export const StopIcon = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M0 12V0H12V12H0Z"/>
+      <path d="M0 12V0H12V12H0Z" />
     </svg>
   );
 };

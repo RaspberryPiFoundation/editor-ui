@@ -17,13 +17,13 @@ function HtmlRunner() {
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
-    (state) => state.editor.focussedFileIndices
+    (state) => state.editor.focussedFileIndices,
   )[firstPanelIndex];
   const openFiles = useSelector((state) => state.editor.openFiles)[
     firstPanelIndex
   ];
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -38,7 +38,7 @@ function HtmlRunner() {
 
   const focussedComponent = (fileName = "index.html") =>
     projectCode.filter(
-      (component) => `${component.name}.${component.extension}` === fileName
+      (component) => `${component.name}.${component.extension}` === fileName,
     )[0];
 
   const previewable = (file) => file.endsWith(".html");
@@ -46,7 +46,7 @@ function HtmlRunner() {
   const [previewFile, setPreviewFile] = useState(
     previewable(openFiles[focussedFileIndex])
       ? openFiles[focussedFileIndex]
-      : "index.html"
+      : "index.html",
   );
 
   const showModal = () => {
@@ -66,7 +66,7 @@ function HtmlRunner() {
       projectImages.forEach((image) => {
         updatedProjectFile.content = updatedProjectFile.content.replace(
           image.filename,
-          image.url
+          image.url,
         );
       });
     }
@@ -131,7 +131,7 @@ function HtmlRunner() {
     // replace href's with blob urls
     hrefNodes.forEach((hrefNode) => {
       const projectFile = projectCode.filter(
-        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href
+        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
       );
 
       // remove target blanks
@@ -145,7 +145,7 @@ function HtmlRunner() {
         if (parentTag(hrefNode, "head")) {
           const projectFileBlob = getBlobURL(
             cssProjectImgs(projectFile[0]).content,
-            `text/${projectFile[0].extension}`
+            `text/${projectFile[0].extension}`,
           );
           hrefNode.setAttribute("href", projectFileBlob);
         } else {
@@ -171,11 +171,11 @@ function HtmlRunner() {
     const srcNodes = indexPage.querySelectorAll("[src]");
     srcNodes.forEach((srcNode) => {
       const projectImage = projectImages.filter(
-        (component) => component.filename === srcNode.attrs.src
+        (component) => component.filename === srcNode.attrs.src,
       );
       srcNode.setAttribute(
         "src",
-        !!projectImage.length ? projectImage[0].url : ""
+        !!projectImage.length ? projectImage[0].url : "",
       );
     });
 

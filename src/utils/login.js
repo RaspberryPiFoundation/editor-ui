@@ -1,15 +1,26 @@
-import userManager from "./userManager"
+import userManager from "./userManager";
 
-export const login = ({project, location, triggerSave, accessDeniedData} = {}) => {
-  window.plausible('Login button')
+export const login = ({
+  project,
+  location,
+  triggerSave,
+  accessDeniedData,
+} = {}) => {
+  window.plausible("Login button");
   if (accessDeniedData) {
-    localStorage.setItem('location', `/projects/${accessDeniedData.identifier}`)
+    localStorage.setItem(
+      "location",
+      `/projects/${accessDeniedData.identifier}`,
+    );
   } else {
-    localStorage.setItem('location', location.pathname)
-    localStorage.setItem(project.identifier || 'project', JSON.stringify(project))
+    localStorage.setItem("location", location.pathname);
+    localStorage.setItem(
+      project.identifier || "project",
+      JSON.stringify(project),
+    );
   }
   if (triggerSave) {
-    localStorage.setItem('awaitingSave', 'true')
+    localStorage.setItem("awaitingSave", "true");
   }
   userManager.signinRedirect();
-}
+};

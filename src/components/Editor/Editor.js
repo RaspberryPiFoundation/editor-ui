@@ -1,17 +1,17 @@
 // import './editor.css'
-import React, { useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { update } from './EditorSlice'
+import React, { useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { update } from "./EditorSlice";
 
-import { EditorState, basicSetup } from '@codemirror/basic-setup';
-import { EditorView, keymap } from '@codemirror/view';
-import { defaultKeymap } from '@codemirror/commands';
-import { python } from '@codemirror/lang-python';
+import { EditorState, basicSetup } from "@codemirror/basic-setup";
+import { EditorView, keymap } from "@codemirror/view";
+import { defaultKeymap } from "@codemirror/commands";
+import { python } from "@codemirror/lang-python";
 
 function Editor() {
   const editor = useRef();
-  const code = useSelector((state) => state.editor.code)
-  const dispatch = useDispatch()
+  const code = useSelector((state) => state.editor.code);
+  const dispatch = useDispatch();
 
   const onUpdate = EditorView.updateListener.of((v) => {
     dispatch(update(v.state.doc.toString()));
@@ -20,12 +20,7 @@ function Editor() {
   useEffect(() => {
     const startState = EditorState.create({
       doc: code,
-      extensions: [
-        basicSetup,
-        keymap.of(defaultKeymap),
-        python(),
-        onUpdate,
-      ],
+      extensions: [basicSetup, keymap.of(defaultKeymap), python(), onUpdate],
     });
 
     const view = new EditorView({ state: startState, parent: editor.current });

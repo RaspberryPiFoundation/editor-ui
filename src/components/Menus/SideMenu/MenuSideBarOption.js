@@ -1,15 +1,15 @@
-import React from "react"
-import Button from "../../Button/Button"
+import React from "react";
+import Button from "../../Button/Button";
 
 const MenuSideBarOption = (props) => {
-  const { Icon, isActive, name, title, toggleOption } = props
+  const { Icon, isActive, name, title, toggleOption } = props;
 
   const onClickHandler = () => {
-    toggleOption(name)
-    if (name === 'file') {
-      window.plausible('Side menu open project files')
+    toggleOption(name);
+    if (name === "file") {
+      window.plausible("Side menu open project files");
     }
-  }
+  };
 
   return (
     <Button
@@ -18,7 +18,7 @@ const MenuSideBarOption = (props) => {
       title = {title}
       onClickHandler = {onClickHandler}
     />
-  )
-}
+  );
+};
 
-export default MenuSideBarOption
+export default MenuSideBarOption;

@@ -1,45 +1,44 @@
-import configureStore from 'redux-mock-store'
-import { Provider } from "react-redux"
-import { SettingsContext } from "../../../settings"
-import { render } from '@testing-library/react'
-import { axe, toHaveNoViolations }from 'jest-axe'
-import EditorPanel from './EditorPanel'
+import configureStore from "redux-mock-store";
+import { Provider } from "react-redux";
+import { SettingsContext } from "../../../settings";
+import { render } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import EditorPanel from "./EditorPanel";
 
-expect.extend(toHaveNoViolations)
+expect.extend(toHaveNoViolations);
 
-describe('When font size is set', () => {
+describe("When font size is set", () => {
+  let editor;
 
-  let editor
-  
   beforeEach(() => {
-    const middlewares = []
-    const mockStore = configureStore(middlewares)
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {
-          components: [
-            {name: 'main', extension: 'py', content: ''}
-          ]
-        }
-      }
-    }
+          components: [{ name: "main", extension: "py", content: "" }],
+        },
+      },
+    };
     const store = mockStore(initialState);
     const editorContainer = render(
       <Provider store={store}>
-        <SettingsContext.Provider value={{ theme: 'dark', fontSize: 'myFontSize' }}>
-          <EditorPanel fileName='main' extension='py'/>
+        <SettingsContext.Provider
+          value={{ theme: "dark", fontSize: "myFontSize" }}
+        >
+          <EditorPanel fileName="main" extension="py" />
         </SettingsContext.Provider>
-      </Provider>
-    )
-    editor = editorContainer.container.querySelector('.editor')
-  })
+      </Provider>,
+    );
+    editor = editorContainer.container.querySelector(".editor");
+  });
 
-  test('Font size class is set correctly', () => {
-    expect(editor).toHaveClass("editor--myFontSize")
-  })
+  test("Font size class is set correctly", () => {
+    expect(editor).toHaveClass("editor--myFontSize");
+  });
 
-  test('Editor panel has no AXE violations', async () => {
-    const axeResults = await axe(editor)
-    expect(axeResults).toHaveNoViolations()
-  })
-})
+  test("Editor panel has no AXE violations", async () => {
+    const axeResults = await axe(editor);
+    expect(axeResults).toHaveNoViolations();
+  });
+});

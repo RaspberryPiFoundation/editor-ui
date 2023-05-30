@@ -47,7 +47,7 @@ describe("When page first loaded", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -76,7 +76,7 @@ describe("When focussed on another HTML file", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -113,7 +113,7 @@ describe("When page first loaded in embedded viewer", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -123,7 +123,7 @@ describe("When page first loaded in embedded viewer", () => {
 
   test("Dispatches action to trigger code run", () => {
     expect(store.getActions()).toEqual(
-      expect.arrayContaining([triggerCodeRun()])
+      expect.arrayContaining([triggerCodeRun()]),
     );
   });
 });
@@ -153,7 +153,7 @@ describe("When run run triggered", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -165,7 +165,7 @@ describe("When run run triggered", () => {
 
   test("Dispatches action to end code run", () => {
     expect(store.getActions()).toEqual(
-      expect.arrayContaining([codeRunHandled()])
+      expect.arrayContaining([codeRunHandled()]),
     );
   });
 });
@@ -203,7 +203,7 @@ describe("When an external link is rendered", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -248,7 +248,7 @@ describe("When a new tab link is rendered", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -283,7 +283,7 @@ describe("When an allowed link is rendered", () => {
         <div id="app">
           <HtmlRunner />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 

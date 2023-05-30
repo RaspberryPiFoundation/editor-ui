@@ -55,7 +55,7 @@ test("If cached project does not match identifer does not use cached project", a
   localStorage.setItem("project", JSON.stringify(cachedProject));
   renderHook(() => useProject("my-favourite-project"));
   await waitFor(() =>
-    expect(setProject).not.toHaveBeenCalledWith(cachedProject)
+    expect(setProject).not.toHaveBeenCalledWith(cachedProject),
   );
 });
 
@@ -68,7 +68,7 @@ test("If cached project does not match identifier loads correct uncached project
       identifier: project1.identifier,
       locale: "ja-JP",
       accessToken,
-    })
+    }),
   );
 });
 
@@ -80,7 +80,7 @@ test("If no cached project loads uncached project", async () => {
       identifier: "hello-world-project",
       locale: "ja-JP",
       accessToken,
-    })
+    }),
   );
 });
 
