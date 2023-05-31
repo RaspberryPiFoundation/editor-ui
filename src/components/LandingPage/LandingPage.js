@@ -2,7 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 
+import Button from "../Button/Button";
 import startIcon from "../../assets/start_icon.svg";
+import { FileIconHtml } from "../../Icons";
+import { FileIconPython } from "../../Icons";
+
 const LandingPage = () => {
   const { t } = useTranslation();
   return (
@@ -14,15 +18,29 @@ const LandingPage = () => {
         <h2 className="landing-page__projects--subtitle">
           {t("landingPage.subtitle")}
         </h2>
-        <button className="btn btn--primary">{t("landingPage.python")}</button>
-        <button className="btn btn--primary">{t("landingPage.html")}</button>
+        <Button
+          buttonText={t("landingPage.python")}
+          ButtonIcon={FileIconPython}
+          buttonOuter
+          onclick="location.href='https://google.com';"
+          className="btn--primary btn--small landing-page-button"
+        />
+        <Button
+          buttonText={t("landingPage.html")}
+          ButtonIcon={FileIconHtml}
+          buttonOuter
+          onclick="location.href='https://google.com';"
+          className="btn--primary btn--small landing-page-button"
+        />
         <p className="landing-page__projects--login">
           {t("landingPage.login")}
         </p>
       </div>
       <div className="landing-page__paths">
         <h2 className="landing-page__paths--title">{t("landingPage.start")}</h2>
-        <p className="landing-page__paths--description">{t("landingPage.projects")}</p>
+        <p className="landing-page__paths--description">
+          {t("landingPage.projects")}
+        </p>
         <img className="" src={startIcon} alt={""} />
       </div>
     </div>
