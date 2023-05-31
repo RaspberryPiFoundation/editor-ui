@@ -18,11 +18,20 @@
 }
 
 .landing-page__projects--login {
-  @include font-size-1-25(bold);
+  @include font-size-1-5(regular);
 }
 
 // Paths
 .landing-page__paths {
   background-color: white;
   border-radius: 1.5rem;
+}
+
+.landing-page__paths--start {
+  @include font-size-1-5(regular);
+  font-weight: var(--font-weight-bold);
+}
+
+.landing-page__paths--description {
+  @include font-size-1(regular);
 }

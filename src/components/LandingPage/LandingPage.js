@@ -21,8 +21,8 @@ const LandingPage = () => {
         </p>
       </div>
       <div className="landing-page__paths">
-        <p>{t("landingPage.start")}</p>
-        <p>{t("landingPage.projects")}</p>
+        <h2 className="landing-page__paths--title">{t("landingPage.start")}</h2>
+        <p className="landing-page__paths--description">{t("landingPage.projects")}</p>
         <img className="" src={startIcon} alt={""} />
       </div>
     </div>
