@@ -26,3 +26,8 @@ export const defaultHtmlProject = {
     },
   ],
 };
+
+export const DEFAULT_PROJECTS = {
+  python: defaultPythonProject,
+  html: defaultHtmlProject,
+};

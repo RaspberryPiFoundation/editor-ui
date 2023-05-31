@@ -104,6 +104,7 @@ export const EditorSlice = createSlice({
     notFoundModalShowing: false,
     newFileModalShowing: false,
     renameFileModalShowing: false,
+    newProjectModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
     modals: {},
@@ -295,6 +296,12 @@ export const EditorSlice = createSlice({
       state.renameFileModalShowing = false;
       state.nameError = "";
     },
+    showNewProjectModal: (state) => {
+      state.newProjectModalShowing = true;
+    },
+    closeNewProjectModal: (state) => {
+      state.newProjectModalShowing = false;
+    },
     showRenameProjectModal: (state, action) => {
       state.modals.renameProject = action.payload;
       state.renameProjectModalShowing = true;
@@ -467,6 +474,8 @@ export const {
   closeNewFileModal,
   showRenameFileModal,
   closeRenameFileModal,
+  showNewProjectModal,
+  closeNewProjectModal,
   showRenameProjectModal,
   closeRenameProjectModal,
   showDeleteProjectModal,

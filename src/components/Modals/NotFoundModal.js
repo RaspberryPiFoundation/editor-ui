@@ -38,11 +38,13 @@ const NotFoundModal = () => {
       text={[{ type: "paragraph", content: t("project.notFoundModal.text") }]}
       buttons={[
         <Button
+          key="new"
           className="btn--primary"
           buttonText={t("project.notFoundModal.newProject")}
           onClickHandler={createNewProject}
         />,
         <a
+          key="link"
           className="btn btn--secondary"
           href="https://projects.raspberrypi.org"
         >
