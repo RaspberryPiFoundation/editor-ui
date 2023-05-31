@@ -14,7 +14,7 @@ const SidebarBarOption = (props) => {
   return (
     <Button
       className={`sidebar__bar-option${
-        isActive ? "sidebar__bar-option--active" : ""
+        isActive ? " sidebar__bar-option--active" : ""
       }`}
       ButtonIcon={Icon}
       title={title}

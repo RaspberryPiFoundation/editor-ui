@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { DoubleChevronLeft, FileIcon } from "../../../Icons";
-import Button from "../../Button/Button";
+import { FileIcon } from "../../../Icons";
 import FilePane from "./FilePane/FilePane";
 import SidebarBar from "./SidebarBar";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
@@ -21,7 +20,7 @@ const Sidebar = (props) => {
       panel: () => FilePane({ openFileTab: openFileTab }),
     },
   ];
-  const [option, setOption] = useState("file");
+  const [option, setOption] = useState();
   const toggleOption = (newOption) => {
     option !== newOption ? setOption(newOption) : setOption(null);
   };
@@ -31,11 +30,6 @@ const Sidebar = (props) => {
   });
   const SidebarPanel =
     optionDict && optionDict.panel ? optionDict.panel : () => {};
-
-  const collapsePopOut = () => {
-    toggleOption(option);
-    window.plausible("Collapse file pane");
-  };
 
   return (
     <div className="sidebar">
@@ -54,14 +48,6 @@ const Sidebar = (props) => {
           maxWidth="300px"
         >
           <SidebarPanel />
-          <Button
-            className="btn--secondary btn--small"
-            ButtonIcon={DoubleChevronLeft}
-            buttonOuter
-            buttonOuterClassName="sidebar-collapse-button"
-            title={t("sidebar.collapse")}
-            onClickHandler={collapsePopOut}
-          />
         </ResizableWithHandle>
       ) : null}
     </div>

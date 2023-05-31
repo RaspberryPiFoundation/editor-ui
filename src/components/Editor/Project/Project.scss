@@ -31,15 +31,15 @@
 .proj-container {
   flex: 1;
   display: flex;
-  grid-gap: $space-0-5;
-  margin: $space-1-5;
+  grid-gap: $space-1;
+  margin: $space-1;
   height: 100%;
   overflow: hidden;
 
   .proj-editor-wrapper {
     display: flex;
     flex-flow: column;
-    grid-gap: $space-0-5;
+    grid-gap: $space-1;
     overflow: hidden;
     width: 100%;
   }
@@ -62,7 +62,7 @@
   }
 
   .sidebar, .proj-editor-container, .proj-runner-container {
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   .proj-editor-container {
@@ -106,6 +106,6 @@
 .--dark {
   .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-grey-800;
-    border: 1px solid $rpf-grey-900;
+    border: 1px solid $rpf-grey-600;
   }
 }

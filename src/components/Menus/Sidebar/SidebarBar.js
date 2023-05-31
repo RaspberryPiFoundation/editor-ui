@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { DoubleChevronRight } from "../../../Icons";
+import { DoubleChevronLeft, DoubleChevronRight } from "../../../Icons";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 
@@ -19,8 +19,13 @@ const SidebarBar = (props) => {
     window.plausible("Expand file pane");
   };
 
+  const collapsePopOut = () => {
+    toggleOption(option);
+    window.plausible("Collapse file pane");
+  };
+
   return (
-    <div className="sidebar__bar">
+    <div className={`sidebar__bar${option ? " sidebar__bar--active" : ""}`}>
       <div className={`sidebar__bar-options--top`}>
         {topMenuOptions.map((menuOption, i) => (
           <SidebarBarOption
@@ -44,9 +49,18 @@ const SidebarBar = (props) => {
             name={menuOption.name}
           />
         ))}
-        {option ? null : (
+        {option ? (
           <Button
-            className="btn--secondary btn--small"
+            className="btn--tertiary"
+            ButtonIcon={DoubleChevronLeft}
+            title={t("sidebar.collapse")}
+            buttonOuter
+            buttonOuterClassName="sidebar-collapse-button"
+            onClickHandler={collapsePopOut}
+          />
+        ) : (
+          <Button
+            className="btn--tertiary"
             ButtonIcon={DoubleChevronRight}
             title={t("sidebar.expand")}
             buttonOuter
