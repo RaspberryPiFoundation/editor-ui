@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../Button/Button";
 
-const MenuSideBarOption = (props) => {
+const SidebarBarOption = (props) => {
   const { Icon, isActive, name, title, toggleOption } = props;
 
   const onClickHandler = () => {
@@ -13,8 +13,8 @@ const MenuSideBarOption = (props) => {
 
   return (
     <Button
-      className={`menu-sidebar-option${
-        isActive ? " menu-sidebar-option--active" : ""
+      className={`sidebar__bar-option${
+        isActive ? "sidebar__bar-option--active" : ""
       }`}
       ButtonIcon={Icon}
       title={title}
@@ -23,4 +23,4 @@ const MenuSideBarOption = (props) => {
   );
 };
 
-export default MenuSideBarOption;
+export default SidebarBarOption;

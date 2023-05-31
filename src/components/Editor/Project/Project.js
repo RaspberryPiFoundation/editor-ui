@@ -25,7 +25,7 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
-import SideMenu from "../../Menus/SideMenu/SideMenu";
+import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
@@ -158,7 +158,7 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {!forWebComponent ? <SideMenu openFileTab={openFileTab} /> : null}
+        {!forWebComponent ? <Sidebar openFileTab={openFileTab} /> : null}
         <div className="proj-editor-wrapper">
           <ResizableWithHandle
             data-testid="proj-editor-container"

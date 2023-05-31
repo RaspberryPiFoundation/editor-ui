@@ -61,7 +61,7 @@
     }
   }
 
-  .menu, .proj-editor-container, .proj-runner-container {
+  .sidebar, .proj-editor-container, .proj-runner-container {
     border-radius: 10px;
   }
 
@@ -97,14 +97,14 @@
 }
 
 .--light {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;
     border: 1px solid $rpf-grey-150;
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-grey-800;
     border: 1px solid $rpf-grey-900;
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import SideMenu from "./SideMenu";
+import Sidebar from "./Sidebar";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 
@@ -17,7 +17,7 @@ beforeEach(() => {
   render(
     <Provider store={store}>
       <div id="app">
-        <SideMenu />
+        <Sidebar />
       </div>
     </Provider>,
   );
@@ -28,7 +28,7 @@ test("File pane open by default", () => {
 });
 
 test("Clicking collapse closes the file pane", () => {
-  const collapseButton = screen.getByTitle("sideMenu.collapse");
+  const collapseButton = screen.getByTitle("Sidebar.collapse");
   fireEvent.click(collapseButton);
   expect(screen.queryByText("filePane.files")).not.toBeInTheDocument();
 });

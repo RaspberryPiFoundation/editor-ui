@@ -2,9 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { DoubleChevronRight } from "../../../Icons";
 import Button from "../../Button/Button";
-import MenuSideBarOption from "./MenuSideBarOption";
+import SidebarBarOption from "./SidebarBarOption";
 
-const MenuSideBar = (props) => {
+const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
@@ -20,10 +20,10 @@ const MenuSideBar = (props) => {
   };
 
   return (
-    <div className="menu-sidebar">
-      <div className={`menu-options-top`}>
+    <div className="sidebar__bar">
+      <div className={`sidebar__bar-options--top`}>
         {topMenuOptions.map((menuOption, i) => (
-          <MenuSideBarOption
+          <SidebarBarOption
             key={i}
             Icon={menuOption.icon}
             title={menuOption.title}
@@ -33,9 +33,9 @@ const MenuSideBar = (props) => {
           />
         ))}
       </div>
-      <div className={`menu-options-bottom`}>
+      <div className={`sidebar__bar-options--bottom`}>
         {bottomMenuOptions.map((menuOption, i) => (
-          <MenuSideBarOption
+          <SidebarBarOption
             key={i}
             Icon={menuOption.icon}
             title={menuOption.title}
@@ -48,9 +48,9 @@ const MenuSideBar = (props) => {
           <Button
             className="btn--secondary btn--small"
             ButtonIcon={DoubleChevronRight}
-            title={t("sideMenu.expand")}
+            title={t("sidebar.expand")}
             buttonOuter
-            buttonOuterClassName="menu-expand-button"
+            buttonOuterClassName="sidebar-expand-button"
             onClickHandler={expandPopOut}
           />
         )}
@@ -59,4 +59,4 @@ const MenuSideBar = (props) => {
   );
 };
 
-export default MenuSideBar;
+export default SidebarBar;

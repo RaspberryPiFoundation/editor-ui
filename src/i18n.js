@@ -365,7 +365,7 @@ i18n
           runners: {
             HtmlOutput: "HTML Output Preview",
           },
-          sideMenu: {
+          sidebar: {
             collapse: "Collapse file pane",
             expand: "Expand file pane",
             file: "Project files",

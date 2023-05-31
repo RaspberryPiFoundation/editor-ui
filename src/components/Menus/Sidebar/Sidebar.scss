@@ -1,22 +1,20 @@
 @use '../../../spacing' as *;
 @import '../../../colours.scss';
 
-.menu {
+.sidebar {
   display: flex;
   position: relative;
 }
 
-.menu-sidebar {
-  width: 44px;
+.sidebar__bar {
   text-align: center;
 }
 
-.menu-sidebar-option {
+.sidebar__bar-option {
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   box-sizing: border-box;
 
   svg {
@@ -24,7 +22,7 @@
   }
 }
 
-.menu-collapse-button, .menu-expand-button {
+.sidebar-collapse-button, .sidebar-expand-button {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -46,7 +44,7 @@
   }
 }
 
-.--dark .menu-sidebar-option--active, .--light .menu-sidebar-option--active {
+.--dark .sidebar__bar-option--active, .--light .sidebar__bar-option--active {
   background-color: $rpf-teal-600;
   border-radius: 100%;
 

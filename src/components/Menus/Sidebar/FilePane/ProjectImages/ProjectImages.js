@@ -11,7 +11,7 @@ const ProjectImages = () => {
   return (
     <details className="file-pane-section file-pane-section__images" open>
       <summary>
-        <h2 className="menu-pop-out-subheading">{t("filePane.images")}</h2>
+        <h2 className="sidebar__panel-subheading">{t("filePane.images")}</h2>
         <div className="accordion-icon">
           <ChevronDown />
         </div>

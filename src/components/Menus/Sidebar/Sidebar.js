@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { DoubleChevronLeft, FileIcon } from "../../../Icons";
 import Button from "../../Button/Button";
 import FilePane from "./FilePane/FilePane";
-import MenuSideBar from "./MenuSideBar";
+import SidebarBar from "./SidebarBar";
+import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 
-import "./SideMenu.scss";
+import "./Sidebar.scss";
 
-const SideMenu = (props) => {
+const Sidebar = (props) => {
   const { openFileTab } = props;
   const { t } = useTranslation();
   const menuOptions = [
     {
       name: "file",
       icon: FileIcon,
-      title: t("sideMenu.file"),
+      title: t("sidebar.file"),
       position: "top",
-      popOut: () => FilePane({ openFileTab: openFileTab }),
+      panel: () => FilePane({ openFileTab: openFileTab }),
     },
   ];
   const [option, setOption] = useState("file");
@@ -27,8 +29,8 @@ const SideMenu = (props) => {
   const optionDict = menuOptions.find((menuOption) => {
     return menuOption.name === option;
   });
-  const MenuPopOut =
-    optionDict && optionDict.popOut ? optionDict.popOut : () => {};
+  const SidebarPanel =
+    optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   const collapsePopOut = () => {
     toggleOption(option);
@@ -36,27 +38,34 @@ const SideMenu = (props) => {
   };
 
   return (
-    <div className="menu">
-      <MenuSideBar
+    <div className="sidebar">
+      <SidebarBar
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
       />
       {option ? (
-        <>
-          <MenuPopOut />
+        <ResizableWithHandle
+          data-testid="sidebar__panel"
+          className="sidebar__panel"
+          defaultWidth="200px"
+          handleDirection="right"
+          minWidth="150px"
+          maxWidth="300px"
+        >
+          <SidebarPanel />
           <Button
             className="btn--secondary btn--small"
             ButtonIcon={DoubleChevronLeft}
             buttonOuter
-            buttonOuterClassName="menu-collapse-button"
-            title={t("sideMenu.collapse")}
+            buttonOuterClassName="sidebar-collapse-button"
+            title={t("sidebar.collapse")}
             onClickHandler={collapsePopOut}
           />
-        </>
+        </ResizableWithHandle>
       ) : null}
     </div>
   );
 };
 
-export default SideMenu;
+export default Sidebar;
