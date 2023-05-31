@@ -175,6 +175,15 @@ i18n
               renameItem: "Rename file",
             },
           },
+          landingPage: {
+            title: "Code Editor",
+            subtitle: "Start coding, no setup required!",
+            python: "Start coding Python",
+            html: "Start coding HTML/CSS",
+            login: "Have an account? Login and continue your projects",
+            start: "Not sure where to start?",
+            projects: "Follow a Python path or Web path on our Projects site.",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
