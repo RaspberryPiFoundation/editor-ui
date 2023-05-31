@@ -16,7 +16,9 @@ const LandingPage = () => {
         </h2>
         <button className="btn btn--primary">{t("landingPage.python")}</button>
         <button className="btn btn--primary">{t("landingPage.html")}</button>
-        <p>{t("landingPage.login")}</p>
+        <p className="landing-page__projects--login">
+          {t("landingPage.login")}
+        </p>
       </div>
       <div className="landing-page__paths">
         <p>{t("landingPage.start")}</p>
