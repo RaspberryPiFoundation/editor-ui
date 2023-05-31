@@ -110,13 +110,13 @@ export const CloudUploadIcon = () => {
 export const DoubleChevronLeft = () => {
   return (
     <svg
-      width="12"
-      height="10"
-      viewBox="0 0 12 10"
+      width="14"
+      height="12"
+      viewBox="0 0 14 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M5.16663 10L0.166626 5L5.16663 0L6.33329 1.16667L2.52079 5L6.33329 8.83333L5.16663 10ZM10.6666 10L5.66663 5L10.6666 0L11.8333 1.16667L8.02079 5L11.8333 8.83333L10.6666 10Z" />
+      <path d="M6 12L0 6L6 0L7.4 1.4L2.825 6L7.4 10.6L6 12ZM12.6 12L6.6 6L12.6 0L14 1.4L9.425 6L14 10.6L12.6 12Z" />
     </svg>
   );
 };
@@ -124,13 +124,13 @@ export const DoubleChevronLeft = () => {
 export const DoubleChevronRight = () => {
   return (
     <svg
-      width="12"
-      height="10"
-      viewBox="0 0 12 10"
+      width="14"
+      height="12"
+      viewBox="0 0 14 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M1.33334 10L0.166672 8.83333L3.97917 5L0.166672 1.16667L1.33334 0L6.33334 5L1.33334 10ZM6.83334 10L5.66667 8.83333L9.47917 5L5.66667 1.16667L6.83334 0L11.8333 5L6.83334 10Z" />
+      <path d="M1.4 12L0 10.6L4.575 6L0 1.4L1.4 0L7.4 6L1.4 12ZM8 12L6.6 10.6L11.175 6L6.6 1.4L8 0L14 6L8 12Z" />
     </svg>
   );
 };

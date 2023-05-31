@@ -4,9 +4,6 @@
 .sidebar {
   display: flex;
   position: relative;
-  // overflow: hidden;
-  // height: 100%;
-  // box-sizing: border-box;
 }
 
 .sidebar__bar {
@@ -14,17 +11,31 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
+  padding: $space-0-75 0 $space-0-5 0;
 }
 
 .sidebar__bar--active {
   border-radius: 8px 0 0 8px;
 }
 
+.sidebar__bar-options--top, .sidebar__bar-options--bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-0-5;
+}
+
 .sidebar__panel {
   border-radius: 0 8px 8px 0;
   overflow-y: auto;
   overflow-x: visible;
-  // box-sizing: content-box;
+}
+
+.sidebar__bar-option-wrapper {
+  padding: 6px 11px 6px 6px;
+  margin: 0 -1px 0 4px;
+  border-radius: 100% 0 0 100%;
 }
 
 .sidebar__bar-option {
@@ -33,6 +44,8 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  border-radius: 100%;
+  margin: 0;
 
   svg {
     margin: 0;
@@ -56,18 +69,29 @@
   }
 }
 
-.--dark .sidebar__bar-option--active, .--light .sidebar__bar-option--active {
-  background-color: $rpf-teal-600;
-  border-radius: 100%;
-
-  svg {
-    fill: $rpf-black;
-  }
+.editor-logo {
+  height: $space-2-5;
+  width: $space-2-5;
 }
 
 .--dark {
   .sidebar__bar--active {
     border-right: 1px solid $rpf-grey-600;
+  }
+
+  .sidebar__bar-option:hover {
+    background-color: $rpf-grey-600;
+  }
+
+  .sidebar__bar-option-wrapper {
+    border: 1px solid $rpf-grey-800;
+    border-right: none;
+  }
+
+  .sidebar__bar-option-wrapper--active {
+    border: 1px solid $rpf-grey-600;
+    border-right: none;
+    background-color: $rpf-grey-700;
   }
 
   .sidebar__panel {
@@ -79,6 +103,33 @@
   .sidebar__bar--active {
     background-color: $rpf-off-white;
     border-right: 1px solid $rpf-grey-150;
+  }
+
+  .sidebar__bar-option:hover {
+    background-color: $rpf-teal-100;
+  }
+
+  .sidebar__bar-option-wrapper {
+    border: 1px solid $rpf-white;
+    border-right: none;
+  }
+
+  .sidebar__bar-option-wrapper--active {
+    border: 1px solid $rpf-grey-150;
+    border-right: none;
+    background-color: $rpf-white;
+  }
+}
+
+.--dark .sidebar__bar-option--active, .--light .sidebar__bar-option--active {
+  background-color: $rpf-teal-600;
+
+  &:hover {
+    background-color: $rpf-teal-600;
+  }
+
+  svg {
+    fill: $rpf-black;
   }
 }
 

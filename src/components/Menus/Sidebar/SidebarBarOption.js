@@ -12,14 +12,20 @@ const SidebarBarOption = (props) => {
   };
 
   return (
-    <Button
-      className={`sidebar__bar-option${
-        isActive ? " sidebar__bar-option--active" : ""
+    <div
+      className={`sidebar__bar-option-wrapper${
+        isActive ? " sidebar__bar-option-wrapper--active" : ""
       }`}
-      ButtonIcon={Icon}
-      title={title}
-      onClickHandler={onClickHandler}
-    />
+    >
+      <Button
+        className={`sidebar__bar-option${
+          isActive ? " sidebar__bar-option--active" : ""
+        }`}
+        ButtonIcon={Icon}
+        title={title}
+        onClickHandler={onClickHandler}
+      />
+    </div>
   );
 };
 

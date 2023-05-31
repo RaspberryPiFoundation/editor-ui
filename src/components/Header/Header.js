@@ -8,8 +8,6 @@ import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import Dropdown from "../Menus/Dropdown/Dropdown";
 import SettingsMenu from "../Menus/SettingsMenu/SettingsMenu";
 import ProjectName from "./ProjectName";
-import htmlLogo from "../../assets/html_icon.svg";
-import pythonLogo from "../../assets/python_icon.svg";
 import DownloadButton from "./DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
 import { Link } from "react-router-dom";
@@ -49,11 +47,6 @@ const Header = () => {
     loading === "success" && (
       <div className="editor-header-wrapper">
         <header className="editor-header">
-          <img
-            className="editor-logo"
-            src={project.project_type === "python" ? pythonLogo : htmlLogo}
-            alt={t("header.editorLogoAltText")}
-          />
           {user !== null ? (
             <Link
               to={`${locale}/projects`}

@@ -1,11 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+
 import { DoubleChevronLeft, DoubleChevronRight } from "../../../Icons";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
+import htmlLogo from "../../../assets/html_icon.svg";
+import pythonLogo from "../../../assets/python_icon.svg";
 
 const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
+  const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "top",
@@ -27,6 +32,11 @@ const SidebarBar = (props) => {
   return (
     <div className={`sidebar__bar${option ? " sidebar__bar--active" : ""}`}>
       <div className={`sidebar__bar-options--top`}>
+        <img
+          className="editor-logo"
+          src={project.project_type === "python" ? pythonLogo : htmlLogo}
+          alt={t("header.editorLogoAltText")}
+        />
         {topMenuOptions.map((menuOption, i) => (
           <SidebarBarOption
             key={i}

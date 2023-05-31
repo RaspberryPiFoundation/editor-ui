@@ -41,13 +41,6 @@
   }
 }
 
-.editor-logo {
-  height: 100%;
-  max-height: $space-3;
-  max-width: $space-3;
-  padding: $space-1 0 $space-1 $space-1;
-}
-
 .project-gallery-link {
   @extend .btn;
   @extend .btn--tertiary;
