@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { FileIcon } from "../../../Icons";
-import FilePane from "./FilePane/FilePane";
+import FilePanel from "./FilePanel/FilePanel";
 import SidebarBar from "./SidebarBar";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 
@@ -17,7 +17,7 @@ const Sidebar = (props) => {
       icon: FileIcon,
       title: t("sidebar.file"),
       position: "top",
-      panel: () => FilePane({ openFileTab: openFileTab }),
+      panel: () => FilePanel({ openFileTab: openFileTab }),
     },
   ];
   const [option, setOption] = useState();

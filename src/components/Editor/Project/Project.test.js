@@ -82,7 +82,7 @@ test("Renders with file menu if not for web component", () => {
       </div>
     </Provider>,
   );
-  expect(queryByText("filePane.files")).not.toBeNull();
+  expect(queryByText("filePanel.files")).not.toBeNull();
 });
 
 test("Renders without file menu if for web component", () => {
@@ -104,7 +104,7 @@ test("Renders without file menu if for web component", () => {
       <Project forWebComponent={true} />
     </Provider>,
   );
-  expect(queryByText("filePane.files")).toBeNull();
+  expect(queryByText("filePanel.files")).toBeNull();
 });
 
 describe("When not logged in and just loaded", () => {

@@ -15,7 +15,7 @@ const FilesList = (props) => {
   return (
     <details className="file-pane-section file-pane-section__files" open>
       <summary>
-        <h2>{t("filePane.files")}</h2>
+        <h2>{t("filePanel.files")}</h2>
         <div className="accordion-icon">
           <ChevronDown />
         </div>

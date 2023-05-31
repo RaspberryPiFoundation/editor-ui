@@ -24,11 +24,11 @@ beforeEach(() => {
 });
 
 test("File pane open by default", () => {
-  expect(screen.getByRole("heading")).toHaveTextContent("filePane.files");
+  expect(screen.getByRole("heading")).toHaveTextContent("filePanel.files");
 });
 
 test("Clicking collapse closes the file pane", () => {
   const collapseButton = screen.getByTitle("Sidebar.collapse");
   fireEvent.click(collapseButton);
-  expect(screen.queryByText("filePane.files")).not.toBeInTheDocument();
+  expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
 });

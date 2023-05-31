@@ -54,13 +54,13 @@ describe("Testing the rename file modal", () => {
     );
     inputBox = screen.getByRole("textbox");
     saveButton = screen
-      .getByText("filePane.renameFileModal.save")
+      .getByText("filePanel.renameFileModal.save")
       .closest("button");
   });
 
   test("State being set displays the modal", () => {
     expect(
-      screen.getByText("filePane.renameFileModal.heading"),
+      screen.getByText("filePanel.renameFileModal.heading"),
     ).toBeInTheDocument();
   });
 
@@ -87,7 +87,7 @@ describe("Testing the rename file modal", () => {
   test("Duplicate file names throws error", () => {
     fireEvent.change(inputBox, { target: { value: "my_file.py" } });
     fireEvent.click(saveButton);
-    const expectedActions = [setNameError("filePane.errors.notUnique")];
+    const expectedActions = [setNameError("filePanel.errors.notUnique")];
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -104,7 +104,7 @@ describe("Testing the rename file modal", () => {
     fireEvent.change(inputBox, { target: { value: "file1.js" } });
     fireEvent.click(saveButton);
     const expectedActions = [
-      setNameError("filePane.errors.unsupportedExtension"),
+      setNameError("filePanel.errors.unsupportedExtension"),
     ];
     expect(store.getActions()).toEqual(expectedActions);
   });

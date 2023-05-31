@@ -83,6 +83,10 @@
     background-color: $rpf-grey-600;
   }
 
+  .sidebar__bar-option--active:hover {
+    background-color: $rpf-teal-400;
+  }
+
   .sidebar__bar-option-wrapper {
     border: 1px solid $rpf-grey-800;
     border-right: none;
@@ -109,6 +113,10 @@
     background-color: $rpf-teal-100;
   }
 
+  .sidebar__bar-option--active:hover {
+    background-color: $rpf-teal-800;
+  }
+
   .sidebar__bar-option-wrapper {
     border: 1px solid $rpf-white;
     border-right: none;
@@ -123,10 +131,6 @@
 
 .--dark .sidebar__bar-option--active, .--light .sidebar__bar-option--active {
   background-color: $rpf-teal-600;
-
-  &:hover {
-    background-color: $rpf-teal-600;
-  }
 
   svg {
     fill: $rpf-black;

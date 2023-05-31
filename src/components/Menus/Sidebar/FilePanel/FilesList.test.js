@@ -59,7 +59,7 @@ describe("When project has multiple files", () => {
   });
 
   test("Renders a menu button for each file", () => {
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(4);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(4);
   });
 
   test("Clicking file name opens file tab", () => {
@@ -86,7 +86,7 @@ describe("it renders the expected icon for individual files", () => {
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("pythonIcon")).toBeTruthy();
   });
 
@@ -100,7 +100,7 @@ describe("it renders the expected icon for individual files", () => {
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("htmlIcon")).toBeTruthy();
   });
 
@@ -114,7 +114,7 @@ describe("it renders the expected icon for individual files", () => {
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("cssIcon")).toBeTruthy();
   });
 
@@ -128,7 +128,7 @@ describe("it renders the expected icon for individual files", () => {
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("csvIcon")).toBeTruthy();
   });
 
@@ -142,7 +142,7 @@ describe("it renders the expected icon for individual files", () => {
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("defaultFileIcon")).toBeTruthy();
   });
 });

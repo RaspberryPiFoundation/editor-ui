@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 
-import FilePane from "./FilePane";
+import FilePanel from "./FilePanel";
 
 describe("When no project images", () => {
   let queryByText;
@@ -28,7 +28,7 @@ describe("When no project images", () => {
       <Provider store={store}>
         <MemoryRouter>
           <div id="app">
-            <FilePane />
+            <FilePanel />
           </div>
         </MemoryRouter>
       </Provider>,
@@ -36,11 +36,11 @@ describe("When no project images", () => {
   });
 
   test("Renders project files section", () => {
-    expect(queryByText("filePane.files")).not.toBeNull();
+    expect(queryByText("filePanel.files")).not.toBeNull();
   });
 
   test("No project images section", () => {
-    expect(queryByText("filePane.images")).toBeNull();
+    expect(queryByText("filePanel.images")).toBeNull();
   });
 });
 
@@ -71,7 +71,7 @@ describe("When project images", () => {
       <Provider store={store}>
         <MemoryRouter>
           <div id="app">
-            <FilePane />
+            <FilePanel />
           </div>
         </MemoryRouter>
       </Provider>,
@@ -79,10 +79,10 @@ describe("When project images", () => {
   });
 
   test("Renders project files section", () => {
-    expect(queryByText("filePane.files")).not.toBeNull();
+    expect(queryByText("filePanel.files")).not.toBeNull();
   });
 
   test("Renders project images section", () => {
-    expect(queryByText("filePane.images")).not.toBeNull();
+    expect(queryByText("filePanel.images")).not.toBeNull();
   });
 });

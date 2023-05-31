@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import ProjectImages from "./ProjectImages/ProjectImages";
 import FilesList from "./FilesList";
 
-import "./FilePane.scss";
+import "./FilePanel.scss";
 
-const FilePane = (props) => {
+const FilePanel = (props) => {
   const project = useSelector((state) => state.editor.project);
   const { openFileTab } = props;
 
@@ -19,4 +19,4 @@ const FilePane = (props) => {
   );
 };
 
-export default FilePane;
+export default FilePanel;

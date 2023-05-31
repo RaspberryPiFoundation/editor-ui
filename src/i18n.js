@@ -140,7 +140,7 @@ i18n
           editorPanel: {
             ariaLabel: "editor text input",
           },
-          filePane: {
+          filePanel: {
             errors: {
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",

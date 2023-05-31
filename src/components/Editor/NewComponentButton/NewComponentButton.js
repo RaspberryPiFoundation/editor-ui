@@ -18,7 +18,7 @@ const NewComponentButton = () => {
 
   return (
     <Button
-      buttonText={t("filePane.newFileButton")}
+      buttonText={t("filePanel.newFileButton")}
       ButtonIcon={PlusIcon}
       buttonOuter
       onClickHandler={openNewFileModal}
