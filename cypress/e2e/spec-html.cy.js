@@ -15,7 +15,7 @@ const getIframeBody = () => {
 };
 
 const makeNewFile = (filename = "new.html") => {
-  cy.get(".sidebar-expand-button").click();
+  cy.get("button[title='Project files']").click();
   cy.get(".proj-new-component-button").click();
   cy.get("div[class=modal-content__input]").find("input").type(filename);
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
