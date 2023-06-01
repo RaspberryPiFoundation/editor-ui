@@ -15,9 +15,9 @@
   flex-direction: column;
   align-items: center;
 
-  @mixin md-width {
-    @media screen and (min-width: 768px) {
-      
+  @mixin unique-width($width) {
+    @media screen and (min-width: $width) {
+      @content;
     }
   }
 }
@@ -37,9 +37,21 @@
 
 // Paths
 .landing-page__paths {
-  background-color: white;
-  border-radius: 1.5rem;
+  background-color: $rpf-white;
+  border-radius: $space-1-5;
+  margin: 0 $space-1-5;
   padding: $space-1-5 $space-1 0;
+
+  @mixin md-width {
+    @media screen and (min-width: 768px) {
+      @content;
+      display: flex;
+      text-align: left;
+    }
+  }
+}
+
+.landing-page__paths-copy {
 }
 
 .landing-page__paths--start {

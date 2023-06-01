@@ -18,27 +18,33 @@ const LandingPage = () => {
         <h2 className="landing-page__projects--subtitle">
           {t("landingPage.subtitle")}
         </h2>
-        <Button
-          buttonText={t("landingPage.python")}
-          ButtonIcon={FileIconPython}
-          onclick="location.href='https://google.com';"
-          className="btn--primary btn--small landing-page-button"
-        />
-        <Button
-          buttonText={t("landingPage.html")}
-          ButtonIcon={FileIconHtml}
-          onclick="location.href='https://google.com';"
-          className="btn--primary btn--small landing-page-button"
-        />
+        <div className="landing-page__projects--buttons">
+          <Button
+            buttonText={t("landingPage.python")}
+            ButtonIcon={FileIconPython}
+            onclick="location.href='https://google.com';"
+            className="btn--primary btn--small landing-page-button"
+          />
+          <Button
+            buttonText={t("landingPage.html")}
+            ButtonIcon={FileIconHtml}
+            onclick="location.href='https://google.com';"
+            className="btn--primary btn--small landing-page-button"
+          />
+        </div>
         <p className="landing-page__projects--login">
           {t("landingPage.login")}
         </p>
       </div>
       <div className="landing-page__paths">
-        <h2 className="landing-page__paths--title">{t("landingPage.start")}</h2>
-        <p className="landing-page__paths--description">
-          {t("landingPage.projects")}
-        </p>
+        <div className="landing-page__paths-copy">
+          <h2 className="landing-page__paths--title">
+            {t("landingPage.start")}
+          </h2>
+          <p className="landing-page__paths--description">
+            {t("landingPage.projects")}
+          </p>
+        </div>
         <img className="" src={startIcon} alt={""} />
       </div>
     </div>
