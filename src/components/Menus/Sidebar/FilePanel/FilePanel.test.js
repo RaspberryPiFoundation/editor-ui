@@ -4,17 +4,17 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import FilePanel from "./FilePanel";
+import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
 
-const openFileTab = jest.fn();
-
-const createMockStore = function (components) {
+const createMockStore = function (components, openFiles) {
   const mockStore = configureStore([]);
   return mockStore({
     editor: {
       project: {
-        components: components,
+        components,
       },
       isEmbedded: false,
+      openFiles,
     },
     auth: {
       user: null,
@@ -22,30 +22,35 @@ const createMockStore = function (components) {
   });
 };
 
+let store;
+
 describe("When project has multiple files", () => {
   beforeEach(() => {
-    const store = createMockStore([
-      {
-        name: "a",
-        extension: "py",
-      },
-      {
-        name: "b",
-        extension: "html",
-      },
-      {
-        name: "c",
-        extension: "css",
-      },
-      {
-        name: "d",
-        extension: "csv",
-      },
-    ]);
+    store = createMockStore(
+      [
+        {
+          name: "a",
+          extension: "py",
+        },
+        {
+          name: "b",
+          extension: "html",
+        },
+        {
+          name: "c",
+          extension: "css",
+        },
+        {
+          name: "d",
+          extension: "csv",
+        },
+      ],
+      [[]],
+    );
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -64,7 +69,10 @@ describe("When project has multiple files", () => {
 
   test("Clicking file name opens file tab", () => {
     fireEvent.click(screen.queryByText("a.py").parentElement);
-    expect(openFileTab).toHaveBeenCalledWith("a.py");
+    expect(store.getActions()).toEqual([
+      openFile("a.py"),
+      setFocussedFileIndex({ fileIndex: 0, panelIndex: 0 }),
+    ]);
   });
 
   test("it renders with the expected icons", () => {
@@ -81,7 +89,7 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -95,7 +103,7 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -109,7 +117,7 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -123,7 +131,7 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -137,7 +145,7 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilePanel openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );

@@ -23,12 +23,33 @@ beforeEach(() => {
   );
 });
 
-test("File pane open by default", () => {
-  expect(screen.getByRole("heading")).toHaveTextContent("filePanel.files");
+test("File pane closed by default", () => {
+  expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
 });
 
-test("Clicking collapse closes the file pane", () => {
-  const collapseButton = screen.getByTitle("Sidebar.collapse");
+test("Clicking expand opens the file pane", () => {
+  const expandButton = screen.getByTitle("sidebar.expand");
+  fireEvent.click(expandButton);
+  expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+});
+
+test("Clicking collapse closes the sidebar panel", () => {
+  const expandButton = screen.getByTitle("sidebar.expand");
+  fireEvent.click(expandButton);
+  const collapseButton = screen.getByTitle("sidebar.collapse");
   fireEvent.click(collapseButton);
+  expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
+});
+
+test("Clicking file button opens file panel", () => {
+  const fileButton = screen.getByTitle("sidebar.file");
+  fireEvent.click(fileButton);
+  expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+});
+
+test("Clicking file button a second time closes file pane", () => {
+  const fileButton = screen.getByTitle("sidebar.file");
+  fireEvent.click(fileButton);
+  fireEvent.click(fileButton);
   expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
 });
