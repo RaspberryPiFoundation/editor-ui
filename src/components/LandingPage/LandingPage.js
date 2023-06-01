@@ -21,14 +21,12 @@ const LandingPage = () => {
         <Button
           buttonText={t("landingPage.python")}
           ButtonIcon={FileIconPython}
-          buttonOuter
           onclick="location.href='https://google.com';"
           className="btn--primary btn--small landing-page-button"
         />
         <Button
           buttonText={t("landingPage.html")}
           ButtonIcon={FileIconHtml}
-          buttonOuter
           onclick="location.href='https://google.com';"
           className="btn--primary btn--small landing-page-button"
         />

@@ -9,6 +9,19 @@
 }
 
 // Projects
+
+.landing-page__projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @mixin md-width {
+    @media screen and (min-width: 768px) {
+      
+    }
+  }
+}
+
 .landing-page__projects--title {
   @include font-size-3(bold);
 }
