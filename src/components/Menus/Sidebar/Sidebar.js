@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { FileIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
 import SidebarBar from "./SidebarBar";
-import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 
 import "./Sidebar.scss";
 
@@ -38,19 +37,10 @@ const Sidebar = () => {
         toggleOption={toggleOption}
       />
       {option ? (
-        // <ResizableWithHandle
-        //   data-testid="sidebar__panel"
-        //   className="sidebar__panel"
-        //   defaultWidth="200px"
-        //   handleDirection="right"
-        //   minWidth="150px"
-        //   maxWidth="300px"
-        // >
         <div className="sidebar__panel">
           <SidebarPanel />
         </div>
-      ) : // </ResizableWithHandle>
-      null}
+      ) : null}
     </div>
   );
 };

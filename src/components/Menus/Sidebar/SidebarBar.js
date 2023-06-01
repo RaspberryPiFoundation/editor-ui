@@ -30,7 +30,7 @@ const SidebarBar = (props) => {
   };
 
   return (
-    <div className={`sidebar__bar${option ? " sidebar__bar--active" : ""}`}>
+    <div className={`sidebar__bar${option ? " sidebar__bar--selected" : ""}`}>
       <div className={`sidebar__bar-options--top`}>
         <img
           className="editor-logo"

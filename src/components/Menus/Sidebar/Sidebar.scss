@@ -15,7 +15,7 @@
   padding: $space-0-75 0 $space-0-5 0;
 }
 
-.sidebar__bar--active {
+.sidebar__bar--selected {
   border-radius: 8px 0 0 8px;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .--dark {
-  .sidebar__bar--active {
+  .sidebar__bar--selected {
     border-right: 1px solid $rpf-grey-600;
   }
 
@@ -98,7 +98,7 @@
     background-color: $rpf-grey-600;
   }
 
-  .sidebar__bar-option--active {
+  .sidebar__bar-option--selected {
     background-color: $rpf-teal-400;
 
     svg {
@@ -106,8 +106,8 @@
     }
   }
 
-  .sidebar__bar-option--active:hover {
-    background-color: $rpf-teal-400;
+  .sidebar__bar-option--selected:hover {
+    background-color: $rpf-teal-primary-hover-darkmode;
   }
 
   .sidebar__bar-option-wrapper {
@@ -115,7 +115,7 @@
     border-right: none;
   }
 
-  .sidebar__bar-option-wrapper--active {
+  .sidebar__bar-option-wrapper--selected {
     border: 1px solid $rpf-grey-600;
     border-right: none;
     background-color: $rpf-grey-700;
@@ -131,7 +131,7 @@
 }
 
 .--light {
-  .sidebar__bar--active {
+  .sidebar__bar--selected {
     background-color: $rpf-off-white;
     border-right: 1px solid $rpf-grey-150;
   }
@@ -140,12 +140,12 @@
     background-color: $rpf-teal-100;
   }
 
-  .sidebar__bar-option--active {
+  .sidebar__bar-option--selected {
     background-color: $rpf-teal-800;
   }
 
-  .sidebar__bar-option--active:hover {
-    background-color: $rpf-teal-800;
+  .sidebar__bar-option--selected:hover {
+    background-color: $rpf-teal-primary-hover;
   }
 
   .sidebar__bar-option-wrapper {
@@ -153,7 +153,7 @@
     border-right: none;
   }
 
-  .sidebar__bar-option-wrapper--active {
+  .sidebar__bar-option-wrapper--selected {
     border: 1px solid $rpf-grey-150;
     border-right: none;
     background-color: $rpf-white;

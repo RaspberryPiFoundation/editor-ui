@@ -122,7 +122,7 @@ const Project = (props) => {
   const [handleDirection, setHandleDirection] = useState("right");
 
   useMemo(() => {
-    const isDesktop = params["width-larger-than-880"];
+    const isDesktop = params["width-larger-than-895"];
 
     setDefaultWidth(isDesktop ? "50%" : "100%");
     setDefaultHeight(isDesktop ? "100%" : "50%");

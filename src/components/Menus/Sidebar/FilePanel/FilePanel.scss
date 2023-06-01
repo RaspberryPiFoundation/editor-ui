@@ -24,20 +24,6 @@
   min-height: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
-
-  &:active {
-    border: 3px solid $rpf-teal-900;
-  }
-
-  &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
-    outline: none;
-  }
-
-  &:hover {
-    cursor: pointer;
-    background-color: $rpf-grey-150;
-  }
 }
 
 .files-list-item__name {
@@ -51,10 +37,26 @@
   right: $space-1;
 }
 
+.--light {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-teal-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-teal-secondary-tertiary-active;
+    }
+  }
+}
+
 .--dark {
   .files-list-item {
     &:hover {
-      background-color: $rpf-grey-700;
+      background-color: $rpf-grey-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-grey-secondary-tertiary-active;
     }
   }
 

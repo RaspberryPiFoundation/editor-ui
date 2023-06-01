@@ -43,9 +43,8 @@ const FilePanel = () => {
 
       <div className="files-list">
         {project.components.map((file, i) => (
-          <div className="files-list-item-wrapper">
+          <div className="files-list-item-wrapper" key={i}>
             <Button
-              key={i}
               className="files-list-item"
               onClickHandler={() =>
                 openFileTab(`${file.name}.${file.extension}`)

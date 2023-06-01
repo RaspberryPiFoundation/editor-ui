@@ -1,5 +1,5 @@
 export const projContainer = {
-  "width-larger-than-880": {
-    minWidth: 880,
+  "width-larger-than-895": {
+    minWidth: 895,
   },
 };
