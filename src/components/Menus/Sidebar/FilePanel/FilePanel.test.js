@@ -1,88 +1,148 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import { MemoryRouter } from "react-router-dom";
 
 import FilePanel from "./FilePanel";
 
-describe("When no project images", () => {
-  let queryByText;
+const openFileTab = jest.fn();
 
+const createMockStore = function (components) {
+  const mockStore = configureStore([]);
+  return mockStore({
+    editor: {
+      project: {
+        components: components,
+      },
+      isEmbedded: false,
+    },
+    auth: {
+      user: null,
+    },
+  });
+};
+
+describe("When project has multiple files", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [],
-        },
-        isEmbedded: false,
+    const store = createMockStore([
+      {
+        name: "a",
+        extension: "py",
       },
-      auth: {
-        user: null,
+      {
+        name: "b",
+        extension: "html",
       },
-    };
-    const store = mockStore(initialState);
-    ({ queryByText } = render(
+      {
+        name: "c",
+        extension: "css",
+      },
+      {
+        name: "d",
+        extension: "csv",
+      },
+    ]);
+    render(
       <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <FilePanel />
-          </div>
-        </MemoryRouter>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
       </Provider>,
-    ));
+    );
   });
 
-  test("Renders project files section", () => {
-    expect(queryByText("filePanel.files")).not.toBeNull();
+  test("Renders all file names", () => {
+    expect(screen.queryByText("a.py")).not.toBeNull();
+    expect(screen.queryByText("b.html")).not.toBeNull();
+    expect(screen.queryByText("c.css")).not.toBeNull();
+    expect(screen.queryByText("d.csv")).not.toBeNull();
   });
 
-  test("No project images section", () => {
-    expect(queryByText("filePanel.images")).toBeNull();
+  test("Renders a menu button for each file", () => {
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(4);
+  });
+
+  test("Clicking file name opens file tab", () => {
+    fireEvent.click(screen.queryByText("a.py").parentElement);
+    expect(openFileTab).toHaveBeenCalledWith("a.py");
+  });
+
+  test("it renders with the expected icons", () => {
+    expect(screen.getByTestId("pythonIcon")).toBeTruthy();
+    expect(screen.getByTestId("htmlIcon")).toBeTruthy();
+    expect(screen.getByTestId("cssIcon")).toBeTruthy();
+    expect(screen.getByTestId("csvIcon")).toBeTruthy();
   });
 });
 
-describe("When project images", () => {
-  let queryByText;
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [],
-          image_list: [
-            {
-              filename: "hello_world.png",
-            },
-          ],
-        },
-        isEmbedded: false,
-      },
-      auth: {
-        user: null,
-      },
-    };
-    const store = mockStore(initialState);
-    ({ queryByText } = render(
+describe("it renders the expected icon for individual files", () => {
+  test("it renders the expected icon for an individual python file", () => {
+    const store = createMockStore([{ name: "a", extension: "py" }]);
+    render(
       <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <FilePanel />
-          </div>
-        </MemoryRouter>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
       </Provider>,
-    ));
+    );
+
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
+    expect(screen.getByTestId("pythonIcon")).toBeTruthy();
   });
 
-  test("Renders project files section", () => {
-    expect(queryByText("filePanel.files")).not.toBeNull();
+  test("it renders the expected icon for an individual html file", () => {
+    const store = createMockStore([{ name: "a", extension: "html" }]);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
+      </Provider>,
+    );
+
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
+    expect(screen.getByTestId("htmlIcon")).toBeTruthy();
   });
 
-  test("Renders project images section", () => {
-    expect(queryByText("filePanel.images")).not.toBeNull();
+  test("it renders the expected icon for an individual css file", () => {
+    const store = createMockStore([{ name: "a", extension: "css" }]);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
+      </Provider>,
+    );
+
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
+    expect(screen.getByTestId("cssIcon")).toBeTruthy();
+  });
+
+  test("it renders the expected icon for an individual csv file", () => {
+    const store = createMockStore([{ name: "a", extension: "csv" }]);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
+      </Provider>,
+    );
+
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
+    expect(screen.getByTestId("csvIcon")).toBeTruthy();
+  });
+
+  test("it renders the expected icon for any other file type", () => {
+    const store = createMockStore([{ name: "a", extension: "docx" }]);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <FilePanel openFileTab={openFileTab} />
+        </div>
+      </Provider>,
+    );
+
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
+    expect(screen.getByTestId("defaultFileIcon")).toBeTruthy();
   });
 });

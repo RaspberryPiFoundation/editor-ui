@@ -8,8 +8,7 @@ import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 
 import "./Sidebar.scss";
 
-const Sidebar = (props) => {
-  const { openFileTab } = props;
+const Sidebar = () => {
   const { t } = useTranslation();
   const menuOptions = [
     {
@@ -17,7 +16,7 @@ const Sidebar = (props) => {
       icon: FileIcon,
       title: t("sidebar.file"),
       position: "top",
-      panel: () => FilePanel({ openFileTab: openFileTab }),
+      panel: FilePanel,
     },
   ];
   const [option, setOption] = useState();
@@ -39,17 +38,19 @@ const Sidebar = (props) => {
         toggleOption={toggleOption}
       />
       {option ? (
-        <ResizableWithHandle
-          data-testid="sidebar__panel"
-          className="sidebar__panel"
-          defaultWidth="200px"
-          handleDirection="right"
-          minWidth="150px"
-          maxWidth="300px"
-        >
+        // <ResizableWithHandle
+        //   data-testid="sidebar__panel"
+        //   className="sidebar__panel"
+        //   defaultWidth="200px"
+        //   handleDirection="right"
+        //   minWidth="150px"
+        //   maxWidth="300px"
+        // >
+        <div className="sidebar__panel">
           <SidebarPanel />
-        </ResizableWithHandle>
-      ) : null}
+        </div>
+      ) : // </ResizableWithHandle>
+      null}
     </div>
   );
 };

@@ -1,21 +1,69 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import ProjectImages from "./ProjectImages/ProjectImages";
-import FilesList from "./FilesList";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
+import { FileIcon } from "../../../../Icons";
+import FileMenu from "../../FileMenu/FileMenu";
+import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
+import Button from "../../../Button/Button";
+import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
 
 import "./FilePanel.scss";
+import "../Sidebar.scss";
 
-const FilePanel = (props) => {
+const FilePanel = () => {
   const project = useSelector((state) => state.editor.project);
-  const { openFileTab } = props;
+  const openFiles = useSelector((state) => state.editor.openFiles);
+
+  const dispatch = useDispatch();
+
+  const switchToFileTab = (panelIndex, fileIndex) => {
+    dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
+  };
+
+  const openFileTab = (fileName) => {
+    if (openFiles.flat().includes(fileName)) {
+      const panelIndex = openFiles
+        .map((fileNames) => fileNames.includes(fileName))
+        .indexOf(true);
+      const fileIndex = openFiles[panelIndex].indexOf(fileName);
+      switchToFileTab(panelIndex, fileIndex);
+    } else {
+      dispatch(openFile(fileName));
+      switchToFileTab(0, openFiles[0].length);
+    }
+  };
+  const { t } = useTranslation();
 
   return (
-    <div className="file-pane">
-      <FilesList openFileTab={openFileTab} />
-      {project.image_list && project.image_list.length > 0 ? (
-        <ProjectImages />
-      ) : null}
-    </div>
+    <>
+      <div className="sidebar__panel-header">
+        <h2 className="sidebar__panel-heading">{t("filePanel.files")}</h2>
+        <NewComponentButton />
+      </div>
+
+      <div className="files-list">
+        {project.components.map((file, i) => (
+          <div className="files-list-item-wrapper">
+            <Button
+              key={i}
+              className="files-list-item"
+              onClickHandler={() =>
+                openFileTab(`${file.name}.${file.extension}`)
+              }
+              buttonText={`${file.name}.${file.extension}`}
+              buttonTextClassName="files-list-item__name"
+              ButtonIcon={() => FileIcon({ ext: file.extension })}
+            />
+            {(file.name === "main" && file.extension === "py") ||
+            (file.name === "index" && file.extension === "html") ? null : (
+              <div className="files-list-item__menu">
+                <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
