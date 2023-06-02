@@ -30,7 +30,7 @@ it("renders the html runner", () => {
 it("can make a new file", () => {
   cy.visit(baseUrl);
   makeNewFile("amazing.html");
-  cy.get(".files-list").should("include.text", "amazing.html");
+  cy.get(".files-list-item").should("include.text", "amazing.html");
 });
 
 it("updates the preview after a change when you click run", () => {
