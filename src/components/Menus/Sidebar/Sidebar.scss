@@ -28,11 +28,10 @@
 }
 
 .sidebar__panel {
-  width: 200px;
+  display: flex;
+  flex-direction: column;
   padding: $space-1;
   border-radius: 0 8px 8px 0;
-  overflow-y: auto;
-  overflow-x: visible;
 }
 
 .sidebar__panel-heading {
@@ -45,6 +44,12 @@
   flex-direction: column;
   gap: $space-1;
   padding-bottom: $space-1;
+}
+
+.sidebar__panel-content {
+  flex: 1;
+  overflow: auto;
+  padding: $space-0-5 0;
 }
 
 .sidebar__bar-option-wrapper {

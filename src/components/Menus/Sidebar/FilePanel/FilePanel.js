@@ -9,6 +9,7 @@ import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
 
 import "./FilePanel.scss";
 import "../Sidebar.scss";
+import SidebarPanel from "../SidebarPanel";
 
 const FilePanel = () => {
   const project = useSelector((state) => state.editor.project);
@@ -35,34 +36,25 @@ const FilePanel = () => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <div className="sidebar__panel-header">
-        <h2 className="sidebar__panel-heading">{t("filePanel.files")}</h2>
-        <NewComponentButton />
-      </div>
-
-      <div className="files-list">
-        {project.components.map((file, i) => (
-          <div className="files-list-item-wrapper" key={i}>
-            <Button
-              className="files-list-item"
-              onClickHandler={() =>
-                openFileTab(`${file.name}.${file.extension}`)
-              }
-              buttonText={`${file.name}.${file.extension}`}
-              buttonTextClassName="files-list-item__name"
-              ButtonIcon={() => FileIcon({ ext: file.extension })}
-            />
-            {(file.name === "main" && file.extension === "py") ||
-            (file.name === "index" && file.extension === "html") ? null : (
-              <div className="files-list-item__menu">
-                <FileMenu fileKey={i} name={file.name} ext={file.extension} />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </>
+    <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
+      {project.components.map((file, i) => (
+        <div className="files-list-item-wrapper" key={i}>
+          <Button
+            className="files-list-item"
+            onClickHandler={() => openFileTab(`${file.name}.${file.extension}`)}
+            buttonText={`${file.name}.${file.extension}`}
+            buttonTextClassName="files-list-item__name"
+            ButtonIcon={() => FileIcon({ ext: file.extension })}
+          />
+          {(file.name === "main" && file.extension === "py") ||
+          (file.name === "index" && file.extension === "html") ? null : (
+            <div className="files-list-item__menu">
+              <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+            </div>
+          )}
+        </div>
+      ))}
+    </SidebarPanel>
   );
 };
 

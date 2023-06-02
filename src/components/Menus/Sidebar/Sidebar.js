@@ -26,7 +26,7 @@ const Sidebar = () => {
   const optionDict = menuOptions.find((menuOption) => {
     return menuOption.name === option;
   });
-  const SidebarPanel =
+  const CustomSidebarPanel =
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
@@ -36,11 +36,7 @@ const Sidebar = () => {
         option={option}
         toggleOption={toggleOption}
       />
-      {option ? (
-        <div className="sidebar__panel">
-          <SidebarPanel />
-        </div>
-      ) : null}
+      {option ? <CustomSidebarPanel /> : null}
     </div>
   );
 };

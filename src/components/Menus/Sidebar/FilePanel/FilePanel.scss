@@ -1,13 +1,9 @@
 @use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
-.files-list {
-  padding: $space-0-5 0;
-  overflow-x: hidden;
-}
-
 .files-list-item-wrapper {
   display: flex;
+  position: relative;
 }
 
 .files-list-item {
@@ -34,7 +30,7 @@
 
 .files-list-item__menu {
   position: absolute;
-  right: $space-1;
+  right: 0;
 }
 
 .--light {

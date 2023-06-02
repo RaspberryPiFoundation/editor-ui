@@ -45,7 +45,7 @@
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 928px) { // width is 880px for the container + the rest of the page
+  @media (min-width: 912px) { // width is 880px for the container + the rest of the page
     .proj-editor-wrapper {
       flex-flow: row;
     }
