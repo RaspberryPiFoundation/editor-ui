@@ -11,13 +11,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to specify project name and type on creation (#519)
 
 ### Changed
+
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
 
 ### Fixed
 
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
+- Keyboard accessibility of project file opening (#501)
 
 ## [0.16.1] - 2023-05-19
 
