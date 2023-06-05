@@ -24,20 +24,22 @@ const LandingPage = () => {
             buttonText={t("landingPage.python")}
             ButtonIcon={FileIconPython}
             onclick="location.href='https://google.com';"
-            className="btn--primary btn--small landing-page-button"
+            className="btn--primary landing-page-button"
           />
           <Button
             buttonText={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
             onclick="location.href='https://google.com';"
-            className="btn--primary btn--small landing-page-button"
+            className="btn--primary  landing-page-button"
           />
         </div>
         <p className="landing-page__projects--login">
           <Trans i18nKey="login">
             Have an account?
-            <Link to="raspberrypi.org">{t("landingPage.login")}</Link> and
-            continue your projects.
+            <Link className="landing-page__link" to="raspberrypi.org">
+              {t("landingPage.login")}
+            </Link>{" "}
+            and continue your projects.
           </Trans>
         </p>
       </div>
@@ -49,9 +51,13 @@ const LandingPage = () => {
           <p className="landing-page__paths--description">
             <Trans i18nKey="projectPython">
               Follow a
-              <Link to="raspberrypi.org">{t("landingPage.projectPython")}</Link>{" "}
+              <Link className="landing-page__link" to="raspberrypi.org">
+                {t("landingPage.projectPython")}
+              </Link>{" "}
               or{" "}
-              <Link to="raspberrypi.org">{t("landingPage.projectHtml")}</Link>{" "}
+              <Link className="landing-page__link" to="raspberrypi.org">
+                {t("landingPage.projectHtml")}
+              </Link>{" "}
               on our Projects site.
             </Trans>
           </p>

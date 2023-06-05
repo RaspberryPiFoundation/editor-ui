@@ -24,11 +24,13 @@
 
 .landing-page__projects--title {
   @include font-size-3(bold);
+  margin: $space-1;
 }
 
 .landing-page__projects--subtitle {
   @include font-size-2(regular);
   font-weight: var(--font-weight-regular);
+  margin: $space-1;
 }
 
 .landing-page__projects--login {
@@ -42,14 +44,22 @@
   margin: 0 $space-1-5;
   padding: $space-1-5 $space-1 0;
 
-  // 
+  // Mixin is not working so using media for now
   @media screen and (min-width: 768px) {
     display: flex;
     text-align: left;
+    padding: 0, $space-2;
   }
 }
 
-.landing-page__paths-copy {
+.landing-page__paths--title {
+  @include font-size-1-5(regular);
+  font-weight: var(--font-weight-bold);
+}
+
+.landing-page__link {
+  @include font-size-1-5(regular);
+  color: $rpf-teal-900;
 }
 
 .landing-page__paths--start {
