@@ -105,7 +105,7 @@ i18n
     },
 
     interpolation: {
-      escapeValue: false, // not needed for react!!
+      escapeValue: true, // not needed for react!!
     },
     resources: {
       en: {
@@ -180,9 +180,10 @@ i18n
             subtitle: "Start coding, no setup required!",
             python: "Start coding Python",
             html: "Start coding HTML/CSS",
-            login: "Have an account? Login and continue your projects",
+            login: "Login",
             start: "Not sure where to start?",
-            projects: "Follow a Python path or Web path on our Projects site.",
+            projectPython: "Python path",
+            projectHtml: "Web path",
           },
           footer: {
             accessibility: "Accessibility",

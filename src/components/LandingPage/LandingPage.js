@@ -1,5 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 import "./LandingPage.scss";
 
 import Button from "../Button/Button";
@@ -33,7 +34,11 @@ const LandingPage = () => {
           />
         </div>
         <p className="landing-page__projects--login">
-          {t("landingPage.login")}
+          <Trans i18nKey="login">
+            Have an account?
+            <Link to="raspberrypi.org">{t("landingPage.login")}</Link> and
+            continue your projects.
+          </Trans>
         </p>
       </div>
       <div className="landing-page__paths">
@@ -42,7 +47,13 @@ const LandingPage = () => {
             {t("landingPage.start")}
           </h2>
           <p className="landing-page__paths--description">
-            {t("landingPage.projects")}
+            <Trans i18nKey="projectPython">
+              Follow a
+              <Link to="raspberrypi.org">{t("landingPage.projectPython")}</Link>{" "}
+              or{" "}
+              <Link to="raspberrypi.org">{t("landingPage.projectHtml")}</Link>{" "}
+              on our Projects site.
+            </Trans>
           </p>
         </div>
         <img className="" src={startIcon} alt={""} />
