@@ -11,10 +11,14 @@ import {
   triggerCodeRun,
 } from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { Link, useSearchParams } from "react-router-dom";
+import { OpenInNewTabIcon } from "../../../../Icons";
 
 function HtmlRunner() {
-  const projectCode = useSelector((state) => state.editor.project.components);
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const project = useSelector((state) => state.editor.project);
+  const projectCode = project.components;
+  const projectImages = project.image_list;
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -30,7 +34,10 @@ function HtmlRunner() {
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
 
-  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
@@ -42,12 +49,24 @@ function HtmlRunner() {
     )[0];
 
   const previewable = (file) => file.endsWith(".html");
+  let defaultPreviewFile;
 
-  const [previewFile, setPreviewFile] = useState(
-    previewable(openFiles[focussedFileIndex])
-      ? openFiles[focussedFileIndex]
-      : "index.html",
-  );
+  if (
+    isEmbedded &&
+    searchParams.get("browserPreview") === "true" &&
+    searchParams.get("page")
+  ) {
+    defaultPreviewFile = searchParams.get("page");
+  } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
+    defaultPreviewFile = openFiles[focussedFileIndex];
+  } else {
+    defaultPreviewFile = "index.html";
+  }
+
+  const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
+  const [runningFile, setRunningFile] = useState();
+
+  console.log(previewFile);
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -89,11 +108,14 @@ function HtmlRunner() {
     });
   };
 
-  useEffect(() => eventListener(), []);
+  useEffect(() => {
+    eventListener();
+  }, []);
 
   let timeout;
 
   useEffect(() => {
+    console.log("preview file changed");
     if (justLoaded && isEmbedded) {
       dispatch(triggerCodeRun());
     } else if (!justLoaded && autorunEnabled) {
@@ -105,13 +127,14 @@ function HtmlRunner() {
   }, [previewFile]);
 
   useEffect(() => {
+    console.log("running", previewFile);
     if (codeRunTriggered) {
       runCode();
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (previewable(openFiles[focussedFileIndex])) {
+    if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
       setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
@@ -124,6 +147,9 @@ function HtmlRunner() {
   }, [error]);
 
   const runCode = () => {
+    setRunningFile(previewFile);
+    // setSearchParams({ ...searchParams, file: previewFile });
+
     let indexPage = parse(focussedComponent(previewFile).content);
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
@@ -185,16 +211,46 @@ function HtmlRunner() {
     }
   };
 
+  // window.onhashchange = () => {
+  //   console.log("resetting running file name");
+  //   setRunningFile(previewFile);
+  // };
+
   return (
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
-        <iframe
-          className="htmlrunner-iframe"
-          id="output-frame"
-          title={t("runners.HtmlOutput")}
-          ref={output}
-        />
+        <Tabs>
+          <div className="react-tabs__tab-container">
+            <TabList>
+              <Tab>
+                <span className="react-tabs__tab-inner">{`${runningFile} ${t(
+                  "output.preview",
+                )}`}</span>
+              </Tab>
+              {isEmbedded ? null : (
+                <Link
+                  className="btn btn--tertiary htmlrunner-link"
+                  target="_blank"
+                  to={`/${locale}/embed/viewer/${
+                    project.identifier
+                  }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                >
+                  {t("output.newTab")}
+                  <OpenInNewTabIcon />
+                </Link>
+              )}
+            </TabList>
+          </div>
+          <TabPanel>
+            <iframe
+              className="htmlrunner-iframe"
+              id="output-frame"
+              title={t("runners.HtmlOutput")}
+              ref={output}
+            />
+          </TabPanel>
+        </Tabs>
       ) : null}
     </div>
   );

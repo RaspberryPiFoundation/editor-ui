@@ -1,8 +1,13 @@
 @use '../../../../colours' as *;
 
 .htmlrunner-container {
+  display: flex;
   height: 100%;
   width: 100%;
+}
+
+.htmlrunner-link {
+  margin-left: auto;
 }
 
 .htmlrunner-iframe {
