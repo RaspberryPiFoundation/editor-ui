@@ -42,12 +42,9 @@
   margin: 0 $space-1-5;
   padding: $space-1-5 $space-1 0;
 
-  @mixin md-width {
-    @media screen and (min-width: 768px) {
-      @content;
-      display: flex;
-      text-align: left;
-    }
+  @media screen and (min-width: 768px) {
+    display: flex;
+    text-align: left;
   }
 }
 
