@@ -40,29 +40,22 @@ const ProjectName = () => {
 
   return (
     <div className="project-name">
-      {isEditable ? (
-        <input
-          className="project-name__input"
-          ref={nameInput}
-          type="text"
-          onBlur={updateName}
-          onKeyDown={handleKeyDown}
-          defaultValue={project.name}
-        />
-      ) : (
-        <>
-          <h1 className="project-name__title">
-            {project.name || t("header.newProject")}
-          </h1>
-          <Button
-            className="btn--tertiary project-name__button"
-            label={t("header.buttonLabel")}
-            title={t("header.buttonTitle")}
-            ButtonIcon={PencilIcon}
-            onClickHandler={onEditNameButtonClick}
-          />
-        </>
-      )}
+      {/* {isEditable ? ( */}
+      <input
+        className="project-name__input"
+        ref={nameInput}
+        type="text"
+        onBlur={updateName}
+        onKeyDown={handleKeyDown}
+        defaultValue={project.name || t("header.newProject")}
+      />
+      <Button
+        className="btn--tertiary project-name__button"
+        label={t("header.buttonLabel")}
+        title={t("header.buttonTitle")}
+        ButtonIcon={PencilIcon}
+        onClickHandler={onEditNameButtonClick}
+      />
     </div>
   );
 };

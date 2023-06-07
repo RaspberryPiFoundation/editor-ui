@@ -36,11 +36,20 @@
   height: 100%;
   overflow: hidden;
 
+  .project-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    grid-gap: $space-0-5;
+    width: 100%;
+    z-index: 1;
+  }
+  
   .proj-editor-wrapper {
     display: flex;
     flex-flow: column;
     grid-gap: $space-0-5;
     overflow: hidden;
+    height: 100%;
     width: 100%;
   }
 

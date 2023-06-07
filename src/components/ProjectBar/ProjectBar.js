@@ -1,29 +1,23 @@
-import "./Header.scss";
+import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Autosave from "./Autosave";
 import Button from "../Button/Button";
-import { DownloadIcon, HomeIcon, SettingsIcon } from "../../Icons";
+import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
-import Dropdown from "../Menus/Dropdown/Dropdown";
-import SettingsMenu from "../Menus/SettingsMenu/SettingsMenu";
 import ProjectName from "./ProjectName";
-import htmlLogo from "../../assets/html_icon.svg";
-import pythonLogo from "../../assets/python_icon.svg";
-import DownloadButton from "./DownloadButton";
+import DownloadButton from "../DownloadButton/DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
-import { Link } from "react-router-dom";
 
-const Header = () => {
+const ProjectBar = () => {
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
   const loading = useSelector((state) => state.editor.loading);
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
-  const locale = i18n.language;
 
   const onClickSave = async () => {
     window.plausible("Save button");
@@ -47,34 +41,10 @@ const Header = () => {
 
   return (
     loading === "success" && (
-      <div className="editor-header-wrapper">
-        <header className="editor-header">
-          <img
-            className="editor-logo"
-            src={project.project_type === "python" ? pythonLogo : htmlLogo}
-            alt={t("header.editorLogoAltText")}
-          />
-          {user !== null ? (
-            <Link
-              to={`${locale}/projects`}
-              className="project-gallery-link"
-              reloadDocument
-            >
-              {
-                <>
-                  <HomeIcon />
-                  <span className="editor-header__text">
-                    {t("header.projects")}
-                  </span>
-                </>
-              }
-            </Link>
-          ) : null}
+      <div className="project-bar-wrapper">
+        <div className="project-bar">
           {loading === "success" ? <ProjectName /> : null}
-          <div className="editor-header__right">
-            {lastSavedTime && user ? (
-              <Autosave saving={saving} lastSavedTime={lastSavedTime} />
-            ) : null}
+          <div className="project-bar__right">
             {loading === "success" ? (
               <DownloadButton
                 buttonText={t("header.download")}
@@ -82,23 +52,22 @@ const Header = () => {
                 Icon={DownloadIcon}
               />
             ) : null}
-            <Dropdown
-              ButtonIcon={SettingsIcon}
-              buttonText={t("header.settings")}
-              MenuContent={SettingsMenu}
-            />
             {loading === "success" ? (
               <Button
-                className="btn--primary btn--save"
+                className="btn--primary btn--save btn--small"
                 onClickHandler={onClickSave}
                 buttonText={t("header.save")}
+                ButtonIcon={SaveIcon}
               />
             ) : null}
+            {lastSavedTime && user ? (
+              <Autosave saving={saving} lastSavedTime={lastSavedTime} />
+            ) : null}
           </div>
-        </header>
+        </div>
       </div>
     )
   );
 };
 
-export default Header;
+export default ProjectBar;
