@@ -64,7 +64,7 @@ function HtmlRunner() {
   }
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
-  const [runningFile, setRunningFile] = useState();
+  const [runningFile, setRunningFile] = useState("");
 
   console.log(previewFile);
 
@@ -106,6 +106,16 @@ function HtmlRunner() {
         }
       }
     });
+  };
+
+  const iframeReload = () => {
+    const iframe = output.current.contentDocument;
+    const filename = iframe
+      .querySelectorAll("meta[filename]")[0]
+      .getAttribute("filename");
+    if (runningFile !== filename) {
+      setRunningFile(filename);
+    }
   };
 
   useEffect(() => {
@@ -151,6 +161,8 @@ function HtmlRunner() {
     // setSearchParams({ ...searchParams, file: previewFile });
 
     let indexPage = parse(focussedComponent(previewFile).content);
+
+    const body = indexPage.querySelector("body") || indexPage;
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
@@ -204,6 +216,8 @@ function HtmlRunner() {
       );
     });
 
+    body.appendChild(parse(`<meta filename="${previewFile}" />`));
+
     const blob = getBlobURL(indexPage.toString(), "text/html");
     output.current.src = blob;
     if (codeRunTriggered) {
@@ -248,6 +262,7 @@ function HtmlRunner() {
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}
+              onLoad={iframeReload}
             />
           </TabPanel>
         </Tabs>
