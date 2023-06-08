@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add `.editorconfig`
 
 ### Fixed
+- No longer renders a blank page on 401, 403 & 404 for embedded viewer
 
 ## [0.16.1] - 2023-05-19
 
