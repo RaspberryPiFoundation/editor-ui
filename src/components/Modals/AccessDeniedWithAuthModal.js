@@ -11,7 +11,13 @@ import {
 import { defaultPythonProject } from "../../utils/defaultProjects";
 import GeneralModal from "./GeneralModal";
 
-const AccessDeniedWithAuthModal = () => {
+const AccessDeniedWithAuthModal = (props) => {
+  const {
+    buttons = null,
+    text = null,
+    withCloseButton = true,
+    withClickToClose = true,
+  } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
@@ -19,6 +25,7 @@ const AccessDeniedWithAuthModal = () => {
   const isModalOpen = useSelector(
     (state) => state.editor.accessDeniedWithAuthModalShowing,
   );
+
   const closeModal = () => dispatch(closeAccessDeniedWithAuthModal());
 
   const createNewProject = async () => {
@@ -34,28 +41,32 @@ const AccessDeniedWithAuthModal = () => {
   return (
     <GeneralModal
       isOpen={isModalOpen}
-      closeModal={closeModal}
-      withCloseButton
+      closeModal={withClickToClose ? closeModal : null}
+      withCloseButton={withCloseButton}
       heading={t("project.accessDeniedWithAuthModal.heading")}
-      text={[
-        {
-          type: "paragraph",
-          content: t("project.accessDeniedWithAuthModal.text"),
-        },
-      ]}
-      buttons={[
-        <Button
-          className="btn--primary"
-          buttonText={t("project.accessDeniedWithAuthModal.newProject")}
-          onClickHandler={createNewProject}
-        />,
-        <a
-          className="btn btn--secondary"
-          href="https://projects.raspberrypi.org"
-        >
-          {t("project.accessDeniedWithAuthModal.projectsSiteLinkText")}
-        </a>,
-      ]}
+      text={
+        text || [
+          {
+            type: "paragraph",
+            content: t("project.accessDeniedWithAuthModal.text"),
+          },
+        ]
+      }
+      buttons={
+        buttons || [
+          <Button
+            className="btn--primary"
+            buttonText={t("project.accessDeniedWithAuthModal.newProject")}
+            onClickHandler={createNewProject}
+          />,
+          <a
+            className="btn btn--secondary"
+            href="https://projects.raspberrypi.org"
+          >
+            {t("project.accessDeniedWithAuthModal.projectsSiteLinkText")}
+          </a>,
+        ]
+      }
       defaultCallback={createNewProject}
     />
   );

@@ -9,7 +9,13 @@ import LoginButton from "../Login/LoginButton";
 import GeneralModal from "./GeneralModal";
 import { login } from "../../utils/login";
 
-const AccessDeniedNoAuthModal = () => {
+const AccessDeniedNoAuthModal = (props) => {
+  const {
+    buttons = null,
+    text = null,
+    withCloseButton = true,
+    withClickToClose = true,
+  } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -19,6 +25,7 @@ const AccessDeniedNoAuthModal = () => {
   const accessDeniedData = useSelector(
     (state) => state.editor.modals.accessDenied,
   );
+
   const closeModal = () => dispatch(closeAccessDeniedNoAuthModal());
 
   const defaultCallback = () => {
@@ -28,32 +35,36 @@ const AccessDeniedNoAuthModal = () => {
   return (
     <GeneralModal
       isOpen={isModalOpen}
-      closeModal={closeModal}
-      withCloseButton
+      closeModal={withClickToClose ? closeModal : null}
+      withCloseButton={withCloseButton}
       heading={t("project.accessDeniedNoAuthModal.heading")}
-      text={[
-        {
-          type: "paragraph",
-          content: t("project.accessDeniedNoAuthModal.text"),
-        },
-      ]}
-      buttons={[
-        <LoginButton
-          buttonText={t("project.accessDeniedNoAuthModal.loginButtonText")}
-          className="btn--primary"
-        />,
-        <a
-          className="btn btn--secondary"
-          href="https://projects.raspberrypi.org"
-        >
-          {t("project.accessDeniedNoAuthModal.projectsSiteLinkText")}
-        </a>,
-        <Button
-          buttonText={t("project.accessDeniedNoAuthModal.newProject")}
-          className="btn--tertiary"
-          onClickHandler={closeModal}
-        />,
-      ]}
+      text={
+        text || [
+          {
+            type: "paragraph",
+            content: t("project.accessDeniedNoAuthModal.text"),
+          },
+        ]
+      }
+      buttons={
+        buttons || [
+          <LoginButton
+            buttonText={t("project.accessDeniedNoAuthModal.loginButtonText")}
+            className="btn--primary"
+          />,
+          <a
+            className="btn btn--secondary"
+            href="https://projects.raspberrypi.org"
+          >
+            {t("project.accessDeniedNoAuthModal.projectsSiteLinkText")}
+          </a>,
+          <Button
+            buttonText={t("project.accessDeniedNoAuthModal.newProject")}
+            className="btn--tertiary"
+            onClickHandler={closeModal}
+          />,
+        ]
+      }
       defaultCallback={defaultCallback}
     />
   );

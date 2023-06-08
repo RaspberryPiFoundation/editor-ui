@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import parseLinkHeader from "parse-link-header";
 import {
+  loadProjectPending,
+  loadProjectFulfilled,
+  loadProjectRejected,
+} from "./Reducers/loadProjectReducers";
+import {
   createOrUpdateProject,
   readProject,
   createRemix,
@@ -347,61 +352,9 @@ export const EditorSlice = createSlice({
       state.project = action.payload.project;
       state.loading = "idle";
     });
-    builder.addCase("editor/loadProject/pending", (state, action) => {
-      state.loading = "pending";
-      state.accessDeniedNoAuthModalShowing = false;
-      state.modals = {};
-      state.currentLoadingRequestId = action.meta.requestId;
-    });
-    builder.addCase("editor/loadProject/fulfilled", (state, action) => {
-      if (
-        state.loading === "pending" &&
-        state.currentLoadingRequestId === action.meta.requestId
-      ) {
-        state.project = action.payload.project;
-        state.loading = "success";
-        state.justLoaded = true;
-        state.saving = "idle";
-        state.currentLoadingRequestId = undefined;
-        if (state.openFiles.flat().length === 0) {
-          const firstPanelIndex = 0;
-          if (state.project.project_type === "html") {
-            state.openFiles[firstPanelIndex].push("index.html");
-          } else {
-            state.openFiles[firstPanelIndex].push("main.py");
-          }
-        }
-      }
-    });
-    builder.addCase("editor/loadProject/rejected", (state, action) => {
-      if (
-        state.loading === "pending" &&
-        state.currentLoadingRequestId === action.meta.requestId
-      ) {
-        state.loading = "failed";
-        state.saving = "idle";
-        const splitErrorMessage = action.error.message.split(" ");
-        const errorCode = splitErrorMessage[splitErrorMessage.length - 1];
-        if (errorCode === "404") {
-          state.notFoundModalShowing = true;
-        } else if (
-          (errorCode === "500" || errorCode === "403") &&
-          action.meta.arg.accessToken
-        ) {
-          state.accessDeniedWithAuthModalShowing = true;
-        } else if (
-          (errorCode === "500" || errorCode === "403") &&
-          !action.meta.arg.accessToken
-        ) {
-          state.accessDeniedNoAuthModalShowing = true;
-          state.modals.accessDenied = {
-            identifier: action.meta.arg.identifier,
-            projectType: action.meta.arg.projectType,
-          };
-        }
-        state.currentLoadingRequestId = undefined;
-      }
-    });
+    builder.addCase("editor/loadProject/pending", loadProjectPending);
+    builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);
+    builder.addCase("editor/loadProject/rejected", loadProjectRejected);
     builder.addCase("editor/deleteProject/fulfilled", (state) => {
       state.projectListLoaded = "idle";
       state.modals.deleteProject = null;

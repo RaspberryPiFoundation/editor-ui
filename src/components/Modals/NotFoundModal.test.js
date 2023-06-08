@@ -79,6 +79,9 @@ describe("When not logged in", () => {
       auth: {},
     };
     store = mockStore(initialState);
+  });
+
+  test("Clicking new project closes the modal", () => {
     render(
       <Provider store={store}>
         <div id="app">
@@ -86,8 +89,7 @@ describe("When not logged in", () => {
         </div>
       </Provider>,
     );
-  });
-  test("Clicking new project closes the modal", () => {
+
     const newProjectLink = screen.queryByText(
       "project.notFoundModal.newProject",
     );
