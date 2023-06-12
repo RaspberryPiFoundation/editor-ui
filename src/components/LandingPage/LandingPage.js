@@ -29,7 +29,7 @@ const LandingPage = () => {
           <Button
             buttonText={t("landingPage.python")}
             ButtonIcon={FileIconPython}
-            onclickHandler={htmlLink}
+            onClickHandler={htmlLink}
             className="btn--primary landing-page-button"
           />
           <Button
