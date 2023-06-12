@@ -56,7 +56,7 @@ const LandingPage = () => {
               {t("landingPage.projectPython")}
             </Link>{" "}
             or{" "}
-            <Link className="landing-page__link" to="raspberrypi.org">
+            <Link className="landing-page__link" to="https://projects.raspberrypi.org/en/pathways/web-intro">
               {t("landingPage.projectHtml")}
             </Link>{" "}
             on our Projects site.
