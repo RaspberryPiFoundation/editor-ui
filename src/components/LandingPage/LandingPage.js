@@ -40,7 +40,6 @@ const LandingPage = () => {
             key="login"
             className=""
             buttonText={t("landingPage.login")}
-            triggerSave
           />
           and continue your projects
         </p>
