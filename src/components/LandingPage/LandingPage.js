@@ -42,7 +42,7 @@ const LandingPage = () => {
             buttonText={t("landingPage.login")}
             triggerSave
           />
-          , and continue your projects
+          and continue your projects
         </p>
       </div>
       <div className="landing-page__paths">
