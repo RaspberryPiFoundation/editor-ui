@@ -10,7 +10,12 @@ import { FileIconHtml } from "../../Icons";
 import { FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+
+  const htmlLink = () => {
+    return "`/${locale}/projects/blank-python-starter`";
+  };
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page__projects">
@@ -24,13 +29,13 @@ const LandingPage = () => {
           <Button
             buttonText={t("landingPage.python")}
             ButtonIcon={FileIconPython}
-            onclick="location.href='https://google.com';"
+            onclickHandler={htmlLink}
             className="btn--primary landing-page-button"
           />
           <Button
             buttonText={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
-            onclick="location.href='https://google.com';"
+            onclick="/${locale}/projects/blank-html-starter"
             className="btn--primary  landing-page-button"
           />
         </div>
@@ -51,11 +56,17 @@ const LandingPage = () => {
           </h2>
           <p className="landing-page__paths--description">
             Follow a
-            <Link className="landing-page__link" to="https://projects.raspberrypi.org/en/pathways/python-intro">
+            <Link
+              className="landing-page__link"
+              to="https://projects.raspberrypi.org/en/pathways/python-intro"
+            >
               {t("landingPage.projectPython")}
             </Link>{" "}
             or{" "}
-            <Link className="landing-page__link" to="https://projects.raspberrypi.org/en/pathways/web-intro">
+            <Link
+              className="landing-page__link"
+              to="https://projects.raspberrypi.org/en/pathways/web-intro"
+            >
               {t("landingPage.projectHtml")}
             </Link>{" "}
             on our Projects site.

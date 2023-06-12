@@ -41,12 +41,12 @@
 
 .landing-page__projects--login {
   @include font-size-1-25(regular);
-   button {
+  button {
     color: $rpf-teal-900;
     font-weight: var(--font-weight-regular);
     padding: 0;
     text-decoration: underline;
-   }
+  }
 }
 
 // Paths
