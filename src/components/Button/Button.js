@@ -8,7 +8,6 @@ const Button = (props) => {
   const {
     className,
     onClickHandler,
-    onKeyDown,
     ButtonIcon,
     buttonImage,
     buttonImageAltText,
@@ -44,6 +43,10 @@ const Button = (props) => {
         },
       ],
     });
+  };
+
+  const onKeyDown = (e) => {
+    e.stopPropagation();
   };
 
   const button = (

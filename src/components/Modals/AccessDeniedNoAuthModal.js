@@ -49,16 +49,19 @@ const AccessDeniedNoAuthModal = (props) => {
       buttons={
         buttons || [
           <LoginButton
+            key="login"
             buttonText={t("project.accessDeniedNoAuthModal.loginButtonText")}
             className="btn--primary"
           />,
           <a
+            key="link"
             className="btn btn--secondary"
             href="https://projects.raspberrypi.org"
           >
             {t("project.accessDeniedNoAuthModal.projectsSiteLinkText")}
           </a>,
           <Button
+            key="close"
             buttonText={t("project.accessDeniedNoAuthModal.newProject")}
             className="btn--tertiary"
             onClickHandler={closeModal}

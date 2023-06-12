@@ -55,11 +55,13 @@ const AccessDeniedWithAuthModal = (props) => {
       buttons={
         buttons || [
           <Button
+            key="new"
             className="btn--primary"
             buttonText={t("project.accessDeniedWithAuthModal.newProject")}
             onClickHandler={createNewProject}
           />,
           <a
+            key="link"
             className="btn btn--secondary"
             href="https://projects.raspberrypi.org"
           >
