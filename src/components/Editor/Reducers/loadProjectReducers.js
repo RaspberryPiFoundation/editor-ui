@@ -35,7 +35,7 @@ const loadProjectRejected = (state, action) => {
     state.saving = "idle";
     const splitErrorMessage = action.error.message.split(" ");
     const errorCode = splitErrorMessage[splitErrorMessage.length - 1];
-    const accessToken = action.meta.arg.accessToken;
+    const accessToken = action.meta.arg?.accessToken;
     const accessDeniedCodes = ["401", "403", "500"];
 
     if (errorCode === "404") {
