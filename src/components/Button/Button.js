@@ -19,6 +19,7 @@ const Button = (props) => {
     confirmText,
     title,
     label,
+    href,
     buttonIconPosition = "left",
   } = props;
 
@@ -52,6 +53,7 @@ const Button = (props) => {
       disabled={disabled}
       aria-label={label}
       title={title}
+      href={href}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >

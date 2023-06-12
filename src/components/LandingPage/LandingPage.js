@@ -12,10 +12,6 @@ import { FileIconPython } from "../../Icons";
 const LandingPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-
-  const htmlLink = () => {
-    return "`/${locale}/projects/blank-python-starter`";
-  };
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page__projects">
@@ -29,13 +25,13 @@ const LandingPage = () => {
           <Button
             buttonText={t("landingPage.python")}
             ButtonIcon={FileIconPython}
-            onClickHandler={htmlLink}
+            href={`/${locale}/projects/blank-python-starter`}
             className="btn--primary landing-page-button"
           />
           <Button
             buttonText={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
-            onclick="/${locale}/projects/blank-html-starter"
+            href={`/${locale}/projects/blank-html-starter`}
             className="btn--primary  landing-page-button"
           />
         </div>
