@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 
 import Button from "../Button/Button";
+import LoginButton from "../Login/LoginButton";
 import startIcon from "../../assets/start_icon.svg";
 import { FileIconHtml } from "../../Icons";
 import { FileIconPython } from "../../Icons";
@@ -34,13 +35,14 @@ const LandingPage = () => {
           />
         </div>
         <p className="landing-page__projects--login">
-          <Trans i18nKey="login">
-            Have an account?
-            <Link className="landing-page__link" to="raspberrypi.org">
-              {t("landingPage.login")}
-            </Link>{" "}
-            and continue your projects.
-          </Trans>
+          Have an account?
+          <LoginButton
+            key="login"
+            className=""
+            buttonText={t("landingPage.login")}
+            triggerSave
+          />
+          , and continue your projects
         </p>
       </div>
       <div className="landing-page__paths">
@@ -49,17 +51,15 @@ const LandingPage = () => {
             {t("landingPage.start")}
           </h2>
           <p className="landing-page__paths--description">
-            <Trans i18nKey="projectPython">
-              Follow a
-              <Link className="landing-page__link" to="raspberrypi.org">
-                {t("landingPage.projectPython")}
-              </Link>{" "}
-              or{" "}
-              <Link className="landing-page__link" to="raspberrypi.org">
-                {t("landingPage.projectHtml")}
-              </Link>{" "}
-              on our Projects site.
-            </Trans>
+            Follow a
+            <Link className="landing-page__link" to="raspberrypi.org">
+              {t("landingPage.projectPython")}
+            </Link>{" "}
+            or{" "}
+            <Link className="landing-page__link" to="raspberrypi.org">
+              {t("landingPage.projectHtml")}
+            </Link>{" "}
+            on our Projects site.
           </p>
         </div>
         <img className="" src={startIcon} alt={""} />
