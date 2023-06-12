@@ -21,7 +21,7 @@ const AccessDeniedWithAuthModalEmbedded = (props) => {
       text={[
         {
           type: "paragraph",
-          content: t("project.notFoundModal.embedded.text"),
+          content: t("project.accessDeniedWithAuthModal.embedded.text"),
         },
       ]}
     />

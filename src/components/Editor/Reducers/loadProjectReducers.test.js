@@ -194,17 +194,17 @@ describe("When the action is rejected with an error", () => {
       };
     });
 
-    test("If the error is a 500 and there is a token, it sets up state accordingly", () => {
+    test("If the error is a 500, it sets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 500";
       expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
     });
 
-    test("If the error is a 403 and there is a token, itsets up state accordingly", () => {
+    test("If the error is a 403, itsets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 403";
       expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
     });
 
-    test("If the error is any other status code and there is a token, it sets up state accordingly", () => {
+    test("If the error is any other status code, it sets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 404";
       expect(reducer(initialState, loadRejectedAction)).not.toEqual(
         expectedState,
@@ -239,17 +239,17 @@ describe("When the action is rejected with an error", () => {
       };
     });
 
-    test("If the error is a 500 and there is a token, it sets up state accordingly", () => {
+    test("If the error is a 500, it sets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 500";
       expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
     });
 
-    test("If the error is a 403 and there is a token, it sets up state accordingly", () => {
+    test("If the error is a 403, it sets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 403";
       expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
     });
 
-    test("If the error is a 401 and there is a token, it sets up state accordingly", () => {
+    test("If the error is a 401, it sets up state accordingly", () => {
       loadRejectedAction.error.message = "Request failed with status code 401";
       expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
     });
