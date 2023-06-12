@@ -22,12 +22,13 @@ const LandingPage = () => {
           {t("landingPage.subtitle")}
         </h2>
         <div className="landing-page__projects--buttons">
-          <Button
-            buttonText={t("landingPage.python")}
-            ButtonIcon={FileIconPython}
-            href={`/${locale}/projects/blank-python-starter`}
-            className="btn--primary landing-page-button"
-          />
+          <Link to={`/${locale}/projects/blank-python-starter`}>
+            <Button
+              buttonText={t("landingPage.python")}
+              ButtonIcon={FileIconPython}
+              className="btn--primary landing-page-button"
+            />
+          </Link>
           <Button
             buttonText={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
