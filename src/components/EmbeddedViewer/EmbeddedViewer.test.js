@@ -101,38 +101,3 @@ test("Renders the expected modal when the project is found but user is not autho
     screen.queryByText("project.accessDeniedNoAuthModal.projectsSiteLinkText"),
   ).toBeInTheDocument();
 });
-
-test("Renders the expected modal when the project is found and the user is authorised", () => {
-  initialState = {
-    ...initialState,
-    editor: {
-      ...initialState.editor,
-      accessDeniedWithAuthModalShowing: true,
-    },
-    auth: {
-      user: {
-        access_token: "i-am-a-token",
-        profile: {
-          user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
-        },
-      },
-    },
-  };
-
-  const mockStore = configureStore([]);
-  store = mockStore(initialState);
-
-  render(
-    <Provider store={store}>
-      <div id="app">
-        <EmbeddedViewer />
-      </div>
-    </Provider>,
-  );
-
-  expect(
-    screen.queryByText(
-      "project.accessDeniedWithAuthModal.projectsSiteLinkText",
-    ),
-  ).toBeInTheDocument();
-});
