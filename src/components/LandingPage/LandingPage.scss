@@ -35,7 +35,7 @@
 }
 
 .landing-page__projects--login {
-  @include font-size-1-5(regular);
+  @include font-size-1-25(regular);
    button {
     color: $rpf-teal-900;
     font-weight: var(--font-weight-regular);
