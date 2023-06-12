@@ -4,6 +4,11 @@
 @import "../../mixins.scss";
 
 .landing-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   margin: 0 auto;
   padding-bottom: $space-1;
   text-align: center;
