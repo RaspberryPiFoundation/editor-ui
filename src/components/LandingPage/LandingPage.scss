@@ -5,6 +5,7 @@
 
 .landing-page-wrapper {
   margin: 0 auto;
+  padding-bottom: $space-1;
   text-align: center;
 }
 
@@ -52,9 +53,10 @@
 
   // Mixin is not working so using media for now
   @media screen and (min-width: 768px) {
+    align-items: center;
     display: flex;
     text-align: left;
-    padding: 0, $space-2;
+    padding: 0 $space-2;
   }
 }
 
@@ -64,7 +66,7 @@
 }
 
 .landing-page__link {
-  @include font-size-1-5(regular);
+  @include font-size-1(regular);
   color: $rpf-teal-900;
 }
 
