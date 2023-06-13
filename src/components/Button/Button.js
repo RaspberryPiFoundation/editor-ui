@@ -67,7 +67,7 @@ const Button = (props) => {
     </button>
   );
 
-  const content = <span>{text}</span>;
+  const content = <Button>{text}</Button>;
 
   if (href) {
     return (
