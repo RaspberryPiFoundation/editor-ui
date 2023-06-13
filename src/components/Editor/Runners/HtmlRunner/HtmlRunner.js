@@ -12,12 +12,7 @@ import {
 } from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
 
 function HtmlRunner() {
@@ -42,9 +37,6 @@ function HtmlRunner() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const dispatch = useDispatch();
   const output = useRef();
@@ -72,10 +64,7 @@ function HtmlRunner() {
   }
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
-  const [runningFile, setRunningFile] = useState("");
-  // const [runningFile, setRunningFile] = useState(previewFile);
-
-  console.log(previewFile);
+  const [runningFile, setRunningFile] = useState(previewFile);
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -128,18 +117,12 @@ function HtmlRunner() {
   };
 
   useEffect(() => {
-    console.log("location changed!");
-    setRunningFile(previewFile);
-  }, [location]);
-
-  useEffect(() => {
     eventListener();
   }, []);
 
   let timeout;
 
   useEffect(() => {
-    console.log("preview file changed");
     if (justLoaded && isEmbedded) {
       dispatch(triggerCodeRun());
     } else if (!justLoaded && autorunEnabled) {
@@ -151,7 +134,6 @@ function HtmlRunner() {
   }, [previewFile]);
 
   useEffect(() => {
-    console.log("running", previewFile);
     if (codeRunTriggered) {
       runCode();
     }
@@ -171,7 +153,6 @@ function HtmlRunner() {
   }, [error]);
 
   useEffect(() => {
-    console.log("setting page to", runningFile);
     if (isEmbedded && searchParams.get("browserPreview") === "true") {
       setSearchParams({
         ...Object.fromEntries([...searchParams]),
