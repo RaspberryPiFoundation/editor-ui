@@ -4,9 +4,20 @@ import { syncProject, setProject } from "../EditorSlice";
 import { waitFor } from "@testing-library/react";
 import { defaultPythonProject } from "../../../utils/defaultProjects";
 
+let mockBrowserPreview = "false";
+
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => jest.fn(),
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useSearchParams: () => [
+    {
+      get: (key) => (key === "browserPreview" ? mockBrowserPreview : null),
+    },
+  ],
 }));
 
 const loadProject = jest.fn();
@@ -92,6 +103,38 @@ test("If requested locale does not match the set language, does not set project"
   syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
   renderHook(() => useProject({ projectIdentifier: "my-favourite-project" }));
   await waitFor(() => expect(setProject).not.toHaveBeenCalled());
+});
+
+test("If embedded and cached project, loads from server", async () => {
+  syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+  localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
+  renderHook(() =>
+    useProject({
+      projectIdentifier: "hello-world-project",
+      accessToken,
+      isEmbedded: true,
+    }),
+  );
+  await waitFor(() =>
+    expect(loadProject).toHaveBeenCalledWith({
+      identifier: "hello-world-project",
+      locale: "ja-JP",
+      accessToken,
+    }),
+  );
+});
+
+test("If new tab browser preview, uses cached changes", () => {
+  mockBrowserPreview = "true";
+  localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
+  renderHook(() =>
+    useProject({
+      projectIdentifier: "hello-world-project",
+      accessToken,
+      isEmbedded: true,
+    }),
+  );
+  expect(setProject).toHaveBeenCalledWith(cachedProject);
 });
 
 afterEach(() => {

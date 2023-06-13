@@ -4,6 +4,7 @@ import EmbeddedViewer from "./EmbeddedViewer";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { render } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 
 let store;
 
@@ -18,6 +19,7 @@ beforeEach(() => {
         components: [],
       },
     },
+    auth: {},
   };
   store = mockStore(initialState);
 });
@@ -25,7 +27,9 @@ beforeEach(() => {
 test("Renders without crashing", () => {
   const { asFragment } = render(
     <Provider store={store}>
-      <EmbeddedViewer />
+      <MemoryRouter>
+        <EmbeddedViewer />
+      </MemoryRouter>
     </Provider>,
   );
   expect(asFragment()).toMatchSnapshot();

@@ -4,6 +4,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
 import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
+import { MemoryRouter } from "react-router-dom";
 
 const indexPage = {
   name: "index",
@@ -43,9 +44,11 @@ describe("When page first loaded", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -72,9 +75,11 @@ describe("When focussed on another HTML file", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -109,9 +114,11 @@ describe("When page first loaded in embedded viewer", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -148,9 +155,11 @@ describe("When run run triggered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -198,9 +207,11 @@ describe("When an external link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -243,9 +254,11 @@ describe("When a new tab link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -278,9 +291,11 @@ describe("When an allowed link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
