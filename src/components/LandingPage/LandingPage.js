@@ -2,12 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
-
-import Button from "../Button/Button";
 import LoginButton from "../Login/LoginButton";
 import startIcon from "../../assets/start_icon.svg";
-import { FileIconHtml } from "../../Icons";
-import { FileIconPython } from "../../Icons";
+import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
   const { t, i18n } = useTranslation();
@@ -22,18 +19,32 @@ const LandingPage = () => {
           {t("landingPage.subtitle")}
         </h2>
         <div className="landing-page__projects--buttons">
-          <Button
-            text={t("landingPage.python")}
-            ButtonIcon={FileIconPython}
-            href={`/${locale}/projects/blank-python-starter`}
-            className="btn--primary  landing-page-button"
-          />
-          <Button
-            text={t("landingPage.html")}
-            ButtonIcon={FileIconHtml}
-            href={`/${locale}/projects/blank-html-starter`}
-            className="btn--primary  landing-page-button"
-          />
+          <Link
+            to={`${locale}/projects/blank-python-starter`}
+            className="project-gallery-link btn--primary  landing-page-button"
+          >
+            {
+              <>
+                <FileIconPython />
+                <span className="editor-header__text">
+                  {t("landingPage.html")}
+                </span>
+              </>
+            }
+          </Link>
+          <Link
+            to={`${locale}/projects/blank-html-starter`}
+            className="project-gallery-link btn--primary  landing-page-button"
+          >
+            {
+              <>
+                <FileIconHtml />
+                <span className="editor-header__text">
+                  {t("landingPage.html")}
+                </span>
+              </>
+            }
+          </Link>
         </div>
         <p className="landing-page__projects--login">
           Have an account?

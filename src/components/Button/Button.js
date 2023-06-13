@@ -8,8 +8,6 @@ const Button = (props) => {
   const {
     className,
     onClickHandler,
-    onClick = () => {},
-    "aria-label": ariaLabel = "",
     onKeyDown,
     ButtonIcon,
     buttonImage,
@@ -21,8 +19,6 @@ const Button = (props) => {
     confirmText,
     title,
     label,
-    href,
-    text,
     buttonIconPosition = "left",
   } = props;
 
@@ -56,7 +52,6 @@ const Button = (props) => {
       disabled={disabled}
       aria-label={label}
       title={title}
-      href={href}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
@@ -66,16 +61,6 @@ const Button = (props) => {
       {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>
   );
-
-  const content = <Button>{text}</Button>;
-
-  if (href) {
-    return (
-      <a aria-label={ariaLabel} href={href} onClick={onClick}>
-        {content}
-      </a>
-    );
-  }
 
   if (buttonOuter) {
     return (
