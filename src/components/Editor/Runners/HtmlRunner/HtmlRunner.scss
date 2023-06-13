@@ -1,4 +1,5 @@
 @use '../../../../colours' as *;
+@import '../../../../mixins.scss';
 
 .htmlrunner-container {
   display: flex;
@@ -8,6 +9,12 @@
 
 .htmlrunner-link {
   margin-left: auto;
+}
+
+.htmlrunner-link__text {
+  @include sm-width-only {
+    display: none;
+  }
 }
 
 .htmlrunner-iframe {

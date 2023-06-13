@@ -12,7 +12,12 @@ import {
 } from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Link, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
 
 function HtmlRunner() {
@@ -37,6 +42,9 @@ function HtmlRunner() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
   const output = useRef();
@@ -65,6 +73,7 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState("");
+  // const [runningFile, setRunningFile] = useState(previewFile);
 
   console.log(previewFile);
 
@@ -119,6 +128,11 @@ function HtmlRunner() {
   };
 
   useEffect(() => {
+    console.log("location changed!");
+    setRunningFile(previewFile);
+  }, [location]);
+
+  useEffect(() => {
     eventListener();
   }, []);
 
@@ -156,9 +170,18 @@ function HtmlRunner() {
     }
   }, [error]);
 
+  useEffect(() => {
+    console.log("setting page to", runningFile);
+    if (isEmbedded && searchParams.get("browserPreview") === "true") {
+      setSearchParams({
+        ...Object.fromEntries([...searchParams]),
+        page: runningFile,
+      });
+    }
+  }, [runningFile]);
+
   const runCode = () => {
     setRunningFile(previewFile);
-    // setSearchParams({ ...searchParams, file: previewFile });
 
     let indexPage = parse(focussedComponent(previewFile).content);
 
@@ -225,11 +248,6 @@ function HtmlRunner() {
     }
   };
 
-  // window.onhashchange = () => {
-  //   console.log("resetting running file name");
-  //   setRunningFile(previewFile);
-  // };
-
   return (
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
@@ -250,7 +268,9 @@ function HtmlRunner() {
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
                 >
-                  {t("output.newTab")}
+                  <span className="htmlrunner-link__text">
+                    {t("output.newTab")}
+                  </span>
                   <OpenInNewTabIcon />
                 </Link>
               )}
