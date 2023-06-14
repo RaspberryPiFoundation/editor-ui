@@ -134,7 +134,7 @@ describe("When page first loaded in embedded viewer", () => {
   });
 });
 
-describe("When run run triggered", () => {
+describe("When run is triggered", () => {
   let store;
 
   beforeEach(() => {
@@ -164,8 +164,10 @@ describe("When run run triggered", () => {
     );
   });
 
-  test("Runs HTML code", () => {
-    expect(Blob).toHaveBeenCalledWith([indexPage.content], {
+  test("Runs HTML code and adds meta tag", () => {
+    const indexPageContent =
+      '<head></head><body><p>hello world</p><meta filename="index.html" ></body>';
+    expect(Blob).toHaveBeenCalledWith([indexPageContent], {
       type: "text/html",
     });
   });
@@ -181,7 +183,7 @@ describe("When an external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -227,7 +229,7 @@ describe("When a new tab link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="index.html" target="_blank">NEW TAB LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a><meta filename="some_file.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -300,8 +302,10 @@ describe("When an allowed link is rendered", () => {
     );
   });
 
-  test("Runs HTML code without changes", () => {
-    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLPage.content], {
+  test("Runs HTML code without changes apart from meta tag", () => {
+    const allowedLinkHTMLContent =
+      '<head></head><body><a href="#">ANCHOR LINK!</a><meta filename="allowed_link.html" ></body>';
+    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLContent], {
       type: "text/html",
     });
   });
