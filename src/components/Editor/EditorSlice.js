@@ -4,7 +4,7 @@ import {
   loadProjectPending,
   loadProjectFulfilled,
   loadProjectRejected,
-} from "./Reducers/loadProjectReducers";
+} from "./reducers/loadProject/loadProjectReducers";
 import {
   createOrUpdateProject,
   readProject,

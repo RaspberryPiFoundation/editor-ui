@@ -1,7 +1,10 @@
-import { readProject } from "../../../utils/apiCallHandler";
-import reducer, { syncProject } from "../EditorSlice";
+import produce from "immer";
 
-jest.mock("../../../utils/apiCallHandler");
+import { readProject } from "../../../../utils/apiCallHandler";
+import reducer, { syncProject } from "../../EditorSlice";
+import { loadProjectRejected } from "./loadProjectReducers";
+
+jest.mock("../../../../utils/apiCallHandler");
 
 const requestingAProject = function (project, projectFile) {
   const dispatch = jest.fn();
@@ -141,79 +144,111 @@ describe("When requesting a HTML project", () => {
   requestingAProject(project, "index.html");
 });
 
-describe("When the action is rejected with an error", () => {
-  let initialState = {
-    loading: "pending",
-    saving: "idle",
-    currentLoadingRequestId: "id-of-a-testy-thing",
-  };
-
-  let loadThunk;
-  let loadRejectedAction;
+describe("EditorSliceReducers::loadProjectRejectedReducer", () => {
+  let action;
+  let initialState;
 
   beforeEach(() => {
-    loadThunk = syncProject("load");
-    loadRejectedAction = loadThunk.rejected();
-    loadRejectedAction.meta = {
-      requestId: "id-of-a-testy-thing",
-      arg: {
-        accessToken: null,
-        identifier: "I am he",
-        projectType: "Err",
+    action = {
+      meta: {
+        requestId: "id-of-a-testy-thing",
+        arg: {
+          accessToken: null,
+        },
       },
+      error: {},
+    };
+
+    initialState = {
+      loading: "pending",
+      saving: "idle",
+      currentLoadingRequestId: "id-of-a-testy-thing",
     };
   });
 
-  test("If the error is a 404, it sets up state accordingly", () => {
-    loadRejectedAction.error.message = "Request failed with status code 404";
+  test("sets the expected state for a 404", () => {
+    action.error.message = "Request failed with status code 404";
 
     const expectedState = {
       loading: "failed",
       saving: "idle",
-      accessDeniedWithAuthModalShowing: undefined,
-      accessDeniedNoAuthModalShowing: undefined,
       notFoundModalShowing: true,
       currentLoadingRequestId: undefined,
     };
-    expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+
+    const newState = produce(initialState, (draft) => {
+      loadProjectRejected(draft, action);
+    });
+
+    expect(newState).toEqual(expectedState);
   });
 
-  describe("When it errors with an auth token", () => {
-    let expectedState;
+  describe("when an auth token HAS been set", () => {
+    let expectedState = {
+      loading: "failed",
+      saving: "idle",
+      accessDeniedWithAuthModalShowing: true,
+      currentLoadingRequestId: undefined,
+    };
 
     beforeEach(() => {
-      loadRejectedAction.meta.arg.accessToken = "I exist";
-
-      expectedState = {
-        loading: "failed",
-        saving: "idle",
-        accessDeniedWithAuthModalShowing: true,
-        accessDeniedNoAuthModalShowing: undefined,
-        notFoundModalShowing: undefined,
-        currentLoadingRequestId: undefined,
-      };
+      action.meta.arg.accessToken = "I am token thing";
     });
 
-    test("If the error is a 500, it sets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 500";
-      expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+    test("sets the expected state for a 500", () => {
+      action.error.message = "Request failed with status code 500";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
     });
 
-    test("If the error is a 403, itsets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 403";
-      expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+    test("sets the expected state for a 403", () => {
+      action.error.message = "Request failed with status code 403";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
     });
 
-    test("If the error is any other status code, it sets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 404";
-      expect(reducer(initialState, loadRejectedAction)).not.toEqual(
-        expectedState,
-      );
+    test("sets the expected state for a 401", () => {
+      action.error.message = "Request failed with status code 401";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("does not set the expected state for an unsupported status code", () => {
+      action.error.message = "Request failed with status code 404";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).not.toEqual(expectedState);
     });
   });
 
-  describe("When it errors without an auth token", () => {
-    let expectedState;
+  describe("when an auth token HAS NOT been set", () => {
+    let expectedState = {
+      loading: "failed",
+      saving: "idle",
+      accessDeniedNoAuthModalShowing: true,
+      currentLoadingRequestId: undefined,
+      modals: {
+        accessDenied: {
+          identifier: "I am he",
+          projectType: "Err",
+        },
+      },
+    };
 
     beforeEach(() => {
       initialState = {
@@ -223,35 +258,54 @@ describe("When the action is rejected with an error", () => {
         },
       };
 
-      expectedState = {
-        loading: "failed",
-        saving: "idle",
-        accessDeniedWithAuthModalShowing: undefined,
-        accessDeniedNoAuthModalShowing: true,
-        notFoundModalShowing: undefined,
-        currentLoadingRequestId: undefined,
-        modals: {
-          accessDenied: {
-            identifier: "I am he",
-            projectType: "Err",
-          },
+      action.meta = {
+        requestId: "id-of-a-testy-thing",
+        arg: {
+          accessToken: null, // to be explicit...
+          identifier: "I am he",
+          projectType: "Err",
         },
       };
     });
 
-    test("If the error is a 500, it sets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 500";
-      expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+    test("sets the expected state for a 500", () => {
+      action.error.message = "Request failed with status code 500";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
     });
 
-    test("If the error is a 403, it sets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 403";
-      expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+    test("sets the expected state for a 403", () => {
+      action.error.message = "Request failed with status code 403";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
     });
 
-    test("If the error is a 401, it sets up state accordingly", () => {
-      loadRejectedAction.error.message = "Request failed with status code 401";
-      expect(reducer(initialState, loadRejectedAction)).toEqual(expectedState);
+    test("sets the expected state for a 401", () => {
+      action.error.message = "Request failed with status code 401";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).toEqual(expectedState);
+    });
+
+    test("does not set the expected state for an unsupported status code", () => {
+      action.error.message = "Request failed with status code 404";
+
+      const newState = produce(initialState, (draft) => {
+        loadProjectRejected(draft, action);
+      });
+
+      expect(newState).not.toEqual(expectedState);
     });
   });
 });
