@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
+- Default HTML project improvement (#543)
 
 ### Fixed
 - No longer renders a blank page on 401, 403 & 404 for embedded viewer
