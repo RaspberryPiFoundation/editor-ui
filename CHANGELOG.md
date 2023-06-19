@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Default HTML project improvement (#543)
 
 ### Fixed
+- No longer renders a blank page on 401, 403 & 404 for embedded viewer
 
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
