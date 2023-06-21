@@ -127,6 +127,13 @@ const PythonRunner = () => {
   };
 
   const builtinRead = (x) => {
+    console.log(x);
+
+    if (x === "./picozero.js") {
+      console.log("Doing something else");
+      throw Error("Doing it differently");
+    }
+
     if (x === "./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true));
     }
