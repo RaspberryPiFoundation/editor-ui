@@ -47,8 +47,8 @@ const Header = () => {
 
   const requestDevices = () => {
     console.log("requesting devices");
-    // Look for connected Picos
-    const connection = navigator.usb
+    // Look for available Picos
+    navigator.usb
       .requestDevice({ filters: [{ vendorId: "0x2E8A" }] })
       .then((selectedDevice) => {
         return selectedDevice.open(); // Begin a session.

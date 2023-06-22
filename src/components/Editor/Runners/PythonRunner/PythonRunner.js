@@ -62,6 +62,7 @@ const PythonRunner = () => {
   const senseHatAlwaysEnabled = useSelector(
     (state) => state.editor.senseHatAlwaysEnabled,
   );
+  const [usingPicozero, setUsingPicozero] = useState(false);
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -127,11 +128,10 @@ const PythonRunner = () => {
   };
 
   const builtinRead = (x) => {
-    console.log(x);
-
     if (x === "./picozero.js") {
       console.log("Doing something else");
-      throw Error("Doing it differently");
+      setUsingPicozero(true);
+      return;
     }
 
     if (x === "./_internal_sense_hat/__init__.js") {
@@ -305,6 +305,18 @@ const PythonRunner = () => {
     dispatch(setSenseHatEnabled(false));
 
     var prog = projectCode[0].content;
+
+    // if (usingPicozero) {
+    // Rubbish way of detecting if picozero used but works first time unlike the above
+    if (prog.includes("picozero")) {
+      navigator.usb.getDevices().then((devices) => {
+        if (devices.length === 0) {
+          dispatch(setError("Raspberry Pi Pico is not connected"));
+        }
+      });
+      dispatch(codeRunHandled());
+      return;
+    }
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
