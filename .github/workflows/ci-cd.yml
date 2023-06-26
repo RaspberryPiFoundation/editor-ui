@@ -120,5 +120,5 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: previews/${{ github.ref_name }}
-      react_app_api_endpoint: https://editor-api-p-chatgpt-te-gzrfau.herokuapp.com
+      react_app_api_endpoint: https://editor-api-ai.raspberrypi.org
     secrets: inherit
