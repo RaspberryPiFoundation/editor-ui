@@ -6,26 +6,22 @@
 .landing-page-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding: $space-1-5;
   align-items: center;
-  height: 100%;
-  margin: 0 auto;
-  padding: $space-5;
-  text-align: center;
+  gap: $space-1;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  @media screen and (min-width: 768px) {
+    padding: $space-5 $space-7-5;
+    gap: $space-4;
+  }
 }
 
 // Projects
 
 .landing-page__projects {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @mixin unique-width($width) {
-    @media screen and (min-width: $width) {
-      @content;
-    }
-  }
+  text-align: center;
 }
 
 .landing-page__projects--title {
@@ -55,8 +51,8 @@
   border-radius: $space-1-5;
   margin: 0 $space-1-5;
   padding: $space-1-5 $space-1 0;
+  text-align: center;
 
-  // Mixin is not working so using media for now
   @media screen and (min-width: 768px) {
     align-items: center;
     display: flex;
@@ -72,7 +68,10 @@
 
 .landing-page__button {
   @include font-size-1(regular);
-  color: $rpf-teal-900;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .landing-page__paths--start {
