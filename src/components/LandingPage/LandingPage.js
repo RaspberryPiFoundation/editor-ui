@@ -67,7 +67,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="landing-page__paths-media">
-          <img className="" src={startIcon} alt={""} />
+          <img src={startIcon} alt={""} />
         </div>
       </div>
     </div>
