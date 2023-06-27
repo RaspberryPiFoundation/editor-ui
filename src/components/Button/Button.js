@@ -17,6 +17,7 @@ const Button = (props) => {
     buttonOuterClassName,
     disabled,
     confirmText,
+    buttonHref,
     title,
     label,
     buttonIconPosition = "left",
@@ -25,6 +26,14 @@ const Button = (props) => {
   const buttonClass = `btn${className ? ` ${className}` : ""}${
     buttonText ? "" : " btn--svg-only"
   }`;
+
+  // if (href) {
+  //   return (
+  //     <a className={"madzia"} href={href}>
+  //       {buttonText}
+  //     </a>
+  //   );
+  // }
 
   const onButtonClick = (e) => {
     if (!confirmText) {
@@ -52,12 +61,14 @@ const Button = (props) => {
       disabled={disabled}
       aria-label={label}
       title={title}
+      href={buttonHref}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
       {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
       {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
       {buttonText ? <span>{buttonText}</span> : null}
+      {buttonHref ? <a href={buttonHref}>{buttonText}</a> : null}
       {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>
   );

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
+import Button from "../Button/Button";
 import startIcon from "../../assets/start_icon.svg";
 import { FileIconHtml, FileIconPython } from "../../Icons";
 
@@ -80,6 +81,12 @@ const LandingPage = () => {
           </p>
         </div>
         <img className="" src={startIcon} alt={""} />
+        <Button
+          className="btn--primary"
+          buttonHref={"https://projects.raspberrypi.org/en/pathways/web-intro"}
+          buttonText={t("landingPage.html")}
+          ButtonIcon={FileIconHtml}
+        />
       </div>
     </div>
   );
