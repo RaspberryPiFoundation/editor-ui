@@ -70,6 +70,7 @@
   @include font-size-1(regular);
 
   a {
+    color: $rpf-black;
     text-decoration: none;
   }
 }
@@ -82,6 +83,12 @@
 .landing-page__paths--description {
   @include font-size-1(regular);
 }
+
+.landing-page__link {
+  color: $rpf-teal-900;
+}
+
+// Dark mode
 
 .--light {
   .landing-page-wrapper {
