@@ -84,6 +84,13 @@
   @include font-size-1(regular);
 }
 
+.landing-page__paths-media {
+  margin-bottom: -2px;
+  img {
+    display: block;
+  }
+}
+
 .landing-page__link {
   color: $rpf-teal-900;
 }
