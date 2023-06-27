@@ -70,7 +70,7 @@
   font-weight: var(--font-weight-bold);
 }
 
-.landing-page__link {
+.landing-page__button {
   @include font-size-1(regular);
   color: $rpf-teal-900;
 }
@@ -83,7 +83,6 @@
 .landing-page__paths--description {
   @include font-size-1(regular);
 }
-
 
 .--light {
   .landing-page-wrapper {

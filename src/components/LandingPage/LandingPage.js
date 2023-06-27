@@ -20,32 +20,18 @@ const LandingPage = () => {
           {t("landingPage.subtitle")}
         </h2>
         <div className="landing-page__projects--buttons">
-          <Link
-            to={`${locale}/projects/blank-python-starter`}
-            className="project-gallery-link btn--primary  landing-page-button"
-          >
-            {
-              <>
-                <FileIconPython />
-                <span className="editor-header__text">
-                  {t("landingPage.html")}
-                </span>
-              </>
-            }
-          </Link>
-          <Link
-            to={`${locale}/projects/blank-html-starter`}
-            className="project-gallery-link btn--primary  landing-page-button"
-          >
-            {
-              <>
-                <FileIconHtml />
-                <span className="editor-header__text">
-                  {t("landingPage.html")}
-                </span>
-              </>
-            }
-          </Link>
+          <Button
+            className="btn--primary landing-page__button"
+            buttonHref={`${locale}/projects/blank-python-starter`}
+            text={t("landingPage.python")}
+            ButtonIcon={FileIconPython}
+          />
+          <Button
+            className="btn--primary landing-page__button"
+            buttonHref={`${locale}/projects/blank-html-starter`}
+            text={t("landingPage.html")}
+            ButtonIcon={FileIconHtml}
+          />
         </div>
         <p className="landing-page__projects--login">
           Have an account?
@@ -81,12 +67,6 @@ const LandingPage = () => {
           </p>
         </div>
         <img className="" src={startIcon} alt={""} />
-        <Button
-          className="btn--primary"
-          buttonHref={"https://projects.raspberrypi.org/en/pathways/web-intro"}
-          buttonText={t("landingPage.html")}
-          ButtonIcon={FileIconHtml}
-        />
       </div>
     </div>
   );
