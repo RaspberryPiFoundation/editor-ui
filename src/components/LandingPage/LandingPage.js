@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
 import Button from "../Button/Button";
-import startIcon from "../../assets/start_icon.svg";
+import startIconDark from "../../assets/start_icon_dark.svg";
+import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
