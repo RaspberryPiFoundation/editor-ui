@@ -10,6 +10,10 @@ import { FileIconHtml, FileIconPython } from "../../Icons";
 const LandingPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
+  const isDarkMode =
+    cookies.theme === "dark" ||
+    (!cookies.theme &&
+      window.matchMedia("(prefers-color-scheme:dark)").matches);
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page__projects">

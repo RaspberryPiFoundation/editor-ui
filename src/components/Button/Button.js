@@ -7,7 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 const Button = (props) => {
   const {
     className,
-    onClickHandler,
+    onClickHandler = () => {},
     onKeyDown,
     ButtonIcon,
     buttonImage,
@@ -27,14 +27,6 @@ const Button = (props) => {
   const buttonClass = `btn${className ? ` ${className}` : ""}${
     buttonText ? "" : " btn--svg-only"
   }`;
-
-  // if (href) {
-  //   return (
-  //     <a className={"madzia"} href={href}>
-  //       {buttonText}
-  //     </a>
-  //   );
-  // }
 
   const onButtonClick = (e) => {
     if (!confirmText) {
