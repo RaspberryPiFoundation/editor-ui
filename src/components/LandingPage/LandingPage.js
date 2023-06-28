@@ -35,7 +35,7 @@ const LandingPage = () => {
           />
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`${locale}/projects/blank-html-starter`}
+            buttonHref={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
           />
