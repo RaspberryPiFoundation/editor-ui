@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
