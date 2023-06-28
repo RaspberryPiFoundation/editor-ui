@@ -10,6 +10,7 @@ import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
   const { t, i18n } = useTranslation();
+  const [cookies] = useCookies(["theme"]);
   const locale = i18n.language;
   const isDarkMode =
     cookies.theme === "dark" ||
