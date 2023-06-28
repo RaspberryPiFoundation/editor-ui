@@ -9,7 +9,7 @@ const LoginButton = (props) => {
   const location = useLocation();
   const project = useSelector((state) => state.editor.project);
   const accessDeniedData = useSelector(
-    (state) => state.editor.modals.accessDenied,
+    (state) => state.editor.modals?.accessDenied || null,
   );
 
   const onLoginButtonClick = (event) => {
