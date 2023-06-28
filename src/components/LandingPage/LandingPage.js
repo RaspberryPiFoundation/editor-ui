@@ -49,7 +49,7 @@ const LandingPage = () => {
             {t("landingPage.start")}
           </h2>
           <p className="landing-page__paths--description">
-            Follow a
+            Follow a{" "}
             <Link
               className="landing-page__link"
               to="https://projects.raspberrypi.org/en/pathways/python-intro"
