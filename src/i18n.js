@@ -105,7 +105,7 @@ i18n
     },
 
     interpolation: {
-      escapeValue: true, // not needed for react!!
+      escapeValue: false, // not needed for react!!
     },
     resources: {
       en: {

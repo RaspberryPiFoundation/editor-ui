@@ -26,7 +26,7 @@ const LandingPage = () => {
         <div className="landing-page__projects--buttons">
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`${locale}/projects/blank-python-starter`}
+            buttonHref={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
             ButtonIcon={FileIconPython}
           />
@@ -53,7 +53,7 @@ const LandingPage = () => {
             {t("landingPage.start")}
           </h2>
           <p className="landing-page__paths--description">
-            Follow a
+            Follow a{" "}
             <Link
               className="landing-page__link"
               to="https://projects.raspberrypi.org/en/pathways/python-intro"
@@ -71,7 +71,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="landing-page__paths-media">
-          <img src={startIcon} alt={""} />
+          <img src={isDarkMode ? startIconDark : startIconLight} alt={""} />
         </div>
       </div>
     </div>
