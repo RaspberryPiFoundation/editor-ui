@@ -16,6 +16,8 @@ const Button = (props) => {
     buttonOuterClassName,
     disabled,
     confirmText,
+    buttonHref,
+    text,
     title,
     label,
     buttonIconPosition = "left",
@@ -55,12 +57,15 @@ const Button = (props) => {
       disabled={disabled}
       aria-label={label}
       title={title}
+      href={buttonHref}
+      text={text}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
       {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
       {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
       {buttonText ? <span>{buttonText}</span> : null}
+      {buttonHref ? <a href={buttonHref}>{text}</a> : null}
       {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>
   );
