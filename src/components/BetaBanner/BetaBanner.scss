@@ -1,5 +1,5 @@
-@use '../../spacing' as *;
-@import '../../colours.scss';
+@use "../../spacing" as *;
+@import "../../colours.scss";
 
 .editor-banner {
   display: flex;
@@ -20,18 +20,19 @@
     border-radius: 8px;
     background-color: $rpf-teal-200;
     font-weight: var(--font-weight-bold);
-    margin-right: $space-1-5
+    margin-right: $space-1-5;
   }
 }
 
 .editor-banner__message {
-  padding: $space-0-25 0
+  padding: $space-0-25 0;
 }
 
 .editor-banner__link {
   display: inline;
   font-weight: var(--font-weight-bold);
   padding-left: 0;
+  padding-right: 0;
   text-decoration: underline;
 
   &.btn--tertiary {
@@ -41,6 +42,10 @@
       color: $rpf-grey-600;
     }
   }
+}
+
+.editor-banner__link--feedback {
+  padding-right: $space-0-25;
 }
 
 .editor-banner__close-button {

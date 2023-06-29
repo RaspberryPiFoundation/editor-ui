@@ -54,7 +54,9 @@ const BetaBanner = () => {
       >
         {
           <>
-            <span className="class">{t("betaBanner.feedback")}</span>
+            <span className="editor-banner__link--feedback">
+              {t("betaBanner.feedback")}
+            </span>
             <ExternalLinkIcon />
           </>
         }
