@@ -299,6 +299,23 @@ export const HomeIcon = () => {
   );
 };
 
+export const ExternalLinkIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.33333 2C2.60462 2 2 2.60462 2 3.33333V12.6667C2 13.3954 2.60462 14 3.33333 14H12.6667C13.3954 14 14 13.3954 14 12.6667V8H12.6667V12.6667H3.33333V3.33333H8V2H3.33333ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z"
+        fill="black"
+      />
+    </svg>
+  );
+};
+
 export const InfoIcon = () => {
   return (
     <svg

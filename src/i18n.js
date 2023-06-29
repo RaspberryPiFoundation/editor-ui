@@ -124,7 +124,10 @@ i18n
           betaBanner: {
             buttonLabel: "close",
             buttonTitle: "close",
-            message: "The Code Editor is in beta.",
+            message: "The Code Editor is in",
+            feedbackText: "Give us your",
+            feedback: "feedback",
+            feedbackImprove: "to help us improve.",
             modal: {
               close: "Close",
               heading: "Code Editor is in beta",
@@ -135,7 +138,7 @@ i18n
               whatNextText:
                 "We'll soon be asking for your feedback, so we can work on making it better for you, and other digital makers.",
             },
-            modalLink: "What does this mean?",
+            modalLink: "beta.",
           },
           editorPanel: {
             ariaLabel: "editor text input",
