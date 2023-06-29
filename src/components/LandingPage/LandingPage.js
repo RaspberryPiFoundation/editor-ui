@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
@@ -10,6 +11,7 @@ import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
+  const user = useSelector((state) => state.auth.user);
   const { t, i18n } = useTranslation();
   const [cookies] = useCookies(["theme"]);
   const locale = i18n.language;
@@ -29,26 +31,29 @@ const LandingPage = () => {
         <div className="landing-page__projects--buttons">
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-python-starter`}
+            href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
             ButtonIcon={FileIconPython}
           />
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-html-starter`}
+            href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
           />
         </div>
-        <p className="landing-page__projects--login">
-          Have an account?
-          <LoginButton
-            key="login"
-            className=""
-            buttonText={t("landingPage.login")}
-          />
-          and continue your projects
-        </p>
+        {!user && (
+          <p className="landing-page__projects--login">
+            Have an account?
+            <LoginButton
+              key="login"
+              className=""
+              buttonText={t("landingPage.login")}
+              loginRedirect={`/${locale}/projects`}
+            />
+            and continue your projects
+          </p>
+        )}
       </div>
       <div className="landing-page__paths">
         <div className="landing-page__paths-copy">
