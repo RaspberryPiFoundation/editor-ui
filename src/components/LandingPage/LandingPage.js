@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
@@ -11,6 +11,7 @@ import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const { t, i18n } = useTranslation();
   const [cookies] = useCookies(["theme"]);
@@ -19,6 +20,13 @@ const LandingPage = () => {
     cookies.theme === "dark" ||
     (!cookies.theme &&
       window.matchMedia("(prefers-color-scheme:dark)").matches);
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${locale}/projects`);
+    }
+  }, [user, locale, navigate]);
+
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page__projects">
@@ -42,18 +50,16 @@ const LandingPage = () => {
             ButtonIcon={FileIconHtml}
           />
         </div>
-        {!user && (
-          <p className="landing-page__projects--login">
-            Have an account?
-            <LoginButton
-              key="login"
-              className=""
-              buttonText={t("landingPage.login")}
-              loginRedirect={`/${locale}/projects`}
-            />
-            and continue your projects
-          </p>
-        )}
+        <p className="landing-page__projects--login">
+          Have an account?
+          <LoginButton
+            key="login"
+            className=""
+            buttonText={t("landingPage.login")}
+            loginRedirect={`/${locale}/projects`}
+          />
+          and continue your projects
+        </p>
       </div>
       <div className="landing-page__paths">
         <div className="landing-page__paths-copy">
