@@ -135,7 +135,7 @@ i18n
               meaningText:
                 "Beta means that we are not quite finished yet, and some things might not look or work as well as we’d like. However, it also means you are one of the first people to use our new Code Editor!",
             },
-            modalLink: "beta.",
+            modalLink: "beta",
           },
           editorPanel: {
             ariaLabel: "editor text input",
@@ -152,7 +152,7 @@ i18n
             files: "Project files",
             images: "Image gallery",
             newFileButton: "Add file",
-            newFileModal: {
+            newFileq: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
               helpText:

@@ -44,12 +44,13 @@ const BetaBanner = () => {
           role="button"
           onKeyDown={handleKeyDown}
         >
-          {t("betaBanner.modalLink")}
+          {t("betaBanner.modalLink")}.
         </span>
       </span>
       <span>{t("betaBanner.feedbackText")}</span>
       <Link
         className="btn btn--tertiary editor-banner__link"
+        target="_blank"
         to="https://form.raspberrypi.org/f/code-editor-feedback"
       >
         {
