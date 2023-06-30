@@ -34,11 +34,11 @@ const Header = () => {
           project,
           accessToken: user.access_token,
           autosave: false,
-        }),
+        })
       );
     } else if (user && project.identifier) {
       dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
+        syncProject("remix")({ project, accessToken: user.access_token })
       );
     } else {
       dispatch(showLoginToSaveModal());
