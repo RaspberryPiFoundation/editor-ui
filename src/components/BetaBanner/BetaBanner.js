@@ -36,7 +36,7 @@ const BetaBanner = () => {
     <div className="editor-banner editor-banner--beta">
       <span className="editor-banner--beta__icon">Beta</span>
       <span className="editor-banner__message">
-        {t("betaBanner.message")}
+        <span>{t("betaBanner.message")}</span>
         <span
           className="btn btn--tertiary editor-banner__link"
           onClick={showModal}
@@ -44,8 +44,9 @@ const BetaBanner = () => {
           role="button"
           onKeyDown={handleKeyDown}
         >
-          {t("betaBanner.modalLink")}.
+          {t("betaBanner.modalLink")}
         </span>
+        <span>.</span>
       </span>
       <span>{t("betaBanner.feedbackText")}</span>
       <Link
