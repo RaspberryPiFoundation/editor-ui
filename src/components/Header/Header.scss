@@ -22,28 +22,38 @@
 
 .editor-header {
   display: flex;
+  flex-direction: row;
   align-items: center;
   z-index: 1;
   height: 100%;
   @include sm-width-only {
-    padding: 0 !important;
-    margin: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: row;
   }
 
   &__right {
     margin-left: auto;
     display: flex;
     height: 100%;
+    flex-direction: row;
 
     .btn {
       padding: 0 $space-1-5;
       @include sm-width-only {
-        padding: 0;
+        padding: 0.5rem !important;
+        justify-items: flex-start;
+        gap: 0.2rem !important;
+        border: 0.5rem !important;
       }
     }
+
     @include sm-width-only {
-      flex-direction: column;
-      align-items: flex-start;
+      margin-left: 1rem !important;
       justify-items: flex-start;
     }
   }
@@ -52,7 +62,8 @@
     margin: 0;
     border-radius: 0;
     @include sm-width-only {
-      padding: 0 $space-1-5;
+      margin-left: 1.5rem !important;
+      padding: 1rem !important;
     }
   }
 }
