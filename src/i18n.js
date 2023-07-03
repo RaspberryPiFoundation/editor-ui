@@ -152,7 +152,7 @@ i18n
             files: "Project files",
             images: "Image gallery",
             newFileButton: "Add file",
-            newFileq: {
+            newFileModal: {
               cancel: "Cancel",
               heading: "Add a new file to your project",
               helpText:
