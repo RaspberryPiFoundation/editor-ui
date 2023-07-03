@@ -49,28 +49,30 @@ const Header = () => {
     loading === "success" && (
       <div className="editor-header-wrapper">
         <header className="editor-header">
-          <img
-            className="editor-logo"
-            src={project.project_type === "python" ? pythonLogo : htmlLogo}
-            alt={t("header.editorLogoAltText")}
-          />
-          {user !== null ? (
-            <Link
-              to={`${locale}/projects`}
-              className="project-gallery-link"
-              reloadDocument
-            >
-              {
-                <>
-                  <HomeIcon />
-                  <span className="editor-header__text">
-                    {t("header.projects")}
-                  </span>
-                </>
-              }
-            </Link>
-          ) : null}
-          {loading === "success" ? <ProjectName /> : null}
+          <div className="editor-header__left">
+            <img
+              className="editor-logo"
+              src={project.project_type === "python" ? pythonLogo : htmlLogo}
+              alt={t("header.editorLogoAltText")}
+            />
+            {user !== null ? (
+              <Link
+                to={`${locale}/projects`}
+                className="project-gallery-link"
+                reloadDocument
+              >
+                {
+                  <>
+                    <HomeIcon />
+                    <span className="editor-header__text">
+                      {t("header.projects")}
+                    </span>
+                  </>
+                }
+              </Link>
+            ) : null}
+            {loading === "success" ? <ProjectName /> : null}
+          </div>
           <div className="editor-header__right">
             {lastSavedTime && user ? (
               <Autosave saving={saving} lastSavedTime={lastSavedTime} />
