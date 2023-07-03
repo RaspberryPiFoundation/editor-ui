@@ -9,6 +9,13 @@ import LandingPage from "./LandingPage";
 
 let container;
 
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
 describe("User not logged in", () => {
   beforeEach(() => {
     const middlewares = [];
@@ -95,7 +102,7 @@ describe("User logged in", () => {
     ));
   });
 
-  test("Login button renders", () => {
-    expect(container.textContent).not.toContain("landingPage.login");
+  test("Redirects to the projects page", () => {
+    expect(mockedUsedNavigate).toBeCalledWith("/ja-JP/projects");
   });
 });
