@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { Cookies, CookiesProvider } from "react-cookie";
 import BetaBanner from "./BetaBanner";
+import { MemoryRouter } from "react-router-dom";
 
 let cookies;
 let store;
@@ -15,11 +16,13 @@ beforeEach(() => {
   const initialState = {};
   store = mockStore(initialState);
   render(
-    <CookiesProvider cookies={cookies}>
-      <Provider store={store}>
-        <BetaBanner />
-      </Provider>
-    </CookiesProvider>,
+    <MemoryRouter>
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <BetaBanner />
+        </Provider>
+      </CookiesProvider>
+    </MemoryRouter>,
   );
 });
 

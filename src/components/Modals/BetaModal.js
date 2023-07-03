@@ -22,8 +22,6 @@ const BetaModal = () => {
       text={[
         { type: "subheading", content: t("betaBanner.modal.meaningHeading") },
         { type: "paragraph", content: t("betaBanner.modal.meaningText") },
-        { type: "subheading", content: t("betaBanner.modal.whatNextHeading") },
-        { type: "paragraph", content: t("betaBanner.modal.whatNextText") },
       ]}
       buttons={[
         <Button
