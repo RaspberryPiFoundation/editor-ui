@@ -175,6 +175,16 @@ i18n
               renameItem: "Rename file",
             },
           },
+          landingPage: {
+            title: "Code Editor",
+            subtitle: "Start coding, no setup required!",
+            python: "Start coding Python",
+            html: "Start coding HTML/CSS",
+            login: "Login",
+            start: "Not sure where to start?",
+            projectPython: "Python path",
+            projectHtml: "Web path",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
@@ -299,6 +309,9 @@ i18n
           },
           project: {
             accessDeniedNoAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You are not able to see this project",
               loginButtonText: "Log in to your account",
               newProject: "Create a new code project",
@@ -306,6 +319,9 @@ i18n
               text: "If this is your project, log in to see it. If this is not your project you can visit the Projects site for cool project ideas or to start coding in a new project.",
             },
             accessDeniedWithAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You can't access this project",
               newProject: "Create a new code project",
               projectsSiteLinkText: "Explore Projects site",
@@ -313,6 +329,9 @@ i18n
             },
             loading: "Loading",
             notFoundModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "This project does not exist",
               newProject: "Start new code project",
               projectsSiteLinkText: "Explore Projects site",
