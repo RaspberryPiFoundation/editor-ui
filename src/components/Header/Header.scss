@@ -1,5 +1,4 @@
 @use "../../spacing" as *;
-@use "../../mixins.scss" as *;
 @import "../../colours.scss";
 @import "../Button/Button.scss";
 
@@ -22,49 +21,23 @@
 
 .editor-header {
   display: flex;
-  flex-direction: row;
   align-items: center;
   z-index: 1;
   height: 100%;
-  container-type: size;
-  @include sm-width-only {
-    flex-direction: column;
-    justify-content: space-evenly;
-  }
-
-  &__left {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-  }
 
   &__right {
     margin-left: auto;
     display: flex;
     height: 100%;
-    flex-direction: row;
-    justify-content: space-evenly;
-    @include sm-width-only {
-      margin-left: 0;
-    }
 
     .btn {
       padding: 0 $space-1-5;
-      @include sm-width-only {
-        padding: 0 $space-0-5;
-        gap: $space-0-5;
-        border: 0rem;
-      }
     }
   }
 
   .btn--save {
     margin: 0;
     border-radius: 0;
-    @include sm-width-only {
-      margin-left: $space-1;
-      padding: 1rem;
-    }
   }
 }
 
