@@ -14,6 +14,7 @@ const project = {
 
 let store;
 let editButton;
+let inputField;
 
 beforeEach(() => {
   const middlewares = [];
@@ -29,29 +30,39 @@ beforeEach(() => {
       <ProjectName />
     </Provider>,
   );
-  editButton = screen.queryByRole("button");
+  editButton = screen.getByLabelText("header.renameProject");
+  inputField = screen.getByRole("textbox");
 });
 
 test("Project name input field is disabled initially", () => {
   expect(screen.queryByRole("textbox")).toBeDisabled();
 });
 
-test("Clicking edit button changes the project name to an input field", () => {
-  fireEvent.click(editButton);
-  expect(screen.queryByRole("textbox")).toHaveValue(project.name);
+test("Edit button shown initially", () => {
+  expect(editButton).toBeInTheDocument();
 });
 
-test("Clicking edit button transfers focus to input field", () => {
-  fireEvent.click(editButton);
-  expect(screen.queryByRole("textbox")).toHaveFocus();
+describe("When edit button clicked", () => {
+  beforeEach(() => {
+    fireEvent.click(editButton);
+  });
+
+  test("Input field is enabled", () => {
+    expect(screen.queryByRole("textbox")).not.toBeDisabled();
+  });
+
+  test("Focus transferred to input field", () => {
+    expect(screen.queryByRole("textbox")).toHaveFocus();
+  });
+
+  test("Tick button shown", () => {
+    expect(screen.getByLabelText("header.renameSave")).toBeInTheDocument();
+  });
 });
 
 describe("When input field loses focus", () => {
-  let inputField;
-
   beforeEach(() => {
     fireEvent.click(editButton);
-    inputField = screen.queryByRole("textbox");
     inputField.blur();
   });
 
@@ -65,11 +76,8 @@ describe("When input field loses focus", () => {
 });
 
 describe("When Enter is pressed", () => {
-  let inputField;
-
   beforeEach(() => {
     fireEvent.click(editButton);
-    inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Enter" });
   });
 
@@ -80,14 +88,35 @@ describe("When Enter is pressed", () => {
   test("Disables input field", async () => {
     await waitFor(() => expect(inputField).toBeDisabled());
   });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
+  });
+});
+
+describe("When tick button clicked", () => {
+  beforeEach(() => {
+    fireEvent.click(editButton);
+    const tickButton = screen.getByTitle("header.renameSave");
+    fireEvent.click(tickButton);
+  });
+
+  test("Updates project name", () => {
+    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+  });
+
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
+  });
 });
 
 describe("When Escape is pressed", () => {
-  let inputField;
-
   beforeEach(() => {
     fireEvent.click(editButton);
-    inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Escape" });
   });
 
@@ -97,5 +126,9 @@ describe("When Escape is pressed", () => {
 
   test("Disables input field", async () => {
     await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
   });
 });

@@ -20,7 +20,8 @@ const ProjectName = () => {
     }
   });
 
-  const updateName = () => {
+  const updateName = (event) => {
+    event.stopPropagation();
     setEditable(false);
     dispatch(updateProjectName(nameInput.current.value));
   };
