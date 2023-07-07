@@ -9,7 +9,7 @@
   height: 100%;
   max-width: 50%;
   padding-inline-start: $space-0-5;
-  @include sm-width-only {
+  @include unique-max-width(600px) {
     max-width: 100%;
   }
 }
