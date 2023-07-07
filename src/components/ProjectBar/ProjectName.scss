@@ -6,14 +6,23 @@
   align-items: center;
   display: flex;
   height: 100%;
-  max-width: 50%;
   padding-inline-start: $space-0-5;
+
+  .btn--primary {
+    margin: 0 $space-0-5;
+  }
 }
 
 .project-name__input {
   @include font-size-1(regular);
-  font-weight: var(--font-weight-bold);
-  padding: $space-0-5 $space-1-5;
+  padding: 0 $space-1-5;
+  height: $space-3;
+  border-radius: 0.5rem;
+  border: none;
+  color: inherit;
+  background-color: inherit;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .project-name__button {
@@ -21,19 +30,30 @@
   padding: $space-0-5;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    height: $space-1;
+    width: $space-1;
     margin: 0;
   }
 }
 
-.project-name__input {
-  border-radius: 0.5rem;
-  background: #F1F2F3;
-  border: none;
-  color: inherit;
+.--light {
+  .project-name__input {
+    background-color: $rpf-grey-50;
 
-  &:focus-visible {
-    outline: 2px solid #212121;
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-text-primary;
+    }
+  }
+}
+
+.--dark {
+  .project-name__input {
+    background-color: $rpf-grey-600;
+
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-white;
+    }
   }
 }

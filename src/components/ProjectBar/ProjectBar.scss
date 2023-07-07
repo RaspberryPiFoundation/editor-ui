@@ -4,11 +4,18 @@
 
 .autosave {
   align-items: center;
-  display: flex;
+  display: none;
+  margin: 0 $space-1 0 $space-0-5;
+  width: 160px;
+
+  @container (min-width: 560px) {
+    display: flex;
+    gap: $space-0-25;
+  }
 }
 
-.autosave__status {
-  margin-right: 0.2rem
+.autosave__icon {
+  display: flex
 }
 
 .autosave__time--hidden {
@@ -21,22 +28,51 @@
   align-items: center;
   z-index: 1;
   height: 4rem;
+  container-type: inline-size;
+
+  .btn {
+    min-height: $space-3;
+    min-width: $space-3;
+  }
+
+  .btn--tertiary {
+    border: none;
+    border-radius: 0;
+    height: 100%;
+    min-width: $space-4;
+    padding: $space-1-5;
+
+    span {
+      display: none;
+      @container (min-width: 888px) {
+        display: block;
+      }
+    }
+  }
 
   &__right {
     margin-left: auto;
     display: flex;
+    align-items: center;
     height: 100%;
-
-    .btn {
-      padding: 0 $space-1-5
-    }
   }
 
   .btn--save {
-    padding: 12px 16px;
-    gap: 8px;
-    margin: 0;
-    border-radius: 0;
+    height: $space-3;
+    margin: $space-0-5;
+
+    span {
+      display: none;
+    }
+
+    @container (min-width: 560px) {
+      svg {
+        display: none;
+      }
+      span {
+        display: block
+      }
+    }
   }
 }
 
@@ -44,6 +80,18 @@
   .project-bar {
     background-color: $rpf-white;
     border: 1px solid $rpf-grey-150;
+
+    .project-name {
+      border-right: 1px solid $rpf-grey-150;
+    }
+  }
+
+  .project-bar__right {
+    border-left: 1px solid $rpf-grey-150;
+
+    .btn--tertiary {
+      border-right: 1px solid $rpf-grey-150;
+    }
   }
 }
 
@@ -51,5 +99,16 @@
   .project-bar {
     background-color: $rpf-grey-700;
     border: 1px solid $rpf-grey-600;
+
+    .project-name {
+      border-right: 1px solid $rpf-grey-600;
+    }
+  }
+  .project-bar__right {
+    border-left: 1px solid $rpf-grey-600;
+
+    .btn--tertiary {
+      border-right: 1px solid $rpf-grey-600;
+    }
   }
 }

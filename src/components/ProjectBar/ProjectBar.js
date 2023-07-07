@@ -50,11 +50,12 @@ const ProjectBar = () => {
                 buttonText={t("header.download")}
                 className="btn--tertiary"
                 Icon={DownloadIcon}
+                buttonIconPosition="right"
               />
             ) : null}
             {loading === "success" ? (
               <Button
-                className="btn--primary btn--save btn--small"
+                className="btn--primary btn--save"
                 onClickHandler={onClickSave}
                 buttonText={t("header.save")}
                 ButtonIcon={SaveIcon}

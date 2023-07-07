@@ -207,13 +207,13 @@ i18n
           header: {
             autoSaving: "Saving",
             autoSaved: "Saved",
-            buttonLabel: "Edit project name",
-            buttonTitle: "Edit project name",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
             newProject: "New Project",
             projects: "Your projects",
+            renameProject: "Edit project name",
+            renameSave: "Save project name",
             save: "Save",
             settings: "Settings",
             settingsMenu: {

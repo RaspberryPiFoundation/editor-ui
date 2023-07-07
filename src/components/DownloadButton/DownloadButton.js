@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
-  const { buttonText, className, Icon } = props;
+  const { buttonText, className, Icon, ...otherProps } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
   const loginToSaveModalShowing = useSelector(
@@ -62,6 +62,7 @@ const DownloadButton = (props) => {
       onClickHandler={onClickDownload}
       buttonText={buttonText}
       ButtonIcon={Icon}
+      {...otherProps}
     />
   );
 };
