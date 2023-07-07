@@ -26,6 +26,7 @@
   align-items: center;
   z-index: 1;
   height: 100%;
+  container-type: size;
   @include sm-width-only {
     flex-direction: column;
     justify-content: space-evenly;
