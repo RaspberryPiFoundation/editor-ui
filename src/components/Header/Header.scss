@@ -1,4 +1,5 @@
 @use "../../spacing" as *;
+@use "../../mixins.scss" as *;
 @import "../../colours.scss";
 @import "../Button/Button.scss";
 
@@ -24,6 +25,10 @@
   align-items: center;
   z-index: 1;
   height: 100%;
+  @include sm-width-only {
+    justify-items: center;
+    flex-direction: column;
+  }
 
   &__left {
     display: flex;
