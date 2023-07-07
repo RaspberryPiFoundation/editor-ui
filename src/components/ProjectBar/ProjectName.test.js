@@ -32,8 +32,8 @@ beforeEach(() => {
   editButton = screen.queryByRole("button");
 });
 
-test("Project name renders in a heading", () => {
-  expect(screen.queryByText(project.name).tagName).toBe("H1");
+test("Project name input field is disabled initially", () => {
+  expect(screen.queryByRole("textbox")).toBeDisabled();
 });
 
 test("Clicking edit button changes the project name to an input field", () => {
@@ -47,9 +47,11 @@ test("Clicking edit button transfers focus to input field", () => {
 });
 
 describe("When input field loses focus", () => {
+  let inputField;
+
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
+    inputField = screen.queryByRole("textbox");
     inputField.blur();
   });
 
@@ -57,17 +59,17 @@ describe("When input field loses focus", () => {
     expect(store.getActions()).toEqual([updateProjectName(project.name)]);
   });
 
-  test("Changes project name to heading", async () => {
-    await waitFor(() =>
-      expect(screen.queryByText(project.name).tagName).toBe("H1"),
-    );
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
   });
 });
 
 describe("When Enter is pressed", () => {
+  let inputField;
+
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
+    inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Enter" });
   });
 
@@ -75,23 +77,25 @@ describe("When Enter is pressed", () => {
     expect(store.getActions()).toEqual([updateProjectName(project.name)]);
   });
 
-  test("Changes project name to heading", () => {
-    expect(screen.queryByText(project.name).tagName).toBe("H1");
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
   });
 });
 
 describe("When Escape is pressed", () => {
+  let inputField;
+
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
+    inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Escape" });
   });
 
-  test("Updates project name", () => {
+  test("Does not update project name", () => {
     expect(store.getActions()).toEqual([]);
   });
 
-  test("Changes project name to heading", () => {
-    expect(screen.queryByText(project.name).tagName).toBe("H1");
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
   });
 });
