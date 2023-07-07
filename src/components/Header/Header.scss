@@ -39,9 +39,24 @@
     margin-left: auto;
     display: flex;
     height: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
 
     .btn {
       padding: 0 $space-1-5;
+      @include sm-width-only {
+        padding: 0.5rem !important;
+        gap: 0rem !important;
+        border: 0rem !important;
+      }
+    }
+
+    @include sm-width-only {
+      margin: 0rem !important;
+      padding: 0rem !important;
+      gap: 0rem;
+      justify-items: right;
+      justify-content: space-evenly;
     }
   }
 
