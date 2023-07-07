@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+
 ## [0.16.2] - 2023-06-12
 
 ### Added
