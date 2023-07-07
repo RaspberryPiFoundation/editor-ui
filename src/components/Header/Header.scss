@@ -25,6 +25,11 @@
   z-index: 1;
   height: 100%;
 
+  &__left {
+    display: flex;
+    flex-direction: row;
+  }
+
   &__right {
     margin-left: auto;
     display: flex;
