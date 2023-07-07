@@ -51,6 +51,9 @@ const ProjectName = () => {
 
   return (
     <div className="project-name">
+      <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+        {project.name || t("header.newProject")}
+      </h1>
       <input
         className="project-name__input"
         ref={nameInput}
