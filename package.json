@@ -170,7 +170,7 @@
     "semver": "7.3.2",
     "style-it": "^2.1.4",
     "style-loader": "1.3.0",
-    "stylelint": "^10.1.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-recommended-scss": "3.3.0",
     "stylelint-order": "2.2.1",
     "stylelint-scss": "3.12.0",
