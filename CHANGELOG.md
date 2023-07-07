@@ -9,9 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.16.2] - 2023-06-12
 
 ### Added
+
 - New landing page
 
 ### Changed
+
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
 
@@ -26,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Sentry CORS errors (#523)
+- Quick fix for Editor header on mobile # (#551)
 
 ## [0.16.0] - 2023-05-18
 
