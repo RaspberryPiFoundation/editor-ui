@@ -43,6 +43,9 @@ const ProjectBar = () => {
     loading === "success" && (
       <div className="project-bar-wrapper">
         <div className="project-bar">
+          <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+            {project.name || t("header.newProject")}
+          </h1>
           {loading === "success" ? <ProjectName /> : null}
           <div className="project-bar__right">
             {loading === "success" ? (
