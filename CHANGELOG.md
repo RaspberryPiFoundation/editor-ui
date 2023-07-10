@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `Sidebar` restyling and refactor to better support multiple panels (#501)
 - Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
 
 ## [0.16.3] - 2023-06-29
 
