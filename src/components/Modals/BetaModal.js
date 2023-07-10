@@ -25,6 +25,7 @@ const BetaModal = () => {
       ]}
       buttons={[
         <Button
+          key={"close"}
           className="btn--primary"
           buttonText={t("betaBanner.modal.close")}
           onClickHandler={closeModal}

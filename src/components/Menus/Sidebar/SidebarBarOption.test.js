@@ -1,12 +1,12 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import MenuSideBarOption from "./MenuSideBarOption";
+import SidebarBarOption from "./SidebarBarOption";
 
 const toggleOption = jest.fn();
 
 beforeEach(() => {
   render(
-    <MenuSideBarOption
+    <SidebarBarOption
       name="file"
       title="my_title"
       toggleOption={toggleOption}
