@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.16.3] - 2023-06-29
+
+### Changed
+- Update Beta Banner copy and add a link
+
 ## [0.16.2] - 2023-06-12
 
 ### Added
