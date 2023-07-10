@@ -18,11 +18,11 @@ const NewComponentButton = () => {
 
   return (
     <Button
-      buttonText={t("filePane.newFileButton")}
+      buttonText={t("filePanel.newFileButton")}
       ButtonIcon={PlusIcon}
-      buttonOuter
+      buttonIconPosition="right"
       onClickHandler={openNewFileModal}
-      className="btn--primary btn--small proj-new-component-button"
+      className="btn--primary proj-new-component-button"
     />
   );
 };

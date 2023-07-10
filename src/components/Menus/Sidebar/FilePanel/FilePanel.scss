@@ -1,13 +1,15 @@
 @use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
-.files-list {
-  padding: $space-0-5 0;
-  overflow-x: hidden;
+.files-list-item-wrapper {
+  display: flex;
+  position: relative;
 }
 
 .files-list-item {
+  width: 100%;
   display: flex;
+  justify-content: flex-start;
   position: relative;
   align-items: center;
   border-radius: 8px;
@@ -17,32 +19,11 @@
   font-weight: var(--font-weight-regular);
   min-height: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
-
-  .files-list-icon {
-    display: flex;
-    justify-content: center;
-    min-width: 20px;
-  }
-
-  &:active {
-    border: 3px solid $rpf-teal-900;
-  }
-
-  &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
-    outline: none;
-  }
-
-  &:hover {
-    cursor: pointer;
-    background-color: $rpf-grey-150;
-  }
+  margin: 0;
 }
 
 .files-list-item__name {
-  margin: 0;
-  padding-left: $space-0-5;
-  padding-right: 0;
+  font-weight: var(--font-weight-bold);
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
@@ -52,10 +33,26 @@
   right: 0;
 }
 
+.--light {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-teal-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-teal-secondary-tertiary-active;
+    }
+  }
+}
+
 .--dark {
   .files-list-item {
     &:hover {
-      background-color: $rpf-grey-700;
+      background-color: $rpf-grey-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-grey-secondary-tertiary-active;
     }
   }
 

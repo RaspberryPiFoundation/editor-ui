@@ -42,12 +42,14 @@ const NewFileModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t("filePane.newFileModal.heading")}
+      heading={t("filePanel.newFileModal.heading")}
       inputs={[
         {
-          label: t("filePane.newFileModal.inputLabel"),
-          helpText: t("filePane.newFileModal.helpText", {
-            examples: t(`filePane.newFileModal.helpTextExample.${projectType}`),
+          label: t("filePanel.newFileModal.inputLabel"),
+          helpText: t("filePanel.newFileModal.helpText", {
+            examples: t(
+              `filePanel.newFileModal.helpTextExample.${projectType}`,
+            ),
           }),
           value: fileName,
           setValue: setFileName,
@@ -59,13 +61,13 @@ const NewFileModal = () => {
         <Button
           key="create"
           className="btn--primary"
-          buttonText={t("filePane.newFileModal.addFile")}
+          buttonText={t("filePanel.newFileModal.addFile")}
           onClickHandler={createComponent}
         />,
         <Button
           key="close"
           className="btn--secondary"
-          buttonText={t("filePane.newFileModal.cancel")}
+          buttonText={t("filePanel.newFileModal.cancel")}
           onClickHandler={closeModal}
         />,
       ]}
