@@ -16,7 +16,7 @@ export const defaultHtmlProject = {
       extension: "html",
       name: "index",
       content:
-        '<html>\n  <head>\n    <link rel="stylesheet" type="text/css" href="style.css">\n  </head> <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>',
+        '<html>\n  <head>\n    <link rel="stylesheet" type="text/css" href="style.css">\n  </head>\n  <body>\n    <h1>Heading</h1>\n    <p>Paragraph</p>\n  </body>\n</html>',
     },
     { extension: "css", name: "style", content: "h1 {\n  color: blue;\n}" },
     {
@@ -25,4 +25,9 @@ export const defaultHtmlProject = {
       content: "p {\n  background-color: red;\n}",
     },
   ],
+};
+
+export const DEFAULT_PROJECTS = {
+  python: defaultPythonProject,
+  html: defaultHtmlProject,
 };

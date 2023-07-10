@@ -17,9 +17,7 @@ const GeneralModal = ({
   closeModal,
 }) => {
   const { t } = useTranslation();
-  const buttonComponents = buttons.map(
-    (ButtonFromProps) => () => ButtonFromProps,
-  );
+
   const onKeyDown = (e) => {
     if (e.key === "Enter" && defaultCallback) {
       defaultCallback();
@@ -63,11 +61,7 @@ const GeneralModal = ({
           )}
           {children}
         </div>
-        <div className="modal-content__buttons">
-          {buttonComponents.map((ButtonComponent, i) => (
-            <ButtonComponent key={i} />
-          ))}
-        </div>
+        <div className="modal-content__buttons">{buttons}</div>
       </Modal>
     </div>
   );

@@ -1,5 +1,4 @@
-import { useSelector, connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector, connect, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { useRequiresUser } from "../Editor/Hooks/useRequiresUser";
@@ -9,8 +8,6 @@ import {
   PROJECT_LIST_TABLE_FRAGMENT,
 } from "../ProjectListTable/ProjectListTable";
 import Button from "../Button/Button";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
-import { defaultPythonProject } from "../../utils/defaultProjects";
 import { PlusIcon } from "../../Icons";
 import RenameProjectModal from "../Modals/RenameProjectModal";
 import DeleteProjectModal from "../Modals/DeleteProjectModal";
@@ -18,6 +15,8 @@ import {
   ProjectIndexPagination,
   PROJECT_INDEX_PAGINATION_FRAGMENT,
 } from "./ProjectIndexPagination.js";
+import { showNewProjectModal } from "../Editor/EditorSlice";
+import NewProjectModal from "../Modals/NewProjectModal";
 
 export const PROJECT_INDEX_QUERY = gql`
   query ProjectIndexQuery(
@@ -43,13 +42,15 @@ export const PROJECT_INDEX_QUERY = gql`
 `;
 
 const ProjectIndex = (props) => {
-  const navigate = useNavigate();
   const { isLoading, user } = props;
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const pageSize = 8;
 
   useRequiresUser(isLoading, user);
 
+  const newProjectModalShowing = useSelector(
+    (state) => state.editor.newProjectModalShowing,
+  );
   const renameProjectModalShowing = useSelector(
     (state) => state.editor.renameProjectModalShowing,
   );
@@ -57,14 +58,9 @@ const ProjectIndex = (props) => {
     (state) => state.editor.deleteProjectModalShowing,
   );
 
+  const dispatch = useDispatch();
   const onCreateProject = async () => {
-    const response = await createOrUpdateProject(
-      defaultPythonProject,
-      user.access_token,
-    );
-    const identifier = response.data.identifier;
-    const locale = i18n.language;
-    navigate(`/${locale}/projects/${identifier}`);
+    dispatch(showNewProjectModal());
   };
 
   const { loading, error, data, fetchMore } = useQuery(PROJECT_INDEX_QUERY, {
@@ -97,6 +93,7 @@ const ProjectIndex = (props) => {
       ) : null}
       {loading ? <p>{t("projectList.loading")}</p> : null}
       {error ? <p>{t("projectList.loadingFailed")}</p> : null}
+      {newProjectModalShowing ? <NewProjectModal /> : null}
       {renameProjectModalShowing ? <RenameProjectModal /> : null}
       {deleteProjectModalShowing ? <DeleteProjectModal /> : null}
     </>

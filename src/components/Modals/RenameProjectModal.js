@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,8 @@ export const RenameProjectModal = () => {
   const project = useSelector((state) => state.editor.modals.renameProject);
   const closeModal = () => dispatch(closeRenameProjectModal());
 
+  const [projectName, setProjectName] = useState(project.name);
+
   const onCompleted = () => {
     closeModal();
     showRenamedMessage();
@@ -38,9 +40,8 @@ export const RenameProjectModal = () => {
   const [renameProjectMutation] = useMutation(RENAME_PROJECT_MUTATION);
 
   const renameProject = () => {
-    const newName = document.getElementById("name").value;
     renameProjectMutation({
-      variables: { id: project.id, name: newName },
+      variables: { id: project.id, name: projectName },
       onCompleted: onCompleted,
     });
   };
@@ -51,16 +52,23 @@ export const RenameProjectModal = () => {
       closeModal={closeModal}
       withCloseButton
       heading={t("projectList.renameProjectModal.heading")}
-      inputLabel={t("projectList.renameProjectModal.inputLabel")}
-      inputDefaultValue={project.name}
+      inputs={[
+        {
+          label: t("projectList.renameProjectModal.inputLabel"),
+          value: projectName,
+          setValue: setProjectName,
+        },
+      ]}
       defaultCallback={renameProject}
       buttons={[
         <Button
+          key="rename"
           className="btn--primary"
           buttonText={t("projectList.renameProjectModal.save")}
           onClickHandler={renameProject}
         />,
         <Button
+          key="close"
           className="btn--secondary"
           buttonText={t("projectList.renameProjectModal.cancel")}
           onClickHandler={closeModal}

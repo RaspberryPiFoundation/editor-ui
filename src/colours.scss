@@ -25,6 +25,9 @@ $rpf-grey-850: #23242A;
 $rpf-grey-900: #17181C;
 $rpf-grey-950: #0C0C0E;
 
+$rpf-grey-secondary-tertiary-hover: hsla(0deg, 0%, 100%, 10%);
+$rpf-grey-secondary-tertiary-active: hsla(0deg, 0%, 100%, 15%);
+
 //Decorative
 $rpf-red-100: #FEEEED;
 $rpf-red-200: #FCD4D3;
@@ -43,9 +46,16 @@ $rpf-green-900: #358539;
 $rpf-teal-100: #E7F8F7;
 $rpf-teal-200: #C4EEEA;
 $rpf-teal-400: #89DDD5;
-$rpf-teal-600: #4FCDC1;
+$rpf-teal-600: #50CEC1;
 $rpf-teal-800: #14BDAC;
 $rpf-teal-900: #0E857A;
+
+$rpf-teal-primary-hover: #43C9BD;
+$rpf-teal-primary-active: #5BD0C5;
+$rpf-teal-primary-hover-darkmode: #A1E4DD;
+$rpf-teal-primary-active-darkmode: #ACE7E2;
+$rpf-teal-secondary-tertiary-hover: #E7F8F7;
+$rpf-teal-secondary-tertiary-active: #DCF5F3;
 
 $rpf-orange-100: #FFF4E8;
 $rpf-orange-200: #FFE3C4;
@@ -117,10 +127,3 @@ $rpf-alerts-error-tint: #86151E;
   }
 }
 /* stylelint-enable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
-
-// New Colours
-$rpf-grey-150: #D5D7DC;
-$rpf-grey-600: #4A4D59;
-
-$rpf-text-secondary: #4D575B;
-$rpf-text-secondary-dark: #CCCCCC;
