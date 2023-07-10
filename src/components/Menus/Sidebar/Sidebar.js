@@ -7,10 +7,11 @@ import SidebarBar from "./SidebarBar";
 
 import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const { t } = useTranslation();
-  const menuOptions = [
+  let menuOptions = [
     {
       name: "file",
       icon: FileIcon,
@@ -26,6 +27,12 @@ const Sidebar = () => {
       panel: ImagePanel,
     },
   ];
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  if (!projectImages || projectImages.length === 0) {
+    menuOptions.splice(
+      menuOptions.findIndex((option) => option.name === "images"),
+    );
+  }
   const [option, setOption] = useState();
   const toggleOption = (newOption) => {
     option !== newOption ? setOption(newOption) : setOption(null);

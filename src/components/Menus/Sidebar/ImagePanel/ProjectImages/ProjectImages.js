@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
+  console.log(projectImages);
 
   return (
     <div className="project-images">
