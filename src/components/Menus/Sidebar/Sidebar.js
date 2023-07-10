@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon } from "../../../Icons";
+import { FileIcon, ImageIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
 import SidebarBar from "./SidebarBar";
 
 import "./Sidebar.scss";
+import ImagePanel from "./ImagePanel/ImagePanel";
 
 const Sidebar = () => {
   const { t } = useTranslation();
@@ -16,6 +17,13 @@ const Sidebar = () => {
       title: t("sidebar.file"),
       position: "top",
       panel: FilePanel,
+    },
+    {
+      name: "images",
+      icon: ImageIcon,
+      title: t("sidebar.images"),
+      position: "top",
+      panel: ImagePanel,
     },
   ];
   const [option, setOption] = useState();
