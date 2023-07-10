@@ -1,6 +1,7 @@
-@use '../../spacing' as *;
-@import '../../colours.scss';
-@import '../Button/Button.scss';
+@use "../../spacing" as *;
+@use "../../mixins.scss" as *;
+@import "../../colours.scss";
+@import "../Button/Button.scss";
 
 .autosave {
   align-items: center;
@@ -8,7 +9,7 @@
 }
 
 .autosave__status {
-  margin-right: 0.2rem
+  margin-right: 0.2rem;
 }
 
 .autosave__time--hidden {
@@ -24,14 +25,33 @@
   align-items: center;
   z-index: 1;
   height: 100%;
+  @include unique-max-width(600px) {
+    justify-items: center;
+    flex-direction: column;
+  }
+
+  &__left {
+    display: flex;
+  }
 
   &__right {
     margin-left: auto;
     display: flex;
     height: 100%;
+    justify-content: flex-end;
 
     .btn {
-      padding: 0 $space-1-5
+      padding: 0 $space-1-5;
+      @include unique-max-width(600px) {
+        padding: 0.5rem;
+        gap: 0.5rem;
+        border: 0;
+      }
+    }
+
+    @include unique-max-width(600px) {
+      margin: 0rem;
+      align-items: space-evenly;
     }
   }
 
@@ -68,7 +88,7 @@
     .--light & {
       border-left: 1px solid $rpf-grey-150;
     }
-  
+
     .--dark & {
       border-left: 1px solid $rpf-grey-500;
     }
