@@ -7,8 +7,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 const Button = (props) => {
   const {
     className,
-    onClickHandler = () => {},
-    onKeyDown,
+    onClickHandler,
     ButtonIcon,
     buttonImage,
     buttonImageAltText,
@@ -46,6 +45,10 @@ const Button = (props) => {
         },
       ],
     });
+  };
+
+  const onKeyDown = (e) => {
+    e.stopPropagation();
   };
 
   const button = href ? (
