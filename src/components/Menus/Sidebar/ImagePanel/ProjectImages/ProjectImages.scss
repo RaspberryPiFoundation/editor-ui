@@ -2,12 +2,14 @@
 @import "../../../../../colours.scss";
 
 .project-images {
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, $space-7-5);
+  justify-content: center;
+  gap: $space-1;
 
   &__block {
     display: inline-block;
     box-sizing: border-box;
-    padding-left: $space-0-5;
     overflow-wrap: break-word;
     word-break: break-word;
     text-align: center;
@@ -15,12 +17,11 @@
   }
 
   &__image-wrapper {
-    height: $space-5-5;
-    width: $space-5-5;
+    height: $space-7-5;
+    width: $space-7-5;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: auto;
   }
 
   &__image {
@@ -29,8 +30,7 @@
   }
 
   p {
-    width: $space-5-5;
-    margin-top: 0;
-    margin-bottom: $space-0-5
+    width: $space-7-5;
+    margin: 0;
   }
 }
