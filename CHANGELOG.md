@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `hex` function for `p5` (#574)
 
+### Fixed
+
+- Color class attributes in `p5` (#574)
+- Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
+
 ## [0.16.3] - 2023-06-29
 
 ### Changed
