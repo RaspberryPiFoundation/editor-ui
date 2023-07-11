@@ -140,7 +140,7 @@ i18n
           editorPanel: {
             ariaLabel: "editor text input",
           },
-          filePane: {
+          filePanel: {
             errors: {
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
@@ -231,6 +231,9 @@ i18n
               },
             },
           },
+          imagePanel: {
+            gallery: "Image Gallery",
+          },
           input: {
             comment: {
               py5: "Py5: imported mode",
@@ -248,6 +251,21 @@ i18n
           },
           modals: {
             close: "Close",
+          },
+          newProjectModal: {
+            cancel: "Cancel",
+            createProject: "Create project",
+            heading: "Create a new project",
+            projectName: {
+              default: "Untitled",
+              helpText: "You can always rename your project later",
+              inputLabel: "Project name",
+            },
+            projectType: {
+              html: "HTML",
+              inputLabel: "What kind of project do you want to make?",
+              python: "Python",
+            },
           },
           notifications: {
             close: "close",
@@ -294,6 +312,9 @@ i18n
           },
           project: {
             accessDeniedNoAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You are not able to see this project",
               loginButtonText: "Log in to your account",
               newProject: "Create a new code project",
@@ -301,6 +322,9 @@ i18n
               text: "If this is your project, log in to see it. If this is not your project you can visit the Projects site for cool project ideas or to start coding in a new project.",
             },
             accessDeniedWithAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You can't access this project",
               newProject: "Create a new code project",
               projectsSiteLinkText: "Explore Projects site",
@@ -308,6 +332,9 @@ i18n
             },
             loading: "Loading",
             notFoundModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "This project does not exist",
               newProject: "Start new code project",
               projectsSiteLinkText: "Explore Projects site",
@@ -360,10 +387,11 @@ i18n
           runners: {
             HtmlOutput: "HTML Output Preview",
           },
-          sideMenu: {
+          sidebar: {
             collapse: "Collapse file pane",
             expand: "Expand file pane",
             file: "Project files",
+            images: "Image gallery",
             information: "Information",
             information_text:
               "Our code editor is designed to create a simple and safe learning environment for beginner programmers. As a result, we have implemented some limitations, such as the inability to include external links in your code.",

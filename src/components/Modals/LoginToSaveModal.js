@@ -37,15 +37,18 @@ const LoginToSaveModal = () => {
       ]}
       buttons={[
         <LoginButton
+          key="login"
           className="btn--primary"
           buttonText={t("loginToSaveModal.loginButtonText")}
           triggerSave
         />,
         <DownloadButton
+          key="download"
           buttonText={t("loginToSaveModal.downloadButtonText")}
           className="btn--secondary"
         />,
         <Button
+          key="close"
           buttonText={t("loginToSaveModal.cancel")}
           className="btn--tertiary"
           onClickHandler={closeModal}

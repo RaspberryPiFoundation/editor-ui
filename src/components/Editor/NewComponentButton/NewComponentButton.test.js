@@ -35,11 +35,11 @@ describe("Testing the new file modal", () => {
   });
 
   test("Button renders", () => {
-    expect(screen.queryByText("filePane.newFileButton")).toBeInTheDocument();
+    expect(screen.queryByText("filePanel.newFileButton")).toBeInTheDocument();
   });
 
   test("Clicking button opens new file modal", () => {
-    const button = screen.queryByText("filePane.newFileButton");
+    const button = screen.queryByText("filePanel.newFileButton");
     fireEvent.click(button);
     const expectedActions = [showNewFileModal()];
     expect(store.getActions()).toEqual(expectedActions);

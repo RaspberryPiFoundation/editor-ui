@@ -7,21 +7,31 @@ import { useProject } from "../Editor/Hooks/useProject";
 import { useEmbeddedMode } from "../Editor/Hooks/useEmbeddedMode";
 import Output from "../Editor/Output/Output";
 import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
+import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
 
 const EmbeddedViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
+  const notFoundModalShowing = useSelector(
+    (state) => state.editor.notFoundModalShowing,
+  );
+  const accessDeniedNoAuthModalShowing = useSelector(
+    (state) => state.editor.accessDeniedNoAuthModalShowing,
+  );
   const { identifier } = useParams();
-  const { i18n } = useTranslation();
 
-  useProject(identifier, i18n.language);
+  useProject(identifier);
   useEmbeddedMode(true);
 
-  return loading === "success" ? (
+  return (
     <div className="embedded-viewer">
-      <Output />
+      {loading === "success" ? <Output /> : null}
+      {notFoundModalShowing ? <NotFoundModalEmbedded /> : null}
+      {accessDeniedNoAuthModalShowing ? (
+        <AccessDeniedNoAuthModalEmbedded />
+      ) : null}
     </div>
-  ) : null;
+  );
 };
 
 export default EmbeddedViewer;
