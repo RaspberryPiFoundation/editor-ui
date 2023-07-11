@@ -14,18 +14,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Color class attributes in `p5` (#574)
 - Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
+- Allow output text to be scrollable if overflow-y (#575)
 
 ## [0.16.3] - 2023-06-29
 
 ### Changed
+
 - Update Beta Banner copy and add a link
 
 ## [0.16.2] - 2023-06-12
 
 ### Added
+
 - New landing page
 
 ### Changed
+
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
 
