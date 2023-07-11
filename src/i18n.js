@@ -234,6 +234,9 @@ i18n
           imagePanel: {
             gallery: "Image Gallery",
           },
+          infoPanel: {
+            info: "Information",
+          },
           input: {
             comment: {
               py5: "Py5: imported mode",
