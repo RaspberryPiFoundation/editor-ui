@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon } from "../../../Icons";
+import { FileIcon, ImageIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
 import SidebarBar from "./SidebarBar";
 
 import "./Sidebar.scss";
+import ImagePanel from "./ImagePanel/ImagePanel";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const { t } = useTranslation();
-  const menuOptions = [
+  let menuOptions = [
     {
       name: "file",
       icon: FileIcon,
@@ -17,7 +19,20 @@ const Sidebar = () => {
       position: "top",
       panel: FilePanel,
     },
+    {
+      name: "images",
+      icon: ImageIcon,
+      title: t("sidebar.images"),
+      position: "top",
+      panel: ImagePanel,
+    },
   ];
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  if (!projectImages || projectImages.length === 0) {
+    menuOptions.splice(
+      menuOptions.findIndex((option) => option.name === "images"),
+    );
+  }
   const [option, setOption] = useState();
   const toggleOption = (newOption) => {
     option !== newOption ? setOption(newOption) : setOption(null);

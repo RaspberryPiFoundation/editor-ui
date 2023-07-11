@@ -231,6 +231,9 @@ i18n
               },
             },
           },
+          imagePanel: {
+            gallery: "Image Gallery",
+          },
           input: {
             comment: {
               py5: "Py5: imported mode",
@@ -388,6 +391,7 @@ i18n
             collapse: "Collapse file pane",
             expand: "Expand file pane",
             file: "Project files",
+            images: "Image gallery",
           },
         },
       },
