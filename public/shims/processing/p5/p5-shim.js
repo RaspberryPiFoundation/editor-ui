@@ -192,20 +192,20 @@ const $builtinmodule = function (name) {
   // =====
 
   // Creating & Reading
-  mod.alpha = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.alpha(...argVals));
-  });
+  // mod.alpha = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.alpha(...argVals));
+  // });
 
-  mod.blue = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.blue(...argVals));
-  });
+  // mod.blue = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.blue(...argVals));
+  // });
 
-  mod.brightness = new Sk.builtin.func(function (r, g, b) {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.brightness(...argVals));
-  });
+  // mod.brightness = new Sk.builtin.func(function (r, g, b) {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.brightness(...argVals));
+  // });
 
   colorClass = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function (self) {
@@ -227,12 +227,25 @@ const $builtinmodule = function (name) {
     });
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
-      if (key === "green") {
+      if (key === "alpha") {
+        return Sk.builtin.assk$(mod.pInst.alpha(self.v));
+      } else if (key === "brightness") {
+        return Sk.builtin.assk$(mod.pInst.brightness(self.v));
+      } else if (key === "blue") {
+        return Sk.builtin.assk$(mod.pInst.blue(self.v));
+      } else if (key === "green") {
         return Sk.builtin.assk$(mod.pInst.green(self.v));
       } else if (key === "hex") {
-        return Sk.builtin.assk$(self.v.toString("#rrggbb"));
-        // } else if (key === "z") {
-        //   return Sk.builtin.assk$(self.v.z);
+        const hexValue = self.v.toString("#rrggbb");
+        return new Sk.builtin.str(hexValue.toUpperCase());
+      } else if (key === "hue") {
+        return Sk.builtin.assk$(mod.pInst.hue(self.v));
+      } else if (key === "lightness") {
+        return Sk.builtin.assk$(mod.pInst.lightness(self.v));
+      } else if (key === "red") {
+        return Sk.builtin.assk$(mod.pInst.red(self.v));
+      } else if (key === "saturation") {
+        return Sk.builtin.assk$(mod.pInst.saturation(self.v));
       }
     });
   };
@@ -262,10 +275,10 @@ const $builtinmodule = function (name) {
   //   return new Sk.builtin.str(hexValue);
   // });
 
-  mod.hue = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.hue(...argVals));
-  });
+  // mod.hue = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.hue(...argVals));
+  // });
 
   mod.lerp_color = new Sk.builtin.func(function (c1, c2, amt) {
     const c = Sk.misceval.callsimArray(mod.color, [
@@ -277,20 +290,20 @@ const $builtinmodule = function (name) {
     return c;
   });
 
-  mod.lightness = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.lightness(...argVals));
-  });
+  // mod.lightness = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.lightness(...argVals));
+  // });
 
-  mod.red = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.red(...argVals));
-  });
+  // mod.red = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.red(...argVals));
+  // });
 
-  mod.saturation = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.saturation(...argVals));
-  });
+  // mod.saturation = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.saturation(...argVals));
+  // });
 
   // Setting
   mod.background = new Sk.builtin.func(function () {

@@ -23,13 +23,13 @@ const $builtinmodule = function (name) {
   let vectorClass;
   let fontClass;
 
-  const mod = {__name__: new Sk.builtin.str("py5")};
+  const mod = { __name__: new Sk.builtin.str("py5") };
 
   // Helper function for extracting values from arguments
   const processArgs = function processArgumentValues(arguments_) {
     const argVals = [];
     for (a of arguments_) {
-      if (typeof(a) !== 'undefined') {
+      if (typeof a !== "undefined") {
         argVals.push(a.v);
       }
     }
@@ -67,8 +67,8 @@ const $builtinmodule = function (name) {
   mod.TAU = new Sk.builtin.float_(Math.PI * 2.0);
   mod.TWO_PI = new Sk.builtin.float_(Math.PI * 2.0);
 
-  mod.DEG_TO_RAD = new Sk.builtin.float_( Math.PI / 180.0);
-  mod.RAD_TO_DEG = new Sk.builtin.float_( 180.0 / Math.PI);
+  mod.DEG_TO_RAD = new Sk.builtin.float_(Math.PI / 180.0);
+  mod.RAD_TO_DEG = new Sk.builtin.float_(180.0 / Math.PI);
 
   // Shape
   mod.CORNER = new Sk.builtin.str("corner");
@@ -92,9 +92,9 @@ const $builtinmodule = function (name) {
   mod.QUAD_STRIP = new Sk.builtin.str("quad_strip");
   mod.TESS = new Sk.builtin.str("tess");
   mod.CLOSE = new Sk.builtin.str("close");
-  mod.OPEN =  new Sk.builtin.str("open");
-  mod.CHORD =  new Sk.builtin.str("chord");
-  mod.PIE =  new Sk.builtin.str("pie");
+  mod.OPEN = new Sk.builtin.str("open");
+  mod.CHORD = new Sk.builtin.str("chord");
+  mod.PIE = new Sk.builtin.str("pie");
   mod.PROJECT = new Sk.builtin.str("square");
   mod.SQUARE = new Sk.builtin.str("butt");
   mod.ROUND = new Sk.builtin.str("round");
@@ -207,37 +207,45 @@ const $builtinmodule = function (name) {
   colorClass = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function (self) {
       const argVals = processArgs(arguments);
-      let data = argVals.filter(function( element ) {
+      let data = argVals.filter(function (element) {
         return element !== undefined;
       });
       self.v = mod.pInst.color(...data);
     });
     $loc.__eq__ = new Sk.builtin.func(function (self, other) {
-
       return new Sk.builtin.bool(
-        Sk.misceval.callsimArray(mod.red, [self]).v === Sk.misceval.callsimArray(mod.red, [other]).v &&
-        Sk.misceval.callsimArray(mod.green, [self]).v === Sk.misceval.callsimArray(mod.green, [other]).v &&
-        Sk.misceval.callsimArray(mod.blue, [self]).v === Sk.misceval.callsimArray(mod.blue, [other]).v
-      )
-    })
+        Sk.misceval.callsimArray(mod.red, [self]).v ===
+          Sk.misceval.callsimArray(mod.red, [other]).v &&
+          Sk.misceval.callsimArray(mod.green, [self]).v ===
+            Sk.misceval.callsimArray(mod.green, [other]).v &&
+          Sk.misceval.callsimArray(mod.blue, [self]).v ===
+            Sk.misceval.callsimArray(mod.blue, [other]).v,
+      );
+    });
   };
 
   mod.color = Sk.misceval.buildClass(mod, colorClass, "Color", []);
 
   mod.get = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    const colorArgs = mod.pInst.get(...argVals)
+    const colorArgs = mod.pInst.get(...argVals);
     const colorArgsArray = [
       new Sk.builtin.float_(colorArgs[0]),
       new Sk.builtin.float_(colorArgs[1]),
-      new Sk.builtin.float_(colorArgs[2])
-    ]
-    return new Sk.misceval.callsimArray(mod.color, colorArgsArray)
+      new Sk.builtin.float_(colorArgs[2]),
+    ];
+    return new Sk.misceval.callsimArray(mod.color, colorArgsArray);
   });
 
   mod.green = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     return new Sk.builtin.float_(mod.pInst.green(...argVals));
+  });
+
+  mod.hex = new Sk.builtin.func(function () {
+    const argVals = processArgs(arguments);
+    const hexValue = mod.pInst.color(...argVals).toString("#rrggbb");
+    return new Sk.builtin.str(hexValue.toUpperCase());
   });
 
   mod.hue = new Sk.builtin.func(function () {
@@ -247,9 +255,10 @@ const $builtinmodule = function (name) {
 
   mod.lerp_color = new Sk.builtin.func(function (c1, c2, amt) {
     const c = Sk.misceval.callsimArray(mod.color, [
-        new Sk.builtin.int_(0),
-        new Sk.builtin.int_(0),
-        new Sk.builtin.int_(0)]);
+      new Sk.builtin.int_(0),
+      new Sk.builtin.int_(0),
+      new Sk.builtin.int_(0),
+    ]);
     c.v = mod.pInst.lerpColor(c1.v, c2.v, amt.v);
     return c;
   });
@@ -419,7 +428,7 @@ const $builtinmodule = function (name) {
   });
 
   mod.begin_shape = new Sk.builtin.func(function (kind) {
-    if (typeof(kind) === "undefined") {
+    if (typeof kind === "undefined") {
       mod.pInst.beginShape();
     } else {
       mod.pInst.beginShape(kind.v);
@@ -434,10 +443,10 @@ const $builtinmodule = function (name) {
   mod.curve_vertex = new Sk.builtin.func(function (x, y, z) {
     // curveVertex(x, y)
     // curveVertex(x, y, z)
-    if (typeof(z) === "undefined") {
-	    mod.pInst.curveVertex(x.v, y.v);
+    if (typeof z === "undefined") {
+      mod.pInst.curveVertex(x.v, y.v);
     } else {
-	    mod.pInst.curveVertex(x.v, y.v, z.v);
+      mod.pInst.curveVertex(x.v, y.v, z.v);
     }
   });
 
@@ -446,7 +455,7 @@ const $builtinmodule = function (name) {
   });
 
   mod.end_shape = new Sk.builtin.func(function (mode) {
-    if (typeof(mode) === "undefined") {
+    if (typeof mode === "undefined") {
       mod.pInst.endShape();
     } else {
       mod.pInst.endShape(mode.v);
@@ -463,14 +472,14 @@ const $builtinmodule = function (name) {
     // vertex(x, y, z);
     // vertex(x, y, u, v);
     // vertex(x, y, z, u, v);
-    if (typeof(z) === "undefined") {
-	    mod.pInst.vertex(x.v, y.v);
-    } else if (typeof(u) === "undefined") {
-	    mod.pInst.vertex(x.v, y.v, z.v);
-    } else if (typeof(v) === "undefined") {
-	    mod.pInst.vertex(x.v, y.v, z.v, u.v);
+    if (typeof z === "undefined") {
+      mod.pInst.vertex(x.v, y.v);
+    } else if (typeof u === "undefined") {
+      mod.pInst.vertex(x.v, y.v, z.v);
+    } else if (typeof v === "undefined") {
+      mod.pInst.vertex(x.v, y.v, z.v, u.v);
     } else {
-	    mod.pInst.vertex(x.v, y.v, z.v, u.v, v.v);
+      mod.pInst.vertex(x.v, y.v, z.v, u.v, v.v);
     }
   });
 
@@ -480,32 +489,32 @@ const $builtinmodule = function (name) {
     mod.pInst.plane(...argVals);
   });
 
-  mod.box = new Sk.builtin.func(function() {
+  mod.box = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.box(...argVals);
   });
 
-  mod.sphere = new Sk.builtin.func(function() {
+  mod.sphere = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.sphere(...argVals);
   });
 
-  mod.cylinder = new Sk.builtin.func(function() {
+  mod.cylinder = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.cylinder(...argVals);
   });
 
-  mod.cone = new Sk.builtin.func(function() {
+  mod.cone = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.cone(...argVals);
   });
 
-  mod.ellipsoid = new Sk.builtin.func(function() {
+  mod.ellipsoid = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.ellipsoid(...argVals);
   });
 
-  mod.torus = new Sk.builtin.func(function() {
+  mod.torus = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     mod.pInst.torus(...argVals);
   });
@@ -520,10 +529,10 @@ const $builtinmodule = function (name) {
   mod.text_align = new Sk.builtin.func(function (horizAlign, vertAlign) {
     // textAlign(horizAlign)
     // textAlign(horizAlign, vertAlign)
-    if (typeof(vertAlign) === "undefined") {
-	    mod.pInst.textAlign(horizAlign.v);
+    if (typeof vertAlign === "undefined") {
+      mod.pInst.textAlign(horizAlign.v);
     } else {
-	    mod.pInst.textAlign(horizAlign.v, vertAlign.v);
+      mod.pInst.textAlign(horizAlign.v, vertAlign.v);
     }
   });
 
@@ -561,10 +570,10 @@ const $builtinmodule = function (name) {
   mod.text_font = new Sk.builtin.func(function (font, size) {
     // textFont(font)
     // textFont(font, size)
-    if (typeof(size) === "undefined") {
-	    mod.pInst.textFont(font.v);
+    if (typeof size === "undefined") {
+      mod.pInst.textFont(font.v);
     } else {
-	    mod.pInst.textFont(font.v, size.v);
+      mod.pInst.textFont(font.v, size.v);
     }
   });
 
@@ -581,7 +590,6 @@ const $builtinmodule = function (name) {
 
   mod.PFont = Sk.misceval.buildClass(mod, fontClass, "PFont", []);
 
-
   mod.ambient = new Sk.builtin.func(function (r, g, b) {
     // ambient(gray)
     // ambient(red, green blue)
@@ -590,26 +598,26 @@ const $builtinmodule = function (name) {
     //      a color object
     // g, and b may be undefined.  If they hold values it will
     // be assumed that we have an r,g,b color tuple
-    if (typeof(g) === "undefined") {
-        mod.pInst.ambient(r.v);
-    } else if (typeof(b) === "undefined") {
-        mod.pInst.ambient(r.v, g.v);
+    if (typeof g === "undefined") {
+      mod.pInst.ambient(r.v);
+    } else if (typeof b === "undefined") {
+      mod.pInst.ambient(r.v, g.v);
     } else {
-        mod.pInst.ambient(r.v, g.v, b.v);
+      mod.pInst.ambient(r.v, g.v, b.v);
     }
   });
 
   mod.ambient_light = new Sk.builtin.func(function (v1, v2, v3, x, y, z) {
     // ambientLight(v1,v2,v3)
     // ambientLight(v1,v2,v3,x,y,z)
-    if (typeof(x) === "undefined") {
-        mod.pInst.ambientLight(v1.v, v2.v, v3.v);
-    } else if (typeof(y) === "undefined") {
-        mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v);
-    } else if (typeof(z) === "undefined") {
-        mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v, y.v);
+    if (typeof x === "undefined") {
+      mod.pInst.ambientLight(v1.v, v2.v, v3.v);
+    } else if (typeof y === "undefined") {
+      mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v);
+    } else if (typeof z === "undefined") {
+      mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v, y.v);
     } else {
-        mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v, y.v, z.v);
+      mod.pInst.ambientLight(v1.v, v2.v, v3.v, x.v, y.v, z.v);
     }
   });
 
@@ -617,48 +625,79 @@ const $builtinmodule = function (name) {
     mod.pInst.beginCamera();
   });
 
-
-
-
-
-
-
-  mod.blend = new Sk.builtin.func(function (v1, v2, v3, v4, v5,
-					      v6, v7, v8, v9, v10) {
-    if (other instanceof Sk.builtin.int_ || other instanceof Sk.builtin.float_) {
-	    // blend(x,     y,width,height,dx,    dy,dwidth,dheight,MODE)
-	    mod.pInst.blend(v1.v, v2.v, v3.v, v4.v, v5.v,
-				 v6.v, v7.v, v8.v, v9.v);
+  mod.blend = new Sk.builtin.func(function (
+    v1,
+    v2,
+    v3,
+    v4,
+    v5,
+    v6,
+    v7,
+    v8,
+    v9,
+    v10,
+  ) {
+    if (
+      other instanceof Sk.builtin.int_ ||
+      other instanceof Sk.builtin.float_
+    ) {
+      // blend(x,     y,width,height,dx,    dy,dwidth,dheight,MODE)
+      mod.pInst.blend(v1.v, v2.v, v3.v, v4.v, v5.v, v6.v, v7.v, v8.v, v9.v);
     } else {
-	    // blend(srcImg,x,y,    width, height,dx,dy,    dwidth, dheight,MODE)
-	    mod.pInst.blend(v1.v, v2.v, v3.v, v4.v, v5.v,
-				 v6.v, v7.v, v8.v, v9.v, v10.v);
+      // blend(srcImg,x,y,    width, height,dx,dy,    dwidth, dheight,MODE)
+      mod.pInst.blend(
+        v1.v,
+        v2.v,
+        v3.v,
+        v4.v,
+        v5.v,
+        v6.v,
+        v7.v,
+        v8.v,
+        v9.v,
+        v10.v,
+      );
     }
   });
 
   mod.blend_color = new Sk.builtin.func(function (c1, c2, mode) {
     // blendColor(c1,c2,MODE)
     const c = Sk.misceval.callsimArray(mod.color, [
-        new Sk.builtin.int_(0),
-        new Sk.builtin.int_(0),
-        new Sk.builtin.int_(0)]);
+      new Sk.builtin.int_(0),
+      new Sk.builtin.int_(0),
+      new Sk.builtin.int_(0),
+    ]);
     c.v = mod.pInst.blendColor(c1.v, c2.v, mode.v);
     return c;
   });
 
-
-
-  mod.camera = new Sk.builtin.func(function (eyeX, eyeY, eyeZ,
-					       centerX, centerY, centerZ,
-					       upX, upY, upZ) {
+  mod.camera = new Sk.builtin.func(function (
+    eyeX,
+    eyeY,
+    eyeZ,
+    centerX,
+    centerY,
+    centerZ,
+    upX,
+    upY,
+    upZ,
+  ) {
     // camera()
     // camera(eyeX, eyeY, eyeZ,centerX, centerY, centerZ,upX, upY, upZ)
-    if (typeof(eyeX) === "undefined") {
-	    mod.pInst.camera();
+    if (typeof eyeX === "undefined") {
+      mod.pInst.camera();
     } else {
-	    mod.pInst.camera(eyeX.v, eyeY.v, eyeZ.v,
-				  centerX.v, centerY.v, centerZ.v,
-				  upX.v, upY.v, upZ.v);
+      mod.pInst.camera(
+        eyeX.v,
+        eyeY.v,
+        eyeZ.v,
+        centerX.v,
+        centerY.v,
+        centerZ.v,
+        upX.v,
+        upY.v,
+        upZ.v,
+      );
     }
   });
 
@@ -666,16 +705,16 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.float_(mod.pInst.constrain(value.v, min.v, max.v));
   });
 
-  mod.copy = new Sk.builtin.func(function (v1, v2, v3, v4, v5,
-					      v6, v7, v8, v9) {
-    if (other instanceof Sk.builtin.int_ || other instanceof Sk.builtin.float_) {
+  mod.copy = new Sk.builtin.func(function (v1, v2, v3, v4, v5, v6, v7, v8, v9) {
+    if (
+      other instanceof Sk.builtin.int_ ||
+      other instanceof Sk.builtin.float_
+    ) {
       // copy(x,     y,width,height,dx,    dy,dwidth,dheight)
-      mod.pInst.copy(v1.v, v2.v, v3.v, v4.v, v5.v,
-          v6.v, v7.v, v8.v);
+      mod.pInst.copy(v1.v, v2.v, v3.v, v4.v, v5.v, v6.v, v7.v, v8.v);
     } else {
       // copy(srcImg,x,y,    width, height,dx,dy,    dwidth, dheight)
-      mod.pInst.copy(v1.v, v2.v, v3.v, v4.v, v5.v,
-          v6.v, v7.v, v8.v, v9.v);
+      mod.pInst.copy(v1.v, v2.v, v3.v, v4.v, v5.v, v6.v, v7.v, v8.v, v9.v);
     }
   });
 
@@ -685,11 +724,11 @@ const $builtinmodule = function (name) {
     // createFont(name, size, smooth, charset)
     const font = Sk.misceval.callsimArray(mod.PFont);
     // if (typeof(smooth) === "undefined") {
-	  //   font.v = mod.pInst.createFont(name.v, size.v);
+    //   font.v = mod.pInst.createFont(name.v, size.v);
     // } else if (typeof(charset) === "undefined") {
-	  //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v);
+    //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v);
     // } else {
-	  //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v, charset.v);
+    //   font.v = mod.pInst.createFont(name.v, size.v, smooth.v, charset.v);
     // }
     return font;
   });
@@ -698,7 +737,7 @@ const $builtinmodule = function (name) {
     // createGraphics(width, height)
     // createGraphics(width, height, renderer)
     const graphics = Sk.misceval.callsimArray(mod.PGraphics);
-    if (typeof(renderer) === "undefined") {
+    if (typeof renderer === "undefined") {
       graphics.v = mod.pInst.createGraphics(width.v, height.v);
     } else {
       graphics.v = mod.pInst.createGraphics(width.v, height.v, renderer.v);
@@ -716,20 +755,16 @@ const $builtinmodule = function (name) {
     // cursor()
     // cursor(MODE)
     // cursor(image,x,y)
-    if (typeof(v) === "undefined") {
-	    mod.pInst.cursor();
-    } else if (typeof(x) === "undefined") {
-	    mod.pInst.cursor(v.v);
-    } else if (typeof(y) === "undefined") {
-	    mod.pInst.cursor(v.v, x.v);
+    if (typeof v === "undefined") {
+      mod.pInst.cursor();
+    } else if (typeof x === "undefined") {
+      mod.pInst.cursor(v.v);
+    } else if (typeof y === "undefined") {
+      mod.pInst.cursor(v.v, x.v);
     } else {
-	    mod.pInst.cursor(v.v, x.v, y.v);
+      mod.pInst.cursor(v.v, x.v, y.v);
     }
   });
-
-
-
-
 
   mod.day = new Sk.builtin.func(function () {
     return new Sk.builtin.int_(mod.pInst.day());
@@ -740,20 +775,31 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.float_(mod.pInst.degrees(angle.v));
   });
 
-  mod.directional_light = new Sk.builtin.func(function (v1,v2,v3,nx,ny,nz) {
+  mod.directional_light = new Sk.builtin.func(function (
+    v1,
+    v2,
+    v3,
+    nx,
+    ny,
+    nz,
+  ) {
     // directionalLight(v1,v2,v3,nx,ny,nz)
-    mod.pInst.directionalLight(v1.v,v2.v,v3.v,nx.v,ny.v,nz.v);
+    mod.pInst.directionalLight(v1.v, v2.v, v3.v, nx.v, ny.v, nz.v);
   });
 
   mod.dist = new Sk.builtin.func(function (x1, y1, z1, x2, y2, z2) {
     // dist(x1, y1, x2, y2)
     // dist(x1, y1, z1, x2, y2, z2)
-    if (typeof(y2) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.dist(x1.v, y1.v, z1.v, x2.v));
-    } else if (typeof(z2) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.dist(x1.v, y1.v, z1.v, x2.v, y2.v));
+    if (typeof y2 === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.dist(x1.v, y1.v, z1.v, x2.v));
+    } else if (typeof z2 === "undefined") {
+      return new Sk.builtin.float_(
+        mod.pInst.dist(x1.v, y1.v, z1.v, x2.v, y2.v),
+      );
     } else {
-	    return new Sk.builtin.float_(mod.pInst.dist(x1.v, y1.v, z1.v, x2.v, y2.v, z2.v));
+      return new Sk.builtin.float_(
+        mod.pInst.dist(x1.v, y1.v, z1.v, x2.v, y2.v, z2.v),
+      );
     }
   });
 
@@ -761,12 +807,12 @@ const $builtinmodule = function (name) {
     // emissive(gray)
     // emissive(color)
     // emissive(v1,v2,v3)
-    if (typeof(v2) === "undefined") {
-	    mod.pInst.emissive(v1.v);
-    } else if (typeof(v3) === "undefined") {
-	    mod.pInst.emissive(v1.v, v2.v);
+    if (typeof v2 === "undefined") {
+      mod.pInst.emissive(v1.v);
+    } else if (typeof v3 === "undefined") {
+      mod.pInst.emissive(v1.v, v2.v);
     } else {
-	    mod.pInst.emissive(v1.v, v2.v, v3.v);
+      mod.pInst.emissive(v1.v, v2.v, v3.v);
     }
   });
 
@@ -778,14 +824,21 @@ const $builtinmodule = function (name) {
   mod.filter = new Sk.builtin.func(function (mode, srcImg) {
     // filter(MODE)
     // filter(MODE, srcImg)
-    if (typeof(srcImg) === "undefined") {
-	    mod.pInst.filter(mode.v);
+    if (typeof srcImg === "undefined") {
+      mod.pInst.filter(mode.v);
     } else {
-	    mod.pInst.filter(mode.v, srcImg.v);
+      mod.pInst.filter(mode.v, srcImg.v);
     }
   });
 
-  mod.frustum = new Sk.builtin.func(function (left, right, bottom, top, near, far) {
+  mod.frustum = new Sk.builtin.func(function (
+    left,
+    right,
+    bottom,
+    top,
+    near,
+    far,
+  ) {
     // frustum(left, right, bottom,top, near, far)
     mod.pInst.frustum(left, right, bottom, top, near, far);
   });
@@ -799,8 +852,6 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.int_(mod.pInst.hour());
   });
 
-
-
   mod.image_mode = new Sk.builtin.func(function (mode) {
     mod.pInst.imageMode(mode.v);
   });
@@ -811,9 +862,11 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.float_(mod.pInst.lerp(value1.v, value2.v, amt.v));
   });
 
-
-
-  mod.light_falloff = new Sk.builtin.func(function (constant, linear, quadratic) {
+  mod.light_falloff = new Sk.builtin.func(function (
+    constant,
+    linear,
+    quadratic,
+  ) {
     // lightFalloff(constant,linear,quadratic)
     mod.pInst.lightFalloff(constant.v, linear.v, quadratic.v);
   });
@@ -833,14 +886,13 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.list(mod.pInst.loadBytes(filename.v));
   });
 
-
-
   mod.load_shape = new Sk.builtin.func(function (filename) {
     // loadShape(filename)
     // returns shape
     const shape = Sk.misceval.callsimArray(mod.PShapeSVG, [
-					new Sk.builtin.str("string"),
-					filename]);
+      new Sk.builtin.str("string"),
+      filename,
+    ]);
     return shape;
   });
 
@@ -854,18 +906,19 @@ const $builtinmodule = function (name) {
     // mag(a,b)
     // mag(a,b,c)
     // returns magnitude as float
-    if (typeof(c) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.mag(a.v, b.v));
+    if (typeof c === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.mag(a.v, b.v));
     } else {
-	    return new Sk.builtin.float_(mod.pInst.mag(a.v, b.v, c.v));
+      return new Sk.builtin.float_(mod.pInst.mag(a.v, b.v, c.v));
     }
   });
 
-  mod.remap = new Sk.builtin.func(function (value,low1,high1,low2,high2) {
+  mod.remap = new Sk.builtin.func(function (value, low1, high1, low2, high2) {
     // map(value,low1,high1,low2,high2)
     // returns float
-    return new Sk.builtin.float_(mod.pInst.map(value.v,low1.v,high1.v,
-						   low2.v,high2.v));
+    return new Sk.builtin.float_(
+      mod.pInst.map(value.v, low1.v, high1.v, low2.v, high2.v),
+    );
   });
 
   mod.millis = new Sk.builtin.func(function () {
@@ -907,12 +960,12 @@ const $builtinmodule = function (name) {
     // noise(x, y)
     // noise(x, y, z)
     // returns float
-    if (typeof(y) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.noise(x.v));
-    } else if (typeof(z) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.noise(x.v, y.v));
+    if (typeof y === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.noise(x.v));
+    } else if (typeof z === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.noise(x.v, y.v));
     } else {
-	    return new Sk.builtin.float_(mod.pInst.noise(x.v, y.v, z.v));
+      return new Sk.builtin.float_(mod.pInst.noise(x.v, y.v, z.v));
     }
   });
 
@@ -948,7 +1001,14 @@ const $builtinmodule = function (name) {
     mod.pInst.noTint();
   });
 
-  mod.ortho = new Sk.builtin.func(function (left, right, bottom, top, near, far) {
+  mod.ortho = new Sk.builtin.func(function (
+    left,
+    right,
+    bottom,
+    top,
+    near,
+    far,
+  ) {
     // ortho(left, right, bottom,top, near,far)
     // returns None
     mod.pInst.ortho(left.v, right.v, bottom.v, top.v, near.v, far.v);
@@ -958,23 +1018,23 @@ const $builtinmodule = function (name) {
     // perspective()
     // perspective(fov, aspect, zNear, zFar)
     // returns None
-    if (typeof(fov) === "undefined") {
-	    mod.pInst.perspective();
-    } else if (typeof(aspect) === "undefined") {
-	    mod.pInst.perspective(fov.v);
-    } else if (typeof(zNear) === "undefined") {
-	    mod.pInst.perspective(fov.v, aspect.v);
-    } else if (typeof(zFar) === "undefined") {
-	    mod.pInst.perspective(fov.v, aspect.v, zNear.v);
+    if (typeof fov === "undefined") {
+      mod.pInst.perspective();
+    } else if (typeof aspect === "undefined") {
+      mod.pInst.perspective(fov.v);
+    } else if (typeof zNear === "undefined") {
+      mod.pInst.perspective(fov.v, aspect.v);
+    } else if (typeof zFar === "undefined") {
+      mod.pInst.perspective(fov.v, aspect.v, zNear.v);
     } else {
-	    mod.pInst.perspective(fov.v, aspect.v, zNear.v, zFar.v);
+      mod.pInst.perspective(fov.v, aspect.v, zNear.v, zFar.v);
     }
   });
 
-  mod.point_light = new Sk.builtin.func(function (v1,v2,v3,nx,ny,nz) {
+  mod.point_light = new Sk.builtin.func(function (v1, v2, v3, nx, ny, nz) {
     // pointLight(v1,v2,v3,nx,ny,nz)
     // returns None
-    mod.pInst.pointLight(v1.v,v2.v,v3.v,nx.v,ny.v,nz.v);
+    mod.pInst.pointLight(v1.v, v2.v, v3.v, nx.v, ny.v, nz.v);
   });
 
   mod.print_camera = new Sk.builtin.func(function () {
@@ -1011,12 +1071,12 @@ const $builtinmodule = function (name) {
     // random(high);
     // random(low, high);
     // returns float
-    if (typeof(v1) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.random());
-    } else if (typeof(v2) === "undefined") {
-	    return new Sk.builtin.float_(mod.pInst.random(v1.v));
+    if (typeof v1 === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.random());
+    } else if (typeof v2 === "undefined") {
+      return new Sk.builtin.float_(mod.pInst.random(v1.v));
     } else {
-	    return new Sk.builtin.float_(mod.pInst.random(v1.v, v2.v));
+      return new Sk.builtin.float_(mod.pInst.random(v1.v, v2.v));
     }
   });
 
@@ -1024,15 +1084,13 @@ const $builtinmodule = function (name) {
     // requestImage(filename)
     // requestImage(filename, extension)
     const image = Sk.misceval.callsimArray(mod.PImage);
-    if (typeof(extension) === "undefined") {
-	    image.v = mod.pInst.requestImage(filename.v);
+    if (typeof extension === "undefined") {
+      image.v = mod.pInst.requestImage(filename.v);
     } else {
-	    image.v = mod.pInst.requestImage(filename.v, extension.v);
+      image.v = mod.pInst.requestImage(filename.v, extension.v);
     }
     return image;
   });
-
-
 
   mod.save = new Sk.builtin.func(function (filename) {
     // save(filename)
@@ -1044,10 +1102,10 @@ const $builtinmodule = function (name) {
     // saveFrame()
     // saveFrame(filename-####.ext)
     // returns None
-    if (typeof(filename) === "undefined") {
-	    mod.pInst.saveFrame();
+    if (typeof filename === "undefined") {
+      mod.pInst.saveFrame();
     } else {
-	    mod.pInst.saveFrame(filename.v);
+      mod.pInst.saveFrame(filename.v);
     }
   });
 
@@ -1083,16 +1141,16 @@ const $builtinmodule = function (name) {
     // shape(sh,x,y)
     // shape(sh,x,y,width,height)
     // returns?
-    if (typeof(x) === "undefined") {
-	    mod.pInst.shape(sh.v);
-    } else if (typeof(y) === "undefined") {
-	    mod.pInst.shape(sh.v,x.v);
-    } else if (typeof(width) === "undefined") {
-	    mod.pInst.shape(sh.v,x.v,y.v);
-    } else if (typeof(height) === "undefined") {
-	    mod.pInst.shape(sh.v,x.v,y.v,width.v);
+    if (typeof x === "undefined") {
+      mod.pInst.shape(sh.v);
+    } else if (typeof y === "undefined") {
+      mod.pInst.shape(sh.v, x.v);
+    } else if (typeof width === "undefined") {
+      mod.pInst.shape(sh.v, x.v, y.v);
+    } else if (typeof height === "undefined") {
+      mod.pInst.shape(sh.v, x.v, y.v, width.v);
     } else {
-	    mod.pInst.shape(sh.v,x.v,y.v,width.v,height.v);
+      mod.pInst.shape(sh.v, x.v, y.v, width.v, height.v);
     }
   });
 
@@ -1107,23 +1165,41 @@ const $builtinmodule = function (name) {
     mod.pInst.shininess(shine.v);
   });
 
-  mod.specular = new Sk.builtin.func(function (v1,v2,v3) {
+  mod.specular = new Sk.builtin.func(function (v1, v2, v3) {
     // specular(gray)
     // specular(color)
     // specular(v1,v2,v3)
-    if (typeof(v2) === "undefined") {
-	    mod.pInst.specular(v1.v);
-    } else if (typeof(v3) === "undefined") {
-	    mod.pInst.specular(v1.v,v2.v);
+    if (typeof v2 === "undefined") {
+      mod.pInst.specular(v1.v);
+    } else if (typeof v3 === "undefined") {
+      mod.pInst.specular(v1.v, v2.v);
     } else {
-	    mod.pInst.specular(v1.v,v2.v,v3.v);
+      mod.pInst.specular(v1.v, v2.v, v3.v);
     }
   });
 
-  mod.spot_light = new Sk.builtin.func(function (v1,v2,v3,nx,ny,nz,angle,concentration) {
+  mod.spot_light = new Sk.builtin.func(function (
+    v1,
+    v2,
+    v3,
+    nx,
+    ny,
+    nz,
+    angle,
+    concentration,
+  ) {
     // spotLight(v1,v2,v3,nx,ny,nz,angle,concentration)
     // returns None
-    mod.pInst.spotLight(v1.v,v2.v,v3.v,nx.v,ny.v,nz.v,angle.v,concentration.v);
+    mod.pInst.spotLight(
+      v1.v,
+      v2.v,
+      v3.v,
+      nx.v,
+      ny.v,
+      nz.v,
+      angle.v,
+      concentration.v,
+    );
   });
 
   mod.sq = new Sk.builtin.func(function (value) {
@@ -1137,21 +1213,11 @@ const $builtinmodule = function (name) {
     mod.pInst.status(text.v);
   });
 
-
-
-
-
-
-
-
-
   mod.text_mode = new Sk.builtin.func(function (mode) {
     // textMode(MODE)
     // returns None
     mod.pInst.textMode(mode.v);
   });
-
-
 
   mod.texture = new Sk.builtin.func(function (img) {
     // texture(img)
@@ -1165,8 +1231,6 @@ const $builtinmodule = function (name) {
     mod.pInst.textureMode(mode.v);
   });
 
-
-
   mod.tint = new Sk.builtin.func(function (v1, v2, v3, v4) {
     // tint(gray)
     // tint(gray, alpha)
@@ -1176,14 +1240,14 @@ const $builtinmodule = function (name) {
     // tint(color, alpha)
     // tint(hex)
     // tint(hex, alpha)
-    if (typeof(v2) === "undefined") {
-	    mod.pInst.tint(v1.v);
-    } else if (typeof(v3) === "undefined") {
-	    mod.pInst.tint(v1.v, v2.v);
-    } else if (typeof(v4) === "undefined") {
-	    mod.pInst.tint(v1.v, v2.v, v3.v);
+    if (typeof v2 === "undefined") {
+      mod.pInst.tint(v1.v);
+    } else if (typeof v3 === "undefined") {
+      mod.pInst.tint(v1.v, v2.v);
+    } else if (typeof v4 === "undefined") {
+      mod.pInst.tint(v1.v, v2.v, v3.v);
     } else {
-	    mod.pInst.tint(v1.v, v2.v, v3.v, v4.v);
+      mod.pInst.tint(v1.v, v2.v, v3.v, v4.v);
     }
   });
 
@@ -1192,12 +1256,9 @@ const $builtinmodule = function (name) {
     mod.pInst.updatePixels();
   });
 
-
-
   mod.year = new Sk.builtin.func(function () {
     return new Sk.builtin.int_(mod.pInst.year());
   });
-
 
   // Environment
 
@@ -1247,7 +1308,7 @@ const $builtinmodule = function (name) {
   mod.renderMode = mod.P2D;
 
   mod.size = new Sk.builtin.func(function (w, h, mode) {
-    if (typeof(mode) === "undefined") {
+    if (typeof mode === "undefined") {
       mode = mod.P2D;
     }
     mod.pInst.createCanvas(w.v, h.v, mode.v);
@@ -1260,17 +1321,25 @@ const $builtinmodule = function (name) {
     mod.pInst.exit();
   });
 
-  mod.mouse_x = new Sk.builtin.float_(0)
-  mod.mouse_y = new Sk.builtin.float_(0)
+  mod.mouse_x = new Sk.builtin.float_(0);
+  mod.mouse_y = new Sk.builtin.float_(0);
 
   const updateMouseCoords = (e) => {
-    if (mod.pInst && mod.pInst.mouseX>=0 && mod.pInst.mouseY>=0 && mod.pInst.mouseX <= mod.width && mod.pInst.mouseY <= mod.height) {
+    if (
+      mod.pInst &&
+      mod.pInst.mouseX >= 0 &&
+      mod.pInst.mouseY >= 0 &&
+      mod.pInst.mouseX <= mod.width &&
+      mod.pInst.mouseY <= mod.height
+    ) {
       mod.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
       mod.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
     }
-  }
+  };
 
-  document.getElementById(Sk.py5.sketch).addEventListener('mousemove', updateMouseCoords)
+  document
+    .getElementById(Sk.py5.sketch)
+    .addEventListener("mousemove", updateMouseCoords);
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1286,45 +1355,31 @@ const $builtinmodule = function (name) {
 
   // Attributes
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   // Transforms
   mod.rotate = new Sk.builtin.func(function (rads) {
     // rotation in radians
     mod.pInst.rotate(rads.v);
   });
 
-  mod.rotate_x = new Sk.builtin.func(function(rads) {
+  mod.rotate_x = new Sk.builtin.func(function (rads) {
     mod.pInst.rotateX(rads.v);
   });
 
-  mod.rotate_y = new Sk.builtin.func(function(rads) {
+  mod.rotate_y = new Sk.builtin.func(function (rads) {
     mod.pInst.rotateY(rads.v);
   });
 
-  mod.rotate_z = new Sk.builtin.func(function(rads) {
+  mod.rotate_z = new Sk.builtin.func(function (rads) {
     mod.pInst.rotateZ(rads.v);
   });
 
   mod.scale = new Sk.builtin.func(function (sx, sy, sz) {
-    if (typeof(sy) === "undefined") {
+    if (typeof sy === "undefined") {
       sy = 1.0;
     } else {
       sy = sy.v;
     }
-    if (typeof(sz) === "undefined") {
+    if (typeof sz === "undefined") {
       sz = 1.0;
     } else {
       sz = sz.v;
@@ -1333,12 +1388,12 @@ const $builtinmodule = function (name) {
   });
 
   mod.translate = new Sk.builtin.func(function (sx, sy, sz) {
-    if (typeof(sy) === "undefined") {
+    if (typeof sy === "undefined") {
       sy = 1.0;
     } else {
       sy = sy.v;
     }
-    if (typeof(sz) === "undefined") {
+    if (typeof sz === "undefined") {
       sz = 1.0;
     } else {
       sz = sz.v;
@@ -1346,37 +1401,37 @@ const $builtinmodule = function (name) {
     mod.pInst.translate(sx.v, sy, sz);
   });
 
-  mod.pop_matrix = new Sk.builtin.func(function() {
+  mod.pop_matrix = new Sk.builtin.func(function () {
     mod.pInst.pop();
   });
 
-  mod.push_matrix = new Sk.builtin.func(function() {
+  mod.push_matrix = new Sk.builtin.func(function () {
     mod.pInst.push();
   });
 
-  mod.apply_matrix = new Sk.builtin.func(function() {
+  mod.apply_matrix = new Sk.builtin.func(function () {
     const args = Array.prototype.slice.call(arguments, 0, 16);
 
     for (let i = 0; i < args.length; i++) {
-      args[i] = typeof(args[i]) === "undefined" ? 0.0 : args[i].v;
+      args[i] = typeof args[i] === "undefined" ? 0.0 : args[i].v;
     }
 
     mod.pInst.applyMatrix.apply(mod.pInst, args);
   });
 
-  mod.reset_matrix = new Sk.builtin.func(function() {
+  mod.reset_matrix = new Sk.builtin.func(function () {
     mod.pInst.resetMatrix();
   });
 
-  mod.print_matrix = new Sk.builtin.func(function() {
+  mod.print_matrix = new Sk.builtin.func(function () {
     return Sk.ffi.remapToPy(mod.pInst.printMatrix());
   });
 
-  mod.pop_style = new Sk.builtin.func(function() {
+  mod.pop_style = new Sk.builtin.func(function () {
     mod.pInst.pop();
   });
 
-  mod.push_style = new Sk.builtin.func(function() {
+  mod.push_style = new Sk.builtin.func(function () {
     mod.pInst.push();
   });
 
@@ -1389,7 +1444,24 @@ const $builtinmodule = function (name) {
   //  //////////////////////////////////////////////////////////////////////
   _run = function () {
     const sketchProc = (sketch) => {
-      const callBacks = {"device_moved": "deviceMoved", "device_turned": "deviceTurned", "device_shaken": "deviceShaken", "key_pressed": "keyPressed", "key_released": "keyReleased", "key_typed": "keyTyped", "mouse_pressed": "mousePressed", "mouse_released": "mouseReleased", "mouse_clicked": "mouseClicked", "double_clicked": "doubleClicked", "mouse_moved": "mouseMoved", "mouse_dragged": "mouseDragged", "mouse_wheel": "mouseWheel", "touch_started": "touchStarted", "touch_moved": "touchMoved", "touch_ended": "touchEnded"}
+      const callBacks = {
+        device_moved: "deviceMoved",
+        device_turned: "deviceTurned",
+        device_shaken: "deviceShaken",
+        key_pressed: "keyPressed",
+        key_released: "keyReleased",
+        key_typed: "keyTyped",
+        mouse_pressed: "mousePressed",
+        mouse_released: "mouseReleased",
+        mouse_clicked: "mouseClicked",
+        double_clicked: "doubleClicked",
+        mouse_moved: "mouseMoved",
+        mouse_dragged: "mouseDragged",
+        mouse_wheel: "mouseWheel",
+        touch_started: "touchStarted",
+        touch_moved: "touchMoved",
+        touch_ended: "touchEnded",
+      };
 
       mod.pInst = sketch;
 
@@ -1402,7 +1474,11 @@ const $builtinmodule = function (name) {
 
           for (const cb of Object.keys(callBacks)) {
             if (Sk.globals[cb]) {
-              sketch[callBacks[cb]] = new Function("try {Sk.misceval.callsimArray(Sk.globals['" + cb + "']);} catch(e) {Sk.uncaughtException(e);}");
+              sketch[callBacks[cb]] = new Function(
+                "try {Sk.misceval.callsimArray(Sk.globals['" +
+                  cb +
+                  "']);} catch(e) {Sk.uncaughtException(e);}",
+              );
             }
           }
         }
@@ -1413,7 +1489,7 @@ const $builtinmodule = function (name) {
         if (Sk.globals["draw"]) {
           try {
             Sk.misceval.callsimArray(Sk.globals["draw"]);
-          } catch(e) {
+          } catch (e) {
             Sk.uncaughtException(e);
           }
         }
@@ -1427,47 +1503,41 @@ const $builtinmodule = function (name) {
             sketch[callBacks[cb]] = null;
           }
         }
-      }
-    }
+      };
+    };
 
     const p5Sketch = document.getElementById(Sk.py5.sketch);
 
     window.p5._friendlyError = function (message, func, color) {
-      throw new Sk.builtin.Exception(message)
+      throw new Sk.builtin.Exception(message);
     };
-    window.p5._clearValidateParamsCache()
+    window.p5._clearValidateParamsCache();
 
     mod.p = new window.p5(sketchProc, p5Sketch);
   };
 
   _run.$defaults = [new Sk.builtin.int_(60)];
 
-  mod.run_sketch = new Sk.builtin.func(_run)
+  mod.run_sketch = new Sk.builtin.func(_run);
 
   mouseClass = function ($gbl, $loc) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
       if (key === "x") {
         return Sk.builtin.assk$(mod.pInst.mouseX);
-      }
-      else if (key === "y") {
+      } else if (key === "y") {
         return Sk.builtin.assk$(mod.pInst.mouseY);
-      }
-      else if (key === "px") {
+      } else if (key === "px") {
         return Sk.builtin.assk$(mod.pInst.pmouseX);
-      }
-      else if (key === "py") {
+      } else if (key === "py") {
         return Sk.builtin.assk$(mod.pInst.pmouseY);
-      }
-      else if (key === "pressed") {
+      } else if (key === "pressed") {
         return new Sk.builtin.bool(mod.pInst.mouseIsPressed);
-      }
-      else if (key === "button") {
+      } else if (key === "button") {
         return Sk.builtin.assk$(mod.pInst.mouseButton);
       }
     });
   };
-
 
   mod.Mouse = Sk.misceval.buildClass(mod, mouseClass, "Mouse", []);
 
@@ -1478,11 +1548,9 @@ const $builtinmodule = function (name) {
       key = Sk.ffi.remapToJs(key);
       if (key === "key") {
         return new Sk.builtin.str(mod.pInst.key.toString());
-      }
-      else if (key === "keyCode") {
+      } else if (key === "keyCode") {
         return Sk.builtin.assk$(mod.pInst.keyCode);
-      }
-      else if (key === "keyPressed") {
+      } else if (key === "keyPressed") {
         return new Sk.builtin.str(mod.pInst.keyPressed);
       } // todo bool
     });
@@ -1492,29 +1560,29 @@ const $builtinmodule = function (name) {
 
   mod.keyboard = Sk.misceval.callsimArray(mod.Keyboard);
 
-
   environmentClass = function ($gbl, $loc) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
       if (key === "frame_count") {
         return Sk.builtin.assk$(mod.pInst.frameCount);
-      }
-      else if (key === "frame_rate") {
+      } else if (key === "frame_rate") {
         return Sk.builtin.assk$(mod.pInst.frameRate);
-      }
-      else if (key === "height") {
+      } else if (key === "height") {
         return Sk.builtin.assk$(mod.pInst.height);
-      }
-      else if (key === "width") {
+      } else if (key === "width") {
         return Sk.builtin.assk$(mod.pInst.width);
-      }
-      else if (key === "online") {
+      } else if (key === "online") {
         return new Sk.builtin.bool(mod.pInst.online);
       }
     });
   };
 
-  mod.Environment = Sk.misceval.buildClass(mod, environmentClass, "Environment", []);
+  mod.Environment = Sk.misceval.buildClass(
+    mod,
+    environmentClass,
+    "Environment",
+    [],
+  );
 
   mod.environment = Sk.misceval.callsimArray(mod.Environment);
 
@@ -1524,7 +1592,7 @@ const $builtinmodule = function (name) {
     });
 
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
-	    key = Sk.ffi.remapToJs(key);
+      key = Sk.ffi.remapToJs(key);
       if (key === "height") {
         return Sk.builtin.assk$(mod.pInst.height);
       } else if (key === "width") {
@@ -1566,11 +1634,14 @@ const $builtinmodule = function (name) {
   mod.load_image = new Sk.builtin.func(function (path) {
     const asset = Sk.py5.assets.find((el) => el.filename === path.v);
     if (asset) {
-      path.v = asset.url
+      path.v = asset.url;
     }
 
     const i = mod.pInst.loadImage(path.v);
-    const image = Sk.misceval.callsimArray(mod.PImage, [new Sk.builtin.int_(1), new Sk.builtin.int_(1)]);
+    const image = Sk.misceval.callsimArray(mod.PImage, [
+      new Sk.builtin.int_(1),
+      new Sk.builtin.int_(1),
+    ]);
     image.v = i;
     return image;
   });
@@ -1586,12 +1657,12 @@ const $builtinmodule = function (name) {
   // Vector class and functions
   vectorClass = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function (self, x, y, z) {
-	    // PVector()
-	    // PVector(x,y)
-	    // PVector(x,y,z)
-      if (typeof(x) === "undefined") {
+      // PVector()
+      // PVector(x,y)
+      // PVector(x,y,z)
+      if (typeof x === "undefined") {
         self.v = new mod.pInst.createVector();
-      } else if (typeof(z) === "undefined") {
+      } else if (typeof z === "undefined") {
         self.v = new mod.pInst.createVector(x.v, y.v);
       } else {
         self.v = new mod.pInst.createVector(x.v, y.v, z.v);
@@ -1599,7 +1670,7 @@ const $builtinmodule = function (name) {
     });
 
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
-	    key = Sk.ffi.remapToJs(key);
+      key = Sk.ffi.remapToJs(key);
       if (key === "x") {
         return Sk.builtin.assk$(self.v.x);
       } else if (key === "y") {
@@ -1610,14 +1681,14 @@ const $builtinmodule = function (name) {
     });
 
     $loc.get = new Sk.builtin.func(function (self) {
-	    // get() Gets a copy of the vector
+      // get() Gets a copy of the vector
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.get();
-	    return new_vec;
+      new_vec.v = self.v.get();
+      return new_vec;
     });
 
     $loc.__setattr__ = new Sk.builtin.func(function (self, key, value) {
-	    key = Sk.ffi.remapToJs(key);
+      key = Sk.ffi.remapToJs(key);
       if (key === "x") {
         self.v.x = value.v;
       } else if (key === "y") {
@@ -1628,98 +1699,95 @@ const $builtinmodule = function (name) {
     });
 
     $loc.set = new Sk.builtin.func(function (self, x, y, z) {
-	    // set() Sets the x, y, z component of the vector
-      if (typeof(z) === "undefined") {
+      // set() Sets the x, y, z component of the vector
+      if (typeof z === "undefined") {
         self.v.set(x.v, y.v);
-	    } else {
+      } else {
         self.v.set(x.v, y.v, z.v);
-	    }
+      }
     });
 
     $loc.mag = new Sk.builtin.func(function (self) {
-	    // mag() Calculates the magnitude (length) of the vector
-	    // and returns the result as a float
-	    return Sk.builtin.assk$(self.v.mag());
+      // mag() Calculates the magnitude (length) of the vector
+      // and returns the result as a float
+      return Sk.builtin.assk$(self.v.mag());
     });
 
     $loc.add = new Sk.builtin.func(function (self, vec) {
-	    // add()	Adds one vector to another
+      // add()	Adds one vector to another
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.add(vec.v);
-	    return new_vec;
+      new_vec.v = self.v.add(vec.v);
+      return new_vec;
     });
 
     $loc.sub = new Sk.builtin.func(function (self, vec) {
-	    // sub()	Subtracts one vector from another
+      // sub()	Subtracts one vector from another
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.sub(vec.v);
-	    return new_vec;
+      new_vec.v = self.v.sub(vec.v);
+      return new_vec;
     });
 
     $loc.mult = new Sk.builtin.func(function (self, vec) {
-	    // mult()	Multiplies the vector by a scalar
+      // mult()	Multiplies the vector by a scalar
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.mult(vec.v);
-	    return new_vec;
+      new_vec.v = self.v.mult(vec.v);
+      return new_vec;
     });
 
     $loc.div = new Sk.builtin.func(function (self, vec) {
-	    // div()	Divides the vector by a scalar
+      // div()	Divides the vector by a scalar
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.div(vec.v);
-	    return new_vec;
+      new_vec.v = self.v.div(vec.v);
+      return new_vec;
     });
 
     $loc.dist = new Sk.builtin.func(function (self, vec) {
-	    // dist()	Calculate the Euclidean distance between two points
-	    return Sk.builtin.assk$(self.v.dist(vec.v));
+      // dist()	Calculate the Euclidean distance between two points
+      return Sk.builtin.assk$(self.v.dist(vec.v));
     });
 
     $loc.dot = new Sk.builtin.func(function (self, v1, v2, v3) {
-	    // dot()	Calculates the dot product
-	    // returns float
-	    // vec.dot(x,y,z)
-	    // vec.dot(v)
-	    if (typeof(v2) === 'undefined') {
+      // dot()	Calculates the dot product
+      // returns float
+      // vec.dot(x,y,z)
+      // vec.dot(v)
+      if (typeof v2 === "undefined") {
         return Sk.builtin.assk$(self.v.dot(v1.v));
-	    } else {
+      } else {
         return Sk.builtin.assk$(self.v.dot(v1.v, v2.v, v3.v));
-	    }
+      }
     });
 
     $loc.cross = new Sk.builtin.func(function (self, vec) {
-	    // cross()	Calculates the cross product
+      // cross()	Calculates the cross product
       const new_vec = Sk.misceval.callsimArray(mod.PVector);
-	    new_vec.v = self.v.cross(vec.v);
-	    return new_vec;
+      new_vec.v = self.v.cross(vec.v);
+      return new_vec;
     });
 
     $loc.normalize = new Sk.builtin.func(function (self) {
-	    // normalize()	Normalizes the vector
-	    self.v.normalize();
+      // normalize()	Normalizes the vector
+      self.v.normalize();
     });
 
     $loc.limit = new Sk.builtin.func(function (self, value) {
-	    // limit()	Limits the magnitude of the vector
-	    self.v.limit(value.v);
+      // limit()	Limits the magnitude of the vector
+      self.v.limit(value.v);
     });
 
     $loc.angle_between = new Sk.builtin.func(function (self, vec) {
-	    // angleBetween()	Calculates the angle between two vectors
-	    return Sk.builtin.assk$(self.v.angleBetween(vec.v));
+      // angleBetween()	Calculates the angle between two vectors
+      return Sk.builtin.assk$(self.v.angleBetween(vec.v));
     });
 
     $loc.array = new Sk.builtin.func(function (self) {
-	    // array()
-	    return new Sk.builtin.list(self.v.array());
+      // array()
+      return new Sk.builtin.list(self.v.array());
     });
   };
 
-
-
   mod.PImage = Sk.misceval.buildClass(mod, imageClass, "PImage", []);
   mod.PVector = Sk.misceval.buildClass(mod, vectorClass, "PVector", []);
-
 
   return mod;
 };
