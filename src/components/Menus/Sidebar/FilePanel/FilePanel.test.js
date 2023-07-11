@@ -3,18 +3,18 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
-import FilesList from "./FilesList";
+import FilePanel from "./FilePanel";
+import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
 
-const openFileTab = jest.fn();
-
-const createMockStore = function (components) {
+const createMockStore = function (components, openFiles) {
   const mockStore = configureStore([]);
   return mockStore({
     editor: {
       project: {
-        components: components,
+        components,
       },
       isEmbedded: false,
+      openFiles,
     },
     auth: {
       user: null,
@@ -22,30 +22,35 @@ const createMockStore = function (components) {
   });
 };
 
+let store;
+
 describe("When project has multiple files", () => {
   beforeEach(() => {
-    const store = createMockStore([
-      {
-        name: "a",
-        extension: "py",
-      },
-      {
-        name: "b",
-        extension: "html",
-      },
-      {
-        name: "c",
-        extension: "css",
-      },
-      {
-        name: "d",
-        extension: "csv",
-      },
-    ]);
+    store = createMockStore(
+      [
+        {
+          name: "a",
+          extension: "py",
+        },
+        {
+          name: "b",
+          extension: "html",
+        },
+        {
+          name: "c",
+          extension: "css",
+        },
+        {
+          name: "d",
+          extension: "csv",
+        },
+      ],
+      [[]],
+    );
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
@@ -59,12 +64,15 @@ describe("When project has multiple files", () => {
   });
 
   test("Renders a menu button for each file", () => {
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(4);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(4);
   });
 
   test("Clicking file name opens file tab", () => {
     fireEvent.click(screen.queryByText("a.py").parentElement);
-    expect(openFileTab).toHaveBeenCalledWith("a.py");
+    expect(store.getActions()).toEqual([
+      openFile("a.py"),
+      setFocussedFileIndex({ fileIndex: 0, panelIndex: 0 }),
+    ]);
   });
 
   test("it renders with the expected icons", () => {
@@ -81,12 +89,12 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("pythonIcon")).toBeTruthy();
   });
 
@@ -95,12 +103,12 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("htmlIcon")).toBeTruthy();
   });
 
@@ -109,12 +117,12 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("cssIcon")).toBeTruthy();
   });
 
@@ -123,12 +131,12 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("csvIcon")).toBeTruthy();
   });
 
@@ -137,12 +145,12 @@ describe("it renders the expected icon for individual files", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <FilesList openFileTab={openFileTab} />
+          <FilePanel />
         </div>
       </Provider>,
     );
 
-    expect(screen.getAllByTitle("filePane.fileMenu.label").length).toBe(1);
+    expect(screen.getAllByTitle("filePanel.fileMenu.label").length).toBe(1);
     expect(screen.getByTestId("defaultFileIcon")).toBeTruthy();
   });
 });

@@ -19,12 +19,12 @@ const FileMenu = (props) => {
       <ContextMenu
         align="start"
         direction="right"
-        menuButtonLabel={t("filePane.fileMenu.label")}
+        menuButtonLabel={t("filePanel.fileMenu.label")}
         MenuButtonIcon={EllipsisVerticalIcon}
         menuOptions={[
           {
             icon: PencilIcon,
-            text: t("filePane.fileMenu.renameItem"),
+            text: t("filePanel.fileMenu.renameItem"),
             action: onClickRenameFile,
           },
         ]}

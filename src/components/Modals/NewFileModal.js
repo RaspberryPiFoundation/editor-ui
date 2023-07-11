@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Button from "../Button/Button";
 import {
@@ -25,8 +25,9 @@ const NewFileModal = () => {
   const isModalOpen = useSelector((state) => state.editor.newFileModalShowing);
   const closeModal = () => dispatch(closeNewFileModal());
 
+  const [fileName, setFileName] = useState("");
+
   const createComponent = () => {
-    const fileName = document.getElementById("name").value;
     const name = fileName.split(".")[0];
     const extension = fileName.split(".").slice(1).join(".");
     validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
@@ -41,21 +42,32 @@ const NewFileModal = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t("filePane.newFileModal.heading")}
-      inputLabel={t("filePane.newFileModal.inputLabel")}
-      inputHelpText={t("filePane.newFileModal.helpText", {
-        examples: t(`filePane.newFileModal.helpTextExample.${projectType}`),
-      })}
+      heading={t("filePanel.newFileModal.heading")}
+      inputs={[
+        {
+          label: t("filePanel.newFileModal.inputLabel"),
+          helpText: t("filePanel.newFileModal.helpText", {
+            examples: t(
+              `filePanel.newFileModal.helpTextExample.${projectType}`,
+            ),
+          }),
+          value: fileName,
+          setValue: setFileName,
+          validateName: true,
+        },
+      ]}
       defaultCallback={createComponent}
       buttons={[
         <Button
+          key="create"
           className="btn--primary"
-          buttonText={t("filePane.newFileModal.addFile")}
+          buttonText={t("filePanel.newFileModal.addFile")}
           onClickHandler={createComponent}
         />,
         <Button
+          key="close"
           className="btn--secondary"
-          buttonText={t("filePane.newFileModal.cancel")}
+          buttonText={t("filePanel.newFileModal.cancel")}
           onClickHandler={closeModal}
         />,
       ]}
