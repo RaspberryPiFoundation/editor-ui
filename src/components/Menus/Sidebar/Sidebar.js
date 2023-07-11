@@ -31,6 +31,7 @@ const Sidebar = () => {
   if (!projectImages || projectImages.length === 0) {
     menuOptions.splice(
       menuOptions.findIndex((option) => option.name === "images"),
+      1,
     );
   }
   const [option, setOption] = useState();
