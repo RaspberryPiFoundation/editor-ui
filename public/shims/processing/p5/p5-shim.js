@@ -225,6 +225,16 @@ const $builtinmodule = function (name) {
             Sk.misceval.callsimArray(mod.blue, [other]).v,
       );
     });
+    $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
+      key = Sk.ffi.remapToJs(key);
+      if (key === "green") {
+        return Sk.builtin.assk$(mod.pInst.green(self.v));
+      } else if (key === "hex") {
+        return Sk.builtin.assk$(self.v.toString("#rrggbb"));
+        // } else if (key === "z") {
+        //   return Sk.builtin.assk$(self.v.z);
+      }
+    });
   };
 
   mod.Color = Sk.misceval.buildClass(mod, colorClass, "Color", []);
@@ -240,15 +250,17 @@ const $builtinmodule = function (name) {
     return new Sk.misceval.callsimArray(mod.Color, colorArgsArray);
   });
 
-  mod.green = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.float_(mod.pInst.green(...argVals));
-  });
+  // mod.green = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   return new Sk.builtin.float_(mod.pInst.green(...argVals));
+  // });
 
-  mod.hex = new Sk.builtin.func(function () {
-    const argVals = processArgs(arguments);
-    return new Sk.builtin.str(mod.pInst.color(...argVals).toString("#rrggbb"));
-  });
+  // mod.hex = new Sk.builtin.func(function () {
+  //   const argVals = processArgs(arguments);
+  //   const hexValue = mod.pInst.color(...argVals).toString("#rrggbb");
+  //   // return new Sk.builtin.str(hexValue.replace(/#/, "").toUpperCase());
+  //   return new Sk.builtin.str(hexValue);
+  // });
 
   mod.hue = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
