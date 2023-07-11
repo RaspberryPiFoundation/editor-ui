@@ -192,20 +192,6 @@ const $builtinmodule = function (name) {
   // =====
 
   // Creating & Reading
-  // mod.alpha = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.alpha(...argVals));
-  // });
-
-  // mod.blue = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.blue(...argVals));
-  // });
-
-  // mod.brightness = new Sk.builtin.func(function (r, g, b) {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.brightness(...argVals));
-  // });
 
   colorClass = function ($gbl, $loc) {
     $loc.__init__ = new Sk.builtin.func(function (self) {
@@ -263,23 +249,6 @@ const $builtinmodule = function (name) {
     return new Sk.misceval.callsimArray(mod.Color, colorArgsArray);
   });
 
-  // mod.green = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.green(...argVals));
-  // });
-
-  // mod.hex = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   const hexValue = mod.pInst.color(...argVals).toString("#rrggbb");
-  //   // return new Sk.builtin.str(hexValue.replace(/#/, "").toUpperCase());
-  //   return new Sk.builtin.str(hexValue);
-  // });
-
-  // mod.hue = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.hue(...argVals));
-  // });
-
   mod.lerp_color = new Sk.builtin.func(function (c1, c2, amt) {
     const c = Sk.misceval.callsimArray(mod.color, [
       new Sk.builtin.int_(0),
@@ -289,21 +258,6 @@ const $builtinmodule = function (name) {
     c.v = mod.pInst.lerpColor(c1.v, c2.v, amt.v);
     return c;
   });
-
-  // mod.lightness = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.lightness(...argVals));
-  // });
-
-  // mod.red = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.red(...argVals));
-  // });
-
-  // mod.saturation = new Sk.builtin.func(function () {
-  //   const argVals = processArgs(arguments);
-  //   return new Sk.builtin.float_(mod.pInst.saturation(...argVals));
-  // });
 
   // Setting
   mod.background = new Sk.builtin.func(function () {
