@@ -43,6 +43,7 @@ const ProjectBar = () => {
     loading === "success" && (
       <div className="project-bar-wrapper">
         <div className="project-bar">
+          {/* TODO: Look into alternative approach so we don't need hidden h1 */}
           <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
             {project.name || t("header.newProject")}
           </h1>
