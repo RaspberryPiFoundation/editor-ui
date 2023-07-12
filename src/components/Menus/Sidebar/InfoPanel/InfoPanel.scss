@@ -1,0 +1,27 @@
+@use "../../../../spacing" as *;
+@use "../../../../font-size" as *;
+@import "../../../../colours.scss";
+
+.info-panel {
+  color: $rpf-text-primary;
+  border-radius: 0.5rem;
+  background-color: $rpf-grey-50;
+  padding: $space-1;
+  margin-bottom: $space-0-5;
+
+  p {
+    margin: 0;
+  }
+}
+
+.info-panel__links {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    @include font-size-1(regular);
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+    color: $rpf-text-primary;
+  }
+}
