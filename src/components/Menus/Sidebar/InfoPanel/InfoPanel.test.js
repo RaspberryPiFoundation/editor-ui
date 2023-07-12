@@ -37,7 +37,7 @@ describe("Info panel", () => {
     ({ queryByText } = render(
       <Provider store={store}>
         <InfoPanel />
-      </Provider>
+      </Provider>,
     ));
   });
 
