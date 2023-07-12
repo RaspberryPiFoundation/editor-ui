@@ -11,27 +11,27 @@ const InfoPanel = () => {
     {
       id: "feedback",
       text: t("sidebar.feedback"),
-      href: "/feedback",
+      href: "https://form.raspberrypi.org/f/code-editor-feedback",
     },
     {
       id: "privacy",
       text: t("sidebar.privacy"),
-      href: "/privacy",
+      href: "https://www.raspberrypi.org/privacy/child-friendly/",
     },
     {
       id: "cookies",
       text: t("sidebar.cookies"),
-      href: "/cookies",
+      href: "https://www.raspberrypi.org/cookies/",
     },
     {
       id: "accessibility",
       text: t("sidebar.accessibility"),
-      href: "/accessibility",
+      href: "https://www.raspberrypi.org/accessibility/",
     },
     {
       id: "safeguarding",
       text: t("sidebar.safeguarding"),
-      href: "/safeguarding",
+      href: "https://www.raspberrypi.org/safeguarding/",
     },
   ];
 
