@@ -37,7 +37,7 @@ describe("Info panel", () => {
     ({ queryByText } = render(
       <Provider store={store}>
         <InfoPanel />
-      </Provider>,
+      </Provider>
     ));
   });
 
@@ -45,7 +45,6 @@ describe("Info panel", () => {
     expect(queryByText("Feedback")).not.toBeNull();
     expect(queryByText("Privacy")).not.toBeNull();
   });
-
 
   test("Links have the expected source", () => {
     expect(queryByText("feedback")).toHaveAttribute("href", "feedback_url");
