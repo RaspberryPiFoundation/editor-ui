@@ -23,12 +23,8 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
-<<<<<<< HEAD
-import SideMenu from "../../Menus/SideMenu/SideMenu";
 import ProjectBar from "../../ProjectBar/ProjectBar";
-=======
 import Sidebar from "../../Menus/Sidebar/Sidebar";
->>>>>>> html-css-v2
 import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
