@@ -242,7 +242,7 @@ const $builtinmodule = function (name) {
     return new Sk.builtin.float_(mod.pInst.green(...argVals));
   });
 
-  mod.hex = new Sk.builtin.func(function () {
+  mod.hex_color = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
     const hexValue = mod.pInst.color(...argVals).toString("#rrggbb");
     return new Sk.builtin.str(hexValue.toUpperCase());
