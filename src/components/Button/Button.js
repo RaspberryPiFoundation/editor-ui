@@ -12,6 +12,7 @@ const Button = (props) => {
     buttonImage,
     buttonImageAltText,
     buttonText,
+    buttonTextClassName,
     buttonOuter,
     buttonOuterClassName,
     disabled,
@@ -64,7 +65,9 @@ const Button = (props) => {
     >
       {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
       {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
-      {buttonText ? <span>{buttonText}</span> : null}
+      {buttonText ? (
+        <span className={buttonTextClassName}>{buttonText}</span>
+      ) : null}
       {buttonHref ? <a href={buttonHref}>{text}</a> : null}
       {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
     </button>

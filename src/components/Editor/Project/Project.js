@@ -12,9 +12,7 @@ import RenameFile from "../../Modals/RenameFile";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
-  setFocussedFileIndex,
   syncProject,
-  openFile,
 } from "../EditorSlice";
 import { isOwner } from "../../../utils/projectHelpers";
 import NotFoundModal from "../../Modals/NotFoundModal";
@@ -25,8 +23,12 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
+<<<<<<< HEAD
 import SideMenu from "../../Menus/SideMenu/SideMenu";
 import ProjectBar from "../../ProjectBar/ProjectBar";
+=======
+import Sidebar from "../../Menus/Sidebar/Sidebar";
+>>>>>>> html-css-v2
 import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
@@ -57,7 +59,6 @@ const Project = (props) => {
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
-  const openFiles = useSelector((state) => state.editor.openFiles);
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -66,23 +67,6 @@ const Project = (props) => {
       showSavedMessage();
     }
   }, [saving, autosave]);
-
-  const switchToFileTab = (panelIndex, fileIndex) => {
-    dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
-  };
-
-  const openFileTab = (fileName) => {
-    if (openFiles.flat().includes(fileName)) {
-      const panelIndex = openFiles
-        .map((fileNames) => fileNames.includes(fileName))
-        .indexOf(true);
-      const fileIndex = openFiles[panelIndex].indexOf(fileName);
-      switchToFileTab(panelIndex, fileIndex);
-    } else {
-      dispatch(openFile(fileName));
-      switchToFileTab(0, openFiles[0].length);
-    }
-  };
 
   useEffect(() => {
     if (forWebComponent) {
@@ -159,7 +143,7 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {!forWebComponent ? <SideMenu openFileTab={openFileTab} /> : null}
+        {!forWebComponent ? <Sidebar /> : null}
         <div className="project-bar-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">

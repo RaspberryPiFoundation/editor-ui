@@ -42,13 +42,13 @@ describe("Testing the new file modal", () => {
         </div>
       </Provider>,
     );
-    saveButton = screen.getByText("filePane.newFileModal.addFile");
+    saveButton = screen.getByText("filePanel.newFileModal.addFile");
     inputBox = screen.getByRole("textbox");
   });
 
   test("Modal renders", () => {
     expect(
-      screen.queryByText("filePane.newFileModal.heading"),
+      screen.queryByText("filePanel.newFileModal.heading"),
     ).toBeInTheDocument();
   });
 
@@ -77,7 +77,7 @@ describe("Testing the new file modal", () => {
   test("Duplicate file names throws error", () => {
     fireEvent.change(inputBox, { target: { value: "main.py" } });
     fireEvent.click(saveButton);
-    const expectedActions = [setNameError("filePane.errors.notUnique")];
+    const expectedActions = [setNameError("filePanel.errors.notUnique")];
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -85,7 +85,7 @@ describe("Testing the new file modal", () => {
     fireEvent.change(inputBox, { target: { value: "file1.js" } });
     fireEvent.click(saveButton);
     const expectedActions = [
-      setNameError("filePane.errors.unsupportedExtension"),
+      setNameError("filePanel.errors.unsupportedExtension"),
     ];
     expect(store.getActions()).toEqual(expectedActions);
   });

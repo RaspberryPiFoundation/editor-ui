@@ -140,7 +140,7 @@ i18n
           editorPanel: {
             ariaLabel: "editor text input",
           },
-          filePane: {
+          filePanel: {
             errors: {
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
@@ -230,6 +230,9 @@ i18n
                 light: "Light",
               },
             },
+          },
+          imagePanel: {
+            gallery: "Image Gallery",
           },
           input: {
             comment: {
@@ -384,10 +387,11 @@ i18n
           runners: {
             HtmlOutput: "HTML Output Preview",
           },
-          sideMenu: {
+          sidebar: {
             collapse: "Collapse file pane",
             expand: "Expand file pane",
             file: "Project files",
+            images: "Image gallery",
           },
         },
       },

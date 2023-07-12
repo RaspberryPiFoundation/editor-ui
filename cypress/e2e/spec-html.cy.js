@@ -15,21 +15,22 @@ const getIframeBody = () => {
 };
 
 const makeNewFile = (filename = "new.html") => {
-  cy.get("div[class=file-pane]").contains("Add file").click();
+  cy.get("button[title='Project files']").click();
+  cy.get(".proj-new-component-button").click();
   cy.get("div[class=modal-content__input]").find("input").type(filename);
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
 };
 
 it("renders the html runner", () => {
   cy.visit(baseUrl);
-  cy.get('.btn--run').click()
+  cy.get(".btn--run").click();
   cy.get(".htmlrunner-container").should("be.visible");
 });
 
 it("can make a new file", () => {
   cy.visit(baseUrl);
   makeNewFile("amazing.html");
-  cy.get(".files-list").should("include.text", "amazing.html");
+  cy.get(".files-list-item").should("include.text", "amazing.html");
 });
 
 it("updates the preview after a change when you click run", () => {
@@ -47,7 +48,7 @@ it("blocks external links", () => {
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke(
     "text",
-    '<a href="https://raspberrypi.org/en/">some external link</a>'
+    '<a href="https://raspberrypi.org/en/">some external link</a>',
   );
   cy.get(".btn--run").click();
   getIframeBody().find("a").click();
@@ -64,7 +65,7 @@ it("allows internal links", () => {
   makeNewFile();
   cy.get("div[class=cm-content]").invoke(
     "text",
-    '<a href="index.html">some internal link</a>'
+    '<a href="index.html">some internal link</a>',
   );
   cy.get(".btn--run").click();
 

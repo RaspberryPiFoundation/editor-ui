@@ -31,8 +31,8 @@
 .proj-container {
   flex: 1;
   display: flex;
-  grid-gap: $space-0-5;
-  margin: $space-1-5;
+  grid-gap: $space-1;
+  margin: $space-1;
   height: 100%;
   overflow: hidden;
 
@@ -47,14 +47,14 @@
   .proj-editor-wrapper {
     display: flex;
     flex-flow: column;
-    grid-gap: $space-0-5;
+    grid-gap: $space-1;
     overflow: hidden;
     height: 100%;
     width: 100%;
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 928px) { // width is 880px for the container + the rest of the page
+  @media (min-width: 912px) { // width is 880px for the container + the rest of the page
     .proj-editor-wrapper {
       flex-flow: row;
     }
@@ -70,8 +70,8 @@
     }
   }
 
-  .menu, .proj-editor-container, .proj-runner-container {
-    border-radius: 10px;
+  .sidebar, .proj-editor-container, .proj-runner-container {
+    border-radius: 8px;
   }
 
   .proj-editor-container {
@@ -106,15 +106,15 @@
 }
 
 .--light {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;
     border: 1px solid $rpf-grey-150;
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-grey-800;
-    border: 1px solid $rpf-grey-900;
+    border: 1px solid $rpf-grey-600;
   }
 }

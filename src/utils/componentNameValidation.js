@@ -11,7 +11,7 @@ const allowedExtensionsString = (projectType, t) => {
     return `'.${extensionsList[0]}'`;
   } else {
     return `'.${extensionsList.slice(0, -1).join(`', '.`)}' ${t(
-      "filePane.errors.or",
+      "filePanel.errors.or",
     )} '.${extensionsList[extensionsList.length - 1]}'`;
   }
 };
@@ -45,18 +45,18 @@ export const validateFileName = (
   ) {
     callback();
   } else if (componentNames.includes(fileName)) {
-    dispatch(setNameError(t("filePane.errors.notUnique")));
+    dispatch(setNameError(t("filePanel.errors.notUnique")));
   } else if (fileName.split(" ").length > 1) {
-    dispatch(setNameError(t("filePane.errors.containsSpaces")));
+    dispatch(setNameError(t("filePanel.errors.containsSpaces")));
   } else if (!allowedExtensions[projectType].includes(extension)) {
     dispatch(
       setNameError(
-        t("filePane.errors.unsupportedExtension", {
+        t("filePanel.errors.unsupportedExtension", {
           allowedExtensions: allowedExtensionsString(projectType, t),
         }),
       ),
     );
   } else {
-    dispatch(setNameError(t("filePane.errors.generalError")));
+    dispatch(setNameError(t("filePanel.errors.generalError")));
   }
 };

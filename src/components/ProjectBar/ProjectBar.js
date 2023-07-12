@@ -6,7 +6,11 @@ import Button from "../Button/Button";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import ProjectName from "./ProjectName";
+<<<<<<< HEAD:src/components/ProjectBar/ProjectBar.js
 import DownloadButton from "../DownloadButton/DownloadButton";
+=======
+import DownloadButton from "./DownloadButton";
+>>>>>>> html-css-v2:src/components/Header/Header.js
 import { isOwner } from "../../utils/projectHelpers";
 
 const ProjectBar = () => {
