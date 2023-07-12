@@ -213,25 +213,48 @@ const $builtinmodule = function (name) {
     });
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
-      if (key === "alpha") {
-        return Sk.builtin.assk$(mod.pInst.alpha(self.v));
-      } else if (key === "brightness") {
-        return Sk.builtin.assk$(mod.pInst.brightness(self.v));
-      } else if (key === "blue") {
-        return Sk.builtin.assk$(mod.pInst.blue(self.v));
-      } else if (key === "green") {
-        return Sk.builtin.assk$(mod.pInst.green(self.v));
-      } else if (key === "hex") {
-        const hexValue = self.v.toString("#rrggbb");
-        return new Sk.builtin.str(hexValue.toUpperCase());
-      } else if (key === "hue") {
-        return Sk.builtin.assk$(mod.pInst.hue(self.v));
-      } else if (key === "lightness") {
-        return Sk.builtin.assk$(mod.pInst.lightness(self.v));
-      } else if (key === "red") {
-        return Sk.builtin.assk$(mod.pInst.red(self.v));
-      } else if (key === "saturation") {
-        return Sk.builtin.assk$(mod.pInst.saturation(self.v));
+      // if (key === "alpha") {
+      //   return Sk.builtin.assk$(mod.pInst.alpha(self.v));
+      // } else if (key === "brightness") {
+      //   return Sk.builtin.assk$(mod.pInst.brightness(self.v));
+      // } else if (key === "blue") {
+      //   return Sk.builtin.assk$(mod.pInst.blue(self.v));
+      // } else if (key === "green") {
+      //   return Sk.builtin.assk$(mod.pInst.green(self.v));
+      // } else if (key === "hex") {
+      //   const hexValue = self.v.toString("#rrggbb");
+      //   return new Sk.builtin.str(hexValue.toUpperCase());
+      // } else if (key === "hue") {
+      //   return Sk.builtin.assk$(mod.pInst.hue(self.v));
+      // } else if (key === "lightness") {
+      //   return Sk.builtin.assk$(mod.pInst.lightness(self.v));
+      // } else if (key === "red") {
+      //   return Sk.builtin.assk$(mod.pInst.red(self.v));
+      // } else if (key === "saturation") {
+      //   return Sk.builtin.assk$(mod.pInst.saturation(self.v));
+      // }
+      switch (key) {
+        case "alpha":
+          return Sk.builtin.assk$(mod.pInst.alpha(self.v));
+        case "brightness":
+          return Sk.builtin.assk$(mod.pInst.brightness(self.v));
+        case "blue":
+          return Sk.builtin.assk$(mod.pInst.blue(self.v));
+        case "green":
+          return Sk.builtin.assk$(mod.pInst.green(self.v));
+        case "hex":
+          const hexValue = self.v.toString("#rrggbb");
+          return new Sk.builtin.str(hexValue.toUpperCase());
+        case "hue":
+          return Sk.builtin.assk$(mod.pInst.hue(self.v));
+        case "lightness":
+          return Sk.builtin.assk$(mod.pInst.lightness(self.v));
+        case "red":
+          return Sk.builtin.assk$(mod.pInst.red(self.v));
+        case "saturation":
+          return Sk.builtin.assk$(mod.pInst.saturation(self.v));
+        default:
+          throw new Sk.builtin.Exception(`Color has no attribute '${key}'`);
       }
     });
   };

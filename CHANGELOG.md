@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `hex` function for `p5` (#574)
+- `hex` attribute for `p5` `Color` class (#574)
+- `hex_color` function for `py5`, including imported mode (#574)
 
 ### Fixed
 
