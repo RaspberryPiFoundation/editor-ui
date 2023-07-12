@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom";
 
 import InfoPanel from "./InfoPanel";
 
@@ -35,9 +36,12 @@ describe("Info panel", () => {
     };
     const store = mockStore(initialState);
     ({ queryByText } = render(
-      <Provider store={store}>
-        <InfoPanel />
-      </Provider>,
+      <MemoryRouter>
+        <Provider store={store}>
+          <InfoPanel />
+        </Provider>
+        ,
+      </MemoryRouter>
     ));
   });
 
