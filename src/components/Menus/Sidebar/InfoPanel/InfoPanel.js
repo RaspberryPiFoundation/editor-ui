@@ -7,6 +7,33 @@ import "./InfoPanel.scss";
 
 const InfoPanel = () => {
   const { t } = useTranslation();
+  const links = [
+    {
+      id: "feedback",
+      text: t("sidebar.feedback"),
+      href: "/feedback",
+    },
+    {
+      id: "privacy",
+      text: t("sidebar.privacy"),
+      href: "/privacy",
+    },
+    {
+      id: "cookies",
+      text: t("sidebar.cookies"),
+      href: "/cookies",
+    },
+    {
+      id: "accessibility",
+      text: t("sidebar.accessibility"),
+      href: "/accessibility",
+    },
+    {
+      id: "safeguarding",
+      text: t("sidebar.safeguarding"),
+      href: "/safeguarding",
+    },
+  ];
 
   return (
     <SidebarPanel heading={t("infoPanel.info")}>
@@ -14,22 +41,11 @@ const InfoPanel = () => {
         <p>{t("sidebar.information_text")}</p>
       </div>
       <div className="info-panel info-panel__links">
-        <Link className="info-panel__link" to="/">
-          {t("sidebar.feedback")}
-        </Link>
-        <Link className="info-panel__link" to="/">
-          {t("sidebar.privacy")}
-        </Link>
-        <Link className="info-panel__link" to="/">
-          {t("sidebar.cookies")}
-        </Link>
-        <Link className="info-panel__link" to="/">
-          {t("sidebar.accessibility")}
-        </Link>
-        <Link className="info-panel__link" to="/">
-          {t("sidebar.safeguarding")}
-        </Link>
-
+        {links.map((link, i) => (
+          <Link key={i} className="info-panel__link" to={link.href}>
+            {link.text}
+          </Link>
+        ))}
         <p>{t("sidebar.charity")}</p>
       </div>
     </SidebarPanel>
