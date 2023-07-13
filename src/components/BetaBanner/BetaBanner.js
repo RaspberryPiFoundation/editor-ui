@@ -3,7 +3,9 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { CloseIcon } from "../../Icons";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
+import { ExternalLinkIcon } from "../../Icons";
 import { showBetaModal } from "../Editor/EditorSlice";
 
 import "./BetaBanner.scss";
@@ -34,7 +36,7 @@ const BetaBanner = () => {
     <div className="editor-banner editor-banner--beta">
       <span className="editor-banner--beta__icon">Beta</span>
       <span className="editor-banner__message">
-        {t("betaBanner.message")}
+        <span>{t("betaBanner.message")}</span>
         <span
           className="btn btn--tertiary editor-banner__link"
           onClick={showModal}
@@ -44,7 +46,24 @@ const BetaBanner = () => {
         >
           {t("betaBanner.modalLink")}
         </span>
+        <span>.</span>
       </span>
+      <span>{t("betaBanner.feedbackText")}</span>
+      <Link
+        className="btn btn--tertiary editor-banner__link"
+        target="_blank"
+        to="https://form.raspberrypi.org/f/code-editor-feedback"
+      >
+        {
+          <>
+            <span className="editor-banner__link--feedback">
+              {t("betaBanner.feedback")}
+            </span>
+            <ExternalLinkIcon />
+          </>
+        }
+      </Link>
+      <span>{t("betaBanner.feedbackImprove")}</span>
       <Button
         className="btn--tertiary editor-banner__close-button"
         label={t("betaBanner.buttonLabel")}
