@@ -41,7 +41,6 @@ const ProjectBar = () => {
 
   return (
     loading === "success" && (
-      // <div className="project-wrapper">
       <div className="project-bar">
         {/* TODO: Look into alternative approach so we don't need hidden h1 */}
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
@@ -70,7 +69,6 @@ const ProjectBar = () => {
           ) : null}
         </div>
       </div>
-      // </div>
     )
   );
 };
