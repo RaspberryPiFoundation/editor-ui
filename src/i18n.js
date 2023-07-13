@@ -234,6 +234,10 @@ i18n
           imagePanel: {
             gallery: "Image Gallery",
           },
+          projectsPanel: {
+            projects: "Projects",
+            yourProjectsButton: "Go to your projects",
+          },
           input: {
             comment: {
               py5: "Py5: imported mode",
@@ -392,6 +396,7 @@ i18n
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",
+            projects: "Projects",
           },
         },
       },

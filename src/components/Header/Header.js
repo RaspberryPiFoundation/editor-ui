@@ -7,7 +7,7 @@ import { DownloadIcon, HomeIcon, SettingsIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import Dropdown from "../Menus/Dropdown/Dropdown";
 import SettingsMenu from "../Menus/SettingsMenu/SettingsMenu";
-import ProjectName from "./ProjectName";
+import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "./DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
 import { Link } from "react-router-dom";

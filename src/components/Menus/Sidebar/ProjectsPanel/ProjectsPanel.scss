@@ -1,0 +1,19 @@
+@use "../../../../colours.scss" as *;
+
+.projects-panel__your-projects-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+
+  a {
+    color: $rpf-black;
+    text-decoration: none;
+  }
+}
+
+.project-name {
+
+}
