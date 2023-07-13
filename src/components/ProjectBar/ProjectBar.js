@@ -41,36 +41,36 @@ const ProjectBar = () => {
 
   return (
     loading === "success" && (
-      <div className="project-bar-wrapper">
-        <div className="project-bar">
-          {/* TODO: Look into alternative approach so we don't need hidden h1 */}
-          <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
-            {project.name || t("header.newProject")}
-          </h1>
-          {loading === "success" ? <ProjectName /> : null}
-          <div className="project-bar__right">
-            {loading === "success" ? (
-              <DownloadButton
-                buttonText={t("header.download")}
-                className="btn--tertiary"
-                Icon={DownloadIcon}
-                buttonIconPosition="right"
-              />
-            ) : null}
-            {loading === "success" ? (
-              <Button
-                className="btn--primary btn--save"
-                onClickHandler={onClickSave}
-                buttonText={t("header.save")}
-                ButtonIcon={SaveIcon}
-              />
-            ) : null}
-            {lastSavedTime && user ? (
-              <Autosave saving={saving} lastSavedTime={lastSavedTime} />
-            ) : null}
-          </div>
+      // <div className="project-wrapper">
+      <div className="project-bar">
+        {/* TODO: Look into alternative approach so we don't need hidden h1 */}
+        <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+          {project.name || t("header.newProject")}
+        </h1>
+        {loading === "success" ? <ProjectName /> : null}
+        <div className="project-bar__right">
+          {loading === "success" ? (
+            <DownloadButton
+              buttonText={t("header.download")}
+              className="btn--tertiary"
+              Icon={DownloadIcon}
+              buttonIconPosition="right"
+            />
+          ) : null}
+          {loading === "success" ? (
+            <Button
+              className="btn--primary btn--save"
+              onClickHandler={onClickSave}
+              buttonText={t("header.save")}
+              ButtonIcon={SaveIcon}
+            />
+          ) : null}
+          {lastSavedTime && user ? (
+            <Autosave saving={saving} lastSavedTime={lastSavedTime} />
+          ) : null}
         </div>
       </div>
+      // </div>
     )
   );
 };

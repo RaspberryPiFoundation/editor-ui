@@ -140,7 +140,7 @@ const Project = (props) => {
         })}
       >
         {!forWebComponent ? <Sidebar /> : null}
-        <div className="project-bar-wrapper">
+        <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">
             <ResizableWithHandle
