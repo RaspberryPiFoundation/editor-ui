@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
@@ -7,8 +7,6 @@ import { MemoryRouter } from "react-router-dom";
 import InfoPanel from "./InfoPanel";
 
 describe("Info panel", () => {
-  let queryByText;
-
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -21,36 +19,29 @@ describe("Info panel", () => {
               extension: "py",
             },
           ],
-          link_list: [
-            {
-              text: "Feedback",
-              url: "/feedback",
-            },
-            {
-              text: "Privacy",
-              url: "/privacy",
-            },
-          ],
         },
       },
     };
     const store = mockStore(initialState);
-    ({ queryByText } = render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <InfoPanel />
-        </Provider>
-        ,
-      </MemoryRouter>
-    ));
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <InfoPanel t={() => {}} />
+        </MemoryRouter>
+      </Provider>,
+    );
   });
 
   test("Links are rendered", () => {
-    expect(queryByText("Feedback")).not.toBeNull();
-    expect(queryByText("Privacy")).not.toBeNull();
+    expect(screen.queryByText("sidebar.feedback")).toBeInTheDocument();
+    expect(screen.queryByText("sidebar.privacy")).toBeInTheDocument();
   });
 
   test("Links have the expected source", () => {
-    expect(queryByText("feedback")).toHaveAttribute("href", "feedback_url");
+    expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
+      "href",
+      "https://form.raspberrypi.org/f/code-editor-feedback",
+    );
   });
 });
