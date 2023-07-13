@@ -6,6 +6,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 const Button = (props) => {
   const {
+    buttonRef,
     className,
     onClickHandler,
     ButtonIcon,
@@ -59,6 +60,7 @@ const Button = (props) => {
       aria-label={label}
       title={title}
       href={buttonHref}
+      ref={buttonRef}
       text={text}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}

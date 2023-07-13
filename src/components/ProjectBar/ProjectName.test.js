@@ -2,6 +2,7 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import userEvent from "@testing-library/user-event";
 
 import ProjectName from "./ProjectName";
 import { updateProjectName } from "../Editor/EditorSlice";
@@ -63,15 +64,19 @@ describe("When edit button clicked", () => {
 describe("When input field loses focus", () => {
   beforeEach(() => {
     fireEvent.click(editButton);
-    inputField.blur();
+    userEvent.click(document.body);
   });
 
-  test("Updates project name", () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+  test("Does not update project name", () => {
+    expect(store.getActions()).toEqual([]);
   });
 
   test("Disables input field", async () => {
     await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
   });
 });
 

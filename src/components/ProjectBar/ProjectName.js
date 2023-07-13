@@ -12,6 +12,7 @@ const ProjectName = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const nameInput = useRef();
+  const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
 
   useEffect(() => {
@@ -20,11 +21,12 @@ const ProjectName = () => {
     }
   });
 
-  const updateName = (event) => {
-    event.stopPropagation();
+  const resetName = (event) => {
+    event.preventDefault();
     setEditable(false);
-    dispatch(updateProjectName(nameInput.current.value));
+    nameInput.current.value = project.name;
   };
+
   const onEditNameButtonClick = () => {
     setEditable(true);
   };
@@ -41,13 +43,34 @@ const ProjectName = () => {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      event.preventDefault();
-      nameInput.current.blur();
+      updateName(event);
     } else if (event.key === "Escape") {
-      event.preventDefault();
-      setEditable(false);
-      nameInput.current.value = project.name;
+      resetName(event);
     }
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        nameInput.current &&
+        !nameInput.current.contains(event.target) &&
+        tickButton.current &&
+        !tickButton.current.contains(event.target)
+      ) {
+        resetName(event);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [nameInput, tickButton, project, resetName]);
+
+  const updateName = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setEditable(false);
+    dispatch(updateProjectName(nameInput.current.value));
   };
 
   return (
@@ -56,7 +79,6 @@ const ProjectName = () => {
         className="project-name__input"
         ref={nameInput}
         type="text"
-        onBlur={updateName}
         onFocus={selectText}
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
@@ -65,6 +87,7 @@ const ProjectName = () => {
       />
       {isEditable ? (
         <Button
+          buttonRef={tickButton}
           className="btn--primary"
           label={t("header.renameSave")}
           title={t("header.renameSave")}
