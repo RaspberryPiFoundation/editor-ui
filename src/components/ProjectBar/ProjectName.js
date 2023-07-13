@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { PencilIcon, TickIcon } from "../../Icons";
@@ -15,18 +15,6 @@ const ProjectName = () => {
   const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
 
-  useEffect(() => {
-    if (isEditable) {
-      nameInput.current.focus();
-    }
-  });
-
-  const resetName = (event) => {
-    event.preventDefault();
-    setEditable(false);
-    nameInput.current.value = project.name;
-  };
-
   const onEditNameButtonClick = () => {
     setEditable(true);
   };
@@ -41,6 +29,22 @@ const ProjectName = () => {
     }
   };
 
+  const updateName = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setEditable(false);
+    dispatch(updateProjectName(nameInput.current.value));
+  };
+
+  const resetName = useCallback(
+    (event) => {
+      event.preventDefault();
+      setEditable(false);
+      nameInput.current.value = project.name;
+    },
+    [project.name],
+  );
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       updateName(event);
@@ -48,6 +52,12 @@ const ProjectName = () => {
       resetName(event);
     }
   };
+
+  useEffect(() => {
+    if (isEditable) {
+      nameInput.current.focus();
+    }
+  });
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -65,13 +75,6 @@ const ProjectName = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [nameInput, tickButton, project, resetName]);
-
-  const updateName = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setEditable(false);
-    dispatch(updateProjectName(nameInput.current.value));
-  };
 
   return (
     <div className="project-name">
