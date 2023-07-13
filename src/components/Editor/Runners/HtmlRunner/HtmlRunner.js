@@ -109,9 +109,9 @@ function HtmlRunner() {
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
-    const filename = iframe
-      .querySelectorAll("meta[filename]")[0]
-      .getAttribute("filename");
+    const filename = iframe.querySelectorAll("meta[filename]")[0]
+      ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
+      : null;
     if (runningFile !== filename) {
       setRunningFile(filename);
     }

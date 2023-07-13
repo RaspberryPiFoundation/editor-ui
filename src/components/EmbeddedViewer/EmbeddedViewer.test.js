@@ -4,7 +4,6 @@ import EmbeddedViewer from "./EmbeddedViewer";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import { useProject } from "../Editor/Hooks/useProject";
 
 jest.mock("react-router-dom", () => ({
@@ -20,11 +19,9 @@ jest.mock("../Editor/Hooks/useProject", () => ({
 
 let initialState;
 let store;
-let asFragment;
 
 beforeEach(() => {
   initialState = {
-    auth: {},
     editor: {
       project: {
         components: [
@@ -80,7 +77,7 @@ test("Loads project with correct params", () => {
   const mockStore = configureStore([]);
   store = mockStore(initialState);
 
-  const { asFragment } = render(
+  render(
     <Provider store={store}>
       <EmbeddedViewer />
     </Provider>,
