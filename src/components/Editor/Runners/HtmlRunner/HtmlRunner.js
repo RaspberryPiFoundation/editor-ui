@@ -19,9 +19,6 @@ function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
-  const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
-  );
 
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
