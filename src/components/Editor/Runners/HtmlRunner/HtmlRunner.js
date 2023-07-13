@@ -22,6 +22,7 @@ function HtmlRunner() {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
     (state) => state.editor.focussedFileIndices,
@@ -29,6 +30,9 @@ function HtmlRunner() {
   const openFiles = useSelector((state) => state.editor.openFiles)[
     firstPanelIndex
   ];
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered,
+  );
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
@@ -175,6 +179,7 @@ function HtmlRunner() {
       const projectFile = projectCode.filter(
         (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
       );
+
       // remove target blanks
       if (hrefNode.attrs?.target === "_blank") {
         hrefNode.removeAttribute("target");

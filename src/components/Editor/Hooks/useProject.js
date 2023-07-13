@@ -47,7 +47,7 @@ export const useProject = ({
         syncProject("load")({
           identifier: projectIdentifier,
           locale: i18n.language,
-          accessToken,
+          accessToken: accessToken,
         }),
       );
       return;

@@ -249,6 +249,21 @@ i18n
           modals: {
             close: "Close",
           },
+          newProjectModal: {
+            cancel: "Cancel",
+            createProject: "Create project",
+            heading: "Create a new project",
+            projectName: {
+              default: "Untitled",
+              helpText: "You can always rename your project later",
+              inputLabel: "Project name",
+            },
+            projectType: {
+              html: "HTML",
+              inputLabel: "What kind of project do you want to make?",
+              python: "Python",
+            },
+          },
           notifications: {
             close: "close",
             loginPrompt:
@@ -296,6 +311,9 @@ i18n
           },
           project: {
             accessDeniedNoAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You are not able to see this project",
               loginButtonText: "Log in to your account",
               newProject: "Create a new code project",
@@ -303,6 +321,9 @@ i18n
               text: "If this is your project, log in to see it. If this is not your project you can visit the Projects site for cool project ideas or to start coding in a new project.",
             },
             accessDeniedWithAuthModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "You can't access this project",
               newProject: "Create a new code project",
               projectsSiteLinkText: "Explore Projects site",
@@ -310,6 +331,9 @@ i18n
             },
             loading: "Loading",
             notFoundModal: {
+              embedded: {
+                text: "Visit the Projects site for cool project ideas",
+              },
               heading: "This project does not exist",
               newProject: "Start new code project",
               projectsSiteLinkText: "Explore Projects site",
