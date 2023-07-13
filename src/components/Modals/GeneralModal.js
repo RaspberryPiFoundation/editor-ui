@@ -20,6 +20,7 @@ const GeneralModal = ({
 
   const onKeyDown = (e) => {
     if (e.key === "Enter" && defaultCallback) {
+      e.preventDefault();
       defaultCallback();
     }
   };
