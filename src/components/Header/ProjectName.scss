@@ -1,6 +1,7 @@
-@use '../../spacing' as *;
-@use '../../font-size.scss' as *;
-@import '../../colours.scss';
+@use "../../spacing" as *;
+@use "../../mixins.scss" as *;
+@use "../../font-size.scss" as *;
+@import "../../colours.scss";
 
 .project-name {
   align-items: center;
@@ -8,6 +9,9 @@
   height: 100%;
   max-width: 50%;
   padding-inline-start: $space-0-5;
+  @include unique-max-width(600px) {
+    max-width: 100%;
+  }
 }
 
 .project-name__input,
