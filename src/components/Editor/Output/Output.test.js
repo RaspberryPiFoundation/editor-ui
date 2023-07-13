@@ -8,15 +8,6 @@ import { MemoryRouter } from "react-router-dom";
 
 let mockBrowserPreview = "false";
 
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"),
-//   useSearchParams: () => [
-//     {
-//       get: (key) => (key === "browserPreview" ? mockBrowserPreview : null),
-//     },
-//   ],
-// }));
-
 jest
   .spyOn(URLSearchParams.prototype, "get")
   .mockImplementation((key) =>
