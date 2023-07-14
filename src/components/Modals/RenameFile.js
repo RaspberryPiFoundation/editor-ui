@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
@@ -30,9 +30,11 @@ const RenameFile = () => {
   );
 
   const closeModal = () => dispatch(closeRenameFileModal());
+  const [fileName, setFileName] = useState(
+    `${currentName}.${currentExtension}`,
+  );
 
   const renameComponent = () => {
-    const fileName = document.getElementById("name").value;
     const name = fileName.split(".")[0];
     const extension = fileName.split(".").slice(1).join(".");
 
@@ -61,19 +63,27 @@ const RenameFile = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t("filePane.renameFileModal.heading")}
-      inputLabel={t("filePane.renameFileModal.inputLabel")}
-      inputDefaultValue={`${currentName}.${currentExtension}`}
+      heading={t("filePanel.renameFileModal.heading")}
+      inputs={[
+        {
+          label: t("filePanel.renameFileModal.inputLabel"),
+          value: fileName,
+          setValue: setFileName,
+          validateName: true,
+        },
+      ]}
       defaultCallback={renameComponent}
       buttons={[
         <Button
+          key="rename"
           className="btn--primary"
-          buttonText={t("filePane.renameFileModal.save")}
+          buttonText={t("filePanel.renameFileModal.save")}
           onClickHandler={renameComponent}
         />,
         <Button
+          key="close"
           className="btn--secondary"
-          buttonText={t("filePane.renameFileModal.cancel")}
+          buttonText={t("filePanel.renameFileModal.cancel")}
           onClickHandler={closeModal}
         />,
       ]}

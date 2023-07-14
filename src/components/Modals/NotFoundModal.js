@@ -8,7 +8,13 @@ import { closeNotFoundModal, syncProject } from "../Editor/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 import GeneralModal from "./GeneralModal";
 
-const NotFoundModal = () => {
+const NotFoundModal = (props) => {
+  const {
+    buttons = null,
+    text = null,
+    withCloseButton = true,
+    withClickToClose = true,
+  } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
@@ -32,23 +38,31 @@ const NotFoundModal = () => {
   return (
     <GeneralModal
       isOpen={isModalOpen}
-      closeModal={closeModal}
-      withCloseButton
+      closeModal={withClickToClose ? closeModal : null}
+      withCloseButton={withCloseButton}
       heading={t("project.notFoundModal.heading")}
-      text={[{ type: "paragraph", content: t("project.notFoundModal.text") }]}
-      buttons={[
-        <Button
-          className="btn--primary"
-          buttonText={t("project.notFoundModal.newProject")}
-          onClickHandler={createNewProject}
-        />,
-        <a
-          className="btn btn--secondary"
-          href="https://projects.raspberrypi.org"
-        >
-          {t("project.notFoundModal.projectsSiteLinkText")}
-        </a>,
-      ]}
+      text={
+        text || [
+          { type: "paragraph", content: t("project.notFoundModal.text") },
+        ]
+      }
+      buttons={
+        buttons || [
+          <Button
+            key="new"
+            className="btn--primary"
+            buttonText={t("project.notFoundModal.newProject")}
+            onClickHandler={createNewProject}
+          />,
+          <a
+            key="link"
+            className="btn btn--secondary"
+            href="https://projects.raspberrypi.org"
+          >
+            {t("project.notFoundModal.projectsSiteLinkText")}
+          </a>,
+        ]
+      }
       defaultCallback={createNewProject}
     />
   );

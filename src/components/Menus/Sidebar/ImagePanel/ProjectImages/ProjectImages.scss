@@ -1,0 +1,36 @@
+@use '../../../../../spacing' as *;
+@import "../../../../../colours.scss";
+
+.project-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, $space-7-5);
+  justify-content: center;
+  gap: $space-1;
+
+  &__block {
+    display: inline-block;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  &__image-wrapper {
+    height: $space-7-5;
+    width: $space-7-5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  p {
+    width: $space-7-5;
+    margin: 0;
+  }
+}
