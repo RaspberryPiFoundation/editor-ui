@@ -237,6 +237,9 @@ i18n
           infoPanel: {
             info: "Information",
           },
+          settingsPanel: {
+            info: "Settings",
+          },
           input: {
             comment: {
               py5: "Py5: imported mode",
@@ -395,6 +398,7 @@ i18n
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",
+            settings: "Settings",
             information: "Information",
             information_text:
               "Our code editor is designed to create a simple and safe learning environment for beginner programmers. As a result, we have implemented some limitations, such as the inability to include external links in your code.",

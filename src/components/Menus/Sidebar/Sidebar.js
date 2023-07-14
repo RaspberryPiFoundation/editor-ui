@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon, ImageIcon, InfoIcon } from "../../../Icons";
+import { FileIcon, ImageIcon, InfoIcon, SettingsIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
+import SettingsPanel from "./SettingsPanel/SettingsPanel";
 
 import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
@@ -26,6 +27,13 @@ const Sidebar = () => {
       title: t("sidebar.images"),
       position: "top",
       panel: ImagePanel,
+    },
+    {
+      name: "settings",
+      icon: SettingsIcon,
+      title: t("sidebar.settings"),
+      position: "bottom",
+      panel: SettingsPanel,
     },
     {
       name: "info",
