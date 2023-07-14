@@ -11,8 +11,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: $space-4-5;
-      width: $space-4-5;
+      height: $space-2;
+      width: $space-4;
       border-radius: 5px;
 
       &--light {
@@ -57,10 +57,5 @@
         }
       }
     }
-  }
-
-  p {
-    text-align: center;
-    margin-top: $space-0-5
   }
 }
