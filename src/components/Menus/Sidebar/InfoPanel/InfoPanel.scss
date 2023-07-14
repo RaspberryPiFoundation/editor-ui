@@ -25,3 +25,9 @@
     color: $rpf-text-primary;
   }
 }
+
+.info-panel__link {
+  &:last-of-type {
+    margin-bottom: $space-1;
+  }
+}
