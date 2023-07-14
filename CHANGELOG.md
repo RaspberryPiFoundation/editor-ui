@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.16.5] - 2023-07-14
+
+### Added
+- Sidebar settings
+
 ### Added
 
 - `hex` attribute for `p5` `Color` class (#574)
