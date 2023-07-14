@@ -2,15 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but the app has been ejected so build scripts etc. are all in the repo now.
 
-## Raspberry Pi Foundation Design System React
+## Raspberry Pi Foundation Design System
 
-This project uses components from the Design System React library, which requires a GitHub token to access.
+The Raspberry Pi Foundation Design System is a
 
-If you have not already done so as part of set up for the Design System React project, generate a token through your personal GitHub account.
-
-Navigate to Settings -> Developer Settings -> Personal Access Tokens -> Tokens (classic).
-
-Create an `npmrc` 
 ## Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables.
