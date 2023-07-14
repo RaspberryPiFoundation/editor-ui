@@ -17,7 +17,7 @@ const SettingsPanel = () => {
           <ThemeToggle />
         </div>
         <div className="settings-menu__font-size">
-          <h3>{t("sidebar.settingsMenu.textSize")}</h3>
+          <h2>{t("sidebar.settingsMenu.textSize")}</h2>
           <FontSizeSelector />
         </div>
       </div>
