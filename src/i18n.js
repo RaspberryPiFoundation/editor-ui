@@ -216,20 +216,6 @@ i18n
             renameSave: "Save project name",
             save: "Save",
             settings: "Settings",
-            settingsMenu: {
-              heading: "Settings",
-              textSize: "Text Size",
-              textSizeOptions: {
-                large: "Large",
-                medium: "Medium",
-                small: "Small",
-              },
-              theme: "Colour Mode",
-              themeOptions: {
-                dark: "Dark",
-                light: "Light",
-              },
-            },
           },
           imagePanel: {
             gallery: "Image Gallery",
@@ -408,6 +394,19 @@ i18n
             accessibility: "Accessibility",
             safeguarding: "Safeguarding",
             charity: "Raspberry Pi Foundation - UK registered charity 1129409",
+            settingsMenu: {
+              heading: "Settings",
+              textSize: "Input text size",
+              textSizeOptions: {
+                large: "Large",
+                medium: "Medium",
+                small: "Small",
+              },
+              themeOptions: {
+                dark: "Dark",
+                light: "Light",
+              },
+            },
           },
         },
       },

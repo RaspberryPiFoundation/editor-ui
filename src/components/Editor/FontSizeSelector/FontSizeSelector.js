@@ -33,7 +33,7 @@ const FontSizeSelector = () => {
         >
           <FontIcon size={15} />
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.small")}</p>
+        <p>{t("sidebar.settingsMenu.textSizeOptions.small")}</p>
       </div>
       <div
         className="font-btn font-btn--medium"
@@ -46,7 +46,7 @@ const FontSizeSelector = () => {
         >
           <FontIcon size={23} />
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.medium")}</p>
+        <p>{t("sidebar.settingsMenu.textSizeOptions.medium")}</p>
       </div>
       <div
         className="font-btn font-btn--large"
@@ -59,7 +59,7 @@ const FontSizeSelector = () => {
         >
           <FontIcon size={36} />
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.large")}</p>
+        <p>{t("sidebar.settingsMenu.textSizeOptions.large")}</p>
       </div>
     </div>
   );
