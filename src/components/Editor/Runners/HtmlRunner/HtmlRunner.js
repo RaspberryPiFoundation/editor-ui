@@ -55,7 +55,8 @@ function HtmlRunner() {
   if (
     isEmbedded &&
     searchParams.get("browserPreview") === "true" &&
-    searchParams.get("page")
+    searchParams.get("page") &&
+    previewable(searchParams.get("page"))
   ) {
     defaultPreviewFile = searchParams.get("page");
   } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
@@ -243,7 +244,7 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {isEmbedded ? null : (
+              {!isEmbedded && (
                 <Link
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"

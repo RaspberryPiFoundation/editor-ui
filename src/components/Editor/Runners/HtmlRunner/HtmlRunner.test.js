@@ -134,6 +134,53 @@ describe("When page first loaded in embedded viewer", () => {
   });
 });
 
+describe("When page first loaded from search params", () => {
+  let store;
+
+  beforeEach(async () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        focussedFileIndices: [0],
+        openFiles: [[]],
+        justLoaded: true,
+        errorModalShowing: false,
+        isEmbedded: true,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={["?browserPreview=true&page=a-new-test-page.html"]}
+        >
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("iframe exists", () => {
+    expect(screen.queryByTitle("runners.HtmlOutput")).toBeInTheDocument();
+  });
+
+  test("tab exists", () => {
+    expect(
+      screen.queryByText("a-new-test-page.html output.preview"),
+    ).toBeInTheDocument();
+  });
+
+  test("Dispatches action to trigger code run", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([triggerCodeRun()]),
+    );
+  });
+});
+
 describe("When run is triggered", () => {
   let store;
 
