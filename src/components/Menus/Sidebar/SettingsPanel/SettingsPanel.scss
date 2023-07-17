@@ -1,0 +1,9 @@
+@use "../../../../spacing" as *;
+@use "../../../../font-size" as *;
+@import "../../../../colours.scss";
+
+.settings-panel {
+  color: $rpf-text-primary;
+  padding: $space-0-5;
+  margin-bottom: $space-0-5;
+}

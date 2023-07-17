@@ -1,35 +1,17 @@
-@use '../../spacing' as *;
-@import '../../colours.scss';
+@use "../../spacing" as *;
+@import "../../colours.scss";
 
 .theme-toggle {
   display: flex;
+  flex-direction: column;
 
   .theme-btn {
     cursor: pointer;
 
     &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: $space-2;
-      width: $space-4;
       border-radius: 5px;
-
-      &--light {
-        background-color: $rpf-white;
-        outline: 1px solid $rpf-grey-800;
-        svg {
-          fill: $rpf-black;
-        }
-      }
-
-      &--dark {
-        background-color: $rpf-grey-700;
-        outline: 1px solid $rpf-grey-150;
-        svg {
-          fill: $rpf-white;
-        }
-      }
+      background-color: $rpf-white;
+      outline: 1px solid $rpf-grey-150;
 
       &--active {
         outline: 2px solid $rpf-teal-800;
@@ -42,20 +24,6 @@
 
     &--light {
       margin-right: $space-0-5;
-
-      &:hover {
-        svg {
-          fill: $rpf-grey-600;
-        }
-      }
-    }
-
-    &--dark {
-      &:hover {
-        svg {
-          fill: $rpf-grey-150;
-        }
-      }
     }
   }
 }
