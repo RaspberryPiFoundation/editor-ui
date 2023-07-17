@@ -222,7 +222,7 @@ export const FileIconHtml = (props) => {
   return (
     <svg
       data-testid="htmlIcon"
-      transform={`scale(${scale}, ${scale})`}
+      transform="1"
       width="20"
       height="17"
       viewBox="0 0 20 17"
