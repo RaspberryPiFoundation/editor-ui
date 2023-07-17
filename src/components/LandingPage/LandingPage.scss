@@ -3,6 +3,13 @@
 @import "../../colours.scss";
 @import "../../mixins.scss";
 
+:root * {
+  --rpf-button-primary-background-color: #{$rpf-teal-800};
+  --rpf-button-primary-background-color-hover: #{$rpf-teal-800};
+  --rpf-button-primary-background-color-active: #{$rpf-teal-800};
+  --rpf-button-primary-text-color: #{$rpf-text-primary};
+}
+
 .landing-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -145,6 +152,11 @@
     button {
       color: $rpf-teal-900;
     }
+  }
+
+  .landing-page__projects--buttons {
+    display: flex;
+    gap: $space-0-5;
   }
 
   .landing-page__paths--description {

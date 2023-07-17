@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
+import "../Button/Button.scss";
 import LoginButton from "../Login/LoginButton";
 //import Button from "../Button/Button";
 import { Button } from "@RaspberryPiFoundation/design-system-react/";
@@ -29,16 +30,16 @@ const LandingPage = () => {
         </h2>
         <div className="landing-page__projects--buttons">
           <Button
-            className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-python-starter`}
+            className="rpf-button--primary"
+            href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
-            ButtonIcon={FileIconPython}
+            // icon={FileIconPython}
           />
           <Button
-            className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-html-starter`}
+            className="rpf-button"
+            href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
-            ButtonIcon={FileIconHtml}
+            // icon={FileIconHtml}
           />
         </div>
         <p className="landing-page__projects--login">
