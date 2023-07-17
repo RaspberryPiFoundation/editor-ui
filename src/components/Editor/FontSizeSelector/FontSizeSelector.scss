@@ -1,45 +1,26 @@
-@use '../../../spacing' as *;
-@import '../../../colours.scss';
+@use "../../../spacing" as *;
+@use "../../../font-size" as *;
+@import "../../../colours.scss";
 
 .font-size-selector {
-  display: flex;
-
   .font-btn {
-    margin-right: $space-0-5;
     cursor: pointer;
 
-    &--large {
-      margin-right: 0;
-    }
-
-    &:hover {
-      .--light & {
-        svg {
-          fill: $rpf-grey-600;
-        }
-      }
-
-      .--dark & {
-        svg {
-          fill: $rpf-grey-150;
-        }
-      }
-    }
-
     &__icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include font-size-1(regular);
       border-radius: 5px;
-      height: $space-2;
-      width: $space-4;
+      background-color: $rpf-white;
+      outline: 2px solid $rpf-grey-150;
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
 
       .--dark & {
-        outline: 1px solid $rpf-white;
+        outline: 2px solid $rpf-white;
       }
 
       .--light & {
-        outline: 1px solid $rpf-grey-150;
+        outline: 2px solid $rpf-grey-150;
       }
 
       &.font-btn__icon--active {
@@ -49,11 +30,6 @@
       &:focus-visible {
         outline: 2px solid $rpf-brand-raspberry;
       }
-    }
-
-    p {
-      text-align: center;
-      margin-top: $space-0-5;
     }
   }
 }
