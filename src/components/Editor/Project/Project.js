@@ -23,6 +23,7 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
+import ProjectBar from "../../ProjectBar/ProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
@@ -139,19 +140,22 @@ const Project = (props) => {
         })}
       >
         {!forWebComponent ? <Sidebar /> : null}
-        <div className="proj-editor-wrapper">
-          <ResizableWithHandle
-            data-testid="proj-editor-container"
-            className="proj-editor-container"
-            defaultWidth={defaultWidth}
-            defaultHeight={defaultHeight}
-            handleDirection={handleDirection}
-            minWidth="25%"
-            maxWidth={maxWidth}
-          >
-            <EditorInput />
-          </ResizableWithHandle>
-          <Output />
+        <div className="project-wrapper">
+          {!forWebComponent ? <ProjectBar /> : null}
+          <div className="proj-editor-wrapper">
+            <ResizableWithHandle
+              data-testid="proj-editor-container"
+              className="proj-editor-container"
+              defaultWidth={defaultWidth}
+              defaultHeight={defaultHeight}
+              handleDirection={handleDirection}
+              minWidth="25%"
+              maxWidth={maxWidth}
+            >
+              <EditorInput />
+            </ResizableWithHandle>
+            <Output />
+          </div>
         </div>
       </div>
       {newFileModalShowing ? <NewFileModal /> : null}

@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.16.4] - 2023-07-11
+
+### Added
+- Sidebar info
 ### Changed
 
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
 - `Sidebar` restyling and refactor to better support multiple panels (#501)
 - Refactored and restyled project files panel and removed project images (#501)
 - Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
 
 ## [0.16.3] - 2023-06-29
 
@@ -31,8 +37,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add `.editorconfig`
 - Default HTML project improvement (#543)
 
-
 ### Fixed
+
 - No longer renders a blank page on 401, 403 & 404 for embedded viewer
 
 - Input modal help text styling in light mode (#519)

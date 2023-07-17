@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { HomeIcon, FileIcon, ImageIcon } from "../../../Icons";
+import { HomeIcon, FileIcon, ImageIcon, InfoIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
+import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
@@ -33,6 +34,13 @@ const Sidebar = () => {
       title: t("sidebar.images"),
       position: "top",
       panel: ImagePanel,
+    },
+    {
+      name: "info",
+      icon: InfoIcon,
+      title: t("sidebar.information"),
+      position: "bottom",
+      panel: InfoPanel,
     },
   ];
   const projectImages = useSelector((state) => state.editor.project.image_list);

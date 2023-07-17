@@ -2,9 +2,9 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import Header from "./Header";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
+import ProjectBar from "./ProjectBar";
 
 jest.mock("axios");
 
@@ -52,15 +52,11 @@ describe("When logged in and user owns project", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header />
+          <ProjectBar />
         </MemoryRouter>
       </Provider>,
     );
     saveButton = screen.queryByText("header.save");
-  });
-
-  test("Renders project gallery link", () => {
-    expect(screen.queryByText("header.projects")).not.toBeNull();
   });
 
   test("Project name is shown", () => {
@@ -107,7 +103,7 @@ describe("When logged in and no project identifier", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header />
+          <ProjectBar />
         </MemoryRouter>
       </Provider>,
     );
@@ -161,7 +157,7 @@ describe("When logged in and user does not own project", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header />
+          <ProjectBar />
         </MemoryRouter>
       </Provider>,
     );
@@ -202,14 +198,10 @@ describe("When not logged in", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header />
+          <ProjectBar />
         </MemoryRouter>
       </Provider>,
     );
-  });
-
-  test("No project gallery link", () => {
-    expect(screen.queryByText("header.projects")).toBeNull();
   });
 
   test("Download button shown", () => {
@@ -244,7 +236,7 @@ describe("When no project loaded", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Header />
+          <ProjectBar />
         </MemoryRouter>
       </Provider>,
     );
