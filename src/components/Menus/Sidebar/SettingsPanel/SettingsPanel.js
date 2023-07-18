@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import SidebarPanel from "../SidebarPanel";
-import ThemeToggle from "../../../ThemeToggle/ThemeToggle";
+import ThemeToggle from "./ThemeToggle/ThemeToggle";
 import FontSizeSelector from "../../../Editor/FontSizeSelector/FontSizeSelector";
 
 import "./SettingsPanel.scss";

@@ -1,6 +1,6 @@
 import React from "react";
 import { act, render, fireEvent } from "@testing-library/react";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../../../../ThemeToggle/ThemeToggle";
 import { Cookies, CookiesProvider } from "react-cookie";
 
 describe("When default theme is light mode and cookie unset", () => {
