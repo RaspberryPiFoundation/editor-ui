@@ -30,14 +30,14 @@ const LandingPage = () => {
         </h2>
         <div className="landing-page__projects--buttons">
           <Button
-            className="rpf-button--primary content"
+            className="rpf-button--primary landing-page-button__content"
             href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
             textAlways
             icon={<FileIconHtml />}
           />
           <Button
-            className="rpf-button--primary content"
+            className="rpf-button--primary landing-page-button__content"
             href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
             textAlways
