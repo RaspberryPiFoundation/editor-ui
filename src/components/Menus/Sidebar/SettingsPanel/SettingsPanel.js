@@ -12,7 +12,7 @@ const SettingsPanel = () => {
   return (
     <SidebarPanel heading={t("settingsPanel.info")}>
       <div className="settings-panel">
-        <h3>Theme</h3>
+        <h3>{t("sidebar.settingsMenu.theme")}</h3>
         <ThemeToggle />
         <h3>{t("sidebar.settingsMenu.textSize")}</h3>
         <FontSizeSelector />

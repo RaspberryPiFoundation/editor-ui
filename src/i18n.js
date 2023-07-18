@@ -397,6 +397,7 @@ i18n
             settingsMenu: {
               heading: "Settings",
               textSize: "Text size",
+              theme: "Theme",
               textSizeOptions: {
                 large: "Large",
                 medium: "Medium",
