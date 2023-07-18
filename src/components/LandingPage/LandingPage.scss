@@ -14,6 +14,9 @@
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
+  svg {
+    fill: $rpf-text-primary;
+  }
 }
 
 .landing-page-wrapper {
@@ -165,6 +168,12 @@
     gap: $space-0-5;
     width: 100%;
     align-items: stretch;
+    @include font-size-1-25(regular);
+
+    a {
+      color: $rpf-black;
+      text-decoration: none;
+    }
   }
 
   .landing-page__paths--description {
