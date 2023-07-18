@@ -1,18 +1,58 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { PencilIcon } from "../../Icons";
+import { PencilIcon, TickIcon } from "../../Icons";
 import Button from "../Button/Button";
 import { updateProjectName } from "../Editor/EditorSlice";
 
 import "./ProjectName.scss";
+import classNames from "classnames";
 
-const ProjectName = () => {
+const ProjectName = ({ label, className }) => {
   const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const nameInput = useRef();
+  const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
+
+  const onEditNameButtonClick = () => {
+    setEditable(true);
+  };
+
+  const selectText = () => {
+    nameInput.current.select();
+  };
+
+  const handleScroll = () => {
+    if (!isEditable) {
+      nameInput.current.scrollLeft = 0;
+    }
+  };
+
+  const updateName = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setEditable(false);
+    dispatch(updateProjectName(nameInput.current.value));
+  };
+
+  const resetName = useCallback(
+    (event) => {
+      event.preventDefault();
+      setEditable(false);
+      nameInput.current.value = project.name;
+    },
+    [project.name],
+  );
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      updateName(event);
+    } else if (event.key === "Escape") {
+      resetName(event);
+    }
+  };
 
   useEffect(() => {
     if (isEditable) {
@@ -20,50 +60,62 @@ const ProjectName = () => {
     }
   });
 
-  const updateName = () => {
-    setEditable(false);
-    dispatch(updateProjectName(nameInput.current.value));
-  };
-  const onEditNameButtonClick = () => {
-    setEditable(true);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      nameInput.current.blur();
-    } else if (event.key === "Escape") {
-      event.preventDefault();
-      setEditable(false);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        nameInput.current &&
+        !nameInput.current.contains(event.target) &&
+        tickButton.current &&
+        !tickButton.current.contains(event.target)
+      ) {
+        resetName(event);
+      }
     }
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [nameInput, tickButton, project, resetName]);
 
   return (
-    <div className="project-name">
-      {isEditable ? (
+    <>
+      {label ? (
+        <label htmlFor="project_name" className="project-name__label">
+          {t(label)}
+        </label>
+      ) : null}
+      <div className={classNames("project-name", className)}>
         <input
           className="project-name__input"
+          id={"project_name"}
           ref={nameInput}
           type="text"
-          onBlur={updateName}
+          onFocus={selectText}
+          onScroll={handleScroll}
           onKeyDown={handleKeyDown}
-          defaultValue={project.name}
+          defaultValue={project.name || t("header.newProject")}
+          disabled={!isEditable}
         />
-      ) : (
-        <>
-          <h1 className="project-name__title">
-            {project.name || t("header.newProject")}
-          </h1>
+        {isEditable ? (
+          <Button
+            buttonRef={tickButton}
+            className="btn--primary"
+            label={t("header.renameSave")}
+            title={t("header.renameSave")}
+            ButtonIcon={TickIcon}
+            onClickHandler={updateName}
+          />
+        ) : (
           <Button
             className="btn--tertiary project-name__button"
-            label={t("header.buttonLabel")}
-            title={t("header.buttonTitle")}
+            label={t("header.renameProject")}
+            title={t("header.renameProject")}
             ButtonIcon={PencilIcon}
             onClickHandler={onEditNameButtonClick}
           />
-        </>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

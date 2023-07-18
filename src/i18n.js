@@ -237,6 +237,8 @@ i18n
           projectsPanel: {
             projects: "Projects",
             yourProjectsButton: "Go to your projects",
+            projectNameLabel: "Project name",
+            projectTypeLabel: "Project type",
           },
           infoPanel: {
             info: "Information",
@@ -269,9 +271,7 @@ i18n
               inputLabel: "Project name",
             },
             projectType: {
-              html: "HTML",
               inputLabel: "What kind of project do you want to make?",
-              python: "Python",
             },
           },
           notifications: {
@@ -385,6 +385,10 @@ i18n
             updated: "Edited",
             python_type: "Python",
             html_type: "HTML",
+          },
+          projectTypes: {
+            html: "HTML/CSS",
+            python: "Python",
           },
           runButton: {
             run: "Run",

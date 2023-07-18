@@ -2,6 +2,7 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import userEvent from "@testing-library/user-event";
 
 import ProjectName from "./ProjectName";
 import { updateProjectName } from "../Editor/EditorSlice";
@@ -14,6 +15,7 @@ const project = {
 
 let store;
 let editButton;
+let inputField;
 
 beforeEach(() => {
   const middlewares = [];
@@ -29,45 +31,58 @@ beforeEach(() => {
       <ProjectName />
     </Provider>,
   );
-  editButton = screen.queryByRole("button");
+  editButton = screen.getByLabelText("header.renameProject");
+  inputField = screen.getByRole("textbox");
 });
 
-test("Project name renders in a heading", () => {
-  expect(screen.queryByText(project.name).tagName).toBe("H1");
+test("Project name input field is disabled initially", () => {
+  expect(screen.queryByRole("textbox")).toBeDisabled();
 });
 
-test("Clicking edit button changes the project name to an input field", () => {
-  fireEvent.click(editButton);
-  expect(screen.queryByRole("textbox")).toHaveValue(project.name);
+test("Edit button shown initially", () => {
+  expect(editButton).toBeInTheDocument();
 });
 
-test("Clicking edit button transfers focus to input field", () => {
-  fireEvent.click(editButton);
-  expect(screen.queryByRole("textbox")).toHaveFocus();
+describe("When edit button clicked", () => {
+  beforeEach(() => {
+    fireEvent.click(editButton);
+  });
+
+  test("Input field is enabled", () => {
+    expect(screen.queryByRole("textbox")).not.toBeDisabled();
+  });
+
+  test("Focus transferred to input field", () => {
+    expect(screen.queryByRole("textbox")).toHaveFocus();
+  });
+
+  test("Tick button shown", () => {
+    expect(screen.getByLabelText("header.renameSave")).toBeInTheDocument();
+  });
 });
 
 describe("When input field loses focus", () => {
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
-    inputField.blur();
+    userEvent.click(document.body);
   });
 
-  test("Updates project name", () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+  test("Does not update project name", () => {
+    expect(store.getActions()).toEqual([]);
   });
 
-  test("Changes project name to heading", async () => {
-    await waitFor(() =>
-      expect(screen.queryByText(project.name).tagName).toBe("H1"),
-    );
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
   });
 });
 
 describe("When Enter is pressed", () => {
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Enter" });
   });
 
@@ -75,23 +90,50 @@ describe("When Enter is pressed", () => {
     expect(store.getActions()).toEqual([updateProjectName(project.name)]);
   });
 
-  test("Changes project name to heading", () => {
-    expect(screen.queryByText(project.name).tagName).toBe("H1");
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
+  });
+});
+
+describe("When tick button clicked", () => {
+  beforeEach(() => {
+    fireEvent.click(editButton);
+    const tickButton = screen.getByTitle("header.renameSave");
+    fireEvent.click(tickButton);
+  });
+
+  test("Updates project name", () => {
+    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+  });
+
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
   });
 });
 
 describe("When Escape is pressed", () => {
   beforeEach(() => {
     fireEvent.click(editButton);
-    const inputField = screen.queryByRole("textbox");
     fireEvent.keyDown(inputField, { key: "Escape" });
   });
 
-  test("Updates project name", () => {
+  test("Does not update project name", () => {
     expect(store.getActions()).toEqual([]);
   });
 
-  test("Changes project name to heading", () => {
-    expect(screen.queryByText(project.name).tagName).toBe("H1");
+  test("Disables input field", async () => {
+    await waitFor(() => expect(inputField).toBeDisabled());
+  });
+
+  test("Switches to edit button", () => {
+    expect(editButton).toBeInTheDocument();
   });
 });

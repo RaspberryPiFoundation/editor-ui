@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import "./ProjectsPanel.scss";
 import { useSelector } from "react-redux";
 import ProjectName from "../../../ProjectName/ProjectName";
+import ProjectInfo from "./ProjectInfo/ProjectInfo";
+import { DownloadIcon } from "../../../../Icons";
+import DownloadButton from "../../../DownloadButton/DownloadButton";
 
 const YourProjectsButton = () => {
   const {
@@ -26,17 +29,28 @@ const YourProjectsButton = () => {
 const ProjectsPanel = () => {
   const { t } = useTranslation();
 
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
-  const loading = useSelector((state) => state.editor.loading);
-  const saving = useSelector((state) => state.editor.saving);
+  // TODO: Check loading behaviour, should panel always be available?
+  // TODO: Positioning in header goes funky on save, pre-existing?
+  // TODO: Project name in header not updated when updated in sidebar (and vice versa?)
+  // TOOD: Console errors
 
   return (
     <SidebarPanel
       heading={t("projectsPanel.projects")}
       Button={YourProjectsButton}
+      className="projects-panel-wrapper"
     >
-      {loading === "success" ? <ProjectName /> : null}
+      <ProjectName
+        label="projectsPanel.projectNameLabel"
+        className="projects-panel__item"
+      />
+      <ProjectInfo className="projects-panel__item" />
+      <DownloadButton
+        buttonText={t("header.download")}
+        className="btn--secondary projects-panel__download-button"
+        Icon={DownloadIcon}
+        buttonIconPosition="right"
+      />
     </SidebarPanel>
   );
 };
