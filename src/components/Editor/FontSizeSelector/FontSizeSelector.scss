@@ -28,13 +28,14 @@
         display: block;
         padding: 0.5rem;
         width: -webkit-fill-available;
+        font-weight: var(--font-weight-bold);
       }
 
       &.font-btn__icon--active {
         outline: 2px solid $rpf-text-primary;
         background-image: url("./../../../assets/icons/tick.svg");
         background-repeat: no-repeat;
-        background-position: right center;
+        background-position: right $space-0-5 center;
       }
 
       &:focus-visible {
