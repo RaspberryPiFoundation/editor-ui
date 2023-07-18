@@ -10,6 +10,12 @@
   --rpf-button-primary-text-color: #{$rpf-text-primary};
 }
 
+.content * {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .landing-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -157,6 +163,8 @@
   .landing-page__projects--buttons {
     display: flex;
     gap: $space-0-5;
+    width: 100%;
+    align-items: stretch;
   }
 
   .landing-page__paths--description {
