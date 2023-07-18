@@ -396,7 +396,7 @@ i18n
             charity: "Raspberry Pi Foundation - UK registered charity 1129409",
             settingsMenu: {
               heading: "Settings",
-              textSize: "Input text size",
+              textSize: "Text size",
               textSizeOptions: {
                 large: "Large",
                 medium: "Medium",

@@ -1,6 +1,6 @@
-@use "../../../spacing" as *;
-@use "../../../font-size" as *;
-@import "../../../colours.scss";
+@use "./../../../../../spacing" as *;
+@use "./../../../../../font-size" as *;
+@import "./../../../../../colours.scss";
 
 .font-size-selector {
   .font-btn {
@@ -33,7 +33,7 @@
 
       &.font-btn__icon--active {
         outline: 2px solid $rpf-text-primary;
-        background-image: url("./../../../assets/icons/tick.svg");
+        background-image: url("./../../../../../assets/icons/tick.svg");
         background-repeat: no-repeat;
         background-position: right $space-0-5 center;
       }
