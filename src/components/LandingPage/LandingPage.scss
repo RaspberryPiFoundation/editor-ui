@@ -146,6 +146,21 @@
   color: $rpf-teal-900;
 }
 
+.landing-page__projects--buttons {
+  @include font-size-1-25(regular);
+  display: flex;
+
+  gap: $space-1;
+  width: fit-content;
+  align-items: stretch;
+  @include font-size-1-25(regular);
+
+  a {
+    color: $rpf-black;
+    text-decoration: none;
+  }
+}
+
 // Dark mode
 
 .--light {
@@ -160,21 +175,6 @@
   .landing-page__projects--login {
     button {
       color: $rpf-teal-900;
-    }
-  }
-
-  .landing-page__projects--buttons {
-    @include font-size-1-25(regular);
-    display: flex;
-
-    gap: $space-0-5;
-    width: fit-content;
-    align-items: stretch;
-    @include font-size-1-25(regular);
-
-    a {
-      color: $rpf-black;
-      text-decoration: none;
     }
   }
 
