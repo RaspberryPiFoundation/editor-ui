@@ -164,9 +164,11 @@
   }
 
   .landing-page__projects--buttons {
+    @include font-size-1-25(regular);
     display: flex;
+
     gap: $space-0-5;
-    width: 100%;
+    width: fit-content;
     align-items: stretch;
     @include font-size-1-25(regular);
 
@@ -184,6 +186,10 @@
 }
 
 .--dark {
+  * {
+    --rpf-button-primary-background-color: #{$rpf-teal-400};
+    --rpf-button-primary-background-color-hover: #{$rpf-teal-600};
+  }
   .landing-page__paths {
     background-color: $rpf-grey-800;
   }
