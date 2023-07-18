@@ -24,11 +24,17 @@
         outline: 2px solid $rpf-grey-150;
       }
 
+      &--text {
+        display: block;
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+      }
+
       &.font-btn__icon--active {
         outline: 2px solid $rpf-text-primary;
         background-image: url("./../../../assets/icons/tick.svg");
         background-repeat: no-repeat;
-        background-position: right center;;
+        background-position: right center;
       }
 
       &:focus-visible {

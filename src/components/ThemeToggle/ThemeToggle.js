@@ -34,7 +34,9 @@ const ThemeToggle = () => {
             !isDarkMode ? "theme-btn__icon--active" : null
           }`}
         >
-          {t("sidebar.settingsMenu.themeOptions.light")}
+          <span className="theme-btn__icon--text">
+            {t("sidebar.settingsMenu.themeOptions.light")}
+          </span>
         </button>
       </div>
       <div
@@ -46,7 +48,9 @@ const ThemeToggle = () => {
             isDarkMode ? "theme-btn__icon--active" : null
           }`}
         >
-          {t("sidebar.settingsMenu.themeOptions.dark")}
+          <span className="theme-btn__icon--text">
+            {t("sidebar.settingsMenu.themeOptions.dark")}
+          </span>
         </button>
       </div>
     </div>

@@ -30,7 +30,10 @@ const FontSizeSelector = () => {
             fontSize === "small" ? "font-btn__icon--active" : ""
           }`}
         >
-          {t("sidebar.settingsMenu.textSizeOptions.small")}
+          {" "}
+          <span className="font-btn__icon--text">
+            {t("sidebar.settingsMenu.textSizeOptions.small")}
+          </span>
         </button>
       </div>
       <div
@@ -42,7 +45,10 @@ const FontSizeSelector = () => {
             fontSize === "medium" ? "font-btn__icon--active" : ""
           }`}
         >
-          {t("sidebar.settingsMenu.textSizeOptions.medium")}
+          {" "}
+          <span className="font-btn__icon--text">
+            {t("sidebar.settingsMenu.textSizeOptions.medium")}
+          </span>
         </button>
       </div>
       <div
@@ -54,7 +60,10 @@ const FontSizeSelector = () => {
             fontSize === "large" ? "font-btn__icon--active" : ""
           }`}
         >
-          {t("sidebar.settingsMenu.textSizeOptions.large")}
+          {" "}
+          <span className="font-btn__icon--text">
+            {t("sidebar.settingsMenu.textSizeOptions.large")}
+          </span>
         </button>
       </div>
     </div>

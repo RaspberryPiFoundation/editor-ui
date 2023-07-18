@@ -23,6 +23,12 @@
         background-position: right center;
       }
 
+      &--text {
+        display: block;
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+      }
+
       &:focus-visible {
         outline: 2px solid $rpf-brand-raspberry;
       }
