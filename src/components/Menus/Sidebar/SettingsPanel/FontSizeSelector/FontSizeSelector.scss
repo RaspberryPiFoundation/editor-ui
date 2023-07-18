@@ -29,6 +29,10 @@
         padding: 0.5rem;
         width: -webkit-fill-available;
         font-weight: var(--font-weight-bold);
+
+        svg {
+          padding-right: $space-0-5;
+        }
       }
 
       &.font-btn__icon--active {
