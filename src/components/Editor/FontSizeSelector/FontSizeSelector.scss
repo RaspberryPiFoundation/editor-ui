@@ -13,7 +13,8 @@
       outline: 2px solid $rpf-grey-150;
       display: block;
       width: 100%;
-      padding: 0.75rem;
+      // padding: 0.75rem;
+      margin-bottom: $space-0-5;
 
       .--dark & {
         outline: 2px solid $rpf-white;
@@ -24,7 +25,10 @@
       }
 
       &.font-btn__icon--active {
-        outline: 2px solid $rpf-teal-800;
+        outline: 2px solid $rpf-text-primary;
+        background-image: url("./../../../assets/icons/tick.svg");
+        background-repeat: no-repeat;
+        background-position: right center;;
       }
 
       &:focus-visible {

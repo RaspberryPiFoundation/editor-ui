@@ -1,4 +1,5 @@
 @use "../../spacing" as *;
+@use "../../font-size" as *;
 @import "../../colours.scss";
 
 .theme-toggle {
@@ -6,14 +7,20 @@
     cursor: pointer;
 
     &__icon {
+      @include font-size-1(regular);
+      color: $rpf-text-primary;
       border-radius: 5px;
       background-color: $rpf-white;
       outline: 2px solid $rpf-grey-150;
       display: block;
       width: 100%;
+      margin-bottom: $space-0-5;
 
       &--active {
-        outline: 2px solid $rpf-teal-800;
+        outline: 2px solid $rpf-text-primary;
+        background-image: url("./../../assets/icons/tick.svg");
+        background-repeat: no-repeat;
+        background-position: right center;
       }
 
       &:focus-visible {
