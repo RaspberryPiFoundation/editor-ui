@@ -12,9 +12,9 @@ const SettingsPanel = () => {
   return (
     <SidebarPanel heading={t("settingsPanel.info")}>
       <div className="settings-panel">
-        <h2>Theme</h2>
+        <h3>Theme</h3>
         <ThemeToggle />
-        <h2>{t("sidebar.settingsMenu.textSize")}</h2>
+        <h3>{t("sidebar.settingsMenu.textSize")}</h3>
         <FontSizeSelector />
       </div>
     </SidebarPanel>

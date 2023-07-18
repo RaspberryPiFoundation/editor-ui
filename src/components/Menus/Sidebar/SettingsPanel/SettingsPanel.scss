@@ -6,4 +6,9 @@
   color: $rpf-text-primary;
   padding: $space-0-5;
   margin-bottom: $space-0-5;
+
+  h3 {
+    font-weight: var(--font-weight-bold);
+  }
 }
+
