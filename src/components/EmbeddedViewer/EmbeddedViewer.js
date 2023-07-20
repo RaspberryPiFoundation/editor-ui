@@ -19,8 +19,14 @@ const EmbeddedViewer = () => {
     (state) => state.editor.accessDeniedNoAuthModalShowing,
   );
   const { identifier } = useParams();
+  const user = useSelector((state) => state.auth.user) || {};
 
-  useProject(identifier);
+  useProject({
+    projectIdentifier: identifier,
+    accessToken: user.access_token,
+    isEmbedded: true,
+  });
+
   useEmbeddedMode(true);
 
   return (
