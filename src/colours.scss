@@ -136,7 +136,7 @@ $rpf-grey-600: #4a4d59;
 $rpf-text-secondary: #4d575b;
 $rpf-text-secondary-dark: #cccccc;
 
-// Design-System-Core overrides
+// Design-System overrides
 
 :root * {
   --rpf-button-primary-background-color: #{$rpf-teal-primary-default};
@@ -149,4 +149,10 @@ $rpf-text-secondary-dark: #cccccc;
   --rpf-button-primary-background-color: #{$rpf-teal-primary-default-darkmode};
   --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover-darkmode};
   --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active-darkmode};
+}
+
+.rpf-button--primary * {
+  svg {
+    fill: $rpf-text-primary;
+  }
 }

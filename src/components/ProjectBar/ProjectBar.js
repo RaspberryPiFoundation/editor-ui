@@ -58,11 +58,11 @@ const ProjectBar = () => {
           ) : null}
           {loading === "success" ? (
             <Button
-              // className="btn--save"
+              className="btn--save"
               onClick={onClickSave}
               text={t("header.save")}
-              // small
-              //icon={SaveIcon}
+              textAlways
+              icon={<SaveIcon />}
             />
           ) : null}
           {lastSavedTime && user ? (

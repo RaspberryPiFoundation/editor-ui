@@ -65,18 +65,17 @@
   }
 
   .btn--save {
-    height: $space-3;
-    margin: $space-2-5;
+    margin: $space-0-5;
 
-    span {
+    .text {
       display: none;
     }
 
     @container (min-width: 560px) {
-      svg {
+      .icon {
         display: none;
       }
-      span {
+      .text {
         display: block;
       }
     }
