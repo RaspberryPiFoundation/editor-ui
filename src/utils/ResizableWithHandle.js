@@ -82,7 +82,7 @@ const ResizableWithHandle = (props) => {
 };
 
 ResizableWithHandle.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
   defaultWidth: PropTypes.string,
   defaultHeight: PropTypes.string,
   handleDirection: PropTypes.oneOf(["right", "left", "top", "bottom"])

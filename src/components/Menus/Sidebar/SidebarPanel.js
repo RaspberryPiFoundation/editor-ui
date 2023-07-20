@@ -27,7 +27,7 @@ const SidebarPanel = (props) => {
 };
 
 SidebarPanel.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.any.isRequired,
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
   Button: PropTypes.func,

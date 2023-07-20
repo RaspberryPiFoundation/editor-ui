@@ -1,20 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { PencilIcon, TickIcon } from "../../Icons";
 import Button from "../Button/Button";
 import { updateProjectName } from "../Editor/EditorSlice";
 
 import "./ProjectName.scss";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 
-const ProjectName = ({ label, className }) => {
-  const project = useSelector((state) => state.editor.project);
+const ProjectName = ({ className = null, showLabel = false }) => {
+  const project = useSelector((state) => state.editor.project, shallowEqual);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const nameInput = useRef();
   const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
+  const [name, setName] = useState(project.name || t("header.newProject"));
 
   const onEditNameButtonClick = () => {
     setEditable(true);
@@ -28,6 +30,14 @@ const ProjectName = ({ label, className }) => {
     if (!isEditable) {
       nameInput.current.scrollLeft = 0;
     }
+  };
+
+  useEffect(() => {
+    setName(project.name);
+  }, [project.name]);
+
+  const handleOnChange = () => {
+    setName(nameInput.current.value);
   };
 
   const updateName = (event) => {
@@ -79,9 +89,9 @@ const ProjectName = ({ label, className }) => {
 
   return (
     <>
-      {label ? (
+      {showLabel ? (
         <label htmlFor="project_name" className="project-name__label">
-          {t(label)}
+          {t("projectsPanel.projectNameLabel")}
         </label>
       ) : null}
       <div className={classNames("project-name", className)}>
@@ -93,8 +103,9 @@ const ProjectName = ({ label, className }) => {
           onFocus={selectText}
           onScroll={handleScroll}
           onKeyDown={handleKeyDown}
-          defaultValue={project.name || t("header.newProject")}
+          value={name}
           disabled={!isEditable}
+          onChange={handleOnChange}
         />
         {isEditable ? (
           <Button
@@ -117,6 +128,11 @@ const ProjectName = ({ label, className }) => {
       </div>
     </>
   );
+};
+
+ProjectName.propTypes = {
+  className: PropTypes.string,
+  showLabel: PropTypes.bool,
 };
 
 export default ProjectName;
