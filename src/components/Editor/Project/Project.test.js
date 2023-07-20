@@ -14,6 +14,7 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
+import { MemoryRouter } from "react-router-dom";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -77,9 +78,11 @@ test("Renders with file menu if not for web component", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <div id="app">
-        <Project />
-      </div>
+      <MemoryRouter>
+        <div id="app">
+          <Project />
+        </div>
+      </MemoryRouter>
     </Provider>,
   );
   expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
@@ -101,7 +104,9 @@ test("Renders without file menu if for web component", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <Project forWebComponent={true} />
+      <MemoryRouter>
+        <Project forWebComponent={true} />
+      </MemoryRouter>
     </Provider>,
   );
   expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
@@ -126,9 +131,11 @@ describe("When not logged in and just loaded", () => {
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -164,9 +171,11 @@ describe("When not logged in and not just loaded", () => {
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -219,9 +228,11 @@ describe("When not logged in and has been prompted to login to save", () => {
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -269,9 +280,11 @@ describe("When logged in and user does not own project and just loaded", () => {
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -309,9 +322,11 @@ describe("When logged in and user does not own project and not just loaded", () 
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -366,9 +381,11 @@ describe("When logged in and user does not own project and prompted to save", ()
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -421,9 +438,11 @@ describe("When logged in and user does not own project and awaiting save", () =>
     syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -471,9 +490,11 @@ describe("When logged in and project has no identifier and awaiting save", () =>
     syncProject.mockImplementationOnce(jest.fn((_) => saveProject));
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -516,9 +537,11 @@ describe("When logged in and user owns project", () => {
     mockedStore = mockStore(initialState);
     render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -558,9 +581,11 @@ test("Successful manual save prompts project saved message", async () => {
   const mockedStore = mockStore(initialState);
   render(
     <Provider store={mockedStore}>
-      <div id="app">
-        <Project />
-      </div>
+      <MemoryRouter>
+        <div id="app">
+          <Project />
+        </div>
+      </MemoryRouter>
     </Provider>,
   );
   await waitFor(() => expect(showSavedMessage).toHaveBeenCalled());
@@ -583,9 +608,11 @@ describe("When not logged in and falling on default container width", () => {
     const mockedStore = mockStore(initialState);
     const { getByTestId } = render(
       <Provider store={mockedStore}>
-        <div id="app">
-          <Project />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
 

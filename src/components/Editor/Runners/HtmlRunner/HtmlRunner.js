@@ -11,10 +11,15 @@ import {
   triggerCodeRun,
 } from "../../EditorSlice";
 import { useTranslation } from "react-i18next";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { Link, useSearchParams } from "react-router-dom";
+import { OpenInNewTabIcon } from "../../../../Icons";
 
 function HtmlRunner() {
-  const projectCode = useSelector((state) => state.editor.project.components);
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const project = useSelector((state) => state.editor.project);
+  const projectCode = project.components;
+  const projectImages = project.image_list;
+
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
     (state) => state.editor.focussedFileIndices,
@@ -30,7 +35,10 @@ function HtmlRunner() {
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
 
-  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
@@ -42,12 +50,23 @@ function HtmlRunner() {
     )[0];
 
   const previewable = (file) => file.endsWith(".html");
+  let defaultPreviewFile;
 
-  const [previewFile, setPreviewFile] = useState(
-    previewable(openFiles[focussedFileIndex])
-      ? openFiles[focussedFileIndex]
-      : "index.html",
-  );
+  if (
+    isEmbedded &&
+    searchParams.get("browserPreview") === "true" &&
+    searchParams.get("page") &&
+    previewable(searchParams.get("page"))
+  ) {
+    defaultPreviewFile = searchParams.get("page");
+  } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
+    defaultPreviewFile = openFiles[focussedFileIndex];
+  } else {
+    defaultPreviewFile = "index.html";
+  }
+
+  const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
+  const [runningFile, setRunningFile] = useState(previewFile);
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -89,7 +108,19 @@ function HtmlRunner() {
     });
   };
 
-  useEffect(() => eventListener(), []);
+  const iframeReload = () => {
+    const iframe = output.current.contentDocument;
+    const filename = iframe.querySelectorAll("meta[filename]")[0]
+      ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
+      : null;
+    if (runningFile !== filename) {
+      setRunningFile(filename);
+    }
+  };
+
+  useEffect(() => {
+    eventListener();
+  }, []);
 
   let timeout;
 
@@ -111,7 +142,7 @@ function HtmlRunner() {
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (previewable(openFiles[focussedFileIndex])) {
+    if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
       setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
@@ -123,8 +154,21 @@ function HtmlRunner() {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (isEmbedded && searchParams.get("browserPreview") === "true") {
+      setSearchParams({
+        ...Object.fromEntries([...searchParams]),
+        page: runningFile,
+      });
+    }
+  }, [runningFile]);
+
   const runCode = () => {
+    setRunningFile(previewFile);
+
     let indexPage = parse(focussedComponent(previewFile).content);
+
+    const body = indexPage.querySelector("body") || indexPage;
 
     const hrefNodes = indexPage.querySelectorAll("[href]");
 
@@ -179,6 +223,8 @@ function HtmlRunner() {
       );
     });
 
+    body.appendChild(parse(`<meta filename="${previewFile}" />`));
+
     const blob = getBlobURL(indexPage.toString(), "text/html");
     output.current.src = blob;
     if (codeRunTriggered) {
@@ -190,12 +236,40 @@ function HtmlRunner() {
     <div className="htmlrunner-container">
       <ErrorModal errorType={error} additionalOnClose={closeModal} />
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
-        <iframe
-          className="htmlrunner-iframe"
-          id="output-frame"
-          title={t("runners.HtmlOutput")}
-          ref={output}
-        />
+        <Tabs>
+          <div className="react-tabs__tab-container">
+            <TabList>
+              <Tab>
+                <span className="react-tabs__tab-inner">{`${runningFile} ${t(
+                  "output.preview",
+                )}`}</span>
+              </Tab>
+              {!isEmbedded && (
+                <Link
+                  className="btn btn--tertiary htmlrunner-link"
+                  target="_blank"
+                  to={`/${locale}/embed/viewer/${
+                    project.identifier
+                  }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                >
+                  <span className="htmlrunner-link__text">
+                    {t("output.newTab")}
+                  </span>
+                  <OpenInNewTabIcon />
+                </Link>
+              )}
+            </TabList>
+          </div>
+          <TabPanel>
+            <iframe
+              className="htmlrunner-iframe"
+              id="output-frame"
+              title={t("runners.HtmlOutput")}
+              ref={output}
+              onLoad={iframeReload}
+            />
+          </TabPanel>
+        </Tabs>
       ) : null}
     </div>
   );

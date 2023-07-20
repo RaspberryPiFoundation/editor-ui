@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Button from "../Button/Button";
 import { login } from "../../utils/login";
+import PropTypes from "prop-types";
 
-const LoginButton = (props) => {
-  const { buttonText, className, triggerSave } = props;
+const LoginButton = ({ buttonText, className, triggerSave, loginRedirect }) => {
   const location = useLocation();
   const project = useSelector((state) => state.editor.project);
   const accessDeniedData = useSelector(
@@ -14,7 +14,13 @@ const LoginButton = (props) => {
 
   const onLoginButtonClick = (event) => {
     event.preventDefault();
-    login({ project, location, triggerSave, accessDeniedData });
+    login({
+      project,
+      location,
+      triggerSave,
+      accessDeniedData,
+      loginRedirect,
+    });
   };
 
   return (
@@ -24,6 +30,13 @@ const LoginButton = (props) => {
       onClickHandler={onLoginButtonClick}
     />
   );
+};
+
+LoginButton.propTypes = {
+  buttonText: PropTypes.string,
+  className: PropTypes.string,
+  triggerSave: PropTypes.bool,
+  loginRedirect: PropTypes.string,
 };
 
 export default LoginButton;
