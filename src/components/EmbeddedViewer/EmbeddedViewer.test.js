@@ -4,13 +4,24 @@ import EmbeddedViewer from "./EmbeddedViewer";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { render, screen } from "@testing-library/react";
+import { useProject } from "../Editor/Hooks/useProject";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: () => ({
+    identifier: "my-amazing-project",
+  }),
+}));
+
+jest.mock("../Editor/Hooks/useProject", () => ({
+  useProject: jest.fn(),
+}));
 
 let initialState;
 let store;
 
 beforeEach(() => {
   initialState = {
-    auth: {},
     editor: {
       project: {
         components: [
@@ -25,6 +36,11 @@ beforeEach(() => {
       notFoundModalShowing: false,
       accessDeniedNoAuthModalShowing: false,
       accessDeniedWithAuthModalShowing: false,
+    },
+    auth: {
+      user: {
+        access_token: "my_token",
+      },
     },
   };
 });
@@ -47,6 +63,30 @@ test("Renders without crashing", () => {
     </Provider>,
   );
   expect(asFragment()).toMatchSnapshot();
+});
+
+test("Loads project with correct params", () => {
+  initialState = {
+    ...initialState,
+    editor: {
+      ...initialState.editor,
+      loading: "success",
+    },
+  };
+
+  const mockStore = configureStore([]);
+  store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <EmbeddedViewer />
+    </Provider>,
+  );
+  expect(useProject).toHaveBeenCalledWith({
+    projectIdentifier: "my-amazing-project",
+    accessToken: "my_token",
+    isEmbedded: true,
+  });
 });
 
 test("Renders the expected modal when the project can't be found", () => {

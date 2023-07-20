@@ -105,6 +105,65 @@ describe("When accessDeniedData is true", () => {
   });
 });
 
+describe("When loginRedirect is set", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        modals: {},
+      },
+      auth: {
+        user: null,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Provider store={store}>
+          <LoginButton buttonText="Login" loginRedirect="/some-other-page" />
+        </Provider>
+      </MemoryRouter>,
+    );
+    loginButton = screen.queryByText("Login");
+  });
+
+  test("Clicking the login button saves loginRedirect location to local storage", () => {
+    fireEvent.click(loginButton);
+    expect(localStorage.getItem("location")).toBe("/some-other-page");
+  });
+});
+
+describe("When project is not set", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        modals: {},
+      },
+      auth: {
+        user: null,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Provider store={store}>
+          <LoginButton buttonText="Login" />
+        </Provider>
+      </MemoryRouter>,
+    );
+    loginButton = screen.queryByText("Login");
+  });
+
+  test("Clicking the login button doesn't save project to local storage", () => {
+    fireEvent.click(loginButton);
+    expect(localStorage.getItem("project")).toBeNull();
+  });
+});
+
 describe("When login button has triggerSave set", () => {
   beforeEach(() => {
     const middlewares = [];

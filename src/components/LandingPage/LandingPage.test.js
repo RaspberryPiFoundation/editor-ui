@@ -9,7 +9,14 @@ import LandingPage from "./LandingPage";
 
 let container;
 
-describe("<LandingPage>", () => {
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
+describe("User not logged in", () => {
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -69,5 +76,33 @@ describe("<LandingPage>", () => {
       "href",
       "https://projects.raspberrypi.org/en/pathways/web-intro",
     );
+  });
+});
+
+describe("User logged in", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        modals: {},
+      },
+      auth: {
+        user: "some-fake-user",
+      },
+    };
+    const store = mockStore(initialState);
+    ({ container } = render(
+      <MemoryRouter initialEntries={["/my_project"]}>
+        <Provider store={store}>
+          <LandingPage />
+        </Provider>
+      </MemoryRouter>,
+    ));
+  });
+
+  test("Redirects to the projects page", () => {
+    expect(mockedUsedNavigate).toBeCalledWith("/ja-JP/projects");
   });
 });

@@ -5,6 +5,7 @@ export const login = ({
   location,
   triggerSave,
   accessDeniedData,
+  loginRedirect,
 } = {}) => {
   window.plausible("Login button");
   if (accessDeniedData) {
@@ -13,11 +14,13 @@ export const login = ({
       `/projects/${accessDeniedData.identifier}`,
     );
   } else {
-    localStorage.setItem("location", location.pathname);
-    localStorage.setItem(
-      project.identifier || "project",
-      JSON.stringify(project),
-    );
+    localStorage.setItem("location", loginRedirect || location.pathname);
+    if (project) {
+      localStorage.setItem(
+        project.identifier || "project",
+        JSON.stringify(project),
+      );
+    }
   }
   if (triggerSave) {
     localStorage.setItem("awaitingSave", "true");

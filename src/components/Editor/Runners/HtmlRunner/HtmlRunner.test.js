@@ -4,6 +4,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
 import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
+import { MemoryRouter } from "react-router-dom";
 
 const indexPage = {
   name: "index",
@@ -43,9 +44,11 @@ describe("When page first loaded", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -72,9 +75,11 @@ describe("When focussed on another HTML file", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -109,9 +114,11 @@ describe("When page first loaded in embedded viewer", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -127,7 +134,54 @@ describe("When page first loaded in embedded viewer", () => {
   });
 });
 
-describe("When run run triggered", () => {
+describe("When page first loaded from search params", () => {
+  let store;
+
+  beforeEach(async () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        focussedFileIndices: [0],
+        openFiles: [[]],
+        justLoaded: true,
+        errorModalShowing: false,
+        isEmbedded: true,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={["?browserPreview=true&page=a-new-test-page.html"]}
+        >
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("iframe exists", () => {
+    expect(screen.queryByTitle("runners.HtmlOutput")).toBeInTheDocument();
+  });
+
+  test("tab exists", () => {
+    expect(
+      screen.queryByText("a-new-test-page.html output.preview"),
+    ).toBeInTheDocument();
+  });
+
+  test("Dispatches action to trigger code run", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([triggerCodeRun()]),
+    );
+  });
+});
+
+describe("When run is triggered", () => {
   let store;
 
   beforeEach(() => {
@@ -148,15 +202,19 @@ describe("When run run triggered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
 
-  test("Runs HTML code", () => {
-    expect(Blob).toHaveBeenCalledWith([indexPage.content], {
+  test("Runs HTML code and adds meta tag", () => {
+    const indexPageContent =
+      '<head></head><body><p>hello world</p><meta filename="index.html" ></body>';
+    expect(Blob).toHaveBeenCalledWith([indexPageContent], {
       type: "text/html",
     });
   });
@@ -172,7 +230,7 @@ describe("When an external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -198,9 +256,11 @@ describe("When an external link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -216,7 +276,7 @@ describe("When a new tab link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="index.html" target="_blank">NEW TAB LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a><meta filename="some_file.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -243,9 +303,11 @@ describe("When a new tab link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
@@ -278,15 +340,19 @@ describe("When an allowed link is rendered", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <div id="app">
-          <HtmlRunner />
-        </div>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
       </Provider>,
     );
   });
 
-  test("Runs HTML code without changes", () => {
-    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLPage.content], {
+  test("Runs HTML code without changes apart from meta tag", () => {
+    const allowedLinkHTMLContent =
+      '<head></head><body><a href="#">ANCHOR LINK!</a><meta filename="allowed_link.html" ></body>';
+    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLContent], {
       type: "text/html",
     });
   });
