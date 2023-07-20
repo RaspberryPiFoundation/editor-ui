@@ -52,11 +52,13 @@ export const DeleteProjectModal = () => {
       ]}
       buttons={[
         <Button
+          key="delete"
           className="btn--danger"
           buttonText={t("projectList.deleteProjectModal.delete")}
           onClickHandler={onClickDelete}
         />,
         <Button
+          key="close"
           className="btn--secondary"
           buttonText={t("projectList.deleteProjectModal.cancel")}
           onClickHandler={closeModal}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
-import DownloadButton from "../Header/DownloadButton";
+import DownloadButton from "../DownloadButton/DownloadButton";
 import LoginButton from "../Login/LoginButton";
 import "../../Modal.scss";
 import Button from "../Button/Button";
@@ -37,15 +37,18 @@ const LoginToSaveModal = () => {
       ]}
       buttons={[
         <LoginButton
+          key="login"
           className="btn--primary"
           buttonText={t("loginToSaveModal.loginButtonText")}
           triggerSave
         />,
         <DownloadButton
+          key="download"
           buttonText={t("loginToSaveModal.downloadButtonText")}
           className="btn--secondary"
         />,
         <Button
+          key="close"
           buttonText={t("loginToSaveModal.cancel")}
           className="btn--tertiary"
           onClickHandler={closeModal}

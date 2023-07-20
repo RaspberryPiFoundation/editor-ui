@@ -1,0 +1,62 @@
+@use '../../../../spacing' as *;
+@import '../../../../colours.scss';
+
+.files-list-item-wrapper {
+  display: flex;
+  position: relative;
+}
+
+.files-list-item {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  align-items: center;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  box-sizing: border-box;
+  white-space: nowrap;
+  font-weight: var(--font-weight-regular);
+  min-height: 44px;
+  padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
+  margin: 0;
+}
+
+.files-list-item__name {
+  font-weight: var(--font-weight-bold);
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.files-list-item__menu {
+  position: absolute;
+  right: 0;
+}
+
+.--light {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-teal-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-teal-secondary-tertiary-active;
+    }
+  }
+}
+
+.--dark {
+  .files-list-item {
+    &:hover {
+      background-color: $rpf-grey-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-grey-secondary-tertiary-active;
+    }
+  }
+
+  .files-list-icon svg {
+    fill: $rpf-white;
+  }
+}
