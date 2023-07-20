@@ -10,15 +10,6 @@
   --rpf-button-primary-text-color: #{$rpf-text-primary};
 }
 
-.landing-page-button__content * {
-  display: inline-flex;
-  gap: 0.5rem;
-  align-items: center;
-  svg {
-    fill: $rpf-text-primary;
-  }
-}
-
 .landing-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -100,9 +91,14 @@
   font-weight: var(--font-weight-bold);
 }
 
-.landing-page__button {
+.landing-page__button * {
   @include font-size-1-25(regular);
-
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  svg {
+    fill: $rpf-text-primary;
+  }
   a {
     color: $rpf-black;
     text-decoration: none;
