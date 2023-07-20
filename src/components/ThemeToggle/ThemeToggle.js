@@ -1,4 +1,4 @@
-import React from "react";
+import React, { startTransition } from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +21,9 @@ const ThemeToggle = () => {
         removeCookie("theme", { path });
       });
     }
-    setCookie("theme", theme, { path: "/" });
+    startTransition(() => {
+      setCookie("theme", theme, { path: "/" });
+    });
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import Sk from "skulpt";
 import "../AstroPiModel.scss";
 
@@ -9,7 +9,9 @@ const Input = (props) => {
 
   useEffect(() => {
     if (Sk.sense_hat) {
-      Sk.sense_hat[name] = value;
+      startTransition(() => {
+        Sk.sense_hat[name] = value;
+      });
     }
   }, [name, value]);
 
