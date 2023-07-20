@@ -3,13 +3,6 @@
 @import "../../colours.scss";
 @import "../../mixins.scss";
 
-:root * {
-  --rpf-button-primary-background-color: #{$rpf-teal-800};
-  --rpf-button-primary-background-color-hover: #{$rpf-teal-900};
-  --rpf-button-primary-background-color-active: #{$rpf-teal-900};
-  --rpf-button-primary-text-color: #{$rpf-text-primary};
-}
-
 .landing-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -182,10 +175,6 @@
 }
 
 .--dark {
-  * {
-    --rpf-button-primary-background-color: #{$rpf-teal-400};
-    --rpf-button-primary-background-color-hover: #{$rpf-teal-600};
-  }
   .landing-page__paths {
     background-color: $rpf-grey-800;
   }
