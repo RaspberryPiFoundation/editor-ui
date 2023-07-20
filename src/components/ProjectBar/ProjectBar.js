@@ -2,7 +2,7 @@ import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Autosave from "./Autosave";
-import Button from "../Button/Button";
+import { Button } from "@RaspberryPiFoundation/design-system-react";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import ProjectName from "./ProjectName";
@@ -58,10 +58,11 @@ const ProjectBar = () => {
           ) : null}
           {loading === "success" ? (
             <Button
-              className="btn--primary btn--save"
-              onClickHandler={onClickSave}
-              buttonText={t("header.save")}
-              ButtonIcon={SaveIcon}
+              // className="btn--save"
+              onClick={onClickSave}
+              text={t("header.save")}
+              // small
+              //icon={SaveIcon}
             />
           ) : null}
           {lastSavedTime && user ? (

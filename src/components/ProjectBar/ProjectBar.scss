@@ -1,6 +1,6 @@
-@use '../../spacing' as *;
-@import '../../colours.scss';
-@import '../Button/Button.scss';
+@use "../../spacing" as *;
+@import "../../colours.scss";
+@import "../Button/Button.scss";
 
 .autosave {
   align-items: center;
@@ -15,7 +15,7 @@
 }
 
 .autosave__icon {
-  display: flex
+  display: flex;
 }
 
 .autosave__time--hidden {
@@ -66,7 +66,7 @@
 
   .btn--save {
     height: $space-3;
-    margin: $space-0-5;
+    margin: $space-2-5;
 
     span {
       display: none;
@@ -77,7 +77,7 @@
         display: none;
       }
       span {
-        display: block
+        display: block;
       }
     }
   }
