@@ -305,7 +305,7 @@ const PythonRunner = () => {
         "from py5_imported_mode import *",
       );
 
-      if (!prog.match(/(run_sketch)/)) {
+      if (!prog.match(/(\nrun_sketch)/)) {
         prog = prog.concat("\nrun_sketch()");
       }
     }

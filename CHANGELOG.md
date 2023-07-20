@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [0.16.4] - 2023-07-11
-
 ### Added
+
 - Sidebar info
+- `hex` attribute for `p5` `Color` class (#574)
+- `hex_color` function for `py5`, including imported mode (#574)
+- New landing page
+- Ability to specify project name and type on creation (#519)
+
 ### Changed
 
 - Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
@@ -17,34 +21,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Refactored and restyled project files panel and removed project images (#501)
 - Moved project images into own sidebar panel (#567)
 - Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
-
-## [0.16.3] - 2023-06-29
-
-### Changed
-
-- Update Beta Banner copy and add a link
-
-## [0.16.2] - 2023-06-12
-
-### Added
-
-- New landing page
-- Ability to specify project name and type on creation (#519)
-
-### Changed
-
 - Move eslint config to `.eslintrc.json` with prettier support
 - Add `.editorconfig`
 - Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link
 
 ### Fixed
 
+- Color class attributes in `p5` (#574)
+- Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
+- Allow output text to be scrollable if overflow-y (#575)
 - No longer renders a blank page on 401, 403 & 404 for embedded viewer
-
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
 - Keyboard accessibility of project file opening (#501)
-
 - Quick fix for Editor header on mobile # (#551)
 
 ## [0.16.1] - 2023-05-19
