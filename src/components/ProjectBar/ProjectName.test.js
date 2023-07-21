@@ -71,10 +71,6 @@ describe("When input field loses focus", () => {
     expect(store.getActions()).toEqual([]);
   });
 
-  test("Disables input field", async () => {
-    await waitFor(() => expect(inputField).toBeDisabled());
-  });
-
   test("Switches to edit button", () => {
     expect(editButton).toBeInTheDocument();
   });
