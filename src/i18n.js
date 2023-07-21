@@ -204,13 +204,16 @@ i18n
             accountMenuProfileAltText: "{{name}}'s account",
             raspberryPiLogoAltText: "Raspberry Pi logo",
           },
+          projectName: {
+            label: "Project name",
+            newProject: "New Project",
+          },
           header: {
             autoSaving: "Saving",
             autoSaved: "Saved",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
-            newProject: "New Project",
             projects: "Your projects",
             renameProject: "Edit project name",
             renameSave: "Save project name",
@@ -233,6 +236,11 @@ i18n
           },
           imagePanel: {
             gallery: "Image Gallery",
+          },
+          projectsPanel: {
+            projects: "Projects",
+            yourProjectsButton: "Go to your projects",
+            projectTypeLabel: "Project type",
           },
           infoPanel: {
             info: "Information",
@@ -265,9 +273,7 @@ i18n
               inputLabel: "Project name",
             },
             projectType: {
-              html: "HTML",
               inputLabel: "What kind of project do you want to make?",
-              python: "Python",
             },
           },
           notifications: {
@@ -384,6 +390,10 @@ i18n
             python_type: "Python",
             html_type: "HTML",
           },
+          projectTypes: {
+            html: "HTML/CSS",
+            python: "Python",
+          },
           runButton: {
             run: "Run",
             stop: "Stop",
@@ -397,6 +407,7 @@ i18n
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",
+            projects: "Projects",
             information: "Information",
             information_text:
               "Our code editor is designed to create a simple and safe learning environment for beginner programmers. As a result, we have implemented some limitations, such as the inability to include external links in your code.",

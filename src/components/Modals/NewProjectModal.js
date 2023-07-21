@@ -60,12 +60,12 @@ const NewProjectModal = () => {
           options: [
             {
               value: "python",
-              label: t("newProjectModal.projectType.python"),
+              label: t("projectTypes.python"),
               Icon: PythonIcon,
             },
             {
               value: "html",
-              label: t("newProjectModal.projectType.html"),
+              label: t("projectTypes.html"),
               Icon: HTMLIcon,
             },
           ],

@@ -1,19 +1,22 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { PencilIcon, TickIcon } from "../../Icons";
 import Button from "../Button/Button";
 import { updateProjectName } from "../Editor/EditorSlice";
 
 import "./ProjectName.scss";
+import classNames from "classnames";
+import PropTypes from "prop-types";
 
-const ProjectName = () => {
-  const project = useSelector((state) => state.editor.project);
+const ProjectName = ({ className = null, showLabel = false }) => {
+  const project = useSelector((state) => state.editor.project, shallowEqual);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const nameInput = useRef();
   const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
+  const [name, setName] = useState(project.name || t("projectName.newProject"));
 
   const onEditNameButtonClick = () => {
     setEditable(true);
@@ -27,6 +30,14 @@ const ProjectName = () => {
     if (!isEditable) {
       nameInput.current.scrollLeft = 0;
     }
+  };
+
+  useEffect(() => {
+    setName(project.name);
+  }, [project.name]);
+
+  const handleOnChange = () => {
+    setName(nameInput.current.value);
   };
 
   const updateName = (event) => {
@@ -77,37 +88,51 @@ const ProjectName = () => {
   }, [nameInput, tickButton, project, resetName]);
 
   return (
-    <div className="project-name">
-      <input
-        className="project-name__input"
-        ref={nameInput}
-        type="text"
-        onFocus={selectText}
-        onScroll={handleScroll}
-        onKeyDown={handleKeyDown}
-        defaultValue={project.name || t("header.newProject")}
-        disabled={!isEditable}
-      />
-      {isEditable ? (
-        <Button
-          buttonRef={tickButton}
-          className="btn--primary"
-          label={t("header.renameSave")}
-          title={t("header.renameSave")}
-          ButtonIcon={TickIcon}
-          onClickHandler={updateName}
+    <>
+      {showLabel ? (
+        <label htmlFor="project_name" className="project-name__label">
+          {t("projectName.label")}
+        </label>
+      ) : null}
+      <div className={classNames("project-name", className)}>
+        <input
+          className="project-name__input"
+          id={"project_name"}
+          ref={nameInput}
+          type="text"
+          onFocus={selectText}
+          onScroll={handleScroll}
+          onKeyDown={handleKeyDown}
+          value={name}
+          disabled={!isEditable}
+          onChange={handleOnChange}
         />
-      ) : (
-        <Button
-          className="btn--tertiary project-name__button"
-          label={t("header.renameProject")}
-          title={t("header.renameProject")}
-          ButtonIcon={PencilIcon}
-          onClickHandler={onEditNameButtonClick}
-        />
-      )}
-    </div>
+        {isEditable ? (
+          <Button
+            buttonRef={tickButton}
+            className="btn--primary"
+            label={t("header.renameSave")}
+            title={t("header.renameSave")}
+            ButtonIcon={TickIcon}
+            onClickHandler={updateName}
+          />
+        ) : (
+          <Button
+            className="btn--tertiary project-name__button"
+            label={t("header.renameProject")}
+            title={t("header.renameProject")}
+            ButtonIcon={PencilIcon}
+            onClickHandler={onEditNameButtonClick}
+          />
+        )}
+      </div>
+    </>
   );
+};
+
+ProjectName.propTypes = {
+  className: PropTypes.string,
+  showLabel: PropTypes.bool,
 };
 
 export default ProjectName;
