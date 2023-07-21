@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon, ImageIcon, InfoIcon, SettingsIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
+import { HomeIcon, FileIcon, ImageIcon, InfoIcon, SettingsIcon } from "../../../Icons";
+import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
 import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
@@ -14,6 +15,13 @@ import { useSelector } from "react-redux";
 const Sidebar = () => {
   const { t } = useTranslation();
   let menuOptions = [
+    {
+      name: "projects",
+      icon: HomeIcon,
+      title: t("sidebar.projects"),
+      position: "top",
+      panel: ProjectsPanel,
+    },
     {
       name: "file",
       icon: FileIcon,
