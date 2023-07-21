@@ -6,7 +6,6 @@
 .project-name {
   align-items: center;
   display: flex;
-  height: 100%;
   max-width: 50%;
   padding-inline-start: $space-0-5;
   @include unique-max-width(600px) {
