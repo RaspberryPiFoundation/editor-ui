@@ -2,10 +2,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but the app has been ejected so build scripts etc. are all in the repo now.
 
-## Raspberry Pi Foundation Design System
-
-TODO
-
 ## Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables.
