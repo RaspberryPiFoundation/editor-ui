@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add `.editorconfig` (#502)
 - Default HTML project improvement (#543)
 - Update Beta Banner copy and add a link (#550)
+- LandingPage and Save buttons on editor use design-system-react
 
 ### Fixed
 
