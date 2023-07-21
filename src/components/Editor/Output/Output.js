@@ -7,12 +7,15 @@ import RunBar from "../../RunButton/RunBar";
 const Output = () => {
   const project = useSelector((state) => state.editor.project);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const searchParams = new URLSearchParams(window.location.search);
+  const isBrowserPreview = searchParams.get("browserPreview") === "true";
+
   return (
     <>
       <ExternalFiles />
       <div className="proj-runner-container">
         <RunnerFactory projectType={project.project_type} />
-        {isEmbedded ? <RunBar /> : null}
+        {isEmbedded && !isBrowserPreview ? <RunBar /> : null}
       </div>
     </>
   );

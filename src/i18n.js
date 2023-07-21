@@ -273,6 +273,8 @@ i18n
             errors: {
               interrupted: "Execution interrupted",
             },
+            newTab: "Preview in new tab",
+            preview: "preview",
             senseHat: {
               controls: {
                 colour: "colour",
