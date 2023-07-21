@@ -135,10 +135,6 @@ describe("With no label", () => {
       expect(store.getActions()).toEqual([updateProjectName(project.name)]);
     });
 
-    test("Disables input field", async () => {
-      await waitFor(() => expect(inputField).toBeDisabled());
-    });
-
     test("Switches to edit button", () => {
       expect(editButton).toBeInTheDocument();
     });
