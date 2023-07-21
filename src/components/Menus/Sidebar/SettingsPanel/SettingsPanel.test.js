@@ -29,16 +29,16 @@ describe("Settings panel", () => {
         <MemoryRouter>
           <SettingsPanel t={() => {}} />
         </MemoryRouter>
-      </Provider>
+      </Provider>,
     );
   });
 
   test("Headings are rendered", () => {
     expect(
-      screen.queryByText("sidebar.settingsMenu.textSize")
+      screen.queryByText("sidebar.settingsMenu.textSize"),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText("sidebar.settingsMenu.theme")
+      screen.queryByText("sidebar.settingsMenu.theme"),
     ).toBeInTheDocument();
   });
 });

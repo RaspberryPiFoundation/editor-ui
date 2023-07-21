@@ -12,7 +12,7 @@ describe("When font size cookie unset", () => {
     fontSelector = render(
       <CookiesProvider cookies={cookies}>
         <FontSizeSelector />
-      </CookiesProvider>
+      </CookiesProvider>,
     );
   });
 
@@ -22,7 +22,7 @@ describe("When font size cookie unset", () => {
 
   test("Sets cookie to large when first button clicked", async () => {
     const largeButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.large"
+      "sidebar.settingsMenu.textSizeOptions.large",
     ).parentElement;
     fireEvent.click(largeButton);
     expect(cookies.cookies.fontSize).toBe("large");
@@ -30,7 +30,7 @@ describe("When font size cookie unset", () => {
 
   test("Sets cookie to medium when second button clicked", async () => {
     const mediumButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.medium"
+      "sidebar.settingsMenu.textSizeOptions.medium",
     ).parentElement;
     fireEvent.click(mediumButton);
     expect(cookies.cookies.fontSize).toBe("medium");
@@ -38,7 +38,7 @@ describe("When font size cookie unset", () => {
 
   test("Sets cookie to small when third button clicked", async () => {
     const smallButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.small"
+      "sidebar.settingsMenu.textSizeOptions.small",
     ).parentElement;
     fireEvent.click(smallButton);
     expect(cookies.cookies.fontSize).toBe("small");
