@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- HTML/CSS minor fixes (#594)
 - Color class attributes in `p5` (#574)
 - Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
 - Allow output text to be scrollable if overflow-y (#575)
