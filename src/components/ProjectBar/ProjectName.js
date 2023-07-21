@@ -19,6 +19,10 @@ const ProjectName = () => {
     setEditable(true);
   };
 
+  const handleOnBlur = () => {
+    setEditable(false);
+  };
+
   const selectText = () => {
     nameInput.current.select();
   };
@@ -86,6 +90,7 @@ const ProjectName = () => {
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         defaultValue={project.name || t("header.newProject")}
+        onBlur={handleOnBlur}
         disabled={!isEditable}
       />
       {isEditable ? (
