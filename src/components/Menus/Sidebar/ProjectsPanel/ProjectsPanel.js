@@ -16,9 +16,7 @@ const ProjectsPanel = () => {
     i18n: { language: locale },
   } = useTranslation();
 
-  const isLoggedIn = useSelector((state) => state.auth.user);
-
-  // TODO: Tests!
+  const isLoggedIn = useSelector((state) => state?.auth?.user);
 
   return (
     <SidebarPanel

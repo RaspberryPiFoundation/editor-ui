@@ -16,7 +16,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   const nameInput = useRef();
   const tickButton = useRef();
   const [isEditable, setEditable] = useState(false);
-  const [name, setName] = useState(project.name || t("header.newProject"));
+  const [name, setName] = useState(project.name || t("projectName.newProject"));
 
   const onEditNameButtonClick = () => {
     setEditable(true);
@@ -91,7 +91,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     <>
       {showLabel ? (
         <label htmlFor="project_name" className="project-name__label">
-          {t("projectsPanel.projectNameLabel")}
+          {t("projectName.label")}
         </label>
       ) : null}
       <div className={classNames("project-name", className)}>

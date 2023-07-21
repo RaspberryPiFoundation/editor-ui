@@ -17,123 +17,149 @@ let store;
 let editButton;
 let inputField;
 
-beforeEach(() => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: project,
-    },
-  };
-  store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <ProjectName />
-    </Provider>,
-  );
-  editButton = screen.getByLabelText("header.renameProject");
-  inputField = screen.getByRole("textbox");
-});
-
-test("Project name input field is disabled initially", () => {
-  expect(screen.queryByRole("textbox")).toBeDisabled();
-});
-
-test("Edit button shown initially", () => {
-  expect(editButton).toBeInTheDocument();
-});
-
-describe("When edit button clicked", () => {
+describe("With a label", () => {
   beforeEach(() => {
-    fireEvent.click(editButton);
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: project,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <ProjectName showLabel={true} />
+      </Provider>,
+    );
+    editButton = screen.getByLabelText("header.renameProject");
+    inputField = screen.getByRole("textbox");
   });
 
-  test("Input field is enabled", () => {
-    expect(screen.queryByRole("textbox")).not.toBeDisabled();
-  });
-
-  test("Focus transferred to input field", () => {
-    expect(screen.queryByRole("textbox")).toHaveFocus();
-  });
-
-  test("Tick button shown", () => {
-    expect(screen.getByLabelText("header.renameSave")).toBeInTheDocument();
+  test("Project type label shown", () => {
+    expect(screen.getByText("projectName.label")).toBeInTheDocument();
   });
 });
 
-describe("When input field loses focus", () => {
+describe("With no label", () => {
   beforeEach(() => {
-    fireEvent.click(editButton);
-    userEvent.click(document.body);
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: project,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <ProjectName />
+      </Provider>,
+    );
+    editButton = screen.getByLabelText("header.renameProject");
+    inputField = screen.getByRole("textbox");
   });
 
-  test("Does not update project name", () => {
-    expect(store.getActions()).toEqual([]);
+  test("Project name input field is disabled initially", () => {
+    expect(screen.queryByRole("textbox")).toBeDisabled();
   });
 
-  test("Disables input field", async () => {
-    await waitFor(() => expect(inputField).toBeDisabled());
-  });
-
-  test("Switches to edit button", () => {
+  test("Edit button shown initially", () => {
     expect(editButton).toBeInTheDocument();
   });
-});
 
-describe("When Enter is pressed", () => {
-  beforeEach(() => {
-    fireEvent.click(editButton);
-    fireEvent.keyDown(inputField, { key: "Enter" });
+  describe("When edit button clicked", () => {
+    beforeEach(() => {
+      fireEvent.click(editButton);
+    });
+
+    test("Input field is enabled", () => {
+      expect(screen.queryByRole("textbox")).not.toBeDisabled();
+    });
+
+    test("Focus transferred to input field", () => {
+      expect(screen.queryByRole("textbox")).toHaveFocus();
+    });
+
+    test("Tick button shown", () => {
+      expect(screen.getByLabelText("header.renameSave")).toBeInTheDocument();
+    });
   });
 
-  test("Updates project name", () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+  describe("When input field loses focus", () => {
+    beforeEach(() => {
+      fireEvent.click(editButton);
+      userEvent.click(document.body);
+    });
+
+    test("Does not update project name", () => {
+      expect(store.getActions()).toEqual([]);
+    });
+
+    test("Disables input field", async () => {
+      await waitFor(() => expect(inputField).toBeDisabled());
+    });
+
+    test("Switches to edit button", () => {
+      expect(editButton).toBeInTheDocument();
+    });
   });
 
-  test("Disables input field", async () => {
-    await waitFor(() => expect(inputField).toBeDisabled());
+  describe("When Enter is pressed", () => {
+    beforeEach(() => {
+      fireEvent.click(editButton);
+      fireEvent.keyDown(inputField, { key: "Enter" });
+    });
+
+    test("Updates project name", () => {
+      expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+    });
+
+    test("Disables input field", async () => {
+      await waitFor(() => expect(inputField).toBeDisabled());
+    });
+
+    test("Switches to edit button", () => {
+      expect(editButton).toBeInTheDocument();
+    });
   });
 
-  test("Switches to edit button", () => {
-    expect(editButton).toBeInTheDocument();
-  });
-});
+  describe("When tick button clicked", () => {
+    beforeEach(() => {
+      fireEvent.click(editButton);
+      const tickButton = screen.getByTitle("header.renameSave");
+      fireEvent.click(tickButton);
+    });
 
-describe("When tick button clicked", () => {
-  beforeEach(() => {
-    fireEvent.click(editButton);
-    const tickButton = screen.getByTitle("header.renameSave");
-    fireEvent.click(tickButton);
-  });
+    test("Updates project name", () => {
+      expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+    });
 
-  test("Updates project name", () => {
-    expect(store.getActions()).toEqual([updateProjectName(project.name)]);
-  });
+    test("Disables input field", async () => {
+      await waitFor(() => expect(inputField).toBeDisabled());
+    });
 
-  test("Disables input field", async () => {
-    await waitFor(() => expect(inputField).toBeDisabled());
-  });
-
-  test("Switches to edit button", () => {
-    expect(editButton).toBeInTheDocument();
-  });
-});
-
-describe("When Escape is pressed", () => {
-  beforeEach(() => {
-    fireEvent.click(editButton);
-    fireEvent.keyDown(inputField, { key: "Escape" });
+    test("Switches to edit button", () => {
+      expect(editButton).toBeInTheDocument();
+    });
   });
 
-  test("Does not update project name", () => {
-    expect(store.getActions()).toEqual([]);
-  });
+  describe("When Escape is pressed", () => {
+    beforeEach(() => {
+      fireEvent.click(editButton);
+      fireEvent.keyDown(inputField, { key: "Escape" });
+    });
 
-  test("Disables input field", async () => {
-    await waitFor(() => expect(inputField).toBeDisabled());
-  });
+    test("Does not update project name", () => {
+      expect(store.getActions()).toEqual([]);
+    });
 
-  test("Switches to edit button", () => {
-    expect(editButton).toBeInTheDocument();
+    test("Disables input field", async () => {
+      await waitFor(() => expect(inputField).toBeDisabled());
+    });
+
+    test("Switches to edit button", () => {
+      expect(editButton).toBeInTheDocument();
+    });
   });
 });

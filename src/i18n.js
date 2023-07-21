@@ -204,13 +204,16 @@ i18n
             accountMenuProfileAltText: "{{name}}'s account",
             raspberryPiLogoAltText: "Raspberry Pi logo",
           },
+          projectName: {
+            label: "Project name",
+            newProject: "New Project",
+          },
           header: {
             autoSaving: "Saving",
             autoSaved: "Saved",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
-            newProject: "New Project",
             projects: "Your projects",
             renameProject: "Edit project name",
             renameSave: "Save project name",
@@ -237,7 +240,6 @@ i18n
           projectsPanel: {
             projects: "Projects",
             yourProjectsButton: "Go to your projects",
-            projectNameLabel: "Project name",
             projectTypeLabel: "Project type",
           },
           infoPanel: {
