@@ -6,6 +6,10 @@
   margin: auto $space-0-5 auto auto;
   align-items: center;
 
+  .btn-outer {
+    padding: 0;
+  }
+
   &__button {
     border: 0px;
     display: flex;

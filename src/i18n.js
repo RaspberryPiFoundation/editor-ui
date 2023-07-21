@@ -207,13 +207,13 @@ i18n
           header: {
             autoSaving: "Saving",
             autoSaved: "Saved",
-            buttonLabel: "Edit project name",
-            buttonTitle: "Edit project name",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
             newProject: "New Project",
             projects: "Your projects",
+            renameProject: "Edit project name",
+            renameSave: "Save project name",
             save: "Save",
             settings: "Settings",
             settingsMenu: {
@@ -233,6 +233,9 @@ i18n
           },
           imagePanel: {
             gallery: "Image Gallery",
+          },
+          infoPanel: {
+            info: "Information",
           },
           input: {
             comment: {
@@ -281,6 +284,8 @@ i18n
             errors: {
               interrupted: "Execution interrupted",
             },
+            newTab: "Preview in new tab",
+            preview: "preview",
             senseHat: {
               controls: {
                 colour: "colour",
@@ -392,6 +397,15 @@ i18n
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",
+            information: "Information",
+            information_text:
+              "Our code editor is designed to create a simple and safe learning environment for beginner programmers. As a result, we have implemented some limitations, such as the inability to include external links in your code.",
+            feedback: "Feedback",
+            privacy: "Privacy",
+            cookies: "Cookies",
+            accessibility: "Accessibility",
+            safeguarding: "Safeguarding",
+            charity: "Raspberry Pi Foundation - UK registered charity 1129409",
           },
         },
       },

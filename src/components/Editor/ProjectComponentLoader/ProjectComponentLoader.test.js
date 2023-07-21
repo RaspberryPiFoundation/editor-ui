@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom";
 import ProjectComponentLoader from "./ProjectComponentLoader";
 import { setProject } from "../EditorSlice";
 import { defaultPythonProject } from "../../../utils/defaultProjects";
@@ -23,7 +24,9 @@ test("Renders loading message if loading is pending", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <ProjectComponentLoader match={{ params: {} }} />
+      <MemoryRouter>
+        <ProjectComponentLoader match={{ params: {} }} />
+      </MemoryRouter>
     </Provider>,
   );
   expect(screen.queryByText("project.loading")).toBeInTheDocument();
@@ -41,7 +44,9 @@ test("Loads default project if loading fails", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <ProjectComponentLoader match={{ params: {} }} />
+      <MemoryRouter>
+        <ProjectComponentLoader match={{ params: {} }} />
+      </MemoryRouter>
     </Provider>,
   );
   const expectedActions = [setProject(defaultPythonProject)];
@@ -65,8 +70,10 @@ test("Does not render loading message if loading is success", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <div id="app"></div>
-      <ProjectComponentLoader match={{ params: {} }} />
+      <MemoryRouter>
+        <div id="app"></div>
+        <ProjectComponentLoader match={{ params: {} }} />
+      </MemoryRouter>
     </Provider>,
   );
   expect(screen.queryByText("project.loading")).not.toBeInTheDocument();

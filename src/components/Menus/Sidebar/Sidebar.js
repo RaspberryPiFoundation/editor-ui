@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon, ImageIcon } from "../../../Icons";
+import { FileIcon, ImageIcon, InfoIcon } from "../../../Icons";
 import FilePanel from "./FilePanel/FilePanel";
+import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 
 import "./Sidebar.scss";
@@ -26,11 +27,19 @@ const Sidebar = () => {
       position: "top",
       panel: ImagePanel,
     },
+    {
+      name: "info",
+      icon: InfoIcon,
+      title: t("sidebar.information"),
+      position: "bottom",
+      panel: InfoPanel,
+    },
   ];
   const projectImages = useSelector((state) => state.editor.project.image_list);
   if (!projectImages || projectImages.length === 0) {
     menuOptions.splice(
       menuOptions.findIndex((option) => option.name === "images"),
+      1,
     );
   }
   const [option, setOption] = useState();
