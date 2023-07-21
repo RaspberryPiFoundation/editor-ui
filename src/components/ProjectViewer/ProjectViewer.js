@@ -11,7 +11,7 @@ const ProjectViewer = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const dispatch = useDispatch();
-  useProject(identifier);
+  useProject({ projectIdentifier: identifier });
 
   useEffect(() => {
     dispatch(triggerCodeRun());

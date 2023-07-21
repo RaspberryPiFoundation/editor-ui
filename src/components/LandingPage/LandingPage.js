@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
@@ -10,6 +11,8 @@ import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconHtml, FileIconPython } from "../../Icons";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const { t, i18n } = useTranslation();
   const [cookies] = useCookies(["theme"]);
   const locale = i18n.language;
@@ -17,6 +20,13 @@ const LandingPage = () => {
     cookies.theme === "dark" ||
     (!cookies.theme &&
       window.matchMedia("(prefers-color-scheme:dark)").matches);
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${locale}/projects`);
+    }
+  }, [user, locale, navigate]);
+
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page__projects">
@@ -29,13 +39,13 @@ const LandingPage = () => {
         <div className="landing-page__projects--buttons">
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-python-starter`}
+            href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
             ButtonIcon={FileIconPython}
           />
           <Button
             className="btn--primary landing-page__button"
-            buttonHref={`/${locale}/projects/blank-html-starter`}
+            href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
             ButtonIcon={FileIconHtml}
           />
@@ -46,6 +56,7 @@ const LandingPage = () => {
             key="login"
             className=""
             buttonText={t("landingPage.login")}
+            loginRedirect={`/${locale}/projects`}
           />
           and continue your projects
         </p>
