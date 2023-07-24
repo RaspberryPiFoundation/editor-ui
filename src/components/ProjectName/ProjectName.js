@@ -51,7 +51,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     (event) => {
       event.preventDefault();
       setEditable(false);
-      nameInput.current.value = project.name;
+      setName(project.name);
     },
     [project.name],
   );
@@ -85,7 +85,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, [nameInput, tickButton, project, resetName]);
 
   return (
     <>
