@@ -24,12 +24,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Fixed text wrap in the files section of the Sidebar
 - Sidebar info
+
+### Fixed
+
+### Changed
+
+## [0.17.0] - 2023-07-24
+
+### Added
+
+- New landing page (#531)
+- Ability to specify project name and type on creation (#519)
+- Ability to view HTML preview output in separate window (#536)
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
 - New landing page (#531)
 - Ability to specify project name and type on creation (#519)
 - Ability to view HTML preview output in separate window (#536)
+- Add Projects Panel to sidebar (#564)
 
 ### Changed
 
@@ -49,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- HTML/CSS minor fixes (#594)
 - Color class attributes in `p5` (#574)
 - Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
 - Allow output text to be scrollable if overflow-y (#575)
@@ -58,6 +73,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Keyboard accessibility of project file opening (#501)
 - Landing page design review comments (#560)
 - Quick fix for Editor header on mobile # (#551)
+- Landing page design review comments (#560)
+- No longer renders a blank page on 401, 403 & 404 for embedded viewer (#534)
+- Input modal help text styling in light mode (#519)
+- Propagation of key press events in modals (#519)
+- Quick fix for Editor header on mobile # (#551)
+
+### Changed
+
+- Update Beta Banner copy and add a link (#550)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
 
 ## [0.16.1] - 2023-05-19
 
@@ -433,7 +460,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.16.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.17.0...HEAD
+[0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.0
 [0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.1
 [0.16.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.0
 [0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0

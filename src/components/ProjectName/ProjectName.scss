@@ -13,6 +13,13 @@
   }
 }
 
+.project-name__label {
+  @include font-size-1(regular);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: $space-0-5;
+  display: block;
+}
+
 .project-name__input {
   @include font-size-1(regular);
   padding: 0 $space-1-5;

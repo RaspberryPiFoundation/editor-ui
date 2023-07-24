@@ -67,8 +67,8 @@ beforeEach(() => {
     </Provider>,
   );
   inputBox = screen.getByRole("textbox");
-  pythonOption = screen.getByText("newProjectModal.projectType.python");
-  htmlOption = screen.getByText("newProjectModal.projectType.html");
+  pythonOption = screen.getByText("projectTypes.python");
+  htmlOption = screen.getByText("projectTypes.html");
   saveButton = screen.getByText("newProjectModal.createProject");
 });
 
