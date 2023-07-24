@@ -5,7 +5,13 @@ import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
-import { HomeIcon, FileIcon, ImageIcon, InfoIcon, SettingsIcon } from "../../../Icons";
+import {
+  HomeIcon,
+  FileIcon,
+  ImageIcon,
+  InfoIcon,
+  SettingsIcon,
+} from "../../../Icons";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
 import "./Sidebar.scss";
