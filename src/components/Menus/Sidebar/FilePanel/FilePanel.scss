@@ -1,5 +1,5 @@
-@use '../../../../spacing' as *;
-@import '../../../../colours.scss';
+@use "../../../../spacing" as *;
+@import "../../../../colours.scss";
 
 .files-list-item-wrapper {
   display: flex;
@@ -20,12 +20,11 @@
   min-height: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
-}
-
-.files-list-item__name {
-  font-weight: var(--font-weight-bold);
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+  span {
+    font-weight: var(--font-weight-bold);
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .files-list-item__menu {
