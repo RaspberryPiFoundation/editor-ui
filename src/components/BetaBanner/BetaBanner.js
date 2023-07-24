@@ -46,24 +46,24 @@ const BetaBanner = () => {
         >
           {t("betaBanner.modalLink")}
         </span>
-        <span>.</span>
+        <span>. </span>
+        <span>{t("betaBanner.feedbackText")} </span>
+        <Link
+          className="btn btn--tertiary editor-banner__link"
+          target="_blank"
+          to="https://form.raspberrypi.org/f/code-editor-feedback"
+        >
+          {
+            <>
+              <span className="editor-banner__link--feedback">
+                {t("betaBanner.feedback")}
+              </span>
+              <ExternalLinkIcon />
+            </>
+          }
+        </Link>
+        <span> {t("betaBanner.feedbackImprove")}</span>
       </span>
-      <span>{t("betaBanner.feedbackText")}</span>
-      <Link
-        className="btn btn--tertiary editor-banner__link"
-        target="_blank"
-        to="https://form.raspberrypi.org/f/code-editor-feedback"
-      >
-        {
-          <>
-            <span className="editor-banner__link--feedback">
-              {t("betaBanner.feedback")}
-            </span>
-            <ExternalLinkIcon />
-          </>
-        }
-      </Link>
-      <span>{t("betaBanner.feedbackImprove")}</span>
       <Button
         className="btn--tertiary editor-banner__close-button"
         label={t("betaBanner.buttonLabel")}

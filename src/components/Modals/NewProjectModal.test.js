@@ -32,7 +32,7 @@ beforeEach(() => {
     Promise.resolve({
       status: 200,
       data: { identifier: "my-amazing-project" },
-    }),
+    })
   );
   const middlewares = [];
   const mockStore = configureStore(middlewares);
@@ -64,7 +64,7 @@ beforeEach(() => {
           <NewProjectModal />
         </div>
       </MemoryRouter>
-    </Provider>,
+    </Provider>
   );
   inputBox = screen.getByRole("textbox");
   pythonOption = screen.getByText("projectTypes.python");
@@ -82,7 +82,7 @@ test("Creates python project correctly", async () => {
   await waitFor(() => fireEvent.click(saveButton));
   expect(createOrUpdateProject).toHaveBeenCalledWith(
     { ...defaultPythonProject, name: "My amazing project" },
-    "my_token",
+    "my_token"
   );
 });
 
@@ -92,7 +92,7 @@ test("Creates HTML project correctly", async () => {
   await waitFor(() => fireEvent.click(saveButton));
   expect(createOrUpdateProject).toHaveBeenCalledWith(
     { ...defaultHtmlProject, name: "My amazing project" },
-    "my_token",
+    "my_token"
   );
 });
 
@@ -103,7 +103,7 @@ test("Pressing Enter creates new project", async () => {
   await waitFor(() => fireEvent.keyDown(modal, { key: "Enter" }));
   expect(createOrUpdateProject).toHaveBeenCalledWith(
     { ...defaultHtmlProject, name: "My amazing project" },
-    "my_token",
+    "my_token"
   );
 });
 
@@ -112,6 +112,6 @@ test("Navigates to new project", async () => {
   fireEvent.click(pythonOption);
   await waitFor(() => fireEvent.click(saveButton));
   expect(mockNavigate).toHaveBeenCalledWith(
-    "/ja-JP/projects/my-amazing-project",
+    "/ja-JP/projects/my-amazing-project"
   );
 });

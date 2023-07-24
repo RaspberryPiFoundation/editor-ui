@@ -50,7 +50,7 @@ describe("Testing the rename file modal", () => {
         <div id="app">
           <RenameFile />
         </div>
-      </Provider>,
+      </Provider>
     );
     inputBox = screen.getByRole("textbox");
     saveButton = screen
@@ -60,7 +60,7 @@ describe("Testing the rename file modal", () => {
 
   test("State being set displays the modal", () => {
     expect(
-      screen.getByText("filePanel.renameFileModal.heading"),
+      screen.getByText("filePanel.renameFileModal.heading")
     ).toBeInTheDocument();
   });
 
