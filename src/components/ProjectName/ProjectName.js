@@ -71,7 +71,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   });
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
@@ -80,12 +80,12 @@ const ProjectName = ({ className = null, showLabel = false }) => {
       ) {
         resetName(event);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [nameInput, tickButton, project, resetName]);
+  });
 
   return (
     <>
