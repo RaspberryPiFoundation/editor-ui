@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Fixed text wrap in the files section of the Sidebar
 - Sidebar info
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
