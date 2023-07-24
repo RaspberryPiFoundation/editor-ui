@@ -43,7 +43,6 @@ const FilePanel = () => {
             className="files-list-item"
             onClickHandler={() => openFileTab(`${file.name}.${file.extension}`)}
             buttonText={`${file.name}.${file.extension}`}
-            buttonTextClassName="files-list-item__name"
             ButtonIcon={() => FileIcon({ ext: file.extension })}
           />
           {(file.name === "main" && file.extension === "py") ||
