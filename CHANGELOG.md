@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Fixed
+
+### Changed
+
+## [0.17.0] - 2023-07-24
+
+### Added
+
 - New landing page (#531)
 - Ability to specify project name and type on creation (#519)
 - Ability to view HTML preview output in separate window (#536)
