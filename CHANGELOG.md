@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+## [0.17.1] - 2023-07-25
+
+### Fixed
+
+- Safari minor style fixes
+
 ## [0.17.0] - 2023-07-24
 
 ### Added
