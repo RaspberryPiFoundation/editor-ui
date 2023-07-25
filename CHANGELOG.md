@@ -11,19 +11,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `hex` attribute for `p5` `Color` class (#574)
-- `hex_color` function for `py5`, including imported mode (#574)
-
-### Fixed
-
-- Color class attributes in `p5` (#574)
-- Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
-- Allow output text to be scrollable if overflow-y (#575)
-## [0.16.4] - 2023-07-11
-
-
-### Added
-
 - Fixed text wrap in the files section of the Sidebar
 - Sidebar info
 
