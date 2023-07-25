@@ -3,9 +3,10 @@
 
 .output-view-toggle {
   display: inline-flex;
-  margin-right: $space-0-5;
+  vertical-align: middle;
+  margin-inline-end: $space-0-5;
   align-items: center;
-  height: fit-content;
+  height: 100%;
 
   &__button {
     border: 0px;
