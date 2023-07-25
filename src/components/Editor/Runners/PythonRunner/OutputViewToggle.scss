@@ -3,8 +3,10 @@
 
 .output-view-toggle {
   display: inline-flex;
-  margin: auto $space-0-5 auto auto;
+  vertical-align: middle;
+  margin-inline-end: $space-0-5;
   align-items: center;
+  height: 100%;
 
   .btn-outer {
     padding: 0;
@@ -59,15 +61,19 @@
   .output-view-toggle {
     &__button {
       background-color: $rpf-grey-50;
+
+      &--active {
+        &::before {
+          background-color: $rpf-grey-150;
+        }
+        svg {
+          z-index: 1;
+        }
+      }
     }
 
     svg {
       fill: $rpf-black;
-    }
-  }
-  .output-view-toggle__button--active {
-    &::before {
-      background-color: $rpf-grey-150;
     }
   }
 }
@@ -87,6 +93,7 @@
         }
         svg {
           fill: $rpf-white;
+          z-index: 1;
         }
       }
 

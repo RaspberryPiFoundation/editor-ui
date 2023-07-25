@@ -5,7 +5,7 @@ import Autosave from "./Autosave";
 import { Button } from "@RaspberryPiFoundation/design-system-react";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
-import ProjectName from "./ProjectName";
+import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
 
