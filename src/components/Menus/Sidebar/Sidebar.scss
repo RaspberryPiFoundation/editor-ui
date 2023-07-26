@@ -136,13 +136,25 @@
 }
 
 .--light {
+  .sidebar__bar {
+    background-color: $rpf-white;
+
+    &.sidebar__bar-option-wrapper {
+      border: 1px solid $rpf-white;
+    }
+  }
+
   .sidebar__bar--selected {
     background-color: $rpf-off-white;
     border-right: 1px solid $rpf-grey-150;
+
+    &.sidebar__bar-option-wrapper {
+      border: 1px solid $rpf-off-white;
+    }
   }
 
   .sidebar__bar-option:hover {
-    background-color: $rpf-teal-100;
+    background-color: $rpf-grey-100;
   }
 
   .sidebar__bar-option--selected {
@@ -154,7 +166,6 @@
   }
 
   .sidebar__bar-option-wrapper {
-    border: 1px solid $rpf-white;
     border-right: none;
   }
 
