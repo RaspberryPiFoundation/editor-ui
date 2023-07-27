@@ -21,7 +21,7 @@ const FontSizeSelector = () => {
   };
 
   return (
-    <div className="font-size-selector">
+    <div className="font-size-selector settings-panel__items">
       <div
         className="font-btn font-btn--small"
         onClick={() => setFontSize("small")}

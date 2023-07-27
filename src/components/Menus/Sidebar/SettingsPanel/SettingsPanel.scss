@@ -7,10 +7,29 @@
   font-family: sans-serif;
   padding: $space-0-5;
   margin-bottom: $space-0-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-0-5;
 
   h3 {
     font-weight: var(--font-weight-bold);
     margin: 0 0 $space-0-5 0;
+  }
+
+  button {
+    font-family: sans-serif;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $space-0-5;
   }
 }
 

@@ -24,7 +24,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <div className="theme-toggle">
+    <div className="theme-toggle settings-panel__items">
       <div
         className="theme-btn theme-btn--light"
         onClick={() => setTheme("light")}

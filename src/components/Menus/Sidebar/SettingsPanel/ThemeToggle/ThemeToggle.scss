@@ -36,3 +36,19 @@
     }
   }
 }
+
+.--light {
+  .theme-btn {
+    button {
+      background-color: $rpf-white;
+    }
+  }
+}
+
+.--dark {
+  .theme-btn {
+    button {
+      background-color: $rpf-grey-50;
+    }
+  }
+}
