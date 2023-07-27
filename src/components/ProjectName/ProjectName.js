@@ -51,7 +51,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     (event) => {
       event.preventDefault();
       setEditable(false);
-      nameInput.current.value = project.name;
+      setName(project.name);
     },
     [project.name],
   );
@@ -71,7 +71,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   });
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
@@ -80,7 +80,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
       ) {
         resetName(event);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
