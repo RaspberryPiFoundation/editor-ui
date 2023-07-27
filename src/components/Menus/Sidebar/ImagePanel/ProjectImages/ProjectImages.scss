@@ -3,7 +3,6 @@
 
 .project-images {
   display: grid;
-  grid-template-columns: repeat(auto-fit, $space-7-5);
   justify-content: center;
   gap: $space-1;
 
@@ -17,20 +16,17 @@
   }
 
   &__image-wrapper {
-    height: $space-7-5;
-    width: $space-7-5;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   &__image {
-    max-height: 100%;
-    max-width: 100%;
+    height: auto;
+    width: 100%;
   }
 
   p {
-    width: $space-7-5;
     margin: 0;
   }
 }

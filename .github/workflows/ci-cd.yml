@@ -19,9 +19,14 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
     - name: Install code
       run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: eslint
       run: yarn lint
@@ -40,9 +45,14 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
     - name: Install code
       run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run tests
       run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
@@ -65,9 +75,14 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
     - name: Install code
       run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Cypress run
       uses: cypress-io/github-action@v5

@@ -5,10 +5,10 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
-import Button from "../Button/Button";
+import { Button } from "@RaspberryPiFoundation/design-system-react/";
 import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
-import { FileIconHtml, FileIconPython } from "../../Icons";
+import { FileIconPython, FileIconHtml } from "../../Icons";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -38,16 +38,18 @@ const LandingPage = () => {
         </h2>
         <div className="landing-page__projects--buttons">
           <Button
-            className="btn--primary landing-page__button"
+            className="landing-page__button"
             href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
-            ButtonIcon={FileIconPython}
+            textAlways
+            icon={<FileIconPython />}
           />
           <Button
-            className="btn--primary landing-page__button"
+            className="landing-page__button"
             href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
-            ButtonIcon={FileIconHtml}
+            textAlways
+            icon={<FileIconHtml />}
           />
         </div>
         <p className="landing-page__projects--login">

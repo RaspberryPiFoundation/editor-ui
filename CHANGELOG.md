@@ -11,12 +11,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Minor fixes to the sidebar layout
+- LandingPage and ProjectBar's Save buttons use design-system-react
 - Fixed text wrap in the files section of the Sidebar
 - Sidebar info
+- Add Projects Panel to sidebar (#564)
 
 ### Fixed
 
 ### Changed
+
+## [0.17.1] - 2023-07-25
+
+### Fixed
+
+- Safari minor style fixes
 
 ## [0.17.0] - 2023-07-24
 
@@ -30,7 +39,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New landing page (#531)
 - Ability to specify project name and type on creation (#519)
 - Ability to view HTML preview output in separate window (#536)
-- Add Projects Panel to sidebar (#564)
 
 ### Changed
 

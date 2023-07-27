@@ -3,6 +3,7 @@
 @import '../../mixins.scss';
 
 .editor-global-nav-wrapper {
+  flex: 0 1 auto;
   z-index: 2;
 }
 

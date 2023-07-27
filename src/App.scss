@@ -11,10 +11,6 @@ a {
   }
 }
 
-svg {
-  min-width: fit-content;
-}
-
 button {
   all: initial;
   border: 3px solid transparent;
@@ -58,9 +54,6 @@ input {
 }
 
 #app {
-  height: 100vh;
-  overflow: auto;
-  min-height: fit-content;
   display: flex;
   flex-flow: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -70,6 +63,10 @@ input {
 }
 
 // Removes the scrollbar flash on first load
-html {
+html, body, #root, #app {
   overflow: hidden;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
 }
