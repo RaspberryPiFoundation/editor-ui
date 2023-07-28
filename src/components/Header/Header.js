@@ -7,9 +7,7 @@ import { DownloadIcon, HomeIcon, SettingsIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import Dropdown from "../Menus/Dropdown/Dropdown";
 import SettingsMenu from "../Menus/SettingsMenu/SettingsMenu";
-import ProjectName from "./ProjectName";
-import htmlLogo from "../../assets/html_icon.svg";
-import pythonLogo from "../../assets/python_icon.svg";
+import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "./DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
 import { Link } from "react-router-dom";
@@ -50,11 +48,6 @@ const Header = () => {
       <div className="editor-header-wrapper">
         <header className="editor-header">
           <div className="editor-header__left">
-            <img
-              className="editor-logo"
-              src={project.project_type === "python" ? pythonLogo : htmlLogo}
-              alt={t("header.editorLogoAltText")}
-            />
             {user !== null ? (
               <Link
                 to={`${locale}/projects`}
