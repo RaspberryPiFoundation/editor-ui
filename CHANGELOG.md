@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Plausible goals for starting, downloading and interacting with a project (#606)
+
 ## [0.17.1] - 2023-07-25
 
 ### Fixed
