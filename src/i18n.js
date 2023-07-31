@@ -402,7 +402,7 @@ i18n
             projects: "Projects",
             information: "Information",
             information_text:
-              "Our code editor is designed to create a simple and safe learning environment for beginner programmers. As a result, we have implemented some limitations, such as the inability to include external links in your code.",
+              "Our Code Editor is a tool young people can use while they learn to write code. To keep it simple and safe, we have not built certain functions, like being able to add links to other websites in your code.",
             feedback: "Feedback",
             privacy: "Privacy",
             cookies: "Cookies",
