@@ -10,11 +10,21 @@
       @include font-size-1(regular);
       color: $rpf-text-primary;
       border-radius: 5px;
-      background-color: $rpf-white;
+      color: inherit;
       outline: 2px solid $rpf-grey-150;
       display: block;
       width: 100%;
       margin-bottom: $space-0-75;
+
+      .--dark & {
+        outline: 2px solid $rpf-white;
+        background-color: $rpf-grey-600;
+      }
+
+      .--light & {
+        outline: 2px solid $rpf-grey-150;
+        background-color: $rpf-grey-50;
+      }
 
       &--active {
         outline: 2px solid $rpf-text-primary;
@@ -33,22 +43,6 @@
       &:focus-visible {
         outline: 2px solid $rpf-brand-raspberry;
       }
-    }
-  }
-}
-
-.--light {
-  .theme-btn {
-    button {
-      background-color: $rpf-white;
-    }
-  }
-}
-
-.--dark {
-  .theme-btn {
-    button {
-      background-color: $rpf-grey-50;
     }
   }
 }
