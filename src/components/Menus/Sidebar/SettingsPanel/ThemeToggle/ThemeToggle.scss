@@ -1,0 +1,48 @@
+@use "./../../../../../spacing" as *;
+@use "./../../../../../font-size" as *;
+@import "./../../../../../colours.scss";
+
+.theme-toggle {
+  .theme-btn {
+    cursor: pointer;
+
+    &__icon {
+      @include font-size-1(regular);
+      color: $rpf-text-primary;
+      border-radius: 5px;
+      color: inherit;
+      outline: 2px solid $rpf-grey-150;
+      display: block;
+      width: 100%;
+      margin-bottom: $space-0-75;
+
+      .--dark & {
+        outline: 2px solid $rpf-white;
+        background-color: $rpf-grey-600;
+      }
+
+      .--light & {
+        outline: 2px solid $rpf-grey-150;
+        background-color: $rpf-white;
+      }
+
+      &--active {
+        outline: 2px solid $rpf-text-primary;
+        background-image: url("./../../../../../assets/icons/tick.svg");
+        background-repeat: no-repeat;
+        background-position: right $space-0-5 center;
+      }
+
+      &--text {
+        display: block;
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+        font-weight: var(--font-weight-bold);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $rpf-brand-raspberry;
+      }
+    }
+  }
+}

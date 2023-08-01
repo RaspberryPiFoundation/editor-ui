@@ -1,7 +1,7 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { FontIcon } from "../../../Icons";
+import { FontIcon } from "./../../../../../Icons";
 import "./FontSizeSelector.scss";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
@@ -21,7 +21,7 @@ const FontSizeSelector = () => {
   };
 
   return (
-    <div className="font-size-selector">
+    <div className="font-size-selector settings-panel__items">
       <div
         className="font-btn font-btn--small"
         onClick={() => setFontSize("small")}
@@ -31,9 +31,11 @@ const FontSizeSelector = () => {
             fontSize === "small" ? "font-btn__icon--active" : ""
           }`}
         >
-          <FontIcon size={15} />
+          <span className="font-btn__icon--text">
+            <FontIcon size={15} />
+            {t("sidebar.settingsMenu.textSizeOptions.small")}
+          </span>
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.small")}</p>
       </div>
       <div
         className="font-btn font-btn--medium"
@@ -44,9 +46,12 @@ const FontSizeSelector = () => {
             fontSize === "medium" ? "font-btn__icon--active" : ""
           }`}
         >
-          <FontIcon size={23} />
+          <span className="font-btn__icon--text">
+            {" "}
+            <FontIcon size={18} />
+            {t("sidebar.settingsMenu.textSizeOptions.medium")}
+          </span>
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.medium")}</p>
       </div>
       <div
         className="font-btn font-btn--large"
@@ -57,9 +62,12 @@ const FontSizeSelector = () => {
             fontSize === "large" ? "font-btn__icon--active" : ""
           }`}
         >
-          <FontIcon size={36} />
+          <span className="font-btn__icon--text">
+            {" "}
+            <FontIcon size={21} />
+            {t("sidebar.settingsMenu.textSizeOptions.large")}
+          </span>
         </button>
-        <p>{t("header.settingsMenu.textSizeOptions.large")}</p>
       </div>
     </div>
   );

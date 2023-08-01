@@ -3,7 +3,6 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 
 import "./ThemeToggle.scss";
-import { MoonIcon, SunIcon } from "../../Icons";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
 
@@ -25,7 +24,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <div className="theme-toggle">
+    <div className="theme-toggle settings-panel__items">
       <div
         className="theme-btn theme-btn--light"
         onClick={() => setTheme("light")}
@@ -35,9 +34,10 @@ const ThemeToggle = () => {
             !isDarkMode ? "theme-btn__icon--active" : null
           }`}
         >
-          <SunIcon />
+          <span className="theme-btn__icon--text">
+            {t("sidebar.settingsMenu.themeOptions.light")}
+          </span>
         </button>
-        <p>{t("header.settingsMenu.themeOptions.light")}</p>
       </div>
       <div
         className="theme-btn theme-btn--dark"
@@ -48,9 +48,10 @@ const ThemeToggle = () => {
             isDarkMode ? "theme-btn__icon--active" : null
           }`}
         >
-          <MoonIcon />
+          <span className="theme-btn__icon--text">
+            {t("sidebar.settingsMenu.themeOptions.dark")}
+          </span>
         </button>
-        <p>{t("header.settingsMenu.themeOptions.dark")}</p>
       </div>
     </div>
   );
