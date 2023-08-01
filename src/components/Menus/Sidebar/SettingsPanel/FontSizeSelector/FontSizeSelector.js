@@ -1,7 +1,7 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { FontIcon } from "./../../../../../Icons";
+import { FontIconLg, FontIconSm, FontIconRg } from "./../../../../../Icons";
 import "./FontSizeSelector.scss";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
@@ -32,7 +32,7 @@ const FontSizeSelector = () => {
           }`}
         >
           <span className="font-btn__icon--text">
-            <FontIcon size={15} />
+            <FontIconSm />
             {t("sidebar.settingsMenu.textSizeOptions.small")}
           </span>
         </button>
@@ -48,7 +48,7 @@ const FontSizeSelector = () => {
         >
           <span className="font-btn__icon--text">
             {" "}
-            <FontIcon size={18} />
+            <FontIconRg />
             {t("sidebar.settingsMenu.textSizeOptions.medium")}
           </span>
         </button>
@@ -64,7 +64,7 @@ const FontSizeSelector = () => {
         >
           <span className="font-btn__icon--text">
             {" "}
-            <FontIcon size={21} />
+            <FontIconLg />
             {t("sidebar.settingsMenu.textSizeOptions.large")}
           </span>
         </button>
