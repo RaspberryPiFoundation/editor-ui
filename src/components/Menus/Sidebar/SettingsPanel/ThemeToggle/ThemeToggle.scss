@@ -11,14 +11,17 @@
       color: $rpf-text-primary;
       border-radius: 5px;
       color: inherit;
-      outline: 2px solid $rpf-grey-150;
       display: block;
       width: 100%;
       margin-bottom: $space-0-75;
 
       .--dark & {
-        outline: 2px solid $rpf-white;
+        outline: 2px solid $rpf-grey-500;
         background-color: $rpf-grey-600;
+
+        &.theme-btn__icon--active {
+          outline-color: $rpf-grey-300;
+        }
       }
 
       .--light & {
@@ -26,7 +29,7 @@
         background-color: $rpf-white;
       }
 
-      &--active {
+      &.theme-btn__icon--active {
         outline: 2px solid $rpf-text-primary;
         background-image: url("./../../../../../assets/icons/tick.svg");
         background-repeat: no-repeat;
