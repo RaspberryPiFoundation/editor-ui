@@ -15,8 +15,12 @@
       color: inherit;
 
       .--dark & {
-        outline: 2px solid $rpf-white;
+        outline: 2px solid $rpf-grey-500;
         background-color: $rpf-grey-600;
+
+        &.font-btn__icon--active {
+          outline-color: $rpf-grey-300;
+        }
       }
 
       .--light & {
