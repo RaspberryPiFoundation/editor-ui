@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
@@ -76,7 +76,7 @@ test("Renders with file menu if not for web component", () => {
     auth: {},
   };
   const store = mockStore(initialState);
-  const { queryByText } = render(
+  render(
     <Provider store={store}>
       <MemoryRouter>
         <div id="app">
@@ -85,7 +85,7 @@ test("Renders with file menu if not for web component", () => {
       </MemoryRouter>
     </Provider>,
   );
-  expect(queryByText("filePane.files")).not.toBeNull();
+  expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
 });
 
 test("Renders without file menu if for web component", () => {
@@ -102,14 +102,14 @@ test("Renders without file menu if for web component", () => {
     auth: {},
   };
   const store = mockStore(initialState);
-  const { queryByText } = render(
+  render(
     <Provider store={store}>
       <MemoryRouter>
         <Project forWebComponent={true} />
       </MemoryRouter>
     </Provider>,
   );
-  expect(queryByText("filePane.files")).toBeNull();
+  expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
 });
 
 describe("When not logged in and just loaded", () => {

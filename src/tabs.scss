@@ -92,6 +92,7 @@
       overflow-y: hidden;
       margin: 0;
       padding: 0 $space-0-25;
+      height: fit-content;
       width: 100%;
     }
   
@@ -125,7 +126,7 @@
       background-color: $rpf-grey-800;
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-grey-500;
+        border-bottom: 1px solid $rpf-grey-600;
       }
   
       &__tab {

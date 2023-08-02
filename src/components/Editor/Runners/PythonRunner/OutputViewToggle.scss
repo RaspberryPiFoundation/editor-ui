@@ -8,6 +8,10 @@
   align-items: center;
   height: 100%;
 
+  .btn-outer {
+    padding: 0;
+  }
+
   &__button {
     border: 0px;
     display: flex;

@@ -47,7 +47,7 @@ const BetaBanner = () => {
           {t("betaBanner.modalLink")}
         </span>
         <span>. </span>
-        <span>{t("betaBanner.feedbackText")}</span>
+        <span>{t("betaBanner.feedbackText")} </span>
         <Link
           className="btn btn--tertiary editor-banner__link"
           target="_blank"
@@ -62,7 +62,7 @@ const BetaBanner = () => {
             </>
           }
         </Link>
-        <span>{t("betaBanner.feedbackImprove")}</span>
+        <span> {t("betaBanner.feedbackImprove")}</span>
       </span>
       <Button
         className="btn--tertiary editor-banner__close-button"

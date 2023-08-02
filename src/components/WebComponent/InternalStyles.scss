@@ -6,8 +6,8 @@
 @use '../../utils/ResizableWithHandle.scss';
 @use '../Editor/EditorInput/EditorInput.scss';
 @use '../RunButton/RunBar.scss';
-@use '../ThemeToggle/ThemeToggle.scss';
-@use '../Editor/FontSizeSelector/FontSizeSelector.scss';
+@use '../Menus/Sidebar/SettingsPanel/ThemeToggle/ThemeToggle.scss';
+@use '../Menus/Sidebar/SettingsPanel/FontSizeSelector/FontSizeSelector.scss';
 @use '../Editor/EditorPanel/EditorPanel.scss';
 @use '../Editor/Runners/PythonRunner/PythonRunner.scss';
 @use '../Editor/ErrorMessage/ErrorMessage.scss';

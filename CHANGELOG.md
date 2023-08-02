@@ -8,9 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Sidebar settings (#585)
+- Sidebar info (#566)
+- Add Projects Panel to sidebar (#564)
+
 ### Fixed
 
+- Minor fixes to the sidebar layout (#602)
+- Fixed text wrap in the files section of the Sidebar (#596)
+
 ### Changed
+
+- LandingPage and ProjectBar's Save buttons use design-system-react (#579)
+- Update colors for buttons (#579)
 
 ## [0.17.1] - 2023-07-25
 
@@ -28,17 +38,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
 
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
+
 ### Fixed
 
 - HTML/CSS minor fixes (#594)
 - Color class attributes in `p5` (#574)
 - Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
 - Allow output text to be scrollable if overflow-y (#575)
-- Landing page design review comments (#560)
 - No longer renders a blank page on 401, 403 & 404 for embedded viewer (#534)
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
+- Keyboard accessibility of project file opening (#501)
 - Quick fix for Editor header on mobile # (#551)
+- Landing page design review comments (#560)
 
 ### Changed
 
