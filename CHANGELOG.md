@@ -8,20 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Sidebar settings
-- Update colors for buttons
-
-### Added
-
-- Minor fixes to the sidebar layout
-- LandingPage and ProjectBar's Save buttons use design-system-react
-- Fixed text wrap in the files section of the Sidebar
-- Sidebar info
+- Sidebar settings (#585)
+- Sidebar info (#566)
 - Add Projects Panel to sidebar (#564)
 
 ### Fixed
 
+- Minor fixes to the sidebar layout (#602)
+- Fixed text wrap in the files section of the Sidebar (#596)
+
 ### Changed
+
+- LandingPage and ProjectBar's Save buttons use design-system-react (#579)
+- Update colors for buttons (#579)
 
 ## [0.17.1] - 2023-07-25
 
@@ -38,9 +37,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to view HTML preview output in separate window (#536)
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
-- New landing page (#531)
-- Ability to specify project name and type on creation (#519)
-- Ability to view HTML preview output in separate window (#536)
 
 ### Changed
 
@@ -64,13 +60,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
 - Keyboard accessibility of project file opening (#501)
-- Landing page design review comments (#560)
 - Quick fix for Editor header on mobile # (#551)
 - Landing page design review comments (#560)
-- No longer renders a blank page on 401, 403 & 404 for embedded viewer (#534)
-- Input modal help text styling in light mode (#519)
-- Propagation of key press events in modals (#519)
-- Quick fix for Editor header on mobile # (#551)
 
 ### Changed
 
