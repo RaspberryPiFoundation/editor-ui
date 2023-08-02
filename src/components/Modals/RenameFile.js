@@ -63,10 +63,10 @@ const RenameFile = () => {
       isOpen={isModalOpen}
       closeModal={closeModal}
       withCloseButton
-      heading={t("filePane.renameFileModal.heading")}
+      heading={t("filePanel.renameFileModal.heading")}
       inputs={[
         {
-          label: t("filePane.renameFileModal.inputLabel"),
+          label: t("filePanel.renameFileModal.inputLabel"),
           value: fileName,
           setValue: setFileName,
           validateName: true,
@@ -77,13 +77,13 @@ const RenameFile = () => {
         <Button
           key="rename"
           className="btn--primary"
-          buttonText={t("filePane.renameFileModal.save")}
+          buttonText={t("filePanel.renameFileModal.save")}
           onClickHandler={renameComponent}
         />,
         <Button
           key="close"
           className="btn--secondary"
-          buttonText={t("filePane.renameFileModal.cancel")}
+          buttonText={t("filePanel.renameFileModal.cancel")}
           onClickHandler={closeModal}
         />,
       ]}

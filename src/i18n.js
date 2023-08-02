@@ -140,7 +140,7 @@ i18n
           editorPanel: {
             ariaLabel: "editor text input",
           },
-          filePane: {
+          filePanel: {
             errors: {
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
@@ -204,32 +204,35 @@ i18n
             accountMenuProfileAltText: "{{name}}'s account",
             raspberryPiLogoAltText: "Raspberry Pi logo",
           },
+          projectName: {
+            label: "Project name",
+            newProject: "New Project",
+          },
           header: {
             autoSaving: "Saving",
             autoSaved: "Saved",
-            buttonLabel: "Edit project name",
-            buttonTitle: "Edit project name",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
-            newProject: "New Project",
             projects: "Your projects",
+            renameProject: "Edit project name",
+            renameSave: "Save project name",
             save: "Save",
             settings: "Settings",
-            settingsMenu: {
-              heading: "Settings",
-              textSize: "Text Size",
-              textSizeOptions: {
-                large: "Large",
-                medium: "Medium",
-                small: "Small",
-              },
-              theme: "Colour Mode",
-              themeOptions: {
-                dark: "Dark",
-                light: "Light",
-              },
-            },
+          },
+          imagePanel: {
+            gallery: "Image Gallery",
+          },
+          projectsPanel: {
+            projects: "Projects",
+            yourProjectsButton: "Go to your projects",
+            projectTypeLabel: "Project type",
+          },
+          infoPanel: {
+            info: "Information",
+          },
+          settingsPanel: {
+            info: "Settings",
           },
           input: {
             comment: {
@@ -378,6 +381,10 @@ i18n
             python_type: "Python",
             html_type: "HTML",
           },
+          projectTypes: {
+            html: "HTML/CSS",
+            python: "Python",
+          },
           runButton: {
             run: "Run",
             stop: "Stop",
@@ -386,10 +393,36 @@ i18n
           runners: {
             HtmlOutput: "HTML Output Preview",
           },
-          sideMenu: {
+          sidebar: {
             collapse: "Collapse file pane",
             expand: "Expand file pane",
             file: "Project files",
+            images: "Image gallery",
+            settings: "Settings",
+            projects: "Projects",
+            information: "Information",
+            information_text:
+              "Our Code Editor is a tool young people can use while they learn to write code. To keep it simple and safe, we have not built certain functions, like being able to add links to other websites in your code.",
+            feedback: "Feedback",
+            privacy: "Privacy",
+            cookies: "Cookies",
+            accessibility: "Accessibility",
+            safeguarding: "Safeguarding",
+            charity: "Raspberry Pi Foundation - UK registered charity 1129409",
+            settingsMenu: {
+              heading: "Settings",
+              textSize: "Text size",
+              theme: "Theme",
+              textSizeOptions: {
+                large: "Large",
+                medium: "Medium",
+                small: "Small",
+              },
+              themeOptions: {
+                dark: "Dark",
+                light: "Light",
+              },
+            },
           },
         },
       },

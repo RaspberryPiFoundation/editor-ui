@@ -8,10 +8,8 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 import { SettingsContext } from "./settings";
-import Header from "./components/Header/Header";
 import AppRoutes from "./components/AppRoutes";
 import GlobalNav from "./components/GlobalNav/GlobalNav";
-import Footer from "./components/Footer/Footer";
 import BetaBanner from "./components/BetaBanner/BetaBanner";
 import BetaModal from "./components/Modals/BetaModal";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
@@ -44,11 +42,9 @@ function App() {
             <>
               <GlobalNav />
               <BetaBanner />
-              <Header />
             </>
           )}
           <AppRoutes />
-          {isEmbedded ? null : <Footer />}
           <BetaModal />
           <LoginToSaveModal />
         </BrowserRouter>

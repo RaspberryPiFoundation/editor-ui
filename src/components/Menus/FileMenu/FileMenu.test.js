@@ -52,13 +52,13 @@ describe("with file item", () => {
   test("All file functions are listed", () => {
     const button = screen.getByRole("button");
     fireEvent.click(button);
-    expect(screen.getByText("filePane.fileMenu.renameItem")).not.toBeNull();
+    expect(screen.getByText("filePanel.fileMenu.renameItem")).not.toBeNull();
   });
 
   test("Clicking rename dispatches modal show with file details", () => {
     const menuButton = screen.getByRole("button");
     fireEvent.click(menuButton);
-    const renameButton = screen.getByText("filePane.fileMenu.renameItem");
+    const renameButton = screen.getByText("filePanel.fileMenu.renameItem");
     fireEvent.click(renameButton);
     const expectedActions = [
       showRenameFileModal({ fileKey: 0, ext: "py", name: "file1" }),

@@ -3,6 +3,7 @@
   "version": "0.17.0",
   "private": true,
   "dependencies": {
+    "@RaspberryPiFoundation/design-system-react": "^0.0.3-alpha",
     "@apollo/client": "^3.7.8",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
@@ -77,8 +78,8 @@
     "build": "node scripts/build.js",
     "build:dev": "yarn run build-storybook && node scripts/build.js",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
-    "lint": "eslint src/**/*.{js,jsx,json}",
-    "lint:fix": "eslint --fix src/**/*.{js,jsx,json}",
+    "lint": "eslint \"src/**/*.{js,jsx,json}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
     "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
