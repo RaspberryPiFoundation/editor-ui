@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RunIcon, StopIcon } from "../../Icons";
 import { useTranslation } from "react-i18next";
 
-const RunnerControls = () => {
+const RunnerControls = ({ embedded = false }) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -14,12 +14,14 @@ const RunnerControls = () => {
 
   return codeRunTriggered || drawTriggered ? (
     <StopButton
+      embedded={embedded}
       buttonText={t("runButton.stop")}
       ButtonIcon={StopIcon}
       buttonIconPosition="right"
     />
   ) : (
     <RunButton
+      embedded={embedded}
       buttonText={t("runButton.run")}
       ButtonIcon={RunIcon}
       buttonIconPosition="right"
