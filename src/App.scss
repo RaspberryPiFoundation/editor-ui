@@ -64,7 +64,7 @@ input {
 
 // Removes the scrollbar flash on first load
 html, body, #root, #app {
-  overflow: hidden;
+  overflow: auto;
   height: 100%;
   height: -moz-available;
   height: -webkit-fill-available;
