@@ -234,17 +234,6 @@ i18n
           settingsPanel: {
             info: "Settings",
           },
-          imagePanel: {
-            gallery: "Image Gallery",
-          },
-          projectsPanel: {
-            projects: "Projects",
-            yourProjectsButton: "Go to your projects",
-            projectTypeLabel: "Project type",
-          },
-          infoPanel: {
-            info: "Information",
-          },
           input: {
             comment: {
               py5: "Py5: imported mode",
