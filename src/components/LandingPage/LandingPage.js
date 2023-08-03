@@ -21,6 +21,10 @@ const LandingPage = () => {
     (!cookies.theme &&
       window.matchMedia("(prefers-color-scheme:dark)").matches);
 
+  const onClickPlausible = (msg) => () => {
+    window.plausible(msg);
+  };
+
   useEffect(() => {
     if (user) {
       navigate(`/${locale}/projects`);
@@ -43,6 +47,7 @@ const LandingPage = () => {
             text={t("landingPage.python")}
             textAlways
             icon={<FileIconPython />}
+            onClick={onClickPlausible("Start coding Python")}
           />
           <Button
             className="landing-page__button"
@@ -50,6 +55,7 @@ const LandingPage = () => {
             text={t("landingPage.html")}
             textAlways
             icon={<FileIconHtml />}
+            onClick={onClickPlausible("Start coding HTML/CSS")}
           />
         </div>
         <p className="landing-page__projects--login">
