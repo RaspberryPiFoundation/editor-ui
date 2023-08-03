@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { stopCodeRun, stopDraw } from "../Editor/EditorSlice";
 import { useTranslation } from "react-i18next";
 
-const StopButton = (props) => {
+const StopButton = ({ embedded = false, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -13,6 +13,9 @@ const StopButton = (props) => {
   const { t } = useTranslation();
 
   const onClickStop = () => {
+    if (window.plausible) {
+      window.plausible(`Stop button${embedded ? " embedded" : ""}`);
+    }
     if (codeRunTriggered) {
       dispatch(stopCodeRun());
     }
