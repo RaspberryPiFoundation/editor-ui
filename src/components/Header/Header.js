@@ -1,7 +1,7 @@
 import "./Header.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import Autosave from "./Autosave";
+import SaveButton from "./SaveButton";
 import Button from "../Button/Button";
 import { DownloadIcon, HomeIcon, SettingsIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
@@ -31,7 +31,7 @@ const Header = () => {
         syncProject("save")({
           project,
           accessToken: user.access_token,
-          autosave: false,
+          savebutton: false,
         }),
       );
     } else if (user && project.identifier) {
@@ -68,7 +68,7 @@ const Header = () => {
           </div>
           <div className="editor-header__right">
             {lastSavedTime && user ? (
-              <Autosave saving={saving} lastSavedTime={lastSavedTime} />
+              <SaveButton saving={saving} lastSavedTime={lastSavedTime} />
             ) : null}
             {loading === "success" ? (
               <DownloadButton

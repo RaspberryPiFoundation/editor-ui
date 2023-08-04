@@ -1,7 +1,7 @@
 import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import Autosave from "./Autosave";
+import SaveButton from "./../SaveButton/SaveButton";
 import { Button } from "@RaspberryPiFoundation/design-system-react";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
@@ -27,7 +27,7 @@ const ProjectBar = () => {
         syncProject("save")({
           project,
           accessToken: user.access_token,
-          autosave: false,
+          savebutton: false,
         }),
       );
     } else if (user && project.identifier) {
@@ -66,7 +66,7 @@ const ProjectBar = () => {
             />
           ) : null}
           {lastSavedTime && user ? (
-            <Autosave saving={saving} lastSavedTime={lastSavedTime} />
+            <SaveButton saving={saving} lastSavedTime={lastSavedTime} />
           ) : null}
         </div>
       </div>

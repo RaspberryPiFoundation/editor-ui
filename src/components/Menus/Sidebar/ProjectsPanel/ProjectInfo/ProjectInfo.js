@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import "./ProjectInfo.scss";
 import classNames from "classnames";
-import SaveStatus from "../../../../SaveStatus/SaveStatus";
+import SaveStatus from "../../../../ProjectStatus/ProjectStatus";
 
 const ProjectInfo = ({ className }) => {
   const project_type = useSelector(

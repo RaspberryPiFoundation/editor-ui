@@ -5,8 +5,9 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import { CloudUploadIcon, CloudTickIcon } from "../../Icons";
+import "./SaveButton.scss";
 
-const Autosave = () => {
+const SaveButton = () => {
   const { t } = useTranslation();
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
@@ -50,4 +51,4 @@ const Autosave = () => {
   );
 };
 
-export default Autosave;
+export default SaveButton;
