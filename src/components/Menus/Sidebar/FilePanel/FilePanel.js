@@ -6,7 +6,6 @@ import FileMenu from "../../FileMenu/FileMenu";
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import Button from "../../../Button/Button";
 import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
-import SaveStatus from "../../../ProjectStatus/ProjectStatus";
 
 import "./FilePanel.scss";
 import "../Sidebar.scss";
