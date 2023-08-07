@@ -13,6 +13,9 @@ const SaveButton = () => {
   const saving = useSelector((state) => state.editor.saving);
   const [time, setTime] = useState(Date.now());
 
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.editor.loading);
+
   const isPending = saving === "pending";
 
   useEffect(() => {
@@ -26,28 +29,30 @@ const SaveButton = () => {
   }, [lastSavedTime]);
 
   return (
-    <div className="autosave">
-      {isPending ? (
-        <>
-          <div className="autosave__icon">
-            <CloudUploadIcon />
-          </div>
-          <div className="autosave__status">
-            {t("header.autoSaving")}&hellip;
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="autosave__icon">
-            <CloudTickIcon />
-          </div>
-          <div className="autosave__status">
-            {t("header.autoSaved")}{" "}
-            {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
-          </div>
-        </>
-      )}
-    </div>
+    loading === "success" && (
+      <div className="autosave">
+        {isPending ? (
+          <>
+            <div className="autosave__icon">
+              <CloudUploadIcon />
+            </div>
+            <div className="autosave__status">
+              {t("header.autoSaving")}&hellip;
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="autosave__icon">
+              <CloudTickIcon />
+            </div>
+            <div className="autosave__status">
+              {t("header.autoSaved")}{" "}
+              {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
+            </div>
+          </>
+        )}
+      </div>
+    )
   );
 };
 
