@@ -3,10 +3,10 @@ import RunnerControls from "./RunnerControls";
 
 import "./RunBar.scss";
 
-const RunBar = () => {
+const RunBar = ({ embedded = false }) => {
   return (
     <div className="run-bar">
-      <RunnerControls />
+      <RunnerControls embedded={embedded} />
     </div>
   );
 };

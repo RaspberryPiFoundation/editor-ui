@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.1] - 2023-08-03
+
+### Fixed
+
+- Fix list of the projects (#614)
+
+
+### Changed
+
+- Plausible goals for starting, downloading and interacting with a project (#606)
+
 ## [0.18.0] - 2023-08-02
 
 ### Added
@@ -37,6 +48,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to view HTML preview output in separate window (#536)
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
+- New landing page (#531)
+- Ability to specify project name and type on creation (#519)
+- Ability to view HTML preview output in separate window (#536)
+
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
 
 ### Changed
 
@@ -444,7 +470,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.1...HEAD
+[0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1
 [0.18.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.0
 [0.17.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.1
 [0.17.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.0
