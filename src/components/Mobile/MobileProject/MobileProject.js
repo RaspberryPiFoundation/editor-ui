@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
@@ -10,11 +10,26 @@ import { useTranslation } from "react-i18next";
 
 const MobileProject = () => {
   const projectType = useSelector((state) => state.editor.project.project_type);
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered,
+  );
+  const [selectedTab, setSelectedTab] = useState(0);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      console.log("switch to output");
+      setSelectedTab(1);
+    }
+  }, [codeRunTriggered]);
 
   return (
     <div className="proj-container proj-container--mobile">
-      <Tabs forceRenderTabPanel={true}>
+      <Tabs
+        forceRenderTabPanel={true}
+        selectedIndex={selectedTab}
+        onSelect={(index) => setSelectedTab(index)}
+      >
         <TabPanel>
           <EditorInput isMobile />
         </TabPanel>
