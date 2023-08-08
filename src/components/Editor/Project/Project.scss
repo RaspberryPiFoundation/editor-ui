@@ -1,5 +1,5 @@
-@use '../../../spacing' as *;
-@use '../../../colours' as *;
+@use "../../../spacing" as *;
+@use "../../../colours" as *;
 
 .proj {
   display: flex;
@@ -61,10 +61,17 @@
     overflow: hidden;
     height: 100%;
     width: 100%;
+
+    @media (min-width: 560px) {
+      .project-status {
+        display: none;
+      }
+    }
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 912px) { // width is 880px for the container + the rest of the page
+  @media (min-width: 912px) {
+    // width is 880px for the container + the rest of the page
     .proj-editor-wrapper {
       flex-flow: row;
     }
@@ -74,13 +81,16 @@
     }
 
     &--wc {
-      .proj-runner-container, .proj-editor-container {
+      .proj-runner-container,
+      .proj-editor-container {
         width: 50%;
       }
     }
   }
 
-  .sidebar, .proj-editor-container, .proj-runner-container {
+  .sidebar,
+  .proj-editor-container,
+  .proj-runner-container {
     border-radius: 8px;
   }
 
@@ -109,21 +119,26 @@
   &--wc {
     min-height: 200px;
 
-    .proj-runner-container, .proj-editor-container {
+    .proj-runner-container,
+    .proj-editor-container {
       width: 100%;
     }
   }
 }
 
 .--light {
-  .proj-runner-container, .proj-editor-container, .sidebar {
+  .proj-runner-container,
+  .proj-editor-container,
+  .sidebar {
     background-color: $rpf-white;
     border: 1px solid $rpf-grey-150;
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container, .sidebar {
+  .proj-runner-container,
+  .proj-editor-container,
+  .sidebar {
     background-color: $rpf-grey-800;
     border: 1px solid $rpf-grey-600;
   }

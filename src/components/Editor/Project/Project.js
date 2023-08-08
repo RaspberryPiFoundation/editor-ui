@@ -29,6 +29,7 @@ import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+import ProjectStatus from "../../ProjectStatus/ProjectStatus";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -155,6 +156,7 @@ const Project = (props) => {
               <EditorInput />
             </ResizableWithHandle>
             <Output />
+            <ProjectStatus />
           </div>
         </div>
       </div>

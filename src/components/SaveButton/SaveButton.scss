@@ -4,11 +4,13 @@
 .save-button {
   align-items: center;
   // display: none;
+  display: flex;
   margin: 0 $space-1 0 $space-0-5;
   width: 160px;
+  justify-content: flex-end;
 
   @container (min-width: 560px) {
-    display: flex;
+    // display: flex;
     gap: $space-0-25;
   }
 }

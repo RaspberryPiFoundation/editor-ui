@@ -4,10 +4,18 @@
 
 .project-status {
   display: flex;
+  justify-content: space-between;
+  background-color: $rpf-white;
+
+  @container (min-width: 560px) {
+    display: none;
+  }
 }
 
 .project-status__name {
   @include font-size-1(regular);
   color: $rpf-text-secondary;
   font-weight: var(--font-weight-bold);
+  margin-inline-start: $space-1;
 }
+
