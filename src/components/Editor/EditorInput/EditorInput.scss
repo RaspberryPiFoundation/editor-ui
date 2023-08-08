@@ -4,7 +4,19 @@
   height: 100%;
   width: 100%;
 
-  .btn--run, .btn--stop {
-    margin-left: auto;
+  .react-tabs__tab-container {
+    .btn--run, .btn--stop {
+      margin-left: auto;
+    
+      @media (min-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  .run-bar {
+    @media (max-width: 600px) {
+      display: none;
+    }
   }
 }

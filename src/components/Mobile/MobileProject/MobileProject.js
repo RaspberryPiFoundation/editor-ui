@@ -31,10 +31,10 @@ const MobileProject = () => {
         onSelect={(index) => setSelectedTab(index)}
       >
         <TabPanel>
-          <EditorInput isMobile />
+          <EditorInput />
         </TabPanel>
         <TabPanel>
-          <Output isMobile />
+          <Output />
         </TabPanel>
         <TabList>
           <div className="mobile-nav">

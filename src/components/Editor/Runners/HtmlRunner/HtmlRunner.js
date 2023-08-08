@@ -16,7 +16,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
 import RunnerControls from "../../../RunButton/RunnerControls";
 
-function HtmlRunner({ isMobile }) {
+function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -259,7 +259,7 @@ function HtmlRunner({ isMobile }) {
                   <OpenInNewTabIcon />
                 </Link>
               )}
-              {isMobile ? <RunnerControls /> : null}
+              <RunnerControls />
             </TabList>
           </div>
           <TabPanel>

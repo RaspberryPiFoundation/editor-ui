@@ -4,7 +4,7 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = ({ isMobile }) => {
+const Output = () => {
   const project = useSelector((state) => state.editor.project);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
@@ -14,7 +14,7 @@ const Output = ({ isMobile }) => {
     <>
       <ExternalFiles />
       <div className="proj-runner-container">
-        <RunnerFactory projectType={project.project_type} isMobile={isMobile} />
+        <RunnerFactory projectType={project.project_type} />
         {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
       </div>
     </>

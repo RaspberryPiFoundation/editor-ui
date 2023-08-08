@@ -115,6 +115,18 @@
   }
 }
 
+.proj-container--mobile {
+  @media(min-width: 600px) {
+    display: none;
+  }
+}
+
+.proj-container--desktop {
+  @media(max-width: 600px) {
+    display: none;
+  }
+}
+
 .--light {
   .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;

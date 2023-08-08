@@ -51,7 +51,7 @@ const externalLibraries = {
   },
 };
 
-const PythonRunner = ({ isMobile }) => {
+const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -372,7 +372,7 @@ const PythonRunner = ({ isMobile }) => {
                         {t("output.visualOutput")}
                       </span>
                     </Tab>
-                    {isMobile ? <RunnerControls /> : null}
+                    <RunnerControls />
                   </TabList>
                   {!isEmbedded ? <OutputViewToggle /> : null}
                 </div>
