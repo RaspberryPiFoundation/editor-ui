@@ -27,7 +27,7 @@ const ProjectBar = () => {
         syncProject("save")({
           project,
           accessToken: user.access_token,
-          savebutton: false,
+          saveButton: false,
         }),
       );
     } else if (user && project.identifier) {
