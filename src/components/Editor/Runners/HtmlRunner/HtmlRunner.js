@@ -3,6 +3,7 @@ import "./HtmlRunner.scss";
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
+import { useMediaQuery } from "react-responsive";
 
 import ErrorModal from "../../../Modals/ErrorModal";
 import {
@@ -44,6 +45,7 @@ function HtmlRunner() {
   const output = useRef();
   const [error, setError] = useState(null);
   const allowedHrefs = ["#"];
+  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
   const focussedComponent = (fileName = "index.html") =>
     projectCode.filter(
@@ -259,7 +261,7 @@ function HtmlRunner() {
                   <OpenInNewTabIcon />
                 </Link>
               )}
-              <RunnerControls />
+              {isMobile ? <RunnerControls /> : null}
             </TabList>
           </div>
           <TabPanel>

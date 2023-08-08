@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Sk from "skulpt";
+import { useMediaQuery } from "react-responsive";
+
 import {
   setError,
   codeRunHandled,
@@ -14,7 +16,6 @@ import {
   triggerDraw,
 } from "../../EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
@@ -67,6 +68,7 @@ const PythonRunner = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
+  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(
@@ -372,9 +374,9 @@ const PythonRunner = () => {
                         {t("output.visualOutput")}
                       </span>
                     </Tab>
-                    <RunnerControls />
                   </TabList>
                   {!isEmbedded ? <OutputViewToggle /> : null}
+                  {isMobile ? <RunnerControls /> : null}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane />
@@ -393,6 +395,7 @@ const PythonRunner = () => {
                   </Tab>
                 </TabList>
                 {hasVisualOutput || isEmbedded ? null : <OutputViewToggle />}
+                {!hasVisualOutput && isMobile ? <RunnerControls /> : null}
               </div>
               <ErrorMessage />
               <TabPanel key={0}>
@@ -423,6 +426,7 @@ const PythonRunner = () => {
               </Tab>
             </TabList>
             {!isEmbedded ? <OutputViewToggle /> : null}
+            {isMobile ? <RunnerControls /> : null}
           </div>
           <ErrorMessage />
           {hasVisualOutput ? (

@@ -3,6 +3,7 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { TabPanel, Tabs } from "react-tabs";
 import classNames from "classnames";
+import { useMediaQuery } from "react-responsive";
 
 import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
 import Button from "../../Button/Button";
@@ -22,6 +23,7 @@ const EditorInput = () => {
     (state) => state.editor.focussedFileIndices,
   );
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
   const onDragStart = (input) => {
     const { source } = input;
@@ -142,7 +144,7 @@ const EditorInput = () => {
                     </span>
                   </DraggableTab>
                 ))}
-                <RunnerControls />
+                {isMobile ? <RunnerControls /> : null}
               </DroppableTabList>
             </div>
             {panel.map((fileName, i) => (
@@ -153,7 +155,7 @@ const EditorInput = () => {
                 />
               </TabPanel>
             ))}
-            <RunBar />
+            {isMobile ? null : <RunBar />}
           </Tabs>
         ))}
       </div>

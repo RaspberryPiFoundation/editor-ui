@@ -101,6 +101,11 @@
     flex: 5;
     overflow: hidden;
 
+    .react-tabs__tab-list {
+      width: unset;
+      flex: 1;
+    }
+
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
     }
@@ -115,28 +120,26 @@
   }
 }
 
-.proj-container--mobile {
-  @media(min-width: 600px) {
-    display: none;
-  }
-}
-
-.proj-container--desktop {
-  @media(max-width: 600px) {
-    display: none;
-  }
-}
-
 .--light {
   .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;
-    border: 1px solid $rpf-grey-150;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-150;
+    }
   }
 }
 
 .--dark {
   .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-grey-800;
-    border: 1px solid $rpf-grey-600;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-600;
+    }
   }
 }
