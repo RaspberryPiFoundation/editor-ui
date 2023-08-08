@@ -10,7 +10,7 @@ const ProjectStatus = () => {
 
   return (
     <div className="project-status">
-      <p>{project.name}</p>
+      <p className="project-status__name">{project.name}</p>
       {lastSavedTime && user ? <SaveButton /> : null}
     </div>
   );

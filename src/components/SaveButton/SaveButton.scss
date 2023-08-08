@@ -1,7 +1,7 @@
 @use "../../spacing" as *;
 @import "../../colours.scss";
 
-.autosave {
+.save-button {
   align-items: center;
   // display: none;
   margin: 0 $space-1 0 $space-0-5;
@@ -13,10 +13,10 @@
   }
 }
 
-.autosave__icon {
+.save-button__icon {
   display: flex;
 }
 
-.autosave__time--hidden {
-  // visibility: hidden;
-}
+// .save-button__time--hidden {
+//   // visibility: hidden;
+// }

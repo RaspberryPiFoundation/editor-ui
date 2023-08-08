@@ -30,23 +30,23 @@ const SaveButton = () => {
 
   return (
     loading === "success" && (
-      <div className="autosave">
+      <div className="save-button">
         {isPending ? (
           <>
-            <div className="autosave__icon">
+            <div className="save-button__icon">
               <CloudUploadIcon />
             </div>
-            <div className="autosave__status">
-              {t("header.autoSaving")}&hellip;
+            <div className="save-button__status">
+              {t("saveButton.saving")}&hellip;
             </div>
           </>
         ) : (
           <>
-            <div className="autosave__icon">
+            <div className="save-button__icon">
               <CloudTickIcon />
             </div>
-            <div className="autosave__status">
-              {t("header.autoSaved")}{" "}
+            <div className="save-button__status">
+              {t("saveButton.saved")}{" "}
               {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
             </div>
           </>

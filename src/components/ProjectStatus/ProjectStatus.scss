@@ -1,5 +1,13 @@
+@use "../../spacing" as *;
+@use "../../font-size.scss" as *;
+@import "../../colours.scss";
+
 .project-status {
-  .project-name {
-    background-color: unset;
-  }
+  display: flex;
+}
+
+.project-status__name {
+  @include font-size-1(regular);
+  color: $rpf-text-secondary;
+  font-weight: var(--font-weight-bold);
 }
