@@ -1,0 +1,16 @@
+.proj-container--mobile {
+  margin: 0;
+}
+
+.mobile-nav {
+  display: flex;
+  width: 100%;
+  .react-tabs__tab {
+    flex: 1;
+    display: flex;
+  }
+
+  .react-tabs__tab-inner {
+    flex: 1;
+  }
+}

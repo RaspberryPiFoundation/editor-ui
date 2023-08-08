@@ -13,8 +13,9 @@ import DroppableTabList from "../DraggableTabs/DroppableTabList";
 import RunBar from "../../RunButton/RunBar";
 
 import "./EditorInput.scss";
+import RunnerControls from "../../RunButton/RunnerControls";
 
-const EditorInput = () => {
+const EditorInput = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const focussedFileIndices = useSelector(
@@ -141,6 +142,7 @@ const EditorInput = () => {
                     </span>
                   </DraggableTab>
                 ))}
+                {isMobile ? <RunnerControls /> : null}
               </DroppableTabList>
             </div>
             {panel.map((fileName, i) => (
@@ -151,7 +153,7 @@ const EditorInput = () => {
                 />
               </TabPanel>
             ))}
-            <RunBar />
+            {isMobile ? null : <RunBar />}
           </Tabs>
         ))}
       </div>

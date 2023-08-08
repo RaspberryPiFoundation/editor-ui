@@ -14,8 +14,9 @@ import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
+import RunnerControls from "../../../RunButton/RunnerControls";
 
-function HtmlRunner() {
+function HtmlRunner({ isMobile }) {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -258,6 +259,7 @@ function HtmlRunner() {
                   <OpenInNewTabIcon />
                 </Link>
               )}
+              {isMobile ? <RunnerControls /> : null}
             </TabList>
           </div>
           <TabPanel>

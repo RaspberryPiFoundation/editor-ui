@@ -19,6 +19,7 @@ import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../settings";
+import RunnerControls from "../../../RunButton/RunnerControls";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -50,7 +51,7 @@ const externalLibraries = {
   },
 };
 
-const PythonRunner = () => {
+const PythonRunner = ({ isMobile }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -371,6 +372,7 @@ const PythonRunner = () => {
                         {t("output.visualOutput")}
                       </span>
                     </Tab>
+                    {isMobile ? <RunnerControls /> : null}
                   </TabList>
                   {!isEmbedded ? <OutputViewToggle /> : null}
                 </div>

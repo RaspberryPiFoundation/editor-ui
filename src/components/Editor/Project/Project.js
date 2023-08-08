@@ -29,6 +29,7 @@ import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+import MobileProject from "../../Mobile/MobileProject/MobileProject";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -131,33 +132,45 @@ const Project = (props) => {
     setHandleDirection(isDesktop ? "right" : "bottom");
   }, [params]);
 
+  const [isMobile, setMobile] = useState(params["width-smaller-than-600"]);
+
+  useMemo(() => {
+    setMobile(params["width-smaller-than-600"]);
+    console.log(params["width-smaller-than-600"]);
+  }, [params]);
+
   return (
     <div className="proj">
-      <div
-        ref={containerRef}
-        className={classnames("proj-container", {
-          "proj-container--wc": forWebComponent,
-        })}
-      >
-        {!forWebComponent ? <Sidebar /> : null}
-        <div className="project-wrapper">
-          {!forWebComponent ? <ProjectBar /> : null}
-          <div className="proj-editor-wrapper">
-            <ResizableWithHandle
-              data-testid="proj-editor-container"
-              className="proj-editor-container"
-              defaultWidth={defaultWidth}
-              defaultHeight={defaultHeight}
-              handleDirection={handleDirection}
-              minWidth="25%"
-              maxWidth={maxWidth}
-            >
-              <EditorInput />
-            </ResizableWithHandle>
-            <Output />
+      {isMobile ? (
+        <MobileProject />
+      ) : (
+        <div
+          ref={containerRef}
+          className={classnames("proj-container", {
+            "proj-container--wc": forWebComponent,
+          })}
+        >
+          {/* {forMobile ? <MobileProject /> : ( */}
+          {!forWebComponent ? <Sidebar /> : null}
+          <div className="project-wrapper">
+            {!forWebComponent ? <ProjectBar /> : null}
+            <div className="proj-editor-wrapper">
+              <ResizableWithHandle
+                data-testid="proj-editor-container"
+                className="proj-editor-container"
+                defaultWidth={defaultWidth}
+                defaultHeight={defaultHeight}
+                handleDirection={handleDirection}
+                minWidth="25%"
+                maxWidth={maxWidth}
+              >
+                <EditorInput />
+              </ResizableWithHandle>
+              <Output />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       {newFileModalShowing ? <NewFileModal /> : null}
       {renameFileModalShowing && modals.renameFile ? <RenameFile /> : null}
       {notFoundModalShowing ? <NotFoundModal /> : null}
