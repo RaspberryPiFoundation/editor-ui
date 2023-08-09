@@ -61,12 +61,6 @@
     overflow: hidden;
     height: 100%;
     width: 100%;
-
-    @media (min-width: 600px) {
-      .project-status {
-        display: none;
-      }
-    }
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
