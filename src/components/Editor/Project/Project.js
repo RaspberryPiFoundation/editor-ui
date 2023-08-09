@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -122,6 +123,7 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
+  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -156,7 +158,7 @@ const Project = (props) => {
               <EditorInput />
             </ResizableWithHandle>
             <Output />
-            <ProjectStatus />
+            {isMobile ? <ProjectStatus /> : null}
           </div>
         </div>
       </div>
