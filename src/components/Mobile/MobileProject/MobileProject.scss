@@ -1,3 +1,5 @@
+@import '../../../colours.scss';
+
 .proj-container--mobile {
   margin: 0;
 }
@@ -12,5 +14,31 @@
 
   .react-tabs__tab-inner {
     flex: 1;
+  }
+}
+
+.--dark {
+  .proj-container--mobile {
+    .runner-controls {
+      border-left: 1px solid $rpf-grey-600;
+    }
+
+    .mobile-nav {
+      background-color: $rpf-grey-800;
+      border-top: 1px solid $rpf-grey-600;
+    }
+  }
+}
+
+.--light {
+  .proj-container--mobile {
+    .runner-controls {
+      border-left: 1px solid $rpf-grey-150;
+    }
+
+    .mobile-nav {
+      background-color: $rpf-off-white;
+      border-top: 1px solid $rpf-grey-150;
+    }
   }
 }

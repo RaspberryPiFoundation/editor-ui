@@ -90,10 +90,6 @@
     min-height: 30%;
     max-height: 70%;
 
-    .react-tabs__tab-list {
-      flex: 1;
-    }
-
     .react-tabs__tab-panel--selected {
       overflow-y: hidden;
     }
@@ -104,10 +100,6 @@
     box-sizing: border-box;
     flex: 5;
     overflow: hidden;
-
-    .react-tabs__tab-list {
-      flex: 1;
-    }
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
@@ -120,6 +112,17 @@
     .proj-runner-container, .proj-editor-container {
       width: 100%;
     }
+  }
+}
+
+.proj-editor-container, .proj-runner-container {
+  .react-tabs__tab-list {
+    flex: 1;
+  }
+
+  .btn--run, .btn--stop {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 

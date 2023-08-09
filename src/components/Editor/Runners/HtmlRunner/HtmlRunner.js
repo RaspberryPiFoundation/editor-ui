@@ -261,7 +261,7 @@ function HtmlRunner() {
                   <OpenInNewTabIcon />
                 </Link>
               )}
-              {isMobile ? <RunnerControls /> : null}
+              {isMobile ? <RunnerControls skinny /> : null}
             </TabList>
           </div>
           <TabPanel>

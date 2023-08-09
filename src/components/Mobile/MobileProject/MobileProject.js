@@ -36,8 +36,8 @@ const MobileProject = () => {
         <TabPanel>
           <Output />
         </TabPanel>
-        <TabList>
-          <div className="mobile-nav">
+        <div className="react-tabs__tab-container mobile-nav">
+          <TabList>
             <Tab>
               <span className="react-tabs__tab-inner">
                 <CodeIcon />
@@ -52,8 +52,8 @@ const MobileProject = () => {
                   : t("mobile.output")}
               </span>
             </Tab>
-          </div>
-        </TabList>
+          </TabList>
+        </div>
       </Tabs>
     </div>
   );
