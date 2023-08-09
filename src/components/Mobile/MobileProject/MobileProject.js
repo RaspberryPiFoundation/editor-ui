@@ -18,7 +18,6 @@ const MobileProject = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      console.log("switch to output");
       setSelectedTab(1);
     }
   }, [codeRunTriggered]);
