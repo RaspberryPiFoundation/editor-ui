@@ -144,8 +144,8 @@ const EditorInput = () => {
                     </span>
                   </DraggableTab>
                 ))}
-                {isMobile ? <RunnerControls /> : null}
               </DroppableTabList>
+              {isMobile ? <RunnerControls /> : null}
             </div>
             {panel.map((fileName, i) => (
               <TabPanel key={i}>

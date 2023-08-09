@@ -90,6 +90,10 @@
     min-height: 30%;
     max-height: 70%;
 
+    .react-tabs__tab-list {
+      flex: 1;
+    }
+
     .react-tabs__tab-panel--selected {
       overflow-y: hidden;
     }
@@ -102,7 +106,6 @@
     overflow: hidden;
 
     .react-tabs__tab-list {
-      width: unset;
       flex: 1;
     }
 
