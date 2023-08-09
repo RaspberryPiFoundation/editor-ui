@@ -2,13 +2,12 @@ import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import Autosave from "./Autosave";
-// import { Button } from "@RaspberryPiFoundation/design-system-react";
+import { Button } from "@RaspberryPiFoundation/design-system-react";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
-import Button from "../Button/Button";
 
 const ProjectBar = () => {
   const dispatch = useDispatch();
