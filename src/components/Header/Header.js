@@ -31,7 +31,7 @@ const Header = () => {
         syncProject("save")({
           project,
           accessToken: user.access_token,
-          saveButton: false,
+          autosave: false,
         }),
       );
     } else if (user && project.identifier) {

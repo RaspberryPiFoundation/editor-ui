@@ -76,7 +76,7 @@ describe("When logged in and user owns project", () => {
       expect(saveProject).toHaveBeenCalledWith({
         project,
         accessToken: user.access_token,
-        saveButton: false,
+        autosave: false,
       }),
     );
     expect(store.getActions()[0]).toEqual(saveAction);
@@ -127,7 +127,7 @@ describe("When logged in and no project identifier", () => {
       expect(saveProject).toHaveBeenCalledWith({
         project: project_without_id,
         accessToken: user.access_token,
-        saveButton: false,
+        autosave: false,
       }),
     );
     expect(store.getActions()[0]).toEqual(saveAction);
