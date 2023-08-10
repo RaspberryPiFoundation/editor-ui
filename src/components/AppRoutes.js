@@ -29,7 +29,7 @@ const AppRoutes = () => (
 
     <Route path="/auth/silent_renew" element={<SilentRenew />} />
     <Route path={":locale"} element={<LocaleLayout />}>
-      <Route index element={<ProjectComponentLoader />} />
+      <Route index element={<LandingPage />} />
       <Route path={"projects"} element={<ProjectIndex />} />
       <Route
         path={"projects/:identifier"}
