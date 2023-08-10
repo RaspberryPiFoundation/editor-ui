@@ -19,5 +19,5 @@ test("Renders", () => {
       <SaveButton />
     </Provider>,
   );
-  expect(screen.queryByRole("button")).toHaveTextContent("saveButton.saved");
+  expect(screen.queryByText("Save")).toHaveTextContent("saveButton.saved");
 });

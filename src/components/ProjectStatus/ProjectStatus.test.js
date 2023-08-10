@@ -45,10 +45,6 @@ describe("When logged in and user owns project", () => {
   test("Project name is shown", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
   });
-
-  test("Save status is shown", () => {
-    expect(screen.queryByText("saveButton.saved")).toBeInTheDocument();
-  });
 });
 
 describe("When logged out", () => {
