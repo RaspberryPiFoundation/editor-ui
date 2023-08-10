@@ -13,7 +13,6 @@ const SaveButton = () => {
   const saving = useSelector((state) => state.editor.saving);
   const [time, setTime] = useState(Date.now());
 
-  const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.editor.loading);
 
   const isPending = saving === "pending";
