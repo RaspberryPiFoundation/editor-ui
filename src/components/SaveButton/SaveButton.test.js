@@ -20,15 +20,17 @@ describe("With a save button", () => {
     const initialState = {
       editor: {
         project: project,
+        loading: "success",
+        lastSavedTime: Date.now(),
       },
     };
     store = mockStore(initialState);
     render(
       <Provider store={store}>
         <SaveButton />
-      </Provider>,
+      </Provider>
     );
-    saveButton = screen.queryByText("header.save");
+    saveButton = screen.queryByText("saveButton.saved now");
   });
 
   test("Renders save button", () => {
