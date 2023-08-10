@@ -9474,6 +9474,13 @@ mmd-parser@^1.0.4:
   resolved "https://registry.yarnpkg.com/mmd-parser/-/mmd-parser-1.0.4.tgz#87cc05782cb5974ca854f0303fc5147bc9d690e7"
   integrity sha512-Qi0VCU46t2IwfGv5KF0+D/t9cizcDug7qnNoy9Ggk7aucp0tssV8IwTMkBlDbm+VqAf3cdQHTCARKSsuS2MYFg==
 
+mock-match-media@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/mock-match-media/-/mock-match-media-0.4.3.tgz#e28c6f3911e55bee15451cb6d408accf742a0986"
+  integrity sha512-8nqA2fh5mmgtZEN6sDPlEbLqlqEkF8kCIL17ozbWNHLxnLPF/cli0B6sLffOyfqSBBuVWprEKjYyN8tPXMYmVA==
+  dependencies:
+    css-mediaquery "^0.1.2"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"

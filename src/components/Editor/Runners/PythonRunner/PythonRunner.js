@@ -376,7 +376,7 @@ const PythonRunner = () => {
                     </Tab>
                   </TabList>
                   {!isEmbedded ? <OutputViewToggle /> : null}
-                  {isMobile ? <RunnerControls skinny /> : null}
+                  {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane />
@@ -395,7 +395,7 @@ const PythonRunner = () => {
                   </Tab>
                 </TabList>
                 {hasVisualOutput || isEmbedded ? null : <OutputViewToggle />}
-                {!hasVisualOutput && isMobile ? (
+                {!hasVisualOutput && !isEmbedded && isMobile ? (
                   <RunnerControls skinny />
                 ) : null}
               </div>
@@ -428,7 +428,7 @@ const PythonRunner = () => {
               </Tab>
             </TabList>
             {!isEmbedded ? <OutputViewToggle /> : null}
-            {isMobile ? <RunnerControls skinny /> : null}
+            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
           <ErrorMessage />
           {hasVisualOutput ? (

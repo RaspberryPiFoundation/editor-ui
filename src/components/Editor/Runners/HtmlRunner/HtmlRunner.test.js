@@ -5,6 +5,16 @@ import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
 import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
 import { MemoryRouter } from "react-router-dom";
+import { matchMedia, setMedia } from "mock-match-media";
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
+
+jest.mock("react-responsive", () => ({
+  ...jest.requireActual("react-responsive"),
+  useMediaQuery: ({ query }) => mockMediaQuery(query),
+}));
 
 const indexPage = {
   name: "index",
@@ -355,5 +365,84 @@ describe("When an allowed link is rendered", () => {
     expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLContent], {
       type: "text/html",
     });
+  });
+});
+
+describe("When on desktop", () => {
+  let store;
+
+  beforeEach(() => {
+    setMedia({
+      width: "1000px",
+    });
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [indexPage],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        errorModalShowing: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("There is no run button", () => {
+    expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  });
+});
+
+describe("When on mobile but not embedded", () => {
+  let store;
+
+  beforeEach(() => {
+    setMedia({
+      width: "400px",
+    });
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [indexPage],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        codeHasBeenRun: true,
+        isEmbedded: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("Has run button in tab bar", () => {
+    const runButton =
+      screen.getByText("runButton.run").parentElement.parentElement;
+    const runButtonContainer = runButton.parentElement.parentElement;
+    expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
   });
 });

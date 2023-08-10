@@ -261,8 +261,8 @@ function HtmlRunner() {
                   <OpenInNewTabIcon />
                 </Link>
               )}
-              {isMobile ? <RunnerControls skinny /> : null}
             </TabList>
+            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
           <TabPanel>
             <iframe

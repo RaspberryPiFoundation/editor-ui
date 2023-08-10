@@ -120,12 +120,13 @@
     flex: 1;
   }
 
-  @media (max-width: 600px) {
+  .react-tabs__tab-container {
     .btn--run, .btn--stop {
       margin-top: 0;
       margin-bottom: 0;
     }
   }
+
 }
 
 .--light {
