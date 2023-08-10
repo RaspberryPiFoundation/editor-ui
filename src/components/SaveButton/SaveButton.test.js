@@ -28,7 +28,7 @@ describe("With a save button", () => {
     render(
       <Provider store={store}>
         <SaveButton />
-      </Provider>
+      </Provider>,
     );
     saveButton = screen.queryByText("saveButton.saved now");
   });
