@@ -120,9 +120,11 @@
     flex: 1;
   }
 
-  .btn--run, .btn--stop {
-    margin-top: 0;
-    margin-bottom: 0;
+  @media (max-width: 600px) {
+    .btn--run, .btn--stop {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }
 
