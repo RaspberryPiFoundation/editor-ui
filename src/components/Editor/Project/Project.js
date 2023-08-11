@@ -6,6 +6,7 @@ import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
+import { useMediaQuery } from "react-responsive";
 
 import "./Project.scss";
 import Output from "../Output/Output";
@@ -31,6 +32,8 @@ import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 import MobileProjectBar from "../../MobileProjectBar/MobileProjectBar";
+import MobileProject from "../../Mobile/MobileProject/MobileProject";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -123,7 +126,8 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -136,32 +140,36 @@ const Project = (props) => {
 
   return (
     <div className="proj">
-      <div
-        ref={containerRef}
-        className={classnames("proj-container", {
-          "proj-container--wc": forWebComponent,
-        })}
-      >
-        {!forWebComponent ? <Sidebar /> : null}
-        <div className="project-wrapper">
-          {!forWebComponent ? <ProjectBar /> : null}
-          <div className="proj-editor-wrapper">
-            <ResizableWithHandle
-              data-testid="proj-editor-container"
-              className="proj-editor-container"
-              defaultWidth={defaultWidth}
-              defaultHeight={defaultHeight}
-              handleDirection={handleDirection}
-              minWidth="25%"
-              maxWidth={maxWidth}
-            >
-              <EditorInput />
-            </ResizableWithHandle>
-            <Output />
-            {isMobile ? <MobileProjectBar /> : null}
+      {isMobile ? (
+        <MobileProject />
+      ) : (
+        <div
+          ref={containerRef}
+          className={classnames("proj-container", {
+            "proj-container--wc": forWebComponent,
+          })}
+        >
+          {!forWebComponent ? <Sidebar /> : null}
+          <div className="project-wrapper">
+            {!forWebComponent ? <ProjectBar /> : null}
+            <div className="proj-editor-wrapper">
+              <ResizableWithHandle
+                data-testid="proj-editor-container"
+                className="proj-editor-container"
+                defaultWidth={defaultWidth}
+                defaultHeight={defaultHeight}
+                handleDirection={handleDirection}
+                minWidth="25%"
+                maxWidth={maxWidth}
+              >
+                <EditorInput />
+              </ResizableWithHandle>
+              <Output />
+             {isMobile ? <MobileProjectBar /> : null}
+            </div>
           </div>
         </div>
-      </div>
+      )}
       {newFileModalShowing ? <NewFileModal /> : null}
       {renameFileModalShowing && modals.renameFile ? <RenameFile /> : null}
       {notFoundModalShowing ? <NotFoundModal /> : null}

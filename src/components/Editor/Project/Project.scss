@@ -120,12 +120,31 @@
   }
 }
 
+.proj-editor-container, .proj-runner-container {
+  .react-tabs__tab-list {
+    flex: 1;
+  }
+
+  .react-tabs__tab-container {
+    .btn--run, .btn--stop {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+}
+
 .--light {
   .proj-runner-container,
   .proj-editor-container,
   .sidebar {
     background-color: $rpf-white;
-    border: 1px solid $rpf-grey-150;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-150;
+    }
   }
 }
 
@@ -134,6 +153,11 @@
   .proj-editor-container,
   .sidebar {
     background-color: $rpf-grey-800;
-    border: 1px solid $rpf-grey-600;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-600;
+    }
   }
 }

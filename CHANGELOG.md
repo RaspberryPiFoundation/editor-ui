@@ -7,7 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 ## Added
+
 -  Mobile project details component
+
+### Added
+
+- Mobile navigation between code and output (#615)
+
+### Changed
+
+- Position of run button on mobile (#615)
 
 ## [0.18.1] - 2023-08-03
 

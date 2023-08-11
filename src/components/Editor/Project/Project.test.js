@@ -15,6 +15,17 @@ import {
   showSavePrompt,
 } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
+import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
+
+jest.mock("react-responsive", () => ({
+  ...jest.requireActual("react-responsive"),
+  useMediaQuery: ({ query }) => mockMediaQuery(query),
+}));
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -628,5 +639,69 @@ describe("When not logged in and falling on default container width", () => {
       container.getElementsByClassName("resizable-with-handle__handle--bottom")
         .length,
     ).toBe(1);
+  });
+});
+
+describe("When on mobile", () => {
+  let mockStore;
+
+  beforeEach(() => {
+    setMedia({
+      width: MOBILE_BREAKPOINT,
+    });
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+  });
+
+  test("Has code and output tabs for python project", () => {
+    const initialState = {
+      editor: {
+        project: {
+          project_type: "python",
+          components: [],
+        },
+        openFiles: [[]],
+        focussedFileIndices: [0],
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.queryByText("mobile.code")).toBeInTheDocument();
+    expect(screen.queryByText("mobile.output")).toBeInTheDocument();
+  });
+
+  test("Has code and preview tabs for html project", () => {
+    const initialState = {
+      editor: {
+        project: {
+          project_type: "html",
+          components: [{ name: "index", extension: "html" }],
+        },
+        openFiles: [["index.html"]],
+        focussedFileIndices: [0],
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.queryByText("mobile.code")).toBeInTheDocument();
+    expect(screen.queryByText("mobile.preview")).toBeInTheDocument();
   });
 });
