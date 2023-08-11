@@ -14,6 +14,7 @@ import BetaBanner from "./components/BetaBanner/BetaBanner";
 import BetaModal from "./components/Modals/BetaModal";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
 import ToastCloseButton from "./utils/ToastCloseButton";
+import ChatGPTModal from "./components/Modals/ChatGPTModal";
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -47,6 +48,7 @@ function App() {
           <AppRoutes />
           <BetaModal />
           <LoginToSaveModal />
+          <ChatGPTModal />
         </BrowserRouter>
         <ToastContainer
           enableMultiContainer

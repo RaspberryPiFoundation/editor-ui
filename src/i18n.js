@@ -424,6 +424,13 @@ i18n
               },
             },
           },
+          chatGptModal: {
+            error:
+              "It looks like somethings gone wrong, please try again later.",
+            loading:
+              "Give me a couple of seconds to have a think about this problem...",
+            heading: "An error has occurred",
+          },
         },
       },
     },
