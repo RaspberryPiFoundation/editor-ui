@@ -249,6 +249,11 @@ i18n
             loginText:
               "Log in to your Raspberry Pi account to save your work, and you'll be able to access and edit your project whenever you need to.",
           },
+          mobile: {
+            code: "Code",
+            output: "Output",
+            preview: "Preview",
+          },
           modals: {
             close: "Close",
           },
