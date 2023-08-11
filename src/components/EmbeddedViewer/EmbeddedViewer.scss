@@ -1,17 +1,22 @@
 @import '../../colours.scss';
 
 .embedded-viewer {
-  height: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  height: auto;
   overflow: hidden;
 
   .proj-runner-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     border-radius: 10px;
-    height: 100%;
+    height: auto;
   }
 
   .pythonrunner-container {
     border-radius: 10px;
-    height: 100%;
+    flex: 1;
     overflow: hidden;
     box-sizing: border-box;
   }
@@ -24,6 +29,6 @@
 
 .--light {
   .embedded-viewer {
-    background-color: $editor-white;
+    background-color: $rpf-white;
   }
 }

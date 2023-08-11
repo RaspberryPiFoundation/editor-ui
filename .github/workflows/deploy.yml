@@ -112,13 +112,22 @@ jobs:
       with:
         node-version: 16
         cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
     - name: Install code
       run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build site and WC bundle
       run: |
-        yarn build
+        if [[ "${{ inputs.environment }}" == "production" ]]; then
+          yarn build
+        else
+          yarn build:dev
+        fi
         yarn build:wc
       env:
         PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}

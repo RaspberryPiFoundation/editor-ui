@@ -1,0 +1,32 @@
+@use '../../../../../spacing' as *;
+@import "../../../../../colours.scss";
+
+.project-images {
+  display: grid;
+  justify-content: center;
+  gap: $space-1;
+
+  &__block {
+    display: inline-block;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  &__image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__image {
+    height: auto;
+    width: 100%;
+  }
+
+  p {
+    margin: 0;
+  }
+}

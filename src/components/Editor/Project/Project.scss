@@ -1,14 +1,19 @@
-@import '../../../colours.scss';
+@use '../../../spacing' as *;
+@use '../../../colours' as *;
 
 .proj {
-  flex: 1;
   display: flex;
   flex-flow: column;
   overflow: hidden;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
 }
 
 .proj-header {
   display: flex;
+  flex: 1 0 auto;
   justify-content: space-between;
   padding-left: 5px;
   padding-right: 5px;
@@ -28,33 +33,73 @@
 }
 
 .proj-container {
-  flex: 1;
   display: flex;
-  grid-gap: var(--spacing-1);
-  overflow: hidden;
-  justify-content: space-between;
-  margin: var(--spacing-2);
+  flex-direction: row;
+  overflow-y: hidden;
 
-  .proj-runner-container, .proj-editor-container, .menu {
-    border-radius: 10px;
+  grid-gap: $space-1;
+  margin: $space-1;
+
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+
+  .project-wrapper {
+    display: flex;
+    flex-direction: column;
+    grid-gap: $space-0-5;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .proj-editor-wrapper {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: column;
+    grid-gap: $space-1;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
+  @media (min-width: 912px) { // width is 880px for the container + the rest of the page
+    .proj-editor-wrapper {
+      flex-flow: row;
+    }
+
+    .proj-editor-container {
+      max-height: 100% !important;
+    }
+
+    &--wc {
+      .proj-runner-container, .proj-editor-container {
+        width: 50%;
+      }
+    }
+  }
+
+  .sidebar, .proj-editor-container, .proj-runner-container {
+    border-radius: 8px;
   }
 
   .proj-editor-container {
     display: flex;
-    flex-flow: column;
-    flex: 5;
-    overflow-y: hidden;
     box-sizing: border-box;
+    min-height: 30%;
+    max-height: 70%;
 
     .react-tabs__tab-panel--selected {
-    overflow-y: hidden;
+      overflow-y: hidden;
     }
   }
-  
+
   .proj-runner-container {
     display: flex;
+    box-sizing: border-box;
     flex: 5;
-    overflow-y: hidden;
+    overflow: hidden;
 
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
@@ -63,22 +108,23 @@
 
   &--wc {
     min-height: 200px;
+
     .proj-runner-container, .proj-editor-container {
-      width: 50%;
+      width: 100%;
     }
   }
 }
 
 .--light {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;
-    border: 1px solid $rpf-darkmode-grey85;
+    border: 1px solid $rpf-grey-150;
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container, .menu {
-    background-color: $rpf-darkmode-grey18;
-    border: 1px solid $rpf-darkmode-grey10;
+  .proj-runner-container, .proj-editor-container, .sidebar {
+    background-color: $rpf-grey-800;
+    border: 1px solid $rpf-grey-600;
   }
 }

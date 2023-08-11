@@ -1,62 +1,94 @@
-import React from "react";
-import Modal from 'react-modal';
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { CloseIcon } from "../../Icons";
 import { validateFileName } from "../../utils/componentNameValidation";
 import Button from "../Button/Button";
-import { closeRenameFileModal, updateComponentName } from "../Editor/EditorSlice";
-import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
-import '../../Modal.scss';
+import {
+  closeRenameFileModal,
+  updateComponentName,
+} from "../Editor/EditorSlice";
+import "../../Modal.scss";
+import InputModal from "./InputModal";
 
 const RenameFile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const projectType = useSelector((state) => state.editor.project.project_type)
-  const projectComponents = useSelector((state) => state.editor.project.components)
-  const isModalOpen = useSelector((state) => state.editor.renameFileModalShowing)
-  const {name: currentName, ext: currentExtension, fileKey} = useSelector((state) => state.editor.modals.renameFile);
-  const componentNames = projectComponents.map(component => `${component.name}.${component.extension}`)
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const projectComponents = useSelector(
+    (state) => state.editor.project.components,
+  );
+  const isModalOpen = useSelector(
+    (state) => state.editor.renameFileModalShowing,
+  );
+  const {
+    name: currentName,
+    ext: currentExtension,
+    fileKey,
+  } = useSelector((state) => state.editor.modals.renameFile);
+  const componentNames = projectComponents.map(
+    (component) => `${component.name}.${component.extension}`,
+  );
 
   const closeModal = () => dispatch(closeRenameFileModal());
+  const [fileName, setFileName] = useState(
+    `${currentName}.${currentExtension}`,
+  );
 
   const renameComponent = () => {
-    const fileName = document.getElementById('name').value
-    const name = fileName.split('.')[0];
-    const extension = fileName.split('.').slice(1).join('.');
+    const name = fileName.split(".")[0];
+    const extension = fileName.split(".").slice(1).join(".");
 
-    validateFileName(fileName, projectType, componentNames, dispatch, t, () => {
-      dispatch(updateComponentName({key: fileKey, extension: extension, name: name}));
-      closeModal();
-    }, `${currentName}.${currentExtension}`)
-  }
+    validateFileName(
+      fileName,
+      projectType,
+      componentNames,
+      dispatch,
+      t,
+      () => {
+        dispatch(
+          updateComponentName({
+            key: fileKey,
+            extension: extension,
+            name: name,
+          }),
+        );
+        closeModal();
+      },
+      `${currentName}.${currentExtension}`,
+    );
+  };
 
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className='modal-content'
-        overlayClassName='modal-overlay'
-        contentLabel="Rename file"
-        parentSelector={() => document.querySelector('#app')}
-        appElement={document.getElementById('app') || undefined}
-      >
-          <div className='modal-content__header'>
-            <h2 className='modal-content__heading'>{t('filePane.renameFileModal.heading')}</h2>
-            <Button className='btn--tertiary' onClickHandler={closeModal} ButtonIcon = {CloseIcon} />
-          </div>
-
-          <label htmlFor='name'>{t('filePane.renameFileModal.inputLabel')}</label>
-          <NameErrorMessage />
-          <input type='text' name='name' id='name' defaultValue={`${currentName}.${currentExtension}`}></input>
-          <div className='modal-content__buttons' >
-            <Button className='btn--secondary' buttonText={t('filePane.renameFileModal.cancel')} onClickHandler={closeModal} />
-            <Button className='btn--primary' buttonText={t('filePane.renameFileModal.save')} onClickHandler={renameComponent} />
-          </div>
-      </Modal>
-    </>
+    <InputModal
+      isOpen={isModalOpen}
+      closeModal={closeModal}
+      withCloseButton
+      heading={t("filePanel.renameFileModal.heading")}
+      inputs={[
+        {
+          label: t("filePanel.renameFileModal.inputLabel"),
+          value: fileName,
+          setValue: setFileName,
+          validateName: true,
+        },
+      ]}
+      defaultCallback={renameComponent}
+      buttons={[
+        <Button
+          key="rename"
+          className="btn--primary"
+          buttonText={t("filePanel.renameFileModal.save")}
+          onClickHandler={renameComponent}
+        />,
+        <Button
+          key="close"
+          className="btn--secondary"
+          buttonText={t("filePanel.renameFileModal.cancel")}
+          onClickHandler={closeModal}
+        />,
+      ]}
+    />
   );
-}
+};
 
 export default RenameFile;

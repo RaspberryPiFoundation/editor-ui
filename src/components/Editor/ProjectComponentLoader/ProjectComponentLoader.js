@@ -18,7 +18,7 @@ const ProjectComponentLoader = (props) => {
   const { t, i18n } = useTranslation();
 
   useEmbeddedMode(embedded);
-  useProject(identifier, accessToken);
+  useProject({ projectIdentifier: identifier, accessToken: accessToken });
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {

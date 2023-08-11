@@ -4,13 +4,178 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.18.1] - 2023-08-03
+
+### Fixed
+
+- Fix list of the projects (#614)
+
+
+### Changed
+
+- Plausible goals for starting, downloading and interacting with a project (#606)
+
+## [0.18.0] - 2023-08-02
+
+### Added
+
+- Sidebar settings (#585)
+- Sidebar info (#566)
+- Add Projects Panel to sidebar (#564)
+
+### Fixed
+
+- Minor fixes to the sidebar layout (#602)
+- Fixed text wrap in the files section of the Sidebar (#596)
+
+### Changed
+
+- LandingPage and ProjectBar's Save buttons use design-system-react (#579)
+- Update colors for buttons (#579)
+
+## [0.17.1] - 2023-07-25
+
+### Fixed
+
+- Safari minor style fixes
+
+## [0.17.0] - 2023-07-24
+
+### Added
+
+- New landing page (#531)
+- Ability to specify project name and type on creation (#519)
+- Ability to view HTML preview output in separate window (#536)
+- `hex` attribute for `p5` `Color` class (#574)
+- `hex_color` function for `py5`, including imported mode (#574)
+- New landing page (#531)
+- Ability to specify project name and type on creation (#519)
+- Ability to view HTML preview output in separate window (#536)
+
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
+
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
+
+### Fixed
+
+- HTML/CSS minor fixes (#594)
+- Color class attributes in `p5` (#574)
+- Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
+- Allow output text to be scrollable if overflow-y (#575)
+- No longer renders a blank page on 401, 403 & 404 for embedded viewer (#534)
+- Input modal help text styling in light mode (#519)
+- Propagation of key press events in modals (#519)
+- Keyboard accessibility of project file opening (#501)
+- Quick fix for Editor header on mobile # (#551)
+- Landing page design review comments (#560)
+
+### Changed
+
+- Update Beta Banner copy and add a link (#550)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+
+## [0.16.1] - 2023-05-19
+
+### Fixed
+
+- Sentry CORS errors (#523)
+
+## [0.16.0] - 2023-05-18
+
+### Added
+
+- New colors (#474)
+- New typography (#475, #513)
+- Ability to create `HTML` and `CSS` files in a `HTML` project (#478)
+- Help text in the new file modal (#478)
+- Add dev-container support (#489)
+- Add input/output responsiveness (#473)
+- Ability to drag and drop input panel tabs (#438)
+- Distinguish icon type (#470)
+- Custom callback when Enter pressed in modals (#491)
+- `GeneralModal` and `InputModal` to encapsulate the common modal behaviour (#491, #517)
+
+### Changed
+
+- Updated spacing variables to match the new design system (#460)
+- Position run button in separate bar (#471)
+- Color usage (#474)
+- Handling of internal/external links for HTML/CSS projects (#483)
+- Existing modals to use `GeneralModal` or `InputModal` (#491)
+- Refactored login logic to make this available outside of the login button (#491)
+- Turned off HTML autorun (#515)
+
+### Fixed
+
+- Modal button alignment support (#460)
+- Storybook setup and dev deployment (#461)
+- HTML auto-run functionality (#481)
+- Updating Sentry to fix compile-time error (#487)
+- Fix local package build process (#488)
+- Color naming convention (#474)
+- Fix Web App Manifest logos, colors, and titles (#446)
+- Ability to run HTML projects by clicking run button (#481)
+- Internal/external HTML project links (#521)
+
+## [0.15.0] - 2023-04-27
+
+### Added
+
+- Initial storybook setup (#440)
+- `NewFileModal` component (#450)
+- Autofocus input when modal opened (#450)
+- Submit form in modals when 'Enter' pressed (#450)
+
+### Changed
+
+- Projects tab layout (#447)
+- Refactored `NewComponentButton` (#450)
+- Modal styling (#450)
+
+### Fixed
+
+- Fix storybook build error (#484)
+- CookieBot consent request in iframes (#437)
+- Resetting name error if file creation/renaming is cancelled (#450)
+- Mission Zero performance gains (#457)
+
+## [0.15.0] - 2023-04-13
+
+### Added
+
+- Container queries (#445)
+- Resize handle #453
+- File type icons (#449)
+
+## [0.14.0] - 2023-03-28
 
 ### Added
 
 - Load project based on locale (#410, #425)
 - Ability to recognise py5 magic comment (#412)
-- Allow py5 imported mode not to need run_sketch (#417)
+- Allow py5 imported mode not to need `run_sketch` (#417)
 - Python blob and skulpt module for py5 imported mode (#414)
 - Cypress tests for `py5` imported mode (#412, #414, #417, #426)
 
@@ -305,7 +470,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.13.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.1...HEAD
+[0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1
+[0.18.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.0
+[0.17.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.1
+[0.17.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.0
+[0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.1
+[0.16.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.0
+[0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0
+[0.14.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.14.0
 [0.13.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.13.0
 [0.12.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.12.0
 [0.11.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.11.0

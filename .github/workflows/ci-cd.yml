@@ -14,14 +14,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache dependencies
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "yarn"
+    - name: Cache dependencies
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
-      - name: Install code
-        run: yarn install --frozen-lock-file
+    - name: Install code
+      run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: eslint
         run: yarn lint
@@ -35,14 +40,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Cache dependencies
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "yarn"
+    - name: Cache dependencies
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+        registry-url: 'https://npm.pkg.github.com'
+        # Defaults to the user or organization that owns the workflow file
+        scope: '@RaspberryPiFoundation'
 
-      - name: Install code
-        run: yarn install --frozen-lock-file
+    - name: Install code
+      run: yarn install --frozen-lock-file
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter

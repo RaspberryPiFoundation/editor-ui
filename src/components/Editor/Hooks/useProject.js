@@ -4,12 +4,20 @@ import { useDispatch } from "react-redux";
 import { syncProject, setProject } from "../EditorSlice";
 import { defaultPythonProject } from "../../../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 
-export const useProject = (projectIdentifier = null, accessToken = null) => {
+export const useProject = ({
+  projectIdentifier = null,
+  accessToken = null,
+  isEmbedded = false,
+}) => {
+  const [searchParams] = useSearchParams();
   const getCachedProject = (id) =>
-    JSON.parse(localStorage.getItem(id || "project"));
+    isEmbedded && searchParams.get("browserPreview") !== "true"
+      ? null
+      : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
-    getCachedProject(projectIdentifier)
+    getCachedProject(projectIdentifier),
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -39,8 +47,8 @@ export const useProject = (projectIdentifier = null, accessToken = null) => {
         syncProject("load")({
           identifier: projectIdentifier,
           locale: i18n.language,
-          accessToken,
-        })
+          accessToken: accessToken,
+        }),
       );
       return;
     }

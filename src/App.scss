@@ -1,4 +1,5 @@
 @use './tabs.scss';
+@use './font-size' as *;
 @import './colours.scss';
 
 a {
@@ -25,8 +26,8 @@ input {
 }
 
 .--light {
-  background-color: $rpf-teal-tint-90;
-  color: $rpf-text-black;
+  background-color: $rpf-teal-100;
+  color: $rpf-text-primary;
   caret-color: $rpf-black;
 
   .pythonrunner-input {
@@ -39,7 +40,7 @@ input {
 }
 
 .--dark {
-  background-color: $rpf-darkmode-grey10;
+  background-color: $rpf-grey-900;
   color: $rpf-white;
   caret-color: $rpf-white;
 
@@ -53,18 +54,18 @@ input {
 }
 
 #app {
-  height: 100vh;
-  overflow: auto;
-  min-height: fit-content;
   display: flex;
   flex-flow: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
-  font-size: var(--font-size-base)
+  @include font-size-1(regular);
 }
 
-// Removes the scrollbar flash on first load
-html {
-  overflow: hidden;
+html, body, #root, #app {
+  overflow: auto;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
 }

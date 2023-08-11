@@ -1,4 +1,4 @@
-import { InMemoryCache } from '@apollo/client';
+import { InMemoryCache } from "@apollo/client";
 
 const apolloCache = new InMemoryCache({
   typePolicies: {
@@ -8,18 +8,10 @@ const apolloCache = new InMemoryCache({
         projects: {
           keyArgs: ["userId"],
 
-          read(existing, {canRead}) {
+          read(existing, { canRead }) {
             if (!existing) return;
 
             let edges = existing.edges.filter((edge) => canRead(edge.node));
-            const pageInfo = existing.pageInfo;
-
-            const startIndex = edges.findIndex((edge) => edge.cursor === pageInfo?.startCursor);
-            if (startIndex > -1) edges = edges.slice(startIndex);
-
-            const endIndex = edges.findIndex((edge) => edge.cursor === pageInfo?.endCursor);
-            if (endIndex > -1) edges = edges.slice(0, endIndex + 1);
-
             return { ...existing, edges };
           },
 
@@ -32,13 +24,18 @@ const apolloCache = new InMemoryCache({
 
             // Find prefix
             if (startCursor) {
-              const index = existing.edges.findIndex((edge) => edge.cursor === startCursor);
-              prefix = index > -1 ? existing.edges.slice(0, index) : existing.edges;
+              const index = existing.edges.findIndex(
+                (edge) => edge.cursor === startCursor,
+              );
+              prefix =
+                index > -1 ? existing.edges.slice(0, index) : existing.edges;
             }
 
             // Find suffix
             if (endCursor) {
-              const index = existing.edges.findIndex((edge) => edge.cursor === endCursor);
+              const index = existing.edges.findIndex(
+                (edge) => edge.cursor === endCursor,
+              );
               suffix = index > -1 ? existing.edges.slice(index + 1) : [];
             }
 
@@ -63,4 +60,4 @@ function makeEmptyData() {
   };
 }
 
-export default apolloCache
+export default apolloCache;

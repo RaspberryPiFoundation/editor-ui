@@ -1,18 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useRequiresUser = (isLoading, user) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(isLoading) {
+    if (isLoading) {
       return;
     }
 
-    if(!isLoading && !user) {
-      navigate('/')
+    if (!isLoading && !user) {
+      navigate("/");
     }
   }, [isLoading, user]);
 };
-

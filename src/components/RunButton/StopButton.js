@@ -1,36 +1,46 @@
-import Button from '../Button/Button'
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { stopCodeRun, stopDraw } from '../Editor/EditorSlice'
-import { useTranslation } from 'react-i18next'
+import Button from "../Button/Button";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { stopCodeRun, stopDraw } from "../Editor/EditorSlice";
+import { useTranslation } from "react-i18next";
 
-const StopButton = (props) => {
-
+const StopButton = ({ embedded = false, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
-  const codeRunTriggered = useSelector((state) => state.editor.codeRunTriggered);
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered,
+  );
   const dispatch = useDispatch();
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const onClickStop = () => {
+    if (window.plausible) {
+      window.plausible(`Stop button${embedded ? " embedded" : ""}`);
+    }
     if (codeRunTriggered) {
       dispatch(stopCodeRun());
     }
     dispatch(stopDraw());
-  }
+  };
 
-  const stop = <Button className={"btn--stop"} onClickHandler={onClickStop} {...props} />
-  const [button, setButton] = useState(stop)
+  const stop = (
+    <Button
+      className="btn--primary btn--stop"
+      onClickHandler={onClickStop}
+      {...props}
+    />
+  );
+  const [button, setButton] = useState(stop);
 
   useEffect(() => {
     if (codeRunStopped) {
-      const stopping = <Button buttonText={t('runButton.stopping')} disabled />
-      setTimeout(() => { setButton(stopping) }, 100);
+      const stopping = <Button buttonText={t("runButton.stopping")} disabled />;
+      setTimeout(() => {
+        setButton(stopping);
+      }, 100);
     }
   }, [codeRunStopped, t]);
 
-  return (
-    button
-  )
+  return button;
 };
 
 export default StopButton;

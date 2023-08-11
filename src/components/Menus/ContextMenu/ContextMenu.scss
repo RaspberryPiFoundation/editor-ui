@@ -1,8 +1,9 @@
+@use '../../../spacing' as *;
 @import '../../../colours.scss';
 
 .context-menu__drop {
   display: flex;
-  padding: calc(1.1 * var(--spacing-1)) calc(1.7 * var(--spacing-1));
+  padding: $space-0-5 $space-1;
   margin: 0;
 
   svg {
@@ -14,7 +15,7 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-  margin-left: var(--spacing-1);
+  margin-left: $space-0-5;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -23,7 +24,7 @@
     margin: 0;
     background-color: inherit;
     color:  inherit;
-    padding: var(--spacing-1);
+    padding: $space-0-5;
     text-align: left;
     white-space: nowrap;
     overflow-x: visible;
@@ -47,38 +48,38 @@
     }
 
     .btn:hover {
-      background-color: $rpf-darkmode-grey22;
+      background-color: $rpf-grey-700;
     }
 
     .btn:disabled {
-      color: $rpf-darkmode-grey32;
+      color: $rpf-grey-600;
     }
   }
 
   &--light {
     background-color: $rpf-white;
-    color: $rpf-text-black;
-    border: 1px solid $rpf-darkmode-grey85;
+    color: $rpf-text-primary;
+    border: 1px solid $rpf-grey-150;
 
     svg {
       fill: $rpf-black;
     }
 
     .btn:hover {
-      background-color: $rpf-darkmode-grey90;
+      background-color: $rpf-grey-100;
     }
 
     .btn:disabled {
-      color: $rpf-darkmode-grey75;
+      color: $rpf-grey-300;
     }
   }
 
   &--dark .btn:disabled svg {
-    fill: $rpf-darkmode-grey32;
+    fill: $rpf-grey-600;
   }
 
   &--light .btn:disabled svg {
-    fill: $rpf-darkmode-grey90;
+    fill: $rpf-grey-100;
   }
 
   .btn:disabled:hover {

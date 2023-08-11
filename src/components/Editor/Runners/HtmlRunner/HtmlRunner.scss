@@ -1,0 +1,26 @@
+@use '../../../../colours' as *;
+@import '../../../../mixins.scss';
+
+.htmlrunner-container {
+  container-type: inline-size;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.htmlrunner-link {
+  margin-left: auto;
+}
+
+.htmlrunner-link__text {
+  @container (max-width: 480px) {
+    display: none;
+  }
+}
+
+.htmlrunner-iframe {
+  border: none;
+  background-color: $rpf-white;
+  height: 100%;
+  width: 100%;
+}

@@ -1,20 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 export const WebComponentSlice = createSlice({
-  name: 'component',
+  name: "component",
   initialState: {
-    project: {}
+    project: {},
   },
 
   reducers: {
     setProject: (state, action) => {
       state.project = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
-export const {
-  setProject,
-} = WebComponentSlice.actions
+export const { setProject } = WebComponentSlice.actions;
 
-export default WebComponentSlice.reducer
+export default WebComponentSlice.reducer;

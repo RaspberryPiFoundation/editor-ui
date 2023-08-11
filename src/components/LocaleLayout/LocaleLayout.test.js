@@ -38,7 +38,7 @@ describe("When locale is allowed", () => {
     render(
       <MemoryRouter>
         <LocaleLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 
@@ -75,13 +75,13 @@ describe("When locale is not allowed", () => {
     render(
       <MemoryRouter>
         <LocaleLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   });
 
   test("Redirects to default language", () => {
     expect(mockNavigate).toHaveBeenCalledWith(
-      "/default/projects/my-amazing-project"
+      "/default/projects/my-amazing-project",
     );
   });
 });

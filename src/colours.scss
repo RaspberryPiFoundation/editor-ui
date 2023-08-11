@@ -1,65 +1,158 @@
-$editor-white: white;
-$editor-light-light-light-grey: #FFFFFF80;
-$editor-light-light-grey: #F3F4F6;
-$editor-light-grey: #E8E9ED;
-$editor-mid-light-grey: #BFC3CE;
-$editor-mid-grey: #8C93A4;
-$editor-grey: #43454C;
-$editor-dark: #2E3038;
-$editor-dark-dark: #24262D;
-$editor-dark-dark-dark: #1B1D22;
-$editor-black: #1B1D22;
-
-$editor-pale-purple: #BBCAF7;
-
-$editor-pale-blue: #F0F3FD;
-$editor-light-blue: #B2E3EF;
-$editor-blue: #2143B3;
-$editor-dark-blue: #002B3F;
-
-$editor-turquoise-tint-75: #C4EEEA;
-$editor-light-turquoise: #B8EBE6;
-$editor-turquoise-tint-50: #89DED5;
-$editor-turquoise: #14BCAC;
-$editor-dark-turquoise: #11A99A;
-$editor-turquoise-grey: #72D7CD1A;
-
-$rpf-dark-blue: #2A3E4F;
-
-// New colour palette colours
-$rpf-alert-blue: #1E3888;
-
+// Basic colors
 $rpf-black: #000000;
+$rpf-white: #ffffff;
+$rpf-off-white: #f5f6f9;
+$rpf-dark-blue: #2a3e4f;
 
-$rpf-darkmode-grey42: #616575;
-$rpf-darkmode-grey32: #4A4D59;
-$rpf-darkmode-grey22: #33353D;
-$rpf-darkmode-grey18: #2A2B32;
-$rpf-darkmode-grey15: #23242A;
-$rpf-darkmode-grey10: #17181C;
-$rpf-darkmode-grey5: #0C0C0E;
+// Text
+$rpf-text-primary: #212121;
+$rpf-text-primary-darkmode: $rpf-white;
+$rpf-text-secondary: #4d575b;
+$rpf-text-secondary-darkmode: #cccccc;
 
-$rpf-darkmode-grey75: #BABCC5;
-$rpf-darkmode-grey80: #C7C9D1;
-$rpf-darkmode-grey85: #D5D7DC;
-$rpf-darkmode-grey90: #E3E4E8;
-$rpf-darkmode-grey95: #F1F2F3;
+//Greys
+$rpf-grey-50: #f1f2f3;
+$rpf-grey-100: #e3e4e8;
+$rpf-grey-150: #d5d7dc;
+$rpf-grey-200: #c7c9d1;
+$rpf-grey-300: #babcc5;
+$rpf-grey-400: #9497a4;
+$rpf-grey-500: #636674;
+$rpf-grey-600: #4a4d59;
+$rpf-grey-700: #33353d;
+$rpf-grey-800: #2a2b32;
+$rpf-grey-850: #23242a;
+$rpf-grey-900: #17181c;
+$rpf-grey-950: #0c0c0e;
 
-$rpf-teal-shade-20: #10968A;
-$rpf-teal: #14BCAC;
-$rpf-teal-tint-25: #4FCDC1;
-$rpf-teal-tint-50: #89DED5;
-$rpf-teal-tint-75: #C4EEEA;
-$rpf-teal-tint-90: #E7F8F7;
+$rpf-grey-secondary-tertiary-hover: hsla(0deg, 0%, 100%, 10%);
+$rpf-grey-secondary-tertiary-active: hsla(0deg, 0%, 100%, 15%);
 
-$rpi-grey-5: #F2F2F2;
-$rpi-grey-15: #D9D9D9;
-$rpi-grey-40: #999999;
-$rpi-grey-70: #4c4c4c;
-$rpf-brand-raspberry: #CD2355;
-$rpf-alerts-errors: #A81A26;
-$rpf-alerts-errors-tint: #86151E;
+//Decorative
+$rpf-red-100: #feeeed;
+$rpf-red-200: #fcd4d3;
+$rpf-red-400: #f9a8a7;
+$rpf-red-600: #f67d7b;
+$rpf-red-800: #f3514f;
+$rpf-red-900: #c2423f;
 
-$rpf-text-black: #212121;
-$rpf-white: #FFFFFF;
-$rpf-white-opacity8: #FFFFFF14;
+$rpf-green-100: #ecf7ed;
+$rpf-green-200: #d1ebd2;
+$rpf-green-400: #a2d7a5;
+$rpf-green-600: #74c378;
+$rpf-green-800: #46af4b;
+$rpf-green-900: #358539;
+
+$rpf-teal-100: #e7f8f7;
+$rpf-teal-200: #c4eeea;
+$rpf-teal-400: #89ddd5;
+$rpf-teal-600: #50cec1;
+$rpf-teal-800: #14bdac;
+$rpf-teal-900: #0e857a;
+
+$rpf-teal-primary-default: $rpf-teal-800;
+$rpf-teal-primary-hover: #43c9bd;
+$rpf-teal-primary-active: #5bd0c5;
+$rpf-teal-primary-default-darkmode: $rpf-teal-400;
+$rpf-teal-primary-hover-darkmode: #a1e4dd;
+$rpf-teal-primary-active-darkmode: #ace7e2;
+$rpf-teal-secondary-tertiary-hover: #e7f8f7;
+$rpf-teal-secondary-tertiary-active: #dcf5f3;
+
+$rpf-orange-100: #fff4e8;
+$rpf-orange-200: #ffe3c4;
+$rpf-orange-400: #ffc78a;
+$rpf-orange-600: #feaa50;
+$rpf-orange-800: #fe8e15;
+$rpf-orange-900: #af620e;
+
+$rpf-yellow-100: #fffbe5;
+$rpf-yellow-200: #fff6bf;
+$rpf-yellow-400: #ffed80;
+$rpf-yellow-600: #ffe540;
+$rpf-yellow-800: #ffdd00;
+$rpf-yellow-900: #877500;
+
+$rpf-purple-100: #f3ecf6;
+$rpf-purple-200: #e1d0ea;
+$rpf-purple-400: #c3a1d5;
+$rpf-purple-600: #a573bf;
+$rpf-purple-800: #8744ab;
+$rpf-purple-900: #6c3688;
+
+$rpf-navy-100: #e9eaf5;
+$rpf-navy-200: #c8cbe6;
+$rpf-navy-400: #9196cd;
+$rpf-navy-600: #5a62b4;
+$rpf-navy-800: #232d9a;
+$rpf-navy-900: #1c257c;
+
+$rpf-blue-100: #e5f4fd;
+$rpf-blue-200: #bfe3fb;
+$rpf-blue-400: #80c7f7;
+$rpf-blue-600: #40abf4;
+$rpf-blue-800: #0090f0;
+$rpf-blue-900: #0072c0;
+
+//Brand colours
+$rpf-brand-raspberry: #cd2356;
+$rpf-brand-leaf: #46af4b;
+$rpf-brand-black: #1d1d1b;
+$astropi-dark-blue: #002b3f;
+
+//Alert
+$rpf-alert-information: #1e398a;
+$rpf-alert-information-highlight: #f2f5fc;
+$rpf-alert-success: #05611e;
+$rpf-alert-success-highlight: #f0fef4;
+$rpf-alert-warning: #7e4316;
+$rpf-alert-warning-highlight: #fcf4ee;
+$rpf-alert-error-highlight-highlight: #ffebeb;
+$rpf-alert-error: #9e0a0a;
+$rpf-alerts-error-tint: #86151e;
+
+:root,
+:host {
+  --rpf-white: #{$rpf-white};
+}
+
+// Webpack exports
+/* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
+:export {
+  grey: {
+    rpi-grey-15: $rpf-grey-150;
+    rpi-grey-40: $rpf-grey-400;
+    rpi-grey-5: $rpf-grey-50;
+    rpi-grey-70: $rpf-grey-600;
+    rpf-white: $rpf-white;
+  }
+}
+/* stylelint-enable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
+
+// New Colours
+$rpf-grey-150: #d5d7dc;
+$rpf-grey-600: #4a4d59;
+
+$rpf-text-secondary: #4d575b;
+$rpf-text-secondary-dark: #cccccc;
+
+// Design-System overrides
+
+:root * {
+  --rpf-button-primary-background-color: #{$rpf-teal-primary-default};
+  --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover};
+  --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active};
+  --rpf-button-primary-text-color: #{$rpf-text-primary};
+}
+
+.--dark * {
+  --rpf-button-primary-background-color: #{$rpf-teal-primary-default-darkmode};
+  --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover-darkmode};
+  --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active-darkmode};
+}
+
+.rpf-button--primary * {
+  svg {
+    fill: $rpf-text-primary;
+  }
+}

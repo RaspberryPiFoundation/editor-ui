@@ -1,0 +1,53 @@
+@use "./../../../../../spacing" as *;
+@use "./../../../../../font-size" as *;
+@import "./../../../../../colours.scss";
+
+.font-size-selector {
+  .font-btn {
+    cursor: pointer;
+
+    &__icon {
+      @include font-size-1(regular);
+      border-radius: 5px;
+      display: block;
+      width: 100%;
+      margin-bottom: $space-0-75;
+      color: inherit;
+
+      .--dark & {
+        outline: 2px solid $rpf-grey-500;
+        background-color: $rpf-grey-600;
+
+        &.font-btn__icon--active {
+          outline-color: $rpf-grey-300;
+        }
+      }
+
+      .--light & {
+        outline: 2px solid $rpf-grey-150;
+        background-color: $rpf-white;
+      }
+
+      &--text {
+        padding: 0.5rem;
+        width: -webkit-fill-available;
+        font-weight: var(--font-weight-bold);
+
+        svg {
+          padding-right: $space-0-5;
+        }
+      }
+
+      &.font-btn__icon--active {
+        outline: 2px solid $rpf-text-primary;
+        background-image: url("./../../../../../assets/icons/tick.svg");
+        background-repeat: no-repeat;
+        background-position: right $space-0-5 center;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $rpf-brand-raspberry;
+      }
+    }
+  }
+}
