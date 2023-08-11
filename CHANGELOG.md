@@ -4,13 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
 ### Added
 
-### Fixed
+- Mobile navigation between code and output (#615)
 
 ### Changed
+
+- Position of run button on mobile (#615)
+
+## [0.18.1] - 2023-08-03
+
+### Fixed
+
+- Fix list of the projects (#614)
+
+### Changed
+
+- Plausible goals for starting, downloading and interacting with a project (#606)
+
+## [0.18.0] - 2023-08-02
+
+### Added
+
+- Sidebar settings (#585)
+- Sidebar info (#566)
+- Add Projects Panel to sidebar (#564)
+
+### Fixed
+
+- Minor fixes to the sidebar layout (#602)
+- Fixed text wrap in the files section of the Sidebar (#596)
+
+### Changed
+
+- LandingPage and ProjectBar's Save buttons use design-system-react (#579)
+- Update colors for buttons (#579)
 
 ## [0.17.1] - 2023-07-25
 
@@ -27,6 +57,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to view HTML preview output in separate window (#536)
 - `hex` attribute for `p5` `Color` class (#574)
 - `hex_color` function for `py5`, including imported mode (#574)
+- New landing page (#531)
+- Ability to specify project name and type on creation (#519)
+- Ability to view HTML preview output in separate window (#536)
+
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
+
+### Changed
+
+- Refactored `Header` into new `ProjectBar` component and moved to same level as sidebar (#532)
+- `Sidebar` restyling and refactor to better support multiple panels (#501)
+- Refactored and restyled project files panel and removed project images (#501)
+- Moved project images into own sidebar panel (#567)
+- Fix to close `Add File` modal when `Enter` is pressed and file is valid (#509)
+- Move eslint config to `.eslintrc.json` with prettier support (#502)
+- Add `.editorconfig` (#502)
+- Default HTML project improvement (#543)
+- Update Beta Banner copy and add a link (#550)
 
 ### Fixed
 
@@ -34,11 +91,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Color class attributes in `p5` (#574)
 - Make `py5` imported mode sketches run when `run_sketch` is commented out (#574)
 - Allow output text to be scrollable if overflow-y (#575)
-- Landing page design review comments (#560)
 - No longer renders a blank page on 401, 403 & 404 for embedded viewer (#534)
 - Input modal help text styling in light mode (#519)
 - Propagation of key press events in modals (#519)
+- Keyboard accessibility of project file opening (#501)
 - Quick fix for Editor header on mobile # (#551)
+- Landing page design review comments (#560)
 
 ### Changed
 
@@ -421,8 +479,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.17.0...HEAD
-[0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.0
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.1...HEAD
+[0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1
+[0.18.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.0
+[0.17.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.1
+[0.17.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.0
 [0.16.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.1
 [0.16.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.16.0
 [0.15.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.15.0

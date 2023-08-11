@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { stopCodeRun, stopDraw } from "../Editor/EditorSlice";
 import { useTranslation } from "react-i18next";
 
-const StopButton = (props) => {
+const StopButton = ({ embedded = false, className, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -13,6 +13,9 @@ const StopButton = (props) => {
   const { t } = useTranslation();
 
   const onClickStop = () => {
+    if (window.plausible) {
+      window.plausible(`Stop button${embedded ? " embedded" : ""}`);
+    }
     if (codeRunTriggered) {
       dispatch(stopCodeRun());
     }
@@ -21,7 +24,7 @@ const StopButton = (props) => {
 
   const stop = (
     <Button
-      className="btn--primary btn--stop"
+      className={`btn--primary btn--stop${className ? ` ${className}` : ""}`}
       onClickHandler={onClickStop}
       {...props}
     />
@@ -30,12 +33,18 @@ const StopButton = (props) => {
 
   useEffect(() => {
     if (codeRunStopped) {
-      const stopping = <Button buttonText={t("runButton.stopping")} disabled />;
+      const stopping = (
+        <Button
+          className={`${className ? ` ${className}` : ""}`}
+          buttonText={t("runButton.stopping")}
+          disabled
+        />
+      );
       setTimeout(() => {
         setButton(stopping);
       }, 100);
     }
-  }, [codeRunStopped, t]);
+  }, [className, codeRunStopped, t]);
 
   return button;
 };

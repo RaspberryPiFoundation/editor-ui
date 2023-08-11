@@ -2,14 +2,18 @@
 @use '../../../colours' as *;
 
 .proj {
-  flex: 1;
   display: flex;
   flex-flow: column;
   overflow: hidden;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
 }
 
 .proj-header {
   display: flex;
+  flex: 1 0 auto;
   justify-content: space-between;
   padding-left: 5px;
   padding-right: 5px;
@@ -29,23 +33,38 @@
 }
 
 .proj-container {
-  flex: 1;
   display: flex;
-  grid-gap: $space-0-5;
-  margin: $space-1-5;
+  flex-direction: row;
+  overflow-y: hidden;
+
+  grid-gap: $space-1;
+  margin: $space-1;
+
   height: 100%;
-  overflow: hidden;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+
+  .project-wrapper {
+    display: flex;
+    flex-direction: column;
+    grid-gap: $space-0-5;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
 
   .proj-editor-wrapper {
     display: flex;
+    flex: 0 1 auto;
     flex-flow: column;
-    grid-gap: $space-0-5;
+    grid-gap: $space-1;
     overflow: hidden;
+    height: 100%;
     width: 100%;
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 928px) { // width is 880px for the container + the rest of the page
+  @media (min-width: 912px) { // width is 880px for the container + the rest of the page
     .proj-editor-wrapper {
       flex-flow: row;
     }
@@ -61,8 +80,8 @@
     }
   }
 
-  .menu, .proj-editor-container, .proj-runner-container {
-    border-radius: 10px;
+  .sidebar, .proj-editor-container, .proj-runner-container {
+    border-radius: 8px;
   }
 
   .proj-editor-container {
@@ -96,16 +115,40 @@
   }
 }
 
+.proj-editor-container, .proj-runner-container {
+  .react-tabs__tab-list {
+    flex: 1;
+  }
+
+  .react-tabs__tab-container {
+    .btn--run, .btn--stop {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+}
+
 .--light {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-white;
-    border: 1px solid $rpf-grey-150;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-150;
+    }
   }
 }
 
 .--dark {
-  .proj-runner-container, .proj-editor-container, .menu {
+  .proj-runner-container, .proj-editor-container, .sidebar {
     background-color: $rpf-grey-800;
-    border: 1px solid $rpf-grey-900;
+  }
+
+  @media (min-width: 600px) {
+    .proj-runner-container, .proj-editor-container, .sidebar {
+      border: 1px solid $rpf-grey-600;
+    }
   }
 }

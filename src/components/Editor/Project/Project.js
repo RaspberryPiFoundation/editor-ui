@@ -5,6 +5,7 @@ import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
+import { useMediaQuery } from "react-responsive";
 
 import "./Project.scss";
 import Output from "../Output/Output";
@@ -12,9 +13,7 @@ import RenameFile from "../../Modals/RenameFile";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
-  setFocussedFileIndex,
   syncProject,
-  openFile,
 } from "../EditorSlice";
 import { isOwner } from "../../../utils/projectHelpers";
 import NotFoundModal from "../../Modals/NotFoundModal";
@@ -25,11 +24,14 @@ import {
   showSavedMessage,
   showSavePrompt,
 } from "../../../utils/Notifications";
-import SideMenu from "../../Menus/SideMenu/SideMenu";
+import ProjectBar from "../../ProjectBar/ProjectBar";
+import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+import MobileProject from "../../Mobile/MobileProject/MobileProject";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -56,7 +58,6 @@ const Project = (props) => {
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
-  const openFiles = useSelector((state) => state.editor.openFiles);
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -65,23 +66,6 @@ const Project = (props) => {
       showSavedMessage();
     }
   }, [saving, autosave]);
-
-  const switchToFileTab = (panelIndex, fileIndex) => {
-    dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
-  };
-
-  const openFileTab = (fileName) => {
-    if (openFiles.flat().includes(fileName)) {
-      const panelIndex = openFiles
-        .map((fileNames) => fileNames.includes(fileName))
-        .indexOf(true);
-      const fileIndex = openFiles[panelIndex].indexOf(fileName);
-      switchToFileTab(panelIndex, fileIndex);
-    } else {
-      dispatch(openFile(fileName));
-      switchToFileTab(0, openFiles[0].length);
-    }
-  };
 
   useEffect(() => {
     if (forWebComponent) {
@@ -140,6 +124,8 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  console.log(MOBILE_MEDIA_QUERY);
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -152,28 +138,35 @@ const Project = (props) => {
 
   return (
     <div className="proj">
-      <div
-        ref={containerRef}
-        className={classnames("proj-container", {
-          "proj-container--wc": forWebComponent,
-        })}
-      >
-        {!forWebComponent ? <SideMenu openFileTab={openFileTab} /> : null}
-        <div className="proj-editor-wrapper">
-          <ResizableWithHandle
-            data-testid="proj-editor-container"
-            className="proj-editor-container"
-            defaultWidth={defaultWidth}
-            defaultHeight={defaultHeight}
-            handleDirection={handleDirection}
-            minWidth="25%"
-            maxWidth={maxWidth}
-          >
-            <EditorInput />
-          </ResizableWithHandle>
-          <Output />
+      {isMobile ? (
+        <MobileProject />
+      ) : (
+        <div
+          ref={containerRef}
+          className={classnames("proj-container", {
+            "proj-container--wc": forWebComponent,
+          })}
+        >
+          {!forWebComponent ? <Sidebar /> : null}
+          <div className="project-wrapper">
+            {!forWebComponent ? <ProjectBar /> : null}
+            <div className="proj-editor-wrapper">
+              <ResizableWithHandle
+                data-testid="proj-editor-container"
+                className="proj-editor-container"
+                defaultWidth={defaultWidth}
+                defaultHeight={defaultHeight}
+                handleDirection={handleDirection}
+                minWidth="25%"
+                maxWidth={maxWidth}
+              >
+                <EditorInput />
+              </ResizableWithHandle>
+              <Output />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
       {newFileModalShowing ? <NewFileModal /> : null}
       {renameFileModalShowing && modals.renameFile ? <RenameFile /> : null}
       {notFoundModalShowing ? <NotFoundModal /> : null}

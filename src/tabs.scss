@@ -88,11 +88,12 @@
   
     &__tab-list {
       border-bottom: none;
+      box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
       margin: 0;
       padding: 0 $space-0-25;
-      width: 100%;
+      height: fit-content;
     }
   
     &__tab-panel--selected {
@@ -125,7 +126,7 @@
       background-color: $rpf-grey-800;
   
       &__tab-container {
-        border-bottom: 1px solid $rpf-grey-500;
+        border-bottom: 1px solid $rpf-grey-600;
       }
   
       &__tab {
