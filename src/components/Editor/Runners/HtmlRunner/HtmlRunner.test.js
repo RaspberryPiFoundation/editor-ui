@@ -411,7 +411,7 @@ describe("When on mobile but not embedded", () => {
 
   beforeEach(() => {
     setMedia({
-      width: "400px",
+      width: "600px",
     });
 
     const middlewares = [];

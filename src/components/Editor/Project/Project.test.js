@@ -646,7 +646,7 @@ describe("When on mobile", () => {
 
   beforeEach(() => {
     setMedia({
-      width: "400px",
+      width: "600px",
     });
     const middlewares = [];
     mockStore = configureStore(middlewares);

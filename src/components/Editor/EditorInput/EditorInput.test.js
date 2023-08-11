@@ -9,7 +9,6 @@ import { matchMedia, setMedia } from "mock-match-media";
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 let mockMediaQuery = (query) => {
-  console.log("using mocked media query");
   return matchMedia(query).matches;
 };
 
@@ -125,7 +124,7 @@ describe("On mobile", () => {
   let store;
   beforeEach(() => {
     setMedia({
-      width: "400px",
+      width: "600px",
     });
 
     const middlewares = [];
@@ -164,7 +163,6 @@ describe("On mobile", () => {
   });
 
   test("Run button to be in the tab bar", () => {
-    screen.debug();
     const runButton =
       screen.getByText("runButton.run").parentElement.parentElement;
     const runButtonContainer = runButton.parentElement.parentElement;
@@ -215,7 +213,6 @@ describe("On desktop", () => {
   });
 
   test("Run button to be in the run bar", () => {
-    screen.debug();
     const runButton = screen.getByText("runButton.run").parentElement;
     const runButtonContainer = runButton.parentElement.parentElement;
     expect(runButtonContainer).toHaveClass("run-bar");

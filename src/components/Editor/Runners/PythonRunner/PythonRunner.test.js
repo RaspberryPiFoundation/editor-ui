@@ -734,7 +734,7 @@ describe("When on desktop", () => {
 describe("When on mobile and not embedded", () => {
   beforeEach(() => {
     setMedia({
-      width: "400px",
+      width: "600px",
     });
     const middlewares = [];
     const mockStore = configureStore(middlewares);
