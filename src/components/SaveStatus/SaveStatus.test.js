@@ -11,7 +11,7 @@ const project = {
 };
 
 let store;
-let saveButton;
+let saveStatus;
 
 describe("With a save button", () => {
   beforeEach(() => {
@@ -30,10 +30,10 @@ describe("With a save button", () => {
         <SaveStatus />
       </Provider>,
     );
-    saveButton = screen.queryByText("saveStatus.saved now");
+    saveStatus = screen.queryByText("saveStatus.saved now");
   });
 
   test("Renders save button", () => {
-    expect(saveButton).toBeInTheDocument();
+    expect(saveStatus).toBeInTheDocument();
   });
 });

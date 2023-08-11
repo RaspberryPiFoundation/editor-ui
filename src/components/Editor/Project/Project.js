@@ -6,7 +6,6 @@ import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
-import { useMediaQuery } from "react-responsive";
 
 import "./Project.scss";
 import Output from "../Output/Output";
@@ -128,7 +127,6 @@ const Project = (props) => {
   const [handleDirection, setHandleDirection] = useState("right");
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
 
@@ -165,7 +163,7 @@ const Project = (props) => {
                 <EditorInput />
               </ResizableWithHandle>
               <Output />
-             {isMobile ? <MobileProjectBar /> : null}
+              {isMobile ? <MobileProjectBar /> : null}
             </div>
           </div>
         </div>
