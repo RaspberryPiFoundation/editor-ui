@@ -6,6 +6,7 @@ import HtmlRunner from "./HtmlRunner";
 import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -411,7 +412,7 @@ describe("When on mobile but not embedded", () => {
 
   beforeEach(() => {
     setMedia({
-      width: "600px",
+      width: MOBILE_BREAKPOINT,
     });
 
     const middlewares = [];

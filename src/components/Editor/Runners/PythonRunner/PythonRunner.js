@@ -21,6 +21,7 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -68,7 +69,7 @@ const PythonRunner = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(

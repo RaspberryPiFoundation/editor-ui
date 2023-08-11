@@ -31,6 +31,7 @@ import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 import MobileProject from "../../Mobile/MobileProject/MobileProject";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -123,7 +124,8 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  console.log(MOBILE_MEDIA_QUERY);
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];

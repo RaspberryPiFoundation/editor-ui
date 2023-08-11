@@ -7,6 +7,7 @@ import PythonRunner from "./PythonRunner";
 import { codeRunHandled, setError, triggerDraw } from "../../EditorSlice";
 import { SettingsContext } from "../../../../settings";
 import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -734,7 +735,7 @@ describe("When on desktop", () => {
 describe("When on mobile and not embedded", () => {
   beforeEach(() => {
     setMedia({
-      width: "600px",
+      width: MOBILE_BREAKPOINT,
     });
     const middlewares = [];
     const mockStore = configureStore(middlewares);

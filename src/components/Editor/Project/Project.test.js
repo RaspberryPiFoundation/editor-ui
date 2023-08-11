@@ -16,6 +16,7 @@ import {
 } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -646,7 +647,7 @@ describe("When on mobile", () => {
 
   beforeEach(() => {
     setMedia({
-      width: "600px",
+      width: MOBILE_BREAKPOINT,
     });
     const middlewares = [];
     mockStore = configureStore(middlewares);

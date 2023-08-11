@@ -5,6 +5,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
 import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -124,7 +125,7 @@ describe("On mobile", () => {
   let store;
   beforeEach(() => {
     setMedia({
-      width: "600px",
+      width: MOBILE_BREAKPOINT,
     });
 
     const middlewares = [];

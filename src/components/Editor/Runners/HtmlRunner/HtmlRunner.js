@@ -16,6 +16,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
 import RunnerControls from "../../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
@@ -45,7 +46,7 @@ function HtmlRunner() {
   const output = useRef();
   const [error, setError] = useState(null);
   const allowedHrefs = ["#"];
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const focussedComponent = (fileName = "index.html") =>
     projectCode.filter(

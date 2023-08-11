@@ -15,6 +15,7 @@ import RunBar from "../../RunButton/RunBar";
 
 import "./EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);
@@ -23,7 +24,7 @@ const EditorInput = () => {
     (state) => state.editor.focussedFileIndices,
   );
   const dispatch = useDispatch();
-  const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const onDragStart = (input) => {
     const { source } = input;
