@@ -30,7 +30,7 @@ import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
-import MobileProjectBar from "../../MobileProjectBar/MobileProjectBar";
+
 import MobileProject from "../../Mobile/MobileProject/MobileProject";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
@@ -163,7 +163,6 @@ const Project = (props) => {
                 <EditorInput />
               </ResizableWithHandle>
               <Output />
-              {isMobile ? <MobileProjectBar /> : null}
             </div>
           </div>
         </div>
