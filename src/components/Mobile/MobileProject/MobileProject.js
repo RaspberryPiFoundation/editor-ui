@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
+import Sidebar from "../../Menus/Sidebar/Sidebar";
 
 import "./MobileProject.scss";
 import { useSelector } from "react-redux";
@@ -24,6 +25,7 @@ const MobileProject = () => {
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
+      <Sidebar />
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
