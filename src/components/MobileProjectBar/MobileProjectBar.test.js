@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
-import ProjectStatus from "./ProjectStatus";
+import MobileProjectBar from "./MobileProjectBar";
 
 const project = {
   identifier: "hello-world-project",
@@ -36,7 +36,7 @@ describe("When logged in and user owns project", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <ProjectStatus />
+          <MobileProjectBar />
         </MemoryRouter>
       </Provider>,
     );
@@ -64,7 +64,7 @@ describe("When logged out", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <ProjectStatus />
+          <MobileProjectBar />
         </MemoryRouter>
       </Provider>,
     );

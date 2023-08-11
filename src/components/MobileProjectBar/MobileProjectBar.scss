@@ -2,20 +2,15 @@
 @use "../../font-size.scss" as *;
 @import "../../colours.scss";
 
-.project-status {
+.mobile-project-bar {
   display: flex;
   justify-content: space-between;
   background-color: $rpf-white;
-
-  @container (min-width: 560px) {
-    display: none;
-  }
 }
 
-.project-status__name {
+.mobile-project-bar__name {
   @include font-size-1(regular);
   color: $rpf-text-secondary;
   font-weight: var(--font-weight-bold);
   margin-inline-start: $space-1;
 }
-

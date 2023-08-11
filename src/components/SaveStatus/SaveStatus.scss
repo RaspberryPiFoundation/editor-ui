@@ -1,19 +1,15 @@
 @use "../../spacing" as *;
 @import "../../colours.scss";
 
-.save-button {
+.save-status {
   align-items: center;
   display: flex;
   margin: 0 $space-1 0 $space-0-5;
   width: 160px;
   justify-content: flex-end;
-
-  @container (min-width: 560px) {
-    gap: $space-0-25;
-  }
 }
 
-.save-button__icon {
+.save-status__icon {
   display: flex;
 }
 

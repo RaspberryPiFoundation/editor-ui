@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import SaveButton from "./SaveButton";
+import SaveStatus from "./SaveStatus";
 
 const project = {
   identifier: "hello-world-project",
@@ -27,10 +27,10 @@ describe("With a save button", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <SaveButton />
+        <SaveStatus />
       </Provider>,
     );
-    saveButton = screen.queryByText("saveButton.saved now");
+    saveButton = screen.queryByText("saveStatus.saved now");
   });
 
   test("Renders save button", () => {

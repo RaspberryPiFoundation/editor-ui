@@ -1,7 +1,7 @@
 import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import SaveButton from "./../SaveButton/SaveButton";
+import SaveStatus from "./../SaveStatus/SaveStatus";
 import { Button } from "@RaspberryPiFoundation/design-system-react";
 import { DownloadIcon, SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
@@ -66,7 +66,7 @@ const ProjectBar = () => {
             />
           ) : null}
           {lastSavedTime && user ? (
-            <SaveButton saving={saving} lastSavedTime={lastSavedTime} />
+            <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
           ) : null}
         </div>
       </div>

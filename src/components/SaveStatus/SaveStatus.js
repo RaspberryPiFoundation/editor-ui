@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import { CloudUploadIcon, CloudTickIcon } from "../../Icons";
-import "./SaveButton.scss";
+import "./SaveStatus.scss";
 
-const SaveButton = () => {
+const SaveStatus = () => {
   const { t } = useTranslation();
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
@@ -29,23 +29,23 @@ const SaveButton = () => {
 
   return (
     loading === "success" && (
-      <div className="save-button">
+      <div className="save-status">
         {isPending ? (
           <>
-            <div className="save-button__icon">
+            <div className="save-status__icon">
               <CloudUploadIcon />
             </div>
-            <div className="save-button__status">
-              {t("saveButton.saving")}&hellip;
+            <div className="save-status__status">
+              {t("saveStatus.saving")}&hellip;
             </div>
           </>
         ) : (
           <>
-            <div className="save-button__icon">
+            <div className="save-status__icon">
               <CloudTickIcon />
             </div>
-            <div className="save-button__status">
-              {t("saveButton.saved")}{" "}
+            <div className="save-status__status">
+              {t("saveStatus.saved")}{" "}
               {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
             </div>
           </>
@@ -55,4 +55,4 @@ const SaveButton = () => {
   );
 };
 
-export default SaveButton;
+export default SaveStatus;

@@ -388,7 +388,7 @@ i18n
             stop: "Stop",
             stopping: "Stopping...",
           },
-          saveButton: {
+          saveStatus: {
             saving: "Saving",
             saved: "Saved",
           },
