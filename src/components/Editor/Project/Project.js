@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
-import { useMediaQuery } from "react-responsive";
 
 import "./Project.scss";
 import Output from "../Output/Output";
@@ -30,6 +30,7 @@ import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+
 import MobileProject from "../../Mobile/MobileProject/MobileProject";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
@@ -125,7 +126,6 @@ const Project = (props) => {
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  console.log(MOBILE_MEDIA_QUERY);
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];

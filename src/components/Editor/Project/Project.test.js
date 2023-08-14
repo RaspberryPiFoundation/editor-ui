@@ -18,14 +18,14 @@ import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
-let mockMediaQuery = (query) => {
-  return matchMedia(query).matches;
-};
-
 jest.mock("react-responsive", () => ({
   ...jest.requireActual("react-responsive"),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
