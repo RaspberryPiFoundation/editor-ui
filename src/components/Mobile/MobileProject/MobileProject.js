@@ -25,7 +25,6 @@ const MobileProject = () => {
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
-      <Sidebar />
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
