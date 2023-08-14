@@ -2,11 +2,17 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { DoubleChevronLeft, DoubleChevronRight } from "../../../Icons";
+import {
+  DoubleChevronLeft,
+  DoubleChevronRight,
+  CloseIcon,
+} from "../../../Icons";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
+// import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+// import { useMediaQuery } from "react-responsive";
 
 const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
@@ -28,6 +34,8 @@ const SidebarBar = (props) => {
     toggleOption(option);
     window.plausible("Collapse file pane");
   };
+
+  // const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   return (
     <div className={`sidebar__bar${option ? " sidebar__bar--selected" : ""}`}>

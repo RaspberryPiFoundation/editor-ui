@@ -6,8 +6,9 @@ import MobileProjectBar from "./../MobileProjectBar/MobileProjectBar";
 
 import "./MobileProject.scss";
 import { useSelector } from "react-redux";
-import { CodeIcon, PreviewIcon } from "../../../Icons";
+import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
 import { useTranslation } from "react-i18next";
+import Sidebar from "../../Menus/Sidebar/Sidebar";
 
 const MobileProject = () => {
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -31,6 +32,9 @@ const MobileProject = () => {
         onSelect={(index) => setSelectedTab(index)}
       >
         <TabPanel>
+          <Sidebar />
+        </TabPanel>
+        <TabPanel>
           <EditorInput />
         </TabPanel>
         <TabPanel>
@@ -39,6 +43,11 @@ const MobileProject = () => {
         <MobileProjectBar />
         <div className="react-tabs__tab-container mobile-nav">
           <TabList>
+            <Tab>
+              <span className="react-tabs__tab-inner">
+                <MenuIcon />
+              </span>
+            </Tab>
             <Tab>
               <span className="react-tabs__tab-inner">
                 <CodeIcon />
