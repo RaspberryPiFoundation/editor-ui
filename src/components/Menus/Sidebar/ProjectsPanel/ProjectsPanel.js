@@ -9,8 +9,9 @@ import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import { DownloadIcon } from "../../../../Icons";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import { useSelector } from "react-redux";
-import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
+import SaveStatus from "../../../SaveStatus/SaveStatus";
 
 const ProjectsPanel = () => {
   const {
@@ -21,7 +22,6 @@ const ProjectsPanel = () => {
   const isLoggedIn = useSelector((state) => state?.auth?.user);
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  console.log(MOBILE_MEDIA_QUERY);
 
   return (
     <SidebarPanel
@@ -46,7 +46,7 @@ const ProjectsPanel = () => {
         Icon={DownloadIcon}
         buttonIconPosition="right"
       />
-      {isMobile ? <SaveButton /> : null}
+      {isMobile ? <SaveStatus /> : null}
     </SidebarPanel>
   );
 };
