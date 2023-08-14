@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
+import MobileSidebarBar from "../../Mobile/MobileSidebarBar/MobileSidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
 import {
   HomeIcon,
@@ -17,6 +18,8 @@ import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { useSelector } from "react-redux";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import { useMediaQuery } from "react-responsive";
 
 const Sidebar = () => {
   const { t } = useTranslation();
@@ -57,6 +60,7 @@ const Sidebar = () => {
       panel: InfoPanel,
     },
   ];
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   if (!projectImages || projectImages.length === 0) {
     menuOptions.splice(
@@ -64,7 +68,7 @@ const Sidebar = () => {
       1,
     );
   }
-  const [option, setOption] = useState();
+  const [option, setOption] = useState(isMobile ? "file" : null);
   const toggleOption = (newOption) => {
     option !== newOption ? setOption(newOption) : setOption(null);
   };
@@ -77,11 +81,19 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <SidebarBar
-        menuOptions={menuOptions}
-        option={option}
-        toggleOption={toggleOption}
-      />
+      {isMobile ? (
+        <MobileSidebarBar
+          menuOptions={menuOptions}
+          option={option}
+          toggleOption={toggleOption}
+        />
+      ) : (
+        <SidebarBar
+          menuOptions={menuOptions}
+          option={option}
+          toggleOption={toggleOption}
+        />
+      )}
       {option ? <CustomSidebarPanel /> : null}
     </div>
   );
