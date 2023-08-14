@@ -1,0 +1,38 @@
+@use "../../../spacing" as *;
+@use "../../../font-size.scss" as *;
+@import "../../../colours.scss";
+
+.mobile-project-bar {
+  display: flex;
+  justify-content: space-between;
+  background-color: $rpf-white;
+  border-top: 1px solid $rpf-grey-150;
+}
+
+.mobile-project-bar__name {
+  @include font-size-1(regular);
+  font-weight: var(--font-weight-bold);
+  margin-inline-start: $space-1;
+}
+
+.--dark {
+  .mobile-project-bar {
+    background-color: $rpf-grey-800;
+    border-top: 1px solid $rpf-grey-600;
+  }
+
+  .mobile-project-bar__name {
+    color: $rpf-white;
+  }
+}
+
+.--light {
+  .mobile-project-bar {
+    background-color: $rpf-white;
+    border-top: 1px solid $rpf-grey-150;
+  }
+
+  .mobile-project-bar__name {
+      color: $rpf-text-secondary;
+  }
+}

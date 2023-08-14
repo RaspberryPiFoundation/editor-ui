@@ -209,8 +209,6 @@ i18n
             newProject: "New Project",
           },
           header: {
-            autoSaving: "Saving",
-            autoSaved: "Saved",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
@@ -394,6 +392,10 @@ i18n
             run: "Run",
             stop: "Stop",
             stopping: "Stopping...",
+          },
+          saveStatus: {
+            saving: "Saving",
+            saved: "Saved",
           },
           runners: {
             HtmlOutput: "HTML Output Preview",
