@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
-import Sidebar from "../../Menus/Sidebar/Sidebar";
+import MobileProjectBar from "./../MobileProjectBar/MobileProjectBar";
 
 import "./MobileProject.scss";
 import { useSelector } from "react-redux";
@@ -37,6 +37,7 @@ const MobileProject = () => {
         <TabPanel>
           <Output />
         </TabPanel>
+        <MobileProjectBar />
         <div className="react-tabs__tab-container mobile-nav">
           <TabList>
             <Tab>
