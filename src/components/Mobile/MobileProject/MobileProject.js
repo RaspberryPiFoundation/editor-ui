@@ -18,6 +18,11 @@ const MobileProject = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const { t } = useTranslation();
 
+  const [option, setOption] = useState("file");
+  const toggleOption = (newOption) => {
+    option !== newOption ? setOption(newOption) : setOption(null);
+  };
+
   useEffect(() => {
     if (codeRunTriggered) {
       setSelectedTab(1);
@@ -26,45 +31,57 @@ const MobileProject = () => {
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
-      <Tabs
-        forceRenderTabPanel={true}
-        selectedIndex={selectedTab}
-        onSelect={(index) => setSelectedTab(index)}
-      >
-        <TabPanel>
-          <Sidebar />
-        </TabPanel>
-        <TabPanel>
-          <EditorInput />
-        </TabPanel>
-        <TabPanel>
-          <Output />
-        </TabPanel>
-        <MobileProjectBar />
-        <div className="react-tabs__tab-container mobile-nav">
-          <TabList>
-            <Tab>
-              <span className="react-tabs__tab-inner">
-                <MenuIcon />
-              </span>
-            </Tab>
-            <Tab>
-              <span className="react-tabs__tab-inner">
-                <CodeIcon />
-                {t("mobile.code")}
-              </span>
-            </Tab>
-            <Tab>
-              <span className="react-tabs__tab-inner">
-                <PreviewIcon />
-                {projectType === "html"
-                  ? t("mobile.preview")
-                  : t("mobile.output")}
-              </span>
-            </Tab>
-          </TabList>
-        </div>
-      </Tabs>
+      {option ? (
+        <Tabs
+          forceRenderTabPanel={true}
+          selectedIndex={selectedTab}
+          onSelect={(index) => setSelectedTab(index)}
+        >
+          <TabPanel>
+            <Sidebar option={option} toggleOption={toggleOption} />
+          </TabPanel>
+        </Tabs>
+      ) : (
+        <Tabs
+          forceRenderTabPanel={true}
+          selectedIndex={selectedTab}
+          onSelect={(index) => setSelectedTab(index)}
+        >
+          <TabPanel>
+            <Sidebar option={option} toggleOption={toggleOption} />
+          </TabPanel>
+          <TabPanel>
+            <EditorInput />
+          </TabPanel>
+          <TabPanel>
+            <Output />
+          </TabPanel>
+          <MobileProjectBar />
+          <div className="react-tabs__tab-container mobile-nav">
+            <TabList>
+              <Tab>
+                <span className="react-tabs__tab-inner">
+                  <MenuIcon />
+                </span>
+              </Tab>
+              <Tab>
+                <span className="react-tabs__tab-inner">
+                  <CodeIcon />
+                  {t("mobile.code")}
+                </span>
+              </Tab>
+              <Tab>
+                <span className="react-tabs__tab-inner">
+                  <PreviewIcon />
+                  {projectType === "html"
+                    ? t("mobile.preview")
+                    : t("mobile.output")}
+                </span>
+              </Tab>
+            </TabList>
+          </div>
+        </Tabs>
+      )}
     </div>
   );
 };

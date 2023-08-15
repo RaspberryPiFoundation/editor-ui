@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from "react";
-import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,9 +29,6 @@ import EditorInput from "../EditorInput/EditorInput";
 import NewFileModal from "../../Modals/NewFileModal";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
-
-import MobileProject from "../../Mobile/MobileProject/MobileProject";
-import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const Project = (props) => {
   const dispatch = useDispatch();
@@ -125,7 +121,10 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const [option, setOption] = useState();
+  const toggleOption = (newOption) => {
+    option !== newOption ? setOption(newOption) : setOption(null);
+  };
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -138,35 +137,34 @@ const Project = (props) => {
 
   return (
     <div className="proj">
-      {isMobile ? (
-        <MobileProject />
-      ) : (
-        <div
-          ref={containerRef}
-          className={classnames("proj-container", {
-            "proj-container--wc": forWebComponent,
-          })}
-        >
-          {!forWebComponent ? <Sidebar /> : null}
-          <div className="project-wrapper">
-            {!forWebComponent ? <ProjectBar /> : null}
-            <div className="proj-editor-wrapper">
-              <ResizableWithHandle
-                data-testid="proj-editor-container"
-                className="proj-editor-container"
-                defaultWidth={defaultWidth}
-                defaultHeight={defaultHeight}
-                handleDirection={handleDirection}
-                minWidth="25%"
-                maxWidth={maxWidth}
-              >
-                <EditorInput />
-              </ResizableWithHandle>
-              <Output />
-            </div>
+      <div
+        ref={containerRef}
+        className={classnames("proj-container", {
+          "proj-container--wc": forWebComponent,
+        })}
+      >
+        {!forWebComponent ? (
+          <Sidebar option={option} toggleOption={toggleOption} />
+        ) : null}
+        <div className="project-wrapper">
+          {!forWebComponent ? <ProjectBar /> : null}
+          <div className="proj-editor-wrapper">
+            <ResizableWithHandle
+              data-testid="proj-editor-container"
+              className="proj-editor-container"
+              defaultWidth={defaultWidth}
+              defaultHeight={defaultHeight}
+              handleDirection={handleDirection}
+              minWidth="25%"
+              maxWidth={maxWidth}
+            >
+              <EditorInput />
+            </ResizableWithHandle>
+            <Output />
           </div>
         </div>
-      )}
+      </div>
+
       {newFileModalShowing ? <NewFileModal /> : null}
       {renameFileModalShowing && modals.renameFile ? <RenameFile /> : null}
       {notFoundModalShowing ? <NotFoundModal /> : null}
