@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import SidebarBarOption from "../../Menus/Sidebar/SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
+import Button from "../../Button/Button";
+import { CloseIcon } from "../../../Icons";
 
 const MobileSidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
@@ -16,6 +18,11 @@ const MobileSidebarBar = (props) => {
   const bottomMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "bottom",
   );
+
+  const collapseSidebar = () => {
+    toggleOption(option);
+    window.plausible("Collapse file pane");
+  };
 
   return (
     <div className={`sidebar__bar${option ? " sidebar__bar--selected" : ""}`}>
@@ -47,6 +54,14 @@ const MobileSidebarBar = (props) => {
             name={menuOption.name}
           />
         ))}
+        <Button
+          className="btn--tertiary"
+          ButtonIcon={CloseIcon}
+          title={t("sidebar.expand")}
+          buttonOuter
+          buttonOuterClassName="sidebar-expand-button"
+          onClickHandler={collapseSidebar}
+        />
       </div>
     </div>
   );
