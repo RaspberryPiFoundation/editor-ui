@@ -13,7 +13,7 @@
     @include font-size-0-75(regular);
     width: fit-content;
     max-width: 100%;
-    bottom: 1em;
+    inset-block-end: 1em;
     padding: 4px;
     inset-inline-start: 50%;
     transform: translateX(-50%);
@@ -31,7 +31,7 @@
     max-width: fit-content;
     width: 100%;
     font-weight: var(--font-weight-bold);
-    top: 20%;
+    inset-block-start: 20%;
   }
   .toast--top-center__message {
     border-radius: 25px;

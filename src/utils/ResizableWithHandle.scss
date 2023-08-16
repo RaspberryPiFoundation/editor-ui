@@ -8,7 +8,7 @@
 }
 
 .resizable-with-handle__handle--bottom div {
-  bottom: 3px !important;
+  inset-block-end: 3px !important;
 
   svg {
     width: 100%;
