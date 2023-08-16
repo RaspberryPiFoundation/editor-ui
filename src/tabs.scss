@@ -28,7 +28,7 @@
     &__tab-inner-close-btn {
       position: absolute;
       background: transparent;
-      right: calc(-1 * $space-0-125);
+      inset-inline-end: calc(-1 * $space-0-125);
       height: 100%;
       padding: $space-0-5;
       text-align: center;
@@ -75,7 +75,7 @@
           border: 3px solid $rpf-brand-raspberry;
         }
       }
-  
+
       &:focus:after {
         display: none;
       }
@@ -85,7 +85,7 @@
       display: flex;
       height: fit-content;
     }
-  
+
     &__tab-list {
       border-bottom: none;
       display: flex;
@@ -95,7 +95,7 @@
       height: fit-content;
       width: 100%;
     }
-  
+
     &__tab-panel--selected {
       flex: 1;
       display: flex;
@@ -106,11 +106,11 @@
 
   &.--light {
     .react-tabs {
-  
+
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-150;
       }
-  
+
       &__tab {
         &--selected {
           .react-tabs__tab-inner {
@@ -124,18 +124,18 @@
   &.--dark {
     .react-tabs {
       background-color: $rpf-grey-800;
-  
+
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-600;
       }
-  
+
       &__tab {
         &:hover {
           .react-tabs__tab-inner {
             background-color: $rpf-grey-700;
           }
         }
-  
+
         &--selected {
           color: $rpf-white;
 

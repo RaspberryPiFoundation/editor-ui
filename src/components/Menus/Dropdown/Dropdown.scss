@@ -36,7 +36,7 @@
         border-right: 15px solid transparent;
         position: absolute;
         bottom: 100%;
-        left: 50%;
+        inset-inline-start: 50%;
         margin-left: -15px;
         content: '';
       }
@@ -61,10 +61,10 @@
       }
     }
   }
-  
+
   &-backdrop {
     position: fixed;
-    left: 0px;
+    inset-inline-start: 0px;
     top: 0px;
     height: 100%;
     width: 100%;

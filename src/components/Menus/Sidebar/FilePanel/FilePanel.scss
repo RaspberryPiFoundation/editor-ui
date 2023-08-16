@@ -30,7 +30,7 @@
 .files-list-item__menu {
   border-radius: 8px;
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
 }
 
 .--light {

@@ -15,10 +15,10 @@
     max-width: 100%;
     bottom: 1em;
     padding: 4px;
-    left: 50%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    
+
     .Toastify__toast-icon {
       margin: 0 $space-0-25 0 0;
     }
