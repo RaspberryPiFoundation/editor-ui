@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -18,9 +18,10 @@ const MobileSidebarBar = (props) => {
   const bottomMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "bottom",
   );
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const collapseSidebar = () => {
-    toggleOption(option);
+    toggleOption(selectedTab);
     window.plausible("Collapse file pane");
   };
 
