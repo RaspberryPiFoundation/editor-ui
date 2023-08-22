@@ -98,7 +98,7 @@ describe("When on mobile", () => {
 
   beforeEach(() => {
     setMedia({
-      width: MOBILE_BREAKPOINT - 1,
+      width: MOBILE_BREAKPOINT,
     });
     const middlewares = [];
     mockStore = configureStore(middlewares);
