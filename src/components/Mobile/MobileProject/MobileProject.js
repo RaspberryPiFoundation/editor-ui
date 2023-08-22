@@ -26,11 +26,6 @@ const MobileProject = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [option, setOption] = useState("file");
-  const toggleOption = (newOption) => {
-    option !== newOption ? setOption(newOption) : setOption(null);
-  };
-
   const openSidebar = () => dispatch(showSidebar());
 
   useEffect(() => {
@@ -90,7 +85,7 @@ const MobileProject = () => {
   }, [dispatch, project, user, justLoaded]);
 
   return sidebarShowing ? (
-    <Sidebar option={option} toggleOption={toggleOption} />
+    <Sidebar />
   ) : (
     <div className="proj-container proj-editor-container proj-container--mobile">
       <Tabs

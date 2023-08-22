@@ -121,10 +121,6 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
-  const [option, setOption] = useState();
-  const toggleOption = (newOption) => {
-    option !== newOption ? setOption(newOption) : setOption(null);
-  };
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -143,9 +139,7 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {!forWebComponent ? (
-          <Sidebar option={option} toggleOption={toggleOption} />
-        ) : null}
+        {!forWebComponent ? <Sidebar /> : null}
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">

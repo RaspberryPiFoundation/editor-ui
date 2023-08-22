@@ -127,7 +127,6 @@ describe("When on mobile", () => {
         </MemoryRouter>
       </Provider>,
     );
-    screen.debug();
     expect(screen.queryByText("mobile.code")).toBeInTheDocument();
     expect(screen.queryByText("mobile.output")).toBeInTheDocument();
   });
