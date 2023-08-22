@@ -46,7 +46,11 @@ const ProjectsPanel = () => {
         Icon={DownloadIcon}
         buttonIconPosition="right"
       />
-      {isMobile ? <SaveStatus /> : null}
+      {isMobile && (
+        <div className="projects-panel__save-status">
+          <SaveStatus isMobile={isMobile} />
+        </div>
+      )}
     </SidebarPanel>
   );
 };

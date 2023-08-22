@@ -10,7 +10,7 @@ const MobileProjectBar = () => {
   return (
     <div className="mobile-project-bar">
       <p className="mobile-project-bar__name">{projectName}</p>
-      {lastSavedTime ? <SaveStatus /> : null}
+      {lastSavedTime ? <SaveStatus isMobile={true} /> : null}
     </div>
   );
 };

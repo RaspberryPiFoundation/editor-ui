@@ -3,11 +3,12 @@ import { intlFormatDistance } from "date-fns";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 
 import { CloudUploadIcon, CloudTickIcon } from "../../Icons";
 import "./SaveStatus.scss";
 
-const SaveStatus = () => {
+const SaveStatus = ({ isMobile = false }) => {
   const { t } = useTranslation();
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
@@ -28,8 +29,13 @@ const SaveStatus = () => {
   }, [lastSavedTime]);
 
   return (
+    lastSavedTime &&
     loading === "success" && (
-      <div className="save-status">
+      <div
+        className={classNames("save-status", {
+          "save-status--mobile": isMobile,
+        })}
+      >
         {isPending ? (
           <>
             <div className="save-status__icon">

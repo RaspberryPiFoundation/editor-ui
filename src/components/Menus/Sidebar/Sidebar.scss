@@ -7,6 +7,11 @@
   position: relative;
 }
 
+.sidebar--mobile {
+  height: 100%;
+  width: 100%;
+}
+
 .sidebar__bar {
   display: flex;
   flex-direction: column;
@@ -32,6 +37,7 @@
   flex-direction: column;
   padding: $space-1;
   border-radius: 0 8px 8px 0;
+  width: inherit;
 }
 
 .sidebar__panel-heading {
