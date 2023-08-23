@@ -20,6 +20,10 @@
     }
   }
 
+  .projects-panel__button {
+    padding: $space-1 0;
+  }
+
   .projects-panel__download-button {
     width: 100%;
     margin: 0;
@@ -40,6 +44,24 @@
 
   .projects-panel__item {
     margin-bottom: $space-1;
+  }
+
+  .projects-panel__save {
+    border-top: 1px solid $rpf-grey-600;
+    padding: $space-1 0;
+  }
+  
+  .projects-panel__save-button {
+    width: fill-available;
+    margin-bottom: $space-1;
+
+    .icon {
+      display: none;
+    }
+
+    .content {
+      margin: auto;
+    }
   }
 
   .projects-panel__save-status {
