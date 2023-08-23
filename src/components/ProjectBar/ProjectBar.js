@@ -1,16 +1,13 @@
 import "./ProjectBar.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "./../SaveStatus/SaveStatus";
-import { Button } from "@RaspberryPiFoundation/design-system-react";
-import { DownloadIcon, SaveIcon } from "../../Icons";
-import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import { DownloadIcon } from "../../Icons";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
-import { isOwner } from "../../utils/projectHelpers";
+import SaveButton from "../SaveButton/SaveButton";
 
 const ProjectBar = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
@@ -18,26 +15,6 @@ const ProjectBar = () => {
   const loading = useSelector((state) => state.editor.loading);
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
-
-  const onClickSave = async () => {
-    window.plausible("Save button");
-
-    if (isOwner(user, project)) {
-      dispatch(
-        syncProject("save")({
-          project,
-          accessToken: user.access_token,
-          autosave: false,
-        }),
-      );
-    } else if (user && project.identifier) {
-      dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
-      );
-    } else {
-      dispatch(showLoginToSaveModal());
-    }
-  };
 
   return (
     loading === "success" && (
@@ -56,15 +33,7 @@ const ProjectBar = () => {
               buttonIconPosition="right"
             />
           ) : null}
-          {loading === "success" ? (
-            <Button
-              className="btn--save"
-              onClick={onClickSave}
-              text={t("header.save")}
-              textAlways
-              icon={<SaveIcon />}
-            />
-          ) : null}
+          <SaveButton className="btn--save" />
           {lastSavedTime && user ? (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
           ) : null}

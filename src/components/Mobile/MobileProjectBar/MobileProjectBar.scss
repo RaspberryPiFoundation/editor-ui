@@ -3,16 +3,18 @@
 @import "../../../colours.scss";
 
 .mobile-project-bar {
-  display: flex;
-  justify-content: space-between;
   background-color: $rpf-white;
   border-top: 1px solid $rpf-grey-150;
+  display: flex;
+  height: 25px;
+  justify-content: space-between;
+  margin-inline: $space-0-5;
 }
 
 .mobile-project-bar__name {
-  @include font-size-1(regular);
+  @include font-size-0-75(regular);
   font-weight: var(--font-weight-bold);
-  margin-inline-start: $space-1;
+  margin: auto 0;
 }
 
 .--dark {

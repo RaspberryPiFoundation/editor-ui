@@ -14,6 +14,11 @@
 
   .react-tabs__tab-inner {
     flex: 1;
+    height: 64px;
+  }
+
+  .mobile-nav__menu {
+    max-width: 64px;
   }
 }
 

@@ -9,6 +9,13 @@ window.HTMLElement.prototype.scrollIntoView = jest.fn();
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
+const user = {
+  access_token: "myAccessToken",
+  profile: {
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
+  },
+};
+
 describe("When code is not running", () => {
   beforeEach(() => {
     const initialState = {
@@ -22,10 +29,14 @@ describe("When code is not running", () => {
               content: "print('hello')",
             },
           ],
+          user_id: user.profile.user,
         },
         codeRunTriggered: false,
         openFiles: [["main.py"]],
         focussedFileIndices: [0],
+      },
+      auth: {
+        user: user,
       },
     };
     const store = mockStore(initialState);
@@ -55,10 +66,14 @@ describe("When code is running", () => {
               content: "print('hello')",
             },
           ],
+          user_id: user.profile.user,
         },
         codeRunTriggered: true,
         openFiles: [["main.py"]],
         focussedFileIndices: [0],
+      },
+      auth: {
+        user: user,
       },
     };
     const store = mockStore(initialState);

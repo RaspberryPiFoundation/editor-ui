@@ -63,7 +63,7 @@ input {
 }
 
 html, body, #root, #app {
-  overflow: auto;
+  overflow: hidden; // Removes the scrollbar flash on first load
   height: 100%;
   height: -moz-available;
   height: -webkit-fill-available;
