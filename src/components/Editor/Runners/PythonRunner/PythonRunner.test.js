@@ -7,6 +7,13 @@ import PythonRunner from "./PythonRunner";
 import { codeRunHandled, setError, triggerDraw } from "../../EditorSlice";
 import { SettingsContext } from "../../../../settings";
 
+const user = {
+  access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+  profile: {
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
+  },
+};
+
 describe("Testing basic input span functionality", () => {
   let input;
   let store;
@@ -25,6 +32,9 @@ describe("Testing basic input span functionality", () => {
           image_list: [],
         },
         codeRunTriggered: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -77,6 +87,9 @@ test("Input box not there when input function not called", () => {
       },
       codeRunTriggered: true,
     },
+    auth: {
+      user,
+    },
   };
   const store = mockStore(initialState);
   render(
@@ -104,6 +117,9 @@ describe("Testing stopping the code run with input", () => {
         },
         codeRunTriggered: true,
         codeRunStopped: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -151,6 +167,9 @@ describe("When in split view, no visual libraries used and code run", () => {
         codeRunTriggered: true,
         isSplitView: true,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -185,6 +204,9 @@ describe("When in split view, py5 imported and code run", () => {
         },
         codeRunTriggered: true,
         isSplitView: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -224,6 +246,9 @@ describe("When in split view, py5_imported imported and code run", () => {
         codeRunTriggered: true,
         isSplitView: true,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -257,6 +282,9 @@ describe("When in split view, pygal imported and code run", () => {
         },
         codeRunTriggered: true,
         isSplitView: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -292,6 +320,9 @@ describe("When in split view, turtle imported and code run", () => {
         codeRunTriggered: true,
         isSplitView: true,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -325,6 +356,9 @@ describe("When in split view, sense_hat imported and code run", () => {
         },
         codeRunTriggered: true,
         isSplitView: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -361,6 +395,9 @@ describe("When in tabbed view, no visual libraries used and code run", () => {
         codeRunTriggered: true,
         isSplitView: false,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -395,6 +432,9 @@ describe("When in tabbed view, py5 imported and code run", () => {
         },
         codeRunTriggered: true,
         isSplitView: false,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -434,6 +474,9 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
         codeRunTriggered: true,
         isSplitView: false,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -467,6 +510,9 @@ describe("When in tabbed view, pygal imported and code run", () => {
         },
         codeRunTriggered: true,
         isSplitView: false,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
@@ -502,6 +548,9 @@ describe("When in tabbed view, turtle imported and code run", () => {
         codeRunTriggered: true,
         isSplitView: false,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -536,6 +585,9 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
         codeRunTriggered: true,
         isSplitView: false,
       },
+      auth: {
+        user,
+      },
     };
     store = mockStore(initialState);
     ({ queryByText } = render(
@@ -567,6 +619,9 @@ test("When embedded in split view with visual output does not render output view
       isSplitView: true,
       isEmbedded: true,
     },
+    auth: {
+      user,
+    },
   };
   const store = mockStore(initialState);
   render(
@@ -587,6 +642,9 @@ test("When embedded in split view with no visual output does not render output v
       isSplitView: true,
       isEmbedded: true,
     },
+    auth: {
+      user,
+    },
   };
   const store = mockStore(initialState);
   render(
@@ -606,6 +664,9 @@ test("When embedded in tabbed view does not render output view toggle", () => {
       isSplitView: false,
       isEmbedded: true,
     },
+    auth: {
+      user,
+    },
   };
   const store = mockStore(initialState);
   render(
@@ -624,6 +685,9 @@ test("Tabbed view has text and visual tabs with same parent element", () => {
       project: {},
       senseHatAlwaysEnabled: true,
       isSplitView: false,
+    },
+    auth: {
+      user,
     },
   };
   const store = mockStore(initialState);
@@ -646,6 +710,9 @@ test("Split view has text and visual tabs with different parent elements", () =>
       senseHatAlwaysEnabled: true,
       isSplitView: true,
     },
+    auth: {
+      user,
+    },
   };
   const store = mockStore(initialState);
   render(
@@ -667,6 +734,9 @@ describe("When font size is set", () => {
     const initialState = {
       editor: {
         project: {},
+      },
+      auth: {
+        user,
       },
     };
     const store = mockStore(initialState);
