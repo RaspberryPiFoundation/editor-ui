@@ -7,6 +7,7 @@ import {
   createRemix,
   uploadImages,
   readProjectList,
+  createError,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -169,5 +170,46 @@ describe("Index page API calls", () => {
       ...authHeaders,
       params: { page },
     });
+  });
+});
+
+describe("Testing project errors API calls", () => {
+  let projectIdentifier = "original-hello-project";
+  let userId = "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf";
+  let error = { errorMessage: "Something went wrong" };
+
+  axios.post.mockImplementationOnce(() => {
+    Promise.resolve({ data: [], status: 201 });
+  });
+
+  test("Create a basic project error", async () => {
+    projectIdentifier = undefined;
+    userId = undefined;
+    await createError(projectIdentifier, userId, error);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/project_errors`,
+      {
+        error: error.errorMessage,
+      },
+      undefined,
+    );
+  });
+
+  test("Create project error with optional parameters", async () => {
+    error = {
+      errorMessage: "Something went wrong",
+      errorType: "SomeDummyError",
+    };
+    await createError(projectIdentifier, userId, error);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/project_errors`,
+      {
+        project_id: projectIdentifier,
+        user_id: userId,
+        error: error.errorMessage,
+        error_type: error?.errorType,
+      },
+      undefined,
+    );
   });
 });
