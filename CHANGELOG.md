@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 ### Changed
+### Fixed
+
+## [0.18.2] - 2023-08-29
+
+### Changed
 
 - Error capturing for python project fires to editor-api rather than Sentry (#625)
 
@@ -475,7 +480,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.18.2...HEAD
+[0.18.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.2
 [0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1
 [0.18.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.0
 [0.17.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.17.1
