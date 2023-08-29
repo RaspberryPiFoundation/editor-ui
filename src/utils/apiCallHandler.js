@@ -56,7 +56,7 @@ export const getImage = async (url) => {
 export const createRemix = async (project, accessToken) => {
   return await post(
     `${host}/api/projects/${project.identifier}/remix`,
-    { project: project },
+    { project },
     headers(accessToken),
   );
 };
@@ -88,4 +88,14 @@ export const uploadImages = async (projectIdentifier, accessToken, images) => {
     formData,
     { ...headers(accessToken), "Content-Type": "multipart/form-data" },
   );
+};
+
+export const createError = async (projectIdentifier, userId, error) => {
+  const { errorMessage, errorType } = error;
+  return await post(`${host}/api/project_errors`, {
+    error: errorMessage,
+    error_type: errorType,
+    project_id: projectIdentifier,
+    user_id: userId,
+  });
 };

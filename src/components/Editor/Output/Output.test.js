@@ -14,6 +14,13 @@ jest
     key === "browserPreview" ? mockBrowserPreview : null,
   );
 
+const user = {
+  access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+  profile: {
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
+  },
+};
+
 test("Component renders", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
@@ -22,6 +29,9 @@ test("Component renders", () => {
       project: {
         components: [],
       },
+    },
+    auth: {
+      user,
     },
   };
   const store = mockStore(initialState);
@@ -47,6 +57,9 @@ describe("When embedded", () => {
           components: [],
         },
         isEmbedded: true,
+      },
+      auth: {
+        user,
       },
     };
     store = mockStore(initialState);
