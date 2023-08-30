@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
 import InputModal from "./InputModal";
+import { readFromPico } from "../../utils/apiCallHandler";
 
 const NewFileModal = () => {
   const { t } = useTranslation();
@@ -35,6 +36,10 @@ const NewFileModal = () => {
       dispatch(openFile(fileName));
       closeModal();
     });
+  };
+
+  const getPicoFiles = () => {
+    readFromPico();
   };
 
   return (
@@ -63,6 +68,12 @@ const NewFileModal = () => {
           className="btn--primary"
           buttonText={t("filePanel.newFileModal.addFile")}
           onClickHandler={createComponent}
+        />,
+        <Button
+          key="pico"
+          className="btn--primary"
+          buttonText={"Pico"}
+          onClickHandler={getPicoFiles}
         />,
         <Button
           key="close"

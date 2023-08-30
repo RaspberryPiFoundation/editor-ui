@@ -99,3 +99,10 @@ export const createError = async (projectIdentifier, userId, error) => {
     user_id: userId,
   });
 };
+
+export const readFromPico = async () => {
+  console.log("Reading from pico");
+  const result = await axios.get("http://localhost:5000/files");
+  console.log(result);
+  return result;
+};

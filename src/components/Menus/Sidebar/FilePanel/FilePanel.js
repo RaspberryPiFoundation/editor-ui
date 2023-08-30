@@ -13,8 +13,9 @@ import SidebarPanel from "../SidebarPanel";
 
 const FilePanel = () => {
   const project = useSelector((state) => state.editor.project);
+  console.log(project);
   const openFiles = useSelector((state) => state.editor.openFiles);
-
+  console.log(openFiles);
   const dispatch = useDispatch();
 
   const switchToFileTab = (panelIndex, fileIndex) => {
