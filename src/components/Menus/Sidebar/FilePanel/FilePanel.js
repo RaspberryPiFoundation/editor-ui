@@ -36,6 +36,11 @@ const FilePanel = () => {
   };
   const { t } = useTranslation();
 
+  const syncWithPico = () => {
+    // use this to sync all files???
+    console.log("Syncing with pico");
+  };
+
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
       {project.components.map((file, i) => (
@@ -49,7 +54,12 @@ const FilePanel = () => {
           {(file.name === "main" && file.extension === "py") ||
           (file.name === "index" && file.extension === "html") ? null : (
             <div className="files-list-item__menu">
-              <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+              <FileMenu
+                fileKey={i}
+                name={file.name}
+                ext={file.extension}
+                content={file.content}
+              />
             </div>
           )}
         </div>

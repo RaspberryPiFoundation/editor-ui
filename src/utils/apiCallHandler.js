@@ -106,3 +106,27 @@ export const readFromPico = async () => {
   console.log(result);
   return result;
 };
+
+export const writeToPico = async (fileName, content) => {
+  const options = {
+    method: "POST",
+    url: "http://localhost:5000/files",
+    withCredentials: false,
+    data: [
+      {
+        content: content,
+        fileName: fileName,
+      },
+    ],
+  };
+
+  console.log("Writing to pico");
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+};

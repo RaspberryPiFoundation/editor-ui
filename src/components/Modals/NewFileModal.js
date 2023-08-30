@@ -38,10 +38,6 @@ const NewFileModal = () => {
     });
   };
 
-  const getPicoFiles = () => {
-    readFromPico();
-  };
-
   return (
     <InputModal
       isOpen={isModalOpen}
@@ -68,12 +64,6 @@ const NewFileModal = () => {
           className="btn--primary"
           buttonText={t("filePanel.newFileModal.addFile")}
           onClickHandler={createComponent}
-        />,
-        <Button
-          key="pico"
-          className="btn--primary"
-          buttonText={"Pico"}
-          onClickHandler={getPicoFiles}
         />,
         <Button
           key="close"
