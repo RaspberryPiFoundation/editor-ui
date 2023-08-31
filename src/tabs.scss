@@ -88,12 +88,12 @@
   
     &__tab-list {
       border-bottom: none;
+      box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
       margin: 0;
       padding: 0 $space-0-25;
       height: fit-content;
-      width: 100%;
     }
   
     &__tab-panel--selected {

@@ -1,0 +1,19 @@
+@use "../../spacing" as *;
+@use "../../font-size.scss" as *;
+@import "../../colours.scss";
+
+.save-status {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 $space-1 0 $space-0-5;
+}
+
+.save-status--mobile {
+  @include font-size-0-75(regular);
+  margin: unset;
+}
+
+.save-status__icon {
+  display: flex;
+}
