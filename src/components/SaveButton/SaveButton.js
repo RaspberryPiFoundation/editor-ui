@@ -5,7 +5,7 @@ import { SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
 
-const SaveButton = ({ className, type = "primary" }) => {
+const SaveButton = ({ className, type = "secondary" }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
