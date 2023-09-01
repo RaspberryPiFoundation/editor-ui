@@ -1,5 +1,6 @@
-@use '../../../../spacing' as *;
+@use "../../../../spacing" as *;
 @use "../../../../colours.scss" as *;
+@use "../../../../font-size.scss" as *;
 
 .projects-panel-wrapper {
   .sidebar__panel-content {
@@ -18,6 +19,10 @@
       color: $rpf-black;
       text-decoration: none;
     }
+  }
+
+  .projects-panel__button {
+    padding: $space-1 0;
   }
 
   .projects-panel__download-button {
@@ -40,5 +45,41 @@
 
   .projects-panel__item {
     margin-bottom: $space-1;
+  }
+
+  .projects-panel__save {
+    border-top: 1px solid $rpf-grey-150;
+    padding: $space-1 0;
+  }
+
+  .projects-panel__save-button {
+    width: fill-available;
+    margin-bottom: $space-1;
+
+    .icon {
+      display: none;
+    }
+
+    .content {
+      margin: auto;
+    }
+
+    span {
+      @include font-size-1(regular);
+      font-weight: bold;
+    }
+  }
+
+  .projects-panel__save-status {
+    margin: auto;
+    width: fit-content;
+  }
+}
+
+.--dark {
+  .projects-panel__save-button {
+    .content {
+      color: white;
+    }
   }
 }

@@ -1,26 +1,6 @@
 @use "../../spacing" as *;
 @import "../../colours.scss";
 
-.autosave {
-  align-items: center;
-  display: none;
-  margin: 0 $space-1 0 $space-0-5;
-  width: 160px;
-
-  @container (min-width: 560px) {
-    display: flex;
-    gap: $space-0-25;
-  }
-}
-
-.autosave__icon {
-  display: flex;
-}
-
-.autosave__time--hidden {
-  visibility: hidden;
-}
-
 .project-bar {
   border-radius: 0.5rem;
   display: flex;

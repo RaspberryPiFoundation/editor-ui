@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { triggerCodeRun } from "../Editor/EditorSlice";
 
-const RunButton = ({ embedded = false, ...props }) => {
+const RunButton = ({ embedded = false, className, ...props }) => {
   const dispatch = useDispatch();
 
   const onClickRun = () => {
@@ -16,7 +16,7 @@ const RunButton = ({ embedded = false, ...props }) => {
 
   return (
     <Button
-      className={"btn--primary btn--run"}
+      className={`btn--primary btn--run${className ? ` ${className}` : ""}`}
       onClickHandler={onClickRun}
       {...props}
     />
