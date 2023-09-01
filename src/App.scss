@@ -75,7 +75,7 @@ body,
   scrollbar-width: none; /* Remove scroll bar for Firefox */
 }
 
-// Remove scrollbar for Chrome
+// Remove scrollbar for Chrome, Safari and Opera
 ::-webkit-scrollbar {
   display: none;
 }
