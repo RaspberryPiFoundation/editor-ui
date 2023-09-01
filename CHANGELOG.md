@@ -6,20 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Fixed
-
-Dynamic view height (#) and scrolling issues
-
-## [0.18.2] - 2023-08-29
-
-### Changed
-
-- Error capturing for python project fires to editor-api rather than Sentry (#625)
-
-## Added
-
-- Mobile project details component
-
 ### Added
 
 - Mobile project details component
@@ -30,8 +16,11 @@ Dynamic view height (#) and scrolling issues
 - Position of run button on mobile (#615)
 - Save button styles (#633)
 - Tweak tab colors (#634)
+- Dyanmic viewport height (#627)
 
 ### Fixed
+
+- Sidebar scroll behaviour
 
 ## [0.18.2] - 2023-08-29
 
