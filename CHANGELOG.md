@@ -24,12 +24,12 @@ Dynamic view height (#) and scrolling issues
 
 - Mobile project details component
 - Mobile navigation between code and output (#615)
-- Mobie sidebar
 
 ### Changed
 
 - Position of run button on mobile (#615)
 - Save button styles (#633)
+- Tweak tab colors (#634)
 
 ### Fixed
 
