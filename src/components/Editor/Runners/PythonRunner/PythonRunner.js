@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Sk from "skulpt";
 import { useMediaQuery } from "react-responsive";
-
 import {
   setError,
   codeRunHandled,
