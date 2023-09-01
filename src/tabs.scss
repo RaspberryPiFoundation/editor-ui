@@ -124,7 +124,7 @@
 
   &.--dark {
     .react-tabs {
-      background-color: $rpf-grey-800;
+      background-color: $rpf-grey-600;
 
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-600;
@@ -134,7 +134,7 @@
         &:hover {
           .react-tabs__tab-inner {
             border-color: $rpf-teal-400;
-            background-color: $rpf-grey-700;
+            background-color: $rpf-grey-600;
           }
         }
 
