@@ -15,6 +15,8 @@ import {
   triggerDraw,
 } from "../../EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import { createError } from "../../../../utils/apiCallHandler";
+
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";

@@ -20,12 +20,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Mobile project details component
 - Mobile navigation between code and output (#615)
 - Mobie sidebar
 
 ### Changed
 
 - Position of run button on mobile (#615)
+
+### Fixed
+
+## [0.18.2] - 2023-08-29
+
+### Changed
+
+- Error capturing for python project fires to editor-api rather than Sentry (#625)
 
 ## [0.18.1] - 2023-08-03
 
