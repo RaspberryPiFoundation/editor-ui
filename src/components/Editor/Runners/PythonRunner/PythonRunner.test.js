@@ -788,6 +788,9 @@ describe("When on desktop", () => {
           image_list: [],
         },
       },
+      auth: {
+        user,
+      },
     };
     const store = mockStore(initialState);
     render(
@@ -820,6 +823,9 @@ describe("When on mobile and not embedded", () => {
           image_list: [],
         },
         isEmbedded: false,
+      },
+      auth: {
+        user,
       },
     };
     const store = mockStore(initialState);
