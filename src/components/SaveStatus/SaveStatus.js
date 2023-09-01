@@ -50,7 +50,7 @@ const SaveStatus = ({ isMobile = false }) => {
             <div className="save-status__icon">
               <CloudTickIcon />
             </div>
-            <div className="save-status__status">
+            <div className="save-status__text">
               {t("saveStatus.saved")}{" "}
               {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
             </div>
