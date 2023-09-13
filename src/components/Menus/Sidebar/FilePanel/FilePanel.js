@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon } from "../../../../Icons";
+import { FileIcon, DuplicateIcon } from "../../../../Icons";
 import FileMenu from "../../FileMenu/FileMenu";
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import Button from "../../../Button/Button";
 import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
+import { syncWithPico } from "../../../../utils/apiCallHandler";
 
 import "./FilePanel.scss";
 import "../Sidebar.scss";
@@ -36,9 +37,9 @@ const FilePanel = () => {
   };
   const { t } = useTranslation();
 
-  const syncWithPico = () => {
+  const syncProjectWithPico = () => {
     // use this to sync all files???
-    console.log("Syncing with pico");
+    syncWithPico(project.components);
   };
 
   return (
@@ -64,6 +65,12 @@ const FilePanel = () => {
           )}
         </div>
       ))}
+      <Button
+        className="btn btn--secondary files-list__pico_sync-button"
+        onClickHandler={() => syncProjectWithPico()}
+        buttonText="Sync Pico"
+        ButtonIcon={DuplicateIcon}
+      />
     </SidebarPanel>
   );
 };

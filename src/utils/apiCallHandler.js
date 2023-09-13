@@ -130,3 +130,26 @@ export const writeToPico = async (fileName, content) => {
       console.error(error);
     });
 };
+
+export const syncWithPico = async (files) => {
+  const options = {
+    method: "POST",
+    url: "http://localhost:5000/sync",
+    withCredentials: false,
+    data: [
+      {
+        files: files,
+      },
+    ],
+  };
+
+  console.log("Writing to pico");
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+};

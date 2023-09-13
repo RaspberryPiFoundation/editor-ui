@@ -33,8 +33,13 @@
   right: 0;
 }
 
+.files-list__pico_sync-button {
+  width: 100%;
+  margin: 0;
+}
 .--light {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-teal-secondary-tertiary-hover;
     }
@@ -46,7 +51,8 @@
 }
 
 .--dark {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-grey-secondary-tertiary-hover;
     }
