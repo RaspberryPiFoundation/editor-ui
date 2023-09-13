@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import "./EmbeddedViewer.scss";
 import "../Editor/Project/Project.scss";
 import React from "react";

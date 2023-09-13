@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { syncProject, setProject } from "../EditorSlice";

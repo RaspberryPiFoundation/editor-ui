@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import "./EditorPanel.scss";
-import React, { useRef, useEffect, useContext } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateProjectComponent } from "../EditorSlice";
-import { useCookies } from "react-cookie";
+import './EditorPanel.scss'
+import React, { useRef, useEffect, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { updateProjectComponent } from '../EditorSlice'
+import { useCookies } from 'react-cookie';
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
