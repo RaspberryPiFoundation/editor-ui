@@ -1,0 +1,81 @@
+import React, { useEffect, useState } from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import EditorInput from "../../Editor/EditorInput/EditorInput";
+import Output from "../../Editor/Output/Output";
+import MobileProjectBar from "./../MobileProjectBar/MobileProjectBar";
+
+import "./MobileProject.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
+import { useTranslation } from "react-i18next";
+import Sidebar from "../../Menus/Sidebar/Sidebar";
+import { showSidebar } from "../../Editor/EditorSlice";
+
+const MobileProject = () => {
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const sidebarShowing = useSelector((state) => state.editor.sidebarShowing);
+  const codeRunTriggered = useSelector(
+    (state) => state.editor.codeRunTriggered,
+  );
+  const [selectedTab, setSelectedTab] = useState(0);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const openSidebar = () => dispatch(showSidebar());
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      setSelectedTab(1);
+    }
+  }, [codeRunTriggered]);
+
+  return (
+    <>
+      {sidebarShowing ? (
+        <Sidebar />
+      ) : (
+        <div className="proj-container proj-editor-container proj-container--mobile">
+          <Tabs
+            forceRenderTabPanel={true}
+            selectedIndex={selectedTab}
+            onSelect={(index) => setSelectedTab(index)}
+          >
+            <TabPanel>
+              <EditorInput />
+            </TabPanel>
+            <TabPanel>
+              <Output />
+            </TabPanel>
+            <MobileProjectBar />
+            <div className="react-tabs__tab-container mobile-nav">
+              <span
+                className="react-tabs__tab-inner mobile-nav__menu"
+                onClick={openSidebar}
+              >
+                <MenuIcon />
+              </span>
+              <TabList>
+                <Tab>
+                  <span className="react-tabs__tab-inner">
+                    <CodeIcon />
+                    {t("mobile.code")}
+                  </span>
+                </Tab>
+                <Tab>
+                  <span className="react-tabs__tab-inner">
+                    <PreviewIcon />
+                    {projectType === "html"
+                      ? t("mobile.preview")
+                      : t("mobile.output")}
+                  </span>
+                </Tab>
+              </TabList>
+            </div>
+          </Tabs>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default MobileProject;
