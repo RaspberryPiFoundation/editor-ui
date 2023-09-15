@@ -31,29 +31,30 @@ const OutputViewToggle = () => {
 
   return (
     <div className="output-view-toggle">
-      {isSplitView ? (
-        <Button
-          className={"btn--tertiary output-view-toggle__button"}
-          buttonText={isMobile ? null : t("outputViewToggle.buttonTabLabel")}
-          disabled={codeRunTriggered || drawTriggered}
-          label={t("outputViewToggle.buttonTabLabel")}
-          title={t("outputViewToggle.buttonTabLabel")}
-          ButtonIcon={TabbedViewIcon}
-          buttonIconPosition="right"
-          onClickHandler={switchToTabbedView}
-        />
-      ) : (
-        <Button
-          className={"btn--tertiary output-view-toggle__button"}
-          buttonText={isMobile ? null : t("outputViewToggle.buttonSplitLabel")}
-          disabled={codeRunTriggered || drawTriggered}
-          label={t("outputViewToggle.buttonSplitLabel")}
-          title={t("outputViewToggle.buttonSplitTitle")}
-          ButtonIcon={SplitViewIcon}
-          buttonIconPosition="right"
-          onClickHandler={switchToSplitView}
-        />
-      )}
+      <Button
+        className={"btn--tertiary output-view-toggle__button"}
+        buttonText={
+          isMobile
+            ? null
+            : isSplitView
+            ? t("outputViewToggle.buttonTabLabel")
+            : t("outputViewToggle.buttonSplitLabel")
+        }
+        disabled={codeRunTriggered || drawTriggered}
+        label={
+          isSplitView
+            ? t("outputViewToggle.buttonTabLabel")
+            : t("outputViewToggle.buttonSplitLabel")
+        }
+        title={
+          isSplitView
+            ? t("outputViewToggle.buttonTabTitle")
+            : t("outputViewToggle.buttonSplitTitle")
+        }
+        ButtonIcon={isSplitView ? TabbedViewIcon : SplitViewIcon}
+        buttonIconPosition="right"
+        onClickHandler={isSplitView ? switchToTabbedView : switchToSplitView}
+      />
     </div>
   );
 };
