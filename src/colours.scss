@@ -156,3 +156,33 @@ $rpf-text-secondary-dark: #cccccc;
     fill: $rpf-text-primary;
   }
 }
+
+.rpf-button--secondary * {
+  svg {
+    fill: $rpf-text-secondary;
+  }
+}
+
+.--dark * {
+  .rpf-button--secondary {
+    span {
+      color: $rpf-white;
+    }
+  }
+
+  .rpf-button--secondary::before {
+    background-color: $rpf-grey-700;
+  }
+}
+
+.--light * {
+  .rpf-button--secondary {
+    span {
+      color: $rpf-text-primary;
+    }
+  }
+
+  .rpf-button--secondary::before {
+    background-color: inherit;
+  }
+}
