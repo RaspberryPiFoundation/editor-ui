@@ -50,10 +50,11 @@
   .projects-panel__save {
     border-top: 1px solid $rpf-grey-150;
     padding: $space-1 0;
+    display: flex;
   }
 
   .projects-panel__save-button {
-    width: fill-available;
+    width: 100%;
     margin-bottom: $space-1;
 
     .icon {
@@ -65,7 +66,6 @@
     }
 
     span {
-      @include font-size-1(regular);
       font-weight: bold;
     }
   }
@@ -77,6 +77,10 @@
 }
 
 .--dark {
+  .projects-panel__save {
+    border-top: 1px solid $rpf-grey-600;
+  }
+
   .projects-panel__save-button {
     .content {
       color: white;
