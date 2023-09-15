@@ -74,13 +74,16 @@ const VisualOutputPane = () => {
       <div id="p5Sketch" ref={p5Output} />
       <div id="pygalOutput" ref={pygalOutput} />
       <div className="pythonrunner-canvas-container">
-        <div
-          id="outputCanvas"
-          ref={outputCanvas}
-          className="pythonrunner-graphic"
-        />
+        {senseHatEnabled || senseHatAlwaysEnabled ? (
+          <AstroPiModel ref={outputCanvas} />
+        ) : (
+          <div
+            id="outputCanvas"
+            ref={outputCanvas}
+            className="pythonrunner-graphic"
+          />
+        )}
       </div>
-      {senseHatEnabled || senseHatAlwaysEnabled ? <AstroPiModel /> : null}
     </div>
   );
 };

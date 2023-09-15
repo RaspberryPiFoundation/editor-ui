@@ -9,7 +9,7 @@ import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
 
 const SidebarBar = (props) => {
-  const { menuOptions, option, toggleOption } = props;
+  const { menuOptions, option, toggleOption, forWebComponent } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
@@ -21,12 +21,16 @@ const SidebarBar = (props) => {
 
   const expandPopOut = () => {
     toggleOption("file");
-    window.plausible("Expand file pane");
+    if (!forWebComponent) {
+      window.plausible("Expand file pane");
+    }
   };
 
   const collapsePopOut = () => {
     toggleOption(option);
-    window.plausible("Collapse file pane");
+    if (!forWebComponent) {
+      window.plausible("Collapse file pane");
+    }
   };
 
   return (

@@ -18,7 +18,7 @@ import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { useSelector } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = ({ forWebComponent = false }) => {
   const { t } = useTranslation();
   let menuOptions = [
     {
@@ -81,6 +81,7 @@ const Sidebar = () => {
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
+        forWebComponent={forWebComponent}
       />
       {option ? <CustomSidebarPanel /> : null}
     </div>

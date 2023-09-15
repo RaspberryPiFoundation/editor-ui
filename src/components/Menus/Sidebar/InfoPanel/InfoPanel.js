@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import SidebarPanel from "../SidebarPanel";
-import { Link } from "react-router-dom";
 
 import "./InfoPanel.scss";
 
@@ -42,9 +41,9 @@ const InfoPanel = () => {
       </div>
       <div className="info-panel info-panel__links">
         {links.map((link, i) => (
-          <Link key={i} className="info-panel__link" to={link.href}>
+          <a key={i} className="info-panel__link" href={link.href}>
             {link.text}
-          </Link>
+          </a>
         ))}
         <p>{t("sidebar.charity")}</p>
       </div>

@@ -1,3 +1,4 @@
+import React from "react";
 import "./ProjectBar.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import { isOwner } from "../../utils/projectHelpers";
 
-const ProjectBar = () => {
+const ProjectBar = ({ forWebComponent = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -20,7 +21,9 @@ const ProjectBar = () => {
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
 
   const onClickSave = async () => {
-    window.plausible("Save button");
+    if (!forWebComponent) {
+      window.plausible("Save button");
+    }
 
     if (isOwner(user, project)) {
       dispatch(

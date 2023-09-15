@@ -139,9 +139,9 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {!forWebComponent ? <Sidebar /> : null}
+        <Sidebar forWebComponent={true} />
         <div className="project-wrapper">
-          {!forWebComponent ? <ProjectBar /> : null}
+          <ProjectBar forWebComponent={forWebComponent} />
           <div className="proj-editor-wrapper">
             <ResizableWithHandle
               data-testid="proj-editor-container"
