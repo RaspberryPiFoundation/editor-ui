@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 ### Fixed
 
+- Fix docker build
+
 ## [0.18.2] - 2023-08-29
 
 ### Changed

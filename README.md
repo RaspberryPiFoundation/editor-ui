@@ -16,6 +16,15 @@ cp .env.webcomponent.example .env.webcomponent
 Variables for the web application need to go into the `.env` file.
 Variables for the web component can be placed in `.env.webcomponent`.
 
+## Private repo setup (.npmrc)
+
+The app requires a Git token for access to private repos (currently limited to `design-system-react`).
+
+* Generated a token here, it'll be prefixed with `ghp_`: https://github.com/settings/tokens
+* Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
+
+This will then be mounted as a secret in docker, and used to authenticate against the package repo.
+
 ## Available Scripts
 
 In the project directory, you can run:
