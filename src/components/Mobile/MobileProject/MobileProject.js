@@ -49,20 +49,20 @@ const MobileProject = () => {
             <MobileProjectBar />
             <div className="react-tabs__tab-container mobile-nav">
               <span
-                className="react-tabs__tab-inner mobile-nav__menu"
+                className="react-tabs__tab-text mobile-nav__menu"
                 onClick={openSidebar}
               >
                 <MenuIcon />
               </span>
               <TabList>
                 <Tab>
-                  <span className="react-tabs__tab-inner">
+                  <span className="react-tabs__tab-text">
                     <CodeIcon />
                     {t("mobile.code")}
                   </span>
                 </Tab>
                 <Tab>
-                  <span className="react-tabs__tab-inner">
+                  <span className="react-tabs__tab-text">
                     <PreviewIcon />
                     {projectType === "html"
                       ? t("mobile.preview")

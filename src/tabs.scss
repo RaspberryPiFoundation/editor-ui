@@ -12,30 +12,21 @@
     position: relative;
     border-radius: 10px;
 
-    &__tab-inner {
-      @extend .btn;
-      @extend .btn--small;
-      @extend .btn--secondary;
-
-      border: 3px solid transparent;
-      margin: $space-0-5 $space-0-25;
-      padding: $space-0-25 $space-0-5;
+    &__tab-text {
+      padding: 0 $space-0-75;
+      height: fit-content;
+      margin: 0;
       white-space: nowrap;
 
       &--split {
-        padding-right: $space-2-5;
+        padding-right: 0;
       }
     }
-    &__tab-inner-close-btn {
-      position: absolute;
-      background: transparent;
-      right: calc(-1 * $space-0-125);
+    &__tab-close-btn {
       height: 100%;
       padding: $space-0-5;
-      text-align: center;
-      svg {
-        margin: 0;
-      }
+      background-color: transparent;
+
       &:focus-visible {
         border: 0;
 
@@ -50,19 +41,22 @@
       background-color: transparent;
       padding: 0;
       margin: 0;
+      height: $space-3;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      font-weight: var(--font-weight-bold);
+
+      &:hover {
+        text-decoration: underline;
+      }
 
       &--selected {
         border-radius: 0;
+        padding-top: $space-0-25;
 
-        .react-tabs__tab-inner {
-          border: 3px solid $rpf-teal-900;
-          background-color: $rpf-grey-50;
-        }
-      }
-
-      &:hover {
-        .react-tabs__tab-inner {
-          background-color: $rpf-grey-400;
+        &:hover {
+          text-decoration: none;
         }
       }
 
@@ -72,10 +66,7 @@
 
       &:focus-visible {
         outline: none;
-
-        .react-tabs__tab-inner {
-          border: 3px solid $rpf-brand-raspberry;
-        }
+        border: 3px solid $rpf-brand-raspberry;
       }
 
       &:focus:after {
@@ -94,7 +85,7 @@
       display: flex;
       overflow-y: hidden;
       margin: 0;
-      padding: 0 $space-0-25;
+      padding: 0 $space-0-25 0 0;
       height: fit-content;
     }
 
@@ -108,15 +99,18 @@
 
   &.--light {
     .react-tabs {
+
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-150;
       }
 
       &__tab {
+        background-color: $rpf-off-white;
+        border-right: 1px solid $rpf-grey-150;
+
         &--selected {
-          .react-tabs__tab-inner {
-            background-color: $rpf-grey-50;
-          }
+          background-color: $rpf-white;
+          border-bottom: 4px solid $rpf-teal-900;
         }
       }
     }
@@ -131,28 +125,13 @@
       }
 
       &__tab {
-        &:hover {
-          .react-tabs__tab-inner {
-            border-color: $rpf-teal-400;
-            background-color: $rpf-grey-600;
-          }
-        }
+        background-color: $rpf-grey-800;
+        border-right: 1px solid $rpf-grey-600;
 
         &--selected {
           color: $rpf-white;
-
-          .react-tabs__tab-inner {
-            color: inherit;
-            background-color: $rpf-grey-600;
-          }
-        }
-      }
-
-      &__tab-inner {
-        background-color: $rpf-grey-600;
-        color: $rpf-white;
-        svg {
-          fill: $rpf-white;
+          background-color: $rpf-grey-700;
+          border-bottom: 4px solid $rpf-teal-800;
         }
       }
     }

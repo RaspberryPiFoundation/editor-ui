@@ -382,7 +382,7 @@ const PythonRunner = () => {
                 <div className="react-tabs__tab-container">
                   <TabList>
                     <Tab key={0}>
-                      <span className="react-tabs__tab-inner">
+                      <span className="react-tabs__tab-text">
                         {t("output.visualOutput")}
                       </span>
                     </Tab>
@@ -401,7 +401,7 @@ const PythonRunner = () => {
               <div className="react-tabs__tab-container">
                 <TabList>
                   <Tab key={0}>
-                    <span className="react-tabs__tab-inner">
+                    <span className="react-tabs__tab-text">
                       {t("output.textOutput")}
                     </span>
                   </Tab>
@@ -428,13 +428,13 @@ const PythonRunner = () => {
             <TabList>
               {hasVisualOutput ? (
                 <Tab key={0}>
-                  <span className="react-tabs__tab-inner">
+                  <span className="react-tabs__tab-text">
                     {t("output.visualOutput")}
                   </span>
                 </Tab>
               ) : null}
               <Tab key={1}>
-                <span className="react-tabs__tab-inner">
+                <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
                 </span>
               </Tab>
