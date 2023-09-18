@@ -6,6 +6,8 @@ import OutputViewToggle from "./OutputViewToggle";
 import { setIsSplitView } from "../../EditorSlice";
 
 describe("When in tabbed view", () => {
+  let store;
+
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -14,7 +16,7 @@ describe("When in tabbed view", () => {
         isSplitView: false,
       },
     };
-    const store = mockStore(initialState);
+    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <OutputViewToggle />
@@ -22,23 +24,26 @@ describe("When in tabbed view", () => {
     );
   });
 
-  test("Tabbed view button is active", () => {
-    expect(screen.getAllByRole("button")[0]).toHaveClass(
-      "output-view-toggle__button--tabbed output-view-toggle__button--active",
+  test("Split view button is shown", () => {
+    expect(screen.getByRole("button")).toHaveTextContent(
+      "outputViewToggle.buttonSplitLabel",
     );
   });
 
-  test("Split view button is not active", () => {
-    expect(screen.getAllByRole("button")[1]).toHaveClass(
-      "output-view-toggle__button--split",
-    );
-    expect(screen.getAllByRole("button")[1]).not.toHaveClass(
-      "output-view-toggle__button--active",
-    );
+  test("Split view button is enabled", () => {
+    expect(screen.getByRole("button")).toBeEnabled();
+  });
+
+  test("Clicking split view icon switches to split view", () => {
+    fireEvent.click(screen.getByRole("button"));
+    const expectedActions = [setIsSplitView(true)];
+    expect(store.getActions()).toEqual(expectedActions);
   });
 });
 
 describe("When in split view", () => {
+  let store;
+
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -47,7 +52,7 @@ describe("When in split view", () => {
         isSplitView: true,
       },
     };
-    const store = mockStore(initialState);
+    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <OutputViewToggle />
@@ -55,149 +60,111 @@ describe("When in split view", () => {
     );
   });
 
-  test("Split view button is active", () => {
-    expect(screen.getAllByRole("button")[1]).toHaveClass(
-      "output-view-toggle__button--split output-view-toggle__button--active",
-    );
-  });
-
-  test("Tabbed view button is not active", () => {
-    expect(screen.getAllByRole("button")[0]).toHaveClass(
-      "output-view-toggle__button--tabbed",
-    );
-    expect(screen.getAllByRole("button")[0]).not.toHaveClass(
-      "output-view-toggle__button--active",
-    );
-  });
-});
-
-test("Clicking tabbed view icon switches to tabbed view", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <OutputViewToggle />
-    </Provider>,
-  );
-  fireEvent.click(screen.getAllByRole("button")[0]);
-  const expectedActions = [setIsSplitView(false)];
-  expect(store.getActions()).toEqual(expectedActions);
-});
-
-test("Clicking split view icon switches to tabbed view", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <OutputViewToggle />
-    </Provider>,
-  );
-  fireEvent.click(screen.getAllByRole("button")[1]);
-  const expectedActions = [setIsSplitView(true)];
-  expect(store.getActions()).toEqual(expectedActions);
-});
-
-describe("When in a code run is triggered", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        codeRunTriggered: true,
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <OutputViewToggle />
-      </Provider>,
-    );
-  });
-
-  test("Tabbed view button is disabled", () => {
-    expect(screen.getAllByRole("button")[0]).toHaveClass(
-      "output-view-toggle__button--tabbed",
-    );
-    expect(screen.getAllByRole("button")[0]).toBeDisabled();
-  });
-
-  test("Split view button is disabled", () => {
-    expect(screen.getAllByRole("button")[1]).toHaveClass(
-      "output-view-toggle__button--split",
-    );
-    expect(screen.getAllByRole("button")[1]).toBeDisabled();
-  });
-});
-
-describe("When in a draw run is triggered", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        drawTriggered: true,
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <OutputViewToggle />
-      </Provider>,
-    );
-  });
-
-  test("Tabbed view button is disabled", () => {
-    expect(screen.getAllByRole("button")[0]).toHaveClass(
-      "output-view-toggle__button--tabbed",
-    );
-    expect(screen.getAllByRole("button")[0]).toBeDisabled();
-  });
-
-  test("Split view button is disabled", () => {
-    expect(screen.getAllByRole("button")[1]).toHaveClass(
-      "output-view-toggle__button--split",
-    );
-    expect(screen.getAllByRole("button")[1]).toBeDisabled();
-  });
-});
-
-describe("When in neither a code run nor a draw run is triggered", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        codeRunTriggered: false,
-        drawTriggered: false,
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <OutputViewToggle />
-      </Provider>,
+  test("Tabbed view button is shown", () => {
+    expect(screen.getByRole("button")).toHaveTextContent(
+      "outputViewToggle.buttonTabLabel",
     );
   });
 
   test("Tabbed view button is enabled", () => {
-    expect(screen.getAllByRole("button")[0]).toHaveClass(
-      "output-view-toggle__button--tabbed",
-    );
-    expect(screen.getAllByRole("button")[0]).not.toBeDisabled();
+    expect(screen.getByRole("button")).toBeEnabled();
   });
 
-  test("Split view button is enabled", () => {
-    expect(screen.getAllByRole("button")[1]).toHaveClass(
-      "output-view-toggle__button--split",
-    );
-    expect(screen.getAllByRole("button")[1]).not.toBeDisabled();
+  test("Clicking tabbed view icon switches to tabbed view", () => {
+    fireEvent.click(screen.getByRole("button"));
+    const expectedActions = [setIsSplitView(false)];
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+
+describe("When in a code run is triggered", () => {
+  describe("In tabbed view", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          codeRunTriggered: true,
+          isSplitView: false,
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <OutputViewToggle />
+        </Provider>,
+      );
+    });
+    test("Split view button is disabled", () => {
+      expect(screen.getByRole("button")).toBeDisabled();
+    });
+  });
+
+  describe("In split view", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          codeRunTriggered: true,
+          isSplitView: true,
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <OutputViewToggle />
+        </Provider>,
+      );
+    });
+    test("Tabbed view button is disabled", () => {
+      expect(screen.getByRole("button")).toBeDisabled();
+    });
+  });
+});
+
+describe("When in a draw is triggered", () => {
+  describe("In tabbed view", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          drawTriggered: true,
+          isSplitView: false,
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <OutputViewToggle />
+        </Provider>,
+      );
+    });
+    test("Split view button is disabled", () => {
+      expect(screen.getByRole("button")).toBeDisabled();
+    });
+  });
+
+  describe("In split view", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          drawTriggered: true,
+          isSplitView: true,
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <OutputViewToggle />
+        </Provider>,
+      );
+    });
+    test("Tabbed view button is disabled", () => {
+      expect(screen.getByRole("button")).toBeDisabled();
+    });
   });
 });
