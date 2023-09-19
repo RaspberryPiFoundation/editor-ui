@@ -90,7 +90,7 @@ const Sidebar = () => {
         option={option}
         toggleOption={toggleOption}
       />
-      {option ? <CustomSidebarPanel isMobile={isMobile} /> : null}
+      {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>
   );
 };
