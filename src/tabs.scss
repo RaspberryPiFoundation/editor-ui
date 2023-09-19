@@ -13,8 +13,8 @@
     border-radius: 8px;
 
     &__tab-text {
-      padding: 0 $space-0-75;
       height: fit-content;
+      width: fit-content;
       margin: 0;
       white-space: nowrap;
 
@@ -44,7 +44,7 @@
     &__tab {
       border: none;
       background-color: transparent;
-      padding: 0;
+      padding: 0 $space-0-75;
       margin: 0;
       top: 0;
       bottom: 0;
@@ -52,6 +52,8 @@
       box-sizing: border-box;
       display: flex;
       align-items: center;
+      justify-content: center;
+      gap: $space-0-5;
       font-weight: var(--font-weight-bold);
 
       &:hover {
@@ -64,6 +66,10 @@
 
         &:hover {
           text-decoration: none;
+        }
+
+        &:focus-visible {
+          padding-top: 7px;
         }
       }
 
@@ -150,6 +156,10 @@
           color: $rpf-white;
           background-color: $rpf-grey-700;
           border-bottom: 4px solid $rpf-teal-800;
+
+          &:focus-visible {
+            border-bottom: 7px solid $rpf-teal-800;
+          }
         }
 
         &-close-btn {

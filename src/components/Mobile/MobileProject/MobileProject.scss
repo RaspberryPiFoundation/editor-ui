@@ -1,25 +1,41 @@
+@use "../../../spacing" as *;
 @import "./../../../colours.scss";
 
 .proj-container--mobile {
   margin: 0;
 }
 
-.mobile-nav {
+#app .proj-container--mobile .react-tabs {
+  border-radius: 0;
+}
+
+#app .mobile-nav {
   display: flex;
   width: 100%;
+
+  .react-tabs__tab-list {
+    padding: 0;
+  }
+
   .react-tabs__tab {
     flex: 1;
     display: flex;
-  }
+    height: $space-4;
 
-  .react-tabs__tab-text {
-    flex: 1;
-    height: 64px;
+    &:last-of-type {
+      border-right: none;
+    }
   }
+}
 
-  .mobile-nav__menu {
-    max-width: 64px;
-  }
+.mobile-nav__menu {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $space-4;
 }
 
 .--dark {
@@ -31,6 +47,10 @@
     .mobile-nav {
       background-color: $rpf-grey-800;
       border-top: 1px solid $rpf-grey-600;
+    }
+
+    .mobile-nav__menu {
+      border-right: 1px solid $rpf-grey-600;
     }
   }
 }
@@ -45,5 +65,19 @@
       background-color: $rpf-off-white;
       border-top: 1px solid $rpf-grey-150;
     }
+
+    .mobile-nav__menu {
+      border-right: 1px solid $rpf-grey-150;
+    }
+  }
+}
+
+#app.--light, #app.--dark {
+  .mobile-nav {
+    border-bottom: none;
+  }
+
+  .react-tabs__tab--selected {
+    background-color: inherit;
   }
 }
