@@ -12,39 +12,10 @@
     position: relative;
     border-radius: 8px;
 
-    &__tab-text {
-      height: fit-content;
-      width: fit-content;
-      margin: 0;
-      white-space: nowrap;
-
-      &--split {
-        padding-right: 0;
-      }
-    }
-    &__tab-close-btn {
-      height: 100%;
-      padding: $space-0-25;
-      background-color: transparent;
-
-      svg {
-        padding: $space-0-5;
-        border-radius: 8px;
-      }
-
-      &:focus-visible {
-        border: 0;
-
-        svg {
-          border: 3px solid $rpf-brand-raspberry;
-        }
-      }
-    }
-
     &__tab {
       border: none;
       background-color: transparent;
-      padding: 0 $space-0-75;
+      padding: 0;
       margin: 0;
       top: 0;
       bottom: 0;
@@ -53,8 +24,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: $space-0-5;
       font-weight: var(--font-weight-bold);
+
+      svg {
+        padding: 0 0 0 $space-0-75;
+      }
 
       &:hover {
         text-decoration: underline;
@@ -84,6 +58,36 @@
 
       &:focus:after {
         display: none;
+      }
+    }
+
+    &__tab-text {
+      height: fit-content;
+      width: fit-content;
+      margin: 0;
+      padding: 0 $space-0-75;
+      white-space: nowrap;
+
+      &--split {
+        padding-right: 0;
+      }
+    }
+    &__tab-close-btn {
+      height: 100%;
+      padding: $space-0-25;
+      background-color: transparent;
+
+      svg {
+        padding: $space-0-5;
+        border-radius: 8px;
+      }
+
+      &:focus-visible {
+        border: 0;
+
+        svg {
+          border: 3px solid $rpf-brand-raspberry;
+        }
       }
     }
 

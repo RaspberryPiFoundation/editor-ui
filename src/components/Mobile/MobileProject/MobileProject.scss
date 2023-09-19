@@ -75,9 +75,9 @@
 #app.--light, #app.--dark {
   .mobile-nav {
     border-bottom: none;
-  }
 
-  .react-tabs__tab--selected {
-    background-color: inherit;
+    .react-tabs__tab--selected {
+      background-color: inherit;
+    }
   }
 }
