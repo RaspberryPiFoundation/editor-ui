@@ -9,21 +9,23 @@
   border-radius: 0;
 }
 
-#app .mobile-nav {
-  display: flex;
-  width: 100%;
-
-  .react-tabs__tab-list {
-    padding: 0;
-  }
-
-  .react-tabs__tab {
-    flex: 1;
+#app, #wc {
+  .mobile-nav {
     display: flex;
-    height: $space-4;
-
-    &:last-of-type {
-      border-right: none;
+    width: 100%;
+  
+    .react-tabs__tab-list {
+      padding: 0;
+    }
+  
+    .react-tabs__tab {
+      flex: 1;
+      display: flex;
+      height: $space-4;
+  
+      &:last-of-type {
+        border-right: none;
+      }
     }
   }
 }
