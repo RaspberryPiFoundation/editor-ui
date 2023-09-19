@@ -10,7 +10,7 @@
     flex-flow: column;
     overflow: hidden;
     position: relative;
-    border-radius: 10px;
+    border-radius: 8px;
 
     &__tab-text {
       padding: 0 $space-0-75;
@@ -24,8 +24,13 @@
     }
     &__tab-close-btn {
       height: 100%;
-      padding: $space-0-5;
+      padding: $space-0-25;
       background-color: transparent;
+
+      svg {
+        padding: $space-0-5;
+        border-radius: 8px;
+      }
 
       &:focus-visible {
         border: 0;
@@ -41,6 +46,8 @@
       background-color: transparent;
       padding: 0;
       margin: 0;
+      top: 0;
+      bottom: 0;
       height: $space-3;
       box-sizing: border-box;
       display: flex;
@@ -65,8 +72,8 @@
       }
 
       &:focus-visible {
-        outline: none;
-        border: 3px solid $rpf-brand-raspberry;
+        outline-offset: -3px;
+        outline: 3px solid $rpf-brand-raspberry;
       }
 
       &:focus:after {
@@ -86,7 +93,6 @@
       overflow-y: hidden;
       margin: 0;
       padding: 0 $space-0-25 0 0;
-      height: fit-content;
     }
 
     &__tab-panel--selected {
@@ -111,6 +117,18 @@
         &--selected {
           background-color: $rpf-white;
           border-bottom: 4px solid $rpf-teal-900;
+
+          &:focus-visible {
+            border-bottom: 7px solid $rpf-teal-900;
+          }
+        }
+
+        &-close-btn {
+          &:hover {
+            svg {
+              background-color: $rpf-grey-100;
+            }
+          }
         }
       }
     }
@@ -132,6 +150,14 @@
           color: $rpf-white;
           background-color: $rpf-grey-700;
           border-bottom: 4px solid $rpf-teal-800;
+        }
+
+        &-close-btn {
+          &:hover {
+            svg {
+              background-color: $rpf-grey-900;
+            }
+          }
         }
       }
     }
