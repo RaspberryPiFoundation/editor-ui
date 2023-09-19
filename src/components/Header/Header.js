@@ -43,6 +43,16 @@ const Header = () => {
     }
   };
 
+  const requestDevices = () => {
+    console.log("requesting devices");
+    // Look for available Picos
+    navigator.usb
+      .requestDevice({ filters: [{ vendorId: "0x2E8A" }] })
+      .then((selectedDevice) => {
+        return selectedDevice.open(); // Begin a session.
+      });
+  };
+
   return (
     loading === "success" && (
       <div className="editor-header-wrapper">
@@ -70,6 +80,11 @@ const Header = () => {
             {lastSavedTime && user ? (
               <Autosave saving={saving} lastSavedTime={lastSavedTime} />
             ) : null}
+            <Button
+              onClickHandler={requestDevices}
+              buttonText="Connect"
+              className="btn--primary"
+            />
             {loading === "success" ? (
               <DownloadButton
                 buttonText={t("header.download")}
