@@ -10,59 +10,40 @@
     flex-flow: column;
     overflow: hidden;
     position: relative;
-    border-radius: 10px;
-
-    &__tab-inner {
-      @extend .btn;
-      @extend .btn--small;
-      @extend .btn--secondary;
-
-      border: 3px solid transparent;
-      margin: $space-0-5 $space-0-25;
-      padding: $space-0-25 $space-0-5;
-      white-space: nowrap;
-
-      &--split {
-        padding-right: $space-2-5;
-      }
-    }
-    &__tab-inner-close-btn {
-      position: absolute;
-      background: transparent;
-      right: calc(-1 * $space-0-125);
-      height: 100%;
-      padding: $space-0-5;
-      text-align: center;
-      svg {
-        margin: 0;
-      }
-      &:focus-visible {
-        border: 0;
-
-        svg {
-          border: 3px solid $rpf-brand-raspberry;
-        }
-      }
-    }
+    border-radius: 8px;
 
     &__tab {
       border: none;
       background-color: transparent;
       padding: 0;
       margin: 0;
+      top: 0;
+      bottom: 0;
+      height: $space-3;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: var(--font-weight-bold);
 
-      &--selected {
-        border-radius: 0;
-
-        .react-tabs__tab-inner {
-          border: 3px solid $rpf-teal-900;
-          background-color: $rpf-grey-50;
-        }
+      svg {
+        padding: 0 0 0 $space-0-75;
       }
 
       &:hover {
-        .react-tabs__tab-inner {
-          background-color: $rpf-grey-400;
+        text-decoration: underline;
+      }
+
+      &--selected {
+        border-radius: 0;
+        padding-top: $space-0-25;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        &:focus-visible {
+          padding-top: 7px;
         }
       }
 
@@ -71,15 +52,42 @@
       }
 
       &:focus-visible {
-        outline: none;
-
-        .react-tabs__tab-inner {
-          border: 3px solid $rpf-brand-raspberry;
-        }
+        outline-offset: -3px;
+        outline: 3px solid $rpf-brand-raspberry;
       }
 
       &:focus:after {
         display: none;
+      }
+    }
+
+    &__tab-text {
+      height: fit-content;
+      width: fit-content;
+      margin: 0;
+      padding: 0 $space-0-75;
+      white-space: nowrap;
+
+      &--split {
+        padding-right: 0;
+      }
+    }
+    &__tab-close-btn {
+      height: 100%;
+      padding: $space-0-25;
+      background-color: transparent;
+
+      svg {
+        padding: $space-0-5;
+        border-radius: 8px;
+      }
+
+      &:focus-visible {
+        border: 0;
+
+        svg {
+          border: 3px solid $rpf-brand-raspberry;
+        }
       }
     }
 
@@ -94,8 +102,7 @@
       display: flex;
       overflow-y: hidden;
       margin: 0;
-      padding: 0 $space-0-25;
-      height: fit-content;
+      padding: 0 $space-0-25 0 0;
     }
 
     &__tab-panel--selected {
@@ -108,14 +115,29 @@
 
   &.--light {
     .react-tabs {
+
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-150;
       }
 
       &__tab {
+        background-color: $rpf-off-white;
+        border-right: 1px solid $rpf-grey-150;
+
         &--selected {
-          .react-tabs__tab-inner {
-            background-color: $rpf-grey-50;
+          background-color: $rpf-white;
+          border-bottom: 4px solid $rpf-teal-900;
+
+          &:focus-visible {
+            border-bottom: 7px solid $rpf-teal-900;
+          }
+        }
+
+        &-close-btn {
+          &:hover {
+            svg {
+              background-color: $rpf-grey-100;
+            }
           }
         }
       }
@@ -131,28 +153,25 @@
       }
 
       &__tab {
-        &:hover {
-          .react-tabs__tab-inner {
-            border-color: $rpf-teal-400;
-            background-color: $rpf-grey-600;
-          }
-        }
+        background-color: $rpf-grey-800;
+        border-right: 1px solid $rpf-grey-600;
 
         &--selected {
           color: $rpf-white;
+          background-color: $rpf-grey-700;
+          border-bottom: 4px solid $rpf-teal-800;
 
-          .react-tabs__tab-inner {
-            color: inherit;
-            background-color: $rpf-grey-600;
+          &:focus-visible {
+            border-bottom: 7px solid $rpf-teal-800;
           }
         }
-      }
 
-      &__tab-inner {
-        background-color: $rpf-grey-600;
-        color: $rpf-white;
-        svg {
-          fill: $rpf-white;
+        &-close-btn {
+          &:hover {
+            svg {
+              background-color: $rpf-grey-900;
+            }
+          }
         }
       }
     }

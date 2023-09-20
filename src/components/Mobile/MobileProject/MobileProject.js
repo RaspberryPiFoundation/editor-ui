@@ -10,8 +10,9 @@ import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../Editor/EditorSlice";
+import Button from "../../Button/Button";
 
-const MobileProject = () => {
+const MobileProject = ({ forWebComponent }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
   const sidebarShowing = useSelector((state) => state.editor.sidebarShowing);
   const codeRunTriggered = useSelector(
@@ -48,22 +49,23 @@ const MobileProject = () => {
             </TabPanel>
             <MobileProjectBar />
             <div className="react-tabs__tab-container mobile-nav">
-              <span
-                className="react-tabs__tab-inner mobile-nav__menu"
-                onClick={openSidebar}
-              >
-                <MenuIcon />
-              </span>
+              {!forWebComponent && (
+                <Button
+                  className="btn--tertiary mobile-nav__menu"
+                  ButtonIcon={MenuIcon}
+                  onClickHandler={openSidebar}
+                />
+              )}
               <TabList>
                 <Tab>
-                  <span className="react-tabs__tab-inner">
-                    <CodeIcon />
+                  <CodeIcon />
+                  <span className="react-tabs__tab-text">
                     {t("mobile.code")}
                   </span>
                 </Tab>
                 <Tab>
-                  <span className="react-tabs__tab-inner">
-                    <PreviewIcon />
+                  <PreviewIcon />
+                  <span className="react-tabs__tab-text">
                     {projectType === "html"
                       ? t("mobile.preview")
                       : t("mobile.output")}

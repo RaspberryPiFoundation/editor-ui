@@ -118,8 +118,8 @@ const EditorInput = () => {
                     panelIndex={panelIndex}
                   >
                     <span
-                      className={classNames("react-tabs__tab-inner", {
-                        "react-tabs__tab-inner--split": ![
+                      className={classNames("react-tabs__tab-text", {
+                        "react-tabs__tab-text--split": ![
                           "main.py",
                           "index.html",
                         ].includes(fileName),
@@ -134,15 +134,15 @@ const EditorInput = () => {
                       }
                     >
                       {fileName}
-                      {!["main.py", "index.html"].includes(fileName) ? (
-                        <Button
-                          className="btn--tertiary react-tabs__tab-inner-close-btn"
-                          label="close"
-                          onClickHandler={(e) => closeFileTab(e, fileName)}
-                          ButtonIcon={() => <CloseIcon scaleFactor={0.85} />}
-                        />
-                      ) : null}
                     </span>
+                    {!["main.py", "index.html"].includes(fileName) ? (
+                      <Button
+                        className="btn--tertiary react-tabs__tab-close-btn"
+                        label="close"
+                        onClickHandler={(e) => closeFileTab(e, fileName)}
+                        ButtonIcon={() => <CloseIcon scaleFactor={0.85} />}
+                      />
+                    ) : null}
                   </DraggableTab>
                 ))}
               </DroppableTabList>

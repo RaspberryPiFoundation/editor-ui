@@ -37,7 +37,7 @@ exports[`Renders without crashing 1`] = `
                 tabindex="0"
               >
                 <span
-                  class="react-tabs__tab-inner"
+                  class="react-tabs__tab-text"
                 >
                   output.textOutput
                 </span>

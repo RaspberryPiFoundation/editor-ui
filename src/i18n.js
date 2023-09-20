@@ -306,8 +306,8 @@ i18n
                 yaw: "yaw",
               },
             },
-            textOutput: "Text Output",
-            visualOutput: "Visual Output",
+            textOutput: "Text output",
+            visualOutput: "Visual output",
           },
           outputViewToggle: {
             buttonTabLabel: "Tabbed view",

@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tweak tab colors (#634)
 - Dyanmic viewport height (#627)
 - Split and tabbed view button styles (#645)
+- Restyled tabs (#650)
 
 ### Fixed
 
