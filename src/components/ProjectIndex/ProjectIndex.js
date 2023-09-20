@@ -76,7 +76,7 @@ const ProjectIndex = (props) => {
         <Button
           className="btn--primary"
           onClickHandler={onCreateProject}
-          buttonText="Create a new project"
+          buttonText={t("projectList.newProject")}
           ButtonIcon={PlusIcon}
           buttonIconPosition="right"
         />
