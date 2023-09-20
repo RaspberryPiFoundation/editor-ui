@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Position of run button on mobile (#615)
-- Save button styles (#633 & #662)
+- Save button styles (#633)
 - Tweak tab colors (#634)
 - Dyanmic viewport height (#627)
 - Split and tabbed view button styles (#645)
@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Mobile sidebar fixes (#644)
 - Sidebar scroll behaviour
 - Fix docker build
 
