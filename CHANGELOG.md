@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Sidebar scroll behaviour
 - Fix docker build
+- Fix "Your projects" button on review apps (#666)
 
 ## [0.18.2] - 2023-08-29
 
