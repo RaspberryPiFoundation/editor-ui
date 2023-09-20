@@ -49,7 +49,7 @@ const MobileProject = ({ forWebComponent }) => {
             </TabPanel>
             <MobileProjectBar />
             <div className="react-tabs__tab-container mobile-nav">
-              {forWebComponent ? null : (
+              {forWebComponent && (
                 <Button
                   className="btn--tertiary mobile-nav__menu"
                   ButtonIcon={MenuIcon}
