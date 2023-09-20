@@ -11,7 +11,7 @@ it("defaults to the visual output tab", () => {
     .find(".proj-runner-container");
   runnerContainer
     .find(".react-tabs__tab--selected")
-    .should("contain", "Visual Output");
+    .should("contain", "Visual output");
 });
 
 it("renders the astro pi component on page load", () => {
@@ -41,7 +41,7 @@ it("sets initial criteria correctly", () => {
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should(
     "contain",
-    '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false'
+    '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false',
   );
 });
 
@@ -60,7 +60,7 @@ it("checks temperature has been read correctly", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nSenseHat().get_temperature()"
+      "from sense_hat import SenseHat\nSenseHat().get_temperature()",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"readTemperature":true');
@@ -72,7 +72,7 @@ it("checks humidity has been read correctly", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nSenseHat().get_humidity()"
+      "from sense_hat import SenseHat\nSenseHat().get_humidity()",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"readHumidity":true');
@@ -84,7 +84,7 @@ it("checks pressure has been read correctly", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nSenseHat().get_pressure()"
+      "from sense_hat import SenseHat\nSenseHat().get_pressure()",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"readPressure":true');
@@ -96,7 +96,7 @@ it("resets criteria correctly", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.get_pressure()\nsense.get_humidity()\nsense.get_temperature()"
+      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.get_pressure()\nsense.get_humidity()\nsense.get_temperature()",
     );
   cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should("contain", '"readPressure":true');
@@ -104,7 +104,7 @@ it("resets criteria correctly", () => {
   cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should(
     "contain",
-    '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false'
+    '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false',
   );
 });
 
@@ -114,7 +114,7 @@ it("confirms LEDs used when single led set", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nSenseHat().set_pixel(0, 0, 100, 100, 100)"
+      "from sense_hat import SenseHat\nSenseHat().set_pixel(0, 0, 100, 100, 100)",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"usedLEDs":true');
@@ -126,7 +126,7 @@ it("confirms LEDs used when display set", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)"
+      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.scrollTo("bottom");
@@ -139,7 +139,7 @@ it("picks up calls to input()", () => {
     .find("div[class=cm-content]")
     .invoke("text", "input()");
   cy.get("editor-wc").shadow().find(".btn--run").click();
-  cy.get("editor-wc").shadow().contains("Text Output").click();
+  cy.get("editor-wc").shadow().contains("Text output").click();
   cy.get("editor-wc")
     .shadow()
     .find("span[contenteditable=true]")
@@ -153,7 +153,7 @@ it("picks up calls to wait for motion", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.motion.wait_for_motion()"
+      "from sense_hat import SenseHat\nsense = SenseHat()\nsense.motion.wait_for_motion()",
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"noInputEvents":false');
@@ -174,7 +174,7 @@ it("does not return null duration if no change in focus", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")'
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("not.contain", '"duration":null');
@@ -186,7 +186,7 @@ it("does not return null duration if focus changed before code run", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")'
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
     );
   cy.window().blur();
   cy.window().focus();
@@ -200,7 +200,7 @@ it("returns duration of null if focus is lost", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")'
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.window().blur();
@@ -214,7 +214,7 @@ it("does not return duration of null if code rerun after focus lost", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")'
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.window().blur();

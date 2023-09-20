@@ -10,7 +10,7 @@ it("renders the web component", () => {
 
 it("defaults to the text output tab", () => {
   const runnerContainer = cy.get("editor-wc").shadow().find('.proj-runner-container')
-  runnerContainer.find('.react-tabs__tab--selected').should("contain", "Text Output")
+  runnerContainer.find('.react-tabs__tab--selected').should("contain", "Text output")
 })
 
 it("runs the python code", () => {
@@ -20,13 +20,13 @@ it("runs the python code", () => {
 })
 
 it("does not render visual output tab on page load", () => {
-  cy.get("editor-wc").shadow().find('#root').should("not.contain", "Visual Output")
+  cy.get("editor-wc").shadow().find('#root').should("not.contain", "Visual output")
 })
 
 it("renders visual output tab if sense hat imported", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import sense_hat')
   cy.get("editor-wc").shadow().find(".btn--run").click()
-  cy.get("editor-wc").shadow().find('#root').should("contain", "Visual Output")
+  cy.get("editor-wc").shadow().find('#root').should("contain", "Visual output")
 })
 
 it("does not render astro pi component on page load",() => {
@@ -36,7 +36,7 @@ it("does not render astro pi component on page load",() => {
 it("renders astro pi component if sense hat imported", () => {
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', 'import sense_hat')
   cy.get("editor-wc").shadow().find(".btn--run").click()
-  cy.get("editor-wc").shadow().contains('Visual Output').click()
+  cy.get("editor-wc").shadow().contains('Visual output').click()
   cy.get("editor-wc").shadow().find("#root").should("contain", "yaw")
 })
 
@@ -45,6 +45,6 @@ it("does not render astro pi component if sense hat unimported", () => {
   cy.get("editor-wc").shadow().find(".btn--run").click()
   cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke('text', '')
   cy.get("editor-wc").shadow().find(".btn--run").click()
-  cy.get("editor-wc").shadow().contains('Visual Output').click()
+  cy.get("editor-wc").shadow().contains('Visual output').click()
   cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw")
 })
