@@ -26,14 +26,17 @@ const ProjectBar = () => {
         {loading === "success" ? <ProjectName /> : null}
         <div className="project-bar__right">
           {loading === "success" ? (
-            <DownloadButton
-              buttonText={t("header.download")}
-              className="btn--tertiary"
-              Icon={DownloadIcon}
-              buttonIconPosition="right"
-            />
+            <div className="project-bar__btn-wrapper">
+              <DownloadButton
+                buttonText={t("header.download")}
+                className="project-bar__btn btn--download"
+                Icon={DownloadIcon}
+              />
+            </div>
           ) : null}
-          <SaveButton className="btn--save" />
+          <div className="project-bar__btn-wrapper">
+            <SaveButton className="project-bar__btn btn--save" />
+          </div>
           {lastSavedTime && user ? (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
           ) : null}

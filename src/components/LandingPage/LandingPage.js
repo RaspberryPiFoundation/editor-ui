@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
-import { Button } from "@RaspberryPiFoundation/design-system-react/";
+import { DesignSystemButton } from "../DesignSystemButton/DesignSystemButton";
 import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconPython, FileIconHtml } from "../../Icons";
@@ -41,7 +41,7 @@ const LandingPage = () => {
           {t("landingPage.subtitle")}
         </h2>
         <div className="landing-page__projects--buttons">
-          <Button
+          <DesignSystemButton
             className="landing-page__button"
             href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
@@ -49,7 +49,7 @@ const LandingPage = () => {
             icon={<FileIconPython />}
             onClick={onClickPlausible("Start coding Python")}
           />
-          <Button
+          <DesignSystemButton
             className="landing-page__button"
             href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}

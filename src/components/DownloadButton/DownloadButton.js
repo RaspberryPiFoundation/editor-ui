@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
-import Button from "../Button/Button";
+import { DesignSystemButton } from "../DesignSystemButton/DesignSystemButton";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
@@ -59,11 +59,13 @@ const DownloadButton = (props) => {
   };
 
   return (
-    <Button
+    <DesignSystemButton
       className={className}
-      onClickHandler={onClickDownload}
-      buttonText={buttonText}
-      ButtonIcon={Icon}
+      onClick={onClickDownload}
+      text={buttonText}
+      textAlways
+      icon={<Icon />}
+      type={"secondary"}
       {...otherProps}
     />
   );

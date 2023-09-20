@@ -21,10 +21,6 @@
     }
   }
 
-  .projects-panel__button {
-    padding: $space-1 0;
-  }
-
   .projects-panel__download-button {
     width: 100%;
     margin: 0;
@@ -47,7 +43,7 @@
     margin-bottom: $space-1;
   }
 
-  .projects-panel__save {
+  .projects-panel__save, .projects-panel__button {
     border-top: 1px solid $rpf-grey-150;
     padding: $space-1 0;
     display: flex;

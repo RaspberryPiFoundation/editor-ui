@@ -1,6 +1,6 @@
 @use "./tabs.scss";
 @use "./font-size" as *;
-@import "./colours.scss";
+@use "./colours.scss" as *;
 
 a {
   border: 3px solid transparent;

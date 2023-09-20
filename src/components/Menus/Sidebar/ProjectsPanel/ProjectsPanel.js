@@ -53,7 +53,7 @@ const ProjectsPanel = () => {
       <div className="projects-panel__button">
         <DownloadButton
           buttonText={t("header.download")}
-          className="btn--secondary projects-panel__download-button"
+          className="projects-panel__download-button"
           Icon={DownloadIcon}
           buttonIconPosition="right"
         />
