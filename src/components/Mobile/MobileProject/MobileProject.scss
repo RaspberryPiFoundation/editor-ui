@@ -74,12 +74,26 @@
   }
 }
 
-#app.--light, #app.--dark {
+#app.--light, #app.--dark, #wc.--light, #wc.--dark {
   .mobile-nav {
     border-bottom: none;
 
     .react-tabs__tab--selected {
       background-color: inherit;
     }
+  }
+}
+
+#wc.--light {
+  .proj-container--mobile {
+    border-radius: 8px;
+    border: 1px solid $rpf-grey-150;
+  }
+}
+
+#wc.--dark {
+  .proj-container--mobile {
+    border-radius: 8px;
+    border: 1px solid $rpf-grey-600;
   }
 }
