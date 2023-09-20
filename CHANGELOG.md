@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Sidebar scroll behaviour (#631, #662)
 - Fix docker build (#643)
-- Mobile projects page scrolling (#662)
+- Fix mobile projects page scrolling (#662)
 
 ## [0.18.2] - 2023-08-29
 
