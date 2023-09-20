@@ -190,6 +190,12 @@ describe("When in split view, no visual libraries used and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).not.toBeInTheDocument();
+  });
+
   test("Visual tab is not shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).not.toBeInTheDocument();
@@ -226,6 +232,12 @@ describe("When in split view, py5 imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", () => {
@@ -269,6 +281,12 @@ describe("When in split view, py5_imported imported and code run", () => {
     ));
   });
 
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is shown", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -304,6 +322,12 @@ describe("When in split view, pygal imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", () => {
@@ -343,6 +367,12 @@ describe("When in split view, turtle imported and code run", () => {
     ));
   });
 
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -378,6 +408,12 @@ describe("When in split view, sense_hat imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", async () => {
@@ -418,6 +454,12 @@ describe("When in tabbed view, no visual libraries used and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).not.toBeInTheDocument();
+  });
+
   test("Visual tab is not shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).not.toBeInTheDocument();
@@ -454,6 +496,12 @@ describe("When in tabbed view, py5 imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is not hidden", () => {
@@ -497,6 +545,12 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -532,6 +586,12 @@ describe("When in tabbed view, pygal imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is not hidden", () => {
@@ -571,6 +631,12 @@ describe("When in tabbed view, turtle imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -608,6 +674,12 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -625,8 +697,9 @@ test("When embedded in split view with visual output does not render output view
             content: "import p5",
           },
         ],
+        image_list: [],
       },
-      codeRUnTriggered: true,
+      codeRunTriggered: true,
       isSplitView: true,
       isEmbedded: true,
     },

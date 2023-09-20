@@ -244,7 +244,7 @@ function HtmlRunner() {
           <div className="react-tabs__tab-container">
             <TabList>
               <Tab>
-                <span className="react-tabs__tab-inner">{`${runningFile} ${t(
+                <span className="react-tabs__tab-text">{`${runningFile} ${t(
                   "output.preview",
                 )}`}</span>
               </Tab>

@@ -82,7 +82,11 @@ const WebComponentProject = () => {
             cookies.fontSize || "small"
           }`}
         >
-          {isMobile ? <MobileProject /> : <Project forWebComponent={true} />}
+          {isMobile ? (
+            <MobileProject forWebComponent={true} />
+          ) : (
+            <Project forWebComponent={true} />
+          )}
         </div>
       </Style>
     </>

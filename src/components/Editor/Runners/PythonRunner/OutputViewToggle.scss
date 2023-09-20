@@ -1,124 +1,14 @@
 @use '../../../../spacing' as *;
 @import '../../../../colours.scss';
 
-.output-view-toggle {
-  display: inline-flex;
-  vertical-align: middle;
-  margin-inline-end: $space-0-5;
-  align-items: center;
+.output-view-toggle__button {
   height: 100%;
-
-  .btn-outer {
-    padding: 0;
-  }
-
-  &__button {
-    border: 0px;
-    display: flex;
-    padding: $space-0-25 $space-0-5;
-    cursor: pointer;
-    margin: 0;
-
-    &:disabled {
-      cursor: inherit;
-    }
-
-    &:focus-visible {
-      border: none;
-
-      &::before {
-        border: 3px solid $rpf-brand-raspberry;
-      }
-    }
-
-    &::before {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      content: "";
-      position: absolute;
-      border-radius: 5px;
-    }
-  }
-
-  .btn-outer {
-    &:first-of-type {
-      .btn {
-        border-radius: 5px 0px 0px 5px;
-      }
-    }
-
-    &:last-of-type {
-      .btn {
-        border-radius: 0px 5px 5px 0px;
-      }
-    }
-  }
 }
 
-.--light {
-  .output-view-toggle {
-    &__button {
-      background-color: $rpf-grey-50;
-
-      &--active {
-        &::before {
-          background-color: $rpf-grey-150;
-        }
-        svg {
-          z-index: 1;
-        }
-      }
-    }
-
-    svg {
-      fill: $rpf-black;
-    }
-  }
+.--light .output-view-toggle {
+  border-left: 1px solid $rpf-grey-150;
 }
 
-.--dark {
-  .output-view-toggle {
-    &__button {
-      background-color: $rpf-grey-700;
-
-      svg {
-        fill: $rpf-grey-300;
-      }
-
-      &--active {
-        &::before {
-          background-color: $rpf-grey-500;
-        }
-        svg {
-          fill: $rpf-white;
-          z-index: 1;
-        }
-      }
-
-      &:disabled {
-        svg {
-          fill: $rpf-grey-500;
-        }
-      }
-
-      &--active:disabled {
-        svg {
-          fill: $rpf-grey-300;
-        }
-      }
-    }
-  }
+.--dark .output-view-toggle {
+  border-left: 1px solid $rpf-grey-600;
 }
-
-.--light .output-view-toggle__button:disabled {
-      svg {
-        fill: $rpf-grey-300;
-      }
-    &.output-view-toggle__button--active {
-      svg {
-        fill: $rpf-grey-500;
-      }
-    }
-  }
