@@ -1,0 +1,101 @@
+@use "../../../spacing" as *;
+@import "./../../../colours.scss";
+
+.proj-container--mobile {
+  margin: 0;
+}
+
+#app .proj-container--mobile .react-tabs {
+  border-radius: 0;
+}
+
+#wc .proj-container--mobile {
+  border-radius: 8px;
+}
+
+#app, #wc {
+  .mobile-nav {
+    display: flex;
+    width: 100%;
+  
+    .react-tabs__tab-list {
+      padding: 0;
+    }
+  
+    .react-tabs__tab {
+      flex: 1;
+      display: flex;
+      height: $space-4;
+  
+      &:last-of-type {
+        border-right: none;
+      }
+    }
+  }
+}
+
+.mobile-nav__menu {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $space-4;
+}
+
+.--dark {
+  .proj-container--mobile {
+    .runner-controls {
+      border-left: 1px solid $rpf-grey-600;
+    }
+
+    .mobile-nav {
+      background-color: $rpf-grey-800;
+      border-top: 1px solid $rpf-grey-600;
+    }
+
+    .mobile-nav__menu {
+      border-right: 1px solid $rpf-grey-600;
+    }
+  }
+}
+
+.--light {
+  .proj-container--mobile {
+    .runner-controls {
+      border-left: 1px solid $rpf-grey-150;
+    }
+
+    .mobile-nav {
+      background-color: $rpf-off-white;
+      border-top: 1px solid $rpf-grey-150;
+    }
+
+    .mobile-nav__menu {
+      border-right: 1px solid $rpf-grey-150;
+    }
+  }
+}
+
+#app.--light, #app.--dark, #wc.--light, #wc.--dark {
+  .mobile-nav {
+    border-bottom: none;
+
+    .react-tabs__tab--selected {
+      background-color: inherit;
+    }
+  }
+}
+
+#wc.--light {
+  .proj-container--mobile {
+    border: 1px solid $rpf-grey-150;
+  }
+}
+
+#wc.--dark {
+  .proj-container--mobile {
+    border: 1px solid $rpf-grey-600;
+  }
+}

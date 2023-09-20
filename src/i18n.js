@@ -209,8 +209,6 @@ i18n
             newProject: "New Project",
           },
           header: {
-            autoSaving: "Saving",
-            autoSaved: "Saved",
             download: "Download",
             downloadFileNameDefault: "my {{project_type}} project",
             editorLogoAltText: "Editor logo",
@@ -248,6 +246,11 @@ i18n
             loginButtonText: "Log in to save",
             loginText:
               "Log in to your Raspberry Pi account to save your work, and you'll be able to access and edit your project whenever you need to.",
+          },
+          mobile: {
+            code: "Code",
+            output: "Output",
+            preview: "Preview",
           },
           modals: {
             close: "Close",
@@ -303,8 +306,8 @@ i18n
                 yaw: "yaw",
               },
             },
-            textOutput: "Text Output",
-            visualOutput: "Visual Output",
+            textOutput: "Text output",
+            visualOutput: "Visual output",
           },
           outputViewToggle: {
             buttonTabLabel: "Tabbed view",
@@ -389,6 +392,10 @@ i18n
             run: "Run",
             stop: "Stop",
             stopping: "Stopping...",
+          },
+          saveStatus: {
+            saving: "Saving",
+            saved: "Saved",
           },
           runners: {
             HtmlOutput: "HTML Output Preview",

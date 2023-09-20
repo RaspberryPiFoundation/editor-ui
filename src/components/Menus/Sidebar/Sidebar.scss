@@ -1,10 +1,16 @@
-@use '../../../spacing' as *;
-@use '../../../font-size' as *;
-@import '../../../colours.scss';
+@use "../../../spacing" as *;
+@use "../../../font-size" as *;
+@import "../../../colours.scss";
 
 .sidebar {
   display: flex;
   position: relative;
+  scrollbar-width: none;
+}
+
+.sidebar--mobile {
+  height: 100dvh;
+  width: 100%;
 }
 
 .sidebar__bar {
@@ -19,7 +25,8 @@
   border-radius: 8px 0 0 8px;
 }
 
-.sidebar__bar-options--top, .sidebar__bar-options--bottom {
+.sidebar__bar-options--top,
+.sidebar__bar-options--bottom {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +39,7 @@
   flex-direction: column;
   padding: $space-1;
   border-radius: 0 8px 8px 0;
+  width: inherit;
 }
 
 .sidebar__panel-heading {
@@ -48,8 +56,10 @@
 
 .sidebar__panel-content {
   flex: 1;
-  overflow: auto;
   padding: $space-1 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  margin-bottom: $space-2;
 }
 
 .sidebar__bar-option-wrapper {
@@ -72,7 +82,8 @@
   }
 }
 
-.sidebar-collapse-button, .sidebar-expand-button {
+.sidebar-collapse-button,
+.sidebar-expand-button {
   box-sizing: border-box;
   padding: $space-0-25 0;
   text-align: center;

@@ -8,7 +8,11 @@ import ProjectName from "../../../ProjectName/ProjectName";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import { DownloadIcon } from "../../../../Icons";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
+import SaveButton from "../../../SaveButton/SaveButton";
 import { useSelector } from "react-redux";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import { useMediaQuery } from "react-responsive";
+import SaveStatus from "../../../SaveStatus/SaveStatus";
 
 const ProjectsPanel = () => {
   const {
@@ -17,6 +21,17 @@ const ProjectsPanel = () => {
   } = useTranslation();
 
   const isLoggedIn = useSelector((state) => state?.auth?.user);
+
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+
+  const saveOptions = (
+    <div className="projects-panel__save">
+      <SaveButton className="projects-panel__save-button" />
+      <div className="projects-panel__save-status">
+        <SaveStatus isMobile={isMobile} />
+      </div>
+    </div>
+  );
 
   return (
     <SidebarPanel
@@ -35,12 +50,15 @@ const ProjectsPanel = () => {
     >
       <ProjectName showLabel={true} className="projects-panel__item" />
       <ProjectInfo className="projects-panel__item" />
-      <DownloadButton
-        buttonText={t("header.download")}
-        className="btn--secondary projects-panel__download-button"
-        Icon={DownloadIcon}
-        buttonIconPosition="right"
-      />
+      <div className="projects-panel__button">
+        <DownloadButton
+          buttonText={t("header.download")}
+          className="btn--secondary projects-panel__download-button"
+          Icon={DownloadIcon}
+          buttonIconPosition="right"
+        />
+      </div>
+      {isMobile && saveOptions}
     </SidebarPanel>
   );
 };
