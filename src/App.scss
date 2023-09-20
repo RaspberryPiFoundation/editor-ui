@@ -71,6 +71,7 @@ body,
   height: -moz-available;
   height: -webkit-fill-available;
   height: fill-available;
+  height: 100dvh;
   -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
   scrollbar-width: none; /* Remove scroll bar for Firefox */
 }

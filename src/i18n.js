@@ -365,6 +365,7 @@ i18n
             label: "Open project menu",
             loading: "Loading",
             loadingFailed: "Failed to load projects",
+            newProject: "Create a new project",
             pagination: {
               first: "First page",
               last: "Last page",
