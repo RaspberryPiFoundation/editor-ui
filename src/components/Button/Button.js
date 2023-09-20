@@ -60,7 +60,7 @@ const Button = (props) => {
       disabled={disabled}
       aria-label={label}
       title={title}
-      href={href}
+      to={href}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
