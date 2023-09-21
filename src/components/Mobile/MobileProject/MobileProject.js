@@ -31,52 +31,45 @@ const MobileProject = ({ forWebComponent }) => {
   }, [codeRunTriggered]);
 
   return (
-    <>
-      {sidebarShowing ? (
-        <Sidebar />
-      ) : (
-        <div className="proj-container proj-editor-container proj-container--mobile">
-          <Tabs
-            forceRenderTabPanel={true}
-            selectedIndex={selectedTab}
-            onSelect={(index) => setSelectedTab(index)}
-          >
-            <TabPanel>
-              <EditorInput />
-            </TabPanel>
-            <TabPanel>
-              <Output />
-            </TabPanel>
-            <MobileProjectBar />
-            <div className="react-tabs__tab-container mobile-nav">
-              {!forWebComponent && (
-                <Button
-                  className="btn--tertiary mobile-nav__menu"
-                  ButtonIcon={MenuIcon}
-                  onClickHandler={openSidebar}
-                />
-              )}
-              <TabList>
-                <Tab>
-                  <CodeIcon />
-                  <span className="react-tabs__tab-text">
-                    {t("mobile.code")}
-                  </span>
-                </Tab>
-                <Tab>
-                  <PreviewIcon />
-                  <span className="react-tabs__tab-text">
-                    {projectType === "html"
-                      ? t("mobile.preview")
-                      : t("mobile.output")}
-                  </span>
-                </Tab>
-              </TabList>
-            </div>
-          </Tabs>
+    <div className="proj-container proj-editor-container proj-container--mobile">
+      {sidebarShowing ? <Sidebar /> : null}
+      <Tabs
+        forceRenderTabPanel={true}
+        selectedIndex={selectedTab}
+        onSelect={(index) => setSelectedTab(index)}
+      >
+        <TabPanel>
+          <EditorInput />
+        </TabPanel>
+        <TabPanel>
+          <Output />
+        </TabPanel>
+        <MobileProjectBar />
+        <div className="react-tabs__tab-container mobile-nav">
+          {!forWebComponent && (
+            <Button
+              className="btn--tertiary mobile-nav__menu"
+              ButtonIcon={MenuIcon}
+              onClickHandler={openSidebar}
+            />
+          )}
+          <TabList>
+            <Tab>
+              <CodeIcon />
+              <span className="react-tabs__tab-text">{t("mobile.code")}</span>
+            </Tab>
+            <Tab>
+              <PreviewIcon />
+              <span className="react-tabs__tab-text">
+                {projectType === "html"
+                  ? t("mobile.preview")
+                  : t("mobile.output")}
+              </span>
+            </Tab>
+          </TabList>
         </div>
-      )}
-    </>
+      </Tabs>
+    </div>
   );
 };
 
