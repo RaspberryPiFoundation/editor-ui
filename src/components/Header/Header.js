@@ -75,6 +75,7 @@ const Header = () => {
                 buttonText={t("header.download")}
                 className="btn--tertiary"
                 Icon={DownloadIcon}
+                textAlways
               />
             ) : null}
             <Dropdown

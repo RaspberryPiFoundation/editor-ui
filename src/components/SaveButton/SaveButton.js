@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button } from "@RaspberryPiFoundation/design-system-react";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
@@ -35,7 +35,7 @@ const SaveButton = ({ className, type = "secondary" }) => {
 
   return (
     loading === "success" && (
-      <Button
+      <DesignSystemButton
         className={className}
         onClick={onClickSave}
         text={t("header.save")}

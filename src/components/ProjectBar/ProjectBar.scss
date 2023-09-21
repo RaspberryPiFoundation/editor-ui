@@ -41,23 +41,35 @@
     display: flex;
     align-items: center;
     height: 100%;
+    flex-shrink: 0;
   }
 
-  .btn--save {
+  .project-bar__btn {
     margin: $space-0-5;
+    gap: 0.5rem;
 
     .text {
       display: none;
     }
 
     @container (min-width: 560px) {
-      .icon {
-        display: none;
-      }
       .text {
+        min-width: auto;
         display: block;
       }
     }
+  }
+
+  .btn--save {
+    @container (min-width: 560px) {
+      .icon {
+        display: none;
+      }
+    }
+  }
+
+  .project-bar__btn-wrapper:not(:last-child) {
+    border-right: 1px solid $rpf-grey-150;
   }
 }
 
@@ -73,6 +85,10 @@
 
   .project-bar__right {
     border-left: 1px solid $rpf-grey-150;
+
+    .rpf_button {
+      border-right: 1px solid $rpf-grey-150;
+    }
 
     .btn--tertiary::after {
       border-right: 1px solid $rpf-grey-150;
@@ -95,6 +111,10 @@
   }
   .project-bar__right {
     border-left: 1px solid $rpf-grey-600;
+
+    .project-bar__btn-wrapper:not(:last-child) {
+      border-color: $rpf-grey-600;
+    }
 
     .btn--tertiary::after {
       border-right: 1px solid $rpf-grey-600;
