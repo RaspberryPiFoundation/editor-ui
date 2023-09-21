@@ -25,12 +25,14 @@ const ProjectsPanel = () => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const saveOptions = (
-    <div className="projects-panel__save">
-      <SaveButton className="projects-panel__save-button" />
+    <>
+      <div className="projects-panel__save">
+        <SaveButton className="projects-panel__save-button" />
+      </div>
       <div className="projects-panel__save-status">
         <SaveStatus isMobile={isMobile} />
       </div>
-    </div>
+    </>
   );
 
   return (
