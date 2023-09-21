@@ -89,6 +89,6 @@ describe("When logged in", () => {
   test("My projects renders with correct link", () => {
     expect(
       screen.queryByText("globalNav.accountMenu.projects"),
-    ).toHaveAttribute("href", "/projects");
+    ).toHaveAttribute("href", "/ja-JP/projects");
   });
 });
