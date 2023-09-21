@@ -6,10 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Mobile project details component
+- Mobile navigation between code and output (#615)
+
 ### Changed
+
+- Position of run button on mobile (#615)
+- Save button styles (#633)
+- Tweak tab colors (#634)
+- Dyanmic viewport height (#627)
+- Split and tabbed view button styles (#645)
+- Restyled tabs (#650)
+
 ### Fixed
 
-- Fix docker build
+- Sidebar scroll behaviour (#631, #662)
+- Fix docker build (#643)
+- Fix mobile projects page scrolling (#662)
+- Fix "Your projects" button on review apps (#666)
 
 ## [0.18.2] - 2023-08-29
 
