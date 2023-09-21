@@ -11,7 +11,13 @@ import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
-  const { buttonText, className, Icon, ...otherProps } = props;
+  const {
+    buttonText,
+    className,
+    Icon,
+    type = "secondary",
+    ...otherProps
+  } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
   const loginToSaveModalShowing = useSelector(
@@ -66,7 +72,7 @@ const DownloadButton = (props) => {
       text={buttonText}
       textAlways
       icon={Icon ? <Icon /> : null}
-      type={"secondary"}
+      type={type}
       {...otherProps}
     />
   );

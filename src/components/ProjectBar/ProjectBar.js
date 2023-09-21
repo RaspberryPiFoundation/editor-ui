@@ -31,6 +31,7 @@ const ProjectBar = () => {
                 buttonText={t("header.download")}
                 className="project-bar__btn btn--download"
                 Icon={DownloadIcon}
+                type="tertiary"
               />
             </div>
           ) : null}

@@ -19,10 +19,13 @@
   }
 }
 
+.rpf-button {
+  flex-direction: row-reverse;
+}
+
 .rpf-button--secondary {
   justify-content: center;
   align-items: center;
-  flex-direction: row-reverse;
 }
 
 .rpf-button--secondary * {
@@ -74,12 +77,45 @@
       background-color: inherit;
     }
   }
+
+  .rpf-button--tertiary {
+    color: $rpf-white;
+    border: none;
+
+    &:hover {
+      &::before {
+        background-color: rgba($rpf-white, 0.1);
+      }
+    }
+
+    &:active {
+      &::before {
+        background-color: rgba($rpf-white, 0.15);
+      }
+    }
+
+    &:disabled {
+      &::before {
+        background-color: inherit;
+      }
+
+      span {
+        color: $rpf-grey-150;
+      }
+
+      background-color: inherit;
+    }
+  }
 }
 
 .--light * {
   .rpf-button--secondary {
     span {
       color: $rpf-text-primary;
+    }
+
+    &::before {
+      background-color: rgba($rpf-white, 1);
     }
 
     &:hover {
@@ -110,11 +146,36 @@
     }
   }
 
-  .rpf-button--secondary::before {
-    background-color: inherit;
-  }
+  .rpf-button--tertiary {
+    color: $rpf-text-primary;
+    border: none;
 
-  &::before {
-    background-color: rgba($rpf-white, 1);
+    &::before {
+      background-color: rgba($rpf-white, 1);
+    }
+
+    &:hover {
+      &::before {
+        background-color: rgba(231, 248, 247, 1);
+      }
+    }
+
+    &:active {
+      &::before {
+        background-color: rgba(220, 245, 243, 1);
+      }
+    }
+
+    &:disabled {
+      &::before {
+        background-color: inherit;
+      }
+
+      span {
+        color: rgba(213, 215, 220, 1);
+      }
+
+      background-color: inherit;
+    }
   }
 }
