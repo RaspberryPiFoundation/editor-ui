@@ -23,8 +23,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Mobile sidebar fixes (#644)
-- Sidebar scroll behaviour
-- Fix docker build
 - Sidebar scroll behaviour (#631, #662)
 - Fix docker build (#643)
 - Fix mobile projects page scrolling (#662)
