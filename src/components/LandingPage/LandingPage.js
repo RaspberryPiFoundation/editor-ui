@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
-import { DesignSystemButton } from "../DesignSystemButton/DesignSystemButton";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import { FileIconPython, FileIconHtml } from "../../Icons";

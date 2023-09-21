@@ -81,6 +81,33 @@
     span {
       color: $rpf-text-primary;
     }
+
+    &:hover {
+      &::before {
+        background-color: rgba(231, 248, 247, 1);
+      }
+
+      border-color: $rpf-teal-400;
+    }
+
+    &:active {
+      &::before {
+        background-color: rgba(220, 245, 243, 1);
+      }
+    }
+
+    &:disabled {
+      &::before {
+        background-color: inherit;
+      }
+
+      span {
+        color: rgba(213, 215, 220, 1);
+      }
+
+      border-color: rgba(213, 215, 220, 1);
+      background-color: inherit;
+    }
   }
 
   .rpf-button--secondary::before {
@@ -89,32 +116,5 @@
 
   &::before {
     background-color: rgba($rpf-white, 1);
-  }
-
-  &:hover {
-    &::before {
-      background-color: rgba(231, 248, 247, 1);
-    }
-
-    border-color: $rpf-teal-400;
-  }
-
-  &:active {
-    &::before {
-      background-color: rgba(220, 245, 243, 1);
-    }
-  }
-
-  &:disabled {
-    &::before {
-      background-color: inherit;
-    }
-
-    span {
-      color: rgba(213, 215, 220, 1);
-    }
-
-    border-color: rgba(213, 215, 220, 1);
-    background-color: inherit;
   }
 }

@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
-import { DesignSystemButton } from "../DesignSystemButton/DesignSystemButton";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
