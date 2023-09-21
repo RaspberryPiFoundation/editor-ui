@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix docker build (#643)
 - Fix mobile projects page scrolling (#662)
 - Fix "Your projects" button on review apps (#666)
+- Code continues to run when mobile sidebar opened (#667)
 
 ## [0.18.2] - 2023-08-29
 
