@@ -32,7 +32,7 @@ const MobileProject = ({ forWebComponent }) => {
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
-      {sidebarShowing ? <Sidebar /> : null}
+      {sidebarShowing && <Sidebar />}
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
