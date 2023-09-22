@@ -21,13 +21,10 @@
     }
   }
 
-  .projects-panel__button {
-    padding: $space-1 0;
-  }
-
   .projects-panel__download-button {
     width: 100%;
     margin: 0;
+    justify-content: center;
   }
 
   .project-name {
@@ -47,14 +44,16 @@
     margin-bottom: $space-1;
   }
 
-  .projects-panel__save {
+  .projects-panel__save, .projects-panel__button {
     border-top: 1px solid $rpf-grey-150;
     padding: $space-1 0;
+    display: flex;
   }
 
   .projects-panel__save-button {
-    width: fill-available;
+    width: 100%;
     margin-bottom: $space-1;
+    justify-content: center;
 
     .icon {
       display: none;
@@ -65,7 +64,6 @@
     }
 
     span {
-      @include font-size-1(regular);
       font-weight: bold;
     }
   }
@@ -77,6 +75,10 @@
 }
 
 .--dark {
+  .projects-panel__save {
+    border-top: 1px solid $rpf-grey-600;
+  }
+
   .projects-panel__save-button {
     .content {
       color: white;

@@ -34,7 +34,7 @@ const SidebarPanel = (props) => {
       defaultWidth="225px"
       defaultHeight="100%"
       handleDirection="right"
-      minWidth="150px"
+      minWidth="180px"
       maxWidth="300px"
     >
       {panelContent}
