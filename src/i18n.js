@@ -180,7 +180,7 @@ i18n
             subtitle: "Start coding, no setup required!",
             python: "Start coding Python",
             html: "Start coding HTML/CSS",
-            login: "Login",
+            login: "Log in",
             start: "Not sure where to start?",
             projectPython: "Python path",
             projectHtml: "Web path",
