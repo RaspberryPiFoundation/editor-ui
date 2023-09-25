@@ -112,6 +112,7 @@ export const EditorSlice = createSlice({
     newProjectModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
+    sidebarShowing: false,
     modals: {},
   },
   reducers: {
@@ -327,6 +328,12 @@ export const EditorSlice = createSlice({
       state.projectIndexCurrentPage = action.payload;
       state.projectListLoaded = "idle";
     },
+    showSidebar: (state) => {
+      state.sidebarShowing = true;
+    },
+    hideSidebar: (state) => {
+      state.sidebarShowing = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
@@ -434,6 +441,8 @@ export const {
   showDeleteProjectModal,
   closeDeleteProjectModal,
   setProjectIndexPage,
+  showSidebar,
+  hideSidebar,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
