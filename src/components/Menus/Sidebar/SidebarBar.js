@@ -1,23 +1,32 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 
-import { DoubleChevronLeft, DoubleChevronRight } from "../../../Icons";
+import {
+  DoubleChevronLeft,
+  DoubleChevronRight,
+  CloseIcon,
+} from "../../../Icons";
+import { hideSidebar } from "../../Editor/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const topMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "top",
   );
   const bottomMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "bottom",
   );
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const expandPopOut = () => {
     toggleOption("file");
@@ -28,6 +37,8 @@ const SidebarBar = (props) => {
     toggleOption(option);
     window.plausible("Collapse file pane");
   };
+
+  const collapseSidebar = () => dispatch(hideSidebar());
 
   return (
     <div className={`sidebar__bar${option ? " sidebar__bar--selected" : ""}`}>
@@ -59,23 +70,34 @@ const SidebarBar = (props) => {
             name={menuOption.name}
           />
         ))}
-        {option ? (
-          <Button
-            className="btn--tertiary"
-            ButtonIcon={DoubleChevronLeft}
-            title={t("sidebar.collapse")}
-            buttonOuter
-            buttonOuterClassName="sidebar-collapse-button"
-            onClickHandler={collapsePopOut}
-          />
+        {!isMobile ? (
+          option ? (
+            <Button
+              className="btn--tertiary"
+              ButtonIcon={DoubleChevronLeft}
+              title={t("sidebar.collapse")}
+              buttonOuter
+              buttonOuterClassName="sidebar-collapse-button"
+              onClickHandler={collapsePopOut}
+            />
+          ) : (
+            <Button
+              className="btn--tertiary"
+              ButtonIcon={DoubleChevronRight}
+              title={t("sidebar.expand")}
+              buttonOuter
+              buttonOuterClassName="sidebar-expand-button"
+              onClickHandler={expandPopOut}
+            />
+          )
         ) : (
           <Button
             className="btn--tertiary"
-            ButtonIcon={DoubleChevronRight}
+            ButtonIcon={CloseIcon}
             title={t("sidebar.expand")}
             buttonOuter
             buttonOuterClassName="sidebar-expand-button"
-            onClickHandler={expandPopOut}
+            onClickHandler={collapseSidebar}
           />
         )}
       </div>

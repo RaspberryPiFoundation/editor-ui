@@ -4,8 +4,19 @@ import EditorInput from "./EditorInput";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
+import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
+
+jest.mock("react-responsive", () => ({
+  ...jest.requireActual("react-responsive"),
+  useMediaQuery: ({ query }) => mockMediaQuery(query),
+}));
 
 describe("Tab interactions", () => {
   let store;
@@ -107,5 +118,104 @@ describe("Tab interactions", () => {
         expect.arrayContaining([switchFocusAction]),
       ),
     );
+  });
+});
+
+describe("On mobile", () => {
+  let store;
+  beforeEach(() => {
+    setMedia({
+      width: MOBILE_BREAKPOINT,
+    });
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: 'print("hello")',
+            },
+            {
+              name: "a",
+              extension: "py",
+              content: "# Your code here",
+            },
+          ],
+        },
+        openFiles: [["main.py", "a.py"]],
+        focussedFileIndices: [1],
+      },
+      auth: {
+        user: null,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <EditorInput />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Run button to be in the tab bar", () => {
+    const runButton =
+      screen.getByText("runButton.run").parentElement.parentElement;
+    const runButtonContainer = runButton.parentElement.parentElement;
+    expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+  });
+});
+
+describe("On desktop", () => {
+  let store;
+  beforeEach(() => {
+    setMedia({
+      width: "1000px",
+    });
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: 'print("hello")',
+            },
+            {
+              name: "a",
+              extension: "py",
+              content: "# Your code here",
+            },
+          ],
+        },
+        openFiles: [["main.py", "a.py"]],
+        focussedFileIndices: [1],
+      },
+      auth: {
+        user: null,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <EditorInput />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Run button to be in the run bar", () => {
+    const runButton = screen.getByText("runButton.run").parentElement;
+    const runButtonContainer = runButton.parentElement.parentElement;
+    expect(runButtonContainer).toHaveClass("run-bar");
   });
 });

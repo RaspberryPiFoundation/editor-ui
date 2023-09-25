@@ -6,6 +6,17 @@ import configureStore from "redux-mock-store";
 import PythonRunner from "./PythonRunner";
 import { codeRunHandled, setError, triggerDraw } from "../../EditorSlice";
 import { SettingsContext } from "../../../../settings";
+import { matchMedia, setMedia } from "mock-match-media";
+import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
+
+jest.mock("react-responsive", () => ({
+  ...jest.requireActual("react-responsive"),
+  useMediaQuery: ({ query }) => mockMediaQuery(query),
+}));
 
 const user = {
   access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
@@ -179,6 +190,12 @@ describe("When in split view, no visual libraries used and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).not.toBeInTheDocument();
+  });
+
   test("Visual tab is not shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).not.toBeInTheDocument();
@@ -215,6 +232,12 @@ describe("When in split view, py5 imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", () => {
@@ -258,6 +281,12 @@ describe("When in split view, py5_imported imported and code run", () => {
     ));
   });
 
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is shown", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -293,6 +322,12 @@ describe("When in split view, pygal imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", () => {
@@ -332,6 +367,12 @@ describe("When in split view, turtle imported and code run", () => {
     ));
   });
 
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -367,6 +408,12 @@ describe("When in split view, sense_hat imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle is shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is shown", async () => {
@@ -407,6 +454,12 @@ describe("When in tabbed view, no visual libraries used and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).not.toBeInTheDocument();
+  });
+
   test("Visual tab is not shown", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).not.toBeInTheDocument();
@@ -443,6 +496,12 @@ describe("When in tabbed view, py5 imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is not hidden", () => {
@@ -486,6 +545,12 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -521,6 +586,12 @@ describe("When in tabbed view, pygal imported and code run", () => {
         <PythonRunner />
       </Provider>,
     ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
   });
 
   test("Visual tab is not hidden", () => {
@@ -560,6 +631,12 @@ describe("When in tabbed view, turtle imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -597,6 +674,12 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
     ));
   });
 
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
   test("Visual tab is not hidden", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
@@ -614,8 +697,9 @@ test("When embedded in split view with visual output does not render output view
             content: "import p5",
           },
         ],
+        image_list: [],
       },
-      codeRUnTriggered: true,
+      codeRunTriggered: true,
       isSplitView: true,
       isEmbedded: true,
     },
@@ -756,5 +840,79 @@ describe("When font size is set", () => {
       ".pythonrunner-console",
     );
     expect(runnerConsole).toHaveClass("pythonrunner-console--myFontSize");
+  });
+});
+
+describe("When on desktop", () => {
+  beforeEach(() => {
+    setMedia({
+      width: "1000px",
+    });
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello')",
+            },
+          ],
+          image_list: [],
+        },
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+  });
+
+  test("There is no run button", () => {
+    expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  });
+});
+
+describe("When on mobile and not embedded", () => {
+  beforeEach(() => {
+    setMedia({
+      width: MOBILE_BREAKPOINT,
+    });
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello')",
+            },
+          ],
+          image_list: [],
+        },
+        isEmbedded: false,
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+  });
+
+  test("Has a run button in the tab bar", () => {
+    const runButton =
+      screen.getByText("runButton.run").parentElement.parentElement;
+    const runButtonContainer = runButton.parentElement.parentElement;
+    expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
   });
 });
