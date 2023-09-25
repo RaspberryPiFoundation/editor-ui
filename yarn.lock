@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@RaspberryPiFoundation/design-system-react@^0.0.3-alpha":
-  version "0.0.3-alpha"
-  resolved "https://npm.pkg.github.com/download/@RaspberryPiFoundation/design-system-react/0.0.3-alpha/0a5cf1ed4dd54c35d9cb000a530fd47148463bed#0a5cf1ed4dd54c35d9cb000a530fd47148463bed"
-  integrity sha512-7Haw6HgxXUoE25vvFbs6bmmHrtN8Q8m/Mzs5d5vu45rO/7OZncXJbFjTJSIn32XNQ8u5qVfGxeDXfVbN2KJtPg==
+"@RaspberryPiFoundation/design-system-react@^0.1.2":
+  version "0.1.2"
+  resolved "https://npm.pkg.github.com/download/@RaspberryPiFoundation/design-system-react/0.1.2/cc3326c8e0a364ac5baa467ba3a43c249fc69974#cc3326c8e0a364ac5baa467ba3a43c249fc69974"
+  integrity sha512-jHeP3fBMoWbZ4gOpPD2ANqsjClxMtMOAJRiD0e2whgFmMvNCW1rcoyTqOZxdUt8HShpD+dAMsczntQH+FMw6RQ==
   dependencies:
     classnames "^2.3.2"
     prop-types "^15.8.1"
