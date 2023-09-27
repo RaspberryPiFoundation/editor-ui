@@ -14,12 +14,11 @@ import {
 import "./FilePanel.scss";
 import "../Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
+import { syncWithPico } from "../../../../utils/apiCallHandler";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
-  console.log(project);
   const openFiles = useSelector((state) => state.editor.openFiles);
-  console.log(openFiles);
   const dispatch = useDispatch();
 
   const switchToFileTab = (panelIndex, fileIndex) => {
@@ -46,6 +45,20 @@ const FilePanel = ({ isMobile }) => {
   const syncProjectWithPico = () => {
     // use this to sync all files???
     syncWithPico(project.components);
+  };
+
+  const connectToPico = () => {
+    navigator.usb
+      .requestDevice({
+        filters: [
+          {
+            vendorId: 0x2e8a,
+          },
+        ],
+      })
+      .then((device) => {
+        console.log(device);
+      });
   };
 
   return (
@@ -75,6 +88,12 @@ const FilePanel = ({ isMobile }) => {
         className="btn btn--secondary files-list__pico_sync-button"
         onClickHandler={() => syncProjectWithPico()}
         buttonText="Sync Pico"
+        ButtonIcon={DuplicateIcon}
+      />
+      <Button
+        className="btn btn--secondary files-list__pico_sync-button"
+        onClickHandler={() => connectToPico()}
+        buttonText="Connect"
         ButtonIcon={DuplicateIcon}
       />
     </SidebarPanel>
