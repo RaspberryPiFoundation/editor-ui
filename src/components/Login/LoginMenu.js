@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
 import "./LoginMenu.scss";
+import { Link } from "react-router-dom";
 
 const LoginMenu = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const user = useSelector((state) => state.auth.user);
 
   return (
@@ -19,9 +21,12 @@ const LoginMenu = () => {
           >
             {t("globalNav.accountMenu.profile")}
           </a>
-          <a className="dropdown-container--list__item" href="/projects">
+          <Link
+            className="dropdown-container--list__item"
+            to={`${locale}/projects`}
+          >
             {t("globalNav.accountMenu.projects")}
-          </a>
+          </Link>
           <LogoutButton className="btn--tertiary dropdown-container--list__item" />
         </>
       ) : (

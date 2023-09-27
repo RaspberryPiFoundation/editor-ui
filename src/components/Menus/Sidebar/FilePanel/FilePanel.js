@@ -5,14 +5,17 @@ import { FileIcon, DuplicateIcon } from "../../../../Icons";
 import FileMenu from "../../FileMenu/FileMenu";
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import Button from "../../../Button/Button";
-import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
-import { syncWithPico } from "../../../../utils/apiCallHandler";
+import {
+  openFile,
+  setFocussedFileIndex,
+  hideSidebar,
+} from "../../../Editor/EditorSlice";
 
 import "./FilePanel.scss";
 import "../Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 
-const FilePanel = () => {
+const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   console.log(project);
   const openFiles = useSelector((state) => state.editor.openFiles);
@@ -33,6 +36,9 @@ const FilePanel = () => {
     } else {
       dispatch(openFile(fileName));
       switchToFileTab(0, openFiles[0].length);
+    }
+    if (isMobile) {
+      dispatch(hideSidebar());
     }
   };
   const { t } = useTranslation();
