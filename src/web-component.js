@@ -80,9 +80,12 @@ class WebComponent extends HTMLElement {
     this.root.render(
       <React.StrictMode>
         <Provider store={store}>
-          <WebComponentLoader {...this.reactProps()} />
+          <WebComponentLoader
+            {...this.reactProps()}
+            identifier="target-practice-solution"
+          />
         </Provider>
-      </React.StrictMode>,
+      </React.StrictMode>
     );
   }
 }

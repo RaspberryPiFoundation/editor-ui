@@ -11,13 +11,14 @@ export const useProject = ({
   accessToken = null,
   isEmbedded = false,
 }) => {
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
   const getCachedProject = (id) =>
-    isEmbedded && searchParams.get("browserPreview") !== "true"
-      ? null
+    isEmbedded
+      ? //  && searchParams.get("browserPreview") !== "true"
+        null
       : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
-    getCachedProject(projectIdentifier),
+    getCachedProject(projectIdentifier)
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export const useProject = ({
           identifier: projectIdentifier,
           locale: i18n.language,
           accessToken: accessToken,
-        }),
+        })
       );
       return;
     }
