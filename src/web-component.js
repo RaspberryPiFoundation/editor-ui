@@ -34,7 +34,7 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled"];
+    return ["code", "identifier", "sense_hat_always_enabled"];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
@@ -80,12 +80,9 @@ class WebComponent extends HTMLElement {
     this.root.render(
       <React.StrictMode>
         <Provider store={store}>
-          <WebComponentLoader
-            {...this.reactProps()}
-            identifier="target-practice-solution"
-          />
+          <WebComponentLoader {...this.reactProps()} />
         </Provider>
-      </React.StrictMode>
+      </React.StrictMode>,
     );
   }
 }

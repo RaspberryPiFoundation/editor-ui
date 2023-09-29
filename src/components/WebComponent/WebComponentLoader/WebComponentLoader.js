@@ -17,7 +17,7 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     dispatch(
-      setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== "undefined")
+      setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== "undefined"),
     );
     if (code) {
       const proj = {
