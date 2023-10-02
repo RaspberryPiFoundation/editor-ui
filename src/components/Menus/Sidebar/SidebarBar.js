@@ -16,7 +16,7 @@ import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
-  const { menuOptions, option, toggleOption } = props;
+  const { menuOptions, option, toggleOption, forWebComponent } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -30,12 +30,16 @@ const SidebarBar = (props) => {
 
   const expandPopOut = () => {
     toggleOption("file");
-    window.plausible("Expand file pane");
+    if (!forWebComponent) {
+      window.plausible("Expand file pane");
+    }
   };
 
   const collapsePopOut = () => {
     toggleOption(option);
-    window.plausible("Collapse file pane");
+    if (!forWebComponent) {
+      window.plausible("Collapse file pane");
+    }
   };
 
   const collapseSidebar = () => dispatch(hideSidebar());

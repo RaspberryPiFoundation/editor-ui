@@ -21,7 +21,7 @@ import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
-const Sidebar = () => {
+const Sidebar = ({ forWebComponent = false }) => {
   const { t } = useTranslation();
   let menuOptions = [
     {
@@ -89,6 +89,7 @@ const Sidebar = () => {
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
+        forWebComponent={forWebComponent}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>

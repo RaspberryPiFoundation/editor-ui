@@ -1,38 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%; margin: 0">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Editor Web component</title>
   </head>
-  <body>
+  <body style="height: 100%; margin: 0">
     <p id="results"></p>
   </body>
 
   <script>
-    document.addEventListener('DOMContentLoaded', (e) => {
-      const webComp = document.createElement('editor-wc')
-      const queryParams = new URLSearchParams(window.location.search)
+    document.addEventListener("DOMContentLoaded", (e) => {
+      const webComp = document.createElement("editor-wc");
+      const queryParams = new URLSearchParams(window.location.search);
 
       // Pre-set the code attribute with an empty string.
-      webComp.setAttribute('code', '')
+      webComp.setAttribute("code", "print('hello world')");
+      // webComp.setAttribute("sense_hat_always_enabled", "");
+      webComp.setAttribute("data-editor-target", "editor");
       // Set any attribute you like in the query string, including class, style, hidden, script, etc.
-      queryParams.forEach((value, key) => { webComp.setAttribute(key, value) })
-
-      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
-      webComp.addEventListener('codeChanged', function(e) {
-        console.log('listener in index html');
-        const code = webComp.editorCode
-        console.log(code)
+      queryParams.forEach((value, key) => {
+        webComp.setAttribute(key, value);
       });
 
-      webComp.addEventListener('runCompleted', (e) => {
-        // const error = webComp.isErrorFree
-        console.log(e.detail)
-        document.getElementById("results").innerText = JSON.stringify(e.detail)
-      })
+      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
+      webComp.addEventListener("codeChanged", function (e) {
+        console.log("listener in index html");
+        const code = webComp.editorCode;
+        console.log(code);
+      });
 
-      document.getElementsByTagName('body')[0].prepend(webComp)
+      webComp.addEventListener("runCompleted", (e) => {
+        // const error = webComp.isErrorFree
+        console.log(e.detail);
+        document.getElementById("results").innerText = JSON.stringify(e.detail);
+      });
+
+      document.getElementsByTagName("body")[0].prepend(webComp);
     });
   </script>
 </html>

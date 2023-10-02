@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -5,7 +6,11 @@ import { SaveIcon } from "../../Icons";
 import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
 
-const SaveButton = ({ className, type = "secondary" }) => {
+const SaveButton = ({
+  className,
+  type = "secondary",
+  forWebComponent = false,
+}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -14,7 +19,9 @@ const SaveButton = ({ className, type = "secondary" }) => {
   const loading = useSelector((state) => state.editor.loading);
 
   const onClickSave = async () => {
-    window.plausible("Save button");
+    if (!forWebComponent) {
+      window.plausible("Save button");
+    }
 
     if (isOwner(user, project)) {
       dispatch(
@@ -22,11 +29,11 @@ const SaveButton = ({ className, type = "secondary" }) => {
           project,
           accessToken: user.access_token,
           autosave: false,
-        }),
+        })
       );
     } else if (user && project.identifier) {
       dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
+        syncProject("remix")({ project, accessToken: user.access_token })
       );
     } else {
       dispatch(showLoginToSaveModal());

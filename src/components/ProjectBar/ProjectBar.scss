@@ -1,5 +1,5 @@
 @use "../../spacing" as *;
-@import "../../colours.scss";
+@use "../../colours" as *;
 
 .project-bar {
   border-radius: 0.5rem;

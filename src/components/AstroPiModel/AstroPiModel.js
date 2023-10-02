@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "./AstroPiModel.scss";
 import Simulator from "./Simulator";
 import Sk from "skulpt";
@@ -9,7 +9,7 @@ import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "./DefaultMZCriteria";
 
-const AstroPiModel = () => {
+const AstroPiModel = forwardRef((props, ref) => {
   const project = useSelector((state) => state.editor.project);
   const [orientation, setOrientation] = useState([0, 90, 0]);
   const resetOrientation = (e) => {
@@ -73,7 +73,7 @@ const AstroPiModel = () => {
   }, [orientation]);
 
   return (
-    <div className="sense-hat">
+    <div className="sense-hat" ref={ref}>
       <div className="sense-hat-model">
         <Simulator updateOrientation={setOrientation} />
         <OrientationPanel
@@ -92,6 +92,6 @@ const AstroPiModel = () => {
       />
     </div>
   );
-};
+});
 
 export default AstroPiModel;

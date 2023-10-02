@@ -1,3 +1,4 @@
+import React from "react";
 import "./ProjectBar.scss";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -7,7 +8,7 @@ import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
 
-const ProjectBar = () => {
+const ProjectBar = ({ forWebComponent = false }) => {
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
@@ -36,7 +37,10 @@ const ProjectBar = () => {
             </div>
           ) : null}
           <div className="project-bar__btn-wrapper">
-            <SaveButton className="project-bar__btn btn--save" />
+            <SaveButton
+              className="project-bar__btn btn--save"
+              forWebComponent={forWebComponent}
+            />
           </div>
           {lastSavedTime && user ? (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
