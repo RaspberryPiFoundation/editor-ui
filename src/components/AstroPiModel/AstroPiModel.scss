@@ -1,6 +1,6 @@
-@use '../../spacing' as *;
-@use '../../font-size' as *;
-@import '../../colours.scss';
+@use "../../spacing" as *;
+@use "../../font-size" as *;
+@import "../../colours.scss";
 
 .sense-hat {
   width: 100%;
@@ -12,6 +12,7 @@
     display: flex;
     flex-flow: column;
     max-height: 50%;
+    min-height: 9.375rem;
     flex: 1;
     padding-bottom: $space-0-5;
 
@@ -44,7 +45,7 @@
       }
 
       &__reset-btn {
-        flex:1;
+        flex: 1;
         display: flex;
         margin-left: auto;
         svg {
@@ -60,7 +61,6 @@
   }
 
   &-controls {
-
     padding: $space-0-5;
     display: flex;
     flex-flow: column;
@@ -98,8 +98,8 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-          monospace;
+          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+            monospace;
 
           &-timer {
             margin-top: 0;
@@ -128,7 +128,7 @@
           transform: rotate(270deg);
         }
 
-        input[type='color'] {
+        input[type="color"] {
           border-radius: 5px;
           flex: 1;
           width: 100%;
@@ -168,7 +168,8 @@
         align-items: center;
         width: 32%;
 
-        .sense-hat-controls-panel__control-name, input {
+        .sense-hat-controls-panel__control-name,
+        input {
           cursor: pointer;
         }
 
@@ -196,10 +197,10 @@
 
           &-reading {
             background-color: $rpf-grey-800;
-            border: 1px solid $rpf-grey-500
+            border: 1px solid $rpf-grey-500;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -210,8 +211,8 @@
 
             .react-toggle {
               &-thumb {
-              border: 1px solid $rpf-white;
-              background-color: $rpf-white;
+                border: 1px solid $rpf-white;
+                background-color: $rpf-white;
               }
             }
           }
@@ -253,7 +254,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }
@@ -269,7 +270,7 @@
           }
         }
       }
-  }
+    }
 
     &-model {
       background-color: $astropi-dark-blue;
