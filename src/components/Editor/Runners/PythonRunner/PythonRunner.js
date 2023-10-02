@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Sk from "skulpt";
+import { useMediaQuery } from "react-responsive";
 import {
   setError,
   codeRunHandled,
@@ -13,11 +14,12 @@ import {
 } from "../../EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { createError } from "../../../../utils/apiCallHandler";
-
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../settings";
+import RunnerControls from "../../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -69,6 +71,7 @@ const PythonRunner = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(
@@ -378,12 +381,13 @@ const PythonRunner = () => {
                 <div className="react-tabs__tab-container">
                   <TabList>
                     <Tab key={0}>
-                      <span className="react-tabs__tab-inner">
+                      <span className="react-tabs__tab-text">
                         {t("output.visualOutput")}
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded ? <OutputViewToggle /> : null}
+                  {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
+                  {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane />
@@ -396,12 +400,14 @@ const PythonRunner = () => {
               <div className="react-tabs__tab-container">
                 <TabList>
                   <Tab key={0}>
-                    <span className="react-tabs__tab-inner">
+                    <span className="react-tabs__tab-text">
                       {t("output.textOutput")}
                     </span>
                   </Tab>
                 </TabList>
-                {hasVisualOutput || isEmbedded ? null : <OutputViewToggle />}
+                {!hasVisualOutput && !isEmbedded && isMobile ? (
+                  <RunnerControls skinny />
+                ) : null}
               </div>
               <ErrorMessage />
               <TabPanel key={0}>
@@ -420,18 +426,19 @@ const PythonRunner = () => {
             <TabList>
               {hasVisualOutput ? (
                 <Tab key={0}>
-                  <span className="react-tabs__tab-inner">
+                  <span className="react-tabs__tab-text">
                     {t("output.visualOutput")}
                   </span>
                 </Tab>
               ) : null}
               <Tab key={1}>
-                <span className="react-tabs__tab-inner">
+                <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded ? <OutputViewToggle /> : null}
+            {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
+            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
           <ErrorMessage />
           {hasVisualOutput ? (

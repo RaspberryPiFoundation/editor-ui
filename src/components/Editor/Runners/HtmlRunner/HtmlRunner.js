@@ -2,6 +2,7 @@ import "./HtmlRunner.scss";
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
+import { useMediaQuery } from "react-responsive";
 
 import ErrorModal from "../../../Modals/ErrorModal";
 import {
@@ -13,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
 import { OpenInNewTabIcon } from "../../../../Icons";
+import RunnerControls from "../../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
@@ -42,6 +45,7 @@ function HtmlRunner() {
   const output = useRef();
   const [error, setError] = useState(null);
   const allowedHrefs = ["#"];
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const focussedComponent = (fileName = "index.html") =>
     projectCode.filter(
@@ -239,7 +243,7 @@ function HtmlRunner() {
           <div className="react-tabs__tab-container">
             <TabList>
               <Tab>
-                <span className="react-tabs__tab-inner">{`${runningFile} ${t(
+                <span className="react-tabs__tab-text">{`${runningFile} ${t(
                   "output.preview",
                 )}`}</span>
               </Tab>
@@ -258,6 +262,7 @@ function HtmlRunner() {
                 </Link>
               )}
             </TabList>
+            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
           <TabPanel>
             <iframe
