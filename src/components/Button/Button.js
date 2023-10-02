@@ -3,6 +3,7 @@ import "./Button.scss";
 import React from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { Link } from "react-router-dom";
 
 const Button = (props) => {
   const {
@@ -53,13 +54,13 @@ const Button = (props) => {
   };
 
   const button = href ? (
-    <a
+    <Link
       ref={buttonRef}
       className={buttonClass}
       disabled={disabled}
       aria-label={label}
       title={title}
-      href={href}
+      to={href}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
@@ -67,7 +68,7 @@ const Button = (props) => {
       {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
       {text ? <span>{text}</span> : null}
       {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
-    </a>
+    </Link>
   ) : (
     <button
       ref={buttonRef}

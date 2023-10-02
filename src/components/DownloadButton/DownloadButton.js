@@ -5,12 +5,19 @@ import JSZipUtils from "jszip-utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-import Button from "../Button/Button";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 
 const DownloadButton = (props) => {
-  const { buttonText, className, Icon, ...otherProps } = props;
+  const {
+    buttonText,
+    className,
+    Icon,
+    type = "secondary",
+    ...otherProps
+  } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
   const loginToSaveModalShowing = useSelector(
@@ -59,14 +66,22 @@ const DownloadButton = (props) => {
   };
 
   return (
-    <Button
+    <DesignSystemButton
       className={className}
-      onClickHandler={onClickDownload}
-      buttonText={buttonText}
-      ButtonIcon={Icon}
+      onClick={onClickDownload}
+      text={buttonText}
+      textAlways
+      icon={Icon ? <Icon /> : null}
+      type={type}
       {...otherProps}
     />
   );
+};
+
+DownloadButton.propTypes = {
+  buttonText: PropTypes.string,
+  className: PropTypes.string,
+  Icon: PropTypes.func,
 };
 
 export default DownloadButton;

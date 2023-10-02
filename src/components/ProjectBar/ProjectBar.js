@@ -1,17 +1,14 @@
 import React from "react";
 import "./ProjectBar.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import Autosave from "./Autosave";
-import { Button } from "@RaspberryPiFoundation/design-system-react";
-import { DownloadIcon, SaveIcon } from "../../Icons";
-import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import SaveStatus from "./../SaveStatus/SaveStatus";
+import { DownloadIcon } from "../../Icons";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
-import { isOwner } from "../../utils/projectHelpers";
+import SaveButton from "../SaveButton/SaveButton";
 
 const ProjectBar = ({ forWebComponent = false }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
@@ -19,28 +16,6 @@ const ProjectBar = ({ forWebComponent = false }) => {
   const loading = useSelector((state) => state.editor.loading);
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
-
-  const onClickSave = async () => {
-    if (!forWebComponent) {
-      window.plausible("Save button");
-    }
-
-    if (isOwner(user, project)) {
-      dispatch(
-        syncProject("save")({
-          project,
-          accessToken: user.access_token,
-          autosave: false,
-        }),
-      );
-    } else if (user && project.identifier) {
-      dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
-      );
-    } else {
-      dispatch(showLoginToSaveModal());
-    }
-  };
 
   return (
     loading === "success" && (
@@ -52,24 +27,23 @@ const ProjectBar = ({ forWebComponent = false }) => {
         {loading === "success" ? <ProjectName /> : null}
         <div className="project-bar__right">
           {loading === "success" ? (
-            <DownloadButton
-              buttonText={t("header.download")}
-              className="btn--tertiary"
-              Icon={DownloadIcon}
-              buttonIconPosition="right"
-            />
+            <div className="project-bar__btn-wrapper">
+              <DownloadButton
+                buttonText={t("header.download")}
+                className="project-bar__btn btn--download"
+                Icon={DownloadIcon}
+                type="tertiary"
+              />
+            </div>
           ) : null}
-          {loading === "success" ? (
-            <Button
-              className="btn--save"
-              onClick={onClickSave}
-              text={t("header.save")}
-              textAlways
-              icon={<SaveIcon />}
+          <div className="project-bar__btn-wrapper">
+            <SaveButton
+              className="project-bar__btn btn--save"
+              forWebComponent={forWebComponent}
             />
-          ) : null}
+          </div>
           {lastSavedTime && user ? (
-            <Autosave saving={saving} lastSavedTime={lastSavedTime} />
+            <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
           ) : null}
         </div>
       </div>

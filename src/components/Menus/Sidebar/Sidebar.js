@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
+import { useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
@@ -16,7 +19,7 @@ import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
 import "./Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
-import { useSelector } from "react-redux";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const Sidebar = ({ forWebComponent = false }) => {
   const { t } = useTranslation();
@@ -57,6 +60,7 @@ const Sidebar = ({ forWebComponent = false }) => {
       panel: InfoPanel,
     },
   ];
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   if (!projectImages || projectImages.length === 0) {
     menuOptions.splice(
@@ -64,9 +68,13 @@ const Sidebar = ({ forWebComponent = false }) => {
       1,
     );
   }
-  const [option, setOption] = useState();
+  const [option, setOption] = useState(isMobile ? "file" : null);
   const toggleOption = (newOption) => {
-    option !== newOption ? setOption(newOption) : setOption(null);
+    if (option !== newOption) {
+      setOption(newOption);
+    } else if (!isMobile) {
+      setOption(null);
+    }
   };
 
   const optionDict = menuOptions.find((menuOption) => {
@@ -76,14 +84,14 @@ const Sidebar = ({ forWebComponent = false }) => {
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div className="sidebar">
+    <div className={classNames("sidebar", { "sidebar--mobile": isMobile })}>
       <SidebarBar
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
         forWebComponent={forWebComponent}
       />
-      {option ? <CustomSidebarPanel /> : null}
+      {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>
   );
 };
