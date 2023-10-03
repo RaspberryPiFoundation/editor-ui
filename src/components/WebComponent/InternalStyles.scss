@@ -1,11 +1,14 @@
 @use './WebComponent.scss';
 @use '../../tabs.scss';
+@use '../DesignSystemButton/DesignSystemButton.scss';
 @use '../Editor/Project/Project.scss';
 @use '../Mobile/MobileProject/MobileProject.scss';
 @use '../Button/Button.scss';
 @use '../Editor/DraggableTabs/DraggableTabs.scss';
 @use '../../utils/ResizableWithHandle.scss';
 @use '../Editor/EditorInput/EditorInput.scss';
+@use '../ProjectBar/ProjectBar.scss';
+@use '../ProjectName/ProjectName.scss';
 @use '../RunButton/RunBar.scss';
 @use '../RunButton/RunnerControls.scss';
 @use '../Menus/Sidebar/SettingsPanel/ThemeToggle/ThemeToggle.scss';

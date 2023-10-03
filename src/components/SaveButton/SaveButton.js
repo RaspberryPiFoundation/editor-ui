@@ -1,36 +1,42 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { SaveIcon } from "../../Icons";
-import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import {
+  syncProject,
+  showLoginToSaveModal,
+  triggerSave,
+} from "../Editor/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
 
-const SaveButton = ({ className, type = "secondary" }) => {
+const SaveButton = ({ className, user, type = "secondary" }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
+  // const user = useSelector((state) => state.auth.user);
+  // const project = useSelector((state) => state.editor.project);
   const loading = useSelector((state) => state.editor.loading);
 
   const onClickSave = async () => {
-    window.plausible("Save button");
+    // window.plausible("Save button");
 
-    if (isOwner(user, project)) {
-      dispatch(
-        syncProject("save")({
-          project,
-          accessToken: user.access_token,
-          autosave: false,
-        }),
-      );
-    } else if (user && project.identifier) {
-      dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
-      );
-    } else {
-      dispatch(showLoginToSaveModal());
-    }
+    // if (isOwner(user, project)) {
+    //   dispatch(
+    //     syncProject("save")({
+    //       project,
+    //       accessToken: user.access_token,
+    //       autosave: false,
+    //     }),
+    //   );
+    // } else if (user && project.identifier) {
+    //   dispatch(
+    //     syncProject("remix")({ project, accessToken: user.access_token }),
+    //   );
+    // } else {
+    //   dispatch(showLoginToSaveModal());
+    // }
+    dispatch(triggerSave());
   };
 
   return (

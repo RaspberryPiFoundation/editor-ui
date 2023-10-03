@@ -51,7 +51,9 @@ const Project = (props) => {
       >
         {!forWebComponent && <Sidebar />}
         <div className="project-wrapper">
-          {!forWebComponent ? <ProjectBar /> : null}
+          {/* {!forWebComponent ?  */}
+          <ProjectBar />
+          {/* // : null} */}
           <div className="proj-editor-wrapper">
             <ResizableWithHandle
               data-testid="proj-editor-container"

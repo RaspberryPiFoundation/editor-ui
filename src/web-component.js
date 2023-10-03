@@ -34,7 +34,13 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "identifier", "sense_hat_always_enabled"];
+    return [
+      "identifier",
+      "code",
+      "user",
+      "access_token",
+      "sense_hat_always_enabled",
+    ];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {

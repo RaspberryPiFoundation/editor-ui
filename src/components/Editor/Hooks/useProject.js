@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { syncProject, setProject } from "../EditorSlice";
 import { defaultPythonProject } from "../../../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 
 export const useProject = ({
   projectIdentifier = null,
