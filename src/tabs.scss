@@ -1,7 +1,6 @@
 @use "./spacing" as *;
 @use './font-weight' as *;
-@import "./colours.scss";
-@import "./components/Button/Button.scss";
+@use "./colours" as *;
 
 #app,
 #wc {
