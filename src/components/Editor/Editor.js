@@ -28,7 +28,7 @@ function Editor() {
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [onUpdate, code]);
 
   return (
     <div>
