@@ -1,6 +1,6 @@
 @use '../../spacing' as *;
 @use '../../font-weight' as *;
-@import '../../colours.scss';
+@use '../../colours' as *;
 
 @mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
   background-color: $bg;

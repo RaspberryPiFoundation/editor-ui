@@ -1,7 +1,7 @@
-@use "../../../spacing" as *;
-@use "../../../font-size.scss" as *;
+@use '../../../spacing' as *;
+@use '../../../font-size.scss' as *;
 @use '../../../font-weight.scss' as *;
-@import "../../../colours.scss";
+@use '../../../colours' as *;
 
 .mobile-project-bar {
   background-color: $rpf-white;

@@ -1,8 +1,8 @@
-@use "../../spacing" as *;
-@use "../../font-size" as *;
+@use '../../spacing' as *;
+@use '../../font-size' as *;
 @use '../../font-weight' as *;
-@import "../../colours.scss";
-@import "../../mixins.scss";
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 .landing-page-wrapper {
   display: flex;

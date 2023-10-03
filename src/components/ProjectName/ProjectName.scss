@@ -1,7 +1,7 @@
 @use '../../spacing' as *;
 @use '../../font-size.scss' as *;
 @use '../../font-weight' as *;
-@import '../../colours.scss';
+@use '../../colours' as *;
 
 .project-name {
   align-items: center;

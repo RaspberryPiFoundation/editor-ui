@@ -1,7 +1,7 @@
 @use '../../spacing' as *;
 @use '../../font-weight' as *;
-@import '../../colours.scss';
-@import '../../mixins.scss';
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 .editor-global-nav-wrapper {
   flex: 0 1 auto;

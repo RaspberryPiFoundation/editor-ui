@@ -1,6 +1,6 @@
 @use '../../../spacing' as *;
 @use '../../../font-weight' as *;
-@import '../../../colours.scss';
+@use '../../../colours' as *;
 
 .dropdown {
   display: flex;

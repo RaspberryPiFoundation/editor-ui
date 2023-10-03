@@ -1,6 +1,6 @@
 @use '../../spacing';
-@use '../../font-size.scss';
-@use '../../font-weight.scss';
+@use '../../font-size' as *;
+@use '../../font-weight' as *;
 
 @use '../../../node_modules/react-tabs/style/react-tabs.css';
 @use '../../../node_modules/react-toggle/style.css';

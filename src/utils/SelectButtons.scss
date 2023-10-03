@@ -1,6 +1,6 @@
 @use '../colours.scss' as *;
 @use '../spacing.scss' as *;
-@import '../mixins.scss';
+@use '../mixins' as *;
 
 .select-buttons {
   border: none;

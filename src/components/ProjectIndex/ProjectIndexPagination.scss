@@ -1,6 +1,6 @@
 @use '../../spacing' as *;
 @use '../../font-weight.scss' as *;
-@import '../../colours.scss';
+@use '../../colours' as *;
 
 .editor-project-list-pagination {
   display: flex;

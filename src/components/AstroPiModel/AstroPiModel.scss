@@ -1,7 +1,7 @@
-@use "../../spacing" as *;
-@use "../../font-size" as *;
+@use '../../spacing' as *;
+@use '../../font-size' as *;
 @use '../../font-weight' as *;
-@import "../../colours.scss";
+@use '../../colours' as *;
 
 .sense-hat {
   width: 100%;
@@ -99,7 +99,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
             monospace;
 
           &-timer {
@@ -129,7 +129,7 @@
           transform: rotate(270deg);
         }
 
-        input[type="color"] {
+        input[type='color'] {
           border-radius: 5px;
           flex: 1;
           width: 100%;
@@ -201,7 +201,7 @@
             border: 1px solid $rpf-grey-500;
           }
 
-          input[type="color"] {
+          input[type='color'] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -255,7 +255,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type="color"] {
+          input[type='color'] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }

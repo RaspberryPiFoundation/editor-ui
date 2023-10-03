@@ -1,7 +1,7 @@
-@use "../../../../spacing" as *;
-@use "../../../../font-size" as *;
+@use '../../../../spacing' as *;
+@use '../../../../font-size' as *;
 @use '../../../../font-weight' as *;
-@import "../../../../colours.scss";
+@use '../../../../colours' as *;
 
 .info-panel {
   border-radius: 0.5rem;

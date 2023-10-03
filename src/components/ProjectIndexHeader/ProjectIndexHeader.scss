@@ -1,6 +1,6 @@
 @use '../../spacing' as *;
-@import '../../colours.scss';
-@import '../../mixins.scss';
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 .editor-project-header {
   &__inner {

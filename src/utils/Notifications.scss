@@ -1,7 +1,7 @@
 @use '../spacing' as *;
 @use '../font-size' as *;
 @use '../font-weight' as *;
-@import '../colours.scss';
+@use '../colours' as *;
 
 #app {
   .toast--bottom-center__message, .toast--top-center__message {
