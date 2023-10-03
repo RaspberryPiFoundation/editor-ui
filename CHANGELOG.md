@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Fix useEffect missing dependencies (#674)
+## [0.19.1]
+
+### Fixed
+
+- Min-height on Sense HAT model to fix tablet-view (#658)
 
 ## [0.19.0] - 2023-09-25
 
