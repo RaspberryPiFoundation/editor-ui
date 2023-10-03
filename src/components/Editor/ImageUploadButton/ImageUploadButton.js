@@ -1,4 +1,4 @@
-import "./ImageUploadButton.css";
+import "./ImageUploadButton.scss";
 
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
