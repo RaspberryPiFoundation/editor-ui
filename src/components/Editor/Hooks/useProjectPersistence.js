@@ -49,7 +49,6 @@ export const useProjectPersistence = ({ user }) => {
           }),
         );
       } else if (user && project.identifier) {
-        console.log(user.access_token);
         dispatch(
           syncProject("remix")({ project, accessToken: user.access_token }),
         );
