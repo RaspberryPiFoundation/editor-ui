@@ -1,6 +1,6 @@
 @use '../../colours.scss' as *;
 
-:root * {
+:root, :host {
   --rpf-button-primary-background-color: #{$rpf-teal-primary-default};
   --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover};
   --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active};
