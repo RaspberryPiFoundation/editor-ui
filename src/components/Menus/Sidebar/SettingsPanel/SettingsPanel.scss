@@ -1,5 +1,6 @@
 @use "../../../../spacing" as *;
 @use "../../../../font-size" as *;
+@use '../../../../font-weight.scss' as *;
 @import "../../../../colours.scss";
 
 .settings-panel {
@@ -11,7 +12,7 @@
   gap: $space-0-5;
 
   h3 {
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     margin: 0 0 $space-0-5 0;
   }
 

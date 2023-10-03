@@ -1,4 +1,5 @@
 @use "../../../../spacing" as *;
+@use '../../../../font-weight' as *;
 @import "../../../../colours.scss";
 
 .files-list-item-wrapper {
@@ -16,12 +17,12 @@
   border: 3px solid transparent;
   box-sizing: border-box;
   white-space: nowrap;
-  font-weight: var(--font-weight-regular);
+  font-weight: $font-weight-regular;
   min-height: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
   span {
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     overflow-x: hidden;
     text-overflow: ellipsis;
   }

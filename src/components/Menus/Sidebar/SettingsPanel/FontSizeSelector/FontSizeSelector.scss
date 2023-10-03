@@ -1,5 +1,6 @@
 @use "./../../../../../spacing" as *;
 @use "./../../../../../font-size" as *;
+@use '../../../../../font-weight.scss' as *;
 @import "./../../../../../colours.scss";
 
 .font-size-selector {
@@ -31,7 +32,7 @@
       &--text {
         padding: 0.5rem;
         width: -webkit-fill-available;
-        font-weight: var(--font-weight-bold);
+        font-weight: $font-weight-bold;
 
         svg {
           padding-right: $space-0-5;

@@ -1,5 +1,6 @@
 @use "./../../../../../spacing" as *;
 @use "./../../../../../font-size" as *;
+@use '../../../../../font-weight.scss' as *;
 @import "./../../../../../colours.scss";
 
 .theme-toggle {
@@ -40,7 +41,7 @@
         display: block;
         padding: 0.5rem;
         width: -webkit-fill-available;
-        font-weight: var(--font-weight-bold);
+        font-weight: $font-weight-bold;
       }
 
       &:focus-visible {

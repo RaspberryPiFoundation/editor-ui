@@ -1,5 +1,6 @@
 @use "../../../spacing" as *;
 @use "../../../font-size.scss" as *;
+@use '../../../font-weight.scss' as *;
 @import "../../../colours.scss";
 
 .mobile-project-bar {
@@ -13,7 +14,7 @@
 
 .mobile-project-bar__name {
   @include font-size-0-75(regular);
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
   margin: auto 0;
 }
 

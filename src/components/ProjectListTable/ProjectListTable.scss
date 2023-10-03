@@ -1,5 +1,6 @@
 @use '../../spacing' as *;
 @use '../../font-size' as *;
+@use '../../font-weight' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -89,7 +90,7 @@ $small-table-grid: 600px;
 
     p {
       @include font-size-1-25(regular);
-      font-weight: var(--font-weight-bold);
+      font-weight: $font-weight-bold;
       margin: 0;
       padding: $space-1-5;
     }

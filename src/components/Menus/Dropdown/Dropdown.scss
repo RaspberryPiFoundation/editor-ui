@@ -1,4 +1,5 @@
 @use '../../../spacing' as *;
+@use '../../../font-weight' as *;
 @import '../../../colours.scss';
 
 .dropdown {
@@ -52,7 +53,7 @@
         cursor: pointer;
         font: inherit;
         justify-content: left;
-        font-weight: var(--font-weight-regular);
+        font-weight: $font-weight-regular;
         text-decoration: none;
         padding: $space-0-5 $space-0-25;
         border-radius: 5px;

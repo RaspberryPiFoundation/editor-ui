@@ -1,5 +1,6 @@
 @use '../../spacing' as *;
 @use '../../font-size.scss' as *;
+@use '../../font-weight' as *;
 @import '../../colours.scss';
 
 .project-name {
@@ -15,7 +16,7 @@
 
 .project-name__label {
   @include font-size-1(regular);
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
   margin-bottom: $space-0-5;
   display: block;
 }

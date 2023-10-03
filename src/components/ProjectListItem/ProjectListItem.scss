@@ -1,5 +1,6 @@
 @use '../../spacing' as *;
 @use '../../font-size' as *;
+@use '../../font-weight.scss' as *;
 @import '../../colours.scss';
 @import '../../mixins.scss';
 
@@ -38,7 +39,7 @@ $small-table-grid: 600px;
   &__name {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
   }
 
   &__tag {
