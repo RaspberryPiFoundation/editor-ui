@@ -80,6 +80,7 @@ const PythonRunner = () => {
   );
 
   const getInput = () => {
+    console.log("GETTING INPOUT");
     const pageInput = document.getElementById("input");
     const webComponentInput = document.querySelector("editor-wc")
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
@@ -134,6 +135,8 @@ const PythonRunner = () => {
   };
 
   const builtinRead = (x) => {
+    console.log("Built In Read");
+    console.log(x);
     if (x === "./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true));
     }
@@ -145,6 +148,7 @@ const PythonRunner = () => {
     // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
 
     if (visualLibraries.includes(x)) {
+      console.log("VISUAL LIBRARY PRESENT");
       setHasVisualOutput(true);
     }
 
@@ -168,20 +172,35 @@ const PythonRunner = () => {
     }
 
     if (externalLibraries[x]) {
+      console.log("EXTERNAL LIBVRARY");
       var externalLibraryInfo = externalLibraries[x];
+      console.log(externalLibraryInfo);
+      console.log("PATH!!");
+      console.log(externalLibraryInfo.path);
+      console.log(process.env.PUBLIC_URL);
+      console.log(externalLibraries[x].code);
+      console.log("NEWPATH!!");
+      const newPath = `http://localhost:3010/${externalLibraryInfo.path}`;
+      console.log(newPath);
 
       return (
         externalLibraries[x].code ||
         Sk.misceval.promiseToSuspension(
           fetch(externalLibraryInfo.path)
-            .then((response) => response.text())
+            .then((response) => {
+              console.log(response);
+              response.text();
+            })
             .then((code) => {
               if (!code) {
+                console.log("NO CODE!!!");
                 throw new Sk.builtin.ImportError(
                   "Failed to load remote module",
                 );
               }
               externalLibraries[x].code = code;
+              console.log("CODE!!");
+              console.log(externalLibraries[x].code);
               var promise;
 
               function mapUrlToPromise(path) {
@@ -243,6 +262,7 @@ const PythonRunner = () => {
   };
 
   const inf = function () {
+    console.log("INF?? CLICKED");
     if (Sk.sense_hat) {
       Sk.sense_hat.mz_criteria.noInputEvents = false;
     }
@@ -274,6 +294,8 @@ const PythonRunner = () => {
   };
 
   const handleError = (err) => {
+    console.log("ERROR");
+    console.log(err);
     let errorMessage;
     if (err.message === t("output.errors.interrupted")) {
       errorMessage = err.message;
@@ -307,14 +329,19 @@ const PythonRunner = () => {
   };
 
   const runCode = () => {
+    console.log("RUNNING CODE!!");
     // clear previous output
     dispatch(setError(""));
     output.current.innerHTML = "";
     dispatch(setSenseHatEnabled(false));
 
     var prog = projectCode[0].content;
+    console.log(prog);
+    console.log("INPUT COMMENT");
+    console.log(`# ${t("input.comment.py5")}`);
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
+      console.log("INCLUDES P5!!");
       prog = prog.replace(
         `# ${t("input.comment.py5")}`,
         "from py5_imported_mode import *",
