@@ -28,10 +28,10 @@ const WebComponentProject = () => {
   const webComponent = document.querySelector("editor-wc");
   const [codeHasRun, setCodeHasRun] = React.useState(false);
   const dispatch = useDispatch();
+  dispatch(setIsSplitView(false));
 
   useEffect(() => {
     setCodeHasRun(false);
-    dispatch(setIsSplitView(false));
     if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(function () {
       const customEvent = new CustomEvent("codeChanged", {
@@ -42,7 +42,7 @@ const WebComponentProject = () => {
       webComponent.dispatchEvent(customEvent);
     }, 2000);
     setTimeoutId(id);
-  }, [project, timeoutId, webComponent, dispatch]);
+  }, [project, timeoutId, webComponent]);
 
   useEffect(() => {
     if (codeRunTriggered) {
