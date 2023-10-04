@@ -1,14 +1,14 @@
-import { React } from "react";
+import { React, lazy, Suspense } from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
-import ProjectComponentLoader from "./Editor/ProjectComponentLoader/ProjectComponentLoader";
-import ProjectIndex from "./ProjectIndex/ProjectIndex";
-import EmbeddedViewer from "./EmbeddedViewer/EmbeddedViewer";
-import Callback from "./Callback";
-import SilentRenew from "./SilentRenew";
-import LocaleLayout from "./LocaleLayout/LocaleLayout";
-import LandingPage from "./LandingPage/LandingPage";
+const Callback = lazy(() => import( /* webpackPrefetch: true */ "./Callback"));
+const SilentRenew = lazy(() => import( /* webpackPrefetch: true */ "./SilentRenew"));
+const LocaleLayout = lazy(() => import( /* webpackPrefetch: true */ "./LocaleLayout/LocaleLayout"));
+const LandingPage = lazy(() => import( /* webpackPrefetch: true */ "./LandingPage/LandingPage"));
+const ProjectIndex = lazy(() => import(/* webpackPrefetch: true */"./ProjectIndex/ProjectIndex"));
+const ProjectComponentLoader = lazy(() => import( /* webpackPrefetch: true */ "./Editor/ProjectComponentLoader/ProjectComponentLoader"));
+const EmbeddedViewer = lazy(() => import( /* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"));
 
 const projectLinkRedirects = [
   "/null/projects/:identifier",
@@ -25,39 +25,41 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const AppRoutes = () => (
   <SentryRoutes>
-    <Route path="/auth/callback" element={<Callback />} />
+    <Suspense fallback={<></>}>
+      <Route path="/auth/callback" element={<Callback />} />
 
-    <Route path="/auth/silent_renew" element={<SilentRenew />} />
-    <Route path={":locale"} element={<LocaleLayout />}>
-      <Route index element={<LandingPage />} />
-      <Route path={"projects"} element={<ProjectIndex />} />
-      <Route
-        path={"projects/:identifier"}
-        element={<ProjectComponentLoader />}
-      />
-      <Route path="embed/viewer/:identifier" element={<EmbeddedViewer />} />
-    </Route>
-
-    <Route
-      path="/embedded/projects/:identifier"
-      element={<ProjectComponentLoader embedded={true} />}
-    />
-
-    {/* Redirects will be moved into a cloudflare worker. This is just interim */}
-
-    {projectLinkRedirects.map((link) => {
-      return <Route key={link} path={link} element={<ProjectsRedirect />} />;
-    })}
-
-    {localeRedirects.map((link) => {
-      return (
+      <Route path="/auth/silent_renew" element={<SilentRenew />} />
+      <Route path={":locale"} element={<LocaleLayout />}>
+        <Route index element={<LandingPage />} />
+        <Route path={"projects"} element={<ProjectIndex />} />
         <Route
-          key={link}
-          path={link}
-          element={<Navigate replace to={`/en${link}`} />}
+          path={"projects/:identifier"}
+          element={<ProjectComponentLoader />}
         />
-      );
-    })}
+        <Route path="embed/viewer/:identifier" element={<EmbeddedViewer />} />
+      </Route>
+
+      <Route
+        path="/embedded/projects/:identifier"
+        element={<ProjectComponentLoader embedded={true} />}
+      />
+
+      {/* Redirects will be moved into a cloudflare worker. This is just interim */}
+
+      {projectLinkRedirects.map((link) => {
+        return <Route key={link} path={link} element={<ProjectsRedirect />} />;
+      })}
+
+      {localeRedirects.map((link) => {
+        return (
+          <Route
+            key={link}
+            path={link}
+            element={<Navigate replace to={`/en${link}`} />}
+          />
+        );
+      })}
+    </Suspense>
   </SentryRoutes>
 );
 

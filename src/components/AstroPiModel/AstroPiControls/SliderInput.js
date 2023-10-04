@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import "../AstroPiModel.scss";
 import Sk from "skulpt";
 
@@ -9,7 +9,9 @@ const SliderInput = (props) => {
 
   useEffect(() => {
     if (Sk.sense_hat) {
-      Sk.sense_hat.rtimu[name][1] = value + Math.random() - 0.5;
+      startTransition(() => {
+        Sk.sense_hat.rtimu[name][1] = value + Math.random() - 0.5;
+      });
     }
   }, [name, value]);
 

@@ -82,7 +82,7 @@ const EditorInput = () => {
       .forEach((_, i) => {
         tabRefs.current[i] = tabRefs.current[i] || React.createRef();
       });
-  }, [project]);
+  }, [project.components.length]);
 
   useEffect(() => {
     focussedFileIndices.forEach((index, i) => {
