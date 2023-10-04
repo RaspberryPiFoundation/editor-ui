@@ -1,5 +1,5 @@
 @use '../../../../colours' as *;
-@import '../../../../mixins.scss';
+@use '../../../../mixins' as *;
 
 .htmlrunner-container {
   container-type: inline-size;

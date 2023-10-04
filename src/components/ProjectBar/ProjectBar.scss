@@ -1,5 +1,5 @@
-@use "../../spacing" as *;
-@import "../../colours.scss";
+@use '../../spacing' as *;
+@use '../../colours' as *;
 
 .project-bar {
   border-radius: $space-0-5;
@@ -21,7 +21,7 @@
     padding: $space-1;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: -3px;
       right: 0px;

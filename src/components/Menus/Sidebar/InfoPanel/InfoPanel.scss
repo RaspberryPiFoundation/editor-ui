@@ -1,6 +1,7 @@
-@use "../../../../spacing" as *;
-@use "../../../../font-size" as *;
-@import "../../../../colours.scss";
+@use '../../../../spacing' as *;
+@use '../../../../font-size' as *;
+@use '../../../../font-weight' as *;
+@use '../../../../colours' as *;
 
 .info-panel {
   border-radius: $space-0-5;
@@ -18,7 +19,7 @@
 
   a {
     @include font-size-1(regular);
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     text-decoration: underline;
   }
 }

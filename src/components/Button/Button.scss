@@ -1,5 +1,6 @@
 @use '../../spacing' as *;
-@import '../../colours.scss';
+@use '../../font-weight' as *;
+@use '../../colours' as *;
 
 @mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
   background-color: $bg;
@@ -53,7 +54,7 @@
   display: inline-flex;
   font-family: sans-serif;
   font-size: inherit;
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
   gap: $space-0-5;
   justify-content: center;
   margin: 6px;

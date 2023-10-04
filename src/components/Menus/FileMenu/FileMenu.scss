@@ -1,5 +1,5 @@
 @use '../../../spacing' as *;
-@import '../../../colours.scss';
+@use '../../../colours' as *;
 
 .file-menu__drop {
     display: flex;

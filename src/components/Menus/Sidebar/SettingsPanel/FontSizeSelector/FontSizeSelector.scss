@@ -1,6 +1,7 @@
-@use "./../../../../../spacing" as *;
-@use "./../../../../../font-size" as *;
-@import "./../../../../../colours.scss";
+@use './../../../../../spacing' as *;
+@use './../../../../../font-size' as *;
+@use '../../../../../font-weight' as *;
+@use './../../../../../colours' as *;
 
 .font-size-selector {
   .font-btn {
@@ -31,7 +32,7 @@
       &--text {
         padding: $space-0-5;
         width: -webkit-fill-available;
-        font-weight: var(--font-weight-bold);
+        font-weight: $font-weight-bold;
 
         svg {
           padding-right: $space-0-5;
@@ -40,7 +41,7 @@
 
       &.font-btn__icon--active {
         outline: 2px solid $rpf-text-primary;
-        background-image: url("./../../../../../assets/icons/tick.svg");
+        background-image: url('./../../../../../assets/icons/tick.svg');
         background-repeat: no-repeat;
         background-position: right $space-0-5 center;
       }
