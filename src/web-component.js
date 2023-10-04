@@ -86,7 +86,7 @@ class WebComponent extends HTMLElement {
         <Provider store={store}>
           <WebComponentLoader {...this.reactProps()} />
         </Provider>
-      </React.StrictMode>
+      </React.StrictMode>,
     );
   }
 }
