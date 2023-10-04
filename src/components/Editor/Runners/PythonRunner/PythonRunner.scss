@@ -1,6 +1,6 @@
 @use '../../../../spacing' as *;
 @use '../../../../font-size' as *;
-@import '../../../../colours.scss';
+@use '../../../../colours' as *;
 
 .pythonrunner-container {
   display: flex;

@@ -1,7 +1,9 @@
 @use './spacing' as *;
 @use './font-size' as *;
-@import './colours.scss';
-@import './mixins.scss';
+@use './font-weight' as *;
+@use './line-height' as *;
+@use './colours' as *;
+@use './mixins' as *;
 
 .modal-overlay {
   display: flex;
@@ -23,7 +25,7 @@
   flex-direction: column;
 
   label, legend {
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
   }
 
   input[type=text] {
@@ -70,17 +72,17 @@
 .modal-content__subheading {
   @include font-size-1(regular);
   margin: 0;
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
 }
 
 .modal-content__text {
   margin: 0;
-  line-height: var(--line-height-regular);
+  line-height: $line-height-regular;
 }
 
 .modal-content__help-text {
   margin: $space-0-25 0;
-  font-weight: var(--font-weight-regular);
+  font-weight: $font-weight-regular;
 }
 
 .modal-content__inputs {

@@ -1,4 +1,4 @@
-@import '../../colours.scss';
+@use '../../colours' as *;
 
 .run-bar {
   display: flex;

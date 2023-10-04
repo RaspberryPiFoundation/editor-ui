@@ -1,6 +1,6 @@
-@use "./spacing" as *;
-@import "./colours.scss";
-@import "./components/Button/Button.scss";
+@use './spacing' as *;
+@use './font-weight' as *;
+@use './colours' as *;
 
 #app,
 #wc {
@@ -24,7 +24,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: var(--font-weight-bold);
+      font-weight: $font-weight-bold;
 
       svg {
         padding: 0 0 0 $space-0-75;

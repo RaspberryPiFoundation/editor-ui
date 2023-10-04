@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import { SentryLink } from "apollo-link-sentry";
 
-import "./index.css";
+import "./index.scss";
 import "./sentry";
 import App from "./App";
 import "./i18n";
