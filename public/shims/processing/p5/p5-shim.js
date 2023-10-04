@@ -1359,9 +1359,21 @@ const $builtinmodule = function (name) {
     }
   };
 
-  document
-    .getElementById(Sk.p5.sketch)
-    .addEventListener("mousemove", updateMouseCoords);
+  console.log("P5-shim.js add event listener");
+
+  let p5Sketch = document.getElementById(Sk.p5.sketch);
+  console.log(p5Sketch);
+
+  if (p5Sketch === null) {
+    console.log("ShadowNode set up");
+    const editors = document.getElementsByTagName("editor-wc");
+    const editor = editors[0];
+    console.log(editor);
+
+    const shadow = editor.shadowRoot;
+    p5Sketch = shadow.getElementById(Sk.p5.sketch);
+  }
+  p5Sketch.addEventListener("mousemove", updateMouseCoords);
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1494,15 +1506,21 @@ const $builtinmodule = function (name) {
       ].includes(mod.__name__);
 
       sketch.preload = function () {
+        console.log("PRELOAD");
+        console.log(Sk.globals["preload"]);
+        console.log(isPy5Version);
         if (Sk.globals["preload"] && !isPy5Version) {
           Sk.misceval.callsimArray(Sk.globals["preload"]);
         }
       };
 
       sketch.setup = function () {
+        console.log("SETUP!!");
+        console.log(Sk.globals["settings"]);
         if (Sk.globals["settings"] && isPy5Version) {
           Sk.misceval.callsimArray(Sk.globals["settings"]);
         }
+        console.log(Sk.globals["setup"]);
         if (Sk.globals["setup"]) {
           Sk.misceval.callsimArray(Sk.globals["setup"]);
 
@@ -1521,6 +1539,7 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v);
 
       sketch.draw = function () {
+        console.log("DRAW!!");
         if (mod.__name__ === Sk.builtin.str("py5")) {
           mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
         } else {
@@ -1547,14 +1566,21 @@ const $builtinmodule = function (name) {
       };
     };
 
-    const p5Sketch = document.getElementById(Sk.p5.sketch);
-
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message);
     };
     window.p5._clearValidateParamsCache();
 
+    console.log("ATTACHING TO P5");
+
+    const editors = document.getElementsByTagName("editor-wc");
+    const editor = editors[0];
+    console.log(editor);
+
+    console.log(p5Sketch);
     mod.p = new window.p5(sketchProc, p5Sketch);
+    console.log("New WINDOW???");
+    console.log(mod.p);
   };
 
   _run.co_varnames = ["frame_rate"];
