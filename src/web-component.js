@@ -65,14 +65,18 @@ class WebComponent extends HTMLElement {
   }
 
   reactProps() {
-    return { ...this.componentAttributes, ...this.componentProperties };
+    return {
+      ...this.componentAttributes,
+      ...this.componentProperties,
+      forWebComponent: true,
+    };
   }
 
   mountReactApp() {
     if (!this.mountPoint) {
       this.mountPoint = document.createElement("div");
       this.mountPoint.setAttribute("id", "root");
-      this.mountPoint.setAttribute("style", "height: 100%");
+      this.mountPoint.setAttribute("part", "editor-root");
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
@@ -82,7 +86,7 @@ class WebComponent extends HTMLElement {
         <Provider store={store}>
           <WebComponentLoader {...this.reactProps()} />
         </Provider>
-      </React.StrictMode>,
+      </React.StrictMode>
     );
   }
 }

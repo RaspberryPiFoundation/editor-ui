@@ -87,7 +87,7 @@
 .landing-page__button * {
   @include font-size-1-25(regular);
   display: inline-flex;
-  gap: 0.5rem;
+  gap: $space-0-5;
   align-items: center;
 
   a {
