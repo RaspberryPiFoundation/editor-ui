@@ -1,4 +1,4 @@
-@import '../../colours.scss';
+@use '../../colours' as *;
 
 .embedded-viewer {
   display: flex;

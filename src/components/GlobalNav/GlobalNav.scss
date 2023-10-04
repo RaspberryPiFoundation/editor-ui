@@ -1,6 +1,7 @@
 @use '../../spacing' as *;
-@import '../../colours.scss';
-@import '../../mixins.scss';
+@use '../../font-weight' as *;
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 .editor-global-nav-wrapper {
   flex: 0 1 auto;
@@ -45,7 +46,7 @@
     align-items: center;
     margin-left: $space-2;
     padding: $space-0-5 0;
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     text-decoration: none;
     color: $rpf-white;
 

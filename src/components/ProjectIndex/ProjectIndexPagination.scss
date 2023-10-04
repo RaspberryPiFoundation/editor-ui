@@ -1,5 +1,6 @@
 @use '../../spacing' as *;
-@import '../../colours.scss';
+@use '../../font-weight' as *;
+@use '../../colours' as *;
 
 .editor-project-list-pagination {
   display: flex;
@@ -31,7 +32,7 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
-  font-weight: var(--font-weight-bold)
+  font-weight: $font-weight-bold
 }
 
 .--light {

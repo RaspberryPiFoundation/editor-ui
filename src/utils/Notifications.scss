@@ -1,6 +1,7 @@
 @use '../spacing' as *;
 @use '../font-size' as *;
-@import '../colours.scss';
+@use '../font-weight' as *;
+@use '../colours' as *;
 
 #app {
   .toast--bottom-center__message, .toast--top-center__message {
@@ -30,7 +31,7 @@
   .toast--top-center {
     max-width: fit-content;
     width: 100%;
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     top: 20%;
   }
   .toast--top-center__message {
