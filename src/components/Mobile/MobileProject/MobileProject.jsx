@@ -4,7 +4,7 @@ import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
 import MobileProjectBar from "../MobileProjectBar/MobileProjectBar";
 
-import "./MobileProject.scss";
+import "../../../assets/stylesheets/MobileProject.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
 import { useTranslation } from "react-i18next";

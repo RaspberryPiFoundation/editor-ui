@@ -3,7 +3,7 @@ import Button from "../../../Button/Button";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
-import "./ProjectsPanel.scss";
+import "../../../../assets/stylesheets/ProjectsPanel.scss";
 import ProjectName from "../../../ProjectName/ProjectName";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import { DownloadIcon } from "../../../../Icons";

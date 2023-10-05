@@ -1,6 +1,6 @@
-import "./App.scss";
-import "./typography.scss";
-import "./utils/Notifications.scss";
+import "./assets/stylesheets/App.scss";
+import "./assets/stylesheets/rpf_design_system/typography.scss";
+import "./assets/stylesheets/Notifications.scss";
 
 import { useCookies } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";

@@ -1,4 +1,4 @@
-import "./NewComponentButton.scss";
+import "../../../assets/stylesheets/NewComponentButton.scss";
 
 import { React } from "react";
 import { useDispatch } from "react-redux";

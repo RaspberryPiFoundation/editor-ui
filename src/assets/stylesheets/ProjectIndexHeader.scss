@@ -1,0 +1,54 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/colours' as *;
+@use './rpf_design_system/mixins' as *;
+
+.editor-project-header {
+  &__inner {
+    box-sizing: border-box;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding: $space-2;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1570px;
+
+    @include md-width {
+      align-items: flex-end;
+      flex-direction: row;
+      padding: $space-3;
+    }
+
+    @include unique-width(1670px) {
+      padding: $space-3 0;
+    }
+  }
+
+  h1 {
+    margin: $space-0-5 0;
+  }
+
+  h3 {
+    @include md-width {
+      margin-bottom: 0;
+    }
+  }
+
+  &__action {
+    @include md-width {
+      margin-left: auto;
+    }
+
+    .btn {
+      margin: 0;
+    }
+  }
+
+  .--dark & {
+    background: $rpf-grey-600;
+  }
+
+  .--light & {
+    background: $rpf-white;
+  }
+}

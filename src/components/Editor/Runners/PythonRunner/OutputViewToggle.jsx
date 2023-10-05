@@ -7,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 
 import { useTranslation } from "react-i18next";
 
-import "./OutputViewToggle.scss";
+import "../../../../assets/stylesheets/OutputViewToggle.scss";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const OutputViewToggle = () => {

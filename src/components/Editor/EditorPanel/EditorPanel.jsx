@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./EditorPanel.scss";
+import "../../../assets/stylesheets/EditorPanel.scss";
 import React, { useRef, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProjectComponent } from "../EditorSlice";

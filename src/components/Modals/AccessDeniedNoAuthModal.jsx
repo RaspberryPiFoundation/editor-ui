@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 import { closeAccessDeniedNoAuthModal } from "../Editor/EditorSlice";
 import LoginButton from "../Login/LoginButton";
 import GeneralModal from "./GeneralModal";

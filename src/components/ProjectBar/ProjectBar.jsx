@@ -1,4 +1,4 @@
-import "./ProjectBar.scss";
+import "../../assets/stylesheets/ProjectBar.scss";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";

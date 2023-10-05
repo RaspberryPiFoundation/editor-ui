@@ -8,7 +8,7 @@ import Button from "../Button/Button";
 import { ExternalLinkIcon } from "../../Icons";
 import { showBetaModal } from "../Editor/EditorSlice";
 
-import "./BetaBanner.scss";
+import "../../assets/stylesheets/BetaBanner.scss";
 
 const BetaBanner = () => {
   const dispatch = useDispatch();

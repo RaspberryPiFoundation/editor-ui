@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
 import { CloudUploadIcon, CloudTickIcon } from "../../Icons";
-import "./SaveStatus.scss";
+import "../../assets/stylesheets/SaveStatus.scss";
 
 const SaveStatus = ({ isMobile = false }) => {
   const { t } = useTranslation();

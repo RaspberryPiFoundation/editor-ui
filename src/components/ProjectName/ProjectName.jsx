@@ -5,7 +5,7 @@ import { PencilIcon, TickIcon } from "../../Icons";
 import Button from "../Button/Button";
 import { updateProjectName } from "../Editor/EditorSlice";
 
-import "./ProjectName.scss";
+import "../../assets/stylesheets/ProjectName.scss";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 

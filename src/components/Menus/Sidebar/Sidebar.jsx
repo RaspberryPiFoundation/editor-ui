@@ -17,7 +17,7 @@ import {
 } from "../../../Icons";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
-import "./Sidebar.scss";
+import "../../../assets/stylesheets/Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { FontIconLg, FontIconSm, FontIconRg } from "../../../../../Icons";
-import "./FontSizeSelector.scss";
+import "../../../../../assets/stylesheets/FontSizeSelector.scss";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "react-tabs";
 import { setFocussedFileIndex } from "../EditorSlice";
 
-import "./DraggableTabs.scss";
+import "../../../assets/stylesheets/DraggableTabs.scss";
 
 const DraggableTab = ({ children, panelIndex, fileIndex, ...otherProps }) => {
   const openFiles = useSelector((state) => state.editor.openFiles);

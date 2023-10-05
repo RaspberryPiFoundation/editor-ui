@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./ErrorMessage.scss";
+import "../../../assets/stylesheets/ErrorMessage.scss";
 import { useSelector } from "react-redux";
 import { SettingsContext } from "../../../settings";
 

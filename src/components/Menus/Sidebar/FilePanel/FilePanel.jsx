@@ -11,8 +11,8 @@ import {
   hideSidebar,
 } from "../../../Editor/EditorSlice";
 
-import "./FilePanel.scss";
-import "../Sidebar.scss";
+import "../../../../assets/stylesheets/FilePanel.scss";
+import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 
 const FilePanel = ({ isMobile }) => {

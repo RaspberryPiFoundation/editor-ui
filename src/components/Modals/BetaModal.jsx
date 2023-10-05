@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
 import { closeBetaModal } from "../Editor/EditorSlice";
 import GeneralModal from "./GeneralModal";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 
 const BetaModal = () => {
   const dispatch = useDispatch();

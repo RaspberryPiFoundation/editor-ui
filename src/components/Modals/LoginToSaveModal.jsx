@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { closeLoginToSaveModal } from "../Editor/EditorSlice";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import LoginButton from "../Login/LoginButton";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 import Button from "../Button/Button";
 import GeneralModal from "./GeneralModal";
 import { login } from "../../utils/login";

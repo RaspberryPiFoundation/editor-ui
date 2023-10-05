@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
 import Style from "style-it";
-import internalStyles from "../InternalStyles.scss";
-import externalStyles from "../ExternalStyles.scss";
+import internalStyles from "../../../assets/stylesheets/InternalStyles.scss";
+import externalStyles from "../../../assets/stylesheets/ExternalStyles.scss";
 
 import Project from "../../Editor/Project/Project";
 import MobileProject from "../../Mobile/MobileProject/MobileProject";

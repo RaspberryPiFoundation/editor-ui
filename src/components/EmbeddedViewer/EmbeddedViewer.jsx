@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./EmbeddedViewer.scss";
-import "../Editor/Project/Project.scss";
+import "../../assets/stylesheets/EmbeddedViewer.scss";
+import "../../assets/stylesheets/Project.scss";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useProject } from "../Editor/Hooks/useProject";

@@ -7,7 +7,7 @@ import {
   closeRenameFileModal,
   updateComponentName,
 } from "../Editor/EditorSlice";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 import InputModal from "./InputModal";
 
 const RenameFileModal = () => {

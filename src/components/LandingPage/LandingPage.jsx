@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import "./LandingPage.scss";
+import "../../assets/stylesheets/LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import startIconDark from "../../assets/start_icon_dark.svg";
