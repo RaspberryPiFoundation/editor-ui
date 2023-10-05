@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   showDeleteProjectModal,
   showRenameProjectModal,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 import Button from "../Button/Button";
 import python_logo from "../../assets/python_icon.svg";
 import html_logo from "../../assets/html_icon.svg";

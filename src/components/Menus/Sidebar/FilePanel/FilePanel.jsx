@@ -9,7 +9,7 @@ import {
   openFile,
   setFocussedFileIndex,
   hideSidebar,
-} from "../../../Editor/EditorSlice";
+} from "../../../../redux/EditorSlice";
 
 import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { SaveIcon } from "../../Icons";
-import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import { syncProject, showLoginToSaveModal } from "../../redux/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
 
 const SaveButton = ({ className, type = "secondary" }) => {

@@ -1,7 +1,7 @@
 import { EditorView } from "@codemirror/view";
-import "../../assets/stylesheets/rpf_design_system/font-weight.scss";
-import "../../assets/stylesheets/rpf_design_system/font-size.scss";
-import "../../assets/stylesheets/rpf_design_system/line-height.scss";
+import "../stylesheets/rpf_design_system/font-weight.scss";
+import "../stylesheets/rpf_design_system/font-size.scss";
+import "../stylesheets/rpf_design_system/line-height.scss";
 
 export const editorDarkTheme = EditorView.theme(
   {

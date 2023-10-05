@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-import { SettingsContext } from "./settings";
+import { SettingsContext } from "./utils/settings";
 import AppRoutes from "./components/AppRoutes";
 import GlobalNav from "./components/GlobalNav/GlobalNav";
 import BetaBanner from "./components/BetaBanner/BetaBanner";

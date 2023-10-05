@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "@hello-pangea/dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "react-tabs";
-import { setFocussedFileIndex } from "../EditorSlice";
+import { setFocussedFileIndex } from "../../../redux/EditorSlice";
 
 import "../../../assets/stylesheets/DraggableTabs.scss";
 

@@ -6,7 +6,7 @@ import { CloseIcon } from "../../Icons";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import { ExternalLinkIcon } from "../../Icons";
-import { showBetaModal } from "../Editor/EditorSlice";
+import { showBetaModal } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/BetaBanner.scss";
 

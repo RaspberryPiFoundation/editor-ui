@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { closeRenameProjectModal } from "../Editor/EditorSlice";
+import { closeRenameProjectModal } from "../../redux/EditorSlice";
 import { showRenamedMessage } from "../../utils/Notifications";
 import Button from "../Button/Button";
 import InputModal from "./InputModal";

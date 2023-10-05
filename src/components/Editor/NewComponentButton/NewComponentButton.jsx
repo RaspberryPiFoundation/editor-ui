@@ -3,7 +3,7 @@ import "../../../assets/stylesheets/NewComponentButton.scss";
 import { React } from "react";
 import { useDispatch } from "react-redux";
 
-import { showNewFileModal } from "../EditorSlice";
+import { showNewFileModal } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import { PlusIcon } from "../../../Icons";
 import { useTranslation } from "react-i18next";

@@ -4,14 +4,14 @@ import {
   loadProjectPending,
   loadProjectFulfilled,
   loadProjectRejected,
-} from "./reducers/loadProject/loadProjectReducers";
+} from "./reducers/loadProjectReducers";
 import {
   createOrUpdateProject,
   readProject,
   createRemix,
   deleteProject,
   readProjectList,
-} from "../../utils/apiCallHandler";
+} from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { syncProject, setProject } from "../EditorSlice";
-import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { syncProject, setProject } from "../redux/EditorSlice";
+import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 

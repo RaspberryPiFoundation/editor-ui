@@ -4,9 +4,9 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectComponentLoader from "./ProjectComponentLoader";
-import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { defaultPythonProject } from "../utils/defaultProjects";
 import { matchMedia, setMedia } from "mock-match-media";
-import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
+import { MOBILE_BREAKPOINT } from "../utils/mediaQueryBreakpoints";
 
 import {
   setProject,
@@ -14,7 +14,7 @@ import {
   setHasShownSavePrompt,
   syncProject,
 } from "../EditorSlice";
-import { showLoginPrompt, showSavePrompt } from "../../../utils/Notifications";
+import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
 jest.mock("axios");
 

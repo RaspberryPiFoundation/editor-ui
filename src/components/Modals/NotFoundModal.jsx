@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
 import "../../assets/stylesheets/Modal.scss";
-import { closeNotFoundModal, syncProject } from "../Editor/EditorSlice";
+import { closeNotFoundModal, syncProject } from "../../redux/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 import GeneralModal from "./GeneralModal";
 

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { PencilIcon, TickIcon } from "../../Icons";
 import Button from "../Button/Button";
-import { updateProjectName } from "../Editor/EditorSlice";
+import { updateProjectName } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/ProjectName.scss";
 import classNames from "classnames";

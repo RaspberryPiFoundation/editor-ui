@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SplitViewIcon, TabbedViewIcon } from "../../../../Icons";
 import Button from "../../../Button/Button";
-import { setIsSplitView } from "../../EditorSlice";
+import { setIsSplitView } from "../../../../redux/EditorSlice";
 import { useMediaQuery } from "react-responsive";
 
 import { useTranslation } from "react-i18next";

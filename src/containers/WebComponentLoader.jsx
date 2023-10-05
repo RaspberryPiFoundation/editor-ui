@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setProject, setSenseHatAlwaysEnabled } from "../../Editor/EditorSlice";
-import WebComponentProject from "../Project/WebComponentProject";
+import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);

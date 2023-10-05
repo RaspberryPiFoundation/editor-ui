@@ -8,7 +8,7 @@ import {
   DoubleChevronRight,
   CloseIcon,
 } from "../../../Icons";
-import { hideSidebar } from "../../Editor/EditorSlice";
+import { hideSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";

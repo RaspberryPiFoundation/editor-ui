@@ -6,13 +6,13 @@ import Style from "style-it";
 import internalStyles from "../../../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../../../assets/stylesheets/ExternalStyles.scss";
 
-import Project from "../../Editor/Project/Project";
-import MobileProject from "../../Mobile/MobileProject/MobileProject";
-import { defaultMZCriteria } from "../../AstroPiModel/DefaultMZCriteria";
+import Project from "../Editor/Project/Project";
+import MobileProject from "../Mobile/MobileProject/MobileProject";
+import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import store from "../../../app/store";
+import store from "../../app/store";
 import { setIsSplitView } from "../../Editor/EditorSlice";
-import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);

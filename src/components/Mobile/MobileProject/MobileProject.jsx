@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
-import { showSidebar } from "../../Editor/EditorSlice";
+import { showSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 
 const MobileProject = ({ forWebComponent }) => {

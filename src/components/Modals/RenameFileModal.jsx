@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import {
   closeRenameFileModal,
   updateComponentName,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 import "../../assets/stylesheets/Modal.scss";
 import InputModal from "./InputModal";
 

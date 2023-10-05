@@ -5,7 +5,11 @@ import { TabPanel, Tabs } from "react-tabs";
 import classNames from "classnames";
 import { useMediaQuery } from "react-responsive";
 
-import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
+import {
+  closeFile,
+  setFocussedFileIndex,
+  setOpenFiles,
+} from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import { CloseIcon } from "../../../Icons";
 import EditorPanel from "../EditorPanel/EditorPanel";

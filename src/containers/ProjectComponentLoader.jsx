@@ -1,28 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useProject } from "../Hooks/useProject";
-import { useEmbeddedMode } from "../Hooks/useEmbeddedMode";
+import { useProject } from "../hooks/useProject";
+import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
 
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
   syncProject,
-} from "../EditorSlice";
-import { isOwner } from "../../../utils/projectHelpers";
-import { showLoginPrompt, showSavePrompt } from "../../../utils/Notifications";
+} from "../redux/EditorSlice";
+import { isOwner } from "../utils/projectHelpers";
+import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
-import Project from "../Project/Project";
-import MobileProject from "../../Mobile/MobileProject/MobileProject";
-import NewFileModal from "../../Modals/NewFileModal";
-import NotFoundModal from "../../Modals/NotFoundModal";
-import AccessDeniedNoAuthModal from "../../Modals/AccessDeniedNoAuthModal";
-import AccessDeniedWithAuthModal from "../../Modals/AccessDeniedWithAuthModal";
-import RenameFileModal from "../../Modals/RenameFileModal";
+import Project from "../components/Editor/Project/Project";
+import MobileProject from "../components/Mobile/MobileProject/MobileProject";
+import NewFileModal from "../components/Modals/NewFileModal";
+import NotFoundModal from "../components/Modals/NotFoundModal";
+import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
+import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
+import RenameFileModal from "../components/Modals/RenameFileModal";
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);

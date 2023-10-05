@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "../../../assets/stylesheets/ErrorMessage.scss";
 import { useSelector } from "react-redux";
-import { SettingsContext } from "../../../settings";
+import { SettingsContext } from "../../../utils/settings";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);

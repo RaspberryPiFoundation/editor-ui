@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { closeLoginToSaveModal } from "../Editor/EditorSlice";
+import { closeLoginToSaveModal } from "../../redux/EditorSlice";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import LoginButton from "../Login/LoginButton";
 import "../../assets/stylesheets/Modal.scss";

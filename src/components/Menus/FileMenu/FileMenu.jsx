@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { showRenameFileModal } from "../../Editor/EditorSlice";
+import { showRenameFileModal } from "../../../redux/EditorSlice";
 import { EllipsisVerticalIcon, PencilIcon } from "../../../Icons";
 import ContextMenu from "../ContextMenu/ContextMenu";
 

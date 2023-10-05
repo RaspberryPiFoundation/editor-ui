@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 import Modal from "react-modal";
 
-import { updateImages, setNameError } from "../EditorSlice";
+import { updateImages, setNameError } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";

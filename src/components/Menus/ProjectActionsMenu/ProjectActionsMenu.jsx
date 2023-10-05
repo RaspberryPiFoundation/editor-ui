@@ -5,7 +5,7 @@ import { BinIcon, EllipsisVerticalIcon, PencilIcon } from "../../../Icons";
 import {
   showDeleteProjectModal,
   showRenameProjectModal,
-} from "../../Editor/EditorSlice";
+} from "../../../redux/EditorSlice";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
 const ProjectActionsMenu = (props) => {

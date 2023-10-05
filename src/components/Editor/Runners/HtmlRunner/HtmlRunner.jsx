@@ -10,7 +10,7 @@ import {
   showErrorModal,
   codeRunHandled,
   triggerCodeRun,
-} from "../../EditorSlice";
+} from "../../../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
