@@ -22,7 +22,7 @@ import NewFileModal from "../../Modals/NewFileModal";
 import NotFoundModal from "../../Modals/NotFoundModal";
 import AccessDeniedNoAuthModal from "../../Modals/AccessDeniedNoAuthModal";
 import AccessDeniedWithAuthModal from "../../Modals/AccessDeniedWithAuthModal";
-import RenameFile from "../../Modals/RenameFile";
+import RenameFileModal from "../../Modals/RenameFileModal";
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -131,7 +131,7 @@ const ProjectComponentLoader = (props) => {
         <p>{t("project.loading")}</p>
       ) : null}
       {newFileModalShowing ? <NewFileModal /> : null}
-      {renameFileModalShowing && modals.renameFile ? <RenameFile /> : null}
+      {renameFileModalShowing && modals.renameFile ? <RenameFileModal /> : null}
       {notFoundModalShowing ? <NotFoundModal /> : null}
       {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
       {accessDeniedWithAuthModalShowing ? <AccessDeniedWithAuthModal /> : null}
