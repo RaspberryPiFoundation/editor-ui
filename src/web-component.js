@@ -68,7 +68,6 @@ class WebComponent extends HTMLElement {
     return {
       ...this.componentAttributes,
       ...this.componentProperties,
-      forWebComponent: true,
     };
   }
 
