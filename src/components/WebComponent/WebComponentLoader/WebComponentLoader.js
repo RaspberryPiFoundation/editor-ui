@@ -7,11 +7,15 @@ import { useProjectPersistence } from "../../Editor/Hooks/useProjectPersistence"
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier, code, user, access_token, sense_hat_always_enabled } =
-    props;
+  const { identifier, code, sense_hat_always_enabled } = props;
   const dispatch = useDispatch();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
+  const user = JSON.parse(
+    localStorage.getItem(
+      `oidc.user:${process.env.REACT_APP_AUTHENTICATION_URL}:${process.env.REACT_APP_AUTHENTICATION_CLIENT_ID}`,
+    ),
+  );
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
@@ -21,15 +25,10 @@ const ProjectComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
-    accessToken: access_token,
+    accessToken: user && user.access_token,
   });
   useProjectPersistence({
-    user: {
-      access_token: access_token,
-      profile: {
-        user: user,
-      },
-    },
+    user: user,
   });
 
   useEffect(() => {
