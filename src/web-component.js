@@ -73,7 +73,7 @@ class WebComponent extends HTMLElement {
       this.mountPoint = document.createElement("div");
       this.mountPoint.setAttribute("id", "root");
       this.mountPoint.setAttribute("style", "height: 100%");
-      this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
+      const shadow = this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
 
