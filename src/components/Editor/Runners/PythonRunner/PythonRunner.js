@@ -32,7 +32,7 @@ const externalLibraries = {
   },
   "./py5/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/processing/py5/py5-shim.js`,
-    dependencies: ["https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"],
+    dependencies: [`${process.env.PUBLIC_URL}/shims/processing/p5/p5.js`],
   },
   "./py5_imported/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
@@ -42,7 +42,7 @@ const externalLibraries = {
   },
   "./p5/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
-    dependencies: ["https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"],
+    dependencies: [`${process.env.PUBLIC_URL}/shims/processing/p5/p5.js`],
   },
   "./_internal_sense_hat/__init__.js": {
     path: `${process.env.PUBLIC_URL}/shims/sense_hat/_internal_sense_hat.js`,

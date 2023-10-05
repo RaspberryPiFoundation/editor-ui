@@ -206,7 +206,6 @@ export const EditorSlice = createSlice({
       state.senseHatEnabled = action.payload;
     },
     triggerDraw: (state) => {
-      console.log("Triggtering DRAW!!");
       state.drawTriggered = true;
     },
     updateProjectComponent: (state, action) => {
