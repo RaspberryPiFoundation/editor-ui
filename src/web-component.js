@@ -34,7 +34,7 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled"];
+    return ["code", "sense_hat_always_enabled", "step"];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
@@ -65,6 +65,9 @@ class WebComponent extends HTMLElement {
   }
 
   reactProps() {
+    console.log("PROPERTIES");
+    console.log(this.componentAttributes);
+    console.log(this.componentProperties);
     return { ...this.componentAttributes, ...this.componentProperties };
   }
 
