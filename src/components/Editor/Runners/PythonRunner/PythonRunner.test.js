@@ -4,7 +4,11 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import PythonRunner from "./PythonRunner";
-import { codeRunHandled, setError, triggerDraw } from "../../../../redux/EditorSlice";
+import {
+  codeRunHandled,
+  setError,
+  triggerDraw,
+} from "../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../utils/settings";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
