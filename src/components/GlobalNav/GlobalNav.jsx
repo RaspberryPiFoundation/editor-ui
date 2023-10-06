@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ChevronDown } from "../../Icons";
+import ChevronDown from "../../assets/icons/chevron_down.svg";
 import LoginMenu from "../Login/LoginMenu";
 import Dropdown from "../Menus/Dropdown/Dropdown";
 import "../../assets/stylesheets/GlobalNav.scss";

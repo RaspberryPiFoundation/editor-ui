@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { FileIcon } from "../../../../Icons";
 import FileMenu from "../../FileMenu/FileMenu";
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import Button from "../../../Button/Button";
@@ -14,6 +13,7 @@ import {
 import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
+import FileIcon from "../../../../utils/FileIcon";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);

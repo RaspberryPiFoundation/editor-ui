@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import FilePanel from "./FilePanel";
-import { openFile, setFocussedFileIndex } from "../../../Editor/EditorSlice";
+import { openFile, setFocussedFileIndex } from "../../../../redux/EditorSlice";
 
 const createMockStore = function (components, openFiles) {
   const mockStore = configureStore([]);

@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import WebComponentLoader from "./components/WebComponent/WebComponentLoader/WebComponentLoader";
+import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./app/store";
 import { Provider } from "react-redux";
-import "./i18n";
+import "./utils/i18n";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,

@@ -31,11 +31,12 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
+        test: /\/src\/assets\/icons\/.*\.svg$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "@svgr/webpack",
             options: {
+              esModule: false,
               limit: 10000,
             },
           },

@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
-import { CloudUploadIcon, CloudTickIcon } from "../../Icons";
+import CloudTickIcon from "../../assets/icons/cloud_tick.svg";
+import CloudUploadIcon from "../../assets/icons/cloud_upload.svg";
+
 import "../../assets/stylesheets/SaveStatus.scss";
 
 const SaveStatus = ({ isMobile = false }) => {

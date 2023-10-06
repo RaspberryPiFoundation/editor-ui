@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SplitViewIcon, TabbedViewIcon } from "../../../../Icons";
+import SplitViewIcon from "../../../../assets/icons/split_view.svg";
+import TabbedViewIcon from "../../../../assets/icons/tabbed_view.svg";
 import Button from "../../../Button/Button";
 import { setIsSplitView } from "../../../../redux/EditorSlice";
 import { useMediaQuery } from "react-responsive";

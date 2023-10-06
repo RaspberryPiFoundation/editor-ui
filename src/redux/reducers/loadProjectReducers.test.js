@@ -1,10 +1,10 @@
 import produce from "immer";
 
-import { readProject } from "../../../../utils/apiCallHandler";
-import reducer, { syncProject } from "../../EditorSlice";
+import { readProject } from "../../utils/apiCallHandler";
+import reducer, { syncProject } from "../../redux/EditorSlice";
 import { loadProjectRejected } from "./loadProjectReducers";
 
-jest.mock("../../../../utils/apiCallHandler");
+jest.mock("../../utils/apiCallHandler");
 
 const requestingAProject = function (project, projectFile) {
   const dispatch = jest.fn();

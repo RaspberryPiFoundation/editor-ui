@@ -14,7 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
-import { OpenInNewTabIcon } from "../../../../Icons";
+import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 

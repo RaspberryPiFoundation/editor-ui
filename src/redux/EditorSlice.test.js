@@ -3,7 +3,7 @@ import {
   createRemix,
   deleteProject,
   readProjectList,
-} from "../../utils/apiCallHandler";
+} from "../utils/apiCallHandler";
 
 import reducer, {
   syncProject,
@@ -17,7 +17,7 @@ import reducer, {
   loadProjectList,
 } from "./EditorSlice";
 
-jest.mock("../../utils/apiCallHandler");
+jest.mock("../utils/apiCallHandler");
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {

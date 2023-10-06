@@ -1,6 +1,6 @@
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { SettingsContext } from "../../../settings";
+import { SettingsContext } from "../../../utils/settings";
 import { render } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import EditorPanel from "./EditorPanel";

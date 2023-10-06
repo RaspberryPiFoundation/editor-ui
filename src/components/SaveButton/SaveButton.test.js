@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import { syncProject, showLoginToSaveModal } from "../Editor/EditorSlice";
+import { syncProject, showLoginToSaveModal } from "../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import SaveButton from "./SaveButton";
 
@@ -13,8 +13,8 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => jest.fn(),
 }));
 
-jest.mock("../Editor/EditorSlice", () => ({
-  ...jest.requireActual("../Editor/EditorSlice"),
+jest.mock("../../redux/EditorSlice", () => ({
+  ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),
 }));
 

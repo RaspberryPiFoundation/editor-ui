@@ -3,8 +3,8 @@ import Modal from "react-modal";
 
 import Button from "../Button/Button";
 import "../../assets/stylesheets/Modal.scss";
-import { CloseIcon } from "../../Icons";
 import { useTranslation } from "react-i18next";
+import CloseIcon from "../../utils/CloseIcon";
 
 const GeneralModal = ({
   buttons = [],

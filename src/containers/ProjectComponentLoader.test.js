@@ -13,7 +13,7 @@ import {
   expireJustLoaded,
   setHasShownSavePrompt,
   syncProject,
-} from "../EditorSlice";
+} from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
 jest.mock("axios");
@@ -28,12 +28,12 @@ jest.mock("react-responsive", () => ({
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 
-jest.mock("../EditorSlice", () => ({
-  ...jest.requireActual("../EditorSlice"),
+jest.mock("../redux/EditorSlice", () => ({
+  ...jest.requireActual("../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),
 }));
 
-jest.mock("../../../utils/Notifications");
+jest.mock("../utils/Notifications");
 
 jest.useFakeTimers();
 

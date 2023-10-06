@@ -1,8 +1,8 @@
 import { renderHook } from "@testing-library/react";
 import { useProject } from "./useProject";
-import { syncProject, setProject } from "../EditorSlice";
+import { syncProject, setProject } from "../redux/EditorSlice";
 import { waitFor } from "@testing-library/react";
-import { defaultPythonProject } from "../../../utils/defaultProjects";
+import { defaultPythonProject } from "../utils/defaultProjects";
 
 let mockBrowserPreview = "false";
 
@@ -22,9 +22,9 @@ jest.mock("react-router-dom", () => ({
 
 const loadProject = jest.fn();
 
-jest.mock("../EditorSlice");
+jest.mock("../redux/EditorSlice");
 
-jest.mock("../../../utils/apiCallHandler", () => ({
+jest.mock("../utils/apiCallHandler", () => ({
   readProject: async (identifier, projectType) =>
     Promise.resolve({
       data: { identifier: identifier, project_type: projectType },

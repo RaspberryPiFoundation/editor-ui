@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { PencilIcon, TickIcon } from "../../Icons";
+import PencilIcon from "../../assets/icons/pencil.svg";
+import TickIcon from "../../assets/icons/tick.svg";
+
 import Button from "../Button/Button";
 import { updateProjectName } from "../../redux/EditorSlice";
 

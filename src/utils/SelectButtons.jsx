@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/stylesheets/SelectButtons.scss";
-import { SelectButtonsTickIcon } from "../Icons";
+import SelectButtonsTickIcon from "../assets/icons/select_buttons_tick.svg";
 
 const SelectButtons = ({ label, options, value, setValue }) => {
   return (

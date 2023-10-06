@@ -8,7 +8,7 @@ import {
   PROJECT_LIST_TABLE_FRAGMENT,
 } from "../ProjectListTable/ProjectListTable";
 import Button from "../Button/Button";
-import { PlusIcon } from "../../Icons";
+import PlusIcon from "../../assets/icons/plus.svg";
 import RenameProjectModal from "../Modals/RenameProjectModal";
 import DeleteProjectModal from "../Modals/DeleteProjectModal";
 import {

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { SaveIcon } from "../../Icons";
+import SaveIcon from "../../assets/icons/save.svg";
 import { syncProject, showLoginToSaveModal } from "../../redux/EditorSlice";
 import { isOwner } from "../../utils/projectHelpers";
 

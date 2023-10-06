@@ -2,7 +2,7 @@ import "../../assets/stylesheets/ProjectBar.scss";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
-import { DownloadIcon } from "../../Icons";
+import DownloadIcon from "../../assets/icons/download.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";

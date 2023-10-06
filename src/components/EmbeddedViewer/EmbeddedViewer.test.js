@@ -13,7 +13,7 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-jest.mock("../Editor/Hooks/useProject", () => ({
+jest.mock("../../hooks/useProject", () => ({
   useProject: jest.fn(),
 }));
 

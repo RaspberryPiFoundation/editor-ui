@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { showNewFileModal } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
-import { PlusIcon } from "../../../Icons";
+import PlusIcon from "../../../assets/icons/plus.svg";
 import { useTranslation } from "react-i18next";
 
 const NewComponentButton = () => {
