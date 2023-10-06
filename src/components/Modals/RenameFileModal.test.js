@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
-import RenameFile from "./RenameFile";
+import RenameFileModal from "./RenameFileModal";
 import {
   setNameError,
   updateComponentName,
@@ -48,7 +48,7 @@ describe("Testing the rename file modal", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <RenameFile />
+          <RenameFileModal />
         </div>
       </Provider>,
     );
