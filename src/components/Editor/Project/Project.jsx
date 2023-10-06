@@ -14,9 +14,11 @@ import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+import Instructions from "../../Instructions/Instructions";
 
 const Project = (props) => {
-  const { forWebComponent } = props;
+  const { forWebComponent, step } = props;
+
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -50,6 +52,8 @@ const Project = (props) => {
         })}
       >
         {!forWebComponent && <Sidebar />}
+        {step && <Instructions step={step} />}
+
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">

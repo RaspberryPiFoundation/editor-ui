@@ -1,0 +1,250 @@
+$rpi-color-project-panel-border: #ddd;
+$rpi-color-project-panel-border-light: #ccc;
+
+.c-project-panel {
+  background-color: $rpi-color-white;
+  border-color: $rpi-color-project-panel-border-light;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  margin: 1.4em 0;
+  overflow: hidden;
+
+  &.c-project-panel--save {
+    background-color: $rpi-color-ui-grey-dark;
+    border-color: $rpi-color-ui-grey-dark;
+    color: $rpi-color-white;
+
+    &:hover {
+      background-color: $rpi-color-ui-grey-dark;
+      border-color: $rpi-color-ui-grey-dark;
+      color: $rpi-color-white;
+    }
+  }
+}
+
+.c-project-panel__heading {
+  background-position: left 10px center;
+  background-repeat: no-repeat;
+  // We need to make sure the Bits heading margin isn't applied here until we refactor the project panels
+  margin: 0 !important;
+  overflow: hidden;
+  padding: rpi-spacing-unit(2) rpi-spacing-unit(5) rpi-spacing-unit(2)
+    rpi-spacing-unit(2);
+  position: relative;
+  transition: background-color 150ms ease-in-out;
+
+  &::after {
+    background-image: url("./images/plus.svg");
+    background-position: center top;
+    background-repeat: no-repeat;
+    content: " ";
+    display: block;
+    height: 20px;
+    position: absolute;
+    right: rpi-spacing-unit(2);
+    top: calc(50% - 10px);
+    width: rpi-spacing-unit(3);
+
+    @include rpi-breakpoint(sm) {
+      right: rpi-spacing-unit(3);
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .c-wysiwyg & {
+    @include rpi-type($rpi-font-size-base);
+
+    @include rpi-breakpoint(sm) {
+      @include rpi-type(18px);
+    }
+
+    @include rpi-breakpoint(md) {
+      @include rpi-type(18px);
+      padding-left: 20px;
+    }
+  }
+
+  .c-project-panel--hints &,
+  .c-project-panel--ingredient &,
+  .c-project-panel--save & {
+    background-position: left 15px center;
+    padding-left: 55px;
+  }
+
+  .c-project-panel--hints & {
+    background-image: url("./images/hints-panel-icon.svg");
+
+    &.c-project-panel__heading--has-close-icon {
+      background-color: $rpi-color-orange-light;
+    }
+  }
+
+  .c-project-panel--ingredient & {
+    background-image: url("./images/ingredient-panel-icon.svg");
+
+    &.c-project-panel__heading--has-close-icon {
+      background-color: $rpi-color-blue-light;
+    }
+  }
+
+  .c-project-panel--save & {
+    background-image: url("./images/project-save-icon.svg");
+
+    &::after {
+      background-image: none;
+    }
+
+    &:hover {
+      background-color: $rpi-color-ui-grey-dark;
+      cursor: default;
+    }
+  }
+}
+
+.c-project-panel__heading--has-close-icon {
+  &::after {
+    background-image: url("./images/minus.svg");
+  }
+}
+
+.c-project-panel__content {
+  font-size: $rpi-font-size-base - 2px;
+  padding: rpi-spacing-unit(2);
+
+  @include rpi-breakpoint(sm) {
+    @include rpi-type($rpi-font-size-base);
+    padding: rpi-spacing-unit(3);
+  }
+
+  @include rpi-breakpoint(md) {
+    padding: rpi-spacing-unit(3) rpi-spacing-unit(5);
+  }
+}
+
+.c-project-panel__swiper {
+  position: relative;
+}
+
+.c-project-panel__swiper-wrapper {
+  overflow: hidden;
+}
+
+.c-project-panel__swiper-slide {
+  float: left;
+  padding-bottom: rpi-spacing-unit(4);
+
+  @include rpi-breakpoint(sm) {
+    padding-bottom: rpi-spacing-unit(5);
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.c-project-panel__swiper-pagination {
+  bottom: rpi-spacing-unit();
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+
+  @include rpi-breakpoint(sm) {
+    bottom: rpi-spacing-unit(1);
+  }
+}
+
+.c-project-panel__swiper-bullet {
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 20px;
+  padding: 6px;
+  width: 20px;
+
+  &::before {
+    background-color: #ddd;
+    border-radius: 100%;
+    content: " ";
+    display: block;
+    height: 12px;
+    width: 12px;
+  }
+
+  &:hover {
+    &::before {
+      background-color: #999;
+    }
+  }
+}
+
+.c-project-panel__swiper-bullet--active {
+  &::before {
+    background-color: #999;
+  }
+}
+
+.c-project-panel__swiper-button {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 10px 17px;
+  cursor: pointer;
+  display: block;
+  height: rpi-spacing-unit(5);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: rpi-spacing-unit(5);
+}
+
+.c-project-panel__swiper-button--next {
+  background-image: url("./images/button-next.svg");
+  right: rpi-spacing-unit(-3);
+
+  @include rpi-breakpoint(md) {
+    right: rpi-spacing-unit(-5);
+  }
+}
+
+.c-project-panel__swiper-button--prev {
+  background-image: url("./images/button-prev.svg");
+  left: rpi-spacing-unit(-3);
+
+  @include rpi-breakpoint(md) {
+    left: rpi-spacing-unit(-5);
+  }
+}
+
+// Right to left styles
+.c-i18n-root--rtl {
+  .c-project-panel__swiper-button--prev {
+    background-image: url("./images/button-next.svg");
+    right: rpi-spacing-unit(-3);
+
+    @include rpi-breakpoint(md) {
+      left: unset;
+      right: rpi-spacing-unit(-5);
+    }
+  }
+
+  .c-project-panel__swiper-button--next {
+    background-image: url("./images/button-prev.svg");
+    left: rpi-spacing-unit(-3);
+
+    @include rpi-breakpoint(md) {
+      left: rpi-spacing-unit(-5);
+      right: unset;
+    }
+  }
+
+  .c-site-header__language-selector {
+    margin-left: rpi-spacing-unit(2);
+  }
+}
+
+.c-project-panel__swiper-button--disabled {
+  display: none;
+}

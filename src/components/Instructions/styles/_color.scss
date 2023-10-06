@@ -1,0 +1,95 @@
+$rpi-color-transparent: rgba(0, 0, 0, 0);
+
+// Grey Scale
+$rpi-color-black: #000;
+$rpi-color-grey-x-dark: #222;
+$rpi-color-grey-dark: #535353;
+$rpi-color-grey-mid: #999;
+$rpi-color-grey-light: #b8b8b8;
+$rpi-color-grey-x-light: #f5f6f9;
+$rpi-color-grey-y-light: #ccc;
+$rpi-color-white: #fff;
+
+$rpi-color-black-10: rgba($rpi-color-black, 0.1);
+$rpi-color-black-15: rgba($rpi-color-black, 0.15);
+$rpi-color-black-25: rgba($rpi-color-black, 0.25);
+$rpi-color-black-30: rgba($rpi-color-black, 0.3);
+$rpi-color-black-40: rgba($rpi-color-black, 0.4);
+
+$rpi-color-white-20: rgba($rpi-color-white, 0.2);
+$rpi-color-white-50: rgba($rpi-color-white, 0.5);
+$rpi-color-white-70: rgba($rpi-color-white, 0.7);
+
+$rpi-color-ui-yellow: #fcf67f;
+$rpi-color-ui-grey-dark: #444;
+
+// Color Palette
+$rpi-color-blue: #41a6c4;
+$rpi-color-blue-light: #ecf6f9;
+$rpi-color-green: #53cf63;
+$rpi-color-green-dark: #4ab858;
+$rpi-color-navy: #004881;
+$rpi-color-navy-blue: #2253E7;
+$rpi-color-orange: #f68e3b;
+$rpi-color-orange-light: #fef3eb;
+$rpi-color-pink: #ffdddd;
+$rpi-color-red: #f3524f;
+$rpi-color-turquoise: #0faeb0;
+$rpi-color-violet: #b85ca8;
+$rpi-color-yellow: #ffb12a;
+
+// Brand Colours
+$rpi-color-brand-cc-green: #009b3a;
+
+$rpi-theme-colors: (
+  blue: $rpi-color-blue,
+  green: $rpi-color-green,
+  navy: $rpi-color-navy,
+  orange: $rpi-color-orange,
+  red: $rpi-color-red,
+  turquoise: $rpi-color-turquoise,
+  violet: $rpi-color-violet,
+  yellow: $rpi-color-yellow,
+);
+
+// Webpack exports
+/* stylelint-disable selector-pseudo-class-no-unknown */
+:export {
+  brand: {
+    rpi-color-brand-cc-green: $rpi-color-brand-cc-green;
+  };
+  palette: {
+    rpi-color-blue: $rpi-color-blue;
+    rpi-color-blue-light: $rpi-color-blue-light;
+    rpi-color-green: $rpi-color-green;
+    rpi-color-green-dark: $rpi-color-green-dark;
+    rpi-color-navy: $rpi-color-navy;
+    rpi-color-navy-blue: $rpi-color-navy-blue;
+    rpi-color-orange: $rpi-color-orange;
+    rpi-color-orange-light: $rpi-color-orange-light;
+    rpi-color-pink: $rpi-color-pink;
+    rpi-color-red: $rpi-color-red;
+    rpi-color-turquoise: $rpi-color-turquoise;
+    rpi-color-violet: $rpi-color-violet;
+    rpi-color-yellow: $rpi-color-yellow;
+  };
+  greyScale: {
+    rpi-color-black: $rpi-color-black;
+    rpi-color-black-10: $rpi-color-black-10;
+    rpi-color-black-15: $rpi-color-black-15;
+    rpi-color-black-25: $rpi-color-black-25;
+    rpi-color-black-30: $rpi-color-black-30;
+    rpi-color-black-40: $rpi-color-black-40;
+    rpi-color-grey-dark: $rpi-color-grey-dark;
+    rpi-color-grey-light: $rpi-color-grey-light;
+    rpi-color-grey-mid: $rpi-color-grey-mid;
+    rpi-color-grey-x-dark: $rpi-color-grey-x-dark;
+    rpi-color-grey-x-light: $rpi-color-grey-x-light;
+    rpi-color-grey-y-light: $rpi-color-grey-y-light;
+    rpi-color-white: $rpi-color-white;
+    rpi-color-white-20: $rpi-color-white-20;
+    rpi-color-white-50: $rpi-color-white-50;
+    rpi-color-white-70: $rpi-color-white-70;
+  };
+}
+/* stylelint-enable selector-pseudo-class-no-unknown */

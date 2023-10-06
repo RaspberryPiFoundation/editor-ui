@@ -1,0 +1,120 @@
+@import "./color";
+
+$rpi-color-heading-code-highlight: #eee;
+$rpi-color-inline-code-highlight: #2d2d2d;
+
+a {
+  &:hover {
+    background-color: $rpi-color-ui-yellow;
+  }
+
+  img {
+    background-color: $rpi-color-white;
+  }
+}
+
+audio {
+  display: block;
+  margin: 0 auto rpi-spacing-unit(3);
+  max-width: 100%;
+}
+
+code {
+  background-color: $rpi-color-inline-code-highlight;
+  border-radius: 5px;
+  color: $rpi-color-white;
+  direction: ltr;
+  padding: 0.1em 0.2em;
+  text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  code {
+    display: inline-block;
+    margin: 0 0.2em;
+    padding: 0.1em rpi-spacing-unit();
+  }
+}
+
+iframe {
+  display: block;
+  margin: 0 auto rpi-spacing-unit(3);
+}
+
+ol {
+  padding-left: 1.2em;
+
+  li {
+    padding-left: 0.5em;
+  }
+}
+
+p {
+  img {
+    display: block;
+    margin: 0 auto rpi-spacing-unit(3);
+  }
+}
+
+pre {
+  code {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  &[class*="language-"] {
+    margin-bottom: 3rem;
+  }
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 2rem;
+  width: 100%;
+
+  thead {
+    font-weight: 700;
+  }
+
+  tr {
+    border-bottom: 1px solid $rpi-color-grey-dark;
+  }
+
+  th,
+  td {
+    font-feature-settings: "kern", "liga", "clig", "calt", "lnum", "tnum";
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures, contextual;
+    font-variant-numeric: lining-nums, tabular-nums;
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-left: 2rem;
+  }
+}
+
+ul {
+  color: $rpi-color-grey-mid;
+  list-style-type: circle;
+  padding-left: 1em;
+
+  li {
+    color: $rpi-color-grey-x-dark;
+  }
+}
+
+video {
+  display: block;
+  margin: 0 auto rpi-spacing-unit(3);
+  max-width: 100%;
+}

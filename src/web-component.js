@@ -65,9 +65,6 @@ class WebComponent extends HTMLElement {
   }
 
   reactProps() {
-    console.log("PROPERTIES");
-    console.log(this.componentAttributes);
-    console.log(this.componentProperties);
     return { ...this.componentAttributes, ...this.componentProperties };
   }
 

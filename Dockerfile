@@ -10,6 +10,5 @@ COPY package.json yarn.lock .npmrc ./
 COPY . /app
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=true yarn
 
-EXPOSE 3000
 
 CMD ["yarn", "start"]
