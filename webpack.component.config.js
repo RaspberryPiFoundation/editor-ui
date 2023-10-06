@@ -42,6 +42,18 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        exclude: /\/src\/assets\/icons\/.*\.svg$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
