@@ -125,7 +125,7 @@ const ProjectComponentLoader = (props) => {
         isMobile ? (
           <MobileProject />
         ) : (
-          <Project />
+          <Project step={props.step} />
         )
       ) : loading === "pending" ? (
         <p>{t("project.loading")}</p>

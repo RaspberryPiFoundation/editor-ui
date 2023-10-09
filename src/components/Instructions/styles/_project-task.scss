@@ -1,0 +1,76 @@
+$rpi-color-project-task-background-color: #edfaef;
+$rpi-color-project-task-border-color: #ccc;
+
+$rpi-transition-eased: ease-in-out;
+$rpi-transition-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$rpi-transition-duration: 150ms;
+$rpi-transition-duration-med: 250ms;
+
+.c-project-task {
+  background-color: $rpi-color-project-task-background-color;
+  margin: 0 0 30px -16px;
+  overflow-x: auto;
+  position: relative;
+  width: 100vw;
+
+  @include rpi-breakpoint(sm) {
+    border-radius: 5px;
+    margin-left: 0;
+    width: auto;
+  }
+}
+
+.c-project-task__checkbox {
+  appearance: none;
+  background-image: url('./images/tasks-checkmark.svg');
+  background-position: top;
+  background-repeat: no-repeat;
+  border-color: $rpi-color-grey-x-dark;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 3px;
+  cursor: pointer;
+  height: 40px;
+  opacity: 0.65;
+  outline: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  transition-duration: $rpi-transition-duration, $rpi-transition-duration-med,
+    $rpi-transition-duration, $rpi-transition-duration;
+  transition-property: background-color, background-position, border-color,
+    opacity;
+  transition-timing-function: $rpi-transition-eased, $rpi-transition-elastic,
+    $rpi-transition-eased, $rpi-transition-eased;
+  width: 40px;
+  z-index: 10;
+
+  &:checked {
+    background-color: #53ce63;
+    background-position: bottom;
+    border-color: #53ce63;
+    opacity: 1;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px $rpi-color-grey-x-dark;
+    opacity: 0.8;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.c-project-task__body {
+  padding: 20px 80px 20px 20px;
+  transition: opacity $rpi-transition-duration $rpi-transition-eased;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  .c-project-task__checkbox:checked ~ & {
+    opacity: 0.5;
+  }
+}

@@ -14,7 +14,8 @@ import store from "../../../app/store";
 import { setIsSplitView } from "../../Editor/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
-const WebComponentProject = () => {
+const WebComponentProject = (props) => {
+  const { step } = props;
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -85,7 +86,7 @@ const WebComponentProject = () => {
           {isMobile ? (
             <MobileProject forWebComponent={true} />
           ) : (
-            <Project forWebComponent={true} />
+            <Project forWebComponent={true} step={step} />
           )}
         </div>
       </Style>

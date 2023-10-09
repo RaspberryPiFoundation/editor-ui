@@ -7538,6 +7538,11 @@ interpret@^2.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
 
+iotacss@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/iotacss/-/iotacss-1.6.0.tgz#3777e072287df87aa291ec9bc0389afff1840a5d"
+  integrity sha512-pK7fbL5UOJ5w5q3i5bW28ZeLxB8wxoNYsfUzurIORTUs75G0+iG9ti4CZk3aXZOJoCsRgsC6gVUOdJlYp1SQ8A==
+
 ip-regex@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
@@ -11165,7 +11170,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -11348,6 +11353,13 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
+"raspberry-pi-bits@git+https://github.com/RaspberryPiFoundation/Bits#v1.3.3":
+  version "1.3.3"
+  resolved "git+https://github.com/RaspberryPiFoundation/Bits#a88f93c2c92ca53e6c7a2edfc88b4e0b179b22ba"
+  dependencies:
+    iotacss "^1.6.0"
+    react-iotacss "^1.3.1"
+
 raw-body@2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.5.1.tgz#fe1b1628b181b700215e5fd42389f98b71392857"
@@ -11481,6 +11493,14 @@ react-i18next@^12.0.0:
   dependencies:
     "@babel/runtime" "^7.20.6"
     html-parse-stringify "^3.0.1"
+
+react-iotacss@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-iotacss/-/react-iotacss-1.3.1.tgz#31b54b6dfc79a749e720db1f135127e435812ed5"
+  integrity sha512-RZABh4y2AfZ9IbFSwl5rA6TxqePE9wWxnVSyqCOesQfvK9rQfN4Ggbk3H9Hp+6DKjb4YSifEutJmTJRf3gHvMQ==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
 
 react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
