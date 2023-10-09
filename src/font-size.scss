@@ -1,90 +1,90 @@
 @mixin font-size-5($line-height: regular) {
-  font-size: 5rem;
+  font-size: calc(5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 6.5rem;
+    line-height: calc(6.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-4-5($line-height: regular) {
-  font-size: 4.5rem;
+  font-size: calc(4.5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 6rem;
+    line-height: calc(6rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-4($line-height: regular) {
-  font-size: 4rem;
+  font-size: calc(4rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 5rem;
+    line-height: calc(5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-3-5($line-height: regular) {
-  font-size: 3.5rem;
+  font-size: calc(3.5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 4.5rem;
+    line-height: calc(4.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-3($line-height: regular) {
-  font-size: 3rem;
+  font-size: calc(3rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 4rem;
+    line-height: calc(4rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-2-5($line-height: regular) {
-  font-size: 2.5rem;
+  font-size: calc(2.5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 3.5rem;
+    line-height: calc(3.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-2($line-height: regular) {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 2.5rem;
+    line-height: calc(2.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-1-75($line-height: regular) {
-  font-size: 1.75rem;
+  font-size: calc(1.75rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 2.5rem;
+    line-height: calc(2.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-1-5($line-height: regular) {
-  font-size: 1.5rem;
+  font-size: calc(1.5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 2rem;
+    line-height: calc(2rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-1-25($line-height: regular) {
-  font-size: 1.25rem;
+  font-size: calc(1.25rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 1.5rem;
+    line-height: calc(1.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-1($line-height: regular) {
-  font-size: 1rem;
+  font-size: calc(1rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 1.5rem;
+    line-height: calc(1.5rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-0-75($line-height: regular) {
-  font-size: 0.75rem;
+  font-size: calc(0.75rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 1rem;
+    line-height: calc(1rem * var(--scale-factor, 1));
   }
 }
 
 @mixin font-size-0-5($line-height: regular) {
-  font-size: 0.5rem;
+  font-size: calc(0.5rem * var(--scale-factor, 1));
   @if $line-height == regular {
-    line-height: 0.75rem;
+    line-height: calc(0.75rem * var(--scale-factor, 1));
   }
 }

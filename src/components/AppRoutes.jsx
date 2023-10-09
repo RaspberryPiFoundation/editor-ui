@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
