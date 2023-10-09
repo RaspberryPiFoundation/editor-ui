@@ -2,11 +2,11 @@
 @use './rpf_design_system/colours' as *;
 
 .project-bar {
-  border-radius: 0.5rem;
+  border-radius: $space-0-5;
   display: flex;
   align-items: center;
   z-index: 1;
-  height: 4rem;
+  height: $space-4;
   container-type: inline-size;
 
   .btn {
@@ -46,7 +46,7 @@
 
   .project-bar__btn {
     margin: $space-0-5;
-    gap: 0.5rem;
+    gap: $space-0-5;
 
     .text {
       display: none;

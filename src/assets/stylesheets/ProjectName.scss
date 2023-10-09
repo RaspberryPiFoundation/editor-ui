@@ -25,7 +25,7 @@
   @include font-size-1(regular);
   padding: 0 $space-1-5;
   height: $space-3;
-  border-radius: 0.5rem;
+  border-radius: $space-0-5;
   border: none;
   color: inherit;
   background-color: inherit;

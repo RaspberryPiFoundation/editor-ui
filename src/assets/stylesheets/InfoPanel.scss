@@ -4,7 +4,7 @@
 @use './rpf_design_system/colours' as *;
 
 .info-panel {
-  border-radius: 0.5rem;
+  border-radius: $space-0-5;
   padding: $space-1;
   margin-bottom: $space-0-5;
 

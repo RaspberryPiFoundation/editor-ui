@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Tidied up stylesheets (#684)
+- Web component styling (#687)
 - Convert React components to JSX files (#688)
 - Moved `svg`s to `/src/assets/icons` (#692)
 - Moved `scss` files to `/src/stylesheets` (#692)
@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Min-height on Sense HAT model to fix tablet-view (#658)
+- Tidied up stylesheets (#684)
 
 ## [0.19.0] - 2023-09-25
 
