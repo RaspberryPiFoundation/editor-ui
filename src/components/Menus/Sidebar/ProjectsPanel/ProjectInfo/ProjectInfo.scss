@@ -1,13 +1,14 @@
-@use '../../../../../spacing.scss' as *;
-@use '../../../../../font-size.scss' as *;
-@import '../../../../../colours.scss';
+@use '../../../../../spacing' as *;
+@use '../../../../../font-size' as *;
+@use '../../../../../font-weight' as *;
+@use '../../../../../colours' as *;
 
 .project-info {
   align-items: left;
   display: flex;
   flex-direction: column;
   padding: $space-1;
-  border-radius: 0.5rem;
+  border-radius: $space-0-5;
   border: none;
   background-color: inherit;
 
@@ -18,7 +19,7 @@
 
 .project-type__label {
   @include font-size-1(regular);
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
   margin-bottom: $space-0-5;
   display: block;
 }

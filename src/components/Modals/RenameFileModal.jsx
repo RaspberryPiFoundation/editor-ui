@@ -10,7 +10,7 @@ import {
 import "../../Modal.scss";
 import InputModal from "./InputModal";
 
-const RenameFile = () => {
+const RenameFileModal = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -91,4 +91,4 @@ const RenameFile = () => {
   );
 };
 
-export default RenameFile;
+export default RenameFileModal;

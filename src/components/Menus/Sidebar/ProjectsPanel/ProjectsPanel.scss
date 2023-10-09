@@ -1,6 +1,6 @@
-@use "../../../../spacing" as *;
-@use "../../../../colours.scss" as *;
-@use "../../../../font-size.scss" as *;
+@use '../../../../spacing' as *;
+@use '../../../../colours' as *;
+@use '../../../../font-size' as *;
 
 .projects-panel-wrapper {
   .sidebar__panel-content {
@@ -29,7 +29,7 @@
 
   .project-name {
     height: auto;
-    padding-inline-start: 0rem;
+    padding-inline-start: 0;
 
     &__label {
       padding-inline-start: 0;

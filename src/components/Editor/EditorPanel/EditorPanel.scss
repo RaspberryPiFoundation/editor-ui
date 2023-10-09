@@ -27,6 +27,10 @@
     }
   }
   
+  &--small {
+    @include font-size-1(regular);
+  }
+
   &--medium {
     @include font-size-1-5(regular);
   }

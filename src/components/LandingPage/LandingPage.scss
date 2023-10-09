@@ -1,7 +1,8 @@
-@use "../../spacing" as *;
-@use "../../font-size" as *;
-@import "../../colours.scss";
-@import "../../mixins.scss";
+@use '../../spacing' as *;
+@use '../../font-size' as *;
+@use '../../font-weight' as *;
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 .landing-page-wrapper {
   display: flex;
@@ -35,7 +36,7 @@
 
 .landing-page__projects--subtitle {
   @include font-size-1-5(regular);
-  font-weight: var(--font-weight-regular);
+  font-weight: $font-weight-regular;
   margin: $space-1;
 
   @media screen and (min-width: 375px) {
@@ -46,7 +47,7 @@
 .landing-page__projects--login {
   @include font-size-1-25(regular);
   button {
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
     padding: 0;
     text-decoration: underline;
   }
@@ -81,13 +82,13 @@
 
 .landing-page__paths--title {
   @include font-size-1-5(regular);
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
 }
 
 .landing-page__button * {
   @include font-size-1-25(regular);
   display: inline-flex;
-  gap: 0.5rem;
+  gap: $space-0-5;
   align-items: center;
 
   a {
@@ -98,13 +99,13 @@
 
 .landing-page__paths--start {
   @include font-size-1-5(regular);
-  font-weight: var(--font-weight-bold);
+  font-weight: $font-weight-bold;
 }
 
 .landing-page__paths--description {
   @include font-size-1(regular);
   a {
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
   }
 }
 

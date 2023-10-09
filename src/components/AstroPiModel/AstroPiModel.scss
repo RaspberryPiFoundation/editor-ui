@@ -1,6 +1,7 @@
-@use "../../spacing" as *;
-@use "../../font-size" as *;
-@import "../../colours.scss";
+@use '../../spacing' as *;
+@use '../../font-size' as *;
+@use '../../font-weight' as *;
+@use '../../colours' as *;
 
 .sense-hat {
   width: 100%;
@@ -40,7 +41,7 @@
         @include font-size-0-75(regular);
         flex: 1;
         text-transform: uppercase;
-        font-weight: var(--font-weight-bold);
+        font-weight: $font-weight-bold;
         margin: 0 $space-0-5;
       }
 
@@ -67,7 +68,7 @@
 
     &-heading {
       @include font-size-1(regular);
-      font-weight: var(--font-weight-base);
+      font-weight: $font-weight-regular;
       margin: 0;
       margin-bottom: $space-0-5;
     }
@@ -98,7 +99,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
             monospace;
 
           &-timer {
@@ -128,7 +129,7 @@
           transform: rotate(270deg);
         }
 
-        input[type="color"] {
+        input[type='color'] {
           border-radius: 5px;
           flex: 1;
           width: 100%;
@@ -192,7 +193,7 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $rpf-grey-700;
+          box-shadow: inset 0 0 $space-3 $rpf-grey-700;
           background-color: $rpf-grey-700;
 
           &-reading {
@@ -200,7 +201,7 @@
             border: 1px solid $rpf-grey-500;
           }
 
-          input[type="color"] {
+          input[type='color'] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -246,7 +247,7 @@
 
       &-panel {
         &__control {
-          box-shadow: inset 0 0 var(--spacing-2) $rpf-grey-100;
+          box-shadow: inset 0 0 $space-3 $rpf-grey-100;
           background-color: $rpf-grey-50;
 
           &-reading {
@@ -254,7 +255,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type="color"] {
+          input[type='color'] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }

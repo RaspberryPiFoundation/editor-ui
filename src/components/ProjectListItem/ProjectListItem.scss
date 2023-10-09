@@ -1,7 +1,8 @@
 @use '../../spacing' as *;
 @use '../../font-size' as *;
-@import '../../colours.scss';
-@import '../../mixins.scss';
+@use '../../font-weight' as *;
+@use '../../colours' as *;
+@use '../../mixins' as *;
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -38,12 +39,12 @@ $small-table-grid: 600px;
   &__name {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: var(--font-weight-bold);
+    font-weight: $font-weight-bold;
   }
 
   &__tag {
-    padding-right: 0.5rem;
-    margin-right: 0.5rem;
+    padding-right: $space-0-5;
+    margin-right: $space-0-5;
 
     .--light & {
       border-right: 1px $rpf-text-secondary solid;
