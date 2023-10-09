@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
@@ -32,7 +32,7 @@ const WebComponentProject = () => {
     dispatch(setIsSplitView(false));
   }, [dispatch]);
 
-  useEffect(() => {
+  useMemo(() => {
     setCodeHasRun(false);
     if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(function () {
@@ -44,8 +44,8 @@ const WebComponentProject = () => {
       webComponent.dispatchEvent(customEvent);
     }, 2000);
 
-    id ? clearTimeout(id) : setTimeoutId(id);
-  }, [project, timeoutId, webComponent]);
+    setTimeoutId(id);
+  }, [timeoutId, webComponent]);
 
   useEffect(() => {
     if (codeRunTriggered) {
