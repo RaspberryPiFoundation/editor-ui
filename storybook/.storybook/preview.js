@@ -7,7 +7,7 @@ import { withRootAttribute } from "storybook-addon-root-attribute";
 
 import i18n from "i18n"; // importing the same i18n
 
-import "index.scss";
+import "/assets/stylesheets/index.scss";
 
 // https://storybook.js.org/addons/storybook-addon-react-router-v6
 // addDecorator(withRouter);
