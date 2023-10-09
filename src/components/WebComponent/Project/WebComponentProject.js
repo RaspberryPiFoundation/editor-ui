@@ -28,7 +28,9 @@ const WebComponentProject = () => {
   const webComponent = document.querySelector("editor-wc");
   const [codeHasRun, setCodeHasRun] = React.useState(false);
   const dispatch = useDispatch();
-  dispatch(setIsSplitView(false));
+  useEffect(() => {
+    dispatch(setIsSplitView(false));
+  }, [dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -42,6 +44,7 @@ const WebComponentProject = () => {
       webComponent.dispatchEvent(customEvent);
     }, 2000);
     setTimeoutId(id);
+    if (id) clearTimeout(id);
   }, [project, timeoutId, webComponent]);
 
   useEffect(() => {
