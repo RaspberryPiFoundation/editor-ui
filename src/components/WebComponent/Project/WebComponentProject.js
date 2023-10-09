@@ -43,8 +43,8 @@ const WebComponentProject = () => {
       });
       webComponent.dispatchEvent(customEvent);
     }, 2000);
-    setTimeoutId(id);
-    if (id) clearTimeout(id);
+
+    id ? clearTimeout(id) : setTimeoutId(id);
   }, [project, timeoutId, webComponent]);
 
   useEffect(() => {
