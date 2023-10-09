@@ -32,7 +32,7 @@ const WebComponentProject = () => {
     dispatch(setIsSplitView(false));
   }, [dispatch]);
 
-  useMemo(() => {
+  const timer = useMemo(() => {
     setCodeHasRun(false);
     if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(function () {
@@ -46,6 +46,10 @@ const WebComponentProject = () => {
 
     setTimeoutId(id);
   }, [timeoutId, webComponent]);
+
+  useEffect(() => {
+    timer();
+  }, [project, timer]);
 
   useEffect(() => {
     if (codeRunTriggered) {
