@@ -17,7 +17,7 @@ import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
