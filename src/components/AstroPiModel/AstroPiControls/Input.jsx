@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState, startTransition } from "react";
 import Sk from "skulpt";
-import "../AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss";
 
 const Input = (props) => {
   const { name, label, type, defaultValue } = props;

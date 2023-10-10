@@ -1,0 +1,87 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-size' as *;
+@use './rpf_design_system/colours' as *;
+
+.pythonrunner-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.pythonrunner-console {
+  padding: $space-0-5 $space-1-5;
+  margin: 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  overflow-y: auto;
+
+  &--medium {
+    @include font-size-1-5(regular);
+  }
+
+  &--large {
+    @include font-size-2(regular);
+  }
+}
+
+.pythonrunner-console-output-line {
+  padding-right: 5px;
+}
+
+.pythonrunner-input {
+  caret-color: inherit;
+  color: rgb(36, 103, 236);
+  display: block;
+  line-height: 20px;
+  padding: 2px 1px 2px 0;
+}
+
+.pythonrunner-input:focus {
+  outline: 0;
+}
+
+
+.pythonrunner-graphic {
+  overflow: auto;
+  position: relative;
+}
+
+.visual-output {
+  flex: 1;
+  display: flex;
+  min-height: 100%;
+}
+
+.--light .visual-output {
+  background: url("data:image/svg+xml,%3Csvg width='525' height='686' viewBox='0 0 525 686' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg' xmlns:xlink='http:%2F%2Fwww.w3.org/1999/xlink'%3E%3Crect width='526' height='686' transform='translate(0.5)' fill='url(%23pattern0)' fill-opacity='0.1'/%3E%3Cdefs%3E%3Cpattern id='pattern0' patternContentUnits='objectBoundingBox' width='0.0152091' height='0.0116618'%3E%3Cuse xlink:href='%23image0_214_29626' transform='scale(0.00190114 0.00145773)'/%3E%3C/pattern%3E%3Cimage id='image0_214_29626' width='8' height='8' xlink:href='data:image/png%3Bbase64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAABdJREFUGBljYGBg+A/FQAoTMGEKDUcRAATwAgFGIXEOAAAAAElFTkSuQmCC'/%3E%3C/defs%3E%3C/svg%3E");
+}
+
+.--dark .visual-output {
+  background: url("data:image/svg+xml,%3Csvg width='527' height='684' viewBox='0 0 527 684' fill='none' xmlns='http:%2F%2Fwww.w3.org/2000/svg' xmlns:xlink='http:%2F%2Fwww.w3.org/1999/xlink'%3E%3Crect width='526' height='686' transform='translate(0.388916)' fill='url(%23pattern0)'/%3E%3Cdefs%3E%3Cpattern id='pattern0' patternContentUnits='objectBoundingBox' width='0.0152091' height='0.0116618'%3E%3Cuse xlink:href='%23image0_214_22403' transform='scale(0.00190114 0.00145773)'/%3E%3C/pattern%3E%3Cimage id='image0_214_22403' width='8' height='8' xlink:href='data:image/png%3Bbase64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAAXNSR0IArs4c6QAAABdJREFUGBljYGBg+A/FQAoTMGEKDUcRAATwAgFGIXEOAAAAAElFTkSuQmCC'/%3E%3C/defs%3E%3C/svg%3E%0A");
+}
+
+.output-panel {
+  display: flex;
+  overflow: hidden;
+
+  &--text {
+    flex: 3;
+  }
+
+  &--visual {
+    flex: 7;
+
+    .--light & {
+      border-bottom: 5px solid $rpf-grey-100;
+    }
+
+    .--dark & {
+      border-bottom: 5px solid $rpf-grey-600;
+    }
+  }
+}

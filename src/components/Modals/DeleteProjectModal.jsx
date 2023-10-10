@@ -2,7 +2,7 @@ import React from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { closeDeleteProjectModal } from "../Editor/EditorSlice";
+import { closeDeleteProjectModal } from "../../redux/EditorSlice";
 import Button from "../Button/Button";
 import GeneralModal from "./GeneralModal";
 

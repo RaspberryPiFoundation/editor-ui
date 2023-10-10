@@ -3,7 +3,7 @@ import {
   ProjectListItem,
   PROJECT_LIST_ITEM_FRAGMENT,
 } from "../ProjectListItem/ProjectListItem";
-import "./ProjectListTable.scss";
+import "../../assets/stylesheets/ProjectListTable.scss";
 import { gql } from "@apollo/client";
 
 export const PROJECT_LIST_TABLE_FRAGMENT = gql`

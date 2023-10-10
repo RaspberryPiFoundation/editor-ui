@@ -5,7 +5,7 @@ import {
   addProjectComponent,
   closeNewFileModal,
   openFile,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";

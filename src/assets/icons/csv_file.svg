@@ -1,0 +1,10 @@
+<svg
+  data-testid="csvIcon"
+  width="18"
+  height="18"
+  viewBox="0 0 20 18"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M0 0V17.8H18V0H0ZM2.9 3.7H8V5H2.9V3.7ZM9.9 3.7H15V5H9.9V3.7ZM2.9 6.7H8V8H2.9V6.7ZM9.9 6.7H15V8H9.9V6.7ZM2.9 9.7H8V11H2.9V9.7ZM9.9 9.7H15V11H9.9V9.7ZM2.9 12.7H8V14H2.9V12.7ZM9.9 12.7H15V14H9.9V12.7Z" />
+</svg>

@@ -1,11 +1,11 @@
-import "./NewComponentButton.scss";
+import "../../../assets/stylesheets/NewComponentButton.scss";
 
 import { React } from "react";
 import { useDispatch } from "react-redux";
 
-import { showNewFileModal } from "../EditorSlice";
+import { showNewFileModal } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
-import { PlusIcon } from "../../../Icons";
+import PlusIcon from "../../../assets/icons/plus.svg";
 import { useTranslation } from "react-i18next";
 
 const NewComponentButton = () => {

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
 
-import "./Project.scss";
+import "../../../assets/stylesheets/Project.scss";
 import Output from "../Output/Output";
 import { showSavedMessage } from "../../../utils/Notifications";
 import ProjectBar from "../../ProjectBar/ProjectBar";

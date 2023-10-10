@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
-import { closeBetaModal } from "../Editor/EditorSlice";
+import { closeBetaModal } from "../../redux/EditorSlice";
 import GeneralModal from "./GeneralModal";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 
 const BetaModal = () => {
   const dispatch = useDispatch();

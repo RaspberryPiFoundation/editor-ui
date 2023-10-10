@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./HtmlRunner.scss";
+import "../../../../assets/stylesheets/HtmlRunner.scss";
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
@@ -10,11 +10,11 @@ import {
   showErrorModal,
   codeRunHandled,
   triggerCodeRun,
-} from "../../EditorSlice";
+} from "../../../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Link, useSearchParams } from "react-router-dom";
-import { OpenInNewTabIcon } from "../../../../Icons";
+import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 

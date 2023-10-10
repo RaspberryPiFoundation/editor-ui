@@ -1,4 +1,4 @@
-import "./MobileProjectBar.scss";
+import "../../../assets/stylesheets/MobileProjectBar.scss";
 import SaveStatus from "../../SaveStatus/SaveStatus";
 import { useSelector } from "react-redux";
 import React from "react";

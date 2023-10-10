@@ -2,13 +2,14 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { CloseIcon } from "../../Icons";
+
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
-import { ExternalLinkIcon } from "../../Icons";
-import { showBetaModal } from "../Editor/EditorSlice";
+import ExternalLinkIcon from "../../assets/icons/external_link.svg";
+import { showBetaModal } from "../../redux/EditorSlice";
 
-import "./BetaBanner.scss";
+import "../../assets/stylesheets/BetaBanner.scss";
+import CloseIcon from "../../utils/CloseIcon";
 
 const BetaBanner = () => {
   const dispatch = useDispatch();

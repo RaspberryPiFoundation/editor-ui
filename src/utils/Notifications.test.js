@@ -6,7 +6,7 @@ import {
   showSavePrompt,
 } from "./Notifications";
 
-jest.mock("../i18n", () => ({
+jest.mock("./i18n", () => ({
   t: (string) => string,
 }));
 jest.mock("react-toastify");

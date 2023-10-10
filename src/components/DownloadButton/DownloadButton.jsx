@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { closeLoginToSaveModal } from "../Editor/EditorSlice";
+import { closeLoginToSaveModal } from "../../redux/EditorSlice";
 
 const DownloadButton = (props) => {
   const {

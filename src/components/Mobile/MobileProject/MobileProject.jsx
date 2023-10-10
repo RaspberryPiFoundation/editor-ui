@@ -4,12 +4,14 @@ import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
 import MobileProjectBar from "../MobileProjectBar/MobileProjectBar";
 
-import "./MobileProject.scss";
+import "../../../assets/stylesheets/MobileProject.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { CodeIcon, PreviewIcon, MenuIcon } from "../../../Icons";
+import CodeIcon from "../../../assets/icons/code.svg";
+import MenuIcon from "../../../assets/icons/menu.svg";
+import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
-import { showSidebar } from "../../Editor/EditorSlice";
+import { showSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 
 const MobileProject = ({ forWebComponent }) => {

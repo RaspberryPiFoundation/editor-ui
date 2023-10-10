@@ -5,17 +5,21 @@ import { TabPanel, Tabs } from "react-tabs";
 import classNames from "classnames";
 import { useMediaQuery } from "react-responsive";
 
-import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
+import {
+  closeFile,
+  setFocussedFileIndex,
+  setOpenFiles,
+} from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
-import { CloseIcon } from "../../../Icons";
 import EditorPanel from "../EditorPanel/EditorPanel";
 import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
 import RunBar from "../../RunButton/RunBar";
 
-import "./EditorInput.scss";
+import "../../../assets/stylesheets/EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import CloseIcon from "../../../utils/CloseIcon";
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);

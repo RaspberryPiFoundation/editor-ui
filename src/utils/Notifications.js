@@ -1,7 +1,9 @@
 import { toast } from "react-toastify";
-import { CloseIcon, InfoIcon, TickIcon } from "../Icons";
-import i18n from "../i18n";
+import InfoIcon from "../assets/icons/info.svg";
+import TickIcon from "../assets/icons/tick.svg";
+import i18n from "./i18n";
 import Button from "../components/Button/Button";
+import CloseIcon from "./CloseIcon";
 
 const CloseButton = ({ closeToast }) => {
   return (

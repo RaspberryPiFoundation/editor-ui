@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
-import { codeRunHandled, setError } from "../../EditorSlice";
+import { codeRunHandled, setError } from "../../../../redux/EditorSlice";
 
 const VisualOutputPane = () => {
   const codeRunTriggered = useSelector(

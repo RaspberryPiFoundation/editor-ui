@@ -3,12 +3,13 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import "./LandingPage.scss";
+import "../../assets/stylesheets/LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
-import { FileIconPython, FileIconHtml } from "../../Icons";
+import HtmlFileIcon from "../../assets/icons/html_file.svg";
+import PythonFileIcon from "../../assets/icons/python_file.svg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const LandingPage = () => {
             href={`/${locale}/projects/blank-python-starter`}
             text={t("landingPage.python")}
             textAlways
-            icon={<FileIconPython />}
+            icon={<PythonFileIcon />}
             onClick={onClickPlausible("Start coding Python")}
           />
           <DesignSystemButton
@@ -54,7 +55,7 @@ const LandingPage = () => {
             href={`/${locale}/projects/blank-html-starter`}
             text={t("landingPage.html")}
             textAlways
-            icon={<FileIconHtml />}
+            icon={<HtmlFileIcon />}
             onClick={onClickPlausible("Start coding HTML/CSS")}
           />
         </div>

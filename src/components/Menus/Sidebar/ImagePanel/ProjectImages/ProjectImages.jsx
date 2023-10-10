@@ -1,4 +1,4 @@
-import "./ProjectImages.scss";
+import "../../../../../assets/stylesheets/ProjectImages.scss";
 
 import { useSelector } from "react-redux";
 

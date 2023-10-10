@@ -2,9 +2,11 @@ import React from "react";
 import Input from "./Input";
 import MotionInput from "./MotionInput";
 import SliderInput from "./SliderInput";
-import "../AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss";
 import Stopwatch from "./Stopwatch";
-import { HumidityIcon, PressureIcon, TemperatureIcon } from "../../../Icons";
+import HumidityIcon from "../../../assets/icons/humidity.svg";
+import PressureIcon from "../../../assets/icons/pressure.svg";
+import TemperatureIcon from "../../../assets/icons/temperature.svg";
 import { useTranslation } from "react-i18next";
 
 const AstroPiControls = (props) => {

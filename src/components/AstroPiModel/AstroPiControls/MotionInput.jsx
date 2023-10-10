@@ -3,7 +3,7 @@ import { useEffect, useState, startTransition } from "react";
 import { useSelector } from "react-redux";
 import Toggle from "react-toggle";
 import Sk from "skulpt";
-import "../AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss";
 import "react-toggle/style.css";
 import { useTranslation } from "react-i18next";
 

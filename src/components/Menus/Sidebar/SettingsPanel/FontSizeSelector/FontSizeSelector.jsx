@@ -1,8 +1,10 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { FontIconLg, FontIconSm, FontIconRg } from "../../../../../Icons";
-import "./FontSizeSelector.scss";
+import FontIconLg from "../../../../../assets/icons/font_icon_lg.svg";
+import FontIconRg from "../../../../../assets/icons/font_icon_rg.svg";
+import FontIconSm from "../../../../../assets/icons/font_icon_sm.svg";
+import "../../../../../assets/stylesheets/FontSizeSelector.scss";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
 

@@ -1,13 +1,13 @@
-import "./App.scss";
-import "./typography.scss";
-import "./utils/Notifications.scss";
+import "./assets/stylesheets/App.scss";
+import "./assets/stylesheets/rpf_design_system/typography.scss";
+import "./assets/stylesheets/Notifications.scss";
 
 import { useCookies } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-import { SettingsContext } from "./settings";
+import { SettingsContext } from "./utils/settings";
 import AppRoutes from "./components/AppRoutes";
 import GlobalNav from "./components/GlobalNav/GlobalNav";
 import BetaBanner from "./components/BetaBanner/BetaBanner";
