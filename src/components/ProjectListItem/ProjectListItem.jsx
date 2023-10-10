@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import {
   showDeleteProjectModal,
   showRenameProjectModal,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 import Button from "../Button/Button";
 import python_logo from "../../assets/python_icon.svg";
 import html_logo from "../../assets/html_icon.svg";
-import "./ProjectListItem.scss";
-import { BinIcon, PencilIcon } from "../../Icons";
+import "../../assets/stylesheets/ProjectListItem.scss";
+import BinIcon from "../../assets/icons/bin.svg";
+import PencilIcon from "../../assets/icons/pencil.svg";
 import ProjectActionsMenu from "../Menus/ProjectActionsMenu/ProjectActionsMenu";
 import { Link } from "react-router-dom";
 import { gql } from "@apollo/client";

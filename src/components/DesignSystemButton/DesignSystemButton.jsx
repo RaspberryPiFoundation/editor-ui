@@ -1,5 +1,5 @@
 import { Button } from "@RaspberryPiFoundation/design-system-react";
-import "./DesignSystemButton.scss";
+import "../../assets/stylesheets/DesignSystemButton.scss";
 
 const DesignSystemButton = (props) => <Button {...props} />;
 

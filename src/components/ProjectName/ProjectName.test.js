@@ -5,7 +5,7 @@ import configureStore from "redux-mock-store";
 import userEvent from "@testing-library/user-event";
 
 import ProjectName from "./ProjectName";
-import { updateProjectName } from "../Editor/EditorSlice";
+import { updateProjectName } from "../../redux/EditorSlice";
 
 const project = {
   identifier: "hello-world-project",

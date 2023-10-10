@@ -1,0 +1,202 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-size' as *;
+@use './rpf_design_system/font-weight' as *;
+@use './rpf_design_system/line-height' as *;
+@use './rpf_design_system/colours' as *;
+@use './rpf_design_system/mixins' as *;
+
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-5;
+
+  @include mobile-only {
+    padding: $space-2;
+  }
+}
+
+.modal-content {
+  width: 560px;
+  max-height: 100%;
+  border: 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  label, legend {
+    font-weight: $font-weight-bold;
+  }
+
+  input[type=text] {
+    @include font-size-1(regular);
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: $space-0-5;
+    display: block;
+  }
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+}
+
+.modal-content__header {
+  display: flex;
+  align-items: center;
+  min-height: fit-content;
+  padding: $space-1 $space-0-5 $space-1 $space-1;
+
+  button {
+    margin-left: auto;
+    height: fit-content;
+  }
+}
+
+.modal-content__heading {
+  @include font-size-1-5(regular);
+  margin: $space-0-5 $space-0-5 $space-0-5 0;
+}
+
+.modal-content__body {
+  padding: $space-1-5;
+  display: flex;
+  flex-direction: column;
+  row-gap: $space-0-5;
+  overflow-y: auto;
+}
+
+.modal-content__subheading {
+  @include font-size-1(regular);
+  margin: 0;
+  font-weight: $font-weight-bold;
+}
+
+.modal-content__text {
+  margin: 0;
+  line-height: $line-height-regular;
+}
+
+.modal-content__help-text {
+  margin: $space-0-25 0;
+  font-weight: $font-weight-regular;
+}
+
+.modal-content__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.modal-content__input-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-0-5;
+}
+
+.modal-content__buttons {
+  padding: $space-1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  gap: $space-1;
+  justify-content: flex-start;
+
+  @include mobile-only {
+    display: flex;
+    flex-direction: column;
+  }
+
+  button, a {
+    margin: 0;
+
+    span {
+      width: 100%;
+    }
+
+    @include mobile-only {
+      width: 100%;
+    }
+  }
+}
+
+.modal-content__links {
+  text-align: center;
+  margin: $space-0-5 0 $space-0-25 0;
+  
+  button {
+    text-decoration: underline;
+  }
+}
+
+.modal-overlay {
+  z-index: 1000;
+  position: fixed;
+  inset: 0px;
+}
+
+.--dark {
+  .modal-overlay {
+    background-color: rgba(0,0,0,0.5);
+
+    input {
+      border: 2px solid $rpf-white;
+      background-color: $rpf-grey-700;
+      color: inherit;
+
+      &:focus-visible {
+        border: 2px solid $rpf-teal-800;
+        outline: none;
+      }
+    }
+  }
+  .modal-content {
+    background-color: $rpf-grey-700;
+  }
+
+  .modal-content__header {
+    border-bottom: 1px solid $rpf-grey-500;
+  }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary-darkmode;
+  }
+
+  .modal-content__buttons {
+    border-top: 1px solid $rpf-grey-500;
+  }
+}
+
+.--light {
+  .modal-overlay {
+    background-color: rgba(67,69,76,0.5);
+
+    input {
+      border: 2px solid $rpf-grey-100;
+
+      &:focus-visible {
+        border: 2px solid $rpf-teal-800;
+        outline: none;
+      }
+    }
+  }
+
+  .modal-content {
+    background-color: $rpf-white;
+  }
+
+  .modal-content__header {
+    border-bottom: 1px solid $rpf-grey-150;
+  }
+
+  .modal-content__help-text {
+    color: $rpf-text-secondary;
+  }
+
+  .modal-content__buttons {
+    border-top: 1px solid $rpf-grey-150;
+  }
+}

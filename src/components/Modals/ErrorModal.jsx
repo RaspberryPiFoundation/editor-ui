@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
-import { closeErrorModal } from "../Editor/EditorSlice";
-import "../../Modal.scss";
+import { closeErrorModal } from "../../redux/EditorSlice";
+import "../../assets/stylesheets/Modal.scss";
 
 const ErrorModal = ({ errorType, additionalOnClose }) => {
   const dispatch = useDispatch();

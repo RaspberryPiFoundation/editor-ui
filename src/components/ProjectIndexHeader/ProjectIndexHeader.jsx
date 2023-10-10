@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import "./ProjectIndexHeader.scss";
+import "../../assets/stylesheets/ProjectIndexHeader.scss";
 
 const ProjectIndexHeader = (props) => {
   const { t } = useTranslation();

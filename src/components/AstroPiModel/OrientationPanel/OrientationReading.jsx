@@ -1,5 +1,5 @@
 import React from "react";
-import "../AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss";
 
 const OrientationReading = (props) => {
   const { name, value } = props;

@@ -4,7 +4,7 @@ import SidebarPanel from "../SidebarPanel";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 import FontSizeSelector from "./FontSizeSelector/FontSizeSelector";
 
-import "./SettingsPanel.scss";
+import "../../../../assets/stylesheets/SettingsPanel.scss";
 
 const SettingsPanel = () => {
   const { t } = useTranslation();

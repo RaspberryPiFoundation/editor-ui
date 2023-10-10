@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 
 import Button from "../Button/Button";
-import "./ProjectIndexPagination.scss";
+import "../../assets/stylesheets/ProjectIndexPagination.scss";
 
 export const PROJECT_INDEX_PAGINATION_FRAGMENT = gql`
   fragment ProjectIndexPaginationFragment on ProjectConnection {

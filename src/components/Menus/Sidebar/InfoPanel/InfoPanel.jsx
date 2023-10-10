@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import SidebarPanel from "../SidebarPanel";
 import { Link } from "react-router-dom";
 
-import "./InfoPanel.scss";
+import "../../../../assets/stylesheets/InfoPanel.scss";
 
 const InfoPanel = () => {
   const { t } = useTranslation();

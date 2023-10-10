@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
-import "./LoginMenu.scss";
+import "../../assets/stylesheets/LoginMenu.scss";
 import { Link } from "react-router-dom";
 
 const LoginMenu = () => {

@@ -31,7 +31,20 @@ module.exports = {
         ],
       },
       {
+        test: /\/src\/assets\/icons\/.*\.svg$/,
+        use: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              esModule: false,
+              limit: 10000,
+            },
+          },
+        ],
+      },
+      {
         test: /\.svg$/,
+        exclude: /\/src\/assets\/icons\/.*\.svg$/,
         use: [
           {
             loader: "file-loader",

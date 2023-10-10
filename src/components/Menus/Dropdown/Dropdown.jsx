@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../Button/Button";
 
-import "./Dropdown.scss";
+import "../../../assets/stylesheets/Dropdown.scss";
 
 const Dropdown = (props) => {
   const {

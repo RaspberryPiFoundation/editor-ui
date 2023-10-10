@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { storiesOf } from "@storybook/react";
-import colors from "colours.scss";
+import colors from "assets/stylesheets/rpf_design_system/colours.scss";
 
 const filterGroup = (filter) =>
   Object.keys(colors).filter((color) => color.indexOf(filter) === 0);

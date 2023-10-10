@@ -6,8 +6,8 @@ import { Cookies, CookiesProvider } from "react-cookie";
 import configureStore from "redux-mock-store";
 
 jest.mock("./utils/Notifications");
-jest.mock("./components/Editor/EditorSlice", () => {
-  const actual = jest.requireActual("./components/Editor/EditorSlice");
+jest.mock("./redux/EditorSlice", () => {
+  const actual = jest.requireActual("./redux/EditorSlice");
   return {
     ...actual,
     saveProject: jest.fn(),

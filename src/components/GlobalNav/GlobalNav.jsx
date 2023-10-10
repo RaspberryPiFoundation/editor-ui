@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ChevronDown } from "../../Icons";
+import ChevronDown from "../../assets/icons/chevron_down.svg";
 import LoginMenu from "../Login/LoginMenu";
 import Dropdown from "../Menus/Dropdown/Dropdown";
-import "./GlobalNav.scss";
+import "../../assets/stylesheets/GlobalNav.scss";
 import rpf_logo from "../../assets/raspberrypi_logo.svg";
 import user_logo from "../../assets/unauthenticated_user.svg";
 import { useTranslation } from "react-i18next";
