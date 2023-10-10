@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
 import { ControlledMenu, MenuItem } from "@szhsin/react-menu";
-import { SettingsContext } from "../../../settings";
+import { SettingsContext } from "../../../utils/settings";
 
-import "./ContextMenu.scss";
+import "../../../assets/stylesheets/ContextMenu.scss";
 
 const ContextMenu = (props) => {
   const {

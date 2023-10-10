@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./PythonRunner.scss";
+import "../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -12,13 +12,13 @@ import {
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
-} from "../../EditorSlice";
+} from "../../../../redux/EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { createError } from "../../../../utils/apiCallHandler";
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
-import { SettingsContext } from "../../../../settings";
+import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 

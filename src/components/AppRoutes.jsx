@@ -2,11 +2,11 @@ import React from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
-import ProjectComponentLoader from "./Editor/ProjectComponentLoader/ProjectComponentLoader";
+import ProjectComponentLoader from "../containers/ProjectComponentLoader";
 import ProjectIndex from "./ProjectIndex/ProjectIndex";
 import EmbeddedViewer from "./EmbeddedViewer/EmbeddedViewer";
-import Callback from "./Callback";
-import SilentRenew from "./SilentRenew";
+import Callback from "../containers/Callback";
+import SilentRenew from "../utils/SilentRenew";
 import LocaleLayout from "./LocaleLayout/LocaleLayout";
 import LandingPage from "./LandingPage/LandingPage";
 

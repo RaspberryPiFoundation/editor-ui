@@ -2,7 +2,7 @@ import Button from "../Button/Button";
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import { triggerCodeRun } from "../Editor/EditorSlice";
+import { triggerCodeRun } from "../../redux/EditorSlice";
 
 const RunButton = ({ embedded = false, className, ...props }) => {
   const dispatch = useDispatch();

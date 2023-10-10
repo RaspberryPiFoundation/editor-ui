@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 
 import Button from "../Button/Button";
-import { closeNewProjectModal } from "../Editor/EditorSlice";
+import { closeNewProjectModal } from "../../redux/EditorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import InputModal from "./InputModal";
 import { createOrUpdateProject } from "../../utils/apiCallHandler";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_PROJECTS } from "../../utils/defaultProjects";
-import { HTMLIcon, PythonIcon } from "../../Icons";
+import HTMLIcon from "../../assets/icons/html.svg";
+import PythonIcon from "../../assets/icons/python.svg";
 
 const NewProjectModal = () => {
   const { t, i18n } = useTranslation();

@@ -2,7 +2,7 @@ import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import { TabList } from "react-tabs";
 
-import "./DraggableTabs.scss";
+import "../../../assets/stylesheets/DraggableTabs.scss";
 
 const DroppableTabList = ({ children, index, ...otherProps }) => {
   return (

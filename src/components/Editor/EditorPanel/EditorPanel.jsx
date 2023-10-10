@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./EditorPanel.scss";
+import "../../../assets/stylesheets/EditorPanel.scss";
 import React, { useRef, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProjectComponent } from "../EditorSlice";
+import { updateProjectComponent } from "../../../redux/EditorSlice";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
@@ -16,9 +16,9 @@ import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { python } from "@codemirror/lang-python";
 
-import { editorLightTheme } from "../editorLightTheme";
-import { editorDarkTheme } from "../editorDarkTheme";
-import { SettingsContext } from "../../../settings";
+import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
+import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
+import { SettingsContext } from "../../../utils/settings";
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();

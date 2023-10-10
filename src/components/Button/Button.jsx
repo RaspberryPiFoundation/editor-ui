@@ -1,4 +1,4 @@
-import "./Button.scss";
+import "../../assets/stylesheets/Button.scss";
 
 import React from "react";
 import { confirmAlert } from "react-confirm-alert";

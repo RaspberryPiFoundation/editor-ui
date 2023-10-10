@@ -3,17 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
-import {
-  DoubleChevronLeft,
-  DoubleChevronRight,
-  CloseIcon,
-} from "../../../Icons";
-import { hideSidebar } from "../../Editor/EditorSlice";
+import DoubleChevronLeft from "../../../assets/icons/double_chevron_left.svg";
+import DoubleChevronRight from "../../../assets/icons/double_chevron_right.svg";
+import { hideSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import CloseIcon from "../../../utils/CloseIcon";
 
 const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;

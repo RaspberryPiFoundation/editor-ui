@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
-import "./ProjectInfo.scss";
+import "../../../../../assets/stylesheets/ProjectInfo.scss";
 import classNames from "classnames";
 
 const ProjectInfo = ({ className }) => {

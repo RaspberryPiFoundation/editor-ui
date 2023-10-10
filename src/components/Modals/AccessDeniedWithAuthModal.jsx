@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import Button from "../Button/Button";
-import "../../Modal.scss";
+import "../../assets/stylesheets/Modal.scss";
 import {
   closeAccessDeniedWithAuthModal,
   syncProject,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 import GeneralModal from "./GeneralModal";
 

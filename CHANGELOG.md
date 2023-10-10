@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Web component styling (#687)
 - Convert React components to JSX files (#688)
+- Moved `svg`s to `/src/assets/icons` (#692)
+- Moved `scss` files to `/src/stylesheets` (#692)
+- Moved slices and reducers to `/src/redux` (#692)
+- Moved loaders to `/src/containers` (#692)
 
 ## [0.19.1]
 

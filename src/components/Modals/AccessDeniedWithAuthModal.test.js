@@ -3,11 +3,11 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import AccessDeniedWithAuthModal from "./AccessDeniedWithAuthModal";
-import { syncProject } from "../Editor/EditorSlice";
+import { syncProject } from "../../redux/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
-jest.mock("../Editor/EditorSlice", () => ({
-  ...jest.requireActual("../Editor/EditorSlice"),
+jest.mock("../../redux/EditorSlice", () => ({
+  ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),
 }));
 

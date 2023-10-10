@@ -1,7 +1,7 @@
 import Button from "../Button/Button";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { stopCodeRun, stopDraw } from "../Editor/EditorSlice";
+import { stopCodeRun, stopDraw } from "../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
 
 const StopButton = ({ embedded = false, className, ...props }) => {

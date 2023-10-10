@@ -1,0 +1,10 @@
+<svg
+  data-testid="defaultFileIcon"
+  width="16"
+  height="20"
+  viewBox="0 0 16 20"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M4 16H12V14H4V16ZM4 12H12V10H4V12ZM0 20V0H10L16 6V20H0ZM9 7V2H2V18H14V7H9ZM2 2V7V2V18V2Z" />
+</svg>

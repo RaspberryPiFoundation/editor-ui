@@ -2,9 +2,10 @@ import React from "react";
 import RunButton from "./RunButton";
 import StopButton from "./StopButton";
 import { useSelector } from "react-redux";
-import { RunIcon, StopIcon } from "../../Icons";
+import RunIcon from "../../assets/icons/run.svg";
+import StopIcon from "../../assets/icons/stop.svg";
 import { useTranslation } from "react-i18next";
-import "./RunnerControls.scss";
+import "../../assets/stylesheets/RunnerControls.scss";
 
 const RunnerControls = ({ embedded = false, skinny = false }) => {
   const codeRunTriggered = useSelector(

@@ -8,18 +8,16 @@ import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
-import {
-  HomeIcon,
-  FileIcon,
-  ImageIcon,
-  InfoIcon,
-  SettingsIcon,
-} from "../../../Icons";
+import HomeIcon from "../../../assets/icons/home.svg";
+import ImageIcon from "../../../assets/icons/image.svg";
+import InfoIcon from "../../../assets/icons/info.svg";
+import SettingsIcon from "../../../assets/icons/settings.svg";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
-import "./Sidebar.scss";
+import "../../../assets/stylesheets/Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import FileIcon from "../../../utils/FileIcon";
 
 const Sidebar = () => {
   const { t } = useTranslation();

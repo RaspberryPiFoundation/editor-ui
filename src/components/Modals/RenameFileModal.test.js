@@ -8,7 +8,7 @@ import {
   setNameError,
   updateComponentName,
   closeRenameFileModal,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 
 describe("Testing the rename file modal", () => {
   let store;

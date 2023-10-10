@@ -1,6 +1,6 @@
 import React from "react";
-import "../AstroPiModel.scss";
-import { ResetIcon } from "../../../Icons";
+import "../../../assets/stylesheets/AstroPiModel.scss";
+import ResetIcon from "../../../assets/icons/reset.svg";
 
 const OrientationResetButton = (props) => {
   const { resetOrientation } = props;

@@ -1,5 +1,5 @@
 import React from "react";
-import "./AstroPiModel.scss";
+import "../../assets/stylesheets/AstroPiModel.scss";
 import Simulator from "./Simulator";
 import Sk from "skulpt";
 import AstroPiControls from "./AstroPiControls/AstroPiControls";
@@ -7,7 +7,7 @@ import OrientationPanel from "./OrientationPanel/OrientationPanel";
 import { useEffect, useState } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
-import { defaultMZCriteria } from "./DefaultMZCriteria";
+import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 
 const AstroPiModel = () => {
   const project = useSelector((state) => state.editor.project);

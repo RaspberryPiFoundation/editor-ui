@@ -1,11 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { BinIcon, EllipsisVerticalIcon, PencilIcon } from "../../../Icons";
+import BinIcon from "../../../assets/icons/bin.svg";
+import EllipsisVerticalIcon from "../../../assets/icons/ellipsis_vertical.svg";
+import PencilIcon from "../../../assets/icons/pencil.svg";
+
 import {
   showDeleteProjectModal,
   showRenameProjectModal,
-} from "../../Editor/EditorSlice";
+} from "../../../redux/EditorSlice";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
 const ProjectActionsMenu = (props) => {

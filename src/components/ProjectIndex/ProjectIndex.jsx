@@ -1,21 +1,21 @@
 import { useSelector, connect, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
-import { useRequiresUser } from "../Editor/Hooks/useRequiresUser";
+import { useRequiresUser } from "../../hooks/useRequiresUser";
 import ProjectIndexHeader from "../ProjectIndexHeader/ProjectIndexHeader";
 import {
   ProjectListTable,
   PROJECT_LIST_TABLE_FRAGMENT,
 } from "../ProjectListTable/ProjectListTable";
 import Button from "../Button/Button";
-import { PlusIcon } from "../../Icons";
+import PlusIcon from "../../assets/icons/plus.svg";
 import RenameProjectModal from "../Modals/RenameProjectModal";
 import DeleteProjectModal from "../Modals/DeleteProjectModal";
 import {
   ProjectIndexPagination,
   PROJECT_INDEX_PAGINATION_FRAGMENT,
 } from "./ProjectIndexPagination";
-import { showNewProjectModal } from "../Editor/EditorSlice";
+import { showNewProjectModal } from "../../redux/EditorSlice";
 import NewProjectModal from "../Modals/NewProjectModal";
 
 export const PROJECT_INDEX_QUERY = gql`
