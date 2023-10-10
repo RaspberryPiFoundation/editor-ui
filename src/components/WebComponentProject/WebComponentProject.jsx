@@ -17,7 +17,7 @@ import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
+    (state) => state.editor.codeRunTriggered
   );
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
@@ -32,7 +32,7 @@ const WebComponentProject = () => {
 
   useEffect(() => {
     setCodeHasRun(false);
-    if (timeoutId) clearTimeout(timeoutId);
+    // if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(function () {
       const customEvent = new CustomEvent("codeChanged", {
         bubbles: true,
@@ -40,9 +40,16 @@ const WebComponentProject = () => {
         composed: true,
       });
       webComponent.dispatchEvent(customEvent);
+      return () => clearTimeout(id);
     }, 2000);
+<<<<<<< Updated upstream
     setTimeoutId(id);
   }, [project]);
+=======
+
+    // setTimeoutId(id);
+  }, [project, webComponent]);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (codeRunTriggered) {
