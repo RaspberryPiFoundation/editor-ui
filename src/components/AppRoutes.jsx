@@ -1,27 +1,27 @@
-import { React, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
 const Callback = lazy(() => import(/* webpackPrefetch: true */ "./Callback"));
 const SilentRenew = lazy(() =>
-  import(/* webpackPrefetch: true */ "./SilentRenew"),
+  import(/* webpackPrefetch: true */ "./SilentRenew")
 );
 const LocaleLayout = lazy(() =>
-  import(/* webpackPrefetch: true */ "./LocaleLayout/LocaleLayout"),
+  import(/* webpackPrefetch: true */ "./LocaleLayout/LocaleLayout")
 );
 const LandingPage = lazy(() =>
-  import(/* webpackPrefetch: true */ "./LandingPage/LandingPage"),
+  import(/* webpackPrefetch: true */ "./LandingPage/LandingPage")
 );
 const ProjectIndex = lazy(() =>
-  import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex"),
+  import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex")
 );
 const ProjectComponentLoader = lazy(() =>
   import(
     /* webpackPrefetch: true */ "./Editor/ProjectComponentLoader/ProjectComponentLoader"
-  ),
+  )
 );
 const EmbeddedViewer = lazy(() =>
-  import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"),
+  import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer")
 );
 
 const projectLinkRedirects = [

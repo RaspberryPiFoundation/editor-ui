@@ -2,11 +2,16 @@
 @use '../../font-size' as *;
 @use '../../colours' as *;
 
+:host {
+  font-size: 1.6rem;
+}
+
 #wc {
-  @include font-size-1(regular);
+  background: var(--editor-secondary-theme, transparent); // you can also access root variables here too
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  font-size: 16px; // sets the shadow doms base font size
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;

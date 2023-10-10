@@ -14,7 +14,7 @@ import DeleteProjectModal from "../Modals/DeleteProjectModal";
 import {
   ProjectIndexPagination,
   PROJECT_INDEX_PAGINATION_FRAGMENT,
-} from "./ProjectIndexPagination.js";
+} from "./ProjectIndexPagination";
 import { showNewProjectModal } from "../Editor/EditorSlice";
 import NewProjectModal from "../Modals/NewProjectModal";
 
