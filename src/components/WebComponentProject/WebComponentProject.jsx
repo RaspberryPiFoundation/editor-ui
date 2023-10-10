@@ -17,14 +17,13 @@ import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
+    (state) => state.editor.codeRunTriggered
   );
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  // const [timeoutId, setTimeoutId] = React.useState(null);
   const webComponent = document.querySelector("editor-wc");
   const [codeHasRun, setCodeHasRun] = React.useState(false);
   const dispatch = useDispatch();
@@ -34,7 +33,6 @@ const WebComponentProject = () => {
 
   useEffect(() => {
     setCodeHasRun(false);
-    // if (timeoutId) clearTimeout(timeoutId);
     const id = setTimeout(() => {
       const customEvent = new CustomEvent("codeChanged", {
         bubbles: true,
@@ -44,8 +42,6 @@ const WebComponentProject = () => {
       webComponent.dispatchEvent(customEvent);
     }, 2000);
     return () => clearTimeout(id);
-
-    // setTimeoutId(id);
   }, [project, webComponent]);
 
   useEffect(() => {
