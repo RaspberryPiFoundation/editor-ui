@@ -1,0 +1,49 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-weight' as *;
+@use './rpf_design_system/colours' as *;
+
+.editor-project-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: $space-2-5;
+  svg {
+    margin: 0;
+  }
+}
+
+.editor-project-pagination__buttons {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  min-width: fit-content;
+  width: 100px;
+
+  .btn {
+    margin: 0 $space-0-25
+  }
+}
+
+.editor-project-list-pagination__current-page {
+  height: 100%;
+  box-sizing: border-box;
+  padding: $space-0-5 $space-1;
+  margin: 0 $space-0-25;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  font-weight: $font-weight-bold
+}
+
+.--light {
+  .editor-project-list-pagination__current-page {
+    background-color: $rpf-white;
+  }
+}
+
+.--dark {
+  .editor-project-list-pagination__current-page {
+    background-color: $rpf-grey-500;
+  }
+}
+

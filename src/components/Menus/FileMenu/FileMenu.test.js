@@ -4,8 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 
 import FileMenu from "./FileMenu";
-import { showRenameFileModal } from "../../Editor/EditorSlice";
-import { SettingsContext } from "../../../settings";
+import { showRenameFileModal } from "../../../redux/EditorSlice";
+import { SettingsContext } from "../../../utils/settings";
 
 describe("with file item", () => {
   let store;
