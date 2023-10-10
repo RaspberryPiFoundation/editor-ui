@@ -13,8 +13,9 @@ import Sk from "skulpt";
 import store from "../../app/store";
 import { setIsSplitView } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
+import Button from "../Button/Button";
 
-const WebComponentProject = () => {
+const WebComponentProject = ({ step }) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -71,6 +72,21 @@ const WebComponentProject = () => {
     }
   }, [codeRunTriggered]);
 
+  const stepChangedEvent = (newStepNumber) =>
+    new CustomEvent("stepChanged", {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: {
+        newStepNumber: newStepNumber,
+      },
+    });
+
+  const changeStep = (stepNumber) => {
+    console.log("changing step");
+    webComponent.dispatchEvent(stepChangedEvent(stepNumber));
+  };
+
   return (
     <>
       <style>{externalStyles.toString()}</style>
@@ -85,7 +101,14 @@ const WebComponentProject = () => {
           {isMobile ? (
             <MobileProject forWebComponent={true} />
           ) : (
-            <Project forWebComponent={true} />
+            <>
+              <Project forWebComponent={true} />
+              <Button
+                buttonText="Next step"
+                onClickHandler={() => changeStep(parseInt(step) + 1)}
+              />
+              <p>Current step: {step}</p>
+            </>
           )}
         </div>
       </Style>
