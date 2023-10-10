@@ -2,9 +2,11 @@ import React, { lazy } from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
-const Callback = lazy(() => import(/* webpackPrefetch: true */ "./Callback"));
+const Callback = lazy(() =>
+  import(/* webpackPrefetch: true */ "../containers/Callback"),
+);
 const SilentRenew = lazy(() =>
-  import(/* webpackPrefetch: true */ "./SilentRenew"),
+  import(/* webpackPrefetch: true */ "../utils/SilentRenew"),
 );
 const LocaleLayout = lazy(() =>
   import(/* webpackPrefetch: true */ "./LocaleLayout/LocaleLayout"),
@@ -16,9 +18,7 @@ const ProjectIndex = lazy(() =>
   import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex"),
 );
 const ProjectComponentLoader = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ "./Editor/ProjectComponentLoader/ProjectComponentLoader"
-  ),
+  import(/* webpackPrefetch: true */ "../containers/ProjectComponentLoader"),
 );
 const EmbeddedViewer = lazy(() =>
   import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"),
