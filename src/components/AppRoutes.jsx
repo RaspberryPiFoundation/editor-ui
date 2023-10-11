@@ -1,14 +1,30 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 
-import ProjectComponentLoader from "../containers/ProjectComponentLoader";
-import ProjectIndex from "./ProjectIndex/ProjectIndex";
-import EmbeddedViewer from "./EmbeddedViewer/EmbeddedViewer";
-import Callback from "../containers/Callback";
-import SilentRenew from "../utils/SilentRenew";
-import LocaleLayout from "./LocaleLayout/LocaleLayout";
-import LandingPage from "./LandingPage/LandingPage";
+const Callback = lazy(() =>
+  import(/* webpackPrefetch: true */ "../containers/Callback"),
+);
+const SilentRenew = lazy(() =>
+  import(/* webpackPrefetch: true */ "../utils/SilentRenew"),
+);
+const LocaleLayout = lazy(() =>
+  import(/* webpackPrefetch: true */ "./LocaleLayout/LocaleLayout"),
+);
+const LandingPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./LandingPage/LandingPage"),
+);
+const ProjectIndex = lazy(() =>
+  import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex"),
+);
+const ProjectComponentLoader = lazy(() =>
+  import(/* webpackPrefetch: true */ "../containers/ProjectComponentLoader"),
+);
+const EmbeddedViewer = lazy(() =>
+  import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"),
+);
+
+const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
 const projectLinkRedirects = [
   "/null/projects/:identifier",
@@ -25,22 +41,25 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const AppRoutes = () => (
   <SentryRoutes>
-    <Route path="/auth/callback" element={<Callback />} />
+    <Route path="/auth/callback" element={suspense(<Callback />)} />
 
-    <Route path="/auth/silent_renew" element={<SilentRenew />} />
-    <Route path={":locale"} element={<LocaleLayout />}>
-      <Route index element={<LandingPage />} />
-      <Route path={"projects"} element={<ProjectIndex />} />
+    <Route path="/auth/silent_renew" element={suspense(<SilentRenew />)} />
+    <Route path={":locale"} element={suspense(<LocaleLayout />)}>
+      <Route index element={suspense(<LandingPage />)} />
+      <Route path={"projects"} element={suspense(<ProjectIndex />)} />
       <Route
         path={"projects/:identifier"}
-        element={<ProjectComponentLoader />}
+        element={suspense(<ProjectComponentLoader />)}
       />
-      <Route path="embed/viewer/:identifier" element={<EmbeddedViewer />} />
+      <Route
+        path="embed/viewer/:identifier"
+        element={suspense(<EmbeddedViewer />)}
+      />
     </Route>
 
     <Route
       path="/embedded/projects/:identifier"
-      element={<ProjectComponentLoader embedded={true} />}
+      element={suspense(<ProjectComponentLoader embedded={true} />)}
     />
 
     {/* Redirects will be moved into a cloudflare worker. This is just interim */}
