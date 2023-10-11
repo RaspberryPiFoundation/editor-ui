@@ -33,7 +33,7 @@ const WebComponentProject = () => {
 
   useEffect(() => {
     setCodeHasRun(false);
-    const id = setTimeout(() => {
+    const timeout = setTimeout(() => {
       const customEvent = new CustomEvent("codeChanged", {
         bubbles: true,
         cancelable: false,
@@ -41,7 +41,7 @@ const WebComponentProject = () => {
       });
       webComponent.dispatchEvent(customEvent);
     }, 2000);
-    return () => clearTimeout(id);
+    return () => clearTimeout(timeout);
   }, [project, webComponent]);
 
   useEffect(() => {
