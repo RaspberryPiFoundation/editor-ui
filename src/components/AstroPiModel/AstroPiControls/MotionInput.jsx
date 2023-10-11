@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import { useSelector } from "react-redux";
 import Toggle from "react-toggle";
 import Sk from "skulpt";
@@ -24,7 +24,9 @@ const MotionInput = (props) => {
 
   useEffect(() => {
     if (Sk.sense_hat) {
-      Sk.sense_hat.motion = value;
+      startTransition(() => {
+        Sk.sense_hat.motion = value;
+      });
     }
     value
       ? Sk.sense_hat.start_motion_callback()

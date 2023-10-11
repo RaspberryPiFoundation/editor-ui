@@ -39,7 +39,7 @@ const Project = (props) => {
     setDefaultHeight(isDesktop ? "100%" : "50%");
     setMaxWidth(isDesktop ? "75%" : "100%");
     setHandleDirection(isDesktop ? "right" : "bottom");
-  }, [params]);
+  }, [params["width-larger-than-880"]]);
 
   return (
     <div className="proj">
