@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Performance enhancements on app routes & sense hat transitions (#686)
 - Web component styling (#687)
 - Convert React components to JSX files (#688)
 - Moved `svg`s to `/src/assets/icons` (#692)
