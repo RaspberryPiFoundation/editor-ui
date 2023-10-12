@@ -47,18 +47,29 @@ const FilePanel = ({ isMobile }) => {
     syncWithPico(project.components);
   };
 
-  const connectToPico = () => {
-    navigator.usb
-      .requestDevice({
-        filters: [
-          {
-            vendorId: 0x2e8a,
-          },
-        ],
-      })
-      .then((device) => {
-        console.log(device);
-      });
+  const connectToPico = async () => {
+    let device = await navigator.usb.requestDevice({
+      filters: [
+        {
+          vendorId: 0x2e8a, // This is the Raspberry Pi Vendor ID
+        },
+      ],
+    });
+    await device.open();
+    await device.selectConfiguration(1);
+    await device.claimInterface(1);
+    let writing = await device.transferOut(
+      2,
+      new Uint8Array(new TextEncoder().encode("Test value\n")),
+    );
+    console.log(writing);
+    console.log("READING");
+    let result = await device.transferIn(2, 4);
+    console.log("RESULT");
+    console.log(result.status);
+    let bytes = await result.data.getUint8();
+    console.log(bytes);
+    await device.close();
   };
 
   return (
