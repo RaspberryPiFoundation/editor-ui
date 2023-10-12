@@ -24,16 +24,16 @@ const WebComponentProject = () => {
     ? "dark"
     : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const [timeoutId, setTimeoutId] = React.useState(null);
   const webComponent = document.querySelector("editor-wc");
   const [codeHasRun, setCodeHasRun] = React.useState(false);
   const dispatch = useDispatch();
-  dispatch(setIsSplitView(false));
+  useEffect(() => {
+    dispatch(setIsSplitView(false));
+  }, [dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
-    if (timeoutId) clearTimeout(timeoutId);
-    const id = setTimeout(function () {
+    const timeout = setTimeout(() => {
       const customEvent = new CustomEvent("codeChanged", {
         bubbles: true,
         cancelable: false,
@@ -41,8 +41,8 @@ const WebComponentProject = () => {
       });
       webComponent.dispatchEvent(customEvent);
     }, 2000);
-    setTimeoutId(id);
-  }, [project]);
+    return () => clearTimeout(timeout);
+  }, [project, webComponent]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -69,7 +69,7 @@ const WebComponentProject = () => {
       });
       webComponent.dispatchEvent(runCompletedEvent);
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, codeHasRun, webComponent]);
 
   return (
     <>

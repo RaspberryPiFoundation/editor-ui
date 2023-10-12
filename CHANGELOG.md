@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Fix useEffect missing dependencies (#674)
+
 ### Changed
 
 - Performance enhancements on app routes & sense hat transitions (#686)
