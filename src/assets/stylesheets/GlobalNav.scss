@@ -1,0 +1,71 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-weight' as *;
+@use './rpf_design_system/colours' as *;
+@use './rpf_design_system/mixins' as *;
+
+.editor-global-nav-wrapper {
+  flex: 0 1 auto;
+  z-index: 2;
+}
+
+.editor-global-nav {
+  display: flex;
+  align-items: center;
+  background-color: $rpf-dark-blue;
+  height: 100%;
+  z-index: 2;
+
+  &__account {
+    margin-left: auto;
+    margin-right: $space-2;
+    height: 100%;
+
+    svg {
+      fill:  $rpf-white;
+      margin: 0 0 0 $space-0-5;
+    }
+
+    .dropdown-button {
+      padding: 0 $space-1-5;
+
+      &:hover {
+        svg {
+          fill: $rpf-white;
+        }
+      }
+    }
+
+    img {
+      height: $space-2-5;
+      margin: $space-0-25 0;
+    }
+  }
+
+  &__home {
+    display: flex;
+    align-items: center;
+    margin-left: $space-2;
+    padding: $space-0-5 0;
+    font-weight: $font-weight-bold;
+    text-decoration: none;
+    color: $rpf-white;
+
+    span {
+      margin-left: $space-1-5;
+    }
+
+    &:visited {
+      color: $rpf-white;
+    }
+
+    @include md-width {
+      margin-left: $space-3;
+    }
+  }
+}
+
+.--dark {
+  .editor-global-nav {
+    background-color: $rpf-grey-850;
+  }
+}

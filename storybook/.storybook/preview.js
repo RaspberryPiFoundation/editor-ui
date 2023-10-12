@@ -5,9 +5,9 @@ import { withRootAttribute } from "storybook-addon-root-attribute";
 // TODO: Fix router implementation that works on projects site
 // import { withRouter } from "storybook-addon-react-router-v6";
 
-import i18n from "i18n"; // importing the same i18n
+import i18n from "utils/i18n"; // importing the same i18n
 
-import "index.css";
+import "assets/stylesheets/index.scss";
 
 // https://storybook.js.org/addons/storybook-addon-react-router-v6
 // addDecorator(withRouter);

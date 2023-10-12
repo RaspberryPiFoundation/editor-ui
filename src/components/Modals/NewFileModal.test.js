@@ -9,7 +9,7 @@ import {
   closeNewFileModal,
   openFile,
   setNameError,
-} from "../Editor/EditorSlice";
+} from "../../redux/EditorSlice";
 
 describe("Testing the new file modal", () => {
   let store;

@@ -1,0 +1,10 @@
+<svg
+  data-testid="htmlIcon"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M2 11.125L9.5 4.125V7.375L3.875 12.375L9.5 17.375V20.625L2 13.625V11.125ZM22 13.75L14.5 20.75V17.375L20.25 12.375L14.5 7.375V4L22 11V13.75Z" />
+</svg>

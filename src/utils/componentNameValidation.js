@@ -1,4 +1,4 @@
-import { setNameError } from "../components/Editor/EditorSlice";
+import { setNameError } from "../redux/EditorSlice";
 
 const allowedExtensions = {
   python: ["py", "csv", "txt"],

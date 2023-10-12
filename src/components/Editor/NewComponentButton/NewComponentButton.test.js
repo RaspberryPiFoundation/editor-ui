@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import NewComponentButton from "./NewComponentButton";
-import { showNewFileModal } from "../EditorSlice";
+import { showNewFileModal } from "../../../redux/EditorSlice";
 
 describe("Testing the new file modal", () => {
   let store;

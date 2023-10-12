@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EditorReducer from "../components/Editor/EditorSlice";
+import EditorReducer from "../redux/EditorSlice";
 import { reducer, loadUser } from "redux-oidc";
 import userManager from "../utils/userManager";
 

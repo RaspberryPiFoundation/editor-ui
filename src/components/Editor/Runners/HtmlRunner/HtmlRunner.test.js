@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import HtmlRunner from "./HtmlRunner";
-import { codeRunHandled, triggerCodeRun } from "../../EditorSlice";
+import { codeRunHandled, triggerCodeRun } from "../../../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";

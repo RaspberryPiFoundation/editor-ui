@@ -6,7 +6,7 @@ import DownloadButton from "./DownloadButton";
 import FileSaver from "file-saver";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
-import { closeLoginToSaveModal } from "../Editor/EditorSlice";
+import { closeLoginToSaveModal } from "../../redux/EditorSlice";
 
 jest.mock("file-saver");
 jest.mock("jszip");

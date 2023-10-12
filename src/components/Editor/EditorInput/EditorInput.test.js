@@ -3,7 +3,11 @@ import configureStore from "redux-mock-store";
 import EditorInput from "./EditorInput";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { closeFile, setFocussedFileIndex, setOpenFiles } from "../EditorSlice";
+import {
+  closeFile,
+  setFocussedFileIndex,
+  setOpenFiles,
+} from "../../../redux/EditorSlice";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 

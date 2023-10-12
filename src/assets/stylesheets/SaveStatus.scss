@@ -1,0 +1,23 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-size' as *;
+@use './rpf_design_system/colours' as *;
+
+.save-status {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 $space-1 0 $space-0-5;
+}
+
+.save-status--mobile {
+  margin: unset;
+
+  .save-status__text {
+    @include font-size-1(regular);
+  }
+}
+
+.save-status__icon {
+  display: flex;
+
+}
