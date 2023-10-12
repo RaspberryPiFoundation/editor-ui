@@ -10,7 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Fix useEffect web component warnings #674
+- TIDY UP: Improve component structure (#692)
+- TIDY UP: Naming convention (#688)
+- Style scaling to support integration into products with difffernt... (#687)
+- Boosting Performance: React.js Code Optimizations (#686)
+- Fix useEffect web component warnings (#674)
 
 ## [0.19.1] - 2023-10-04
 
