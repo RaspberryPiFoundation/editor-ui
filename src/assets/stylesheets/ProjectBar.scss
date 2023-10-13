@@ -23,9 +23,9 @@
     &::after {
       content: '';
       position: absolute;
-      top: -3px;
-      right: 0px;
-      bottom: -3px;
+      inset-block-start: -3px;
+      inset-inline-end: 0px;
+      inset-block-end: -3px;
     }
 
     span {

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+- Replace physical properties with logical values
+
 ## [0.19.2] - 2023-10-12
 
 ### Fixed
