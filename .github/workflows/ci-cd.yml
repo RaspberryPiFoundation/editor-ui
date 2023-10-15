@@ -31,8 +31,8 @@ jobs:
     - name: eslint
       run: yarn lint
 
-    # - name: stylelint
-    #   run: yarn stylelint
+    - name: stylelint
+      run: yarn stylelint
 
   test:
     runs-on: ubuntu-latest
