@@ -18,6 +18,7 @@
       "vw",
       "svh",
       "dvh"
-    ]
+    ],
+    "at-rule-no-unknown": true
   }
 }
