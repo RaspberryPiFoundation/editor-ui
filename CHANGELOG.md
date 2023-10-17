@@ -7,15 +7,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 ### Changed
+- Replace physical properties with logical values
 
+## [0.19.2] - 2023-10-12
+
+### Fixed
+
+- TIDY UP: Improve component structure (#692)
+- TIDY UP: Naming convention (#688)
+- Style scaling to support integration into products with difffernt... (#687)
+- Boosting Performance: React.js Code Optimizations (#686)
+- Fix useEffect web component warnings (#674)
+
+## [0.19.1] - 2023-10-04
+
+### Changed
+
+- Performance enhancements on app routes & sense hat transitions (#686)
 - Web component styling (#687)
 - Convert React components to JSX files (#688)
 - Moved `svg`s to `/src/assets/icons` (#692)
 - Moved `scss` files to `/src/stylesheets` (#692)
 - Moved slices and reducers to `/src/redux` (#692)
 - Moved loaders to `/src/containers` (#692)
-
-## [0.19.1]
 
 ### Fixed
 
@@ -518,7 +532,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.2...HEAD
+[0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
+[0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
 [0.19.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.0
 [0.18.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.2
 [0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1
