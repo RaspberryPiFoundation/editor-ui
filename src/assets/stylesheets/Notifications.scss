@@ -33,7 +33,12 @@
     width: 100%;
     font-weight: $font-weight-bold;
     inset-block-start: 20%;
+
+    .Toastify__toast-icon {
+      width: fit-content;
+    }
   }
+
   .toast--top-center__message {
     border-radius: 25px;
   }
