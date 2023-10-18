@@ -6,6 +6,7 @@ import DownloadIcon from "../../assets/icons/download.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
+import ShareButton from "../ShareButton/ShareButton";
 
 const ProjectBar = () => {
   const { t } = useTranslation();
@@ -37,6 +38,9 @@ const ProjectBar = () => {
           ) : null}
           <div className="project-bar__btn-wrapper">
             <SaveButton className="project-bar__btn btn--save" />
+          </div>
+          <div className="project-bar__btn-wrapper">
+            <ShareButton className="project-bar__btn btn--save" />
           </div>
           {lastSavedTime && user ? (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />

@@ -1,0 +1,50 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import SaveIcon from "../../assets/icons/save.svg";
+import { syncProject, showLoginToSaveModal } from "../../redux/EditorSlice";
+import { isOwner } from "../../utils/projectHelpers";
+
+const ShareButton = ({ className, type = "primary" }) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const user = useSelector((state) => state.auth.user);
+  const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor.loading);
+
+  const onClickSave = async () => {
+    // window.plausible("Save button");
+
+    if (isOwner(user, project)) {
+      dispatch(
+        syncProject("share")({
+          project,
+          accessToken: user.access_token,
+          // autosave: false,
+        }),
+      );
+    } else if (user && project.identifier) {
+      dispatch(
+        syncProject("remix")({ project, accessToken: user.access_token }),
+      );
+    } else {
+      dispatch(showLoginToSaveModal());
+    }
+  };
+
+  return (
+    loading === "success" && (
+      <DesignSystemButton
+        className={className}
+        onClick={onClickSave}
+        text={t("header.share")}
+        textAlways
+        icon={<SaveIcon />}
+        type={type}
+      />
+    )
+  );
+};
+
+export default ShareButton;

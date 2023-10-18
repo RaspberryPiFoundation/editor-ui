@@ -216,6 +216,7 @@ i18n
             renameProject: "Edit project name",
             renameSave: "Save project name",
             save: "Save",
+            share: "Share",
             settings: "Settings",
           },
           imagePanel: {

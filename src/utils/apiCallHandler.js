@@ -61,6 +61,14 @@ export const createRemix = async (project, accessToken) => {
   );
 };
 
+export const createShare = async (project, accessToken) => {
+  return await post(
+    `${host}/api/projects/${project.identifier}/share`,
+    { project },
+    headers(accessToken),
+  );
+};
+
 export const readProject = async (projectIdentifier, locale, accessToken) => {
   const queryString = locale ? `?locale=${locale}` : "";
   return await get(

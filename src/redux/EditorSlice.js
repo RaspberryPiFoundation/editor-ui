@@ -9,6 +9,7 @@ import {
   createOrUpdateProject,
   readProject,
   createRemix,
+  createShare,
   deleteProject,
   readProjectList,
 } from "../utils/apiCallHandler";
@@ -27,6 +28,10 @@ export const syncProject = (actionName) =>
           break;
         case "remix":
           response = await createRemix(project, accessToken);
+          break;
+        case "share":
+          response = await createShare(project, accessToken);
+          console.log(response);
           break;
         case "save":
           response = await createOrUpdateProject(project, accessToken);
