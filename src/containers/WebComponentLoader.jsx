@@ -5,7 +5,7 @@ import WebComponentProject from "../components/WebComponentProject/WebComponentP
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, sense_hat_always_enabled } = props;
+  const { code, sense_hat_always_enabled, step } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const WebComponentLoader = (props) => {
 
   return loading === "success" ? (
     <>
-      <WebComponentProject />
+      <WebComponentProject step={step} />
     </>
   ) : (
     <>
