@@ -9,10 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - `step_number` attribute and `stepChanged` custom event for the web component (#709)
+- Web component tests (#709, #710)
 
 ### Changed
 
 - Replace physical properties with logical values
+- Moved web component custom events from the `editor-wc` element to the `document` (#710)
 
 ### Fixed
 
