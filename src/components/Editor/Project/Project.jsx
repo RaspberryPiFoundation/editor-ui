@@ -31,6 +31,7 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
+  const [flexDirection, setFlexDirection] = useState("column");
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-880"];
@@ -39,6 +40,7 @@ const Project = (props) => {
     setDefaultHeight(isDesktop ? "100%" : "50%");
     setMaxWidth(isDesktop ? "75%" : "100%");
     setHandleDirection(isDesktop ? "right" : "bottom");
+    setFlexDirection(isDesktop ? "row" : "column");
   }, [params["width-larger-than-880"]]);
 
   return (
@@ -52,19 +54,25 @@ const Project = (props) => {
         {!forWebComponent && <Sidebar />}
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
-          <div className="proj-editor-wrapper">
+          <div className="proj-editor-wrapper" style={{ flexDirection }}>
             <ResizableWithHandle
               data-testid="proj-editor-container"
               className="proj-editor-container"
               defaultWidth={defaultWidth}
-              defaultHeight={defaultHeight}
+              minHeight={defaultHeight}
               handleDirection={handleDirection}
               minWidth="25%"
               maxWidth={maxWidth}
             >
               <EditorInput />
             </ResizableWithHandle>
-            <Output />
+            <Output
+              panelDirection={flexDirection}
+              defaultWidth={defaultWidth}
+              minHeight={defaultHeight}
+              minWidth="25%"
+              maxWidth={maxWidth}
+            />
           </div>
         </div>
       </div>
