@@ -11,7 +11,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `step_number` attribute and `stepChanged` custom event for the web component (#709)
 
 ### Changed
+
 - Replace physical properties with logical values
+
+### Fixed
+
+- Clipped icon in "Save your work" toast (#707)
 
 ## [0.19.2] - 2023-10-12
 
