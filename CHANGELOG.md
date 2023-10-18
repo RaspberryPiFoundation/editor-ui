@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Replace physical properties with logical values
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
+- Renamed web component custom events to be prefixed with `editor-` (#710)
 
 ### Fixed
 
