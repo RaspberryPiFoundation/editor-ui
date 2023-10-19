@@ -27,7 +27,7 @@
   &:disabled {
     background-color: $dis-bg;
     color: $dis-c;
-  
+
     svg {
       fill: $dis-c;
     }
@@ -37,7 +37,7 @@
     background-color: $focus-bg;
     @content;
   }
-  
+
   &:hover, .btn-outer:hover & {
     background-color: $hover-bg;
     @content;
@@ -75,10 +75,6 @@
   &:focus-visible {
     border: 3px solid $rpf-brand-raspberry;
     outline: none;
-  }
-
-  &--small {
-    padding: $space-0-25;
   }
 
   // Variants
@@ -146,6 +142,7 @@
   &--small {
     min-height: unset;
     min-width: unset;
+    padding: $space-0-25;
   }
 
   &--svg-only {

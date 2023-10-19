@@ -13,13 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Replace physical properties with logical values
+- Enable Stylelint (#705)
+- Replace physical properties with logical values (#699)
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 
 ### Fixed
 
 - Clipped icon in "Save your work" toast (#707)
+
 
 ## [0.19.2] - 2023-10-12
 
