@@ -7,6 +7,7 @@ import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./app/store";
 import { Provider } from "react-redux";
 import "./utils/i18n";
+import camelCase from "./utils/camelCase";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -34,13 +35,22 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled", "step_number"];
+    return ["code", "sense_hat_always_enabled", "step_number", "steps"];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
-    // console.log(name, newVal)
-    this.componentAttributes[name] = newVal;
+    let value;
 
+    if (["sense_hat_always_enabled"].includes(name)) {
+      value = Boolean(newVal);
+    } else if (["step_number"].includes(name)) {
+      value = parseInt(newVal);
+    } else if (["steps"].includes(name)) {
+      value = JSON.parse(newVal);
+    } else {
+      value = newVal;
+    }
+    this.componentAttributes[camelCase(name)] = value;
     this.mountReactApp();
   }
 

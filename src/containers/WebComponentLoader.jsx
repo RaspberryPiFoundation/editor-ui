@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
+import { setStepNumber, setSteps } from "../redux/InstructionsSlice";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, sense_hat_always_enabled, step_number } = props;
+  const { code, senseHatAlwaysEnabled, stepNumber, steps } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -16,14 +17,24 @@ const WebComponentLoader = (props) => {
       components: [{ name: "main", extension: "py", content: code }],
     };
     dispatch(
-      setSenseHatAlwaysEnabled(typeof sense_hat_always_enabled !== "undefined"),
+      setSenseHatAlwaysEnabled(typeof senseHatAlwaysEnabled !== "undefined"),
     );
     dispatch(setProject(proj));
-  }, [code, sense_hat_always_enabled, dispatch]);
+  }, [code, senseHatAlwaysEnabled, dispatch]);
+
+  useEffect(() => {
+    dispatch(setStepNumber(stepNumber));
+  }, [stepNumber, dispatch]);
+
+  useEffect(() => {
+    if (steps) {
+      dispatch(setSteps(steps));
+    }
+  }, [steps, dispatch]);
 
   return loading === "success" ? (
     <>
-      <WebComponentProject stepNumber={step_number} />
+      <WebComponentProject />
     </>
   ) : (
     <>
