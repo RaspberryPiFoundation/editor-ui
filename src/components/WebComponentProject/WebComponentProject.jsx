@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
@@ -10,22 +10,27 @@ import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import store from "../../app/store";
 import { setIsSplitView } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
+import {
+  codeChangedEvent,
+  runCompletedEvent,
+  runStartedEvent,
+} from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+  const error = useSelector((state) => state.editor.error);
+  const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const webComponent = document.querySelector("editor-wc");
-  const [codeHasRun, setCodeHasRun] = React.useState(false);
+  const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setIsSplitView(false));
@@ -34,42 +39,27 @@ const WebComponentProject = () => {
   useEffect(() => {
     setCodeHasRun(false);
     const timeout = setTimeout(() => {
-      const customEvent = new CustomEvent("codeChanged", {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-      });
-      webComponent.dispatchEvent(customEvent);
+      document.dispatchEvent(codeChangedEvent);
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [project, webComponent]);
+  }, [project]);
 
   useEffect(() => {
     if (codeRunTriggered) {
-      const runStartedEvent = new CustomEvent("runStarted", {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-      });
-      webComponent.dispatchEvent(runStartedEvent);
+      document.dispatchEvent(runStartedEvent);
       setCodeHasRun(true);
     } else if (codeHasRun) {
-      const state = store.getState();
       const mz_criteria = Sk.sense_hat
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
-      const runCompletedEvent = new CustomEvent("runCompleted", {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        detail: {
-          isErrorFree: state.editor.error === "",
+      document.dispatchEvent(
+        runCompletedEvent({
+          isErrorFree: error === "",
           ...mz_criteria,
-        },
-      });
-      webComponent.dispatchEvent(runCompletedEvent);
+        }),
+      );
     }
-  }, [codeRunTriggered, codeHasRun, webComponent]);
+  }, [codeRunTriggered, codeHasRun, error]);
 
   return (
     <>
