@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
@@ -30,7 +30,7 @@ const WebComponentProject = () => {
     ? "dark"
     : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const [codeHasRun, setCodeHasRun] = React.useState(codeHasBeenRun);
+  const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setIsSplitView(false));
