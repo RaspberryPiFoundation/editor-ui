@@ -6,12 +6,12 @@ const webComponentCustomEvent = (type, detail) =>
     detail: detail,
   });
 
-export const codeChangedEvent = webComponentCustomEvent("codeChanged");
+export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
 
 export const runCompletedEvent = (detail) =>
-  webComponentCustomEvent("runCompleted", detail);
+  webComponentCustomEvent("editor-runCompleted", detail);
 
-export const runStartedEvent = webComponentCustomEvent("runStarted");
+export const runStartedEvent = webComponentCustomEvent("editor-runStarted");
 
 export const stepChangedEvent = (detail) =>
-  webComponentCustomEvent("stepChanged", detail);
+  webComponentCustomEvent("editor-stepChanged", detail);
