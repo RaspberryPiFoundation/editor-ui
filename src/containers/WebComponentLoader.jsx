@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
-import { setStepNumber, setSteps } from "../redux/InstructionsSlice";
+import { setInstructions } from "../redux/InstructionsSlice";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, senseHatAlwaysEnabled, stepNumber, steps } = props;
+  const { code, senseHatAlwaysEnabled, instructions } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -23,14 +23,10 @@ const WebComponentLoader = (props) => {
   }, [code, senseHatAlwaysEnabled, dispatch]);
 
   useEffect(() => {
-    dispatch(setStepNumber(stepNumber));
-  }, [stepNumber, dispatch]);
-
-  useEffect(() => {
-    if (steps) {
-      dispatch(setSteps(steps));
+    if (instructions) {
+      dispatch(setInstructions(instructions));
     }
-  }, [steps, dispatch]);
+  }, [instructions, dispatch]);
 
   return loading === "success" ? (
     <>

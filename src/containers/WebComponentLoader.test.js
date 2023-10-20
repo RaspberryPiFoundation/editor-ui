@@ -4,11 +4,12 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
 import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
-import { setStepNumber, setSteps } from "../redux/InstructionsSlice";
+import { setInstructions } from "../redux/InstructionsSlice";
 
 let store;
 const code = "print('This project is amazing')";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
+const instructions = { currentStepPosition: 3, project: { steps: steps } };
 
 beforeEach(() => {
   const middlewares = [];
@@ -31,8 +32,7 @@ beforeEach(() => {
       <WebComponentLoader
         code={code}
         senseHatAlwaysEnabled={true}
-        stepNumber={12}
-        steps={steps}
+        instructions={instructions}
       />
     </Provider>,
   );
@@ -54,12 +54,8 @@ test("Enables the SenseHat", () => {
   );
 });
 
-test("Sets the step number", () => {
+test("Sets the instructions", () => {
   expect(store.getActions()).toEqual(
-    expect.arrayContaining([setStepNumber(12)]),
+    expect.arrayContaining([setInstructions(instructions)]),
   );
-});
-
-test("Sets the steps", () => {
-  expect(store.getActions()).toEqual(expect.arrayContaining([setSteps(steps)]));
 });

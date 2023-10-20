@@ -1,23 +1,28 @@
-import reducer, { setStepNumber, setSteps } from "./InstructionsSlice";
+import reducer, {
+  setCurrentStepPosition,
+  setInstructions,
+} from "./InstructionsSlice";
 
-const initialState = {
-  stepNumber: null,
-  steps: [],
-};
+const initialState = {};
 
 test("Sets step number correctly", () => {
   const expectedState = {
-    ...initialState,
-    stepNumber: 5,
+    currentStepPosition: 5,
   };
-  expect(reducer(initialState, setStepNumber(5))).toEqual(expectedState);
+  expect(reducer(initialState, setCurrentStepPosition(5))).toEqual(
+    expectedState,
+  );
 });
 
-test("Sets steps correctly", () => {
+test("Sets instructions correctly", () => {
   const step = { quiz: false, title: "Step 1", content: "Do something!" };
-  const expectedState = {
-    ...initialState,
-    steps: [step],
+  const instructions = {
+    currentStepPosition: 7,
+    project: {
+      steps: [step],
+    },
   };
-  expect(reducer(initialState, setSteps([step]))).toEqual(expectedState);
+  expect(reducer(initialState, setInstructions(instructions))).toEqual(
+    instructions,
+  );
 });

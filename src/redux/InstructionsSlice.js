@@ -2,20 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const InstructionsSlice = createSlice({
   name: "instructions",
-  initialState: {
-    steps: [],
-    stepNumber: null,
-  },
+  initialState: {},
   reducers: {
-    setStepNumber: (state, action) => {
-      state.stepNumber = action.payload;
+    setInstructions: (_state, action) => {
+      return action.payload;
     },
-
-    setSteps: (state, action) => {
-      state.steps = action.payload;
+    setCurrentStepPosition: (state, action) => {
+      state.currentStepPosition = action.payload;
     },
   },
 });
 
-export const { setStepNumber, setSteps } = InstructionsSlice.actions;
+export const { setCurrentStepPosition, setInstructions } =
+  InstructionsSlice.actions;
 export default InstructionsSlice.reducer;
