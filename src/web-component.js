@@ -42,7 +42,7 @@ class WebComponent extends HTMLElement {
     let value;
 
     if (["sense_hat_always_enabled"].includes(name)) {
-      value = Boolean(newVal);
+      value = newVal === "true";
     } else if (["instructions"].includes(name)) {
       value = JSON.parse(newVal);
     } else {

@@ -7,7 +7,7 @@ import { setInstructions } from "../redux/InstructionsSlice";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, senseHatAlwaysEnabled, instructions } = props;
+  const { code, senseHatAlwaysEnabled = false, instructions } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -16,9 +16,7 @@ const WebComponentLoader = (props) => {
       type: "python",
       components: [{ name: "main", extension: "py", content: code }],
     };
-    dispatch(
-      setSenseHatAlwaysEnabled(typeof senseHatAlwaysEnabled !== "undefined"),
-    );
+    dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
     dispatch(setProject(proj));
   }, [code, senseHatAlwaysEnabled, dispatch]);
 
