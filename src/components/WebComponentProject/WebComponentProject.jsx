@@ -16,6 +16,7 @@ import {
   codeChangedEvent,
   runCompletedEvent,
   runStartedEvent,
+  stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = () => {
@@ -25,6 +26,9 @@ const WebComponentProject = () => {
   );
   const error = useSelector((state) => state.editor.error);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const currentStepPosition = useSelector(
+    (state) => state.instructions.currentStepPosition,
+  );
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
@@ -60,6 +64,10 @@ const WebComponentProject = () => {
       );
     }
   }, [codeRunTriggered, codeHasRun, error]);
+
+  useEffect(() => {
+    document.dispatchEvent(stepChangedEvent(currentStepPosition));
+  }, [currentStepPosition]);
 
   return (
     <>
