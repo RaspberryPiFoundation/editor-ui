@@ -7,7 +7,7 @@ import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./app/store";
 import { Provider } from "react-redux";
 import "./utils/i18n";
-import camelCase from "./utils/camelCase";
+import camelCase from "camelcase";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
