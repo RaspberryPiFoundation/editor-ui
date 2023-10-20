@@ -1,16 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { reducers } from "./reducers/instructionsReducers";
 
 export const InstructionsSlice = createSlice({
   name: "instructions",
   initialState: {},
-  reducers: {
-    setInstructions: (_state, action) => {
-      return action.payload;
-    },
-    setCurrentStepPosition: (state, action) => {
-      state.currentStepPosition = action.payload;
-    },
-  },
+  reducers,
 });
 
 export const { setCurrentStepPosition, setInstructions } =
