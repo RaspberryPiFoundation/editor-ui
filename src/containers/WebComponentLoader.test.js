@@ -23,6 +23,7 @@ beforeEach(() => {
       openFiles: [],
       focussedFileIndices: [],
     },
+    instructions: {},
     auth: {},
   };
   store = mockStore(initialState);
