@@ -8,17 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `step_number` attribute and `stepChanged` custom event for the web component (#709)
+- `stepChanged` custom event for the web component (#709)
 - Web component tests (#709, #710)
-- `steps` attribute for the web component (#712)
-- Instructions reducer to store `stepNumber` and `steps` (#712)
+- `instructions` attribute for the web component (#712)
+- Instructions slice to store data passed from the Projects site (#712)
 
 ### Changed
 
 - Replace physical properties with logical values
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
-- Props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
+- Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
 
 ### Fixed
 
