@@ -4,9 +4,12 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
 import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import { setInstructions } from "../redux/InstructionsSlice";
 
 let store;
 const code = "print('This project is amazing')";
+const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
+const instructions = { currentStepPosition: 3, project: { steps: steps } };
 
 beforeEach(() => {
   const middlewares = [];
@@ -20,13 +23,18 @@ beforeEach(() => {
       openFiles: [],
       focussedFileIndices: [],
     },
+    instructions: {},
     auth: {},
   };
   store = mockStore(initialState);
 
   render(
     <Provider store={store}>
-      <WebComponentLoader code={code} sense_hat_always_enabled={true} />
+      <WebComponentLoader
+        code={code}
+        senseHatAlwaysEnabled={true}
+        instructions={instructions}
+      />
     </Provider>,
   );
 });
@@ -44,5 +52,11 @@ test("Sets project with code from attribute", () => {
 test("Enables the SenseHat", () => {
   expect(store.getActions()).toEqual(
     expect.arrayContaining([setSenseHatAlwaysEnabled(true)]),
+  );
+});
+
+test("Sets the instructions", () => {
+  expect(store.getActions()).toEqual(
+    expect.arrayContaining([setInstructions(instructions)]),
   );
 });
