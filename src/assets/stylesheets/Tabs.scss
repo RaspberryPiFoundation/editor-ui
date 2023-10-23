@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 #app,
 #wc {
@@ -16,7 +16,8 @@
       border: none;
       background-color: transparent;
       padding: 0;
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
       inset-block-start: 0;
       inset-block-end: 0;
       height: $space-3;
@@ -64,7 +65,8 @@
     &__tab-text {
       height: fit-content;
       width: fit-content;
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
       padding: 0 $space-0-75;
       white-space: nowrap;
 
@@ -101,7 +103,8 @@
       box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
       padding: 0 $space-0-25 0 0;
     }
 
@@ -115,7 +118,6 @@
 
   &.--light {
     .react-tabs {
-
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-150;
       }

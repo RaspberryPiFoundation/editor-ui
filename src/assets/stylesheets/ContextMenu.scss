@@ -1,19 +1,22 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
 
 .context-menu__drop {
   display: flex;
   padding: $space-0-5 $space-1;
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
 
   svg {
-    margin: 0;
+    margin-block: 0;
+    margin-inline: 0;
   }
 }
 
 .context-menu {
   list-style-type: none;
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   padding: 0;
   margin-inline-start: $space-0-5;
   border-radius: 5px;
@@ -21,9 +24,10 @@
   flex-direction: column;
 
   .context-menu__item {
-    margin: 0;
+    margin-block: 0;
+    margin-inline: 0;
     background-color: inherit;
-    color:  inherit;
+    color: inherit;
     padding: $space-0-5;
     text-align: left;
     white-space: nowrap;

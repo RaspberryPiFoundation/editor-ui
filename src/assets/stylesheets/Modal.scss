@@ -1,9 +1,9 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/line-height' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/line-height" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
 
 .modal-overlay {
   display: flex;
@@ -24,11 +24,12 @@
   display: flex;
   flex-direction: column;
 
-  label, legend {
+  label,
+  legend {
     font-weight: $font-weight-bold;
   }
 
-  input[type=text] {
+  input[type="text"] {
     @include font-size-1(regular);
     width: 100%;
     box-sizing: border-box;
@@ -71,12 +72,14 @@
 
 .modal-content__subheading {
   @include font-size-1(regular);
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   font-weight: $font-weight-bold;
 }
 
 .modal-content__text {
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   line-height: $line-height-regular;
 }
 
@@ -110,8 +113,10 @@
     flex-direction: column;
   }
 
-  button, a {
-    margin: 0;
+  button,
+  a {
+    margin-block: 0;
+    margin-inline: 0;
 
     span {
       width: 100%;
@@ -140,7 +145,7 @@
 
 .--dark {
   .modal-overlay {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 
     input {
       border: 2px solid $rpf-white;
@@ -172,7 +177,7 @@
 
 .--light {
   .modal-overlay {
-    background-color: rgba(67,69,76,0.5);
+    background-color: rgba(67, 69, 76, 0.5);
 
     input {
       border: 2px solid $rpf-grey-100;

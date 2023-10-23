@@ -2,7 +2,8 @@
 @use './rpf_design_system/colours' as *;
 
 .proj-container--mobile {
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   gap: 0;
 }
 
@@ -18,16 +19,16 @@
   .mobile-nav {
     display: flex;
     width: 100%;
-  
+
     .react-tabs__tab-list {
       padding: 0;
     }
-  
+
     .react-tabs__tab {
       flex: 1;
       display: flex;
       height: $space-4;
-  
+
       &:last-of-type {
         border-right: none;
       }
@@ -36,7 +37,8 @@
 }
 
 .mobile-nav__menu {
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   border-radius: 0;
   border: none;
   display: flex;

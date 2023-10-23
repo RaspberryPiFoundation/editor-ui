@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
 
 .editor-project-header {
   &__inner {
@@ -40,7 +40,8 @@
     }
 
     .btn {
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
     }
   }
 

@@ -27,7 +27,7 @@
   &:disabled {
     background-color: $dis-bg;
     color: $dis-c;
-  
+
     svg {
       fill: $dis-c;
     }
@@ -37,7 +37,7 @@
     background-color: $focus-bg;
     @content;
   }
-  
+
   &:hover, .btn-outer:hover & {
     background-color: $hover-bg;
     @content;
@@ -113,7 +113,8 @@
   &--tertiary {
     $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit, inherit;
     @include button-styling($colours...);
-    margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
 
     &:active {
       color: $rpf-teal-900;
@@ -150,7 +151,8 @@
 
   &--svg-only {
     svg {
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
     }
   }
 }

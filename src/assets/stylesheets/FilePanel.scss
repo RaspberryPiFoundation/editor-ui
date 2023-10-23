@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .files-list-item-wrapper {
   display: flex;
@@ -20,7 +20,8 @@
   font-weight: $font-weight-regular;
   min-height: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
-  margin: 0;
+  margin-block: 0;
+  margin-inline: 0;
   span {
     font-weight: $font-weight-bold;
     overflow-x: hidden;
@@ -35,7 +36,8 @@
 }
 
 .--light {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-teal-secondary-tertiary-hover;
     }
@@ -47,7 +49,8 @@
 }
 
 .--dark {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-grey-secondary-tertiary-hover;
     }

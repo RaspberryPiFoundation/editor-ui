@@ -1,13 +1,15 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 #app {
-  .toast--bottom-center__message, .toast--top-center__message {
-      min-height: fit-content;
-      padding: $space-0-25 $space-0-5;
-      margin: 0;
+  .toast--bottom-center__message,
+  .toast--top-center__message {
+    min-height: fit-content;
+    padding: $space-0-25 $space-0-5;
+    margin-block: 0;
+    margin-inline: 0;
   }
 
   .toast--bottom-center {

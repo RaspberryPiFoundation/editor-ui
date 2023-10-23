@@ -1,8 +1,8 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -11,7 +11,6 @@ $small-table-grid: 600px;
   &__info {
     align-items: center;
   }
-
 
   &__title {
     align-items: center;
@@ -27,7 +26,8 @@ $small-table-grid: 600px;
     @include unique-max-width($small-table-grid) {
       grid-column: span 8;
       padding: 0;
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
     }
   }
 
@@ -64,7 +64,8 @@ $small-table-grid: 600px;
     }
 
     svg {
-      margin: 0;
+      margin-block: 0;
+      margin-inline: 0;
     }
 
     @include unique-width($medium-table-grid) {

@@ -69,8 +69,8 @@
     &-heading {
       @include font-size-1(regular);
       font-weight: $font-weight-regular;
-      margin: 0;
-      margin-block-end: $space-0-5;
+      margin-block: 0 $space-0-5;
+      margin-inline: 0;
     }
 
     &-panel {
