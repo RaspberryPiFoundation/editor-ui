@@ -59,7 +59,8 @@
 
 .modal-content__heading {
   @include font-size-1-5(regular);
-  margin: $space-0-5 $space-0-5 $space-0-5 0;
+  margin-block: $space-0-5 $space-0-5;
+  margin-inline: $space-0-5 0;
 }
 
 .modal-content__body {
@@ -84,7 +85,8 @@
 }
 
 .modal-content__help-text {
-  margin: $space-0-25 0;
+  margin-block: $space-0-25;
+  margin-inline: 0;
   font-weight: $font-weight-regular;
 }
 
@@ -130,7 +132,8 @@
 
 .modal-content__links {
   text-align: center;
-  margin: $space-0-5 0 $space-0-25 0;
+  margin-block: $space-0-5 $space-0-25;
+  margin-inline: 0;
 
   button {
     text-decoration: underline;

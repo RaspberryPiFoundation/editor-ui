@@ -1,5 +1,5 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
 
 .proj {
   display: flex;
@@ -38,7 +38,8 @@
   overflow-y: hidden;
 
   grid-gap: $space-1;
-  margin: $space-1;
+  margin-block: $space-1;
+  margin-inline: $space-1;
 
   height: 100%;
   height: -moz-available;
@@ -120,18 +121,19 @@
   }
 }
 
-.proj-editor-container, .proj-runner-container {
+.proj-editor-container,
+.proj-runner-container {
   .react-tabs__tab-list {
     flex: 1;
   }
 
   .react-tabs__tab-container {
-    .btn--run, .btn--stop {
+    .btn--run,
+    .btn--stop {
       margin-block-start: 0;
       margin-block-end: 0;
     }
   }
-
 }
 
 .--light {
@@ -142,7 +144,9 @@
   }
 
   @media (min-width: 600px) {
-    .proj-runner-container, .proj-editor-container, .sidebar {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
       border: 1px solid $rpf-grey-150;
     }
   }
@@ -156,7 +160,9 @@
   }
 
   @media (min-width: 600px) {
-    .proj-runner-container, .proj-editor-container, .sidebar {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
       border: 1px solid $rpf-grey-600;
     }
   }

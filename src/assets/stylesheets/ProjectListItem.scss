@@ -80,7 +80,8 @@ $small-table-grid: 600px;
   }
 
   &__rename {
-    margin: 12px 16px;
+    margin-block: 12px;
+    margin-inline: 16px;
   }
 
   &__menu {

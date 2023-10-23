@@ -1,7 +1,7 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .project-info {
   align-items: left;
@@ -13,7 +13,8 @@
   background-color: inherit;
 
   .btn--primary {
-    margin: 0 $space-0-5;
+    margin-block: 0;
+    margin-inline: $space-0-5;
   }
 }
 

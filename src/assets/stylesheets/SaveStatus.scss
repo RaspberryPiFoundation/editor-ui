@@ -6,11 +6,13 @@
   align-items: center;
   display: flex;
   justify-content: flex-end;
-  margin: 0 $space-1 0 $space-0-5;
+	margin-block: 0;
+	margin-inline: $space-1 $space-0-5;
 }
 
 .save-status--mobile {
-  margin: unset;
+  margin-block: unset;
+	margin-inline: unset;
 
   .save-status__text {
     @include font-size-1(regular);

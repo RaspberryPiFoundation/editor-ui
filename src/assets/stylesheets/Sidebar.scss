@@ -65,7 +65,8 @@
 
 .sidebar__bar-option-wrapper {
   padding: 6px 11px 6px 6px;
-  margin: 0 -1px 0 4px;
+  margin-block: 0;
+  margin-inline: -1px 4px;
   border-radius: 100% 0 0 100%;
 }
 

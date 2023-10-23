@@ -1,8 +1,8 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
 
 .landing-page-wrapper {
   display: flex;
@@ -27,7 +27,8 @@
 
 .landing-page__projects--title {
   @include font-size-2-5(regular);
-  margin: $space-1;
+  margin-block: $space-1;
+  margin-inline: $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-3(regular);
@@ -37,7 +38,8 @@
 .landing-page__projects--subtitle {
   @include font-size-1-5(regular);
   font-weight: $font-weight-regular;
-  margin: $space-1;
+  margin-block: $space-1;
+  margin-inline: $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-2(regular);
@@ -56,7 +58,8 @@
 // Paths
 .landing-page__paths {
   border-radius: $space-1-5;
-  margin: 0 $space-1-5;
+  margin-block: 0;
+  margin-inline: $space-1-5;
   max-width: 368px;
   padding: $space-1-5 $space-1 0;
   text-align: center;
@@ -72,10 +75,12 @@
 }
 
 .landing-page__paths-copy {
-  margin: auto;
+  margin-block: auto;
+  margin-inline: auto;
 
   @media screen and (min-width: 768px) {
-    margin: unset;
+    margin-block: unset;
+    margin-inline: unset;
     max-width: 300px;
   }
 }
@@ -115,7 +120,8 @@
   img {
     aspect-ratio: 3/2;
     display: block;
-    margin: auto;
+    margin-block: auto;
+    margin-inline: auto;
     max-width: 301px;
     width: 100%;
   }
@@ -124,7 +130,8 @@
     margin-inline-start: auto;
 
     img {
-      margin: unset;
+      margin-block: unset;
+      margin-inline: unset;
       width: unset;
     }
   }

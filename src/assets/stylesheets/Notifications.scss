@@ -23,7 +23,8 @@
     white-space: nowrap;
 
     .Toastify__toast-icon {
-      margin: 0 $space-0-25 0 0;
+      margin-block: 0;
+      margin-inline: $space-0-25 0;
     }
   }
   .toast--bottom-center__message {

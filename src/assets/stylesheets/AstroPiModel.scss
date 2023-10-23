@@ -1,7 +1,7 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .sense-hat {
   width: 100%;
@@ -25,7 +25,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 $space-0-5;
+      margin-block: 0;
+      margin-inline: $space-0-5;
 
       &__spacing {
         flex: 1;
@@ -34,7 +35,8 @@
       &__values {
         flex: 10;
         display: flex;
-        margin: 0 $space-0-5;
+        margin-block: 0;
+        margin-inline: $space-0-5;
       }
 
       &__reading {
@@ -42,7 +44,8 @@
         flex: 1;
         text-transform: uppercase;
         font-weight: $font-weight-bold;
-        margin: 0 $space-0-5;
+        margin-block: 0;
+        margin-inline: $space-0-5;
       }
 
       &__reset-btn {
@@ -99,7 +102,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
             monospace;
 
           &-timer {
@@ -129,7 +132,7 @@
           transform: rotate(270deg);
         }
 
-        input[type='color'] {
+        input[type="color"] {
           border-radius: 5px;
           flex: 1;
           width: 100%;
@@ -139,7 +142,8 @@
         &-name {
           font-variant: small-caps;
           text-transform: lowercase;
-          margin: $space-0-25 0;
+          margin-block: $space-0-25;
+          margin-inline: 0;
         }
 
         &-value {
@@ -201,7 +205,7 @@
             border: 1px solid $rpf-grey-500;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -255,7 +259,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }
