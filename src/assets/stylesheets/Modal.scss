@@ -51,7 +51,7 @@
   padding: $space-1 $space-0-5 $space-1 $space-1;
 
   button {
-    margin-left: auto;
+    margin-inline-start: auto;
     height: fit-content;
   }
 }
@@ -126,7 +126,7 @@
 .modal-content__links {
   text-align: center;
   margin: $space-0-5 0 $space-0-25 0;
-  
+
   button {
     text-decoration: underline;
   }

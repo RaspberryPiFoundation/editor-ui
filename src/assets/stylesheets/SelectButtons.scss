@@ -10,7 +10,7 @@
 
 .select-buttons__legend {
   padding: 0;
-  margin-bottom: $space-1;
+  margin-block-end: $space-1;
 }
 
 .select-buttons__options {
@@ -42,7 +42,7 @@
 .select-buttons__tick {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  margin-inline-start: auto;
   visibility: hidden;
 }
 

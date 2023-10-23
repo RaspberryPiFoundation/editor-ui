@@ -41,7 +41,7 @@
   }
 
   .projects-panel__item {
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
   }
 
   .projects-panel__save, .projects-panel__button {
@@ -52,7 +52,7 @@
 
   .projects-panel__save-button {
     width: 100%;
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
     justify-content: center;
 
     .icon {

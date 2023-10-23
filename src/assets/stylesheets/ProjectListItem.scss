@@ -44,7 +44,7 @@ $small-table-grid: 600px;
 
   &__tag {
     padding-right: $space-0-5;
-    margin-right: $space-0-5;
+    margin-inline-end: $space-0-5;
 
     .--light & {
       border-right: 1px $rpf-text-secondary solid;
@@ -114,7 +114,7 @@ $small-table-grid: 600px;
       &:active {
         color: $rpf-teal-900;
       }
-  
+
       &:hover {
         color: $rpf-grey-600;
       }

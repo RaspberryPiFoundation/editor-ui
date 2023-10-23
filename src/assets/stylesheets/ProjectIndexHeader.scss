@@ -30,13 +30,13 @@
 
   h3 {
     @include md-width {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 
   &__action {
     @include md-width {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
 
     .btn {

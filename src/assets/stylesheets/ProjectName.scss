@@ -17,7 +17,7 @@
 .project-name__label {
   @include font-size-1(regular);
   font-weight: $font-weight-bold;
-  margin-bottom: $space-0-5;
+  margin-block-end: $space-0-5;
   display: block;
 }
 

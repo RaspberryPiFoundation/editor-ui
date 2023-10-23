@@ -110,7 +110,7 @@
 }
 
 .landing-page__paths-media {
-  margin-bottom: -2px;
+  margin-block-end: -2px;
 
   img {
     aspect-ratio: 3/2;
@@ -121,7 +121,7 @@
   }
 
   @media screen and (min-width: 768px) {
-    margin-left: auto;
+    margin-inline-start: auto;
 
     img {
       margin: unset;

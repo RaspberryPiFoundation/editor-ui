@@ -48,7 +48,7 @@
       &__reset-btn {
         flex: 1;
         display: flex;
-        margin-left: auto;
+        margin-inline-start: auto;
         svg {
           padding: $space-0-5;
           border-radius: 5px;
@@ -70,7 +70,7 @@
       @include font-size-1(regular);
       font-weight: $font-weight-regular;
       margin: 0;
-      margin-bottom: $space-0-5;
+      margin-block-end: $space-0-5;
     }
 
     &-panel {
@@ -93,7 +93,7 @@
         &-reading {
           width: 100%;
           border-radius: 5px;
-          margin-top: $space-0-25;
+          margin-block-start: $space-0-25;
           padding: $space-0-25;
           box-sizing: border-box;
           display: flex;
@@ -103,7 +103,7 @@
             monospace;
 
           &-timer {
-            margin-top: 0;
+            margin-block-start: 0;
             padding: $space-0-5 0;
             width: 100%;
           }
@@ -143,11 +143,11 @@
         }
 
         &-value {
-          margin-left: $space-0-25;
+          margin-inline-start: $space-0-25;
         }
 
         &-last {
-          margin-top: $space-0-5;
+          margin-block-start: $space-0-5;
           flex-flow: row;
           width: 100%;
           align-items: inherit;

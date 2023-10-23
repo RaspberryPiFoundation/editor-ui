@@ -6,7 +6,7 @@
 .info-panel {
   border-radius: $space-0-5;
   padding: $space-1;
-  margin-bottom: $space-0-5;
+  margin-block-end: $space-0-5;
 
   p {
     margin: 0;
@@ -26,7 +26,7 @@
 
 .info-panel__link {
   &:last-of-type {
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
   }
 }
 
@@ -35,7 +35,7 @@
     color: $rpf-text-primary-darkmode;
     background-color: $rpf-grey-600;
   }
-  
+
   .info-panel__links a {
     color: $rpf-text-primary-darkmode;
   }

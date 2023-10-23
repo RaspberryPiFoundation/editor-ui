@@ -16,8 +16,8 @@
   z-index: 2;
 
   &__account {
-    margin-left: auto;
-    margin-right: $space-2;
+    margin-inline-start: auto;
+    margin-inline-end: $space-2;
     height: 100%;
 
     svg {
@@ -44,14 +44,14 @@
   &__home {
     display: flex;
     align-items: center;
-    margin-left: $space-2;
+    margin-inline-start: $space-2;
     padding: $space-0-5 0;
     font-weight: $font-weight-bold;
     text-decoration: none;
     color: $rpf-white;
 
     span {
-      margin-left: $space-1-5;
+      margin-inline-start: $space-1-5;
     }
 
     &:visited {
@@ -59,7 +59,7 @@
     }
 
     @include md-width {
-      margin-left: $space-3;
+      margin-inline-start: $space-3;
     }
   }
 }
