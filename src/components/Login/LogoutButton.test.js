@@ -7,27 +7,25 @@ import userManager from "../../utils/userManager";
 import LogoutButton from "./LogoutButton";
 
 jest.mock("../../utils/userManager", () => ({
+  signoutRedirect: jest.fn(),
   removeUser: jest.fn(),
 }));
 
 let logoutButton;
 
+const user = {
+  id_token: "1234",
+};
+
 beforeEach(() => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: {},
-    },
-    auth: {
-      user: {},
-    },
-  };
+  const initialState = {};
   const store = mockStore(initialState);
   render(
     <MemoryRouter initialEntries={["/"]}>
       <Provider store={store}>
-        <LogoutButton />
+        <LogoutButton user={user} />
       </Provider>
     </MemoryRouter>,
   );
@@ -40,5 +38,8 @@ test("Log out button shown", () => {
 
 test("Clicking log out button signs the user out", () => {
   fireEvent.click(logoutButton);
+  expect(userManager.signoutRedirect).toBeCalledWith({
+    id_token_hint: user.id_token,
+  });
   expect(userManager.removeUser).toHaveBeenCalled();
 });
