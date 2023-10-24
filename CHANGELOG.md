@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- `knowledgeQuizAttempted` custom event anf tests for the web component (#718)
 - `stepChanged` custom event for the web component (#709)
 - Web component tests (#709, #710)
 - `instructions` attribute for the web component (#712)
