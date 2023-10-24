@@ -8,12 +8,17 @@ const codeChangedHandler = jest.fn();
 const runStartedHandler = jest.fn();
 const runCompletedHandler = jest.fn();
 const stepChangedHandler = jest.fn();
+const knowledgeQuizAttemptedHandler = jest.fn();
 
 beforeAll(() => {
   document.addEventListener("editor-codeChanged", codeChangedHandler);
   document.addEventListener("editor-runStarted", runStartedHandler);
   document.addEventListener("editor-runCompleted", runCompletedHandler);
   document.addEventListener("editor-stepChanged", stepChangedHandler);
+  document.addEventListener(
+    "editor-knowledgeQuizAttempted",
+    knowledgeQuizAttemptedHandler,
+  );
 });
 
 jest.useFakeTimers();
@@ -37,6 +42,12 @@ describe("When state set", () => {
       },
       instructions: {
         currentStepPosition: 3,
+        steps: [
+          { knowledgeQuiz: "" },
+          { knowledgeQuiz: "" },
+          { knowledgeQuiz: "" },
+          { knowledgeQuiz: "quiz1" },
+        ],
       },
       auth: {},
     };
@@ -63,6 +74,10 @@ describe("When state set", () => {
   test("Triggers stepChanged event", () => {
     expect(stepChangedHandler).toHaveBeenCalled();
   });
+
+  test("Triggers knowledgeQuizAttempted event", () => {
+    expect(knowledgeQuizAttemptedHandler).toHaveBeenCalled();
+  });
 });
 
 describe("When code run finishes", () => {
@@ -82,6 +97,7 @@ describe("When code run finishes", () => {
         focussedFileIndices: [],
         codeRunTriggered: false,
         codeHasBeenRun: true,
+        knowledgeQuizAttempted: "quiz1",
       },
       instructions: {},
       auth: {},
@@ -105,4 +121,8 @@ afterAll(() => {
   document.removeEventListener("editor-runStarted", runStartedHandler);
   document.removeEventListener("editor-runCompleted", runCompletedHandler);
   document.removeEventListener("editor-stepChanged", stepChangedHandler);
+  document.removeEventListener(
+    "editor-knowledgeQuizAttempted",
+    knowledgeQuizAttemptedHandler,
+  );
 });
