@@ -33,7 +33,6 @@ const WebComponentProject = () => {
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
-  console.log(currentStepPosition);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
