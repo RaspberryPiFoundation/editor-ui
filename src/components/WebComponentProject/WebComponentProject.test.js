@@ -97,7 +97,6 @@ describe("When code run finishes", () => {
         focussedFileIndices: [],
         codeRunTriggered: false,
         codeHasBeenRun: true,
-        knowledgeQuizAttempted: "quiz1",
       },
       instructions: {},
       auth: {},
