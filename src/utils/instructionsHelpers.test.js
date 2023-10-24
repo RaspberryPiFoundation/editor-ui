@@ -9,3 +9,8 @@ test("stepIsKnowledgeQuiz returns false if a has no value for knowledeQuiz", () 
   const step = {};
   expect(stepIsKnowledgeQuiz(step)).toEqual(false);
 });
+
+test("stepIsKnowledgeQuiz returns false if step is undefined", () => {
+  const step = undefined;
+  expect(stepIsKnowledgeQuiz(step)).toEqual(false);
+});

@@ -1,4 +1,7 @@
 export const stepIsKnowledgeQuiz = (step) => {
-  const knowledgeQuiz = step.knowledgeQuiz;
-  return typeof knowledgeQuiz === "string";
+  if (step) {
+    const knowledgeQuiz = step.knowledgeQuiz;
+    return typeof knowledgeQuiz === "string";
+  }
+  return false;
 };
