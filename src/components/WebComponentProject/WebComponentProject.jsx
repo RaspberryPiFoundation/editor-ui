@@ -78,7 +78,7 @@ const WebComponentProject = () => {
         knowledgeQuizAttempted(steps[currentStepPosition].knowledgeQuiz),
       );
     }
-  }, [currentStepPosition]);
+  }, [instructions, currentStepPosition]);
 
   return (
     <>
