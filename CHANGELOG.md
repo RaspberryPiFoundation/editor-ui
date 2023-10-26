@@ -23,9 +23,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
 - Sidebar - Refactored styles to be closer to designs
-- Sidebar - Refactored theming to fix inconsistencies between
-- Sidebar - Added hover styles to collapse icons
-themes
+- Sidebar - Refactored theming to fix inconsistencies between themes
+- Sidebar - Added hover styles to collapse and close buttons
+- Sidebar - Option/Tab style
 - Stopped SVGO from removing icon (svg) viewBoxes
 
 ### Fixed
