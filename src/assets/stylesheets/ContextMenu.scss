@@ -1,5 +1,5 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
 
 .context-menu__drop {
   display: flex;
@@ -23,7 +23,7 @@
   .context-menu__item {
     margin: 0;
     background-color: inherit;
-    color:  inherit;
+    color: inherit;
     padding: $space-0-5;
     text-align: left;
     white-space: nowrap;
@@ -34,8 +34,8 @@
   }
 
   svg {
-    height: 0.75em;
-    width: auto;
+    width: $space-1-5;
+    height: auto;
   }
 
   &--dark {
