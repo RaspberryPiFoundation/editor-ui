@@ -9,8 +9,9 @@
     --sidebar-background-selected:var(--rpf-off-white);
     --sidebar-panel-background:var(--rpf-white);
     --sidebar-option-hover:var(--rpf-grey-100);
-    --sidebar-option-selected:var(--rpf-teal-800);
-    --sidebar-option-selected-hover:var(--rpf-teal-600);
+    --sidebar-option-selected-border:var(--rpf-teal-800);
+    --sidebar-option-selected-background:var(--rpf-teal-100);
+    --sidebar-option-selected-background-hover:var(--rpf-teal-200);
     --sidebar-option-selected-icon:var(--rpf-black);
   }
   .--dark{
@@ -19,9 +20,10 @@
     --sidebar-background-selected:var(--rpf-grey-800);
     --sidebar-panel-background:var(--rpf-grey-700);
     --sidebar-option-hover:var(--rpf-grey-600);
-    --sidebar-option-selected:var(--rpf-teal-600);
-    --sidebar-option-selected-hover:var(--rpf-teal-600);
-    --sidebar-option-selected-icon:inhevar(--rpf-white);
+    --sidebar-option-selected-border:var(--rpf-teal-400);
+    --sidebar-option-selected-background:var(--rpf-teal-900);
+    --sidebar-option-selected-background-hover:var(--rpf-teal-800);
+    --sidebar-option-selected-icon:var(--rpf-white);
   }
 }
 
@@ -73,13 +75,12 @@
   padding: 0.625rem; //10px
   border: 1px solid transparent;
 
-&--selected{
-  background-color: var(--sidebar-panel-background);
-  border-radius: 100% 0 0 100%;
-  // border-radius: $space-0-5 0 0 $space-0-5; // Will be used for new design
-  border-block: 1px solid var(--sidebar-outline);
-  border-inline-start: 1px solid var(--sidebar-outline);
-}
+  &--selected{
+    background-color: var(--sidebar-panel-background);
+    border-radius: $space-0-5 0 0 $space-0-5;
+    border-block: 1px solid var(--sidebar-outline);
+    border-inline-start: 1px solid var(--sidebar-outline);
+  }
 
 }
 
@@ -88,9 +89,9 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  border-radius: 100%;
+  // border-radius: 100%;
   margin: 0;
-  border: 0;
+  border: 2px solid transparent;
 
   svg {
     margin: 0;
@@ -101,7 +102,8 @@
   }
 
   &--selected {
-    background-color: var(--sidebar-option-selected);
+    border:2px solid var(--sidebar-option-selected-border);
+    background-color: var(--sidebar-option-selected-background);
 
     svg{
       fill:var(--sidebar-option-selected-icon);
@@ -109,7 +111,7 @@
   }
 
   &--selected:hover {
-    background-color: var(--sidebar-option-selected-hover);
+    background-color: var(--sidebar-option-selected-background-hover);
   }
 }
 
