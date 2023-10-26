@@ -89,14 +89,16 @@ const SidebarBar = (props) => {
             </div>
           )
         ) : (
-          <Button
-            className="btn--tertiary"
-            ButtonIcon={CloseIcon}
-            title={t("sidebar.expand")}
-            buttonOuter
-            buttonOuterClassName="sidebar-expand-button"
-            onClickHandler={collapseSidebar}
-          />
+          <div className="sidebar__bar-option-wrapper sidebar__bar-close">
+            <Button
+              className="sidebar__bar-option"
+              ButtonIcon={CloseIcon}
+              title={t("sidebar.expand")}
+              // buttonOuter
+              // buttonOuterClassName="sidebar-expand-button"
+              onClickHandler={collapseSidebar}
+            />
+          </div>
         )}
       </div>
     </div>

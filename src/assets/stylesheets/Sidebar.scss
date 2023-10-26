@@ -115,6 +115,10 @@
   }
 }
 
+.sidebar__bar-close{
+  border-block-start: 1px solid var(--sidebar-outline);
+}
+
 // Panel --------
 
 .sidebar__panel {
