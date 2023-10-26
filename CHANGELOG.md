@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component tests (#709, #710)
 - `instructions` attribute for the web component (#712)
 - Instructions slice to store data passed from the Projects site (#712)
+- SVGO config file
 
 ### Changed
 
@@ -21,11 +22,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
+- Sidebar - Refactored styles to be closer to designs
+- Sidebar - Refactored theming to fix inconsistencies between
+- Sidebar - Added hover styles to collapse icons
+themes
+- Stopped SVGO from removing icon (svg) viewBoxes
 
 ### Fixed
 
 - Clipped icon in "Save your work" toast (#707)
 - Hydra logout flow to delete session (#714)
+- FileMenu alignment
+- Edit icon not showing in ContextMenu
+- Updated sidebar and file icons to correct size
 
 ## [0.19.2] - 2023-10-12
 
