@@ -70,23 +70,23 @@ const SidebarBar = (props) => {
         ))}
         {!isMobile ? (
           option ? (
-            <Button
-              className="btn--tertiary"
-              ButtonIcon={DoubleArrowLeft}
-              title={t("sidebar.collapse")}
-              buttonOuter
-              buttonOuterClassName="sidebar-collapse-button"
-              onClickHandler={collapsePopOut}
-            />
+            <div className="sidebar__bar-option-wrapper">
+              <Button
+                className="sidebar__bar-option"
+                ButtonIcon={DoubleArrowLeft}
+                title={t("sidebar.collapse")}
+                onClickHandler={collapsePopOut}
+              />
+            </div>
           ) : (
-            <Button
-              className="btn--tertiary"
-              ButtonIcon={DoubleArrowRight}
-              title={t("sidebar.expand")}
-              buttonOuter
-              buttonOuterClassName="sidebar-expand-button"
-              onClickHandler={expandPopOut}
-            />
+            <div className="sidebar__bar-option-wrapper">
+              <Button
+                className="sidebar__bar-option"
+                ButtonIcon={DoubleArrowRight}
+                title={t("sidebar.expand")}
+                onClickHandler={expandPopOut}
+              />
+            </div>
           )
         ) : (
           <Button
