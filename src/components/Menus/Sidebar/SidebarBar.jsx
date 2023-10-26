@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
-import DoubleChevronLeft from "../../../assets/icons/double_chevron_left.svg";
-import DoubleChevronRight from "../../../assets/icons/double_chevron_right.svg";
+import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
+import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
 import { hideSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
@@ -72,7 +72,7 @@ const SidebarBar = (props) => {
           option ? (
             <Button
               className="btn--tertiary"
-              ButtonIcon={DoubleChevronLeft}
+              ButtonIcon={DoubleArrowLeft}
               title={t("sidebar.collapse")}
               buttonOuter
               buttonOuterClassName="sidebar-collapse-button"
@@ -81,7 +81,7 @@ const SidebarBar = (props) => {
           ) : (
             <Button
               className="btn--tertiary"
-              ButtonIcon={DoubleChevronRight}
+              ButtonIcon={DoubleArrowRight}
               title={t("sidebar.expand")}
               buttonOuter
               buttonOuterClassName="sidebar-expand-button"
