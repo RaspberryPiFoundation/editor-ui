@@ -4,7 +4,7 @@
 
 :root{
   .--light{
-    --sidebar-outline: var(--rpf-grey-150);
+    --sidebar-border: var(--rpf-grey-150);
     --sidebar-background:var(--rpf-white);
     --sidebar-background-selected:var(--rpf-off-white);
     --sidebar-panel-background:var(--rpf-white);
@@ -15,7 +15,7 @@
     --sidebar-option-selected-icon:var(--rpf-black);
   }
   .--dark{
-    --sidebar-outline: var(--rpf-grey-600);
+    --sidebar-border: var(--rpf-grey-600);
     --sidebar-background:var(--rpf-grey-800);
     --sidebar-background-selected:var(--rpf-grey-800);
     --sidebar-panel-background:var(--rpf-grey-700);
@@ -58,7 +58,7 @@
 .sidebar__bar--selected {
   border-radius: 8px 0 0 8px;
   background-color: var(--sidebar-background-selected);
-  border-inline-end: 1px solid var(--sidebar-outline);
+  border-inline-end: 1px solid var(--sidebar-border);
 }
 
 // SidebarBar - Options --------
@@ -78,8 +78,8 @@
   &--selected{
     background-color: var(--sidebar-panel-background);
     border-radius: $space-0-5 0 0 $space-0-5;
-    border-block: 1px solid var(--sidebar-outline);
-    border-inline-start: 1px solid var(--sidebar-outline);
+    border-block: 1px solid var(--sidebar-border);
+    border-inline-start: 1px solid var(--sidebar-border);
   }
 
 }
@@ -116,7 +116,7 @@
 }
 
 .sidebar__bar-close{
-  border-block-start: 1px solid var(--sidebar-outline);
+  border-block-start: 1px solid var(--sidebar-border);
 }
 
 // Panel --------
@@ -140,6 +140,7 @@
   flex-direction: column;
   gap: $space-1;
   padding-bottom: $space-1;
+  border-block-end: 1px solid var(--sidebar-border);
 }
 
 .sidebar__panel-content {
