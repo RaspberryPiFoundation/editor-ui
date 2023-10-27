@@ -45,7 +45,7 @@
   }
 
   .projects-panel__save, .projects-panel__button {
-    border-top: 1px solid $rpf-grey-150;
+    border-top: 1px solid var(--sidebar-border); // Var defined in sidebar
     padding: $space-1 0;
     display: flex;
   }
@@ -75,9 +75,6 @@
 }
 
 .--dark {
-  .projects-panel__save {
-    border-top: 1px solid $rpf-grey-600;
-  }
 
   .projects-panel__save-button {
     .content {
