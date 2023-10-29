@@ -17,9 +17,15 @@ import {
   runCompletedEvent,
   runStartedEvent,
   stepChangedEvent,
+  knowledgeQuizAttempted,
 } from "../../events/WebComponentCustomEvents";
+import { stepIsKnowledgeQuiz } from "../../utils/instructionsHelpers";
+import { current } from "@reduxjs/toolkit";
+import { use } from "i18next";
 
 const WebComponentProject = () => {
+  const instructions = useSelector((state) => state.instructions);
+  const quiz = useSelector((state) => state.quiz);
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -36,6 +42,7 @@ const WebComponentProject = () => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(setIsSplitView(false));
   }, [dispatch]);
@@ -67,7 +74,13 @@ const WebComponentProject = () => {
 
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
-  }, [currentStepPosition]);
+    const steps = instructions.steps;
+    if (steps && stepIsKnowledgeQuiz(steps[currentStepPosition])) {
+      document.dispatchEvent(
+        knowledgeQuizAttempted(steps[currentStepPosition].knowledgeQuiz),
+      );
+    }
+  }, [instructions, currentStepPosition]);
 
   return (
     <>

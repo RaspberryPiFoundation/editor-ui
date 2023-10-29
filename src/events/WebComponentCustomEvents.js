@@ -15,3 +15,6 @@ export const runStartedEvent = webComponentCustomEvent("editor-runStarted");
 
 export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
+
+export const knowledgeQuizAttempted = (detail) =>
+  webComponentCustomEvent("editor-knowledgeQuizAttempted", detail);
