@@ -4,10 +4,11 @@ import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
+import { setQuiz } from "../redux/QuizSlice";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, senseHatAlwaysEnabled = false, instructions } = props;
+  const { code, senseHatAlwaysEnabled = false, instructions, quiz } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -25,6 +26,12 @@ const WebComponentLoader = (props) => {
       dispatch(setInstructions(instructions));
     }
   }, [instructions, dispatch]);
+
+  useEffect(() => {
+    if (quiz) {
+      dispatch(setQuiz(quiz));
+    }
+  }, [quiz, dispatch]);
 
   return loading === "success" ? (
     <>

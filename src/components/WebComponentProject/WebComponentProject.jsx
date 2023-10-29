@@ -21,9 +21,11 @@ import {
 } from "../../events/WebComponentCustomEvents";
 import { stepIsKnowledgeQuiz } from "../../utils/instructionsHelpers";
 import { current } from "@reduxjs/toolkit";
+import { use } from "i18next";
 
 const WebComponentProject = () => {
   const instructions = useSelector((state) => state.instructions);
+  const quiz = useSelector((state) => state.quiz);
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,

@@ -35,7 +35,7 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled", "instructions"];
+    return ["code", "sense_hat_always_enabled", "instructions", "quiz"];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
@@ -43,8 +43,9 @@ class WebComponent extends HTMLElement {
 
     if (["sense_hat_always_enabled"].includes(name)) {
       value = newVal === "true";
-    } else if (["instructions"].includes(name)) {
+    } else if (["instructions", "quiz"].includes(name)) {
       value = JSON.parse(newVal);
+      console.log(value);
     } else {
       value = newVal;
     }
