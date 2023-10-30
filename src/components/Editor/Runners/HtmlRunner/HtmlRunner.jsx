@@ -45,7 +45,10 @@ function HtmlRunner() {
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
-  const allowedHrefs = ["#"];
+  const rpfRegex = /^https?:\/\/(?:www\.)?rpf\.io/;
+  const testDomain = `www.google.com`;
+  const allowedHrefs = ["#", rpfRegex, testDomain];
+
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const focussedComponent = (fileName = "index.html") =>
@@ -183,9 +186,9 @@ function HtmlRunner() {
       );
 
       // remove target blanks
-      if (hrefNode.attrs?.target === "_blank") {
-        hrefNode.removeAttribute("target");
-      }
+      // if (hrefNode.attrs?.target === "_blank") {
+      //   hrefNode.removeAttribute("target");
+      // }
 
       let onClick;
 
@@ -209,8 +212,11 @@ function HtmlRunner() {
           // eslint-disable-next-line no-script-url
           hrefNode.setAttribute("href", "javascript:void(0)");
           onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
+        } else {
+          hrefNode.setAttribute("href", "www.raspberry.co.uk");
         }
       }
+
       if (onClick) {
         hrefNode.setAttribute("onclick", onClick);
       }
