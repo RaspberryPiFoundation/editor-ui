@@ -1,24 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import { setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
+import { useProject } from "../hooks/useProject";
+import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { code, senseHatAlwaysEnabled = false, instructions } = props;
+  const {
+    authClient,
+    identifier,
+    code,
+    senseHatAlwaysEnabled = false,
+    instructions,
+  } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [projectIdentifier, setProjectIdentifier] = useState(identifier);
+  const project = useSelector((state) => state.editor.project);
+  const user = JSON.parse(
+    localStorage.getItem(
+      `oidc.user:${process.env.REACT_APP_AUTHENTICATION_URL}:${authClient}`,
+    ),
+  );
 
   useEffect(() => {
-    const proj = {
-      type: "python",
-      components: [{ name: "main", extension: "py", content: code }],
-    };
+    if (loading === "idle" && project.identifier) {
+      setProjectIdentifier(project.identifier);
+    }
+  }, [loading, project]);
+
+  useProject({
+    projectIdentifier: projectIdentifier,
+    code: code,
+    accessToken: user && user.access_token,
+  });
+  useProjectPersistence({
+    user: user,
+  });
+
+  useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
-    dispatch(setProject(proj));
-  }, [code, senseHatAlwaysEnabled, dispatch]);
+  }, [senseHatAlwaysEnabled, dispatch]);
 
   useEffect(() => {
     if (instructions) {

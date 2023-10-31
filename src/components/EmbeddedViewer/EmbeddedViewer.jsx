@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useProject } from "../../hooks/useProject";
 import { useEmbeddedMode } from "../../hooks/useEmbeddedMode";
 import Output from "../Editor/Output/Output";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
 import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
 
@@ -20,11 +20,14 @@ const EmbeddedViewer = () => {
   );
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user) || {};
+  const [searchParams] = useSearchParams();
+  const isBrowserPreview = searchParams.get("browserPreview") !== "true";
 
   useProject({
     projectIdentifier: identifier,
     accessToken: user.access_token,
     isEmbedded: true,
+    isBrowserPreview,
   });
 
   useEmbeddedMode(true);
