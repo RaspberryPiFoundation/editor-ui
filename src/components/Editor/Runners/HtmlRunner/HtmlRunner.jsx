@@ -45,9 +45,8 @@ function HtmlRunner() {
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
-  const rpfRegex = /^https?:\/\/(?:www\.)?rpf\.io/;
-  const testDomain = `https://rpf.io/seefood`;
-  const allowedHrefs = ["#", rpfRegex, testDomain];
+  const rpfDomain = `https://rpf.io/`;
+  const allowedHrefs = ["#", rpfDomain];
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -105,16 +104,13 @@ function HtmlRunner() {
 
   const eventListener = () => {
     window.addEventListener("message", (event) => {
-      // console.log(event.data?.msg);
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
         } else if (!event.data?.msg === "Allowed external link") {
-          console.log("HERE!");
           setPreviewFile(`${event.data.payload.linkTo}.html`);
           dispatch(triggerCodeRun());
         } else {
-          console.log(event.data.payload);
           setExternalLink(event.data.payload.linkTo);
           dispatch(triggerCodeRun());
         }
@@ -132,16 +128,6 @@ function HtmlRunner() {
         setRunningFile(filename);
       }
     }
-    // if (iframe) {
-    //   const linkElement = iframe.querySelector("a");
-
-    //   if (linkElement) {
-    //     linkElement.addEventListener("click", (e) => {
-    //       e.preventDefault();
-    //       window.open(linkElement.getAttribute("href"));
-    //     });
-    //   }
-    // }
   };
 
   useEffect(() => {
@@ -229,7 +215,6 @@ function HtmlRunner() {
             onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
           }
         } else {
-          console.log(allowedHrefs.includes(hrefNode.attrs.href));
           if (
             !allowedHrefs.includes(hrefNode.attrs.href) &&
             !parentTag(hrefNode, "head")
@@ -242,8 +227,6 @@ function HtmlRunner() {
             onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
           }
         }
-
-        console.log(onClick);
 
         if (onClick) {
           hrefNode.removeAttribute("target");
