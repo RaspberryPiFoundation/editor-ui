@@ -45,9 +45,10 @@ function HtmlRunner() {
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
-  const rpfRegex = /^https?:\/\/(?:www\.)?rpf\.io/;
+  const rpfRegex = "/^https?://(?:www.)?rpf.io/";
   const testDomain = `www.google.com`;
-  const allowedHrefs = ["#", rpfRegex, testDomain];
+  const testDomainRpf = `www.rpf.io/seefood`;
+  const allowedHrefs = ["#", rpfRegex, testDomain, testDomainRpf];
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -213,7 +214,7 @@ function HtmlRunner() {
           hrefNode.setAttribute("href", "javascript:void(0)");
           onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
         } else {
-          hrefNode.setAttribute("href", "www.raspberry.co.uk");
+          hrefNode.setAttribute("href", hrefNode.attrs.href);
         }
       }
 
