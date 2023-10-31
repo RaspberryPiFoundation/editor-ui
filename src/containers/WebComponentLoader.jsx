@@ -4,6 +4,7 @@ import { setProject, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
+import { useProject } from "../hooks/useProject";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -12,13 +13,16 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const proj = {
-      type: "python",
-      components: [{ name: "main", extension: "py", content: code }],
-    };
+    let proj = JSON.parse(localStorage.getItem(instructions.project.id));
+    if (!proj) {
+      proj = {
+        type: "python",
+        components: [{ name: "main", extension: "py", content: code }],
+      };
+    }
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
     dispatch(setProject(proj));
-  }, [code, senseHatAlwaysEnabled, dispatch]);
+  }, [code, senseHatAlwaysEnabled, dispatch, instructions]);
 
   useEffect(() => {
     if (instructions) {
