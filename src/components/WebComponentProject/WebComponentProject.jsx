@@ -21,6 +21,7 @@ import {
 
 const WebComponentProject = () => {
   const project = useSelector((state) => state.editor.project);
+  const instructions = useSelector((state) => state.instructions);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -45,8 +46,12 @@ const WebComponentProject = () => {
     const timeout = setTimeout(() => {
       document.dispatchEvent(codeChangedEvent);
     }, 2000);
+    if (instructions.project) {
+      console.log("Setting project");
+      localStorage.setItem(instructions.project.id, JSON.stringify(project));
+    }
     return () => clearTimeout(timeout);
-  }, [project]);
+  }, [project, instructions]);
 
   useEffect(() => {
     if (codeRunTriggered) {

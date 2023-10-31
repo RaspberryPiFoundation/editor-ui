@@ -104,7 +104,6 @@ const ProjectComponentLoader = (props) => {
         if (justLoaded) {
           dispatch(expireJustLoaded());
         } else {
-          console.log("About to set the project");
           localStorage.setItem(
             project.identifier || "project",
             JSON.stringify(project),
