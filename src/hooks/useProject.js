@@ -27,6 +27,8 @@ export const useProject = ({
   };
 
   useEffect(() => {
+    console.log("Getting cached project with identifier");
+    console.log(projectIdentifier);
     setCachedProject(getCachedProject(projectIdentifier));
   }, [projectIdentifier]);
 
