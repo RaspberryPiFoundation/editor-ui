@@ -43,7 +43,7 @@ function HtmlRunner() {
   const locale = i18n.language;
 
   const dispatch = useDispatch();
-  const output = useRef();
+  const output = useRef(null);
   const [error, setError] = useState(null);
   const rpfRegex = "/^https?://(?:www.)?rpf.io/";
   const testDomain = `www.google.com`;
@@ -123,6 +123,16 @@ function HtmlRunner() {
       : null;
     if (runningFile !== filename) {
       setRunningFile(filename);
+    }
+    if (iframe) {
+      const linkElement = iframe.querySelector("a");
+
+      if (linkElement) {
+        linkElement.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open(linkElement.getAttribute("href"));
+        });
+      }
     }
   };
 
