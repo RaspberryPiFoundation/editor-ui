@@ -133,18 +133,18 @@ const PythonRunner = () => {
     }
   };
 
-  const builtinRead = (x) => {
-    if (x === "./_internal_sense_hat/__init__.js") {
+  const builtinRead = (library) => {
+    if (library === "./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true));
     }
 
-    if (x === "./p5/__init__.js" || x === "./py5/__init__.js") {
+    if (library === "./p5/__init__.js" || library === "./py5/__init__.js") {
       dispatch(triggerDraw());
     }
 
     // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
 
-    if (visualLibraries.includes(x)) {
+    if (visualLibraries.includes(library)) {
       setHasVisualOutput(true);
     }
 
@@ -152,8 +152,8 @@ const PythonRunner = () => {
       .filter((component) => component.name !== "main")
       .map((component) => `./${component.name}.py`);
 
-    if (localProjectFiles.includes(x)) {
-      let filename = x.slice(2, -3);
+    if (localProjectFiles.includes(library)) {
+      let filename = library.slice(2, -3);
       let component = projectCode.find((x) => x.name === filename);
       if (component) {
         return component.content;
@@ -162,16 +162,18 @@ const PythonRunner = () => {
 
     if (
       Sk.builtinFiles !== undefined &&
-      Sk.builtinFiles["files"][x] !== undefined
+      Sk.builtinFiles["files"][library] !== undefined
     ) {
-      return Sk.builtinFiles["files"][x];
+      return Sk.builtinFiles["files"][library];
     }
 
-    if (externalLibraries[x]) {
-      var externalLibraryInfo = externalLibraries[x];
+    if (externalLibraries[library]) {
+      console.log("External libraries");
+      console.log(library);
+      var externalLibraryInfo = externalLibraries[library];
 
       return (
-        externalLibraries[x].code ||
+        externalLibraries[library].code ||
         Sk.misceval.promiseToSuspension(
           fetch(externalLibraryInfo.path)
             .then((response) => response.text())
@@ -181,7 +183,7 @@ const PythonRunner = () => {
                   "Failed to load remote module",
                 );
               }
-              externalLibraries[x].code = code;
+              externalLibraries[library].code = code;
               var promise;
 
               function mapUrlToPromise(path) {
@@ -230,7 +232,7 @@ const PythonRunner = () => {
       );
     }
 
-    throw new Error("File not found: '" + x + "'");
+    throw new Error("File not found: '" + library + "'");
   };
 
   const inputSpan = () => {
