@@ -287,6 +287,7 @@ export const EditorSlice = createSlice({
     },
     closeLoginToSaveModal: (state) => {
       state.loginToSaveModalShowing = false;
+      state.saveTriggered = false;
     },
     closeNotFoundModal: (state) => {
       state.notFoundModalShowing = false;

@@ -6,9 +6,14 @@ import WebComponentLoader from "./WebComponentLoader";
 import { setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
+import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 jest.mock("../hooks/useProject", () => ({
   useProject: jest.fn(),
+}));
+
+jest.mock("../hooks/useProjectPersistence", () => ({
+  useProjectPersistence: jest.fn(),
 }));
 
 let store;
@@ -17,9 +22,10 @@ const identifier = "My amazing project";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
+const user = { access_token: "my_token" };
 
 beforeEach(() => {
-  localStorage.setItem(authKey, JSON.stringify({ access_token: "my_token" }));
+  localStorage.setItem(authKey, JSON.stringify(user));
   const middlewares = [];
   const mockStore = configureStore(middlewares);
   const initialState = {
@@ -49,12 +55,16 @@ beforeEach(() => {
   );
 });
 
-test("Calls useProject hook with correct attribute", () => {
+test("Calls useProject hook with correct attributes", () => {
   expect(useProject).toHaveBeenCalledWith({
     projectIdentifier: identifier,
     code,
     accessToken: "my_token",
   });
+});
+
+test("Calls useProjectPersistence hook with correct attribute", () => {
+  expect(useProjectPersistence).toHaveBeenCalledWith({ user });
 });
 
 test("Enables the SenseHat", () => {

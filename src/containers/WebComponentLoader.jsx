@@ -33,6 +33,7 @@ const WebComponentLoader = (props) => {
     code,
     accessToken: user && user.access_token,
   });
+
   useProjectPersistence({
     user: user,
   });
