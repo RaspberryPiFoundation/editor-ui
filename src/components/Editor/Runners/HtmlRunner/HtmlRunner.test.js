@@ -33,6 +33,12 @@ const allowedLinkHTMLPage = {
   content: '<head></head><body><a href="#">ANCHOR LINK!</a></body>',
 };
 
+const allowedLinkRPF = {
+  name: "allowed_rpf_link",
+  extension: "html",
+  content: '<head></head><body><a href="rpf.io/seefood">RPF link</a></body>',
+};
+
 describe("When page first loaded", () => {
   let store;
 
@@ -241,7 +247,7 @@ describe("When an external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'Allowed external link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -282,6 +288,49 @@ describe("When an external link is rendered", () => {
     });
   });
 });
+
+// describe("When an external RPF link is rendered", () => {
+//   let store;
+//   const input =
+//     '<head></head><body><a href="https://rpf.io/seefood">RPF link</a></body>';
+//   const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link'})">RPF link</a><meta filename="index.html" ></body>`;
+
+//   beforeEach(() => {
+//     const middlewares = [];
+//     const mockStore = configureStore(middlewares);
+//     const initialState = {
+//       editor: {
+//         project: {
+//           components: [
+//             {
+//               content: input,
+//             },
+//           ],
+//         },
+//         focussedFileIndices: [0],
+//         codeRunTriggered: true,
+//         codeHasBeenRun: true,
+//         errorModalShowing: false,
+//       },
+//     };
+//     store = mockStore(initialState);
+//     render(
+//       <Provider store={store}>
+//         <MemoryRouter>
+//           <div id="app">
+//             <HtmlRunner />
+//           </div>
+//         </MemoryRouter>
+//       </Provider>,
+//     );
+//   });
+
+//   test("Runs RPF link", () => {
+//     expect(Blob).toHaveBeenCalledWith([output], {
+//       type: "text/html",
+//     });
+//   });
+// });
 
 describe("When a new tab link is rendered", () => {
   let store;
@@ -364,6 +413,45 @@ describe("When an allowed link is rendered", () => {
     const allowedLinkHTMLContent =
       '<head></head><body><a href="#">ANCHOR LINK!</a><meta filename="allowed_link.html" ></body>';
     expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLContent], {
+      type: "text/html",
+    });
+  });
+});
+
+describe("When an allowed RPF link is rendered", () => {
+  let store;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [allowedLinkRPF],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["rpf.io/seefoodq"]],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        errorModalShowing: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("Runs HTML code", () => {
+    const allowedLinkRPFContent =
+      '<head></head><body><a href="rpf.io/seefood">RPF link</a></body>';
+    expect(Blob).toHaveBeenCalledWith([allowedLinkRPFContent], {
       type: "text/html",
     });
   });
