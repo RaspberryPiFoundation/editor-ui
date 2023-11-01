@@ -21,7 +21,7 @@ const EmbeddedViewer = () => {
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user) || {};
   const [searchParams] = useSearchParams();
-  const isBrowserPreview = searchParams.get("browserPreview") !== "true";
+  const isBrowserPreview = searchParams.get("browserPreview") === "true";
 
   useProject({
     projectIdentifier: identifier,

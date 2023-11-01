@@ -36,7 +36,7 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "auth_client",
+      "auth_key",
       "identifier",
       "code",
       "sense_hat_always_enabled",

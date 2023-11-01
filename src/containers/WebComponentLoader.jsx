@@ -10,7 +10,7 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const {
-    authClient,
+    authKey,
     identifier,
     code,
     senseHatAlwaysEnabled = false,
@@ -20,11 +20,7 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
-  const user = JSON.parse(
-    localStorage.getItem(
-      `oidc.user:${process.env.REACT_APP_AUTHENTICATION_URL}:${authClient}`,
-    ),
-  );
+  const user = JSON.parse(localStorage.getItem(authKey));
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
@@ -34,7 +30,7 @@ const WebComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
-    code: code,
+    code,
     accessToken: user && user.access_token,
   });
   useProjectPersistence({
