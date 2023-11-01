@@ -45,8 +45,13 @@ function HtmlRunner() {
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
-  const rpfDomain = `https://rpf.io/`;
-  const allowedHrefs = ["#", rpfDomain];
+  const madzia = `/^https:\/\/rpf\.io\//`;
+  const domain = `https://rpf.io/`;
+  const kasia = `https://rpf.io/*`;
+  const localel = `https://rpf.io/`;
+  const localeRegex = new RegExp(`^/${localel}`);
+  const rpfDomainR = new RegExp(`^${domain}`);
+  const allowedHrefs = ["#", madzia, rpfDomainR, kasia, localeRegex];
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
