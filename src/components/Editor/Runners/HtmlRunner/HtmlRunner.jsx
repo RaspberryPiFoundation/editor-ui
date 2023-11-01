@@ -45,13 +45,14 @@ function HtmlRunner() {
   const dispatch = useDispatch();
   const output = useRef();
   const [error, setError] = useState(null);
-  const madzia = `/^https:\/\/rpf\.io\//`;
   const domain = `https://rpf.io/`;
-  const kasia = `https://rpf.io/*`;
-  const localel = `https://rpf.io/`;
-  const localeRegex = new RegExp(`^/${localel}`);
   const rpfDomainR = new RegExp(`^${domain}`);
-  const allowedHrefs = ["#", madzia, rpfDomainR, kasia, localeRegex];
+  const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
+  const allowedExternalHrefs = [rpfDomainR];
+
+  const matchingRegexes = (regexArray, testString) => {
+    return regexArray.some((reg) => reg.test(testString));
+  };
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -220,15 +221,24 @@ function HtmlRunner() {
             onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
           }
         } else {
+          const matchingExternalHref = matchingRegexes(
+            allowedExternalHrefs,
+            hrefNode.attrs.href,
+          );
+          const matchingInternalHref = matchingRegexes(
+            allowedInternalLinks,
+            hrefNode.attrs.href,
+          );
           if (
-            !allowedHrefs.includes(hrefNode.attrs.href) &&
+            !matchingInternalHref &&
+            !matchingExternalHref &&
             !parentTag(hrefNode, "head")
           ) {
             // eslint-disable-next-line no-script-url
             hrefNode.setAttribute("href", "javascript:void(0)");
             onClick =
               "window.parent.postMessage({msg: 'ERROR: External link'})";
-          } else if (allowedHrefs.includes(hrefNode.attrs.href)) {
+          } else if (matchingExternalHref) {
             onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
           }
         }
