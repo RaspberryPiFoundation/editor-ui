@@ -420,7 +420,7 @@ describe("When an allowed external link is rendered", () => {
     );
   });
 
-  test("Runs HTML code", () => {
+  test("Runs HTML code with the link included", () => {
     expect(Blob).toHaveBeenCalledWith([output], {
       type: "text/html",
     });
