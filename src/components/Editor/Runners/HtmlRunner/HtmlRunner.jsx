@@ -51,7 +51,12 @@ function HtmlRunner() {
   const allowedExternalHrefs = [rpfDomain];
 
   const matchingRegexes = (regexArray, testString) => {
-    return regexArray.some((reg) => reg.test(testString));
+    console.debug("Matching regex");
+    console.debug(regexArray);
+    console.debug(testString);
+    const result = regexArray.some((reg) => reg.test(testString));
+    console.debug(result);
+    return result;
   };
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });

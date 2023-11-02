@@ -30,13 +30,14 @@ const anotherHTMLPage = {
 const allowedLinkHTMLPage = {
   name: "allowed_link",
   extension: "html",
-  content: '<head></head><body><a href="#">ANCHOR LINK!</a></body>',
+  content: '<head></head><body><a href="#test">ANCHOR LINK!</a></body>',
 };
 
 const allowedLinkRPF = {
   name: "allowed_rpf_link",
   extension: "html",
-  content: '<head></head><body><a href="rpf.io/seefood">RPF link</a></body>',
+  content:
+    '<head></head><body><a href="https://rpf.io/seefood">RPF link</a></body>',
 };
 
 describe("When page first loaded", () => {
@@ -243,11 +244,11 @@ describe("When run is triggered", () => {
   });
 });
 
-describe("When an external link is rendered", () => {
+describe("When a non-permitted external link is rendered", () => {
   let store;
   const input =
-    '<head></head><body><a href="https://rpf.io/">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href=\"https://rpf.io/\" onclick=\"window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/' }})\">EXTERNAL LINK!</a><meta filename=\"index.html\" ></body>`;
+    '<head></head><body><a href="https://google.test/">EXTERNAL LINK!</a></body>';
+  const output = `<head></head><body><a href=\"javascript:void(0)\" onclick=\"window.parent.postMessage({msg: 'ERROR: External link'})\">EXTERNAL LINK!</a><meta filename=\"index.html\" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -288,49 +289,6 @@ describe("When an external link is rendered", () => {
     });
   });
 });
-
-// describe("When an external RPF link is rendered", () => {
-//   let store;
-//   const input =
-//     '<head></head><body><a href="https://rpf.io/seefood">RPF link</a></body>';
-//   const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link'})">RPF link</a><meta filename="index.html" ></body>`;
-
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project: {
-//           components: [
-//             {
-//               content: input,
-//             },
-//           ],
-//         },
-//         focussedFileIndices: [0],
-//         codeRunTriggered: true,
-//         codeHasBeenRun: true,
-//         errorModalShowing: false,
-//       },
-//     };
-//     store = mockStore(initialState);
-//     render(
-//       <Provider store={store}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <HtmlRunner />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//   });
-
-//   test("Runs RPF link", () => {
-//     expect(Blob).toHaveBeenCalledWith([output], {
-//       type: "text/html",
-//     });
-//   });
-// });
 
 describe("When a new tab link is rendered", () => {
   let store;
@@ -379,19 +337,26 @@ describe("When a new tab link is rendered", () => {
   });
 });
 
-describe("When an allowed link is rendered", () => {
+describe("When an internal link is rendered", () => {
   let store;
-
+  const internalLinkHTMLContent = `<head></head><body><a href="#test">ANCHOR LINK!</a></body>`;
+  const output = `<head></head><body><a href="#test">ANCHOR LINK!</a><meta filename="index.html" ></body>`;
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {
-          components: [allowedLinkHTMLPage],
+          components: [
+            {
+              name: "index",
+              extension: "html",
+              content: internalLinkHTMLContent,
+            },
+          ],
         },
         focussedFileIndices: [0],
-        openFiles: [["allowed_link.html"]],
+        openFiles: [["index.html"]],
         codeRunTriggered: true,
         codeHasBeenRun: true,
         errorModalShowing: false,
@@ -410,16 +375,17 @@ describe("When an allowed link is rendered", () => {
   });
 
   test("Runs HTML code without changes apart from meta tag", () => {
-    const allowedLinkHTMLContent =
-      '<head></head><body><a href="#">ANCHOR LINK!</a><meta filename="allowed_link.html" ></body>';
-    expect(Blob).toHaveBeenCalledWith([allowedLinkHTMLContent], {
+    expect(Blob).toHaveBeenCalledWith([output], {
       type: "text/html",
     });
   });
 });
 
-describe("When an allowed RPF link is rendered", () => {
+describe("When an allowed external link is rendered", () => {
   let store;
+  const allowedExternalLinkHTMLContent =
+    '<head></head><body><a href="https://rpf.io/seefood">EXTERNAL LINK!</a></body>';
+  const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -427,7 +393,13 @@ describe("When an allowed RPF link is rendered", () => {
     const initialState = {
       editor: {
         project: {
-          components: [allowedLinkRPF],
+          components: [
+            {
+              name: "index",
+              extension: "html",
+              content: allowedExternalLinkHTMLContent,
+            },
+          ],
         },
         focussedFileIndices: [0],
         openFiles: [["rpf.io/seefoodq"]],
@@ -449,9 +421,7 @@ describe("When an allowed RPF link is rendered", () => {
   });
 
   test("Runs HTML code", () => {
-    const allowedLinkRPFContent =
-      '<head></head><body><a href="rpf.io/seefood">RPF link</a></body>';
-    expect(Blob).toHaveBeenCalledWith([allowedLinkRPFContent], {
+    expect(Blob).toHaveBeenCalledWith([output], {
       type: "text/html",
     });
   });
