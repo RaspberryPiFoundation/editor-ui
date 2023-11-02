@@ -46,9 +46,9 @@ function HtmlRunner() {
   const output = useRef(null);
   const [error, setError] = useState(null);
   const domain = `https://rpf.io/`;
-  const rpfDomainR = new RegExp(`^${domain}`);
+  const rpfDomain = new RegExp(`^${domain}`);
   const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
-  const allowedExternalHrefs = [rpfDomainR];
+  const allowedExternalHrefs = [rpfDomain];
 
   const matchingRegexes = (regexArray, testString) => {
     return regexArray.some((reg) => reg.test(testString));

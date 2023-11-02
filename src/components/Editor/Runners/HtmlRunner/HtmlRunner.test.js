@@ -246,8 +246,8 @@ describe("When run is triggered", () => {
 describe("When an external link is rendered", () => {
   let store;
   const input =
-    '<head></head><body><a href="https://google.com">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'Allowed external link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
+    '<head></head><body><a href="https://rpf.io/">EXTERNAL LINK!</a></body>';
+  const output = `<head></head><body><a href=\"https://rpf.io/\" onclick=\"window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/' }})\">EXTERNAL LINK!</a><meta filename=\"index.html\" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
