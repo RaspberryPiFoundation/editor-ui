@@ -43,7 +43,7 @@ function HtmlRunner() {
   const locale = i18n.language;
 
   const dispatch = useDispatch();
-  const output = useRef();
+  const output = useRef(null);
   const [error, setError] = useState(null);
   const domain = `https://rpf.io/`;
   const rpfDomainR = new RegExp(`^${domain}`);
@@ -53,6 +53,7 @@ function HtmlRunner() {
   const matchingRegexes = (regexArray, testString) => {
     return regexArray.some((reg) => reg.test(testString));
   };
+
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -132,6 +133,16 @@ function HtmlRunner() {
         : null;
       if (runningFile !== filename) {
         setRunningFile(filename);
+      }
+    }
+    if (iframe) {
+      const linkElement = iframe.querySelector("a");
+
+      if (linkElement) {
+        linkElement.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.open(linkElement.getAttribute("href"));
+        });
       }
     }
   };
