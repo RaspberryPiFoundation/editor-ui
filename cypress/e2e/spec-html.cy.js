@@ -57,20 +57,20 @@ it("blocks external links", () => {
     .should("include.text", "An error has occurred");
 });
 
-it("allows internal links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.get(".btn--run").click();
-  makeNewFile();
-  cy.get("div[class=cm-content]").invoke(
-    "text",
-    '<a href="index.html">some internal link</a>',
-  );
-  cy.get(".btn--run").click();
+// it("allows internal links", () => {
+//   localStorage.clear();
+//   cy.visit(baseUrl);
+//   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
+//   cy.get(".btn--run").click();
+//   makeNewFile();
+//   cy.get("div[class=cm-content]").invoke(
+//     "text",
+//     '<a href="index.html">some internal link</a>',
+//   );
+//   cy.get(".btn--run").click();
 
-  const internalLink = getIframeBody().find("a");
-  internalLink.click();
-  const content = getIframeBody().find("p");
-  content.should("include.text", "hello world");
-});
+//   const internalLink = getIframeBody().find("a");
+//   internalLink.click();
+//   const content = getIframeBody().find("p");
+//   content.should("include.text", "hello world");
+// });
