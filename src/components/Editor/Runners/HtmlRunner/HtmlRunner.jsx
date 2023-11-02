@@ -54,7 +54,6 @@ function HtmlRunner() {
     return regexArray.some((reg) => reg.test(testString));
   };
 
-
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const focussedComponent = (fileName = "index.html") =>
@@ -126,8 +125,8 @@ function HtmlRunner() {
   };
 
   const iframeReload = () => {
+    const iframe = output.current.contentDocument;
     if (!externalLink) {
-      const iframe = output.current.contentDocument;
       const filename = iframe.querySelectorAll("meta[filename]")[0]
         ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
         : null;
