@@ -27,14 +27,14 @@ const anotherHTMLPage = {
   extension: "html",
   content: "<head></head><body><p>My amazing page</p></body>",
 };
-const allowedLinkHTMLPage = {
-  name: "allowed_link",
+const internalLinkHTMLPage = {
+  name: "internal_link",
   extension: "html",
   content: '<head></head><body><a href="#test">ANCHOR LINK!</a></body>',
 };
 
-const allowedLinkRPF = {
-  name: "allowed_rpf_link",
+const allowedExternalLink = {
+  name: "allowed_external_link",
   extension: "html",
   content:
     '<head></head><body><a href="https://rpf.io/seefood">RPF link</a></body>',
@@ -339,24 +339,17 @@ describe("When a new tab link is rendered", () => {
 
 describe("When an internal link is rendered", () => {
   let store;
-  const internalLinkHTMLContent = `<head></head><body><a href="#test">ANCHOR LINK!</a></body>`;
-  const output = `<head></head><body><a href="#test">ANCHOR LINK!</a><meta filename="index.html" ></body>`;
+  const output = `<head></head><body><a href="#test">ANCHOR LINK!</a><meta filename="internal_link.html" ></body>`;
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {
-          components: [
-            {
-              name: "index",
-              extension: "html",
-              content: internalLinkHTMLContent,
-            },
-          ],
+          components: [internalLinkHTMLPage],
         },
         focussedFileIndices: [0],
-        openFiles: [["index.html"]],
+        openFiles: [["internal_link.html"]],
         codeRunTriggered: true,
         codeHasBeenRun: true,
         errorModalShowing: false,
@@ -383,9 +376,8 @@ describe("When an internal link is rendered", () => {
 
 describe("When an allowed external link is rendered", () => {
   let store;
-  const allowedExternalLinkHTMLContent =
-    '<head></head><body><a href="https://rpf.io/seefood">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
+
+  const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})">RPF link</a><meta filename="allowed_external_link.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -393,16 +385,10 @@ describe("When an allowed external link is rendered", () => {
     const initialState = {
       editor: {
         project: {
-          components: [
-            {
-              name: "index",
-              extension: "html",
-              content: allowedExternalLinkHTMLContent,
-            },
-          ],
+          components: [allowedExternalLink],
         },
         focussedFileIndices: [0],
-        openFiles: [["rpf.io/seefoodq"]],
+        openFiles: [["allowed_external_link.html"]],
         codeRunTriggered: true,
         codeHasBeenRun: true,
         errorModalShowing: false,

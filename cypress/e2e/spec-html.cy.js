@@ -65,7 +65,7 @@ it("allows internal links", () => {
   makeNewFile();
   cy.get("div[class=cm-content]").invoke(
     "text",
-    '<a href="index.html">some internal link</a>',
+    '<a href="#index.html">some internal link</a>',
   );
   cy.get(".btn--run").click();
 
