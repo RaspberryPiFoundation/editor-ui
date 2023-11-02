@@ -30,7 +30,7 @@ const anotherHTMLPage = {
 const internalLinkHTMLPage = {
   name: "internal_link",
   extension: "html",
-  content: '<head></head><body><a href="#test">ANCHOR LINK!</a></body>',
+  content: '<head></head><body><a href="test.html">ANCHOR LINK!</a></body>',
 };
 
 const allowedExternalLink = {
@@ -339,14 +339,21 @@ describe("When a new tab link is rendered", () => {
 
 describe("When an internal link is rendered", () => {
   let store;
-  const output = `<head></head><body><a href="#test">ANCHOR LINK!</a><meta filename="internal_link.html" ></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'test' }})">ANCHOR LINK!</a><meta filename="internal_link.html" ></body>`;
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {
-          components: [internalLinkHTMLPage],
+          components: [
+            internalLinkHTMLPage,
+            {
+              name: "test",
+              extension: "html",
+              content: "<p>test file</p>",
+            },
+          ],
         },
         focussedFileIndices: [0],
         openFiles: [["internal_link.html"]],
