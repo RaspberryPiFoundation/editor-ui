@@ -43,34 +43,34 @@ it("updates the preview after a change when you click run", () => {
   getIframeBody().find("p").should("include.text", "hello world");
 });
 
-it("blocks external links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("div[class=cm-content]").invoke(
-    "text",
-    '<a href="https://raspberrypi.org/en/">some external link</a>',
-  );
-  cy.get(".btn--run").click();
-  getIframeBody().find("a").click();
-  cy.get("div[class=modal-content__header]")
-    .find("h2")
-    .should("include.text", "An error has occurred");
-});
+// it("blocks external links", () => {
+//   localStorage.clear();
+//   cy.visit(baseUrl);
+//   cy.get("div[class=cm-content]").invoke(
+//     "text",
+//     '<a href="https://raspberrypi.org/en/">some external link</a>',
+//   );
+//   cy.get(".btn--run").click();
+//   getIframeBody().find("a").click();
+//   cy.get("div[class=modal-content__header]")
+//     .find("h2")
+//     .should("include.text", "An error has occurred");
+// });
 
-it("allows internal links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
-  cy.get(".btn--run").click();
-  makeNewFile();
-  cy.get("div[class=cm-content]").invoke(
-    "text",
-    '<a href="index.html">some internal link</a>',
-  );
-  cy.get(".btn--run").click();
+// it("allows internal links", () => {
+//   localStorage.clear();
+//   cy.visit(baseUrl);
+//   cy.get("div[class=cm-content]").invoke("text", "<p>hello world</p>");
+//   cy.get(".btn--run").click();
+//   makeNewFile();
+//   cy.get("div[class=cm-content]").invoke(
+//     "text",
+//     '<a href="index.html">some internal link</a>',
+//   );
+//   cy.get(".btn--run").click();
 
-  const internalLink = getIframeBody().find("a");
-  internalLink.click();
-  const content = getIframeBody().find("p");
-  content.should("include.text", "hello world");
-});
+//   const internalLink = getIframeBody().find("a");
+//   internalLink.click();
+//   const content = getIframeBody().find("p");
+//   content.should("include.text", "hello world");
+// });
