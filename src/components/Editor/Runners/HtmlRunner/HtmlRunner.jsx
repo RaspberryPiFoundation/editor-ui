@@ -46,20 +46,12 @@ function HtmlRunner() {
   const output = useRef(null);
   const [error, setError] = useState(null);
   const domain = `https://rpf.io/`;
-  const rpfDomain = new RegExp(`^${domain}`);
-  const allowedInternalLinks = [
-    new RegExp(`^#[a-zA-Z0-9]+`),
-    new RegExp(`[a-zA-Z0-9]+\.html`),
-  ];
-  const allowedExternalHrefs = [rpfDomain];
+  const rpfDomainR = new RegExp(`^${domain}`);
+  const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
+  const allowedExternalHrefs = [rpfDomainR];
 
   const matchingRegexes = (regexArray, testString) => {
-    console.log("Matching regex");
-    console.log(regexArray);
-    console.log(testString);
-    const result = regexArray.some((reg) => reg.test(testString));
-    console.log(result);
-    return result;
+    return regexArray.some((reg) => reg.test(testString));
   };
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
@@ -239,21 +231,14 @@ function HtmlRunner() {
             onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
           }
         } else {
-          console.log("preparing to match");
-          console.log(hrefNode.attrs.href);
-          console.log("External?");
           const matchingExternalHref = matchingRegexes(
             allowedExternalHrefs,
             hrefNode.attrs.href,
           );
-          console.log(matchingExternalHref);
-          console.log("INTERNAL??");
-
           const matchingInternalHref = matchingRegexes(
             allowedInternalLinks,
             hrefNode.attrs.href,
           );
-          console.log(matchingInternalHref);
           if (
             !matchingInternalHref &&
             !matchingExternalHref &&
