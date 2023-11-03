@@ -92,6 +92,18 @@ function HtmlRunner() {
     return URL.createObjectURL(blob);
   };
 
+  const getFilename = (iframe) => {
+    let filename;
+    if (iframe) {
+      filename = iframe.querySelectorAll("meta[filename]")[0]
+        ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
+        : externalLink;
+    } else {
+      filename = externalLink;
+    }
+    return filename;
+  };
+
   const cssProjectImgs = (projectFile) => {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
@@ -127,13 +139,10 @@ function HtmlRunner() {
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
-    if (!externalLink) {
-      const filename = iframe.querySelectorAll("meta[filename]")[0]
-        ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
-        : null;
-      if (runningFile !== filename) {
-        setRunningFile(filename);
-      }
+    let filename = getFilename(iframe);
+
+    if (runningFile !== filename) {
+      setRunningFile(filename);
     }
 
     if (iframe) {
