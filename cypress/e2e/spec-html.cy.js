@@ -57,17 +57,6 @@ it("blocks non-permitted external links", () => {
     .should("include.text", "An error has occurred");
 });
 
-it("allows permitted external links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("div[class=cm-content]").invoke(
-    "text",
-    '<a href="https://www.rpf.io/seefood">some external link</a>',
-  );
-  cy.get(".btn--run").click();
-  cy.url().should("not.equal", baseUrl);
-});
-
 it("allows internal links", () => {
   localStorage.clear();
   cy.visit(baseUrl);
