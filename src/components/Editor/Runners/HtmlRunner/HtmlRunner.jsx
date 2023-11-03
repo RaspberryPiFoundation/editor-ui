@@ -140,7 +140,12 @@ function HtmlRunner() {
       if (linkElement) {
         linkElement.addEventListener("click", (e) => {
           e.preventDefault();
-          window.open(linkElement.getAttribute("href"), "_top");
+          const isExternalLink = matchingRegexes(
+            allowedExternalHrefs,
+            linkElement.href,
+          );
+          const target = isExternalLink ? "_blank" : "_top";
+          window.open(linkElement.getAttribute("href"), target);
         });
       }
     }
