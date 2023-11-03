@@ -132,7 +132,6 @@ function HtmlRunner() {
         ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
         : null;
       if (runningFile !== filename) {
-        console.log(filename);
         setRunningFile(filename);
       }
     }
@@ -210,7 +209,6 @@ function HtmlRunner() {
 
       // replace href's with blob urls
       hrefNodes.forEach((hrefNode) => {
-        console.log("HREF NODES");
         const projectFile = projectCode.filter(
           (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
         );
@@ -223,7 +221,6 @@ function HtmlRunner() {
         let onClick;
 
         if (!!projectFile.length) {
-          console.log("Processing links!!");
           if (parentTag(hrefNode, "head")) {
             const projectFileBlob = getBlobURL(
               cssProjectImgs(projectFile[0]).content,
