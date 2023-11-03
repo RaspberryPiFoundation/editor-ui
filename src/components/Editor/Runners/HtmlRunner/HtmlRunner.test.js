@@ -248,7 +248,7 @@ describe("When a non-permitted external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.test/">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href=\"javascript:void(0)\" onclick=\"window.parent.postMessage({msg: 'ERROR: External link'})\">EXTERNAL LINK!</a><meta filename=\"index.html\" ></body>`;
+  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
