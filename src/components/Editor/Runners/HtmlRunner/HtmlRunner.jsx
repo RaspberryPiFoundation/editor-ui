@@ -113,12 +113,12 @@ function HtmlRunner() {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
-        } else if (event.data?.msg !== "Allowed external link") {
-          setExternalLink(null);
-          setPreviewFile(`${event.data.payload.linkTo}.html`);
+        } else if (event.data?.msg === "Allowed external link") {
+          setExternalLink(event.data.payload.linkTo);
           dispatch(triggerCodeRun());
         } else {
-          setExternalLink(event.data.payload.linkTo);
+          setExternalLink(null);
+          setPreviewFile(`${event.data.payload.linkTo}.html`);
           dispatch(triggerCodeRun());
         }
       }
