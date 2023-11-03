@@ -114,6 +114,7 @@ function HtmlRunner() {
         if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
         } else if (event.data?.msg !== "Allowed external link") {
+          setExternalLink(null);
           setPreviewFile(`${event.data.payload.linkTo}.html`);
           dispatch(triggerCodeRun());
         } else {
@@ -131,9 +132,11 @@ function HtmlRunner() {
         ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
         : null;
       if (runningFile !== filename) {
+        console.log(filename);
         setRunningFile(filename);
       }
     }
+
     if (iframe) {
       const linkElement = iframe.querySelector("a");
 
@@ -141,10 +144,6 @@ function HtmlRunner() {
         linkElement.addEventListener("click", (e) => {
           e.preventDefault();
 
-          const outputIframe = output.current.contentDocument;
-          // const target = isExternalLink ? "_parent" : "_top";
-          console.log("IFRAM");
-          console.log(outputIframe);
           output.current.contentDocument.href =
             linkElement.getAttribute("href");
         });
@@ -203,8 +202,6 @@ function HtmlRunner() {
 
   const runCode = () => {
     if (!externalLink) {
-      setRunningFile(previewFile);
-
       let indexPage = parse(focussedComponent(previewFile).content);
 
       const body = indexPage.querySelector("body") || indexPage;
@@ -213,6 +210,7 @@ function HtmlRunner() {
 
       // replace href's with blob urls
       hrefNodes.forEach((hrefNode) => {
+        console.log("HREF NODES");
         const projectFile = projectCode.filter(
           (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
         );
@@ -225,6 +223,7 @@ function HtmlRunner() {
         let onClick;
 
         if (!!projectFile.length) {
+          console.log("Processing links!!");
           if (parentTag(hrefNode, "head")) {
             const projectFileBlob = getBlobURL(
               cssProjectImgs(projectFile[0]).content,
@@ -285,6 +284,7 @@ function HtmlRunner() {
       }
     } else {
       output.current.src = externalLink;
+
       dispatch(codeRunHandled());
     }
   };
