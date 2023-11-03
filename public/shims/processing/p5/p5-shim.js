@@ -190,6 +190,10 @@ const $builtinmodule = function (name) {
   // =====
   // Color
   // =====
+  // Shadow root manipulation
+
+  console.log("Shadow root");
+  const shadowRoot = document.querySelector("editor-wc").shadowRoot;
 
   // Creating & Reading
 
