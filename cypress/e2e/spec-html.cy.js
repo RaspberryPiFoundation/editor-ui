@@ -74,3 +74,14 @@ it("allows internal links", () => {
   const content = getIframeBody().find("p");
   content.should("include.text", "hello world");
 });
+
+it("allows permitted external links", () => {
+  localStorage.clear();
+  cy.visit(baseUrl);
+  cy.get("div[class=cm-content]").invoke(
+    "text",
+    '<a href="https://www.rpf.io/seefood">some external link</a>',
+  );
+  cy.get(".btn--run").click();
+  cy.url().should("not.be.equals", baseUrl);
+});
