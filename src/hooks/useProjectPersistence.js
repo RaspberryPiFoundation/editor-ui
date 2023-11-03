@@ -9,14 +9,20 @@ import {
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
-export const useProjectPersistence = ({ user }) => {
+export const useProjectPersistence = ({
+  user,
+  project,
+  justLoaded,
+  hasShownSavePrompt,
+  saveTriggered,
+}) => {
   const dispatch = useDispatch();
-  const project = useSelector((state) => state.editor.project);
-  const justLoaded = useSelector((state) => state.editor.justLoaded);
-  const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
-  );
-  const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  // const project = useSelector((state) => state.editor.project);
+  // const justLoaded = useSelector((state) => state.editor.justLoaded);
+  // const hasShownSavePrompt = useSelector(
+  //   (state) => state.editor.hasShownSavePrompt,
+  // );
+  // const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   useEffect(() => {
     if (saveTriggered) {

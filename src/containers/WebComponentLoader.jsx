@@ -22,6 +22,11 @@ const WebComponentLoader = (props) => {
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
   const user = JSON.parse(localStorage.getItem(authKey));
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const hasShownSavePrompt = useSelector(
+    (state) => state.editor.hasShownSavePrompt,
+  );
+  const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   useEffect(() => {
     if (user) {
@@ -44,7 +49,11 @@ const WebComponentLoader = (props) => {
   });
 
   useProjectPersistence({
-    user: user,
+    user,
+    project,
+    justLoaded,
+    hasShownSavePrompt,
+    saveTriggered,
   });
 
   useEffect(() => {

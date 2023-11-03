@@ -24,6 +24,11 @@ const ProjectComponentLoader = (props) => {
   const user = useSelector((state) => state.auth.user);
   const accessToken = user ? user.access_token : null;
   const project = useSelector((state) => state.editor.project);
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const hasShownSavePrompt = useSelector(
+    (state) => state.editor.hasShownSavePrompt,
+  );
+  const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const newFileModalShowing = useSelector(
@@ -48,7 +53,13 @@ const ProjectComponentLoader = (props) => {
 
   useEmbeddedMode(embedded);
   useProject({ projectIdentifier: identifier, accessToken: accessToken });
-  useProjectPersistence({ user });
+  useProjectPersistence({
+    user,
+    project,
+    justLoaded,
+    hasShownSavePrompt,
+    saveTriggered,
+  });
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {

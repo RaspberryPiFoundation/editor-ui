@@ -1,315 +1,199 @@
-// describe("When not logged in and just loaded", () => {
-//   let mockedStore;
+import React from "react";
+import { render, renderHook, waitFor } from "@testing-library/react";
+import configureStore from "redux-mock-store";
+import { useProjectPersistence } from "./useProjectPersistence";
+import { Provider } from "react-redux";
+import {
+  expireJustLoaded,
+  setHasShownSavePrompt,
+  setProject,
+} from "../redux/EditorSlice";
+import { defaultPythonProject } from "../utils/defaultProjects";
+import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: true,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {},
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//   });
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => jest.fn(),
+}));
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+jest.mock("../redux/EditorSlice", () => ({
+  ...jest.requireActual("../redux/EditorSlice"),
+  syncProject: jest.fn((_) => jest.fn()),
+  expireJustLoaded: jest.fn(),
+  setHasShownSavePrompt: jest.fn(),
+}));
 
-//   test("Expires justLoaded", async () => {
-//     const expectedActions = [
-//       setProject(defaultPythonProject),
-//       expireJustLoaded(),
-//     ];
-//     await waitFor(
-//       () => expect(mockedStore.getActions()).toEqual(expectedActions),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+jest.mock("../utils/Notifications", () => ({
+  ...jest.requireActual("../utils/Notifications"),
+  showLoginPrompt: jest.fn(),
+  showSavePrompt: jest.fn(),
+}));
 
-// describe("When not logged in and not just loaded", () => {
-//   let mockedStore;
-//   let expectedActions;
+jest.useFakeTimers();
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: false,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {},
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//     expectedActions = [setProject(defaultPythonProject)];
-//   });
+const user1 = {
+  access_token: "myAccessToken",
+  profile: {
+    user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
+  },
+};
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+const user2 = {
+  access_token: "myAccessToken",
+  profile: {
+    user: "cd8a5b3d-f7bb-425e-908f-1386decd6bb1",
+  },
+};
 
-//   test("Login prompt shown", async () => {
-//     await waitFor(() => expect(showLoginPrompt).toHaveBeenCalled(), {
-//       timeout: 2100,
-//     });
-//   });
+const project = {
+  name: "hello world",
+  project_type: "python",
+  identifier: "hello-world-project",
+  components: [
+    {
+      name: "main",
+      extension: "py",
+      content: "# hello",
+    },
+  ],
+  user_id: user1.profile.user,
+};
 
-//   test("Dispatches save prompt shown action", async () => {
-//     expectedActions.push(setHasShownSavePrompt());
-//     await waitFor(
-//       () => expect(mockedStore.getActions()).toEqual(expectedActions),
-//       { timeout: 2100 },
-//     );
-//   });
+afterEach(() => {
+  localStorage.clear();
+});
 
-//   test("Project saved in localStorage", async () => {
-//     await waitFor(
-//       () =>
-//         expect(localStorage.getItem("hello-world-project")).toEqual(
-//           JSON.stringify(project),
-//         ),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+describe("When not logged in and just loaded", () => {
+  beforeEach(() => {
+    renderHook(() => useProjectPersistence({ user: null, justLoaded: true }));
+    jest.runAllTimers();
+  });
 
-// describe("When not logged in and has been prompted to login to save", () => {
-//   let mockedStore;
+  test("Expires justLoaded", async () => {
+    expect(expireJustLoaded).toHaveBeenCalled();
+  });
+});
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: false,
-//         hasShownSavePrompt: true,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {},
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//   });
+describe("When not logged in and not just loaded", () => {
+  beforeEach(() => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: null,
+        project: project,
+        justLoaded: false,
+      }),
+    );
+    jest.runAllTimers();
+  });
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+  test("Login prompt shown", () => {
+    expect(showLoginPrompt).toHaveBeenCalled();
+  });
 
-//   test("Login prompt shown", async () => {
-//     jest.runAllTimers();
-//     await waitFor(() => expect(showLoginPrompt).not.toHaveBeenCalled(), {
-//       timeout: 2100,
-//     });
-//   });
+  test("Dispatches save prompt shown action", () => {
+    expect(setHasShownSavePrompt).toHaveBeenCalled();
+  });
 
-//   test("Project saved in localStorage", async () => {
-//     await waitFor(
-//       () =>
-//         expect(localStorage.getItem("hello-world-project")).toEqual(
-//           JSON.stringify(project),
-//         ),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+  test("Project saved in localStorage", () => {
+    expect(localStorage.getItem("hello-world-project")).toEqual(
+      JSON.stringify(project),
+    );
+  });
+});
 
-// describe("When logged in and user does not own project and just loaded", () => {
-//   let mockedStore;
-//   let expectedActions;
+describe("When not logged in and has been prompted to login to save", () => {
+  beforeEach(() => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: null,
+        project: project,
+        justLoaded: false,
+        hasShownSavePrompt: true,
+      }),
+    );
+    jest.runAllTimers();
+  });
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: true,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {
-//         user: user2,
-//       },
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//     expectedActions = [setProject(defaultPythonProject)];
-//   });
+  test("Login prompt shown", () => {
+    expect(showLoginPrompt).not.toHaveBeenCalled();
+  });
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+  test("Project saved in localStorage", () => {
+    expect(localStorage.getItem("hello-world-project")).toEqual(
+      JSON.stringify(project),
+    );
+  });
+});
 
-//   test("Expires justLoaded", async () => {
-//     expectedActions.push(expireJustLoaded());
-//     await waitFor(
-//       () => expect(mockedStore.getActions()).toEqual(expectedActions),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+describe("When logged in and user does not own project and just loaded", () => {
+  beforeEach(() => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user2,
+        project: project,
+        justLoaded: true,
+      }),
+    );
+    jest.runAllTimers();
+  });
 
-// describe("When logged in and user does not own project and not just loaded", () => {
-//   let mockedStore;
-//   let expectedActions;
+  test("Expires justLoaded", async () => {
+    expect(expireJustLoaded).toHaveBeenCalled();
+  });
+});
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: false,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {
-//         user: user2,
-//       },
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//     expectedActions = [setProject(defaultPythonProject)];
-//   });
+describe("When logged in and user does not own project and not just loaded", () => {
+  beforeEach(() => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user2,
+        project: project,
+        justLoaded: false,
+      }),
+    );
+    jest.runAllTimers();
+  });
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
+  test("Save prompt shown", async () => {
+    expect(showSavePrompt).toHaveBeenCalled();
+  });
 
-//   test("Save prompt shown", async () => {
-//     await waitFor(() => expect(showSavePrompt).toHaveBeenCalled(), {
-//       timeout: 2100,
-//     });
-//   });
+  test("Dispatches save prompt shown action", async () => {
+    expect(setHasShownSavePrompt).toHaveBeenCalled();
+  });
 
-//   test("Dispatches save prompt shown action", async () => {
-//     expectedActions.push(setHasShownSavePrompt());
-//     await waitFor(
-//       () => expect(mockedStore.getActions()).toEqual(expectedActions),
-//       { timeout: 2100 },
-//     );
-//   });
+  test("Project saved in localStorage", async () => {
+    expect(localStorage.getItem("hello-world-project")).toEqual(
+      JSON.stringify(project),
+    );
+  });
+});
 
-//   test("Project saved in localStorage", async () => {
-//     await waitFor(
-//       () =>
-//         expect(localStorage.getItem("hello-world-project")).toEqual(
-//           JSON.stringify(project),
-//         ),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+describe("When logged in and user does not own project and prompted to save", () => {
+  let mockedStore;
 
-// describe("When logged in and user does not own project and prompted to save", () => {
-//   let mockedStore;
+  beforeEach(() => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user2,
+        project: project,
+        justLoaded: false,
+        hasShownSavePrompt: true,
+      }),
+    );
+    jest.runAllTimers();
+  });
 
-//   beforeEach(() => {
-//     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
-//     const initialState = {
-//       editor: {
-//         project,
-//         loading: "success",
-//         justLoaded: false,
-//         hasShownSavePrompt: true,
-//         openFiles: [[]],
-//         focussedFileIndices: [0],
-//       },
-//       auth: {
-//         user: user2,
-//       },
-//     };
-//     mockedStore = mockStore(initialState);
-//     render(
-//       <Provider store={mockedStore}>
-//         <MemoryRouter>
-//           <div id="app">
-//             <ProjectComponentLoader match={{ params: {} }} />
-//           </div>
-//         </MemoryRouter>
-//       </Provider>,
-//     );
-//   });
+  test("Save prompt not shown again", async () => {
+    expect(showSavePrompt).not.toHaveBeenCalled();
+  });
 
-//   afterEach(() => {
-//     localStorage.clear();
-//   });
-
-//   test("Save prompt not shown again", async () => {
-//     jest.runAllTimers();
-//     await waitFor(() => expect(showSavePrompt).not.toHaveBeenCalled(), {
-//       timeout: 2100,
-//     });
-//   });
-
-//   test("Project saved in localStorage", async () => {
-//     await waitFor(
-//       () =>
-//         expect(localStorage.getItem("hello-world-project")).toEqual(
-//           JSON.stringify(project),
-//         ),
-//       { timeout: 2100 },
-//     );
-//   });
-// });
+  test("Project saved in localStorage", async () => {
+    expect(localStorage.getItem("hello-world-project")).toEqual(
+      JSON.stringify(project),
+    );
+  });
+});
 
 // describe("When logged in and user does not own project and awaiting save", () => {
 //   let mockedStore;
