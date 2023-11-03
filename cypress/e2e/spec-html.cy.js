@@ -43,7 +43,7 @@ it("updates the preview after a change when you click run", () => {
   getIframeBody().find("p").should("include.text", "hello world");
 });
 
-it("blocks external links", () => {
+it("blocks non-permitted external links", () => {
   localStorage.clear();
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke(
@@ -55,6 +55,17 @@ it("blocks external links", () => {
   cy.get("div[class=modal-content__header]")
     .find("h2")
     .should("include.text", "An error has occurred");
+});
+
+it("allows permitted external links", () => {
+  localStorage.clear();
+  cy.visit(baseUrl);
+  cy.get("div[class=cm-content]").invoke(
+    "text",
+    '<a href="https://www.rpf.io/seefood">some external link</a>',
+  );
+  cy.get(".btn--run").click();
+  cy.url().should("not.equal", baseUrl);
 });
 
 it("allows internal links", () => {
@@ -73,15 +84,4 @@ it("allows internal links", () => {
   internalLink.click();
   const content = getIframeBody().find("p");
   content.should("include.text", "hello world");
-});
-
-it("allows permitted external links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("div[class=cm-content]").invoke(
-    "text",
-    '<a href="https://www.rpf.io/seefood">some external link</a>',
-  );
-  cy.get(".btn--run").click();
-  cy.url().should("not.be.equals", baseUrl);
 });
