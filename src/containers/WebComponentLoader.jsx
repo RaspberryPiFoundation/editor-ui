@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -21,6 +22,14 @@ const WebComponentLoader = (props) => {
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
   const user = JSON.parse(localStorage.getItem(authKey));
+
+  useEffect(() => {
+    if (user) {
+      dispatch(setUser(user));
+    } else {
+      dispatch(removeUser());
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
