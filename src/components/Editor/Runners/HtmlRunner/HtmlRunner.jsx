@@ -140,12 +140,13 @@ function HtmlRunner() {
       if (linkElement) {
         linkElement.addEventListener("click", (e) => {
           e.preventDefault();
-          const isExternalLink = matchingRegexes(
-            allowedExternalHrefs,
-            linkElement.href,
-          );
-          const target = isExternalLink ? "_blank" : "_top";
-          window.open(linkElement.getAttribute("href"), target);
+
+          const outputIframe = output.current.contentDocument;
+          // const target = isExternalLink ? "_parent" : "_top";
+          console.log("IFRAM");
+          console.log(outputIframe);
+          output.current.contentDocument.href =
+            linkElement.getAttribute("href");
         });
       }
     }

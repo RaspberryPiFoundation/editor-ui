@@ -1,4 +1,4 @@
-const baseUrl = "localhost:3000/en/projects/blank-html-starter";
+const baseUrl = "http://localhost:3000/en/projects/blank-html-starter";
 
 const getIframeDocument = () => {
   return cy
@@ -55,6 +55,20 @@ it("blocks non-permitted external links", () => {
   cy.get("div[class=modal-content__header]")
     .find("h2")
     .should("include.text", "An error has occurred");
+});
+
+it("allows permitted external links", () => {
+  localStorage.clear();
+  cy.visit(baseUrl);
+  cy.get("div[class=cm-content]").invoke(
+    "text",
+    '<a href="https://rpf.io/seefood">some external link</a>',
+  );
+  cy.get(".btn--run").click();
+  const externalLink = getIframeBody().find("a");
+  externalLink.click();
+  cy.url().should("be.equals", baseUrl);
+  cy.get("div[class=modal-content__header]").should("not.exist");
 });
 
 it("allows internal links", () => {
