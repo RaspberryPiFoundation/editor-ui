@@ -209,6 +209,7 @@ function HtmlRunner() {
   }, [runningFile]);
 
   const runCode = () => {
+    setRunningFile(previewFile);
     if (!externalLink) {
       let indexPage = parse(focussedComponent(previewFile).content);
 
