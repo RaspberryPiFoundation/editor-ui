@@ -125,15 +125,20 @@ function HtmlRunner() {
   };
 
   const iframeReload = () => {
+    console.log("IFRAME RELOADED");
     const iframe = output.current.contentDocument;
-    if (!externalLink) {
-      const filename = iframe.querySelectorAll("meta[filename]")[0]
-        ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
-        : null;
-      if (runningFile !== filename) {
-        setRunningFile(filename);
-      }
+    const filename = iframe.querySelectorAll("meta[filename]")[0]
+      ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
+      : null;
+    if (runningFile !== filename) {
+      console.log("Setting filename");
+      console.log(filename);
+      setRunningFile(filename);
+    } else {
+      console.log("Filename unchanged");
+      console.log(filename);
     }
+
     if (iframe) {
       const linkElement = iframe.querySelector("a");
 
@@ -285,6 +290,8 @@ function HtmlRunner() {
       }
     } else {
       output.current.src = externalLink;
+      setRunningFile(externalLink);
+      dispatch(codeRunHandled());
     }
   };
 
