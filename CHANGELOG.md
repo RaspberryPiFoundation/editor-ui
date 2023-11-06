@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component tests (#709, #710)
 - `instructions` attribute for the web component (#712)
 - Instructions slice to store data passed from the Projects site (#712)
+- Adding auth to the web component (#728)
+- Allow web component to load, save and remix projects (#728)
 
 ### Changed
 
