@@ -2,8 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import EditorReducer from "../redux/EditorSlice";
 import InstructionsReducer from "../redux/InstructionsSlice";
 import WebComponentAuthReducer from "../redux/WebComponentAuthSlice";
-// import { reducer, loadUser } from "redux-oidc";
-// import userManager from "../utils/userManager";
 
 const store = configureStore({
   reducer: {
@@ -22,7 +20,5 @@ const store = configureStore({
       },
     }),
 });
-
-// loadUser(store, userManager);
 
 export default store;

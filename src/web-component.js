@@ -5,7 +5,6 @@ import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./app/WebComponentStore";
-// import store from "./app/store";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
