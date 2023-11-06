@@ -63,8 +63,11 @@ test("Calls useProject hook with correct attributes", () => {
   });
 });
 
-test("Calls useProjectPersistence hook with correct attribute", () => {
-  expect(useProjectPersistence).toHaveBeenCalledWith({ user });
+test("Calls useProjectPersistence hook with correct attributes", () => {
+  expect(useProjectPersistence).toHaveBeenCalledWith({
+    user,
+    project: { components: [] },
+  });
 });
 
 test("Enables the SenseHat", () => {

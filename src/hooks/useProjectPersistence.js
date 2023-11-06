@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { isOwner } from "../utils/projectHelpers";
 import {
   expireJustLoaded,
@@ -17,12 +17,6 @@ export const useProjectPersistence = ({
   saveTriggered,
 }) => {
   const dispatch = useDispatch();
-  // const project = useSelector((state) => state.editor.project);
-  // const justLoaded = useSelector((state) => state.editor.justLoaded);
-  // const hasShownSavePrompt = useSelector(
-  //   (state) => state.editor.hasShownSavePrompt,
-  // );
-  // const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   useEffect(() => {
     if (saveTriggered) {
