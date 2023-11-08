@@ -19,6 +19,7 @@ import {
 import "./FilePanel.scss";
 import "../Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
+import FileIcon from "../../../../utils/FileIcon";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
