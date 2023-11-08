@@ -157,6 +157,7 @@ function HtmlRunner() {
         });
       }
     }
+    setExternalLink(null);
   };
 
   useEffect(() => {
