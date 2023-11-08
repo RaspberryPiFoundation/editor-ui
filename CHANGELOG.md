@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.19.4] - 2023-11-08
+
+### Changed
+
+- Allow external rpf.io links (#729)
+
 ## [0.19.3] - 2023-10-25
 
 ### Added
@@ -551,7 +557,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.4...HEAD
+[0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
 [0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
 [0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
