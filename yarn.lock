@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@RaspberryPiFoundation/design-system-react@^0.1.2":
-  version "0.1.2"
-  resolved "https://npm.pkg.github.com/download/@RaspberryPiFoundation/design-system-react/0.1.2/cc3326c8e0a364ac5baa467ba3a43c249fc69974#cc3326c8e0a364ac5baa467ba3a43c249fc69974"
-  integrity sha512-jHeP3fBMoWbZ4gOpPD2ANqsjClxMtMOAJRiD0e2whgFmMvNCW1rcoyTqOZxdUt8HShpD+dAMsczntQH+FMw6RQ==
-  dependencies:
-    classnames "^2.3.2"
-    prop-types "^15.8.1"
-    react "^18.2.0"
-    react-dom "^18.2.0"
-
 "@actions/core@^1.2.0":
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.10.0.tgz#44551c3c71163949a2f06e94d9ca2157a0cfac4f"
@@ -1765,6 +1755,16 @@
     native-url "^0.2.6"
     schema-utils "^2.6.5"
     source-map "^0.7.3"
+
+"@raspberrypifoundation/design-system-react@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-react/-/design-system-react-0.1.4.tgz#f4acd4d3c98dd98d00c96c79dde0fe20c85003aa"
+  integrity sha512-cSW/bUiqdh2L0J6YNdESjJmK7E38F4Xtf15WnwOZSmL+4AL6roAp2Nw4HW5QEAlABp1bl9Bg3uzRd1YZrgs7JQ==
+  dependencies:
+    classnames "^2.3.2"
+    prop-types "^15.8.1"
+    react "^18.2.0"
+    react-dom "^18.2.0"
 
 "@react-spring/animated@~9.6.1":
   version "9.6.1"
