@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Update design-systen-react dependency to publicly available version
+- Update design-system-react dependency to publicly available version
 
 ## [0.19.4] - 2023-11-08
 
