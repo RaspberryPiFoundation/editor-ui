@@ -1,5 +1,25 @@
 <!DOCTYPE html>
 <html>
+  <style>
+    #root {
+      min-height: 100dvh;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      margin: 0;
+    }
+    .editor-wc {
+      flex: 1 1 auto;
+      display: flex;
+    }
+    ::part(editor-root) {
+      display: block;
+      flex: 1 1 auto;
+      max-height: 100dvh;
+    }
+  </style>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -10,29 +30,32 @@
   </body>
 
   <script>
-    document.addEventListener('DOMContentLoaded', (e) => {
-      const webComp = document.createElement('editor-wc')
-      const queryParams = new URLSearchParams(window.location.search)
+    document.addEventListener("DOMContentLoaded", (e) => {
+      const webComp = document.createElement("editor-wc");
+      const queryParams = new URLSearchParams(window.location.search);
 
       // Pre-set the code attribute with an empty string.
-      webComp.setAttribute('code', '')
+      webComp.setAttribute("code", "");
+      webComp.setAttribute("class", "editor-wc");
       // Set any attribute you like in the query string, including class, style, hidden, script, etc.
-      queryParams.forEach((value, key) => { webComp.setAttribute(key, value) })
-
-      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
-      webComp.addEventListener('codeChanged', function(e) {
-        console.log('listener in index html');
-        const code = webComp.editorCode
-        console.log(code)
+      queryParams.forEach((value, key) => {
+        webComp.setAttribute(key, value);
       });
 
-      webComp.addEventListener('runCompleted', (e) => {
-        // const error = webComp.isErrorFree
-        console.log(e.detail)
-        document.getElementById("results").innerText = JSON.stringify(e.detail)
-      })
+      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
+      document.addEventListener("editor-codeChanged", function (e) {
+        console.log("listener in index html");
+        const code = webComp.editorCode;
+        console.log(code);
+      });
 
-      document.getElementsByTagName('body')[0].prepend(webComp)
+      document.addEventListener("editor-runCompleted", (e) => {
+        // const error = webComp.isErrorFree
+        console.log(e.detail);
+        document.getElementById("results").innerText = JSON.stringify(e.detail);
+      });
+
+      document.getElementsByTagName("body")[0].prepend(webComp);
     });
   </script>
 </html>

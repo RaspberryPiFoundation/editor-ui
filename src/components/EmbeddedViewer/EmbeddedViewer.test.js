@@ -4,7 +4,7 @@ import EmbeddedViewer from "./EmbeddedViewer";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { render, screen } from "@testing-library/react";
-import { useProject } from "../Editor/Hooks/useProject";
+import { useProject } from "../../hooks/useProject";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -13,7 +13,7 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-jest.mock("../Editor/Hooks/useProject", () => ({
+jest.mock("../../hooks/useProject", () => ({
   useProject: jest.fn(),
 }));
 

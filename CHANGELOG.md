@@ -4,6 +4,57 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+## [0.19.3] - 2023-10-25
+
+### Added
+
+- `stepChanged` custom event for the web component (#709)
+- Web component tests (#709, #710)
+- `instructions` attribute for the web component (#712)
+- Instructions slice to store data passed from the Projects site (#712)
+
+### Changed
+
+- Allow external rpf.io links (#729)
+- Replace physical properties with logical values (#699)
+- Moved web component custom events from the `editor-wc` element to the `document` (#710)
+- Renamed web component custom events to be prefixed with `editor-` (#710)
+- Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
+
+### Fixed
+
+- Clipped icon in "Save your work" toast (#707)
+- Hydra logout flow to delete session (#714)
+
+## [0.19.2] - 2023-10-12
+
+### Fixed
+
+- TIDY UP: Improve component structure (#692)
+- TIDY UP: Naming convention (#688)
+- Style scaling to support integration into products with difffernt... (#687)
+- Boosting Performance: React.js Code Optimizations (#686)
+- Fix useEffect web component warnings (#674)
+
+## [0.19.1] - 2023-10-04
+
+### Changed
+
+- Performance enhancements on app routes & sense hat transitions (#686)
+- Web component styling (#687)
+- Convert React components to JSX files (#688)
+- Moved `svg`s to `/src/assets/icons` (#692)
+- Moved `scss` files to `/src/stylesheets` (#692)
+- Moved slices and reducers to `/src/redux` (#692)
+- Moved loaders to `/src/containers` (#692)
+
+### Fixed
+
+- Min-height on Sense HAT model to fix tablet-view (#658)
+- Tidied up stylesheets (#684)
+
 ## [0.19.0] - 2023-09-25
 
 ### Added
@@ -500,7 +551,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.3...HEAD
+[0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
+[0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
+[0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
 [0.19.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.0
 [0.18.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.2
 [0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1

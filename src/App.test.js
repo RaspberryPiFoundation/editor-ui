@@ -1,13 +1,13 @@
 import App from "./App";
 import { Provider } from "react-redux";
 import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { Cookies, CookiesProvider } from "react-cookie";
 import configureStore from "redux-mock-store";
 
 jest.mock("./utils/Notifications");
-jest.mock("./components/Editor/EditorSlice", () => {
-  const actual = jest.requireActual("./components/Editor/EditorSlice");
+jest.mock("./redux/EditorSlice", () => {
+  const actual = jest.requireActual("./redux/EditorSlice");
   return {
     ...actual,
     saveProject: jest.fn(),
@@ -40,27 +40,33 @@ describe("Browser prefers light mode", () => {
     store = mockStore(initialState);
   });
 
-  test("Light mode class name added if no cookie", () => {
-    const appContainer = render(
+  test("Light mode class name added if no cookie", async () => {
+    const { container } = render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
           <App />
         </Provider>
       </CookiesProvider>,
     );
-    expect(appContainer.container.querySelector("#app")).toHaveClass("--light");
+    await waitFor(() => {
+      const app = container.querySelector("#app");
+      expect(app).toHaveClass("--light");
+    });
   });
 
-  test("Dark mode class name added if cookie specifies dark theme", () => {
+  test("Dark mode class name added if cookie specifies dark theme", async () => {
     cookies.set("theme", "dark");
-    const appContainer = render(
+    const { container } = render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
           <App />
         </Provider>
       </CookiesProvider>,
     );
-    expect(appContainer.container.querySelector("#app")).toHaveClass("--dark");
+    await waitFor(() => {
+      const app = container.querySelector("#app");
+      expect(app).toHaveClass("--dark");
+    });
   });
 
   afterEach(() => {
@@ -93,27 +99,33 @@ describe("Browser prefers dark mode", () => {
     store = mockStore(initialState);
   });
 
-  test("Dark mode class name added if no cookie", () => {
-    const appContainer = render(
+  test("Dark mode class name added if no cookie", async () => {
+    const { container } = render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
           <App />
         </Provider>
       </CookiesProvider>,
     );
-    expect(appContainer.container.querySelector("#app")).toHaveClass("--dark");
+    await waitFor(() => {
+      const app = container.querySelector("#app");
+      expect(app).toHaveClass("--dark");
+    });
   });
 
-  test("Light mode class name added if cookie specifies light theme", () => {
+  test("Light mode class name added if cookie specifies light theme", async () => {
     cookies.set("theme", "light");
-    const appContainer = render(
+    const { container } = render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
           <App />
         </Provider>
       </CookiesProvider>,
     );
-    expect(appContainer.container.querySelector("#app")).toHaveClass("--light");
+    await waitFor(() => {
+      const app = container.querySelector("#app");
+      expect(app).toHaveClass("--light");
+    });
   });
 
   afterEach(() => {
@@ -136,7 +148,7 @@ describe("Beta banner", () => {
     store = mockStore(initialState);
   });
 
-  test("Renders beta banner if betaBannerDismissed cookie not set", () => {
+  test("Renders beta banner if betaBannerDismissed cookie not set", async () => {
     render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
@@ -144,10 +156,13 @@ describe("Beta banner", () => {
         </Provider>
       </CookiesProvider>,
     );
-    expect(screen.queryByText("betaBanner.message")).toBeInTheDocument();
+    await waitFor(() => {
+      const app = screen.queryByText("betaBanner.message");
+      expect(app).toBeInTheDocument();
+    });
   });
 
-  test("Does not render beta banner if betaBannerDismissed cookie is true", () => {
+  test("Does not render beta banner if betaBannerDismissed cookie is true", async () => {
     cookies.set("betaBannerDismissed", "true");
     render(
       <CookiesProvider cookies={cookies}>
@@ -156,7 +171,10 @@ describe("Beta banner", () => {
         </Provider>
       </CookiesProvider>,
     );
-    expect(screen.queryByText("betaBanner.message")).not.toBeInTheDocument();
+    await waitFor(() => {
+      const app = screen.queryByText("betaBanner.message");
+      expect(app).not.toBeInTheDocument();
+    });
   });
 
   afterEach(() => {

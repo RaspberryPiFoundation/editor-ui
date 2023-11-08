@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import DraggableTab from "./DraggableTab";
 import DroppableTabList from "./DroppableTabList";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { setFocussedFileIndex } from "../EditorSlice";
+import { setFocussedFileIndex } from "../../../redux/EditorSlice";
 
 describe("when tab is in focus", () => {
   let store;

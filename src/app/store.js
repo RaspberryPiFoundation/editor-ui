@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EditorReducer from "../components/Editor/EditorSlice";
+import EditorReducer from "../redux/EditorSlice";
+import InstructionsReducer from "../redux/InstructionsSlice";
 import { reducer, loadUser } from "redux-oidc";
 import userManager from "../utils/userManager";
 
 const store = configureStore({
   reducer: {
     editor: EditorReducer,
+    instructions: InstructionsReducer,
     auth: reducer,
   },
   middleware: (getDefaultMiddleware) =>

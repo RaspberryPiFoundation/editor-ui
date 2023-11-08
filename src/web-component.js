@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import WebComponentLoader from "./components/WebComponent/WebComponentLoader/WebComponentLoader";
+import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./app/store";
 import { Provider } from "react-redux";
-import "./i18n";
+import "./utils/i18n";
+import camelCase from "camelcase";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -34,13 +35,20 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled"];
+    return ["code", "sense_hat_always_enabled", "instructions"];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
-    // console.log(name, newVal)
-    this.componentAttributes[name] = newVal;
+    let value;
 
+    if (["sense_hat_always_enabled"].includes(name)) {
+      value = newVal === "true";
+    } else if (["instructions"].includes(name)) {
+      value = JSON.parse(newVal);
+    } else {
+      value = newVal;
+    }
+    this.componentAttributes[camelCase(name)] = value;
     this.mountReactApp();
   }
 
@@ -65,14 +73,17 @@ class WebComponent extends HTMLElement {
   }
 
   reactProps() {
-    return { ...this.componentAttributes, ...this.componentProperties };
+    return {
+      ...this.componentAttributes,
+      ...this.componentProperties,
+    };
   }
 
   mountReactApp() {
     if (!this.mountPoint) {
       this.mountPoint = document.createElement("div");
       this.mountPoint.setAttribute("id", "root");
-      this.mountPoint.setAttribute("style", "height: 100%");
+      this.mountPoint.setAttribute("part", "editor-root");
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
