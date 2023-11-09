@@ -68,6 +68,7 @@ module.exports = {
     contentBase: path.join(__dirname, "public"),
     index: "web-component.html",
     host: "0.0.0.0",
+    disableHostCheck: true,
     port: 3001,
     writeToDisk: true,
   },
