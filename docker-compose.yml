@@ -17,7 +17,7 @@ services:
     <<: *x-app
     command: yarn start
     ports:
-      - "3000:3000"
+      - "3010:3000"
     container_name: react-ui
   react-ui-wc:
     <<: *x-app
