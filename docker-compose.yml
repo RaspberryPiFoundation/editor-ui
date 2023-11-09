@@ -23,8 +23,11 @@ services:
     <<: *x-app
     command: yarn start:wc
     ports:
-      - "3001:3001"
+      - "3011:3001"
     container_name: react-ui-wc
 secrets:
   npmrc:
     file: ~/.npmrc
+networks:
+  default:
+    name: shared-development
