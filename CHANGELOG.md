@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Move local development port to avoid projects-ui clash (#736)
+
 ## [0.19.4] - 2023-11-08
 
 ### Changed
@@ -27,7 +31,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
-- Move local development port to avoid projects-ui clash (#736)
 
 ### Fixed
 
