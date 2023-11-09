@@ -3,7 +3,7 @@
   "version": "0.19.4",
   "private": true,
   "dependencies": {
-    "@RaspberryPiFoundation/design-system-react": "^0.1.2",
+    "@raspberrypifoundation/design-system-react": "^0.1.4",
     "@apollo/client": "^3.7.8",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
