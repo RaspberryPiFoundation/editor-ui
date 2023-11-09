@@ -8,6 +8,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 COPY . /app
+RUN yarn
 
 EXPOSE 3000
 
