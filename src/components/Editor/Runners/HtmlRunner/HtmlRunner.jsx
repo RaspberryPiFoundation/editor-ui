@@ -43,9 +43,17 @@ function HtmlRunner() {
   const locale = i18n.language;
 
   const dispatch = useDispatch();
-  const output = useRef();
+  const output = useRef(null);
   const [error, setError] = useState(null);
-  const allowedHrefs = ["#"];
+  const domain = `https://rpf.io/`;
+  const rpfDomain = new RegExp(`^${domain}`);
+  const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
+  const allowedExternalHrefs = [rpfDomain];
+
+  const matchingRegexes = (regexArray, testString) => {
+    return regexArray.some((reg) => reg.test(testString));
+  };
+
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const focussedComponent = (fileName = "index.html") =>
@@ -71,6 +79,7 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
+  const [externalLink, setExternalLink] = useState();
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -81,6 +90,18 @@ function HtmlRunner() {
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
     return URL.createObjectURL(blob);
+  };
+
+  const getFilename = (iframe) => {
+    let filename;
+    if (iframe) {
+      filename = iframe.querySelectorAll("meta[filename]")[0]
+        ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
+        : externalLink;
+    } else {
+      filename = externalLink;
+    }
+    return filename;
   };
 
   const cssProjectImgs = (projectFile) => {
@@ -104,7 +125,11 @@ function HtmlRunner() {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
           setError("externalLink");
+        } else if (event.data?.msg === "Allowed external link") {
+          setExternalLink(event.data.payload.linkTo);
+          dispatch(triggerCodeRun());
         } else {
+          setExternalLink(null);
           setPreviewFile(`${event.data.payload.linkTo}.html`);
           dispatch(triggerCodeRun());
         }
@@ -114,12 +139,25 @@ function HtmlRunner() {
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
-    const filename = iframe.querySelectorAll("meta[filename]")[0]
-      ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
-      : null;
+    let filename = getFilename(iframe);
+
     if (runningFile !== filename) {
       setRunningFile(filename);
     }
+
+    if (iframe) {
+      const linkElement = iframe.querySelector("a");
+
+      if (linkElement) {
+        linkElement.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          output.current.contentDocument.href =
+            linkElement.getAttribute("href");
+        });
+      }
+    }
+    setExternalLink(null);
   };
 
   useEffect(() => {
@@ -146,7 +184,11 @@ function HtmlRunner() {
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
+    if (
+      !externalLink &&
+      !isEmbedded &&
+      previewable(openFiles[focussedFileIndex])
+    ) {
       setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
@@ -169,69 +211,88 @@ function HtmlRunner() {
 
   const runCode = () => {
     setRunningFile(previewFile);
+    if (!externalLink) {
+      let indexPage = parse(focussedComponent(previewFile).content);
 
-    let indexPage = parse(focussedComponent(previewFile).content);
+      const body = indexPage.querySelector("body") || indexPage;
 
-    const body = indexPage.querySelector("body") || indexPage;
+      const hrefNodes = indexPage.querySelectorAll("[href]");
 
-    const hrefNodes = indexPage.querySelectorAll("[href]");
+      // replace href's with blob urls
+      hrefNodes.forEach((hrefNode) => {
+        const projectFile = projectCode.filter(
+          (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
+        );
 
-    // replace href's with blob urls
-    hrefNodes.forEach((hrefNode) => {
-      const projectFile = projectCode.filter(
-        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
-      );
+        // remove target blanks
+        if (hrefNode.attrs?.target === "_blank") {
+          hrefNode.removeAttribute("target");
+        }
 
-      // remove target blanks
-      if (hrefNode.attrs?.target === "_blank") {
-        hrefNode.removeAttribute("target");
-      }
+        let onClick;
 
-      let onClick;
-
-      if (!!projectFile.length) {
-        if (parentTag(hrefNode, "head")) {
-          const projectFileBlob = getBlobURL(
-            cssProjectImgs(projectFile[0]).content,
-            `text/${projectFile[0].extension}`,
-          );
-          hrefNode.setAttribute("href", projectFileBlob);
+        if (!!projectFile.length) {
+          if (parentTag(hrefNode, "head")) {
+            const projectFileBlob = getBlobURL(
+              cssProjectImgs(projectFile[0]).content,
+              `text/${projectFile[0].extension}`,
+            );
+            hrefNode.setAttribute("href", projectFileBlob);
+          } else {
+            // eslint-disable-next-line no-script-url
+            hrefNode.setAttribute("href", "javascript:void(0)");
+            onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
+          }
         } else {
-          // eslint-disable-next-line no-script-url
-          hrefNode.setAttribute("href", "javascript:void(0)");
-          onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
+          const matchingExternalHref = matchingRegexes(
+            allowedExternalHrefs,
+            hrefNode.attrs.href,
+          );
+          const matchingInternalHref = matchingRegexes(
+            allowedInternalLinks,
+            hrefNode.attrs.href,
+          );
+          if (
+            !matchingInternalHref &&
+            !matchingExternalHref &&
+            !parentTag(hrefNode, "head")
+          ) {
+            // eslint-disable-next-line no-script-url
+            hrefNode.setAttribute("href", "javascript:void(0)");
+            onClick =
+              "window.parent.postMessage({msg: 'ERROR: External link'})";
+          } else if (matchingExternalHref) {
+            onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
+          }
         }
-      } else {
-        if (
-          !allowedHrefs.includes(hrefNode.attrs.href) &&
-          !parentTag(hrefNode, "head")
-        ) {
-          // eslint-disable-next-line no-script-url
-          hrefNode.setAttribute("href", "javascript:void(0)");
-          onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
+
+        if (onClick) {
+          hrefNode.removeAttribute("target");
+          hrefNode.setAttribute("onclick", onClick);
         }
+      });
+
+      const srcNodes = indexPage.querySelectorAll("[src]");
+      srcNodes.forEach((srcNode) => {
+        const projectImage = projectImages.filter(
+          (component) => component.filename === srcNode.attrs.src,
+        );
+        srcNode.setAttribute(
+          "src",
+          !!projectImage.length ? projectImage[0].url : "",
+        );
+      });
+
+      body.appendChild(parse(`<meta filename="${previewFile}" />`));
+
+      const blob = getBlobURL(indexPage.toString(), "text/html");
+      output.current.src = blob;
+      if (codeRunTriggered) {
+        dispatch(codeRunHandled());
       }
-      if (onClick) {
-        hrefNode.setAttribute("onclick", onClick);
-      }
-    });
+    } else {
+      output.current.src = externalLink;
 
-    const srcNodes = indexPage.querySelectorAll("[src]");
-    srcNodes.forEach((srcNode) => {
-      const projectImage = projectImages.filter(
-        (component) => component.filename === srcNode.attrs.src,
-      );
-      srcNode.setAttribute(
-        "src",
-        !!projectImage.length ? projectImage[0].url : "",
-      );
-    });
-
-    body.appendChild(parse(`<meta filename="${previewFile}" />`));
-
-    const blob = getBlobURL(indexPage.toString(), "text/html");
-    output.current.src = blob;
-    if (codeRunTriggered) {
       dispatch(codeRunHandled());
     }
   };

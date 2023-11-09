@@ -27,7 +27,10 @@ const LoginMenu = () => {
           >
             {t("globalNav.accountMenu.projects")}
           </Link>
-          <LogoutButton className="btn--tertiary dropdown-container--list__item" />
+          <LogoutButton
+            user={user}
+            className="btn--tertiary dropdown-container--list__item"
+          />
         </>
       ) : (
         <LoginButton
