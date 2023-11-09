@@ -1,4 +1,4 @@
-const baseUrl = "localhost:3000/en/projects/blank-html-starter";
+const baseUrl = "localhost:3010/en/projects/blank-html-starter";
 
 const getIframeDocument = () => {
   return cy

@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:3011";
 
 beforeEach(() => {
   cy.visit(baseUrl);
@@ -37,7 +37,7 @@ it("runs p5 code", () => {
     .find("div[class=cm-content]")
     .invoke("text", code);
   cy.get("editor-wc").shadow().find(".btn--run").click();
-  cy.get("editor-wc").shadow().find(".pythonrunner-graphic").should("exist");
+  cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
 });
 
 it("does not render visual output tab on page load", () => {
