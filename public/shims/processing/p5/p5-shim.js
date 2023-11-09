@@ -191,10 +191,8 @@ const $builtinmodule = function (name) {
   // Color
   // =====
   // Shadow root manipulation
-  const getWebComponent = () => {
-    return document.querySelector("editor-wc");
-  };
-  const element = !!getWebComponent() ? getWebComponent().shadowRoot : document;
+  const webComponent = document.querySelector("editor-wc");
+  const element = !!webComponent ? webComponent.shadowRoot : document;
   const p5Sketch = element.getElementById(Sk.p5.sketch);
 
   // eslint-disable-next-line no-native-reassign
