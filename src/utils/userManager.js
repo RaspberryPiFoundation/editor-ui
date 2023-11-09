@@ -8,6 +8,7 @@ const host = `${window.location.protocol}//${window.location.hostname}${
 const userManagerConfig = {
   client_id: process.env.REACT_APP_AUTHENTICATION_CLIENT_ID,
   redirect_uri: `${host}/auth/callback`,
+  post_logout_redirect_uri: host,
   response_type: "code",
   scope: "openid email profile force-consent allow-u13-login",
   authority: process.env.REACT_APP_AUTHENTICATION_URL,

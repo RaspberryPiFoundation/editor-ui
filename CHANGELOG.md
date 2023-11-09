@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.19.4] - 2023-11-08
+
+### Changed
+
+- Allow external rpf.io links (#729)
+
+## [0.19.3] - 2023-10-25
+
 ### Added
 
 - `stepChanged` custom event for the web component (#709)
@@ -15,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Replace physical properties with logical values
+- Replace physical properties with logical values (#699)
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
@@ -23,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Clipped icon in "Save your work" toast (#707)
+- Hydra logout flow to delete session (#714)
 
 ## [0.19.2] - 2023-10-12
 
@@ -547,7 +556,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.4...HEAD
+[0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
+[0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
 [0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
 [0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
 [0.19.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.0
