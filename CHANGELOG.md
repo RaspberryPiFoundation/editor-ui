@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Move local development port to avoid projects-ui clash (#736)
 - Update design-system-react dependency to publicly available version
 
+### Fixed
+
+- Local docker setup for development (#739)
+
 ## [0.19.4] - 2023-11-08
 
 ### Changed
