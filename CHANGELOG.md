@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Added p5 library that can access WebComponent shadowRoot (#731)
 - Allow external rpf.io links (#729)
 
 ## [0.19.3] - 2023-10-25
