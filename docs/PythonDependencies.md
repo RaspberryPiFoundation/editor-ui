@@ -24,6 +24,8 @@ The custom library works but raises a number of issues: principally, providing a
 
 Further work is needed to determine if we can import the script as before (rather than provide a customised version of the entire library) then redirect it to the `shadowroot` when needed.
 
+That work may also assess whether Skulpt itself should be replaced with a tool that allows more flexible support for Python libraries.
+
 ## Supported libraries
 
 The editor requires access to a number of libraries that Skulpt does not support. They may be affected by similar issues.
