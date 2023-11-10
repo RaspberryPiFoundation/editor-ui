@@ -168,8 +168,6 @@ const PythonRunner = () => {
     }
 
     if (externalLibraries[library]) {
-      console.log("External libraries");
-      console.log(library);
       var externalLibraryInfo = externalLibraries[library];
 
       return (
