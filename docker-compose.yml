@@ -1,30 +1,25 @@
-version: '3.8'
+version: "3.8"
 services:
   x-app: &x-app
     build:
       context: .
-      secrets:
-        - npmrc
     volumes:
       - .:/app
       - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
-    secrets:
-      - source: npmrc
-        target: /root/.npmrc
     stdin_open: true
   react-ui:
     <<: *x-app
     command: yarn start
     ports:
-      - "3000:3000"
+      - "3010:3000"
     container_name: react-ui
   react-ui-wc:
     <<: *x-app
     command: yarn start:wc
     ports:
-      - "3001:3001"
+      - "3011:3001"
     container_name: react-ui-wc
-secrets:
-  npmrc:
-    file: ~/.npmrc
+networks:
+  default:
+    name: shared-development
