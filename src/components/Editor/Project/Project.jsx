@@ -41,6 +41,10 @@ const Project = (props) => {
     setHandleDirection(isDesktop ? "right" : "bottom");
   }, [params["width-larger-than-880"]]);
 
+  const showSidebar = true;
+  const sidebarOptions = ["settings", "info", "file", "projects"];
+  // const sidebarOptions = undefined;
+
   return (
     <div className="proj">
       <div
@@ -49,8 +53,10 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {/* {!forWebComponent && <Sidebar />} */}
-        <Sidebar />
+        {(!forWebComponent || showSidebar) && (
+          <Sidebar options={sidebarOptions} />
+        )}
+        {/* <Sidebar /> */}
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">
