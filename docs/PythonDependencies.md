@@ -16,7 +16,7 @@ The current solution is to provide a [customised version](../public/libraries/pr
 
 [p5-shim.js](../public/shims/processing/p5/p5-shim.js) performs a similar check.
 
-This allows both the WebComponent and standalone editors to use p5
+This allows both the WebComponent and standalone editors to use p5.
 
 ## Maintainance problems
 
