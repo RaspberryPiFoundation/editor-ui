@@ -10,6 +10,7 @@ import {
 } from "./RenameProjectModal";
 import { showRenamedMessage } from "../../utils/Notifications";
 
+jest.mock("axios");
 jest.mock("../../utils/Notifications");
 
 describe("RenameProjectModal", () => {
