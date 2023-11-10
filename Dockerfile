@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 COPY . /app
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=true yarn
+RUN yarn
 
 EXPOSE 3000
 

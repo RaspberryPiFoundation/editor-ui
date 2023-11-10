@@ -4,16 +4,16 @@ import { useDispatch } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 
 export const useProject = ({
   projectIdentifier = null,
+  code = null,
   accessToken = null,
   isEmbedded = false,
+  isBrowserPreview = false,
 }) => {
-  const [searchParams] = useSearchParams();
   const getCachedProject = (id) =>
-    isEmbedded && searchParams.get("browserPreview") !== "true"
+    isEmbedded && !isBrowserPreview
       ? null
       : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
@@ -52,6 +52,17 @@ export const useProject = ({
       );
       return;
     }
+
+    if (code) {
+      const project = {
+        name: "Blank project",
+        type: "python",
+        components: [{ name: "main", extension: "py", content: code }],
+      };
+      dispatch(setProject(project));
+      return;
+    }
+
     const data = defaultPythonProject;
     dispatch(setProject(data));
   }, [projectIdentifier, cachedProject, i18n.language, accessToken]);

@@ -6,11 +6,18 @@ import configureStore from "redux-mock-store";
 import { render, screen } from "@testing-library/react";
 import { useProject } from "../../hooks/useProject";
 
+let mockBrowserPreview = false;
+
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useParams: () => ({
     identifier: "my-amazing-project",
   }),
+  useSearchParams: () => [
+    {
+      get: (key) => (key === "browserPreview" ? mockBrowserPreview : null),
+    },
+  ],
 }));
 
 jest.mock("../../hooks/useProject", () => ({
@@ -86,6 +93,33 @@ test("Loads project with correct params", () => {
     projectIdentifier: "my-amazing-project",
     accessToken: "my_token",
     isEmbedded: true,
+    isBrowserPreview: false,
+  });
+});
+
+test("Loads project with correct params if browser preview", () => {
+  initialState = {
+    ...initialState,
+    editor: {
+      ...initialState.editor,
+      loading: "success",
+    },
+  };
+
+  const mockStore = configureStore([]);
+  store = mockStore(initialState);
+  mockBrowserPreview = "true";
+
+  render(
+    <Provider store={store}>
+      <EmbeddedViewer />
+    </Provider>,
+  );
+  expect(useProject).toHaveBeenCalledWith({
+    projectIdentifier: "my-amazing-project",
+    accessToken: "my_token",
+    isEmbedded: true,
+    isBrowserPreview: true,
   });
 });
 

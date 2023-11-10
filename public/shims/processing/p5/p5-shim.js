@@ -190,6 +190,12 @@ const $builtinmodule = function (name) {
   // =====
   // Color
   // =====
+  // Shadow root manipulation
+  const webComponent = document.querySelector("editor-wc");
+  const element = !!webComponent ? webComponent.shadowRoot : document;
+  const p5Sketch = element.getElementById(Sk.p5.sketch);
+
+  // eslint-disable-next-line no-native-reassign
 
   // Creating & Reading
 
@@ -1359,9 +1365,7 @@ const $builtinmodule = function (name) {
     }
   };
 
-  document
-    .getElementById(Sk.p5.sketch)
-    .addEventListener("mousemove", updateMouseCoords);
+  p5Sketch.addEventListener("mousemove", updateMouseCoords);
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1546,8 +1550,6 @@ const $builtinmodule = function (name) {
         }
       };
     };
-
-    const p5Sketch = document.getElementById(Sk.p5.sketch);
 
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message);
