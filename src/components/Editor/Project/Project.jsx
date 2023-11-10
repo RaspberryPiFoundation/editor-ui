@@ -49,7 +49,8 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {!forWebComponent && <Sidebar />}
+        {/* {!forWebComponent && <Sidebar />} */}
+        <Sidebar />
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">
