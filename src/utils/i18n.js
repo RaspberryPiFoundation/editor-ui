@@ -175,6 +175,9 @@ i18n
               renameItem: "Rename file",
             },
           },
+          downloadPanel: {
+            heading: "Download",
+          },
           landingPage: {
             title: "Code Editor",
             subtitle: "Start coding, no setup required!",
