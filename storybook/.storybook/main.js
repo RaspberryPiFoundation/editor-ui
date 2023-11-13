@@ -14,11 +14,52 @@ module.exports = {
   },
   webpackFinal: async (config, { configType }) => {
     config.output.publicPath = "/storybook/";
+
+    // add SVG support
+    const imageRule = config.module?.rules?.find((rule) => {
+      const test = rule.test;
+
+      if (!test) {
+        return false;
+      }
+
+      return test.test(".svg");
+    });
+
+    imageRule.exclude = /\.svg$/;
+
+    config.module?.rules?.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
     // add SCSS support for CSS Modules
     config.module.rules.push({
-      test: /\.scss$/,
-      use: ["style-loader", "css-loader?modules&importLoaders", "sass-loader"],
-      include: path.resolve(__dirname, "../../"),
+      test: /\.(scss)$/,
+      use: [
+        {
+          loader: "style-loader",
+        },
+        {
+          loader: "css-loader",
+        },
+        {
+          loader: "postcss-loader",
+          options: {
+            postcssOptions: {
+              plugins: function () {
+                return [require("precss"), require("autoprefixer")];
+              },
+            },
+          },
+        },
+        {
+          loader: require.resolve("sass-loader"),
+          options: {
+            implementation: require("sass"),
+          },
+        },
+      ],
     });
     // add the app to allow alias imports
     config.resolve.modules.push(path.resolve(__dirname, "../../src"));
