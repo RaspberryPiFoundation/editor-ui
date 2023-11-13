@@ -20,7 +20,6 @@
     "@storybook/channels": "^7.5.3",
     "@storybook/components": "^7.5.3",
     "@storybook/core-events": "^7.5.3",
-    "@storybook/manager-api": "^7.5.3",
     "@storybook/preview-api": "^7.5.3",
     "@storybook/theming": "^7.5.3",
     "css-loader": "^5.2.6",
