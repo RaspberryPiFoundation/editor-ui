@@ -23,9 +23,8 @@
     "react": "^16.8.6",
     "react-dom": "16.14.0",
     "react-i18next": "^13.4.1",
-    "react-router-dom": "4.3.1",
+    "react-router-dom": "^6.18.0",
     "sass-loader": "^10.1.1",
-    "storybook-addon-react-router-v6": "^2.0.9",
     "storybook-addon-root-attribute": "^1.0.2",
     "storybook-react-i18next": "^1.1.2",
     "style-loader": "^2.0.0"
