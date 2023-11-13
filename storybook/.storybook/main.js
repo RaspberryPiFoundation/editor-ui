@@ -7,6 +7,7 @@ module.exports = {
     "@storybook/addon-interactions",
     "storybook-react-i18next",
     "storybook-addon-root-attribute/register",
+    "storybook-addon-react-router-v6",
   ],
   framework: "@storybook/react",
   features: {
