@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Added ability to enable sidebar in web component (#738)
+- Added ability to customise sidebar options (#738)
+
 ### Changed
 
 - Move local development port to avoid projects-ui clash (#736)
