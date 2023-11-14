@@ -39,7 +39,7 @@ const project = {
   user_id: user1.profile.user,
 };
 
-test("Renders with file menu if not for web component", () => {
+test("Renders sidebar with correct options if withSidebar is true", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
   const initialState = {
@@ -57,15 +57,15 @@ test("Renders with file menu if not for web component", () => {
     <Provider store={store}>
       <MemoryRouter>
         <div id="app">
-          <Project />
+          <Project withSidebar={true} sidebarOptions={["settings"]} />
         </div>
       </MemoryRouter>
     </Provider>,
   );
-  expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+  expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
 });
 
-test("Renders without file menu if for web component", () => {
+test("Renders without sidebar if withSidebar is false", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
   const initialState = {
@@ -82,7 +82,7 @@ test("Renders without file menu if for web component", () => {
   render(
     <Provider store={store}>
       <MemoryRouter>
-        <Project forWebComponent={true} />
+        <Project withSidebar={false} />
       </MemoryRouter>
     </Provider>,
   );
