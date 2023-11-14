@@ -177,6 +177,7 @@ i18n
           },
           downloadPanel: {
             heading: "Download",
+            subtitle: "Log in to save your progress",
           },
           landingPage: {
             title: "Code Editor",

@@ -1,0 +1,10 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/font-size.scss" as *;
+
+.download-panel__subtitle {
+  @include font-size-1(regular);
+  font-weight: $font-weight-bold;
+  margin-bottom: $space-0-5;
+  display: block;
+}

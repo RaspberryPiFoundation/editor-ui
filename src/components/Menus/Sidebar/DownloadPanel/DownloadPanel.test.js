@@ -6,7 +6,11 @@ describe("DownloadPanel", () => {
   beforeEach(() => {
     container = render(<DownloadPanel />);
   });
-  test("Renders the correct heading for the panel", () => {
+  test("Renders the correct heading", () => {
     expect(container.getByText("downloadPanel.heading")).not.toBeNull();
+  });
+
+  test("Renders the correct subtitle", () => {
+    expect(container.getByText("downloadPanel.subtitle").not.toBeNull());
   });
 });
