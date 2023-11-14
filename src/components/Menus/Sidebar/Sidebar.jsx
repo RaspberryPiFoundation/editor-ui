@@ -19,7 +19,7 @@ import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 
-const Sidebar = ({ options }) => {
+const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
   let menuOptions = [
     {

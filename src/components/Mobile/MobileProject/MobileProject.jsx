@@ -53,6 +53,7 @@ const MobileProject = ({ withSidebar, sidebarOptions }) => {
               className="btn--tertiary mobile-nav__menu"
               ButtonIcon={MenuIcon}
               onClickHandler={openSidebar}
+              title={t("sidebar.expand")}
             />
           )}
           <TabList>
