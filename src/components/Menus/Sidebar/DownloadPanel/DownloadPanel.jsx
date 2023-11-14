@@ -11,6 +11,7 @@ export const DownloadPanel = () => {
       <div className="download-panel__subtitle">
         {t("downloadPanel.subtitle")}
       </div>
+      <p>{t("downloadPanel.logInHint")}</p>
     </SidebarPanel>
   );
 };

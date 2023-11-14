@@ -11,6 +11,10 @@ describe("DownloadPanel", () => {
   });
 
   test("Renders the correct subtitle", () => {
-    expect(container.getByText("downloadPanel.subtitle").not.toBeNull());
+    expect(container.getByText("downloadPanel.subtitle")).not.toBeNull();
+  });
+
+  test("Renders the log-in hint", () => {
+    expect(container.getByText("downloadPanel.logInHint")).not.toBeNull();
   });
 });
