@@ -4,7 +4,7 @@ import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
-import store from "./app/store";
+import store from "./app/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
@@ -35,7 +35,13 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled", "instructions"];
+    return [
+      "auth_key",
+      "identifier",
+      "code",
+      "sense_hat_always_enabled",
+      "instructions",
+    ];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
