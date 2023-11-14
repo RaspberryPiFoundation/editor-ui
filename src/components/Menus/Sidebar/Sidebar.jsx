@@ -19,7 +19,7 @@ import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 
-const Sidebar = () => {
+const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
   let menuOptions = [
     {
@@ -57,10 +57,14 @@ const Sidebar = () => {
       position: "bottom",
       panel: InfoPanel,
     },
-  ];
+  ].filter((option) => options.includes(option.name));
+
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
-  if (!projectImages || projectImages.length === 0) {
+  if (
+    (!projectImages || projectImages.length === 0) &&
+    options.includes("images")
+  ) {
     menuOptions.splice(
       menuOptions.findIndex((option) => option.name === "images"),
       1,
