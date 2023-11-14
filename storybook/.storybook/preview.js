@@ -8,7 +8,7 @@ import { withRouter } from "storybook-addon-react-router-v6";
 import i18n from "utils/i18n"; // importing the same i18n
 
 import "assets/stylesheets/index.scss";
-
+import "assets/stylesheets/App.scss";
 // .storybook/preview.jsx
 import { I18nextProvider } from "react-i18next";
 
@@ -24,7 +24,9 @@ const withI18next = (Story, context) => {
   return (
     <Suspense fallback={<div>loading translations...</div>}>
       <I18nextProvider i18n={i18n}>
-        <Story />
+        <div id="app" className="--light" style={{ backgroundColor: "white" }}>
+          <Story />
+        </div>
       </I18nextProvider>
     </Suspense>
   );
@@ -46,7 +48,6 @@ export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
-      color: /(background|color)$/i,
       date: /Date$/,
     },
   },
