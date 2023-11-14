@@ -10,7 +10,7 @@ const InstructionsPanel = () => {
   );
   const { t } = useTranslation();
   return (
-    <SidebarPanel heading={t("instructionsPanel.heading")}>
+    <SidebarPanel heading={t("instructionsPanel.projectSteps")}>
       {steps[currentStepPosition].content}
     </SidebarPanel>
   );
