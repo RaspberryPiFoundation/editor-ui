@@ -38,7 +38,9 @@ const DownloadButton = (props) => {
   };
 
   const onClickDownload = async () => {
-    window.plausible("Download");
+    if (window.plausible) {
+      window.plausible("Download");
+    }
 
     if (loginToSaveModalShowing) {
       dispatch(closeLoginToSaveModal());

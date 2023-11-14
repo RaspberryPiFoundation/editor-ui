@@ -7,9 +7,9 @@ const SidebarBarOption = (props) => {
 
   const onClickHandler = () => {
     toggleOption(name);
-    // if (name === "file") {
-    //   window.plausible("Side menu open project files");
-    // }
+    if (name === "file" && window.plausible) {
+      window.plausible("Side menu open project files");
+    }
   };
 
   return (
