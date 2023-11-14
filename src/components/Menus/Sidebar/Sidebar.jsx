@@ -19,10 +19,7 @@ import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 
-const Sidebar = ({
-  options = ["projects", "file", "images", "settings", "info"],
-}) => {
-  console.log("the number of options is", options.length);
+const Sidebar = ({ options }) => {
   const { t } = useTranslation();
   let menuOptions = [
     {
@@ -63,13 +60,16 @@ const Sidebar = ({
   ].filter((option) => options.includes(option.name));
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  // const projectImages = useSelector((state) => state.editor.project.image_list);
-  // if (!projectImages || projectImages.length === 0) {
-  //   menuOptions.splice(
-  //     menuOptions.findIndex((option) => option.name === "images"),
-  //     1,
-  //   );
-  // }
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  if (
+    (!projectImages || projectImages.length === 0) &&
+    options.includes("images")
+  ) {
+    menuOptions.splice(
+      menuOptions.findIndex((option) => option.name === "images"),
+      1,
+    );
+  }
   const [option, setOption] = useState(isMobile ? "file" : null);
   const toggleOption = (newOption) => {
     if (option !== newOption) {

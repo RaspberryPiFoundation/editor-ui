@@ -41,7 +41,7 @@ class WebComponent extends HTMLElement {
       "code",
       "sense_hat_always_enabled",
       "instructions",
-      "show_sidebar",
+      "with_sidebar",
       "sidebar_options",
     ];
   }
@@ -49,10 +49,11 @@ class WebComponent extends HTMLElement {
   attributeChangedCallback(name, _oldVal, newVal) {
     let value;
 
-    if (["sense_hat_always_enabled", "show_sidebar"].includes(name)) {
+    if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
       value = newVal === "true";
     } else if (["instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);
+      console.log(newVal);
     } else {
       value = newVal;
     }

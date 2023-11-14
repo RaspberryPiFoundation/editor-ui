@@ -50,6 +50,7 @@ const ProjectComponentLoader = (props) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const sidebarOptions = ["projects", "file", "images", "settings", "info"];
 
   useEmbeddedMode(embedded);
   useProject({ projectIdentifier: identifier, accessToken: accessToken });
@@ -74,9 +75,9 @@ const ProjectComponentLoader = (props) => {
     <>
       {loading === "success" ? (
         isMobile ? (
-          <MobileProject />
+          <MobileProject withSidebar sidebarOptions={sidebarOptions} />
         ) : (
-          <Project />
+          <Project withSidebar sidebarOptions={sidebarOptions} />
         )
       ) : loading === "pending" ? (
         <p>{t("project.loading")}</p>

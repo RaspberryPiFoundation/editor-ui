@@ -19,7 +19,8 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = () => {
+const WebComponentProject = ({ withSidebar, sidebarOptions }) => {
+  console.log("with sidebar", withSidebar);
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -81,9 +82,16 @@ const WebComponentProject = () => {
           }`}
         >
           {isMobile ? (
-            <MobileProject forWebComponent={true} />
+            <MobileProject
+              withSidebar={withSidebar}
+              sidebarOptions={sidebarOptions}
+            />
           ) : (
-            <Project forWebComponent={true} />
+            <Project
+              forWebComponent={true}
+              withSidebar={withSidebar}
+              sidebarOptions={sidebarOptions}
+            />
           )}
         </div>
       </Style>

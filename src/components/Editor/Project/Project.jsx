@@ -16,7 +16,7 @@ import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
 const Project = (props) => {
-  const { forWebComponent } = props;
+  const { forWebComponent, withSidebar = true, sidebarOptions } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -41,10 +41,6 @@ const Project = (props) => {
     setHandleDirection(isDesktop ? "right" : "bottom");
   }, [params["width-larger-than-880"]]);
 
-  const showSidebar = true;
-  const sidebarOptions = ["settings", "info", "file", "projects"];
-  // const sidebarOptions = undefined;
-
   return (
     <div className="proj">
       <div
@@ -53,10 +49,7 @@ const Project = (props) => {
           "proj-container--wc": forWebComponent,
         })}
       >
-        {(!forWebComponent || showSidebar) && (
-          <Sidebar options={sidebarOptions} />
-        )}
-        {/* <Sidebar /> */}
+        {withSidebar && <Sidebar options={sidebarOptions} />}
         <div className="project-wrapper">
           {!forWebComponent ? <ProjectBar /> : null}
           <div className="proj-editor-wrapper">
