@@ -17,7 +17,7 @@ const WebComponentLoader = (props) => {
     senseHatAlwaysEnabled = false,
     instructions,
     withSidebar = false,
-    sidebarOptions,
+    sidebarOptions = [],
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();

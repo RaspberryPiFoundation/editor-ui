@@ -14,7 +14,7 @@ import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 
-const MobileProject = ({ withSidebar, sidebarOptions }) => {
+const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
   const sidebarShowing = useSelector((state) => state.editor.sidebarShowing);
   const codeRunTriggered = useSelector(

@@ -19,7 +19,7 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = ({ withSidebar = false, sidebarOptions }) => {
+const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,

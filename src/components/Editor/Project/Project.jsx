@@ -16,7 +16,7 @@ import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
 const Project = (props) => {
-  const { forWebComponent, withSidebar = true, sidebarOptions } = props;
+  const { forWebComponent, withSidebar = true, sidebarOptions = [] } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
