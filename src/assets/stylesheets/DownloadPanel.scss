@@ -8,3 +8,14 @@
   margin-bottom: $space-0-5;
   display: block;
 }
+
+.download-panel__button-container {
+  padding: $space-1 0;
+  display: flex;
+}
+
+.download-panel__button {
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+  }

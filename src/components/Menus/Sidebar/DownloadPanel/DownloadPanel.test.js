@@ -17,4 +17,8 @@ describe("DownloadPanel", () => {
   test("Renders the log-in hint", () => {
     expect(container.getByText("downloadPanel.logInHint")).not.toBeNull();
   });
+
+  test("Renders the log-in button", () => {
+    expect(container.getByText("downloadPanel.logInButton")).not.toBeNull();
+  });
 });

@@ -1,6 +1,6 @@
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
-
+import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
@@ -12,6 +12,12 @@ export const DownloadPanel = () => {
         {t("downloadPanel.subtitle")}
       </div>
       <p>{t("downloadPanel.logInHint")}</p>
+      <div className="download-panel__button-container">
+        <Button
+          className="download-panel__button"
+          text={t("downloadPanel.logInButton")}
+        />
+      </div>
     </SidebarPanel>
   );
 };
