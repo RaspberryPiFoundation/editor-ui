@@ -9,7 +9,6 @@ module.exports = {
     "storybook-addon-root-attribute/register",
     "storybook-addon-react-router-v6",
   ],
-  staticDirs: ['../../public'],
   framework: "@storybook/react",
   features: {
     previewMdx2: true,
