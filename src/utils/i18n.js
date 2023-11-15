@@ -182,6 +182,8 @@ i18n
               "Log in with your Raspberry Pi Account to save your code and project steps progress.",
             logInButton: "Log in",
             signUpButton: "Sign up",
+            downloadHint:
+              "Download your project files so you can use them offline and in a different code editor.",
           },
           landingPage: {
             title: "Code Editor",

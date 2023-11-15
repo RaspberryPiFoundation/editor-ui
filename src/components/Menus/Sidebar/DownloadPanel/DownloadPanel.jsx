@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import Button from "../../../Button/Button";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
@@ -15,16 +15,16 @@ export const DownloadPanel = () => {
         </div>
         <p>{t("downloadPanel.logInHint")}</p>
         <div className="download-panel__button-container">
-          <DesignSystemButton
-            className="download-panel__button"
-            text={t("downloadPanel.logInButton")}
+          <Button
+            className="btn btn--primary download-panel__button"
+            buttonText={t("downloadPanel.logInButton")}
           />
-          <DesignSystemButton
-            className="download-panel__button"
-            type="secondary"
-            text={t("downloadPanel.signUpButton")}
+          <Button
+            className="btn btn--secondary download-panel__button"
+            buttonText={t("downloadPanel.signUpButton")}
           />
         </div>
+        <p>{t("downloadPanel.downloadHint")}</p>
       </div>
     </SidebarPanel>
   );
