@@ -1,6 +1,6 @@
 import { intlFormatDistance } from "date-fns";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";

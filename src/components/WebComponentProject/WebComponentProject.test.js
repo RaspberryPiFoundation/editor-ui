@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentProject from "./WebComponentProject";
@@ -63,6 +63,10 @@ describe("When state set", () => {
   test("Triggers stepChanged event", () => {
     expect(stepChangedHandler).toHaveBeenCalled();
   });
+
+  test("Defaults to not showing the sidebar", () => {
+    expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
+  });
 });
 
 describe("When code run finishes", () => {
@@ -97,6 +101,39 @@ describe("When code run finishes", () => {
 
   test("Triggers runCompletedEvent", () => {
     expect(runCompletedHandler).toHaveBeenCalled();
+  });
+});
+
+describe("When withSidebar is true", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+  });
+
+  test("Renders the sidebar", () => {
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+  });
+
+  test("Renders the correct sidebar options", () => {
+    expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
   });
 });
 

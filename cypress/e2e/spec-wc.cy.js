@@ -30,6 +30,16 @@ it("runs the python code", () => {
     .should("contain", "Hello world");
 });
 
+it("runs p5 code", () => {
+  const code = `from p5 import *\n\ndef setup():\n    size(400, 400)  # width and height of screen\n\ndef draw():\n    fill('cyan')  # Set the fill color for the sky to cyan\n    rect(0, 0, 400, 250)  # Draw a rectangle for the sky with these values for x, y, width, height    \n  \nrun(frame_rate=2)\n`;
+  cy.get("editor-wc")
+    .shadow()
+    .find("div[class=cm-content]")
+    .invoke("text", code);
+  cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
+});
+
 it("does not render visual output tab on page load", () => {
   cy.get("editor-wc")
     .shadow()
