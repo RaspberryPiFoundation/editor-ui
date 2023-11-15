@@ -26,14 +26,22 @@ const SidebarPanel = (props) => {
   return isMobile ? (
     <div
       data-testid="sidebar__panel"
-      className={classNames("sidebar__panel", className)}
+      className={classNames(
+        "sidebar__panel",
+        className,
+        Footer ? "sidebar__panel--with-footer" : null,
+      )}
     >
       {panelContent}
     </div>
   ) : (
     <ResizableWithHandle
       data-testid="sidebar__panel"
-      className={classNames("sidebar__panel", className)}
+      className={classNames(
+        "sidebar__panel",
+        className,
+        Footer ? "sidebar__panel--with-footer" : null,
+      )}
       defaultWidth="225px"
       defaultHeight="100%"
       handleDirection="right"

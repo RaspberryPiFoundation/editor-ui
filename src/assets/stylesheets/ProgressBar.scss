@@ -1,4 +1,8 @@
 .progress-bar {
   display: flex;
   align-items: center;
+
+  .btn-outer {
+    padding: 0;
+  }
 }
