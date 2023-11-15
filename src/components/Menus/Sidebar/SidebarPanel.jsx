@@ -6,7 +6,7 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 
 const SidebarPanel = (props) => {
-  const { children, heading, className, Button } = props;
+  const { children, heading, Footer, className, Button } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const panelContent = (
@@ -17,6 +17,9 @@ const SidebarPanel = (props) => {
       </div>
 
       <div className="sidebar__panel-content">{children}</div>
+      {Footer ? (
+        <div className="sidebar__panel-footer">{<Footer />}</div>
+      ) : null}
     </>
   );
 
