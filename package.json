@@ -77,8 +77,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:dev": "yarn install --force && yarn run build-storybook && node scripts/build.js",
-    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --preview-url=/storybook/iframe.html --loglevel warn",
+    "build:dev": "yarn install --force && yarn run build-storybook && node scripts/build.js && yarn run move-storybook",
+    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook --loglevel warn",
+    "move-storybook": "mkdir -p ./public/storybook && mv ./storybook/storybook-static/* ./public/storybook",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
     "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
