@@ -11,7 +11,7 @@ import "assets/stylesheets/index.scss";
 import "assets/stylesheets/App.scss";
 // .storybook/preview.jsx
 import { I18nextProvider } from "react-i18next";
-
+import "assets/stylesheets/App.scss";
 // Wrap your stories in the I18nextProvider component
 const withI18next = (Story, context) => {
   const { locale } = context.globals;

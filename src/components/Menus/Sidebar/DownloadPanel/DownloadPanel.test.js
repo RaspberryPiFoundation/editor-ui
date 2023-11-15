@@ -21,4 +21,8 @@ describe("DownloadPanel", () => {
   test("Renders the log-in button", () => {
     expect(container.getByText("downloadPanel.logInButton")).not.toBeNull();
   });
+
+  test("Renders the sign-up button", () => {
+    expect(container.getByText("downloadPanel.signUpButton")).not.toBeNull();
+  });
 });

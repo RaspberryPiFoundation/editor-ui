@@ -8,14 +8,19 @@ export const DownloadPanel = () => {
 
   return (
     <SidebarPanel heading={t("downloadPanel.heading")}>
-      <div className="download-panel__subtitle">
-        {t("downloadPanel.subtitle")}
-      </div>
-      <p>{t("downloadPanel.logInHint")}</p>
-      <div className="download-panel__button-container">
+      <div className="download-panel__content">
+        <div className="download-panel__subtitle">
+          {t("downloadPanel.subtitle")}
+        </div>
+        <p>{t("downloadPanel.logInHint")}</p>
         <Button
           className="download-panel__button"
           text={t("downloadPanel.logInButton")}
+        />
+        <Button
+          className="download-panel__button"
+          type="secondary"
+          text={t("downloadPanel.signUpButton")}
         />
       </div>
     </SidebarPanel>

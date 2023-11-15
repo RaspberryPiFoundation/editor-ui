@@ -181,6 +181,7 @@ i18n
             logInHint:
               "Log in with your Raspberry Pi Account to save your code and project steps progress.",
             logInButton: "Log in",
+            signUpButton: "Sign up",
           },
           landingPage: {
             title: "Code Editor",
