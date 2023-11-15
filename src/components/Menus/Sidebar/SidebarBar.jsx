@@ -28,12 +28,16 @@ const SidebarBar = (props) => {
 
   const expandPopOut = () => {
     toggleOption("file");
-    window.plausible("Expand file pane");
+    if (window.plausible) {
+      window.plausible("Expand file pane");
+    }
   };
 
   const collapsePopOut = () => {
     toggleOption(option);
-    window.plausible("Collapse file pane");
+    if (window.plausible) {
+      window.plausible("Collapse file pane");
+    }
   };
 
   const collapseSidebar = () => dispatch(hideSidebar());

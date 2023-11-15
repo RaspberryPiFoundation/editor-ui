@@ -16,6 +16,8 @@ const WebComponentLoader = (props) => {
     code,
     senseHatAlwaysEnabled = false,
     instructions,
+    withSidebar = false,
+    sidebarOptions = [],
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -68,7 +70,10 @@ const WebComponentLoader = (props) => {
 
   return loading === "success" ? (
     <>
-      <WebComponentProject />
+      <WebComponentProject
+        withSidebar={withSidebar}
+        sidebarOptions={sidebarOptions}
+      />
     </>
   ) : (
     <>

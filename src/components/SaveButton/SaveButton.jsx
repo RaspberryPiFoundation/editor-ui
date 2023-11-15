@@ -12,7 +12,9 @@ const SaveButton = ({ className, type = "secondary" }) => {
   const loading = useSelector((state) => state.editor.loading);
 
   const onClickSave = async () => {
-    window.plausible("Save button");
+    if (window.plausible) {
+      window.plausible("Save button");
+    }
     dispatch(triggerSave());
   };
 
