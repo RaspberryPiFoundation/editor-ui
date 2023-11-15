@@ -1,10 +1,50 @@
 import DownloadPanel from "./DownloadPanel";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, waitFor, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router";
+import configureStore from "redux-mock-store";
+import FileSaver from "file-saver";
+
+jest.mock("file-saver");
+jest.mock("jszip");
+jest.mock("jszip-utils", () => ({
+  getBinaryContent: jest.fn(),
+}));
 
 let container;
 describe("DownloadPanel", () => {
   beforeEach(() => {
-    container = render(<DownloadPanel />);
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          name: "My epic project",
+          identifier: "hello-world-project",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello world')",
+            },
+          ],
+          image_list: [
+            {
+              url: "a.com/b",
+            },
+          ],
+        },
+      },
+    };
+    const store = mockStore(initialState);
+
+    container = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <DownloadPanel />
+        </MemoryRouter>
+      </Provider>,
+    );
   });
   test("Renders the correct heading", () => {
     expect(container.getByText("downloadPanel.heading")).not.toBeNull();
@@ -28,5 +68,17 @@ describe("DownloadPanel", () => {
 
   test("Renders the donwload hint", () => {
     expect(container.getByText("downloadPanel.downloadHint")).not.toBeNull();
+  });
+
+  test("Renders the download button", () => {
+    expect(container.getByText("downloadPanel.downloadButton")).not.toBeNull();
+  });
+
+  test("The download button initiates a download", async () => {
+    const webComponentDownloadButton = screen.getByText(
+      "downloadPanel.downloadButton",
+    ).parentElement;
+    fireEvent.click(webComponentDownloadButton);
+    await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
   });
 });

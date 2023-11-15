@@ -184,6 +184,7 @@ i18n
             signUpButton: "Sign up",
             downloadHint:
               "Download your project files so you can use them offline and in a different code editor.",
+            downloadButton: "Download project",
           },
           landingPage: {
             title: "Code Editor",
