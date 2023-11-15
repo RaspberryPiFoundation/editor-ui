@@ -50,14 +50,7 @@ const ProjectComponentLoader = (props) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const sidebarOptions = [
-    "projects",
-    "instructions",
-    "file",
-    "images",
-    "settings",
-    "info",
-  ];
+  const sidebarOptions = ["projects", "file", "images", "settings", "info"];
 
   useEmbeddedMode(embedded);
   useProject({ projectIdentifier: identifier, accessToken: accessToken });

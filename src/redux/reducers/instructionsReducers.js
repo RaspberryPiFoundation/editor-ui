@@ -1,5 +1,4 @@
 export const setInstructions = (state, action) => {
-  // return action.payload;
   return { ...state, ...action.payload };
 };
 
