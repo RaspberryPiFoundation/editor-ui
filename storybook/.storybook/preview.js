@@ -7,14 +7,15 @@ import { withRouter } from "storybook-addon-react-router-v6";
 
 import i18n from "utils/i18n"; // importing the same i18n
 
+import "assets/stylesheets/App.scss";
 import "assets/stylesheets/index.scss";
 
 // .storybook/preview.jsx
 import { I18nextProvider } from "react-i18next";
 
 // Wrap your stories in the I18nextProvider component
-const withI18next = (Story, context) => {
-  const { locale } = context.globals;
+const withGlobals = (Story, context) => {
+  const { locale, theme } = context.globals;
   // When the locale global changes
   // Set the new locale in i18n
   useEffect(() => {
@@ -24,16 +25,18 @@ const withI18next = (Story, context) => {
   return (
     <Suspense fallback={<div>loading translations...</div>}>
       <I18nextProvider i18n={i18n}>
-        <Story />
+        <div id="app" className={theme === "dark" ? "--dark" : "--light"}>
+          <Story />
+        </div>
       </I18nextProvider>
     </Suspense>
   );
 };
 
 // https://storybook.js.org/addons/storybook-addon-react-router-v6
-addDecorator(withI18next);
 addDecorator(withRouter);
 addDecorator(withRootAttribute);
+addDecorator(withGlobals);
 
 export const parameters = {
   i18n,
@@ -58,5 +61,19 @@ export const parameters = {
       value: "editor-ui",
     },
     states: [],
+  },
+};
+
+export const globalTypes = {
+  theme: {
+    name: 'theme',
+    description: 'Toggle between light and dark mode',
+    toolbar: {
+      icon: 'circlehollow',
+      // Array of plain string values or MenuItem shape (see below)
+      items: ['light', 'dark'],
+      // Change title based on selected value
+      dynamicTitle: true,
+    },
   },
 };
