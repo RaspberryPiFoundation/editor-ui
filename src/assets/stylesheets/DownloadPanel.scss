@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
+  padding: $space-1;
   align-self: stretch;
 }
 
@@ -17,20 +17,14 @@
   display: block;
 }
 
-.download-panel__button-container {
+.download-panel__button {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: $space-0-5;
-  align-self: stretch;
-}
-
-.download-panel__button {
-  //   width: 100%;
-  display: flex;
+  flex-grow: 1;
+  width: 100%;
   padding: 12px 16px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 8px;
   align-self: stretch;
 }

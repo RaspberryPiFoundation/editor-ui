@@ -17,11 +17,7 @@ export const DownloadPanel = () => {
           className="download-panel__button"
           text={t("downloadPanel.logInButton")}
         />
-        <Button
-          className="download-panel__button"
-          type="secondary"
-          text={t("downloadPanel.signUpButton")}
-        />
+        <Button type="secondary" text={t("downloadPanel.signUpButton")} />
       </div>
     </SidebarPanel>
   );
