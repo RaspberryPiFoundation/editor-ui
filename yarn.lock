@@ -1763,6 +1763,13 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@raspberrypifoundation/design-system-core@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-core/-/design-system-core-0.1.6.tgz#0dcbdc7858156f51c224c7fcd9a416abb53ca7c7"
+  integrity sha512-Rs4eDDoHAFqvrKUa7EEDeTuIq3oiz4LnDiYq8aFucME7/4YIcNtmGF/JqUxc6UWtNqHPjho+9+ZilsgTzJFoPA==
+  dependencies:
+    classnames "^2.3.2"
+
 "@raspberrypifoundation/design-system-react@^0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-react/-/design-system-react-0.1.5.tgz#1b76111e9f34bf62cb494812fa42da7f2263d58e"
@@ -12930,10 +12937,10 @@ stop-iteration-iterator@^1.0.0:
   dependencies:
     internal-slot "^1.0.4"
 
-storybook-addon-react-router-v6@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/storybook-addon-react-router-v6/-/storybook-addon-react-router-v6-0.2.1.tgz#19f1262be15377df0d2ae3bc880717b97121bb46"
-  integrity sha512-dwYLaE6/bsGnkTn1l5rb5SYIhv2xwwSeRkhWX86bihDWJjz/+NlWSN+r4Kp2WNMVN9vEhMleunXPiGJiFUn7Hg==
+storybook-addon-react-router-v6@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/storybook-addon-react-router-v6/-/storybook-addon-react-router-v6-0.2.2.tgz#2c18976aac2b56751a594592e0aad0b3331a313e"
+  integrity sha512-u1kiyp1+kmqrnlbmH3vGYzhZprILiLyhnDqtkqHpGyY1bOdhyqim4xD5cBPIAS+9VAvNH4UXQzT90NIYdlNY7w==
   dependencies:
     react-inspector "^5.1.1"
 

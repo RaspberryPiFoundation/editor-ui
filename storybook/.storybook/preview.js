@@ -65,12 +65,12 @@ export const parameters = {
 
 export const globalTypes = {
   theme: {
-    name: 'theme',
-    description: 'Toggle between light and dark mode',
+    name: "theme",
+    description: "Toggle between light and dark mode",
     toolbar: {
-      icon: 'circlehollow',
+      icon: "circlehollow",
       // Array of plain string values or MenuItem shape (see below)
-      items: ['light', 'dark'],
+      items: ["light", "dark"],
       // Change title based on selected value
       dynamicTitle: true,
     },

@@ -1,6 +1,7 @@
+import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
-import { Button } from "@raspberrypifoundation/design-system-react";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
@@ -13,11 +14,17 @@ export const DownloadPanel = () => {
           {t("downloadPanel.subtitle")}
         </div>
         <p>{t("downloadPanel.logInHint")}</p>
-        <Button
-          className="download-panel__button"
-          text={t("downloadPanel.logInButton")}
-        />
-        <Button type="secondary" text={t("downloadPanel.signUpButton")} />
+        <div className="download-panel__button-container">
+          <DesignSystemButton
+            className="download-panel__button"
+            text={t("downloadPanel.logInButton")}
+          />
+          <DesignSystemButton
+            className="download-panel__button"
+            type="secondary"
+            text={t("downloadPanel.signUpButton")}
+          />
+        </div>
       </div>
     </SidebarPanel>
   );
