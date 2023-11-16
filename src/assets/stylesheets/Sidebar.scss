@@ -67,6 +67,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: $space-0-5;
 }
 
 .sidebar__bar-option-wrapper {
@@ -108,6 +109,11 @@
 
   &--selected:hover {
     background-color: var(--sidebar-option-selected-background-hover);
+  }
+
+  .sidebar__panel-footer {
+    background-color: $rpf-grey-700;
+    border-top: 1px solid $rpf-grey-600;
   }
 }
 

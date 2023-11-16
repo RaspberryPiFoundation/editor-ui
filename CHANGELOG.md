@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated sidebar and file icons to correct size (#720)
 - Added ability to enable sidebar in web component (#738)
 - Added ability to customise sidebar options (#738)
+- Instructions Panel for the sidebar (#751)
 
 ### Changed
 
