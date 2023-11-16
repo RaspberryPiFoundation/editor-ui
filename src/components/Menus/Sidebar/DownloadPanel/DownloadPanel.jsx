@@ -26,7 +26,7 @@ export const DownloadPanel = () => {
             className="btn btn--primary download-panel__button"
             text={t("downloadPanel.logInButton")}
             type="primary"
-            onClick={handleLogIn()}
+            onClick={handleLogIn}
           />
           <DesignSystemButton
             className="btn btn--secondary download-panel__button"
