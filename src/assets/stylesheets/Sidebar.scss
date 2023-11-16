@@ -1,33 +1,33 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/colours" as *;
 
-:root{
-  .--light{
+:root {
+  .--light {
     --sidebar-border: var(--rpf-grey-150);
-    --sidebar-background:var(--rpf-white);
-    --sidebar-background-selected:var(--rpf-off-white);
-    --sidebar-panel-background:var(--rpf-white);
-    --sidebar-option-hover:var(--rpf-grey-100);
-    --sidebar-option-selected-border:var(--rpf-teal-800);
-    --sidebar-option-selected-background:var(--rpf-teal-100);
-    --sidebar-option-selected-background-hover:var(--rpf-teal-200);
-    --sidebar-option-selected-icon:var(--rpf-black);
+    --sidebar-background: var(--rpf-white);
+    --sidebar-background-selected: var(--rpf-off-white);
+    --sidebar-panel-background: var(--rpf-white);
+    --sidebar-option-hover: var(--rpf-grey-100);
+    --sidebar-option-selected-border: var(--rpf-teal-800);
+    --sidebar-option-selected-background: var(--rpf-teal-100);
+    --sidebar-option-selected-background-hover: var(--rpf-teal-200);
+    --sidebar-option-selected-icon: var(--rpf-black);
   }
-  .--dark{
+  .--dark {
     --sidebar-border: var(--rpf-grey-600);
-    --sidebar-background:var(--rpf-grey-800);
-    --sidebar-background-selected:var(--rpf-grey-800);
-    --sidebar-panel-background:var(--rpf-grey-700);
-    --sidebar-option-hover:var(--rpf-grey-600);
-    --sidebar-option-selected-border:var(--rpf-teal-400);
-    --sidebar-option-selected-background:var(--rpf-teal-900);
-    --sidebar-option-selected-background-hover:var(--rpf-teal-800);
-    --sidebar-option-selected-icon:var(--rpf-white);
+    --sidebar-background: var(--rpf-grey-800);
+    --sidebar-background-selected: var(--rpf-grey-800);
+    --sidebar-panel-background: var(--rpf-grey-700);
+    --sidebar-option-hover: var(--rpf-grey-600);
+    --sidebar-option-selected-border: var(--rpf-teal-400);
+    --sidebar-option-selected-background: var(--rpf-teal-900);
+    --sidebar-option-selected-background-hover: var(--rpf-teal-800);
+    --sidebar-option-selected-icon: var(--rpf-white);
   }
 }
 
-// Sidebar --------
+// Sidebar
 .sidebar {
   display: flex;
   position: relative;
@@ -39,12 +39,12 @@
   overflow-y: hidden;
 }
 
-// SidebarBar --------
+// SidebarBar
 
 .editor-logo {
   height: $space-2-5;
   width: $space-2-5;
-  padding:  $space-0-75;
+  padding: $space-0-75;
 }
 
 .sidebar__bar {
@@ -61,7 +61,7 @@
   border-inline-end: 1px solid var(--sidebar-border);
 }
 
-// SidebarBar - Options --------
+// SidebarBar - Options
 
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
@@ -72,16 +72,15 @@
 }
 
 .sidebar__bar-option-wrapper {
-  padding: 0.625rem; //10px
+  padding: 0.625rem;
   border: 1px solid transparent;
 
-  &--selected{
+  &--selected {
     background-color: var(--sidebar-panel-background);
     border-radius: $space-0-5 0 0 $space-0-5;
     border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
   }
-
 }
 
 .sidebar__bar-option {
@@ -89,7 +88,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  // border-radius: 100%;
   margin: 0;
   border: 2px solid transparent;
 
@@ -102,11 +100,11 @@
   }
 
   &--selected {
-    border:2px solid var(--sidebar-option-selected-border);
+    border: 2px solid var(--sidebar-option-selected-border);
     background-color: var(--sidebar-option-selected-background);
 
-    svg{
-      fill:var(--sidebar-option-selected-icon);
+    svg {
+      fill: var(--sidebar-option-selected-icon);
     }
   }
 
@@ -115,11 +113,11 @@
   }
 }
 
-.sidebar__bar-close{
+.sidebar__bar-close {
   border-block-start: 1px solid var(--sidebar-border);
 }
 
-// Panel --------
+// Panel
 
 .sidebar__panel {
   display: flex;

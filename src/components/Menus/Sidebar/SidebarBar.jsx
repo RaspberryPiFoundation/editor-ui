@@ -98,8 +98,6 @@ const SidebarBar = (props) => {
               className="sidebar__bar-option"
               ButtonIcon={CloseIcon}
               title={t("sidebar.expand")}
-              // buttonOuter
-              // buttonOuterClassName="sidebar-expand-button"
               onClickHandler={collapseSidebar}
             />
           </div>
