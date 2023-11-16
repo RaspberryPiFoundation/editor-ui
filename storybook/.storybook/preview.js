@@ -9,10 +9,10 @@ import i18n from "utils/i18n"; // importing the same i18n
 
 import "assets/stylesheets/App.scss";
 import "assets/stylesheets/index.scss";
-
+import "assets/stylesheets/App.scss";
 // .storybook/preview.jsx
 import { I18nextProvider } from "react-i18next";
-
+import "assets/stylesheets/App.scss";
 // Wrap your stories in the I18nextProvider component
 const withGlobals = (Story, context) => {
   const { locale, theme } = context.globals;
@@ -49,7 +49,6 @@ export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
-      color: /(background|color)$/i,
       date: /Date$/,
     },
   },
@@ -66,12 +65,12 @@ export const parameters = {
 
 export const globalTypes = {
   theme: {
-    name: 'theme',
-    description: 'Toggle between light and dark mode',
+    name: "theme",
+    description: "Toggle between light and dark mode",
     toolbar: {
-      icon: 'circlehollow',
+      icon: "circlehollow",
       // Array of plain string values or MenuItem shape (see below)
-      items: ['light', 'dark'],
+      items: ["light", "dark"],
       // Change title based on selected value
       dynamicTitle: true,
     },
