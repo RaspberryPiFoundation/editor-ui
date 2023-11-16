@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../assets/stylesheets/DesignSystemButton.scss";
 
-const DesignSystemButton = (props) => {
-  useEffect(() => {
-    console.log("This is definitely the DesignSystemButton!");
-  });
-  return <Button {...props} />;
-};
+const DesignSystemButton = (props) => <Button {...props} />;
 
 export default DesignSystemButton;
