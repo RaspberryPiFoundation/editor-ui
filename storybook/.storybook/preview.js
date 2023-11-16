@@ -7,9 +7,7 @@ import { withRouter } from "storybook-addon-react-router-v6";
 
 import i18n from "utils/i18n"; // importing the same i18n
 
-import "assets/stylesheets/App.scss";
 import "assets/stylesheets/index.scss";
-import "assets/stylesheets/App.scss";
 // .storybook/preview.jsx
 import { I18nextProvider } from "react-i18next";
 import "assets/stylesheets/App.scss";
