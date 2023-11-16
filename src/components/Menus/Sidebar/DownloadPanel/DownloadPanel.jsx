@@ -1,8 +1,8 @@
 import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
-import Button from "../../../Button/Button";
-import WebComponentDownloadButton from "../../../WebComponentDownloadButton/WebComponentDownloadButton";
+import DownloadButton from "../../../DownloadButton/DownloadButton";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
@@ -17,17 +17,23 @@ export const DownloadPanel = () => {
         </div>
         <p>{t("downloadPanel.logInHint")}</p>
         <div className="download-panel__button-container">
-          <Button
+          <DesignSystemButton
             className="btn btn--primary download-panel__button"
-            buttonText={t("downloadPanel.logInButton")}
+            text={t("downloadPanel.logInButton")}
+            onClick={() => {
+              console.log("Log in clicked");
+            }}
           />
-          <Button
+          <DesignSystemButton
             className="btn btn--secondary download-panel__button"
-            buttonText={t("downloadPanel.signUpButton")}
+            text={t("downloadPanel.signUpButton")}
+            onClick={() => {
+              console.log("Sign up clicked");
+            }}
           />
         </div>
         <p>{t("downloadPanel.downloadHint")}</p>
-        <WebComponentDownloadButton
+        <DownloadButton
           buttonText={t("downloadPanel.downloadButton")}
           className="btn btn--secondary download-panel__button"
           Icon={DownloadIcon}
