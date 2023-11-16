@@ -57,7 +57,7 @@ const Sidebar = ({ options = [] }) => {
     {
       name: "download",
       icon: DownloadIcon,
-      title: t("sidebar.information"),
+      title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
     },

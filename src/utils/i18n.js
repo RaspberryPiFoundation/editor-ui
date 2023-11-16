@@ -419,6 +419,7 @@ i18n
           },
           sidebar: {
             collapse: "Collapse file pane",
+            download: "Download project",
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",
