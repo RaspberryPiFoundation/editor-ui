@@ -24,15 +24,6 @@
     @content;
   }
 
-  &:disabled {
-    background-color: $dis-bg;
-    color: $dis-c;
-  
-    svg {
-      fill: $dis-c;
-    }
-  }
-
   &:focus-visible, .btn-outer:focus-visible & {
     background-color: $focus-bg;
     @content;
@@ -41,6 +32,19 @@
   &:hover, .btn-outer:hover & {
     background-color: $hover-bg;
     @content;
+  }
+
+  &:disabled {
+    background-color: $dis-bg;
+    color: $dis-c;
+  
+    svg {
+      fill: $dis-c;
+    }
+
+    &:hover, .btn-outer:hover & {
+      background-color: $dis-bg;
+    }
   }
 }
 
@@ -169,6 +173,10 @@
     .btn {
       border: 3px solid $rpf-brand-raspberry;
     }
+  }
+
+  &:has(.btn:disabled) {
+    cursor: default;
   }
 }
 
