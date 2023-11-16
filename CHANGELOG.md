@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Pi accounts logout mechanism for enabling global logout (#754)
 - Move local development port to avoid projects-ui clash (#736)
 - Update design-system-react dependency to publicly available version
 - Storybook SVG loader added and store configured
