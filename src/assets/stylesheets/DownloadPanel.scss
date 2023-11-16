@@ -23,13 +23,11 @@
   align-self: stretch;
   gap: $space-0-75;
   align-items: stretch;
-  padding-bottom: $space-1;
-  border-bottom: 1px solid $rpf-grey-150;
+  padding-block-end: $space-1;
+  border-block-end: 1px solid $rpf-grey-150;
 }
 
 .download-panel__button {
-  display: flex;
-  align-items: center;
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
