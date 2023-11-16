@@ -41,19 +41,19 @@
   }
 
   .projects-panel__item {
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
   }
 
   .projects-panel__save,
   .projects-panel__button {
-    border-top: 1px solid var(--sidebar-border); // Var defined in sidebar
+    border-block-start: 1px solid var(--sidebar-border);
     padding: $space-1 0;
     display: flex;
   }
 
   .projects-panel__save-button {
     width: 100%;
-    margin-bottom: $space-1;
+    margin-block-start: $space-1;
     justify-content: center;
 
     .icon {

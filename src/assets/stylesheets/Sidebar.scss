@@ -40,7 +40,6 @@
 }
 
 // SidebarBar
-
 .editor-logo {
   height: $space-2-5;
   width: $space-2-5;
@@ -62,7 +61,6 @@
 }
 
 // SidebarBar - Options
-
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;
@@ -118,7 +116,6 @@
 }
 
 // Panel
-
 .sidebar__panel {
   display: flex;
   flex-direction: column;
@@ -137,7 +134,7 @@
   display: flex;
   flex-direction: column;
   gap: $space-1;
-  padding-bottom: $space-1;
+  padding-block-end: $space-1;
   border-block-end: 1px solid var(--sidebar-border);
 }
 
@@ -146,5 +143,5 @@
   padding: $space-1 0;
   overflow-y: scroll;
   scrollbar-width: none;
-  margin-bottom: $space-2;
+  margin-block-end: $space-2;
 }
