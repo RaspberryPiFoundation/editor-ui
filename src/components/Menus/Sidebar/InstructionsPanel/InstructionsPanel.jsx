@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project.steps);

@@ -225,6 +225,8 @@ i18n
             info: "Information",
           },
           instructionsPanel: {
+            nextStep: "Next step",
+            previousStep: "Previous step",
             projectSteps: "Project steps",
           },
           projectsPanel: {

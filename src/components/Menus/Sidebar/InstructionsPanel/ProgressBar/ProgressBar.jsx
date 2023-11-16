@@ -1,11 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
-import ChevronLeft from "../../../../assets/icons/chevron_left.svg";
-import ChevronRight from "../../../../assets/icons/chevron_right.svg";
-import Button from "../../../Button/Button";
+import { setCurrentStepPosition } from "../../../../../redux/InstructionsSlice";
+import ChevronLeft from "../../../../../assets/icons/chevron_left.svg";
+import ChevronRight from "../../../../../assets/icons/chevron_right.svg";
+import Button from "../../../../Button/Button";
 
-import "../../../../assets/stylesheets/ProgressBar.scss";
+import "../../../../../assets/stylesheets/ProgressBar.scss";
+import { useTranslation } from "react-i18next";
 
 const ProgressBar = () => {
   const numberOfSteps = useSelector(
@@ -16,6 +17,7 @@ const ProgressBar = () => {
   );
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const goToNextStep = () => {
     dispatch(
@@ -36,6 +38,7 @@ const ProgressBar = () => {
         onClickHandler={goToPreviousStep}
         ButtonIcon={ChevronLeft}
         disabled={currentStepPosition === 0}
+        title={t("instructionsPanel.previousStep")}
       />
       <progress max={numberOfSteps - 1} value={currentStepPosition}></progress>
       <Button
@@ -44,6 +47,7 @@ const ProgressBar = () => {
         onClickHandler={goToNextStep}
         ButtonIcon={ChevronRight}
         disabled={currentStepPosition === numberOfSteps - 1}
+        title={t("instructionsPanel.nextStep")}
       />
     </div>
   );
