@@ -10,8 +10,14 @@ jest.mock("jszip");
 jest.mock("jszip-utils", () => ({
   getBinaryContent: jest.fn(),
 }));
+const logInHandler = jest.fn();
 
 let container;
+
+beforeAll(() => {
+  document.addEventListener("editor-logIn", logInHandler);
+});
+
 describe("DownloadPanel", () => {
   beforeEach(() => {
     const middlewares = [];
@@ -70,6 +76,14 @@ describe("DownloadPanel", () => {
     expect(container.getByText("downloadPanel.downloadHint")).not.toBeNull();
   });
 
+  test("calls logIn when clicked", async () => {
+    const logInButton = screen.getByText(
+      "downloadPanel.logInButton",
+    ).parentElement;
+    fireEvent.click(logInButton);
+    await waitFor(() => expect(logInHandler).toHaveBeenCalled());
+  });
+
   test("Renders the download button", () => {
     expect(container.getByText("downloadPanel.downloadButton")).not.toBeNull();
   });
@@ -81,4 +95,8 @@ describe("DownloadPanel", () => {
     fireEvent.click(webComponentDownloadButton);
     await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
   });
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-logIn", logInHandler);
 });

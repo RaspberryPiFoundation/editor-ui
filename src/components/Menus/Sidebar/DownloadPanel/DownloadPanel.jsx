@@ -4,10 +4,15 @@ import { useTranslation } from "react-i18next";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
+import { logInEvent } from "../../../../events/WebComponentCustomEvents";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
   const { t } = useTranslation();
+
+  const handleLogIn = () => {
+    document.dispatchEvent(logInEvent());
+  };
 
   return (
     <SidebarPanel heading={t("downloadPanel.heading")}>
@@ -21,9 +26,7 @@ export const DownloadPanel = () => {
             className="btn btn--primary download-panel__button"
             text={t("downloadPanel.logInButton")}
             type="primary"
-            onClick={() => {
-              console.log("Log in clicked");
-            }}
+            onClick={handleLogIn()}
           />
           <DesignSystemButton
             className="btn btn--secondary download-panel__button"
