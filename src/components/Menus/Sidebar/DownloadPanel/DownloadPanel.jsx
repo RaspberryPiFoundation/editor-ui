@@ -20,6 +20,7 @@ export const DownloadPanel = () => {
           <DesignSystemButton
             className="btn btn--primary download-panel__button"
             text={t("downloadPanel.logInButton")}
+            type="primary"
             onClick={() => {
               console.log("Log in clicked");
             }}
@@ -27,6 +28,7 @@ export const DownloadPanel = () => {
           <DesignSystemButton
             className="btn btn--secondary download-panel__button"
             text={t("downloadPanel.signUpButton")}
+            type="secondary"
             onClick={() => {
               console.log("Sign up clicked");
             }}
