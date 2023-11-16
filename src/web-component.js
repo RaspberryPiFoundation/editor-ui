@@ -4,7 +4,7 @@ import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
-import store from "./app/store";
+import store from "./app/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
@@ -35,15 +35,23 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["code", "sense_hat_always_enabled", "instructions"];
+    return [
+      "auth_key",
+      "identifier",
+      "code",
+      "sense_hat_always_enabled",
+      "instructions",
+      "with_sidebar",
+      "sidebar_options",
+    ];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
     let value;
 
-    if (["sense_hat_always_enabled"].includes(name)) {
+    if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
       value = newVal === "true";
-    } else if (["instructions"].includes(name)) {
+    } else if (["instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;

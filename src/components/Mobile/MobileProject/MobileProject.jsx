@@ -14,7 +14,7 @@ import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 
-const MobileProject = ({ forWebComponent }) => {
+const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
   const sidebarShowing = useSelector((state) => state.editor.sidebarShowing);
   const codeRunTriggered = useSelector(
@@ -34,7 +34,7 @@ const MobileProject = ({ forWebComponent }) => {
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
-      {sidebarShowing && <Sidebar />}
+      {sidebarShowing && <Sidebar options={sidebarOptions} />}
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
@@ -48,11 +48,12 @@ const MobileProject = ({ forWebComponent }) => {
         </TabPanel>
         <MobileProjectBar />
         <div className="react-tabs__tab-container mobile-nav">
-          {!forWebComponent && (
+          {withSidebar && (
             <Button
               className="btn--tertiary mobile-nav__menu"
               ButtonIcon={MenuIcon}
               onClickHandler={openSidebar}
+              title={t("sidebar.expand")}
             />
           )}
           <TabList>

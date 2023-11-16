@@ -4,20 +4,9 @@ import { syncProject, setProject } from "../redux/EditorSlice";
 import { waitFor } from "@testing-library/react";
 import { defaultPythonProject } from "../utils/defaultProjects";
 
-let mockBrowserPreview = "false";
-
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => jest.fn(),
-}));
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useSearchParams: () => [
-    {
-      get: (key) => (key === "browserPreview" ? mockBrowserPreview : null),
-    },
-  ],
 }));
 
 const loadProject = jest.fn();
@@ -125,16 +114,32 @@ test("If embedded and cached project, loads from server", async () => {
 });
 
 test("If new tab browser preview, uses cached changes", () => {
-  mockBrowserPreview = "true";
   localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
   renderHook(() =>
     useProject({
       projectIdentifier: "hello-world-project",
       accessToken,
       isEmbedded: true,
+      isBrowserPreview: true,
     }),
   );
   expect(setProject).toHaveBeenCalledWith(cachedProject);
+});
+
+test("If no identifier or cached project, uses code attribute", () => {
+  const code = "print('hello world')";
+  const expectedProject = {
+    name: "Blank project",
+    type: "python",
+    components: [{ name: "main", extension: "py", content: code }],
+  };
+  renderHook(() =>
+    useProject({
+      code,
+      accessToken,
+    }),
+  );
+  expect(setProject).toHaveBeenCalledWith(expectedProject);
 });
 
 afterEach(() => {

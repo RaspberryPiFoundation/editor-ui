@@ -23,6 +23,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - FileMenu alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
+- Added ability to enable sidebar in web component (#738)
+- Added ability to customise sidebar options (#738)
+
+### Changed
+
+- Move local development port to avoid projects-ui clash (#736)
+- Update design-system-react dependency to publicly available version
+- Storybook SVG loader added and store configured
+
+### Fixed
+
+- Local docker setup for development (#739)
+
+## [0.19.4] - 2023-11-08
+
+### Changed
+
+- Added p5 library that can access WebComponent shadowRoot (#731)
+- Allow external rpf.io links (#729)
+
 
 ## [0.19.3] - 2023-10-25
 
@@ -32,10 +52,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component tests (#709, #710)
 - `instructions` attribute for the web component (#712)
 - Instructions slice to store data passed from the Projects site (#712)
+- Adding auth to the web component (#728)
+- Allow web component to load, save and remix projects (#728)
 
 ### Changed
 
-- Replace physical properties with logical values
+- Replace physical properties with logical values (#699)
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
@@ -568,7 +590,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.4...HEAD
+[0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
 [0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
 [0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
