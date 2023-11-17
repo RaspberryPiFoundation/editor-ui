@@ -108,5 +108,5 @@ describe("DownloadPanel", () => {
 
 afterAll(() => {
   document.removeEventListener("editor-logIn", logInHandler);
-  document.addEventListener("editor-signUp", signUpHandler);
+  document.removeEventListener("editor-signUp", signUpHandler);
 });
