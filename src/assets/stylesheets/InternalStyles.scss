@@ -10,7 +10,6 @@
 @use "./MobileProject" as *;
 @use "./Button" as *;
 @use "./DesignSystemButton.scss" as *;
-@use "./DownloadPanel.scss";
 @use "./DraggableTabs" as *;
 @use "./ResizableWithHandle" as *;
 @use "./EditorInput" as *;
@@ -21,8 +20,10 @@
 @use "./ProjectInfo" as *;
 @use "./NewComponentButton" as *;
 @use "./SettingsPanel" as *;
+@use "./DownloadPanel.scss";
 @use "./ThemeToggle" as *;
 @use "./InfoPanel" as *;
+@use "./ProgressBar.scss" as *;
 @use "./RunBar" as *;
 @use "./RunnerControls" as *;
 @use "./ThemeToggle" as *;

@@ -1,10 +1,3 @@
-<svg
-  data-testid="defaultFileIcon"
-  width="16"
-  height="20"
-  viewBox="0 0 16 20"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path d="M4 16H12V14H4V16ZM4 12H12V10H4V12ZM0 20V0H10L16 6V20H0ZM9 7V2H2V18H14V7H9ZM2 2V7V2V18V2Z" />
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM4 22V2H14L20 8V22H4ZM13 9V4H6V20H18V9H13ZM6 4V9V4V20V4Z"/>
 </svg>
