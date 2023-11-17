@@ -11,9 +11,10 @@ jest.mock("jszip-utils", () => ({
   getBinaryContent: jest.fn(),
 }));
 
+let container;
+
 const logInHandler = jest.fn();
 const signUpHandler = jest.fn();
-let container;
 
 beforeAll(() => {
   document.addEventListener("editor-logIn", logInHandler);
