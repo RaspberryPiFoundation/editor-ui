@@ -1,7 +1,7 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .sense-hat {
   width: 100%;
@@ -48,7 +48,7 @@
       &__reset-btn {
         flex: 1;
         display: flex;
-        margin-left: auto;
+        margin-inline-start: auto;
         svg {
           padding: $space-0-5;
           border-radius: 5px;
@@ -69,8 +69,8 @@
     &-heading {
       @include font-size-1(regular);
       font-weight: $font-weight-regular;
-      margin: 0;
-      margin-bottom: $space-0-5;
+      margin-block: 0 $space-0-5;
+      margin-inline: 0;
     }
 
     &-panel {
@@ -93,17 +93,17 @@
         &-reading {
           width: 100%;
           border-radius: 5px;
-          margin-top: $space-0-25;
+          margin-block-start: $space-0-25;
           padding: $space-0-25;
           box-sizing: border-box;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
             monospace;
 
           &-timer {
-            margin-top: 0;
+            margin-block-start: 0;
             padding: $space-0-5 0;
             width: 100%;
           }
@@ -129,7 +129,7 @@
           transform: rotate(270deg);
         }
 
-        input[type='color'] {
+        input[type="color"] {
           border-radius: 5px;
           flex: 1;
           width: 100%;
@@ -143,11 +143,11 @@
         }
 
         &-value {
-          margin-left: $space-0-25;
+          margin-inline-start: $space-0-25;
         }
 
         &-last {
-          margin-top: $space-0-5;
+          margin-block-start: $space-0-5;
           flex-flow: row;
           width: 100%;
           align-items: inherit;
@@ -201,7 +201,7 @@
             border: 1px solid $rpf-grey-500;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -255,7 +255,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }

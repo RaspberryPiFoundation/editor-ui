@@ -1,8 +1,8 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
 
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
@@ -11,7 +11,6 @@ $small-table-grid: 600px;
   &__info {
     align-items: center;
   }
-
 
   &__title {
     align-items: center;
@@ -44,7 +43,7 @@ $small-table-grid: 600px;
 
   &__tag {
     padding-right: $space-0-5;
-    margin-right: $space-0-5;
+    margin-inline-end: $space-0-5;
 
     .--light & {
       border-right: 1px $rpf-text-secondary solid;
@@ -114,7 +113,7 @@ $small-table-grid: 600px;
       &:active {
         color: $rpf-teal-900;
       }
-  
+
       &:hover {
         color: $rpf-grey-600;
       }
