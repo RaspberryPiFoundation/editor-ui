@@ -8,6 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- SVGO config file (#720)
+
+### Changed
+
+- Sidebar - Refactored styles to be closer to designs (#720)
+- Sidebar - Refactored theming to fix inconsistencies between themes (#720)
+- Sidebar - Added hover styles to collapse and close buttons (#720)
+- Sidebar - Option/Tab style (#720)
+- Stopped SVGO from removing icon (svg) viewBoxes (#720)
+
+### Fixed
+
+- FileMenu alignment (#720)
+- Edit icon not showing in ContextMenu (#720)
+- Updated sidebar and file icons to correct size (#720)
 - Added ability to enable sidebar in web component (#738)
 - Added ability to customise sidebar options (#738)
 - Instructions Panel for the sidebar (#751)
@@ -28,6 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added p5 library that can access WebComponent shadowRoot (#731)
 - Allow external rpf.io links (#729)
+
 
 ## [0.19.3] - 2023-10-25
 
