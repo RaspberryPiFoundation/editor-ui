@@ -14,8 +14,7 @@
 .context-menu {
   list-style-type: none;
   padding: 0;
-  margin-block: 0;
-  margin-inline: $space-0-5 0;
+  margin-inline-start: $space-0-5;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -25,17 +24,17 @@
     background-color: inherit;
     color: inherit;
     padding: $space-0-5;
-    text-align: left;
+    text-align: start;
     white-space: nowrap;
     overflow-x: visible;
     box-sizing: border-box;
     width: 100%;
-    justify-content: left;
+    justify-content: start;
   }
 
   svg {
-    height: 0.75em;
-    width: auto;
+    width: $space-1-5;
+    height: auto;
   }
 
   &--dark {

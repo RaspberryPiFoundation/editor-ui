@@ -46,7 +46,7 @@
 
   .projects-panel__save,
   .projects-panel__button {
-    border-top: 1px solid $rpf-grey-150;
+    border-block-start: 1px solid var(--sidebar-border);
     padding: $space-1 0;
     display: flex;
   }
@@ -76,10 +76,6 @@
 }
 
 .--dark {
-  .projects-panel__save {
-    border-top: 1px solid $rpf-grey-600;
-  }
-
   .projects-panel__save-button {
     .content {
       color: white;

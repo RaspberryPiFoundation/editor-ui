@@ -2,6 +2,32 @@
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/colours" as *;
 
+:root {
+  .--light {
+    --sidebar-border: var(--rpf-grey-150);
+    --sidebar-background: var(--rpf-white);
+    --sidebar-background-selected: var(--rpf-off-white);
+    --sidebar-panel-background: var(--rpf-white);
+    --sidebar-option-hover: var(--rpf-grey-100);
+    --sidebar-option-selected-border: var(--rpf-teal-800);
+    --sidebar-option-selected-background: var(--rpf-teal-100);
+    --sidebar-option-selected-background-hover: var(--rpf-teal-200);
+    --sidebar-option-selected-icon: var(--rpf-black);
+  }
+  .--dark {
+    --sidebar-border: var(--rpf-grey-600);
+    --sidebar-background: var(--rpf-grey-800);
+    --sidebar-background-selected: var(--rpf-grey-800);
+    --sidebar-panel-background: var(--rpf-grey-700);
+    --sidebar-option-hover: var(--rpf-grey-600);
+    --sidebar-option-selected-border: var(--rpf-teal-400);
+    --sidebar-option-selected-background: var(--rpf-teal-900);
+    --sidebar-option-selected-background-hover: var(--rpf-teal-800);
+    --sidebar-option-selected-icon: var(--rpf-white);
+  }
+}
+
+// Sidebar
 .sidebar {
   display: flex;
   position: relative;
@@ -13,18 +39,28 @@
   overflow-y: hidden;
 }
 
+// SidebarBar
+.editor-logo {
+  height: $space-2-5;
+  width: $space-2-5;
+  padding: $space-0-75;
+}
+
 .sidebar__bar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  padding: $space-0-75 0 $space-0-5 0;
+  background-color: var(--sidebar-background);
 }
 
 .sidebar__bar--selected {
   border-radius: 8px 0 0 8px;
+  background-color: var(--sidebar-background-selected);
+  border-inline-end: 1px solid var(--sidebar-border);
 }
 
+// SidebarBar - Options
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;
@@ -34,12 +70,65 @@
   gap: $space-0-5;
 }
 
+.sidebar__bar-option-wrapper {
+  padding: 0.625rem;
+  border: 1px solid transparent;
+
+  &--selected {
+    background-color: var(--sidebar-panel-background);
+    border-radius: $space-0-5 0 0 $space-0-5;
+    border-block: 1px solid var(--sidebar-border);
+    border-inline-start: 1px solid var(--sidebar-border);
+  }
+}
+
+.sidebar__bar-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  border: 2px solid transparent;
+
+  svg {
+    margin: 0;
+  }
+
+  &:hover {
+    background-color: var(--sidebar-option-hover);
+  }
+
+  &--selected {
+    border: 2px solid var(--sidebar-option-selected-border);
+    background-color: var(--sidebar-option-selected-background);
+
+    svg {
+      fill: var(--sidebar-option-selected-icon);
+    }
+  }
+
+  &--selected:hover {
+    background-color: var(--sidebar-option-selected-background-hover);
+  }
+
+  .sidebar__panel-footer {
+    background-color: $rpf-grey-700;
+    border-top: 1px solid $rpf-grey-600;
+  }
+}
+
+.sidebar__bar-close {
+  border-block-start: 1px solid var(--sidebar-border);
+}
+
+// Panel
 .sidebar__panel {
   display: flex;
   flex-direction: column;
   padding: $space-1;
   border-radius: 0 8px 8px 0;
   width: inherit;
+  background: var(--sidebar-panel-background);
 }
 
 .sidebar__panel-heading {
@@ -51,7 +140,8 @@
   display: flex;
   flex-direction: column;
   gap: $space-1;
-  padding-bottom: $space-1;
+  padding-block-end: $space-1;
+  border-block-end: 1px solid var(--sidebar-border);
 }
 
 .sidebar__panel-content {
@@ -60,134 +150,4 @@
   overflow-y: scroll;
   scrollbar-width: none;
   margin-block-end: $space-2;
-}
-
-.sidebar__bar-option-wrapper {
-  padding: 6px 11px 6px 6px;
-  margin-block: 0;
-  margin-inline: -1px 4px;
-  border-radius: 100% 0 0 100%;
-}
-
-.sidebar__bar-option {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border-radius: 100%;
-  margin: 0;
-
-  svg {
-    margin: 0;
-  }
-}
-
-.sidebar-collapse-button,
-.sidebar-expand-button {
-  box-sizing: border-box;
-  padding: $space-0-25 0;
-  text-align: center;
-
-  .btn {
-    box-sizing: border-box;
-    justify-content: center;
-    height: 32px;
-    width: 32px;
-  }
-
-  svg {
-    margin: 0;
-  }
-}
-
-.editor-logo {
-  height: $space-2-5;
-  width: $space-2-5;
-}
-
-.--dark {
-  .sidebar__bar--selected {
-    border-right: 1px solid $rpf-grey-600;
-  }
-
-  .sidebar__bar-option:hover {
-    background-color: $rpf-grey-600;
-  }
-
-  .sidebar__bar-option--selected {
-    background-color: $rpf-teal-400;
-
-    svg {
-      fill: $rpf-black;
-    }
-  }
-
-  .sidebar__bar-option--selected:hover {
-    background-color: $rpf-teal-primary-hover-darkmode;
-  }
-
-  .sidebar__bar-option-wrapper {
-    border: 1px solid $rpf-grey-800;
-    border-right: none;
-  }
-
-  .sidebar__bar-option-wrapper--selected {
-    border: 1px solid $rpf-grey-600;
-    border-right: none;
-    background-color: $rpf-grey-700;
-  }
-
-  .sidebar__panel {
-    background-color: $rpf-grey-700;
-  }
-
-  .sidebar__panel-header {
-    border-bottom: 1px solid $rpf-grey-600;
-  }
-}
-
-.--light {
-  .sidebar__bar {
-    background-color: $rpf-white;
-
-    &.sidebar__bar-option-wrapper {
-      border: 1px solid $rpf-white;
-    }
-  }
-
-  .sidebar__bar--selected {
-    background-color: $rpf-off-white;
-    border-right: 1px solid $rpf-grey-150;
-
-    &.sidebar__bar-option-wrapper {
-      border: 1px solid $rpf-off-white;
-    }
-  }
-
-  .sidebar__bar-option:hover {
-    background-color: $rpf-grey-100;
-  }
-
-  .sidebar__bar-option--selected {
-    background-color: $rpf-teal-800;
-  }
-
-  .sidebar__bar-option--selected:hover {
-    background-color: $rpf-teal-primary-hover;
-  }
-
-  .sidebar__bar-option-wrapper {
-    border-right: none;
-  }
-
-  .sidebar__bar-option-wrapper--selected {
-    border: 1px solid $rpf-grey-150;
-    border-right: none;
-    background-color: $rpf-white;
-  }
-
-  .sidebar__panel-header {
-    border-bottom: 1px solid $rpf-grey-150;
-  }
 }
