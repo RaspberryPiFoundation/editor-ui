@@ -15,8 +15,7 @@
 .mobile-project-bar__name {
   @include font-size-0-75(regular);
   font-weight: $font-weight-bold;
-  margin-block: auto 0;
-  margin-inline: auto;
+  margin: auto 0;
 }
 
 .--dark {

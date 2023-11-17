@@ -14,7 +14,8 @@
 .context-menu {
   list-style-type: none;
   padding: 0;
-  margin-inline-start: $space-0-5;
+  margin-inline-start: $space-0-5 0;
+	margin-block: 0;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
