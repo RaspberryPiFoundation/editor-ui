@@ -12,6 +12,7 @@ import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
+import DownloadIcon from "../../../assets/icons/download.svg";
 import StepsIcon from "../../../assets/icons/steps.svg";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
@@ -19,6 +20,7 @@ import "../../../assets/stylesheets/Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
+import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 
 const Sidebar = ({ options = [] }) => {
@@ -51,6 +53,13 @@ const Sidebar = ({ options = [] }) => {
       title: t("sidebar.images"),
       position: "top",
       panel: ImagePanel,
+    },
+    {
+      name: "download",
+      icon: DownloadIcon,
+      title: t("sidebar.download"),
+      position: "top",
+      panel: DownloadPanel,
     },
     {
       name: "settings",

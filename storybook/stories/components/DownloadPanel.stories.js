@@ -1,16 +1,16 @@
 import React from "react";
-import FilePanel from "components/Menus/Sidebar/FilePanel/FilePanel";
+import DownloadPanel from "components/Menus/Sidebar/DownloadPanel/DownloadPanel";
 import MockStore from "../../store/MockStore";
 
 export default {
-  title: "FilePanel",
-  component: FilePanel,
+  title: "DownloadPanel",
+  component: DownloadPanel,
 };
 
 const DefaultTemplate = () => {
   return (
     <MockStore>
-      <FilePanel />
+      <DownloadPanel />
     </MockStore>
   );
 };
