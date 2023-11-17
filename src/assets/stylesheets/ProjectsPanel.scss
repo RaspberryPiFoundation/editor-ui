@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
 
 .projects-panel-wrapper {
   .sidebar__panel-content {
@@ -41,18 +41,19 @@
   }
 
   .projects-panel__item {
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
   }
 
-  .projects-panel__save, .projects-panel__button {
-    border-top: 1px solid $rpf-grey-150;
+  .projects-panel__save,
+  .projects-panel__button {
+    border-block-start: 1px solid var(--sidebar-border);
     padding: $space-1 0;
     display: flex;
   }
 
   .projects-panel__save-button {
     width: 100%;
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
     justify-content: center;
 
     .icon {
@@ -75,10 +76,6 @@
 }
 
 .--dark {
-  .projects-panel__save {
-    border-top: 1px solid $rpf-grey-600;
-  }
-
   .projects-panel__save-button {
     .content {
       color: white;

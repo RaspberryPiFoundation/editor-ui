@@ -29,8 +29,8 @@ const FileMenu = (props) => {
             action: onClickRenameFile,
           },
         ]}
-        offsetX={15}
-        offsetY={-10}
+        offsetX={16}
+        offsetY={-8}
       />
     </div>
   );
