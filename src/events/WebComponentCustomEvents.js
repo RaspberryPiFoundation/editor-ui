@@ -1,4 +1,4 @@
-export const WebComponentCustomEvents = {
+export const WebComponentEvents = {
   LogIn: "editor-logIn",
   SignUp: "editor-signUp",
 };
@@ -22,7 +22,7 @@ export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
 
 export const logInEvent = (detail) =>
-  webComponentCustomEvent(WebComponentCustomEvents.LogIn, detail);
+  webComponentCustomEvent(WebComponentEvents.LogIn, detail);
 
 export const signUpEvent = (detail) =>
-  webComponentCustomEvent(WebComponentCustomEvents.SignUp, detail);
+  webComponentCustomEvent(WebComponentEvents.SignUp, detail);
