@@ -78,7 +78,7 @@ describe("DownloadPanel", () => {
     ).toBeInTheDocument();
   });
 
-  test("Renders the donwload hint", () => {
+  test("Renders the download hint", () => {
     expect(
       container.getByText("downloadPanel.downloadHint"),
     ).toBeInTheDocument();
