@@ -1,13 +1,13 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/colours" as *;
 
 .save-status {
   align-items: center;
   display: flex;
   justify-content: flex-end;
-	margin-block: 0;
-	margin-inline: $space-1 $space-0-5;
+  margin-block: 0;
+  margin-inline: $space-1 $space-0-5;
 }
 
 .save-status--mobile {
@@ -20,5 +20,4 @@
 
 .save-status__icon {
   display: flex;
-
 }
