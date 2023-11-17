@@ -8,15 +8,13 @@ $medium-table-grid: 990px;
 $small-table-grid: 600px;
 
 .editor-project-list {
-  margin-block: 0;
-  margin-inline: auto;
+  margin: 0 auto;
   max-width: 1570px;
   width: 100%;
 
   &__container {
     border-radius: 8px;
-    margin-block: $space-1-5;
-    margin-inline: $space-2;
+    margin: $space-1-5 $space-2;
     padding: $space-0-5;
 
     @include unique-width($small-table-grid) {
@@ -24,13 +22,11 @@ $small-table-grid: 600px;
     }
 
     @include unique-width(767px) {
-      margin-block: $space-2-5;
-      margin-inline: $space-3;
+      margin: $space-2-5 $space-3;
     }
 
     @include unique-width(1670px) {
-      margin-block: $space-2-5;
-      margin-inline: 0;
+      margin: $space-2-5 0;
     }
 
     .--light & {
@@ -94,8 +90,7 @@ $small-table-grid: 600px;
     p {
       @include font-size-1-25(regular);
       font-weight: $font-weight-bold;
-      margin-block: 0;
-      margin-inline: 0;
+      margin: 0 0;
       padding: $space-1-5;
     }
   }

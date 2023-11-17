@@ -2,8 +2,7 @@
 @use './rpf_design_system/colours' as *;
 
 .proj-container--mobile {
-  margin-block: 0;
-  margin-inline: 0;
+  margin: 0 0;
   gap: 0;
 }
 
@@ -37,8 +36,7 @@
 }
 
 .mobile-nav__menu {
-  margin-block: 0;
-  margin-inline: 0;
+  margin: 0 0;
   border-radius: 0;
   border: none;
   display: flex;

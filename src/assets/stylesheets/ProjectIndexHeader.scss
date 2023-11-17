@@ -9,8 +9,7 @@
     display: flex;
     flex-direction: column;
     padding: $space-2;
-    margin-block: 0;
-    margin-inline: auto;
+    margin: 0 auto;
     width: 100%;
     max-width: 1570px;
 
@@ -26,8 +25,7 @@
   }
 
   h1 {
-    margin-block: $space-0-5;
-    margin-inline: 0;
+    margin: $space-0-5 0;
   }
 
   h3 {
@@ -42,8 +40,7 @@
     }
 
     .btn {
-      margin-block: 0;
-      margin-inline: 0;
+      margin: 0 0;
     }
   }
 

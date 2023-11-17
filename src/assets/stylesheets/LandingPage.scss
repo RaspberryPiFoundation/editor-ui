@@ -27,8 +27,7 @@
 
 .landing-page__projects--title {
   @include font-size-2-5(regular);
-  margin-block: $space-1;
-  margin-inline: $space-1;
+  margin: $space-1 $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-3(regular);
@@ -38,8 +37,7 @@
 .landing-page__projects--subtitle {
   @include font-size-1-5(regular);
   font-weight: $font-weight-regular;
-  margin-block: $space-1;
-  margin-inline: $space-1;
+  margin: $space-1 $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-2(regular);
@@ -58,8 +56,7 @@
 // Paths
 .landing-page__paths {
   border-radius: $space-1-5;
-  margin-block: 0;
-  margin-inline: $space-1-5;
+  margin: 0 $space-1-5;
   max-width: 368px;
   padding: $space-1-5 $space-1 0;
   text-align: center;
@@ -75,12 +72,10 @@
 }
 
 .landing-page__paths-copy {
-  margin-block: auto;
-  margin-inline: auto;
+  margin: auto auto;
 
   @media screen and (min-width: 768px) {
-    margin-block: unset;
-    margin-inline: unset;
+    margin: unset unset;
     max-width: 300px;
   }
 }
@@ -120,8 +115,7 @@
   img {
     aspect-ratio: 3/2;
     display: block;
-    margin-block: auto;
-    margin-inline: auto;
+    margin: auto auto;
     max-width: 301px;
     width: 100%;
   }
@@ -130,8 +124,7 @@
     margin-inline-start: auto;
 
     img {
-      margin-block: unset;
-      margin-inline: unset;
+      margin: unset unset;
       width: unset;
     }
   }

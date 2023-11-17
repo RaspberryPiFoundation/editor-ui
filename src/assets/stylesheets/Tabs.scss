@@ -16,8 +16,7 @@
       border: none;
       background-color: transparent;
       padding: 0;
-      margin-block: 0;
-      margin-inline: 0;
+      margin: 0 0;
       inset-block-start: 0;
       inset-block-end: 0;
       height: $space-3;
@@ -65,8 +64,7 @@
     &__tab-text {
       height: fit-content;
       width: fit-content;
-      margin-block: 0;
-      margin-inline: 0;
+      margin: 0 0;
       padding: 0 $space-0-75;
       white-space: nowrap;
 
@@ -103,8 +101,7 @@
       box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
-      margin-block: 0;
-      margin-inline: 0;
+      margin: 0 0;
       padding: 0 $space-0-25 0 0;
     }
 

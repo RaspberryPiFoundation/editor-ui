@@ -4,28 +4,24 @@
 .context-menu__drop {
   display: flex;
   padding: $space-0-5 $space-1;
-  margin-block: 0;
-  margin-inline: 0;
+  margin: 0 0;
 
   svg {
-    margin-block: 0;
-    margin-inline: 0;
+    margin: 0 0;
   }
 }
 
 .context-menu {
   list-style-type: none;
-  margin-block: 0;
-  margin-inline: 0;
   padding: 0;
-  margin-inline-start: $space-0-5;
+  margin-block: 0;
+  margin-inline: $space-0-5 0;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
 
   .context-menu__item {
-    margin-block: 0;
-    margin-inline: 0;
+    margin: 0 0;
     background-color: inherit;
     color: inherit;
     padding: $space-0-5;

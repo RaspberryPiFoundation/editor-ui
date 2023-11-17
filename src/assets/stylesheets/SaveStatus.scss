@@ -11,8 +11,7 @@
 }
 
 .save-status--mobile {
-  margin-block: unset;
-	margin-inline: unset;
+  margin: unset unset;
 
   .save-status__text {
     @include font-size-1(regular);

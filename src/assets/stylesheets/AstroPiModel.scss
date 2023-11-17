@@ -25,8 +25,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-block: 0;
-      margin-inline: $space-0-5;
+      margin: 0 $space-0-5;
 
       &__spacing {
         flex: 1;
@@ -35,8 +34,7 @@
       &__values {
         flex: 10;
         display: flex;
-        margin-block: 0;
-        margin-inline: $space-0-5;
+        margin: 0 $space-0-5;
       }
 
       &__reading {
@@ -44,8 +42,7 @@
         flex: 1;
         text-transform: uppercase;
         font-weight: $font-weight-bold;
-        margin-block: 0;
-        margin-inline: $space-0-5;
+        margin: 0 $space-0-5;
       }
 
       &__reset-btn {
@@ -142,8 +139,7 @@
         &-name {
           font-variant: small-caps;
           text-transform: lowercase;
-          margin-block: $space-0-25;
-          margin-inline: 0;
+          margin: $space-0-25 0;
         }
 
         &-value {

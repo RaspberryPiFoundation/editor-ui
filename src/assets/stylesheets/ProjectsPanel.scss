@@ -13,8 +13,7 @@
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    margin-block: 0;
-    margin-inline: 0;
+    margin: 0 0;
 
     a {
       color: $rpf-black;
@@ -24,8 +23,7 @@
 
   .projects-panel__download-button {
     width: 100%;
-    margin-block: 0;
-    margin-inline: 0;
+    margin: 0 0;
     justify-content: center;
   }
 
@@ -63,8 +61,7 @@
     }
 
     .content {
-      margin-block: auto;
-      margin-inline: auto;
+      margin: auto auto;
     }
 
     span {
@@ -73,8 +70,7 @@
   }
 
   .projects-panel__save-status {
-    margin-block: auto;
-    margin-inline: auto;
+    margin: auto auto;
     width: fit-content;
   }
 }
