@@ -44,7 +44,10 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        exclude: /\/src\/assets\/icons\/.*\.svg$/,
+        exclude: [
+          /\/src\/assets\/icons\/.*\.svg$/,
+          /\/src\/assets\/tick_with_background\.svg$/,
+        ],
         use: [
           {
             loader: "url-loader",
@@ -54,6 +57,17 @@ module.exports = {
           },
         ],
       },
+      // {
+      //   test: /\/src\/assets\/tick_with_background\.svg$/,
+      //   use: [
+      //     {
+      //       loader: "file-loader",
+      //       options: {
+      //         limit: 10000,
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
   resolve: {

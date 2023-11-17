@@ -66,6 +66,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
 
   useEffect(() => {
+    console.log(cookies);
+    console.log(settings);
     const code = project.components.find(
       (item) => item.extension === extension && item.name === fileName,
     ).content;
