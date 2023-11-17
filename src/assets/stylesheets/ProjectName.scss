@@ -1,7 +1,7 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .project-name {
   align-items: center;
@@ -17,7 +17,7 @@
 .project-name__label {
   @include font-size-1(regular);
   font-weight: $font-weight-bold;
-  margin-bottom: $space-0-5;
+  margin-block-end: $space-0-5;
   display: block;
 }
 
