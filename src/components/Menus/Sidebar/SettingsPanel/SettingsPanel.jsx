@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SidebarPanel from "../SidebarPanel";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
@@ -8,13 +9,12 @@ import "../../../../assets/stylesheets/SettingsPanel.scss";
 
 const SettingsPanel = () => {
   const { t } = useTranslation();
+  const isThemeable = useSelector((state) => state.editor.isThemeable);
 
   return (
     <SidebarPanel heading={t("settingsPanel.info")}>
       <div className="settings-panel">
-        {/* <h3>{t("sidebar.settingsMenu.theme")}</h3> */}
-        <ThemeToggle />
-        {/* <h3>{t("sidebar.settingsMenu.textSize")}</h3> */}
+        {isThemeable && <ThemeToggle />}
         <FontSizeSelector />
       </div>
     </SidebarPanel>

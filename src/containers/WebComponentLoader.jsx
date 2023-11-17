@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -20,6 +20,7 @@ const WebComponentLoader = (props) => {
     instructions,
     withSidebar = false,
     sidebarOptions = [],
+    theme,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -32,10 +33,17 @@ const WebComponentLoader = (props) => {
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
-  const [cookies] = useCookies(["theme", "fontSize"]);
+  const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
+
+  useEffect(() => {
+    if (theme) {
+      dispatch(disableTheming());
+      setCookie("theme", theme, { path: "/" });
+    }
+  }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
     if (user) {
