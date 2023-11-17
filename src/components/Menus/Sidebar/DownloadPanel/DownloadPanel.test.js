@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import configureStore from "redux-mock-store";
 import FileSaver from "file-saver";
-
+import { WebComponentCustomEvents } from "../../../../events/WebComponentCustomEvents";
 jest.mock("file-saver");
 jest.mock("jszip");
 jest.mock("jszip-utils", () => ({
@@ -15,8 +15,8 @@ const signUpHandler = jest.fn();
 let container;
 
 beforeAll(() => {
-  document.addEventListener("editor-logIn", logInHandler);
-  document.addEventListener("editor-signUp", signUpHandler);
+  document.addEventListener(WebComponentCustomEvents.LogIn, logInHandler);
+  document.addEventListener(WebComponentCustomEvents.SignUp, signUpHandler);
 });
 
 describe("DownloadPanel", () => {

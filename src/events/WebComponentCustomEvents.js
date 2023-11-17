@@ -1,3 +1,8 @@
+export const WebComponentCustomEvents = {
+  LogIn: "editor-logIn",
+  SignUp: "editor-signUp",
+};
+
 const webComponentCustomEvent = (type, detail) =>
   new CustomEvent(type, {
     bubbles: true,
@@ -17,7 +22,7 @@ export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
 
 export const logInEvent = (detail) =>
-  webComponentCustomEvent("editor-logIn", detail);
+  webComponentCustomEvent(WebComponentCustomEvents.LogIn, detail);
 
 export const signUpEvent = (detail) =>
-  webComponentCustomEvent("editor-signUp", detail);
+  webComponentCustomEvent(WebComponentCustomEvents.SignUp, detail);
