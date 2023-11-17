@@ -11,11 +11,12 @@ jest.mock("jszip-utils", () => ({
   getBinaryContent: jest.fn(),
 }));
 const logInHandler = jest.fn();
-
+const signUpHandler = jest.fn();
 let container;
 
 beforeAll(() => {
   document.addEventListener("editor-logIn", logInHandler);
+  document.addEventListener("editor-signUp", signUpHandler);
 });
 
 describe("DownloadPanel", () => {
@@ -76,12 +77,20 @@ describe("DownloadPanel", () => {
     expect(container.getByText("downloadPanel.downloadHint")).not.toBeNull();
   });
 
-  test("calls logIn when clicked", async () => {
+  test("the log-in button calls a logInHandler when clicked", async () => {
     const logInButton = screen.getByText(
       "downloadPanel.logInButton",
     ).parentElement;
     fireEvent.click(logInButton);
     await waitFor(() => expect(logInHandler).toHaveBeenCalled());
+  });
+
+  test("the sign-up button calls a signUpHandler when clicked", async () => {
+    const signUpButton = screen.getByText(
+      "downloadPanel.signUpButton",
+    ).parentElement;
+    fireEvent.click(signUpButton);
+    await waitFor(() => expect(signUpHandler).toHaveBeenCalled());
   });
 
   test("Renders the download button", () => {
@@ -99,4 +108,5 @@ describe("DownloadPanel", () => {
 
 afterAll(() => {
   document.removeEventListener("editor-logIn", logInHandler);
+  document.addEventListener("editor-signUp", signUpHandler);
 });

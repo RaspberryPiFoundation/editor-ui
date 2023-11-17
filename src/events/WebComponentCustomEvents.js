@@ -18,3 +18,6 @@ export const stepChangedEvent = (detail) =>
 
 export const logInEvent = (detail) =>
   webComponentCustomEvent("editor-logIn", detail);
+
+export const signUpEvent = (detail) =>
+  webComponentCustomEvent("editor-signUp", detail);

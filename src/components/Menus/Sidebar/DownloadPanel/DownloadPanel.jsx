@@ -4,7 +4,10 @@ import { useTranslation } from "react-i18next";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
-import { logInEvent } from "../../../../events/WebComponentCustomEvents";
+import {
+  logInEvent,
+  signUpEvent,
+} from "../../../../events/WebComponentCustomEvents";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
@@ -12,6 +15,10 @@ export const DownloadPanel = () => {
 
   const handleLogIn = () => {
     document.dispatchEvent(logInEvent());
+  };
+
+  const handleSignUp = () => {
+    document.dispatchEvent(signUpEvent());
   };
 
   return (
@@ -32,9 +39,7 @@ export const DownloadPanel = () => {
             className="btn btn--secondary download-panel__button"
             text={t("downloadPanel.signUpButton")}
             type="secondary"
-            onClick={() => {
-              console.log("Sign up clicked");
-            }}
+            onClick={handleSignUp}
           />
         </div>
         <p>{t("downloadPanel.downloadHint")}</p>
