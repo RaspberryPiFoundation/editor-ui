@@ -9,7 +9,7 @@
 @use "./Project" as *;
 @use "./MobileProject" as *;
 @use "./Button" as *;
-@use "./DesignSystemButton.scss" as *;
+@use "./DesignSystemButton" as *;
 @use "./DraggableTabs" as *;
 @use "./ResizableWithHandle" as *;
 @use "./EditorInput" as *;
@@ -17,15 +17,15 @@
 @use "./Sidebar" as *;
 @use "./ProjectsPanel" as *;
 @use "./ProjectName" as *;
-@use "./ProjectInfo" as *; 
+@use "./ProjectInfo" as *;
 @use "./NewComponentButton" as *;
-@use "./DownloadPanel.scss";
+@use "./DownloadPanel";
 @use "./SettingsPanel" as *;
 @use "./ThemeToggle" as *;
 @use "./FontSizeSelector" as *;
 @use "./SelectButtons" as *;
 @use "./InfoPanel" as *;
-@use "./ProgressBar.scss" as *;
+@use "./ProgressBar" as *;
 @use "./RunBar" as *;
 @use "./RunnerControls" as *;
 @use "./PythonRunner" as *;
