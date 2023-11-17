@@ -90,7 +90,7 @@ $small-table-grid: 600px;
     p {
       @include font-size-1-25(regular);
       font-weight: $font-weight-bold;
-      margin: 0 0;
+      margin: 0;
       padding: $space-1-5;
     }
   }

@@ -73,12 +73,12 @@
 
 .modal-content__subheading {
   @include font-size-1(regular);
-  margin: 0 0;
+  margin: 0;
   font-weight: $font-weight-bold;
 }
 
 .modal-content__text {
-  margin: 0 0;
+  margin: 0;
   line-height: $line-height-regular;
 }
 
@@ -114,7 +114,7 @@
 
   button,
   a {
-    margin: 0 0;
+    margin: 0;
 
     span {
       width: 100%;

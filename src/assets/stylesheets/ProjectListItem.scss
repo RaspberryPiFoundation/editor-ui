@@ -26,7 +26,7 @@ $small-table-grid: 600px;
     @include unique-max-width($small-table-grid) {
       grid-column: span 8;
       padding: 0;
-      margin: 0 0;
+      margin: 0;
     }
   }
 
@@ -63,7 +63,7 @@ $small-table-grid: 600px;
     }
 
     svg {
-      margin: 0 0;
+      margin: 0;
     }
 
     @include unique-width($medium-table-grid) {

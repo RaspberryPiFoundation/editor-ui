@@ -57,7 +57,7 @@
   font-weight: $font-weight-bold;
   gap: $space-0-5;
   justify-content: center;
-  margin: 6px 6px;
+  margin: 6px;
   min-height: 44px;
   min-width: 44px;
   padding: 10px;
@@ -113,7 +113,7 @@
   &--tertiary {
     $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit, inherit;
     @include button-styling($colours...);
-      margin: 0 0;
+      margin: 0;
 
     &:active {
       color: $rpf-teal-900;
@@ -150,7 +150,7 @@
 
   &--svg-only {
     svg {
-      margin: 0 0;
+      margin: 0;
     }
   }
 }

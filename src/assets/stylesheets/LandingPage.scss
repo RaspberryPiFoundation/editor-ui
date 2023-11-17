@@ -27,7 +27,7 @@
 
 .landing-page__projects--title {
   @include font-size-2-5(regular);
-  margin: $space-1 $space-1;
+  margin: $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-3(regular);
@@ -37,7 +37,7 @@
 .landing-page__projects--subtitle {
   @include font-size-1-5(regular);
   font-weight: $font-weight-regular;
-  margin: $space-1 $space-1;
+  margin: $space-1;
 
   @media screen and (min-width: 375px) {
     @include font-size-2(regular);
@@ -72,10 +72,10 @@
 }
 
 .landing-page__paths-copy {
-  margin: auto auto;
+  margin: auto;
 
   @media screen and (min-width: 768px) {
-    margin: unset unset;
+    margin: unset;
     max-width: 300px;
   }
 }
@@ -115,7 +115,7 @@
   img {
     aspect-ratio: 3/2;
     display: block;
-    margin: auto auto;
+    margin: auto;
     max-width: 301px;
     width: 100%;
   }
@@ -124,7 +124,7 @@
     margin-inline-start: auto;
 
     img {
-      margin: unset unset;
+      margin: unset;
       width: unset;
     }
   }
