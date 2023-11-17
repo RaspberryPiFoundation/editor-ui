@@ -13,12 +13,6 @@
 .select-buttons__legend {
   padding: 0;
   margin-bottom: $space-1;
-  @include font-size-1-25(regular);
-  font-weight: $font-weight-bold;
-
-  @include sm-width-only {
-    @include font-size-1(regular);
-  }
 }
 
 .select-buttons__options {
@@ -46,6 +40,7 @@
   position: relative;
   box-sizing: border-box;
   font-weight: $font-weight-bold;
+  cursor: pointer;
 }
 
 .select-buttons__tick {

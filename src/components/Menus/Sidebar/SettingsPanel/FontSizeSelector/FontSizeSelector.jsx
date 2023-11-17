@@ -30,17 +30,17 @@ const FontSizeSelector = () => {
         {
           value: "small",
           label: t("sidebar.settingsMenu.textSizeOptions.small"),
-          icon: FontIconSm,
+          Icon: FontIconSm,
         },
         {
           value: "medium",
           label: t("sidebar.settingsMenu.textSizeOptions.medium"),
-          icon: FontIconRg,
+          Icon: FontIconRg,
         },
         {
           value: "large",
           label: t("sidebar.settingsMenu.textSizeOptions.large"),
-          icon: FontIconLg,
+          Icon: FontIconLg,
         },
       ]}
       value={fontSize}
