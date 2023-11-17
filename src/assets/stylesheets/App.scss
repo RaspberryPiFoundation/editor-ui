@@ -27,6 +27,16 @@ input {
 }
 
 .--light {
+  --editor-color-layer-1: #{$rpf-teal-100};
+  --editor-color-layer-2: #{$rpf-white};
+  --editor-color-layer-3: #{$rpf-white};
+  --editor-color-outline: #{$rpf-grey-150};
+  --editor-color-theme: #{$rpf-teal-800};
+  --editor-color-theme-secondary: #{$rpf-teal-900};
+  --editor-color-theme-tertiary: #{$rpf-teal-100};
+  --editor-color-text: #{$rpf-text-primary};
+  --editor-color-text-secondary: #{$rpf-text-secondary};
+
   background-color: $rpf-teal-100;
   color: $rpf-text-primary;
   caret-color: $rpf-black;
@@ -41,6 +51,16 @@ input {
 }
 
 .--dark {
+  --editor-color-layer-1: #{$rpf-grey-850};
+  --editor-color-layer-2: #{$rpf-grey-800};
+  --editor-color-layer-3: #{$rpf-grey-700};
+  --editor-color-outline: #{$rpf-grey-600};
+  --editor-color-theme: #{$rpf-teal-400};
+  --editor-color-theme-secondary: #{$rpf-teal-400};
+  --editor-color-theme-tertiary: #{$rpf-teal-900};
+  --editor-color-text: #{$rpf-white};
+  --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
+
   background-color: $rpf-grey-900;
   color: $rpf-white;
   caret-color: $rpf-white;
