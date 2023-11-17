@@ -55,27 +55,33 @@ describe("DownloadPanel", () => {
     );
   });
   test("Renders the correct heading", () => {
-    expect(container.getByText("downloadPanel.heading")).not.toBeNull();
+    expect(container.getByText("downloadPanel.heading")).toBeInTheDocument();
   });
 
   test("Renders the correct subtitle", () => {
-    expect(container.getByText("downloadPanel.subtitle")).not.toBeNull();
+    expect(container.getByText("downloadPanel.subtitle")).toBeInTheDocument();
   });
 
   test("Renders the log-in hint", () => {
-    expect(container.getByText("downloadPanel.logInHint")).not.toBeNull();
+    expect(container.getByText("downloadPanel.logInHint")).toBeInTheDocument();
   });
 
   test("Renders the log-in button", () => {
-    expect(container.getByText("downloadPanel.logInButton")).not.toBeNull();
+    expect(
+      container.getByText("downloadPanel.logInButton"),
+    ).toBeInTheDocument();
   });
 
   test("Renders the sign-up button", () => {
-    expect(container.getByText("downloadPanel.signUpButton")).not.toBeNull();
+    expect(
+      container.getByText("downloadPanel.signUpButton"),
+    ).toBeInTheDocument();
   });
 
   test("Renders the donwload hint", () => {
-    expect(container.getByText("downloadPanel.downloadHint")).not.toBeNull();
+    expect(
+      container.getByText("downloadPanel.downloadHint"),
+    ).toBeInTheDocument();
   });
 
   test("the log-in button calls a logInHandler when clicked", async () => {
@@ -95,7 +101,9 @@ describe("DownloadPanel", () => {
   });
 
   test("Renders the download button", () => {
-    expect(container.getByText("downloadPanel.downloadButton")).not.toBeNull();
+    expect(
+      container.getByText("downloadPanel.downloadButton"),
+    ).toBeInTheDocument();
   });
 
   test("The download button initiates a download", async () => {
