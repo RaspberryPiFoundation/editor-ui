@@ -42,37 +42,6 @@ const ThemeToggle = () => {
       value={isDarkMode ? "dark" : "light"}
       setValue={setTheme}
     />
-
-    // <div className="theme-toggle settings-panel__items">
-    //   <div
-    //     className="theme-btn theme-btn--light"
-    //     onClick={() => setTheme("light")}
-    //   >
-    //     <button
-    //       className={`theme-btn__icon theme-btn__icon--light ${
-    //         !isDarkMode ? "theme-btn__icon--active" : null
-    //       }`}
-    //     >
-    //       <span className="theme-btn__icon--text">
-    //         {t("sidebar.settingsMenu.themeOptions.light")}
-    //       </span>
-    //     </button>
-    //   </div>
-    //   <div
-    //     className="theme-btn theme-btn--dark"
-    //     onClick={() => setTheme("dark")}
-    //   >
-    //     <button
-    //       className={`theme-btn__icon theme-btn__icon--dark ${
-    //         isDarkMode ? "theme-btn__icon--active" : null
-    //       }`}
-    //     >
-    //       <span className="theme-btn__icon--text">
-    //         {t("sidebar.settingsMenu.themeOptions.dark")}
-    //       </span>
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 

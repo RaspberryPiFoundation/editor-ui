@@ -46,55 +46,6 @@ const FontSizeSelector = () => {
       value={fontSize}
       setValue={setFontSize}
     />
-    // <div className="font-size-selector settings-panel__items">
-    //   <div
-    //     className="font-btn font-btn--small"
-    //     onClick={() => setFontSize("small")}
-    //   >
-    //     <button
-    //       className={`font-btn__icon font-btn__icon--small ${
-    //         fontSize === "small" ? "font-btn__icon--active" : ""
-    //       }`}
-    //     >
-    //       <span className="font-btn__icon--text">
-    //         <FontIconSm />
-    //         {t("sidebar.settingsMenu.textSizeOptions.small")}
-    //       </span>
-    //     </button>
-    //   </div>
-    //   <div
-    //     className="font-btn font-btn--medium"
-    //     onClick={() => setFontSize("medium")}
-    //   >
-    //     <button
-    //       className={`font-btn__icon font-btn__icon--medium ${
-    //         fontSize === "medium" ? "font-btn__icon--active" : ""
-    //       }`}
-    //     >
-    //       <span className="font-btn__icon--text">
-    //         {" "}
-    //         <FontIconRg />
-    //         {t("sidebar.settingsMenu.textSizeOptions.medium")}
-    //       </span>
-    //     </button>
-    //   </div>
-    //   <div
-    //     className="font-btn font-btn--large"
-    //     onClick={() => setFontSize("large")}
-    //   >
-    //     <button
-    //       className={`font-btn__icon font-btn__icon--large ${
-    //         fontSize === "large" ? "font-btn__icon--active" : ""
-    //       }`}
-    //     >
-    //       <span className="font-btn__icon--text">
-    //         {" "}
-    //         <FontIconLg />
-    //         {t("sidebar.settingsMenu.textSizeOptions.large")}
-    //       </span>
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 
