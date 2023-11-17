@@ -40,6 +40,7 @@
   padding: $space-1;
   border-radius: 0 8px 8px 0;
   width: inherit;
+  position: relative;
 }
 
 .sidebar__panel-heading {
@@ -56,10 +57,25 @@
 
 .sidebar__panel-content {
   flex: 1;
-  padding: $space-1 0;
+  padding-top: $space-1;
   overflow-y: scroll;
   scrollbar-width: none;
-  margin-bottom: $space-2;
+}
+
+.sidebar__panel-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: $space-0-25;
+  box-sizing: border-box;
+  border-radius: 0 0 8px 0;
+}
+
+.sidebar__panel--with-footer {
+  .sidebar__panel-content {
+    padding-bottom: $space-2;
+  }
 }
 
 .sidebar__bar-option-wrapper {
@@ -144,6 +160,11 @@
   .sidebar__panel-header {
     border-bottom: 1px solid $rpf-grey-600;
   }
+
+  .sidebar__panel-footer {
+    background-color: $rpf-grey-700;
+    border-top: 1px solid $rpf-grey-600;
+  }
 }
 
 .--light {
@@ -188,5 +209,10 @@
 
   .sidebar__panel-header {
     border-bottom: 1px solid $rpf-grey-150;
+  }
+
+  .sidebar__panel-footer {
+    background-color: $rpf-white;
+    border-top: 1px solid $rpf-grey-150;
   }
 }

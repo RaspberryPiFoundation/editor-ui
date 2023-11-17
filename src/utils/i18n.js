@@ -221,13 +221,18 @@ i18n
           imagePanel: {
             gallery: "Image Gallery",
           },
+          infoPanel: {
+            info: "Information",
+          },
+          instructionsPanel: {
+            nextStep: "Next step",
+            previousStep: "Previous step",
+            projectSteps: "Project steps",
+          },
           projectsPanel: {
             projects: "Projects",
             yourProjectsButton: "Go to your projects",
             projectTypeLabel: "Project type",
-          },
-          infoPanel: {
-            info: "Information",
           },
           settingsPanel: {
             info: "Settings",
@@ -411,6 +416,7 @@ i18n
             information: "Information",
             information_text:
               "Our Code Editor is a tool young people can use while they learn to write code. To keep it simple and safe, we have not built certain functions, like being able to add links to other websites in your code.",
+            instructions: "Project steps",
             feedback: "Feedback",
             privacy: "Privacy",
             cookies: "Cookies",
