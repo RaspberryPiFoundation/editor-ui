@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Added download panel for sidebar (#744)
+- DownloadOanel for sidebar (#744)
+- Custom events for Log In and Sign Up from DownloadPanel (#744)
 - SVGO config file (#720)
 
 ### Changed
@@ -44,7 +45,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added p5 library that can access WebComponent shadowRoot (#731)
 - Allow external rpf.io links (#729)
-
 
 ## [0.19.3] - 2023-10-25
 
