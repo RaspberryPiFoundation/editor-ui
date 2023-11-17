@@ -1,5 +1,5 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
 
 .proj-container--mobile {
   margin: 0;
@@ -14,20 +14,21 @@
   border-radius: 8px;
 }
 
-#app, #wc {
+#app,
+#wc {
   .mobile-nav {
     display: flex;
     width: 100%;
-  
+
     .react-tabs__tab-list {
       padding: 0;
     }
-  
+
     .react-tabs__tab {
       flex: 1;
       display: flex;
       height: $space-4;
-  
+
       &:last-of-type {
         border-right: none;
       }
@@ -79,7 +80,10 @@
   }
 }
 
-#app.--light, #app.--dark, #wc.--light, #wc.--dark {
+#app.--light,
+#app.--dark,
+#wc.--light,
+#wc.--dark {
   .mobile-nav {
     border-bottom: none;
 

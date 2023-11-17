@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .files-list-item-wrapper {
   display: flex;
@@ -35,7 +35,8 @@
 }
 
 .--light {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-teal-secondary-tertiary-hover;
     }
@@ -47,7 +48,8 @@
 }
 
 .--dark {
-  .files-list-item, .files-list-item__menu {
+  .files-list-item,
+  .files-list-item__menu {
     &:hover {
       background-color: $rpf-grey-secondary-tertiary-hover;
     }

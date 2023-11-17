@@ -25,6 +25,7 @@ const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const SVGOConfig = require("./svgo.config.js");
 
 const postcssNormalize = require("postcss-normalize");
 
@@ -539,6 +540,7 @@ module.exports = function (webpackEnv) {
               loader: require.resolve("@svgr/webpack"),
               options: {
                 esModule: false,
+                svgoConfig: SVGOConfig,
               },
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.

@@ -175,6 +175,17 @@ i18n
               renameItem: "Rename file",
             },
           },
+          downloadPanel: {
+            heading: "Download",
+            subtitle: "Log in to save your progress",
+            logInHint:
+              "Log in with your Raspberry Pi Account to save your code and project steps progress.",
+            logInButton: "Log in",
+            signUpButton: "Sign up",
+            downloadHint:
+              "Download your project files so you can use them offline and in a different code editor.",
+            downloadButton: "Download project",
+          },
           landingPage: {
             title: "Code Editor",
             subtitle: "Start coding, no setup required!",
@@ -408,6 +419,7 @@ i18n
           },
           sidebar: {
             collapse: "Collapse file pane",
+            download: "Download project",
             expand: "Expand file pane",
             file: "Project files",
             images: "Image gallery",

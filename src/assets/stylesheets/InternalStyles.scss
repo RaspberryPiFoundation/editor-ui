@@ -1,7 +1,7 @@
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/spacing';
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/spacing";
 
 @use './App' as *;
 @use './WebComponent' as *;
@@ -19,16 +19,15 @@
 @use './ProjectName' as *;
 @use './ProjectInfo' as *; 
 @use './NewComponentButton' as *;
+@use "./DownloadPanel.scss";
 @use './SettingsPanel' as *;
-@use './SelectButtons' as *;
 @use './ThemeToggle' as *;
+@use './FontSizeSelector' as *;
+@use './SelectButtons' as *;
 @use './InfoPanel' as *;
 @use './ProgressBar.scss' as *;
 @use './RunBar' as *;
 @use './RunnerControls' as *;
-@use './ThemeToggle' as *;
-@use './FontSizeSelector' as *;
-@use './EditorPanel' as *;
 @use './PythonRunner' as *;
 @use './ErrorMessage' as *;
 @use './OutputViewToggle' as *;

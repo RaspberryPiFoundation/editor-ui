@@ -21,7 +21,7 @@
     border-radius: 8px;
     background-color: $rpf-teal-200;
     font-weight: $font-weight-bold;
-    margin-right: $space-1-5;
+    margin-inline-end: $space-1-5;
   }
 }
 
@@ -51,12 +51,12 @@
 }
 
 .editor-banner__close-button {
-  margin-left: auto;
+  margin-inline-start: auto;
 
   &.btn--tertiary {
     svg {
       fill: $rpf-text-primary;
-      margin-right: 0;
+      margin-inline-end: 0;
     }
 
     &:hover {

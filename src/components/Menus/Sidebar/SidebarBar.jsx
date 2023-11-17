@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
-import DoubleChevronLeft from "../../../assets/icons/double_chevron_left.svg";
-import DoubleChevronRight from "../../../assets/icons/double_chevron_right.svg";
+import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
+import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
 import { hideSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
@@ -74,33 +74,33 @@ const SidebarBar = (props) => {
         ))}
         {!isMobile ? (
           option ? (
-            <Button
-              className="btn--tertiary"
-              ButtonIcon={DoubleChevronLeft}
-              title={t("sidebar.collapse")}
-              buttonOuter
-              buttonOuterClassName="sidebar-collapse-button"
-              onClickHandler={collapsePopOut}
-            />
+            <div className="sidebar__bar-option-wrapper">
+              <Button
+                className="sidebar__bar-option"
+                ButtonIcon={DoubleArrowLeft}
+                title={t("sidebar.collapse")}
+                onClickHandler={collapsePopOut}
+              />
+            </div>
           ) : (
-            <Button
-              className="btn--tertiary"
-              ButtonIcon={DoubleChevronRight}
-              title={t("sidebar.expand")}
-              buttonOuter
-              buttonOuterClassName="sidebar-expand-button"
-              onClickHandler={expandPopOut}
-            />
+            <div className="sidebar__bar-option-wrapper">
+              <Button
+                className="sidebar__bar-option"
+                ButtonIcon={DoubleArrowRight}
+                title={t("sidebar.expand")}
+                onClickHandler={expandPopOut}
+              />
+            </div>
           )
         ) : (
-          <Button
-            className="btn--tertiary"
-            ButtonIcon={CloseIcon}
-            title={t("sidebar.expand")}
-            buttonOuter
-            buttonOuterClassName="sidebar-expand-button"
-            onClickHandler={collapseSidebar}
-          />
+          <div className="sidebar__bar-option-wrapper sidebar__bar-close">
+            <Button
+              className="sidebar__bar-option"
+              ButtonIcon={CloseIcon}
+              title={t("sidebar.expand")}
+              onClickHandler={collapseSidebar}
+            />
+          </div>
         )}
       </div>
     </div>
