@@ -12,6 +12,15 @@ jest.mock("jszip-utils", () => ({
 }));
 
 let container;
+
+const logInHandler = jest.fn();
+const signUpHandler = jest.fn();
+
+beforeAll(() => {
+  document.addEventListener("editor-logIn", logInHandler);
+  document.addEventListener("editor-signUp", signUpHandler);
+});
+
 describe("DownloadPanel", () => {
   beforeEach(() => {
     const middlewares = [];
@@ -76,6 +85,22 @@ describe("DownloadPanel", () => {
     ).toBeInTheDocument();
   });
 
+  test("the log-in button calls a logInHandler when clicked", () => {
+    const logInButton = screen.getByText(
+      "downloadPanel.logInButton",
+    ).parentElement;
+    fireEvent.click(logInButton);
+    expect(logInHandler).toHaveBeenCalled();
+  });
+
+  test("the sign-up button calls a signUpHandler when clicked", () => {
+    const signUpButton = screen.getByText(
+      "downloadPanel.signUpButton",
+    ).parentElement;
+    fireEvent.click(signUpButton);
+    expect(signUpHandler).toHaveBeenCalled();
+  });
+
   test("Renders the download button", () => {
     expect(
       container.getByText("downloadPanel.downloadButton"),
@@ -89,4 +114,9 @@ describe("DownloadPanel", () => {
     fireEvent.click(webComponentDownloadButton);
     await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
   });
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-logIn", logInHandler);
+  document.removeEventListener("editor-signUp", signUpHandler);
 });
