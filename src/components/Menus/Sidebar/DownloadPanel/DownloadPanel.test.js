@@ -107,12 +107,12 @@ describe("DownloadPanel", () => {
     ).toBeInTheDocument();
   });
 
-  test("The download button initiates a download", async () => {
+  test("The download button initiates a download", () => {
     const webComponentDownloadButton = screen.getByText(
       "downloadPanel.downloadButton",
     ).parentElement;
     fireEvent.click(webComponentDownloadButton);
-    await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
+    waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
   });
 });
 

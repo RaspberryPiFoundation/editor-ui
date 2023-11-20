@@ -16,8 +16,6 @@ export const runStartedEvent = webComponentCustomEvent("editor-runStarted");
 export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
 
-export const logInEvent = (detail) =>
-  webComponentCustomEvent("editor-logIn", detail);
+export const logInEvent = () => webComponentCustomEvent("editor-logIn");
 
-export const signUpEvent = (detail) =>
-  webComponentCustomEvent("editor-signUp", detail);
+export const signUpEvent = () => webComponentCustomEvent("editor-signUp");
