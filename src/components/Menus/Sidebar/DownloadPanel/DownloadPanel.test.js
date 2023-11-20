@@ -93,12 +93,12 @@ describe("DownloadPanel", () => {
     await waitFor(() => expect(logInHandler).toHaveBeenCalled());
   });
 
-  test("the sign-up button calls a signUpHandler when clicked", async () => {
+  test("the sign-up button calls a signUpHandler when clicked", () => {
     const signUpButton = screen.getByText(
       "downloadPanel.signUpButton",
     ).parentElement;
     fireEvent.click(signUpButton);
-    await waitFor(() => expect(signUpHandler).toHaveBeenCalled());
+    expect(signUpHandler).toHaveBeenCalled();
   });
 
   test("Renders the download button", () => {
