@@ -62,7 +62,9 @@ describe("DownloadPanel", () => {
     });
 
     test("Renders the correct subtitle", () => {
-      expect(container.getByText("downloadPanel.subtitle")).toBeInTheDocument();
+      expect(
+        container.getByText("downloadPanel.logInTitle"),
+      ).toBeInTheDocument();
     });
 
     test("Renders the log-in hint", () => {
@@ -165,7 +167,7 @@ describe("DownloadPanel", () => {
 
     test("Does not render the log-in subtitle", () => {
       expect(
-        container.queryByText("downloadPanel.subtitle"),
+        container.queryByText("downloadPanel.logInTitle"),
       ).not.toBeInTheDocument();
     });
 

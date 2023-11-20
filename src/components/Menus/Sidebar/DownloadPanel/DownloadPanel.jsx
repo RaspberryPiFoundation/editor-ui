@@ -29,7 +29,7 @@ export const DownloadPanel = () => {
         {!user && (
           <>
             <div className="download-panel__subtitle">
-              {t("downloadPanel.subtitle")}
+              {t("downloadPanel.logInTitle")}
             </div>
             <p>{t("downloadPanel.logInHint")}</p>
             <div className="download-panel__button-container">
