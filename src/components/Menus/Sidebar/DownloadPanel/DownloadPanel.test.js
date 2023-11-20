@@ -85,12 +85,12 @@ describe("DownloadPanel", () => {
     ).toBeInTheDocument();
   });
 
-  test("the log-in button calls a logInHandler when clicked", async () => {
+  test("the log-in button calls a logInHandler when clicked", () => {
     const logInButton = screen.getByText(
       "downloadPanel.logInButton",
     ).parentElement;
     fireEvent.click(logInButton);
-    await waitFor(() => expect(logInHandler).toHaveBeenCalled());
+    expect(logInHandler).toHaveBeenCalled();
   });
 
   test("the sign-up button calls a signUpHandler when clicked", () => {
@@ -107,12 +107,12 @@ describe("DownloadPanel", () => {
     ).toBeInTheDocument();
   });
 
-  test("The download button initiates a download", () => {
+  test("The download button initiates a download", async () => {
     const webComponentDownloadButton = screen.getByText(
       "downloadPanel.downloadButton",
     ).parentElement;
     fireEvent.click(webComponentDownloadButton);
-    waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
+    await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
   });
 });
 
