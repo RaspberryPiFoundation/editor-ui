@@ -14,11 +14,11 @@ export const DownloadPanel = () => {
   const { t } = useTranslation();
 
   const handleLogIn = () => {
-    document.dispatchEvent(logInEvent());
+    document.dispatchEvent(logInEvent);
   };
 
   const handleSignUp = () => {
-    document.dispatchEvent(signUpEvent());
+    document.dispatchEvent(signUpEvent);
   };
 
   return (
