@@ -74,12 +74,7 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
       <style>{externalStyles.toString()}</style>
       <Style>
         {internalStyles}
-        <div
-          id="wc"
-          className={`--${cookies.theme || defaultTheme} font-size-${
-            cookies.fontSize || "small"
-          }`}
-        >
+        <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
           {isMobile ? (
             <MobileProject
               withSidebar={withSidebar}

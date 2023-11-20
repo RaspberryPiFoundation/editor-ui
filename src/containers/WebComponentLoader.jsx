@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
+import { SettingsContext } from "../utils/settings";
+import { useCookies } from "react-cookie";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -18,6 +20,7 @@ const WebComponentLoader = (props) => {
     instructions,
     withSidebar = false,
     sidebarOptions = [],
+    theme,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -29,6 +32,18 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+
+  const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
+  const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
+    ? "dark"
+    : "light";
+
+  useEffect(() => {
+    if (theme) {
+      dispatch(disableTheming());
+      setCookie("theme", theme, { path: "/" });
+    }
+  }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
     if (user) {
@@ -70,10 +85,17 @@ const WebComponentLoader = (props) => {
 
   return loading === "success" ? (
     <>
-      <WebComponentProject
-        withSidebar={withSidebar}
-        sidebarOptions={sidebarOptions}
-      />
+      <SettingsContext.Provider
+        value={{
+          theme: cookies.theme || themeDefault,
+          fontSize: cookies.fontSize || "small",
+        }}
+      >
+        <WebComponentProject
+          withSidebar={withSidebar}
+          sidebarOptions={sidebarOptions}
+        />
+      </SettingsContext.Provider>
     </>
   ) : (
     <>

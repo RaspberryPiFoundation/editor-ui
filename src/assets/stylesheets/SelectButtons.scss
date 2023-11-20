@@ -1,4 +1,5 @@
 @use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/mixins" as *;
 
@@ -37,6 +38,8 @@
   border-radius: 8px;
   position: relative;
   box-sizing: border-box;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
 }
 
 .select-buttons__tick {
