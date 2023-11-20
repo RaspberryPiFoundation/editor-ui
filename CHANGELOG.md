@@ -8,12 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Added download panel for sidebar (#744)
+- DownloadPanel for sidebar (#744)
+- Custom events for Log In and Sign Up from DownloadPanel (#744)
 - SVGO config file (#720)
 - Added ability to enable sidebar in web component (#738)
 - Added ability to customise sidebar options (#738)
 - Instructions Panel for the sidebar (#751, #768)
-
+- Added ability to fix the theme in the web component (#757)
+- Added ability to increase font size in the web component (#757)
+- 
 ### Changed
 
 - Sidebar - Refactored styles to be closer to designs (#720)
@@ -24,10 +27,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Move local development port to avoid projects-ui clash (#736)
 - Update design-system-react dependency to publicly available version
 - Storybook SVG loader added and store configured (#749)
+- Switched `FontSizeSelector` and `ThemeToggle` over to using the new `SelectButtons` (#757)
 
 ### Fixed
 
-- FileMenu alignment (#720)
+- `FileMenu` alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
 - Local docker setup for development (#739)
@@ -38,7 +42,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added p5 library that can access WebComponent shadowRoot (#731)
 - Allow external rpf.io links (#729)
-
 
 ## [0.19.3] - 2023-10-25
 

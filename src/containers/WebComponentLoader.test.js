@@ -3,10 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
-import { setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import { Cookies, CookiesProvider } from "react-cookie";
 
 jest.mock("../hooks/useProject", () => ({
   useProject: jest.fn(),
@@ -17,6 +18,7 @@ jest.mock("../hooks/useProjectPersistence", () => ({
 }));
 
 let store;
+let cookies;
 const code = "print('This project is amazing')";
 const identifier = "My amazing project";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
@@ -41,47 +43,88 @@ beforeEach(() => {
     auth: {},
   };
   store = mockStore(initialState);
-
-  render(
-    <Provider store={store}>
-      <WebComponentLoader
-        code={code}
-        identifier={identifier}
-        senseHatAlwaysEnabled={true}
-        instructions={instructions}
-        authKey={authKey}
-      />
-    </Provider>,
-  );
+  cookies = new Cookies();
 });
 
-test("Calls useProject hook with correct attributes", () => {
-  expect(useProject).toHaveBeenCalledWith({
-    projectIdentifier: identifier,
-    code,
-    accessToken: "my_token",
+describe("When props are set", () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader
+            code={code}
+            identifier={identifier}
+            senseHatAlwaysEnabled={true}
+            instructions={instructions}
+            authKey={authKey}
+            theme="light"
+          />
+        </CookiesProvider>
+      </Provider>,
+    );
+  });
+
+  test("Calls useProject hook with correct attributes", () => {
+    expect(useProject).toHaveBeenCalledWith({
+      projectIdentifier: identifier,
+      code,
+      accessToken: "my_token",
+    });
+  });
+
+  test("Calls useProjectPersistence hook with correct attributes", () => {
+    expect(useProjectPersistence).toHaveBeenCalledWith({
+      user,
+      project: { components: [] },
+    });
+  });
+
+  test("Enables the SenseHat", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setSenseHatAlwaysEnabled(true)]),
+    );
+  });
+
+  test("Sets the instructions", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setInstructions(instructions)]),
+    );
+  });
+
+  test("Disables theming", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([disableTheming()]),
+    );
+  });
+
+  test("Sets theme correctly", () => {
+    expect(cookies.cookies.theme).toEqual("light");
   });
 });
 
-test("Calls useProjectPersistence hook with correct attributes", () => {
-  expect(useProjectPersistence).toHaveBeenCalledWith({
-    user,
-    project: { components: [] },
+describe("When theme is not set", () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader />
+        </CookiesProvider>
+      </Provider>,
+    );
   });
-});
 
-test("Enables the SenseHat", () => {
-  expect(store.getActions()).toEqual(
-    expect.arrayContaining([setSenseHatAlwaysEnabled(true)]),
-  );
-});
+  test("Does not disable theming", () => {
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([disableTheming()]),
+    );
+  });
 
-test("Sets the instructions", () => {
-  expect(store.getActions()).toEqual(
-    expect.arrayContaining([setInstructions(instructions)]),
-  );
+  test("Does not set the theme", () => {
+    expect(cookies.cookies.theme).toBeUndefined();
+  });
 });
 
 afterEach(() => {
   localStorage.clear();
+  cookies.remove("theme");
 });
