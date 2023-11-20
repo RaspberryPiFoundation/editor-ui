@@ -43,6 +43,7 @@ class WebComponent extends HTMLElement {
       "instructions",
       "with_sidebar",
       "sidebar_options",
+      "theme",
     ];
   }
 
