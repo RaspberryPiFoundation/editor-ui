@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added download panel for sidebar (#744)
 - SVGO config file (#720)
+- Added ability to enable sidebar in web component (#738)
+- Added ability to customise sidebar options (#738)
+- Instructions Panel for the sidebar (#751, #768)
 
 ### Changed
 
@@ -24,9 +27,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - FileMenu alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
-- Added ability to enable sidebar in web component (#738)
-- Added ability to customise sidebar options (#738)
-- Instructions Panel for the sidebar (#751)
 
 ### Changed
 
