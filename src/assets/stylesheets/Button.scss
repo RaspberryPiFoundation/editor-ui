@@ -9,6 +9,13 @@
   --rpf-button-primary-background-color-active: var(--rpf-teal-600);
   --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
   --rpf-button-primary-text-color: var(--rpf-white);
+
+  --rpf-button-secondary-background-color: var(--rpf-teal-800);
+  --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
+  --rpf-button-secondary-background-color-hover: var(--rpf-grey-600);
+  --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
+  --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50); // might not exist
+  --rpf-button-secondary-text-color: var(--rpf-white);
 }
 
 @mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
@@ -101,25 +108,26 @@
   }
 
   &--secondary {
-    $colours: inherit, inherit, $rpf-grey-50, $rpf-grey-600, inherit, inherit;
+    $colours: inherit, inherit, var(--rpf-button-secondary-background-color-disabled), var(--rpf-button-secondary-background-color-active), inherit, inherit;
     @include button-styling($colours...);
 
-    border: 2px solid $rpf-teal-800;
+    border: 2px solid var(--rpf-button-secondary-background-color);
 
     &:active {
-      border: 2px solid $rpf-teal-900;
+      border: 2px solid var(--rpf-button-secondary-background-color-active);
     }
 
     &:hover {
-      color: $rpf-grey-600;
+      color: var(--rpf-button-secondary-background-color-hover);
+      border-color: var(--rpf-button-secondary-background-color-hover) !important;
 
       svg {
-        fill: $rpf-grey-600;
+        fill: var(--rpf-button-secondary-background-color-hover);
       }
     }
 
     &:focus-visible {
-      outline: 3px solid $rpf-brand-raspberry;
+      outline: 3px solid var(--rpf-button-secondary-background-color-focus);
     }
   }
 
