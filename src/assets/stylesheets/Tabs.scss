@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 #app,
 #wc {
@@ -115,7 +115,6 @@
 
   &.--light {
     .react-tabs {
-
       &__tab-container {
         border-bottom: 1px solid $rpf-grey-150;
       }

@@ -3,6 +3,8 @@ import InstructionsPanel from "./InstructionsPanel";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
+window.HTMLElement.prototype.scrollTo = jest.fn();
+
 beforeEach(() => {
   const mockStore = configureStore([]);
   const initialState = {
@@ -23,4 +25,10 @@ beforeEach(() => {
 
 test("Renders with correct instruction step content", () => {
   expect(screen.queryByText("step 1")).toBeInTheDocument();
+});
+
+test("Scrolls instructions to the top", () => {
+  expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
+    top: 0,
+  });
 });

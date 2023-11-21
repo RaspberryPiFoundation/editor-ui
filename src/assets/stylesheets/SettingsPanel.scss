@@ -1,46 +1,20 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .settings-panel {
-  font-family: sans-serif;
-  padding: $space-0-5;
-  margin-bottom: $space-0-5;
   display: flex;
   flex-direction: column;
-  gap: $space-0-5;
+  gap: $space-1-25;
+  padding: $space-0-25;
 
-  h3 {
+  .select-buttons__legend {
+    @include font-size-1-25;
     font-weight: $font-weight-bold;
-    margin: 0 0 $space-0-5 0;
   }
 
-  button {
-    font-family: sans-serif;
-  }
-
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-  }
-
-  &__items {
-    display: flex;
+  .select-buttons__options {
     flex-direction: column;
-    gap: $space-0-5;
-  }
-}
-
-.--light {
-  .settings-panel {
-    color: $rpf-text-primary;
-  }
-}
-
-.--dark {
-  .settings-panel {
-    color: $rpf-white;
   }
 }

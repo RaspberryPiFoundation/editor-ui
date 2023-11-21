@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 :root {
   --rpf-button-primary-background-color: var(--rpf-teal-800);
@@ -18,10 +18,18 @@
   --rpf-button-secondary-text-color: var(--rpf-white);
 }
 
-@mixin button-styling($bg, $active-bg, $dis-bg, $dis-c, $focus-bg, $hover-bg, $c: default) {
+@mixin button-styling(
+  $bg,
+  $active-bg,
+  $dis-bg,
+  $dis-c,
+  $focus-bg,
+  $hover-bg,
+  $c: default
+) {
   background-color: $bg;
 
-  @if $c == 'default' {
+  @if $c == "default" {
     color: var(--rpf-button-primary-text-color);
 
     svg {
@@ -35,17 +43,20 @@
     }
   }
 
-  &:active, .btn-outer:active & {
+  &:active,
+  .btn-outer:active & {
     background-color: $active-bg;
     @content;
   }
+
 
   &:focus-visible, .btn-outer:focus-visible & {
     background-color: $focus-bg;
     @content;
   }
-  
-  &:hover, .btn-outer:hover & {
+
+  &:hover,
+  .btn-outer:hover & {
     background-color: $hover-bg;
     @content;
   }
@@ -132,7 +143,8 @@
   }
 
   &--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit, inherit;
+    $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit,
+      inherit;
     @include button-styling($colours...);
     margin: 0;
 
@@ -154,7 +166,8 @@
   }
 
   &--danger {
-    $colours:  $rpf-alert-error, $rpf-alert-error, $rpf-alert-error, $rpf-white, $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
+    $colours: $rpf-alert-error, $rpf-alert-error, $rpf-alert-error, $rpf-white,
+      $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
     @include button-styling($colours...);
 
     &:focus-visible {
@@ -243,12 +256,14 @@
   }
 
   .btn--primary {
-    $colours: $rpf-teal-400, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700, $rpf-teal-400, $rpf-teal-600;
+    $colours: $rpf-teal-400, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700,
+      $rpf-teal-400, $rpf-teal-600;
     @include button-styling($colours...);
   }
 
   .btn--secondary {
-    $colours: inherit, inherit, $rpf-grey-700, $rpf-grey-100, inherit, inherit, $rpf-white;
+    $colours: inherit, inherit, $rpf-grey-700, $rpf-grey-100, inherit, inherit,
+      $rpf-white;
     @include button-styling($colours...);
 
     border: 2px solid $rpf-teal-400;
@@ -271,7 +286,8 @@
   }
 
   .btn--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-100, inherit, inherit, $rpf-white;
+    $colours: inherit, inherit, inherit, $rpf-grey-100, inherit, inherit,
+      $rpf-white;
     @include button-styling($colours...);
 
     &:active {
@@ -291,4 +307,3 @@
     }
   }
 }
-
