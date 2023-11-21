@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 import configureStore from "redux-mock-store";
 import FileSaver from "file-saver";
-import { error } from "console";
 
 jest.mock("file-saver");
 jest.mock("jszip");
