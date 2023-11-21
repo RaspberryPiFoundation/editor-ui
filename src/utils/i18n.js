@@ -177,7 +177,7 @@ i18n
           },
           downloadPanel: {
             heading: "Download",
-            subtitle: "Log in to save your progress",
+            logInTitle: "Log in to save your progress",
             logInHint:
               "Log in with your Raspberry Pi Account to save your code and project steps progress.",
             logInButton: "Log in",
