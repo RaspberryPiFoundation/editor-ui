@@ -45,6 +45,7 @@ describe("DownloadPanel", () => {
             ],
           },
         },
+        auth: {},
       };
       const store = mockStore(initialState);
 
