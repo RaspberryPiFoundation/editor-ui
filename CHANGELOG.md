@@ -16,7 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
-- 
+-
+
 ### Changed
 
 - Sidebar - Refactored styles to be closer to designs (#720)
@@ -28,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update design-system-react dependency to publicly available version
 - Storybook SVG loader added and store configured (#749)
 - Switched `FontSizeSelector` and `ThemeToggle` over to using the new `SelectButtons` (#757)
-- Download panel removes log-in prompts for logged-in users
+- Download panel removes log-in prompts for logged-in users (#744)
 
 ### Fixed
 
