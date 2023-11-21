@@ -46,6 +46,8 @@
   height: fill-available;
 
   .project-wrapper {
+    container-name: editor-project;
+    container-type: normal;
     display: flex;
     flex-direction: column;
     grid-gap: $space-0-5;
@@ -55,37 +57,18 @@
 
   .proj-editor-wrapper {
     display: flex;
-    flex: 0 1 auto;
-    flex-flow: column;
+    flex: 1 1 auto;
     grid-gap: $space-1;
     overflow: hidden;
     height: 100%;
     width: 100%;
   }
 
-  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 912px) {
-    // width is 880px for the container + the rest of the page
-    .proj-editor-wrapper {
-      flex-flow: row;
-    }
-
-    .proj-editor-container {
-      max-height: 100% !important;
-    }
-
-    &--wc {
-      .proj-runner-container,
-      .proj-editor-container {
-        width: 50%;
-      }
-    }
-  }
-
   .sidebar,
   .proj-editor-container,
   .proj-runner-container {
     border-radius: 8px;
+    height: 100%;
   }
 
   .proj-editor-container {
