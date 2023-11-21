@@ -12,7 +12,7 @@ import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
-import DownloadIcon from "../../../assets/icons/download.svg";
+import DownloadIcon from "../../../assets/icons/download_lg.svg";
 import StepsIcon from "../../../assets/icons/steps.svg";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 

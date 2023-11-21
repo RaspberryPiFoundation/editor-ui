@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import "../../../../assets/stylesheets/ProjectsPanel.scss";
 import ProjectName from "../../../ProjectName/ProjectName";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
-import DownloadIcon from "../../../../assets/icons/download.svg";
+import DownloadIcon from "../../../../assets/icons/download_sm.svg";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
 import { useSelector } from "react-redux";
