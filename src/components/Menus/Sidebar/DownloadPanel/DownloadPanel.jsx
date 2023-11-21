@@ -13,7 +13,7 @@ import "../../../../assets/stylesheets/DownloadPanel.scss";
 
 export const DownloadPanel = () => {
   const { t } = useTranslation();
-  const user = useSelector((state) => state?.auth?.user);
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogIn = () => {
     document.dispatchEvent(logInEvent);
