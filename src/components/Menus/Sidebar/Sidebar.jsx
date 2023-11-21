@@ -26,7 +26,7 @@ import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
 
-  const DownloadIconResized = () => <DownloadIcon width={24} height={24} />;
+  const DownloadIcon24x24 = () => <DownloadIcon width={24} height={24} />;
 
   let menuOptions = [
     {
@@ -59,7 +59,7 @@ const Sidebar = ({ options = [] }) => {
     },
     {
       name: "download",
-      icon: DownloadIconResized,
+      icon: DownloadIcon24x24,
       title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
