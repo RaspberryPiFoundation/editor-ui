@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
-- 
+
 ### Changed
 
 - Sidebar - Refactored styles to be closer to designs (#720)
@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
 - Local docker setup for development (#739)
+- Editor height overflow (#771)
 
 ## [0.19.4] - 2023-11-08
 
