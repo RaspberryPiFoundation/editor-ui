@@ -432,9 +432,6 @@ i18n
               },
             },
           },
-          webComponent: {
-            loading: "Loading",
-          },
         },
       },
     },

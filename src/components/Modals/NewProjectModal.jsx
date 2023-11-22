@@ -29,14 +29,14 @@ const NewProjectModal = () => {
   const navigate = useNavigate();
 
   const createProject = async () => {
-    // const response = await createOrUpdateProject(
-    //   { ...DEFAULT_PROJECTS[projectType], name: projectName },
-    //   user.access_token,
-    // );
-    // const identifier = response.data.identifier;
-    // const locale = i18n.language;
-    // closeModal();
-    // navigate(`/${locale}/projects/${identifier}`);
+    const response = await createOrUpdateProject(
+      { ...DEFAULT_PROJECTS[projectType], name: projectName },
+      user.access_token,
+    );
+    const identifier = response.data.identifier;
+    const locale = i18n.language;
+    closeModal();
+    navigate(`/${locale}/projects/${identifier}`);
   };
 
   return (
