@@ -1,9 +1,9 @@
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/spacing' as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/spacing" as *;
 
 .error-message {
   color: #7e0305;
-  background-color: #FDE2E1;
+  background-color: #fde2e1;
   padding: $space-0-75 $space-1-25;
 
   &__content {

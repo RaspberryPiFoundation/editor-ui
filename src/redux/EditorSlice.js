@@ -76,6 +76,7 @@ export const EditorSlice = createSlice({
   name: "editor",
   initialState: {
     project: {},
+    saveTriggered: false,
     saving: "idle",
     loading: "idle",
     justLoaded: false,
@@ -92,6 +93,7 @@ export const EditorSlice = createSlice({
     drawTriggered: false,
     isEmbedded: false,
     isSplitView: true,
+    isThemeable: true,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -208,6 +210,9 @@ export const EditorSlice = createSlice({
     triggerDraw: (state) => {
       state.drawTriggered = true;
     },
+    triggerSave: (state) => {
+      state.saveTriggered = true;
+    },
     updateProjectComponent: (state, action) => {
       const extension = action.payload.extension;
       const fileName = action.payload.name;
@@ -283,6 +288,7 @@ export const EditorSlice = createSlice({
     },
     closeLoginToSaveModal: (state) => {
       state.loginToSaveModalShowing = false;
+      state.saveTriggered = false;
     },
     closeNotFoundModal: (state) => {
       state.notFoundModalShowing = false;
@@ -334,10 +340,14 @@ export const EditorSlice = createSlice({
     hideSidebar: (state) => {
       state.sidebarShowing = false;
     },
+    disableTheming: (state) => {
+      state.isThemeable = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
       state.saving = "pending";
+      state.saveTriggered = false;
     });
     builder.addCase("editor/saveProject/fulfilled", (state, action) => {
       localStorage.removeItem(state.project.identifier || "project");
@@ -417,6 +427,7 @@ export const {
   stopDraw,
   triggerCodeRun,
   triggerDraw,
+  triggerSave,
   updateComponentName,
   updateImages,
   updateProjectComponent,
@@ -443,6 +454,7 @@ export const {
   setProjectIndexPage,
   showSidebar,
   hideSidebar,
+  disableTheming,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

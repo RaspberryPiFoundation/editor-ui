@@ -1,36 +1,21 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
-import { syncProject, showLoginToSaveModal } from "../../redux/EditorSlice";
-import { isOwner } from "../../utils/projectHelpers";
+import { triggerSave } from "../../redux/EditorSlice";
 
 const SaveButton = ({ className, type = "secondary" }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
   const loading = useSelector((state) => state.editor.loading);
 
   const onClickSave = async () => {
-    window.plausible("Save button");
-
-    if (isOwner(user, project)) {
-      dispatch(
-        syncProject("save")({
-          project,
-          accessToken: user.access_token,
-          autosave: false,
-        }),
-      );
-    } else if (user && project.identifier) {
-      dispatch(
-        syncProject("remix")({ project, accessToken: user.access_token }),
-      );
-    } else {
-      dispatch(showLoginToSaveModal());
+    if (window.plausible) {
+      window.plausible("Save button");
     }
+    dispatch(triggerSave());
   };
 
   return (

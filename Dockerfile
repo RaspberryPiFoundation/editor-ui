@@ -6,9 +6,9 @@ RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
 WORKDIR /app
 
-COPY package.json yarn.lock .npmrc ./
+COPY package.json yarn.lock ./
 COPY . /app
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=true yarn
+RUN yarn
 
 EXPOSE 3000
 
