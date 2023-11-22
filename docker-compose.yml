@@ -1,24 +1,16 @@
-version: '3.8'
+version: "3.8"
 services:
   x-app: &x-app
     build:
       context: .
-      secrets:
-        - npmrc
     volumes:
       - .:/app
       - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
-    secrets:
-      - source: npmrc
-        target: /root/.npmrc
     stdin_open: true
   react-ui:
     <<: *x-app
     command: yarn start
     ports:
-      - "3000:3000"
+      - "3010:3000"
     container_name: react-ui
-secrets:
-  npmrc:
-    file: ~/.npmrc

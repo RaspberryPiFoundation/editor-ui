@@ -23,21 +23,21 @@ export const syncProject = (actionName) =>
       let response;
       switch (actionName) {
         case "load":
-          response = await readProject(identifier, locale, accessToken);
+          // response = await readProject(identifier, locale, accessToken);
           break;
         case "remix":
-          response = await createRemix(project, accessToken);
+          // response = await createRemix(project, accessToken);
           break;
         case "save":
-          response = await createOrUpdateProject(project, accessToken);
+          // response = await createOrUpdateProject(project, accessToken);
           break;
         case "delete":
-          response = await deleteProject(identifier, accessToken);
+          // response = await deleteProject(identifier, accessToken);
           break;
         default:
           rejectWithValue({ error: "no such sync action" });
       }
-      return { project: response.data, autosave };
+      return { autosave };
     },
     {
       condition: (_, { getState }) => {

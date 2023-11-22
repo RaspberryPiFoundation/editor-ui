@@ -5,7 +5,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useProject } from "../../hooks/useProject";
 import { useEmbeddedMode } from "../../hooks/useEmbeddedMode";
-import Output from "../Editor/Output/Output";
 import { useParams } from "react-router-dom";
 import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
 import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
@@ -31,7 +30,8 @@ const EmbeddedViewer = () => {
 
   return (
     <div className="embedded-viewer">
-      {loading === "success" ? <Output /> : null}
+      {/* TODO: Setup the web component to allow output only! */}
+      {/* {loading === "success" ? <Output /> : null} */}
       {notFoundModalShowing ? <NotFoundModalEmbedded /> : null}
       {accessDeniedNoAuthModalShowing ? (
         <AccessDeniedNoAuthModalEmbedded />

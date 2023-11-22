@@ -12,6 +12,7 @@ import "../../../assets/stylesheets/OutputViewToggle.scss";
 
 const Project = ({ identifier }) => {
   const [params, containerRef] = useContainerQuery(projContainer);
+  const authKey = `oidc.user:${process.env.REACT_APP_AUTHENTICATION_URL}:${process.env.REACT_APP_AUTHENTICATION_CLIENT_ID}`;
 
   return (
     <div className="proj">
@@ -20,7 +21,7 @@ const Project = ({ identifier }) => {
           <div className="c-editor">
             <editor-wc
               class="c-editor__wc"
-              code="print('Hello World')"
+              auth_key={authKey}
               data-editor-target="editor"
               identifier={identifier}
               with_sidebar="true"

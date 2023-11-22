@@ -1,3 +1,4 @@
+import React from "react";
 import { toast } from "react-toastify";
 import { ReactComponent as InfoIcon } from "../assets/icons/info.svg";
 import { ReactComponent as TickIcon } from "../assets/icons/tick.svg";
