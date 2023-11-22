@@ -1,8 +1,12 @@
-# Getting Started
+# editor-standalone
+
+Currently WIP but the basic idea is to separate out the editor standalone website and the core functionality in the web component. This is currently used in other projects and will enable the current editor-ui to separate out the complexity and duality that currently exists.
+
+## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Environment variables
+### Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables.
 Copy the example files into the correct place:
