@@ -11,6 +11,7 @@ import "../../../assets/stylesheets/Project.scss";
 import "../../../assets/stylesheets/OutputViewToggle.scss";
 
 const Project = ({ identifier }) => {
+  /* eslint-disable no-unused-vars */
   const [params, containerRef] = useContainerQuery(projContainer);
   const authKey = `oidc.user:${process.env.REACT_APP_AUTHENTICATION_URL}:${process.env.REACT_APP_AUTHENTICATION_CLIENT_ID}`;
 

@@ -10,7 +10,7 @@ import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
 import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
 
 const EmbeddedViewer = () => {
-  const loading = useSelector((state) => state.editor.loading);
+  // const loading = useSelector((state) => state.editor.loading);
   const notFoundModalShowing = useSelector(
     (state) => state.editor.notFoundModalShowing,
   );
