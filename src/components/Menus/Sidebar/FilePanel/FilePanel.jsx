@@ -56,28 +56,45 @@ const FilePanel = ({ isMobile }) => {
   };
 
   const connectToPico = async () => {
-    let device = await navigator.usb.requestDevice({
-      filters: [
-        {
-          vendorId: 0x2e8a, // This is the Raspberry Pi Vendor ID
-        },
-      ],
-    });
-    await device.open();
-    await device.selectConfiguration(1);
-    await device.claimInterface(1);
-    let writing = await device.transferOut(
-      2,
-      new Uint8Array(new TextEncoder().encode("Test value\n")),
-    );
-    console.log(writing);
+    let port = await navigator.serial.requestPort();
+    console.log(port);
+    await port.open({ baudRate: 115200 });
+    const textEncoder = new window.TextEncoderStream();
+
+    const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+
+    const writer = textEncoder.writable.getWriter();
+
+    await writer.write("hello");
+
+    // Allow the serial port to be closed later.
+    writer.releaseLock();
+    // 115200 is the pico baud rate
+    console.log("Port readable?");
+    console.log(port.readable);
+    const textDecoder = new window.TextDecoderStream();
+    const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+    const reader = textDecoder.readable.getReader();
+
+    // Listen to data coming from the serial device.
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        // Allow the serial port to be closed later.
+        reader.releaseLock();
+        break;
+      }
+      // value is a string.
+      console.log("READING RESULT");
+      console.log(value);
+    }
+
+    console.log("Out");
+    port.close();
+  };
+
+  const readPico = async () => {
     console.log("READING");
-    let result = await device.transferIn(2, 4);
-    console.log("RESULT");
-    console.log(result.status);
-    let bytes = await result.data.getUint8();
-    console.log(bytes);
-    await device.close();
   };
 
   return (
@@ -105,14 +122,20 @@ const FilePanel = ({ isMobile }) => {
       ))}
       <Button
         className="btn btn--secondary files-list__pico_sync-button"
-        onClickHandler={() => syncProjectWithPico()}
+        onClickHandler={syncProjectWithPico}
         buttonText="Sync Pico"
         ButtonIcon={DuplicateIcon}
       />
       <Button
         className="btn btn--secondary files-list__pico_sync-button"
-        onClickHandler={() => connectToPico()}
+        onClickHandler={connectToPico}
         buttonText="Connect"
+        ButtonIcon={DuplicateIcon}
+      />
+      <Button
+        className="btn btn--secondary files-list__pico_sync-button"
+        onClickHandler={readPico}
+        buttonText="Read"
         ButtonIcon={DuplicateIcon}
       />
     </SidebarPanel>
