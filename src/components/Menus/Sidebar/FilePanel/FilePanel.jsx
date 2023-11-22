@@ -17,15 +17,16 @@ import {
   hideSidebar,
 } from "../../../../redux/EditorSlice";
 
-import "./FilePanel.scss";
-import "../Sidebar.scss";
+import "../../../../assets/stylesheets/FilePanel.scss";
+import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
+import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
+import { syncWithPico } from "../../../../utils/apiCallHandler";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
-
   const dispatch = useDispatch();
 
   const switchToFileTab = (panelIndex, fileIndex) => {
@@ -49,6 +50,36 @@ const FilePanel = ({ isMobile }) => {
   };
   const { t } = useTranslation();
 
+  const syncProjectWithPico = () => {
+    // use this to sync all files???
+    syncWithPico(project.components);
+  };
+
+  const connectToPico = async () => {
+    let device = await navigator.usb.requestDevice({
+      filters: [
+        {
+          vendorId: 0x2e8a, // This is the Raspberry Pi Vendor ID
+        },
+      ],
+    });
+    await device.open();
+    await device.selectConfiguration(1);
+    await device.claimInterface(1);
+    let writing = await device.transferOut(
+      2,
+      new Uint8Array(new TextEncoder().encode("Test value\n")),
+    );
+    console.log(writing);
+    console.log("READING");
+    let result = await device.transferIn(2, 4);
+    console.log("RESULT");
+    console.log(result.status);
+    let bytes = await result.data.getUint8();
+    console.log(bytes);
+    await device.close();
+  };
+
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
       {project.components.map((file, i) => (
@@ -62,11 +93,28 @@ const FilePanel = ({ isMobile }) => {
           {(file.name === "main" && file.extension === "py") ||
           (file.name === "index" && file.extension === "html") ? null : (
             <div className="files-list-item__menu">
-              <FileMenu fileKey={i} name={file.name} ext={file.extension} />
+              <FileMenu
+                fileKey={i}
+                name={file.name}
+                ext={file.extension}
+                content={file.content}
+              />
             </div>
           )}
         </div>
       ))}
+      <Button
+        className="btn btn--secondary files-list__pico_sync-button"
+        onClickHandler={() => syncProjectWithPico()}
+        buttonText="Sync Pico"
+        ButtonIcon={DuplicateIcon}
+      />
+      <Button
+        className="btn btn--secondary files-list__pico_sync-button"
+        onClickHandler={() => connectToPico()}
+        buttonText="Connect"
+        ButtonIcon={DuplicateIcon}
+      />
     </SidebarPanel>
   );
 };
