@@ -40,15 +40,15 @@
     "redux-oidc": "^4.0.0-beta1"
   },
   "scripts": {
-    "start": "PORT=3010 react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider PORT=3010 react-scripts start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "build:dev": "yarn run build-storybook && yarn run build",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
     "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
-    "test": "react-scripts test",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
