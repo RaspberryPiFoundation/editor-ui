@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@RaspberryPiFoundation/design-system-react@^0.1.2":
-  version "0.1.2"
-  resolved "https://npm.pkg.github.com/download/@RaspberryPiFoundation/design-system-react/0.1.2/cc3326c8e0a364ac5baa467ba3a43c249fc69974#cc3326c8e0a364ac5baa467ba3a43c249fc69974"
-  integrity sha512-jHeP3fBMoWbZ4gOpPD2ANqsjClxMtMOAJRiD0e2whgFmMvNCW1rcoyTqOZxdUt8HShpD+dAMsczntQH+FMw6RQ==
-  dependencies:
-    classnames "^2.3.2"
-    prop-types "^15.8.1"
-    react "^18.2.0"
-    react-dom "^18.2.0"
-
 "@actions/core@^1.2.0":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.10.1.tgz#61108e7ac40acae95ee36da074fa5850ca4ced8a"
@@ -2100,6 +2090,16 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@raspberrypifoundation/design-system-react@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-react/-/design-system-react-0.1.5.tgz#1b76111e9f34bf62cb494812fa42da7f2263d58e"
+  integrity sha512-GCDNoOd/LF4TRdOaUA0BeyP5vYdYht7EnN5XDT6uB1JNpNEL/PZtmDGNqVavneO8uEecy+SSMlXD3lvZCVXJsQ==
+  dependencies:
+    classnames "^2.3.2"
+    prop-types "^15.8.1"
+    react "^18.2.0"
+    react-dom "^18.2.0"
 
 "@reduxjs/toolkit@^1.6.2":
   version "1.9.7"

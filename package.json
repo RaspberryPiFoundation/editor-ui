@@ -3,7 +3,7 @@
   "version": "0.19.4",
   "private": true,
   "dependencies": {
-    "@RaspberryPiFoundation/design-system-react": "^0.1.2",
+    "@raspberrypifoundation/design-system-react": "^0.1.5",
     "@apollo/client": "^3.7.8",
     "@reduxjs/toolkit": "^1.6.2",
     "@sentry/browser": "^7.17.3",
