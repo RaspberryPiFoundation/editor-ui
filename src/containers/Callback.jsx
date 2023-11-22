@@ -11,7 +11,10 @@ const Callback = () => {
 
   const onSuccess = () => {
     localStorage.removeItem("location");
-    window.plausible("Login successful");
+    if (window.plausible) {
+      window.plausible("Login successful");
+    }
+
     navigate(previousRoute);
   };
 

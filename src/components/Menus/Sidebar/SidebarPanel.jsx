@@ -6,7 +6,7 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 
 const SidebarPanel = (props) => {
-  const { children, heading, className, Button } = props;
+  const { children, heading, Footer, className, Button } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const panelContent = (
@@ -17,20 +17,31 @@ const SidebarPanel = (props) => {
       </div>
 
       <div className="sidebar__panel-content">{children}</div>
+      {Footer ? (
+        <div className="sidebar__panel-footer">{<Footer />}</div>
+      ) : null}
     </>
   );
 
   return isMobile ? (
     <div
       data-testid="sidebar__panel"
-      className={classNames("sidebar__panel", className)}
+      className={classNames(
+        "sidebar__panel",
+        className,
+        Footer ? "sidebar__panel--with-footer" : null,
+      )}
     >
       {panelContent}
     </div>
   ) : (
     <ResizableWithHandle
       data-testid="sidebar__panel"
-      className={classNames("sidebar__panel", className)}
+      className={classNames(
+        "sidebar__panel",
+        className,
+        Footer ? "sidebar__panel--with-footer" : null,
+      )}
       defaultWidth="225px"
       defaultHeight="100%"
       handleDirection="right"

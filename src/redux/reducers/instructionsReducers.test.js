@@ -12,8 +12,8 @@ test("Sets step number correctly", () => {
   expect(state).toEqual(expectedState);
 });
 
-test("Sets instructions correctly", () => {
-  let state = {};
+test("Sets instructions including step position correctly", () => {
+  let state = { currentStepPosition: 0 };
 
   const step = { quiz: false, title: "Step 1", content: "Do something!" };
   const instructions = {
@@ -25,4 +25,19 @@ test("Sets instructions correctly", () => {
   expect(setInstructions(state, { payload: instructions })).toEqual(
     instructions,
   );
+});
+
+test("Keeps original step position if no progress", () => {
+  let state = { currentStepPosition: 0 };
+
+  const step = { quiz: false, title: "Step 1", content: "Do something!" };
+  const instructions = {
+    project: {
+      steps: [step],
+    },
+  };
+  expect(setInstructions(state, { payload: instructions })).toEqual({
+    ...instructions,
+    currentStepPosition: 0,
+  });
 });

@@ -9,15 +9,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Javascript support for HTML projects (#748)
+- DownloadPanel for sidebar (#744)
+- Custom events for Log In and Sign Up from DownloadPanel (#744)
+- SVGO config file (#720)
+- Added ability to enable sidebar in web component (#738)
+- Added ability to customise sidebar options (#738)
+- Instructions Panel for the sidebar (#751, #768)
+- Added ability to fix the theme in the web component (#757)
+- Added ability to increase font size in the web component (#757)
 
 ### Changed
 
+- Sidebar - Refactored styles to be closer to designs (#720)
+- Sidebar - Refactored theming to fix inconsistencies between themes (#720)
+- Sidebar - Added hover styles to collapse and close buttons (#720)
+- Sidebar - Option/Tab style (#720)
+- Stopped SVGO from removing icon (svg) viewBoxes (#720)
 - Move local development port to avoid projects-ui clash (#736)
 - Update design-system-react dependency to publicly available version
+- Storybook SVG loader added and store configured (#749)
+- Switched `FontSizeSelector` and `ThemeToggle` over to using the new `SelectButtons` (#757)
+- Download panel removes log-in prompts for logged-in users (#744)
 
 ### Fixed
 
+- `FileMenu` alignment (#720)
+- Edit icon not showing in ContextMenu (#720)
+- Updated sidebar and file icons to correct size (#720)
 - Local docker setup for development (#739)
+- Editor height overflow (#771)
 
 ## [0.19.4] - 2023-11-08
 
@@ -39,7 +59,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Replace physical properties with logical values (#699)
+- Replace physical properties with logical values - margin (#717)
+- Replace physical properties with logical values - position (#699)
 - Moved web component custom events from the `editor-wc` element to the `document` (#710)
 - Renamed web component custom events to be prefixed with `editor-` (#710)
 - Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)

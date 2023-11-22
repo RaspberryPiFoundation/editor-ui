@@ -1,8 +1,8 @@
+import React from "react";
 import FileSaver from "file-saver";
 import { toSnakeCase } from "js-convert-case";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -38,7 +38,9 @@ const DownloadButton = (props) => {
   };
 
   const onClickDownload = async () => {
-    window.plausible("Download");
+    if (window.plausible) {
+      window.plausible("Download");
+    }
 
     if (loginToSaveModalShowing) {
       dispatch(closeLoginToSaveModal());

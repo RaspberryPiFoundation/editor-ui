@@ -33,7 +33,7 @@ describe("When default theme is light mode and cookie unset", () => {
   test("Sets cookie to dark when button clicked", async () => {
     const button = toggleContainer.getByText(
       "sidebar.settingsMenu.themeOptions.dark",
-    ).parentElement;
+    );
     fireEvent.click(button);
     expect(cookies.cookies.theme).toBe("dark");
   });
@@ -73,7 +73,7 @@ describe("When default theme is dark mode and cookie unset", () => {
   test("Sets cookie to light when button clicked", async () => {
     const button = toggleContainer.getByText(
       "sidebar.settingsMenu.themeOptions.light",
-    ).parentElement;
+    );
     fireEvent.click(button);
     expect(cookies.cookies.theme).toBe("light");
   });
@@ -93,7 +93,7 @@ test("Cookie set to dark intially changes to light when button clicked", () => {
   );
   const button = toggleContainer.getByText(
     "sidebar.settingsMenu.themeOptions.light",
-  ).parentElement;
+  );
   act(() => {
     fireEvent.click(button);
   });
@@ -110,7 +110,7 @@ test("Cookie set to light intially changes to dark when button clicked", () => {
   );
   const button = toggleContainer.getByText(
     "sidebar.settingsMenu.themeOptions.dark",
-  ).parentElement;
+  );
   act(() => {
     fireEvent.click(button);
   });

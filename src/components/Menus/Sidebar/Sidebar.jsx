@@ -12,15 +12,22 @@ import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
+import DownloadIcon from "../../../utils/DownloadIcon";
+import StepsIcon from "../../../assets/icons/steps.svg";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
 import "../../../assets/stylesheets/Sidebar.scss";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
+import DownloadPanel from "./DownloadPanel/DownloadPanel";
+import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 
-const Sidebar = () => {
+const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
+
+  const DownloadIcon24x24 = () => <DownloadIcon width={24} height={24} />;
+
   let menuOptions = [
     {
       name: "projects",
@@ -28,6 +35,13 @@ const Sidebar = () => {
       title: t("sidebar.projects"),
       position: "top",
       panel: ProjectsPanel,
+    },
+    {
+      name: "instructions",
+      icon: StepsIcon,
+      title: t("sidebar.instructions"),
+      position: "top",
+      panel: InstructionsPanel,
     },
     {
       name: "file",
@@ -44,6 +58,13 @@ const Sidebar = () => {
       panel: ImagePanel,
     },
     {
+      name: "download",
+      icon: DownloadIcon24x24,
+      title: t("sidebar.download"),
+      position: "top",
+      panel: DownloadPanel,
+    },
+    {
       name: "settings",
       icon: SettingsIcon,
       title: t("sidebar.settings"),
@@ -57,10 +78,14 @@ const Sidebar = () => {
       position: "bottom",
       panel: InfoPanel,
     },
-  ];
+  ].filter((option) => options.includes(option.name));
+
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
-  if (!projectImages || projectImages.length === 0) {
+  if (
+    (!projectImages || projectImages.length === 0) &&
+    options.includes("images")
+  ) {
     menuOptions.splice(
       menuOptions.findIndex((option) => option.name === "images"),
       1,

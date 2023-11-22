@@ -5,6 +5,7 @@ import FontIconLg from "../../../../../assets/icons/font_icon_lg.svg";
 import FontIconRg from "../../../../../assets/icons/font_icon_rg.svg";
 import FontIconSm from "../../../../../assets/icons/font_icon_sm.svg";
 import "../../../../../assets/stylesheets/FontSizeSelector.scss";
+import SelectButtons from "../../../../../utils/SelectButtons";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
 
@@ -23,55 +24,28 @@ const FontSizeSelector = () => {
   };
 
   return (
-    <div className="font-size-selector settings-panel__items">
-      <div
-        className="font-btn font-btn--small"
-        onClick={() => setFontSize("small")}
-      >
-        <button
-          className={`font-btn__icon font-btn__icon--small ${
-            fontSize === "small" ? "font-btn__icon--active" : ""
-          }`}
-        >
-          <span className="font-btn__icon--text">
-            <FontIconSm />
-            {t("sidebar.settingsMenu.textSizeOptions.small")}
-          </span>
-        </button>
-      </div>
-      <div
-        className="font-btn font-btn--medium"
-        onClick={() => setFontSize("medium")}
-      >
-        <button
-          className={`font-btn__icon font-btn__icon--medium ${
-            fontSize === "medium" ? "font-btn__icon--active" : ""
-          }`}
-        >
-          <span className="font-btn__icon--text">
-            {" "}
-            <FontIconRg />
-            {t("sidebar.settingsMenu.textSizeOptions.medium")}
-          </span>
-        </button>
-      </div>
-      <div
-        className="font-btn font-btn--large"
-        onClick={() => setFontSize("large")}
-      >
-        <button
-          className={`font-btn__icon font-btn__icon--large ${
-            fontSize === "large" ? "font-btn__icon--active" : ""
-          }`}
-        >
-          <span className="font-btn__icon--text">
-            {" "}
-            <FontIconLg />
-            {t("sidebar.settingsMenu.textSizeOptions.large")}
-          </span>
-        </button>
-      </div>
-    </div>
+    <SelectButtons
+      label={t("sidebar.settingsMenu.textSize")}
+      options={[
+        {
+          value: "small",
+          label: t("sidebar.settingsMenu.textSizeOptions.small"),
+          Icon: FontIconSm,
+        },
+        {
+          value: "medium",
+          label: t("sidebar.settingsMenu.textSizeOptions.medium"),
+          Icon: FontIconRg,
+        },
+        {
+          value: "large",
+          label: t("sidebar.settingsMenu.textSizeOptions.large"),
+          Icon: FontIconLg,
+        },
+      ]}
+      value={fontSize}
+      setValue={setFontSize}
+    />
   );
 };
 
