@@ -1,0 +1,53 @@
+@use './rpf_design_system/spacing' as *;
+@use './rpf_design_system/font-size' as *;
+@use './rpf_design_system/font-weight' as *;
+@use './rpf_design_system/colours' as *;
+
+.info-panel {
+  border-radius: $space-0-5;
+  padding: $space-1;
+  margin-bottom: $space-0-5;
+
+  p {
+    margin: 0;
+  }
+}
+
+.info-panel__links {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    @include font-size-1(regular);
+    font-weight: $font-weight-bold;
+    text-decoration: underline;
+  }
+}
+
+.info-panel__link {
+  &:last-of-type {
+    margin-bottom: $space-1;
+  }
+}
+
+.--dark {
+  .info-panel {
+    color: $rpf-text-primary-darkmode;
+    background-color: $rpf-grey-600;
+  }
+  
+  .info-panel__links a {
+    color: $rpf-text-primary-darkmode;
+  }
+}
+
+.--light {
+  .info-panel {
+    color: $rpf-text-primary;
+    background-color: $rpf-grey-50;
+  }
+
+  .info-panel__links a {
+    color: $rpf-text-primary;
+  }
+}

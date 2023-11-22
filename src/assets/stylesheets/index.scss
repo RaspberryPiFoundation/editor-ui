@@ -1,0 +1,62 @@
+html,
+body {
+  margin: 0;
+}
+
+:host {
+  font-size: 16px;
+}
+
+#root {
+  height: 100%;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
+  min-height: fill-available;
+  width: 100%;
+  min-width: -moz-available;
+  min-width: -webkit-fill-available;
+  min-width: fill-available;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#app {
+  min-height: 100dvh;
+}
+
+.c-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: -moz-available;
+  max-height: -webkit-fill-available;
+  max-height: fill-available;
+}
+
+.c-editor__wc {
+  container-name: c-editor;
+  container-type: normal;
+  // display: flex;
+  height: 100%;
+  width: 100%;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
+  min-height: fill-available;
+  min-width: -moz-available;
+  min-width: -webkit-fill-available;
+  min-width: fill-available;
+  overflow: auto;
+  -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
+  scrollbar-width: none; /* Remove scroll bar for Firefox */
+}

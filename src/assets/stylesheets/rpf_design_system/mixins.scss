@@ -1,0 +1,29 @@
+@mixin mobile-only {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin md-width {
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin sm-width-only {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin unique-width($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin unique-max-width($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}

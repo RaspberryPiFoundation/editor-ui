@@ -1,0 +1,22 @@
+---
+branchName: '${issue.number}-${issue.title}'
+silent: false
+openDraftPR: true
+branches:
+  - label: accessibility
+    prefix: a11y/
+  - label: bug
+    prefix: bugfix/
+  - label: dependencies
+    prefix: chore/
+  - label: documentation
+    prefix: docs/
+  - label: enhancement
+    prefix: feature/
+  - label: i18n
+    prefix: i18n/
+  - label: security-review
+    prefix: security/
+  - label: '*'
+    prefix: issues/
+

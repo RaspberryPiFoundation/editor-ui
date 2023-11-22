@@ -1,0 +1,17 @@
+{
+  "short_name": "RPi Code Editor",
+  "name": "Raspberry Pi Code Editor",
+  "description": "Code editor created by the Raspberry Pi Foundation",
+  "icons": [
+    {
+      "src": "editor_logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#e7f8f7"
+}
