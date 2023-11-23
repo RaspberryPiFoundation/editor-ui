@@ -33,11 +33,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Container rather than media query breakpoints for the web component (#776)
 - `FileMenu` alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
 - Local docker setup for development (#739)
-- Editor height overflow (#771)
+- Editor height overflow (#771, #779)
 
 ## [0.19.4] - 2023-11-08
 
