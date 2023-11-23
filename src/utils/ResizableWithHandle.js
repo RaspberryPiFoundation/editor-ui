@@ -74,6 +74,9 @@ const ResizableWithHandle = (props) => {
       handleWrapperClass={handleWrapperClass}
       onResizeStop={onResizeStop}
       size={{ width: width, height: height }}
+      handleStyles={{
+        right: { height: "98%", top: "1%" },
+      }}
       {...rest}
     >
       {children}

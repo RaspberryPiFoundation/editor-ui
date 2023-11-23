@@ -14,6 +14,7 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     if (steps[currentStepPosition]) {
+      stepContent.current.parentElement.scrollTo({ top: 0 });
       stepContent.current.innerHTML = steps[currentStepPosition].content;
     }
   }, [steps, currentStepPosition]);

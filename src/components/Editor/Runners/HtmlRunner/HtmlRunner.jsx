@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 import { useMediaQuery } from "react-responsive";
+import mimeTypes from "mime-types";
 
 import ErrorModal from "../../../Modals/ErrorModal";
 import {
@@ -235,7 +236,9 @@ function HtmlRunner() {
           if (parentTag(hrefNode, "head")) {
             const projectFileBlob = getBlobURL(
               cssProjectImgs(projectFile[0]).content,
-              `text/${projectFile[0].extension}`,
+              mimeTypes.lookup(
+                `${projectFile[0].name}.${projectFile[0].extension}`,
+              ),
             );
             hrefNode.setAttribute("href", projectFileBlob);
           } else {
@@ -277,10 +280,21 @@ function HtmlRunner() {
         const projectImage = projectImages.filter(
           (component) => component.filename === srcNode.attrs.src,
         );
-        srcNode.setAttribute(
-          "src",
-          !!projectImage.length ? projectImage[0].url : "",
+        const projectFile = projectCode.filter(
+          (file) => `${file.name}.${file.extension}` === srcNode.attrs.src,
         );
+        let src = "";
+        if (projectImage.length) {
+          src = projectImage[0].url;
+        } else if (projectFile.length) {
+          src = getBlobURL(
+            projectFile[0].content,
+            mimeTypes.lookup(
+              `${projectFile[0].name}.${projectFile[0].extension}`,
+            ),
+          );
+        }
+        srcNode.setAttribute("src", src);
       });
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
