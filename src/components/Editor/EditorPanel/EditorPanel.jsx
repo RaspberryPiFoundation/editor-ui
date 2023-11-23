@@ -15,6 +15,7 @@ import { indentUnit } from "@codemirror/language";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { python } from "@codemirror/lang-python";
+import { javascript } from "@codemirror/lang-javascript";
 
 import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
@@ -55,6 +56,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         return css();
       case "py":
         return python();
+      case "js":
+        return javascript();
       default:
         return html();
     }
