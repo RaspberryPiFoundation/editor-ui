@@ -4,7 +4,7 @@
     "stylelint-config-recommended-scss"
   ],
   "plugins": [
-    "stylelint-scss"
+    "stylelint-scss", "stylelint-use-logical"
   ],
   "rules": {
     "block-no-empty": null,
