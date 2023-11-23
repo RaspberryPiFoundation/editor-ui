@@ -1,13 +1,10 @@
 {
   "enabled": true,
-  "extends": [
-    "stylelint-config-recommended-scss"
-  ],
-  "plugins": [
-    "stylelint-scss", "stylelint-use-logical"
-  ],
+  "extends": ["stylelint-config-recommended-scss"],
+  "plugins": ["stylelint-scss", "stylelint-use-logical"],
   "rules": {
     "block-no-empty": null,
-    "declaration-block-single-line-max-declarations": 1
+    "declaration-block-single-line-max-declarations": 1,
+    "csstools/use-logical": "always"
   }
 }
