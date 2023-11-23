@@ -83,7 +83,7 @@
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
     "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
-    "stylelint": "stylelint --syntax=scss src/**/*.scss",
+    "stylelint": "stylelint src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
