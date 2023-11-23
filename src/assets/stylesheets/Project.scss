@@ -33,6 +33,7 @@
 }
 
 .proj-container {
+  container-type: inline-size;
   display: flex;
   flex-direction: row;
   overflow-y: hidden;
@@ -64,8 +65,7 @@
   }
 
   // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 912px) {
-    // width is 880px for the container + the rest of the page
+  @container (min-width: 880px) {
     .proj-editor-wrapper {
       flex-flow: row;
     }
@@ -143,7 +143,7 @@
     background-color: $rpf-white;
   }
 
-  @media (min-width: 600px) {
+  @container (min-width: 600px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {
@@ -159,7 +159,7 @@
     background-color: $rpf-grey-800;
   }
 
-  @media (min-width: 600px) {
+  @container (min-width: 600px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {
