@@ -93,6 +93,7 @@ export const EditorSlice = createSlice({
     drawTriggered: false,
     isEmbedded: false,
     isSplitView: true,
+    isThemeable: true,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -339,6 +340,9 @@ export const EditorSlice = createSlice({
     hideSidebar: (state) => {
       state.sidebarShowing = false;
     },
+    disableTheming: (state) => {
+      state.isThemeable = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
@@ -450,6 +454,7 @@ export const {
   setProjectIndexPage,
   showSidebar,
   hideSidebar,
+  disableTheming,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

@@ -2,7 +2,7 @@ import { setNameError } from "../redux/EditorSlice";
 
 const allowedExtensions = {
   python: ["py", "csv", "txt"],
-  html: ["html", "css"],
+  html: ["html", "css", "js"],
 };
 
 const allowedExtensionsString = (projectType, t) => {
