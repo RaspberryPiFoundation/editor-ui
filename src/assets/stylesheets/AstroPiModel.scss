@@ -15,7 +15,7 @@
     max-height: 50%;
     min-height: 200px;
     flex: 1;
-    padding-bottom: $space-0-5;
+    padding-block-end: $space-0-5;
 
     canvas {
       cursor: grab;
@@ -83,8 +83,8 @@
         flex-flow: column;
         align-items: center;
         text-align: center;
-        padding: $space-0-5;
-        padding-top: $space-0-25;
+        padding-inline: $space-0-5;
+        padding-block-start: $space-0-25;
         box-sizing: border-box;
         border-radius: 5px;
         width: 32%;
@@ -189,7 +189,7 @@
     background-color: $rpf-grey-800;
 
     &-controls {
-      border-top: 7px solid $rpf-grey-900;
+      border-block-start: 7px solid $rpf-grey-900;
 
       &-panel {
         &__control {
@@ -243,7 +243,7 @@
     background-color: $rpf-white;
 
     &-controls {
-      border-top: 5px solid $rpf-grey-100;
+      border-block-start: 5px solid $rpf-grey-100;
 
       &-panel {
         &__control {

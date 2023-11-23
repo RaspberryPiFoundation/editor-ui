@@ -15,8 +15,7 @@
   display: flex;
   flex: 1 0 auto;
   justify-content: space-between;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline: 5px;
 }
 
 .editor-controls {
@@ -24,12 +23,11 @@
 }
 
 .proj-controls {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .proj-share-link {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline: 5px;
 }
 
 .proj-container {

@@ -2,7 +2,8 @@
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/colours" as *;
 
-:root, :host {
+:root,
+:host {
   .--light {
     --sidebar-border: var(--rpf-grey-150);
     --sidebar-background: var(--rpf-white);
@@ -113,7 +114,7 @@
 
   .sidebar__panel-footer {
     background-color: $rpf-grey-700;
-    border-top: 1px solid $rpf-grey-600;
+    border-block-start: 1px solid $rpf-grey-600;
   }
 }
 
