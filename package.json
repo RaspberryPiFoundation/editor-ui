@@ -15,6 +15,7 @@
     "@hello-pangea/dnd": "^16.2.0",
     "@juggle/resize-observer": "^3.3.1",
     "@lezer/highlight": "^1.0.0",
+    "@raspberrypifoundation/design-system-core": "^0.1.7",
     "@raspberrypifoundation/design-system-react": "^0.1.5",
     "@react-three/drei": "^9.65.5",
     "@react-three/fiber": "^8.0.13",

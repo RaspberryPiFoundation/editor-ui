@@ -1,21 +1,39 @@
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss" as *;
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
 @use './rpf_design_system/font-size' as *;
 
 .project-instructions {
   h2 {
-    background-color: $rpf-blue-100;
+    @include font-size-1-25(bold);
     margin: 0;
-    padding: 0 $space-1;
-    padding-block-start: $space-1;
-    @include font-size-1-25(bold)
   }
+
+  .c-project-heading--task {
+    @extend .rpf-squiggle-heading;
+    --rpf-squiggle-color: var(--rpf-blue-800);
+    --rpf-squiggle-mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%3Bstroke-linecap%3Around%3Bstroke-miterlimit%3A10%22%20viewBox%3D%220%200%2029%2013%22%3E%3Cpath%20d%3D%22M2.913%2010.938c7.253%200%207.253-8%2014.505-8%207.253%200%207.253%208%2014.505%208%22%20style%3D%22fill%3Anone%3Bfill-rule%3Anonzero%3Bstroke%3A%23fff%3Bstroke-width%3A4px%22%20transform%3D%22translate%28-2.913%29%22%2F%3E%3C%2Fsvg%3E);
+    background-color: $rpf-blue-100;
+    padding: $space-1;
+    width: 100%;
+    box-sizing: border-box;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+
+    &::after {
+      margin-inline: $space-1;
+      margin-block-start: $space-0-25;
+    }
+  }
+
   .c-project-task {
     background-color: $rpf-blue-100;
     padding: $space-1;
     display: flex;
     flex-direction: column;
     gap: $space-1;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
 
     p {
       margin: 0;
