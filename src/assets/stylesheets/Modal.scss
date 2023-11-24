@@ -162,7 +162,7 @@
   }
 
   .modal-content__header {
-    border-bottom: 1px solid $rpf-grey-500;
+    border-block-end: 1px solid $rpf-grey-500;
   }
 
   .modal-content__help-text {
@@ -170,7 +170,7 @@
   }
 
   .modal-content__buttons {
-    border-top: 1px solid $rpf-grey-500;
+    border-block-start: 1px solid $rpf-grey-500;
   }
 }
 
@@ -193,7 +193,7 @@
   }
 
   .modal-content__header {
-    border-bottom: 1px solid $rpf-grey-150;
+    border-block-end: 1px solid $rpf-grey-150;
   }
 
   .modal-content__help-text {
@@ -201,6 +201,6 @@
   }
 
   .modal-content__buttons {
-    border-top: 1px solid $rpf-grey-150;
+    border-block-start: 1px solid $rpf-grey-150;
   }
 }
