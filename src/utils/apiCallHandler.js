@@ -1,7 +1,7 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
-const host = process.env.REACT_APP_API_ENDPOINT;
+const host = "http://localhost:3009";
 
 const get = async (url, headers) => {
   return await axios.get(url, headers);

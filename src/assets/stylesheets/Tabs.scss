@@ -5,7 +5,7 @@
 :root {
   .--light {
     --rpf-tab-button-hover: var(--rpf-grey-100);
-    --rpf-tab-button-background: var(--rpf-off-white);
+    --rpf-tab-button-background: inherit;
     --rpf-tab-border-bottom-selected: var(--rpf-teal-900);
   }
 
