@@ -6,9 +6,9 @@
 }
 
 .--light .output-view-toggle {
-  border-left: 1px solid $rpf-grey-150;
+  border-inline-start: 1px solid $rpf-grey-150;
 }
 
 .--dark .output-view-toggle {
-  border-left: 1px solid $rpf-grey-600;
+  border-inline-start: 1px solid $rpf-grey-600;
 }

@@ -36,14 +36,14 @@
 
       &--selected {
         border-radius: 0;
-        padding-top: $space-0-25;
+        padding-block-start: $space-0-25;
 
         &:hover {
           text-decoration: none;
         }
 
         &:focus-visible {
-          padding-top: 7px;
+          padding-block-start: 7px;
         }
       }
 
@@ -69,7 +69,7 @@
       white-space: nowrap;
 
       &--split {
-        padding-right: 0;
+        padding-inline-end: 0;
       }
     }
     &__tab-close-btn {
@@ -97,7 +97,7 @@
     }
 
     &__tab-list {
-      border-bottom: none;
+      border-block-end: none;
       box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
@@ -116,19 +116,19 @@
   &.--light {
     .react-tabs {
       &__tab-container {
-        border-bottom: 1px solid $rpf-grey-150;
+        border-block-end: 1px solid $rpf-grey-150;
       }
 
       &__tab {
         background-color: $rpf-off-white;
-        border-right: 1px solid $rpf-grey-150;
+        border-inline-end: 1px solid $rpf-grey-150;
 
         &--selected {
           background-color: $rpf-white;
-          border-bottom: 4px solid $rpf-teal-900;
+          border-block-end: 4px solid $rpf-teal-900;
 
           &:focus-visible {
-            border-bottom: 7px solid $rpf-teal-900;
+            border-block-end: 7px solid $rpf-teal-900;
           }
         }
 
@@ -148,20 +148,20 @@
       background-color: $rpf-grey-800;
 
       &__tab-container {
-        border-bottom: 1px solid $rpf-grey-600;
+        border-block-end: 1px solid $rpf-grey-600;
       }
 
       &__tab {
         background-color: $rpf-grey-800;
-        border-right: 1px solid $rpf-grey-600;
+        border-inline-end: 1px solid $rpf-grey-600;
 
         &--selected {
           color: $rpf-white;
           background-color: $rpf-grey-700;
-          border-bottom: 4px solid $rpf-teal-800;
+          border-block-end: 4px solid $rpf-teal-800;
 
           &:focus-visible {
-            border-bottom: 7px solid $rpf-teal-800;
+            border-block-end: 7px solid $rpf-teal-800;
           }
         }
 
