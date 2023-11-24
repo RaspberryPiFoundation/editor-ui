@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
+import "../../assets/stylesheets/EmbeddedViewer.scss";
+import "../../assets/stylesheets/Project.scss";
+
 import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
+import Output from "../Editor/Output/Output";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
 import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
@@ -21,7 +25,9 @@ const WebComponentProject = ({
   nameEditable = false,
   withSidebar = false,
   sidebarOptions = [],
+  outputOnly = false,
 }) => {
+  const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -80,18 +86,26 @@ const WebComponentProject = ({
 
   return (
     <>
-      {isMobile ? (
-        <MobileProject
-          withSidebar={withSidebar}
-          sidebarOptions={sidebarOptions}
-        />
-      ) : (
-        <Project
-          nameEditable={nameEditable}
-          withProjectbar={withProjectbar}
-          withSidebar={withSidebar}
-          sidebarOptions={sidebarOptions}
-        />
+      {!outputOnly &&
+        (isMobile ? (
+          <MobileProject
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+          />
+        ) : (
+          <Project
+            nameEditable={nameEditable}
+            withProjectbar={withProjectbar}
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+          />
+        ))}
+      {outputOnly && (
+        <div className="embedded-viewer" data-testid="output-only">
+          {loading === "success" && (
+            <Output embedded={true} browserPreview={false} />
+          )}
+        </div>
       )}
     </>
   );

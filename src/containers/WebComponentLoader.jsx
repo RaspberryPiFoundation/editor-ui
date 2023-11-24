@@ -40,6 +40,7 @@ const WebComponentLoader = (props) => {
     hostStyles,
     showSavePrompt = false,
     loadRemixDisabled = false,
+    outputOnly = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -158,6 +159,7 @@ const WebComponentLoader = (props) => {
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
+              outputOnly={outputOnly}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

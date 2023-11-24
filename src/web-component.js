@@ -45,6 +45,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "project_name_editable",
       "with_sidebar",
+      "output_only",
       "sidebar_options",
       "theme",
       "embedded",
@@ -64,6 +65,7 @@ class WebComponent extends HTMLElement {
         "project_name_editable",
         "show_save_prompt",
         "load_remix_disabled",
+        "output_only",
       ].includes(name)
     ) {
       value = newVal !== "false";

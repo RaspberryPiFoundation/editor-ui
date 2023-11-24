@@ -171,6 +171,67 @@ describe("When withProjectbar is true", () => {
   });
 });
 
+describe("When output_only is true", () => {
+  let mockStore;
+  let initialState;
+
+  beforeEach(() => {
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+    initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: {},
+      auth: {},
+    };
+  });
+
+  describe("when loading is pending", () => {
+    beforeEach(() => {
+      initialState.editor.loading = "pending";
+      store = mockStore(initialState);
+
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputOnly={true} />
+        </Provider>,
+      );
+    });
+
+    test("does not render anything", () => {
+      expect(screen.queryByTestId("output")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when loading is success", () => {
+    beforeEach(() => {
+      initialState.editor.loading = "success";
+      store = mockStore(initialState);
+
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputOnly={true} />
+        </Provider>,
+      );
+    });
+
+    test("only renders the output", () => {
+      expect(screen.queryByTestId("output")).toBeInTheDocument();
+      expect(screen.queryByTestId("project")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobile-project")).not.toBeInTheDocument();
+    });
+
+    test("styles output like embedded viewer", () => {
+      expect(screen.getByTestId("output-only")).toHaveClass("embedded-viewer");
+    });
+  });
+});
+
 afterAll(() => {
   document.removeEventListener("editor-codeChanged", codeChangedHandler);
   document.removeEventListener("editor-runStarted", runStartedHandler);
