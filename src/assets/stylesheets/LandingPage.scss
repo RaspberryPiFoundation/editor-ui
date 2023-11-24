@@ -19,7 +19,7 @@
   }
 }
 
-// Projects
+/* Projects */
 
 .landing-page__projects {
   text-align: center;
@@ -53,7 +53,7 @@
   }
 }
 
-// Paths
+/* Paths */
 .landing-page__paths {
   border-radius: $space-1-5;
   margin: 0 $space-1-5;
@@ -117,7 +117,7 @@
     display: block;
     margin: auto;
     max-inline-size: 301px;
-    width: 100%;
+    inline-size: 100%;
   }
 
   @media screen and (min-width: 768px) {
@@ -125,7 +125,7 @@
 
     img {
       margin: unset;
-      width: unset;
+      inline-size: unset;
     }
   }
 }
@@ -139,7 +139,7 @@
   display: flex;
 
   gap: $space-1;
-  width: fit-content;
+  inline-size: fit-content;
   align-items: stretch;
   @include font-size-1-25(regular);
 
@@ -149,7 +149,7 @@
   }
 }
 
-// Dark mode
+/* Dark mode */
 
 .--light {
   .landing-page__paths {

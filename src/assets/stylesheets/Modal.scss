@@ -10,6 +10,9 @@
   align-items: center;
   justify-content: center;
   padding: $space-5;
+  z-index: 1000;
+  position: fixed;
+  inset: 0px;
 
   @include mobile-only {
     padding: $space-2;
@@ -134,12 +137,6 @@
   button {
     text-decoration: underline;
   }
-}
-
-.modal-overlay {
-  z-index: 1000;
-  position: fixed;
-  inset: 0px;
 }
 
 .--dark {

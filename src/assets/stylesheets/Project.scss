@@ -62,7 +62,7 @@
     inline-size: 100%;
   }
 
-  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
+  /* TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete) */
   @container (min-inline-size: 880px) {
     .proj-editor-wrapper {
       flex-flow: row;

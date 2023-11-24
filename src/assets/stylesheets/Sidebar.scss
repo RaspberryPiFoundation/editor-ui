@@ -28,7 +28,7 @@
   }
 }
 
-// Sidebar
+/* Sidebar */
 .sidebar {
   display: flex;
   position: relative;
@@ -40,7 +40,7 @@
   overflow-y: hidden;
 }
 
-// SidebarBar
+/* SidebarBar */
 .editor-logo {
   block-size: $space-2-5;
   inline-size: $space-2-5;
@@ -61,7 +61,7 @@
   border-inline-end: 1px solid var(--sidebar-border);
 }
 
-// SidebarBar - Options
+/* SidebarBar - Options */
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;
@@ -122,7 +122,7 @@
   border-block-start: 1px solid var(--sidebar-border);
 }
 
-// Panel
+/* Panel */
 .sidebar__panel {
   display: flex;
   flex-direction: column;
