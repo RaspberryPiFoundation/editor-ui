@@ -49,7 +49,9 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
+              // esModule: false,
               limit: 10000,
+              // name: "static/media/[name].[hash:8].[ext]",
             },
           },
         ],
