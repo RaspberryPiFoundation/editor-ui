@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Styling for the task section of the instructions (#781)
+
 ## [0.20.0] - 2023-11-24
 
 ### Added
