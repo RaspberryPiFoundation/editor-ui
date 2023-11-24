@@ -1,17 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../assets/stylesheets/EmbeddedViewer.scss";
 import "../../assets/stylesheets/Project.scss";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useSearchParams } from "react-router-dom";
+
 import { useProject } from "../../hooks/useProject";
 import { useEmbeddedMode } from "../../hooks/useEmbeddedMode";
+import { setBrowserPreview, setPage } from "../../redux/EditorSlice";
 import Output from "../Editor/Output/Output";
-import { useParams, useSearchParams } from "react-router-dom";
 import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
 import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
 
 const EmbeddedViewer = () => {
+  const dispatch = useDispatch();
+
+  const page = useSelector((state) => state.editor.page);
   const loading = useSelector((state) => state.editor.loading);
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const browserPreview = useSelector((state) => state.editor.browserPreview);
+  const user = useSelector((state) => state.auth.user) || {};
   const notFoundModalShowing = useSelector(
     (state) => state.editor.notFoundModalShowing,
   );
@@ -19,18 +27,37 @@ const EmbeddedViewer = () => {
     (state) => state.editor.accessDeniedNoAuthModalShowing,
   );
   const { identifier } = useParams();
-  const user = useSelector((state) => state.auth.user) || {};
-  const [searchParams] = useSearchParams();
-  const isBrowserPreview = searchParams.get("browserPreview") === "true";
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useProject({
     projectIdentifier: identifier,
     accessToken: user.access_token,
     isEmbedded: true,
-    isBrowserPreview,
   });
 
   useEmbeddedMode(true);
+
+  useEffect(() => {
+    console.log(`page: ${page}`);
+    console.log(`isEmbedded: ${isEmbedded}`);
+    console.log(`browserPreview: ${browserPreview}`);
+    if (browserPreview) {
+      setSearchParams({
+        ...Object.fromEntries([...searchParams]),
+        page,
+      });
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (searchParams.get("browserPreview") === "true") {
+      dispatch(setBrowserPreview(true));
+    }
+
+    if (searchParams.get("page")) {
+      dispatch(setPage(searchParams.get("page")));
+    }
+  }, []);
 
   return (
     <div className="embedded-viewer">

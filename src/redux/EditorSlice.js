@@ -92,6 +92,7 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    browserPreview: false,
     isSplitView: true,
     isThemeable: true,
     codeRunStopped: false,
@@ -170,8 +171,14 @@ export const EditorSlice = createSlice({
       });
       state.saving = "idle";
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setBrowserPreview: (state, _action) => {
+      state.browserPreview = true;
     },
     setIsSplitView: (state, action) => {
       state.isSplitView = action.payload;
@@ -415,7 +422,9 @@ export const {
   setOpenFiles,
   addFilePanel,
   setFocussedFileIndex,
+  setPage,
   setEmbedded,
+  setBrowserPreview,
   setError,
   setIsSplitView,
   setNameError,
