@@ -119,7 +119,7 @@ describe("When not logged in and falling on default container width", () => {
       "min-width": "25%",
       "max-width": "100%",
       width: "100%",
-      height: "50%",
+      block-size: "50%",
     });
 
     expect(

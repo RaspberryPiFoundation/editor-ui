@@ -11,7 +11,7 @@
       @include font-size-1(regular);
       border-radius: 5px;
       display: block;
-      width: 100%;
+      inline-size: 100%;
       margin-block-end: $space-0-75;
       color: inherit;
 
@@ -31,7 +31,7 @@
 
       &--text {
         padding: $space-0-5;
-        width: -webkit-fill-available;
+        inline-size: -webkit-fill-available;
         font-weight: $font-weight-bold;
 
         svg {

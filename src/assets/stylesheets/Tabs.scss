@@ -19,7 +19,7 @@
       margin: 0;
       inset-block-start: 0;
       inset-block-end: 0;
-      height: $space-3;
+      block-size: $space-3;
       box-sizing: border-box;
       display: flex;
       align-items: center;
@@ -62,8 +62,8 @@
     }
 
     &__tab-text {
-      height: fit-content;
-      width: fit-content;
+      block-size: fit-content;
+      inline-size: fit-content;
       margin: 0;
       padding: 0 $space-0-75;
       white-space: nowrap;
@@ -73,7 +73,7 @@
       }
     }
     &__tab-close-btn {
-      height: 100%;
+      block-size: 100%;
       padding: $space-0-25;
       background-color: transparent;
 
@@ -93,7 +93,7 @@
 
     &__tab-container {
       display: flex;
-      height: fit-content;
+      block-size: fit-content;
     }
 
     &__tab-list {

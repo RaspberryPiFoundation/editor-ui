@@ -13,7 +13,7 @@
       border-radius: 5px;
       color: inherit;
       display: block;
-      width: 100%;
+      inline-size: 100%;
       margin-block-end: $space-0-75;
 
       .--dark & {
@@ -40,7 +40,7 @@
       &--text {
         display: block;
         padding: $space-0-5;
-        width: -webkit-fill-available;
+        inline-size: -webkit-fill-available;
         font-weight: $font-weight-bold;
       }
 

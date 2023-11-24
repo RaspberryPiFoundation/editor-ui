@@ -8,7 +8,7 @@
 }
 
 .files-list-item {
-  width: 100%;
+  inline-size: 100%;
   display: flex;
   justify-content: flex-start;
   position: relative;
@@ -18,7 +18,7 @@
   box-sizing: border-box;
   white-space: nowrap;
   font-weight: $font-weight-regular;
-  min-height: 44px;
+  min-block-size: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
   span {

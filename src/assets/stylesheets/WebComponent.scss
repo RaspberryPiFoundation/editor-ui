@@ -16,7 +16,7 @@
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   flex-flow: column;
-  height: 100%;
+  block-size: 100%;
 }
 
 code {
@@ -31,7 +31,7 @@ button {
 
 svg {
   fill: $rpf-black;
-  min-width: fit-content;
+  min-inline-size: fit-content;
 }
 
 button:focus-visible {

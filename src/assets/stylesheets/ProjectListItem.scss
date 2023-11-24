@@ -16,7 +16,7 @@ $small-table-grid: 600px;
     align-items: center;
     display: flex;
     grid-column: span 8;
-    min-width: 0;
+    min-inline-size: 0;
     padding: $space-1-5 0;
 
     @include unique-width($medium-table-grid) {

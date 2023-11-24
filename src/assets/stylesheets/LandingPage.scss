@@ -57,17 +57,17 @@
 .landing-page__paths {
   border-radius: $space-1-5;
   margin: 0 $space-1-5;
-  max-width: 368px;
+  max-inline-size: 368px;
   padding: $space-1-5 $space-1 0;
   text-align: center;
-  width: 100%;
+  inline-size: 100%;
 
   @media screen and (min-width: 768px) {
     align-items: center;
     display: flex;
     text-align: inline-start;
     padding: 0 $space-2;
-    max-width: 634px;
+    max-inline-size: 634px;
   }
 }
 
@@ -76,7 +76,7 @@
 
   @media screen and (min-width: 768px) {
     margin: unset;
-    max-width: 300px;
+    max-inline-size: 300px;
   }
 }
 
@@ -116,7 +116,7 @@
     aspect-ratio: 3/2;
     display: block;
     margin: auto;
-    max-width: 301px;
+    max-inline-size: 301px;
     width: 100%;
   }
 

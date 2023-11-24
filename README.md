@@ -113,7 +113,7 @@ Styles from the parent application can be passed to the web component in a few d
   // enables the parent application to control the size of the web components root element
   display: block;
   flex: 1 1 auto;
-  max-height: 100dvh;
+  max-block-size: 100dvh;
 }
 ```
 
