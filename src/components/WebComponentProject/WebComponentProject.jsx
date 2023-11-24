@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
 import Style from "style-it";
+
 import internalStyles from "../../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../../assets/stylesheets/ExternalStyles.scss";
+import "../../assets/stylesheets/EmbeddedViewer.scss";
+import "../../assets/stylesheets/Project.scss";
 
 import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
+import Output from "../Editor/Output/Output";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
 import { setIsSplitView } from "../../redux/EditorSlice";
@@ -19,7 +23,12 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
+const WebComponentProject = ({
+  withSidebar = false,
+  sidebarOptions = [],
+  outputOnly = false,
+}) => {
+  const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -39,6 +48,8 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   useEffect(() => {
     dispatch(setIsSplitView(false));
   }, [dispatch]);
+
+  console.log(`outputOnly: ${outputOnly}`);
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -75,17 +86,25 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
       <Style>
         {internalStyles}
         <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
-          {isMobile ? (
-            <MobileProject
-              withSidebar={withSidebar}
-              sidebarOptions={sidebarOptions}
-            />
-          ) : (
-            <Project
-              forWebComponent={true}
-              withSidebar={withSidebar}
-              sidebarOptions={sidebarOptions}
-            />
+          {!outputOnly &&
+            (isMobile ? (
+              <MobileProject
+                withSidebar={withSidebar}
+                sidebarOptions={sidebarOptions}
+              />
+            ) : (
+              <Project
+                forWebComponent={true}
+                withSidebar={withSidebar}
+                sidebarOptions={sidebarOptions}
+              />
+            ))}
+          {outputOnly && (
+            <div className="embedded-viewer">
+              {loading === "success" ? (
+                <Output embedded={true} browserPreview={false} />
+              ) : null}
+            </div>
           )}
         </div>
       </Style>

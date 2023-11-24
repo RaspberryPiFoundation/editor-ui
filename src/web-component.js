@@ -42,6 +42,7 @@ class WebComponent extends HTMLElement {
       "sense_hat_always_enabled",
       "instructions",
       "with_sidebar",
+      "output_only",
       "sidebar_options",
       "theme",
     ];

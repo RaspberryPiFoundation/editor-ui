@@ -21,6 +21,7 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     sidebarOptions = [],
     theme,
+    outputOnly = false,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -94,6 +95,7 @@ const WebComponentLoader = (props) => {
         <WebComponentProject
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
+          outputOnly={outputOnly === "true"}
         />
       </SettingsContext.Provider>
     </>
