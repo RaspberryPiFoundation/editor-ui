@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import ErrorModal from "./ErrorModal";
+import { closeErrorModal, setError } from "../../redux/EditorSlice";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
@@ -66,7 +67,7 @@ test("Clicking close dispatches close modal action", () => {
 
   const closeButton = screen.queryByText("modal.close");
   fireEvent.click(closeButton);
-  expect(store.getActions()).toEqual([{ type: "editor/closeErrorModal" }]);
+  expect(store.getActions()).toEqual([closeErrorModal(), setError(null)]);
 });
 
 test("Error message shown", () => {

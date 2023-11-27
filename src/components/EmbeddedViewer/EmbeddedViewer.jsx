@@ -17,7 +17,6 @@ const EmbeddedViewer = () => {
 
   const page = useSelector((state) => state.editor.page);
   const loading = useSelector((state) => state.editor.loading);
-  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const browserPreview = useSelector((state) => state.editor.browserPreview);
   const user = useSelector((state) => state.auth.user) || {};
   const notFoundModalShowing = useSelector(
@@ -38,9 +37,6 @@ const EmbeddedViewer = () => {
   useEmbeddedMode(true);
 
   useEffect(() => {
-    console.log(`page: ${page}`);
-    console.log(`isEmbedded: ${isEmbedded}`);
-    console.log(`browserPreview: ${browserPreview}`);
     if (browserPreview) {
       setSearchParams({
         ...Object.fromEntries([...searchParams]),
