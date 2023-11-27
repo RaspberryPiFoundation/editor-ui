@@ -3,6 +3,7 @@ import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
+import "../../../../assets/stylesheets/Instructions.scss";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project.steps);
@@ -23,7 +24,7 @@ const InstructionsPanel = () => {
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >
-      <div ref={stepContent}></div>
+      <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
   );
 };
