@@ -69,7 +69,7 @@
   }
 
   .project-bar__btn-wrapper:not(:last-child) {
-    border-right: 1px solid $rpf-grey-150;
+    border-inline-end: 1px solid $rpf-grey-150;
   }
 }
 
@@ -79,19 +79,19 @@
     border: 1px solid $rpf-grey-150;
 
     .project-name {
-      border-right: 1px solid $rpf-grey-150;
+      border-inline-end: 1px solid $rpf-grey-150;
     }
   }
 
   .project-bar__right {
-    border-left: 1px solid $rpf-grey-150;
+    border-inline-start: 1px solid $rpf-grey-150;
 
     .rpf_button {
-      border-right: 1px solid $rpf-grey-150;
+      border-inline-end: 1px solid $rpf-grey-150;
     }
 
     .btn--tertiary::after {
-      border-right: 1px solid $rpf-grey-150;
+      border-inline-end: 1px solid $rpf-grey-150;
     }
 
     .btn--tertiary:focus-visible::after {
@@ -106,18 +106,18 @@
     border: 1px solid $rpf-grey-600;
 
     .project-name {
-      border-right: 1px solid $rpf-grey-600;
+      border-inline-end: 1px solid $rpf-grey-600;
     }
   }
   .project-bar__right {
-    border-left: 1px solid $rpf-grey-600;
+    border-inline-start: 1px solid $rpf-grey-600;
 
     .project-bar__btn-wrapper:not(:last-child) {
       border-color: $rpf-grey-600;
     }
 
     .btn--tertiary::after {
-      border-right: 1px solid $rpf-grey-600;
+      border-inline-end: 1px solid $rpf-grey-600;
     }
 
     .btn--tertiary:focus-visible::after {

@@ -32,8 +32,7 @@
 .editor-banner__link {
   display: inline;
   font-weight: $font-weight-bold;
-  padding-left: 0;
-  padding-right: 0;
+  padding-inline: 0;
   text-decoration: underline;
 
   &.btn--tertiary {
@@ -46,7 +45,7 @@
 }
 
 .editor-banner__link--feedback {
-  padding-right: $space-0-25;
+  padding-inline-end: $space-0-25;
   white-space: nowrap;
 }
 

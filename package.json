@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "0.19.4",
+  "version": "0.20.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.8",
@@ -8,7 +8,7 @@
     "@codemirror/commands": "^6.1.1",
     "@codemirror/lang-css": "^6.0.0",
     "@codemirror/lang-html": "^6.1.2",
-    "@codemirror/lang-javascript": "^6.1.0",
+    "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/lang-python": "^6.0.2",
     "@codemirror/language": "^6.2.1",
     "@codemirror/view": "^6.3.0",
@@ -43,6 +43,7 @@
     "js-convert-case": "^4.2.0",
     "jszip": "^3.10.1",
     "jszip-utils": "^0.1.0",
+    "mime-types": "^2.1.35",
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
     "parse-link-header": "^2.0.0",

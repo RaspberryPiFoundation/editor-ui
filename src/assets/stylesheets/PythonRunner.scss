@@ -30,7 +30,7 @@
 }
 
 .pythonrunner-console-output-line {
-  padding-right: 5px;
+  padding-inline-end: 5px;
 }
 
 .pythonrunner-input {
@@ -76,11 +76,11 @@
     flex: 7;
 
     .--light & {
-      border-bottom: 5px solid $rpf-grey-100;
+      border-block-end: 5px solid $rpf-grey-100;
     }
 
     .--dark & {
-      border-bottom: 5px solid $rpf-grey-600;
+      border-block-end: 5px solid $rpf-grey-600;
     }
   }
 }

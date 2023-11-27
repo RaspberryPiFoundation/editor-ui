@@ -50,14 +50,14 @@
 
       &--selected {
         border-radius: 0;
-        padding-top: $space-0-25;
+        padding-block-start: $space-0-25;
 
         &:hover {
           text-decoration: none;
         }
 
         &:focus-visible {
-          padding-top: 7px;
+          padding-block-start: 7px;
         }
       }
 
@@ -83,7 +83,7 @@
       white-space: nowrap;
 
       &--split {
-        padding-right: 0;
+        padding-inline-end: 0;
       }
     }
     &__tab-close-btn {
@@ -111,7 +111,7 @@
     }
 
     &__tab-list {
-      border-bottom: none;
+      border-block-end: none;
       box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
