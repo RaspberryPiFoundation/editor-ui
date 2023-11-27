@@ -13,7 +13,10 @@
 
     h3 {
       margin: 0;
+      padding-inline-start: $space-2;
       @include font-size-1(bold);
+      background-repeat: no-repeat;
+      background-position: inline-start $space-0-5 center;
     }
 
     p {
@@ -22,15 +25,20 @@
   }
 
   .c-project-callout--tip {
-    background-image: url('../tick_with_background.svg');
-    background-repeat: no-repeat;
-    background-position: left $space-0-5 center;
     background-color: $rpf-green-100;
     border-inline-start: 4px solid $rpf-green-800;
+
+    h3 {
+      background-image: url('../tip.svg');
+    }
   }
 
   .c-project-callout--debug {
     background-color: $rpf-red-100;
     border-inline-start: 4px solid $rpf-red-800;
+
+    h3 {
+      background-image: url('../bug.svg')
+    }
   }
 }
