@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Web component theming (#766)
 - Sidebar - Refactored styles to be closer to designs (#720)
 - Sidebar - Refactored theming to fix inconsistencies between themes (#720)
 - Sidebar - Added hover styles to collapse and close buttons (#720)
