@@ -15,6 +15,13 @@
       inline-size: 100%;
       margin-block-end: $space-0-75;
 
+      &.theme-btn__icon--active {
+        outline: 2px solid $rpf-text-primary;
+        background-image: url('../tick_with_background.svg');
+        background-repeat: no-repeat;
+        background-position: right $space-0-5 center;
+      }
+
       .--dark & {
         outline: 2px solid $rpf-grey-500;
         background-color: $rpf-grey-600;
@@ -27,13 +34,6 @@
       .--light & {
         outline: 2px solid $rpf-grey-150;
         background-color: $rpf-white;
-      }
-
-      &.theme-btn__icon--active {
-        outline: 2px solid $rpf-text-primary;
-        background-image: url('../tick_with_background.svg');
-        background-repeat: no-repeat;
-        background-position: right $space-0-5 center;
       }
 
       &--text {
