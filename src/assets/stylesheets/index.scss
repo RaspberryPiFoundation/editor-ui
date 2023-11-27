@@ -48,3 +48,42 @@ code {
   --editor-color-text: #{$rpf-white};
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
 }
+
+.btn {
+  --rpf-button-primary-background-color: var(--rpf-teal-800);
+  --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
+  --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
+  --rpf-button-primary-background-color-active: var(--rpf-teal-600);
+  --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
+  --rpf-button-primary-color-disabled: var(--rpf-grey-600);
+  --rpf-button-primary-text-color: var(--rpf-white);
+
+  --rpf-button-secondary-background-color: var(--rpf-teal-800);
+  --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
+  --rpf-button-secondary-background-color-hover: var(--rpf-grey-600);
+  --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
+  --rpf-button-secondary-background-color-disabled: var(
+    --rpf-grey-50
+  ); // might not exist
+  --rpf-button-secondary-text-color: var(--rpf-white);
+
+  .--dark {
+    --rpf-button-primary-background-color: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-700);
+    --rpf-button-primary-color-disabled-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
+
+    --rpf-button-secondary-background-color: var(--rpf-grey-800);
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-secondary-color-disabled-background: var(--rpf-grey-700);
+    --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
+    --rpf-button-secondary-color: var(--rpf-white);
+  }
+}
+
+.select-buttons__tick--selected {
+  --rpf-select-buttons-tick-color: var(--rpf-black);
+}
