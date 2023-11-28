@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import MobileProject from "./MobileProject";
+import { showSidebar } from "../../../redux/EditorSlice";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -87,5 +88,89 @@ describe("When code is running", () => {
   test("renders the output", () => {
     const outputTab = screen.getByText("mobile.output").parentElement;
     expect(outputTab).toHaveClass("react-tabs__tab--selected");
+  });
+});
+
+describe("When withSidebar is true", () => {
+  let store;
+
+  beforeEach(() => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      auth: {},
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+  });
+
+  test("renders the sidebar open button", () => {
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+  });
+
+  test("clicking sidebar open button dispatches action to open the sidebar", () => {
+    const sidebarOpenButton = screen.getByTitle("sidebar.expand");
+    fireEvent.click(sidebarOpenButton);
+    expect(store.getActions()).toEqual([showSidebar()]);
+  });
+});
+
+describe("When sidebar is open", () => {
+  beforeEach(() => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        sidebarShowing: true,
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+  });
+
+  test("Sidebar renders with the correct options", () => {
+    expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
+  });
+});
+
+describe("When withSidebar is false", () => {
+  beforeEach(() => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MobileProject withSidebar={false} />
+      </Provider>,
+    );
+  });
+
+  test("Sidebar open button is not rendered", () => {
+    expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
   });
 });

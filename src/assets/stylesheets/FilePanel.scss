@@ -1,0 +1,65 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+
+.files-list-item-wrapper {
+  display: flex;
+  position: relative;
+}
+
+.files-list-item {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  align-items: center;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  box-sizing: border-box;
+  white-space: nowrap;
+  font-weight: $font-weight-regular;
+  min-height: 44px;
+  padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
+  margin: 0;
+  span {
+    font-weight: $font-weight-bold;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.files-list-item__menu {
+  border-radius: 8px;
+  position: absolute;
+  inset-inline-end: 0;
+}
+
+.--light {
+  .files-list-item,
+  .files-list-item__menu {
+    &:hover {
+      background-color: $rpf-teal-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-teal-secondary-tertiary-active;
+    }
+  }
+}
+
+.--dark {
+  .files-list-item,
+  .files-list-item__menu {
+    &:hover {
+      background-color: $rpf-grey-secondary-tertiary-hover;
+    }
+
+    &:active {
+      background-color: $rpf-grey-secondary-tertiary-active;
+    }
+  }
+
+  .files-list-icon svg {
+    fill: $rpf-white;
+  }
+}

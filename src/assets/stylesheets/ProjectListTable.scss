@@ -1,0 +1,97 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+
+$medium-table-grid: 990px;
+$small-table-grid: 600px;
+
+.editor-project-list {
+  margin: 0 auto;
+  max-width: 1570px;
+  width: 100%;
+
+  &__container {
+    border-radius: 8px;
+    margin: $space-1-5 $space-2;
+    padding: $space-0-5;
+
+    @include unique-width($small-table-grid) {
+      padding: $space-0-5 $space-1-5;
+    }
+
+    @include unique-width(767px) {
+      margin: $space-2-5 $space-3;
+    }
+
+    @include unique-width(1670px) {
+      margin: $space-2-5 0;
+    }
+
+    .--light & {
+      background: $rpf-white;
+    }
+
+    .--dark & {
+      background: $rpf-grey-600;
+    }
+  }
+
+  &__heading {
+    margin-block-start: $space-0-25;
+  }
+
+  &__heading:first-of-type {
+    grid-column: span 8;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 6;
+    }
+  }
+  &__heading:last-of-type {
+    grid-column: span 4;
+
+    @include unique-width($medium-table-grid) {
+      grid-column: span 6;
+    }
+  }
+
+  &__item {
+    align-items: center;
+    display: flex;
+    border-block-start: 1px solid $rpf-grey-150;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0 $space-0-5;
+
+    @include unique-max-width($small-table-grid) {
+      padding: $space-0-5;
+    }
+
+    .--dark & {
+      border-block-start: 1px solid $rpf-grey-500;
+    }
+
+    &:first-of-type {
+      border-block-start: none;
+    }
+  }
+
+  &__empty {
+    background: $rpf-grey-50;
+    border-radius: 8px;
+    text-align: center;
+
+    .--dark & {
+      background: $rpf-grey-700;
+    }
+
+    p {
+      @include font-size-1-25(regular);
+      font-weight: $font-weight-bold;
+      margin: 0;
+      padding: $space-1-5;
+    }
+  }
+}

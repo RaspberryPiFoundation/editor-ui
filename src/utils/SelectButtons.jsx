@@ -1,0 +1,47 @@
+import React from "react";
+import "../assets/stylesheets/SelectButtons.scss";
+import SelectButtonsTickIcon from "../assets/icons/select_buttons_tick.svg";
+
+const SelectButtons = ({ label, options, value, setValue }) => {
+  return (
+    <fieldset className="select-buttons">
+      <legend className="select-buttons__legend">{label}</legend>
+      <div className="select-buttons__options">
+        {options.map((option, i) => (
+          <div className="select-buttons__option" key={i}>
+            <input
+              className="select-buttons__button"
+              type="radio"
+              id={`${label}-option${i}`}
+              value={option.value}
+              onChange={(e) => setValue(e.target.value)}
+              checked={option.value === value}
+            />
+            <label
+              className={`select-buttons__label${
+                option.value === value ? " select-buttons__label--selected" : ""
+              }`}
+              htmlFor={`${label}-option${i}`}
+            >
+              {option.Icon ? <option.Icon /> : null}
+              {option.label}
+              {/* {option.value === value ? */}
+              <div
+                className={`select-buttons__tick${
+                  option.value === value
+                    ? " select-buttons__tick--selected"
+                    : ""
+                }`}
+              >
+                <SelectButtonsTickIcon />
+              </div>
+              {/* : null} */}
+            </label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+  );
+};
+
+export default SelectButtons;

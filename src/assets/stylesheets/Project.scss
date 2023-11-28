@@ -1,0 +1,166 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+
+.proj {
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+}
+
+.proj-header {
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: space-between;
+  padding-inline: 5px;
+}
+
+.editor-controls {
+  display: flex;
+}
+
+.proj-controls {
+  padding-block-start: 20px;
+}
+
+.proj-share-link {
+  padding-inline: 5px;
+}
+
+.proj-container {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: row;
+  overflow-y: hidden;
+
+  grid-gap: $space-1;
+  margin: $space-1;
+
+  height: 100%;
+  height: -moz-available;
+  height: -webkit-fill-available;
+  height: fill-available;
+
+  .project-wrapper {
+    display: flex;
+    flex-direction: column;
+    grid-gap: $space-0-5;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .proj-editor-wrapper {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: column;
+    grid-gap: $space-1;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
+  @container (min-width: 880px) {
+    .proj-editor-wrapper {
+      flex-flow: row;
+    }
+
+    .proj-editor-container {
+      max-height: 100% !important;
+    }
+
+    &--wc {
+      .proj-runner-container,
+      .proj-editor-container {
+        width: 50%;
+      }
+    }
+  }
+
+  .sidebar,
+  .proj-editor-container,
+  .proj-runner-container {
+    border-radius: 8px;
+  }
+
+  .proj-editor-container {
+    display: flex;
+    box-sizing: border-box;
+    min-height: 30%;
+    max-height: 70%;
+
+    .react-tabs__tab-panel--selected {
+      overflow-y: hidden;
+    }
+  }
+
+  .proj-runner-container {
+    display: flex;
+    box-sizing: border-box;
+    flex: 5;
+    overflow: hidden;
+
+    .react-tabs__tab-panel--selected {
+      overflow-y: auto;
+    }
+  }
+
+  &--wc {
+    min-height: 200px;
+
+    .proj-runner-container,
+    .proj-editor-container {
+      width: 100%;
+    }
+  }
+}
+
+.proj-editor-container,
+.proj-runner-container {
+  .react-tabs__tab-list {
+    flex: 1;
+  }
+
+  .react-tabs__tab-container {
+    .btn--run,
+    .btn--stop {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+  }
+}
+
+.--light {
+  .proj-runner-container,
+  .proj-editor-container,
+  .sidebar {
+    background-color: $rpf-white;
+  }
+
+  @container (min-width: 600px) {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
+      border: 1px solid $rpf-grey-150;
+    }
+  }
+}
+
+.--dark {
+  .proj-runner-container,
+  .proj-editor-container,
+  .sidebar {
+    background-color: $rpf-grey-800;
+  }
+
+  @container (min-width: 600px) {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
+      border: 1px solid $rpf-grey-600;
+    }
+  }
+}

@@ -1,0 +1,112 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+
+.dropdown {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+
+  &-button {
+    align-items: center;
+    border-radius: 0;
+    cursor: pointer;
+    display: flex;
+    padding: 0 $space-1-5;
+
+    &--active {
+      border-block-end: 3px solid $rpf-teal-800;
+    }
+  }
+
+  &-container {
+    z-index: 2;
+    position: absolute;
+    padding: $space-0-5;
+    border-radius: 10px;
+    margin-block-start: $space-1-5;
+
+    &--bottom {
+      inset-block-start: 100%;
+
+      &::before {
+        width: 0;
+        height: 0;
+        border-inline-start: 15px solid transparent;
+        border-inline-end: 15px solid transparent;
+        position: absolute;
+        inset-block-end: 100%;
+        inset-inline-start: 50%;
+        margin-inline-start: -15px;
+        content: "";
+      }
+    }
+
+    &--list {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
+        box-sizing: border-box;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        justify-content: inline-start;
+        font-weight: $font-weight-regular;
+        text-decoration: none;
+        padding: $space-0-5 $space-0-25;
+        border-radius: 5px;
+        white-space: nowrap;
+        width: 100%;
+      }
+    }
+  }
+
+  &-backdrop {
+    position: fixed;
+    inset-inline-start: 0px;
+    inset-block-start: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    z-index: -1;
+  }
+}
+
+.--light {
+  .dropdown-container {
+    background-color: $rpf-white;
+
+    &--bottom::before {
+      border-block-end: 15px solid $rpf-white;
+    }
+
+    &--list__item:hover {
+      background-color: $rpf-grey-100;
+    }
+  }
+  .dropdown-backdrop {
+    background-color: $rpf-grey-600;
+  }
+}
+
+.--dark {
+  .dropdown-container {
+    background-color: $rpf-grey-700;
+
+    &--bottom::before {
+      border-block-end: 15px solid $rpf-grey-700;
+    }
+
+    &--list__item:hover {
+      background-color: $rpf-grey-600;
+    }
+  }
+  .dropdown-backdrop {
+    background-color: black;
+  }
+  .dropdown-button--active {
+    background-color: $rpf-teal-400;
+  }
+}

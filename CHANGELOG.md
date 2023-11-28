@@ -4,6 +4,104 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+## [0.20.0] - 2023-11-24
+
+### Added
+
+- Javascript support for HTML projects (#748)
+- DownloadPanel for sidebar (#744)
+- Custom events for Log In and Sign Up from DownloadPanel (#744)
+- SVGO config file (#720)
+- Added ability to enable sidebar in web component (#738)
+- Added ability to customise sidebar options (#738)
+- Instructions Panel for the sidebar (#751, #768)
+- Added ability to fix the theme in the web component (#757)
+- Added ability to increase font size in the web component (#757)
+
+### Changed
+
+- Replace physical properties with logical values - padding (#774)
+- Sidebar - Refactored styles to be closer to designs (#720)
+- Sidebar - Refactored theming to fix inconsistencies between themes (#720)
+- Sidebar - Added hover styles to collapse and close buttons (#720)
+- Sidebar - Option/Tab style (#720)
+- Stopped SVGO from removing icon (svg) viewBoxes (#720)
+- Move local development port to avoid projects-ui clash (#736)
+- Update design-system-react dependency to publicly available version
+- Storybook SVG loader added and store configured (#749)
+- Switched `FontSizeSelector` and `ThemeToggle` over to using the new `SelectButtons` (#757)
+- Download panel removes log-in prompts for logged-in users (#744)
+
+### Fixed
+
+- Correct download.svg replaces DownloadIcon component (#793)
+- Container rather than media query breakpoints for the web component (#776)
+- `FileMenu` alignment (#720)
+- Edit icon not showing in ContextMenu (#720)
+- Updated sidebar and file icons to correct size (#720)
+- Local docker setup for development (#739)
+- Editor height overflow (#771, #779)
+
+## [0.19.4] - 2023-11-08
+
+### Changed
+
+- Added p5 library that can access WebComponent shadowRoot (#731)
+- Allow external rpf.io links (#729)
+
+## [0.19.3] - 2023-10-25
+
+### Added
+
+- `stepChanged` custom event for the web component (#709)
+- Web component tests (#709, #710)
+- `instructions` attribute for the web component (#712)
+- Instructions slice to store data passed from the Projects site (#712)
+- Adding auth to the web component (#728)
+- Allow web component to load, save and remix projects (#728)
+
+### Changed
+
+- Replace physical properties with logical values - margin (#717)
+- Replace physical properties with logical values - position (#699)
+- Moved web component custom events from the `editor-wc` element to the `document` (#710)
+- Renamed web component custom events to be prefixed with `editor-` (#710)
+- Switch props of `WebComponentLoader` from `snake_case` to `camelCase` (#712)
+
+### Fixed
+
+- Clipped icon in "Save your work" toast (#707)
+- Hydra logout flow to delete session (#714)
+
+## [0.19.2] - 2023-10-12
+
+### Fixed
+
+- TIDY UP: Improve component structure (#692)
+- TIDY UP: Naming convention (#688)
+- Style scaling to support integration into products with difffernt... (#687)
+- Boosting Performance: React.js Code Optimizations (#686)
+- Fix useEffect web component warnings (#674)
+
+## [0.19.1] - 2023-10-04
+
+### Changed
+
+- Performance enhancements on app routes & sense hat transitions (#686)
+- Web component styling (#687)
+- Convert React components to JSX files (#688)
+- Moved `svg`s to `/src/assets/icons` (#692)
+- Moved `scss` files to `/src/stylesheets` (#692)
+- Moved slices and reducers to `/src/redux` (#692)
+- Moved loaders to `/src/containers` (#692)
+
+### Fixed
+
+- Min-height on Sense HAT model to fix tablet-view (#658)
+- Tidied up stylesheets (#684)
+
 ## [0.19.0] - 2023-09-25
 
 ### Added
@@ -500,7 +598,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
+[0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
+[0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
+[0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2
+[0.19.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.1
 [0.19.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.0
 [0.18.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.2
 [0.18.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.18.1

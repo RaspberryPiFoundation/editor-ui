@@ -1,6 +1,6 @@
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { SettingsContext } from "../../../settings";
+import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
 

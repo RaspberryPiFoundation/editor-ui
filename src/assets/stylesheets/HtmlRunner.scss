@@ -1,0 +1,26 @@
+@use './rpf_design_system/colours' as *;
+@use './rpf_design_system/mixins' as *;
+
+.htmlrunner-container {
+  container-type: inline-size;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.htmlrunner-link {
+  margin-inline-start: auto;
+}
+
+.htmlrunner-link__text {
+  @container (max-width: 480px) {
+    display: none;
+  }
+}
+
+.htmlrunner-iframe {
+  border: none;
+  background-color: $rpf-white;
+  height: 100%;
+  width: 100%;
+}

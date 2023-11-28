@@ -20,8 +20,8 @@ Variables for the web component can be placed in `.env.webcomponent`.
 
 The app requires a Git token for access to private repos (currently limited to `design-system-react`).
 
-* Generated a token here, it'll be prefixed with `ghp_`: https://github.com/settings/tokens
-* Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
+- Generated a token here, it'll be prefixed with `ghp_`: https://github.com/settings/tokens
+- Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
 
 This will then be mounted as a secret in docker, and used to authenticate against the package repo.
 
@@ -32,7 +32,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3010](http://localhost:3010) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -71,13 +71,51 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 
 ### `yarn start:wc`
 
-Runs the web component in development mode. Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
+Runs the web component in development mode. Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
 
 **NB** You need to have the main `yarn start` process running too.
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
 For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3001?sense_hat_always_enabled)
+
+### Styling
+
+There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied to the web component itself or to the page that contains the web component.
+
+#### Styling internally
+
+Internal styles can be utilised and shared between the standalone editor and the web component. These styles are passed to the web component via the `style` attribute as a string and can be found in [`WebComponentProject.js`](LearnerExperience/editor-ui/src/components/WebComponent/Project/WebComponentProject.js) which uses [`InternalStyles.scss`](./src/components/WebComponent/InternalStyles.scss) and [`ExternalStyles.scss`](./src/components/WebComponent/ExternalStyles.scss) to style the web component.
+
+Internal styles can be utilised due to a `--scale-factor` being set on font size and spacing variables and an update to the base font size being set at the appropriate size i.e. in [WebComponent.scss](./src/components/WebComponent/WebComponent.scss). This enables the use of the existing font and spacing variables as well as the `em` unit, allowing the web component to utilise the same definitions as the standalone editor.
+
+**NB** due to `rem` using the `font-size` from the root it is unable to be overwritten in the shadow root so it should be avoided. Wherever possible use the existing calculations with the `--scale-factor` or `em` (however beware of nested relative sizing).
+
+#### Styling externally
+
+Styles from the parent application can be passed to the web component in a few different ways:
+
+- The web component utilises a shadow DOM, this creates a shadow root element in the DOM which is separate from the main DOM. It does however copy and create a new DOM tree from the main DOM with all styles applied to the root in the main DOM available in the shadow root.
+
+- A class can be applied to the custom element `wc-editor` which allows the parent application to style the web component container. This can be done by using the `class` attribute on the custom element. **NB** This attribute is `class` **NOT** `className`.
+
+- Other styles from the parent application will not be inherited by the web component. However, the web component can be styled by the parent application by using the `::part` pseudo-element selector. This allows the parent application to style the web component by targeting the web component's shadow DOM. For example, the following CSS will style the web component's `#root` element (due to the part attribute definition in [web-component.js](./src/web-component.js)):
+
+```scss
+::part(editor-root) {
+  // allows variables to be passed into the shadow dom
+  @include sauce-theme-primary-vars();
+  @include sauce-theme-secondary-vars();
+  // allows you to set custom variables inside the shadow dom
+  --editor-primary-theme: var(--theme-primary);
+  --editor-secondary-theme: var(--theme-secondary);
+  // background: var(--theme-secondary); // variables can then be applied inside the shadow dom
+  // enables the parent application to control the size of the web components root element
+  display: block;
+  flex: 1 1 auto;
+  max-height: 100dvh;
+}
+```
 
 ## Deployment
 

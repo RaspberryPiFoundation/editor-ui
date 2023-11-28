@@ -1,0 +1,19 @@
+@use "./rpf_design_system/colours" as *;
+
+.run-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.--light {
+  .run-bar {
+    border-block-start: 1px solid $rpf-grey-150;
+  }
+}
+
+.--dark {
+  .run-bar {
+    border-block-start: 1px solid $rpf-grey-600;
+  }
+}

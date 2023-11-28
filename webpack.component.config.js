@@ -31,10 +31,23 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
+        test: /\/src\/assets\/icons\/.*\.svg$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "@svgr/webpack",
+            options: {
+              esModule: false,
+              limit: 10000,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        exclude: /\/src\/assets\/icons\/.*\.svg$/,
+        use: [
+          {
+            loader: "url-loader",
             options: {
               limit: 10000,
             },
@@ -55,6 +68,7 @@ module.exports = {
     contentBase: path.join(__dirname, "public"),
     index: "web-component.html",
     host: "0.0.0.0",
+    disableHostCheck: true,
     port: 3001,
     writeToDisk: true,
   },

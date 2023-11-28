@@ -1,0 +1,67 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+
+.project-name {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  padding-inline-start: $space-0-5;
+
+  .btn--primary {
+    margin: 0 $space-0-5;
+  }
+}
+
+.project-name__label {
+  @include font-size-1(regular);
+  font-weight: $font-weight-bold;
+  margin-block-end: $space-0-5;
+  display: block;
+}
+
+.project-name__input {
+  @include font-size-1(regular);
+  padding: 0 $space-1-5;
+  height: $space-3;
+  border-radius: $space-0-5;
+  border: none;
+  color: inherit;
+  background-color: inherit;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.project-name__button {
+  height: fit-content;
+  padding: $space-0-5;
+
+  svg {
+    height: $space-1-5;
+    width: $space-1-5;
+    margin: 0;
+  }
+}
+
+.--light {
+  .project-name__input {
+    background-color: $rpf-grey-50;
+
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-text-primary;
+    }
+  }
+}
+
+.--dark {
+  .project-name__input {
+    background-color: $rpf-grey-600;
+
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-white;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
+
+.projects-panel-wrapper {
+  .sidebar__panel-content {
+    overflow: visible;
+  }
+
+  .projects-panel__your-projects-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+
+    a {
+      color: $rpf-black;
+      text-decoration: none;
+    }
+  }
+
+  .projects-panel__download-button {
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+  }
+
+  .project-name {
+    height: auto;
+    padding-inline-start: 0;
+
+    &__label {
+      padding-inline-start: 0;
+    }
+
+    &__input {
+      padding: 0 $space-1;
+    }
+  }
+
+  .projects-panel__item {
+    margin-block-end: $space-1;
+  }
+
+  .projects-panel__save,
+  .projects-panel__button {
+    border-block-start: 1px solid var(--sidebar-border);
+    padding: $space-1 0;
+    display: flex;
+  }
+
+  .projects-panel__save-button {
+    width: 100%;
+    margin-block-end: $space-1;
+    justify-content: center;
+
+    .icon {
+      display: none;
+    }
+
+    .content {
+      margin: auto;
+    }
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .projects-panel__save-status {
+    margin: auto;
+    width: fit-content;
+  }
+}
+
+.--dark {
+  .projects-panel__save-button {
+    .content {
+      color: white;
+    }
+  }
+}
