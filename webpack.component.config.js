@@ -1,9 +1,11 @@
 const path = require("path");
+const webpack = require('webpack')
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/web-component.js"),
+  cache: false,
   module: {
     rules: [
       {
@@ -17,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
         use: [
           "sass-to-string",
           {
@@ -57,7 +59,10 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx", ".css"],
+    extensions: [".*", ".js", ".jsx", ".css"],
+    fallback: { 
+      path: require.resolve("path-browserify")
+    }
   },
   output: {
     path: path.resolve(__dirname, "./build"),
@@ -81,6 +86,10 @@ module.exports = {
       inject: "body",
       template: "src/web-component.html",
       filename: "web-component.html",
+    }),
+    // fix "process is not defined" error:
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
     }),
   ],
 };
