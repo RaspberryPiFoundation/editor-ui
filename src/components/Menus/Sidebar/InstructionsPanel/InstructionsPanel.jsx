@@ -13,12 +13,23 @@ const InstructionsPanel = () => {
   const { t } = useTranslation();
   const stepContent = useRef();
 
+  const applySyntaxHighlighting = (container) => {
+    const elements = container.querySelectorAll(".language-python");
+    console.log("There are", elements.length, "relevant elements to highlight");
+
+    elements.forEach((element) => {
+      window.Prism.highlightElement(element);
+    });
+  };
+
   useEffect(() => {
     if (steps[currentStepPosition]) {
       stepContent.current.parentElement.scrollTo({ top: 0 });
       stepContent.current.innerHTML = steps[currentStepPosition].content;
+      applySyntaxHighlighting(stepContent.current);
     }
   }, [steps, currentStepPosition]);
+
   return (
     <SidebarPanel
       heading={t("instructionsPanel.projectSteps")}
