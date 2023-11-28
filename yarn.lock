@@ -1785,10 +1785,10 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
-"@raspberrypifoundation/design-system-core@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-core/-/design-system-core-0.1.7.tgz#5bd12f4bc2ba2b0289f3958f1e7f89ee2aaa80f6"
-  integrity sha512-Fwjs4DBBLu57l8j5wFKWNWOv6SeIrikKhPxlAA3eHXOVXxlfqRMPRbdfRCxzW0Dzovpv5OZCxouos+c0agQ99g==
+"@raspberrypifoundation/design-system-core@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-core/-/design-system-core-0.1.8.tgz#9b348b7aa97085e3c348c7a90002cf89086dfad1"
+  integrity sha512-YJOJvHs3fiLZdaIVeXTRgCRVn24ySovX4wIIcDTxHzP3DaBtePr0592aN78nFFqWkDvhprQbbknzA0uuaO1amw==
   dependencies:
     classnames "^2.3.2"
 

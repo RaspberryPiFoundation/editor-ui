@@ -15,7 +15,7 @@
 @use "./EditorInput" as *;
 @use "./EditorPanel" as *;
 @use "./Sidebar" as *;
-@use "./Instructions" as *;
+// @use "./Instructions" as *;
 @use "./ProjectsPanel" as *;
 @use "./ProjectName" as *;
 @use "./ProjectInfo" as *;
@@ -33,3 +33,4 @@
 @use "./ErrorMessage" as *;
 @use "./OutputViewToggle" as *;
 @use "./AstroPiModel" as *;
+@use "./Instructions" as *;
