@@ -122,9 +122,7 @@
 
     &:hover {
       color: var(--rpf-button-secondary-background-color-hover);
-      border-color: var(
-        --rpf-button-secondary-background-color-hover
-      ) !important;
+      border-color: var(--rpf-button-secondary-background-color-hover);
 
       svg {
         fill: var(--rpf-button-secondary-background-color-hover);
