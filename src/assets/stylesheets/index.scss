@@ -49,7 +49,8 @@ code {
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
 }
 
-.btn {
+.btn,
+.rpf-button {
   --rpf-button-primary-background-color: var(--rpf-teal-800);
   --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
   --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
