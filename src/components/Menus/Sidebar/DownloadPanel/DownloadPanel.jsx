@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import SidebarPanel from "../SidebarPanel";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
-import DownloadIcon from "../../../../utils/DownloadIcon";
+import DownloadIcon from "../../../../assets/icons/download.svg";
 
 import {
   logInEvent,
