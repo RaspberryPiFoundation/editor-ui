@@ -19,6 +19,7 @@ const WebComponentLoader = (props) => {
     code,
     senseHatAlwaysEnabled = false,
     instructions,
+    withProjectbar = false,
     withSidebar = false,
     sidebarOptions = [],
     theme,
@@ -96,6 +97,7 @@ const WebComponentLoader = (props) => {
         }}
       >
         <WebComponentProject
+          withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
         />

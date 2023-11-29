@@ -19,7 +19,11 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
+const WebComponentProject = ({
+  withProjectbar = false,
+  withSidebar = false,
+  sidebarOptions = [],
+}) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -85,6 +89,7 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
           ) : (
             <Project
               forWebComponent={true}
+              withProjectbar={withProjectbar}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
             />

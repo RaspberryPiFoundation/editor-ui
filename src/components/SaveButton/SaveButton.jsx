@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
+
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
@@ -21,7 +23,7 @@ const SaveButton = ({ className, type = "secondary" }) => {
   return (
     loading === "success" && (
       <DesignSystemButton
-        className={className}
+        className={classNames(`btn btn--${type}`, className)}
         onClick={onClickSave}
         text={t("header.save")}
         textAlways

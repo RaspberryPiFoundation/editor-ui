@@ -25,24 +25,24 @@ const ProjectBar = () => {
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {loading === "success" ? <ProjectName /> : null}
+        {loading === "success" && <ProjectName />}
         <div className="project-bar__right">
-          {loading === "success" ? (
+          {loading === "success" && (
             <div className="project-bar__btn-wrapper">
               <DownloadButton
                 buttonText={t("header.download")}
-                className="project-bar__btn btn--download"
+                className="btn btn--tertiary project-bar__btn btn--download"
                 Icon={DownloadIcon}
                 type="tertiary"
               />
             </div>
-          ) : null}
+          )}
           <div className="project-bar__btn-wrapper">
             <SaveButton className="project-bar__btn btn--save" />
           </div>
-          {lastSavedTime && user ? (
+          {lastSavedTime && user && (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
-          ) : null}
+          )}
         </div>
       </div>
     )

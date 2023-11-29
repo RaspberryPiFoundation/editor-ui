@@ -16,8 +16,12 @@ import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
 const Project = (props) => {
-  const { withSidebar = true, sidebarOptions = [] } = props;
   const webComponent = useSelector((state) => state.editor.webComponent);
+  const {
+    withProjectbar = true,
+    withSidebar = true,
+    sidebarOptions = [],
+  } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -52,7 +56,7 @@ const Project = (props) => {
       >
         {withSidebar && <Sidebar options={sidebarOptions} />}
         <div className="project-wrapper">
-          {!!!webComponent && <ProjectBar />}
+          {withProjectbar && <ProjectBar />}
           <div className="proj-editor-wrapper">
             <ResizableWithHandle
               data-testid="proj-editor-container"
