@@ -12,7 +12,7 @@ import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
-import DownloadIcon from "../../../utils/DownloadIcon";
+import DownloadIcon from "../../../assets/icons/download.svg";
 import StepsIcon from "../../../assets/icons/steps.svg";
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
@@ -25,8 +25,6 @@ import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 
 const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
-
-  const DownloadIcon24x24 = () => <DownloadIcon width={24} height={24} />;
 
   let menuOptions = [
     {
@@ -59,7 +57,7 @@ const Sidebar = ({ options = [] }) => {
     },
     {
       name: "download",
-      icon: DownloadIcon24x24,
+      icon: DownloadIcon,
       title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
