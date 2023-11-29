@@ -121,6 +121,15 @@ Styles from the parent application can be passed to the web component in a few d
 
 Classes from the stringified HTML passed to the web component in the `instructions` attribute are being used to style the project steps in the instructions panel.
 
+##### Task Block
+
+Styles for the task block can be applied as follows:
+
+```html
+<h2 class="c-project-heading--task">Task heading</h2>
+<div class="c-project-task">{task content here}</div>
+```
+
 ##### Callouts
 
 There are three types of callout: tip, debugging and generic. The green tip callout is generated as follows:

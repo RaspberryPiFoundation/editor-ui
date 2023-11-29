@@ -1785,6 +1785,13 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@raspberrypifoundation/design-system-core@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-core/-/design-system-core-0.1.8.tgz#9b348b7aa97085e3c348c7a90002cf89086dfad1"
+  integrity sha512-YJOJvHs3fiLZdaIVeXTRgCRVn24ySovX4wIIcDTxHzP3DaBtePr0592aN78nFFqWkDvhprQbbknzA0uuaO1amw==
+  dependencies:
+    classnames "^2.3.2"
+
 "@raspberrypifoundation/design-system-react@^0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@raspberrypifoundation/design-system-react/-/design-system-react-0.1.5.tgz#1b76111e9f34bf62cb494812fa42da7f2263d58e"
