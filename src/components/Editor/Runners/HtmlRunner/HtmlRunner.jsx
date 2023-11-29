@@ -173,7 +173,6 @@ function HtmlRunner() {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      console.log(projectCode);
       runCode();
     }
   }, [codeRunTriggered]);

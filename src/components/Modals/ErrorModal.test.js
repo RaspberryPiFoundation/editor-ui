@@ -70,7 +70,7 @@ test("Clicking close dispatches close modal action", () => {
   expect(store.getActions()).toEqual([closeErrorModal(), setError(null)]);
 });
 
-test("Error message shown", () => {
+test("Error message shown via props", () => {
   const initialState = {
     editor: {
       errorModalShowing: true,
@@ -82,6 +82,28 @@ test("Error message shown", () => {
     <Provider store={store}>
       <div id="app">
         <ErrorModal errorType="someTestError" />
+      </div>
+    </Provider>,
+  );
+
+  expect(
+    screen.queryByText("modal.error.someTestError.message"),
+  ).toBeInTheDocument();
+});
+
+test("Error message shown via state", () => {
+  const initialState = {
+    editor: {
+      errorModalShowing: true,
+      error: "someTestError",
+    },
+  };
+  const store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <div id="app">
+        <ErrorModal />
       </div>
     </Provider>,
   );
