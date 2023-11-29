@@ -40,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Correct download.svg replaces DownloadIcon component (#793)
 - Container rather than media query breakpoints for the web component (#776)
 - `FileMenu` alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
