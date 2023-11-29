@@ -20,6 +20,7 @@ import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
+  const webComponent = useSelector((state) => state.editor.webComponent);
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -305,21 +306,22 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!isEmbedded && (
-                <a
-                  className="btn btn--tertiary htmlrunner-link"
-                  target="_blank"
-                  href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
-                    project.identifier
-                  }?browserPreview=true&page=${encodeURI(runningFile)}`}
-                  rel="noreferrer"
-                >
-                  <span className="htmlrunner-link__text">
-                    {t("output.newTab")}
-                  </span>
-                  <OpenInNewTabIcon />
-                </a>
-              )}
+              {!!!isEmbedded ||
+                (!!!webComponent && (
+                  <a
+                    className="btn btn--tertiary htmlrunner-link"
+                    target="_blank"
+                    href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
+                      project.identifier
+                    }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                    rel="noreferrer"
+                  >
+                    <span className="htmlrunner-link__text">
+                      {t("output.newTab")}
+                    </span>
+                    <OpenInNewTabIcon />
+                  </a>
+                ))}
             </TabList>
             {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>

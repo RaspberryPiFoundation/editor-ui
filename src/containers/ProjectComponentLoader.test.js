@@ -87,6 +87,7 @@ test("Does not render loading message if loading is success", () => {
       loading: "success",
     },
     auth: {},
+    instructions: {},
   };
   const store = mockStore(initialState);
   render(

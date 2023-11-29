@@ -95,6 +95,7 @@ export const EditorSlice = createSlice({
     browserPreview: false,
     isSplitView: true,
     isThemeable: true,
+    webComponent: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -162,6 +163,9 @@ export const EditorSlice = createSlice({
         state.project.image_list = [];
       }
       state.project.image_list = action.payload;
+    },
+    setWebComponent: (state, action) => {
+      state.webComponent = action.payload;
     },
     addProjectComponent: (state, action) => {
       state.project.components.push({
@@ -429,6 +433,7 @@ export const {
   setIsSplitView,
   setNameError,
   setHasShownSavePrompt,
+  setWebComponent,
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
