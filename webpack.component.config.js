@@ -17,14 +17,19 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        // exclude: /node_modules/,
+        exclude: [/node_modules/],
         use: [
-          "sass-to-string",
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "resolve-url-loader",
+          },
           {
             loader: "sass-loader",
             options: {
               sassOptions: {
-                outputStyle: "compressed",
+                sourceMap: true,
               },
             },
           },
