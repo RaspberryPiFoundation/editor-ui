@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## Fix
+
+- HTML projects loading in web component (#789)
+
 ### Added
 
 - Styling for the instructions callouts (#788)

@@ -1,6 +1,7 @@
-import "../../../../../assets/stylesheets/ProjectImages.scss";
-
+import React from "react";
 import { useSelector } from "react-redux";
+
+import "../../../../../assets/stylesheets/ProjectImages.scss";
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);

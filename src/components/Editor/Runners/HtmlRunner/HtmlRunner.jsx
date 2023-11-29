@@ -6,20 +6,21 @@ import { parse } from "node-html-parser";
 import { useMediaQuery } from "react-responsive";
 import mimeTypes from "mime-types";
 
-import ErrorModal from "../../../Modals/ErrorModal";
 import {
+  setError,
+  setPage,
   showErrorModal,
   codeRunHandled,
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Link, useSearchParams } from "react-router-dom";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
+  const webComponent = useSelector((state) => state.editor.webComponent);
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -38,14 +39,14 @@ function HtmlRunner() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const browserPreview = useSelector((state) => state.editor.browserPreview);
+  const page = useSelector((state) => state.editor.page);
 
-  const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
   const dispatch = useDispatch();
   const output = useRef(null);
-  const [error, setError] = useState(null);
   const domain = `https://rpf.io/`;
   const rpfDomain = new RegExp(`^${domain}`);
   const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
@@ -63,19 +64,12 @@ function HtmlRunner() {
     )[0];
 
   const previewable = (file) => file.endsWith(".html");
-  let defaultPreviewFile;
+  let defaultPreviewFile = "index.html";
 
-  if (
-    isEmbedded &&
-    searchParams.get("browserPreview") === "true" &&
-    searchParams.get("page") &&
-    previewable(searchParams.get("page"))
-  ) {
-    defaultPreviewFile = searchParams.get("page");
+  if (isEmbedded && browserPreview && page && previewable(page)) {
+    defaultPreviewFile = page;
   } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
     defaultPreviewFile = openFiles[focussedFileIndex];
-  } else {
-    defaultPreviewFile = "index.html";
   }
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
@@ -84,9 +78,8 @@ function HtmlRunner() {
 
   const showModal = () => {
     dispatch(showErrorModal());
+    eventListener();
   };
-
-  const closeModal = () => setError(null);
 
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
@@ -125,7 +118,8 @@ function HtmlRunner() {
     window.addEventListener("message", (event) => {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
-          setError("externalLink");
+          dispatch(setError("externalLink"));
+          showModal();
         } else if (event.data?.msg === "Allowed external link") {
           setExternalLink(event.data.payload.linkTo);
           dispatch(triggerCodeRun());
@@ -195,18 +189,8 @@ function HtmlRunner() {
   }, [focussedFileIndex, openFiles]);
 
   useEffect(() => {
-    if (error) {
-      showModal();
-      eventListener();
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (isEmbedded && searchParams.get("browserPreview") === "true") {
-      setSearchParams({
-        ...Object.fromEntries([...searchParams]),
-        page: runningFile,
-      });
+    if (isEmbedded && browserPreview) {
+      dispatch(setPage(runningFile));
     }
   }, [runningFile]);
 
@@ -313,7 +297,6 @@ function HtmlRunner() {
 
   return (
     <div className="htmlrunner-container">
-      <ErrorModal errorType={error} additionalOnClose={closeModal} />
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
         <Tabs>
           <div className="react-tabs__tab-container">
@@ -323,20 +306,22 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!isEmbedded && (
-                <Link
-                  className="btn btn--tertiary htmlrunner-link"
-                  target="_blank"
-                  to={`/${locale}/embed/viewer/${
-                    project.identifier
-                  }?browserPreview=true&page=${encodeURI(runningFile)}`}
-                >
-                  <span className="htmlrunner-link__text">
-                    {t("output.newTab")}
-                  </span>
-                  <OpenInNewTabIcon />
-                </Link>
-              )}
+              {!!!isEmbedded ||
+                (!!!webComponent && (
+                  <a
+                    className="btn btn--tertiary htmlrunner-link"
+                    target="_blank"
+                    href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
+                      project.identifier
+                    }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                    rel="noreferrer"
+                  >
+                    <span className="htmlrunner-link__text">
+                      {t("output.newTab")}
+                    </span>
+                    <OpenInNewTabIcon />
+                  </a>
+                ))}
             </TabList>
             {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>

@@ -10,7 +10,7 @@ import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import { setIsSplitView } from "../../redux/EditorSlice";
+import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -36,8 +36,10 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(setIsSplitView(false));
+    dispatch(setWebComponent(true));
   }, [dispatch]);
 
   useEffect(() => {
