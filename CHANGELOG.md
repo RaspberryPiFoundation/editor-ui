@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Styling for the instructions callouts (#788)
+
+### Changed
+
+- Application of styles in the web component to remove `sass-to-string` (#788)
+
 ## [0.20.0] - 2023-11-24
 
 ### Added
