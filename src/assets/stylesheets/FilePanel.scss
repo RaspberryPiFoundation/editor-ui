@@ -38,11 +38,11 @@
   .files-list-item,
   .files-list-item__menu {
     &:hover {
-      background-color: $rpf-teal-secondary-tertiary-hover;
+      background-color: var(--rpf-files-list-item-hover);
     }
 
     &:active {
-      background-color: $rpf-teal-secondary-tertiary-active;
+      background-color: var(--rpf-files-list-item-active);
     }
   }
 }
@@ -51,11 +51,11 @@
   .files-list-item,
   .files-list-item__menu {
     &:hover {
-      background-color: $rpf-grey-secondary-tertiary-hover;
+      background-color: var(--rpf-files-list-item-hover);
     }
 
     &:active {
-      background-color: $rpf-grey-secondary-tertiary-active;
+      background-color: var(--rpf-files-list-item-active);
     }
   }
 

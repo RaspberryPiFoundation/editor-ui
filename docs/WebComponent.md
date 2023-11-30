@@ -1,13 +1,10 @@
 # Editor Web Component
 
-The prototype web component implementation currently lives in its own branch: [spike-web-component](https://github.com/RaspberryPiFoundation/editor-ui/tree/spike-web-component).
-There is a [draft pull request](https://github.com/RaspberryPiFoundation/editor-ui/pull/96).
-
 To have the web component be able to use the same React components as the site application there needed to be a separate start script for the component. This required being able to customise how build was done and meant the `create-react-app` needed to be ejected. This copies configuration files into the project instead of running it all in create-react-app scripts.
 
 There is a custom webpack config file for the component `webpack.component.config.js` and a script in the `package.json`: `start:wc` which will start serving the web component.
 
-In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3001` will load the page with the web component mounted.
+In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011` will load the page with the web component mounted.
 
 ## WebComponent Class
 
