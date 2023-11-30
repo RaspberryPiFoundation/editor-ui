@@ -6,32 +6,78 @@ import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
 
 describe("When project is loaded", () => {
-  let store;
+  describe("with webComponent=false", () => {
+    let store;
 
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        loading: "success",
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <SaveButton />
-      </Provider>,
-    );
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          loading: "success",
+          webComponent: false,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+    });
+
+    test("Save button renders", () => {
+      expect(screen.queryByText("header.save")).toBeInTheDocument();
+    });
+
+    test("Clicking save dispatches trigger save action", () => {
+      const saveButton = screen.queryByText("header.save");
+      fireEvent.click(saveButton);
+      expect(store.getActions()).toEqual([triggerSave()]);
+    });
+
+    test("renders a secondary button", () => {
+      const saveButton = screen.queryByText("header.save").parentElement;
+      expect(saveButton).toHaveClass("btn--secondary");
+    });
   });
 
-  test("Save button renders", () => {
-    expect(screen.queryByText("header.save")).toBeInTheDocument();
-  });
+  describe("with webComponent=true", () => {
+    let store;
 
-  test("Clicking save dispatches trigger save action", () => {
-    const saveButton = screen.queryByText("header.save");
-    fireEvent.click(saveButton);
-    expect(store.getActions()).toEqual([triggerSave()]);
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          loading: "success",
+          webComponent: true,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+    });
+
+    test("Save button renders", () => {
+      expect(screen.queryByText("header.integratedSave")).toBeInTheDocument();
+    });
+
+    test("Clicking save dispatches trigger save action", () => {
+      const saveButton = screen.queryByText("header.integratedSave");
+      fireEvent.click(saveButton);
+      expect(store.getActions()).toEqual([triggerSave()]);
+    });
+
+    test("renders a primary button", () => {
+      const saveButton = screen.queryByText(
+        "header.integratedSave",
+      ).parentElement;
+      expect(saveButton).toHaveClass("btn--primary");
+    });
   });
 });
 
@@ -50,5 +96,8 @@ describe("When project is not loaded", () => {
   });
   test("Does not render save button", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+  });
+  test("Does not render integratedSave button", () => {
+    expect(screen.queryByText("header.integratedSave")).not.toBeInTheDocument();
   });
 });
