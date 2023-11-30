@@ -13,21 +13,22 @@
 
   .language-python {
     .number, .boolean, .function {
-      color: #1498D0;
+      color: $rpf-syntax-blue;
     }
     .keyword {
-      color: #FF00A4;
+      color: $rpf-syntax-pink;
     }
     .string, .char {
-      color: #6CE68D;
+      color: $rpf-syntax-green;
     }
     .comment {
-      color: #C1C1C1;
+      color: $rpf-syntax-grey;
     }
 
     .keyword-print {
       color: $rpf-white;
     }
+  }
  
   .c-project-callout {
     background-color: $rpf-blue-100;
