@@ -12,9 +12,6 @@
   .c-project-heading--task {
     @extend .rpf-squiggle-heading;
     --rpf-squiggle-color: var(--rpf-blue-800);
-    --rpf-squiggle-mask: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%3Bstroke-linecap%3Around%3Bstroke-miterlimit%3A10%22%20viewBox%3D%220%200%2029%2013%22%3E%3Cpath%20d%3D%22M2.913%2010.938c7.253%200%207.253-8%2014.505-8%207.253%200%207.253%208%2014.505%208%22%20style%3D%22fill%3Anone%3Bfill-rule%3Anonzero%3Bstroke%3A%23fff%3Bstroke-width%3A4px%22%20transform%3D%22translate%28-2.913%29%22%2F%3E%3C%2Fsvg%3E);
-    --rpf-squiggle-end-cap-l-mask: url(data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%22%20viewBox%3D%220%200%202%2013%22%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2211%22%20r%3D%222%22%20style%3D%22fill%3Awhite%22%2F%3E%3C%2Fsvg%3E);
-    --rpf-squiggle-end-cap-r-mask: url(data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%22%20viewBox%3D%220%200%202%2013%22%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2211%22%20r%3D%222%22%20style%3D%22fill%3Awhite%22%2F%3E%3C%2Fsvg%3E);
     background-color: $rpf-blue-100;
     padding: $space-1;
     width: 100%;
@@ -61,7 +58,6 @@
       background-repeat: no-repeat;
       background-position: inline-start $space-0-5 center;
     }
-    
     
     p {
       margin: 0;
