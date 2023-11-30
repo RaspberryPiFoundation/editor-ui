@@ -9,6 +9,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Styling for the task section of the instructions (#781)
+- Styling for the instructions callouts (#788)
+
+### Changed
+
+- Application of styles in the web component to remove `sass-to-string` (#788)
+
+## Fixed
+
+- HTML projects loading in web component (#789)
 
 ## [0.20.0] - 2023-11-24
 

@@ -130,6 +130,34 @@ Styles for the task block can be applied as follows:
 <div class="c-project-task">{task content here}</div>
 ```
 
+##### Callouts
+
+There are three types of callout: tip, debugging and generic. The green tip callout is generated as follows:
+
+```html
+<div class="c-project-callout c-project-callout--tip">
+  <h3>{Tip title}</h3>
+  {tip content here}
+</div>
+```
+
+The red debugging callout is generated as follows:
+
+```html
+<div class="c-project-callout c-project-callout--debug">
+  <h3>{Debugging title}</h3>
+  {debugging content here}
+</div>
+```
+
+The blue generic callout is the default if no modifier is specifed:
+
+```html
+<div class="c-project-callout">
+  {callout content here}
+</div>
+```
+
 ## Deployment
 
 Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set

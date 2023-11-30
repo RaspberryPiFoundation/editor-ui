@@ -44,6 +44,7 @@ class WebComponent extends HTMLElement {
       "with_sidebar",
       "sidebar_options",
       "theme",
+      "embedded",
     ];
   }
 
