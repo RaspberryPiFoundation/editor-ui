@@ -88,3 +88,13 @@ code {
 .select-buttons__tick--selected {
   --rpf-select-buttons-tick-color: var(--rpf-black);
 }
+
+.--light {
+  --rpf-files-list-item-active: #{$rpf-teal-secondary-tertiary-active};
+  --rpf-files-list-item-hover: #{$rpf-teal-secondary-tertiary-hover};
+}
+
+.--dark {
+  --rpf-files-list-item-active: #{$rpf-grey-secondary-tertiary-active};
+  --rpf-files-list-item-hover: #{$rpf-grey-secondary-tertiary-hover};
+}
