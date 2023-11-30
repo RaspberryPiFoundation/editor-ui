@@ -2,7 +2,6 @@ import React, { startTransition } from "react";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 
-import "../../../../../assets/stylesheets/ThemeToggle.scss";
 import SelectButtons from "../../../../../utils/SelectButtons";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];

@@ -2,6 +2,7 @@
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
 @use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/font-weight" as *;
 
 .project-instructions {
   h2 {
@@ -69,7 +70,7 @@
     border-inline-start: 4px solid $rpf-green-800;
 
     h3 {
-      background-image: url('../tip.svg');
+      background-image: url("../tip.svg");
     }
   }
 
@@ -78,7 +79,19 @@
     border-inline-start: 4px solid $rpf-red-800;
 
     h3 {
-      background-image: url('../bug.svg')
+      background-image: url("../bug.svg");
     }
+  }
+
+  .c-project-output * {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    font-family: monospace;
+    font-weight: $font-weight-regular;
+    color: var(--rpf-text-primary);
+    padding: $space-1;
+    border-radius: 8px;
+    border: 1px solid var(--rpf-grey-150);
   }
 }
