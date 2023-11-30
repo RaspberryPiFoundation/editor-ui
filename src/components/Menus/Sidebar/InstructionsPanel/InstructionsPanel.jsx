@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
+import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project.steps);
@@ -18,7 +19,10 @@ const InstructionsPanel = () => {
     console.log("There are", elements.length, "relevant elements to highlight");
 
     elements.forEach((element) => {
-      window.Prism.highlightElement(element);
+      if (element.innerText !== "print") {
+        console.log(element.innerText);
+        window.Prism.highlightElement(element);
+      }
     });
   };
 

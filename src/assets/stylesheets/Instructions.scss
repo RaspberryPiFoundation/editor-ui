@@ -11,8 +11,21 @@
   }
 
   .language-python {
-    .string {
-      color: lightgreen;
+    .number, .boolean, .function {
+      color: #1498D0;
+    }
+    .keyword {
+      color: #FF00A4;
+    }
+    .string, .char {
+      color: #6CE68D;
+    }
+    .comment {
+      color: #C1C1C1;
+    }
+
+    .keyword-print {
+      color: $rpf-white;
     }
   }
 }
