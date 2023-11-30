@@ -17,7 +17,8 @@
 .project-name__title {
   @include font-size-1-25(bold);
   font-weight: $font-weight-bold;
-  margin-inline: $space-1;
+  margin-inline-start: $space-0-5;
+  margin-inline-end: $space-1;
 }
 
 .project-name__label {

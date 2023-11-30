@@ -31,7 +31,7 @@ const ProjectBar = () => {
             <div className="project-bar__btn-wrapper">
               <DownloadButton
                 buttonText={t("header.download")}
-                className="btn btn--tertiary project-bar__btn btn--download"
+                className="btn btn--tertiary project-bar__btn"
                 Icon={DownloadIcon}
                 type="tertiary"
               />
