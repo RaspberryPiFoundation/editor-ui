@@ -17,8 +17,6 @@ const InstructionsPanel = () => {
     if (steps[currentStepPosition]) {
       stepContent.current.parentElement.scrollTo({ top: 0 });
       stepContent.current.innerHTML = steps[currentStepPosition].content;
-      console.log("SRTEPPS");
-      console.log(steps[currentStepPosition]);
     }
   }, [steps, currentStepPosition]);
   return (
