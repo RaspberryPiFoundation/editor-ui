@@ -49,8 +49,10 @@ test("Renders sidebar with correct options if withSidebar is true", () => {
       },
       openFiles: [[]],
       focussedFileIndices: [0],
+      webComponent: false,
     },
     auth: {},
+    instructions: {},
   };
   const store = mockStore(initialState);
   render(
@@ -75,8 +77,10 @@ test("Renders without sidebar if withSidebar is false", () => {
       },
       openFiles: [[]],
       focussedFileIndices: [0],
+      webComponent: false,
     },
     auth: {},
+    instructions: {},
   };
   const store = mockStore(initialState);
   render(
@@ -100,8 +104,10 @@ describe("When not logged in and falling on default container width", () => {
         project: project,
         openFiles: [["main.py"]],
         focussedFileIndices: [0],
+        webComponent: false,
       },
       auth: {},
+      instructions: {},
     };
     const mockedStore = mockStore(initialState);
     const { getByTestId } = render(
@@ -141,8 +147,10 @@ test("Successful manual save prompts project saved message", async () => {
       focussedFileIndices: [0],
       saving: "success",
       lastSaveAutosave: false,
+      webComponent: false,
     },
     auth: {},
+    instructions: {},
   };
   const mockedStore = mockStore(initialState);
   render(

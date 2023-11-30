@@ -5,12 +5,14 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
-import { closeErrorModal } from "../../redux/EditorSlice";
+import { closeErrorModal, setError } from "../../redux/EditorSlice";
 import "../../assets/stylesheets/Modal.scss";
 
 const ErrorModal = ({ errorType, additionalOnClose }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const error = useSelector((state) => state.editor.error);
 
   const isModalOpen = useSelector((state) => state.editor.errorModalShowing);
   const closeModal = () => {
@@ -18,6 +20,7 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
     if (additionalOnClose) {
       additionalOnClose();
     }
+    dispatch(setError(null));
   };
 
   return (
@@ -35,10 +38,12 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
           <h2 className="modal-content__heading">{t("modal.error.heading")}</h2>
         </div>
 
-        {t(`modal.error.${errorType}.message`, { defaultValue: null }) && (
+        {t(`modal.error.${errorType || error}.message`, {
+          defaultValue: null,
+        }) && (
           <div className="modal-content__body">
             <p className="modal-content__text">
-              {t(`modal.error.${errorType}.message`)}
+              {t(`modal.error.${errorType || error}.message`)}
             </p>
           </div>
         )}
