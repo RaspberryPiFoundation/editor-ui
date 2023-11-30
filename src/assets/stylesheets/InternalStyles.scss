@@ -22,14 +22,15 @@
 @use "./NewComponentButton" as *;
 @use "./DownloadPanel";
 @use "./SettingsPanel" as *;
-@use "./ThemeToggle" as *;
-@use "./FontSizeSelector" as *;
 @use "./SelectButtons" as *;
 @use "./InfoPanel" as *;
+@use "./FilePanel" as *;
 @use "./ProgressBar" as *;
 @use "./RunBar" as *;
 @use "./RunnerControls" as *;
 @use "./PythonRunner" as *;
+@use "./HtmlRunner" as *;
 @use "./ErrorMessage" as *;
 @use "./OutputViewToggle" as *;
 @use "./AstroPiModel" as *;
+@use "./MobileProjectBar" as *;
