@@ -166,14 +166,14 @@ describe("When page first loaded from search params", () => {
         justLoaded: true,
         errorModalShowing: false,
         isEmbedded: true,
+        browserPreview: true,
+        page: "a-new-test-page.html",
       },
     };
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <MemoryRouter
-          initialEntries={["?browserPreview=true&page=a-new-test-page.html"]}
-        >
+        <MemoryRouter>
           <div id="app">
             <HtmlRunner />
           </div>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
@@ -9,9 +9,9 @@ export const useProject = ({
   projectIdentifier = null,
   code = null,
   accessToken = null,
-  isEmbedded = false,
-  isBrowserPreview = false,
 }) => {
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
