@@ -63,19 +63,17 @@ describe("When project is loaded", () => {
     });
 
     test("Save button renders", () => {
-      expect(screen.queryByText("header.integratedSave")).toBeInTheDocument();
+      expect(screen.queryByText("header.save")).toBeInTheDocument();
     });
 
     test("Clicking save dispatches trigger save action", () => {
-      const saveButton = screen.queryByText("header.integratedSave");
+      const saveButton = screen.queryByText("header.save");
       fireEvent.click(saveButton);
       expect(store.getActions()).toEqual([triggerSave()]);
     });
 
     test("renders a primary button", () => {
-      const saveButton = screen.queryByText(
-        "header.integratedSave",
-      ).parentElement;
+      const saveButton = screen.queryByText("header.save").parentElement;
       expect(saveButton).toHaveClass("btn--primary");
     });
   });
@@ -96,8 +94,5 @@ describe("When project is not loaded", () => {
   });
   test("Does not render save button", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
-  });
-  test("Does not render integratedSave button", () => {
-    expect(screen.queryByText("header.integratedSave")).not.toBeInTheDocument();
   });
 });

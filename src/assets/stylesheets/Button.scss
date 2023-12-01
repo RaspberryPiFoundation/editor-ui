@@ -4,7 +4,7 @@
 
 .btn {
   align-items: center;
-  border-radius: 8px;
+  border-radius: $space-0-5;
   border: 3px solid transparent;
   box-sizing: border-box;
   color: inherit;
@@ -39,6 +39,7 @@
 
   &--primary {
     background-color: var(--rpf-button-primary-background-color);
+    border-radius: $space-0-5;
 
     color: var(--rpf-button-primary-text-color);
 
@@ -59,6 +60,7 @@
     &:hover,
     .btn-outer:hover & {
       background-color: var(--rpf-button-primary-background-color-hover);
+      border-radius: $space-0-5;
     }
 
     &:disabled {
@@ -250,6 +252,7 @@
 
 .btn-outer {
   background: transparent;
+  border-radius: $space-0-5;
   cursor: pointer;
   padding: $space-0-5 0;
   display: flex;

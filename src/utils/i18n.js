@@ -226,8 +226,7 @@ i18n
             projects: "Your projects",
             renameProject: "Edit project name",
             renameSave: "Save project name",
-            save: "Save",
-            integratedSave: "Log in to save project",
+            save: "Log in to save",
             settings: "Settings",
           },
           imagePanel: {

@@ -32,13 +32,13 @@ const SaveButton = ({ className, type }) => {
     loading === "success" &&
     buttonType && (
       <DesignSystemButton
-        className={classNames("btn", className, {
+        className={classNames(className, {
           "btn--primary": buttonType === "primary",
           "btn--secondary": buttonType === "secondary",
           "btn--tertiary": buttonType === "tertiary",
         })}
         onClick={onClickSave}
-        text={t(webComponent ? "header.integratedSave" : "header.save")}
+        text={t("header.save")}
         textAlways
         icon={<SaveIcon />}
         type={buttonType}
