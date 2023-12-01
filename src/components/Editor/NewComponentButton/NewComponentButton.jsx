@@ -20,7 +20,7 @@ const NewComponentButton = () => {
       textAlways
       icon={<PlusIcon />}
       onClick={openNewFileModal}
-      className="btn btn--primary"
+      className="btn"
       fill={true}
     />
   );
