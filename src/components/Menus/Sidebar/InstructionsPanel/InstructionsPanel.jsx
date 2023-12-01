@@ -15,9 +15,10 @@ const InstructionsPanel = () => {
   const { t } = useTranslation();
   const stepContent = useRef();
 
+  const isQuiz = () => !!quiz.questionCount;
+
   useEffect(() => {
-    if (!!quiz.questionCount) {
-      console.log(quiz);
+    if (isQuiz()) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
@@ -32,7 +33,7 @@ const InstructionsPanel = () => {
   return (
     <SidebarPanel
       heading={t("instructionsPanel.projectSteps")}
-      Footer={ProgressBar}
+      Footer={!isQuiz() && ProgressBar}
     >
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
