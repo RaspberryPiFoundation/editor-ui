@@ -81,6 +81,7 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (instructions) {
+      console.log(instructions);
       dispatch(setInstructions(instructions));
     }
   }, [instructions, dispatch]);
