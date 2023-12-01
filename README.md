@@ -149,6 +149,14 @@ The blue generic callout is the default if no modifier is specifed:
 </div>
 ```
 
+#### Code snippets
+
+Python code snippets are styled and syntax-highlighted using the `language-python` class:
+
+```html
+<code class="language-python">print('hello world')</code>
+```
+
 ## Deployment
 
 Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set

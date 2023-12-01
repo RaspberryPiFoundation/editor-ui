@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Styling for the instructions callouts (#788)
+- Styling for the instructions code snippets (#795)
 
 ### Changed
 
