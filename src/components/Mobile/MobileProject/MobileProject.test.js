@@ -136,6 +136,7 @@ describe("When sidebar is open", () => {
         sidebarShowing: true,
       },
       auth: {},
+      instructions: {},
     };
     const store = mockStore(initialState);
     render(

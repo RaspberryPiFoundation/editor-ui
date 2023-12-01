@@ -117,6 +117,61 @@ Styles from the parent application can be passed to the web component in a few d
 }
 ```
 
+#### Instructions Styling
+
+Classes from the stringified HTML passed to the web component in the `instructions` attribute are being used to style the project steps in the instructions panel.
+
+##### Task Block
+
+Styles for the task block can be applied as follows:
+
+```html
+<h2 class="c-project-heading--task">Task heading</h2>
+<div class="c-project-task">{task content here}</div>
+```
+
+##### Callouts
+
+There are three types of callout: tip, debugging and generic. The green tip callout is generated as follows:
+
+```html
+<div class="c-project-callout c-project-callout--tip">
+  <h3>{Tip title}</h3>
+  {tip content here}
+</div>
+```
+
+The red debugging callout is generated as follows:
+
+```html
+<div class="c-project-callout c-project-callout--debug">
+  <h3>{Debugging title}</h3>
+  {debugging content here}
+</div>
+```
+
+The blue generic callout is the default if no modifier is specifed:
+
+```html
+<div class="c-project-callout">{callout content here}</div>
+```
+
+##### Output
+
+This class renders a bordered `div` with monospaced text that resembles Python output. Other font styles and images are not yet supported.
+
+```html
+<div class="c-project-output">{output content}</div>
+```
+
+#### Code snippets
+
+Python code snippets are styled and syntax-highlighted using the `language-python` class:
+
+```html
+<code class="language-python">print('hello world')</code>
+```
+
 ## Deployment
 
 Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set

@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Styling for the task section of the instructions (#781)
+- Styling for the instructions callouts (#788)
+- Output styles for Instructions (#790)
+- Styling for the instructions code snippets (#795)
+
+### Changed
+
+- Application of styles in the web component to remove `sass-to-string` (#788)
+
+## Fixed
+
+- HTML projects loading in web component (#789)
+
 ## [0.20.0] - 2023-11-24
 
 ### Added
@@ -22,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Web component theming (#766)
 - Replace physical properties with logical values - padding (#774)
 - Sidebar - Refactored styles to be closer to designs (#720)
 - Sidebar - Refactored theming to fix inconsistencies between themes (#720)
@@ -36,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Correct download.svg replaces DownloadIcon component (#793)
 - Container rather than media query breakpoints for the web component (#776)
 - `FileMenu` alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
