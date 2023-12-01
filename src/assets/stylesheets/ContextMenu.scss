@@ -23,7 +23,7 @@
   .context-menu__item {
     margin: 0;
     background-color: inherit;
-    color: inherit;
+    color: var(--rpf-button-secondary-text-color);
     padding: $space-0-5;
     text-align: start;
     white-space: nowrap;

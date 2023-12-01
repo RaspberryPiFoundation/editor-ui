@@ -39,12 +39,14 @@ export const DownloadPanel = () => {
                 text={t("downloadPanel.logInButton")}
                 type="primary"
                 onClick={handleLogIn}
+                fill
               />
               <DesignSystemButton
                 className="btn btn--secondary download-panel__button"
                 text={t("downloadPanel.signUpButton")}
                 type="secondary"
                 onClick={handleSignUp}
+                fill
               />
             </div>
           </>
@@ -54,6 +56,7 @@ export const DownloadPanel = () => {
           buttonText={t("downloadPanel.downloadButton")}
           className="btn btn--secondary download-panel__button"
           Icon={DownloadIcon}
+          fill
         />
       </div>
     </SidebarPanel>

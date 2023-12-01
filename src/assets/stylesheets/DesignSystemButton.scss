@@ -1,26 +1,29 @@
 @use "./rpf_design_system/colours" as *;
 
-:root * {
-  --rpf-button-primary-background-color: #{$rpf-teal-primary-default};
-  --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover};
-  --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active};
-  --rpf-button-primary-text-color: #{$rpf-text-primary};
-
-  .--dark * {
-    --rpf-button-primary-background-color: #{$rpf-teal-primary-default-darkmode};
-    --rpf-button-primary-background-color-hover: #{$rpf-teal-primary-hover-darkmode};
-    --rpf-button-primary-background-color-active: #{$rpf-teal-primary-active-darkmode};
+.rpf-button--primary * {
+  svg {
+    fill: var(--rpf-button-primary-text-color);
   }
 }
 
-.rpf-button--primary * {
+.rpf-button--tertiary * {
   svg {
-    fill: $rpf-text-primary;
+    fill: var(--rpf-button-secondary-text-color);
   }
 }
 
 .rpf-button {
   flex-direction: row-reverse;
+}
+
+.rpf-button--fit {
+  width: fit-content;
+}
+
+.rpf-button--fill {
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .rpf-button--secondary {

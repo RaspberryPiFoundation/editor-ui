@@ -2,64 +2,6 @@
 @use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/colours" as *;
 
-@mixin button-styling(
-  $bg,
-  $active-bg,
-  $dis-bg,
-  $dis-c,
-  $focus-bg,
-  $hover-bg,
-  $c: default
-) {
-  background-color: $bg;
-
-  @if $c == "default" {
-    color: var(--rpf-button-primary-text-color);
-
-    svg {
-      fill: var(--rpf-button-primary-text-color);
-    }
-  } @else {
-    color: $c;
-
-    svg {
-      fill: $c;
-    }
-  }
-
-  &:active,
-  .btn-outer:active & {
-    background-color: $active-bg;
-    @content;
-  }
-
-  &:focus-visible,
-  .btn-outer:focus-visible & {
-    background-color: $focus-bg;
-    @content;
-  }
-
-  &:hover,
-  .btn-outer:hover & {
-    background-color: $hover-bg;
-    @content;
-  }
-
-  &:disabled {
-    background-color: $dis-bg;
-    color: $dis-c;
-
-    svg {
-      fill: $dis-c;
-    }
-
-    &:hover,
-    .btn-outer:hover & {
-      background-color: $dis-bg;
-    }
-  }
-}
-
 .btn {
   align-items: center;
   border-radius: 8px;
@@ -79,7 +21,6 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  width: fit-content;
 
   &:disabled {
     background-color: $rpf-grey-600;
@@ -96,22 +37,82 @@
     padding: $space-0-25;
   }
 
-  // Variants
   &--primary {
-    $colours: var(--rpf-button-primary-background-color),
-      var(--rpf-button-primary-background-color-active),
-      var(--rpf-button-primary-background-color-disabled),
-      var(--rpf-button-primary-color-disabled),
-      var(--rpf-button-primary-background-color-focus),
-      var(--rpf-button-primary-background-color-hover);
-    @include button-styling($colours...);
+    background-color: var(--rpf-button-primary-background-color);
+
+    color: var(--rpf-button-primary-text-color);
+
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: var(--rpf-button-primary-background-color-active);
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: var(--rpf-button-primary-background-color-focus);
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: var(--rpf-button-primary-background-color-hover);
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-primary-background-color-disabled);
+      color: var(--rpf-button-primary-color-disabled);
+
+      svg {
+        fill: var(--rpf-button-primary-color-disabled);
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-primary-background-color-disabled);
+      }
+    }
   }
 
   &--secondary {
-    $colours: inherit, inherit,
-      var(--rpf-button-secondary-background-color-disabled),
-      var(--rpf-button-secondary-background-color-active), inherit, inherit;
-    @include button-styling($colours...);
+    background-color: inherit;
+
+    color: var(--rpf-button-primary-text-color);
+
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: inherit;
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-secondary-background-color-disabled);
+      color: var(--rpf-button-secondary-background-color-active);
+
+      svg {
+        fill: var(--rpf-button-secondary-background-color-active);
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-secondary-background-color-disabled);
+      }
+    }
 
     border: 2px solid var(--rpf-button-primary-background-color);
 
@@ -136,10 +137,43 @@
   }
 
   &--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit,
-      inherit;
-    @include button-styling($colours...);
+    background-color: inherit;
 
+    color: inherit;
+
+    svg {
+      fill: inherit;
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: inherit;
+    }
+
+    &:disabled {
+      background-color: inherit;
+      color: $rpf-grey-600;
+
+      svg {
+        fill: $rpf-grey-600;
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: inherit;
+      }
+    }
+    
     &:active {
       color: $rpf-teal-900;
 
@@ -158,9 +192,42 @@
   }
 
   &--danger {
-    $colours: $rpf-alert-error, $rpf-alert-error, $rpf-alert-error, $rpf-white,
-      $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
-    @include button-styling($colours...);
+    background-color: $rpf-alert-error;
+
+    color: $rpf-white;
+
+    svg {
+      fill: $rpf-white;
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: $rpf-alerts-error-tint;
+    }
+
+    &:disabled {
+      background-color: $rpf-alert-error;
+      color: $rpf-white;
+
+      svg {
+        fill: $rpf-white;
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: $rpf-alert-error;
+      }
+    }
 
     &:focus-visible {
       background-clip: padding-box;

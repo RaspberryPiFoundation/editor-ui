@@ -8,6 +8,12 @@
   z-index: 1;
   height: $space-4;
   container-type: inline-size;
+  background-color: var(--editor-color-layer-3);
+  border: 1px solid var(--editor-color-outline);
+
+  .project-name {
+    border-inline-end: 1px solid var(--editor-color-outline);
+  }
 
   &__right {
     margin-inline-start: auto;
@@ -26,8 +32,12 @@
   }
 
   .project-bar__btn-wrapper:not(:last-child) {
-    border-inline-end: 1px solid $rpf-grey-150;
+    border-inline-end: 1px solid var(--editor-color-outline);
   }
+}
+
+.project-bar__right {
+  border-inline-start: 1px solid var(--editor-color-outline);
 }
 
 .project-bar__btn {
@@ -45,34 +55,5 @@
       min-width: auto;
       display: block;
     }
-  }
-}
-
-.--light {
-  .project-bar {
-    background-color: $rpf-white;
-    border: 1px solid $rpf-grey-150;
-
-    .project-name {
-      border-inline-end: 1px solid $rpf-grey-150;
-    }
-  }
-
-  .project-bar__right {
-    border-inline-start: 1px solid $rpf-grey-150;
-  }
-}
-
-.--dark {
-  .project-bar {
-    background-color: $rpf-grey-700;
-    border: 1px solid $rpf-grey-600;
-
-    .project-name {
-      border-inline-end: 1px solid $rpf-grey-600;
-    }
-  }
-  .project-bar__right {
-    border-inline-start: 1px solid $rpf-grey-600;
   }
 }

@@ -35,7 +35,7 @@ const ContextMenu = (props) => {
       <button
         aria-haspopup="menu"
         aria-label={menuButtonLabel}
-        className={`btn btn--tertiary context-menu__drop${
+        className={`btn context-menu__drop${
           menuButtonClassName ? ` ${menuButtonClassName}` : ""
         }`}
         title={menuButtonLabel}

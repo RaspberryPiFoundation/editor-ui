@@ -10,6 +10,7 @@
 .files-list-item {
   width: 100%;
   display: flex;
+  flex-direction: row !important;
   justify-content: flex-start;
   position: relative;
   align-items: center;

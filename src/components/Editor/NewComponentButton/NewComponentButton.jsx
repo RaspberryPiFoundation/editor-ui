@@ -1,10 +1,8 @@
-import "../../../assets/stylesheets/NewComponentButton.scss";
-
 import React from "react";
 import { useDispatch } from "react-redux";
 
 import { showNewFileModal } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
+import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import PlusIcon from "../../../assets/icons/plus.svg";
 import { useTranslation } from "react-i18next";
 
@@ -17,12 +15,13 @@ const NewComponentButton = () => {
   };
 
   return (
-    <Button
-      buttonText={t("filePanel.newFileButton")}
-      ButtonIcon={PlusIcon}
-      buttonIconPosition="right"
-      onClickHandler={openNewFileModal}
-      className="btn--primary proj-new-component-button"
+    <DesignSystemButton
+      text={t("filePanel.newFileButton")}
+      textAlways
+      icon={<PlusIcon />}
+      onClick={openNewFileModal}
+      className="btn btn--primary"
+      fill={true}
     />
   );
 };
