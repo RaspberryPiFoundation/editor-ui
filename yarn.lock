@@ -1153,6 +1153,16 @@
     "@codemirror/view" "^6.6.0"
     "@lezer/common" "^1.0.0"
 
+"@codemirror/autocomplete@^6.3.2":
+  version "6.11.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.11.1.tgz#c733900eee58ac2de817317b9fd1e91b857c4329"
+  integrity sha512-L5UInv8Ffd6BPw0P3EF7JLYAMeEbclY7+6Q11REt8vhih8RuLreKtPy/xk8wPxs4EQgYqzI7cdgpiYwWlbS/ow==
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.17.0"
+    "@lezer/common" "^1.0.0"
+
 "@codemirror/commands@^6.0.0", "@codemirror/commands@^6.1.1":
   version "6.2.4"
   resolved "https://registry.yarnpkg.com/@codemirror/commands/-/commands-6.2.4.tgz#b8a0e5ce72448c092ba4c4b1d902e6f183948aec"
@@ -1215,11 +1225,12 @@
     "@lezer/common" "^1.0.0"
     "@lezer/javascript" "^1.0.0"
 
-"@codemirror/lang-python@6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@codemirror/lang-python/-/lang-python-6.0.2.tgz#244c15983eb70f4f12f6d2911fe2e095e7ccf543"
-  integrity sha512-5BidNrfhab3s9LYNSN7JWFjL1+1zGAIw0dxUyalNwsUN+uCVE62sTk3uJlMZux4SsyT6fR8LbOLtWu52XQL6Yw==
+"@codemirror/lang-python@6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@codemirror/lang-python/-/lang-python-6.1.2.tgz#cabb57529679981f170491833dbf798576e7ab18"
+  integrity sha512-nbQfifLBZstpt6Oo4XxA2LOzlSp4b/7Bc5cmodG1R+Cs5PLLCTUvsMNWDnziiCfTOG/SW1rVzXq/GbIr6WXlcw==
   dependencies:
+    "@codemirror/autocomplete" "^6.3.2"
     "@codemirror/language" "^6.0.0"
     "@lezer/python" "^1.0.0"
 
