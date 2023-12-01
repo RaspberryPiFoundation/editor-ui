@@ -9,12 +9,52 @@
     @include font-size-1-25(bold);
     margin: 0;
   }
-  
+
+  .c-project-code {
+    margin: $space-1 0;
+    border-radius: 8px;
+    background-color: $rpf-grey-700;
+  }
+
+  .c-project-code__heading {
+    font-family: monospace;
+    margin: 0;
+    padding: $space-0-5 $space-1;
+    color: $rpf-white;
+    background-color: $rpf-grey-800;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+    border-block-end: 1px solid $rpf-grey-600;
+  }
+
+  pre {
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: $space-0-5 $space-1;
+    padding-inline-start: $space-3;
+    overflow: auto;
+    margin: 0;
+  }
+
   code {
     color: $rpf-white;
     background-color: $rpf-grey-700;
     border-radius: 8px;
     padding: calc(0.75 * $space-0-125) $space-0-5;
+  }
+
+  .line-numbers-rows {
+    border-color: $rpf-text-secondary-dark;
+
+    span::before {
+      color: $rpf-text-secondary-dark;
+    }
+  }
+
+  .line-highlight {
+    margin-block-start: calc(3 * $space-0-125);
+    background-color: $rpf-white;
+    mix-blend-mode: difference;
   }
 
   .language-python {

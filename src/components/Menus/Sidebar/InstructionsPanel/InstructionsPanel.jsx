@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
+import "prismjs/plugins/line-highlight/prism-line-highlight";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project.steps);
