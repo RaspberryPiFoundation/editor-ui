@@ -42,7 +42,9 @@
 
 .project-name__button {
   height: fit-content;
-  padding: $space-0-5;
+  margin: $space-0-5;
+  width: 48px;
+  height: 48px;
 
   svg {
     height: $space-1-5;

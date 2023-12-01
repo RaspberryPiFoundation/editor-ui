@@ -4,7 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import TickIcon from "../../assets/icons/tick.svg";
 
-import Button from "../Button/Button";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { updateProjectName } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/ProjectName.scss";
@@ -122,25 +122,23 @@ const ProjectName = ({ className = null, showLabel = false }) => {
             onChange={handleOnChange}
           />
         )}
-        {!isReadOnly &&
-          (isEditable ? (
-            <Button
-              buttonRef={tickButton}
-              className="btn--primary"
-              label={t("header.renameSave")}
-              title={t("header.renameSave")}
-              ButtonIcon={TickIcon}
-              onClickHandler={updateName}
+        {!isReadOnly && (
+          <div ref={tickButton}>
+            <DesignSystemButton
+              className="project-name__button"
+              aria-label={t(
+                isEditable ? "header.renameSave" : "header.renameProject",
+              )}
+              title={t(
+                isEditable ? "header.renameSave" : "header.renameProject",
+              )}
+              icon={isEditable ? <TickIcon /> : <PencilIcon />}
+              onClick={isEditable ? updateName : onEditNameButtonClick}
+              type={isEditable ? "primary" : "tertiary"}
+              fill
             />
-          ) : (
-            <Button
-              className="btn--tertiary project-name__button"
-              label={t("header.renameProject")}
-              title={t("header.renameProject")}
-              ButtonIcon={PencilIcon}
-              onClickHandler={onEditNameButtonClick}
-            />
-          ))}
+          </div>
+        )}
       </div>
     </>
   );
