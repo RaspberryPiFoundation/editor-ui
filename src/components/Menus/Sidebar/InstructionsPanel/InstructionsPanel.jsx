@@ -15,14 +15,10 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const applySyntaxHighlighting = (container) => {
-    const elements = container.querySelectorAll(".language-python");
-    console.log("There are", elements.length, "relevant elements to highlight");
+    const codeElements = container.querySelectorAll(".language-python");
 
-    elements.forEach((element) => {
-      if (element.innerText !== "print") {
-        console.log(element.innerText);
-        window.Prism.highlightElement(element);
-      }
+    codeElements.forEach((element) => {
+      window.Prism.highlightElement(element);
     });
   };
 
