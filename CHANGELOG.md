@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- ProjectBar functionality in the web component (#799)
 - Styling for the instructions callouts (#788)
 
 ### Changed
