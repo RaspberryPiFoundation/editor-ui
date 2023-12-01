@@ -9,6 +9,32 @@
     @include font-size-1-25(bold);
     margin: 0;
   }
+  
+  code {
+    color: $rpf-white;
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: calc(0.75 * $space-0-125) $space-0-5;
+  }
+
+  .language-python {
+    .number, .boolean, .function {
+      color: $rpf-syntax-blue;
+    }
+    .keyword {
+      color: $rpf-syntax-pink;
+    }
+    .string, .char {
+      color: $rpf-syntax-green;
+    }
+    .comment {
+      color: $rpf-syntax-grey;
+    }
+
+    .keyword-print {
+      color: $rpf-white;
+    }
+  }
 
   .c-project-heading--task {
     @extend .rpf-squiggle-heading;

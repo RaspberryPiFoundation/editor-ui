@@ -4,13 +4,22 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
+window.Prism = {
+  highlightElement: jest.fn(),
+};
 
 beforeEach(() => {
   const mockStore = configureStore([]);
   const initialState = {
     instructions: {
       project: {
-        steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
+        steps: [
+          { content: "<p>step 0</p>" },
+          {
+            content:
+              "<p>step 1</p><code class='language-python'>print('hello')</code>",
+          },
+        ],
       },
       currentStepPosition: 1,
     },
@@ -31,4 +40,9 @@ test("Scrolls instructions to the top", () => {
   expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
     top: 0,
   });
+});
+
+test("Applies syntax highlighting", () => {
+  const codeElement = document.getElementsByClassName("language-python")[0];
+  expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
 });

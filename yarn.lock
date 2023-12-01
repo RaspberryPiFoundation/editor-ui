@@ -1143,7 +1143,7 @@
   resolved "https://registry.yarnpkg.com/@chevrotain/utils/-/utils-10.5.0.tgz#0ee36f65b49b447fbac71b9e5af5c5c6c98ac057"
   integrity sha512-hBzuU5+JjB2cqNZyszkDHZgOSrUUT8V3dhgRl8Q9Gp6dAj/H5+KILGjbhDpc3Iy9qmqlm/akuOI2ut9VUtzJxQ==
 
-"@codemirror/autocomplete@^6.0.0", "@codemirror/autocomplete@^6.3.2":
+"@codemirror/autocomplete@^6.0.0":
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.7.0.tgz#8cc6ec437beb2aafd3186d63cb475c30ba3aa3c3"
   integrity sha512-di5NFfxuG3c2dllwb33Zyw6Qsmo/W+cFCO2JzBPZLWlLSkgKQfr+r0Kf3qK1b/TwkQ3MbnBQY8Z01hkSYX6Qfw==
@@ -1151,6 +1151,16 @@
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.6.0"
+    "@lezer/common" "^1.0.0"
+
+"@codemirror/autocomplete@^6.3.2":
+  version "6.11.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.11.1.tgz#c733900eee58ac2de817317b9fd1e91b857c4329"
+  integrity sha512-L5UInv8Ffd6BPw0P3EF7JLYAMeEbclY7+6Q11REt8vhih8RuLreKtPy/xk8wPxs4EQgYqzI7cdgpiYwWlbS/ow==
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.17.0"
     "@lezer/common" "^1.0.0"
 
 "@codemirror/commands@^6.0.0", "@codemirror/commands@^6.1.1":
@@ -1215,7 +1225,7 @@
     "@lezer/common" "^1.0.0"
     "@lezer/javascript" "^1.0.0"
 
-"@codemirror/lang-python@^6.0.2":
+"@codemirror/lang-python@6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@codemirror/lang-python/-/lang-python-6.1.2.tgz#cabb57529679981f170491833dbf798576e7ab18"
   integrity sha512-nbQfifLBZstpt6Oo4XxA2LOzlSp4b/7Bc5cmodG1R+Cs5PLLCTUvsMNWDnziiCfTOG/SW1rVzXq/GbIr6WXlcw==
@@ -1716,9 +1726,9 @@
     "@lezer/common" "^1.0.0"
 
 "@lezer/python@^1.0.0":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@lezer/python/-/python-1.1.5.tgz#653128db6846dad0ecfc3650b39734212c724254"
-  integrity sha512-h0DVr6IfrmKUbTc5PeetaC87IZYoHyn5JogsVYW5mRDpVRyEsvaLBMLyEN4Ufc2BKp1c9y2Pkr8ZNLxS8dTLsQ==
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@lezer/python/-/python-1.1.9.tgz#fae1991b242d0ea7c605189c2655063386d58763"
+  integrity sha512-8Ua3p8NdICXR6qWvRCnCx5CI1B0DklZGNtRLwOrIS/OHecHIugRHZyr0NsaaQO2H2Nn34EPlRtltXIirLsry5Q==
   dependencies:
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
@@ -11196,6 +11206,11 @@ pretty-format@^29.0.0, pretty-format@^29.2.1, pretty-format@^29.5.0:
     "@jest/schemas" "^29.4.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
+
+prismjs@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
+  integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
