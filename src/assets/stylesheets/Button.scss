@@ -111,7 +111,8 @@
   &--secondary {
     $colours: inherit, inherit,
       var(--rpf-button-secondary-background-color-disabled),
-      var(--rpf-button-secondary-background-color-active), inherit, inherit;
+      var(--rpf-button-secondary-background-color-active), inherit,
+      inherit, var(--rpf-button-secondary-text-color);
     @include button-styling($colours...);
 
     border: 2px solid var(--rpf-button-primary-background-color);

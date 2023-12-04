@@ -66,7 +66,7 @@ code {
   --rpf-button-secondary-background-color-disabled: var(
     --rpf-grey-50
   ); // might not exist
-  --rpf-button-secondary-text-color: var(--rpf-white);
+  --rpf-button-secondary-text-color: var(--rpf-text-primary);
 
   .--dark {
     --rpf-button-primary-background-color: var(--rpf-teal-400);
@@ -87,6 +87,10 @@ code {
 
 .select-buttons__tick--selected {
   --rpf-select-buttons-tick-color: var(--rpf-black);
+}
+
+.modal-overlay {
+  --rpf-input-active-border: var(--editor-color-theme)
 }
 
 .--light {
