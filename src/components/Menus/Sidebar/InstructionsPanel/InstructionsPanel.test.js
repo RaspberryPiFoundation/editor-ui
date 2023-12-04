@@ -35,9 +35,13 @@ describe("It renders project steps when there is no quiz", () => {
       top: 0,
     });
   });
+
+  test("Renders the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).toBeInTheDocument();
+  });
 });
 
-describe("It renders a question when a quiz is available", () => {
+describe("It can render a quiz", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
@@ -61,7 +65,7 @@ describe("It renders a question when a quiz is available", () => {
     );
   });
 
-  test("Renders with correct quiz content content", () => {
+  test("Renders the quiz content", () => {
     expect(screen.queryByText("Test quiz")).toBeInTheDocument();
   });
 
@@ -69,5 +73,9 @@ describe("It renders a question when a quiz is available", () => {
     expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
       top: 0,
     });
+  });
+
+  test("Removes the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
   });
 });
