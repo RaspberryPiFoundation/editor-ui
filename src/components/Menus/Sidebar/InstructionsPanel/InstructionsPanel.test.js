@@ -4,6 +4,9 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
+window.Prism = {
+  highlightElement: jest.fn(),
+};
 
 describe("It renders project steps when there is no quiz", () => {
   beforeEach(() => {
@@ -11,11 +14,16 @@ describe("It renders project steps when there is no quiz", () => {
     const initialState = {
       instructions: {
         project: {
-          steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
+          steps: [
+            { content: "<p>step 0</p>" },
+            {
+              content:
+                "<p>step 1</p><code class='language-python'>print('hello')</code>",
+            },
+          ],
         },
         quiz: {},
         currentStepPosition: 1,
-        currentQuestion: 0,
       },
     };
     const store = mockStore(initialState);
@@ -39,9 +47,14 @@ describe("It renders project steps when there is no quiz", () => {
   test("Renders the progress bar", () => {
     expect(screen.queryByRole("progressbar")).toBeInTheDocument();
   });
+
+  test("Applies syntax highlighting", () => {
+    const codeElement = document.getElementsByClassName("language-python")[0];
+    expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
 });
 
-describe("It can render a quiz", () => {
+describe("It renders a quiz when it has one", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
@@ -50,7 +63,9 @@ describe("It can render a quiz", () => {
           steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
         },
         quiz: {
-          questions: ["<h2>Test quiz</h2>"],
+          questions: [
+            "<h2>Test quiz</h2><p>step 1</p><code class='language-python'>print('hello')</code>",
+          ],
           questionCount: 1,
           currentQuestion: 0,
         },
@@ -77,5 +92,10 @@ describe("It can render a quiz", () => {
 
   test("Removes the progress bar", () => {
     expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+
+  test("Applies syntax highlighting", () => {
+    const codeElement = document.getElementsByClassName("language-python")[0];
+    expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
   });
 });

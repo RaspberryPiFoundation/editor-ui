@@ -153,9 +153,23 @@ The red debugging callout is generated as follows:
 The blue generic callout is the default if no modifier is specifed:
 
 ```html
-<div class="c-project-callout">
-  {callout content here}
-</div>
+<div class="c-project-callout">{callout content here}</div>
+```
+
+##### Output
+
+This class renders a bordered `div` with monospaced text that resembles Python output. Other font styles and images are not yet supported.
+
+```html
+<div class="c-project-output">{output content}</div>
+```
+
+#### Code snippets
+
+Python code snippets are styled and syntax-highlighted using the `language-python` class:
+
+```html
+<code class="language-python">print('hello world')</code>
 ```
 
 ## Deployment

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
+import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project?.steps);
@@ -15,20 +16,29 @@ const InstructionsPanel = () => {
   const { t } = useTranslation();
   const stepContent = useRef();
 
-  const isQuiz = () => !!quiz.questionCount;
+  const isQuiz = () => !!quiz?.questionCount;
+
+  const applySyntaxHighlighting = (container) => {
+    const codeElements = container.querySelectorAll(".language-python");
+
+    codeElements.forEach((element) => {
+      window.Prism.highlightElement(element);
+    });
+  };
 
   useEffect(() => {
+    const setStepContent = (content) => {
+      stepContent.current.parentElement.scrollTo({ top: 0 });
+      stepContent.current.innerHTML = content;
+      applySyntaxHighlighting(stepContent.current);
+    };
+
     if (isQuiz()) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
     }
   }, [steps, currentStepPosition, quiz]);
-
-  const setStepContent = (content) => {
-    stepContent.current.parentElement.scrollTo({ top: 0 });
-    stepContent.current.innerHTML = content;
-  };
 
   return (
     <SidebarPanel
