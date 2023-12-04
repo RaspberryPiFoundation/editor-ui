@@ -8,7 +8,7 @@ import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project?.steps);
-  const quiz = useSelector((state) => state.instructions.quiz);
+  const quiz = useSelector((state) => state.instructions?.quiz);
 
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
