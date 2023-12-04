@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -16,7 +16,9 @@ const InstructionsPanel = () => {
   const { t } = useTranslation();
   const stepContent = useRef();
 
-  const isQuiz = () => !!quiz?.questionCount;
+  const isQuiz = useMemo(() => {
+    return !!quiz?.questionCount;
+  }, [quiz]);
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(".language-python");
@@ -33,17 +35,17 @@ const InstructionsPanel = () => {
       applySyntaxHighlighting(stepContent.current);
     };
 
-    if (isQuiz()) {
+    if (isQuiz) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
     }
-  }, [steps, currentStepPosition, quiz]);
+  }, [steps, currentStepPosition, quiz, isQuiz]);
 
   return (
     <SidebarPanel
       heading={t("instructionsPanel.projectSteps")}
-      Footer={!isQuiz() && ProgressBar}
+      Footer={!isQuiz && ProgressBar}
     >
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
