@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
 import { logInEvent } from "../../events/WebComponentCustomEvents";
+import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
@@ -17,6 +18,7 @@ const SaveButton = ({ className, type }) => {
   const loading = useSelector((state) => state.editor.loading);
   const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
+  const project = useSelector((state) => state.editor.project);
 
   useEffect(() => {
     if (!type) {
@@ -24,7 +26,7 @@ const SaveButton = ({ className, type }) => {
     }
   }, [webComponent, type]);
 
-  const onClickSave = async () => {
+  const onClickSave = useCallback(async () => {
     if (window.plausible) {
       window.plausible("Save button");
     }
@@ -32,11 +34,13 @@ const SaveButton = ({ className, type }) => {
       document.dispatchEvent(logInEvent);
     }
     dispatch(triggerSave());
-  };
+  }, [dispatch, user]);
+
+  const projectOwner = isOwner(user, project);
 
   return (
     loading === "success" &&
-    !user &&
+    !projectOwner &&
     buttonType && (
       <DesignSystemButton
         className={classNames(className, {
@@ -45,7 +49,7 @@ const SaveButton = ({ className, type }) => {
           "btn--tertiary": buttonType === "tertiary",
         })}
         onClick={onClickSave}
-        text={t("header.save")}
+        text={t(user ? "header.save" : "header.loginToSave")}
         textAlways
         icon={<SaveIcon />}
         type={buttonType}
