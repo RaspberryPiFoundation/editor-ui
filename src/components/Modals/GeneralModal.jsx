@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Modal from "react-modal";
 
 import Button from "../Button/Button";
@@ -24,10 +24,6 @@ const GeneralModal = ({
       defaultCallback();
     }
   };
-
-  useEffect(() => {
-    console.log("the #wc component is...", document.querySelector("editor-wc"));
-  });
 
   return (
     <div onKeyDown={onKeyDown}>

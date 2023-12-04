@@ -94,6 +94,7 @@ class WebComponent extends HTMLElement {
       this.mountPoint = document.createElement("div");
       this.mountPoint.setAttribute("id", "root");
       this.mountPoint.setAttribute("part", "editor-root");
+      // this.attachShadow({ mode: "open", delegatesFocus: true }).appendChild(this.mountPoint);
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }

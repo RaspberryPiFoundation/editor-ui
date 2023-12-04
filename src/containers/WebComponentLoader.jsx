@@ -11,6 +11,11 @@ import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
+import ErrorModal from "../components/Modals/ErrorModal";
+import RenameFileModal from "../components/Modals/RenameFileModal";
+import NotFoundModal from "../components/Modals/NotFoundModal";
+import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
+import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -35,8 +40,24 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const modals = useSelector((state) => state.editor.modals);
+  const errorModalShowing = useSelector(
+    (state) => state.editor.errorModalShowing,
+  );
   const newFileModalShowing = useSelector(
     (state) => state.editor.newFileModalShowing,
+  );
+  const renameFileModalShowing = useSelector(
+    (state) => state.editor.renameFileModalShowing,
+  );
+  const notFoundModalShowing = useSelector(
+    (state) => state.editor.notFoundModalShowing,
+  );
+  const accessDeniedNoAuthModalShowing = useSelector(
+    (state) => state.editor.accessDeniedNoAuthModalShowing,
+  );
+  const accessDeniedWithAuthModalShowing = useSelector(
+    (state) => state.editor.accessDeniedWithAuthModalShowing,
   );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
@@ -103,7 +124,16 @@ const WebComponentLoader = (props) => {
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
         />
+        {errorModalShowing ? <ErrorModal /> : null}
         {newFileModalShowing ? <NewFileModal /> : null}
+        {renameFileModalShowing && modals.renameFile ? (
+          <RenameFileModal />
+        ) : null}
+        {notFoundModalShowing ? <NotFoundModal /> : null}
+        {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
+        {accessDeniedWithAuthModalShowing ? (
+          <AccessDeniedWithAuthModal />
+        ) : null}
       </SettingsContext.Provider>
     </>
   ) : (
