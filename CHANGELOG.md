@@ -9,9 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - ProjectBar functionality in the web component (#799)
+- Quiz rendering in InstructionsPanel (#777)
 - Styling for the task section of the instructions (#781)
 - Styling for the instructions callouts (#788)
 - Output styles for Instructions (#790)
+- Styling for the instructions code snippets (#795)
 
 ### Changed
 

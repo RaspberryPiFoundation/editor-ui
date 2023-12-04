@@ -6,4 +6,7 @@ export const setCurrentStepPosition = (state, action) => {
   state.currentStepPosition = action.payload;
 };
 
-export const reducers = { setInstructions, setCurrentStepPosition };
+export const reducers = {
+  setInstructions,
+  setCurrentStepPosition,
+};
