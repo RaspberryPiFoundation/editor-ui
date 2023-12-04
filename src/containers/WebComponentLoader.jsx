@@ -10,6 +10,7 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
+import NewFileModal from "../components/Modals/NewFileModal";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -34,6 +35,9 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const newFileModalShowing = useSelector(
+    (state) => state.editor.newFileModalShowing,
+  );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
@@ -99,6 +103,7 @@ const WebComponentLoader = (props) => {
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
         />
+        {newFileModalShowing ? <NewFileModal /> : null}
       </SettingsContext.Provider>
     </>
   ) : (

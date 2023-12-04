@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 
 import Button from "../Button/Button";
@@ -25,6 +25,10 @@ const GeneralModal = ({
     }
   };
 
+  useEffect(() => {
+    console.log("the #wc component is...", document.querySelector("editor-wc"));
+  });
+
   return (
     <div onKeyDown={onKeyDown}>
       <Modal
@@ -33,8 +37,15 @@ const GeneralModal = ({
         className="modal-content"
         overlayClassName="modal-overlay"
         contentLabel={heading}
-        parentSelector={() => document.querySelector("#app")}
-        appElement={document.getElementById("app") || undefined}
+        parentSelector={() =>
+          document.querySelector("#app") ||
+          document.querySelector("editor-wc").shadowRoot.querySelector("#wc")
+        }
+        appElement={
+          document.querySelector("editor-wc") ||
+          document.getElementById("app") ||
+          undefined
+        }
       >
         <div className="modal-content__header">
           <h2 className="modal-content__heading">{heading}</h2>
