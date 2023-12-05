@@ -7,6 +7,7 @@ import { setFocussedFileIndex } from "../../../redux/EditorSlice";
 import "../../../assets/stylesheets/DraggableTabs.scss";
 
 const DraggableTab = ({ children, panelIndex, fileIndex, ...otherProps }) => {
+  const webComponent = useSelector((state) => state.editor.webComponent);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const openFilesCount = openFiles[panelIndex].length;
   const dispatch = useDispatch();
@@ -26,7 +27,22 @@ const DraggableTab = ({ children, panelIndex, fileIndex, ...otherProps }) => {
     }
   };
 
-  return (
+  const InnerTab = () => (
+    <Tab
+      onClick={(e) => {
+        e.stopPropagation();
+        switchToFileTab(panelIndex, fileIndex);
+      }}
+      onKeyDown={(e) => onKeyPress(e, panelIndex, fileIndex)}
+      {...otherProps}
+    >
+      {children}
+    </Tab>
+  );
+
+  return webComponent ? (
+    <InnerTab />
+  ) : (
     <Draggable
       draggableId={`draggable${panelIndex}_${fileIndex}`}
       index={fileIndex}
@@ -39,16 +55,7 @@ const DraggableTab = ({ children, panelIndex, fileIndex, ...otherProps }) => {
           {...dragHandleProps}
           style={draggableProps.style}
         >
-          <Tab
-            onClick={(e) => {
-              e.stopPropagation();
-              switchToFileTab(panelIndex, fileIndex);
-            }}
-            onKeyDown={(e) => onKeyPress(e, panelIndex, fileIndex)}
-            {...otherProps}
-          >
-            {children}
-          </Tab>
+          <InnerTab />
         </div>
       )}
     </Draggable>
