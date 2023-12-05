@@ -120,10 +120,10 @@
     background-color: var(--sidebar-option-selected-background-hover);
   }
 
-  .sidebar__panel-footer {
-    background-color: $rpf-grey-700;
-    border-block-start: 1px solid $rpf-grey-600;
-  }
+  // .sidebar__panel-footer {
+  //   background-color: $rpf-grey-700;
+  //   border-block-start: 1px solid $rpf-grey-600;
+  // }
 }
 
 .sidebar__bar-close {
@@ -138,6 +138,10 @@
   border-radius: 0 8px 8px 0;
   width: inherit;
   background: var(--sidebar-panel-background);
+}
+
+.sidebar__panel--with-footer {
+  padding-block-end: 0;
 }
 
 .sidebar__panel-heading {
@@ -158,5 +162,8 @@
   padding: $space-1 0;
   overflow-y: scroll;
   scrollbar-width: none;
-  margin-block-end: $space-2;
+}
+
+.sidebar__panel-footer {
+  border-block-start: 1px solid $rpf-grey-150;
 }

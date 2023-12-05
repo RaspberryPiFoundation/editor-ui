@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: center;
 
+  progress {
+    flex: 1;
+  }
+
   .btn-outer {
     padding: 0;
   }
