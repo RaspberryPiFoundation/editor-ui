@@ -8,7 +8,7 @@
 
 .rpf-button--tertiary * {
   svg {
-    fill: var(--rpf-button-secondary-text-color);
+    fill: var(--rpf-button-secondary-text-color) !important;
   }
 }
 

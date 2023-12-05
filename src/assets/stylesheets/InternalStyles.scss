@@ -21,7 +21,6 @@
 @use "./SettingsPanel" as *;
 @use "./SelectButtons" as *;
 @use "./InfoPanel" as *;
-@use "./FilePanel" as *;
 @use "./ProgressBar" as *;
 @use "./RunBar" as *;
 @use "./RunnerControls" as *;
@@ -36,3 +35,4 @@
 @use "./DesignSystemButton" as *;
 @use "./SaveStatus" as *;
 @use "./ContextMenu" as *;
+@use "./FilePanel" as *; // needs to be below Button
