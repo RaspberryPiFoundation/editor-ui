@@ -1,11 +1,13 @@
-import "../../assets/stylesheets/ProjectBar.scss";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
-import DownloadIcon from "../../utils/DownloadIcon";
+import DownloadIcon from "../../assets/icons/download.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
+
+import "../../assets/stylesheets/ProjectBar.scss";
 
 const ProjectBar = () => {
   const { t } = useTranslation();

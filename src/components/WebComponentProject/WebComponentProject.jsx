@@ -14,7 +14,7 @@ import MobileProject from "../Mobile/MobileProject/MobileProject";
 import Output from "../Editor/Output/Output";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import { setIsSplitView } from "../../redux/EditorSlice";
+import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -45,8 +45,10 @@ const WebComponentProject = ({
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(setIsSplitView(false));
+    dispatch(setWebComponent(true));
   }, [dispatch]);
 
   console.log(`outputOnly: ${outputOnly}`);
@@ -84,7 +86,7 @@ const WebComponentProject = ({
     <>
       <style>{externalStyles.toString()}</style>
       <Style>
-        {internalStyles}
+        {internalStyles.toString()}
         <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
           {!outputOnly &&
             (isMobile ? (

@@ -2,6 +2,20 @@
 @use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/colours" as *;
 
+:root {
+  .--light {
+    --rpf-tab-button-hover: var(--rpf-grey-100);
+    --rpf-tab-button-background: inherit;
+    --rpf-tab-border-bottom-selected: var(--rpf-teal-900);
+  }
+
+  .--dark {
+    --rpf-tab-button-hover: var(--rpf-grey-900);
+    --rpf-tab-button-background: var(--rpf-grey-800);
+    --rpf-tab-border-bottom-selected: var(--rpf-teal-800);
+  }
+}
+
 #app,
 #wc {
   .react-tabs {
@@ -36,14 +50,14 @@
 
       &--selected {
         border-radius: 0;
-        padding-top: $space-0-25;
+        padding-block-start: $space-0-25;
 
         &:hover {
           text-decoration: none;
         }
 
         &:focus-visible {
-          padding-top: 7px;
+          padding-block-start: 7px;
         }
       }
 
@@ -69,7 +83,7 @@
       white-space: nowrap;
 
       &--split {
-        padding-right: 0;
+        padding-inline-end: 0;
       }
     }
     &__tab-close-btn {
@@ -97,7 +111,7 @@
     }
 
     &__tab-list {
-      border-bottom: none;
+      border-block-end: none;
       box-sizing: border-box;
       display: flex;
       overflow-y: hidden;
@@ -113,63 +127,31 @@
     }
   }
 
-  &.--light {
-    .react-tabs {
-      &__tab-container {
-        border-bottom: 1px solid $rpf-grey-150;
-      }
+  .react-tabs {
+    background-color: var(--rpf-tab-button-background);
 
-      &__tab {
-        background-color: $rpf-off-white;
-        border-right: 1px solid $rpf-grey-150;
-
-        &--selected {
-          background-color: $rpf-white;
-          border-bottom: 4px solid $rpf-teal-900;
-
-          &:focus-visible {
-            border-bottom: 7px solid $rpf-teal-900;
-          }
-        }
-
-        &-close-btn {
-          &:hover {
-            svg {
-              background-color: $rpf-grey-100;
-            }
-          }
-        }
-      }
+    &__tab-container {
+      border-bottom: 1px solid var(--editor-color-outline);
     }
-  }
 
-  &.--dark {
-    .react-tabs {
-      background-color: $rpf-grey-800;
+    &__tab {
+      background-color: var(--rpf-tab-button-background);
+      border-right: 1px solid var(--editor-color-outline);
 
-      &__tab-container {
-        border-bottom: 1px solid $rpf-grey-600;
+      &--selected {
+        color: var(--editor-color-text);
+        background-color: var(--editor-color-layer-3);
+        border-bottom: 4px solid var(--rpf-tab-border-bottom-selected);
+
+        &:focus-visible {
+          border-bottom: 7px solid var(--rpf-tab-border-bottom-selected);
+        }
       }
 
-      &__tab {
-        background-color: $rpf-grey-800;
-        border-right: 1px solid $rpf-grey-600;
-
-        &--selected {
-          color: $rpf-white;
-          background-color: $rpf-grey-700;
-          border-bottom: 4px solid $rpf-teal-800;
-
-          &:focus-visible {
-            border-bottom: 7px solid $rpf-teal-800;
-          }
-        }
-
-        &-close-btn {
-          &:hover {
-            svg {
-              background-color: $rpf-grey-900;
-            }
+      &-close-btn {
+        &:hover {
+          svg {
+            background-color: var(--rpf-tab-button-hover);
           }
         }
       }

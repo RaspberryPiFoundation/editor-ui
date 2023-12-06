@@ -92,8 +92,10 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    browserPreview: false,
     isSplitView: true,
     isThemeable: true,
+    webComponent: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -162,6 +164,9 @@ export const EditorSlice = createSlice({
       }
       state.project.image_list = action.payload;
     },
+    setWebComponent: (state, action) => {
+      state.webComponent = action.payload;
+    },
     addProjectComponent: (state, action) => {
       state.project.components.push({
         name: action.payload.name,
@@ -170,8 +175,14 @@ export const EditorSlice = createSlice({
       });
       state.saving = "idle";
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setBrowserPreview: (state, _action) => {
+      state.browserPreview = true;
     },
     setIsSplitView: (state, action) => {
       state.isSplitView = action.payload;
@@ -415,11 +426,14 @@ export const {
   setOpenFiles,
   addFilePanel,
   setFocussedFileIndex,
+  setPage,
   setEmbedded,
+  setBrowserPreview,
   setError,
   setIsSplitView,
   setNameError,
   setHasShownSavePrompt,
+  setWebComponent,
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,

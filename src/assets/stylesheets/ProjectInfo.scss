@@ -4,7 +4,7 @@
 @use "./rpf_design_system/colours" as *;
 
 .project-info {
-  align-items: left;
+  align-items: inline-start;
   display: flex;
   flex-direction: column;
   padding: $space-1;

@@ -5,6 +5,7 @@ export const InstructionsSlice = createSlice({
   name: "instructions",
   initialState: {
     currentStepPosition: 0,
+    project: {},
   },
   reducers,
 });
