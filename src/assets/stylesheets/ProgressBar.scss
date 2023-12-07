@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 300px;
+  margin: auto;
 
   progress {
     flex: 1;
