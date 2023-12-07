@@ -32,7 +32,6 @@ const InputModal = ({ inputs, ...otherProps }) => {
                   {input.validateName ? <NameErrorMessage /> : null}
                   <input
                     ref={i === 0 ? inputBox : null}
-                    // autofocus={i === 0}
                     type="text"
                     id={i}
                     onChange={(e) => input.setValue(e.target.value)}
