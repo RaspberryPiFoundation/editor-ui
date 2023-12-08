@@ -50,12 +50,13 @@
           "download",
           "settings",
           "info",
-        ])
+        ]),
       );
 
       // Pre-set the code attribute with an empty string.
       webComp.setAttribute("code", "");
       webComp.setAttribute("class", "editor-wc");
+      webCom.setAttribute("host_styles", "");
       // Set any attribute you like in the query string, including class, style, hidden, script, etc.
       queryParams.forEach((value, key) => {
         webComp.setAttribute(key, value);

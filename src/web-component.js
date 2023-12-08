@@ -35,7 +35,9 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
+    console.log("ObservedAttributes caklked");
     return [
+      "host_styles",
       "auth_key",
       "identifier",
       "code",
@@ -53,7 +55,9 @@ class WebComponent extends HTMLElement {
 
     if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
       value = newVal === "true";
-    } else if (["instructions", "sidebar_options"].includes(name)) {
+    } else if (
+      ["instructions", "sidebar_options", "host_styes"].includes(name)
+    ) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;
@@ -97,6 +101,9 @@ class WebComponent extends HTMLElement {
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
+    console.log("PROPPS!!");
+    const props = { ...this.reactProps() };
+    console.log(props);
 
     this.root.render(
       <React.StrictMode>
