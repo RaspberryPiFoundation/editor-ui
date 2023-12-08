@@ -98,8 +98,6 @@ class WebComponent extends HTMLElement {
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
-    const props = { ...this.reactProps() };
-    console.log(props);
 
     this.root.render(
       <React.StrictMode>
