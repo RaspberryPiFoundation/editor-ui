@@ -54,9 +54,7 @@ class WebComponent extends HTMLElement {
 
     if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
       value = newVal === "true";
-    } else if (
-      ["instructions", "sidebar_options", "host_styes"].includes(name)
-    ) {
+    } else if (["instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;
