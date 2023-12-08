@@ -10,13 +10,15 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
+import { defaultPythonProject } from "../utils/defaultProjects";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const {
-    authKey,
+    user,
+    // authKey,
     identifier,
-    code,
+    code = defaultPythonProject,
     senseHatAlwaysEnabled = false,
     instructions,
     withSidebar = false,
@@ -28,7 +30,7 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
-  const user = JSON.parse(localStorage.getItem(authKey));
+  // const user = JSON.parse(localStorage.getItem(authKey));
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
