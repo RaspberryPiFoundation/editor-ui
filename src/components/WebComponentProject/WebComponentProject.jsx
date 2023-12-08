@@ -24,10 +24,6 @@ const WebComponentProject = ({
   sidebarOptions = [],
   hostStyles = [],
 }) => {
-  console.log("HOST STYLES");
-  console.log(hostStyles);
-  console.log("Internal styles");
-  console.log(internalStyles);
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
