@@ -124,16 +124,12 @@ const WebComponentLoader = (props) => {
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
         />
-        {errorModalShowing ? <ErrorModal /> : null}
-        {newFileModalShowing ? <NewFileModal /> : null}
-        {renameFileModalShowing && modals.renameFile ? (
-          <RenameFileModal />
-        ) : null}
-        {notFoundModalShowing ? <NotFoundModal /> : null}
-        {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
-        {accessDeniedWithAuthModalShowing ? (
-          <AccessDeniedWithAuthModal />
-        ) : null}
+        {errorModalShowing && <ErrorModal />}
+        {newFileModalShowing && <NewFileModal />}
+        {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+        {notFoundModalShowing && <NotFoundModal />}
+        {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+        {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
       </SettingsContext.Provider>
     </>
   ) : (
