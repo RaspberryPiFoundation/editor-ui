@@ -35,7 +35,6 @@ class WebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    console.log("ObservedAttributes caklked");
     return [
       "host_styles",
       "auth_key",
@@ -101,7 +100,6 @@ class WebComponent extends HTMLElement {
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
-    console.log("PROPPS!!");
     const props = { ...this.reactProps() };
     console.log(props);
 
