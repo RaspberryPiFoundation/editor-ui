@@ -21,7 +21,7 @@ const Output = ({ embedded = false, browserPreview = false }) => {
           projectType={project.project_type}
           usePyodide={usePyodide}
         />
-        {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
+        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>
     </>
   );
