@@ -20,6 +20,7 @@ import {
 } from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = ({
+  withProjectbar = false,
   withSidebar = false,
   sidebarOptions = [],
   hostStyles = [],
@@ -90,6 +91,7 @@ const WebComponentProject = ({
           ) : (
             <Project
               forWebComponent={true}
+              withProjectbar={withProjectbar}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
             />

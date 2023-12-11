@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- ProjectBar functionality in the web component (#799)
 - WebComponent can receive style strings from host app (#811)
 - Quiz rendering in InstructionsPanel (#777)
 - Styling for the task section of the instructions (#781)

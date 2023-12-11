@@ -14,6 +14,13 @@
   }
 }
 
+.project-name__title {
+  @include font-size-1-25(bold);
+  font-weight: $font-weight-bold;
+  margin-inline-start: $space-0-5;
+  margin-inline-end: $space-1;
+}
+
 .project-name__label {
   @include font-size-1(regular);
   font-weight: $font-weight-bold;
@@ -35,7 +42,9 @@
 
 .project-name__button {
   height: fit-content;
-  padding: $space-0-5;
+  margin: $space-0-5;
+  width: 48px;
+  height: 48px;
 
   svg {
     height: $space-1-5;
