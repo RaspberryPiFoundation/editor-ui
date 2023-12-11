@@ -19,7 +19,11 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
+const WebComponentProject = ({
+  withSidebar = false,
+  sidebarOptions = [],
+  hostStyles = [],
+}) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -74,6 +78,7 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   return (
     <>
       <style>{externalStyles.toString()}</style>
+      <style>{hostStyles}</style>
       <Style>
         {internalStyles.toString()}
         <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
