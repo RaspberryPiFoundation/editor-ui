@@ -23,11 +23,11 @@ const code = "print('This project is amazing')";
 const identifier = "My amazing project";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
-const authKey = "my_key";
+// const authKey = "my_key";
 const user = { access_token: "my_token" };
 
 beforeEach(() => {
-  localStorage.setItem(authKey, JSON.stringify(user));
+  // localStorage.setItem(authKey, JSON.stringify(user));
   const middlewares = [];
   const mockStore = configureStore(middlewares);
   const initialState = {
@@ -56,7 +56,7 @@ describe("When props are set", () => {
             identifier={identifier}
             senseHatAlwaysEnabled={true}
             instructions={instructions}
-            authKey={authKey}
+            user={user}
             theme="light"
           />
         </CookiesProvider>
