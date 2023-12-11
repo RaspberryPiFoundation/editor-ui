@@ -16,7 +16,6 @@ const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const {
     user,
-    // authKey,
     identifier,
     code = defaultPythonProject,
     senseHatAlwaysEnabled = false,
@@ -30,7 +29,6 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
-  // const user = JSON.parse(localStorage.getItem(authKey));
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
