@@ -38,6 +38,7 @@ class WebComponent extends HTMLElement {
     return [
       "host_styles",
       "auth_key",
+      "user",
       "identifier",
       "code",
       "sense_hat_always_enabled",
@@ -59,7 +60,7 @@ class WebComponent extends HTMLElement {
       )
     ) {
       value = newVal === "true";
-    } else if (["instructions", "sidebar_options"].includes(name)) {
+    } else if (["user", "instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;
