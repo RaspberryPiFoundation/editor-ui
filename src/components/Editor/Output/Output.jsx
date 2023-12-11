@@ -17,7 +17,7 @@ const Output = ({ embedded = false, browserPreview = false }) => {
       <ExternalFiles />
       <div className="proj-runner-container">
         <RunnerFactory projectType={project.project_type} />
-        {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
+        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>
     </>
   );

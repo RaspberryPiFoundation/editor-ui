@@ -103,9 +103,9 @@ const WebComponentProject = ({
             ))}
           {outputOnly && (
             <div className="embedded-viewer">
-              {loading === "success" ? (
+              {loading === "success" && (
                 <Output embedded={true} browserPreview={false} />
-              ) : null}
+              )}
             </div>
           )}
         </div>
