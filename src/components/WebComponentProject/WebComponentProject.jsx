@@ -23,6 +23,7 @@ const WebComponentProject = ({
   withProjectbar = false,
   withSidebar = false,
   sidebarOptions = [],
+  hostStyles = [],
 }) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
@@ -78,6 +79,7 @@ const WebComponentProject = ({
   return (
     <>
       <style>{externalStyles.toString()}</style>
+      <style>{hostStyles}</style>
       <Style>
         {internalStyles.toString()}
         <div id="wc" className={`--${cookies.theme || defaultTheme}`}>

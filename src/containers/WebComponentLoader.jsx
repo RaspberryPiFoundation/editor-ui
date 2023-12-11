@@ -28,7 +28,9 @@ const WebComponentLoader = (props) => {
     sidebarOptions = [],
     theme,
     embedded = false,
+    hostStyles,
   } = props;
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
@@ -108,6 +110,7 @@ const WebComponentLoader = (props) => {
           withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
+          hostStyles={hostStyles}
         />
       </SettingsContext.Provider>
     </>
