@@ -54,7 +54,11 @@ const ContextMenu = (props) => {
         offsetY={offsetY}
         position="anchor"
         viewScroll="initial"
-        portal={true}
+        portal={{
+          target:
+            document.querySelector("#app") ||
+            document.querySelector("editor-wc").shadowRoot.querySelector("#wc"),
+        }}
         menuClassName={`context-menu context-menu--${settings.theme}`}
         menuItemFocus={{ position: "first" }}
         state={isOpen ? "open" : "closed"}
