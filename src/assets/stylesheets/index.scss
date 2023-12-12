@@ -93,6 +93,10 @@ code {
   --rpf-select-buttons-tick-color: var(--rpf-black);
 }
 
+.modal-overlay {
+  --rpf-input-active-border: var(--editor-color-theme)
+}
+
 .--light {
   --rpf-files-list-item-active: #{$rpf-teal-secondary-tertiary-active};
   --rpf-files-list-item-hover: #{$rpf-teal-secondary-tertiary-hover};
