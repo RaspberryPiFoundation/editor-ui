@@ -29,6 +29,7 @@ const ContextMenu = (props) => {
       menuButton.current.focus();
     }
   };
+  const webComponent = document.querySelector("editor-wc");
 
   return (
     <>
@@ -55,9 +56,9 @@ const ContextMenu = (props) => {
         position="anchor"
         viewScroll="initial"
         portal={{
-          target:
-            document.querySelector("#app") ||
-            document.querySelector("editor-wc").shadowRoot.querySelector("#wc"),
+          target: webComponent
+            ? webComponent.shadowRoot.querySelector("#wc")
+            : document.querySelector("#app"),
         }}
         menuClassName={`context-menu context-menu--${settings.theme}`}
         menuItemFocus={{ position: "first" }}
