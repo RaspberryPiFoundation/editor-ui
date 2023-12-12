@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - HTML projects loading in web component (#789)
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
+- Collect web component login data (#818)
 
 ## [0.20.0] - 2023-11-24
 
