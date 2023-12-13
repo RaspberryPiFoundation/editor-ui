@@ -8,6 +8,7 @@ import {
 import {
   createOrUpdateProject,
   readProject,
+  loadRemix,
   createRemix,
   deleteProject,
   readProjectList,
@@ -24,6 +25,9 @@ export const syncProject = (actionName) =>
       switch (actionName) {
         case "load":
           response = await readProject(identifier, locale, accessToken);
+          break;
+        case "loadRemix":
+          response = await loadRemix(identifier, accessToken);
           break;
         case "remix":
           response = await createRemix(project, accessToken);
@@ -80,6 +84,7 @@ export const EditorSlice = createSlice({
     saving: "idle",
     loading: "idle",
     justLoaded: false,
+    remixLoadFailed: false,
     hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
@@ -386,6 +391,15 @@ export const EditorSlice = createSlice({
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+    });
+    builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
+    builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
+      state.remixLoadFailed = false;
+      loadProjectFulfilled(state, action);
+    });
+    builder.addCase("editor/loadRemixProject/rejected", (state, action) => {
+      state.remixLoadFailed = true;
+      loadProjectRejected(state, action);
     });
     builder.addCase("editor/loadProject/pending", loadProjectPending);
     builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);

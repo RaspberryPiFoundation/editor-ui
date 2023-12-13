@@ -9,9 +9,14 @@ export const useProject = ({
   projectIdentifier = null,
   code = null,
   accessToken = null,
+  loadRemix = false,
+  loadCache = true,
 }) => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
+  const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
+  const project = useSelector((state) => state.editor.project);
+
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
@@ -37,20 +42,30 @@ export const useProject = ({
       cachedProject.identifier === projectIdentifier;
     const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-    if (is_cached_saved_project || is_cached_unsaved_project) {
+    if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
       loadCachedProject();
       return;
     }
 
     if (projectIdentifier) {
-      dispatch(
-        syncProject("load")({
-          identifier: projectIdentifier,
-          locale: i18n.language,
-          accessToken: accessToken,
-        }),
-      );
-      return;
+      if (loadRemix && accessToken && !!!project?.user_id && !remixLoadFailed) {
+        dispatch(
+          syncProject("loadRemix")({
+            identifier: projectIdentifier,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      } else {
+        dispatch(
+          syncProject("load")({
+            identifier: projectIdentifier,
+            locale: i18n.language,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
     }
 
     if (code) {
@@ -65,5 +80,11 @@ export const useProject = ({
 
     const data = defaultPythonProject;
     dispatch(setProject(data));
-  }, [projectIdentifier, cachedProject, i18n.language, accessToken]);
+  }, [
+    projectIdentifier,
+    cachedProject,
+    i18n.language,
+    accessToken,
+    remixLoadFailed,
+  ]);
 };

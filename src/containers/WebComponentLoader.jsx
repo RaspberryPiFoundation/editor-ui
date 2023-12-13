@@ -28,7 +28,8 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   const project = useSelector((state) => state.editor.project);
-  const user = JSON.parse(localStorage.getItem(authKey));
+  const localStorageUser = JSON.parse(localStorage.getItem(authKey));
+  const user = useSelector((state) => state.auth.user);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
@@ -48,12 +49,18 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    if (user) {
-      dispatch(setUser(user));
-    } else {
-      dispatch(removeUser());
+    dispatch(setUser(localStorageUser));
+  }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
+      if (localStorageUser) {
+        dispatch(setUser(localStorageUser));
+      } else {
+        dispatch(removeUser());
+      }
     }
-  }, [user, dispatch]);
+  }, [user, localStorageUser, dispatch]);
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
@@ -65,6 +72,8 @@ const WebComponentLoader = (props) => {
     projectIdentifier: projectIdentifier,
     code,
     accessToken: user && user.access_token,
+    loadRemix: true,
+    loadCache: !!!user,
   });
 
   useProjectPersistence({
