@@ -50,7 +50,6 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     if (quizReady) {
-      console.log("Quiz is ready");
       document.dispatchEvent(quizReadyEvent);
     }
   }, [quizReady]);
