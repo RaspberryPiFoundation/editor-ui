@@ -50,7 +50,7 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
         <div className="react-tabs__tab-container mobile-nav">
           {withSidebar && (
             <Button
-              className="btn--tertiary mobile-nav__menu"
+              className="mobile-nav__menu"
               ButtonIcon={MenuIcon}
               onClickHandler={openSidebar}
               title={t("sidebar.expand")}

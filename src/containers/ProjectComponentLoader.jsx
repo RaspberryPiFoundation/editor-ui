@@ -86,12 +86,12 @@ const ProjectComponentLoader = (props) => {
       ) : loading === "pending" ? (
         <p>{t("project.loading")}</p>
       ) : null}
-      {errorModalShowing ? <ErrorModal /> : null}
-      {newFileModalShowing ? <NewFileModal /> : null}
-      {renameFileModalShowing && modals.renameFile ? <RenameFileModal /> : null}
-      {notFoundModalShowing ? <NotFoundModal /> : null}
-      {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
-      {accessDeniedWithAuthModalShowing ? <AccessDeniedWithAuthModal /> : null}
+      {errorModalShowing && <ErrorModal />}
+      {newFileModalShowing && <NewFileModal />}
+      {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+      {notFoundModalShowing && <NotFoundModal />}
+      {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+      {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
     </>
   );
 };

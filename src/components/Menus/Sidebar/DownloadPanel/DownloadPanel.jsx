@@ -17,6 +17,9 @@ export const DownloadPanel = () => {
   const user = useSelector((state) => state.auth.user);
 
   const handleLogIn = () => {
+    if (window.plausible) {
+      window.plausible("Login button");
+    }
     document.dispatchEvent(logInEvent);
   };
 
@@ -39,12 +42,14 @@ export const DownloadPanel = () => {
                 text={t("downloadPanel.logInButton")}
                 type="primary"
                 onClick={handleLogIn}
+                fill
               />
               <DesignSystemButton
                 className="btn btn--secondary download-panel__button"
                 text={t("downloadPanel.signUpButton")}
                 type="secondary"
                 onClick={handleSignUp}
+                fill
               />
             </div>
           </>
@@ -54,6 +59,7 @@ export const DownloadPanel = () => {
           buttonText={t("downloadPanel.downloadButton")}
           className="btn btn--secondary download-panel__button"
           Icon={DownloadIcon}
+          fill
         />
       </div>
     </SidebarPanel>

@@ -57,7 +57,7 @@ code {
   --rpf-button-primary-background-color-active: var(--rpf-teal-600);
   --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
   --rpf-button-primary-color-disabled: var(--rpf-grey-600);
-  --rpf-button-primary-text-color: var(--rpf-white);
+  --rpf-button-primary-text-color: var(--rpf-black);
 
   --rpf-button-secondary-background-color: var(--rpf-teal-800);
   --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
@@ -66,9 +66,12 @@ code {
   --rpf-button-secondary-background-color-disabled: var(
     --rpf-grey-50
   ); // might not exist
-  --rpf-button-secondary-text-color: var(--rpf-white);
+  --rpf-button-secondary-text-color: var(--rpf-black);
+}
 
-  .--dark {
+.--dark {
+  .btn,
+  .rpf-button {
     --rpf-button-primary-background-color: var(--rpf-teal-400);
     --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
     --rpf-button-primary-background-color-active: var(--rpf-teal-200);
@@ -82,11 +85,16 @@ code {
     --rpf-button-secondary-color-disabled-background: var(--rpf-grey-700);
     --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
     --rpf-button-secondary-color: var(--rpf-white);
+    --rpf-button-secondary-text-color: var(--rpf-white);
   }
 }
 
 .select-buttons__tick--selected {
   --rpf-select-buttons-tick-color: var(--rpf-black);
+}
+
+.modal-overlay {
+  --rpf-input-active-border: var(--editor-color-theme)
 }
 
 .--light {

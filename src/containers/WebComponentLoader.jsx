@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setSenseHatAlwaysEnabled,
+  triggerSave,
+} from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -10,6 +14,12 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
+import NewFileModal from "../components/Modals/NewFileModal";
+import ErrorModal from "../components/Modals/ErrorModal";
+import RenameFileModal from "../components/Modals/RenameFileModal";
+import NotFoundModal from "../components/Modals/NotFoundModal";
+import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
+import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -19,11 +29,14 @@ const WebComponentLoader = (props) => {
     code,
     senseHatAlwaysEnabled = false,
     instructions,
+    withProjectbar = false,
     withSidebar = false,
     sidebarOptions = [],
     theme,
     embedded = false,
+    hostStyles,
   } = props;
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
@@ -35,11 +48,34 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const modals = useSelector((state) => state.editor.modals);
+  const errorModalShowing = useSelector(
+    (state) => state.editor.errorModalShowing,
+  );
+  const newFileModalShowing = useSelector(
+    (state) => state.editor.newFileModalShowing,
+  );
+  const renameFileModalShowing = useSelector(
+    (state) => state.editor.renameFileModalShowing,
+  );
+  const notFoundModalShowing = useSelector(
+    (state) => state.editor.notFoundModalShowing,
+  );
+  const accessDeniedNoAuthModalShowing = useSelector(
+    (state) => state.editor.accessDeniedNoAuthModalShowing,
+  );
+  const accessDeniedWithAuthModalShowing = useSelector(
+    (state) => state.editor.accessDeniedWithAuthModalShowing,
+  );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
+
+  useEffect(() => {
+    dispatch(triggerSave());
+  }, [dispatch]);
 
   useEffect(() => {
     if (theme) {
@@ -105,9 +141,17 @@ const WebComponentLoader = (props) => {
         }}
       >
         <WebComponentProject
+          withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
+          hostStyles={hostStyles}
         />
+        {errorModalShowing && <ErrorModal />}
+        {newFileModalShowing && <NewFileModal />}
+        {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+        {notFoundModalShowing && <NotFoundModal />}
+        {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+        {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
       </SettingsContext.Provider>
     </>
   ) : (
