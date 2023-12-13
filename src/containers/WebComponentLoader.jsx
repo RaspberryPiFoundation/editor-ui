@@ -154,7 +154,6 @@ const WebComponentLoader = (props) => {
               withProjectbar={withProjectbar}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
-              hostStyles={hostStyles}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
