@@ -14,7 +14,6 @@ import {
   runStartedEvent,
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
-import "../../assets/stylesheets/Notifications.scss";
 
 const WebComponentProject = ({
   withProjectbar = false,

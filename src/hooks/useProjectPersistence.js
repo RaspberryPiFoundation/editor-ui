@@ -86,5 +86,7 @@ export const useProjectPersistence = ({
     }, 2000);
 
     return () => clearTimeout(debouncer);
-  }, [dispatch, project, user, hasShownSavePrompt]);
+  }, [dispatch, project, user, hasShownSavePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Disabling exhasutive dependencies linting rule because adding justLoaded to the dependency array
+  // triggers the save/login prompt too early
 };
