@@ -32,6 +32,10 @@
     }
   }
 
+  .project-bar__btn-wrapper {
+    height:  100%;
+  }
+
   .project-bar__btn-wrapper:not(:last-child) {
     border-inline-end: 1px solid var(--editor-color-outline);
   }
