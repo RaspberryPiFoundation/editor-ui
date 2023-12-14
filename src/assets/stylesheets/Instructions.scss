@@ -10,6 +10,10 @@
     margin: 0;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .c-project-code {
     margin: $space-1 0;
     border-radius: 8px;
@@ -59,6 +63,7 @@
     margin-block-start: calc(3 * $space-0-125);
     background-color: $rpf-white;
     mix-blend-mode: difference;
+    min-width: 100%;
   }
 
   .language-python {
