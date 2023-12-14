@@ -31,6 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
+- Secondary button theming (#827)
+- Instructions step buttons hit area (#827)
 
 ## [0.20.0] - 2023-11-24
 
