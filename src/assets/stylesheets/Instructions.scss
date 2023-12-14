@@ -59,6 +59,7 @@
     margin-block-start: calc(3 * $space-0-125);
     background-color: $rpf-white;
     mix-blend-mode: difference;
+    // width: 100% !important;
   }
 
   .language-python {
@@ -77,6 +78,42 @@
 
     .keyword-print {
       color: $rpf-white;
+    }
+  }
+
+  .language-html {
+    .tag {
+      color: $rpf-syntax-pink;
+      .punctuation, .attr-name {
+        color: $rpf-white;
+      }
+
+      .attr-value {
+        color: $rpf-syntax-green;
+        .punctuation {
+          color: inherit;
+        }
+        .attr-equals {
+          color: $rpf-white;
+        }
+      }
+    }
+
+    .comment {
+      color: $rpf-syntax-grey;
+    }
+  }
+
+  .language-css {
+    .comment {
+      color: $rpf-syntax-grey;
+    }
+    .selector {
+      color: $rpf-syntax-pink;
+    }
+
+    .function {
+      color: $rpf-syntax-pink;
     }
   }
 

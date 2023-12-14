@@ -24,7 +24,9 @@ const InstructionsPanel = () => {
   }, [quiz]);
 
   const applySyntaxHighlighting = (container) => {
-    const codeElements = container.querySelectorAll(".language-python");
+    const codeElements = container.querySelectorAll(
+      ".language-python, .language-html, .language-css",
+    );
 
     codeElements.forEach((element) => {
       window.Prism.highlightElement(element);
