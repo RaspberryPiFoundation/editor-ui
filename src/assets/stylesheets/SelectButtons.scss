@@ -51,6 +51,14 @@
 
 .select-buttons__tick--selected {
   visibility: visible;
+  svg {
+    rect {
+      fill: var(--editor-color-theme);
+    }
+    path {
+      fill: var(--rpf-select-buttons-tick-color);
+    }
+  }
 }
 
 .--light {

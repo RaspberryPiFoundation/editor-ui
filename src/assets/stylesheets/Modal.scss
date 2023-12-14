@@ -149,7 +149,7 @@
       color: inherit;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal-800;
+        border: 2px solid var(--rpf-input-active-border);
         outline: none;
       }
     }
@@ -179,7 +179,7 @@
       border: 2px solid $rpf-grey-100;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal-800;
+        border: 2px solid var(--rpf-input-active-border);
         outline: none;
       }
     }

@@ -41,6 +41,40 @@ describe("With a label", () => {
   });
 });
 
+describe("With a webComponent=true", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project,
+        webComponent: true,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <ProjectName showLabel={true} />
+      </Provider>,
+    );
+  });
+
+  test("Project name shown", () => {
+    screen.debug();
+    expect(screen.queryByText(project.name)).toBeInTheDocument();
+  });
+
+  test("Edit field not shown", () => {
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+  });
+
+  test("Edit button not shown", () => {
+    expect(
+      screen.queryByLabelText("header.renameProject"),
+    ).not.toBeInTheDocument();
+  });
+});
+
 describe("With no label", () => {
   beforeEach(() => {
     const middlewares = [];

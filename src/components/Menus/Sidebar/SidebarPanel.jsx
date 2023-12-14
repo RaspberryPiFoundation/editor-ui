@@ -46,7 +46,7 @@ const SidebarPanel = (props) => {
       defaultHeight="100%"
       handleDirection="right"
       minWidth="180px"
-      maxWidth="300px"
+      maxWidth="600px"
     >
       {panelContent}
     </ResizableWithHandle>

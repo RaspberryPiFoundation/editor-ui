@@ -22,6 +22,7 @@ export const editorLightTheme = EditorView.theme(
         "border-inline-start": "solid grey",
       },
     },
+    ".ͼf": { color: "#AA1111" },
   },
   { dark: false },
 );

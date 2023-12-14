@@ -10,7 +10,7 @@ import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import { setIsSplitView } from "../../redux/EditorSlice";
+import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -19,7 +19,12 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 
-const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
+const WebComponentProject = ({
+  withProjectbar = false,
+  withSidebar = false,
+  sidebarOptions = [],
+  hostStyles = [],
+}) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -36,8 +41,10 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(setIsSplitView(false));
+    dispatch(setWebComponent(true));
   }, [dispatch]);
 
   useEffect(() => {
@@ -72,8 +79,9 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
   return (
     <>
       <style>{externalStyles.toString()}</style>
+      <style>{hostStyles}</style>
       <Style>
-        {internalStyles}
+        {internalStyles.toString()}
         <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
           {isMobile ? (
             <MobileProject
@@ -83,6 +91,7 @@ const WebComponentProject = ({ withSidebar = false, sidebarOptions = [] }) => {
           ) : (
             <Project
               forWebComponent={true}
+              withProjectbar={withProjectbar}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
             />

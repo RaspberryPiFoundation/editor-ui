@@ -59,8 +59,8 @@ describe("When logged in and user owns project", () => {
     expect(screen.queryByText("header.download")).toBeInTheDocument();
   });
 
-  test("Save button shown", () => {
-    expect(screen.queryByText("header.save")).toBeInTheDocument();
+  test("Save button is not shown", () => {
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
 });
 
@@ -98,8 +98,8 @@ describe("When logged in and no project identifier", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
   });
 
-  test("Save button shown", () => {
-    expect(screen.queryByText("header.save")).toBeInTheDocument();
+  test("Save button is not shown", () => {
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
 });
 
@@ -136,8 +136,8 @@ describe("When not logged in", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
   });
 
-  test("Save button shown", () => {
-    expect(screen.queryByText("header.save")).toBeInTheDocument();
+  test("Login to save button shown", () => {
+    expect(screen.queryByText("header.loginToSave")).toBeInTheDocument();
   });
 });
 
