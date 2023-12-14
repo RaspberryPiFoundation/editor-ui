@@ -59,21 +59,21 @@
     margin-block-start: calc(3 * $space-0-125);
     background-color: $rpf-white;
     mix-blend-mode: difference;
-    // width: 100% !important;
+    min-width: 100%;
   }
 
   .language-python {
     .number, .boolean, .function {
-      color: $rpf-syntax-blue;
+      color: $rpf-syntax-1;
     }
     .keyword {
-      color: $rpf-syntax-pink;
+      color: $rpf-syntax-4;
     }
     .string, .char {
-      color: $rpf-syntax-green;
+      color: $rpf-syntax-2;
     }
     .comment {
-      color: $rpf-syntax-grey;
+      color: $rpf-syntax-3;
     }
 
     .keyword-print {
@@ -83,13 +83,13 @@
 
   .language-html {
     .tag {
-      color: $rpf-syntax-pink;
+      color: $rpf-syntax-4;
       .punctuation, .attr-name {
         color: $rpf-white;
       }
 
       .attr-value {
-        color: $rpf-syntax-green;
+        color: $rpf-syntax-2;
         .punctuation {
           color: inherit;
         }
@@ -100,20 +100,26 @@
     }
 
     .comment {
-      color: $rpf-syntax-grey;
+      color: $rpf-syntax-3;
     }
   }
 
   .language-css {
+    color: $rpf-syntax-1;
+
     .comment {
-      color: $rpf-syntax-grey;
+      color: $rpf-syntax-3;
     }
     .selector {
-      color: $rpf-syntax-pink;
+      color: $rpf-syntax-4;
     }
 
     .function {
-      color: $rpf-syntax-pink;
+      color: $rpf-syntax-4;
+    }
+
+    .property, .punctuation {
+      color: $rpf-white;
     }
   }
 
