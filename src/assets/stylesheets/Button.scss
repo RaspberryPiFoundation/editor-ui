@@ -15,8 +15,8 @@
   font-weight: $font-weight-bold;
   gap: $space-0-5;
   justify-content: center;
-  min-height: 44px;
-  min-width: 44px;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   padding: 10px;
   position: relative;
   text-align: center;
@@ -171,7 +171,7 @@
         background-color: inherit;
       }
     }
-    
+
     &:active {
       color: $rpf-teal-900;
 
@@ -235,8 +235,8 @@
   }
 
   &--small {
-    min-height: unset;
-    min-width: unset;
+    min-block-size: unset;
+    min-inline-size: unset;
   }
 
   &--svg-only {

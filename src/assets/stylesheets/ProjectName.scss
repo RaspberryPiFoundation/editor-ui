@@ -6,7 +6,7 @@
 .project-name {
   align-items: center;
   display: flex;
-  height: 100%;
+  block-size: 100%;
   padding-inline-start: $space-0-5;
 
   .btn--primary {
@@ -31,13 +31,13 @@
 .project-name__input {
   @include font-size-1(regular);
   padding: 0 $space-1-5;
-  height: $space-3;
+  block-size: $space-3;
   border-radius: $space-0-5;
   border: none;
   color: inherit;
   background-color: inherit;
   text-overflow: ellipsis;
-  width: 100%;
+  inline-size: 100%;
 }
 
 .project-name__button {
@@ -47,8 +47,8 @@
   height: 48px;
 
   svg {
-    height: $space-1-5;
-    width: $space-1-5;
+    block-size: $space-1-5;
+    inline-size: $space-1-5;
     margin: 0;
   }
 }
@@ -74,3 +74,4 @@
     }
   }
 }
+
