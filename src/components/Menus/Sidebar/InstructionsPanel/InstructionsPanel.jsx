@@ -51,6 +51,7 @@ const InstructionsPanel = () => {
   useEffect(() => {
     if (quizReady) {
       document.dispatchEvent(quizReadyEvent);
+      setQuizReady(false);
     }
   }, [quizReady]);
 
