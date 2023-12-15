@@ -12,13 +12,13 @@
   display: flex;
   align-items: center;
   background-color: $rpf-dark-blue;
-  height: 100%;
+  block-size: 100%;
   z-index: 2;
 
   &__account {
     margin-inline-start: auto;
     margin-inline-end: $space-2;
-    height: 100%;
+    block-size: 100%;
 
     svg {
       fill: $rpf-white;
@@ -37,7 +37,7 @@
     }
 
     img {
-      height: $space-2-5;
+      block-size: $space-2-5;
       margin: $space-0-25 0;
     }
   }

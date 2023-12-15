@@ -6,15 +6,15 @@
 #app, #wc {
   .toast--bottom-center__message,
   .toast--top-center__message {
-    min-height: fit-content;
+    min-block-size: fit-content;
     padding: $space-0-25 $space-0-5;
     margin: 0;
   }
 
   .toast--bottom-center {
     @include font-size-0-75(regular);
-    width: fit-content;
-    max-width: 100%;
+    inline-size: fit-content;
+    max-inline-size: 100%;
     inset-block-end: 1em;
     padding: 4px;
     inset-inline-start: 50%;
@@ -31,14 +31,14 @@
   }
 
   .toast--top-center {
-    max-width: fit-content;
-    width: 100%;
+    max-inline-size: fit-content;
+    inline-size: 100%;
     font-weight: $font-weight-bold;
     inset-block-start: 20%;
     z-index: 1;
 
     .Toastify__toast-icon {
-      width: fit-content;
+      inline-size: fit-content;
     }
   }
 

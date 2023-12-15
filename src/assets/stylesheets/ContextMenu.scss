@@ -33,7 +33,7 @@
     white-space: nowrap;
     overflow-x: visible;
     box-sizing: border-box;
-    width: 100%;
+    inline-size: 100%;
     justify-content: start;
   }
 
@@ -42,8 +42,8 @@
   }
 
   svg {
-    width: $space-1-5;
-    height: auto;
+    inline-size: $space-1-5;
+    block-size: auto;
   }
 
   &--dark {

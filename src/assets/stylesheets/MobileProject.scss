@@ -18,7 +18,7 @@
 #wc {
   .mobile-nav {
     display: flex;
-    width: 100%;
+    inline-size: 100%;
 
     .react-tabs__tab-list {
       padding: 0;
@@ -27,7 +27,7 @@
     .react-tabs__tab {
       flex: 1;
       display: flex;
-      height: $space-4;
+      block-size: $space-4;
 
       &:last-of-type {
         border-inline-end: none;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: $space-4;
+  inline-size: $space-4;
 }
 
 .--dark {
