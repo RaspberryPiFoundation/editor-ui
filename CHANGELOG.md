@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Output styles for Instructions (#790, #807)
 - Styling for the instructions code snippets (#795)
 - Styling for the instructions code blocks (#794, #808)
+- quizReady custom event (#812)
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 
 ### Changed

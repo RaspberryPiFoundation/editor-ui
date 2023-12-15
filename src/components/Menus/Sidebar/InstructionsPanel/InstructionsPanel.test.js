@@ -68,6 +68,11 @@ describe("It renders project steps when there is no quiz", () => {
 });
 
 describe("It renders a quiz when it has one", () => {
+  const quizHandler = jest.fn();
+
+  beforeAll(() => {
+    document.addEventListener("editor-quizReady", quizHandler);
+  });
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
@@ -110,5 +115,9 @@ describe("It renders a quiz when it has one", () => {
   test("Applies syntax highlighting", () => {
     const codeElement = document.getElementsByClassName("language-python")[0];
     expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
+
+  test("Fires a quizIsReady event", () => {
+    expect(quizHandler).toHaveBeenCalled();
   });
 });
