@@ -86,7 +86,7 @@
   &--selected {
     background-color: var(--sidebar-panel-background);
     border-radius: $space-0-5 0 0 $space-0-5;
-    border: 1px solid var(--sidebar-border);
+    border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
   }
 }
