@@ -58,11 +58,7 @@ const Sidebar = ({ options = [] }) => {
     },
     {
       name: "download",
-<<<<<<< Updated upstream
-      icon: DownloadIcon,
-=======
       icon: SaveIcon,
->>>>>>> Stashed changes
       title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
