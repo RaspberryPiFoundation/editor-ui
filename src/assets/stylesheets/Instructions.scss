@@ -60,7 +60,7 @@
   }
 
   .line-highlight {
-    margin-block-start: calc(3 * $space-0-125);
+    margin-block-start: 0.5rem;
     background-color: $rpf-white;
     mix-blend-mode: difference;
     min-width: 100%;
