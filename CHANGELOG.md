@@ -36,6 +36,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Logical properties linter rule (#770)
+- Added download panel for sidebar (#744)
 - Javascript support for HTML projects (#748)
 - DownloadPanel for sidebar (#744)
 - Custom events for Log In and Sign Up from DownloadPanel (#744)
