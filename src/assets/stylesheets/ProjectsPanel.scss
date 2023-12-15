@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
     margin: 0;
 
@@ -22,13 +22,13 @@
   }
 
   .projects-panel__download-button {
-    width: 100%;
+    inline-size: 100%;
     margin: 0;
     justify-content: center;
   }
 
   .project-name {
-    height: auto;
+    block-size: auto;
     padding-inline-start: 0;
 
     &__label {
@@ -52,7 +52,7 @@
   }
 
   .projects-panel__save-button {
-    width: 100%;
+    inline-size: 100%;
     margin-block-end: $space-1;
     justify-content: center;
 
@@ -71,7 +71,7 @@
 
   .projects-panel__save-status {
     margin: auto;
-    width: fit-content;
+    inline-size: fit-content;
   }
 }
 
