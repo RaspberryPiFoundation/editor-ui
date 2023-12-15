@@ -9,8 +9,8 @@ $small-table-grid: 600px;
 
 .editor-project-list {
   margin: 0 auto;
-  max-width: 1570px;
-  width: 100%;
+  max-inline-size: 1570px;
+  inline-size: 100%;
 
   &__container {
     border-radius: 8px;
