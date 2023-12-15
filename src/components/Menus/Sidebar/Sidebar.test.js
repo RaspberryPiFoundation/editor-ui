@@ -15,7 +15,7 @@ let images = [
   },
 ];
 
-const options = ["file", "images"];
+const options = ["file", "images", "instructions"];
 
 describe("When project has images", () => {
   beforeEach(() => {
@@ -25,6 +25,11 @@ describe("When project has images", () => {
         project: {
           components: [],
           image_list: images,
+        },
+      },
+      instructions: {
+        project: {
+          steps: [],
         },
       },
     };
@@ -81,6 +86,10 @@ describe("When project has images", () => {
     expect(screen.queryByTitle("sidebar.settings")).not.toBeInTheDocument();
   });
 
+  test("Does not show instructions icon", () => {
+    expect(screen.queryByTitle("sidebar.instructions")).not.toBeInTheDocument();
+  });
+
   test("Clicking image icon opens image panel", () => {
     const imageButton = screen.getByTitle("sidebar.images");
     fireEvent.click(imageButton);
@@ -96,6 +105,11 @@ describe("When the project has no images", () => {
         project: {
           components: [],
           image_list: [],
+        },
+      },
+      instructions: {
+        project: {
+          steps: [],
         },
       },
     };
@@ -115,5 +129,40 @@ describe("When the project has no images", () => {
 
   test("Does not show image icon", () => {
     expect(screen.queryByTitle("sidebar.images")).not.toBeInTheDocument();
+  });
+
+  test("Does not show instructions icon", () => {
+    expect(screen.queryByTitle("sidebar.instructions")).not.toBeInTheDocument();
+  });
+});
+
+describe("When the project has instructions", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+        },
+      },
+      instructions: {
+        project: {
+          steps: [["Something"], ["Something else"]],
+        },
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={options} />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Shows instructions icon", () => {
+    expect(screen.queryByTitle("sidebar.instructions")).toBeInTheDocument();
   });
 });

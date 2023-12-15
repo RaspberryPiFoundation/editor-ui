@@ -2,66 +2,9 @@
 @use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/colours" as *;
 
-@mixin button-styling(
-  $bg,
-  $active-bg,
-  $dis-bg,
-  $dis-c,
-  $focus-bg,
-  $hover-bg,
-  $c: default
-) {
-  background-color: $bg;
-
-  @if $c == "default" {
-    color: $rpf-text-primary;
-
-    svg {
-      fill: $rpf-text-primary;
-    }
-  } @else {
-    color: $c;
-
-    svg {
-      fill: $c;
-    }
-  }
-
-  &:active,
-  .btn-outer:active & {
-    background-color: $active-bg;
-    @content;
-  }
-
-
-  &:focus-visible, .btn-outer:focus-visible & {
-    background-color: $focus-bg;
-    @content;
-  }
-
-  &:hover,
-  .btn-outer:hover & {
-    background-color: $hover-bg;
-    @content;
-  }
-
-  &:disabled {
-    background-color: $dis-bg;
-    color: $dis-c;
-  
-    svg {
-      fill: $dis-c;
-    }
-
-    &:hover, .btn-outer:hover & {
-      background-color: $dis-bg;
-    }
-  }
-}
-
 .btn {
   align-items: center;
-  border-radius: 8px;
+  border-radius: $space-0-5;
   border: 3px solid transparent;
   box-sizing: border-box;
   color: inherit;
@@ -72,14 +15,12 @@
   font-weight: $font-weight-bold;
   gap: $space-0-5;
   justify-content: center;
-  margin: 6px;
-  min-height: 44px;
-  min-width: 44px;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   padding: 10px;
   position: relative;
   text-align: center;
   text-decoration: none;
-  width: fit-content;
 
   &:disabled {
     background-color: $rpf-grey-600;
@@ -96,41 +37,140 @@
     padding: $space-0-25;
   }
 
-  // Variants
   &--primary {
-    $colours: $rpf-teal-800, $rpf-teal-600, $rpf-teal-200, $rpf-grey-600,
-      $rpf-teal-800, $rpf-teal-900;
-    @include button-styling($colours...);
+    background-color: var(--rpf-button-primary-background-color);
+    border-radius: $space-0-5;
+
+    color: var(--rpf-button-primary-text-color);
+
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: var(--rpf-button-primary-background-color-active);
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: var(--rpf-button-primary-background-color-focus);
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: var(--rpf-button-primary-background-color-hover);
+      border-radius: $space-0-5;
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-primary-background-color-disabled);
+      color: var(--rpf-button-primary-color-disabled);
+
+      svg {
+        fill: var(--rpf-button-primary-color-disabled);
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-primary-background-color-disabled);
+      }
+    }
   }
 
   &--secondary {
-    $colours: inherit, inherit, $rpf-grey-50, $rpf-grey-600, inherit, inherit;
-    @include button-styling($colours...);
+    background-color: inherit;
 
-    border: 2px solid $rpf-teal-800;
+    color: var(--rpf-button-primary-text-color);
+
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: inherit;
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-secondary-background-color-disabled);
+      color: var(--rpf-button-secondary-background-color-active);
+
+      svg {
+        fill: var(--rpf-button-secondary-background-color-active);
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-secondary-background-color-disabled);
+      }
+    }
+
+    border: 2px solid var(--rpf-button-primary-background-color);
 
     &:active {
-      border: 2px solid $rpf-teal-900;
+      border: 2px solid var(--rpf-button-secondary-background-color-active);
     }
 
     &:hover {
+      color: var(--rpf-button-secondary-background-color-hover);
+      border-color: var(
+        --rpf-button-secondary-background-color-hover
+      ) !important;
+
+      svg {
+        fill: var(--rpf-button-secondary-background-color-hover);
+      }
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--rpf-button-secondary-background-color-focus);
+    }
+  }
+
+  &--tertiary {
+    background-color: inherit;
+
+    color: inherit;
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: inherit;
+    }
+
+    &:disabled {
+      background-color: inherit;
       color: $rpf-grey-600;
 
       svg {
         fill: $rpf-grey-600;
       }
-    }
 
-    &:focus-visible {
-      outline: 3px solid $rpf-brand-raspberry;
+      &:hover,
+      .btn-outer:hover & {
+        background-color: inherit;
+      }
     }
-  }
-
-  &--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-600, inherit, inherit,
-      inherit;
-    @include button-styling($colours...);
-    margin: 0;
 
     &:active {
       color: $rpf-teal-900;
@@ -150,9 +190,42 @@
   }
 
   &--danger {
-    $colours: $rpf-alert-error, $rpf-alert-error, $rpf-alert-error, $rpf-white,
-      $rpf-alert-error, $rpf-alerts-error-tint, $rpf-white;
-    @include button-styling($colours...);
+    background-color: $rpf-alert-error;
+
+    color: $rpf-white;
+
+    svg {
+      fill: $rpf-white;
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: $rpf-alerts-error-tint;
+    }
+
+    &:disabled {
+      background-color: $rpf-alert-error;
+      color: $rpf-white;
+
+      svg {
+        fill: $rpf-white;
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: $rpf-alert-error;
+      }
+    }
 
     &:focus-visible {
       background-clip: padding-box;
@@ -162,8 +235,8 @@
   }
 
   &--small {
-    min-height: unset;
-    min-width: unset;
+    min-block-size: unset;
+    min-inline-size: unset;
   }
 
   &--svg-only {
@@ -175,6 +248,7 @@
 
 .btn-outer {
   background: transparent;
+  border-radius: $space-0-5;
   cursor: pointer;
   padding: $space-0-5 0;
   display: flex;
@@ -191,103 +265,5 @@
 
   &:has(.btn:disabled) {
     cursor: default;
-  }
-}
-
-.--dark {
-  .btn-outer {
-    &:hover {
-      .btn--primary {
-        background-color: $rpf-teal-600;
-      }
-
-      .btn--secondary {
-        background-color: inherit;
-      }
-
-      .btn--tertiary {
-        background-color: inherit;
-      }
-    }
-
-    &:active {
-      .btn--primary {
-        background-color: $rpf-teal-200;
-      }
-
-      .btn--secondary {
-        background-color: inherit;
-      }
-
-      .btn--tertiary {
-        background-color: inherit;
-      }
-    }
-
-    &:focus-visible {
-      .btn--primary {
-        background-color: $rpf-teal-400;
-      }
-
-      .btn--secondary {
-        background-color: inherit;
-      }
-
-      .btn--tertiary {
-        background-color: inherit;
-      }
-    }
-  }
-
-  .btn--primary {
-    $colours: $rpf-teal-400, $rpf-teal-200, $rpf-grey-200, $rpf-grey-700,
-      $rpf-teal-400, $rpf-teal-600;
-    @include button-styling($colours...);
-  }
-
-  .btn--secondary {
-    $colours: inherit, inherit, $rpf-grey-700, $rpf-grey-100, inherit, inherit,
-      $rpf-white;
-    @include button-styling($colours...);
-
-    border: 2px solid $rpf-teal-400;
-
-    &:active {
-      border: 2px solid $rpf-teal-900;
-    }
-
-    &:hover {
-      color: $rpf-grey-150;
-
-      svg {
-        fill: $rpf-grey-150;
-      }
-    }
-
-    &:focus-visible {
-      outline: 3px solid $rpf-brand-raspberry;
-    }
-  }
-
-  .btn--tertiary {
-    $colours: inherit, inherit, inherit, $rpf-grey-100, inherit, inherit,
-      $rpf-white;
-    @include button-styling($colours...);
-
-    &:active {
-      color: $rpf-teal-200;
-
-      svg {
-        fill: $rpf-teal-200;
-      }
-    }
-
-    &:hover {
-      color: $rpf-grey-150;
-
-      svg {
-        fill: $rpf-grey-150;
-      }
-    }
   }
 }

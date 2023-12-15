@@ -46,6 +46,7 @@ describe("Tab interactions", () => {
         },
         openFiles: [["main.py", "a.py"]],
         focussedFileIndices: [1],
+        webComponent: false,
       },
       auth: {
         user: null,
@@ -152,6 +153,7 @@ describe("On mobile", () => {
         },
         openFiles: [["main.py", "a.py"]],
         focussedFileIndices: [1],
+        webComponent: false,
       },
       auth: {
         user: null,
@@ -202,6 +204,7 @@ describe("On desktop", () => {
         },
         openFiles: [["main.py", "a.py"]],
         focussedFileIndices: [1],
+        webComponent: false,
       },
       auth: {
         user: null,

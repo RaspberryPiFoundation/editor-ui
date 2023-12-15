@@ -1,7 +1,14 @@
 .progress-bar {
+  accent-color: var(--editor-color-theme);
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 300px;
+  margin: auto;
+
+  progress {
+    flex: 1;
+  }
 
   .btn-outer {
     padding: 0;

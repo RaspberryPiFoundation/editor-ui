@@ -36,21 +36,28 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "host_styles",
       "auth_key",
       "identifier",
       "code",
       "sense_hat_always_enabled",
       "instructions",
+      "with_projectbar",
       "with_sidebar",
       "sidebar_options",
       "theme",
+      "embedded",
     ];
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
     let value;
 
-    if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
+    if (
+      ["sense_hat_always_enabled", "with_sidebar", "with_projectbar"].includes(
+        name,
+      )
+    ) {
       value = newVal === "true";
     } else if (["instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);

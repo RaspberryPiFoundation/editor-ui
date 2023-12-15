@@ -9,6 +9,10 @@
   svg {
     margin: 0;
   }
+
+  :focus-visible {
+    border: none;
+  }
 }
 
 .context-menu {
@@ -23,19 +27,23 @@
   .context-menu__item {
     margin: 0;
     background-color: inherit;
-    color: inherit;
+    color: var(--rpf-button-secondary-color);
     padding: $space-0-5;
     text-align: start;
     white-space: nowrap;
     overflow-x: visible;
     box-sizing: border-box;
-    width: 100%;
+    inline-size: 100%;
     justify-content: start;
   }
 
+  :focus-visible {
+    border: none;
+  }
+
   svg {
-    width: $space-1-5;
-    height: auto;
+    inline-size: $space-1-5;
+    block-size: auto;
   }
 
   &--dark {

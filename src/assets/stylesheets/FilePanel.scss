@@ -8,8 +8,9 @@
 }
 
 .files-list-item {
-  width: 100%;
+  inline-size: 100%;
   display: flex;
+  flex-direction: row !important;
   justify-content: flex-start;
   position: relative;
   align-items: center;
@@ -18,7 +19,7 @@
   box-sizing: border-box;
   white-space: nowrap;
   font-weight: $font-weight-regular;
-  min-height: 44px;
+  min-block-size: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
   span {
@@ -34,32 +35,16 @@
   inset-inline-end: 0;
 }
 
-.--light {
-  .files-list-item,
-  .files-list-item__menu {
-    &:hover {
-      background-color: $rpf-teal-secondary-tertiary-hover;
-    }
-
-    &:active {
-      background-color: $rpf-teal-secondary-tertiary-active;
-    }
-  }
-}
-
-.--dark {
-  .files-list-item,
-  .files-list-item__menu {
-    &:hover {
-      background-color: $rpf-grey-secondary-tertiary-hover;
-    }
-
-    &:active {
-      background-color: $rpf-grey-secondary-tertiary-active;
+.files-list-item,
+.files-list-item__menu {
+  &:hover {
+    background-color: var(--rpf-files-list-item-hover);
+    &::before {
+      background-color: transparent !important;
     }
   }
 
-  .files-list-icon svg {
-    fill: $rpf-white;
+  &:active {
+    background-color: var(--rpf-files-list-item-active);
   }
 }
