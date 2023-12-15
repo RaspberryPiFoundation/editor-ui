@@ -39,7 +39,6 @@ export const useProjectPersistence = ({
   }, [saveTriggered, project, user, dispatch]);
 
   useEffect(() => {
-    console.log(project, user, justLoaded, hasShownSavePrompt);
     if (user && localStorage.getItem("awaitingSave")) {
       if (isOwner(user, project)) {
         dispatch(
