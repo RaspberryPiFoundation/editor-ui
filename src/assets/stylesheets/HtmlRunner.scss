@@ -4,8 +4,8 @@
 .htmlrunner-container {
   container-type: inline-size;
   display: flex;
-  height: 100%;
-  width: 100%;
+  block-size: 100%;
+  inline-size: 100%;
 }
 
 .htmlrunner-link {
@@ -21,6 +21,6 @@
 .htmlrunner-iframe {
   border: none;
   background-color: $rpf-white;
-  height: 100%;
-  width: 100%;
+  block-size: 100%;
+  inline-size: 100%;
 }

@@ -3,7 +3,7 @@
 .embedded-viewer {
   display: flex;
   flex: 1 1 auto;
-  height: auto;
+  block-size: auto;
   overflow: hidden;
 
   .proj-runner-container {
@@ -11,8 +11,8 @@
     flex: 1 1 auto;
     flex-direction: column;
     border-radius: 10px;
-    height: auto;
-    width: 100%;
+    block-size: auto;
+    inline-size: 100%;
   }
 
   .pythonrunner-container {

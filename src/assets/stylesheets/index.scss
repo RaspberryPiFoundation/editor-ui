@@ -23,7 +23,7 @@ code {
 }
 
 #app {
-  min-height: 100dvh;
+  min-block-size: 100dvh;
 }
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
