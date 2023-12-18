@@ -59,7 +59,7 @@
     margin-block-start: calc(3 * $space-0-125);
     background-color: $rpf-white;
     mix-blend-mode: difference;
-    min-width: 100%;
+    min-inline-size: 100%;
   }
 
   .language-python {
