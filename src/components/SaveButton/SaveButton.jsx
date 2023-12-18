@@ -32,7 +32,7 @@ const SaveButton = ({ className, type }) => {
     }
     document.dispatchEvent(logInEvent);
     dispatch(triggerSave());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const projectOwner = isOwner(user, project);
 

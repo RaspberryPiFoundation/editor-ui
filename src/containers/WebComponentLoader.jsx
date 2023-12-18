@@ -72,7 +72,7 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     dispatch(setUser(localStorageUser));
-  }, []);
+  }, [dispatch, localStorageUser]);
 
   useEffect(() => {
     if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
