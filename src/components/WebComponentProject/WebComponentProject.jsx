@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
-import Style from "style-it";
-import internalStyles from "../../assets/stylesheets/InternalStyles.scss";
-import externalStyles from "../../assets/stylesheets/ExternalStyles.scss";
 
 import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
@@ -23,7 +19,6 @@ const WebComponentProject = ({
   withProjectbar = false,
   withSidebar = false,
   sidebarOptions = [],
-  hostStyles = [],
 }) => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
@@ -34,10 +29,6 @@ const WebComponentProject = ({
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
-  const [cookies] = useCookies(["theme", "fontSize"]);
-  const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
-    ? "dark"
-    : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
@@ -78,26 +69,19 @@ const WebComponentProject = ({
 
   return (
     <>
-      <style>{externalStyles.toString()}</style>
-      <style>{hostStyles}</style>
-      <Style>
-        {internalStyles.toString()}
-        <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
-          {isMobile ? (
-            <MobileProject
-              withSidebar={withSidebar}
-              sidebarOptions={sidebarOptions}
-            />
-          ) : (
-            <Project
-              forWebComponent={true}
-              withProjectbar={withProjectbar}
-              withSidebar={withSidebar}
-              sidebarOptions={sidebarOptions}
-            />
-          )}
-        </div>
-      </Style>
+      {isMobile ? (
+        <MobileProject
+          withSidebar={withSidebar}
+          sidebarOptions={sidebarOptions}
+        />
+      ) : (
+        <Project
+          forWebComponent={true}
+          withProjectbar={withProjectbar}
+          withSidebar={withSidebar}
+          sidebarOptions={sidebarOptions}
+        />
+      )}
     </>
   );
 };
