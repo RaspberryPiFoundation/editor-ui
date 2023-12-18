@@ -3,7 +3,7 @@
 @use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/colours" as *;
 
-#app {
+#app, #wc {
   .toast--bottom-center__message,
   .toast--top-center__message {
     min-block-size: fit-content;
@@ -35,6 +35,7 @@
     inline-size: 100%;
     font-weight: $font-weight-bold;
     inset-block-start: 20%;
+    z-index: 1;
 
     .Toastify__toast-icon {
       inline-size: fit-content;
@@ -42,6 +43,7 @@
   }
 
   .toast--top-center__message {
+    background-color: $rpf-white;
     border-radius: 25px;
   }
 
