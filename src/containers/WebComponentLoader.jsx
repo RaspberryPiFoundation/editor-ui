@@ -78,10 +78,6 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    dispatch(setUser(localStorageUser));
-  }, [dispatch, localStorageUser]);
-
-  useEffect(() => {
     if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
       if (localStorageUser) {
         dispatch(setUser(localStorageUser));
