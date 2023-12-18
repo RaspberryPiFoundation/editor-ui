@@ -2,7 +2,7 @@
 @use './rpf_design_system/colours' as *;
 
 .output-view-toggle__button {
-  height: 100%;
+  block-size: 100%;
 }
 
 .--light .output-view-toggle {

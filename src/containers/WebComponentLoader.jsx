@@ -13,6 +13,13 @@ import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
+import { ToastContainer } from "react-toastify";
+import ToastCloseButton from "../utils/ToastCloseButton";
+
+import internalStyles from "../assets/stylesheets/InternalStyles.scss";
+import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
+import "../assets/stylesheets/Notifications.scss";
+import Style from "style-it";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -135,15 +142,28 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <WebComponentProject
-          withProjectbar={withProjectbar}
-          withSidebar={withSidebar}
-          sidebarOptions={sidebarOptions}
-          hostStyles={hostStyles}
-        />
-        {errorModalShowing && <ErrorModal />}
-        {newFileModalShowing && <NewFileModal />}
-        {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+        <style>{externalStyles.toString()}</style>
+        <style>{hostStyles}</style>
+        <Style>
+          {internalStyles.toString()}
+          <div id="wc" className={`--${cookies.theme || themeDefault}`}>
+            <ToastContainer
+              enableMultiContainer
+              containerId="top-center"
+              position="top-center"
+              className="toast--top-center"
+              closeButton={ToastCloseButton}
+            />
+            <WebComponentProject
+              withProjectbar={withProjectbar}
+              withSidebar={withSidebar}
+              sidebarOptions={sidebarOptions}
+            />
+            {errorModalShowing && <ErrorModal />}
+            {newFileModalShowing && <NewFileModal />}
+            {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+          </div>
+        </Style>
       </SettingsContext.Provider>
     </>
   ) : (
