@@ -22,7 +22,6 @@ import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
 
 const WebComponentLoader = (props) => {
-  const loading = useSelector((state) => state.editor.loading);
   const {
     authKey,
     identifier,
@@ -45,6 +44,7 @@ const WebComponentLoader = (props) => {
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
