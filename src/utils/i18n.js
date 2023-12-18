@@ -176,11 +176,11 @@ i18n
             },
           },
           downloadPanel: {
-            heading: "Download",
+            heading: "Save & download",
             logInTitle: "Log in to save your progress",
             logInHint:
-              "Log in with your Raspberry Pi Account to save your code and project steps progress.",
-            logInButton: "Log in",
+              "With a Raspberry Pi Account you can save your code and project steps progress.",
+            logInButton: "Log in to save",
             signUpButton: "Sign up",
             downloadHint:
               "Download your project files so you can use them offline and in a different code editor.",
