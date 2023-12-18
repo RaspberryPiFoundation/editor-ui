@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
@@ -11,10 +11,10 @@ export const useProject = ({
   accessToken = null,
   loadRemix = false,
   loadCache = true,
+  remixLoadFailed = false,
 }) => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
-  const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const project = useSelector((state) => state.editor.project);
 
   const getCachedProject = (id) =>
@@ -36,38 +36,6 @@ export const useProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    const is_cached_saved_project =
-      projectIdentifier &&
-      cachedProject &&
-      cachedProject.identifier === projectIdentifier;
-    const is_cached_unsaved_project = !projectIdentifier && cachedProject;
-
-    if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
-      loadCachedProject();
-      return;
-    }
-
-    if (projectIdentifier) {
-      if (loadRemix && accessToken && !!!project?.user_id && !remixLoadFailed) {
-        dispatch(
-          syncProject("loadRemix")({
-            identifier: projectIdentifier,
-            accessToken: accessToken,
-          }),
-        );
-        return;
-      } else {
-        dispatch(
-          syncProject("load")({
-            identifier: projectIdentifier,
-            locale: i18n.language,
-            accessToken: accessToken,
-          }),
-        );
-        return;
-      }
-    }
-
     if (code) {
       const project = {
         name: "Blank project",
@@ -77,14 +45,60 @@ export const useProject = ({
       dispatch(setProject(project));
       return;
     }
+  }, [dispatch, code]);
 
-    const data = defaultPythonProject;
-    dispatch(setProject(data));
-  }, [
-    projectIdentifier,
-    cachedProject,
-    i18n.language,
-    accessToken,
-    remixLoadFailed,
-  ]);
+  useEffect(() => {
+    if (!loadRemix) {
+      const is_cached_saved_project =
+        projectIdentifier &&
+        cachedProject &&
+        cachedProject.identifier === projectIdentifier;
+      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
+
+      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+        loadCachedProject();
+        return;
+      }
+
+      if (projectIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: projectIdentifier,
+            locale: i18n.language,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
+
+      const data = defaultPythonProject;
+      dispatch(setProject(data));
+    }
+  }, [projectIdentifier, cachedProject, i18n.language, accessToken, loadRemix]);
+
+  useEffect(() => {
+    if (projectIdentifier && loadRemix && (!accessToken || remixLoadFailed)) {
+      dispatch(
+        syncProject("load")({
+          identifier: projectIdentifier,
+          locale: i18n.language,
+          accessToken: accessToken,
+        }),
+      );
+    }
+  }, [projectIdentifier, i18n.language, accessToken, remixLoadFailed]);
+
+  useEffect(() => {
+    if (projectIdentifier && loadRemix && !remixLoadFailed) {
+      if (accessToken && !!!project?.user_id) {
+        dispatch(
+          syncProject("loadRemix")({
+            identifier: projectIdentifier,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
+    }
+  }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
 };

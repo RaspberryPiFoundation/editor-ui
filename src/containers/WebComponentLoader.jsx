@@ -17,9 +17,6 @@ import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
-import NotFoundModal from "../components/Modals/NotFoundModal";
-import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
-import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -40,14 +37,18 @@ const WebComponentLoader = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
-  const project = useSelector((state) => state.editor.project);
   const localStorageUser = JSON.parse(localStorage.getItem(authKey));
   const user = useSelector((state) => state.auth.user);
+  const [loadCache, setLoadCache] = useState(!!!user);
+  const [loadRemix, setLoadRemix] = useState(!!user);
+  const project = useSelector((state) => state.editor.project);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
     (state) => state.editor.errorModalShowing,
@@ -58,24 +59,13 @@ const WebComponentLoader = (props) => {
   const renameFileModalShowing = useSelector(
     (state) => state.editor.renameFileModalShowing,
   );
-  const notFoundModalShowing = useSelector(
-    (state) => state.editor.notFoundModalShowing,
-  );
-  const accessDeniedNoAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedNoAuthModalShowing,
-  );
-  const accessDeniedWithAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedWithAuthModalShowing,
-  );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
 
-  useEffect(() => {
-    dispatch(triggerSave());
-  }, [dispatch]);
+  useEmbeddedMode(embedded);
 
   useEffect(() => {
     if (theme) {
@@ -99,6 +89,11 @@ const WebComponentLoader = (props) => {
   }, [user, localStorageUser, dispatch]);
 
   useEffect(() => {
+    setLoadCache(!!!user);
+    setLoadRemix(!!user);
+  }, [user, project]);
+
+  useEffect(() => {
     if (loading === "idle" && project.identifier) {
       setProjectIdentifier(project.identifier);
     }
@@ -107,9 +102,10 @@ const WebComponentLoader = (props) => {
   useProject({
     projectIdentifier: projectIdentifier,
     code,
-    accessToken: user && user.access_token,
-    loadRemix: true,
-    loadCache: !!!user,
+    accessToken: user?.access_token,
+    loadRemix,
+    loadCache,
+    remixLoadFailed,
   });
 
   useProjectPersistence({
@@ -130,8 +126,6 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  useEmbeddedMode(embedded);
-
   return loading === "success" ? (
     <>
       <SettingsContext.Provider
@@ -149,9 +143,6 @@ const WebComponentLoader = (props) => {
         {errorModalShowing && <ErrorModal />}
         {newFileModalShowing && <NewFileModal />}
         {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
-        {notFoundModalShowing && <NotFoundModal />}
-        {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
-        {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
       </SettingsContext.Provider>
     </>
   ) : (

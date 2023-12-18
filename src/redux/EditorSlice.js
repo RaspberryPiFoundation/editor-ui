@@ -386,6 +386,9 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
     });
+    builder.addCase("editor/remixProject/pending", (state, action) => {
+      state.saving = "pending";
+    });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
       state.lastSaveAutosave = false;
       state.saving = "success";
@@ -394,12 +397,12 @@ export const EditorSlice = createSlice({
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
     builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
-      state.remixLoadFailed = false;
       loadProjectFulfilled(state, action);
+      state.remixLoadFailed = false;
     });
     builder.addCase("editor/loadRemixProject/rejected", (state, action) => {
-      state.remixLoadFailed = true;
       loadProjectRejected(state, action);
+      state.remixLoadFailed = true;
     });
     builder.addCase("editor/loadProject/pending", loadProjectPending);
     builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);
