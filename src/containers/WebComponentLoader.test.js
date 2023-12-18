@@ -161,6 +161,12 @@ describe("When loaded as a cold user", () => {
         expect.arrayContaining([setInstructions(instructions)]),
       );
     });
+
+    test("Sets the user", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setUser(user)]),
+      );
+    });
   });
 
   describe("When theme is not set", () => {
@@ -182,25 +188,6 @@ describe("When loaded as a cold user", () => {
 
     test("Does not set the theme", () => {
       expect(cookies.cookies.theme).toBeUndefined();
-    });
-  });
-
-  describe("When local storage user changes", () => {
-    beforeEach(() => {
-      localStorage.setItem(authKey, JSON.stringify(updatedUser));
-      render(
-        <Provider store={store}>
-          <CookiesProvider cookies={cookies}>
-            <WebComponentLoader authKey={authKey} />
-          </CookiesProvider>
-        </Provider>,
-      );
-    });
-
-    test("Sets the user", () => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setUser(updatedUser)]),
-      );
     });
   });
 
@@ -305,7 +292,7 @@ describe("When the user object is set", () => {
     });
   });
 
-  describe("after a remix load have failed", () => {
+  describe("after a remix load has failed", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
       const middlewares = [];
