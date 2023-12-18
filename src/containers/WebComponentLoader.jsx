@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  disableTheming,
-  setSenseHatAlwaysEnabled,
-  triggerSave,
-} from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -89,9 +85,14 @@ const WebComponentLoader = (props) => {
   }, [user, localStorageUser, dispatch]);
 
   useEffect(() => {
-    setLoadCache(!!!user);
-    setLoadRemix(!!user);
-  }, [user, project]);
+    if (remixLoadFailed) {
+      setLoadCache(true);
+      setLoadRemix(false);
+    } else {
+      setLoadCache(!!!user);
+      setLoadRemix(!!user);
+    }
+  }, [user, project, remixLoadFailed]);
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
@@ -102,14 +103,14 @@ const WebComponentLoader = (props) => {
   useProject({
     projectIdentifier: projectIdentifier,
     code,
-    accessToken: user?.access_token,
+    accessToken: user?.access_token || localStorageUser?.access_token,
     loadRemix,
     loadCache,
     remixLoadFailed,
   });
 
   useProjectPersistence({
-    user,
+    user: user?.accessToken ? user : localStorageUser,
     project,
     justLoaded,
     hasShownSavePrompt,

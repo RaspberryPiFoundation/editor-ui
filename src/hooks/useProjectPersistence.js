@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { isOwner } from "../utils/projectHelpers";
 import {
   expireJustLoaded,
@@ -16,12 +16,10 @@ export const useProjectPersistence = ({
   hasShownSavePrompt,
   saveTriggered,
 }) => {
-  const saving = useSelector((state) => state.editor.saving);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (saving === "idle" && Object.keys(project).length !== 0) {
+    if (Object.keys(project).length !== 0) {
       if (saveTriggered || (user && localStorage.getItem("awaitingSave"))) {
         if (isOwner(user, project)) {
           dispatch(
@@ -41,7 +39,7 @@ export const useProjectPersistence = ({
         localStorage.removeItem("awaitingSave");
       }
     }
-  }, [saving, saveTriggered, project, user, dispatch]);
+  }, [saveTriggered, project, user, dispatch]);
 
   useEffect(() => {
     let debouncer = setTimeout(() => {

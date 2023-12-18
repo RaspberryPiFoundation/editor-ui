@@ -69,6 +69,9 @@ describe("When props are set", () => {
       projectIdentifier: identifier,
       code,
       accessToken: "my_token",
+      loadRemix: false,
+      loadCache: true,
+      remixLoadFailed: undefined,
     });
   });
 
