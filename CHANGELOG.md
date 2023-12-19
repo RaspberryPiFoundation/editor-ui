@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
 - Syntax highlighting contrast in dark mode (#824)
+- Dark mode button theming (#850)
 
 ## [0.20.0] - 2023-11-24
 
