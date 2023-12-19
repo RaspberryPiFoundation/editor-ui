@@ -26,7 +26,6 @@ const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
-const updatedUser = { access_token: "some_other_token" };
 
 describe("When loaded as a cold user", () => {
   beforeEach(() => {
