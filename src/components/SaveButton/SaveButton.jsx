@@ -30,11 +30,9 @@ const SaveButton = ({ className, type }) => {
     if (window.plausible) {
       window.plausible("Save button");
     }
-    if (!user) {
-      document.dispatchEvent(logInEvent);
-    }
+    document.dispatchEvent(logInEvent);
     dispatch(triggerSave());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const projectOwner = isOwner(user, project);
 
