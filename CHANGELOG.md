@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Load remix functionality (#804)
 - ProjectBar functionality in the web component (#799)
 - WebComponent can receive style strings from host app (#811)
 - Quiz rendering in InstructionsPanel (#777)
@@ -18,9 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Styling for the instructions code blocks (#794, #808)
 - quizReady custom event (#812)
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
+- Toast save reminder to web component (#822)
 
 ### Changed
 
+- Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
 - Copy updates (#803)

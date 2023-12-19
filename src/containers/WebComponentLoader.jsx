@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  disableTheming,
-  setSenseHatAlwaysEnabled,
-  triggerSave,
-} from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -17,12 +13,15 @@ import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
-import NotFoundModal from "../components/Modals/NotFoundModal";
-import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
-import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
+import { ToastContainer } from "react-toastify";
+import ToastCloseButton from "../utils/ToastCloseButton";
+
+import internalStyles from "../assets/stylesheets/InternalStyles.scss";
+import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
+import "../assets/stylesheets/Notifications.scss";
+import Style from "style-it";
 
 const WebComponentLoader = (props) => {
-  const loading = useSelector((state) => state.editor.loading);
   const {
     authKey,
     identifier,
@@ -40,13 +39,19 @@ const WebComponentLoader = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
+  const localStorageUser = JSON.parse(localStorage.getItem(authKey));
+  const user = useSelector((state) => state.auth.user);
+  const [loadCache, setLoadCache] = useState(!!!user);
+  const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
-  const user = JSON.parse(localStorage.getItem(authKey));
+  const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
     (state) => state.editor.errorModalShowing,
@@ -57,24 +62,13 @@ const WebComponentLoader = (props) => {
   const renameFileModalShowing = useSelector(
     (state) => state.editor.renameFileModalShowing,
   );
-  const notFoundModalShowing = useSelector(
-    (state) => state.editor.notFoundModalShowing,
-  );
-  const accessDeniedNoAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedNoAuthModalShowing,
-  );
-  const accessDeniedWithAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedWithAuthModalShowing,
-  );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
 
-  useEffect(() => {
-    dispatch(triggerSave());
-  }, [dispatch]);
+  useEmbeddedMode(embedded);
 
   useEffect(() => {
     if (theme) {
@@ -84,12 +78,24 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    if (user) {
-      dispatch(setUser(user));
-    } else {
-      dispatch(removeUser());
+    if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
+      if (localStorageUser) {
+        dispatch(setUser(localStorageUser));
+      } else {
+        dispatch(removeUser());
+      }
     }
-  }, [user, dispatch]);
+  }, [user, localStorageUser, dispatch]);
+
+  useEffect(() => {
+    if (remixLoadFailed) {
+      setLoadCache(true);
+      setLoadRemix(false);
+    } else {
+      setLoadCache(!!!user);
+      setLoadRemix(!!user);
+    }
+  }, [user, project, remixLoadFailed]);
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
@@ -100,11 +106,14 @@ const WebComponentLoader = (props) => {
   useProject({
     projectIdentifier: projectIdentifier,
     code,
-    accessToken: user && user.access_token,
+    accessToken: user?.access_token || localStorageUser?.access_token,
+    loadRemix,
+    loadCache,
+    remixLoadFailed,
   });
 
   useProjectPersistence({
-    user,
+    user: user?.accessToken ? user : localStorageUser,
     project,
     justLoaded,
     hasShownSavePrompt,
@@ -121,8 +130,6 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  useEmbeddedMode(embedded);
-
   return loading === "success" ? (
     <>
       <SettingsContext.Provider
@@ -131,18 +138,28 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <WebComponentProject
-          withProjectbar={withProjectbar}
-          withSidebar={withSidebar}
-          sidebarOptions={sidebarOptions}
-          hostStyles={hostStyles}
-        />
-        {errorModalShowing && <ErrorModal />}
-        {newFileModalShowing && <NewFileModal />}
-        {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
-        {notFoundModalShowing && <NotFoundModal />}
-        {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
-        {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
+        <style>{externalStyles.toString()}</style>
+        <style>{hostStyles}</style>
+        <Style>
+          {internalStyles.toString()}
+          <div id="wc" className={`--${cookies.theme || themeDefault}`}>
+            <ToastContainer
+              enableMultiContainer
+              containerId="top-center"
+              position="top-center"
+              className="toast--top-center"
+              closeButton={ToastCloseButton}
+            />
+            <WebComponentProject
+              withProjectbar={withProjectbar}
+              withSidebar={withSidebar}
+              sidebarOptions={sidebarOptions}
+            />
+            {errorModalShowing && <ErrorModal />}
+            {newFileModalShowing && <NewFileModal />}
+            {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+          </div>
+        </Style>
       </SettingsContext.Provider>
     </>
   ) : (
