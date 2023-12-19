@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setSenseHatAlwaysEnabled,
+  // triggerSave,
+} from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
-import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
@@ -39,6 +42,7 @@ const WebComponentLoader = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
+  localStorage.setItem("authKey", authKey);
   const localStorageUser = JSON.parse(localStorage.getItem(authKey));
   const user = useSelector((state) => state.auth.user);
   const [loadCache, setLoadCache] = useState(!!!user);
@@ -68,6 +72,12 @@ const WebComponentLoader = (props) => {
     ? "dark"
     : "light";
 
+  // TODO: I think this'll work a lot better with the new method
+  // of updating the user in the store
+  // useEffect(() => {
+  //   dispatch(triggerSave());
+  // }, [dispatch]);
+
   useEmbeddedMode(embedded);
 
   useEffect(() => {
@@ -76,16 +86,6 @@ const WebComponentLoader = (props) => {
       setCookie("theme", theme, { path: "/" });
     }
   }, [theme, setCookie, dispatch]);
-
-  useEffect(() => {
-    if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
-      if (localStorageUser) {
-        dispatch(setUser(localStorageUser));
-      } else {
-        dispatch(removeUser());
-      }
-    }
-  }, [user, localStorageUser, dispatch]);
 
   useEffect(() => {
     if (remixLoadFailed) {
