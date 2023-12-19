@@ -58,7 +58,7 @@ const InstructionsPanel = () => {
   return (
     <SidebarPanel
       heading={t("instructionsPanel.projectSteps")}
-      Footer={!isQuiz && ProgressBar}
+      Footer={ProgressBar}
     >
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
