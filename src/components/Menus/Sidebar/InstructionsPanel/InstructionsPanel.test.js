@@ -95,8 +95,8 @@ describe("It renders a quiz when it has one", () => {
     });
   });
 
-  test("Removes the progress bar", () => {
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  test("Retains the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).toBeInTheDocument();
   });
 
   test("Applies syntax highlighting", () => {
