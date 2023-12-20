@@ -8,6 +8,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Load remix functionality (#804)
+- ProjectBar functionality in the web component (#799)
+- WebComponent can receive style strings from host app (#811)
+- Quiz rendering in InstructionsPanel (#777)
+- Styling for the task section of the instructions (#781)
+- Styling for the instructions callouts (#788)
+- Output styles for Instructions (#790, #807)
+- Styling for the instructions code snippets (#795)
+- Styling for the instructions code blocks (#794, #808)
+- quizReady custom event (#812)
+- Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
+- Toast save reminder to web component (#822)
+
+### Changed
+
+- Save and download panel copy (#784)
+- Application of styles in the web component to remove `sass-to-string` (#788)
+- Info panel links open in a new tab (#803)
+- Copy updates (#803)
+- Restyling the instructions progress bar (#808)
+
+## Fixed
+
+- Web component resizable handle errors & sidebar width (#806)
+- HTML projects loading in web component (#789)
+- Enabled modals in the web component (#802)
+- Context menu styling in the web component (#819)
+- Collect web component login data (#818)
+- Syntax highlighting contrast in dark mode (#824)
+
+## [0.20.0] - 2023-11-24
+
+### Added
+
+- Logical properties linter rule (#770)
+- Added download panel for sidebar (#744)
+- Javascript support for HTML projects (#748)
 - DownloadPanel for sidebar (#744)
 - Custom events for Log In and Sign Up from DownloadPanel (#744)
 - SVGO config file (#720)
@@ -19,6 +56,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Web component theming (#766)
+- Replace physical properties with logical values - padding (#774)
 - Sidebar - Refactored styles to be closer to designs (#720)
 - Sidebar - Refactored theming to fix inconsistencies between themes (#720)
 - Sidebar - Added hover styles to collapse and close buttons (#720)
@@ -32,11 +71,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Correct download.svg replaces DownloadIcon component (#793)
+- Container rather than media query breakpoints for the web component (#776)
 - `FileMenu` alignment (#720)
 - Edit icon not showing in ContextMenu (#720)
 - Updated sidebar and file icons to correct size (#720)
 - Local docker setup for development (#739)
-- Editor height overflow (#771)
+- Editor height overflow (#771, #779)
 
 ## [0.19.4] - 2023-11-08
 
@@ -592,7 +633,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.19.4...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
 [0.19.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.2

@@ -41,7 +41,13 @@ const InfoPanel = () => {
       </div>
       <div className="info-panel info-panel__links">
         {links.map((link, i) => (
-          <a key={i} className="info-panel__link" href={link.href}>
+          <a
+            key={i}
+            className="info-panel__link"
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+          >
             {link.text}
           </a>
         ))}

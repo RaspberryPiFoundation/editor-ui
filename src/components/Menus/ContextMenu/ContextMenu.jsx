@@ -29,13 +29,14 @@ const ContextMenu = (props) => {
       menuButton.current.focus();
     }
   };
+  const webComponent = document.querySelector("editor-wc");
 
   return (
     <>
       <button
         aria-haspopup="menu"
         aria-label={menuButtonLabel}
-        className={`btn btn--tertiary context-menu__drop${
+        className={`btn context-menu__drop${
           menuButtonClassName ? ` ${menuButtonClassName}` : ""
         }`}
         title={menuButtonLabel}
@@ -54,7 +55,11 @@ const ContextMenu = (props) => {
         offsetY={offsetY}
         position="anchor"
         viewScroll="initial"
-        portal={true}
+        portal={{
+          target: webComponent
+            ? webComponent.shadowRoot.querySelector("#wc")
+            : document.querySelector("#app"),
+        }}
         menuClassName={`context-menu context-menu--${settings.theme}`}
         menuItemFocus={{ position: "first" }}
         state={isOpen ? "open" : "closed"}

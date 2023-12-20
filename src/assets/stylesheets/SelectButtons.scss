@@ -16,7 +16,7 @@
 
 .select-buttons__options {
   display: flex;
-  width: 100%;
+  inline-size: 100%;
   gap: $space-1;
   flex-wrap: wrap;
 }
@@ -51,6 +51,14 @@
 
 .select-buttons__tick--selected {
   visibility: visible;
+  svg {
+    rect {
+      fill: var(--editor-color-theme);
+    }
+    path {
+      fill: var(--rpf-select-buttons-tick-color);
+    }
+  }
 }
 
 .--light {

@@ -2,13 +2,13 @@
 @use './rpf_design_system/colours' as *;
 
 .output-view-toggle__button {
-  height: 100%;
+  block-size: 100%;
 }
 
 .--light .output-view-toggle {
-  border-left: 1px solid $rpf-grey-150;
+  border-inline-start: 1px solid $rpf-grey-150;
 }
 
 .--dark .output-view-toggle {
-  border-left: 1px solid $rpf-grey-600;
+  border-inline-start: 1px solid $rpf-grey-600;
 }

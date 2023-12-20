@@ -16,7 +16,7 @@ $small-table-grid: 600px;
     align-items: center;
     display: flex;
     grid-column: span 8;
-    min-width: 0;
+    min-inline-size: 0;
     padding: $space-1-5 0;
 
     @include unique-width($medium-table-grid) {
@@ -31,8 +31,8 @@ $small-table-grid: 600px;
   }
 
   &__type {
-    width: 40px;
-    padding-right: $space-1-5;
+    inline-size: 40px;
+    padding-inline-end: $space-1-5;
   }
 
   &__name {
@@ -42,15 +42,15 @@ $small-table-grid: 600px;
   }
 
   &__tag {
-    padding-right: $space-0-5;
+    padding-inline-end: $space-0-5;
     margin-inline-end: $space-0-5;
 
     .--light & {
-      border-right: 1px $rpf-text-secondary solid;
+      border-inline-end: 1px $rpf-text-secondary solid;
     }
 
     .--dark & {
-      border-right: 1px $rpf-text-secondary-darkmode solid;
+      border-inline-end: 1px $rpf-text-secondary-darkmode solid;
     }
   }
 

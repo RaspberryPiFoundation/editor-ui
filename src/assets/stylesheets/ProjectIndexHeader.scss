@@ -10,8 +10,8 @@
     flex-direction: column;
     padding: $space-2;
     margin: 0 auto;
-    width: 100%;
-    max-width: 1570px;
+    inline-size: 100%;
+    max-inline-size: 1570px;
 
     @include md-width {
       align-items: flex-end;

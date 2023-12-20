@@ -8,6 +8,7 @@ import {
 import {
   createOrUpdateProject,
   readProject,
+  loadRemix,
   createRemix,
   deleteProject,
   readProjectList,
@@ -24,6 +25,9 @@ export const syncProject = (actionName) =>
       switch (actionName) {
         case "load":
           response = await readProject(identifier, locale, accessToken);
+          break;
+        case "loadRemix":
+          response = await loadRemix(identifier, accessToken);
           break;
         case "remix":
           response = await createRemix(project, accessToken);
@@ -80,6 +84,7 @@ export const EditorSlice = createSlice({
     saving: "idle",
     loading: "idle",
     justLoaded: false,
+    remixLoadFailed: false,
     hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
@@ -92,8 +97,10 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    browserPreview: false,
     isSplitView: true,
     isThemeable: true,
+    webComponent: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -162,6 +169,9 @@ export const EditorSlice = createSlice({
       }
       state.project.image_list = action.payload;
     },
+    setWebComponent: (state, action) => {
+      state.webComponent = action.payload;
+    },
     addProjectComponent: (state, action) => {
       state.project.components.push({
         name: action.payload.name,
@@ -170,8 +180,14 @@ export const EditorSlice = createSlice({
       });
       state.saving = "idle";
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setBrowserPreview: (state, _action) => {
+      state.browserPreview = true;
     },
     setIsSplitView: (state, action) => {
       state.isSplitView = action.payload;
@@ -370,11 +386,23 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
     });
+    builder.addCase("editor/remixProject/pending", (state, action) => {
+      state.saving = "pending";
+    });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+    });
+    builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
+    builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
+      loadProjectFulfilled(state, action);
+      state.remixLoadFailed = false;
+    });
+    builder.addCase("editor/loadRemixProject/rejected", (state, action) => {
+      loadProjectRejected(state, action);
+      state.remixLoadFailed = true;
     });
     builder.addCase("editor/loadProject/pending", loadProjectPending);
     builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);
@@ -415,11 +443,14 @@ export const {
   setOpenFiles,
   addFilePanel,
   setFocussedFileIndex,
+  setPage,
   setEmbedded,
+  setBrowserPreview,
   setError,
   setIsSplitView,
   setNameError,
   setHasShownSavePrompt,
+  setWebComponent,
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,

@@ -4,13 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import FileMenu from "../../FileMenu/FileMenu";
 import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
-import Button from "../../../Button/Button";
-// import {
-//   openFile,
-//   setFocussedFileIndex,
-//   hideSidebar,
-// } from "../../../Editor/EditorSlice";
-
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import {
   openFile,
   setFocussedFileIndex,
@@ -101,11 +95,14 @@ const FilePanel = ({ isMobile }) => {
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
       {project.components.map((file, i) => (
         <div className="files-list-item-wrapper" key={i}>
-          <Button
+          <DesignSystemButton
             className="files-list-item"
-            onClickHandler={() => openFileTab(`${file.name}.${file.extension}`)}
-            buttonText={`${file.name}.${file.extension}`}
-            ButtonIcon={() => FileIcon({ ext: file.extension })}
+            onClick={() => openFileTab(`${file.name}.${file.extension}`)}
+            text={`${file.name}.${file.extension}`}
+            icon={<FileIcon ext={file.extension} />}
+            type="tertiary"
+            textAlways
+            small
           />
           {(file.name === "main" && file.extension === "py") ||
           (file.name === "index" && file.extension === "html") ? null : (
