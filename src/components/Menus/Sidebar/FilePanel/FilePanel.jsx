@@ -50,41 +50,28 @@ const FilePanel = ({ isMobile }) => {
   };
 
   const connectToPico = async () => {
-    let port = await navigator.serial.requestPort();
-    console.log(port);
-    await port.open({ baudRate: 115200 });
-    const textEncoder = new window.TextEncoderStream();
+    try {
+      const device = await navigator.usb.requestDevice({ filters: [{}] });
+      await device.open();
+      await device.selectConfiguration(1); // Select the configuration number appropriate for your device
+      await device.claimInterface(1); // Claim the interface(s) needed for communication
+      console.log(device);
 
-    const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+      //   // Now you can use device.transferOut() or other methods to send data
+      const encoder = new TextEncoder();
+      const data = encoder.encode("HelloPico");
 
-    const writer = textEncoder.writable.getWriter();
+      const result = await device.transferOut(2, data);
+      console.log(result);
 
-    await writer.write("hello");
+      console.log("Data sent successfully");
 
-    // Allow the serial port to be closed later.
-    writer.releaseLock();
-    // 115200 is the pico baud rate
-    console.log("Port readable?");
-    console.log(port.readable);
-    const textDecoder = new window.TextDecoderStream();
-    const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
-    const reader = textDecoder.readable.getReader();
-
-    // Listen to data coming from the serial device.
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        // Allow the serial port to be closed later.
-        reader.releaseLock();
-        break;
-      }
-      // value is a string.
-      console.log("READING RESULT");
-      console.log(value);
+      //   // Don't forget to release the interface and close the device when done
+      await device.releaseInterface(1);
+      await device.close();
+    } catch (error) {
+      console.error("Error connecting to RP2040:", error);
     }
-
-    console.log("Out");
-    port.close();
   };
 
   const readPico = async () => {
@@ -117,23 +104,26 @@ const FilePanel = ({ isMobile }) => {
           )}
         </div>
       ))}
-      <Button
-        className="btn btn--secondary files-list__pico_sync-button"
-        onClickHandler={syncProjectWithPico}
-        buttonText="Sync Pico"
-        ButtonIcon={DuplicateIcon}
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={syncProjectWithPico}
+        text="Sync Pico"
+        icon={<DuplicateIcon />}
+        textAlways
       />
-      <Button
-        className="btn btn--secondary files-list__pico_sync-button"
-        onClickHandler={connectToPico}
-        buttonText="Connect"
-        ButtonIcon={DuplicateIcon}
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={connectToPico}
+        text="Connect"
+        icon={<DuplicateIcon />}
+        textAlways
       />
-      <Button
-        className="btn btn--secondary files-list__pico_sync-button"
-        onClickHandler={readPico}
-        buttonText="Read"
-        ButtonIcon={DuplicateIcon}
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={readPico}
+        text="Read"
+        icon={<DuplicateIcon />}
+        textAlways
       />
     </SidebarPanel>
   );
