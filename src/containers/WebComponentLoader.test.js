@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
 import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
-import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
@@ -113,6 +112,10 @@ describe("When loaded as a cold user", () => {
     test("Sets theme correctly", () => {
       expect(cookies.cookies.theme).toEqual("light");
     });
+
+    test("Sets authKey in local storage", () => {
+      expect(localStorage.getItem("authKey")).toEqual(authKey);
+    });
   });
 
   describe("When props are set - logged in", () => {
@@ -138,7 +141,7 @@ describe("When loaded as a cold user", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: "my_token",
+        accessToken: undefined,
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
@@ -158,12 +161,6 @@ describe("When loaded as a cold user", () => {
     test("Sets the instructions", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setInstructions(instructions)]),
-      );
-    });
-
-    test("Sets the user", () => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setUser(user)]),
       );
     });
   });
@@ -220,25 +217,6 @@ describe("When the user object is set", () => {
       };
       store = mockStore(initialState);
       cookies = new Cookies();
-    });
-
-    describe("When the user object is deleted", () => {
-      beforeEach(() => {
-        localStorage.removeItem(authKey);
-        render(
-          <Provider store={store}>
-            <CookiesProvider cookies={cookies}>
-              <WebComponentLoader authKey={authKey} />
-            </CookiesProvider>
-          </Provider>,
-        );
-      });
-
-      test("Removes the user from state", () => {
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([removeUser()]),
-        );
-      });
     });
 
     describe("When props are set - logged in", () => {
