@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions image widths (#827)
 - Save status spacing (#827)
 - Disappearing borders on tablet (#827)
+- Dark mode button theming (#850)
 
 ## [0.20.0] - 2023-11-24
 
