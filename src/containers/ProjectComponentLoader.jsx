@@ -83,9 +83,9 @@ const ProjectComponentLoader = (props) => {
         ) : (
           <Project withSidebar sidebarOptions={sidebarOptions} />
         )
-      ) : loading === "pending" ? (
-        <p>{t("project.loading")}</p>
-      ) : null}
+      ) : (
+        loading === "pending" && <p>{t("project.loading")}</p>
+      )}
       {errorModalShowing && <ErrorModal />}
       {newFileModalShowing && <NewFileModal />}
       {renameFileModalShowing && modals.renameFile && <RenameFileModal />}

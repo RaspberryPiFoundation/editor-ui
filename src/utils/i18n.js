@@ -266,6 +266,7 @@ i18n
           },
           mobile: {
             code: "Code",
+            menu: "Menu",
             output: "Output",
             preview: "Preview",
           },

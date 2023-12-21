@@ -28,18 +28,28 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      setSelectedTab(1);
+      setSelectedTab(2);
     }
   }, [codeRunTriggered]);
 
+  useEffect(() => {
+    if (!sidebarShowing) {
+      setSelectedTab(1);
+    }
+  }, [sidebarShowing]);
+
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
-      {sidebarShowing && <Sidebar options={sidebarOptions} />}
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
         onSelect={(index) => setSelectedTab(index)}
       >
+        {withSidebar && (
+          <TabPanel>
+            <Sidebar options={sidebarOptions} />
+          </TabPanel>
+        )}
         <TabPanel>
           <EditorInput />
         </TabPanel>
@@ -48,15 +58,13 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
         </TabPanel>
         <MobileProjectBar />
         <div className="react-tabs__tab-container mobile-nav">
-          {withSidebar && (
-            <Button
-              className="mobile-nav__menu"
-              ButtonIcon={MenuIcon}
-              onClickHandler={openSidebar}
-              title={t("sidebar.expand")}
-            />
-          )}
           <TabList>
+            {withSidebar && (
+              <Tab onClick={openSidebar}>
+                <MenuIcon />
+                <span className="react-tabs__tab-text">{t("mobile.menu")}</span>
+              </Tab>
+            )}
             <Tab>
               <CodeIcon />
               <span className="react-tabs__tab-text">{t("mobile.code")}</span>

@@ -72,8 +72,8 @@ const SidebarBar = (props) => {
             name={menuOption.name}
           />
         ))}
-        {!isMobile ? (
-          option ? (
+        {!isMobile &&
+          (option ? (
             <div className="sidebar__bar-option-wrapper">
               <Button
                 className="sidebar__bar-option"
@@ -91,17 +91,7 @@ const SidebarBar = (props) => {
                 onClickHandler={expandPopOut}
               />
             </div>
-          )
-        ) : (
-          <div className="sidebar__bar-option-wrapper sidebar__bar-close">
-            <Button
-              className="sidebar__bar-option"
-              ButtonIcon={CloseIcon}
-              title={t("sidebar.expand")}
-              onClickHandler={collapseSidebar}
-            />
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );
