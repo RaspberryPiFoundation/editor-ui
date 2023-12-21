@@ -12,7 +12,6 @@ import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
 
 const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -28,15 +27,15 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      setSelectedTab(2);
+      setSelectedTab(withSidebar ? 2 : 1);
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, withSidebar]);
 
   useEffect(() => {
     if (!sidebarShowing) {
-      setSelectedTab(1);
+      setSelectedTab(withSidebar ? 1 : 0);
     }
-  }, [sidebarShowing]);
+  }, [sidebarShowing, withSidebar]);
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
