@@ -5,8 +5,10 @@ import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
 import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
+import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import localStorageUserMiddleware from "../redux/middlewares/localStorageUserMiddleware";
 import { Cookies, CookiesProvider } from "react-cookie";
 
 jest.mock("../hooks/useProject", () => ({
@@ -28,7 +30,7 @@ const user = { access_token: "my_token" };
 
 describe("When loaded as a cold user", () => {
   beforeEach(() => {
-    const middlewares = [];
+    const middlewares = [localStorageUserMiddleware(setUser)];
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
@@ -86,7 +88,7 @@ describe("When loaded as a cold user", () => {
         },
         hasShownSavePrompt: false,
         justLoaded: false,
-        user: null,
+        user: undefined,
         saveTriggered: false,
       });
     });
@@ -121,6 +123,7 @@ describe("When loaded as a cold user", () => {
   describe("When props are set - logged in", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
+      localStorage.setItem("authKey", authKey);
       render(
         <Provider store={store}>
           <CookiesProvider cookies={cookies}>
@@ -150,7 +153,7 @@ describe("When loaded as a cold user", () => {
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user,
+        user: undefined,
         project: { components: [] },
         hasShownSavePrompt: false,
         justLoaded: false,
@@ -161,6 +164,12 @@ describe("When loaded as a cold user", () => {
     test("Sets the instructions", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setInstructions(instructions)]),
+      );
+    });
+
+    test("Sets the user", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setUser(user)]),
       );
     });
   });
