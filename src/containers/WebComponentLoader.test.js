@@ -28,7 +28,7 @@ const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
 
-describe("When loaded as a cold user", () => {
+describe("When no user is in state", () => {
   beforeEach(() => {
     const middlewares = [localStorageUserMiddleware(setUser)];
     const mockStore = configureStore(middlewares);
@@ -52,7 +52,7 @@ describe("When loaded as a cold user", () => {
     cookies = new Cookies();
   });
 
-  describe("When props are set - logged out", () => {
+  describe("with no user in local storage", () => {
     beforeEach(() => {
       render(
         <Provider store={store}>
@@ -122,7 +122,7 @@ describe("When loaded as a cold user", () => {
     });
   });
 
-  describe("When props are set - logged in", () => {
+  describe("with user set in local storage", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
       localStorage.setItem("authKey", authKey);
@@ -204,7 +204,7 @@ describe("When loaded as a cold user", () => {
   });
 });
 
-describe("When the user object is set", () => {
+describe("When user is in state", () => {
   describe("before a remix load attempt", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
@@ -230,7 +230,7 @@ describe("When the user object is set", () => {
       cookies = new Cookies();
     });
 
-    describe("When the user object is deleted", () => {
+    describe("when user in local storage is removed", () => {
       beforeEach(() => {
         localStorage.removeItem(authKey);
         render(
@@ -249,7 +249,7 @@ describe("When the user object is set", () => {
       });
     });
 
-    describe("When props are set - logged in", () => {
+    describe("when user is set in local storage", () => {
       beforeEach(() => {
         render(
           <Provider store={store}>
@@ -324,7 +324,7 @@ describe("When the user object is set", () => {
       cookies = new Cookies();
     });
 
-    describe("When props are set - logged in", () => {
+    describe("when user in state and local storage", () => {
       beforeEach(() => {
         render(
           <Provider store={store}>
