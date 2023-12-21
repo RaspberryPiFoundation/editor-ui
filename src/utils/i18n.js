@@ -269,6 +269,7 @@ i18n
             menu: "Menu",
             output: "Output",
             preview: "Preview",
+            steps: "Steps",
           },
           modals: {
             close: "Close",

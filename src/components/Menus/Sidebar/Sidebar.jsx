@@ -97,7 +97,9 @@ const Sidebar = ({ options = [] }) => {
   removeOption("images", projectImages);
   removeOption("instructions", instructionsSteps);
 
-  const [option, setOption] = useState(isMobile ? "file" : null);
+  const [option, setOption] = useState(
+    instructionsSteps ? "instructions" : "file",
+  );
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {

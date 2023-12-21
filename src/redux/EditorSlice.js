@@ -116,7 +116,7 @@ export const EditorSlice = createSlice({
     newProjectModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
-    sidebarShowing: false,
+    sidebarShowing: true,
     modals: {},
   },
   reducers: {

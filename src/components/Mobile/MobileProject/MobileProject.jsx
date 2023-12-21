@@ -8,6 +8,7 @@ import "../../../assets/stylesheets/MobileProject.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CodeIcon from "../../../assets/icons/code.svg";
 import MenuIcon from "../../../assets/icons/menu.svg";
+import StepsIcon from "../../../assets/icons/steps.svg";
 import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
@@ -19,6 +20,8 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+  const includesInstructions = sidebarOptions.includes("instructions");
+
   const [selectedTab, setSelectedTab] = useState(0);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -60,8 +63,10 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
           <TabList>
             {withSidebar && (
               <Tab onClick={openSidebar}>
-                <MenuIcon />
-                <span className="react-tabs__tab-text">{t("mobile.menu")}</span>
+                {includesInstructions ? <StepsIcon /> : <MenuIcon />}
+                <span className="react-tabs__tab-text">
+                  {includesInstructions ? t("mobile.steps") : t("mobile.menu")}
+                </span>
               </Tab>
             )}
             <Tab>

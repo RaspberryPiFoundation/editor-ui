@@ -11,7 +11,6 @@ import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
-import CloseIcon from "../../../utils/CloseIcon";
 
 const SidebarBar = (props) => {
   const { menuOptions, option, toggleOption } = props;
