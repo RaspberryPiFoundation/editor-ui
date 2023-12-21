@@ -115,8 +115,10 @@ describe("When loaded as a cold user", () => {
       expect(cookies.cookies.theme).toEqual("light");
     });
 
-    test("Sets authKey in local storage", () => {
-      expect(localStorage.getItem("authKey")).toEqual(authKey);
+    test("Sets the user in state", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setUser(null)]),
+      );
     });
   });
 
@@ -206,7 +208,7 @@ describe("When the user object is set", () => {
   describe("before a remix load attempt", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
-      const middlewares = [];
+      const middlewares = [localStorageUserMiddleware(setUser)];
       const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
@@ -226,6 +228,25 @@ describe("When the user object is set", () => {
       };
       store = mockStore(initialState);
       cookies = new Cookies();
+    });
+
+    describe("When the user object is deleted", () => {
+      beforeEach(() => {
+        localStorage.removeItem(authKey);
+        render(
+          <Provider store={store}>
+            <CookiesProvider cookies={cookies}>
+              <WebComponentLoader authKey={authKey} />
+            </CookiesProvider>
+          </Provider>,
+        );
+      });
+
+      test("Removes the user from state", () => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([setUser(null)]),
+        );
+      });
     });
 
     describe("When props are set - logged in", () => {
