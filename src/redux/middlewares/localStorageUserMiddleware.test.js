@@ -23,7 +23,7 @@ describe(`localStorageUserMiddleware`, () => {
       store.dispatch = jest.fn();
     });
 
-    describe(`when authKey is set`, () => {
+    describe(`when user is set in local storage`, () => {
       beforeEach(() => {
         localStorage.setItem("authKey", "some-key");
         localStorage.setItem("some-key", JSON.stringify(user));
@@ -37,7 +37,7 @@ describe(`localStorageUserMiddleware`, () => {
       });
     });
 
-    describe(`when authKey is not set`, () => {
+    describe(`when authKey is not set in local storage`, () => {
       beforeEach(() => {
         localStorage.removeItem("authKey");
       });
@@ -63,7 +63,7 @@ describe(`localStorageUserMiddleware`, () => {
       store.dispatch = jest.fn();
     });
 
-    describe(`when authKey has been updated`, () => {
+    describe(`when user in local storage has been updated`, () => {
       beforeEach(() => {
         localStorage.setItem("authKey", "some-key");
         localStorage.setItem("some-key", JSON.stringify(updatedUser));
@@ -74,6 +74,20 @@ describe(`localStorageUserMiddleware`, () => {
           type: "editor/someAction",
         });
         expect(setUser).toBeCalledWith(updatedUser);
+      });
+    });
+
+    describe(`when authKey is not set in local storage`, () => {
+      beforeEach(() => {
+        localStorage.removeItem("authKey");
+        localStorage.setItem("some-key", JSON.stringify(updatedUser));
+      });
+
+      it(`expects setUser to not be called`, () => {
+        localStorageUserMiddleware(setUser)(store)(next)({
+          type: "editor/someAction",
+        });
+        expect(setUser).not.toBeCalled();
       });
     });
   });
