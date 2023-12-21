@@ -81,10 +81,10 @@
   &--secondary {
     background-color: inherit;
 
-    color: var(--rpf-button-primary-text-color);
+    color: var(--rpf-button-secondary-text-color);
 
     svg {
-      fill: var(--rpf-button-primary-text-color);
+      fill: var(--rpf-button-secondary-text-color);
     }
 
     &:active,
