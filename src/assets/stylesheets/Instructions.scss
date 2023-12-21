@@ -10,6 +10,10 @@
     margin: 0;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .c-project-code {
     margin: $space-1 0;
     border-radius: 8px;
@@ -56,7 +60,7 @@
   }
 
   .line-highlight {
-    margin-block-start: calc(3 * $space-0-125);
+    margin-block-start: 0.5rem;
     background-color: $rpf-white;
     mix-blend-mode: difference;
     min-inline-size: 100%;
