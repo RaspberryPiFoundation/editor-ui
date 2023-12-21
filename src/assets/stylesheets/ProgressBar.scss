@@ -1,3 +1,5 @@
+@use './rpf_design_system/spacing' as *;
+
 .progress-bar {
   accent-color: var(--editor-color-theme);
   display: flex;
@@ -11,6 +13,6 @@
   }
 
   .btn-outer {
-    padding: 0;
+    padding: $space-0-5;
   }
 }

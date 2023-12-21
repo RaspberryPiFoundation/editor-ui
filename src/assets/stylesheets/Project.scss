@@ -5,6 +5,7 @@
   display: flex;
   flex-flow: column;
   overflow: hidden;
+  min-block-size: 100%;
   block-size: 100%;
   block-size: -moz-available;
   block-size: -webkit-fill-available;
@@ -40,9 +41,6 @@
   margin: $space-1;
 
   block-size: 100%;
-  block-size: -moz-available;
-  block-size: -webkit-fill-available;
-  block-size: fill-available;
 
   .project-wrapper {
     display: flex;
@@ -140,7 +138,7 @@
     background-color: $rpf-white;
   }
 
-  @container (min-width: 600px) {
+  @container (min-width: 560px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {
@@ -156,7 +154,7 @@
     background-color: $rpf-grey-800;
   }
 
-  @container (min-width: 600px) {
+  @container (min-width: 560px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {

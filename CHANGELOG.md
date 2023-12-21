@@ -31,12 +31,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Fixed
 
+- Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
 - HTML projects loading in web component (#789)
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
 - Syntax highlighting contrast in dark mode (#824)
+- Secondary button theming (#827)
+- Instructions step buttons hit area (#827)
+- Instructions code block line highlighting (#827)
+- Instructions image widths (#827)
+- Save status spacing (#827)
+- Disappearing borders on tablet (#827)
 
 ## [0.20.0] - 2023-11-24
 
