@@ -17,9 +17,7 @@ const SidebarPanel = (props) => {
       </div>
 
       <div className="sidebar__panel-content">{children}</div>
-      {Footer ? (
-        <div className="sidebar__panel-footer">{<Footer />}</div>
-      ) : null}
+      {Footer && <div className="sidebar__panel-footer">{<Footer />}</div>}
     </>
   );
 
@@ -29,7 +27,7 @@ const SidebarPanel = (props) => {
       className={classNames(
         "sidebar__panel",
         className,
-        Footer ? "sidebar__panel--with-footer" : null,
+        Footer && "sidebar__panel--with-footer",
       )}
     >
       {panelContent}
@@ -40,7 +38,7 @@ const SidebarPanel = (props) => {
       className={classNames(
         "sidebar__panel",
         className,
-        Footer ? "sidebar__panel--with-footer" : null,
+        Footer && "sidebar__panel--with-footer",
       )}
       defaultWidth="225px"
       defaultHeight="100%"
