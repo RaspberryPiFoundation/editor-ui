@@ -46,6 +46,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Disappearing borders on tablet (#827)
 - Dark mode button theming (#850)
 - `<strong>` styling on Firefox (#854)
+- Progress bar width on Firefox (#855)
 
 ## [0.20.0] - 2023-11-24
 
