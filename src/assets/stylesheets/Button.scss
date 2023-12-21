@@ -123,13 +123,14 @@
     }
 
     &:hover {
-      color: var(--rpf-button-secondary-background-color-hover);
+      background-color: var(--rpf-button-secondary-background-color-hover);
+      color: var(--rpf-button-secondary-text-color-hover);
       border-color: var(
-        --rpf-button-secondary-background-color-hover
+        --rpf-button-secondary-border-color-hover
       ) !important;
 
       svg {
-        fill: var(--rpf-button-secondary-background-color-hover);
+        fill: var(--rpf-button-secondary-text-color-hover);
       }
     }
 
@@ -181,10 +182,10 @@
     }
 
     &:hover {
-      color: $rpf-grey-600;
+      color: var(--rpf-button-tertiary-text-color-hover);
 
       svg {
-        fill: $rpf-grey-600;
+        fill: var(--rpf-button-tertiary-text-color-hover);
       }
     }
   }
