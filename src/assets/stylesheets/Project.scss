@@ -138,7 +138,7 @@
     background-color: $rpf-white;
   }
 
-  @container (min-width: 600px) {
+  @container (min-width: 560px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {
@@ -154,7 +154,7 @@
     background-color: $rpf-grey-800;
   }
 
-  @container (min-width: 600px) {
+  @container (min-width: 560px) {
     .proj-runner-container,
     .proj-editor-container,
     .sidebar {
