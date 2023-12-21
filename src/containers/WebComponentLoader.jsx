@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  disableTheming,
-  setSenseHatAlwaysEnabled,
-  // triggerSave,
-} from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -43,7 +39,6 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const localStorageUser = JSON.parse(localStorage.getItem(authKey));
   const user = useSelector((state) => state.auth.user);
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
@@ -71,12 +66,6 @@ const WebComponentLoader = (props) => {
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
-
-  // TODO: I think this'll work a lot better with the new method
-  // of updating the user in the store
-  // useEffect(() => {
-  //   dispatch(triggerSave());
-  // }, [dispatch]);
 
   useEmbeddedMode(embedded);
 
@@ -106,14 +95,14 @@ const WebComponentLoader = (props) => {
   useProject({
     projectIdentifier: projectIdentifier,
     code,
-    accessToken: user?.access_token || localStorageUser?.access_token,
+    accessToken: user?.access_token,
     loadRemix,
     loadCache,
     remixLoadFailed,
   });
 
   useProjectPersistence({
-    user: user?.accessToken ? user : localStorageUser,
+    user,
     project,
     justLoaded,
     hasShownSavePrompt,
