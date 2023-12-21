@@ -14,6 +14,21 @@
     max-width: 100%;
   }
 
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: $space-1-5;
+    inline-size: 100%;
+
+    tr {
+      border-bottom: 1px solid $rpf-black;
+    }
+
+    td {
+      padding: $space-0-5 $space-1-5;
+    }
+  }
+
   .c-project-code {
     margin: $space-1 0;
     border-radius: 8px;
