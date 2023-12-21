@@ -90,6 +90,7 @@ describe("When not embedded", () => {
         wrapper,
       },
     );
+    expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
       expect(setProject).not.toHaveBeenCalledWith(cachedProject),
     );
@@ -102,6 +103,29 @@ describe("When not embedded", () => {
       () => useProject({ projectIdentifier: project1.identifier, accessToken }),
       { wrapper },
     );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: project1.identifier,
+        locale: "ja-JP",
+        accessToken,
+      }),
+    );
+  });
+
+  test("If loadCache is set to false it loads correct uncached project", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    localStorage.setItem("project", JSON.stringify(cachedProject));
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: project1.identifier,
+          accessToken,
+          loadCache: false,
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
       expect(loadProject).toHaveBeenCalledWith({
         identifier: project1.identifier,
@@ -118,6 +142,7 @@ describe("When not embedded", () => {
         useProject({ projectIdentifier: "hello-world-project", accessToken }),
       { wrapper },
     );
+    expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
       expect(loadProject).toHaveBeenCalledWith({
         identifier: "hello-world-project",
@@ -135,6 +160,7 @@ describe("When not embedded", () => {
         wrapper,
       },
     );
+    expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
@@ -171,6 +197,48 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(expectedProject);
   });
 
+  test("If loadRemix of a project is requested and remixLoadFailed is false", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: project1.identifier,
+          accessToken,
+          loadRemix: true,
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("loadRemix");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: project1.identifier,
+        accessToken,
+      }),
+    );
+  });
+
+  test("If loadRemix of a project is requested and remixLoadFailed is true", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: project1.identifier,
+          accessToken,
+          loadRemix: true,
+          remixLoadFailed: true,
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: project1.identifier,
+        locale: "ja-JP",
+        accessToken,
+      }),
+    );
+  });
+
   afterEach(() => {
     localStorage.clear();
   });
@@ -201,6 +269,7 @@ describe("When embedded", () => {
         }),
       { wrapper },
     );
+    expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
       expect(loadProject).toHaveBeenCalledWith({
         identifier: "hello-world-project",

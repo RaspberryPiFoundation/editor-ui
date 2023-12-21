@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Load remix functionality (#804)
 - ProjectBar functionality in the web component (#799)
 - WebComponent can receive style strings from host app (#811)
 - Quiz rendering in InstructionsPanel (#777)
@@ -16,9 +17,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Output styles for Instructions (#790, #807)
 - Styling for the instructions code snippets (#795)
 - Styling for the instructions code blocks (#794, #808)
+- quizReady custom event (#812)
+- Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
+- Toast save reminder to web component (#822)
 
 ### Changed
 
+- Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
 - Copy updates (#803)
@@ -26,16 +31,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Fixed
 
+- Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
 - HTML projects loading in web component (#789)
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
+- Syntax highlighting contrast in dark mode (#824)
+- Secondary button theming (#827)
+- Instructions step buttons hit area (#827)
+- Instructions code block line highlighting (#827)
+- Instructions image widths (#827)
+- Save status spacing (#827)
+- Disappearing borders on tablet (#827)
+- Dark mode button theming (#850)
+- `<strong>` styling on Firefox (#854)
+- Progress bar width on Firefox (#855)
 
 ## [0.20.0] - 2023-11-24
 
 ### Added
 
+- Logical properties linter rule (#770)
+- Added download panel for sidebar (#744)
 - Javascript support for HTML projects (#748)
 - DownloadPanel for sidebar (#744)
 - Custom events for Log In and Sign Up from DownloadPanel (#744)

@@ -15,8 +15,8 @@
   font-weight: $font-weight-bold;
   gap: $space-0-5;
   justify-content: center;
-  min-height: 44px;
-  min-width: 44px;
+  min-block-size: 44px;
+  min-inline-size: 44px;
   padding: 10px;
   position: relative;
   text-align: center;
@@ -81,10 +81,10 @@
   &--secondary {
     background-color: inherit;
 
-    color: var(--rpf-button-primary-text-color);
+    color: var(--rpf-button-secondary-text-color);
 
     svg {
-      fill: var(--rpf-button-primary-text-color);
+      fill: var(--rpf-button-secondary-text-color);
     }
 
     &:active,
@@ -123,13 +123,14 @@
     }
 
     &:hover {
-      color: var(--rpf-button-secondary-background-color-hover);
+      background-color: var(--rpf-button-secondary-background-color-hover);
+      color: var(--rpf-button-secondary-text-color-hover);
       border-color: var(
-        --rpf-button-secondary-background-color-hover
+        --rpf-button-secondary-border-color-hover
       ) !important;
 
       svg {
-        fill: var(--rpf-button-secondary-background-color-hover);
+        fill: var(--rpf-button-secondary-text-color-hover);
       }
     }
 
@@ -171,7 +172,7 @@
         background-color: inherit;
       }
     }
-    
+
     &:active {
       color: $rpf-teal-900;
 
@@ -181,10 +182,10 @@
     }
 
     &:hover {
-      color: $rpf-grey-600;
+      color: var(--rpf-button-tertiary-text-color-hover);
 
       svg {
-        fill: $rpf-grey-600;
+        fill: var(--rpf-button-tertiary-text-color-hover);
       }
     }
   }
@@ -235,8 +236,8 @@
   }
 
   &--small {
-    min-height: unset;
-    min-width: unset;
+    min-block-size: unset;
+    min-inline-size: unset;
   }
 
   &--svg-only {

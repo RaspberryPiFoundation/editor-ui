@@ -2,7 +2,6 @@
 @use "./rpf_design_system/colours" as *;
 
 .context-menu__drop {
-  display: flex;
   padding: $space-0-5 $space-1;
   margin: 0;
 
@@ -33,7 +32,7 @@
     white-space: nowrap;
     overflow-x: visible;
     box-sizing: border-box;
-    width: 100%;
+    inline-size: 100%;
     justify-content: start;
   }
 
@@ -42,8 +41,8 @@
   }
 
   svg {
-    width: $space-1-5;
-    height: auto;
+    inline-size: $space-1-5;
+    block-size: auto;
   }
 
   &--dark {
