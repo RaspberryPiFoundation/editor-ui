@@ -22,8 +22,12 @@ const InstructionsPanel = () => {
   const [quizReady, setQuizReady] = useState(false);
 
   const isQuiz = useMemo(() => {
-    return !!quiz?.questionCount;
-  }, [quiz]);
+    const stepIsQuiz =
+      !!quiz?.questionCount &&
+      typeof steps[currentStepPosition].knowledgeQuiz === "string";
+    debugger;
+    return stepIsQuiz;
+  }, [quiz, steps, currentStepPosition]);
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -41,7 +45,6 @@ const InstructionsPanel = () => {
       stepContent.current.innerHTML = content;
       applySyntaxHighlighting(stepContent.current);
     };
-
     if (isQuiz) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
       setQuizReady(true);
