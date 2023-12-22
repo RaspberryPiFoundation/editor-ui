@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Project sidebar mobile structure and default to instructions behaviour (#823)
 - Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
