@@ -24,7 +24,7 @@ const InstructionsPanel = () => {
   const [isQuiz, setIsQuiz] = useState(false);
 
   const quizCompleted = useMemo(() => {
-    return quiz.currentQuestion === quiz?.questionCount;
+    return quiz?.currentQuestion === quiz?.questionCount;
   }, [quiz]);
 
   const numberOfSteps = useSelector(

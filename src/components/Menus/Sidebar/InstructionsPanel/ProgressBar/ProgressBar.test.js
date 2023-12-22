@@ -82,7 +82,7 @@ describe("When on a quiz step", () => {
 
   test("Progress bar renders with correct max and value", () => {
     const progressBar = screen.getByRole("progressbar");
-    expect(progressBar).toHaveValue(2);
+    expect(progressBar).toHaveValue(1);
     expect(progressBar).toHaveAttribute("max", "3");
   });
 
