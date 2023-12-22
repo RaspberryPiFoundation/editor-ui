@@ -14,7 +14,7 @@ const renderProgressBarOnStep = (stepNumber) => {
         steps: [
           { content: "<p>step 0</p>" },
           { content: "<p>step 1</p>" },
-          { content: "<p>A quiz step 1</p>" },
+          { content: "<p>A quiz step 1</p>", knowledgeQuiz: "aQuizPath" },
           { content: "<p>step 2</p>" },
         ],
       },
@@ -82,7 +82,7 @@ describe("When on a quiz step", () => {
 
   test("Progress bar renders with correct max and value", () => {
     const progressBar = screen.getByRole("progressbar");
-    expect(progressBar).toHaveValue(1);
+    expect(progressBar).toHaveValue(2);
     expect(progressBar).toHaveAttribute("max", "3");
   });
 
