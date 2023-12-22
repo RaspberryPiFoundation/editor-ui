@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
@@ -9,11 +9,12 @@ import "prismjs/plugins/line-highlight/prism-line-highlight";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
+import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 
 const InstructionsPanel = () => {
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
-
+  const dispatch = useDispatch();
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
@@ -22,12 +23,19 @@ const InstructionsPanel = () => {
   const [quizReady, setQuizReady] = useState(false);
 
   const isQuiz = useMemo(() => {
-    const stepIsQuiz =
+    return (
       !!quiz?.questionCount &&
-      typeof steps[currentStepPosition].knowledgeQuiz === "string";
-    debugger;
-    return stepIsQuiz;
+      typeof steps[currentStepPosition]?.knowledgeQuiz === "string"
+    );
   }, [quiz, steps, currentStepPosition]);
+
+  const quizCompleted = useMemo(() => {
+    return quiz.currentQuestion === quiz?.questionCount;
+  }, [quiz]);
+
+  const numberOfSteps = useSelector(
+    (state) => state.instructions.project.steps.length,
+  );
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -40,6 +48,17 @@ const InstructionsPanel = () => {
   };
 
   useEffect(() => {
+    if (quizCompleted && isQuiz) {
+      setQuizReady(false);
+      dispatch(
+        setCurrentStepPosition(
+          Math.min(currentStepPosition + 1, numberOfSteps - 1),
+        ),
+      );
+    }
+  }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch]);
+
+  useEffect(() => {
     const setStepContent = (content) => {
       stepContent.current.parentElement.scrollTo({ top: 0 });
       stepContent.current.innerHTML = content;
@@ -50,11 +69,12 @@ const InstructionsPanel = () => {
       setQuizReady(true);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
+      setQuizReady(false);
     }
   }, [steps, currentStepPosition, quiz, isQuiz]);
 
   useEffect(() => {
-    if (quizReady) {
+    if (quizReady && isQuiz) {
       document.dispatchEvent(quizReadyEvent);
       setQuizReady(false);
     }

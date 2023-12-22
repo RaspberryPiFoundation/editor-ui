@@ -14,6 +14,7 @@ const renderProgressBarOnStep = (stepNumber) => {
         steps: [
           { content: "<p>step 0</p>" },
           { content: "<p>step 1</p>" },
+          { content: "<p>A quiz step 1</p>" },
           { content: "<p>step 2</p>" },
         ],
       },
@@ -46,7 +47,7 @@ describe("When on a middle step", () => {
   test("Progress bar renders with correct max and value", () => {
     const progressBar = screen.getByRole("progressbar");
     expect(progressBar).toHaveValue(1);
-    expect(progressBar).toHaveAttribute("max", "2");
+    expect(progressBar).toHaveAttribute("max", "3");
   });
 
   test("Clicking previous step button goes back a step", () => {
@@ -66,10 +67,36 @@ describe("When on a middle step", () => {
 
 describe("When on last step", () => {
   beforeEach(() => {
-    renderProgressBarOnStep(2);
+    renderProgressBarOnStep(3);
   });
 
   test("Next step button is disabled", () => {
     expect(screen.getByTitle("instructionsPanel.nextStep")).toBeDisabled();
+  });
+});
+
+describe("When on a quiz step", () => {
+  beforeEach(() => {
+    renderProgressBarOnStep(2);
+  });
+
+  test("Progress bar renders with correct max and value", () => {
+    const progressBar = screen.getByRole("progressbar");
+    expect(progressBar).toHaveValue(2);
+    expect(progressBar).toHaveAttribute("max", "3");
+  });
+
+  test("Clicking previous step button goes back a step", () => {
+    const previousStepButton = screen.getByTitle(
+      "instructionsPanel.previousStep",
+    );
+    fireEvent.click(previousStepButton);
+    expect(store.getActions()).toEqual([setCurrentStepPosition(1)]);
+  });
+
+  test("Clicking next step button goes forward a step", () => {
+    const nextStepButton = screen.getByTitle("instructionsPanel.nextStep");
+    fireEvent.click(nextStepButton);
+    expect(store.getActions()).toEqual([setCurrentStepPosition(3)]);
   });
 });
