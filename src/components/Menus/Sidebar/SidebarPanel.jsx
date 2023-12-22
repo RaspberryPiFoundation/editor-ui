@@ -6,7 +6,14 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 
 const SidebarPanel = (props) => {
-  const { children, heading, Footer, className, Button } = props;
+  const {
+    children,
+    heading,
+    Footer,
+    className,
+    Button,
+    defaultWidth = "225px",
+  } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const panelContent = (
@@ -40,7 +47,7 @@ const SidebarPanel = (props) => {
         className,
         Footer && "sidebar__panel--with-footer",
       )}
-      defaultWidth="225px"
+      defaultWidth={defaultWidth}
       defaultHeight="100%"
       handleDirection="right"
       minWidth="180px"

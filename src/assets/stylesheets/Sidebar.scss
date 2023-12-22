@@ -164,6 +164,9 @@
   position: absolute;
   bottom: 0px;
   inline-size: 100%;
+  inline-size: -moz-available;
+  inline-size: -webkit-fill-available;
+  inline-size: fill-available;
   background-color: white;
   border-bottom-right-radius: 8px;
 }
