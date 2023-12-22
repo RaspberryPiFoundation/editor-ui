@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Save status spacing (#827)
 - Disappearing borders on tablet (#827)
 - Dark mode button theming (#850)
+- Save/download panel spacing (#859)
 
 ## [0.20.0] - 2023-11-24
 
