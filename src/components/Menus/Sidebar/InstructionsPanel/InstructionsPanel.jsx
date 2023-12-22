@@ -20,14 +20,8 @@ const InstructionsPanel = () => {
   );
   const { t } = useTranslation();
   const stepContent = useRef();
-  const [quizReady, setQuizReady] = useState(false);
 
-  const isQuiz = useMemo(() => {
-    return (
-      !!quiz?.questionCount &&
-      typeof steps[currentStepPosition]?.knowledgeQuiz === "string"
-    );
-  }, [quiz, steps, currentStepPosition]);
+  const [isQuiz, setIsQuiz] = useState(false);
 
   const quizCompleted = useMemo(() => {
     return quiz.currentQuestion === quiz?.questionCount;
@@ -48,15 +42,15 @@ const InstructionsPanel = () => {
   };
 
   useEffect(() => {
-    if (quizCompleted && isQuiz) {
-      setQuizReady(false);
-      dispatch(
-        setCurrentStepPosition(
-          Math.min(currentStepPosition + 1, numberOfSteps - 1),
-        ),
+    const stepIsQuizAndHasQuestions = () => {
+      return (
+        !quizCompleted &&
+        !!quiz?.questionCount &&
+        typeof steps[currentStepPosition]?.knowledgeQuiz === "string"
       );
-    }
-  }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch]);
+    };
+    stepIsQuizAndHasQuestions() ? setIsQuiz(true) : setIsQuiz(false);
+  }, [quiz, steps, currentStepPosition, quizCompleted]);
 
   useEffect(() => {
     const setStepContent = (content) => {
@@ -64,21 +58,24 @@ const InstructionsPanel = () => {
       stepContent.current.innerHTML = content;
       applySyntaxHighlighting(stepContent.current);
     };
-    if (isQuiz) {
+    if (isQuiz && !quizCompleted) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
-      setQuizReady(true);
+      document.dispatchEvent(quizReadyEvent);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
-      setQuizReady(false);
     }
-  }, [steps, currentStepPosition, quiz, isQuiz]);
+  }, [steps, currentStepPosition, quiz, quizCompleted, isQuiz]);
 
   useEffect(() => {
-    if (quizReady && isQuiz) {
-      document.dispatchEvent(quizReadyEvent);
-      setQuizReady(false);
+    if (quizCompleted && isQuiz) {
+      dispatch(
+        setCurrentStepPosition(
+          Math.min(currentStepPosition + 1, numberOfSteps - 1),
+        ),
+      );
+      debugger;
     }
-  }, [quizReady]);
+  }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
   return (
     <SidebarPanel
