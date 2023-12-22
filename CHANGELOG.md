@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Auth web component from user in local storage (#852)
 - Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
@@ -45,6 +46,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Save status spacing (#827)
 - Disappearing borders on tablet (#827)
 - Dark mode button theming (#850)
+- `<strong>` styling on Firefox (#854)
+- Progress bar width on Firefox (#855)
 - Font family stacking (#857)
 
 ## [0.20.0] - 2023-11-24
