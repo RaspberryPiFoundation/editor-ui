@@ -4,10 +4,11 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
 import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
-import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
+import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import localStorageUserMiddleware from "../redux/middlewares/localStorageUserMiddleware";
 import { Cookies, CookiesProvider } from "react-cookie";
 
 jest.mock("../hooks/useProject", () => ({
@@ -27,9 +28,9 @@ const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
 
-describe("When loaded as a cold user", () => {
+describe("When no user is in state", () => {
   beforeEach(() => {
-    const middlewares = [];
+    const middlewares = [localStorageUserMiddleware(setUser)];
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
@@ -51,7 +52,7 @@ describe("When loaded as a cold user", () => {
     cookies = new Cookies();
   });
 
-  describe("When props are set - logged out", () => {
+  describe("with no user in local storage", () => {
     beforeEach(() => {
       render(
         <Provider store={store}>
@@ -87,7 +88,7 @@ describe("When loaded as a cold user", () => {
         },
         hasShownSavePrompt: false,
         justLoaded: false,
-        user: null,
+        user: undefined,
         saveTriggered: false,
       });
     });
@@ -113,11 +114,18 @@ describe("When loaded as a cold user", () => {
     test("Sets theme correctly", () => {
       expect(cookies.cookies.theme).toEqual("light");
     });
+
+    test("Sets the user in state", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setUser(null)]),
+      );
+    });
   });
 
-  describe("When props are set - logged in", () => {
+  describe("with user set in local storage", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
+      localStorage.setItem("authKey", authKey);
       render(
         <Provider store={store}>
           <CookiesProvider cookies={cookies}>
@@ -138,7 +146,7 @@ describe("When loaded as a cold user", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: "my_token",
+        accessToken: undefined,
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
@@ -147,7 +155,7 @@ describe("When loaded as a cold user", () => {
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user,
+        user: undefined,
         project: { components: [] },
         hasShownSavePrompt: false,
         justLoaded: false,
@@ -196,11 +204,11 @@ describe("When loaded as a cold user", () => {
   });
 });
 
-describe("When the user object is set", () => {
+describe("When user is in state", () => {
   describe("before a remix load attempt", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
-      const middlewares = [];
+      const middlewares = [localStorageUserMiddleware(setUser)];
       const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
@@ -222,7 +230,7 @@ describe("When the user object is set", () => {
       cookies = new Cookies();
     });
 
-    describe("When the user object is deleted", () => {
+    describe("when user in local storage is removed", () => {
       beforeEach(() => {
         localStorage.removeItem(authKey);
         render(
@@ -236,12 +244,12 @@ describe("When the user object is set", () => {
 
       test("Removes the user from state", () => {
         expect(store.getActions()).toEqual(
-          expect.arrayContaining([removeUser()]),
+          expect.arrayContaining([setUser(null)]),
         );
       });
     });
 
-    describe("When props are set - logged in", () => {
+    describe("when user is set in local storage", () => {
       beforeEach(() => {
         render(
           <Provider store={store}>
@@ -316,7 +324,7 @@ describe("When the user object is set", () => {
       cookies = new Cookies();
     });
 
-    describe("When props are set - logged in", () => {
+    describe("when user in state and local storage", () => {
       beforeEach(() => {
         render(
           <Provider store={store}>

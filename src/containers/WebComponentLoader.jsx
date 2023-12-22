@@ -7,7 +7,6 @@ import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
-import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
@@ -39,7 +38,7 @@ const WebComponentLoader = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
-  const localStorageUser = JSON.parse(localStorage.getItem(authKey));
+  localStorage.setItem("authKey", authKey);
   const user = useSelector((state) => state.auth.user);
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
@@ -78,16 +77,6 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    if (JSON.stringify(user) !== JSON.stringify(localStorageUser)) {
-      if (localStorageUser) {
-        dispatch(setUser(localStorageUser));
-      } else {
-        dispatch(removeUser());
-      }
-    }
-  }, [user, localStorageUser, dispatch]);
-
-  useEffect(() => {
     if (remixLoadFailed) {
       setLoadCache(true);
       setLoadRemix(false);
@@ -106,14 +95,14 @@ const WebComponentLoader = (props) => {
   useProject({
     projectIdentifier: projectIdentifier,
     code,
-    accessToken: user?.access_token || localStorageUser?.access_token,
+    accessToken: user?.access_token,
     loadRemix,
     loadCache,
     remixLoadFailed,
   });
 
   useProjectPersistence({
-    user: user?.accessToken ? user : localStorageUser,
+    user,
     project,
     justLoaded,
     hasShownSavePrompt,
