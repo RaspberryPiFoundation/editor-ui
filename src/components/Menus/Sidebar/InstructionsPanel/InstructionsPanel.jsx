@@ -19,15 +19,16 @@ const InstructionsPanel = () => {
   );
   const { t } = useTranslation();
   const stepContent = useRef();
+  const [quizReady, setQuizReady] = useState(false);
 
   const isQuiz = useMemo(() => {
-    return (
-      !!quiz?.questionCount && !!(quiz?.currentQuestion < quiz?.questionCount)
-    );
+    return !!quiz?.questionCount;
   }, [quiz]);
 
   const applySyntaxHighlighting = (container) => {
-    const codeElements = container.querySelectorAll(".language-python");
+    const codeElements = container.querySelectorAll(
+      ".language-python, .language-html, .language-css",
+    );
 
     codeElements.forEach((element) => {
       window.Prism.highlightElement(element);
@@ -43,11 +44,18 @@ const InstructionsPanel = () => {
 
     if (isQuiz) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
-      document.dispatchEvent(quizReadyEvent);
+      setQuizReady(true);
     } else if (steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
     }
   }, [steps, currentStepPosition, quiz, isQuiz]);
+
+  useEffect(() => {
+    if (quizReady) {
+      document.dispatchEvent(quizReadyEvent);
+      setQuizReady(false);
+    }
+  }, [quizReady]);
 
   return (
     <SidebarPanel

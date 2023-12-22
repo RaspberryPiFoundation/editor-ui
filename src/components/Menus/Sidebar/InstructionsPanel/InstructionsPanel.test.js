@@ -65,7 +65,10 @@ describe("It renders a quiz when it has one", () => {
     const initialState = {
       instructions: {
         project: {
-          steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
+          steps: [
+            { content: "<p>step 0</p>" },
+            { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
+          ],
         },
         quiz: {
           questions: [
