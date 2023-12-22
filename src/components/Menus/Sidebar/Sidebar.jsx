@@ -82,7 +82,7 @@ const Sidebar = ({ options = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
-    (state) => state.instructions.project?.steps,
+    (state) => state.instructions?.project?.steps,
   );
 
   const removeOption = (optionName, depArray = []) => {

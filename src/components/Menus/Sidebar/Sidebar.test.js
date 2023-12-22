@@ -43,19 +43,11 @@ describe("When project has images", () => {
     );
   });
 
-  test("File pane closed by default", () => {
-    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
-  });
-
-  test("Clicking expand opens the file pane", () => {
-    const expandButton = screen.getByTitle("sidebar.expand");
-    fireEvent.click(expandButton);
-    expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+  test("Sidebar open by default", () => {
+    expect(screen.queryByTitle("sidebar.collapse")).toBeInTheDocument();
   });
 
   test("Clicking collapse closes the sidebar panel", () => {
-    const expandButton = screen.getByTitle("sidebar.expand");
-    fireEvent.click(expandButton);
     const collapseButton = screen.getByTitle("sidebar.collapse");
     fireEvent.click(collapseButton);
     expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();

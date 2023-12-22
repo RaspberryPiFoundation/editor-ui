@@ -133,7 +133,7 @@ describe("When withSidebar is true", () => {
   });
 
   test("Renders the sidebar", () => {
-    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.queryByTitle("sidebar.collapse")).toBeInTheDocument();
   });
 
   test("Renders the correct sidebar options", () => {

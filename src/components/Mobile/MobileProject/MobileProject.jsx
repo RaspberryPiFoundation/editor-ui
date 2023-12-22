@@ -31,14 +31,10 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   useEffect(() => {
     if (codeRunTriggered) {
       setSelectedTab(withSidebar ? 2 : 1);
-    }
-  }, [codeRunTriggered, withSidebar]);
-
-  useEffect(() => {
-    if (!sidebarShowing) {
+    } else if (!sidebarShowing) {
       setSelectedTab(withSidebar ? 1 : 0);
     }
-  }, [sidebarShowing, withSidebar]);
+  }, [codeRunTriggered, sidebarShowing, withSidebar]);
 
   return (
     <div className="proj-container proj-editor-container proj-container--mobile">
