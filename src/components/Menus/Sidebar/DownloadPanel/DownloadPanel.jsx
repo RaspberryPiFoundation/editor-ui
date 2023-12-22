@@ -29,32 +29,34 @@ export const DownloadPanel = () => {
 
   return (
     <SidebarPanel heading={t("downloadPanel.heading")}>
-      <div className="download-panel__content">
-        {!user && (
-          <>
-            <div className="download-panel__subtitle">
-              {t("downloadPanel.logInTitle")}
-            </div>
-            <p>{t("downloadPanel.logInHint")}</p>
-            <div className="download-panel__button-container">
-              <DesignSystemButton
-                className="btn btn--primary download-panel__button"
-                text={t("downloadPanel.logInButton")}
-                type="primary"
-                onClick={handleLogIn}
-                fill
-              />
-              <DesignSystemButton
-                className="btn btn--secondary download-panel__button"
-                text={t("downloadPanel.signUpButton")}
-                type="secondary"
-                onClick={handleSignUp}
-                fill
-              />
-            </div>
-          </>
-        )}
-        <p>{t("downloadPanel.downloadHint")}</p>
+      {!user && (
+        <div className="download-panel__login-section">
+          <div className="download-panel__subtitle">
+            {t("downloadPanel.logInTitle")}
+          </div>
+          <p className="download-panel__hint">{t("downloadPanel.logInHint")}</p>
+          <div className="download-panel__button-container">
+            <DesignSystemButton
+              className="btn btn--primary download-panel__button"
+              text={t("downloadPanel.logInButton")}
+              type="primary"
+              onClick={handleLogIn}
+              fill
+            />
+            <DesignSystemButton
+              className="btn btn--secondary download-panel__button"
+              text={t("downloadPanel.signUpButton")}
+              type="secondary"
+              onClick={handleSignUp}
+              fill
+            />
+          </div>
+        </div>
+      )}
+      <div className="download-panel__download-section">
+        <p className="download-panel__hint">
+          {t("downloadPanel.downloadHint")}
+        </p>
         <DownloadButton
           buttonText={t("downloadPanel.downloadButton")}
           className="btn btn--secondary download-panel__button"
