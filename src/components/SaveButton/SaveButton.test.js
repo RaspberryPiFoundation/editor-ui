@@ -60,10 +60,10 @@ describe("When project is loaded", () => {
         expect(store.getActions()).toEqual([triggerSave()]);
       });
 
-      test("Clicking save does not trigger a logInHandler event", () => {
+      test("Clicking save triggers a logInHandler event", () => {
         const saveButton = screen.queryByText("header.save").parentElement;
         fireEvent.click(saveButton);
-        expect(logInHandler).not.toHaveBeenCalled();
+        expect(logInHandler).toHaveBeenCalled();
       });
     });
 
