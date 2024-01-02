@@ -52,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions blocks spacing (#856)
 - Font family stacking (#857)
 - Save/download panel spacing (#859)
+- Instructions output wrapping in Firefox (#862)
 
 ## [0.20.0] - 2023-11-24
 
