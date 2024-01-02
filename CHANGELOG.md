@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - quizReady custom event (#812)
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 - Toast save reminder to web component (#822)
+- ProgressBar and completion-handling on quizzes (#834)
 
 ### Changed
 
@@ -49,6 +50,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Dark mode button theming (#850)
 - `<strong>` styling on Firefox (#854)
 - Progress bar width on Firefox (#855)
+- Instructions blocks spacing (#856)
+- Font family stacking (#857)
 - Save/download panel spacing (#859)
 
 ## [0.20.0] - 2023-11-24
@@ -66,6 +69,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
+- Instructions table styling (#858)
 
 ### Changed
 
