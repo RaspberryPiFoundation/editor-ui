@@ -49,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Dark mode button theming (#850)
 - `<strong>` styling on Firefox (#854)
 - Progress bar width on Firefox (#855)
+- Instructions blocks spacing (#856)
 - Font family stacking (#857)
 - Save/download panel spacing (#859)
 - Instructions output wrapping in Firefox (#862)
