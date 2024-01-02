@@ -67,6 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
+- Instructions table styling (#858)
 
 ### Changed
 
