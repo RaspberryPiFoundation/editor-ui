@@ -123,6 +123,7 @@ const Sidebar = ({ options = [] }) => {
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
+        instructions={instructionsSteps}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>

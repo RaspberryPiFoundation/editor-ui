@@ -22,7 +22,7 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   );
   const includesInstructions = sidebarOptions.includes("instructions");
 
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(1);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
