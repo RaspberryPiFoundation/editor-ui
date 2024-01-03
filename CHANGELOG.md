@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 - Toast save reminder to web component (#822)
 - ProgressBar and completion-handling on quizzes (#834)
+- Support for multiple host styles in the web component (#863)
 
 ### Changed
 
@@ -54,6 +55,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Font family stacking (#857)
 - Save/download panel spacing (#859)
 - Instructions output wrapping in Firefox (#862)
+- Instructions code blocks with no line numbers (#863)
 
 ## [0.20.0] - 2023-11-24
 

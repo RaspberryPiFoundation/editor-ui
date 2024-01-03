@@ -56,10 +56,14 @@
   pre {
     background-color: $rpf-grey-700;
     border-radius: 8px;
-    padding: $space-0-5 $space-1;
-    padding-inline-start: $space-3;
+    padding: $space-0-5;
     overflow: auto;
     margin: $space-1 0;
+  }
+
+  .line-numbers {
+    padding-inline-start: $space-3;
+    padding-inline-end: $space-1;
   }
 
   code {
