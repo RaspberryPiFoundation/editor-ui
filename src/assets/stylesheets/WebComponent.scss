@@ -20,6 +20,10 @@
   display: flex;
   flex-flow: column;
   block-size: 100%;
+
+  .proj {
+    min-block-size: 100%;
+  }
 }
 
 code {
