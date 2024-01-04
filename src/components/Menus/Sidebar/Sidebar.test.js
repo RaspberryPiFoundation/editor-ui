@@ -18,82 +18,166 @@ let images = [
 const options = ["file", "images", "instructions"];
 
 describe("When project has images", () => {
-  beforeEach(() => {
-    const mockStore = configureStore([]);
-    const initialState = {
-      editor: {
-        project: {
-          components: [],
-          image_list: images,
+  describe("and no instructions", () => {
+    beforeEach(() => {
+      const mockStore = configureStore([]);
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: images,
+          },
         },
-      },
-      instructions: {
-        project: {
-          steps: [],
+        instructions: {},
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Clicking expand opens the file pane", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const expandButton = screen.getByTitle("sidebar.expand");
+      fireEvent.click(expandButton);
+      expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+    });
+
+    test("Sidebar open by default", () => {
+      expect(screen.queryByTitle("sidebar.collapse")).toBeInTheDocument();
+    });
+
+    test("Clicking collapse closes the sidebar panel", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
+    });
+
+    test("Clicking file button opens file panel", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const fileButton = screen.getByTitle("sidebar.file");
+      fireEvent.click(fileButton);
+      expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+    });
+
+    test("Clicking file button a second time closes file pane", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const fileButton = screen.getByTitle("sidebar.file");
+      fireEvent.click(fileButton);
+      fireEvent.click(fileButton);
+      expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
+    });
+
+    test("Shows file icon", () => {
+      expect(screen.queryByTitle("sidebar.file")).toBeInTheDocument();
+    });
+
+    test("Shows image icon", () => {
+      expect(screen.queryByTitle("sidebar.images")).toBeInTheDocument();
+    });
+
+    test("Does not show settings icon", () => {
+      expect(screen.queryByTitle("sidebar.settings")).not.toBeInTheDocument();
+    });
+
+    test("Does not show instructions icon", () => {
+      expect(
+        screen.queryByTitle("sidebar.instructions"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Clicking image icon opens image panel", () => {
+      const imageButton = screen.getByTitle("sidebar.images");
+      fireEvent.click(imageButton);
+      expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+    });
+  });
+
+  describe("and instructions", () => {
+    beforeEach(() => {
+      const mockStore = configureStore([]);
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: images,
+          },
         },
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <div id="app">
-          <Sidebar options={options} />
-        </div>
-      </Provider>,
-    );
-  });
+        instructions: {
+          project: {
+            steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
+          },
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
 
-  test("File pane closed by default", () => {
-    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
-  });
+    test("Clicking expand opens the instructions pane", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const expandButton = screen.getByTitle("sidebar.expand");
+      fireEvent.click(expandButton);
+      expect(
+        screen.queryByText("instructionsPanel.projectSteps"),
+      ).toBeInTheDocument();
+    });
 
-  test("Clicking expand opens the file pane", () => {
-    const expandButton = screen.getByTitle("sidebar.expand");
-    fireEvent.click(expandButton);
-    expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
-  });
+    test("Clicking instructions button opens file panel", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const fileButton = screen.getByTitle("sidebar.instructions");
+      fireEvent.click(fileButton);
+      expect(
+        screen.queryByText("instructionsPanel.projectSteps"),
+      ).toBeInTheDocument();
+    });
 
-  test("Clicking collapse closes the sidebar panel", () => {
-    const expandButton = screen.getByTitle("sidebar.expand");
-    fireEvent.click(expandButton);
-    const collapseButton = screen.getByTitle("sidebar.collapse");
-    fireEvent.click(collapseButton);
-    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
-  });
+    test("Clicking instructions button a second time closes file pane", () => {
+      const collapseButton = screen.getByTitle("sidebar.collapse");
+      fireEvent.click(collapseButton);
+      const fileButton = screen.getByTitle("sidebar.file");
+      fireEvent.click(fileButton);
+      fireEvent.click(fileButton);
+      expect(
+        screen.queryByText("instructionsPanel.projectSteps"),
+      ).not.toBeInTheDocument();
+    });
 
-  test("Clicking file button opens file panel", () => {
-    const fileButton = screen.getByTitle("sidebar.file");
-    fireEvent.click(fileButton);
-    expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
-  });
+    test("Shows file icon", () => {
+      expect(screen.queryByTitle("sidebar.file")).toBeInTheDocument();
+    });
 
-  test("Clicking file button a second time closes file pane", () => {
-    const fileButton = screen.getByTitle("sidebar.file");
-    fireEvent.click(fileButton);
-    fireEvent.click(fileButton);
-    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
-  });
+    test("Shows image icon", () => {
+      expect(screen.queryByTitle("sidebar.images")).toBeInTheDocument();
+    });
 
-  test("Shows file icon", () => {
-    expect(screen.queryByTitle("sidebar.file")).toBeInTheDocument();
-  });
+    test("Shows instructions icon", () => {
+      expect(screen.queryByTitle("sidebar.instructions")).toBeInTheDocument();
+    });
 
-  test("Shows image icon", () => {
-    expect(screen.queryByTitle("sidebar.images")).toBeInTheDocument();
-  });
+    test("Does not show settings icon", () => {
+      expect(screen.queryByTitle("sidebar.settings")).not.toBeInTheDocument();
+    });
 
-  test("Does not show settings icon", () => {
-    expect(screen.queryByTitle("sidebar.settings")).not.toBeInTheDocument();
-  });
-
-  test("Does not show instructions icon", () => {
-    expect(screen.queryByTitle("sidebar.instructions")).not.toBeInTheDocument();
-  });
-
-  test("Clicking image icon opens image panel", () => {
-    const imageButton = screen.getByTitle("sidebar.images");
-    fireEvent.click(imageButton);
-    expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+    test("Clicking image icon opens image panel", () => {
+      const imageButton = screen.getByTitle("sidebar.images");
+      fireEvent.click(imageButton);
+      expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+    });
   });
 });
 

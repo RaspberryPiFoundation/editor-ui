@@ -6,47 +6,83 @@ import SidebarBar from "./SidebarBar";
 
 const toggleOption = jest.fn();
 
-beforeEach(() => {
-  const mockStore = configureStore([]);
-  const initialState = {
-    editor: {
-      project: {
-        components: [],
-      },
+const mockStore = configureStore([]);
+const initialState = {
+  editor: {
+    project: {
+      components: [],
     },
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <SidebarBar
-        menuOptions={[
+  },
+};
+const store = mockStore(initialState);
+
+const menuOptions = (instructions = false) => {
+  return [
+    {
+      name: "file",
+      title: "file_button",
+      position: "top",
+      panel: () => {},
+    },
+    {
+      name: "home",
+      position: "top",
+      title: "home_button",
+      panel: () => {},
+    },
+    ...(instructions
+      ? [
           {
-            name: "file",
-            title: "file_button",
+            name: "instructions",
             position: "top",
+            title: "instructions_button",
             panel: () => {},
           },
-          {
-            name: "home",
-            position: "top",
-            title: "home_button",
-            panel: () => {},
-          },
-        ]}
-        toggleOption={toggleOption}
-      />
-    </Provider>,
-  );
-});
+        ]
+      : []),
+  ];
+};
 
-test("Clicking expand button opens file panel", () => {
-  const expandButton = screen.getByTitle("sidebar.expand");
-  fireEvent.click(expandButton);
-  expect(toggleOption).toHaveBeenCalledWith("file");
-});
+describe("SidebarBar", () => {
+  describe("Without instructions", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <SidebarBar menuOptions={menuOptions()} toggleOption={toggleOption} />
+        </Provider>,
+      );
+    });
 
-test("Clicking home button opens home panel", () => {
-  const homeButton = screen.getByTitle("home_button");
-  fireEvent.click(homeButton);
-  expect(toggleOption).toHaveBeenCalledWith("home");
+    test("Clicking expand button opens file panel", () => {
+      const expandButton = screen.getByTitle("sidebar.expand");
+      fireEvent.click(expandButton);
+      expect(toggleOption).toHaveBeenCalledWith("file");
+    });
+
+    test("Clicking home button opens home panel", () => {
+      const homeButton = screen.getByTitle("home_button");
+      fireEvent.click(homeButton);
+      expect(toggleOption).toHaveBeenCalledWith("home");
+    });
+  });
+
+  describe("With instructions", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <SidebarBar
+            menuOptions={menuOptions(true)}
+            toggleOption={toggleOption}
+            instructions
+          />
+        </Provider>,
+      );
+    });
+
+    test("Clicking expand button opens instructions panel", () => {
+      const expandButton = screen.getByTitle("sidebar.expand");
+      fireEvent.click(expandButton);
+      expect(toggleOption).toHaveBeenCalledWith("instructions");
+    });
+  });
 });

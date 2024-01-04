@@ -79,6 +79,7 @@ const InstructionsPanel = () => {
 
   return (
     <SidebarPanel
+      defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >
