@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Fixed
 
+- Reenable auto remixing in web component (#860)
 - Standalone editor height (#864)
 - Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
