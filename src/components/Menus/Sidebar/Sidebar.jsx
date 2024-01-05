@@ -82,7 +82,7 @@ const Sidebar = ({ options = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
-    (state) => state.instructions.project?.steps,
+    (state) => state.instructions?.project?.steps,
   );
 
   const removeOption = (optionName, depArray = []) => {
@@ -98,7 +98,9 @@ const Sidebar = ({ options = [] }) => {
   removeOption("images", projectImages);
   removeOption("instructions", instructionsSteps);
 
-  const [option, setOption] = useState(isMobile ? "file" : null);
+  const [option, setOption] = useState(
+    instructionsSteps ? "instructions" : "file",
+  );
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
@@ -121,6 +123,7 @@ const Sidebar = ({ options = [] }) => {
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
+        instructions={instructionsSteps}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>

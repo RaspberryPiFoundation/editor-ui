@@ -73,12 +73,12 @@ const InstructionsPanel = () => {
           Math.min(currentStepPosition + 1, numberOfSteps - 1),
         ),
       );
-      debugger;
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
   return (
     <SidebarPanel
+      defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.21.0] - 2024-01-05
+
 ### Added
 
 - Load remix functionality (#804)
@@ -21,9 +23,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 - Toast save reminder to web component (#822)
 - ProgressBar and completion-handling on quizzes (#834)
+- Support for multiple host styles in the web component (#863)
 
 ### Changed
 
+- Project sidebar mobile structure and default to instructions behaviour (#823)
 - Auth web component from user in local storage (#852)
 - Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
@@ -34,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Fixed
 
 - Reenable auto remixing in web component (#860)
+- Standalone editor height (#864)
 - Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
 - HTML projects loading in web component (#789)
@@ -53,6 +58,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions blocks spacing (#856)
 - Font family stacking (#857)
 - Save/download panel spacing (#859)
+- Instructions output wrapping in Firefox (#862)
+- Instructions code blocks with no line numbers (#863)
+- New file button width (#865)
 
 ## [0.20.0] - 2023-11-24
 
@@ -650,7 +658,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.0...HEAD
+[0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
 [0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3

@@ -59,7 +59,9 @@ class WebComponent extends HTMLElement {
       )
     ) {
       value = newVal === "true";
-    } else if (["instructions", "sidebar_options"].includes(name)) {
+    } else if (
+      ["instructions", "sidebar_options", "host_styles"].includes(name)
+    ) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;
