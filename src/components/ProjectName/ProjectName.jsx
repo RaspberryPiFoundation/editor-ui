@@ -104,6 +104,10 @@ const ProjectName = ({
         </label>
       )}
       <div className={classNames("project-name", className)}>
+        {/* TODO: Look into alternative approach so we don't need hidden h1 */}
+        <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+          {project.name || t("header.newProject")}
+        </h1>
         {forWebComponent ? (
           <div className="project-name__title">{name}</div>
         ) : (

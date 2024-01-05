@@ -41,7 +41,6 @@ const Project = (props) => {
 
   useMemo(() => {
     const isDesktop = params["width-larger-than-720"];
-    console.log("isDesktop", isDesktop);
 
     setDefaultWidth(isDesktop ? "50%" : "100%");
     setDefaultHeight(isDesktop ? "100%" : "50%");

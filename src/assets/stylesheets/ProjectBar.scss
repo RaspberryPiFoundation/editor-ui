@@ -11,16 +11,22 @@
   background-color: var(--editor-color-layer-3);
   border: 1px solid var(--editor-color-outline);
 
-  .project-name {
-    border-inline-end: 1px solid var(--editor-color-outline);
+  @container (max-width: 342px) {
+    flex-direction: column;
+    block-size: fit-content;
+    justify-content: left;
   }
 
-  &__right {
-    margin-inline-start: auto;
-    display: flex;
-    align-items: center;
-    block-size: 100%;
-    flex-shrink: 0;
+  .project-name {
+    border-inline-end: 1px solid var(--editor-color-outline);
+    margin-inline-end: -1px;
+    min-inline-size: 0px;
+
+    @container (max-width: 340px) {
+      inline-size: 100%;
+      box-sizing: border-box;
+      border-inline-end: none;
+    }
   }
 
   .btn--save {
@@ -43,6 +49,24 @@
 
 .project-bar__right {
   border-inline-start: 1px solid var(--editor-color-outline);
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  block-size: 100%;
+  flex-shrink: 0;
+
+  @container (max-width: 340px) {
+    margin-inline-start: 0;
+    border-inline-start: none;
+    border-block-start: 1px solid var(--editor-color-outline);
+    block-size: fit-content;
+    inline-size: 100%;
+
+    .save-status {
+      flex: 1;
+      justify-content: center;
+    }
+  }
 }
 
 .project-bar__btn {
