@@ -73,7 +73,6 @@ const InstructionsPanel = () => {
           Math.min(currentStepPosition + 1, numberOfSteps - 1),
         ),
       );
-      debugger;
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
