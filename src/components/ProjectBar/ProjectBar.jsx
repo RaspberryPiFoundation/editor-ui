@@ -9,7 +9,7 @@ import SaveButton from "../SaveButton/SaveButton";
 
 import "../../assets/stylesheets/ProjectBar.scss";
 
-const ProjectBar = () => {
+const ProjectBar = ({ forWebComponent = false }) => {
   const { t } = useTranslation();
 
   const user = useSelector((state) => state.auth.user);
@@ -25,7 +25,9 @@ const ProjectBar = () => {
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {loading === "success" && <ProjectName />}
+        {loading === "success" && (
+          <ProjectName forWebComponent={forWebComponent} />
+        )}
         <div className="project-bar__right">
           {loading === "success" && (
             <div className="project-bar__btn-wrapper">

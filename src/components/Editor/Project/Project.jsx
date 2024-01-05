@@ -18,6 +18,7 @@ import { projContainer } from "../../../utils/containerQueries";
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const {
+    forWebComponent = false,
     withProjectbar = true,
     withSidebar = true,
     sidebarOptions = [],
@@ -61,7 +62,7 @@ const Project = (props) => {
       >
         {withSidebar && <Sidebar options={sidebarOptions} />}
         <div className="project-wrapper">
-          {withProjectbar && <ProjectBar />}
+          {withProjectbar && <ProjectBar forWebComponent={forWebComponent} />}
           {!loading && (
             <div className="proj-editor-wrapper">
               <ResizableWithHandle
