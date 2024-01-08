@@ -137,7 +137,6 @@ const ProjectName = ({
               icon={isEditable ? <TickIcon /> : <PencilIcon />}
               onClick={isEditable ? updateName : onEditNameButtonClick}
               type={isEditable ? "primary" : "tertiary"}
-              fill
             />
           </div>
         )}

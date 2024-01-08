@@ -11,7 +11,7 @@
   background-color: var(--editor-color-layer-3);
   border: 1px solid var(--editor-color-outline);
 
-  @container (max-width: 342px) {
+  @container (max-width: 367px) {
     flex-direction: column;
     block-size: fit-content;
     justify-content: left;
@@ -22,7 +22,7 @@
     margin-inline-end: -1px;
     min-inline-size: 0px;
 
-    @container (max-width: 340px) {
+    @container (max-width: 365px) {
       inline-size: 100%;
       box-sizing: border-box;
       border-inline-end: none;
@@ -54,13 +54,15 @@
   align-items: center;
   block-size: 100%;
   flex-shrink: 0;
+  max-inline-size: 55%;
 
-  @container (max-width: 340px) {
+  @container (max-width: 365px) {
     margin-inline-start: 0;
     border-inline-start: none;
     border-block-start: 1px solid var(--editor-color-outline);
     block-size: fit-content;
     inline-size: 100%;
+    max-inline-size: 100%;
 
     .save-status {
       flex: 1;
