@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.21.0] - 2024-01-05
+
 ### Added
 
 - Load remix functionality (#804)
@@ -57,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Save/download panel spacing (#859)
 - Instructions output wrapping in Firefox (#862)
 - Instructions code blocks with no line numbers (#863)
+- New file button width (#865)
 
 ## [0.20.0] - 2023-11-24
 
@@ -654,7 +657,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.0...HEAD
+[0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
 [0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3
