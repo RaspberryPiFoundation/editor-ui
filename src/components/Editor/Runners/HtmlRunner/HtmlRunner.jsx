@@ -14,7 +14,7 @@ import {
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
 
-import { matchingRegexes, allowedExternalLinks, allowedInternalLinks } from "../../../../utils/externalLinkHelper";
+import { useExternalLinkState, matchingRegexes, allowedExternalLinks, allowedInternalLinks } from "../../../../utils/externalLinkHelper";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
@@ -70,7 +70,12 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
-  const [externalLink, setExternalLink] = useState();
+    const {
+    externalLink,
+    setExternalLink,
+    handleAllowedExternalLink,
+    handleRegularExternalLink,
+  } = useExternalLinkState();
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -124,21 +129,12 @@ function HtmlRunner() {
     });
   };
 
+// move the error to the helper file
 	const handleExternalLinkError = () => {
 		dispatch(setError("externalLink"));
 		showModal();
 	};
 
-	const handleAllowedExternalLink = (linkTo) => {
-		setExternalLink(linkTo);
-		dispatch(triggerCodeRun());
-	};
-
-	const handleRegularExternalLink = (linkTo) => {
-		setExternalLink(null);
-		setPreviewFile(`${linkTo}.html`);
-		dispatch(triggerCodeRun());
-	};
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
