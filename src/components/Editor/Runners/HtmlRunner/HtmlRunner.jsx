@@ -114,19 +114,31 @@ function HtmlRunner() {
     window.addEventListener("message", (event) => {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
-          dispatch(setError("externalLink"));
-          showModal();
+          handleExternalLinkError();
         } else if (event.data?.msg === "Allowed external link") {
-          setExternalLink(event.data.payload.linkTo);
-          dispatch(triggerCodeRun());
+          handleAllowedExternalLink(event.data.payload.linkTo)
         } else {
-          setExternalLink(null);
-          setPreviewFile(`${event.data.payload.linkTo}.html`);
-          dispatch(triggerCodeRun());
+          handleRegularExternalLink(event.data.payload.linkTo);
         }
       }
     });
   };
+
+const handleExternalLinkError = () => {
+  dispatch(setError("externalLink"));
+  showModal();
+};
+
+const handleAllowedExternalLink = (linkTo) => {
+  setExternalLink(linkTo);
+  dispatch(triggerCodeRun());
+};
+
+const handleRegularExternalLink = (linkTo) => {
+  setExternalLink(null);
+  setPreviewFile(`${linkTo}.html`);
+  dispatch(triggerCodeRun());
+};
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
