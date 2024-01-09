@@ -124,21 +124,21 @@ function HtmlRunner() {
     });
   };
 
-const handleExternalLinkError = () => {
-  dispatch(setError("externalLink"));
-  showModal();
-};
+	const handleExternalLinkError = () => {
+		dispatch(setError("externalLink"));
+		showModal();
+	};
 
-const handleAllowedExternalLink = (linkTo) => {
-  setExternalLink(linkTo);
-  dispatch(triggerCodeRun());
-};
+	const handleAllowedExternalLink = (linkTo) => {
+		setExternalLink(linkTo);
+		dispatch(triggerCodeRun());
+	};
 
-const handleRegularExternalLink = (linkTo) => {
-  setExternalLink(null);
-  setPreviewFile(`${linkTo}.html`);
-  dispatch(triggerCodeRun());
-};
+	const handleRegularExternalLink = (linkTo) => {
+		setExternalLink(null);
+		setPreviewFile(`${linkTo}.html`);
+		dispatch(triggerCodeRun());
+	};
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
