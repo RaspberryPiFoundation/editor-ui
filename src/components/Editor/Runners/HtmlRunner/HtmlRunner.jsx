@@ -13,11 +13,14 @@ import {
   codeRunHandled,
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
+
+import { matchingRegexes, allowedExternalHrefs, allowedExternalHrefs } from "../../../../utils/externalLinkHelper";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+
 
 function HtmlRunner() {
   const webComponent = useSelector((state) => state.editor.webComponent);
@@ -47,14 +50,7 @@ function HtmlRunner() {
 
   const dispatch = useDispatch();
   const output = useRef(null);
-  const domain = `https://rpf.io/`;
-  const rpfDomain = new RegExp(`^${domain}`);
-  const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
-  const allowedExternalHrefs = [rpfDomain];
 
-  const matchingRegexes = (regexArray, testString) => {
-    return regexArray.some((reg) => reg.test(testString));
-  };
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
