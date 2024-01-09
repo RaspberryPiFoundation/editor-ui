@@ -14,7 +14,7 @@ import {
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
 
-import { matchingRegexes, allowedExternalHrefs, allowedExternalHrefs } from "../../../../utils/externalLinkHelper";
+import { matchingRegexes, allowedExternalLinks, allowedInternalLinks } from "../../../../utils/externalLinkHelper";
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
@@ -228,7 +228,7 @@ function HtmlRunner() {
           }
         } else {
           const matchingExternalHref = matchingRegexes(
-            allowedExternalHrefs,
+            allowedExternalLinks,
             hrefNode.attrs.href,
           );
           const matchingInternalHref = matchingRegexes(
