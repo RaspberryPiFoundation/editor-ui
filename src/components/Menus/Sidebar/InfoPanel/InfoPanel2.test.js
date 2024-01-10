@@ -1,12 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import InfoPanel from "./InfoPanel";
-// import { useTranslation } from "react-i18next";
-
-// jest.mock("react-i18next", () => ({
-//   useTranslation: jest.fn().mockReturnValue({
-//     t: (key) => key,
-//   }),
-// }));
 
 describe("InfoPanel", () => {
   beforeEach(() => {
