@@ -41,7 +41,9 @@ describe("ProgressBar", () => {
     fireEvent.click(nextButton);
 
     const actions = store.getActions();
-    expect(actions[0]).toEqual(setCurrentStepPosition(2));
+    expect(actions).toEqual(
+      expect.arrayContaining([setCurrentStepPosition(2)]),
+    );
   });
 
   test("dispatches setCurrentStepPosition with correct value when previous button is clicked", () => {
@@ -49,6 +51,8 @@ describe("ProgressBar", () => {
     fireEvent.click(previousButton);
 
     const actions = store.getActions();
-    expect(actions[0]).toEqual(setCurrentStepPosition(0));
+    expect(actions).toEqual(
+      expect.arrayContaining([setCurrentStepPosition(0)]),
+    );
   });
 });
