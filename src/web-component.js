@@ -106,8 +106,6 @@ class WebComponent extends HTMLElement {
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
 
-    console.log(this.reactProps());
-
     this.root.render(
       <React.StrictMode>
         <Provider store={store}>
