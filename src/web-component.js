@@ -58,7 +58,7 @@ class WebComponent extends HTMLElement {
         name,
       )
     ) {
-      value = newVal === "true";
+      value = newVal !== "false";
     } else if (
       ["instructions", "sidebar_options", "host_styles"].includes(name)
     ) {
@@ -105,6 +105,8 @@ class WebComponent extends HTMLElement {
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
+
+    console.log(this.reactProps());
 
     this.root.render(
       <React.StrictMode>
