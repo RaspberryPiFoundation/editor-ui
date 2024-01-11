@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Blob/URL replacement in HTMLRunner (#877)
 
+### Fixed
+
+- Indentation of code block first line (#883)
+- Code block 3-digit line numbers (#883)
+
 ## [0.21.0] - 2024-01-05
 
 ### Added

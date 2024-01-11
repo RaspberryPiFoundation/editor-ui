@@ -81,6 +81,7 @@
     border-color: $rpf-text-secondary-dark;
 
     span::before {
+      padding-inline-end: $space-0-5;
       color: $rpf-text-secondary-dark;
     }
   }
