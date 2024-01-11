@@ -1,6 +1,6 @@
 export const projContainer = {
-  "width-larger-than-880": {
-    minWidth: 880,
+  "width-larger-than-720": {
+    minWidth: 720,
   },
   "width-smaller-than-600": {
     maxWidth: 600,
