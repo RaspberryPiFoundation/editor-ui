@@ -50,7 +50,6 @@ const ResizableWithHandle = (props) => {
 
   const onResizeStop = (...[, , , d]) => {
     setWidth(width + d.width);
-    // setWidth(parseInt(width + d.width));
     setHeight(height + d.height);
   };
 
