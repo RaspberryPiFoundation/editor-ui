@@ -14,7 +14,13 @@ import {
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
 
-import { useExternalLinkState, matchingRegexes, allowedExternalLinks, allowedInternalLinks } from "../../../../utils/externalLinkHelper";
+import {
+	useExternalLinkState,
+	matchingRegexes,
+	allowedExternalLinks,
+	allowedInternalLinks,
+} from "../../../../utils/externalLinkHelper";
+
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
@@ -70,7 +76,8 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
-    const {
+
+  const {
     externalLink,
     setExternalLink,
     handleAllowedExternalLink,
