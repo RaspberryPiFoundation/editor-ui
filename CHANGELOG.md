@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Wrap the project bar when sidebar is wide (#869)
 - Web component project bar state update delay (#869)
 - Left border of the project bar (#869)
+- Indentation of code block first line (#883)
+- Code block 3-digit line numbers (#883)
 
 ## [0.21.0] - 2024-01-05
 
