@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Boolean web component attributes (#881)
 - Wrap the project bar when sidebar is wide (#869)
 - Web component project bar state update delay (#869)
 - Left border of the project bar (#869)
