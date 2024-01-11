@@ -198,110 +198,109 @@ function HtmlRunner() {
     }
   }, [runningFile]);
 
-  const runCode = () => {
-    setRunningFile(previewFile);
-    if (!externalLink) {
-      let indexPage = parse(focussedComponent(previewFile).content);
+  const replaceHrefNodes = (indexPage, projectCode) => {
+  const hrefNodes = indexPage.querySelectorAll("[href]");
 
-      const body = indexPage.querySelector("body") || indexPage;
+  hrefNodes.forEach((hrefNode) => {
+    const projectFile = projectCode.find(
+      (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href
+    );
 
-      const hrefNodes = indexPage.querySelectorAll("[href]");
+    if (hrefNode.attrs?.target === "_blank") {
+      hrefNode.removeAttribute("target");
+    }
 
-      // replace href's with blob urls
-      hrefNodes.forEach((hrefNode) => {
-        const projectFile = projectCode.filter(
-          (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
+    let onClick;
+
+    if (!!projectFile) {
+      if (parentTag(hrefNode, "head")) {
+        const projectFileBlob = getBlobURL(
+          cssProjectImgs(projectFile).content,
+          mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`)
         );
-
-        // remove target blanks
-        if (hrefNode.attrs?.target === "_blank") {
-          hrefNode.removeAttribute("target");
-        }
-
-        let onClick;
-
-        if (!!projectFile.length) {
-          if (parentTag(hrefNode, "head")) {
-            const projectFileBlob = getBlobURL(
-              cssProjectImgs(projectFile[0]).content,
-              mimeTypes.lookup(
-                `${projectFile[0].name}.${projectFile[0].extension}`,
-              ),
-            );
-            hrefNode.setAttribute("href", projectFileBlob);
-          } else {
-            // eslint-disable-next-line no-script-url
-            hrefNode.setAttribute("href", "javascript:void(0)");
-            onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
-          }
-        } else {
-          const matchingExternalHref = matchingRegexes(
-            allowedExternalLinks,
-            hrefNode.attrs.href,
-          );
-          const matchingInternalHref = matchingRegexes(
-            allowedInternalLinks,
-            hrefNode.attrs.href,
-          );
-          if (
-            !matchingInternalHref &&
-            !matchingExternalHref &&
-            !parentTag(hrefNode, "head")
-          ) {
-            // eslint-disable-next-line no-script-url
-            hrefNode.setAttribute("href", "javascript:void(0)");
-            onClick =
-              "window.parent.postMessage({msg: 'ERROR: External link'})";
-          } else if (matchingExternalHref) {
-            onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
-          }
-        }
-
-        if (onClick) {
-          hrefNode.removeAttribute("target");
-          hrefNode.setAttribute("onclick", onClick);
-        }
-      });
-
-      const replaceAttrsWithBlob = (attr = "src") => {
-        const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
-        srcNodes.forEach((srcNode) => {
-          const projectImage = projectImages.filter(
-            (component) => component.filename === srcNode.attrs[attr],
-          );
-          const projectFile = projectCode.filter(
-            (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
-          );
-          let src = "";
-          if (projectImage.length) {
-            src = projectImage[0].url;
-          } else if (projectFile.length) {
-            src = getBlobURL(
-              projectFile[0].content,
-              mimeTypes.lookup(
-                `${projectFile[0].name}.${projectFile[0].extension}`,
-              ),
-            );
-          }
-          srcNode.setAttribute(attr, src);
-        });
-      };
-      replaceAttrsWithBlob("src");
-      replaceAttrsWithBlob("data-src");
-
-      body.appendChild(parse(`<meta filename="${previewFile}" />`));
-
-      const blob = getBlobURL(indexPage.toString(), "text/html");
-      output.current.src = blob;
-      if (codeRunTriggered) {
-        dispatch(codeRunHandled());
+        hrefNode.setAttribute("href", projectFileBlob);
+      } else {
+        // eslint-disable-next-line no-script-url
+        hrefNode.setAttribute("href", "javascript:void(0)");
+        onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
       }
     } else {
-      output.current.src = externalLink;
+      const matchingExternalHref = matchingRegexes(
+        allowedExternalLinks,
+        hrefNode.attrs.href
+      );
+      const matchingInternalHref = matchingRegexes(
+        allowedInternalLinks,
+        hrefNode.attrs.href
+      );
+      if (
+        !matchingInternalHref &&
+        !matchingExternalHref &&
+        !parentTag(hrefNode, "head")
+      ) {
+        // eslint-disable-next-line no-script-url
+        hrefNode.setAttribute("href", "javascript:void(0)");
+        onClick =
+          "window.parent.postMessage({msg: 'ERROR: External link'})";
+      } else if (matchingExternalHref) {
+        onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
+      }
+    }
 
+    if (onClick) {
+      hrefNode.removeAttribute("target");
+      hrefNode.setAttribute("onclick", onClick);
+    }
+  });
+};
+
+const replaceSrcNodes = (indexPage, projectImages, projectCode) => {
+  const srcNodes = indexPage.querySelectorAll("[src]");
+
+  srcNodes.forEach((srcNode) => {
+    const projectImage = projectImages.find(
+      (component) => component.filename === srcNode.attrs.src
+    );
+    const projectFile = projectCode.find(
+      (file) => `${file.name}.${file.extension}` === srcNode.attrs.src
+    );
+
+    let src = "";
+    if (!!projectImage) {
+      src = projectImage.url;
+    } else if (!!projectFile) {
+      src = getBlobURL(
+        projectFile.content,
+        mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`)
+      );
+    }
+    srcNode.setAttribute("src", src);
+  });
+};
+
+const runCode = () => {
+  setRunningFile(previewFile);
+
+  if (!externalLink) {
+    const indexPage = parse(focussedComponent(previewFile).content);
+    const body = indexPage.querySelector("body") || indexPage;
+
+    replaceHrefNodes(indexPage, projectCode);
+    replaceSrcNodes(indexPage, projectImages, projectCode);
+
+    body.appendChild(parse(`<meta filename="${previewFile}" />`));
+
+    const blob = getBlobURL(indexPage.toString(), "text/html");
+    output.current.src = blob;
+
+    if (codeRunTriggered) {
       dispatch(codeRunHandled());
     }
-  };
+  } else {
+    output.current.src = externalLink;
+    dispatch(codeRunHandled());
+  }
+};
 
   return (
     <div className="htmlrunner-container">
