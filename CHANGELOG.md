@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## Changed
+### Changed
 
+- Stack editor input and output panels based on container width (#869)
 - Blob/URL replacement in HTMLRunner (#877)
 
 ### Fixed
 
+- Wrap the project bar when sidebar is wide (#869)
+- Web component project bar state update delay (#869)
+- Left border of the project bar (#869)
 - Indentation of code block first line (#883)
 - Code block 3-digit line numbers (#883)
 
