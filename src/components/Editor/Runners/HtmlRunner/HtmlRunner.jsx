@@ -102,7 +102,7 @@ function HtmlRunner() {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
       projectImages.forEach((image) => {
-        updatedProjectFile.content = updatedProjectFile.content.replace(
+        updatedProjectFile.content = updatedProjectFile.content.replaceAll(
           image.filename,
           image.url,
         );
@@ -259,27 +259,31 @@ function HtmlRunner() {
         }
       });
 
-      const srcNodes = indexPage.querySelectorAll("[src]");
-      srcNodes.forEach((srcNode) => {
-        const projectImage = projectImages.filter(
-          (component) => component.filename === srcNode.attrs.src,
-        );
-        const projectFile = projectCode.filter(
-          (file) => `${file.name}.${file.extension}` === srcNode.attrs.src,
-        );
-        let src = "";
-        if (projectImage.length) {
-          src = projectImage[0].url;
-        } else if (projectFile.length) {
-          src = getBlobURL(
-            projectFile[0].content,
-            mimeTypes.lookup(
-              `${projectFile[0].name}.${projectFile[0].extension}`,
-            ),
+      const replaceAttrsWithBlob = (attr = "src") => {
+        const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
+        srcNodes.forEach((srcNode) => {
+          const projectImage = projectImages.filter(
+            (component) => component.filename === srcNode.attrs[attr],
           );
-        }
-        srcNode.setAttribute("src", src);
-      });
+          const projectFile = projectCode.filter(
+            (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
+          );
+          let src = "";
+          if (projectImage.length) {
+            src = projectImage[0].url;
+          } else if (projectFile.length) {
+            src = getBlobURL(
+              projectFile[0].content,
+              mimeTypes.lookup(
+                `${projectFile[0].name}.${projectFile[0].extension}`,
+              ),
+            );
+          }
+          srcNode.setAttribute(attr, src);
+        });
+      };
+      replaceAttrsWithBlob("src");
+      replaceAttrsWithBlob("data-src");
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
@@ -306,22 +310,21 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!!!isEmbedded ||
-                (!!!webComponent && (
-                  <a
-                    className="btn btn--tertiary htmlrunner-link"
-                    target="_blank"
-                    href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
-                      project.identifier
-                    }?browserPreview=true&page=${encodeURI(runningFile)}`}
-                    rel="noreferrer"
-                  >
-                    <span className="htmlrunner-link__text">
-                      {t("output.newTab")}
-                    </span>
-                    <OpenInNewTabIcon />
-                  </a>
-                ))}
+              {!!!isEmbedded && !!!webComponent && (
+                <a
+                  className="btn btn--tertiary htmlrunner-link"
+                  target="_blank"
+                  href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
+                    project.identifier
+                  }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                  rel="noreferrer"
+                >
+                  <span className="htmlrunner-link__text">
+                    {t("output.newTab")}
+                  </span>
+                  <OpenInNewTabIcon />
+                </a>
+              )}
             </TabList>
             {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
