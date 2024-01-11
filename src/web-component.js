@@ -58,7 +58,7 @@ class WebComponent extends HTMLElement {
         name,
       )
     ) {
-      value = newVal === "true";
+      value = newVal !== "false";
     } else if (
       ["instructions", "sidebar_options", "host_styles"].includes(name)
     ) {
