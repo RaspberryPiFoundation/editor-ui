@@ -76,7 +76,7 @@ const ResizableWithHandle = (props) => {
       onResizeStop={onResizeStop}
       size={{ width: width, height: height }}
       handleStyles={{
-        right: { height: "98%", top: "1%" },
+        right: { height: "96%", top: "2%" },
       }}
       {...rest}
     >
