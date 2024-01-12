@@ -1339,10 +1339,29 @@ const $builtinmodule = function (name) {
     if (typeof mode === "undefined") {
       mode = mod.P2D;
     }
-    mod.pInst.createCanvas(w.v, h.v, mode.v);
-    Sk.builtins.width = new Sk.builtin.int_(mod.pInst.width);
-    Sk.builtins.height = new Sk.builtin.int_(mod.pInst.height);
+
+    mod.pInst.createCanvas(
+      p5Sketch.parentElement.offsetWidth,
+      p5Sketch.parentElement.offsetHeight,
+      mode.v,
+    );
+    console.log("setting the width and height to ", w.v, h.v);
+    Sk.builtins.width = new Sk.builtin.int_(w.v);
+    Sk.builtins.height = new Sk.builtin.int_(h.v);
     mod.renderMode = mode;
+
+    p5Sketch.parentElement.addEventListener("resize", () => {
+      mod.pInst.clear();
+      mod.pInst.resizeCanvas(
+        p5Sketch.parentElement.offsetWidth,
+        p5Sketch.parentElement.offsetHeight,
+      );
+      const scaleFactor = Math.min(
+        p5Sketch.parentElement.offsetWidth / Sk.builtins.width,
+        p5Sketch.parentElement.offsetHeight / Sk.builtins.height,
+      );
+      mod.pInst.scale(scaleFactor, scaleFactor);
+    });
   });
 
   mod.exitp = new Sk.builtin.func(function () {
@@ -1525,6 +1544,11 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v);
 
       sketch.draw = function () {
+        const scaleFactor = Math.min(
+          p5Sketch.parentElement.offsetWidth / Sk.builtins.width,
+          p5Sketch.parentElement.offsetHeight / Sk.builtins.height,
+        );
+        mod.pInst.scale(scaleFactor, scaleFactor);
         if (mod.__name__ === Sk.builtin.str("py5")) {
           mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
         } else {
