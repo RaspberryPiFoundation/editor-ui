@@ -74,7 +74,7 @@ module.exports = {
     index: "web-component.html",
     host: "0.0.0.0",
     disableHostCheck: true,
-    port: 3001,
+    port: 3011,
     writeToDisk: true,
   },
   plugins: [
