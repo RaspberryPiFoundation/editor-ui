@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Download panel save button (#872)
+
 ### Changed
 
 - Stack editor input and output panels based on container width (#869)
