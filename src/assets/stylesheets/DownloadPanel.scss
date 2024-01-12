@@ -37,5 +37,5 @@
 }
 
 .download-panel__download-section {
-  margin-block-end: calc(1rem * var(--scale-factor, 1));
+  margin-block-end: $space-1;
 }
