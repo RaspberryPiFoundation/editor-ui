@@ -8,7 +8,7 @@ const useExternalLinkState = () => {
     dispatch(triggerCodeRun());
   };
 
-  const handleRegularExternalLink = (linkTo, setPreviewFile, setExternalLink, dispatch, triggerCodeRun) => {
+  const handleRegularExternalLink = (linkTo, setPreviewFile) => {
     setExternalLink(null);
     setPreviewFile(`${linkTo}.html`);
     dispatch(triggerCodeRun());
