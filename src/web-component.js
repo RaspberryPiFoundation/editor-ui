@@ -8,6 +8,7 @@ import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
+import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -100,6 +101,34 @@ class WebComponent extends HTMLElement {
     this.componentProperties.menuItems = newValue;
 
     this.mountReactApp();
+  }
+
+  stopCode() {
+    const state = store.getState();
+    if (state.editor.codeRunTriggered || state.editor.drawTriggered) {
+      store.dispatch(stopCodeRun());
+      store.dispatch(stopDraw());
+    }
+  }
+
+  runCode() {
+    store.dispatch(triggerCodeRun());
+  }
+
+  rerunCode() {
+    this.stopCode();
+
+    new Promise((resolve) => {
+      let checkInterval = setInterval(() => {
+        let state = store.getState();
+        if (!state.codeRunTriggered && !state.drawTriggered) {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }).then(() => {
+      this.runCode();
+    });
   }
 
   reactProps() {

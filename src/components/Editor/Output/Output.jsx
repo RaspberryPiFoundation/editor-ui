@@ -12,6 +12,7 @@ const Output = ({ embedded = false, browserPreview = false }) => {
   const isBrowserPreview =
     searchParams.get("browserPreview") === "true" || browserPreview;
   const usePyodide = searchParams.get("pyodide") === "true";
+  const webComponent = useSelector((state) => state.editor.webComponent);
 
   return (
     <>
@@ -21,7 +22,9 @@ const Output = ({ embedded = false, browserPreview = false }) => {
           projectType={project.project_type}
           usePyodide={usePyodide}
         />
-        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
+        {!webComponent && isEmbedded && !isBrowserPreview && (
+          <RunBar embedded />
+        )}
       </div>
     </>
   );
