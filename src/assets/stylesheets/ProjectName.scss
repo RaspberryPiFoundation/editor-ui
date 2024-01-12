@@ -17,8 +17,12 @@
 .project-name__title {
   @include font-size-1-25(bold);
   font-weight: $font-weight-bold;
+  margin-block: $space-1;
   margin-inline-start: $space-0-5;
   margin-inline-end: $space-1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
 }
 
 .project-name__label {

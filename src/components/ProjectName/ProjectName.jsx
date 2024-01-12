@@ -11,9 +11,12 @@ import "../../assets/stylesheets/ProjectName.scss";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
-const ProjectName = ({ className = null, showLabel = false }) => {
+const ProjectName = ({
+  className = null,
+  showLabel = false,
+  forWebComponent = false,
+}) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
-  const webComponent = useSelector((state) => state.editor.webComponent);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -22,7 +25,6 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   const tickButton = useRef();
 
   const [isEditable, setEditable] = useState(false);
-  const [isReadOnly, setReadOnly] = useState(false);
   const [name, setName] = useState(project.name || t("projectName.newProject"));
 
   const onEditNameButtonClick = () => {
@@ -38,10 +40,6 @@ const ProjectName = ({ className = null, showLabel = false }) => {
       nameInput.current.scrollLeft = 0;
     }
   };
-
-  useEffect(() => {
-    setReadOnly(!!webComponent);
-  }, [webComponent]);
 
   useEffect(() => {
     setName(project.name);
@@ -106,7 +104,11 @@ const ProjectName = ({ className = null, showLabel = false }) => {
         </label>
       )}
       <div className={classNames("project-name", className)}>
-        {isReadOnly ? (
+        {/* TODO: Look into alternative approach so we don't need hidden h1 */}
+        <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+          {project.name || t("header.newProject")}
+        </h1>
+        {forWebComponent ? (
           <div className="project-name__title">{name}</div>
         ) : (
           <input
@@ -122,7 +124,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
             onChange={handleOnChange}
           />
         )}
-        {!isReadOnly && (
+        {!forWebComponent && (
           <div ref={tickButton}>
             <DesignSystemButton
               className="project-name__button"
@@ -135,7 +137,6 @@ const ProjectName = ({ className = null, showLabel = false }) => {
               icon={isEditable ? <TickIcon /> : <PencilIcon />}
               onClick={isEditable ? updateName : onEditNameButtonClick}
               type={isEditable ? "primary" : "tertiary"}
-              fill
             />
           </div>
         )}
