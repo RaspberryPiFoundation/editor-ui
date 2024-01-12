@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add `output_only` attribute to web component (#1019 & originally #782)
 - Add `assets_identifier` attribute to web component (#1019 & originally #901)
 - Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
+- Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
 
 ### Changed
 

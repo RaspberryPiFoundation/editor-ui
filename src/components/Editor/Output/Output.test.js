@@ -62,6 +62,24 @@ describe("Output component", () => {
       expect(screen.queryByText("runButton.run")).toBeInTheDocument();
     });
 
+    describe("when webComponent state is true", () => {
+      beforeEach(() => {
+        initialState.editor.webComponent = true;
+        store = mockStore(initialState);
+      });
+
+      test("does not show run bar", () => {
+        render(
+          <Provider store={store}>
+            <MemoryRouter>
+              <Output />
+            </MemoryRouter>
+          </Provider>,
+        );
+        expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+      });
+    });
+
     describe("when browserPreview property is true", () => {
       test("does not show run bar", () => {
         render(
