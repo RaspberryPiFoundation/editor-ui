@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { triggerCodeRun } from "../../../../redux/EditorSlice";
+import {
+  setError,
+  triggerCodeRun,
+} from "../../../../redux/EditorSlice";
+
+import { showModal } from "../components/Editor/Runners/HtmlRunner"
 
 const domain = `https://rpf.io/`;
 const rpfDomain = new RegExp(`^${domain}`);
