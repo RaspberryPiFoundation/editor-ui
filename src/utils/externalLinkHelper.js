@@ -5,12 +5,11 @@ import {
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
 
-const dispatch = useDispatch();
-
 const domain = `https://rpf.io/`;
 const rpfDomain = new RegExp(`^${domain}`);
 const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
 const allowedExternalLinks = [rpfDomain];
+const dispatch = useDispatch();
 
 const useExternalLinkState = () => {
 	const [externalLink, setExternalLink] = useState();
