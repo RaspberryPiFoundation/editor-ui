@@ -252,7 +252,7 @@ function HtmlRunner() {
     });
   };
 
-  const replaceSrcNodes = (indexPage, projectImages, projectCode) => {
+  const replaceSrcNodes = (indexPage, projectImages, projectCode, attr = "src") => {
     const srcNodes = indexPage.querySelectorAll("[src]");
 
     srcNodes.forEach((srcNode) => {
@@ -272,7 +272,7 @@ function HtmlRunner() {
           mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
         );
       }
-      srcNode.setAttribute("src", src);
+      srcNode.setAttribute(attr, src);
     });
   };
 
