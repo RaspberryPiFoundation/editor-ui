@@ -74,18 +74,18 @@ function HtmlRunner() {
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
 
+  const showModal = () => {
+    dispatch(showErrorModal());
+    eventListener();
+  };
+
   const {
     externalLink,
     setExternalLink,
     handleAllowedExternalLink,
     handleRegularExternalLink,
     handleExternalLinkError,
-  } = useExternalLinkState();
-
-  const showModal = () => {
-    dispatch(showErrorModal());
-    eventListener();
-  };
+  } = useExternalLinkState(showModal);
 
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
@@ -257,14 +257,14 @@ function HtmlRunner() {
     projectCode,
     attr = "src",
   ) => {
-    const srcNodes = indexPage.querySelectorAll("[src]");
+    const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
 
     srcNodes.forEach((srcNode) => {
       const projectImage = projectImages.find(
-        (component) => component.filename === srcNode.attrs.src,
+        (component) => component.filename === srcNode.attrs[attr],
       );
       const projectFile = projectCode.find(
-        (file) => `${file.name}.${file.extension}` === srcNode.attrs.src,
+        (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
       );
 
       let src = "";
@@ -289,6 +289,7 @@ function HtmlRunner() {
 
       replaceHrefNodes(indexPage, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode);
+      replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
