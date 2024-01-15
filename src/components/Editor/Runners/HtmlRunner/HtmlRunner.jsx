@@ -124,7 +124,7 @@ function HtmlRunner() {
     window.addEventListener("message", (event) => {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
-          handleExternalLinkError(dispatch, showModal);
+          handleExternalLinkError(showModal);
         } else if (event.data?.msg === "Allowed external link") {
           handleAllowedExternalLink(event.data.payload.linkTo);
         } else {
