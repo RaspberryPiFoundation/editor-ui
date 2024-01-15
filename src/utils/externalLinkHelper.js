@@ -7,9 +7,9 @@ const domain = `https://rpf.io/`;
 const rpfDomain = new RegExp(`^${domain}`);
 const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
 const allowedExternalLinks = [rpfDomain];
-const dispatch = useDispatch();
 
 const useExternalLinkState = () => {
+	const dispatch = useDispatch();
   const [externalLink, setExternalLink] = useState();
 
   const handleAllowedExternalLink = (linkTo) => {
