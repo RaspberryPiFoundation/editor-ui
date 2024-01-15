@@ -54,6 +54,12 @@
   flex: 1;
   display: flex;
   min-block-size: 100%;
+  inline-size: 100%;
+}
+
+#p5Sketch {
+  display: flex;
+  flex: 1;
 }
 
 .--light .visual-output {

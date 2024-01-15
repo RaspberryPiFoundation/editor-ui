@@ -269,7 +269,9 @@ const $builtinmodule = function (name) {
 
   mod.get = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    const colorArgs = mod.pInst.get(...argVals);
+    const colorArgs = mod.pInst.get(
+      ...argVals.map((argVal) => argVal * scaleFactor),
+    );
     const colorArgsArray = [
       new Sk.builtin.float_(colorArgs[0]),
       new Sk.builtin.float_(colorArgs[1]),
@@ -1335,33 +1337,21 @@ const $builtinmodule = function (name) {
   Sk.builtins.height = new Sk.builtin.int_(0);
   mod.renderMode = mod.P2D;
 
+  let scaleFactor = 1;
+
   mod.size = new Sk.builtin.func(function (w, h, mode) {
     if (typeof mode === "undefined") {
       mode = mod.P2D;
     }
-
-    mod.pInst.createCanvas(
-      p5Sketch.parentElement.offsetWidth,
-      p5Sketch.parentElement.offsetHeight,
-      mode.v,
+    scaleFactor = Math.min(
+      p5Sketch.parentElement.offsetWidth / w.v,
+      p5Sketch.parentElement.offsetHeight / h.v,
     );
-    console.log("setting the width and height to ", w.v, h.v);
+    mod.pInst.createCanvas(w.v * scaleFactor, h.v * scaleFactor, mode.v);
+    mod.pInst.scale(scaleFactor, scaleFactor);
     Sk.builtins.width = new Sk.builtin.int_(w.v);
     Sk.builtins.height = new Sk.builtin.int_(h.v);
     mod.renderMode = mode;
-
-    p5Sketch.parentElement.addEventListener("resize", () => {
-      mod.pInst.clear();
-      mod.pInst.resizeCanvas(
-        p5Sketch.parentElement.offsetWidth,
-        p5Sketch.parentElement.offsetHeight,
-      );
-      const scaleFactor = Math.min(
-        p5Sketch.parentElement.offsetWidth / Sk.builtins.width,
-        p5Sketch.parentElement.offsetHeight / Sk.builtins.height,
-      );
-      mod.pInst.scale(scaleFactor, scaleFactor);
-    });
   });
 
   mod.exitp = new Sk.builtin.func(function () {
@@ -1379,8 +1369,12 @@ const $builtinmodule = function (name) {
       mod.pInst.mouseX <= Sk.builtins.width &&
       mod.pInst.mouseY <= Sk.builtins.height
     ) {
-      Sk.builtins.mouse_x = new Sk.builtin.float_(mod.pInst.mouseX);
-      Sk.builtins.mouse_y = new Sk.builtin.float_(mod.pInst.mouseY);
+      Sk.builtins.mouse_x = new Sk.builtin.float_(
+        mod.pInst.mouseX / scaleFactor,
+      );
+      Sk.builtins.mouse_y = new Sk.builtin.float_(
+        mod.pInst.mouseY / scaleFactor,
+      );
     }
   };
 
@@ -1389,13 +1383,13 @@ const $builtinmodule = function (name) {
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
   mod.pmouse_x = new Sk.builtin.func(function () {
-    return new Sk.builtin.float_(mod.pInst.pmouseX);
+    return new Sk.builtin.float_(mod.pInst.pmouseX / scaleFactor);
   });
 
   // NOTE: difference with ProcessingJS
   // Use pmouseY() or mouse.py rather than pmouseY
   mod.pmouse_y = new Sk.builtin.func(function () {
-    return new Sk.builtin.float_(mod.pInst.pmouseY);
+    return new Sk.builtin.float_(mod.pInst.pmouseY / scaleFactor);
   });
 
   // Attributes
@@ -1544,10 +1538,6 @@ const $builtinmodule = function (name) {
       mod.pInst.frameRate(frame_rate.v);
 
       sketch.draw = function () {
-        const scaleFactor = Math.min(
-          p5Sketch.parentElement.offsetWidth / Sk.builtins.width,
-          p5Sketch.parentElement.offsetHeight / Sk.builtins.height,
-        );
         mod.pInst.scale(scaleFactor, scaleFactor);
         if (mod.__name__ === Sk.builtin.str("py5")) {
           mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
