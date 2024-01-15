@@ -1,9 +1,7 @@
-import { useState } from 'react';
-import { useDispatch} from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import {
-  triggerCodeRun,
-} from "../../../../redux/EditorSlice";
+import { triggerCodeRun } from "../../../../redux/EditorSlice";
 
 const domain = `https://rpf.io/`;
 const rpfDomain = new RegExp(`^${domain}`);
@@ -12,35 +10,40 @@ const allowedExternalLinks = [rpfDomain];
 const dispatch = useDispatch();
 
 const useExternalLinkState = () => {
-	const [externalLink, setExternalLink] = useState();
+  const [externalLink, setExternalLink] = useState();
 
-	const handleAllowedExternalLink = (linkTo) => {
-		setExternalLink(linkTo);
-		dispatch(triggerCodeRun());
-	};
+  const handleAllowedExternalLink = (linkTo) => {
+    setExternalLink(linkTo);
+    dispatch(triggerCodeRun());
+  };
 
-	const handleRegularExternalLink = (linkTo, setPreviewFile) => {
-		setExternalLink(null);
-		setPreviewFile(`${linkTo}.html`);
-		dispatch(triggerCodeRun());
-	};
+  const handleRegularExternalLink = (linkTo, setPreviewFile) => {
+    setExternalLink(null);
+    setPreviewFile(`${linkTo}.html`);
+    dispatch(triggerCodeRun());
+  };
 
-	const handleExternalLinkError = () => {
-		dispatch(setError("externalLink"));
-		showModal();
-	};
+  const handleExternalLinkError = () => {
+    dispatch(setError("externalLink"));
+    showModal();
+  };
 
-	return {
-		externalLink,
-		setExternalLink,
-		handleAllowedExternalLink,
-		handleRegularExternalLink,
-		handleExternalLinkError,
-	};
+  return {
+    externalLink,
+    setExternalLink,
+    handleAllowedExternalLink,
+    handleRegularExternalLink,
+    handleExternalLinkError,
+  };
 };
 
 const matchingRegexes = (regexArray, testString) => {
   return regexArray.some((reg) => reg.test(testString));
 };
 
-export { useExternalLinkState, allowedExternalLinks, allowedInternalLinks, matchingRegexes };
+export {
+  useExternalLinkState,
+  allowedExternalLinks,
+  allowedInternalLinks,
+  matchingRegexes,
+};

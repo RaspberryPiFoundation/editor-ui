@@ -79,7 +79,7 @@ function HtmlRunner() {
     setExternalLink,
     handleAllowedExternalLink,
     handleRegularExternalLink,
-		handleExternalLinkError,
+    handleExternalLinkError,
   } = useExternalLinkState();
 
   const showModal = () => {
@@ -133,7 +133,6 @@ function HtmlRunner() {
       }
     });
   };
-
 
   const iframeReload = () => {
     const iframe = output.current.contentDocument;
@@ -252,7 +251,12 @@ function HtmlRunner() {
     });
   };
 
-  const replaceSrcNodes = (indexPage, projectImages, projectCode, attr = "src") => {
+  const replaceSrcNodes = (
+    indexPage,
+    projectImages,
+    projectCode,
+    attr = "src",
+  ) => {
     const srcNodes = indexPage.querySelectorAll("[src]");
 
     srcNodes.forEach((srcNode) => {
