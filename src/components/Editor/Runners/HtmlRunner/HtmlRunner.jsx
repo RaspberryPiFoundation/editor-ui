@@ -7,7 +7,6 @@ import { useMediaQuery } from "react-responsive";
 import mimeTypes from "mime-types";
 
 import {
-  setError,
   setPage,
   showErrorModal,
   codeRunHandled,
@@ -80,6 +79,7 @@ function HtmlRunner() {
     setExternalLink,
     handleAllowedExternalLink,
     handleRegularExternalLink,
+		handleExternalLinkError,
   } = useExternalLinkState();
 
   const showModal = () => {
