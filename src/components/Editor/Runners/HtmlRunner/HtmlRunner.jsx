@@ -128,7 +128,7 @@ function HtmlRunner() {
         } else if (event.data?.msg === "Allowed external link") {
           handleAllowedExternalLink(event.data.payload.linkTo);
         } else {
-          handleRegularExternalLink(event.data.payload.linkTo);
+          handleRegularExternalLink(event.data.payload.linkTo, setPreviewFile);
         }
       }
     });
