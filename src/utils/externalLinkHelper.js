@@ -1,5 +1,10 @@
 import { useState } from 'react';
 
+const domain = `https://rpf.io/`;
+const rpfDomain = new RegExp(`^${domain}`);
+const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
+const allowedExternalLinks = [rpfDomain];
+
 const useExternalLinkState = () => {
   const [externalLink, setExternalLink] = useState();
 
@@ -14,20 +19,19 @@ const useExternalLinkState = () => {
     dispatch(triggerCodeRun());
   };
 
+	const handleExternalLinkError = () => {
+		dispatch(setError("externalLink"));
+		showModal();
+	};
 
   return {
     externalLink,
     setExternalLink,
     handleAllowedExternalLink,
     handleRegularExternalLink,
+		handleExternalLinkError,
   };
 };
-
-
-const domain = `https://rpf.io/`;
-const rpfDomain = new RegExp(`^${domain}`);
-const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
-const allowedExternalLinks = [rpfDomain];
 
 const matchingRegexes = (regexArray, testString) => {
   return regexArray.some((reg) => reg.test(testString));
