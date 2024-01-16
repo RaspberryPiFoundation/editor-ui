@@ -14,7 +14,6 @@ import {
   triggerDraw,
 } from "../../../../redux/EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../utils/apiCallHandler";
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
@@ -54,10 +53,6 @@ const externalLibraries = {
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier,
-  );
-  const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const codeRunTriggered = useSelector(
@@ -285,16 +280,7 @@ const PythonRunner = () => {
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
-      let userId;
-      if (user?.profile) {
-        userId = user.profile?.user;
-      }
-
       errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
-      createError(projectIdentifier, userId, {
-        errorType,
-        errorMessage,
-      });
     }
 
     dispatch(setError(errorMessage));
