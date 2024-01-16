@@ -18,13 +18,13 @@ export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave },
+      { project, identifier, codeIdentifier, assetIdentifier, locale, accessToken, autosave },
       { rejectWithValue },
     ) => {
       let response;
       switch (actionName) {
         case "load":
-          response = await readProject(identifier, locale, accessToken);
+          response = await readProject(identifier, codeIdentifier, assetIdentifier, locale, accessToken);
           break;
         case "loadRemix":
           response = await loadRemix(identifier, accessToken);

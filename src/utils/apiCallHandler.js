@@ -1,5 +1,6 @@
 import axios from "axios";
 import omit from "lodash/omit";
+import { defaultPythonProject } from "./defaultProjects";
 
 const host = process.env.REACT_APP_API_ENDPOINT;
 
@@ -68,12 +69,60 @@ export const createRemix = async (project, accessToken) => {
   );
 };
 
-export const readProject = async (projectIdentifier, locale, accessToken) => {
+export const readProject = async (projectIdentifier, codeIdentifier, assetIdentifier, locale, accessToken) => {
   const queryString = locale ? `?locale=${locale}` : "";
-  return await get(
-    `${host}/api/projects/${projectIdentifier}${queryString}`,
-    headers(accessToken),
-  );
+
+  //todo, check if code and asset are same, check if normal identifier, load, merge, return
+
+  if(projectIdentifier){
+    return await get(
+      `${host}/api/projects/${projectIdentifier}${queryString}`,
+      headers(accessToken),
+    );
+  } else {
+    //Load separate code and assets
+
+    const loadCode = new Promise(async (resolve, reject) => {
+      if(!codeIdentifier) return resolve(defaultPythonProject);
+
+      const code = await get(
+        `${host}/api/projects/${codeIdentifier}${queryString}`,
+        headers(accessToken),
+      )
+
+      resolve({
+        components: code.data.components,
+        identifier: code.data.identifier,
+        locale: code.data.locale,
+        name: code.data.name,
+        project_type: code.data.project_type,
+        user_id: code.data.user_id
+      })
+    });
+
+    const loadAssets = new Promise(async (resolve, reject) => {
+      if(!assetIdentifier) return resolve({image_list: []})
+
+      const assets = await get(
+        `${host}/api/projects/${assetIdentifier}/images`,
+        headers(accessToken),
+        )
+
+      resolve({
+        image_list: assets.data.image_list,
+      })
+    });
+
+    const result = await Promise.all([loadCode, loadAssets]).then(res => {
+      return res.reduce(function (acc, row) {
+        return {...acc, ...row};
+      }, {});
+    })
+
+    return {
+      data: result
+    }
+  }
 };
 
 export const readProjectList = async (page, accessToken) => {

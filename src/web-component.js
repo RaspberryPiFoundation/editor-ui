@@ -39,6 +39,8 @@ class WebComponent extends HTMLElement {
       "host_styles",
       "auth_key",
       "identifier",
+      "code_identifier",
+      "asset_identifier",
       "code",
       "sense_hat_always_enabled",
       "instructions",

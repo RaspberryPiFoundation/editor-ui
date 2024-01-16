@@ -24,6 +24,8 @@ const WebComponentLoader = (props) => {
   const {
     authKey,
     identifier,
+    codeIdentifier,
+    assetIdentifier,
     code,
     senseHatAlwaysEnabled = false,
     instructions,
@@ -94,6 +96,8 @@ const WebComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
+    codeIdentifier,
+    assetIdentifier,
     code,
     accessToken: user?.access_token,
     loadRemix,
