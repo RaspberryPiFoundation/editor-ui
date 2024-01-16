@@ -88,6 +88,10 @@
     border-radius: $space-0-5 0 0 $space-0-5;
     border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
+
+    .sidebar__bar-option {
+      border: 2px solid var(--sidebar-option-selected-border);
+    }
   }
 }
 
@@ -108,7 +112,6 @@
   }
 
   &--selected {
-    border: 2px solid var(--sidebar-option-selected-border);
     background-color: var(--sidebar-option-selected-background);
 
     svg {
