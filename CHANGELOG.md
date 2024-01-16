@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Minor copy changes to HTML add file modal
+
 ## [0.21.1] - 2024-01-11
 
 ### Added
@@ -47,6 +51,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Untangle HTML runner (#876)
 - Project sidebar mobile structure and default to instructions behaviour (#823)
 - Auth web component from user in local storage (#852)
 - Save and download panel copy (#784)
