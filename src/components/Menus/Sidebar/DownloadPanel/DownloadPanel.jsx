@@ -3,8 +3,10 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import SidebarPanel from "../SidebarPanel";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
+import SaveButton from "../../../SaveButton/SaveButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
+import { isOwner } from "../../../../utils/projectHelpers";
 
 import {
   logInEvent,
@@ -15,6 +17,8 @@ import "../../../../assets/stylesheets/DownloadPanel.scss";
 export const DownloadPanel = () => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
+  const project = useSelector((state) => state.editor.project);
+  const projectOwner = isOwner(user, project);
 
   const handleLogIn = () => {
     if (window.plausible) {
@@ -64,6 +68,7 @@ export const DownloadPanel = () => {
           fill
         />
       </div>
+      {user && !projectOwner && <SaveButton fill />}
     </SidebarPanel>
   );
 };

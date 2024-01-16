@@ -40,6 +40,10 @@
     pre {
       margin: 0;
     }
+
+    code {
+      padding-inline-start: 0;
+    }
   }
 
   .c-code-filename {
@@ -77,6 +81,7 @@
     border-color: $rpf-text-secondary-dark;
 
     span::before {
+      padding-inline-end: $space-0-5;
       color: $rpf-text-secondary-dark;
     }
   }
