@@ -152,7 +152,15 @@ export const uploadImages = async (projectIdentifier, accessToken, images) => {
   );
 };
 
-export const createError = async (projectIdentifier, userId, error) => {
+export const createError = async (
+  projectIdentifier,
+  userId,
+  error,
+  sendError = false,
+) => {
+  if (!sendError) {
+    return;
+  }
   const { errorMessage, errorType } = error;
   return await post(`${host}/api/project_errors`, {
     error: errorMessage,
