@@ -18,7 +18,6 @@ import {
 const WebComponentProject = ({
   withProjectbar = false,
   withSidebar = false,
-  test=false,
   sidebarOptions = [],
 }) => {
   const project = useSelector((state) => state.editor.project);
