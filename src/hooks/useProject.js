@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 
 export const useProject = ({
   projectIdentifier = null,
+  codeIdentifier = null,
+  assetIdentifier = null,
   code = null,
   accessToken = null,
   loadRemix = false,
@@ -64,6 +66,18 @@ export const useProject = ({
         dispatch(
           syncProject("load")({
             identifier: projectIdentifier,
+            locale: i18n.language,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
+
+      if (codeIdentifier || assetIdentifier) {
+        dispatch(
+          syncProject("load")({
+            codeIdentifier,
+            assetIdentifier,
             locale: i18n.language,
             accessToken: accessToken,
           }),
