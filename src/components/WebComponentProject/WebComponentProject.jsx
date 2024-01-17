@@ -80,7 +80,6 @@ const WebComponentProject = ({
           withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
-          test={test}
         />
       )}
     </>
