@@ -15,6 +15,7 @@ import NotFoundModal from "../components/Modals/NotFoundModal";
 import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
 import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
+import ErrorModal from "../components/Modals/ErrorModal";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const ProjectComponentLoader = (props) => {
@@ -31,6 +32,9 @@ const ProjectComponentLoader = (props) => {
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
+  const errorModalShowing = useSelector(
+    (state) => state.editor.errorModalShowing,
+  );
   const newFileModalShowing = useSelector(
     (state) => state.editor.newFileModalShowing,
   );
@@ -79,14 +83,15 @@ const ProjectComponentLoader = (props) => {
         ) : (
           <Project withSidebar sidebarOptions={sidebarOptions} />
         )
-      ) : loading === "pending" ? (
-        <p>{t("project.loading")}</p>
-      ) : null}
-      {newFileModalShowing ? <NewFileModal /> : null}
-      {renameFileModalShowing && modals.renameFile ? <RenameFileModal /> : null}
-      {notFoundModalShowing ? <NotFoundModal /> : null}
-      {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
-      {accessDeniedWithAuthModalShowing ? <AccessDeniedWithAuthModal /> : null}
+      ) : (
+        loading === "pending" && <p>{t("project.loading")}</p>
+      )}
+      {errorModalShowing && <ErrorModal />}
+      {newFileModalShowing && <NewFileModal />}
+      {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+      {notFoundModalShowing && <NotFoundModal />}
+      {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+      {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
     </>
   );
 };

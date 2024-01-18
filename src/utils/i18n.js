@@ -158,7 +158,7 @@ i18n
               helpText:
                 "Remember to add the file extension at the end of your file name, for example, {{examples}}",
               helpTextExample: {
-                html: "'file.html' or 'file.css'",
+                html: "'file.html', 'file.css' or 'file.js'",
                 python: "'file.py'",
               },
               inputLabel: "Name your file",
@@ -176,11 +176,11 @@ i18n
             },
           },
           downloadPanel: {
-            heading: "Download",
+            heading: "Save & download",
             logInTitle: "Log in to save your progress",
             logInHint:
-              "Log in with your Raspberry Pi Account to save your code and project steps progress.",
-            logInButton: "Log in",
+              "With a Raspberry Pi Account you can save your code and project steps progress.",
+            logInButton: "Log in to save",
             signUpButton: "Sign up",
             downloadHint:
               "Download your project files so you can use them offline and in a different code editor.",
@@ -227,6 +227,7 @@ i18n
             renameProject: "Edit project name",
             renameSave: "Save project name",
             save: "Save",
+            loginToSave: "Log in to save",
             settings: "Settings",
           },
           imagePanel: {
@@ -265,8 +266,10 @@ i18n
           },
           mobile: {
             code: "Code",
+            menu: "Menu",
             output: "Output",
             preview: "Preview",
+            steps: "Steps",
           },
           modals: {
             close: "Close",
@@ -366,7 +369,7 @@ i18n
           projectHeader: {
             subTitle: "Code Editor",
             title: "Your projects",
-            text: "Select a project to edit, view and open to continue coding.",
+            text: "Select a project to continue coding, view, or edit it.",
           },
           projectList: {
             delete: "Delete",
@@ -418,16 +421,16 @@ i18n
             HtmlOutput: "HTML Output Preview",
           },
           sidebar: {
-            collapse: "Collapse file pane",
+            collapse: "Collapse sidebar",
             download: "Download project",
-            expand: "Expand file pane",
+            expand: "Expand sidebar",
             file: "Project files",
             images: "Image gallery",
             settings: "Settings",
             projects: "Projects",
             information: "Information",
             information_text:
-              "Our Code Editor is a tool young people can use while they learn to write code. To keep it simple and safe, we have not built certain functions, like being able to add links to other websites in your code.",
+              "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
             instructions: "Project steps",
             feedback: "Feedback",
             privacy: "Privacy",

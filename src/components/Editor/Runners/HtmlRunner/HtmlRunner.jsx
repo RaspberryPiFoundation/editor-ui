@@ -6,20 +6,28 @@ import { parse } from "node-html-parser";
 import { useMediaQuery } from "react-responsive";
 import mimeTypes from "mime-types";
 
-import ErrorModal from "../../../Modals/ErrorModal";
 import {
+  setPage,
   showErrorModal,
   codeRunHandled,
   triggerCodeRun,
 } from "../../../../redux/EditorSlice";
+
+import {
+  useExternalLinkState,
+  matchingRegexes,
+  allowedExternalLinks,
+  allowedInternalLinks,
+} from "../../../../utils/externalLinkHelper";
+
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { Link, useSearchParams } from "react-router-dom";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
+  const webComponent = useSelector((state) => state.editor.webComponent);
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -38,22 +46,14 @@ function HtmlRunner() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const autorunEnabled = useSelector((state) => state.editor.autorunEnabled);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const browserPreview = useSelector((state) => state.editor.browserPreview);
+  const page = useSelector((state) => state.editor.page);
 
-  const [searchParams, setSearchParams] = useSearchParams();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
   const dispatch = useDispatch();
   const output = useRef(null);
-  const [error, setError] = useState(null);
-  const domain = `https://rpf.io/`;
-  const rpfDomain = new RegExp(`^${domain}`);
-  const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
-  const allowedExternalHrefs = [rpfDomain];
-
-  const matchingRegexes = (regexArray, testString) => {
-    return regexArray.some((reg) => reg.test(testString));
-  };
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -63,30 +63,29 @@ function HtmlRunner() {
     )[0];
 
   const previewable = (file) => file.endsWith(".html");
-  let defaultPreviewFile;
+  let defaultPreviewFile = "index.html";
 
-  if (
-    isEmbedded &&
-    searchParams.get("browserPreview") === "true" &&
-    searchParams.get("page") &&
-    previewable(searchParams.get("page"))
-  ) {
-    defaultPreviewFile = searchParams.get("page");
+  if (isEmbedded && browserPreview && page && previewable(page)) {
+    defaultPreviewFile = page;
   } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
     defaultPreviewFile = openFiles[focussedFileIndex];
-  } else {
-    defaultPreviewFile = "index.html";
   }
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
-  const [externalLink, setExternalLink] = useState();
 
   const showModal = () => {
     dispatch(showErrorModal());
+    eventListener();
   };
 
-  const closeModal = () => setError(null);
+  const {
+    externalLink,
+    setExternalLink,
+    handleAllowedExternalLink,
+    handleRegularExternalLink,
+    handleExternalLinkError,
+  } = useExternalLinkState(showModal);
 
   const getBlobURL = (code, type) => {
     const blob = new Blob([code], { type });
@@ -109,7 +108,7 @@ function HtmlRunner() {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
       projectImages.forEach((image) => {
-        updatedProjectFile.content = updatedProjectFile.content.replace(
+        updatedProjectFile.content = updatedProjectFile.content.replaceAll(
           image.filename,
           image.url,
         );
@@ -125,14 +124,11 @@ function HtmlRunner() {
     window.addEventListener("message", (event) => {
       if (typeof event.data?.msg === "string") {
         if (event.data?.msg === "ERROR: External link") {
-          setError("externalLink");
+          handleExternalLinkError(showModal);
         } else if (event.data?.msg === "Allowed external link") {
-          setExternalLink(event.data.payload.linkTo);
-          dispatch(triggerCodeRun());
+          handleAllowedExternalLink(event.data.payload.linkTo);
         } else {
-          setExternalLink(null);
-          setPreviewFile(`${event.data.payload.linkTo}.html`);
-          dispatch(triggerCodeRun());
+          handleRegularExternalLink(event.data.payload.linkTo, setPreviewFile);
         }
       }
     });
@@ -195,125 +191,122 @@ function HtmlRunner() {
   }, [focussedFileIndex, openFiles]);
 
   useEffect(() => {
-    if (error) {
-      showModal();
-      eventListener();
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (isEmbedded && searchParams.get("browserPreview") === "true") {
-      setSearchParams({
-        ...Object.fromEntries([...searchParams]),
-        page: runningFile,
-      });
+    if (isEmbedded && browserPreview) {
+      dispatch(setPage(runningFile));
     }
   }, [runningFile]);
 
+  const replaceHrefNodes = (indexPage, projectCode) => {
+    const hrefNodes = indexPage.querySelectorAll("[href]");
+
+    hrefNodes.forEach((hrefNode) => {
+      const projectFile = projectCode.find(
+        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
+      );
+
+      if (hrefNode.attrs?.target === "_blank") {
+        hrefNode.removeAttribute("target");
+      }
+
+      let onClick;
+
+      if (!!projectFile) {
+        if (parentTag(hrefNode, "head")) {
+          const projectFileBlob = getBlobURL(
+            cssProjectImgs(projectFile).content,
+            mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
+          );
+          hrefNode.setAttribute("href", projectFileBlob);
+        } else {
+          // eslint-disable-next-line no-script-url
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
+        }
+      } else {
+        const matchingExternalHref = matchingRegexes(
+          allowedExternalLinks,
+          hrefNode.attrs.href,
+        );
+        const matchingInternalHref = matchingRegexes(
+          allowedInternalLinks,
+          hrefNode.attrs.href,
+        );
+        if (
+          !matchingInternalHref &&
+          !matchingExternalHref &&
+          !parentTag(hrefNode, "head")
+        ) {
+          // eslint-disable-next-line no-script-url
+          hrefNode.setAttribute("href", "javascript:void(0)");
+          onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
+        } else if (matchingExternalHref) {
+          onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
+        }
+      }
+
+      if (onClick) {
+        hrefNode.removeAttribute("target");
+        hrefNode.setAttribute("onclick", onClick);
+      }
+    });
+  };
+
+  const replaceSrcNodes = (
+    indexPage,
+    projectImages,
+    projectCode,
+    attr = "src",
+  ) => {
+    const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
+
+    srcNodes.forEach((srcNode) => {
+      const projectImage = projectImages.find(
+        (component) => component.filename === srcNode.attrs[attr],
+      );
+      const projectFile = projectCode.find(
+        (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
+      );
+
+      let src = "";
+      if (!!projectImage) {
+        src = projectImage.url;
+      } else if (!!projectFile) {
+        src = getBlobURL(
+          projectFile.content,
+          mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
+        );
+      }
+      srcNode.setAttribute(attr, src);
+    });
+  };
+
   const runCode = () => {
     setRunningFile(previewFile);
-    if (!externalLink) {
-      let indexPage = parse(focussedComponent(previewFile).content);
 
+    if (!externalLink) {
+      const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
 
-      const hrefNodes = indexPage.querySelectorAll("[href]");
-
-      // replace href's with blob urls
-      hrefNodes.forEach((hrefNode) => {
-        const projectFile = projectCode.filter(
-          (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
-        );
-
-        // remove target blanks
-        if (hrefNode.attrs?.target === "_blank") {
-          hrefNode.removeAttribute("target");
-        }
-
-        let onClick;
-
-        if (!!projectFile.length) {
-          if (parentTag(hrefNode, "head")) {
-            const projectFileBlob = getBlobURL(
-              cssProjectImgs(projectFile[0]).content,
-              mimeTypes.lookup(
-                `${projectFile[0].name}.${projectFile[0].extension}`,
-              ),
-            );
-            hrefNode.setAttribute("href", projectFileBlob);
-          } else {
-            // eslint-disable-next-line no-script-url
-            hrefNode.setAttribute("href", "javascript:void(0)");
-            onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile[0].name}' }})`;
-          }
-        } else {
-          const matchingExternalHref = matchingRegexes(
-            allowedExternalHrefs,
-            hrefNode.attrs.href,
-          );
-          const matchingInternalHref = matchingRegexes(
-            allowedInternalLinks,
-            hrefNode.attrs.href,
-          );
-          if (
-            !matchingInternalHref &&
-            !matchingExternalHref &&
-            !parentTag(hrefNode, "head")
-          ) {
-            // eslint-disable-next-line no-script-url
-            hrefNode.setAttribute("href", "javascript:void(0)");
-            onClick =
-              "window.parent.postMessage({msg: 'ERROR: External link'})";
-          } else if (matchingExternalHref) {
-            onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
-          }
-        }
-
-        if (onClick) {
-          hrefNode.removeAttribute("target");
-          hrefNode.setAttribute("onclick", onClick);
-        }
-      });
-
-      const srcNodes = indexPage.querySelectorAll("[src]");
-      srcNodes.forEach((srcNode) => {
-        const projectImage = projectImages.filter(
-          (component) => component.filename === srcNode.attrs.src,
-        );
-        const projectFile = projectCode.filter(
-          (file) => `${file.name}.${file.extension}` === srcNode.attrs.src,
-        );
-        let src = "";
-        if (projectImage.length) {
-          src = projectImage[0].url;
-        } else if (projectFile.length) {
-          src = getBlobURL(
-            projectFile[0].content,
-            mimeTypes.lookup(
-              `${projectFile[0].name}.${projectFile[0].extension}`,
-            ),
-          );
-        }
-        srcNode.setAttribute("src", src);
-      });
+      replaceHrefNodes(indexPage, projectCode);
+      replaceSrcNodes(indexPage, projectImages, projectCode);
+      replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
       const blob = getBlobURL(indexPage.toString(), "text/html");
       output.current.src = blob;
+
       if (codeRunTriggered) {
         dispatch(codeRunHandled());
       }
     } else {
       output.current.src = externalLink;
-
       dispatch(codeRunHandled());
     }
   };
 
   return (
     <div className="htmlrunner-container">
-      <ErrorModal errorType={error} additionalOnClose={closeModal} />
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
         <Tabs>
           <div className="react-tabs__tab-container">
@@ -323,19 +316,20 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!isEmbedded && (
-                <Link
+              {!!!isEmbedded && !!!webComponent && (
+                <a
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"
-                  to={`/${locale}/embed/viewer/${
+                  href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                  rel="noreferrer"
                 >
                   <span className="htmlrunner-link__text">
                     {t("output.newTab")}
                   </span>
                   <OpenInNewTabIcon />
-                </Link>
+                </a>
               )}
             </TabList>
             {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}

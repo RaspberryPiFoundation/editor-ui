@@ -16,7 +16,13 @@ import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
 const Project = (props) => {
-  const { forWebComponent, withSidebar = true, sidebarOptions = [] } = props;
+  const webComponent = useSelector((state) => state.editor.webComponent);
+  const {
+    forWebComponent = false,
+    withProjectbar = true,
+    withSidebar = true,
+    sidebarOptions = [],
+  } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
 
@@ -31,41 +37,47 @@ const Project = (props) => {
   const [defaultHeight, setDefaultHeight] = useState("auto");
   const [maxWidth, setMaxWidth] = useState("100%");
   const [handleDirection, setHandleDirection] = useState("right");
+  const [loading, setLoading] = useState(true);
 
   useMemo(() => {
-    const isDesktop = params["width-larger-than-880"];
+    const isDesktop = params["width-larger-than-720"];
 
     setDefaultWidth(isDesktop ? "50%" : "100%");
     setDefaultHeight(isDesktop ? "100%" : "50%");
     setMaxWidth(isDesktop ? "75%" : "100%");
     setHandleDirection(isDesktop ? "right" : "bottom");
-  }, [params["width-larger-than-880"]]);
+  }, [params["width-larger-than-720"]]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
     <div className="proj">
       <div
-        ref={containerRef}
         className={classnames("proj-container", {
-          "proj-container--wc": forWebComponent,
+          "proj-container--wc": webComponent,
         })}
       >
         {withSidebar && <Sidebar options={sidebarOptions} />}
-        <div className="project-wrapper">
-          {!forWebComponent ? <ProjectBar /> : null}
-          <div className="proj-editor-wrapper">
-            <ResizableWithHandle
-              data-testid="proj-editor-container"
-              className="proj-editor-container"
-              defaultWidth={defaultWidth}
-              defaultHeight={defaultHeight}
-              handleDirection={handleDirection}
-              minWidth="25%"
-              maxWidth={maxWidth}
-            >
-              <EditorInput />
-            </ResizableWithHandle>
-            <Output />
-          </div>
+        <div className="project-wrapper" ref={containerRef}>
+          {withProjectbar && <ProjectBar forWebComponent={forWebComponent} />}
+          {!loading && (
+            <div className="proj-editor-wrapper">
+              <ResizableWithHandle
+                data-testid="proj-editor-container"
+                className="proj-editor-container"
+                defaultWidth={defaultWidth}
+                defaultHeight={defaultHeight}
+                handleDirection={handleDirection}
+                minWidth="25%"
+                maxWidth={maxWidth}
+              >
+                <EditorInput />
+              </ResizableWithHandle>
+              <Output />
+            </div>
+          )}
         </div>
       </div>
     </div>

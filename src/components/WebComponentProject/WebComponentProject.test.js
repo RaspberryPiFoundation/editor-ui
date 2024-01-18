@@ -67,6 +67,10 @@ describe("When state set", () => {
   test("Defaults to not showing the sidebar", () => {
     expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
   });
+
+  test("Defaults to not showing the projectbar", () => {
+    expect(screen.queryByText("header.newProject")).not.toBeInTheDocument();
+  });
 });
 
 describe("When code run finishes", () => {
@@ -129,11 +133,41 @@ describe("When withSidebar is true", () => {
   });
 
   test("Renders the sidebar", () => {
-    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.queryByTitle("sidebar.collapse")).toBeInTheDocument();
   });
 
   test("Renders the correct sidebar options", () => {
     expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
+  });
+});
+
+describe("When withProjectbar is true", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        loading: "success",
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject withProjectbar={true} />
+      </Provider>,
+    );
+  });
+
+  test("Renders the projectbar", () => {
+    expect(screen.queryByText("header.newProject")).toBeInTheDocument();
   });
 });
 
