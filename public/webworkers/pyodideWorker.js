@@ -1,6 +1,6 @@
 import "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js";
-import * as pygal from "./packages/pygal.js";
-import * as _internal_sense_hat from "./packages/_internal_sense_hat.js";
+import * as pygal from "../packages/pygal.js";
+import * as _internal_sense_hat from "../packages/_internal_sense_hat.js";
 
 let pyodide, pyodidePromise, interruptBuffer, stopped;
 
@@ -159,7 +159,7 @@ const reloadPyodideToClearState = async () => {
 };
 
 if (typeof SharedArrayBuffer === "undefined") {
-  throw new Error(`Please set the following HTTP headers for webworker.js to support the stop button:
+  throw new Error(`Please set the following HTTP headers for pyodideWorker.js to support the stop button:
     Cross-Origin-Opener-Policy: same-origin
     Cross-Origin-Embedder-Policy: require-corp
   `);
