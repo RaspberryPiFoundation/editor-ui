@@ -16,6 +16,7 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
+import { codeLoadedEvent } from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -109,7 +110,13 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  useEmbeddedMode(embedded);
+  useEmbeddedMode(outputOnly);
+
+  useEffect(() => {
+    if (loading === "success") {
+      document.dispatchEvent(codeLoadedEvent);
+    }
+  }, [loading]);
 
   return loading === "success" ? (
     <>

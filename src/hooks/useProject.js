@@ -10,6 +10,8 @@ export const useProject = ({
   code = null,
   accessToken = null,
 }) => {
+  const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const getCachedProject = (id) =>
@@ -19,6 +21,7 @@ export const useProject = ({
   const [cachedProject, setCachedProject] = useState(
     getCachedProject(projectIdentifier),
   );
+  console.log(isEmbedded, isBrowserPreview);
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
 
@@ -37,10 +40,10 @@ export const useProject = ({
       cachedProject.identifier === projectIdentifier;
     const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-    if (is_cached_saved_project || is_cached_unsaved_project) {
-      loadCachedProject();
-      return;
-    }
+    // if (is_cached_saved_project || is_cached_unsaved_project) {
+    //   loadCachedProject();
+    //   return;
+    // }
 
     if (projectIdentifier) {
       dispatch(
@@ -66,4 +69,24 @@ export const useProject = ({
     const data = defaultPythonProject;
     dispatch(setProject(data));
   }, [projectIdentifier, cachedProject, i18n.language, accessToken]);
+
+  useEffect(() => {
+    if (code && project.components && loading === "success") {
+      const mainComponent = project.components.find(
+        (component) =>
+          (component.name === "main" && component.extension === "py") ||
+          (component.name === "index" && component.extension === "html"),
+      );
+      const updatedProject = {
+        ...project,
+        components: [
+          {
+            ...mainComponent,
+            content: code,
+          },
+        ],
+      };
+      dispatch(setProject(updatedProject));
+    }
+  }, [code, loading]);
 };

@@ -6,6 +6,8 @@ const webComponentCustomEvent = (type, detail) =>
     detail: detail,
   });
 
+export const codeLoadedEvent = webComponentCustomEvent("editor-codeLoaded");
+
 export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
 
 export const runCompletedEvent = (detail) =>
