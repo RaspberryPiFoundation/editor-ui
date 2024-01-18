@@ -40,10 +40,10 @@ export const useProject = ({
       cachedProject.identifier === projectIdentifier;
     const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-    // if (is_cached_saved_project || is_cached_unsaved_project) {
-    //   loadCachedProject();
-    //   return;
-    // }
+    if (is_cached_saved_project || is_cached_unsaved_project) {
+      loadCachedProject();
+      return;
+    }
 
     if (projectIdentifier) {
       dispatch(

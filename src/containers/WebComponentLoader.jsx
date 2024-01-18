@@ -110,7 +110,7 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  useEmbeddedMode(outputOnly);
+  useEmbeddedMode(embedded);
 
   useEffect(() => {
     if (loading === "success") {
