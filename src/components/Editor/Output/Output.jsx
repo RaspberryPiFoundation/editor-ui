@@ -9,12 +9,16 @@ const Output = () => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
+  const usePyodide = searchParams.get("pyodide") === "true";
 
   return (
     <>
       <ExternalFiles />
       <div className="proj-runner-container">
-        <RunnerFactory projectType={project.project_type} />
+        <RunnerFactory
+          projectType={project.project_type}
+          usePyodide={usePyodide}
+        />
         {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
       </div>
     </>
