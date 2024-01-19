@@ -178,6 +178,10 @@ class Chart {
   }
 }
 
+// Work around a webpack hot module reloading problem.
+globalThis = globalThis || {};
+globalThis.$RefreshReg$ = () => {};
+
 class _Line extends Chart {
   constructor(...args) {
     super(...args);
