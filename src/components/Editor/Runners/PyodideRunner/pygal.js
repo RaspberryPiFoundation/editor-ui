@@ -1,29 +1,60 @@
+/* global globalThis */
+
 export const config = {
-  renderChart: (chart) => { throw new Error("The config.renderChart function has not been set for pygal."); },
+  renderChart: (chart) => {
+    throw new Error(
+      "The config.renderChart function has not been set for pygal.",
+    );
+  },
   availableWidth: 400,
   availableHeight: 300,
 };
 
 const COLORS = [
-  [255, 89, 149],  [182, 227, 84],  [254, 237, 108], [140, 237, 255],
-  [158, 111, 254], [137, 156, 161], [248, 248, 242], [191, 70, 70],
-  [81, 96, 131],   [249, 38, 114],  [130, 180, 20],  [253, 151, 31],
-  [86, 194, 214],  [128, 131, 132], [140, 84, 254],  [70, 84, 87]
+  [255, 89, 149],
+  [182, 227, 84],
+  [254, 237, 108],
+  [140, 237, 255],
+  [158, 111, 254],
+  [137, 156, 161],
+  [248, 248, 242],
+  [191, 70, 70],
+  [81, 96, 131],
+  [249, 38, 114],
+  [130, 180, 20],
+  [253, 151, 31],
+  [86, 194, 214],
+  [128, 131, 132],
+  [140, 84, 254],
+  [70, 84, 87],
 ];
 
 const some = (val) => typeof val !== "undefined";
-const toJs = (val) => val?.toJs ? val.toJs() : val;
+const toJs = (val) => (val?.toJs ? val.toJs() : val);
 
 class Chart {
-  constructor({ title, width, height, range, include_x_axis, x_title, y_title, title_font_size, fill, stroke, x_labels } = {}) {
+  constructor({
+    title,
+    width,
+    height,
+    range,
+    include_x_axis,
+    x_title,
+    y_title,
+    title_font_size,
+    fill,
+    stroke,
+    x_labels,
+  } = {}) {
     const options = {};
     if (some(title)) options.title = toJs(title);
     if (some(width)) options.width = toJs(width);
     if (some(height)) options.height = toJs(height);
-    if (some(range)) options.range = {
-      min: toJs(range)[0],
-      max: toJs(range)[1],
-    };
+    if (some(range))
+      options.range = {
+        min: toJs(range)[0],
+        max: toJs(range)[1],
+      };
     if (some(include_x_axis)) options.include_x_axis = toJs(include_x_axis);
     if (some(x_title)) options.x_title = toJs(x_title);
     if (some(y_title)) options.y_title = toJs(y_title);
@@ -37,105 +68,104 @@ class Chart {
   }
 
   add(label, values) {
-    const data = [...toJs(values)].map(v => v || 0);
+    const data = [...toJs(values)].map((v) => v || 0);
 
     this._data.unshift({
       name: toJs(label),
       color: this.#rgba(COLORS[this._data.length % COLORS.length], 0.75),
       data: data,
       marker: {
-        symbol: 'circle'
+        symbol: "circle",
       },
-      stack: 1
+      stack: 1,
     });
 
-    return '';
+    return "";
   }
 
   render() {
     const options = this._options;
     const title_style = {
-      color: '#FFFFFF'
+      color: "#FFFFFF",
     };
     if (options.title_font_size) {
-      title_style['font-size'] = options.title_font_size + 'px';
+      title_style["font-size"] = options.title_font_size + "px";
     }
-    const xPlotLines = [];
     const yPlotLines = [];
 
     if (options.range) {
       yPlotLines.push({
         value: options.range.min,
         width: 1,
-        color: '#FFFFFF'
+        color: "#FFFFFF",
       });
     }
 
-    const defaultWidth  = config.availableWidth;
+    const defaultWidth = config.availableWidth;
     const defaultHeight = Math.min(defaultWidth, config.availableHeight);
 
     let chart = {
       chart: {
-        width : options.width  || defaultWidth,
+        width: options.width || defaultWidth,
         height: options.height || defaultHeight,
-        backgroundColor: '#000'
+        backgroundColor: "#000",
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       title: {
-          text: options.title,
-          style : title_style
+        text: options.title,
+        style: title_style,
       },
       xAxis: {
-          title: {
-              text: options.x_title || null,
-              style : title_style,
-              margin: 20
-          },
-          categories: options.x_labels,
-          labels : {
-            enabled: options.x_labels ? true : false
-          },
-          tickLength: 0
+        title: {
+          text: options.x_title || null,
+          style: title_style,
+          margin: 20,
+        },
+        categories: options.x_labels,
+        labels: {
+          enabled: options.x_labels ? true : false,
+        },
+        tickLength: 0,
       },
       yAxis: {
-          startOnTick: false,
-          title: {
-              text: options.y_title || null,
-              style : title_style,
-              margin: 20
-          },
-          plotLines: yPlotLines,
-          min : options.include_x_axis
-            ? 0
-            : options.range
-              ? options.range.min
-              : null,
-          max : options.range ? options.range.max : null,
-          gridLineDashStyle : 'ShortDash',
-          gridLineColor: '#DDD',
-          tickLength: 0
+        startOnTick: false,
+        title: {
+          text: options.y_title || null,
+          style: title_style,
+          margin: 20,
+        },
+        plotLines: yPlotLines,
+        min: options.include_x_axis
+          ? 0
+          : options.range
+          ? options.range.min
+          : null,
+        max: options.range ? options.range.max : null,
+        gridLineDashStyle: "ShortDash",
+        gridLineColor: "#DDD",
+        tickLength: 0,
       },
       legend: {
-          itemStyle : {
-            color : '#FFFFFF'
-          },
-          layout: 'vertical',
-          align: 'left',
-          verticalAlign: 'top',
-          y: 50,
-          borderWidth: 0
+        itemStyle: {
+          color: "#FFFFFF",
+        },
+        layout: "vertical",
+        align: "left",
+        verticalAlign: "top",
+        y: 50,
+        borderWidth: 0,
       },
-      labels : {
-        style : {
-          color: '#FFFFFF'
-        }
+      labels: {
+        style: {
+          color: "#FFFFFF",
+        },
       },
-      series: this._data
+      series: this._data,
     };
 
-    for(let i = 0; i < chart.series.length; i++) {
+    for (let i = 0; i < chart.series.length; i++) {
       chart.series[i].legendIndex = chart.series.length - i;
       chart.series[i].index = chart.series.length - i;
     }
@@ -146,47 +176,90 @@ class Chart {
 
     config.renderChart(chart);
 
-    return '';
+    return "";
   }
 
-  get title()              { return this._options.title; }
-  get width()              { return this._options.width; }
-  get height()             { return this._options.height; }
-  get range()              { return this._options.range; }
-  get include_x_axis()     { return this._options.include_x_axis; }
-  get x_title()            { return this._options.x_title; }
-  get y_title()            { return this._options.y_title; }
-  get title_font_size()    { return this._options.title_font_size; }
-  get fill()               { return this._options.fill; }
-  get stroke()             { return this._options.stroke; }
-  get x_labels()           { return this._options.x_labels; }
+  get title() {
+    return this._options.title;
+  }
+  get width() {
+    return this._options.width;
+  }
+  get height() {
+    return this._options.height;
+  }
+  get range() {
+    return this._options.range;
+  }
+  get include_x_axis() {
+    return this._options.include_x_axis;
+  }
+  get x_title() {
+    return this._options.x_title;
+  }
+  get y_title() {
+    return this._options.y_title;
+  }
+  get title_font_size() {
+    return this._options.title_font_size;
+  }
+  get fill() {
+    return this._options.fill;
+  }
+  get stroke() {
+    return this._options.stroke;
+  }
+  get x_labels() {
+    return this._options.x_labels;
+  }
 
-  set title(val)           { this._options.title = toJs(val); }
-  set width(val)           { this._options.width = toJs(val); }
-  set height(val)          { this._options.height = toJs(val); }
-  set range(val)           { this._options.range = toJs(val); }
-  set include_x_axis(val)  { this._options.include_x_axis = toJs(val); }
-  set x_title(val)         { this._options.x_title = toJs(val); }
-  set y_title(val)         { this._options.y_title = toJs(val); }
-  set title_font_size(val) { this._options.title_font_size = toJs(val); }
-  set fill(val)            { this._options.fill = toJs(val); }
-  set stroke(val)          { this._options.stroke = toJs(val); }
-  set x_labels(val)        { this._options.x_labels = toJs(val); }
+  set title(val) {
+    this._options.title = toJs(val);
+  }
+  set width(val) {
+    this._options.width = toJs(val);
+  }
+  set height(val) {
+    this._options.height = toJs(val);
+  }
+  set range(val) {
+    this._options.range = toJs(val);
+  }
+  set include_x_axis(val) {
+    this._options.include_x_axis = toJs(val);
+  }
+  set x_title(val) {
+    this._options.x_title = toJs(val);
+  }
+  set y_title(val) {
+    this._options.y_title = toJs(val);
+  }
+  set title_font_size(val) {
+    this._options.title_font_size = toJs(val);
+  }
+  set fill(val) {
+    this._options.fill = toJs(val);
+  }
+  set stroke(val) {
+    this._options.stroke = toJs(val);
+  }
+  set x_labels(val) {
+    this._options.x_labels = toJs(val);
+  }
 
   #rgba(rgb, a) {
-    return 'rgba(' + rgb.join(',') + ',' + a + ')';
+    return "rgba(" + rgb.join(",") + "," + a + ")";
   }
 }
 
 // Work around a webpack hot module reloading problem.
-globalThis = globalThis || {};
 globalThis.$RefreshReg$ = () => {};
 
 class _Line extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = toJs(options.fill) ? 'area' : 'line';
+      chart.chart.type = toJs(options.fill) ? "area" : "line";
       return chart;
     };
   }
@@ -197,14 +270,14 @@ class _StackedLine extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = toJs(options.fill) ? 'area' : 'line';
+      chart.chart.type = toJs(options.fill) ? "area" : "line";
       chart.plotOptions = {
-        area : {
-          stacking : 'percent'
+        area: {
+          stacking: "percent",
         },
-        series : {
-          stacking : 'percent'
-        }
+        series: {
+          stacking: "percent",
+        },
       };
       return chart;
     };
@@ -216,7 +289,7 @@ class _Bar extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = 'column';
+      chart.chart.type = "column";
       return chart;
     };
   }
@@ -227,11 +300,11 @@ class _StackedBar extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = 'column';
+      chart.chart.type = "column";
       chart.plotOptions = {
-        column : {
-          stacking: 'percent'
-        }
+        column: {
+          stacking: "percent",
+        },
       };
       return chart;
     };
@@ -243,7 +316,7 @@ class _HorizontalBar extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = 'bar';
+      chart.chart.type = "bar";
       return chart;
     };
   }
@@ -254,27 +327,27 @@ class _StackedHorizontalBar extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = 'bar';
+      chart.chart.type = "bar";
       chart.plotOptions = {
-        bar : {
-          stacking: 'percent'
-        }
+        bar: {
+          stacking: "percent",
+        },
       };
       return chart;
     };
   }
 }
-export const StackedHorizontalBar = (...args) => new _StackedHorizontalBar(...args);
+export const StackedHorizontalBar = (...args) =>
+  new _StackedHorizontalBar(...args);
 
 class _XY extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
       if (toJs(options.stroke) === false) {
-        chart.chart.type = 'scatter'
-      }
-      else {
-        chart.chart.type = toJs(options.fill) ? 'area' : 'line';
+        chart.chart.type = "scatter";
+      } else {
+        chart.chart.type = toJs(options.fill) ? "area" : "line";
       }
       chart.xAxis.labels.enabled = true;
 
@@ -289,21 +362,21 @@ class _Radar extends Chart {
     super(...args);
     this.renderer = (options, chart) => {
       chart.chart.polar = true;
-      chart.chart.type  = 'line';
+      chart.chart.type = "line";
       chart.xAxis = {
         categories: toJs(options.x_labels),
-        tickmarkPlacement: 'on',
-        lineWidth: 0
-      }
+        tickmarkPlacement: "on",
+        lineWidth: 0,
+      };
       chart.yAxis = {
-        gridLineInterpolation: 'polygon',
+        gridLineInterpolation: "polygon",
         lineWidth: 0,
         min: 0,
-        gridLineDashStyle : 'ShortDash',
-        gridLineColor: '#DDD'
-      }
-      for(let i = 0; i < chart.series.length; i++) {
-        chart.series[i].pointPlacement = 'on';
+        gridLineDashStyle: "ShortDash",
+        gridLineColor: "#DDD",
+      };
+      for (let i = 0; i < chart.series.length; i++) {
+        chart.series[i].pointPlacement = "on";
       }
 
       return chart;
@@ -316,78 +389,79 @@ class _Pie extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = 'pie';
-      const slices       = [];
-      const breakdown    = [];
-      const useBreakdown = false;
-      for(let i = 0; i < chart.series.length; i++) {
+      chart.chart.type = "pie";
+      const slices = [];
+      const breakdown = [];
+      let useBreakdown = false;
+      for (let i = 0; i < chart.series.length; i++) {
         const slice = chart.series[i];
         if (slice.data.length === 1) {
           slices.unshift({
-            name        : slice.name,
-            color       : slice.color,
-            borderColor : slice.color,
-            legendIndex : slice.legendIndex,
-            y           : slice.data[0]
+            name: slice.name,
+            color: slice.color,
+            borderColor: slice.color,
+            legendIndex: slice.legendIndex,
+            y: slice.data[0],
           });
           breakdown.unshift({
-            name  : slice.name,
-            color : slice.color,
-            borderColor : slice.color,
-            y     : slice.data[0]
+            name: slice.name,
+            color: slice.color,
+            borderColor: slice.color,
+            y: slice.data[0],
           });
-        }
-        else {
+        } else {
           useBreakdown = true;
-          const sum = 0;
-          const maxDecimal = 0;
-          for(let j = 0; j < slice.data.length; j++) {
-            const parts = slice.data[j].toString().split('.');
+          let sum = 0;
+          let maxDecimal = 0;
+          for (let j = 0; j < slice.data.length; j++) {
+            const parts = slice.data[j].toString().split(".");
             maxDecimal = Math.max(maxDecimal, parts[1] ? parts[1].length : 0);
             sum += slice.data[j];
             breakdown.unshift({
               name: slice.name,
-              color: 'rgba(0,0,0,0)',
-              borderColor : slice.color,
-              y: slice.data[j]
+              color: "rgba(0,0,0,0)",
+              borderColor: slice.color,
+              y: slice.data[j],
             });
           }
           slices.unshift({
-            name        : slice.name,
-            color       : slice.color,
-            borderColor : slice.color,
-            legendIndex : slice.legendIndex,
-            y           : parseFloat(sum.toFixed(maxDecimal))
+            name: slice.name,
+            color: slice.color,
+            borderColor: slice.color,
+            legendIndex: slice.legendIndex,
+            y: parseFloat(sum.toFixed(maxDecimal)),
           });
         }
       }
       chart.tooltip = {
-        formatter: function() {
-            return this.key + ': ' + this.y;
-          }
+        formatter: function () {
+          return this.key + ": " + this.y;
+        },
       };
       chart.plotOptions = {
         pie: {
           allowPointSelect: !useBreakdown,
-          cursor: useBreakdown ? null : 'pointer',
+          cursor: useBreakdown ? null : "pointer",
           shadow: false,
-          center: ['50%', '50%'],
+          center: ["50%", "50%"],
           dataLabels: {
-            enabled: false
-          }
-        }
+            enabled: false,
+          },
+        },
       };
-      chart.series = [{
-        name: ' ',
-        data: slices,
-        showInLegend: true
-      }];
+      chart.series = [
+        {
+          name: " ",
+          data: slices,
+          showInLegend: true,
+        },
+      ];
       if (useBreakdown) {
         chart.series.push({
-          name: ' ',
+          name: " ",
           data: breakdown,
-          innerSize: '90%',
-          showInLegend: false
+          innerSize: "90%",
+          showInLegend: false,
         });
       }
       return chart;

@@ -1,3 +1,5 @@
+/* eslint import/no-webpack-loader-syntax: off */
+
 import { useMemo } from "react";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
 

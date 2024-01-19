@@ -48,7 +48,7 @@ const raisePythonError = (errorType, message) => {
   }
 };
 
-const toJs = (val) => val?.toJs ? val.toJs() : val;
+const toJs = (val) => (val?.toJs ? val.toJs() : val);
 const isIterable = (val) => !!val?.[Symbol.iterator];
 const isInteger = (val) => val === parseInt(val, 10);
 
@@ -59,35 +59,35 @@ const checkNumberAndReturn = (val) => {
   if (isValid) {
     return {
       value: parsed,
-      valid: true
-    }
+      valid: true,
+    };
   }
 
   // invalid number, return -1
   return {
     value: -1,
-    valid: false
-  }
+    valid: false,
+  };
 };
 
 export const init = () => {
-  config.emit('init');
+  config.emit("init");
 };
 
 // _fb_device specific methods
 export const setpixel = (index, value) => {
-  config.mz_criteria.usedLEDs = true
+  config.mz_criteria.usedLEDs = true;
 
   const _index = toJs(index);
   const _value = toJs(value);
 
   if (!isIterable(_value)) {
-    raisePythonError("ValueError", "'value' should be iterable")
+    raisePythonError("ValueError", "'value' should be iterable");
   }
 
   for (let val of _value) {
     if (!isInteger(val)) {
-      raisePythonError("ValueError", "'value' should be iterable of 'int'")
+      raisePythonError("ValueError", "'value' should be iterable of 'int'");
     }
   }
 
@@ -97,7 +97,7 @@ export const setpixel = (index, value) => {
     raisePythonError("ValueError", e.message);
   }
 
-  config.emit('setpixel', _index);
+  config.emit("setpixel", _index);
 };
 
 export const getpixel = (index) => {
@@ -115,7 +115,7 @@ export const setpixels = (indexes, values) => {
   const _values = toJs(values);
 
   if (_indexes) {
-    config.mz_criteria.usedLEDs = true
+    config.mz_criteria.usedLEDs = true;
   }
 
   try {
@@ -124,7 +124,7 @@ export const setpixels = (indexes, values) => {
     raisePythonError("ValueError", e.message);
   }
 
-  config.emit('setpixels', _indexes);
+  config.emit("setpixels", _indexes);
 };
 
 export const getpixels = () => {
@@ -138,14 +138,14 @@ export const getGamma = () => {
 export const setGamma = (gamma) => {
   // checks are made in fb_device.py
   config.gamma = toJs(gamma);
-  config.emit('setGamma');
+  config.emit("setGamma");
 };
 
 export const setLowlight = (value) => {
   const _value = toJs(value);
 
   config.low_light = toJs(_value);
-  config.emit('changeLowlight', _value);
+  config.emit("changeLowlight", _value);
 };
 
 // RTIMU stuff
@@ -154,7 +154,7 @@ export const setLowlight = (value) => {
  * 260 - 1260 hPa
  */
 export const pressureRead = () => {
-  config.mz_criteria.readPressure = true
+  config.mz_criteria.readPressure = true;
   const temperature = temperatureRead(); // does the validation for us
 
   if (!config.rtimu.pressure || config.rtimu.pressure.length !== 2) {
@@ -182,7 +182,7 @@ export const pressureRead = () => {
  * >= 0%
  */
 export const humidityRead = () => {
-  config.mz_criteria.readHumidity = true
+  config.mz_criteria.readHumidity = true;
   const temperature = temperatureRead(); // does the validation for us
 
   if (!config.rtimu.humidity || config.rtimu.humidity.length !== 2) {
@@ -200,7 +200,7 @@ export const humidityRead = () => {
 
   // now do some range checks
   if (value < 0) {
-    return [].concat([0, value], temperature)
+    return [].concat([0, value], temperature);
   }
 
   return [].concat([1, value], temperature);
@@ -210,7 +210,7 @@ export const humidityRead = () => {
  * Temperature Range: -40 to +120 degrees celsius
  */
 export const temperatureRead = () => {
-  config.mz_criteria.readTemperature = true
+  config.mz_criteria.readTemperature = true;
 
   if (!config.rtimu.temperature || config.rtimu.temperature.length !== 2) {
     // something was set wrong
@@ -237,12 +237,14 @@ export const temperatureRead = () => {
  * Colour
  */
 
-const hex2rgb = (hex) => (
-  ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0]
-);
+const hex2rgb = (hex) => [
+  ("0x" + hex[1] + hex[2]) | 0,
+  ("0x" + hex[3] + hex[4]) | 0,
+  ("0x" + hex[5] + hex[6]) | 0,
+];
 
 export const colourRead = () => {
-  config.mz_criteria.readColour = true
+  config.mz_criteria.readColour = true;
   return hex2rgb(config.colour);
 };
 
@@ -257,18 +259,22 @@ export const motionRead = () => {
  * Sets start motion callback
  */
 export const _start_motion = (callback) => {
-  if (callback) { config.start_motion_callback = callback; }
+  if (callback) {
+    config.start_motion_callback = callback;
+  }
 };
 
 /**
  * Sets stop motion callback
  */
 export const _stop_motion = (callback) => {
-  if (callback) { config.stop_motion_callback = callback; }
+  if (callback) {
+    config.stop_motion_callback = callback;
+  }
 };
 
 export const fusionPoseRead = () => {
-  return config.rtimu.raw_orientation.map(x=> x * Math.PI / 180);
+  return config.rtimu.raw_orientation.map((x) => (x * Math.PI) / 180);
 };
 
 export const accelRead = () => {
@@ -298,7 +304,10 @@ export const headingRead = () => {
   const theta = y;
 
   // Remap magnetometer values to the horizontal plane and determine yaw (aka heading)
-  const mag_x = mx * Math.cos(theta) + my * Math.sin(phi) * Math.sin(phi) + mz * Math.cos(phi) * Math.sin(theta);
+  const mag_x =
+    mx * Math.cos(theta) +
+    my * Math.sin(phi) * Math.sin(phi) +
+    mz * Math.cos(phi) * Math.sin(theta);
   const mag_y = my * Math.cos(phi) - mz * Math.sin(phi);
   const heading = Math.atan2(-mag_y, mag_x);
 
@@ -321,7 +330,7 @@ export const _wait = (timeout) => {
 };
 
 export const _waitmotion = (timeout, motion) => {
-  config.mz_criteria.noInputEvents = false
+  config.mz_criteria.noInputEvents = false;
   raisePythonError("NotImplementedError", "_waitmotion");
 };
 

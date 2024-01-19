@@ -1,14 +1,20 @@
-importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
+/* global importScripts, loadPyodide, SharedArrayBuffer */
+
 import * as pygal from "./pygal.js";
 import * as _internal_sense_hat from "./_internal_sense_hat.js";
+importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 
 let pyodide, pyodidePromise, interruptBuffer, stopped;
 
-self.onmessage = async ({ data }) => {
+onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
 
-  if (data.method === "runPython") { runPython(pyodide, data.python); }
-  if (data.method === "stopPython") { stopped = true; }
+  if (data.method === "runPython") {
+    runPython(pyodide, data.python);
+  }
+  if (data.method === "stopPython") {
+    stopped = true;
+  }
 };
 
 const runPython = async (pyodide, python) => {
@@ -19,19 +25,21 @@ const runPython = async (pyodide, python) => {
       await pyodide.runPython(python);
     });
   } catch (content) {
-    self.postMessage({ method: "handleOutput", stream: "stderr", content });
+    postMessage({ method: "handleOutput", stream: "stderr", content });
   }
 
   await reloadPyodideToClearState();
 };
 
 const checkIfStopped = () => {
-  if (stopped) { throw "KeyboardInterrupt"; }
+  if (stopped) {
+    throw new Error("KeyboardInterrupt");
+  }
 };
 
 const withSupportForPackages = async (python, runPythonFn) => {
   const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
-  await Promise.all(imports.map(name => loadDependency(name)));
+  await Promise.all(imports.map((name) => loadDependency(name)));
 
   checkIfStopped();
   await pyodide.loadPackagesFromImports(python);
@@ -39,7 +47,7 @@ const withSupportForPackages = async (python, runPythonFn) => {
   checkIfStopped();
   await runPythonFn();
 
-  for (name of imports) {
+  for (let name of imports) {
     checkIfStopped();
     await vendoredPackages[name]?.after();
   }
@@ -51,19 +59,29 @@ const loadDependency = async (name) => {
   // If the import is for a vendored package then run its .before() hook.
   const vendoredPackage = vendoredPackages[name];
   await vendoredPackage?.before();
-  if (vendoredPackage) { return; }
+  if (vendoredPackage) {
+    return;
+  }
 
   // If the import is for a module built into Python then do nothing.
   let pythonModule;
-  try { pythonModule = pyodide.pyimport(name); } catch(_) { }
-  if (pythonModule) { return; }
+  try {
+    pythonModule = pyodide.pyimport(name);
+  } catch (_) {}
+  if (pythonModule) {
+    return;
+  }
 
   // If the import is for a package built into Pyodide then load it.
   // Built-ins: https://pyodide.org/en/stable/usage/packages-in-pyodide.html
   await pyodide.loadPackage(name).catch(() => {});
   let pyodidePackage;
-  try { pyodidePackage = pyodide.pyimport(name); } catch(_) { }
-  if (pyodidePackage) { return; }
+  try {
+    pyodidePackage = pyodide.pyimport(name);
+  } catch (_) {}
+  if (pyodidePackage) {
+    return;
+  }
 
   // Ensure micropip is loaded which can fetch packages from PyPi.
   // See: https://pyodide.org/en/stable/usage/loading-packages.html
@@ -83,7 +101,8 @@ const vendoredPackages = {
       pyodide.registerJsModule("basthon", fakeBasthonPackage);
       await pyodide.loadPackage("./packages/turtle-0.0.1-py3-none-any.whl");
     },
-    after: () => pyodide.runPython(`
+    after: () =>
+      pyodide.runPython(`
       import turtle
       import basthon
 
@@ -95,20 +114,26 @@ const vendoredPackages = {
   p5: {
     before: async () => {
       pyodide.registerJsModule("basthon", fakeBasthonPackage);
-      await pyodide.loadPackage(["setuptools", "./packages/p5-0.0.1-py3-none-any.whl"]);
+      await pyodide.loadPackage([
+        "setuptools",
+        "./packages/p5-0.0.1-py3-none-any.whl",
+      ]);
     },
     after: () => {},
   },
   pygal: {
     before: () => {
       pyodide.registerJsModule("pygal", { ...pygal });
-      pygal.config.renderChart = (content) => postMessage({ method: "handleVisual", origin: "pygal", content });
+      pygal.config.renderChart = (content) =>
+        postMessage({ method: "handleVisual", origin: "pygal", content });
     },
     after: () => {},
   },
   sqlite3: {
     before: async () => {
-      const response = await fetch("https://cdn.adacomputerscience.org/ada/example_databases/sports_club.sqlite");
+      const response = await fetch(
+        "https://cdn.adacomputerscience.org/ada/example_databases/sports_club.sqlite",
+      );
       const buffer = await response.arrayBuffer();
 
       pyodide.FS.writeFile("sports_club.sqlite", new Uint8Array(buffer));
@@ -117,17 +142,34 @@ const vendoredPackages = {
   },
   sense_hat: {
     before: async () => {
-      pyodide.registerJsModule("_internal_sense_hat", { ..._internal_sense_hat });
-      await pyodide.loadPackage(["pillow", "./packages/sense_hat-0.0.1-py3-none-any.whl"]);
+      pyodide.registerJsModule("_internal_sense_hat", {
+        ..._internal_sense_hat,
+      });
+      await pyodide.loadPackage([
+        "pillow",
+        "./packages/sense_hat-0.0.1-py3-none-any.whl",
+      ]);
 
       _internal_sense_hat.config.pyodide = pyodide;
-      _internal_sense_hat.config.emit = (type) => postMessage({ method: "handleSenseHatEvent", type });
+      _internal_sense_hat.config.emit = (type) =>
+        postMessage({ method: "handleSenseHatEvent", type });
     },
     after: () => {
-      const { pyodide, emit, sensestick, start_motion_callback, stop_motion_callback, ...config } = _internal_sense_hat.config;
-      postMessage({ method: "handleVisual", origin: "sense_hat", content: config });
+      const {
+        pyodide,
+        emit,
+        sensestick,
+        start_motion_callback,
+        stop_motion_callback,
+        ...config
+      } = _internal_sense_hat.config;
+      postMessage({
+        method: "handleVisual",
+        origin: "sense_hat",
+        content: config,
+      });
     },
-  }
+  },
 };
 
 const fakeBasthonPackage = {
@@ -146,8 +188,10 @@ const reloadPyodideToClearState = async () => {
   postMessage({ method: "handleLoading" });
 
   pyodidePromise = loadPyodide({
-    stdout: (content) => postMessage({ method: "handleOutput", stream: "stdout", content }),
-    stderr: (content) => postMessage({ method: "handleOutput", stream: "stderr", content }),
+    stdout: (content) =>
+      postMessage({ method: "handleOutput", stream: "stdout", content }),
+    stderr: (content) =>
+      postMessage({ method: "handleOutput", stream: "stderr", content }),
   });
 
   const pyodide = await pyodidePromise;
