@@ -1,7 +1,8 @@
 import { useMemo } from "react";
+import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
-  const worker = useMemo(loadPyodideWorker, []);
+  const worker = useMemo(() => new PyodideWorker(), []);
 
   worker.onmessage = ({ data }) => {
     console.log(data);
@@ -9,8 +10,5 @@ const PyodideRunner = () => {
 
   return <p>Hello, World!</p>;
 };
-
-const loadPyodideWorker = () =>
-  new Worker("/webworkers/pyodideWorker.js", { type: "module" });
 
 export default PyodideRunner;
