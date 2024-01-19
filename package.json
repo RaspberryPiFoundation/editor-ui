@@ -188,7 +188,8 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "4.0.0",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "5.1.4"
+    "workbox-webpack-plugin": "5.1.4",
+    "worker-loader": "^3.0.8"
   },
   "jest": {
     "roots": [
