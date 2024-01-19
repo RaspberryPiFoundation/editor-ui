@@ -1,6 +1,6 @@
-import "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js";
-import * as pygal from "../packages/pygal.js";
-import * as _internal_sense_hat from "../packages/_internal_sense_hat.js";
+importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
+import * as pygal from "./pygal.js";
+import * as _internal_sense_hat from "./_internal_sense_hat.js";
 
 let pyodide, pyodidePromise, interruptBuffer, stopped;
 
@@ -152,7 +152,7 @@ const reloadPyodideToClearState = async () => {
 
   const pyodide = await pyodidePromise;
 
-  interruptBuffer ||= new Uint8Array(new SharedArrayBuffer(1));
+  interruptBuffer = interruptBuffer || new Uint8Array(new SharedArrayBuffer(1));
   pyodide.setInterruptBuffer(interruptBuffer);
 
   postMessage({ method: "handleLoaded", interruptBuffer });
