@@ -14,7 +14,11 @@ import MobileProject from "../Mobile/MobileProject/MobileProject";
 import Output from "../Editor/Output/Output";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
+import {
+  setEmbedded,
+  setIsSplitView,
+  setWebComponent,
+} from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -81,6 +85,12 @@ const WebComponentProject = ({
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
   }, [currentStepPosition]);
+
+  // useEffect(() => {
+  //   if (outputOnly) {
+  //     dispatch(setEmbedded(true));
+  //   }
+  // }, [outputOnly, dispatch]);
 
   return (
     <>

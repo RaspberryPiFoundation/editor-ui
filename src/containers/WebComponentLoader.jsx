@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
+  setEmbedded,
   setSenseHatAlwaysEnabled,
   stopCodeRun,
   stopDraw,
@@ -11,11 +12,11 @@ import WebComponentProject from "../components/WebComponentProject/WebComponentP
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
-import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { removeUser, setUser } from "../redux/WebComponentAuthSlice";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
+import { codeLoadedEvent } from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -85,6 +86,8 @@ const WebComponentLoader = (props) => {
     }
   }, [loading, project]);
 
+  dispatch(setEmbedded(embedded));
+
   useProject({
     projectIdentifier: projectIdentifier,
     code,
@@ -109,7 +112,11 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  useEmbeddedMode(embedded);
+  useEffect(() => {
+    if (loading === "success") {
+      document.dispatchEvent(codeLoadedEvent);
+    }
+  }, [loading]);
 
   return loading === "success" ? (
     <>
