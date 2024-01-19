@@ -8,6 +8,12 @@ import store from "./app/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
+import {
+  codeRunHandled,
+  stopCodeRun,
+  stopDraw,
+  triggerCodeRun,
+} from "./redux/EditorSlice";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -81,6 +87,13 @@ class WebComponent extends HTMLElement {
     this.componentProperties.menuItems = newValue;
 
     this.mountReactApp();
+  }
+
+  runCode() {
+    store.dispatch(stopCodeRun());
+    store.dispatch(stopDraw());
+    store.dispatch(codeRunHandled());
+    store.dispatch(triggerCodeRun());
   }
 
   reactProps() {
