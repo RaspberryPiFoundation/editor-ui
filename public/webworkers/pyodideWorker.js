@@ -159,7 +159,7 @@ const reloadPyodideToClearState = async () => {
 };
 
 if (typeof SharedArrayBuffer === "undefined") {
-  throw new Error(`Please set the following HTTP headers for pyodideWorker.js to support the stop button:
+  throw new Error(`Please set the following HTTP headers for the top-level page to support the stop button:
     Cross-Origin-Opener-Policy: same-origin
     Cross-Origin-Embedder-Policy: require-corp
   `);
