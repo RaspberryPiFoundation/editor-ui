@@ -24,8 +24,8 @@ const runPython = async (pyodide, python) => {
     await withSupportForPackages(python, async () => {
       await pyodide.runPython(python);
     });
-  } catch (content) {
-    postMessage({ method: "handleOutput", stream: "stderr", content });
+  } catch (error) {
+    postMessage({ method: "handleError", error });
   }
 
   await reloadPyodideToClearState();

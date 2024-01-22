@@ -31,6 +31,10 @@
 
 .pythonrunner-console-output-line {
   padding-inline-end: 5px;
+
+  &.stderr {
+    color: red;
+  }
 }
 
 .pythonrunner-input {
