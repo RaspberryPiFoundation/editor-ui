@@ -5,7 +5,11 @@ import "../../../../assets/stylesheets/PythonRunner.scss";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { setError, codeRunHandled } from "../../../../redux/EditorSlice";
+import {
+  setError,
+  codeRunHandled,
+  loadingRunner,
+} from "../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
@@ -60,13 +64,12 @@ const PyodideRunner = () => {
   }, [codeRunStopped]);
 
   const handleLoading = () => {
-    console.log("handleLoading");
+    dispatch(loadingRunner());
   };
 
   const handleLoaded = (buffer) => {
     interruptBuffer.current = buffer;
     dispatch(codeRunHandled());
-    console.log("TODO: disable button until loaded");
   };
 
   const handleOutput = (stream, content) => {
