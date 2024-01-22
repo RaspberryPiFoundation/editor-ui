@@ -40,7 +40,7 @@ const DraggableTab = ({ children, panelIndex, fileIndex, ...otherProps }) => {
     </Tab>
   );
 
-  return true || webComponent ? (
+  return webComponent ? (
     <InnerTab />
   ) : (
     <Draggable
