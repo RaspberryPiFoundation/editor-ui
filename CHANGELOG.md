@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgrade webpack-dev-server to 4.0.0 to support conditional headers
 - Upgrade yarn to 3.4.1 to workaround a string-width issue
 
+### Fixed
+
+- Editor input not focussing on iPad (#898)
+
 ## [0.21.1] - 2024-01-11
 
 ### Added
