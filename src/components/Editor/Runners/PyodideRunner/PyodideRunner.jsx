@@ -41,7 +41,7 @@ const PyodideRunner = () => {
       if (data.method === "handleLoading") { handleLoading(); }
       if (data.method === "handleLoaded") { handleLoaded(data.interruptBuffer) }
       if (data.method === "handleOutput") { handleOutput(data.stream, data.content); }
-      if (data.method === "handleError") { handleError(data.error); }
+      if (data.method === "handleError") { handleError(data.line, data.type, data.content); }
       if (data.method === "handleVisual") { handleVisual(data.origin, data.content); }
       if (data.method === "handleSenseHatEvent") { handleSenseHatEvent(data.type); }
     };
@@ -79,9 +79,12 @@ const PyodideRunner = () => {
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (error) => {
-    let errorMessage = "TODO: parse pyodide error message";
-    dispatch(setError(errorMessage));
+  const handleError = (line, type, content) => {
+    if (type === "KeyboardInterrupt") {
+      dispatch(setError(t("output.errors.interrupted")));
+    } else {
+      dispatch(setError(`${type}: ${content} on line ${line}`));
+    }
   };
 
   const handleVisual = (origin, content) => {

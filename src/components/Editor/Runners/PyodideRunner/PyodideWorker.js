@@ -25,15 +25,27 @@ const runPython = async (pyodide, python) => {
       await pyodide.runPython(python);
     });
   } catch (error) {
-    postMessage({ method: "handleError", error });
+    if (!(error instanceof pyodide.ffi.PythonError)) { throw error; }
+    self.postMessage({ method: "handleError", ...parsePythonError(error) });
   }
 
   await reloadPyodideToClearState();
 };
 
+const parsePythonError = (error) => {
+  const type = error.type;
+  const [backtrace, content] = error.message.split(`${type}:`);
+
+  const matches = [...backtrace.matchAll(/line (\d+)/g)];
+  const match = matches[matches.length - 1];
+  const line = match ? parseInt(match[1], 10) : null;
+
+  return { line, type, content: content?.trim() }
+};
+
 const checkIfStopped = () => {
   if (stopped) {
-    throw new Error("KeyboardInterrupt");
+    throw new pyodide.ffi.PythonError("KeyboardInterrupt");
   }
 };
 
