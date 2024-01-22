@@ -45,7 +45,7 @@ const PyodideRunner = () => {
       if (data.method === "handleLoading") { handleLoading(); }
       if (data.method === "handleLoaded") { handleLoaded(data.interruptBuffer) }
       if (data.method === "handleOutput") { handleOutput(data.stream, data.content); }
-      if (data.method === "handleError") { handleError(data.line, data.type, data.content); }
+      if (data.method === "handleError") { handleError(data.file, data.line, data.mistake, data.type, data.content); }
       if (data.method === "handleVisual") { handleVisual(data.origin, data.content); }
       if (data.method === "handleSenseHatEvent") { handleSenseHatEvent(data.type); }
     };
@@ -82,12 +82,21 @@ const PyodideRunner = () => {
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (line, type, content) => {
+  const handleError = (file, line, mistake, type, content) => {
+    let errorMessage;
+
     if (type === "KeyboardInterrupt") {
-      dispatch(setError(t("output.errors.interrupted")));
+      errorMessage = "Execution interrupted";
     } else {
-      dispatch(setError(`${type}: ${content} on line ${line}`));
+      const message = [type, content].filter(s => s).join(": ");
+      errorMessage = [message, `on line ${line} of ${file}`].join(" ");
+
+      if (mistake) {
+        errorMessage += `:\n${mistake}`;
+      }
     }
+
+    dispatch(setError(errorMessage));
   };
 
   const handleVisual = (origin, content) => {
@@ -100,6 +109,9 @@ const PyodideRunner = () => {
 
   const handleRun = () => {
     const program = projectCode[0].content;
+
+    // TODO: write other files from projectCode:
+    // pyodideWorker.postMessage({ method: "writeFile", content: "<content>" });
 
     output.current.innerHTML = "";
     dispatch(setError(""));

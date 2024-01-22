@@ -9,6 +9,9 @@ let pyodide, pyodidePromise, interruptBuffer, stopped;
 onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
 
+  if (data.method === "writeFile") {
+    pyodide.FS.writeFile(data.name, data.content);
+  }
   if (data.method === "runPython") {
     runPython(pyodide, data.python);
   }
@@ -30,17 +33,6 @@ const runPython = async (pyodide, python) => {
   }
 
   await reloadPyodideToClearState();
-};
-
-const parsePythonError = (error) => {
-  const type = error.type;
-  const [backtrace, content] = error.message.split(`${type}:`);
-
-  const matches = [...backtrace.matchAll(/line (\d+)/g)];
-  const match = matches[matches.length - 1];
-  const line = match ? parseInt(match[1], 10) : null;
-
-  return { line, type, content: content?.trim() }
 };
 
 const checkIfStopped = () => {
@@ -222,5 +214,29 @@ if (typeof SharedArrayBuffer === "undefined") {
     Cross-Origin-Embedder-Policy: require-corp
   `);
 }
+
+const parsePythonError = (error) => {
+  const type = error.type;
+  const [trace, content] = error.message.split(`${type}:`).map(s => s?.trim());
+
+  const lines = trace.split("\n");
+
+  const snippetLine = lines[lines.length - 2]; //    print("hi")invalid
+  const caretLine = lines[lines.length - 1];   //               ^^^^^^^
+
+  const showsMistake = caretLine.includes("^");
+  const mistake = showsMistake ? [snippetLine.slice(4), caretLine.slice(4)].join("\n") : "";
+
+  const matches = [...trace.matchAll(/File "(.*)", line (\d+)/g)];
+  const match = matches[matches.length - 1];
+
+  const path = match ? match[1] : "";
+  const base = path.split("/").reverse()[0];
+  const file = base == "<exec>" ? "main.py" : base;
+
+  const line = match ? parseInt(match[2], 10) : "";
+
+  return { file, line, mistake, type, content };
+};
 
 reloadPyodideToClearState();
