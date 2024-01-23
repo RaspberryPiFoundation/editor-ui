@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
-import { useRef } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Sk from "skulpt";
+import { useTranslation } from "react-i18next";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import { codeRunHandled, setError } from "../../../../redux/EditorSlice";
 
 const VisualOutputPane = () => {
-  const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
-  );
-  const drawTriggered = useSelector((state) => state.editor.drawTriggered);
-  const senseHatAlwaysEnabled = useSelector(
-    (state) => state.editor.senseHatAlwaysEnabled,
-  );
-  const senseHatEnabled = useSelector((state) => state.editor.senseHatEnabled);
-  const projectImages = useSelector((state) => state.editor.project.image_list);
-  const error = useSelector((state) => state.editor.error);
+  const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
+  const drawTriggered = useSelector((s) => s.editor.drawTriggered);
+  const senseHatAlwaysEnabled = useSelector((s) => s.editor.senseHatAlwaysEnabled);
+  const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
+  const projectImages = useSelector((s) => s.editor.project.image_list);
+  const error = useSelector((s) => s.editor.error);
 
   const outputCanvas = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      handleRun();
+    }
+  }, [codeRunTriggered]);
+
+  const handleRun = () => {
+    // TODO
+  };
 
   useEffect(() => {
     if (codeRunTriggered) {
