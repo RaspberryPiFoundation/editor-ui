@@ -14,7 +14,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import VisualOutputPane from "../PythonRunner/VisualOutputPane";
+import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
