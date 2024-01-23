@@ -10,6 +10,8 @@ export const useProject = ({
   code = null,
   accessToken = null,
 }) => {
+  const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const getCachedProject = (id) =>
@@ -66,4 +68,35 @@ export const useProject = ({
     const data = defaultPythonProject;
     dispatch(setProject(data));
   }, [projectIdentifier, cachedProject, i18n.language, accessToken]);
+
+  useEffect(() => {
+    if (code && loading === "success") {
+      const defaultName = project.project_type === "html" ? "index" : "main";
+      const defaultExtension = project.project_type === "html" ? "html" : "py";
+
+      const mainComponent = project.components?.find(
+        (component) =>
+          component.name === defaultName &&
+          component.extension === defaultExtension,
+      ) || { name: defaultName, extension: defaultExtension, content: "" };
+
+      const otherComponents = project.components?.filter(
+        (component) =>
+          component.name !== defaultName &&
+          component.extension !== defaultExtension,
+      );
+
+      const updatedProject = {
+        ...project,
+        components: [
+          ...otherComponents,
+          {
+            ...mainComponent,
+            content: code,
+          },
+        ],
+      };
+      dispatch(setProject(updatedProject));
+    }
+  }, [code, loading]);
 };
