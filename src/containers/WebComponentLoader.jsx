@@ -21,6 +21,7 @@ import { useCookies } from "react-cookie";
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
@@ -89,7 +90,8 @@ const WebComponentLoader = (props) => {
   dispatch(setEmbedded(embedded));
 
   useProject({
-    projectIdentifier: projectIdentifier,
+    assetsIdentifier,
+    projectIdentifier,
     code,
     accessToken: user && user.access_token,
   });

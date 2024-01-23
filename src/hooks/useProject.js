@@ -6,6 +6,7 @@ import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
+  assetsIdentifier = null,
   projectIdentifier = null,
   code = null,
   accessToken = null,
@@ -41,6 +42,18 @@ export const useProject = ({
 
     if (is_cached_saved_project || is_cached_unsaved_project) {
       loadCachedProject();
+      return;
+    }
+
+    if (assetsIdentifier) {
+      dispatch(
+        syncProject("load")({
+          identifier: assetsIdentifier,
+          locale: i18n.language,
+          accessToken,
+          assetsOnly: true,
+        }),
+      );
       return;
     }
 
