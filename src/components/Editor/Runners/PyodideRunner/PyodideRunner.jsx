@@ -35,6 +35,7 @@ const PyodideRunner = () => {
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const visualOutput = {};
 
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(
@@ -101,7 +102,7 @@ const PyodideRunner = () => {
   };
 
   const handleVisual = (origin, content) => {
-    console.log("handleVisual");
+    visualOutput?.handleVisual?.(origin, content);
   };
 
   const handleSenseHatEvent = (type) => {
@@ -118,6 +119,7 @@ const PyodideRunner = () => {
 
     output.current.innerHTML = "";
     dispatch(setError(""));
+    visualOutput?.clear?.();
 
     interruptBuffer.current[0] = 0; // Clear previous signals.
     pyodideWorker.postMessage({ method: "runPython", python: program });
@@ -168,7 +170,7 @@ const PyodideRunner = () => {
                   {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
                 </div>
                 <TabPanel key={0}>
-                  <VisualOutputPane />
+                  <VisualOutputPane visualOutput={visualOutput} />
                 </TabPanel>
               </Tabs>
             </div>
@@ -221,7 +223,7 @@ const PyodideRunner = () => {
           <ErrorMessage />
           {hasVisualOutput ? (
             <TabPanel key={0}>
-              <VisualOutputPane />
+              <VisualOutputPane visualOutput={visualOutput} />
             </TabPanel>
           ) : null}
           <TabPanel key={1}>
