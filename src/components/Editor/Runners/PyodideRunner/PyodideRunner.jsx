@@ -17,6 +17,7 @@ import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import VisualOutputPane from "../PythonRunner/VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
+import RunnerControls from "../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
