@@ -110,8 +110,10 @@ const PyodideRunner = () => {
   const handleRun = () => {
     const program = projectCode[0].content;
 
-    // TODO: write other files from projectCode:
-    // pyodideWorker.postMessage({ method: "writeFile", content: "<content>" });
+    for (const { name, extension, content } of projectCode) {
+      const filename = [name, extension].join(".");
+      pyodideWorker.postMessage({ method: "writeFile", filename, content });
+    }
 
     output.current.innerHTML = "";
     dispatch(setError(""));
