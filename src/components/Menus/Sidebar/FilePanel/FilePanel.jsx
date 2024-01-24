@@ -58,6 +58,43 @@ const FilePanel = ({ isMobile }) => {
     setWriter(obtainedWriter);
   };
 
+  const installMicroPython = async () => {
+    console.log("Installing!!");
+    const fileUrl =
+      "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
+
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = "rp2-pico-latest.uf2";
+    document.body.appendChild(link);
+
+    try {
+      link.click();
+      const fileHandle = await window.showOpenFilePicker();
+      const file = await fileHandle.getFile();
+      console.log(file.name);
+    } catch (error) {
+      // Replace 'https://example.com/path/to/your/file.pdf' with the actual URL of the file
+      //   const response = await fetch(fileUrl, { mode: "no-cors" });
+
+      //   const blob = await response.blob();
+
+      //   // Create a File object from the Blob
+      //   const file = new File([blob], "rp2-pico-latest.uf2", { type: blob.type });
+
+      //   // Now you can use 'file' for further operations, such as showing the save file picker
+      //   const fileHandle = await window.showSaveFilePicker();
+      //   const writable = await fileHandle.createWritable();
+
+      //   // Write the content of the File object to the selected file
+      //   await writable.write(file);
+      //   await writable.close();
+
+      //   console.log("File saved successfully!");
+      console.error("Error downloading the file:", error);
+    }
+  };
+
   const runOnPico = async () => {
     if (port && writer) {
       const codeString = project.components[0].content;
@@ -120,6 +157,14 @@ const FilePanel = ({ isMobile }) => {
         className="files-list-item"
         onClick={connectAndOpenREPL}
         text="Connect"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={installMicroPython}
+        text="Install MicroPython"
         icon={<DuplicateIcon />}
         textAlways
       />
