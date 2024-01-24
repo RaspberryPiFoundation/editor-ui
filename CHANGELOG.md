@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.21.2] - 2024-01-23
+
+### Changed
+
+- Minor copy changes to HTML add file modal
+- Toggle errors sent via apiCallHandler off (#890)
+- Upgrade webpack-dev-server to 4.0.0 to support conditional headers
+- Upgrade yarn to 3.4.1 to workaround a string-width issue
+
+### Fixed
+
+- Editor input not focussing on iPad (#898)
+
+## [0.21.1] - 2024-01-11
+
+### Added
+
+- Download panel save button (#872)
+
+### Changed
+
+- Stack editor input and output panels based on container width (#869)
+- Blob/URL replacement in HTMLRunner (#877)
+
+### Fixed
+
+- Boolean web component attributes (#881)
+- Wrap the project bar when sidebar is wide (#869)
+- Web component project bar state update delay (#869)
+- Left border of the project bar (#869)
+- Indentation of code block first line (#883)
+- Code block 3-digit line numbers (#883)
+
+## [0.21.0] - 2024-01-05
+
 ### Added
 
 - Load remix functionality (#804)
@@ -20,9 +55,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - quizReady custom event (#812)
 - Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 - Toast save reminder to web component (#822)
+- ProgressBar and completion-handling on quizzes (#834)
+- Support for multiple host styles in the web component (#863)
 
 ### Changed
 
+- Untangle HTML runner (#876)
+- Project sidebar mobile structure and default to instructions behaviour (#823)
+- Auth web component from user in local storage (#852)
 - Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
@@ -31,12 +71,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Fixed
 
+- Standalone editor height (#864)
+- Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
 - HTML projects loading in web component (#789)
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
 - Syntax highlighting contrast in dark mode (#824)
+- Secondary button theming (#827)
+- Instructions step buttons hit area (#827)
+- Instructions code block line highlighting (#827)
+- Instructions image widths (#827)
+- Save status spacing (#827)
+- Disappearing borders on tablet (#827)
+- Dark mode button theming (#850)
+- `<strong>` styling on Firefox (#854)
+- Progress bar width on Firefox (#855)
+- Instructions blocks spacing (#856)
+- Font family stacking (#857)
+- Save/download panel spacing (#859)
+- Instructions output wrapping in Firefox (#862)
+- Instructions code blocks with no line numbers (#863)
+- New file button width (#865)
 
 ## [0.20.0] - 2023-11-24
 
@@ -53,6 +110,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
+- Instructions table styling (#858)
 
 ### Changed
 
@@ -633,7 +691,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.2...HEAD
+[0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2
+[0.21.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.1
+[0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
 [0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3

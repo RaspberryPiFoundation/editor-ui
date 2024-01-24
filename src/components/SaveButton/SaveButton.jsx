@@ -10,7 +10,7 @@ import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 
-const SaveButton = ({ className, type }) => {
+const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -51,6 +51,7 @@ const SaveButton = ({ className, type }) => {
         textAlways
         icon={<SaveIcon />}
         type={buttonType}
+        fill={fill}
       />
     )
   );

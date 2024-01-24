@@ -158,7 +158,7 @@ i18n
               helpText:
                 "Remember to add the file extension at the end of your file name, for example, {{examples}}",
               helpTextExample: {
-                html: "'file.html' or 'file.css'",
+                html: "'file.html', 'file.css' or 'file.js'",
                 python: "'file.py'",
               },
               inputLabel: "Name your file",
@@ -266,8 +266,10 @@ i18n
           },
           mobile: {
             code: "Code",
+            menu: "Menu",
             output: "Output",
             preview: "Preview",
+            steps: "Steps",
           },
           modals: {
             close: "Close",
@@ -419,9 +421,9 @@ i18n
             HtmlOutput: "HTML Output Preview",
           },
           sidebar: {
-            collapse: "Collapse file pane",
+            collapse: "Collapse sidebar",
             download: "Download project",
-            expand: "Expand file pane",
+            expand: "Expand sidebar",
             file: "Project files",
             images: "Image gallery",
             settings: "Settings",

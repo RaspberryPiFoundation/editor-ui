@@ -4,7 +4,7 @@ import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
-import store from "./app/WebComponentStore";
+import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
@@ -58,8 +58,10 @@ class WebComponent extends HTMLElement {
         name,
       )
     ) {
-      value = newVal === "true";
-    } else if (["instructions", "sidebar_options"].includes(name)) {
+      value = newVal !== "false";
+    } else if (
+      ["instructions", "sidebar_options", "host_styles"].includes(name)
+    ) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;
