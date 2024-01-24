@@ -22,8 +22,9 @@ import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
   const pyodideWorker = useMemo(() => new PyodideWorker(), []);
-  const stdinBuffer = useRef();
   const interruptBuffer = useRef();
+  const stdinBuffer = useRef();
+  const stdinClosed = useRef();
   const projectCode = useSelector((s) => s.editor.project.components);
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
@@ -83,37 +84,34 @@ const PyodideRunner = () => {
     const outputPane = output.current;
     outputPane.appendChild(inputSpan());
 
-    const input = getInput();
-    input.focus();
+    const element = getInputElement();
 
-    const content = await new Promise(function (resolve, reject) {
-      input.addEventListener("keydown", function removeInput(e) {
-        if (e.key === "Enter") {
-          input.removeEventListener(e.type, removeInput);
-          // resolve the promise with the value of the input field
-          const answer = input.innerText;
-          input.removeAttribute("id");
-          input.removeAttribute("contentEditable");
-          input.innerText = answer + "\n";
+    if (stdinClosed.current) {
+      stdinBuffer.current[0] = -1;
+      return;
+    }
 
-          document.addEventListener("keyup", function storeInput(e) {
-            if (e.key === "Enter") {
-              document.removeEventListener(e.type, storeInput);
-              resolve(answer);
-            }
-          });
-        }
-      });
-    });
+    const { content, ctrlC, ctrlD, ctrlZ } = await getInputContent(element);
+
+    if (ctrlC || ctrlZ) {
+      handleStop();
+      return;
+    }
 
     const encoder = new TextEncoder();
-    const bytes = encoder.encode((content || "") + "\r\n");
+
+    const lineFeed = ctrlD ? "" : "\r\n";
+    const bytes = encoder.encode(content + "\r\n");
 
     const previousLength = stdinBuffer.current[0];
     stdinBuffer.current.set(bytes, previousLength);
 
     const currentLength = previousLength + bytes.length;
     stdinBuffer.current[0] = currentLength;
+
+    if (ctrlD) {
+      stdinClosed.current = true; // Don't accept any more stdin this run.
+    }
   };
 
   const handleOutput = (stream, content) => {
@@ -162,6 +160,7 @@ const PyodideRunner = () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
     visualOutput?.clear?.();
+    stdinClosed.current = false;
 
     interruptBuffer.current[0] = 0; // Clear previous signals.
     pyodideWorker.postMessage({ method: "runPython", python: program });
@@ -181,7 +180,7 @@ const PyodideRunner = () => {
     return span;
   };
 
-  const getInput = () => {
+  const getInputElement = () => {
     const pageInput = document.getElementById("input");
     const webComponentInput = document.querySelector("editor-wc")
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
@@ -189,14 +188,44 @@ const PyodideRunner = () => {
     return pageInput || webComponentInput;
   };
 
+  const getInputContent = async (element) => {
+    element.focus();
+
+    return new Promise(function (resolve, reject) {
+      element.addEventListener("keydown", function removeInput(e) {
+        const ctrlC = e.ctrlKey && e.key.toLowerCase() === "c";
+        const ctrlD = e.ctrlKey && e.key.toLowerCase() === "d";
+        const ctrlZ = e.ctrlKey && e.key.toLowerCase() === "z";
+
+        const lineEnded = e.key === "Enter" || ctrlC || ctrlD || ctrlZ;
+
+        if (lineEnded) {
+          element.removeEventListener(e.type, removeInput);
+          // resolve the promise with the value of the input field
+          const content = element.innerText;
+          element.removeAttribute("id");
+          element.removeAttribute("contentEditable");
+          element.innerText = content + "\n";
+
+          document.addEventListener("keyup", function storeInput(e) {
+            if (lineEnded) {
+              document.removeEventListener(e.type, storeInput);
+              resolve({ content, ctrlC, ctrlD, ctrlZ });
+            }
+          });
+        }
+      });
+    });
+  };
+
   const shiftFocusToInput = (event) => {
     if (document.getSelection().toString().length > 0) {
       return;
     }
 
-    const inputBox = getInput();
+    const inputBox = getInputElement();
     if (inputBox && event.target !== inputBox) {
-      const input = getInput();
+      const input = getInputElement();
       const selection = window.getSelection();
       selection.removeAllRanges();
 

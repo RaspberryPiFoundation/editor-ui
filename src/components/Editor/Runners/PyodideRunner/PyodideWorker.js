@@ -246,9 +246,11 @@ const readFromStdin = (bufferToWrite) => {
   }
 
   const currentLength = stdinBuffer[0];
-  const addedBytes = stdinBuffer.slice(previousLength, currentLength);
+  if (currentLength === -1) { return 0; } // Signals that stdin was closed.
 
+  const addedBytes = stdinBuffer.slice(previousLength, currentLength);
   bufferToWrite.set(addedBytes);
+
   return addedBytes.length;
 };
 
