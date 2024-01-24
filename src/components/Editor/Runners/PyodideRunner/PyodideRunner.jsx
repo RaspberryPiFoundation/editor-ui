@@ -22,6 +22,7 @@ import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
   const pyodideWorker = useMemo(() => new PyodideWorker(), []);
+  const stdinBuffer = useRef();
   const interruptBuffer = useRef();
   const projectCode = useSelector((s) => s.editor.project.components);
   const isSplitView = useSelector((s) => s.editor.isSplitView);
@@ -45,7 +46,8 @@ const PyodideRunner = () => {
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
       if (data.method === "handleLoading") { handleLoading(); }
-      if (data.method === "handleLoaded") { handleLoaded(data.interruptBuffer) }
+      if (data.method === "handleLoaded") { handleLoaded(data.stdinBuffer, data.interruptBuffer) }
+      if (data.method === "handleInput") { handleInput(); }
       if (data.method === "handleOutput") { handleOutput(data.stream, data.content); }
       if (data.method === "handleError") { handleError(data.file, data.line, data.mistake, data.type, data.content); }
       if (data.method === "handleVisual") { handleVisual(data.origin, data.content); }
@@ -69,9 +71,49 @@ const PyodideRunner = () => {
     dispatch(loadingRunner());
   };
 
-  const handleLoaded = (buffer) => {
-    interruptBuffer.current = buffer;
+  const handleLoaded = (stdin, interrupt) => {
+    stdinBuffer.current = stdin;
+    interruptBuffer.current = interrupt;
     dispatch(codeRunHandled());
+  };
+
+  const handleInput = async () => {
+    // TODO: Sk.sense_hat.mz_criteria.noInputEvents = false;
+
+    const outputPane = output.current;
+    outputPane.appendChild(inputSpan());
+
+    const input = getInput();
+    input.focus();
+
+    const content = await new Promise(function (resolve, reject) {
+      input.addEventListener("keydown", function removeInput(e) {
+        if (e.key === "Enter") {
+          input.removeEventListener(e.type, removeInput);
+          // resolve the promise with the value of the input field
+          const answer = input.innerText;
+          input.removeAttribute("id");
+          input.removeAttribute("contentEditable");
+          input.innerText = answer + "\n";
+
+          document.addEventListener("keyup", function storeInput(e) {
+            if (e.key === "Enter") {
+              document.removeEventListener(e.type, storeInput);
+              resolve(answer);
+            }
+          });
+        }
+      });
+    });
+
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode((content || "") + "\r\n");
+
+    const previousLength = stdinBuffer.current[0];
+    stdinBuffer.current.set(bytes, previousLength);
+
+    const currentLength = previousLength + bytes.length;
+    stdinBuffer.current[0] = currentLength;
   };
 
   const handleOutput = (stream, content) => {
@@ -128,6 +170,23 @@ const PyodideRunner = () => {
   const handleStop = () => {
     interruptBuffer.current[0] = 2; // Send a SIGINT signal.
     pyodideWorker.postMessage({ method: "stopPython" });
+  };
+
+  const inputSpan = () => {
+    const span = document.createElement("span");
+    span.setAttribute("id", "input");
+    span.setAttribute("spellCheck", "false");
+    span.setAttribute("class", "pythonrunner-input");
+    span.setAttribute("contentEditable", "true");
+    return span;
+  };
+
+  const getInput = () => {
+    const pageInput = document.getElementById("input");
+    const webComponentInput = document.querySelector("editor-wc")
+      ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
+      : null;
+    return pageInput || webComponentInput;
   };
 
   const shiftFocusToInput = (event) => {
