@@ -102,6 +102,7 @@ export const useProject = ({
 
       const updatedProject = {
         ...project,
+        project_type: project.project_type || "python",
         components: [
           ...otherComponents,
           {
