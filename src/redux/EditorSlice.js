@@ -25,7 +25,7 @@ export const syncProject = (actionName) =>
       switch (actionName) {
         case "load":
           if (assetsOnly) {
-            response = await loadAssets(identifier, locale, accessToken, true);
+            response = await loadAssets(identifier, locale, accessToken);
           } else {
             response = await readProject(identifier, locale, accessToken);
           }
