@@ -34,15 +34,15 @@ const PyodideRunner = () => {
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
-  const drawTriggered = useSelector((s) => s.editor.drawTriggered);
-  const senseHatAlwaysEnabled = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const visualOutput = {};
-
+  const senseHatAlwaysEnabled = useSelector(
+    (s) => s.editor.senseHatAlwaysEnabled,
+  );
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(
     queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled,
@@ -50,13 +50,31 @@ const PyodideRunner = () => {
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
-      if (data.method === "handleLoading") { handleLoading(); }
-      if (data.method === "handleLoaded") { handleLoaded(data.stdinBuffer, data.interruptBuffer) }
-      if (data.method === "handleInput") { handleInput(); }
-      if (data.method === "handleOutput") { handleOutput(data.stream, data.content); }
-      if (data.method === "handleError") { handleError(data.file, data.line, data.mistake, data.type, data.content); }
-      if (data.method === "handleVisual") { handleVisual(data.origin, data.content); }
-      if (data.method === "handleSenseHatEvent") { handleSenseHatEvent(data.type); }
+      switch (data.method) {
+        case "handleLoading":
+          handleLoading();
+          break;
+        case "handleLoaded":
+          handleLoaded(data.stdinBuffer, data.interruptBuffer);
+          break;
+        case "handleInput":
+          handleInput();
+          break;
+        case "handleOutput":
+          handleOutput(data.stream, data.content);
+          break;
+        case "handleError":
+          handleError(data.file, data.line, data.mistake, data.type, data.info);
+          break;
+        case "handleVisual":
+          handleVisual(data.origin, data.content);
+          break;
+        case "handleSenseHatEvent":
+          handleSenseHatEvent(data.type);
+          break;
+        default:
+          throw new Error(`Unsupported method: ${data.method}`);
+      }
     };
   }, []);
 
@@ -86,22 +104,20 @@ const PyodideRunner = () => {
   const handleInput = async () => {
     // TODO: Sk.sense_hat.mz_criteria.noInputEvents = false;
 
-    const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
-
-    const element = getInputElement();
-
     if (stdinClosed.current) {
       stdinBuffer.current[0] = -1;
       return;
     }
 
+    const outputPane = output.current;
+    outputPane.appendChild(inputSpan());
+
+    const element = getInputElement();
     const { content, ctrlD } = await getInputContent(element);
 
     const encoder = new TextEncoder();
-
     const lineFeed = ctrlD ? "" : "\r\n";
-    const bytes = encoder.encode(content + "\r\n");
+    const bytes = encoder.encode(content + lineFeed);
 
     const previousLength = stdinBuffer.current[0];
     stdinBuffer.current.set(bytes, previousLength);
@@ -124,13 +140,13 @@ const PyodideRunner = () => {
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, content) => {
+  const handleError = (file, line, mistake, type, info) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
       errorMessage = "Execution interrupted";
     } else {
-      const message = [type, content].filter(s => s).join(": ");
+      const message = [type, info].filter((s) => s).join(": ");
       errorMessage = [message, `on line ${line} of ${file}`].join(" ");
 
       if (mistake) {
@@ -202,7 +218,6 @@ const PyodideRunner = () => {
 
         if (lineEnded) {
           element.removeEventListener(e.type, removeInput);
-          // resolve the promise with the value of the input field
           const content = element.innerText;
           element.removeAttribute("id");
           element.removeAttribute("contentEditable");
@@ -238,7 +253,7 @@ const PyodideRunner = () => {
       }
       input.focus();
     }
-  }
+  };
 
   const disableInput = () => {
     const element = getInputElement();
