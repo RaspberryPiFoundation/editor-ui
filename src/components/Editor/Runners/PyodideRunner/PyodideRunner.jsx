@@ -142,7 +142,7 @@ const PyodideRunner = () => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
-      errorMessage = "Execution interrupted";
+      errorMessage = t("output.errors.interrupted");
     } else {
       const message = [type, info].filter((s) => s).join(": ");
       errorMessage = [message, `on line ${line} of ${file}`].join(" ");
