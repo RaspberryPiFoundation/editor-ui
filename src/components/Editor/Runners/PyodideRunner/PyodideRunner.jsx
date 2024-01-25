@@ -9,6 +9,7 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
+  setSenseHatEnabled,
 } from "../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -158,6 +159,10 @@ const PyodideRunner = () => {
   };
 
   const handleVisual = (origin, content) => {
+    if (origin === "sense_hat") {
+      dispatch(setSenseHatEnabled(true));
+    }
+
     setHasVisual(true);
     setVisuals((array) => [...array, { origin, content }]);
   };
@@ -169,6 +174,7 @@ const PyodideRunner = () => {
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setSenseHatEnabled(false));
     setVisuals([]);
     stdinClosed.current = false;
 
