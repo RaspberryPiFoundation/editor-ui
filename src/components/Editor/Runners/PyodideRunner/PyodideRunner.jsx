@@ -114,8 +114,7 @@ const PyodideRunner = () => {
     const { content, ctrlD } = await getInputContent(element);
 
     const encoder = new TextEncoder();
-    const lineFeed = ctrlD ? "" : "\r\n";
-    const bytes = encoder.encode(content + lineFeed);
+    const bytes = encoder.encode(content + "\r\n");
 
     const previousLength = stdinBuffer.current[0];
     stdinBuffer.current.set(bytes, previousLength);
