@@ -76,6 +76,7 @@ const PyodideRunner = () => {
     stdinBuffer.current = stdin;
     interruptBuffer.current = interrupt;
     dispatch(codeRunHandled());
+    disableInput();
   };
 
   const handleInput = async () => {
@@ -134,6 +135,7 @@ const PyodideRunner = () => {
     }
 
     dispatch(setError(errorMessage));
+    disableInput();
   };
 
   const handleVisual = (origin, content) => {
@@ -164,6 +166,7 @@ const PyodideRunner = () => {
   const handleStop = () => {
     interruptBuffer.current[0] = 2; // Send a SIGINT signal.
     pyodideWorker.postMessage({ method: "stopPython" });
+    disableInput();
   };
 
   const inputSpan = () => {
@@ -230,6 +233,15 @@ const PyodideRunner = () => {
       input.focus();
     }
   }
+
+  const disableInput = () => {
+    const element = getInputElement();
+
+    if (element) {
+      element.removeAttribute("id");
+      element.removeAttribute("contentEditable");
+    }
+  };
 
   return (
     <div className={`pythonrunner-container`}>
