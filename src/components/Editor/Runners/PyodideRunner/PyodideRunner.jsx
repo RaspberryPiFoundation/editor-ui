@@ -91,12 +91,7 @@ const PyodideRunner = () => {
       return;
     }
 
-    const { content, ctrlC, ctrlD, ctrlZ } = await getInputContent(element);
-
-    if (ctrlC || ctrlZ) {
-      handleStop();
-      return;
-    }
+    const { content, ctrlD } = await getInputContent(element);
 
     const encoder = new TextEncoder();
 
@@ -193,11 +188,8 @@ const PyodideRunner = () => {
 
     return new Promise(function (resolve, reject) {
       element.addEventListener("keydown", function removeInput(e) {
-        const ctrlC = e.ctrlKey && e.key.toLowerCase() === "c";
         const ctrlD = e.ctrlKey && e.key.toLowerCase() === "d";
-        const ctrlZ = e.ctrlKey && e.key.toLowerCase() === "z";
-
-        const lineEnded = e.key === "Enter" || ctrlC || ctrlD || ctrlZ;
+        const lineEnded = e.key === "Enter" || ctrlD;
 
         if (lineEnded) {
           element.removeEventListener(e.type, removeInput);
@@ -210,7 +202,7 @@ const PyodideRunner = () => {
           document.addEventListener("keyup", function storeInput(e) {
             if (lineEnded) {
               document.removeEventListener(e.type, storeInput);
-              resolve({ content, ctrlC, ctrlD, ctrlZ });
+              resolve({ content, ctrlD });
             }
           });
         }
