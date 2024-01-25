@@ -1,59 +1,66 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
-const VisualOutputPane = ({ visualOutput }) => {
-  const senseHatAlwaysEnabled = useSelector(
-    (s) => s.editor.senseHatAlwaysEnabled,
-  );
+const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
+  const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const output = useRef();
 
-  visualOutput.clear = () => {
-    output.current.innerHTML = "";
-  };
-
-  visualOutput.handleVisual = (origin, content) => {
-    switch (origin) {
-      case "sense_hat":
-        output.current.innerText = JSON.stringify(content);
-        break;
-      case "pygal":
-        Highcharts.chart(output.current, content);
-        break;
-      case "turtle":
-        output.current.innerHTML = elementFromProps(content).outerHTML;
-        break;
-      default:
-        throw new Error(`Unsupported origin: ${origin}`);
+  useEffect(() => {
+    if (visuals.length === 0) {
+      output.current.innerHTML = "";
+    } else if (visuals.some((v) => !v.showing)) {
+      setVisuals((visuals) => showVisuals(visuals, output));
     }
-  };
-
-  const elementFromProps = (map) => {
-    const tag = map.get("tag");
-    if (!tag) {
-      return document.createTextNode(map.get("text"));
-    }
-
-    const node = document.createElement(map.get("tag"));
-
-    for (const [key, value] of map.get("props")) {
-      node.setAttribute(key, value);
-    }
-    for (const childProps of map.get("children")) {
-      node.appendChild(elementFromProps(childProps));
-    }
-
-    return node;
-  };
+  }, [visuals, setVisuals]);
 
   return (
     <div className="visual-output">
       <div ref={output} className="pythonrunner-graphic" />
-      {senseHatEnabled || senseHatAlwaysEnabled ? <AstroPiModel /> : null}
+      {senseHatEnabled || senseHatAlways ? <AstroPiModel /> : null}
     </div>
   );
+};
+
+const showVisuals = (visuals, output) =>
+  visuals.map((v) => (v.showing ? v : showVisual(v, output)));
+
+const showVisual = (visual, output) => {
+  switch (visual.origin) {
+    case "sense_hat":
+      output.current.innerText = JSON.stringify(visual.content);
+      break;
+    case "pygal":
+      Highcharts.chart(output.current, visual.content);
+      break;
+    case "turtle":
+      output.current.innerHTML = elementFromProps(visual.content).outerHTML;
+      break;
+    default:
+      throw new Error(`Unsupported origin: ${visual.origin}`);
+  }
+
+  visual.showing = true;
+  return visual;
+};
+
+const elementFromProps = (map) => {
+  const tag = map.get("tag");
+  if (!tag) {
+    return document.createTextNode(map.get("text"));
+  }
+
+  const node = document.createElement(tag);
+  for (const [key, value] of map.get("props")) {
+    node.setAttribute(key, value);
+  }
+  for (const childProps of map.get("children")) {
+    node.appendChild(elementFromProps(childProps));
+  }
+
+  return node;
 };
 
 export default VisualOutputPane;

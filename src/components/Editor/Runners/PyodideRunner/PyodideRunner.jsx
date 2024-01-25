@@ -40,11 +40,11 @@ const PyodideRunner = () => {
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const visualOutput = {};
-  const senseHatAlways = useSelector( (s) => s.editor.senseHatAlwaysEnabled);
+  const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const queryParams = new URLSearchParams(window.location.search);
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
+  const [visuals, setVisuals] = useState([]);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -159,7 +159,8 @@ const PyodideRunner = () => {
   };
 
   const handleVisual = (origin, content) => {
-    visualOutput?.handleVisual?.(origin, content);
+    setHasVisual(true);
+    setVisuals((array) => [...array, { origin, content }]);
   };
 
   const handleSenseHatEvent = (type) => {
@@ -169,7 +170,7 @@ const PyodideRunner = () => {
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
-    visualOutput?.clear?.();
+    setVisuals([]);
     stdinClosed.current = false;
 
     await Promise.allSettled(
@@ -292,7 +293,7 @@ const PyodideRunner = () => {
                   {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
                 </div>
                 <TabPanel key={0}>
-                  <VisualOutputPane visualOutput={visualOutput} />
+                  <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
                 </TabPanel>
               </Tabs>
             </div>
@@ -345,7 +346,7 @@ const PyodideRunner = () => {
           <ErrorMessage />
           {hasVisual ? (
             <TabPanel key={0}>
-              <VisualOutputPane visualOutput={visualOutput} />
+              <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
             </TabPanel>
           ) : null}
           <TabPanel key={1}>
