@@ -36,7 +36,7 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "assetsIdentfier",
+      "assets_identifier",
       "auth_key",
       "identifier",
       "code",
