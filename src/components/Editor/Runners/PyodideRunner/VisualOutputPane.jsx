@@ -8,7 +8,6 @@ const VisualOutputPane = ({ visualOutput }) => {
     (s) => s.editor.senseHatAlwaysEnabled,
   );
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
-  const projectImages = useSelector((s) => s.editor.project.image_list); // TODO: turtle
   const output = useRef();
 
   visualOutput.clear = () => {

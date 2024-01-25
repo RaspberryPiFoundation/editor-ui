@@ -26,6 +26,7 @@ const PyodideRunner = () => {
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
+  const projectImages = useSelector((s) => s.editor.project.image_list);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const user = useSelector((s) => s.auth.user);
@@ -168,18 +169,25 @@ const PyodideRunner = () => {
     console.log("handleSenseHatEvent");
   };
 
-  const handleRun = () => {
-    const program = projectCode[0].content;
-
-    for (const { name, extension, content } of projectCode) {
-      const filename = [name, extension].join(".");
-      pyodideWorker.postMessage({ method: "writeFile", filename, content });
-    }
-
+  const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
     visualOutput?.clear?.();
     stdinClosed.current = false;
+
+    await Promise.allSettled(
+      projectImages.map(({ filename, url }) =>
+        fetch(url)
+          .then((response) => response.arrayBuffer())
+          .then((buffer) => writeFile(filename, buffer)),
+      ),
+    );
+
+    for (const { name, extension, content } of projectCode) {
+      writeFile([name, extension].join("."), content);
+    }
+
+    const program = projectCode[0].content;
 
     interruptBuffer.current[0] = 0; // Clear previous signals.
     pyodideWorker.postMessage({ method: "runPython", python: program });
@@ -189,6 +197,10 @@ const PyodideRunner = () => {
     interruptBuffer.current[0] = 2; // Send a SIGINT signal.
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
+  };
+
+  const writeFile = (filename, content) => {
+    pyodideWorker.postMessage({ method: "writeFile", filename, content });
   };
 
   const inputSpan = () => {

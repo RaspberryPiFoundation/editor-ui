@@ -12,6 +12,7 @@ const ProjectImages = () => {
         <div key={i} className="project-images__block">
           <div className="project-images__image-wrapper">
             <img
+              crossOrigin="true"
               className="project-images__image"
               src={image.url}
               alt={image.filename}
