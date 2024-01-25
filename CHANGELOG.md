@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Output styles for Instructions (#790, #807)
 - Styling for the instructions code snippets (#795)
 - Styling for the instructions code blocks (#794)
+- `assets_identifier` attribute for the web component (#901)
+- `code` attribute overriding content of `main.py`/`index.html` in the web component (#901)
 
 ### Changed
 
