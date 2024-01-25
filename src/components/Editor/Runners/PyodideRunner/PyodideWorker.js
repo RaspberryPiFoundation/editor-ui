@@ -164,17 +164,6 @@ const vendoredPackages = {
     },
     after: () => {},
   },
-  sqlite3: {
-    before: async () => {
-      const response = await fetch(
-        "https://cdn.adacomputerscience.org/ada/example_databases/sports_club.sqlite",
-      );
-      const buffer = await response.arrayBuffer();
-
-      pyodide.FS.writeFile("sports_club.sqlite", new Uint8Array(buffer));
-    },
-    after: () => {},
-  },
   sense_hat: {
     before: async () => {
       pyodide.registerJsModule("_internal_sense_hat", {
