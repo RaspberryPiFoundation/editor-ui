@@ -1,19 +1,18 @@
 import React from "react";
 import { useEffect, useState, startTransition } from "react";
 import "../../../assets/stylesheets/AstroPiModel.scss";
-import Sk from "skulpt";
 
-const SliderInput = (props) => {
-  const { name, label, unit, min, max, defaultValue, Icon } = props;
+const SliderInput = ({ name, label, unit, min, max, defaultValue, Icon, setSenseHatConfig }) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    if (Sk.sense_hat) {
-      startTransition(() => {
-        Sk.sense_hat.rtimu[name][1] = value + Math.random() - 0.5;
+    startTransition(() => {
+      setSenseHatConfig((config) => {
+        config.rtimu[name][1] = value + Math.random() - 0.5;
+        return config;
       });
-    }
-  }, [name, value]);
+    });
+  }, [name, value, setSenseHatConfig]);
 
   return (
     <div className="sense-hat-controls-panel__control">

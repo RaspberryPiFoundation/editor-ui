@@ -2,35 +2,36 @@ import React from "react";
 import { useEffect, useState, startTransition } from "react";
 import { useSelector } from "react-redux";
 import Toggle from "react-toggle";
-import Sk from "skulpt";
 import "../../../assets/stylesheets/AstroPiModel.scss";
 import "react-toggle/style.css";
 import { useTranslation } from "react-i18next";
 
-const MotionInput = (props) => {
-  const { defaultValue } = props;
+const MotionInput = ({ defaultValue, senseHatConfig, setSenseHatConfig }) => {
   const [value, setValue] = useState(defaultValue);
-  const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
-  );
+  const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!codeRunTriggered) {
-      Sk.sense_hat.start_motion_callback = () => {};
-      Sk.sense_hat.stop_motion_callback = () => {};
+      setSenseHatConfig((config) => {
+        config.start_motion_callback = () => {};
+        config.stop_motion_callback = () => {};
+        return config;
+      });
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (Sk.sense_hat) {
-      startTransition(() => {
-        Sk.sense_hat.motion = value;
+    startTransition(() => {
+      setSenseHatConfig((config) => {
+        config.motion = value;
+        return config;
       });
-    }
+    });
+
     value
-      ? Sk.sense_hat.start_motion_callback()
-      : Sk.sense_hat.stop_motion_callback();
+      ? senseHatConfig.start_motion_callback()
+      : senseHatConfig.stop_motion_callback();
   }, [value]);
 
   return (

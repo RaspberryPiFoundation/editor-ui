@@ -1,5 +1,4 @@
 import { Geometry } from "./Geometry";
-import Sk from "skulpt";
 
 function getTimestamp() {
   var time = Date.now(); // millis
@@ -13,9 +12,9 @@ function getTimestamp() {
  * The UI events and the polling are async and therefore we can "simulate"
  * even changes when the user does not rotate.
  */
-export function updateRTIMU() {
+export function updateRTIMU(rtimu) {
   // Retriev the previous timestamp
-  var oldTimestamp = Sk.sense_hat.rtimu.timestamp;
+  var oldTimestamp = rtimu.timestamp;
 
   // Special case, if we call this function the first time and
   // the window.sense_hat.rtimu object has not been initialized
@@ -36,12 +35,12 @@ export function updateRTIMU() {
   }
 
   // Get a copy of the old orientation in degrees (fusionPose is in radians)
-  var oldOrientation = Sk.sense_hat.rtimu.raw_old_orientation;
+  var oldOrientation = rtimu.raw_old_orientation;
 
   if (oldOrientation === null || oldOrientation === undefined) {
     oldOrientation = [0, 90, 0];
   }
-  var newOrientation = Geometry.degToRad(Sk.sense_hat.rtimu.raw_orientation);
+  var newOrientation = Geometry.degToRad(rtimu.raw_orientation);
 
   // Gyro is the rate of change of the orientation
   // Actually it is: gyro = (newOrientation - oldOrientation) / timeDelta
@@ -84,17 +83,17 @@ export function updateRTIMU() {
   var _compass = Geometry.dot3x3and3x1(T, Geometry.Defaults.NORTH);
 
   // store current orient to access it alter as old orient
-  Sk.sense_hat.rtimu.raw_old_orientation = newOrientation;
+  rtimu.raw_old_orientation = newOrientation;
 
   // update fusionPose (which is the orientation) and the timestamp values
-  Sk.sense_hat.rtimu.fusionPose = newOrientation;
-  Sk.sense_hat.rtimu.timestamp = newTimestamp;
+  rtimu.fusionPose = newOrientation;
+  rtimu.timestamp = newTimestamp;
 
   /* Update the internal rtimu data object */
 
   // The values are Floats representing the angle of the axis in degrees
   // _accel = perturb(_accel, 0.1);
-  Sk.sense_hat.rtimu.accel = [
+  rtimu.accel = [
     Geometry.clamp(_accel[0], -8, 8),
     Geometry.clamp(_accel[1], -8, 8),
     Geometry.clamp(_accel[2], -8, 8),
@@ -102,15 +101,17 @@ export function updateRTIMU() {
 
   // _gyro = perturb(_gyro, .5);
   // radians per second
-  Sk.sense_hat.rtimu.gyro = [_gyro[0], _gyro[1], _gyro[2]];
+  rtimu.gyro = [_gyro[0], _gyro[1], _gyro[2]];
 
   // _compass = perturb(_compass, .01);
   // multiply with 100 -> from Gauss to microteslas (µT)
-  Sk.sense_hat.rtimu.compass = [
+  rtimu.compass = [
     _compass[0] * 100,
     _compass[1] * 100,
     _compass[2] * 100,
   ];
+
+  return rtimu;
 }
 
 window.rotatemodel = function (x, y, z) {

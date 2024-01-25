@@ -1,18 +1,17 @@
 import React from "react";
 import { useEffect, useState, startTransition } from "react";
-import Sk from "skulpt";
 import "../../../assets/stylesheets/AstroPiModel.scss";
 
-const Input = (props) => {
-  const { name, label, type, defaultValue } = props;
+const Input = ({ name, label, type, defaultValue, setSenseHatConfig }) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    if (Sk.sense_hat) {
-      startTransition(() => {
-        Sk.sense_hat[name] = value;
+    startTransition(() => {
+      setSenseHatConfig((config) => {
+        config[name] = value;
+        return config;
       });
-    }
+    });
   }, [name, value]);
 
   return (

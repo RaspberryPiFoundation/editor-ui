@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useStopwatch } from "react-timer-hook";
-import Sk from "skulpt";
 
-const Stopwatch = () => {
+const Stopwatch = ({ setSenseHatConfig }) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -27,9 +26,11 @@ const Stopwatch = () => {
     }
     if (!codeRunTriggered && isRunning) {
       pause();
-      Sk.sense_hat.mz_criteria.duration = hasLostFocus
-        ? null
-        : minutes * 60 + seconds;
+      setSenseHatConfig((config) => {
+        const duration = hasLostFocus ? null : minutes * 60 + seconds;
+        config.mz_criteria.duration = duration;
+        return config;
+      });
     }
   }, [
     codeRunTriggered,

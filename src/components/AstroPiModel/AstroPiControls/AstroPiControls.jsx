@@ -9,8 +9,7 @@ import PressureIcon from "../../../assets/icons/pressure.svg";
 import TemperatureIcon from "../../../assets/icons/temperature.svg";
 import { useTranslation } from "react-i18next";
 
-const AstroPiControls = (props) => {
-  const { temperature, pressure, humidity, colour, motion } = props;
+const AstroPiControls = ({ temperature, pressure, humidity, colour, motion, senseHatConfig, setSenseHatConfig }) => {
   const { t } = useTranslation();
 
   return (
@@ -28,6 +27,7 @@ const AstroPiControls = (props) => {
             max={120}
             defaultValue={temperature}
             Icon={TemperatureIcon}
+            setSenseHatConfig={setSenseHatConfig}
           />
           <SliderInput
             name="pressure"
@@ -37,6 +37,7 @@ const AstroPiControls = (props) => {
             max={1260}
             defaultValue={pressure}
             Icon={PressureIcon}
+            setSenseHatConfig={setSenseHatConfig}
           />
           <SliderInput
             name="humidity"
@@ -46,6 +47,7 @@ const AstroPiControls = (props) => {
             max={100}
             defaultValue={humidity}
             Icon={HumidityIcon}
+            setSenseHatConfig={setSenseHatConfig}
           />
         </div>
 
@@ -55,9 +57,14 @@ const AstroPiControls = (props) => {
             label={t("output.senseHat.controls.colour")}
             type="color"
             defaultValue={colour}
+            setSenseHatConfig={setSenseHatConfig}
           />
-          <MotionInput defaultValue={motion} />
-          <Stopwatch />
+          <MotionInput
+            defaultValue={motion}
+            senseHatConfig={senseHatConfig}
+            setSenseHatConfig={setSenseHatConfig}
+          />
+          <Stopwatch setSenseHatConfig={setSenseHatConfig} />
         </div>
       </div>
     </div>

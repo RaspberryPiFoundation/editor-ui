@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import Sk from "skulpt";
 import { invalidate } from "@react-three/fiber";
 
-const FlightCase = () => {
+const FlightCase = ({ setSenseHatConfig }) => {
   const { scene } = useGLTF(
     `${process.env.PUBLIC_URL}/models/raspi-compressed.glb`,
   );
@@ -46,30 +45,33 @@ const FlightCase = () => {
     }
   }
 
-  Sk.sense_hat_emit = function (event, data) {
-    if (event && event === "setpixel") {
-      // change the led
-      const ledIndex = data;
-      const ledData = Sk.sense_hat.pixels[ledIndex];
+  setSenseHatConfig((config) => {
+    config.emit = function (event, data) {
+      if (event && event === "setpixel") {
+        // change the led
+        const ledIndex = data;
+        const ledData = config.pixels[ledIndex];
 
-      // Convert LED-RGB to RGB565 // and then to RGB555
-      Sk.sense_hat.pixels[ledIndex] = [
-        ledData[0] & ~7,
-        ledData[1] & ~3,
-        ledData[2] & ~7,
-      ];
+        // Convert LED-RGB to RGB565 // and then to RGB555
+        config.pixels[ledIndex] = [
+          ledData[0] & ~7,
+          ledData[1] & ~3,
+          ledData[2] & ~7,
+        ];
 
-      setPixel(
-        ledIndex,
-        parseInt(ledData[0] * 255),
-        parseInt(ledData[1] * 255),
-        parseInt(ledData[2] * 255),
-      );
-    } else if (event && event === "setpixels") {
-      setPixels(data, Sk.sense_hat.pixels);
-    }
-    invalidate();
-  };
+        setPixel(
+          ledIndex,
+          parseInt(ledData[0] * 255),
+          parseInt(ledData[1] * 255),
+          parseInt(ledData[2] * 255),
+        );
+      } else if (event && event === "setpixels") {
+        setPixels(data, config.pixels);
+      }
+      invalidate();
+    };
+    return config;
+  });
 
   return <primitive object={scene} scale={4} />;
 };
