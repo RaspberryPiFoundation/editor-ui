@@ -36,6 +36,7 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "assets_identifier",
       "auth_key",
       "identifier",
       "code",
@@ -52,7 +53,9 @@ class WebComponent extends HTMLElement {
   attributeChangedCallback(name, _oldVal, newVal) {
     let value;
 
-    if (["sense_hat_always_enabled", "with_sidebar"].includes(name)) {
+    if (
+      ["sense_hat_always_enabled", "with_sidebar", "embedded"].includes(name)
+    ) {
       value = newVal === "true";
     } else if (["instructions", "sidebar_options"].includes(name)) {
       value = JSON.parse(newVal);

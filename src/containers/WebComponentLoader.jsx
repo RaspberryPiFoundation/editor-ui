@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
+  setEmbedded,
   setSenseHatAlwaysEnabled,
   stopCodeRun,
   stopDraw,
@@ -20,6 +21,7 @@ import { useCookies } from "react-cookie";
 const WebComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
@@ -41,6 +43,7 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
@@ -85,8 +88,13 @@ const WebComponentLoader = (props) => {
     }
   }, [loading, project]);
 
+  if (embedded !== isEmbedded) {
+    dispatch(setEmbedded(embedded));
+  }
+
   useProject({
-    projectIdentifier: projectIdentifier,
+    assetsIdentifier,
+    projectIdentifier,
     code,
     accessToken: user && user.access_token,
   });
