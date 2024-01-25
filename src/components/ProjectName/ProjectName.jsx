@@ -82,6 +82,7 @@ const ProjectName = ({
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
+        isEditable &&
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
         tickButton.current &&
@@ -94,7 +95,7 @@ const ProjectName = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [nameInput, tickButton, project, resetName]);
+  }, [isEditable, nameInput, tickButton, project, resetName]);
 
   return (
     <>

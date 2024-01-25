@@ -158,7 +158,7 @@ i18n
               helpText:
                 "Remember to add the file extension at the end of your file name, for example, {{examples}}",
               helpTextExample: {
-                html: "'file.html' or 'file.css'",
+                html: "'file.html', 'file.css' or 'file.js'",
                 python: "'file.py'",
               },
               inputLabel: "Name your file",
