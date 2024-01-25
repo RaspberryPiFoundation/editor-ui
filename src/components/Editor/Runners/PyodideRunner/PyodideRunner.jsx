@@ -14,6 +14,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import { createError } from "../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
@@ -26,6 +27,9 @@ const PyodideRunner = () => {
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
   const projectCode = useSelector((s) => s.editor.project.components);
+  const projectIdentifier = useSelector((s) => s.editor.project.identifier);
+  const user = useSelector((s) => s.auth.user);
+  const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
@@ -132,6 +136,8 @@ const PyodideRunner = () => {
       if (mistake) {
         errorMessage += `:\n${mistake}`;
       }
+
+      createError(projectIdentifier, userId, { errorType: type, errorMessage });
     }
 
     dispatch(setError(errorMessage));
