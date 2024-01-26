@@ -58,7 +58,9 @@ const $builtinmodule = function (name) {
 
   mod.get = new Sk.builtin.func(function () {
     const argVals = processArgs(arguments);
-    const colorArgs = mod.pInst.get(...argVals);
+    const colorArgs = mod.pInst.get(
+      ...argVals.map((argVal) => argVal * scaleFactor),
+    );
     const colorArgsArray = [
       new Sk.builtin.float_(colorArgs[0]),
       new Sk.builtin.float_(colorArgs[1]),

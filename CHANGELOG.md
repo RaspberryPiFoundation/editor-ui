@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Made `p5` canvas responsive to the available space (#887)
+
 ### Fixed
 
 - Local docker setup with yarn v3 (#905)
