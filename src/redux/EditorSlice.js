@@ -34,9 +34,6 @@ export const syncProject = (actionName) =>
         case "loadRemix":
           response = await loadRemix(identifier, accessToken);
           break;
-        case "loadRemix":
-          response = await loadRemix(identifier, accessToken);
-          break;
         case "remix":
           response = await createRemix(project, accessToken);
           break;
