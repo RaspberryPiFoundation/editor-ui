@@ -1366,14 +1366,14 @@ const $builtinmodule = function (name) {
       mod.pInst &&
       mod.pInst.mouseX >= 0 &&
       mod.pInst.mouseY >= 0 &&
-      mod.pInst.mouseX <= Sk.builtins.width &&
-      mod.pInst.mouseY <= Sk.builtins.height
+      mod.pInst.mouseX <= Sk.builtins.width * scaleFactor &&
+      mod.pInst.mouseY <= Sk.builtins.height * scaleFactor
     ) {
       Sk.builtins.mouse_x = new Sk.builtin.float_(
-        mod.pInst.mouseX / scaleFactor,
+        Math.round(mod.pInst.mouseX / scaleFactor),
       );
       Sk.builtins.mouse_y = new Sk.builtin.float_(
-        mod.pInst.mouseY / scaleFactor,
+        Math.round(mod.pInst.mouseY / scaleFactor),
       );
     }
   };
@@ -1582,13 +1582,13 @@ const $builtinmodule = function (name) {
     $loc.__getattr__ = new Sk.builtin.func(function (self, key) {
       key = Sk.ffi.remapToJs(key);
       if (key === "x") {
-        return Sk.builtin.assk$(mod.pInst.mouseX);
+        return Sk.builtin.assk$(Math.round(mod.pInst.mouseX / scaleFactor));
       } else if (key === "y") {
-        return Sk.builtin.assk$(mod.pInst.mouseY);
+        return Sk.builtin.assk$(Math.round(mod.pInst.mouseY / scaleFactor));
       } else if (key === "px") {
-        return Sk.builtin.assk$(mod.pInst.pmouseX);
+        return Sk.builtin.assk$(Math.round(mod.pInst.pmouseX / scaleFactor));
       } else if (key === "py") {
-        return Sk.builtin.assk$(mod.pInst.pmouseY);
+        return Sk.builtin.assk$(Math.round(mod.pInst.pmouseY / scaleFactor));
       } else if (key === "pressed") {
         return new Sk.builtin.bool(mod.pInst.mouseIsPressed);
       } else if (key === "button") {
