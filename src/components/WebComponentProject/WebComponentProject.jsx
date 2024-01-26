@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
 import { useMediaQuery } from "react-responsive";
-import Style from "style-it";
-
-import internalStyles from "../../assets/stylesheets/InternalStyles.scss";
-import externalStyles from "../../assets/stylesheets/ExternalStyles.scss";
-import "../../assets/stylesheets/EmbeddedViewer.scss";
-import "../../assets/stylesheets/Project.scss";
 
 import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
@@ -24,6 +17,7 @@ import {
 } from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = ({
+  withProjectbar = false,
   withSidebar = false,
   sidebarOptions = [],
   outputOnly = false,
@@ -38,10 +32,6 @@ const WebComponentProject = ({
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
-  const [cookies] = useCookies(["theme", "fontSize"]);
-  const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
-    ? "dark"
-    : "light";
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
@@ -84,32 +74,27 @@ const WebComponentProject = ({
 
   return (
     <>
-      <style>{externalStyles.toString()}</style>
-      <Style>
-        {internalStyles.toString()}
-        <div id="wc" className={`--${cookies.theme || defaultTheme}`}>
-          {!outputOnly &&
-            (isMobile ? (
-              <MobileProject
-                withSidebar={withSidebar}
-                sidebarOptions={sidebarOptions}
-              />
-            ) : (
-              <Project
-                forWebComponent={true}
-                withSidebar={withSidebar}
-                sidebarOptions={sidebarOptions}
-              />
-            ))}
-          {outputOnly && (
-            <div className="embedded-viewer">
-              {loading === "success" && (
-                <Output embedded={true} browserPreview={false} />
-              )}
-            </div>
+      {!outputOnly &&
+        (isMobile ? (
+          <MobileProject
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+          />
+        ) : (
+          <Project
+            forWebComponent={true}
+            withProjectbar={withProjectbar}
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+          />
+        ))}
+      {outputOnly && (
+        <div className="embedded-viewer">
+          {loading === "success" && (
+            <Output embedded={true} browserPreview={false} />
           )}
         </div>
-      </Style>
+      )}
     </>
   );
 };

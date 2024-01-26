@@ -185,7 +185,7 @@ describe("Testing project errors API calls", () => {
   test("Create a basic project error", async () => {
     projectIdentifier = undefined;
     userId = undefined;
-    await createError(projectIdentifier, userId, error);
+    await createError(projectIdentifier, userId, error, true);
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/project_errors`,
       {
@@ -200,8 +200,26 @@ describe("Testing project errors API calls", () => {
       errorMessage: "Something went wrong",
       errorType: "SomeDummyError",
     };
-    await createError(projectIdentifier, userId, error);
+    await createError(projectIdentifier, userId, error, true);
     expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/project_errors`,
+      {
+        project_id: projectIdentifier,
+        user_id: userId,
+        error: error.errorMessage,
+        error_type: error?.errorType,
+      },
+      undefined,
+    );
+  });
+
+  test("Create project error not called", async () => {
+    error = {
+      errorMessage: "Something went wrong",
+      errorType: "SomeDummyError",
+    };
+    await createError(projectIdentifier, userId, error);
+    expect(axios.post).not.toHaveBeenCalledWith(
       `${host}/api/project_errors`,
       {
         project_id: projectIdentifier,

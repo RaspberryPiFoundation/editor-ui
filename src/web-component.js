@@ -4,7 +4,7 @@ import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
-import store from "./app/WebComponentStore";
+import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
@@ -37,11 +37,13 @@ class WebComponent extends HTMLElement {
   static get observedAttributes() {
     return [
       "assets_identifier",
+      "host_styles",
       "auth_key",
       "identifier",
       "code",
       "sense_hat_always_enabled",
       "instructions",
+      "with_projectbar",
       "with_sidebar",
       "output_only",
       "sidebar_options",
@@ -54,10 +56,17 @@ class WebComponent extends HTMLElement {
     let value;
 
     if (
-      ["sense_hat_always_enabled", "with_sidebar", "embedded"].includes(name)
+      [
+        "sense_hat_always_enabled",
+        "with_sidebar",
+        "with_projectbar",
+        "embedded",
+      ].includes(name)
     ) {
-      value = newVal === "true";
-    } else if (["instructions", "sidebar_options"].includes(name)) {
+      value = newVal !== "false";
+    } else if (
+      ["instructions", "sidebar_options", "host_styles"].includes(name)
+    ) {
       value = JSON.parse(newVal);
     } else {
       value = newVal;

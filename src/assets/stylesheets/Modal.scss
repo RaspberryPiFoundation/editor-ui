@@ -10,6 +10,9 @@
   align-items: center;
   justify-content: center;
   padding: $space-5;
+  z-index: 1000;
+  position: fixed;
+  inset: 0px;
 
   @include mobile-only {
     padding: $space-2;
@@ -17,8 +20,8 @@
 }
 
 .modal-content {
-  width: 560px;
-  max-height: 100%;
+  inline-size: 560px;
+  max-block-size: 100%;
   border: 0;
   border-radius: 10px;
   display: flex;
@@ -31,7 +34,7 @@
 
   input[type="text"] {
     @include font-size-1(regular);
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
     border: 2px solid transparent;
     border-radius: 12px;
@@ -48,12 +51,12 @@
 .modal-content__header {
   display: flex;
   align-items: center;
-  min-height: fit-content;
+  min-block-size: fit-content;
   padding: $space-1 $space-0-5 $space-1 $space-1;
 
   button {
     margin-inline-start: auto;
-    height: fit-content;
+    block-size: fit-content;
   }
 }
 
@@ -117,11 +120,11 @@
     margin: 0;
 
     span {
-      width: 100%;
+      inline-size: 100%;
     }
 
     @include mobile-only {
-      width: 100%;
+      inline-size: 100%;
     }
   }
 }
@@ -136,12 +139,6 @@
   }
 }
 
-.modal-overlay {
-  z-index: 1000;
-  position: fixed;
-  inset: 0px;
-}
-
 .--dark {
   .modal-overlay {
     background-color: rgba(0, 0, 0, 0.5);
@@ -152,7 +149,7 @@
       color: inherit;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal-800;
+        border: 2px solid var(--rpf-input-active-border);
         outline: none;
       }
     }
@@ -182,7 +179,7 @@
       border: 2px solid $rpf-grey-100;
 
       &:focus-visible {
-        border: 2px solid $rpf-teal-800;
+        border: 2px solid var(--rpf-input-active-border);
         outline: none;
       }
     }

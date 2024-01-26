@@ -10,11 +10,15 @@ export const useProject = ({
   projectIdentifier = null,
   code = null,
   accessToken = null,
+  loadRemix = false,
+  loadCache = true,
+  remixLoadFailed = false,
 }) => {
   const project = useSelector((state) => state.editor.project);
   const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
+
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
@@ -32,55 +36,6 @@ export const useProject = ({
   useEffect(() => {
     setCachedProject(getCachedProject(projectIdentifier));
   }, [projectIdentifier]);
-
-  useEffect(() => {
-    const is_cached_saved_project =
-      projectIdentifier &&
-      cachedProject &&
-      cachedProject.identifier === projectIdentifier;
-    const is_cached_unsaved_project = !projectIdentifier && cachedProject;
-
-    if (is_cached_saved_project || is_cached_unsaved_project) {
-      loadCachedProject();
-      return;
-    }
-
-    if (assetsIdentifier) {
-      dispatch(
-        syncProject("load")({
-          identifier: assetsIdentifier,
-          locale: i18n.language,
-          accessToken,
-          assetsOnly: true,
-        }),
-      );
-      return;
-    }
-
-    if (projectIdentifier) {
-      dispatch(
-        syncProject("load")({
-          identifier: projectIdentifier,
-          locale: i18n.language,
-          accessToken: accessToken,
-        }),
-      );
-      return;
-    }
-
-    if (code) {
-      const project = {
-        name: "Blank project",
-        type: "python",
-        components: [{ name: "main", extension: "py", content: code }],
-      };
-      dispatch(setProject(project));
-      return;
-    }
-
-    const data = defaultPythonProject;
-    dispatch(setProject(data));
-  }, [projectIdentifier, cachedProject, i18n.language, accessToken]);
 
   useEffect(() => {
     if (code && loading === "success") {
@@ -114,4 +69,81 @@ export const useProject = ({
       dispatch(setProject(updatedProject));
     }
   }, [code, loading]);
+
+  useEffect(() => {
+    if (!loadRemix) {
+      const is_cached_saved_project =
+        projectIdentifier &&
+        cachedProject &&
+        cachedProject.identifier === projectIdentifier;
+      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
+
+      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+        loadCachedProject();
+        return;
+      }
+
+      if (assetsIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: assetsIdentifier,
+            locale: i18n.language,
+            accessToken,
+            assetsOnly: true,
+          }),
+        );
+        return;
+      }
+
+      if (projectIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: projectIdentifier,
+            locale: i18n.language,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
+
+      if (code) {
+        const project = {
+          name: "Blank project",
+          type: "python",
+          components: [{ name: "main", extension: "py", content: code }],
+        };
+        dispatch(setProject(project));
+        return;
+      }
+
+      const data = defaultPythonProject;
+      dispatch(setProject(data));
+    }
+  }, [projectIdentifier, cachedProject, i18n.language, accessToken, loadRemix]);
+
+  useEffect(() => {
+    if (projectIdentifier && loadRemix && (!accessToken || remixLoadFailed)) {
+      dispatch(
+        syncProject("load")({
+          identifier: projectIdentifier,
+          locale: i18n.language,
+          accessToken: accessToken,
+        }),
+      );
+    }
+  }, [projectIdentifier, i18n.language, accessToken, remixLoadFailed]);
+
+  useEffect(() => {
+    if (projectIdentifier && loadRemix && !remixLoadFailed) {
+      if (accessToken && !!!project?.user_id) {
+        dispatch(
+          syncProject("loadRemix")({
+            identifier: projectIdentifier,
+            accessToken: accessToken,
+          }),
+        );
+        return;
+      }
+    }
+  }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
 };
