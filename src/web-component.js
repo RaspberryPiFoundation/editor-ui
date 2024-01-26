@@ -101,11 +101,28 @@ class WebComponent extends HTMLElement {
     this.mountReactApp();
   }
 
+  stopCode() {
+    const state = store.getState();
+    if (state.editor.codeRunTriggered || state.editor.drawTriggered) {
+      store.dispatch(stopCodeRun());
+      store.dispatch(stopDraw());
+    }
+  }
+
   runCode() {
-    store.dispatch(stopCodeRun());
-    store.dispatch(stopDraw());
-    store.dispatch(codeRunHandled());
-    store.dispatch(triggerCodeRun());
+    this.stopCode();
+
+    new Promise((resolve) => {
+      let checkInterval = setInterval(() => {
+        let state = store.getState();
+        if (!state.codeRunTriggered && !state.drawTriggered) {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }).then(() => {
+      store.dispatch(triggerCodeRun());
+    });
   }
 
   reactProps() {

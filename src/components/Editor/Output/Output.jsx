@@ -11,13 +11,16 @@ const Output = ({ embedded = false, browserPreview = false }) => {
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview =
     searchParams.get("browserPreview") === "true" || browserPreview;
+  const webComponent = useSelector((state) => state.editor.webComponent);
 
   return (
     <>
       <ExternalFiles />
       <div className="proj-runner-container">
         <RunnerFactory projectType={project.project_type} />
-        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
+        {!webComponent && isEmbedded && !isBrowserPreview && (
+          <RunBar embedded />
+        )}
       </div>
     </>
   );
