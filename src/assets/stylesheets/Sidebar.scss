@@ -44,14 +44,14 @@
 }
 
 .sidebar--mobile {
-  width: 100%;
+  inline-size: 100%;
   overflow-y: hidden;
 }
 
 // SidebarBar
 .editor-logo {
-  height: $space-2-5;
-  width: $space-2-5;
+  block-size: $space-2-5;
+  inline-size: $space-2-5;
   padding: $space-0-75;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .sidebar__bar-option-wrapper {
-  padding: 0.625rem;
+  padding: calc(0.75 * $space-0-5);
   border: 1px solid transparent;
 
   &--selected {
@@ -119,25 +119,24 @@
   &--selected:hover {
     background-color: var(--sidebar-option-selected-background-hover);
   }
-
-  .sidebar__panel-footer {
-    background-color: $rpf-grey-700;
-    border-block-start: 1px solid $rpf-grey-600;
-  }
 }
 
 .sidebar__bar-close {
   border-block-start: 1px solid var(--sidebar-border);
 }
 
-// Panel
+/* Panel */
 .sidebar__panel {
   display: flex;
   flex-direction: column;
   padding: $space-1;
   border-radius: 0 8px 8px 0;
-  width: inherit;
+  inline-size: inherit;
   background: var(--sidebar-panel-background);
+}
+
+.sidebar__panel--with-footer {
+  padding-block-end: $space-2;
 }
 
 .sidebar__panel-heading {
@@ -158,5 +157,16 @@
   padding: $space-1 0;
   overflow-y: scroll;
   scrollbar-width: none;
-  margin-block-end: $space-2;
+}
+
+.sidebar__panel-footer {
+  border-block-start: 1px solid $rpf-grey-150;
+  position: absolute;
+  bottom: 0px;
+  inline-size: 100%;
+  inline-size: -moz-available;
+  inline-size: -webkit-fill-available;
+  inline-size: fill-available;
+  background-color: white;
+  border-bottom-right-radius: 8px;
 }

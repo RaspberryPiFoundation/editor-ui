@@ -1,4 +1,7 @@
+@use "./rpf_design_system/spacing" as *;
+
 .runner-controls {
   display: flex;
   align-items: center;
+  padding: 0 $space-0-5;
 }

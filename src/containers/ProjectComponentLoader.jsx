@@ -83,15 +83,15 @@ const ProjectComponentLoader = (props) => {
         ) : (
           <Project withSidebar sidebarOptions={sidebarOptions} />
         )
-      ) : loading === "pending" ? (
-        <p>{t("project.loading")}</p>
-      ) : null}
-      {errorModalShowing ? <ErrorModal /> : null}
-      {newFileModalShowing ? <NewFileModal /> : null}
-      {renameFileModalShowing && modals.renameFile ? <RenameFileModal /> : null}
-      {notFoundModalShowing ? <NotFoundModal /> : null}
-      {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
-      {accessDeniedWithAuthModalShowing ? <AccessDeniedWithAuthModal /> : null}
+      ) : (
+        loading === "pending" && <p>{t("project.loading")}</p>
+      )}
+      {errorModalShowing && <ErrorModal />}
+      {newFileModalShowing && <NewFileModal />}
+      {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+      {notFoundModalShowing && <NotFoundModal />}
+      {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+      {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
     </>
   );
 };

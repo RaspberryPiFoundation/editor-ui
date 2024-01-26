@@ -2,7 +2,7 @@
 <html>
   <style>
     #root {
-      min-height: 100dvh;
+      min-block-size: 100dvh;
       -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
       scrollbar-width: none; /* Remove scroll bar for Firefox */
     }
@@ -12,7 +12,7 @@
     body {
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      block-size: 100dvh;
       margin: 0;
     }
     .editor-wc {
@@ -22,7 +22,7 @@
     ::part(editor-root) {
       display: block;
       flex: 1 1 auto;
-      max-height: 100dvh;
+      max-block-size: 100dvh;
     }
   </style>
   <head>
@@ -40,6 +40,7 @@
       const queryParams = new URLSearchParams(window.location.search);
 
       // sidebar
+      webComp.setAttribute("with_projectbar", "true");
       webComp.setAttribute("with_sidebar", "true");
       webComp.setAttribute(
         "sidebar_options",
@@ -50,7 +51,7 @@
           "download",
           "settings",
           "info",
-        ])
+        ]),
       );
       webComp.setAttribute("output_only", "true");
       webComp.setAttribute("identifier", "hello-world-solution");
@@ -58,6 +59,7 @@
       // Pre-set the code attribute with an empty string.
       webComp.setAttribute("code", "");
       webComp.setAttribute("class", "editor-wc");
+      webComp.setAttribute("host_styles", JSON.stringify([]));
       // Set any attribute you like in the query string, including class, style, hidden, script, etc.
       queryParams.forEach((value, key) => {
         webComp.setAttribute(key, value);
