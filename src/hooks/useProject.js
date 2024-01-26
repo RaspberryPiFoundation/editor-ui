@@ -18,8 +18,7 @@ export const useProject = ({
   const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
-  const project = useSelector((state) => state.editor.project);
-
+  
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
