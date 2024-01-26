@@ -31,8 +31,15 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
         className="modal-content"
         overlayClassName="modal-overlay"
         contentLabel="Error"
-        parentSelector={() => document.querySelector("#app")}
-        appElement={document.getElementById("app") || undefined}
+        parentSelector={() =>
+          document.querySelector("#app") ||
+          document.querySelector("editor-wc").shadowRoot.querySelector("#wc")
+        }
+        appElement={
+          document.querySelector("editor-wc") ||
+          document.getElementById("app") ||
+          undefined
+        }
       >
         <div className="modal-content__header">
           <h2 className="modal-content__heading">{t("modal.error.heading")}</h2>

@@ -4,19 +4,26 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import TickIcon from "../../assets/icons/tick.svg";
 
-import Button from "../Button/Button";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { updateProjectName } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/ProjectName.scss";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
-const ProjectName = ({ className = null, showLabel = false }) => {
+const ProjectName = ({
+  className = null,
+  showLabel = false,
+  forWebComponent = false,
+}) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
   const nameInput = useRef();
   const tickButton = useRef();
+
   const [isEditable, setEditable] = useState(false);
   const [name, setName] = useState(project.name || t("projectName.newProject"));
 
@@ -75,6 +82,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
+        isEditable &&
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
         tickButton.current &&
@@ -87,45 +95,51 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [nameInput, tickButton, project, resetName]);
+  }, [isEditable, nameInput, tickButton, project, resetName]);
 
   return (
     <>
-      {showLabel ? (
+      {showLabel && (
         <label htmlFor="project_name" className="project-name__label">
           {t("projectName.label")}
         </label>
-      ) : null}
+      )}
       <div className={classNames("project-name", className)}>
-        <input
-          className="project-name__input"
-          id={"project_name"}
-          ref={nameInput}
-          type="text"
-          onFocus={selectText}
-          onScroll={handleScroll}
-          onKeyDown={handleKeyDown}
-          value={name}
-          disabled={!isEditable}
-          onChange={handleOnChange}
-        />
-        {isEditable ? (
-          <Button
-            buttonRef={tickButton}
-            className="btn--primary"
-            label={t("header.renameSave")}
-            title={t("header.renameSave")}
-            ButtonIcon={TickIcon}
-            onClickHandler={updateName}
-          />
+        {/* TODO: Look into alternative approach so we don't need hidden h1 */}
+        <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+          {project.name || t("header.newProject")}
+        </h1>
+        {forWebComponent ? (
+          <div className="project-name__title">{name}</div>
         ) : (
-          <Button
-            className="btn--tertiary project-name__button"
-            label={t("header.renameProject")}
-            title={t("header.renameProject")}
-            ButtonIcon={PencilIcon}
-            onClickHandler={onEditNameButtonClick}
+          <input
+            className="project-name__input"
+            id={"project_name"}
+            ref={nameInput}
+            type="text"
+            onFocus={selectText}
+            onScroll={handleScroll}
+            onKeyDown={handleKeyDown}
+            value={name}
+            disabled={!isEditable}
+            onChange={handleOnChange}
           />
+        )}
+        {!forWebComponent && (
+          <div ref={tickButton}>
+            <DesignSystemButton
+              className="project-name__button"
+              aria-label={t(
+                isEditable ? "header.renameSave" : "header.renameProject",
+              )}
+              title={t(
+                isEditable ? "header.renameSave" : "header.renameProject",
+              )}
+              icon={isEditable ? <TickIcon /> : <PencilIcon />}
+              onClick={isEditable ? updateName : onEditNameButtonClick}
+              type={isEditable ? "primary" : "tertiary"}
+            />
+          </div>
         )}
       </div>
     </>

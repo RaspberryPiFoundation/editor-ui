@@ -17,8 +17,11 @@ describe("It renders project steps when there is no quiz", () => {
           steps: [
             { content: "<p>step 0</p>" },
             {
-              content:
-                "<p>step 1</p><code class='language-python'>print('hello')</code>",
+              content: `<p>step 1</p>
+                <code class='language-python'>print('hello')</code>
+                <code class='language-html'><p>Hello world</p></code>
+                <code class='language-css'>.hello { color: purple }</code>
+                `,
             },
           ],
         },
@@ -48,19 +51,37 @@ describe("It renders project steps when there is no quiz", () => {
     expect(screen.queryByRole("progressbar")).toBeInTheDocument();
   });
 
-  test("Applies syntax highlighting", () => {
+  test("Applies syntax highlighting to python code", () => {
     const codeElement = document.getElementsByClassName("language-python")[0];
+    expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
+
+  test("Applies syntax highlighting to HTML code", () => {
+    const codeElement = document.getElementsByClassName("language-html")[0];
+    expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
+
+  test("Applies syntax highlighting to CSS code", () => {
+    const codeElement = document.getElementsByClassName("language-css")[0];
     expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
   });
 });
 
 describe("It renders a quiz when it has one", () => {
+  const quizHandler = jest.fn();
+
+  beforeAll(() => {
+    document.addEventListener("editor-quizReady", quizHandler);
+  });
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
       instructions: {
         project: {
-          steps: [{ content: "<p>step 0</p>" }, { content: "<p>step 1</p>" }],
+          steps: [
+            { content: "<p>step 0</p>" },
+            { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
+          ],
         },
         quiz: {
           questions: [
@@ -90,12 +111,16 @@ describe("It renders a quiz when it has one", () => {
     });
   });
 
-  test("Removes the progress bar", () => {
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  test("Retains the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).toBeInTheDocument();
   });
 
   test("Applies syntax highlighting", () => {
     const codeElement = document.getElementsByClassName("language-python")[0];
     expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
+
+  test("Fires a quizIsReady event", () => {
+    expect(quizHandler).toHaveBeenCalled();
   });
 });

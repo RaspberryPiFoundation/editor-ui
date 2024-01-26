@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Local docker setup with yarn v3 (#905)
+
+## [0.21.2] - 2024-01-23
+
+### Changed
+
+- Minor copy changes to HTML add file modal
+- Toggle errors sent via apiCallHandler off (#890)
+- Upgrade webpack-dev-server to 4.0.0 to support conditional headers
+- Upgrade yarn to 3.4.1 to workaround a string-width issue
+
+### Fixed
+
+- Editor input not focussing on iPad (#898)
+
+## [0.21.1] - 2024-01-11
+
 ### Added
 
 - `assets_identifier` attribute for the web component (#901)
@@ -104,6 +123,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Logical properties linter rule (#770)
+- Added download panel for sidebar (#744)
 - Javascript support for HTML projects (#748)
 - DownloadPanel for sidebar (#744)
 - Custom events for Log In and Sign Up from DownloadPanel (#744)
@@ -113,6 +134,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
+- Instructions table styling (#858)
 
 ### Changed
 
@@ -693,7 +715,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.2...HEAD
+[0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2
+[0.21.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.1
+[0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
 [0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3

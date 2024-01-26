@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   position: relative;
-  height: 100%;
+  block-size: 100%;
 
   &-button {
     align-items: center;
@@ -31,8 +31,8 @@
       inset-block-start: 100%;
 
       &::before {
-        width: 0;
-        height: 0;
+        inline-size: 0;
+        block-size: 0;
         border-inline-start: 15px solid transparent;
         border-inline-end: 15px solid transparent;
         position: absolute;
@@ -58,7 +58,7 @@
         padding: $space-0-5 $space-0-25;
         border-radius: 5px;
         white-space: nowrap;
-        width: 100%;
+        inline-size: 100%;
       }
     }
   }
@@ -67,8 +67,8 @@
     position: fixed;
     inset-inline-start: 0px;
     inset-block-start: 0px;
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
     opacity: 0.5;
     z-index: -1;
   }

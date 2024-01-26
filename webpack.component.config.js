@@ -70,12 +70,16 @@ module.exports = {
   },
   devServer: {
     allowedHosts: ["react-ui-test-wc"],
-    contentBase: path.join(__dirname, "public"),
-    index: "web-component.html",
     host: "0.0.0.0",
-    disableHostCheck: true,
+    allowedHosts: "all",
     port: 3001,
-    writeToDisk: true,
+    devMiddleware: {
+      index: "web-component.html",
+      writeToDisk: true,
+    },
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
   },
   plugins: [
     new Dotenv({
