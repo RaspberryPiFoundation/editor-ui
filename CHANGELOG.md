@@ -10,21 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Local docker setup with yarn v3 (#905)
 
-## [0.21.2] - 2024-01-23
-
-### Changed
-
-- Minor copy changes to HTML add file modal
-- Toggle errors sent via apiCallHandler off (#890)
-- Upgrade webpack-dev-server to 4.0.0 to support conditional headers
-- Upgrade yarn to 3.4.1 to workaround a string-width issue
-
-### Fixed
-
-- Editor input not focussing on iPad (#898)
-
-## [0.21.1] - 2024-01-11
-
 ### Added
 
 - `assets_identifier` attribute for the web component (#901)
