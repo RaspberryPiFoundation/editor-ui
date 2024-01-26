@@ -6,14 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Fixed
-
-- Local docker setup with yarn v3 (#905)
-
 ### Added
 
 - `assets_identifier` attribute for the web component (#901)
 - `code` attribute overriding content of `main.py`/`index.html` in the web component (#901)
+
+### Changed
+
+- Made `p5` canvas responsive to the available space (#887)
+
+### Fixed
+
+- Local docker setup with yarn v3 (#905)
 
 ## [0.21.2] - 2024-01-23
 

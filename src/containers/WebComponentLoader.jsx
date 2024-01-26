@@ -72,6 +72,17 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.renameFileModalShowing,
   );
 
+  const modals = useSelector((state) => state.editor.modals);
+  const errorModalShowing = useSelector(
+    (state) => state.editor.errorModalShowing,
+  );
+  const newFileModalShowing = useSelector(
+    (state) => state.editor.newFileModalShowing,
+  );
+  const renameFileModalShowing = useSelector(
+    (state) => state.editor.renameFileModalShowing,
+  );
+
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
