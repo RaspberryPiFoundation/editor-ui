@@ -45,33 +45,40 @@ const FlightCase = ({ setSenseHatConfig }) => {
     }
   }
 
-  setSenseHatConfig((config) => {
-    config.emit = function (event, data) {
-      if (event && event === "setpixel") {
-        // change the led
-        const ledIndex = data;
-        const ledData = config.pixels[ledIndex];
+  useEffect(() => {
+    setSenseHatConfig((config) => {
+      config.emit = function (event, data) {
+        if (event && event === "setpixel") {
+          // change the led
+          const ledIndex = data;
+          const ledData = config.pixels[ledIndex];
 
-        // Convert LED-RGB to RGB565 // and then to RGB555
-        config.pixels[ledIndex] = [
-          ledData[0] & ~7,
-          ledData[1] & ~3,
-          ledData[2] & ~7,
-        ];
+          // Convert LED-RGB to RGB565 // and then to RGB555
+          config.pixels[ledIndex] = [
+            ledData[0] & ~7,
+            ledData[1] & ~3,
+            ledData[2] & ~7,
+          ];
 
-        setPixel(
-          ledIndex,
-          parseInt(ledData[0] * 255),
-          parseInt(ledData[1] * 255),
-          parseInt(ledData[2] * 255),
-        );
-      } else if (event && event === "setpixels") {
-        setPixels(data, config.pixels);
-      }
-      invalidate();
-    };
-    return config;
-  });
+          setPixel(
+            ledIndex,
+            parseInt(ledData[0] * 255),
+            parseInt(ledData[1] * 255),
+            parseInt(ledData[2] * 255),
+          );
+        } else if (event && event === "setpixels") {
+          setPixels(data, config.pixels);
+        }
+        invalidate();
+      };
+
+      // Ensure pixels are set after the visual tab is shown. Before then, the
+      // emit function above isn't registered so events are ignored.
+      config.emit("setpixels");
+
+      return config;
+    });
+  }, [setSenseHatConfig]);
 
   return <primitive object={scene} scale={4} />;
 };
