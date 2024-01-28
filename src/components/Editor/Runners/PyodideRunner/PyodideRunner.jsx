@@ -46,6 +46,7 @@ const PyodideRunner = () => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+  const [senseHatConfig, setSenseHatConfig] = useState();
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -69,7 +70,7 @@ const PyodideRunner = () => {
           handleVisual(data.origin, data.content);
           break;
         case "handleSenseHatEvent":
-          handleSenseHatEvent(data.type);
+          handleSenseHatEvent(data.type, data.content);
           break;
         default:
           throw new Error(`Unsupported method: ${data.method}`);
@@ -167,8 +168,15 @@ const PyodideRunner = () => {
     setVisuals((array) => [...array, { origin, content }]);
   };
 
-  const handleSenseHatEvent = (type) => {
-    console.log("handleSenseHatEvent");
+  const handleSenseHatEvent = (type, content) => {
+    console.log(senseHatConfig, type, content);
+    dispatch(setSenseHatEnabled(true));
+    setHasVisual(true);
+
+    // TODO: why is senseHatConfig always undefined?
+    // We are calling setSenseHatConfig in AstroPiModel.jsx
+    //
+    //senseHatConfig?.emit?.(type, content);
   };
 
   const handleRun = async () => {
@@ -298,7 +306,12 @@ const PyodideRunner = () => {
                   {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
                 </div>
                 <TabPanel key={0}>
-                  <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
+                  <VisualOutputPane
+                    visuals={visuals}
+                    setVisuals={setVisuals}
+                    senseHatConfig={senseHatConfig}
+                    setSenseHatConfig={setSenseHatConfig}
+                  />
                 </TabPanel>
               </Tabs>
             </div>
@@ -351,7 +364,12 @@ const PyodideRunner = () => {
           <ErrorMessage />
           {hasVisual ? (
             <TabPanel key={0}>
-              <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
+              <VisualOutputPane
+                visuals={visuals}
+                setVisuals={setVisuals}
+                senseHatConfig={senseHatConfig}
+                setSenseHatConfig={setSenseHatConfig}
+              />
             </TabPanel>
           ) : null}
           <TabPanel key={1}>

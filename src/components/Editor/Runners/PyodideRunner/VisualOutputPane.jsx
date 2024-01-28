@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
-const VisualOutputPane = ({ visuals, setVisuals }) => {
+const VisualOutputPane = ({ visuals, setVisuals, senseHatConfig, setSenseHatConfig }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const output = useRef();
@@ -12,25 +12,30 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
     if (visuals.length === 0) {
       output.current.innerHTML = "";
     } else if (visuals.some((v) => !v.showing)) {
-      setVisuals((visuals) => showVisuals(visuals, output));
+      setVisuals((visuals) => showVisuals(visuals, output, setSenseHatConfig));
     }
   }, [visuals, setVisuals]);
 
   return (
     <div className="visual-output">
       <div ref={output} className="pythonrunner-graphic" />
-      {senseHatEnabled || senseHatAlways ? <AstroPiModel /> : null}
+      {(senseHatEnabled || senseHatAlways) && (
+        <AstroPiModel
+          senseHatConfig={senseHatConfig}
+          setSenseHatConfig={setSenseHatConfig}
+        />
+      )}
     </div>
   );
 };
 
-const showVisuals = (visuals, output) =>
-  visuals.map((v) => (v.showing ? v : showVisual(v, output)));
+const showVisuals = (visuals, ...args) =>
+  visuals.map((v) => (v.showing ? v : showVisual(v, ...args)));
 
-const showVisual = (visual, output) => {
+const showVisual = (visual, output, setSenseHatConfig) => {
   switch (visual.origin) {
     case "sense_hat":
-      output.current.innerText = JSON.stringify(visual.content);
+      setSenseHatConfig((config) => ({ ...config, ...visual.content }));
       break;
     case "pygal":
       Highcharts.chart(output.current, visual.content);

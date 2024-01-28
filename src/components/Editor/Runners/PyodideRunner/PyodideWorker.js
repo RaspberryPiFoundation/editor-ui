@@ -175,8 +175,8 @@ const vendoredPackages = {
       ]);
 
       _internal_sense_hat.config.pyodide = pyodide;
-      _internal_sense_hat.config.emit = (type) =>
-        postMessage({ method: "handleSenseHatEvent", type });
+      _internal_sense_hat.config.emit = (type, content) =>
+        postMessage({ method: "handleSenseHatEvent", type, content });
     },
     after: () => {
       const {
