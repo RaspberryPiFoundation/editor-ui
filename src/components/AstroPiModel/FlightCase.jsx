@@ -35,7 +35,7 @@ const FlightCase = ({ setSenseHatConfig }) => {
 
   function setPixels(indexes, pix) {
     if (indexes == null) {
-      indexes = Array.from(Array(8 * 8).keys());
+      indexes = pix_map270;
     }
 
     var i = 0;
@@ -75,5 +75,18 @@ const FlightCase = ({ setSenseHatConfig }) => {
 
   return <primitive object={scene} scale={4} />;
 };
+
+// Copied from sense_hat_blob.py. This seems to be the default rotation of the
+// simulator so we should use these indexes when none are provided in setpixels.
+const pix_map270 = [
+  [56, 48, 40, 32, 24, 16,  8,  0],
+  [57, 49, 41, 33, 25, 17,  9,  1],
+  [58, 50, 42, 34, 26, 18, 10,  2],
+  [59, 51, 43, 35, 27, 19, 11,  3],
+  [60, 52, 44, 36, 28, 20, 12,  4],
+  [61, 53, 45, 37, 29, 21, 13,  5],
+  [62, 54, 46, 38, 30, 22, 14,  6],
+  [63, 55, 47, 39, 31, 23, 15,  7]
+].flat();
 
 export default FlightCase;
