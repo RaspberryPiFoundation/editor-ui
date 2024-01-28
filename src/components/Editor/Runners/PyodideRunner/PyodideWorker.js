@@ -34,7 +34,7 @@ onmessage = async ({ data }) => {
 
   switch (data.method) {
     case "writeFile":
-      pyodide.FS.writeFile(data.filename, data.content);
+      pyodide.FS.writeFile(data.filename, new Buffer(data.content));
       break;
     case "runPython":
       runPython(data.python);
