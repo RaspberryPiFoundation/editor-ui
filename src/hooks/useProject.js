@@ -6,6 +6,7 @@ import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
+  assetsIdentifier = null,
   projectIdentifier = null,
   code = null,
   accessToken = null,
@@ -13,9 +14,10 @@ export const useProject = ({
   loadCache = true,
   remixLoadFailed = false,
 }) => {
+  const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
-  const project = useSelector((state) => state.editor.project);
 
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
@@ -36,16 +38,37 @@ export const useProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (code) {
-      const project = {
-        name: "Blank project",
-        type: "python",
-        components: [{ name: "main", extension: "py", content: code }],
+    if (code && loading === "success") {
+      const defaultName = project.project_type === "html" ? "index" : "main";
+      const defaultExtension = project.project_type === "html" ? "html" : "py";
+
+      const mainComponent = project.components?.find(
+        (component) =>
+          component.name === defaultName &&
+          component.extension === defaultExtension,
+      ) || { name: defaultName, extension: defaultExtension, content: "" };
+
+      const otherComponents =
+        project.components?.filter(
+          (component) =>
+            component.name !== defaultName &&
+            component.extension !== defaultExtension,
+        ) || [];
+
+      const updatedProject = {
+        ...project,
+        project_type: project.project_type || "python",
+        components: [
+          ...otherComponents,
+          {
+            ...mainComponent,
+            content: code,
+          },
+        ],
       };
-      dispatch(setProject(project));
-      return;
+      dispatch(setProject(updatedProject));
     }
-  }, [dispatch, code]);
+  }, [code, loading]);
 
   useEffect(() => {
     if (!loadRemix) {
@@ -60,6 +83,18 @@ export const useProject = ({
         return;
       }
 
+      if (assetsIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: assetsIdentifier,
+            locale: i18n.language,
+            accessToken,
+            assetsOnly: true,
+          }),
+        );
+        return;
+      }
+
       if (projectIdentifier) {
         dispatch(
           syncProject("load")({
@@ -68,6 +103,16 @@ export const useProject = ({
             accessToken: accessToken,
           }),
         );
+        return;
+      }
+
+      if (code) {
+        const project = {
+          name: "Blank project",
+          type: "python",
+          components: [{ name: "main", extension: "py", content: code }],
+        };
+        dispatch(setProject(project));
         return;
       }
 

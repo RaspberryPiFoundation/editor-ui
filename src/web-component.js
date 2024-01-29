@@ -36,6 +36,7 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "assets_identifier",
       "host_styles",
       "auth_key",
       "identifier",
@@ -44,6 +45,7 @@ class WebComponent extends HTMLElement {
       "instructions",
       "with_projectbar",
       "with_sidebar",
+      "output_only",
       "sidebar_options",
       "theme",
       "embedded",
@@ -54,9 +56,12 @@ class WebComponent extends HTMLElement {
     let value;
 
     if (
-      ["sense_hat_always_enabled", "with_sidebar", "with_projectbar"].includes(
-        name,
-      )
+      [
+        "sense_hat_always_enabled",
+        "with_sidebar",
+        "with_projectbar",
+        "embedded",
+      ].includes(name)
     ) {
       value = newVal !== "false";
     } else if (

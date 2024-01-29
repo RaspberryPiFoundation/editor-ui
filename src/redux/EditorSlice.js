@@ -12,19 +12,24 @@ import {
   createRemix,
   deleteProject,
   readProjectList,
+  loadAssets,
 } from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave },
+      { project, identifier, locale, accessToken, autosave, assetsOnly },
       { rejectWithValue },
     ) => {
       let response;
       switch (actionName) {
         case "load":
-          response = await readProject(identifier, locale, accessToken);
+          if (assetsOnly) {
+            response = await loadAssets(identifier, locale, accessToken);
+          } else {
+            response = await readProject(identifier, locale, accessToken);
+          }
           break;
         case "loadRemix":
           response = await loadRemix(identifier, accessToken);
