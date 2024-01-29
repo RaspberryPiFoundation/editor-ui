@@ -4,9 +4,6 @@ import {
   disableTheming,
   setEmbedded,
   setSenseHatAlwaysEnabled,
-  // stopCodeRun,
-  // stopDraw,
-  // triggerCodeRun,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";

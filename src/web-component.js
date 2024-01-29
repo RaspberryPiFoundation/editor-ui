@@ -8,12 +8,7 @@ import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
-import {
-  codeRunHandled,
-  stopCodeRun,
-  stopDraw,
-  triggerCodeRun,
-} from "./redux/EditorSlice";
+import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,

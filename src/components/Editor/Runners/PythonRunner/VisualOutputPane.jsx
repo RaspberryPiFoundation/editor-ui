@@ -56,7 +56,6 @@ const VisualOutputPane = () => {
       p5Output.current &&
       p5Output.current.innerHTML !== ""
     ) {
-      console.log("STOPPING THE DRAW!!!");
       if (Sk.py5.stop) {
         Sk.py5.stop();
       } else {
