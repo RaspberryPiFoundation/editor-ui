@@ -46,6 +46,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "with_sidebar",
       "output_only",
+      "output_panels",
       "sidebar_options",
       "theme",
       "embedded",
@@ -65,7 +66,12 @@ class WebComponent extends HTMLElement {
     ) {
       value = newVal !== "false";
     } else if (
-      ["instructions", "sidebar_options", "host_styles"].includes(name)
+      [
+        "instructions",
+        "sidebar_options",
+        "host_styles",
+        "output_panels",
+      ].includes(name)
     ) {
       value = JSON.parse(newVal);
     } else {

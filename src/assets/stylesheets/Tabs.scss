@@ -119,6 +119,10 @@
       padding: 0 $space-0-25 0 0;
     }
 
+    &__tab-container--hidden {
+      display: none;
+    }
+
     &__tab-panel--selected {
       flex: 1;
       display: flex;
