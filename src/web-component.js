@@ -105,6 +105,10 @@ class WebComponent extends HTMLElement {
   }
 
   runCode() {
+    store.dispatch(triggerCodeRun());
+  }
+
+  rerunCode() {
     this.stopCode();
 
     new Promise((resolve) => {
@@ -116,7 +120,7 @@ class WebComponent extends HTMLElement {
         }
       }, 50);
     }).then(() => {
-      store.dispatch(triggerCodeRun());
+      this.runCode();
     });
   }
 

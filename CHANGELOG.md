@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `assets_identifier` attribute for the web component (#901)
 - `code` attribute overriding content of `main.py`/`index.html` in the web component (#901)
-- Web component methods to run and stop the code from the host page (#899)
+- Web component methods to run, stop and rerun the code from the host page (#899)
 
 ### Changed
 
