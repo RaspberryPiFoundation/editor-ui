@@ -36,10 +36,8 @@ const WebComponentProject = ({
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setIsSplitView(false));
-    dispatch(setWebComponent(true));
-  }, [dispatch]);
+  dispatch(setIsSplitView(false));
+  dispatch(setWebComponent(true));
 
   console.log(`outputOnly: ${outputOnly}`);
 

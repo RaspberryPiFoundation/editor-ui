@@ -4,9 +4,6 @@ import {
   disableTheming,
   setEmbedded,
   setSenseHatAlwaysEnabled,
-  stopCodeRun,
-  stopDraw,
-  triggerCodeRun,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -76,23 +73,6 @@ const WebComponentLoader = (props) => {
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
-
-  const [isRunCodeListenerAdded, setIsRunCodeListenerAdded] = useState(false);
-
-  const runCode = () => {
-    dispatch(stopCodeRun());
-    dispatch(stopDraw());
-    dispatch(triggerCodeRun());
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (outputOnly && !isRunCodeListenerAdded) {
-      document.removeEventListener("outputOnly-runCode", runCode);
-      document.addEventListener("outputOnly-runCode", runCode);
-      setIsRunCodeListenerAdded(true);
-    }
-  });
 
   useEmbeddedMode(embedded);
 
