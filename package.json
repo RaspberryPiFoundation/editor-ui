@@ -228,7 +228,8 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "PyodideWorker.js": "<rootDir>/src/components/Editor/Runners/PyodideRunner/PyodideWorker.mock.js"
     },
     "moduleFileExtensions": [
       "web.js",
