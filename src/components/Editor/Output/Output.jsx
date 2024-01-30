@@ -15,6 +15,7 @@ const Output = ({
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview =
     searchParams.get("browserPreview") === "true" || browserPreview;
+  const webComponent = useSelector((state) => state.editor.webComponent);
 
   return (
     <>
@@ -24,7 +25,9 @@ const Output = ({
           projectType={project.project_type}
           outputPanels={outputPanels}
         />
-        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
+        {!webComponent && isEmbedded && !isBrowserPreview && (
+          <RunBar embedded />
+        )}
       </div>
     </>
   );
