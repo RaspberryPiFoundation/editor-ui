@@ -312,6 +312,7 @@ const PythonRunner = () => {
       };
     }
 
+    dispatch(setError(errorMessage));
     dispatch(setErrorDetails(errorDetails));
     dispatch(stopDraw());
     if (getInput()) {

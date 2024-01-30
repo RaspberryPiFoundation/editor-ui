@@ -11,7 +11,6 @@ import {
   setIsSplitView,
   setWebComponent,
   setIsOutputOnly,
-  setErrorDetails,
 } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
