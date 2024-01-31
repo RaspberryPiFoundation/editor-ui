@@ -52,7 +52,7 @@ const externalLibraries = {
   },
 };
 
-const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
+const PythonRunner = ({ outputPanels }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -376,9 +376,12 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
     }
   }
 
-  const singleOutputPanel = outputPanels.length === 1;
-  const showVisualOutput = outputPanels.includes("visual");
-  const showTextOutput = outputPanels.includes("text");
+  const singleOutputPanel = !outputPanels || outputPanels?.length === 1;
+  const showVisualOutput = outputPanels?.includes("visual");
+  const showTextOutput = outputPanels?.includes("text");
+
+  console.log(outputPanels);
+  console.log(singleOutputPanel);
 
   return (
     <div className={`pythonrunner-container`}>
@@ -396,11 +399,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
                     singleOutputPanel && " react-tabs__tab-container--hidden"
                   }`}
                 >
-                  <TabList
-                  // className={
-                  //   singleOutputPanel && "react-tabs__tab-list--hidden"
-                  // }
-                  >
+                  <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
                         {t("output.visualOutput")}
@@ -428,11 +427,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
                     singleOutputPanel && " react-tabs__tab-container--hidden"
                   }`}
                 >
-                  <TabList
-                  // className={
-                  //   singleOutputPanel && "react-tabs__tab-list--hidden"
-                  // }
-                  >
+                  <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
                         {t("output.textOutput")}
