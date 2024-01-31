@@ -52,7 +52,7 @@ const externalLibraries = {
   },
 };
 
-const PythonRunner = ({ outputPanels }) => {
+const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -376,12 +376,9 @@ const PythonRunner = ({ outputPanels }) => {
     }
   }
 
-  const singleOutputPanel = !outputPanels || outputPanels?.length === 1;
-  const showVisualOutput = outputPanels?.includes("visual");
-  const showTextOutput = outputPanels?.includes("text");
-
-  console.log(outputPanels);
-  console.log(singleOutputPanel);
+  const singleOutputPanel = outputPanels.length === 1;
+  const showVisualOutput = outputPanels.includes("visual");
+  const showTextOutput = outputPanels.includes("text");
 
   return (
     <div className={`pythonrunner-container`}>
