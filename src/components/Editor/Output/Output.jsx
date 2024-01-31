@@ -7,7 +7,7 @@ import RunBar from "../../RunButton/RunBar";
 const Output = ({
   embedded = false,
   browserPreview = false,
-  outputPanels = ["visual", "text"],
+  outputPanels = ["text", "visual"],
 }) => {
   const project = useSelector((state) => state.editor.project);
   const isEmbedded =
