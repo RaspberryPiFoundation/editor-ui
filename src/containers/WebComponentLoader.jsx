@@ -168,7 +168,7 @@ const WebComponentLoader = (props) => {
     </>
   ) : (
     <>
-      <p>{t("webComponent.loading")}</p>;
+      <p>{t("webComponent.loading")}</p>
     </>
   );
 };
