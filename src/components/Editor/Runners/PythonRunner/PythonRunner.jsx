@@ -390,13 +390,15 @@ const PythonRunner = ({ outputPanels }) => {
           {hasVisualOutput && showVisualOutput && (
             <div
               className={`output-panel output-panel--visual${
-                singleOutputPanel && " output-panel--single"
+                singleOutputPanel ? " output-panel--single" : ""
               }`}
             >
               <Tabs forceRenderTabPanel={true}>
                 <div
                   className={`react-tabs__tab-container${
-                    singleOutputPanel && " react-tabs__tab-container--hidden"
+                    singleOutputPanel
+                      ? " react-tabs__tab-container--hidden"
+                      : ""
                   }`}
                 >
                   <TabList>
@@ -418,13 +420,15 @@ const PythonRunner = ({ outputPanels }) => {
           {showTextOutput && (
             <div
               className={`output-panel output-panel--text${
-                singleOutputPanel && " output-panel--single"
+                singleOutputPanel ? " output-panel--single" : ""
               }`}
             >
               <Tabs forceRenderTabPanel={true}>
                 <div
                   className={`react-tabs__tab-container${
-                    singleOutputPanel && " react-tabs__tab-container--hidden"
+                    singleOutputPanel
+                      ? " react-tabs__tab-container--hidden"
+                      : ""
                   }`}
                 >
                   <TabList>
