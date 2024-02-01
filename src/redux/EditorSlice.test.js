@@ -18,6 +18,8 @@ import reducer, {
   updateComponentName,
   loadProjectList,
   setLoadRemixDisabled,
+  setIsOutputOnly,
+  setErrorDetails,
 } from "./EditorSlice";
 
 jest.mock("../utils/apiCallHandler");
@@ -56,6 +58,41 @@ test("Action setLoadRemixDisabled sets loadRemixDisabled to false", () => {
   expect(reducer(previousState, setLoadRemixDisabled(false))).toEqual(
     expectedState,
   );
+});
+
+test("Action setIsOutputOnly sets isOutputOnly to true", () => {
+  const previousState = {
+    isOutputOnly: false,
+  };
+  const expectedState = {
+    isOutputOnly: true,
+  };
+  expect(reducer(previousState, setIsOutputOnly(true))).toEqual(expectedState);
+});
+
+test("Action setOutputOnly sets isOutputOnly to false", () => {
+  const previousState = {
+    isOutputOnly: true,
+  };
+  const expectedState = {
+    isOutputOnly: false,
+  };
+  expect(reducer(previousState, setIsOutputOnly(false))).toEqual(expectedState);
+});
+
+test("Action setErrorDetails sets errorDetails to true", () => {
+  const previousState = {
+    errorDetails: {},
+  };
+  const expectedState = {
+    errorDetails: { type: "Interrupted", message: "Some error message" },
+  };
+  expect(
+    reducer(
+      previousState,
+      setErrorDetails({ type: "Interrupted", message: "Some error message" }),
+    ),
+  ).toEqual(expectedState);
 });
 
 test("Showing rename modal sets file state and showing status", () => {

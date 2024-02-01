@@ -105,6 +105,21 @@ describe("When code run finishes", () => {
 
   test("Triggers runCompletedEvent", () => {
     expect(runCompletedHandler).toHaveBeenCalled();
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
+      "isErrorFree",
+    );
+  });
+
+  test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
+    render(
+      <Provider store={store}>
+        <WebComponentProject outputOnly={true} />
+      </Provider>,
+    );
+    expect(runCompletedHandler).toHaveBeenCalled();
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
+      "errorDetails",
+    );
   });
 });
 
@@ -200,6 +215,14 @@ describe("When output_only is true", () => {
         <Provider store={store}>
           <WebComponentProject outputOnly={true} />
         </Provider>,
+      );
+    });
+
+    test("sets isOutputOnly state to true", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsOutputOnly", payload: true },
+        ]),
       );
     });
 
