@@ -7,7 +7,11 @@ import MobileProject from "../Mobile/MobileProject/MobileProject";
 import Output from "../Editor/Output/Output";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import Sk from "skulpt";
-import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
+import {
+  setIsSplitView,
+  setWebComponent,
+  setIsOutputOnly,
+} from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -27,7 +31,9 @@ const WebComponentProject = ({
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+
   const error = useSelector((state) => state.editor.error);
+  const errorDetails = useSelector((state) => state.editor.errorDetails);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
@@ -38,8 +44,7 @@ const WebComponentProject = ({
 
   dispatch(setIsSplitView(false));
   dispatch(setWebComponent(true));
-
-  console.log(`outputOnly: ${outputOnly}`);
+  dispatch(setIsOutputOnly(outputOnly));
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -57,14 +62,14 @@ const WebComponentProject = ({
       const mz_criteria = Sk.sense_hat
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
-      document.dispatchEvent(
-        runCompletedEvent({
-          isErrorFree: error === "",
-          ...mz_criteria,
-        }),
-      );
+
+      const payload = outputOnly
+        ? { errorDetails }
+        : { isErrorFree: error === "", ...mz_criteria };
+
+      document.dispatchEvent(runCompletedEvent(payload));
     }
-  }, [codeRunTriggered, codeHasRun, error]);
+  }, [codeRunTriggered, codeHasRun, outputOnly, error, errorDetails]);
 
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
