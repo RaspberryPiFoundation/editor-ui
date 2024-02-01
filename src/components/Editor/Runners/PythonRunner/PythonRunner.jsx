@@ -21,6 +21,7 @@ import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import classNames from "classnames";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -380,23 +381,23 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const showVisualOutput = outputPanels.includes("visual");
   const showTextOutput = outputPanels.includes("text");
 
+  const outputPanelClasses = (panelType) => {
+    return classNames("output-panel", `output-panel--${panelType}`, {
+      "output-panel--single": singleOutputPanel,
+    });
+  };
+
   return (
     <div className={`pythonrunner-container`}>
       {isSplitView || singleOutputPanel ? (
         <>
           {hasVisualOutput && showVisualOutput && (
-            <div
-              className={`output-panel output-panel--visual${
-                singleOutputPanel ? " output-panel--single" : ""
-              }`}
-            >
+            <div className={outputPanelClasses("visual")}>
               <Tabs forceRenderTabPanel={true}>
                 <div
-                  className={`react-tabs__tab-container${
-                    singleOutputPanel
-                      ? " react-tabs__tab-container--hidden"
-                      : ""
-                  }`}
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
                 >
                   <TabList>
                     <Tab key={0}>
@@ -415,18 +416,12 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
             </div>
           )}
           {showTextOutput && (
-            <div
-              className={`output-panel output-panel--text${
-                singleOutputPanel ? " output-panel--single" : ""
-              }`}
-            >
+            <div className={outputPanelClasses("text")}>
               <Tabs forceRenderTabPanel={true}>
                 <div
-                  className={`react-tabs__tab-container${
-                    singleOutputPanel
-                      ? " react-tabs__tab-container--hidden"
-                      : ""
-                  }`}
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
                 >
                   <TabList>
                     <Tab key={0}>
