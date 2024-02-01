@@ -8,6 +8,7 @@ import Sk from "skulpt";
 import { useMediaQuery } from "react-responsive";
 import {
   setError,
+  setErrorDetails,
   codeRunHandled,
   stopDraw,
   setSenseHatEnabled,
@@ -61,6 +62,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -277,11 +279,16 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   };
 
   const handleError = (err) => {
+    let errorDetails = {};
     let errorMessage;
     if (err.message === t("output.errors.interrupted")) {
       errorMessage = err.message;
+      errorDetails = {
+        type: "Interrupted",
+        message: errorMessage,
+      };
     } else {
-      const errorDetails = (err.tp$str && err.tp$str().v)
+      const errorDescription = (err.tp$str && err.tp$str().v)
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
       const errorType = err.tp$name || err.constructor.name;
@@ -293,14 +300,23 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
         userId = user.profile?.user;
       }
 
-      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
+      errorMessage = `${errorType}: ${errorDescription} on line ${lineNumber} of ${fileName}`;
       createError(projectIdentifier, userId, {
         errorType,
         errorMessage,
       });
+
+      errorDetails = {
+        type: errorType,
+        line: lineNumber,
+        file: fileName,
+        description: errorDescription,
+        message: errorMessage,
+      };
     }
 
     dispatch(setError(errorMessage));
+    dispatch(setErrorDetails(errorDetails));
     dispatch(stopDraw());
     if (getInput()) {
       const input = getInput();
@@ -312,6 +328,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
+    dispatch(setErrorDetails({}));
     if (output.current) {
       output.current.innerHTML = "";
     }
@@ -466,7 +483,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
             {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
             {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
           </div>
-          <ErrorMessage />
+          {!isOutputOnly && <ErrorMessage />}
           {hasVisualOutput ? (
             <TabPanel key={0}>
               <VisualOutputPane />
