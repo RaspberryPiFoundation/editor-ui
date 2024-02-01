@@ -193,8 +193,8 @@ export const EditorSlice = createSlice({
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
     },
-    setIsOutputOnly: (state, _action) => {
-      state.isOutputOnly = true;
+    setIsOutputOnly: (state, action) => {
+      state.isOutputOnly = action.payload;
     },
     setBrowserPreview: (state, _action) => {
       state.browserPreview = true;

@@ -69,7 +69,7 @@ const WebComponentProject = ({
 
       document.dispatchEvent(runCompletedEvent(payload));
     }
-  }, [codeRunTriggered, codeHasRun]);
+  }, [codeRunTriggered, codeHasRun, outputOnly, error, errorDetails]);
 
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
