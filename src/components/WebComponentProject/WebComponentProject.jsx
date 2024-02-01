@@ -32,6 +32,7 @@ const WebComponentProject = ({
     (state) => state.editor.codeRunTriggered,
   );
 
+  const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const currentStepPosition = useSelector(
@@ -62,14 +63,13 @@ const WebComponentProject = ({
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
 
-      // const { message: errorMessage } = errorDetails;
       const payload = outputOnly
         ? { errorDetails }
-        : { isErrorFree: errorDetails?.message === "", ...mz_criteria };
+        : { isErrorFree: error === "", ...mz_criteria };
 
       document.dispatchEvent(runCompletedEvent(payload));
     }
-  }, [codeRunTriggered, codeHasRun, errorDetails]);
+  }, [codeRunTriggered, codeHasRun]);
 
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
