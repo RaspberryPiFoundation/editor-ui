@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enhance `code` attribute on web component to override project main component content (#1014 & originally #901)
 - Add `embedded` attribute to web component (#1014 & originally #901)
 - Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1014 & originally #899)
+- Return more verbose errors to web component (#1014 & originally #915)
 
 ### Changed
 

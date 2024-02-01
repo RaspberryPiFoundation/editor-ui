@@ -102,6 +102,7 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    isOutputOnly: false,
     browserPreview: false,
     isSplitView: true,
     isThemeable: true,
@@ -130,6 +131,7 @@ export const EditorSlice = createSlice({
     deleteProjectModalShowing: false,
     sidebarShowing: true,
     modals: {},
+    errorDetails: {},
   },
   reducers: {
     closeFile: (state, action) => {
@@ -192,6 +194,9 @@ export const EditorSlice = createSlice({
     },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setIsOutputOnly: (state, action) => {
+      state.isOutputOnly = action.payload;
     },
     setBrowserPreview: (state, _action) => {
       state.browserPreview = true;
@@ -372,6 +377,9 @@ export const EditorSlice = createSlice({
     disableTheming: (state) => {
       state.isThemeable = false;
     },
+    setErrorDetails: (state, action) => {
+      state.errorDetails = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
@@ -461,6 +469,7 @@ export const {
   setFocussedFileIndex,
   setPage,
   setEmbedded,
+  setIsOutputOnly,
   setBrowserPreview,
   setError,
   setIsSplitView,
@@ -503,6 +512,7 @@ export const {
   showSidebar,
   hideSidebar,
   disableTheming,
+  setErrorDetails,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
