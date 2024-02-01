@@ -62,10 +62,10 @@ const WebComponentProject = ({
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
 
-      const { message: errorMessage } = errorDetails;
+      // const { message: errorMessage } = errorDetails;
       const payload = outputOnly
         ? { errorDetails }
-        : { isErrorFree: errorMessage === "", ...mz_criteria };
+        : { isErrorFree: errorDetails?.message === "", ...mz_criteria };
 
       document.dispatchEvent(runCompletedEvent(payload));
     }
