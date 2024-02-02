@@ -15,12 +15,12 @@
   }
 
   img {
-    max-width: 100%;
+    max-inline-size: 100%;
   }
 
   table {
     border-collapse: collapse;
-    margin-bottom: $space-1-5;
+    margin-block-end: $space-1-5;
     inline-size: 100%;
 
     tr {
