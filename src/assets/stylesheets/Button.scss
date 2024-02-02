@@ -33,10 +33,6 @@
     outline: none;
   }
 
-  &--small {
-    padding: $space-0-25;
-  }
-
   &--primary {
     background-color: var(--rpf-button-primary-background-color);
     border-radius: $space-0-5;
@@ -125,9 +121,7 @@
     &:hover {
       background-color: var(--rpf-button-secondary-background-color-hover);
       color: var(--rpf-button-secondary-text-color-hover);
-      border-color: var(
-        --rpf-button-secondary-border-color-hover
-      ) !important;
+      border-color: var(--rpf-button-secondary-border-color-hover) !important;
 
       svg {
         fill: var(--rpf-button-secondary-text-color-hover);
@@ -238,6 +232,7 @@
   &--small {
     min-block-size: unset;
     min-inline-size: unset;
+    padding: $space-0-25;
   }
 
   &--svg-only {
