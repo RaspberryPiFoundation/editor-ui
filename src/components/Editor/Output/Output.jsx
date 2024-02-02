@@ -4,7 +4,11 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = ({ embedded = false, browserPreview = false }) => {
+const Output = ({
+  embedded = false,
+  browserPreview = false,
+  outputPanels = ["text", "visual"],
+}) => {
   const project = useSelector((state) => state.editor.project);
   const isEmbedded =
     useSelector((state) => state.editor.isEmbedded) || embedded;
@@ -21,6 +25,7 @@ const Output = ({ embedded = false, browserPreview = false }) => {
         <RunnerFactory
           projectType={project.project_type}
           usePyodide={usePyodide}
+          outputPanels={outputPanels}
         />
         {!webComponent && isEmbedded && !isBrowserPreview && (
           <RunBar embedded />

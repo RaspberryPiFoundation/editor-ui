@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
 - Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
 - Send error details in "editor-runCompleted" event (#1019 & originally #915)
+- Return error details to web component (#1019 & originally #915)
+- Add `output_panels` attribute to web component (#1019 & originally #909)
 
 ### Changed
 

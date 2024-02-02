@@ -72,6 +72,7 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
 - `output_only`: Only display the output panel (defaults to `false`)
 - `assets_identifier`: Load assets (not code) from this project identifier
+- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
 
 ### `yarn start:wc`
 

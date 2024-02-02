@@ -919,6 +919,50 @@ test("Split view has text and visual tabs with different parent elements", () =>
   );
 });
 
+test("only displays text tab when outputPanels is set to just text", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["text"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).not.toBeInTheDocument();
+});
+
+test("only displays visual tab when outputPanels is set to just visual", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["visual"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).toBeInTheDocument();
+});
+
 describe("When font size is set", () => {
   let runnerContainer;
 
