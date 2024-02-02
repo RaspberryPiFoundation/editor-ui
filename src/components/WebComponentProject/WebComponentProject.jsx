@@ -25,6 +25,7 @@ const WebComponentProject = ({
   withSidebar = false,
   sidebarOptions = [],
   outputOnly = false,
+  outputPanels = ["text", "visual"],
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -94,7 +95,11 @@ const WebComponentProject = ({
       {outputOnly && (
         <div className="embedded-viewer">
           {loading === "success" && (
-            <Output embedded={true} browserPreview={false} />
+            <Output
+              embedded={true}
+              browserPreview={false}
+              outputPanels={outputPanels}
+            />
           )}
         </div>
       )}

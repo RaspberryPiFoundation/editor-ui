@@ -22,6 +22,7 @@ import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import classNames from "classnames";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -53,7 +54,7 @@ const externalLibraries = {
   },
 };
 
-const PythonRunner = () => {
+const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -127,11 +128,13 @@ const PythonRunner = () => {
   const outf = (text) => {
     if (text !== "") {
       const node = output.current;
-      const div = document.createElement("span");
-      div.classList.add("pythonrunner-console-output-line");
-      div.innerHTML = new Option(text).innerHTML;
-      node.appendChild(div);
-      node.scrollTop = node.scrollHeight;
+      if (node) {
+        const div = document.createElement("span");
+        div.classList.add("pythonrunner-console-output-line");
+        div.innerHTML = new Option(text).innerHTML;
+        node.appendChild(div);
+        node.scrollTop = node.scrollHeight;
+      }
     }
   };
 
@@ -326,7 +329,9 @@ const PythonRunner = () => {
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
-    output.current.innerHTML = "";
+    if (output.current) {
+      output.current.innerHTML = "";
+    }
     dispatch(setSenseHatEnabled(false));
 
     var prog = projectCode[0].content;
@@ -389,14 +394,28 @@ const PythonRunner = () => {
     }
   }
 
+  const singleOutputPanel = outputPanels.length === 1;
+  const showVisualOutput = outputPanels.includes("visual");
+  const showTextOutput = outputPanels.includes("text");
+
+  const outputPanelClasses = (panelType) => {
+    return classNames("output-panel", `output-panel--${panelType}`, {
+      "output-panel--single": singleOutputPanel,
+    });
+  };
+
   return (
     <div className={`pythonrunner-container`}>
-      {isSplitView ? (
+      {isSplitView || singleOutputPanel ? (
         <>
-          {hasVisualOutput ? (
-            <div className="output-panel output-panel--visual">
+          {hasVisualOutput && showVisualOutput && (
+            <div className={outputPanelClasses("visual")}>
               <Tabs forceRenderTabPanel={true}>
-                <div className="react-tabs__tab-container">
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
                   <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
@@ -404,39 +423,45 @@ const PythonRunner = () => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
-                  {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+                  {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+                  {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane />
                 </TabPanel>
               </Tabs>
             </div>
-          ) : null}
-          <div className="output-panel output-panel--text">
-            <Tabs forceRenderTabPanel={true}>
-              <div className="react-tabs__tab-container">
-                <TabList>
-                  <Tab key={0}>
-                    <span className="react-tabs__tab-text">
-                      {t("output.textOutput")}
-                    </span>
-                  </Tab>
-                </TabList>
-                {!hasVisualOutput && !isEmbedded && isMobile ? (
-                  <RunnerControls skinny />
-                ) : null}
-              </div>
-              <ErrorMessage />
-              <TabPanel key={0}>
-                <pre
-                  className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
-                  onClick={shiftFocusToInput}
-                  ref={output}
-                ></pre>
-              </TabPanel>
-            </Tabs>
-          </div>
+          )}
+          {showTextOutput && (
+            <div className={outputPanelClasses("text")}>
+              <Tabs forceRenderTabPanel={true}>
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
+                  <TabList>
+                    <Tab key={0}>
+                      <span className="react-tabs__tab-text">
+                        {t("output.textOutput")}
+                      </span>
+                    </Tab>
+                  </TabList>
+                  {!hasVisualOutput && !isEmbedded && isMobile && (
+                    <RunnerControls skinny />
+                  )}
+                </div>
+                <ErrorMessage />
+                <TabPanel key={0}>
+                  <pre
+                    className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
+                    onClick={shiftFocusToInput}
+                    ref={output}
+                  ></pre>
+                </TabPanel>
+              </Tabs>
+            </div>
+          )}
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
@@ -455,8 +480,8 @@ const PythonRunner = () => {
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
-            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+            {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+            {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           {!isOutputOnly && <ErrorMessage />}
           {hasVisualOutput ? (
