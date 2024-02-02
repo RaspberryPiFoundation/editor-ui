@@ -15,12 +15,12 @@
   }
 
   img {
-    max-width: 100%;
+    max-inline-size: 100%;
   }
 
   table {
     border-collapse: collapse;
-    margin-bottom: $space-1-5;
+    margin-block-end: $space-1-5;
     inline-size: 100%;
 
     tr {
@@ -159,7 +159,7 @@
     --rpf-squiggle-color: var(--rpf-blue-800);
     background-color: $rpf-blue-100;
     padding: $space-1;
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
     border-start-start-radius: 8px;
     border-start-end-radius: 8px;
@@ -183,7 +183,7 @@
     p {
       margin: 0;
     }
-  
+
     &__checkbox {
       display: none;
     }
@@ -241,7 +241,7 @@
     pre {
       padding: 0;
       margin: 0;
-      width: 100%;
+      inline-size: 100%;
       background-color: $rpf-white;
     }
 

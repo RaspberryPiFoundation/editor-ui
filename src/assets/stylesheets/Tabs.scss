@@ -130,20 +130,20 @@
     background-color: var(--rpf-tab-button-background);
 
     &__tab-container {
-      border-bottom: 1px solid var(--editor-color-outline);
+      border-block-end: 1px solid var(--editor-color-outline);
     }
 
     &__tab {
       background-color: var(--rpf-tab-button-background);
-      border-right: 1px solid var(--editor-color-outline);
+      border-inline-end: 1px solid var(--editor-color-outline);
 
       &--selected {
         color: var(--editor-color-text);
         background-color: var(--editor-color-layer-3);
-        border-bottom: 4px solid var(--rpf-tab-border-bottom-selected);
+        border-block-end: 4px solid var(--rpf-tab-border-bottom-selected);
 
         &:focus-visible {
-          border-bottom: 7px solid var(--rpf-tab-border-bottom-selected);
+          border-block-end: 7px solid var(--rpf-tab-border-bottom-selected);
         }
       }
 
