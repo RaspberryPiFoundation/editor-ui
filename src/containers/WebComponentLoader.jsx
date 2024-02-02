@@ -37,6 +37,7 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     sidebarOptions = [],
     theme,
+    outputPanels = ["text", "visual"],
     embedded = false,
     hostStyles,
     showSavePrompt = false,
@@ -159,6 +160,7 @@ const WebComponentLoader = (props) => {
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
               outputOnly={outputOnly}
+              outputPanels={outputPanels}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
@@ -169,7 +171,7 @@ const WebComponentLoader = (props) => {
     </>
   ) : (
     <>
-      <p>{t("webComponent.loading")}</p>;
+      <p>{t("webComponent.loading")}</p>
     </>
   );
 };
