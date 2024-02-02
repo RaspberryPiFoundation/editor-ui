@@ -48,7 +48,6 @@
   overflow-y: hidden;
 }
 
-// SidebarBar
 .editor-logo {
   block-size: $space-2-5;
   inline-size: $space-2-5;
@@ -69,7 +68,6 @@
   border-inline-end: 1px solid var(--sidebar-border);
 }
 
-// SidebarBar - Options
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;
@@ -125,7 +123,6 @@
   border-block-start: 1px solid var(--sidebar-border);
 }
 
-/* Panel */
 .sidebar__panel {
   display: flex;
   flex-direction: column;
@@ -162,11 +159,11 @@
 .sidebar__panel-footer {
   border-block-start: 1px solid $rpf-grey-150;
   position: absolute;
-  bottom: 0px;
+  inset-block-end: 0px;
   inline-size: 100%;
   inline-size: -moz-available;
   inline-size: -webkit-fill-available;
   inline-size: fill-available;
   background-color: white;
-  border-bottom-right-radius: 8px;
+  border-end-end-radius: 8px;
 }
