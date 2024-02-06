@@ -76,6 +76,14 @@ export const readProject = async (projectIdentifier, locale, accessToken) => {
   );
 };
 
+export const loadAssets = async (assetsIdentifier, locale, accessToken) => {
+  const queryString = locale ? `?locale=${locale}` : "";
+  return await get(
+    `${host}/api/projects/${assetsIdentifier}/images${queryString}`,
+    headers(accessToken),
+  );
+};
+
 export const readProjectList = async (page, accessToken) => {
   return await get(`${host}/api/projects`, {
     params: { page },

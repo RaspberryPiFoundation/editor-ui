@@ -71,7 +71,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   useEffect(() => {
     const code = project.components.find(
       (item) => item.extension === extension && item.name === fileName,
-    ).content;
+    )?.content;
     const mode = getMode();
     const startState = EditorState.create({
       doc: code,

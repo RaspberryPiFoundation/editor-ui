@@ -90,3 +90,7 @@
     }
   }
 }
+
+  .--light .output-panel--single, .--dark .output-panel--single {
+    border-block-end: none;
+}

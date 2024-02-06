@@ -8,6 +8,7 @@ import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
+import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -36,6 +37,7 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
+      "assets_identifier",
       "host_styles",
       "auth_key",
       "identifier",
@@ -44,6 +46,8 @@ class WebComponent extends HTMLElement {
       "instructions",
       "with_projectbar",
       "with_sidebar",
+      "output_only",
+      "output_panels",
       "sidebar_options",
       "theme",
       "embedded",
@@ -54,13 +58,21 @@ class WebComponent extends HTMLElement {
     let value;
 
     if (
-      ["sense_hat_always_enabled", "with_sidebar", "with_projectbar"].includes(
-        name,
-      )
+      [
+        "sense_hat_always_enabled",
+        "with_sidebar",
+        "with_projectbar",
+        "embedded",
+      ].includes(name)
     ) {
       value = newVal !== "false";
     } else if (
-      ["instructions", "sidebar_options", "host_styles"].includes(name)
+      [
+        "instructions",
+        "sidebar_options",
+        "host_styles",
+        "output_panels",
+      ].includes(name)
     ) {
       value = JSON.parse(newVal);
     } else {
@@ -88,6 +100,34 @@ class WebComponent extends HTMLElement {
     this.componentProperties.menuItems = newValue;
 
     this.mountReactApp();
+  }
+
+  stopCode() {
+    const state = store.getState();
+    if (state.editor.codeRunTriggered || state.editor.drawTriggered) {
+      store.dispatch(stopCodeRun());
+      store.dispatch(stopDraw());
+    }
+  }
+
+  runCode() {
+    store.dispatch(triggerCodeRun());
+  }
+
+  rerunCode() {
+    this.stopCode();
+
+    new Promise((resolve) => {
+      let checkInterval = setInterval(() => {
+        let state = store.getState();
+        if (!state.codeRunTriggered && !state.drawTriggered) {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }).then(() => {
+      this.runCode();
+    });
   }
 
   reactProps() {
