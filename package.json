@@ -37,6 +37,7 @@
     "graphql": "^16.6.0",
     "highcharts": "^9.3.1",
     "highcharts-react-official": "^3.1.0",
+    "i18n-iso-countries": "^7.10.0",
     "i18next": "^22.0.3",
     "i18next-browser-languagedetector": "^7.0.0",
     "identity-obj-proxy": "3.0.0",
