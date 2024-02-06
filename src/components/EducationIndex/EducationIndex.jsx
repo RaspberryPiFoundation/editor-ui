@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as i18nCountries from "i18n-iso-countries";
+import { useDispatch, useSelector } from "react-redux";
+import { syncEducation } from "../../redux/EditorSlice";
 
 const EducationIndex = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((s) => s.auth.user);
   const { i18n } = useTranslation();
   const [countries, setCountries] = useState([]);
   const [formData, setFormData] = useState({});
@@ -27,7 +31,13 @@ const EducationIndex = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    dispatch(
+      syncEducation("createSchool")({
+        requestParams: formData,
+        accessToken: user.access_token,
+      }),
+    );
   };
 
   return (

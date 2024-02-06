@@ -12,6 +12,7 @@ import {
   createRemix,
   deleteProject,
   readProjectList,
+  createSchool,
 } from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
@@ -75,6 +76,25 @@ export const loadProjectList = createAsyncThunk(
     };
   },
 );
+
+export const syncEducation = (actionName) =>
+  createAsyncThunk(
+    `editor/education/${actionName}`,
+    async ({ requestParams, accessToken }, { rejectWithValue }) => {
+      let response;
+      switch (actionName) {
+        case "createSchool":
+          response = await createSchool(requestParams, accessToken);
+          break;
+        default:
+          rejectWithValue({ error: "no such sync action" });
+      }
+      return { data: response.data };
+    },
+    {
+      condition: (_, { getState }) => {},
+    },
+  );
 
 export const EditorSlice = createSlice({
   name: "editor",
@@ -429,6 +449,9 @@ export const EditorSlice = createSlice({
     });
     builder.addCase("editor/loadProjectList/rejected", (state) => {
       state.projectListLoaded = "failed";
+    });
+    builder.addCase("editor/education/createSchool", (state) => {
+      // TODO
     });
   },
 });
