@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Made `p5` canvas responsive to the available space (#887)
+- Specify the 'roles' scope in OAuth requests
 
 ### Fixed
 
