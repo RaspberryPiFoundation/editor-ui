@@ -23,6 +23,9 @@ const ProjectComponentLoader = lazy(() =>
 const EmbeddedViewer = lazy(() =>
   import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"),
 );
+const EducationIndex = lazy(() =>
+  import(/* webpackPrefetch: true */ "./EducationIndex/EducationIndex"),
+);
 
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
@@ -55,6 +58,9 @@ const AppRoutes = () => (
         path="embed/viewer/:identifier"
         element={suspense(<EmbeddedViewer />)}
       />
+      <Route path="education">
+        <Route index element={suspense(<EducationIndex />)} />
+      </Route>
     </Route>
 
     <Route
