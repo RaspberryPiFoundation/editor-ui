@@ -95,6 +95,7 @@ const FilePanel = ({ isMobile }) => {
         await writer.write(new TextEncoder().encode(line));
         await writer.write(new TextEncoder().encode("\r"));
       }
+      await writer.write(new TextEncoder().encode("\r"));
     }
   };
   const runOnPico = async () => {
