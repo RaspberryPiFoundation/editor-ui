@@ -56,8 +56,6 @@ const FilePanel = ({ isMobile }) => {
 
   const disconnect = async () => {
     if (port && writer) {
-      console.log(`Disconnecting ${reader}`);
-      await reader.releaseLock();
       console.log(`Disconnecting ${writer}`);
       await writer.releaseLock();
       console.log(`Disconnecting ${port}`);
@@ -89,13 +87,12 @@ const FilePanel = ({ isMobile }) => {
       console.log("Writing");
       console.log(component);
       const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
-      console.log(fileWriteString);
-      const codeString = project.components[0].content;
+      const codeString = component.content;
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       await writer.write(encoder.encode(fileWriteString));
       await writer.write(encoder.encode("\r"));
       for (let i = 0; i < codeLines.length; i++) {
-        const line = `    file.write('${codeLines[i]}'\n)`;
+        const line = `    file.write('${codeLines[i]}\n')`;
         await writer.write(encoder.encode(line));
         await writer.write(encoder.encode("\r"));
       }
