@@ -51,9 +51,7 @@ const FilePanel = ({ isMobile }) => {
     await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
     setPort(obtainedPort);
     const obtainedWriter = obtainedPort.writable.getWriter();
-    const obtainedReader = obtainedPort.readable.getReader();
     setWriter(obtainedWriter);
-    setReader(obtainedReader);
   };
 
   const disconnect = async () => {
@@ -126,15 +124,14 @@ const FilePanel = ({ isMobile }) => {
   };
 
   const runOnPico = async () => {
-    console.log("trying to run on pico");
     if (port && writer) {
-      console.log("Have port and writer");
       const codeString = project.components[0].content;
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
+      let completeCode = "";
       for (let i = 0; i < codeLines.length; i++) {
-        await writer.write(new TextEncoder().encode(codeLines[i]));
-        await writer.write(new TextEncoder().encode("\r"));
+        completeCode += `${codeLines[i]}\r`;
       }
+      await writer.write(new TextEncoder().encode(`${completeCode}\r`));
       await readFromPico();
     }
   };
@@ -142,33 +139,35 @@ const FilePanel = ({ isMobile }) => {
   // NEEDS Reworking: doesn't provide constant stream and doesn't close reader properly (preventing disconnect)
   const readFromPico = async () => {
     const readPort = async () => {
-      console.log("REeading port");
+      const reader = port.readable.getReader();
       const decoder = new TextDecoder();
       let result = "";
       try {
         while (true) {
-          console.log("Reading now");
           const { value, done } = await Promise.race([
             reader.read(),
             new Promise((resolve, reject) => {
-              setTimeout(() => reject(new Error("Timeout")), 5000); // 5 seconds timeout
+              setTimeout(() => resolve({ value: { timeout: true } }), 2000); // 5 seconds timeout
             }),
           ]);
-          console.log("Got result");
-          if (done || value === undefined) {
+          if (done || value.timeout) {
+            console.log("Done or timed out");
             break;
           }
-          console.log("Read");
           result += decoder.decode(value);
+          if (result.includes("\n")) {
+            console.log(result);
+            result = "";
+          }
         }
       } catch (error) {
         console.log(error);
       } finally {
-        console.log("Finallly...");
-        console.log(result);
+        await reader.releaseLock();
+        console.log("Released reader...");
       }
     };
-    if (port && reader) {
+    if (port) {
       await readPort();
       console.log("Done!!");
     }
