@@ -88,11 +88,12 @@ const FilePanel = ({ isMobile }) => {
       console.log(component);
       const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
       const codeString = component.content;
+      console.log(codeString);
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       await writer.write(encoder.encode(fileWriteString));
       await writer.write(encoder.encode("\r"));
       for (let i = 0; i < codeLines.length; i++) {
-        const line = `    file.write('${codeLines[i]}\n')`;
+        const line = `    file.write('${codeLines[i]}\\n')`;
         await writer.write(encoder.encode(line));
         await writer.write(encoder.encode("\r"));
       }
