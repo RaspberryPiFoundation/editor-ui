@@ -151,7 +151,6 @@ const FilePanel = ({ isMobile }) => {
             }),
           ]);
           if (done || value.timeout) {
-            console.log("Done or timed out");
             break;
           }
           result += decoder.decode(value);
@@ -164,12 +163,10 @@ const FilePanel = ({ isMobile }) => {
         console.log(error);
       } finally {
         await reader.releaseLock();
-        console.log("Released reader...");
       }
     };
     if (port) {
       await readPort();
-      console.log("Done!!");
     }
   };
 
