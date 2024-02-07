@@ -45,11 +45,6 @@ const FilePanel = ({ isMobile }) => {
   };
   const { t } = useTranslation();
 
-  const syncProjectWithPico = () => {
-    // use this to sync all files???
-    syncWithPico(project.components);
-  };
-
   const connectAndOpenREPL = async () => {
     const obtainedPort = await navigator.serial.requestPort();
     await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
@@ -58,45 +53,54 @@ const FilePanel = ({ isMobile }) => {
     setWriter(obtainedWriter);
   };
 
-  const installMicroPython = async () => {
-    console.log("Installing!!");
-    const fileUrl =
-      "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
-
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.download = "rp2-pico-latest.uf2";
-    document.body.appendChild(link);
-
-    try {
-      link.click();
-      const fileHandle = await window.showOpenFilePicker();
-      const file = await fileHandle.getFile();
-      console.log(file.name);
-    } catch (error) {
-      // Replace 'https://example.com/path/to/your/file.pdf' with the actual URL of the file
-      //   const response = await fetch(fileUrl, { mode: "no-cors" });
-
-      //   const blob = await response.blob();
-
-      //   // Create a File object from the Blob
-      //   const file = new File([blob], "rp2-pico-latest.uf2", { type: blob.type });
-
-      //   // Now you can use 'file' for further operations, such as showing the save file picker
-      //   const fileHandle = await window.showSaveFilePicker();
-      //   const writable = await fileHandle.createWritable();
-
-      //   // Write the content of the File object to the selected file
-      //   await writable.write(file);
-      //   await writable.close();
-
-      //   console.log("File saved successfully!");
-      console.error("Error downloading the file:", error);
+  const disconnect = async () => {
+    if (port && writer) {
+      console.log(`Disconnecting ${writer}`);
+      await writer.releaseLock();
+      console.log(`Disconnecting ${port}`);
+      await port.close();
+      console.log(`Disconnected ${port}`);
     }
   };
 
-  const runOnPico = async () => {
+  const downloadMicroPython = async () => {
+    console.log("Installing!!");
+    try {
+      const fileUrl =
+        "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
+
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = "rp2-pico-latest.uf2";
+      document.body.appendChild(link);
+      link.click();
+      return "Success";
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const syncWithPico = async () => {
     if (port && writer) {
+      // for (let i = 0; i < project.components.length; i++) {
+      const component = project.components[0];
+      console.log(component);
+      const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
+      const codeString = project.components[0].content;
+      const codeLines = codeString.split(/\r?\n|\r|\n/g);
+      await writer.write(new TextEncoder().encode(fileWriteString));
+      await writer.write(new TextEncoder().encode("\r"));
+      for (let i = 0; i < codeLines.length; i++) {
+        const line = `    file.write('${codeLines[i]}'\n)`;
+        await writer.write(new TextEncoder().encode(line));
+        await writer.write(new TextEncoder().encode("\r"));
+      }
+    }
+  };
+  const runOnPico = async () => {
+    console.log("trying to run on pico");
+    if (port && writer) {
+      console.log("Have port and writer");
       const codeString = project.components[0].content;
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       for (let i = 0; i < codeLines.length; i++) {
@@ -106,19 +110,25 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  useEffect(() => {
-    const readPort = async () => {
-      const reader = port.readable.getReader();
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        console.log(new TextDecoder().decode(value));
-      }
-    };
-    if (port) {
-      readPort();
-    }
-  }, [port]);
+  // NEEDS Reworking: doesn't provide constant stream and doesn't close reader properly (preventing disconnect)
+  // useEffect(() => {
+  //   const decoder = new TextDecoder();
+  //   const readPort = async () => {
+  //     const reader = port.readable.getReader();
+  //     while (true) {
+  //       const { value, done } = await reader.read();
+  //       if (done) {
+  //         await reader.releaseLock();
+
+  //         break;
+  //       }
+  //       console.log(decoder.decode(value));
+  //     }
+  //   };
+  //   if (port) {
+  //     readPort();
+  //   }
+  // }, [port]);
 
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
@@ -160,11 +170,26 @@ const FilePanel = ({ isMobile }) => {
         icon={<DuplicateIcon />}
         textAlways
       />
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={disconnect}
+        text="Disconnect"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
 
       <DesignSystemButton
         className="files-list-item"
-        onClick={installMicroPython}
-        text="Install MicroPython"
+        onClick={downloadMicroPython}
+        text="Download MicroPython"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={syncWithPico}
+        text="Sync with Pico"
         icon={<DuplicateIcon />}
         textAlways
       />
