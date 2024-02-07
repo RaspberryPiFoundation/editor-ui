@@ -119,17 +119,8 @@ const FilePanel = ({ isMobile }) => {
 
     if (port && writer) {
       // for (let i = 0; i < project.components.length; i++) {
-      const component = "main";
-      const fileReadString = `with open('main.py', 'r') as file:`;
+      const fileReadString = `with open('main.py', 'r') as file:\r    contents = file.read()\r    print(contents)\r\r`;
       await writer.write(encoder.encode(fileReadString));
-      await writer.write(encoder.encode("\r"));
-      const line = `    contents = file.read()`;
-      await writer.write(encoder.encode(line));
-      await writer.write(encoder.encode("\r"));
-      await writer.write(encoder.encode(`    print(contents)`));
-      await writer.write(encoder.encode("\r"));
-      await writer.write(encoder.encode("\r"));
-
       await readFromPico();
     }
   };
@@ -156,22 +147,30 @@ const FilePanel = ({ isMobile }) => {
       let result = "";
       try {
         while (true) {
-          const { value, done } = await reader.read();
-          if (done) {
-            console.log(result);
+          console.log("Reading now");
+          const { value, done } = await Promise.race([
+            reader.read(),
+            new Promise((resolve, reject) => {
+              setTimeout(() => reject(new Error("Timeout")), 5000); // 5 seconds timeout
+            }),
+          ]);
+          console.log("Got result");
+          if (done || value === undefined) {
             break;
           }
-
-          console.log(decoder.decode(value));
+          console.log("Read");
+          result += decoder.decode(value);
         }
       } catch (error) {
         console.log(error);
       } finally {
-        reader.releaseLock();
+        console.log("Finallly...");
+        console.log(result);
       }
     };
     if (port && reader) {
-      readPort();
+      await readPort();
+      console.log("Done!!");
     }
   };
 
