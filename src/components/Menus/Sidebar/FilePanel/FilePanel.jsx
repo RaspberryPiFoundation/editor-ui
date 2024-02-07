@@ -24,6 +24,7 @@ const FilePanel = ({ isMobile }) => {
   const dispatch = useDispatch();
   const [port, setPort] = useState();
   const [writer, setWriter] = useState();
+  const [reader, setReader] = useState();
   const switchToFileTab = (panelIndex, fileIndex) => {
     dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
   };
@@ -50,11 +51,15 @@ const FilePanel = ({ isMobile }) => {
     await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
     setPort(obtainedPort);
     const obtainedWriter = obtainedPort.writable.getWriter();
+    const obtainedReader = obtainedPort.readable.getReader();
     setWriter(obtainedWriter);
+    setReader(obtainedReader);
   };
 
   const disconnect = async () => {
     if (port && writer) {
+      console.log(`Disconnecting ${reader}`);
+      await reader.releaseLock();
       console.log(`Disconnecting ${writer}`);
       await writer.releaseLock();
       console.log(`Disconnecting ${port}`);
@@ -80,7 +85,7 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  const syncWithPico = async () => {
+  const writeToPico = async () => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
       console.log("Writing");
@@ -98,6 +103,7 @@ const FilePanel = ({ isMobile }) => {
       }
       await writer.write(encoder.encode("\r"));
       console.log("Done writing!");
+      await readFromPico();
     };
 
     if (port && writer) {
@@ -105,6 +111,26 @@ const FilePanel = ({ isMobile }) => {
       for (const component of project.components) {
         await writeFile(component);
       }
+    }
+  };
+
+  const getFiles = async () => {
+    const encoder = new TextEncoder();
+
+    if (port && writer) {
+      // for (let i = 0; i < project.components.length; i++) {
+      const component = "main";
+      const fileReadString = `with open('main.py', 'r') as file:`;
+      await writer.write(encoder.encode(fileReadString));
+      await writer.write(encoder.encode("\r"));
+      const line = `    contents = file.read()`;
+      await writer.write(encoder.encode(line));
+      await writer.write(encoder.encode("\r"));
+      await writer.write(encoder.encode(`    print(contents)`));
+      await writer.write(encoder.encode("\r"));
+      await writer.write(encoder.encode("\r"));
+
+      await readFromPico();
     }
   };
 
@@ -118,28 +144,36 @@ const FilePanel = ({ isMobile }) => {
         await writer.write(new TextEncoder().encode(codeLines[i]));
         await writer.write(new TextEncoder().encode("\r"));
       }
+      await readFromPico();
     }
   };
 
   // NEEDS Reworking: doesn't provide constant stream and doesn't close reader properly (preventing disconnect)
-  // useEffect(() => {
-  //   const decoder = new TextDecoder();
-  //   const readPort = async () => {
-  //     const reader = port.readable.getReader();
-  //     while (true) {
-  //       const { value, done } = await reader.read();
-  //       if (done) {
-  //         await reader.releaseLock();
+  const readFromPico = async () => {
+    const readPort = async () => {
+      console.log("REeading port");
+      const decoder = new TextDecoder();
+      let result = "";
+      try {
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) {
+            console.log(result);
+            break;
+          }
 
-  //         break;
-  //       }
-  //       console.log(decoder.decode(value));
-  //     }
-  //   };
-  //   if (port) {
-  //     readPort();
-  //   }
-  // }, [port]);
+          console.log(decoder.decode(value));
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        reader.releaseLock();
+      }
+    };
+    if (port && reader) {
+      readPort();
+    }
+  };
 
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
@@ -199,8 +233,15 @@ const FilePanel = ({ isMobile }) => {
 
       <DesignSystemButton
         className="files-list-item"
-        onClick={syncWithPico}
-        text="Sync with Pico"
+        onClick={writeToPico}
+        text="Write to Pico"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={getFiles}
+        text="Read from Pico"
         icon={<DuplicateIcon />}
         textAlways
       />
