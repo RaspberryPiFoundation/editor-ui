@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Made `p5` canvas responsive to the available space (#887)
+- Specify the 'roles' scope in OAuth requests
+
+### Fixed
+
+- Local docker setup with yarn v3 (#905)
+- Part of Stylelint issues: duplicates, logical properties #916
+
 ## [0.21.2] - 2024-01-23
 
 ### Changed
