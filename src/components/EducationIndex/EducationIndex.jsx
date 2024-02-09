@@ -55,6 +55,15 @@ const EducationIndex = () => {
         />
         <br />
 
+        <label>URN:</label>
+        <input
+          name="reference"
+          type="text"
+          value={formData.reference || ""}
+          onChange={handleFormChange("reference")}
+        />
+        <br />
+
         <label>Address Line 1:</label>
         <input
           required
