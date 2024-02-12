@@ -210,11 +210,9 @@ const PyodideRunner = () => {
   };
 
   const getInputElement = () => {
-    const pageInput = document.getElementById("input");
-    const webComponentInput = document.querySelector("editor-wc")
+    return document.querySelector("editor-wc")
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
-      : null;
-    return pageInput || webComponentInput;
+      : document.getElementById("input");
   };
 
   const getInputContent = async (element) => {
