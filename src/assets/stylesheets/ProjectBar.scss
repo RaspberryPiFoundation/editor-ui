@@ -39,7 +39,7 @@
   }
 
   .project-bar__btn-wrapper {
-    height:  100%;
+    block-size:  100%;
   }
 
   .project-bar__btn-wrapper:not(:last-child) {
@@ -88,7 +88,7 @@
 
   @container (min-width: 560px) {
     .text {
-      min-width: auto;
+      min-inline-size: auto;
       display: block;
     }
   }
