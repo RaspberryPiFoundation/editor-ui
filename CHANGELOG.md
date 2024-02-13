@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle errors sent via apiCallHandler off (#890)
 - Upgrade webpack-dev-server to 4.0.0 to support conditional headers
 - Upgrade yarn to 3.4.1 to workaround a string-width issue
+- Add a ?pyodide=true flag for python project pages
 
 ### Fixed
 
