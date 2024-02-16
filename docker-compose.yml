@@ -5,8 +5,13 @@ services:
       context: .
     volumes:
       - .:/app
-      - /app/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
+      - /app/.yarn
+      - $PWD/.yarn/plugins:/app/.yarn/plugins
+      - $PWD/.yarn/releases:/app/.yarn/releases
+      - $PWD/.yarn/patches:/app/.yarn/patches
+      - $PWD/.yarn/sdks:/app/.yarn/sdks
+      - $PWD/.yarn/versions:/app/.yarn/versions
     stdin_open: true
   react-ui:
     <<: *x-app

@@ -45,10 +45,9 @@
 }
 
 .project-name__button {
-  height: fit-content;
   margin: $space-0-5;
-  width: 48px;
-  height: 48px;
+  inline-size: 48px;
+  block-size: 48px;
 
   svg {
     block-size: $space-1-5;
