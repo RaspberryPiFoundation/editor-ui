@@ -19,7 +19,7 @@ export const syncProject = (actionName) =>
     `editor/${actionName}Project`,
     async (
       { project, identifier, locale, accessToken, autosave },
-      { rejectWithValue },
+      { rejectWithValue }
     ) => {
       let response;
       switch (actionName) {
@@ -61,7 +61,7 @@ export const syncProject = (actionName) =>
           return false;
         }
       },
-    },
+    }
   );
 
 export const loadProjectList = createAsyncThunk(
@@ -73,7 +73,7 @@ export const loadProjectList = createAsyncThunk(
       page,
       links: parseLinkHeader(response.headers.link),
     };
-  },
+  }
 );
 
 export const EditorSlice = createSlice({
@@ -131,10 +131,10 @@ export const EditorSlice = createSlice({
         .map((fileNames) => fileNames.includes(action.payload))
         .indexOf(true);
       const closedFileIndex = state.openFiles[panelIndex].indexOf(
-        action.payload,
+        action.payload
       );
       state.openFiles[panelIndex] = state.openFiles[panelIndex].filter(
-        (fileName) => fileName !== action.payload,
+        (fileName) => fileName !== action.payload
       );
       if (
         state.focussedFileIndices[panelIndex] >=
@@ -231,6 +231,7 @@ export const EditorSlice = createSlice({
       state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
+      console.log("Updating!!!x");
       const extension = action.payload.extension;
       const fileName = action.payload.name;
       const code = action.payload.code;

@@ -11,6 +11,7 @@ import {
   hideSidebar,
 } from "../../../../redux/EditorSlice";
 
+import { updateProjectComponent } from "../../../../redux/EditorSlice";
 import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
@@ -30,6 +31,25 @@ const FilePanel = ({ isMobile }) => {
     dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
   };
 
+  const updateProject = (files) => {
+    console.log("Files from Pico");
+    console.log(files);
+    console.log(project.components);
+
+    files.forEach((file) => {
+      console.log("ABout to dispatch!!");
+      dispatch(
+        updateProjectComponent({
+          extension: "py",
+          name: file.filename,
+          code: file.contents,
+        })
+      );
+    });
+
+    console.log("Updated project components");
+    console.log(project.components);
+  };
   const openFileTab = (fileName) => {
     if (openFiles.flat().includes(fileName)) {
       const panelIndex = openFiles
@@ -103,35 +123,46 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  const getFiles = async () => {
+  const readFiles = async () => {
     const encoder = new TextEncoder();
+    let files = [];
+    const readFile = async (component) => {
+      if (port && writer) {
+        // for (let i = 0; i < project.components.length; i++) {
+        // // const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
+        // // await writer.write(encoder.encode(fileListString));
+        // // const fileList = await readFromPico();
+        // console.log(fileList);
+        const fileReadString = `import ujson\rwith open('${component.name}.py', 'r') as file:\r    contents = file.read()\r    data = {\r        "filename": '${component.name}',\r        "contents": contents\r    }\r    print(ujson.dumps(data))\r\r`;
+        await writer.write(encoder.encode(fileReadString));
+        const fileStream = await readFromPico();
+        fileStream.forEach((file) => {
+          if (file.includes("filename") && file.includes("contents")) {
+            try {
+              // Is there a better way that doesn't use regex??!!
+              const regex = /{([^}]*)}/;
+              const rawFile = file.match(regex);
+
+              const jsonFile = JSON.parse(rawFile[0].toString());
+              console.log(jsonFile);
+              files.push(jsonFile);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        });
+      }
+    };
 
     if (port && writer) {
       // for (let i = 0; i < project.components.length; i++) {
-      const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
-      await writer.write(encoder.encode(fileListString));
-      const fileList = await readFromPico();
-      console.log(fileList);
-      const fileReadString = `import ujson\rwith open('main.py', 'r') as file:\r    contents = file.read()\r    data = {\r        "filename": "main.py",\r        "contents": contents\r    }\r    print(ujson.dumps(data))\r\r`;
-      await writer.write(encoder.encode(fileReadString));
-      const fileStream = await readFromPico();
-      console.log("File Stream");
-      fileStream.forEach((file) => {
-        if (file.includes("filename") && file.includes("contents")) {
-          try {
-            // Is there a better way that doesn't use regex??!!
-            const regex = /{([^}]*)}/;
-            const json = file.match(regex);
-            console.log("JSON file");
-            console.log(json[0]);
-            JSON.parse(json[0].toString());
-          } catch (error) {
-            console.log("Not json");
-            console.log(error);
-          }
-        }
-      });
+      for (const component of project.components) {
+        await readFile(component);
+      }
     }
+    console.log("Files");
+    console.log(files);
+    updateProject(files);
   };
 
   const runOnPico = async () => {
@@ -168,7 +199,6 @@ const FilePanel = ({ isMobile }) => {
           resultString += decoder.decode(value);
           // Need a more accurate marker than \n as multi-line strings form file contents
           if (resultString.includes("\n")) {
-            console.log("Pushing to resultStream");
             resultStream.push(resultString);
             resultString = "";
           }
@@ -257,7 +287,7 @@ const FilePanel = ({ isMobile }) => {
       />
       <DesignSystemButton
         className="files-list-item"
-        onClick={getFiles}
+        onClick={readFiles}
         text="Get files from Pico"
         icon={<DuplicateIcon />}
         textAlways
