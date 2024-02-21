@@ -69,14 +69,6 @@ const FilePanel = ({ isMobile }) => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
       console.log("Writing");
-
-      // must be a better way than deleting the file - not sure why it isn't overrwriting
-      console.log("Deleiting");
-      console.log(component.name);
-      // const deleteFileString = `import os\rtry:\r    os.stat('${component.name}.py')\r    os.remove('${component.name}.py')\rexcept OSError:\r    pass\r\n`;
-      // await writer.write(encoder.encode(deleteFileString));
-      // await writer.write(encoder.encode("\r"));
-      // await readFromPico();
       console.log(`Writing ${component.name} to Pico`);
       const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
       const codeString = component.content;
