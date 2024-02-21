@@ -134,7 +134,7 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  // NEEDS Reworking: doesn't provide constant stream and doesn't close reader properly (preventing disconnect)
+  // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
   const readFromPico = async () => {
     const readPort = async () => {
       const reader = port.readable.getReader();
@@ -164,7 +164,11 @@ const FilePanel = ({ isMobile }) => {
       }
     };
     if (port) {
-      await readPort();
+      try {
+        await readPort();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
