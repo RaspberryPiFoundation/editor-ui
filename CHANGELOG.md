@@ -14,7 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Local docker setup with yarn v3 (#905)
-- Part of Stylelint issues: duplicates, logical properties #916
+- Part of Stylelint issues: duplicates, logical properties (#916)
+- Text output wrapping on Firefox (#922)
 
 ## [0.21.2] - 2024-01-23
 
@@ -24,10 +25,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle errors sent via apiCallHandler off (#890)
 - Upgrade webpack-dev-server to 4.0.0 to support conditional headers
 - Upgrade yarn to 3.4.1 to workaround a string-width issue
+- Add a ?pyodide=true flag for python project pages
 
 ### Fixed
 
 - Editor input not focussing on iPad (#898)
+
+### Fixed
+
+- Sidebar selected option styling (#886)
 
 ## [0.21.1] - 2024-01-11
 
