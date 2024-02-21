@@ -104,23 +104,12 @@ const FilePanel = ({ isMobile }) => {
   const writeToPico = async () => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
-      console.log("Writing");
-
-      // must be a better way than deleting the file - not sure why it isn't overrwriting
-      console.log("Deleiting");
-      console.log(component.name);
-      // const deleteFileString = `import os\rtry:\r    os.stat('${component.name}.py')\r    os.remove('${component.name}.py')\rexcept OSError:\r    pass\r\n`;
-      // await writer.write(encoder.encode(deleteFileString));
-      // await writer.write(encoder.encode("\r"));
-      // await readFromPico();
       console.log(`Writing ${component.name} to Pico`);
       const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
       const codeString = component.content;
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       await writer.write(encoder.encode(fileWriteString));
       await writer.write(encoder.encode("\r"));
-      const writeResult = await readFromPico();
-      console.log(writeResult);
       for (let i = 0; i < codeLines.length; i++) {
         const line = `    file.write('${codeLines[i]}\\n')`;
         await writer.write(encoder.encode(line));
@@ -153,7 +142,6 @@ const FilePanel = ({ isMobile }) => {
       const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
       await writer.write(encoder.encode(fileReadString));
       const fileStream = await readFromPico();
-      console.log(fileStream);
       fileStream.forEach((file) => {
         if (file.includes("name") && file.includes("contents")) {
           try {
