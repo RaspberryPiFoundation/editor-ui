@@ -17,6 +17,7 @@ import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
 import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
 import { syncWithPico } from "../../../../utils/apiCallHandler";
+import { file } from "jszip";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
@@ -115,9 +116,25 @@ const FilePanel = ({ isMobile }) => {
 
     if (port && writer) {
       // for (let i = 0; i < project.components.length; i++) {
-      const fileReadString = `with open('main.py', 'r') as file:\r    contents = file.read()\r    print(contents)\r\r`;
+      const fileReadString = `import ujson\rwith open('main.py', 'r') as file:\r    contents = file.read()\r    data = {\r        "filename": "main.py",\r        "contents": contents\r    }\r    print(ujson.dumps(data))\r\r`;
       await writer.write(encoder.encode(fileReadString));
-      await readFromPico();
+      const fileStream = await readFromPico();
+      console.log("File Stream");
+      fileStream.forEach((file) => {
+        if (file.includes("filename") && file.includes("contents")) {
+          try {
+            // Is there a better way that doesn't use regex??!!
+            const regex = /{([^}]*)}/;
+            const json = file.match(regex);
+            console.log("JSON file");
+            console.log(json[0]);
+            JSON.parse(json[0].toString());
+          } catch (error) {
+            console.log("Not json");
+            console.log(error);
+          }
+        }
+      });
     }
   };
 
@@ -139,7 +156,8 @@ const FilePanel = ({ isMobile }) => {
     const readPort = async () => {
       const reader = port.readable.getReader();
       const decoder = new TextDecoder();
-      let result = "";
+      let resultString = "";
+      let resultStream = [];
       try {
         while (true) {
           const { value, done } = await Promise.race([
@@ -151,21 +169,26 @@ const FilePanel = ({ isMobile }) => {
           if (done || value.timeout) {
             break;
           }
-          result += decoder.decode(value);
-          if (result.includes("\n")) {
-            console.log(result);
-            result = "";
+          resultString += decoder.decode(value);
+          if (resultString.includes("\n")) {
+            console.log("Pushing to resultStream");
+            resultStream.push(resultString);
+            resultString = "";
           }
         }
       } catch (error) {
         console.log(error);
       } finally {
+        console.log("Done reading");
         await reader.releaseLock();
+        console.log("returning resultStream");
+        return resultStream;
       }
     };
     if (port) {
       try {
-        await readPort();
+        const resultStream = await readPort();
+        return resultStream;
       } catch (error) {
         console.log(error);
       }
@@ -238,7 +261,7 @@ const FilePanel = ({ isMobile }) => {
       <DesignSystemButton
         className="files-list-item"
         onClick={getFiles}
-        text="Read from Pico"
+        text="Get files from Pico"
         icon={<DuplicateIcon />}
         textAlways
       />
