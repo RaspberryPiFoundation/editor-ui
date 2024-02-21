@@ -16,8 +16,8 @@ import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
 import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
-import { syncWithPico } from "../../../../utils/apiCallHandler";
-import { file } from "jszip";
+
+import { downloadMicroPython } from "../../../../utils/picoHandler";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
@@ -65,34 +65,26 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  const downloadMicroPython = async () => {
-    console.log("Installing!!");
-    try {
-      const fileUrl =
-        "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
-
-      const link = document.createElement("a");
-      link.href = fileUrl;
-      link.download = "rp2-pico-latest.uf2";
-      document.body.appendChild(link);
-      link.click();
-      return "Success";
-    } catch (error) {
-      return error;
-    }
-  };
-
   const writeToPico = async () => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
       console.log("Writing");
-      console.log(component);
+
+      // must be a better way than deleting the file - not sure why it isn't overrwriting
+      console.log("Deleiting");
+      console.log(component.name);
+      // const deleteFileString = `import os\rtry:\r    os.stat('${component.name}.py')\r    os.remove('${component.name}.py')\rexcept OSError:\r    pass\r\n`;
+      // await writer.write(encoder.encode(deleteFileString));
+      // await writer.write(encoder.encode("\r"));
+      // await readFromPico();
+      console.log(`Writing ${component.name} to Pico`);
       const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
       const codeString = component.content;
-      console.log(codeString);
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       await writer.write(encoder.encode(fileWriteString));
       await writer.write(encoder.encode("\r"));
+      const writeResult = await readFromPico();
+      console.log(writeResult);
       for (let i = 0; i < codeLines.length; i++) {
         const line = `    file.write('${codeLines[i]}\\n')`;
         await writer.write(encoder.encode(line));
@@ -116,6 +108,10 @@ const FilePanel = ({ isMobile }) => {
 
     if (port && writer) {
       // for (let i = 0; i < project.components.length; i++) {
+      const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
+      await writer.write(encoder.encode(fileListString));
+      const fileList = await readFromPico();
+      console.log(fileList);
       const fileReadString = `import ujson\rwith open('main.py', 'r') as file:\r    contents = file.read()\r    data = {\r        "filename": "main.py",\r        "contents": contents\r    }\r    print(ujson.dumps(data))\r\r`;
       await writer.write(encoder.encode(fileReadString));
       const fileStream = await readFromPico();
@@ -170,6 +166,7 @@ const FilePanel = ({ isMobile }) => {
             break;
           }
           resultString += decoder.decode(value);
+          // Need a more accurate marker than \n as multi-line strings form file contents
           if (resultString.includes("\n")) {
             console.log("Pushing to resultStream");
             resultStream.push(resultString);
