@@ -6,14 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.22.0] - 2024-02-22
+
+### Added
+
+- Add a Pyodide runner (#893)
+
 ### Changed
 
 - Made `p5` canvas responsive to the available space (#887)
+- Specify the 'roles' scope in OAuth requests
 
 ### Fixed
 
 - Local docker setup with yarn v3 (#905)
-- Part of Stylelint issues: duplicates, logical properties #916
+- Part of Stylelint issues: duplicates, logical properties (#916)
+- Text output wrapping on Firefox (#922)
 
 ## [0.21.2] - 2024-01-23
 
@@ -24,10 +32,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgrade webpack-dev-server to 4.0.0 to support conditional headers
 - Upgrade yarn to 3.4.1 to workaround a string-width issue
 - Improved file structure as part of the linter update (#926)
+- Add a ?pyodide=true flag for python project pages
 
 ### Fixed
 
 - Editor input not focussing on iPad (#898)
+
+### Fixed
+
+- Sidebar selected option styling (#886)
 
 ## [0.21.1] - 2024-01-11
 
@@ -701,7 +714,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0
 [0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2
 [0.21.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.1
 [0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
