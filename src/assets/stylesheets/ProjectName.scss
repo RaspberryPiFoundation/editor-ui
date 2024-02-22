@@ -56,17 +56,6 @@
   }
 }
 
-.--light {
-  .project-name__input {
-    background-color: $rpf-grey-50;
-
-    &:focus-visible {
-      background-color: inherit;
-      outline: 2px solid $rpf-text-primary;
-    }
-  }
-}
-
 .--dark {
   .project-name__input {
     background-color: $rpf-grey-600;
@@ -78,3 +67,13 @@
   }
 }
 
+.--light {
+  .project-name__input {
+    background-color: $rpf-grey-50;
+
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-text-primary;
+    }
+  }
+}

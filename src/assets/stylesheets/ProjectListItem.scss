@@ -7,128 +7,128 @@
 $medium-table-grid: 990px;
 $small-table-grid: 600px;
 
-.editor-project-list {
-  &__info {
-    align-items: center;
+.editor-project-list__info {
+  align-items: center;
+}
+
+.editor-project-list__title {
+  align-items: center;
+  display: flex;
+  grid-column: span 8;
+  min-inline-size: 0;
+  padding: $space-1-5 0;
+
+  @include unique-width($medium-table-grid) {
+    grid-column: span 6;
   }
 
-  &__title {
-    align-items: center;
-    display: flex;
+  @include unique-max-width($small-table-grid) {
     grid-column: span 8;
-    min-inline-size: 0;
-    padding: $space-1-5 0;
+    padding: 0;
+    margin: 0;
+  }
+}
 
-    @include unique-width($medium-table-grid) {
-      grid-column: span 6;
-    }
+.editor-project-list__type {
+  inline-size: 40px;
+  padding-inline-end: $space-1-5;
+}
 
-    @include unique-max-width($small-table-grid) {
-      grid-column: span 8;
-      padding: 0;
-      margin: 0;
-    }
+.editor-project-list__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: $font-weight-bold;
+}
+
+.editor-project-list__tag,
+.editor-project-list__heading {
+  @include font-size-0-75(regular);
+
+  .--light & {
+    color: $rpf-text-secondary;
   }
 
-  &__type {
-    inline-size: 40px;
-    padding-inline-end: $space-1-5;
+  .--dark & {
+    color: $rpf-text-secondary-darkmode;
   }
+}
 
-  &__name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: $font-weight-bold;
-  }
+.editor-project-list__actions {
+  display: flex;
+  gap: 8px;
 
-  &__tag {
-    padding-inline-end: $space-0-5;
-    margin-inline-end: $space-0-5;
-
-    .--light & {
-      border-inline-end: 1px $rpf-text-secondary solid;
-    }
-
-    .--dark & {
-      border-inline-end: 1px $rpf-text-secondary-darkmode solid;
-    }
-  }
-
-  &__actions {
-    display: flex;
-    gap: 8px;
-
-    span {
-      display: none;
-    }
-
-    svg {
-      margin: 0;
-    }
-
-    @include unique-width($medium-table-grid) {
-      span {
-        display: flex;
-      }
-    }
-
-    @include unique-max-width($small-table-grid) {
-      display: none;
-    }
-  }
-
-  &__rename {
-    margin: 12px 16px;
-  }
-
-  &__menu {
+  span {
     display: none;
-    @include unique-max-width($small-table-grid) {
-      display: block;
-      grid-column: span 1;
+  }
+
+  svg {
+    margin: 0;
+  }
+
+  @include unique-width($medium-table-grid) {
+    span {
+      display: flex;
     }
   }
 
-  &__tag,
-  &__heading {
-    @include font-size-0-75(regular);
+  @include unique-max-width($small-table-grid) {
+    display: none;
+  }
+}
 
-    .--light & {
-      color: $rpf-text-secondary;
+.editor-project-list__tag {
+  padding-inline-end: $space-0-5;
+  margin-inline-end: $space-0-5;
+}
+
+.--dark .editor-project-list__tag {
+  border-inline-end: 1px $rpf-text-secondary-darkmode solid;
+}
+
+.--light .editor-project-list__tag {
+  border-inline-end: 1px $rpf-text-secondary solid;
+}
+
+
+
+.editor-project-list__rename {
+  margin: 12px 16px;
+}
+
+.editor-project-list__menu {
+  display: none;
+  @include unique-max-width($small-table-grid) {
+    display: block;
+    grid-column: span 1;
+  }
+}
+
+.editor-project-list__title,
+.editor-project-list__actions {
+  @include font-size-1(regular);
+  text-decoration: none;
+
+  .--light & {
+    color: $rpf-black;
+
+    &:active {
+      color: $rpf-teal-900;
     }
 
-    .--dark & {
-      color: $rpf-text-secondary-darkmode;
+    &:hover {
+      color: $rpf-grey-600;
     }
   }
 
-  &__title,
-  &__actions {
-    @include font-size-1(regular);
-    text-decoration: none;
+  .--dark & {
+    color: $rpf-white;
 
-    .--light & {
-      color: $rpf-black;
-
-      &:active {
-        color: $rpf-teal-900;
-      }
-
-      &:hover {
-        color: $rpf-grey-600;
-      }
+    &:active {
+      color: $rpf-teal-200;
     }
 
-    .--dark & {
-      color: $rpf-white;
-
-      &:active {
-        color: $rpf-teal-200;
-      }
-
-      &:hover {
-        color: $rpf-grey-150;
-      }
+    &:hover {
+      color: $rpf-grey-150;
     }
   }
 }
