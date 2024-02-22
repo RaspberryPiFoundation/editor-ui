@@ -1,10 +1,11 @@
 import Button from "../Button/Button";
 
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { triggerCodeRun } from "../../redux/EditorSlice";
 
 const RunButton = ({ embedded = false, className, ...props }) => {
+  const codeRunLoading = useSelector((state) => state.editor.codeRunLoading);
   const dispatch = useDispatch();
 
   const onClickRun = () => {
@@ -16,6 +17,7 @@ const RunButton = ({ embedded = false, className, ...props }) => {
 
   return (
     <Button
+      disabled={codeRunLoading}
       className={`btn--primary btn--run${className ? ` ${className}` : ""}`}
       onClickHandler={onClickRun}
       {...props}

@@ -9,7 +9,7 @@ const ErrorMessage = () => {
 
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>
-      <p className="error-message__content">{error}</p>
+      <pre className="error-message__content">{error}</pre>
     </div>
   ) : null;
 };
