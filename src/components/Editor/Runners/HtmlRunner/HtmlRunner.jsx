@@ -277,6 +277,7 @@ function HtmlRunner() {
         );
       }
       srcNode.setAttribute(attr, src);
+      srcNode.setAttribute("crossorigin", true);
     });
   };
 
