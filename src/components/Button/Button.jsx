@@ -65,7 +65,9 @@ const Button = (props) => {
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
-      {buttonImage && <img src={buttonImage} alt={buttonImageAltText} />}
+      {buttonImage && (
+        <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />
+      )}
       {ButtonIcon && buttonIconPosition === "left" && <ButtonIcon />}
       {text && <span>{text}</span>}
       {ButtonIcon && buttonIconPosition === "right" && <ButtonIcon />}
@@ -81,7 +83,9 @@ const Button = (props) => {
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
-      {buttonImage && <img src={buttonImage} alt={buttonImageAltText} />}
+      {buttonImage && (
+        <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />
+      )}
       {ButtonIcon && buttonIconPosition === "left" && <ButtonIcon />}
       {buttonText && <span>{buttonText}</span>}
       {ButtonIcon && buttonIconPosition === "right" && <ButtonIcon />}
