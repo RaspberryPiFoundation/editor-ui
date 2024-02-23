@@ -291,7 +291,7 @@ const PyodideRunner = () => {
     <div className={`pythonrunner-container`}>
       {isSplitView ? (
         <>
-          {hasVisual ? (
+          {hasVisual && (
             <div className="output-panel output-panel--visual">
               <Tabs forceRenderTabPanel={true}>
                 <div className="react-tabs__tab-container">
@@ -302,8 +302,8 @@ const PyodideRunner = () => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded && hasVisual ? <OutputViewToggle /> : null}
-                  {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+                  {!isEmbedded && hasVisual && <OutputViewToggle />}
+                  {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane
@@ -315,7 +315,7 @@ const PyodideRunner = () => {
                 </TabPanel>
               </Tabs>
             </div>
-          ) : null}
+          )}
           <div className="output-panel output-panel--text">
             <Tabs forceRenderTabPanel={true}>
               <div className="react-tabs__tab-container">
@@ -326,9 +326,9 @@ const PyodideRunner = () => {
                     </span>
                   </Tab>
                 </TabList>
-                {!hasVisual && !isEmbedded && isMobile ? (
+                {!hasVisual && !isEmbedded && isMobile && (
                   <RunnerControls skinny />
-                ) : null}
+                )}
               </div>
               <ErrorMessage />
               <TabPanel key={0}>
@@ -345,24 +345,24 @@ const PyodideRunner = () => {
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
           <div className="react-tabs__tab-container">
             <TabList>
-              {hasVisual ? (
+              {hasVisual && (
                 <Tab key={0}>
                   <span className="react-tabs__tab-text">
                     {t("output.visualOutput")}
                   </span>
                 </Tab>
-              ) : null}
+              )}
               <Tab key={1}>
                 <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisual ? <OutputViewToggle /> : null}
-            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+            {!isEmbedded && hasVisual && <OutputViewToggle />}
+            {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           <ErrorMessage />
-          {hasVisual ? (
+          {hasVisual && (
             <TabPanel key={0}>
               <VisualOutputPane
                 visuals={visuals}
@@ -371,7 +371,7 @@ const PyodideRunner = () => {
                 setSenseHatConfig={setSenseHatConfig}
               />
             </TabPanel>
-          ) : null}
+          )}
           <TabPanel key={1}>
             <pre
               className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
