@@ -76,30 +76,32 @@ const AstroPiModel = ({ senseHatConfig, setSenseHatConfig }) => {
     }));
   }, [orientation, setSenseHatConfig]);
 
-  return senseHatConfig && (
-    <div className="sense-hat">
-      <div className="sense-hat-model">
-        <Simulator
-          updateOrientation={setOrientation}
+  return (
+    senseHatConfig && (
+      <div className="sense-hat">
+        <div className="sense-hat-model">
+          <Simulator
+            updateOrientation={setOrientation}
+            setSenseHatConfig={setSenseHatConfig}
+          />
+          <OrientationPanel
+            orientation={orientation}
+            resetOrientation={resetOrientation}
+          />
+        </div>
+
+        {/* <!-- Full sensor controls --> */}
+        <AstroPiControls
+          pressure={defaultPressure}
+          temperature={defaultTemperature}
+          humidity={defaultHumidity}
+          colour={senseHatConfig.colour}
+          motion={senseHatConfig.motion}
+          senseHatConfig={senseHatConfig}
           setSenseHatConfig={setSenseHatConfig}
         />
-        <OrientationPanel
-          orientation={orientation}
-          resetOrientation={resetOrientation}
-        />
       </div>
-
-      {/* <!-- Full sensor controls --> */}
-      <AstroPiControls
-        pressure={defaultPressure}
-        temperature={defaultTemperature}
-        humidity={defaultHumidity}
-        colour={senseHatConfig.colour}
-        motion={senseHatConfig.motion}
-        senseHatConfig={senseHatConfig}
-        setSenseHatConfig={setSenseHatConfig}
-      />
-    </div>
+    )
   );
 };
 

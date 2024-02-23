@@ -9,7 +9,15 @@ import PressureIcon from "../../../assets/icons/pressure.svg";
 import TemperatureIcon from "../../../assets/icons/temperature.svg";
 import { useTranslation } from "react-i18next";
 
-const AstroPiControls = ({ temperature, pressure, humidity, colour, motion, senseHatConfig, setSenseHatConfig }) => {
+const AstroPiControls = ({
+  temperature,
+  pressure,
+  humidity,
+  colour,
+  motion,
+  senseHatConfig,
+  setSenseHatConfig,
+}) => {
   const { t } = useTranslation();
 
   return (

@@ -2,7 +2,16 @@ import React from "react";
 import { useEffect, useState, startTransition } from "react";
 import "../../../assets/stylesheets/AstroPiModel.scss";
 
-const SliderInput = ({ name, label, unit, min, max, defaultValue, Icon, setSenseHatConfig }) => {
+const SliderInput = ({
+  name,
+  label,
+  unit,
+  min,
+  max,
+  defaultValue,
+  Icon,
+  setSenseHatConfig,
+}) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {

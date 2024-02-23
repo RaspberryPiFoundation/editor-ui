@@ -3,7 +3,12 @@ import { useSelector } from "react-redux";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
-const VisualOutputPane = ({ visuals, setVisuals, senseHatConfig, setSenseHatConfig }) => {
+const VisualOutputPane = ({
+  visuals,
+  setVisuals,
+  senseHatConfig,
+  setSenseHatConfig,
+}) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const output = useRef();

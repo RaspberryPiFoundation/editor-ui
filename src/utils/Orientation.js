@@ -105,11 +105,7 @@ export function updateRTIMU(rtimu) {
 
   // _compass = perturb(_compass, .01);
   // multiply with 100 -> from Gauss to microteslas (µT)
-  rtimu.compass = [
-    _compass[0] * 100,
-    _compass[1] * 100,
-    _compass[2] * 100,
-  ];
+  rtimu.compass = [_compass[0] * 100, _compass[1] * 100, _compass[2] * 100];
 
   return rtimu;
 }
