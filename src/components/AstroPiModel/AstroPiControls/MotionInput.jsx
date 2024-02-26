@@ -19,9 +19,10 @@ const MotionInput = ({ defaultValue, senseHatConfig, setSenseHatConfig }) => {
         return config;
       });
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, setSenseHatConfig]);
 
   useEffect(() => {
+    console.log("setting motion");
     startTransition(() => {
       setSenseHatConfig((config) => {
         config.motion = value;
@@ -32,7 +33,7 @@ const MotionInput = ({ defaultValue, senseHatConfig, setSenseHatConfig }) => {
     value
       ? senseHatConfig.start_motion_callback()
       : senseHatConfig.stop_motion_callback();
-  }, [value]);
+  }, [value, setSenseHatConfig, senseHatConfig]);
 
   return (
     <div className="sense-hat-controls-panel__container">

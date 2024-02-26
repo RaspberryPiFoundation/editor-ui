@@ -12,7 +12,7 @@ const Input = ({ name, label, type, defaultValue, setSenseHatConfig }) => {
         return config;
       });
     });
-  }, [name, value]);
+  }, [name, value, setSenseHatConfig]);
 
   return (
     <div className="sense-hat-controls-panel__container">

@@ -40,6 +40,7 @@ const Stopwatch = ({ setSenseHatConfig }) => {
     isRunning,
     pause,
     reset,
+    setSenseHatConfig,
   ]);
 
   return (

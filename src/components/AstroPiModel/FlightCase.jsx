@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { invalidate } from "@react-three/fiber";
+import { set } from "date-fns";
 
 const FlightCase = ({ setSenseHatConfig }) => {
   const { scene } = useGLTF(
@@ -78,7 +79,7 @@ const FlightCase = ({ setSenseHatConfig }) => {
 
       return config;
     });
-  }, [setSenseHatConfig]);
+  }, [setSenseHatConfig, setPixel, setPixels]);
 
   return <primitive object={scene} scale={4} />;
 };
