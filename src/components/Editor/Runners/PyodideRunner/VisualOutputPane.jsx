@@ -19,7 +19,7 @@ const VisualOutputPane = ({
     } else if (visuals.some((v) => !v.showing)) {
       setVisuals((visuals) => showVisuals(visuals, output, setSenseHatConfig));
     }
-  }, [visuals, setVisuals]);
+  }, [visuals, setVisuals, setSenseHatConfig]);
 
   return (
     <div className="visual-output">

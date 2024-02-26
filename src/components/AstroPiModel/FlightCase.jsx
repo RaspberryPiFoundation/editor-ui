@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { invalidate } from "@react-three/fiber";
-import { set } from "date-fns";
 
 const FlightCase = ({ setSenseHatConfig }) => {
   const { scene } = useGLTF(
@@ -11,40 +10,55 @@ const FlightCase = ({ setSenseHatConfig }) => {
   window.mod = scene;
 
   const blankLED = new THREE.MeshStandardMaterial({ color: `rgb(0,0,0)` });
-  var leds = {
+
+  const [leds, setLeds] = useState({
     "0_0_0": blankLED,
+  });
+
+  const setLed = ({ led, material }) => {
+    setLeds((leds) => {
+      leds[led] = material;
+      return leds;
+    });
   };
 
-  function setPixel(ledIndex, r, g, b) {
-    var x = ledIndex % 8;
-    var y = Math.floor(ledIndex / 8);
-    let ledMaterial;
-    if (`${r}_${g}_${b}` in leds) {
-      ledMaterial = leds[`${r}_${g}_${b}`];
-    } else {
-      ledMaterial = new THREE.MeshStandardMaterial({
-        color: `rgb(${r},${g},${b})`,
-      });
-      leds[`${r}_${g}_${b}`] = ledMaterial;
-    }
-    var object = scene.getObjectByName(`circle${x}_${7 - y}-1`);
+  const setPixel = useCallback(
+    (ledIndex, r, g, b) => {
+      var x = ledIndex % 8;
+      var y = Math.floor(ledIndex / 8);
+      let ledMaterial;
+      if (`${r}_${g}_${b}` in leds) {
+        ledMaterial = leds[`${r}_${g}_${b}`];
+      } else {
+        ledMaterial = new THREE.MeshStandardMaterial({
+          color: `rgb(${r},${g},${b})`,
+        });
+        // leds[`${r}_${g}_${b}`] = ledMaterial;
+        setLed({ led: `${r}_${g}_${b}`, material: ledMaterial });
+      }
+      var object = scene.getObjectByName(`circle${x}_${7 - y}-1`);
 
-    if (object != null) {
-      object.material = ledMaterial;
-    }
-  }
+      if (object != null) {
+        object.material = ledMaterial;
+      }
+    },
+    [leds, scene],
+  );
 
-  function setPixels(indexes, pix) {
-    if (indexes == null) {
-      indexes = pix_map270;
-    }
+  const setPixels = useCallback(
+    (indexes, pix) => {
+      if (indexes == null) {
+        indexes = pix_map270;
+      }
 
-    var i = 0;
-    for (const ledIndex of indexes) {
-      setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2]);
-      i += 1;
-    }
-  }
+      var i = 0;
+      for (const ledIndex of indexes) {
+        setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2]);
+        i += 1;
+      }
+    },
+    [setPixel],
+  );
 
   useEffect(() => {
     setSenseHatConfig((config) => {
