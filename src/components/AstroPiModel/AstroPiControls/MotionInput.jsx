@@ -22,7 +22,6 @@ const MotionInput = ({ defaultValue, senseHatConfig, setSenseHatConfig }) => {
   }, [codeRunTriggered, setSenseHatConfig]);
 
   useEffect(() => {
-    console.log("setting motion");
     startTransition(() => {
       setSenseHatConfig((config) => {
         config.motion = value;
