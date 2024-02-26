@@ -22,9 +22,7 @@ var windowHalfY = window.innerHeight / 2;
 var slowingFactor = 0.25;
 const rotationScaleFactor = 0.00025;
 
-const Simulator = (props) => {
-  const { updateOrientation } = props;
-
+const Simulator = ({ updateOrientation, setSenseHatConfig }) => {
   const handleDragStart = (e) => {
     isDragging = true;
     mouseXOnMouseDown = e.clientX - windowHalfX;
@@ -76,7 +74,7 @@ const Simulator = (props) => {
           far={20000}
           position={[0, 1.5, 0]}
         />
-        <FlightCase />
+        <FlightCase setSenseHatConfig={setSenseHatConfig} />
         <OrbitControls
           enableRotate={false}
           enablePan={false}

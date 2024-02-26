@@ -9,6 +9,7 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
+  setSenseHatEnabled,
 } from "../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -45,6 +46,7 @@ const PyodideRunner = () => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+  const [senseHatConfig, setSenseHatConfig] = useState();
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -68,7 +70,7 @@ const PyodideRunner = () => {
           handleVisual(data.origin, data.content);
           break;
         case "handleSenseHatEvent":
-          handleSenseHatEvent(data.type);
+          handleSenseHatEvent(data.type, data.content);
           break;
         default:
           throw new Error(`Unsupported method: ${data.method}`);
@@ -158,17 +160,29 @@ const PyodideRunner = () => {
   };
 
   const handleVisual = (origin, content) => {
+    if (origin === "sense_hat") {
+      dispatch(setSenseHatEnabled(true));
+    }
+
     setHasVisual(true);
     setVisuals((array) => [...array, { origin, content }]);
   };
 
-  const handleSenseHatEvent = (type) => {
-    console.log("handleSenseHatEvent");
+  const handleSenseHatEvent = (type, content) => {
+    console.log(senseHatConfig, type, content);
+    dispatch(setSenseHatEnabled(true));
+    setHasVisual(true);
+
+    // TODO: why is senseHatConfig always undefined?
+    // We are calling setSenseHatConfig in AstroPiModel.jsx
+    //
+    //senseHatConfig?.emit?.(type, content);
   };
 
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setSenseHatEnabled(false));
     setVisuals([]);
     stdinClosed.current = false;
 
@@ -210,9 +224,11 @@ const PyodideRunner = () => {
   };
 
   const getInputElement = () => {
-    return document.querySelector("editor-wc")
+    const pageInput = document.getElementById("input");
+    const webComponentInput = document.querySelector("editor-wc")
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
-      : document.getElementById("input");
+      : null;
+    return pageInput || webComponentInput;
   };
 
   const getInputContent = async (element) => {
@@ -290,7 +306,12 @@ const PyodideRunner = () => {
                   {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
-                  <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
+                  <VisualOutputPane
+                    visuals={visuals}
+                    setVisuals={setVisuals}
+                    senseHatConfig={senseHatConfig}
+                    setSenseHatConfig={setSenseHatConfig}
+                  />
                 </TabPanel>
               </Tabs>
             </div>
@@ -343,7 +364,12 @@ const PyodideRunner = () => {
           <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>
-              <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
+              <VisualOutputPane
+                visuals={visuals}
+                setVisuals={setVisuals}
+                senseHatConfig={senseHatConfig}
+                setSenseHatConfig={setSenseHatConfig}
+              />
             </TabPanel>
           )}
           <TabPanel key={1}>

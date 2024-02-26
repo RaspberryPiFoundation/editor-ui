@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import AstroPiModel from "./AstroPiModel";
 import configureStore from "redux-mock-store";
 import Sk from "skulpt";
+import { defaultSenseHatConfig } from "../../utils/defaultSenseHatConfig";
 
 let container;
 let store;
@@ -30,8 +31,10 @@ beforeEach(() => {
   store = mockStore(initialState);
   container = render(
     <Provider store={store}>
-      {" "}
-      <AstroPiModel />{" "}
+      <AstroPiModel
+        senseHatConfig={defaultSenseHatConfig}
+        setSenseHatConfig={() => {}}
+      />
     </Provider>,
   );
 });

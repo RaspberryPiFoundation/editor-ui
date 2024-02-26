@@ -69,6 +69,15 @@ const VisualOutputPane = () => {
     }
   }, [drawTriggered, dispatch, t, error]);
 
+  // This function behaves like a useState setter.
+  const setSenseHatConfig = (argument) => {
+    if (typeof argument === "function") {
+      Sk.sense_hat = argument(Sk.sense_hat);
+    } else {
+      Sk.sense_hat = argument;
+    }
+  };
+
   return (
     <div className="visual-output">
       <div id="p5Sketch" ref={p5Output} />
@@ -80,7 +89,12 @@ const VisualOutputPane = () => {
           className="pythonrunner-graphic"
         />
       </div>
-      {senseHatEnabled || senseHatAlwaysEnabled ? <AstroPiModel /> : null}
+      {senseHatEnabled || senseHatAlwaysEnabled ? (
+        <AstroPiModel
+          senseHatConfig={Sk.sense_hat}
+          setSenseHatConfig={setSenseHatConfig}
+        />
+      ) : null}
     </div>
   );
 };

@@ -2,7 +2,7 @@
  * Internal SenseHat Module for reading and writing values from
  * JavaScript World to the Python World. This modules set ups
  * the commmunication and allows to read and write pixels. If the
- * "Sk.sense_hat_emit" config is present, we emit events when
+ * "Sk.sense_hat.emit" config is present, we emit events when
  * values are changed: Python -> JavaScript
  */
  var $builtinmodule = function (name) {
@@ -27,8 +27,8 @@
   }
 
   mod.init = new Sk.builtin.func(function () {
-      if (Sk.sense_hat_emit) {
-          Sk.sense_hat_emit('init');
+      if (Sk.sense_hat.emit) {
+          Sk.sense_hat.emit('init');
       }
   });
 
@@ -57,8 +57,8 @@
           throw new Sk.builtin.ValueError(e.message);
       }
 
-      if (Sk.sense_hat_emit) {
-          Sk.sense_hat_emit('setpixel', _index);
+      if (Sk.sense_hat.emit) {
+          Sk.sense_hat.emit('setpixel', _index);
       }
   });
 
@@ -92,8 +92,8 @@
           throw new Sk.builtin.ValueError(e.message);
       }
 
-      if (Sk.sense_hat_emit) {
-          Sk.sense_hat_emit('setpixels', _indexes);
+      if (Sk.sense_hat.emit) {
+          Sk.sense_hat.emit('setpixels', _indexes);
       }
   });
 
@@ -120,8 +120,8 @@
       var _gamma = Sk.ffi.remapToJs(gamma);
       Sk.sense_hat.gamma = _gamma;
 
-      if (Sk.sense_hat_emit) {
-          Sk.sense_hat_emit('setGamma');
+      if (Sk.sense_hat.emit) {
+          Sk.sense_hat.emit('setGamma');
       }
   });
 
@@ -130,8 +130,8 @@
 
       Sk.sense_hat.low_light = _value;
 
-      if (Sk.sense_hat_emit) {
-          Sk.sense_hat_emit('changeLowlight', _value);
+      if (Sk.sense_hat.emit) {
+          Sk.sense_hat.emit('changeLowlight', _value);
       }
   });
 
