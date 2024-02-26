@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import AstroPiControls from "./AstroPiControls";
 import Sk from "skulpt";
+import { defaultSenseHatConfig } from "../../../utils/defaultSenseHatConfig";
 
 let container;
 let store;
@@ -33,6 +34,8 @@ beforeEach(() => {
         humidity={37}
         motion={true}
         colour="#e01010"
+        setSenseHatConfig={() => {}}
+        senseHatConfig={defaultSenseHatConfig}
       />
     </Provider>,
   );

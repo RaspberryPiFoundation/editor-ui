@@ -7,6 +7,12 @@ import { useEffect, useState } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
+import {
+  defaultHumidity,
+  defaultPressure,
+  defaultSenseHatConfig,
+  defaultTemperature,
+} from "../../utils/defaultSenseHatConfig";
 
 const AstroPiModel = ({ senseHatConfig, setSenseHatConfig }) => {
   const project = useSelector((state) => state.editor.project);
@@ -16,49 +22,9 @@ const AstroPiModel = ({ senseHatConfig, setSenseHatConfig }) => {
     setOrientation([0, 90, 0]);
   };
 
-  const defaultPressure = 1013;
-  const defaultTemperature = 13;
-  const defaultHumidity = 45;
-
   useEffect(() => {
     if (!senseHatConfig) {
-      setSenseHatConfig({
-        emit: () => {}, // Overridden by FlightCase.jsx
-        colour: "#FF00A4",
-        gamma: [
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0,
-        ],
-        low_light: false,
-        motion: false,
-        mz_criteria: { ...defaultMZCriteria },
-        pixels: new Array(64).fill([0, 0, 0]),
-        rtimu: {
-          pressure: [
-            1,
-            defaultPressure + Math.random() - 0.5,
-          ] /* isValid, pressure*/,
-          temperature: [
-            1,
-            defaultTemperature + Math.random() - 0.5,
-          ] /* isValid, temperature */,
-          humidity: [
-            1,
-            defaultHumidity + Math.random() - 0.5,
-          ] /* isValid, humidity */,
-          gyro: [0, 0, 0] /* all 3 gyro values */,
-          accel: [0, 0, 0] /* all 3 accel values */,
-          compass: [0, 0, 33] /* all compass values */,
-          raw_orientation: [0, 90, 0],
-        },
-        sensestick: {
-          _eventQueue: [],
-          off: () => {},
-          once: () => {},
-        },
-        start_motion_callback: () => {},
-        stop_motion_callback: () => {},
-      });
+      setSenseHatConfig(defaultSenseHatConfig);
     }
   }, [senseHatConfig, setSenseHatConfig]);
 
