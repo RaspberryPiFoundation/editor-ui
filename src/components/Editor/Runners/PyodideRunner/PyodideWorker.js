@@ -72,6 +72,13 @@ const checkIfStopped = () => {
 
 const withSupportForPackages = async (python, runPythonFn) => {
   const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
+  console.log(imports);
+  const skulptOnlyModules = ["p5", "py5", "sense_hat"];
+  if (imports.some((name) => skulptOnlyModules.includes(name))) {
+    console.log("skulpt only modules detected");
+    postMessage({ method: "switchToSkulpt" });
+    return;
+  }
   await Promise.all(imports.map((name) => loadDependency(name)));
 
   checkIfStopped();

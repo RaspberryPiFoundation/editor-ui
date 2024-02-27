@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
@@ -9,7 +9,17 @@ const Output = () => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
-  const usePyodide = searchParams.get("pyodide") === "true";
+  const pythonInterpreter = useSelector(
+    (state) => state.runner.pythonInterpreter,
+  );
+
+  const [usePyodide, setUsePyodide] = useState(true);
+
+  useEffect(() => {
+    if (pythonInterpreter === "skulpt") {
+      setUsePyodide(false);
+    }
+  }, [pythonInterpreter]);
 
   return (
     <>
