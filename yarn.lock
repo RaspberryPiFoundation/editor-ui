@@ -2629,6 +2629,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-testing-library: ^3.9.2
     eslint-webpack-plugin: ^2.5.2
+    filbert: ^0.1.20
     file-loader: 6.1.1
     file-saver: ^2.0.5
     fs-extra: ^9.0.1
@@ -8794,6 +8795,13 @@ __metadata:
   dependencies:
     escape-string-regexp: ^1.0.5
   checksum: 85a6ad29e9aca80b49b817e7c89ecc4716ff14e3779d9835af554db91bac41c0f289c418923519392a1e582b4d10482ad282021330cd045bb7b80c84152f2a2b
+  languageName: node
+  linkType: hard
+
+"filbert@npm:^0.1.20":
+  version: 0.1.20
+  resolution: "filbert@npm:0.1.20"
+  checksum: ad709094016811f8f308dcaa41d860bad181b77808577dd7872434ea43a90464a0c8114fd87a9d8e6f9797b9f005d959a7b855de1bc7316437573f02fef4f981
   languageName: node
   linkType: hard
 

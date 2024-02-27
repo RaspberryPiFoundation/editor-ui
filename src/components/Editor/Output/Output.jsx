@@ -9,17 +9,17 @@ const Output = () => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
-  const pythonInterpreter = useSelector(
-    (state) => state.runner.pythonInterpreter,
-  );
+  // const pythonInterpreter = useSelector(
+  //   (state) => state.runner.pythonInterpreter,
+  // );
 
-  const [usePyodide, setUsePyodide] = useState(true);
+  // const [usePyodide, setUsePyodide] = useState(true);
 
-  useEffect(() => {
-    if (pythonInterpreter === "skulpt") {
-      setUsePyodide(false);
-    }
-  }, [pythonInterpreter]);
+  // useEffect(() => {
+  //   if (pythonInterpreter === "skulpt") {
+  //     setUsePyodide(false);
+  //   }
+  // }, [pythonInterpreter]);
 
   return (
     <>
@@ -27,7 +27,7 @@ const Output = () => {
       <div className="proj-runner-container">
         <RunnerFactory
           projectType={project.project_type}
-          usePyodide={usePyodide}
+          // usePyodide={usePyodide}
         />
         {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
       </div>
