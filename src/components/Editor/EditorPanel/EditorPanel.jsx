@@ -83,7 +83,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         onUpdate,
         editorTheme,
         indentationMarkers(),
-        indentUnit.of("    "),
+        indentUnit.of("  "),
       ],
     });
 
