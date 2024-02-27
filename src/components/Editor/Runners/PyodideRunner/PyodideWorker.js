@@ -49,6 +49,16 @@ onmessage = async ({ data }) => {
 
 const runPython = async (python) => {
   stopped = false;
+  await pyodide.runPythonAsync(`
+  old_input = input
+  
+  def patched_input(prompt=False):
+      if (prompt):
+          print(prompt)
+      return old_input()
+  
+  __builtins__.input = patched_input
+  `);
 
   try {
     await withSupportForPackages(python, async () => {
