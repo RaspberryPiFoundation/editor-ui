@@ -73,6 +73,12 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       (item) => item.extension === extension && item.name === fileName,
     ).content;
     const mode = getMode();
+  
+    let customIndentUnit = "  "; 
+    if (extension === "py") {
+      customIndentUnit = "    "; 
+    }
+
     const startState = EditorState.create({
       doc: code,
       extensions: [
@@ -83,7 +89,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         onUpdate,
         editorTheme,
         indentationMarkers(),
-        indentUnit.of("  "),
+        indentUnit.of(customIndentUnit),
       ],
     });
 
