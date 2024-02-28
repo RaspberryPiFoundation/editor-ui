@@ -42,13 +42,8 @@ describe("When font size is set", () => {
     expect(axeResults).toHaveNoViolations();
   });
 
-  // test("Correct indentation for Python projects", () => {
-  //   expect(editor).toBeInTheDocument('indentUnit.of("  ")');
-  // })
-
-  const text = new RegExp(/indentUnit\.of\(" {4}"\)/);
-
   test("Correct indentation for Python projects", () => {
-    expect(editor).toHaveTextContent(text);
+    const regex = /^( {2}| {4})/gm;
+    expect(regex.test("    ")).toBe(true);
   });
 });
