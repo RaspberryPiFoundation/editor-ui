@@ -38,10 +38,8 @@ const PythonRunner = () => {
             SKULPT_ONLY_MODULES.includes(name),
           );
           if (hasSkulptOnlyModules) {
-            console.log("using skulpt");
             setUsePyodide(false);
           } else {
-            console.log("using pyodide");
             setUsePyodide(true);
           }
         } catch (error) {

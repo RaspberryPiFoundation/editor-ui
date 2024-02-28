@@ -282,7 +282,7 @@ const PyodideRunner = ({ active }) => {
   return (
     <div
       className={`pythonrunner-container pyodiderunner`}
-      style={showRunner ? {} : { height: "0", width: "0", flex: "unset" }}
+      style={{ display: showRunner ? "flex" : "none" }}
     >
       {isSplitView ? (
         <>
