@@ -20,7 +20,6 @@ import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
-import { switchToSkulpt } from "../../../../redux/RunnerSlice";
 
 const PyodideRunner = ({ active }) => {
   const pyodideWorker = useMemo(() => new PyodideWorker(), []);
@@ -71,10 +70,6 @@ const PyodideRunner = ({ active }) => {
           break;
         case "handleSenseHatEvent":
           handleSenseHatEvent(data.type);
-          break;
-        case "switchToSkulpt":
-          console.log("switching to skulpt");
-          dispatch(switchToSkulpt());
           break;
         default:
           throw new Error(`Unsupported method: ${data.method}`);
