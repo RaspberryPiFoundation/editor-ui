@@ -30,12 +30,10 @@ const PythonRunner = () => {
   };
 
   useEffect(() => {
-    console.log("scanning imports");
     project.components.forEach((component) => {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
           const imports = getImports(component.content);
-          console.log(imports);
           const hasSkulptOnlyModules = imports.some((name) =>
             SKULPT_ONLY_MODULES.includes(name),
           );

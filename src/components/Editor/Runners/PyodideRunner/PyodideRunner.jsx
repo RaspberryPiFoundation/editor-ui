@@ -45,7 +45,7 @@ const PyodideRunner = ({ active }) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
-  const [showRunner, setShowRunner] = useState(true);
+  const [showRunner, setShowRunner] = useState(false);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -79,6 +79,7 @@ const PyodideRunner = ({ active }) => {
 
   useEffect(() => {
     if (codeRunTriggered && active) {
+      console.log("running with pyodide");
       handleRun();
     }
   }, [codeRunTriggered]);
@@ -281,7 +282,7 @@ const PyodideRunner = ({ active }) => {
   return (
     <div
       className={`pythonrunner-container pyodiderunner`}
-      style={{ display: showRunner ? "block" : "none" }}
+      style={showRunner ? {} : { height: "0", width: "0", flex: "unset" }}
     >
       {isSplitView ? (
         <>

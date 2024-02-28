@@ -79,7 +79,7 @@ const SkulptRunner = ({ active }) => {
     queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled,
   );
 
-  const [showRunner, setShowRunner] = useState(false);
+  const [showRunner, setShowRunner] = useState(true);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -90,8 +90,15 @@ const SkulptRunner = ({ active }) => {
   };
 
   useEffect(() => {
-    if (codeRunTriggered && active) {
+    if (codeRunTriggered && active && showRunner) {
+      console.log("running with skulpt");
       runCode();
+    }
+  }, [codeRunTriggered, showRunner]);
+
+  useEffect(() => {
+    if (codeRunTriggered) {
+      setShowRunner(active);
     }
   }, [codeRunTriggered]);
 
@@ -374,16 +381,11 @@ const SkulptRunner = ({ active }) => {
     }
   }
 
-  useEffect(() => {
-    if (codeRunTriggered) {
-      setShowRunner(active);
-    }
-  }, [codeRunTriggered]);
-
   return (
     <div
       className={`pythonrunner-container`}
-      style={{ display: showRunner ? "block" : "none" }}
+      // style={{ display: showRunner ? "flex" : "none" }}
+      style={showRunner ? {} : { height: "0", width: "0", flex: "unset" }}
     >
       {isSplitView ? (
         <>
