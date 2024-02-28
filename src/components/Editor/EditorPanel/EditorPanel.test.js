@@ -46,10 +46,9 @@ describe("When font size is set", () => {
   //   expect(editor).toBeInTheDocument('indentUnit.of("  ")');
   // })
 
-  const text = new RegExp(/indentUnit\.of\(" {4}"\)/)
+  const text = new RegExp(/indentUnit\.of\(" {4}"\)/);
 
   test("Correct indentation for Python projects", () => {
     expect(editor).toHaveTextContent(text);
   });
-
 });

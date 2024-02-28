@@ -73,10 +73,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       (item) => item.extension === extension && item.name === fileName,
     ).content;
     const mode = getMode();
-  
-    let customIndentUnit = "  "; 
+
+    let customIndentUnit = "  ";
     if (extension === "py") {
-      customIndentUnit = "    "; 
+      customIndentUnit = "    ";
     }
 
     const startState = EditorState.create({
