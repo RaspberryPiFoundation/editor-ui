@@ -133,7 +133,7 @@ const vendoredPackages = {
     before: async () => {
       pyodide.registerJsModule("basthon", fakeBasthonPackage);
       await pyodide.loadPackage(
-        `${process.env.PUBLIC_URL}/packages/turtle-0.0.1-py3-none-any.whl`,
+        `${process.env.ASSETS_URL}/packages/turtle-0.0.1-py3-none-any.whl`,
       );
     },
     after: () =>
@@ -151,7 +151,7 @@ const vendoredPackages = {
       pyodide.registerJsModule("basthon", fakeBasthonPackage);
       await pyodide.loadPackage([
         "setuptools",
-        `${process.env.PUBLIC_URL}/packages/p5-0.0.1-py3-none-any.whl`,
+        `${process.env.ASSETS_URL}/packages/p5-0.0.1-py3-none-any.whl`,
       ]);
     },
     after: () => {},
@@ -171,7 +171,7 @@ const vendoredPackages = {
       });
       await pyodide.loadPackage([
         "pillow",
-        `${process.env.PUBLIC_URL}/packages/sense_hat-0.0.1-py3-none-any.whl`,
+        `${process.env.ASSETS_URL}/packages/sense_hat-0.0.1-py3-none-any.whl`,
       ]);
 
       _internal_sense_hat.config.pyodide = pyodide;

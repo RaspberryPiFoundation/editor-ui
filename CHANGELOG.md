@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- ASSETS_URL env var to allow assets to be served from R2 bucket
+
 ## [0.22.1] - 2024-02-23
 
 ### Fix
