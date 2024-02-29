@@ -8,10 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.22.1] - 2024-02-23
 
-### Fix
+### Fixed
 
 - HTMLRunner images - add crossorigin attribute to iframe imgs (#927)
 - Fix HTML indentation (#928)
+- Loading imports from multiple files with `pyodide` (#941)
 
 ## [0.22.0] - 2024-02-22
 
