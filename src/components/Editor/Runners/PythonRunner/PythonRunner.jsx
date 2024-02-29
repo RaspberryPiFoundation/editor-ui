@@ -52,7 +52,6 @@ const PythonRunner = () => {
     <>
       <PyodideRunner active={usePyodide} />
       <SkulptRunner active={!usePyodide} />
-      {/* {usePyodide ? <PyodideRunner /> : <SkulptRunner />} */}
     </>
   );
 };
