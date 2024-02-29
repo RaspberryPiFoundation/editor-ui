@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - HTMLRunner images - add crossorigin attribute to iframe imgs (#927)
+- Fix HTML indentation (#928)
 - Pyodide input function (#935)
 
 ## [0.22.0] - 2024-02-22
