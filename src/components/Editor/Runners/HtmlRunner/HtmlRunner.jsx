@@ -108,9 +108,10 @@ function HtmlRunner() {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
       projectImages.forEach((image) => {
+        const blobString = `data:${image.content_type};base64,${image.blob_data}`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
           image.filename,
-          image.url,
+          blobString,
         );
       });
     }
