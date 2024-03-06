@@ -69,9 +69,15 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
 
   useEffect(() => {
-    const code = project.components.find(
+    const file = project.components.find(
       (item) => item.extension === extension && item.name === fileName,
-    ).content;
+    );
+
+    if (!file) {
+      return;
+    }
+
+    const code = file.content;
     const mode = getMode();
 
     let customIndentUnit = "  ";
@@ -112,7 +118,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     return () => {
       view.destroy();
     };
-  }, [cookies]);
+  }, [project]);
 
   return (
     <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
