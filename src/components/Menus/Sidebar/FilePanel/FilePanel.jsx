@@ -101,7 +101,7 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  const writeToPico = async () => {
+  const writeToPico = async (writer) => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
       console.log(`Writing ${component.name} to Pico`);
@@ -166,6 +166,7 @@ const FilePanel = ({ isMobile }) => {
 
   const runOnPico = async () => {
     if (port && writer) {
+      console.log("Running on Pico");
       const codeString = project.components[0].content;
       const codeLines = codeString.split(/\r?\n|\r|\n/g);
       let completeCode = "";
@@ -279,7 +280,7 @@ const FilePanel = ({ isMobile }) => {
 
       <DesignSystemButton
         className="files-list-item"
-        onClick={writeToPico}
+        onClick={() => writeToPico(writer)}
         text="Write to Pico"
         icon={<DuplicateIcon />}
         textAlways
