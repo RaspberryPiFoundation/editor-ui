@@ -29,38 +29,39 @@ export const runOnPico = async (port, writer, project) => {
     for (let i = 0; i < codeLines.length; i++) {
       completeCode += `${codeLines[i]}\r`;
     }
-    await writer.write(new TextEncoder().encode(`${completeCode}\r`));
+    await writer.write(encodeText(`${completeCode}\r`));
     await readFromPico();
   }
 };
 
-export const writeAllFilesToPico = async (port, writer, project, dispatch) => {
-  const encoder = new TextEncoder();
-  const writeFile = async (component) => {
-    console.log(`Writing ${component.name} to Pico`);
-    const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
-    const codeString = component.content;
-    const codeLines = codeString.split(/\r?\n|\r|\n/g);
-    await writer.write(encoder.encode(fileWriteString));
-    await writer.write(encoder.encode("\r"));
-    for (let i = 0; i < codeLines.length; i++) {
-      const line = `    file.write('${codeLines[i]}\\n')`;
-      await writer.write(encoder.encode(line));
-      await writer.write(encoder.encode("\r"));
-    }
-    await writer.write(encoder.encode("\r"));
-    console.log("Done writing!");
-    await readFromPico(port);
-  };
-
+export const writeAllFilesToPico = async (port, writer, project) => {
   if (port && writer) {
     // for (let i = 0; i < project.components.length; i++) {
     for (const component of project.components) {
-      await writeFile(component);
+      await writeFileToPico(port, writer, component);
     }
+    return "Done";
   }
+  return "Not done";
 };
 
+export const writeFileToPico = async (port, writer, component) => {
+  const encoder = new TextEncoder();
+  console.log(`Writing ${component.name} to Pico`);
+  const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
+  const codeString = component.content;
+  const codeLines = codeString.split(/\r?\n|\r|\n/g);
+  await writer.write(encoder.encode(fileWriteString));
+  await writer.write(encoder.encode("\r"));
+  for (let i = 0; i < codeLines.length; i++) {
+    const line = `    file.write('${codeLines[i]}\\n')`;
+    await writer.write(encoder.encode(line));
+    await writer.write(encoder.encode("\r"));
+  }
+  await writer.write(encoder.encode("\r"));
+  console.log("Done writing!");
+  // await readFromPico(port);
+};
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
 export const readFromPico = async (port, dispatch) => {
   console.log("Reading from Pico");
@@ -91,7 +92,11 @@ export const readFromPico = async (port, dispatch) => {
       console.log(error);
     } finally {
       console.log("Done reading");
-      await reader.releaseLock();
+      try {
+        await reader.releaseLock();
+      } catch (error) {
+        console.log(error);
+      }
       console.log("returning resultStream");
       return resultStream;
     }
@@ -183,4 +188,8 @@ export const connectToPico = async (setPort, setWriter) => {
   setPort(obtainedPort);
   const obtainedWriter = obtainedPort.writable.getWriter();
   setWriter(obtainedWriter);
+};
+
+export const encodeText = (text) => {
+  return new TextEncoder().encode(text);
 };
