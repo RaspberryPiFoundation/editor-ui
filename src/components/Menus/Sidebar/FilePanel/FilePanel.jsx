@@ -21,7 +21,10 @@ import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
 import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
 
-import { downloadMicroPython } from "../../../../utils/picoHandler";
+import {
+  downloadMicroPython,
+  writeAllFilesToPico,
+} from "../../../../utils/picoHelpers";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
@@ -98,33 +101,6 @@ const FilePanel = ({ isMobile }) => {
       console.log(`Disconnecting ${port}`);
       await port.close();
       console.log(`Disconnected ${port}`);
-    }
-  };
-
-  const writeToPico = async (port, writer) => {
-    const encoder = new TextEncoder();
-    const writeFile = async (component) => {
-      console.log(`Writing ${component.name} to Pico`);
-      const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
-      const codeString = component.content;
-      const codeLines = codeString.split(/\r?\n|\r|\n/g);
-      await writer.write(encoder.encode(fileWriteString));
-      await writer.write(encoder.encode("\r"));
-      for (let i = 0; i < codeLines.length; i++) {
-        const line = `    file.write('${codeLines[i]}\\n')`;
-        await writer.write(encoder.encode(line));
-        await writer.write(encoder.encode("\r"));
-      }
-      await writer.write(encoder.encode("\r"));
-      console.log("Done writing!");
-      await readFromPico();
-    };
-
-    if (port && writer) {
-      // for (let i = 0; i < project.components.length; i++) {
-      for (const component of project.components) {
-        await writeFile(component);
-      }
     }
   };
 
@@ -280,7 +256,7 @@ const FilePanel = ({ isMobile }) => {
 
       <DesignSystemButton
         className="files-list-item"
-        onClick={() => writeToPico(port, writer)}
+        onClick={() => writeAllFilesToPico(port, writer, project)}
         text="Write to Pico"
         icon={<DuplicateIcon />}
         textAlways
