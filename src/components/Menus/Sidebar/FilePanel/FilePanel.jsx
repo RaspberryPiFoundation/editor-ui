@@ -25,6 +25,7 @@ import {
   downloadMicroPython,
   writeAllFilesToPico,
   readFromPico,
+  runOnPico,
 } from "../../../../utils/picoHelpers";
 
 const FilePanel = ({ isMobile }) => {
@@ -133,20 +134,6 @@ const FilePanel = ({ isMobile }) => {
     updateProject(files);
   };
 
-  const runOnPico = async () => {
-    if (port && writer) {
-      console.log("Running on Pico");
-      const codeString = project.components[0].content;
-      const codeLines = codeString.split(/\r?\n|\r|\n/g);
-      let completeCode = "";
-      for (let i = 0; i < codeLines.length; i++) {
-        completeCode += `${codeLines[i]}\r`;
-      }
-      await writer.write(new TextEncoder().encode(`${completeCode}\r`));
-      await readFromPico();
-    }
-  };
-
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
       {project.components.map((file, i) => (
@@ -175,7 +162,7 @@ const FilePanel = ({ isMobile }) => {
       ))}
       <DesignSystemButton
         className="files-list-item"
-        onClick={runOnPico}
+        onClick={() => runOnPico(port, writer, project)}
         text="Run on pico"
         icon={<DuplicateIcon />}
         textAlways

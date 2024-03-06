@@ -15,6 +15,21 @@ export const downloadMicroPython = async () => {
   }
 };
 
+// runOnPico currenly runs only the first project in components collection (ie Main.py))
+export const runOnPico = async (port, writer, project) => {
+  if (port && writer) {
+    console.log("Running on Pico");
+    const codeString = project.components[0].content;
+    const codeLines = codeString.split(/\r?\n|\r|\n/g);
+    let completeCode = "";
+    for (let i = 0; i < codeLines.length; i++) {
+      completeCode += `${codeLines[i]}\r`;
+    }
+    await writer.write(new TextEncoder().encode(`${completeCode}\r`));
+    await readFromPico();
+  }
+};
+
 export const writeAllFilesToPico = async (port, writer, project) => {
   const encoder = new TextEncoder();
   const writeFile = async (component) => {
