@@ -1,3 +1,8 @@
+import {
+  addProjectComponent,
+  updateProjectComponent,
+} from "../redux/EditorSlice";
+
 export const downloadMicroPython = async () => {
   console.log("Installing!!");
   try {
@@ -30,7 +35,7 @@ export const runOnPico = async (port, writer, project) => {
   }
 };
 
-export const writeAllFilesToPico = async (port, writer, project) => {
+export const writeAllFilesToPico = async (port, writer, project, dispatch) => {
   const encoder = new TextEncoder();
   const writeFile = async (component) => {
     console.log(`Writing ${component.name} to Pico`);
@@ -58,7 +63,7 @@ export const writeAllFilesToPico = async (port, writer, project) => {
 };
 
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
-export const readFromPico = async (port) => {
+export const readFromPico = async (port, dispatch) => {
   console.log("Reading from Pico");
   const readPort = async () => {
     const reader = port.readable.getReader();
@@ -100,4 +105,65 @@ export const readFromPico = async (port) => {
       console.log(error);
     }
   }
+};
+
+export const readAllFilesFromPico = async (port, writer, project, dispatch) => {
+  const encoder = new TextEncoder();
+  let files = [];
+  if (port && writer) {
+    // for (let i = 0; i < project.components.length; i++) {
+    // // const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
+    // // await writer.write(encoder.encode(fileListString));
+    // // const fileList = await readFromPico();
+    // console.log(fileList);
+    const fileListString = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
+    await writer.write(encoder.encode(fileListString));
+    const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
+    await writer.write(encoder.encode(fileReadString));
+    const fileStream = await readFromPico(port);
+    fileStream.forEach((file) => {
+      if (file.includes("name") && file.includes("contents")) {
+        try {
+          // Is there a better way that doesn't use regex??!!
+          const regex = /{([^}]*)}/;
+          const rawFile = file.match(regex);
+
+          const jsonFile = JSON.parse(rawFile[0].toString());
+          console.log(jsonFile);
+          files.push(jsonFile);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  }
+
+  console.log("Files");
+  console.log(files);
+  updateProject(files, project, dispatch);
+};
+
+const updateProject = (files, project, dispatch) => {
+  files.forEach((file) => {
+    let fileExists = false;
+    const filename = file.name.replace(/\.py$/, "");
+
+    project.components.forEach((component) => {
+      if (component.name === filename) {
+        fileExists = true;
+      }
+    });
+
+    if (!fileExists) {
+      dispatch(addProjectComponent({ extension: "py", name: filename }));
+    }
+
+    dispatch(
+      updateProjectComponent({
+        extension: "py",
+        name: filename,
+        code: file.contents,
+      })
+    );
+  });
 };

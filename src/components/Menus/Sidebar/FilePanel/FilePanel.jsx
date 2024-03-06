@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -11,10 +11,6 @@ import {
   hideSidebar,
 } from "../../../../redux/EditorSlice";
 
-import {
-  addProjectComponent,
-  updateProjectComponent,
-} from "../../../../redux/EditorSlice";
 import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
@@ -24,7 +20,7 @@ import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
 import {
   downloadMicroPython,
   writeAllFilesToPico,
-  readFromPico,
+  readAllFilesFromPico,
   runOnPico,
 } from "../../../../utils/picoHelpers";
 
@@ -36,31 +32,6 @@ const FilePanel = ({ isMobile }) => {
   const [writer, setWriter] = useState();
   const switchToFileTab = (panelIndex, fileIndex) => {
     dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
-  };
-
-  const updateProject = (files) => {
-    files.forEach((file) => {
-      let fileExists = false;
-      const filename = file.name.replace(/\.py$/, "");
-
-      project.components.forEach((component) => {
-        if (component.name === filename) {
-          fileExists = true;
-        }
-      });
-
-      if (!fileExists) {
-        dispatch(addProjectComponent({ extension: "py", name: filename }));
-      }
-
-      dispatch(
-        updateProjectComponent({
-          extension: "py",
-          name: filename,
-          code: file.contents,
-        })
-      );
-    });
   };
 
   const openFileTab = (fileName) => {
@@ -96,42 +67,6 @@ const FilePanel = ({ isMobile }) => {
       await port.close();
       console.log(`Disconnected ${port}`);
     }
-  };
-
-  const readAllFilesFromPico = async (port, writer) => {
-    const encoder = new TextEncoder();
-    let files = [];
-    if (port && writer) {
-      // for (let i = 0; i < project.components.length; i++) {
-      // // const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
-      // // await writer.write(encoder.encode(fileListString));
-      // // const fileList = await readFromPico();
-      // console.log(fileList);
-      const fileListString = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
-      await writer.write(encoder.encode(fileListString));
-      const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
-      await writer.write(encoder.encode(fileReadString));
-      const fileStream = await readFromPico(port);
-      fileStream.forEach((file) => {
-        if (file.includes("name") && file.includes("contents")) {
-          try {
-            // Is there a better way that doesn't use regex??!!
-            const regex = /{([^}]*)}/;
-            const rawFile = file.match(regex);
-
-            const jsonFile = JSON.parse(rawFile[0].toString());
-            console.log(jsonFile);
-            files.push(jsonFile);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-    }
-
-    console.log("Files");
-    console.log(files);
-    updateProject(files);
   };
 
   return (
@@ -199,7 +134,7 @@ const FilePanel = ({ isMobile }) => {
       />
       <DesignSystemButton
         className="files-list-item"
-        onClick={() => readAllFilesFromPico(port, writer)}
+        onClick={() => readAllFilesFromPico(port, writer, project, dispatch)}
         text="Get files from Pico"
         icon={<DuplicateIcon />}
         textAlways
