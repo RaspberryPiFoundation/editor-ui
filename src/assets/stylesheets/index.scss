@@ -12,12 +12,12 @@ body {
 // #root {
 //   height: 100%;
 //   min-height: -moz-available;
-//   min-height: -webkit-fill-available;
-//   min-height: fill-available;
+//   min-height: -webkit-stretch;
+//   min-height: stretch;
 //   width: 100%;
 //   min-width: -moz-available;
-//   min-width: -webkit-fill-available;
-//   min-width: fill-available;
+//   min-width: -webkit-stretch;
+//   min-width: stretch;
 // }
 
 body {
@@ -42,8 +42,8 @@ code {
   flex-direction: column;
   height: 100%;
   max-height: -moz-available;
-  max-height: -webkit-fill-available;
-  max-height: fill-available;
+  max-height: -webkit-stretch;
+  max-height: stretch;
 }
 
 .c-editor__wc {
@@ -53,11 +53,11 @@ code {
   height: 100%;
   width: 100%;
   min-height: -moz-available;
-  min-height: -webkit-fill-available;
-  min-height: fill-available;
+  min-height: -webkit-stretch;
+  min-height: stretch;
   min-width: -moz-available;
-  min-width: -webkit-fill-available;
-  min-width: fill-available;
+  min-width: -webkit-stretch;
+  min-width: stretch;
   overflow: auto;
   -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
   scrollbar-width: none; /* Remove scroll bar for Firefox */
