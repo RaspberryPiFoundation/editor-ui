@@ -16,7 +16,7 @@ const EmbeddedViewer = () => {
   const dispatch = useDispatch();
 
   const page = useSelector((state) => state.editor.page);
-  const loading = useSelector((state) => state.editor.loading);
+  // const loading = useSelector((state) => state.editor.loading);
   const browserPreview = useSelector((state) => state.editor.browserPreview);
   const user = useSelector((state) => state.auth.user) || {};
   const notFoundModalShowing = useSelector(

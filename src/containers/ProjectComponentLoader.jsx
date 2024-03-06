@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 // import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate, useParams } from "react-router-dom";
+// TODO - fix project loading
+// import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
@@ -20,16 +22,16 @@ import ErrorModal from "../components/Modals/ErrorModal";
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  const { identifier } = useParams();
+  // const { identifier } = useParams();
   const embedded = props.embedded || false;
-  const user = useSelector((state) => state.auth.user);
-  const accessToken = user ? user.access_token : null;
+  // const user = useSelector((state) => state.auth.user);
+  // const accessToken = user ? user.access_token : null;
   const project = useSelector((state) => state.editor.project);
-  const justLoaded = useSelector((state) => state.editor.justLoaded);
-  const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
-  );
-  const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  // const justLoaded = useSelector((state) => state.editor.justLoaded);
+  // const hasShownSavePrompt = useSelector(
+  //   (state) => state.editor.hasShownSavePrompt,
+  // );
+  // const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
