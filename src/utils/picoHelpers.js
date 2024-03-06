@@ -4,7 +4,6 @@ import {
 } from "../redux/EditorSlice";
 
 export const downloadMicroPython = async () => {
-  console.log("Installing!!");
   try {
     const fileUrl =
       "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
