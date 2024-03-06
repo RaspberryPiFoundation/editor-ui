@@ -2,7 +2,6 @@
   "root": true,
   "extends": [
     "react-app",
-    "react-app/jest",
     "plugin:prettier/recommended"
   ],
   "plugins": [
@@ -28,9 +27,7 @@
     "browser": true,
     "es6": true,
     "jquery": false,
-    "node": true,
-    "jest": true,
-    "jest/globals": true
+    "node": true
   },
   "rules": {
     "prettier/prettier": [
