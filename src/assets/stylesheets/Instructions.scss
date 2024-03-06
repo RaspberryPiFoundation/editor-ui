@@ -32,6 +32,21 @@
     }
   }
 
+  pre {
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: $space-0-5;
+    overflow: auto;
+    margin: $space-1 0;
+  }
+
+  code {
+    color: $rpf-white;
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: calc(0.75 * $space-0-125) $space-0-5;
+  }
+
   .c-project-code {
     margin: $space-1 0 $space-1-5 0;
     border-radius: 8px;
@@ -57,25 +72,13 @@
     border-block-end: 1px solid $rpf-grey-600;
   }
 
-  pre {
-    background-color: $rpf-grey-700;
-    border-radius: 8px;
-    padding: $space-0-5;
-    overflow: auto;
-    margin: $space-1 0;
-  }
+
 
   .line-numbers {
     padding-inline-start: $space-3;
     padding-inline-end: $space-1;
   }
 
-  code {
-    color: $rpf-white;
-    background-color: $rpf-grey-700;
-    border-radius: 8px;
-    padding: calc(0.75 * $space-0-125) $space-0-5;
-  }
 
   .line-numbers-rows {
     border-color: $rpf-text-secondary-dark;
@@ -112,6 +115,25 @@
     }
   }
 
+  .language-css {
+    color: $rpf-syntax-1;
+
+    .comment {
+      color: $rpf-syntax-3;
+    }
+    .selector {
+      color: $rpf-syntax-4;
+    }
+
+    .function {
+      color: $rpf-syntax-4;
+    }
+
+    .property, .punctuation {
+      color: $rpf-white;
+    }
+  }
+
   .language-html {
     .tag {
       color: $rpf-syntax-4;
@@ -132,25 +154,6 @@
 
     .comment {
       color: $rpf-syntax-3;
-    }
-  }
-
-  .language-css {
-    color: $rpf-syntax-1;
-
-    .comment {
-      color: $rpf-syntax-3;
-    }
-    .selector {
-      color: $rpf-syntax-4;
-    }
-
-    .function {
-      color: $rpf-syntax-4;
-    }
-
-    .property, .punctuation {
-      color: $rpf-white;
     }
   }
 

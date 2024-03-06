@@ -49,6 +49,16 @@ onmessage = async ({ data }) => {
 
 const runPython = async (python) => {
   stopped = false;
+  await pyodide.runPythonAsync(`
+  old_input = input
+  
+  def patched_input(prompt=False):
+      if (prompt):
+          print(prompt)
+      return old_input()
+  
+  __builtins__.input = patched_input
+  `);
 
   try {
     await withSupportForPackages(python, async () => {
@@ -70,7 +80,7 @@ const checkIfStopped = () => {
   }
 };
 
-const withSupportForPackages = async (python, runPythonFn) => {
+const withSupportForPackages = async (python, runPythonFn = async () => {}) => {
   const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
   await Promise.all(imports.map((name) => loadDependency(name)));
 
@@ -88,6 +98,15 @@ const withSupportForPackages = async (python, runPythonFn) => {
 
 const loadDependency = async (name) => {
   checkIfStopped();
+
+  // If the import is for another user file then open it and load its dependencies.
+  if (pyodide.FS.readdir("/home/pyodide").includes(`${name}.py`)) {
+    const fileContent = pyodide.FS.readFile(`/home/pyodide/${name}.py`, {
+      encoding: "utf8",
+    });
+    await withSupportForPackages(fileContent);
+    return;
+  }
 
   // If the import is for a vendored package then run its .before() hook.
   const vendoredPackage = vendoredPackages[name];

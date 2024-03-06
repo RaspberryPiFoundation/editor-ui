@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.22.1] - 2024-02-23
+
+### Fixed
+
+- HTMLRunner images - add crossorigin attribute to iframe imgs (#927)
+- Fix HTML indentation (#928)
+- Pyodide input function (#935)
+- Loading imports from multiple files with `pyodide` (#941)
+
+## [0.22.0] - 2024-02-22
+
+### Added
+
+- Add a Pyodide runner (#893)
+
 ### Changed
 
 - Made `p5` canvas responsive to the available space (#887)
@@ -25,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle errors sent via apiCallHandler off (#890)
 - Upgrade webpack-dev-server to 4.0.0 to support conditional headers
 - Upgrade yarn to 3.4.1 to workaround a string-width issue
+- Improved file structure as part of the linter update (#926)
 - Add a ?pyodide=true flag for python project pages
 
 ### Fixed
@@ -707,7 +723,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.21.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.1...HEAD
+[0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
+[0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0
 [0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2
 [0.21.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.1
 [0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
