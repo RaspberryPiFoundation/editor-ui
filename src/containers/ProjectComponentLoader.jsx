@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+// import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
 
@@ -13,12 +15,26 @@ import NotFoundModal from "../components/Modals/NotFoundModal";
 import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModal";
 import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
+import ErrorModal from "../components/Modals/ErrorModal";
+// import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const ProjectComponentLoader = (props) => {
+  const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const embedded = props.embedded || false;
+  const user = useSelector((state) => state.auth.user);
+  const accessToken = user ? user.access_token : null;
+  const project = useSelector((state) => state.editor.project);
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
+  const hasShownSavePrompt = useSelector(
+    (state) => state.editor.hasShownSavePrompt,
+  );
+  const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
+  const errorModalShowing = useSelector(
+    (state) => state.editor.errorModalShowing,
+  );
   const newFileModalShowing = useSelector(
     (state) => state.editor.newFileModalShowing,
   );
@@ -35,32 +51,49 @@ const ProjectComponentLoader = (props) => {
     (state) => state.editor.accessDeniedWithAuthModalShowing,
   );
 
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const sidebarOptions = ["projects", "file", "images", "settings", "info"];
 
   useEmbeddedMode(embedded);
 
   // TODO: sort out loading and error states
-  // useEffect(() => {
-  //   if (loading === "idle" && identifier) {
-  //     navigate(`/${i18n.language}/projects/${identifier}`);
-  //   }
-  //   if (loading === "failed") {
-  //     navigate("/");
-  //   }
-  // }, [loading, i18n.language, navigate]);
+  // useProject({ projectIdentifier: identifier, accessToken: accessToken });
+  // useProjectPersistence({
+  //   user,
+  //   project,
+  //   justLoaded,
+  //   hasShownSavePrompt,
+  //   saveTriggered,
+  // });
+
+  useEffect(() => {
+    if (loading === "idle" && project.identifier) {
+      navigate(`/${i18n.language}/projects/${project.identifier}`);
+    }
+    if (loading === "failed") {
+      navigate("/");
+    }
+  }, [loading, project, i18n.language, navigate]);
 
   return (
     <>
-      {isMobile ? (
-        <MobileProject identifier={identifier} />
+      {loading === "success" ? (
+        isMobile ? (
+          <MobileProject withSidebar sidebarOptions={sidebarOptions} />
+        ) : (
+          <Project withSidebar sidebarOptions={sidebarOptions} />
+        )
       ) : (
-        <Project identifier={identifier} />
+        loading === "pending" && <p>{t("project.loading")}</p>
       )}
-      {newFileModalShowing ? <NewFileModal /> : null}
-      {renameFileModalShowing && modals.renameFile ? <RenameFileModal /> : null}
-      {notFoundModalShowing ? <NotFoundModal /> : null}
-      {accessDeniedNoAuthModalShowing ? <AccessDeniedNoAuthModal /> : null}
-      {accessDeniedWithAuthModalShowing ? <AccessDeniedWithAuthModal /> : null}
+      {errorModalShowing && <ErrorModal />}
+      {newFileModalShowing && <NewFileModal />}
+      {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+      {notFoundModalShowing && <NotFoundModal />}
+      {accessDeniedNoAuthModalShowing && <AccessDeniedNoAuthModal />}
+      {accessDeniedWithAuthModalShowing && <AccessDeniedWithAuthModal />}
     </>
   );
 };

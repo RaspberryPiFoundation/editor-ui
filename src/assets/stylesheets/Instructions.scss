@@ -1,0 +1,258 @@
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/spacing" as *;
+@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/font-weight" as *;
+
+.project-instructions {
+  h2 {
+    @include font-size-1-25(bold);
+    margin: 0;
+  }
+
+  strong {
+    font-weight: $font-weight-bold;
+  }
+
+  img {
+    max-inline-size: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-block-end: $space-1-5;
+    inline-size: 100%;
+
+    tr {
+      border-block-end: 1px solid $rpf-black;
+    }
+
+    td {
+      padding: $space-0-5 $space-1-5;
+    }
+  }
+
+  pre {
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: $space-0-5;
+    overflow: auto;
+    margin: $space-1 0;
+  }
+
+  code {
+    color: $rpf-white;
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: calc(0.75 * $space-0-125) $space-0-5;
+  }
+
+  .c-project-code {
+    margin: $space-1 0 $space-1-5 0;
+    border-radius: 8px;
+    background-color: $rpf-grey-700;
+
+    pre {
+      margin: 0;
+    }
+
+    code {
+      padding-inline-start: 0;
+    }
+  }
+
+  .c-code-filename {
+    font-family: monospace;
+    margin: 0;
+    padding: $space-0-5 $space-1;
+    color: $rpf-white;
+    background-color: $rpf-grey-800;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+    border-block-end: 1px solid $rpf-grey-600;
+  }
+
+
+
+  .line-numbers {
+    padding-inline-start: $space-3;
+    padding-inline-end: $space-1;
+  }
+
+
+  .line-numbers-rows {
+    border-color: $rpf-text-secondary-dark;
+
+    span::before {
+      padding-inline-end: $space-0-5;
+      color: $rpf-text-secondary-dark;
+    }
+  }
+
+  .line-highlight {
+    margin-block-start: 0.5rem;
+    background-color: $rpf-white;
+    mix-blend-mode: difference;
+    min-inline-size: 100%;
+  }
+
+  .language-python {
+    .number, .boolean, .function {
+      color: $rpf-syntax-1;
+    }
+    .keyword {
+      color: $rpf-syntax-4;
+    }
+    .string, .char {
+      color: $rpf-syntax-2;
+    }
+    .comment {
+      color: $rpf-syntax-3;
+    }
+
+    .keyword-print {
+      color: $rpf-white;
+    }
+  }
+
+  .language-css {
+    color: $rpf-syntax-1;
+
+    .comment {
+      color: $rpf-syntax-3;
+    }
+    .selector {
+      color: $rpf-syntax-4;
+    }
+
+    .function {
+      color: $rpf-syntax-4;
+    }
+
+    .property, .punctuation {
+      color: $rpf-white;
+    }
+  }
+
+  .language-html {
+    .tag {
+      color: $rpf-syntax-4;
+      .punctuation, .attr-name {
+        color: $rpf-white;
+      }
+
+      .attr-value {
+        color: $rpf-syntax-2;
+        .punctuation {
+          color: inherit;
+        }
+        .attr-equals {
+          color: $rpf-white;
+        }
+      }
+    }
+
+    .comment {
+      color: $rpf-syntax-3;
+    }
+  }
+
+  .c-project-heading--task {
+    @extend .rpf-squiggle-heading;
+    --rpf-squiggle-color: var(--rpf-blue-800);
+    background-color: $rpf-blue-100;
+    padding: $space-1;
+    inline-size: 100%;
+    box-sizing: border-box;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+
+    &::after {
+      margin-inline: $space-1;
+      margin-block-start: $space-0-25;
+    }
+  }
+
+  .c-project-task {
+    background-color: $rpf-blue-100;
+    padding: $space-1;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
+    margin-block-end: $space-1-5;
+
+    p {
+      margin: 0;
+    }
+
+    &__checkbox {
+      display: none;
+    }
+  }
+
+  .c-project-callout {
+    background-color: $rpf-blue-100;
+    border-inline-start: 4px solid $rpf-blue-800;
+    padding: $space-0-5 $space-1;
+    display: flex;
+    flex-direction: column;
+    gap: $space-0-5;
+    margin: $space-1-5 0;
+
+    h3 {
+      margin: 0;
+      padding-inline-start: $space-2;
+      @include font-size-1(bold);
+      background-repeat: no-repeat;
+      background-position: inline-start $space-0-5 center;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .c-project-callout--tip {
+    background-color: $rpf-green-100;
+    border-inline-start: 4px solid $rpf-green-800;
+
+    h3 {
+      background-image: url("../tip.svg");
+    }
+  }
+
+  .c-project-callout--debug {
+    background-color: $rpf-red-100;
+    border-inline-start: 4px solid $rpf-red-800;
+
+    h3 {
+      background-image: url("../bug.svg");
+    }
+  }
+
+  .c-project-output {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    padding: $space-1;
+    border-radius: 8px;
+    border: 1px solid var(--rpf-grey-150);
+    margin-block-end: $space-1-5;
+
+    pre {
+      padding: 0;
+      margin: 0;
+      inline-size: 100%;
+      background-color: $rpf-white;
+    }
+
+    code {
+      background-color: $rpf-white;
+      color: $rpf-text-primary;
+      padding: 0;
+      white-space: pre-wrap;
+    }
+  }
+}

@@ -26,6 +26,9 @@ jobs:
       - name: eslint
         run: yarn lint
 
+      # - name: stylelint
+      #   run: yarn stylelint
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +45,7 @@ jobs:
         run: yarn install --frozen-lock-file
 
       - name: Run tests
-        run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
+        run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
 

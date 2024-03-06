@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import GeneralModal from "./GeneralModal";
+// TODO: re-enable NameErrorMessage
 // import NameErrorMessage from "../Editor/ErrorMessage/NameErrorMessage";
 import SelectButtons from "../../utils/SelectButtons";
 
@@ -29,7 +30,7 @@ const InputModal = ({ inputs, ...otherProps }) => {
                   <p className="modal-content__help-text">{input.helpText}</p>
                 </label>
                 <div className="modal-content__input">
-                  {/* {input.validateName ? <NameErrorMessage /> : null} */}
+                  {/* {input.validateName && <NameErrorMessage />} */}
                   <input
                     ref={i === 0 ? inputBox : null}
                     type="text"

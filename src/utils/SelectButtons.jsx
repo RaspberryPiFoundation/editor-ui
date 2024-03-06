@@ -12,7 +12,7 @@ const SelectButtons = ({ label, options, value, setValue }) => {
             <input
               className="select-buttons__button"
               type="radio"
-              id={`option${i}`}
+              id={`${label}-option${i}`}
               value={option.value}
               onChange={(e) => setValue(e.target.value)}
               checked={option.value === value}
@@ -21,7 +21,7 @@ const SelectButtons = ({ label, options, value, setValue }) => {
               className={`select-buttons__label${
                 option.value === value ? " select-buttons__label--selected" : ""
               }`}
-              htmlFor={`option${i}`}
+              htmlFor={`${label}-option${i}`}
             >
               {option.Icon ? <option.Icon /> : null}
               {option.label}

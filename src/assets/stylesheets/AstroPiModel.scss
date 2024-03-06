@@ -1,10 +1,10 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .sense-hat {
-  width: 100%;
+  inline-size: 100%;
   flex: 1;
   display: flex;
   flex-flow: column;
@@ -12,10 +12,10 @@
   &-model {
     display: flex;
     flex-flow: column;
-    max-height: 50%;
-    min-height: 200px;
+    max-block-size: 50%;
+    min-block-size: 200px;
     flex: 1;
-    padding-bottom: $space-0-5;
+    padding-block-end: $space-0-5;
 
     canvas {
       cursor: grab;
@@ -48,7 +48,7 @@
       &__reset-btn {
         flex: 1;
         display: flex;
-        margin-left: auto;
+        margin-inline-start: auto;
         svg {
           padding: $space-0-5;
           border-radius: 5px;
@@ -69,8 +69,8 @@
     &-heading {
       @include font-size-1(regular);
       font-weight: $font-weight-regular;
-      margin: 0;
-      margin-bottom: $space-0-5;
+      margin-block: 0 $space-0-5;
+      margin-inline: 0;
     }
 
     &-panel {
@@ -83,35 +83,35 @@
         flex-flow: column;
         align-items: center;
         text-align: center;
-        padding: $space-0-5;
-        padding-top: $space-0-25;
+        padding-block: $space-0-25 $space-0-5;
+        padding-inline: $space-0-5;
         box-sizing: border-box;
         border-radius: 5px;
-        width: 32%;
+        inline-size: 32%;
         justify-content: space-between;
 
         &-reading {
-          width: 100%;
+          inline-size: 100%;
           border-radius: 5px;
-          margin-top: $space-0-25;
+          margin-block-start: $space-0-25;
           padding: $space-0-25;
           box-sizing: border-box;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
             monospace;
 
           &-timer {
-            margin-top: 0;
+            margin-block-start: 0;
             padding: $space-0-5 0;
-            width: 100%;
+            inline-size: 100%;
           }
         }
 
         &-toggle {
           border-radius: 5px;
-          width: 100%;
+          inline-size: 100%;
           flex: 1;
           box-sizing: border-box;
           display: flex;
@@ -125,14 +125,14 @@
 
         &-input {
           cursor: pointer;
-          width: 85px;
+          inline-size: 85px;
           transform: rotate(270deg);
         }
 
-        input[type='color'] {
+        input[type="color"] {
           border-radius: 5px;
           flex: 1;
-          width: 100%;
+          inline-size: 100%;
           padding: $space-0-25 $space-1-5;
         }
 
@@ -143,13 +143,13 @@
         }
 
         &-value {
-          margin-left: $space-0-25;
+          margin-inline-start: $space-0-25;
         }
 
         &-last {
-          margin-top: $space-0-5;
+          margin-block-start: $space-0-5;
           flex-flow: row;
-          width: 100%;
+          inline-size: 100%;
           align-items: inherit;
           justify-content: space-between;
         }
@@ -159,7 +159,7 @@
         display: flex;
         justify-content: space-between;
         .sense-hat-controls-panel__control {
-          min-height: 175px;
+          min-block-size: 175px;
         }
       }
 
@@ -167,7 +167,7 @@
         display: flex;
         flex-flow: column;
         align-items: center;
-        width: 32%;
+        inline-size: 32%;
 
         .sense-hat-controls-panel__control-name,
         input {
@@ -189,7 +189,7 @@
     background-color: $rpf-grey-800;
 
     &-controls {
-      border-top: 7px solid $rpf-grey-900;
+      border-block-start: 7px solid $rpf-grey-900;
 
       &-panel {
         &__control {
@@ -201,7 +201,7 @@
             border: 1px solid $rpf-grey-500;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
           }
@@ -243,7 +243,7 @@
     background-color: $rpf-white;
 
     &-controls {
-      border-top: 5px solid $rpf-grey-100;
+      border-block-start: 5px solid $rpf-grey-100;
 
       &-panel {
         &__control {
@@ -255,7 +255,7 @@
             border: 2px solid $rpf-grey-300;
           }
 
-          input[type='color'] {
+          input[type="color"] {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
           }

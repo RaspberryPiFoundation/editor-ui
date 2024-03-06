@@ -23,7 +23,9 @@ const LandingPage = () => {
       window.matchMedia("(prefers-color-scheme:dark)").matches);
 
   const onClickPlausible = (msg) => () => {
-    window.plausible(msg);
+    if (window.plausible) {
+      window.plausible(msg);
+    }
   };
 
   useEffect(() => {

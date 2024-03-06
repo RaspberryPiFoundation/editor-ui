@@ -1,22 +1,21 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
 
 .proj {
   display: flex;
   flex-flow: column;
   overflow: hidden;
-  height: 100%;
-  height: -moz-available;
-  height: -webkit-fill-available;
-  height: fill-available;
+  block-size: 100%;
+  block-size: -moz-available;
+  block-size: -webkit-fill-available;
+  block-size: fill-available;
 }
 
 .proj-header {
   display: flex;
   flex: 1 0 auto;
   justify-content: space-between;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline: 5px;
 }
 
 .editor-controls {
@@ -24,12 +23,11 @@
 }
 
 .proj-controls {
-  padding-top: 20px;
+  padding-block-start: 20px;
 }
 
 .proj-share-link {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline: 5px;
 }
 
 .proj-container {
@@ -40,12 +38,10 @@
   grid-gap: $space-1;
   margin: $space-1;
 
-  height: 100%;
-  height: -moz-available;
-  height: -webkit-fill-available;
-  height: fill-available;
+  block-size: 100%;
 
   .project-wrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     grid-gap: $space-0-5;
@@ -59,25 +55,24 @@
     flex-flow: column;
     grid-gap: $space-1;
     overflow: hidden;
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
   }
 
-  // TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete)
-  @media (min-width: 912px) {
-    // width is 880px for the container + the rest of the page
+  /* TODO: use container queries (fix with cquery breaking positioning of drag/drop & autocomplete) */
+  @container (min-width: 720px) {
     .proj-editor-wrapper {
       flex-flow: row;
     }
 
     .proj-editor-container {
-      max-height: 100% !important;
+      max-block-size: 100% !important;
     }
 
     &--wc {
       .proj-runner-container,
       .proj-editor-container {
-        width: 50%;
+        inline-size: 50%;
       }
     }
   }
@@ -91,8 +86,8 @@
   .proj-editor-container {
     display: flex;
     box-sizing: border-box;
-    min-height: 30%;
-    max-height: 70%;
+    min-block-size: 30%;
+    max-block-size: 70%;
 
     .react-tabs__tab-panel--selected {
       overflow-y: hidden;
@@ -111,27 +106,28 @@
   }
 
   &--wc {
-    min-height: 200px;
+    min-block-size: 200px;
 
     .proj-runner-container,
     .proj-editor-container {
-      width: 100%;
+      inline-size: 100%;
     }
   }
 }
 
-.proj-editor-container, .proj-runner-container {
+.proj-editor-container,
+.proj-runner-container {
   .react-tabs__tab-list {
     flex: 1;
   }
 
   .react-tabs__tab-container {
-    .btn--run, .btn--stop {
-      margin-top: 0;
-      margin-bottom: 0;
+    .btn--run,
+    .btn--stop {
+      margin-block-start: 0;
+      margin-block-end: 0;
     }
   }
-
 }
 
 .--light {
@@ -141,8 +137,10 @@
     background-color: $rpf-white;
   }
 
-  @media (min-width: 600px) {
-    .proj-runner-container, .proj-editor-container, .sidebar {
+  @media screen and (min-width: 601px) {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
       border: 1px solid $rpf-grey-150;
     }
   }
@@ -155,8 +153,10 @@
     background-color: $rpf-grey-800;
   }
 
-  @media (min-width: 600px) {
-    .proj-runner-container, .proj-editor-container, .sidebar {
+  @media screen and (min-width: 601px) {
+    .proj-runner-container,
+    .proj-editor-container,
+    .sidebar {
       border: 1px solid $rpf-grey-600;
     }
   }

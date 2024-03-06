@@ -28,7 +28,8 @@
     "browser": true,
     "es6": true,
     "jquery": false,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "rules": {
     "prettier/prettier": [

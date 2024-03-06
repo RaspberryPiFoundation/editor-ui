@@ -3,7 +3,10 @@ import { reducers } from "./reducers/instructionsReducers";
 
 export const InstructionsSlice = createSlice({
   name: "instructions",
-  initialState: {},
+  initialState: {
+    currentStepPosition: 0,
+    project: {},
+  },
   reducers,
 });
 

@@ -21,12 +21,12 @@
 
       .cm-content {
         flex: 1;
-        padding-top: $space-0-5;
-        margin-right: $space-0-5;
+        padding-block-start: $space-0-5;
+        margin-inline-end: $space-0-5;
       }
     }
   }
-  
+
   &--small {
     @include font-size-1(regular);
   }
