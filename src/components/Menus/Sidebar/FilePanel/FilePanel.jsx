@@ -101,7 +101,7 @@ const FilePanel = ({ isMobile }) => {
     }
   };
 
-  const writeToPico = async (writer) => {
+  const writeToPico = async (port, writer) => {
     const encoder = new TextEncoder();
     const writeFile = async (component) => {
       console.log(`Writing ${component.name} to Pico`);
@@ -280,7 +280,7 @@ const FilePanel = ({ isMobile }) => {
 
       <DesignSystemButton
         className="files-list-item"
-        onClick={() => writeToPico(writer)}
+        onClick={() => writeToPico(port, writer)}
         text="Write to Pico"
         icon={<DuplicateIcon />}
         textAlways
