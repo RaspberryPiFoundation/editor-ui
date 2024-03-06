@@ -30,5 +30,6 @@ yarn-debug.log*
 yarn-error.log*
 .yarn/cache
 .yarn/install-state.gz
+.yarnrc.yml
 
 .vscode/settings.json
