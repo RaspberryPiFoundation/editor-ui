@@ -23,6 +23,7 @@ import {
   readAllFilesFromPico,
   runOnPico,
   disconnectFromPico,
+  connectToPico,
 } from "../../../../utils/picoHelpers";
 
 const FilePanel = ({ isMobile }) => {
@@ -51,14 +52,6 @@ const FilePanel = ({ isMobile }) => {
     }
   };
   const { t } = useTranslation();
-
-  const connectAndOpenREPL = async () => {
-    const obtainedPort = await navigator.serial.requestPort();
-    await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
-    setPort(obtainedPort);
-    const obtainedWriter = obtainedPort.writable.getWriter();
-    setWriter(obtainedWriter);
-  };
 
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
@@ -95,7 +88,7 @@ const FilePanel = ({ isMobile }) => {
       />
       <DesignSystemButton
         className="files-list-item"
-        onClick={connectAndOpenREPL}
+        onClick={() => connectToPico(setPort, setWriter)}
         text="Connect"
         icon={<DuplicateIcon />}
         textAlways

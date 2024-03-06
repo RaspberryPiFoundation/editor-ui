@@ -177,3 +177,11 @@ export const disconnectFromPico = async (port, writer) => {
     console.log(`Disconnected ${port}`);
   }
 };
+
+export const connectToPico = async (setPort, setWriter) => {
+  const obtainedPort = await navigator.serial.requestPort();
+  await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
+  setPort(obtainedPort);
+  const obtainedWriter = obtainedPort.writable.getWriter();
+  setWriter(obtainedWriter);
+};
