@@ -22,6 +22,7 @@ import {
   writeAllFilesToPico,
   readAllFilesFromPico,
   runOnPico,
+  disconnectFromPico,
 } from "../../../../utils/picoHelpers";
 
 const FilePanel = ({ isMobile }) => {
@@ -57,16 +58,6 @@ const FilePanel = ({ isMobile }) => {
     setPort(obtainedPort);
     const obtainedWriter = obtainedPort.writable.getWriter();
     setWriter(obtainedWriter);
-  };
-
-  const disconnect = async () => {
-    if (port && writer) {
-      console.log(`Disconnecting ${writer}`);
-      await writer.releaseLock();
-      console.log(`Disconnecting ${port}`);
-      await port.close();
-      console.log(`Disconnected ${port}`);
-    }
   };
 
   return (
@@ -111,7 +102,7 @@ const FilePanel = ({ isMobile }) => {
       />
       <DesignSystemButton
         className="files-list-item"
-        onClick={disconnect}
+        onClick={() => disconnectFromPico(port, writer)}
         text="Disconnect"
         icon={<DuplicateIcon />}
         textAlways

@@ -167,3 +167,13 @@ const updateProject = (files, project, dispatch) => {
     );
   });
 };
+
+export const disconnectFromPico = async (port, writer) => {
+  if (port && writer) {
+    console.log(`Disconnecting ${writer}`);
+    await writer.releaseLock();
+    console.log(`Disconnecting ${port}`);
+    await port.close();
+    console.log(`Disconnected ${port}`);
+  }
+};
