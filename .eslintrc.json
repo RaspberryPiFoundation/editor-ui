@@ -29,7 +29,8 @@
     "es6": true,
     "jquery": false,
     "node": true,
-    "jest": true
+    "jest": true,
+    "jest/globals": true
   },
   "rules": {
     "prettier/prettier": [
