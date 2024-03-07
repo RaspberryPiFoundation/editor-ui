@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
-// TODO - fix project loading
-// import { useNavigate, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
@@ -18,11 +15,12 @@ import AccessDeniedNoAuthModal from "../components/Modals/AccessDeniedNoAuthModa
 import AccessDeniedWithAuthModal from "../components/Modals/AccessDeniedWithAuthModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
+// import { useProject } from "../hooks/useProject";
 // import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
-  // const { identifier } = useParams();
+  const { identifier } = useParams();
   const embedded = props.embedded || false;
   // const user = useSelector((state) => state.auth.user);
   // const accessToken = user ? user.access_token : null;
@@ -54,9 +52,8 @@ const ProjectComponentLoader = (props) => {
   );
 
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const sidebarOptions = ["projects", "file", "images", "settings", "info"];
 
   useEmbeddedMode(embedded);
 
@@ -81,14 +78,10 @@ const ProjectComponentLoader = (props) => {
 
   return (
     <>
-      {loading === "success" ? (
-        isMobile ? (
-          <MobileProject withSidebar sidebarOptions={sidebarOptions} />
-        ) : (
-          <Project withSidebar sidebarOptions={sidebarOptions} />
-        )
+      {isMobile ? (
+        <MobileProject identifier={identifier} />
       ) : (
-        loading === "pending" && <p>{t("project.loading")}</p>
+        <Project identifier={identifier} />
       )}
       {errorModalShowing && <ErrorModal />}
       {newFileModalShowing && <NewFileModal />}
