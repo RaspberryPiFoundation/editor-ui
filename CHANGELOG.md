@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Page crashing when toggling between projects (#946)
 - Get `pyodide` working in the web component (#945)
 
 ## [0.22.1] - 2024-02-23
