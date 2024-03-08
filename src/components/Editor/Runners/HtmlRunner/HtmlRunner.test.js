@@ -160,7 +160,11 @@ describe("When page first loaded from search params", () => {
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
-        project: {},
+        project: {
+          components: [
+            { name: "a-new-test-page", extension: "html", content: "" },
+          ],
+        },
         focussedFileIndices: [0],
         openFiles: [[]],
         justLoaded: true,
