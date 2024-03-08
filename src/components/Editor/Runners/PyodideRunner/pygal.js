@@ -68,6 +68,9 @@ class Chart {
   }
 
   add(label, values) {
+    if (!Array.isArray(toJs(values))) {
+      values = [values];
+    }
     const data = [...toJs(values)].map((v) => v || 0);
 
     this._data.unshift({
