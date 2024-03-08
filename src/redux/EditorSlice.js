@@ -101,6 +101,7 @@ export const EditorSlice = createSlice({
     isSplitView: true,
     isThemeable: true,
     webComponent: false,
+    codeRunLoading: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -204,13 +205,12 @@ export const EditorSlice = createSlice({
         state.project.image_list = [];
       }
       state.loading = "success";
-      if (state.openFiles.flat().length === 0) {
-        const firstPanelIndex = 0;
-        if (state.project.project_type === "html") {
-          state.openFiles[firstPanelIndex].push("index.html");
-        } else {
-          state.openFiles[firstPanelIndex].push("main.py");
-        }
+      state.openFiles = [[]];
+      const firstPanelIndex = 0;
+      if (state.project.project_type === "html") {
+        state.openFiles[firstPanelIndex].push("index.html");
+      } else {
+        state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
     },
@@ -276,7 +276,11 @@ export const EditorSlice = createSlice({
     stopDraw: (state) => {
       state.drawTriggered = false;
     },
+    loadingRunner: (state) => {
+      state.codeRunLoading = true;
+    },
     codeRunHandled: (state) => {
+      state.codeRunLoading = false;
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
@@ -436,6 +440,7 @@ export const EditorSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   addProjectComponent,
+  loadingRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,

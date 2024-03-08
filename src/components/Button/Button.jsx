@@ -1,9 +1,10 @@
-import "../../assets/stylesheets/Button.scss";
-
 import React from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
+
+import "../../assets/stylesheets/Button.scss";
 
 const Button = (props) => {
   const {
@@ -25,9 +26,9 @@ const Button = (props) => {
     buttonIconPosition = "left",
   } = props;
 
-  const buttonClass = `btn${className ? ` ${className}` : ""}${
-    buttonText ? "" : " btn--svg-only"
-  }`;
+  const buttonClass = classNames("btn", className, {
+    "btn--svg-only": !buttonText,
+  });
 
   const onButtonClick = (e) => {
     if (!confirmText) {
@@ -64,10 +65,12 @@ const Button = (props) => {
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
-      {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
-      {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
-      {text ? <span>{text}</span> : null}
-      {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
+      {buttonImage && (
+        <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />
+      )}
+      {ButtonIcon && buttonIconPosition === "left" && <ButtonIcon />}
+      {text && <span>{text}</span>}
+      {ButtonIcon && buttonIconPosition === "right" && <ButtonIcon />}
     </Link>
   ) : (
     <button
@@ -80,19 +83,21 @@ const Button = (props) => {
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
-      {buttonImage ? <img src={buttonImage} alt={buttonImageAltText} /> : null}
-      {ButtonIcon && buttonIconPosition === "left" ? <ButtonIcon /> : null}
-      {buttonText ? <span>{buttonText}</span> : null}
-      {ButtonIcon && buttonIconPosition === "right" ? <ButtonIcon /> : null}
+      {buttonImage && (
+        <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />
+      )}
+      {ButtonIcon && buttonIconPosition === "left" && <ButtonIcon />}
+      {buttonText && <span>{buttonText}</span>}
+      {ButtonIcon && buttonIconPosition === "right" && <ButtonIcon />}
     </button>
   );
 
   if (buttonOuter) {
     return (
       <div
-        className={`btn-outer${
-          buttonOuterClassName ? ` ${buttonOuterClassName}` : ""
-        }`}
+        className={classNames("btn-outer", {
+          buttonOuterClassName,
+        })}
         onClick={onButtonClick}
       >
         {button}
