@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Allow `pygal` `chart.add` function to take single values as well as an array (#954)
 - Editor losing focus when project changes (#959)
 - Fix preview link (#912)
+- Allow `pygal` `chart.add` function to take single values as well as an array (#954)
 
 ## [0.22.1] - 2024-02-23
 
