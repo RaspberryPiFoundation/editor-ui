@@ -24,49 +24,49 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/pygal/pygal.js`,
+    path: `${process.env.PUBLIC_URL}/shims/pygal/pygal.js`,
     dependencies: [
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js",
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js",
     ],
   },
   "./py5/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5/py5-shim.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5/py5-shim.js`,
     dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./py5_imported/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
   },
   "./py5_imported_mode.py": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
   },
   "./p5/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/p5/p5-shim.js`,
+    path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
     dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./_internal_sense_hat/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/sense_hat/_internal_sense_hat.js`,
+    path: `${process.env.PUBLIC_URL}/shims/sense_hat/_internal_sense_hat.js`,
   },
   "./sense_hat.py": {
-    path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
+    path: `${process.env.PUBLIC_URL}/shims/sense_hat/sense_hat_blob.py`,
   },
 };
 
 const PythonRunner = () => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier,
+    (state) => state.editor.project.identifier
   );
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
+    (state) => state.editor.codeRunTriggered
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const senseHatAlwaysEnabled = useSelector(
-    (state) => state.editor.senseHatAlwaysEnabled,
+    (state) => state.editor.senseHatAlwaysEnabled
   );
   const output = useRef();
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const PythonRunner = () => {
 
   const queryParams = new URLSearchParams(window.location.search);
   const [hasVisualOutput, setHasVisualOutput] = useState(
-    queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled,
+    queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled
   );
 
   const getInput = () => {
@@ -178,7 +178,7 @@ const PythonRunner = () => {
             .then((code) => {
               if (!code) {
                 throw new Sk.builtin.ImportError(
-                  "Failed to load remote module",
+                  "Failed to load remote module"
                 );
               }
               externalLibraries[library].code = code;
@@ -187,7 +187,7 @@ const PythonRunner = () => {
               function mapUrlToPromise(path) {
                 // If the script is already in the DOM don't add it again.
                 const existingScriptElement = document.querySelector(
-                  `script[src="${path}"]`,
+                  `script[src="${path}"]`
                 );
                 if (!existingScriptElement) {
                   return new Promise(function (resolve, _reject) {
@@ -208,11 +208,11 @@ const PythonRunner = () => {
                   (p, url) => {
                     return p.then(() => mapUrlToPromise(url));
                   },
-                  Promise.resolve(),
+                  Promise.resolve()
                 ); // initial
               } else {
                 promise = Promise.all(
-                  (externalLibraryInfo.dependencies || []).map(mapUrlToPromise),
+                  (externalLibraryInfo.dependencies || []).map(mapUrlToPromise)
                 );
               }
 
@@ -222,10 +222,10 @@ const PythonRunner = () => {
                 })
                 .catch(function () {
                   throw new Sk.builtin.ImportError(
-                    "Failed to load dependencies required",
+                    "Failed to load dependencies required"
                   );
                 });
-            }),
+            })
         )
       );
     }
@@ -317,7 +317,7 @@ const PythonRunner = () => {
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
         `# ${t("input.comment.py5")}`,
-        "from py5_imported_mode import *",
+        "from py5_imported_mode import *"
       );
 
       if (!prog.match(/(\nrun_sketch)/)) {
