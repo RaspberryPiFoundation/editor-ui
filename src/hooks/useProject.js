@@ -28,15 +28,12 @@ export const useProject = ({
   const dispatch = useDispatch();
 
   const loadCachedProject = () => {
-    console.log("isEmbedded: ", isEmbedded);
-    console.log("isBrowserPreview: ", isBrowserPreview);
-    console.log("the cached project is", cachedProject);
     dispatch(setProject(cachedProject));
   };
 
   useEffect(() => {
     setCachedProject(getCachedProject(projectIdentifier));
-  }, [projectIdentifier, isEmbedded]);
+  }, [projectIdentifier]);
 
   useEffect(() => {
     if (code) {
@@ -59,13 +56,8 @@ export const useProject = ({
       const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
       if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
-        console.log("loading cached project");
         loadCachedProject();
         return;
-      } else {
-        console.log("isEmbedded: ", isEmbedded);
-        console.log("isBrowserPreview: ", isBrowserPreview);
-        console.log("not loading cached project");
       }
 
       if (projectIdentifier) {
