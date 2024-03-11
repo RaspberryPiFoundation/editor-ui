@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
-import PythonRunner from "./PythonRunner";
+import SkulptRunner from "./SkulptRunner";
 import {
   codeRunHandled,
   setError,
@@ -55,7 +55,7 @@ describe("Testing basic input span functionality", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     );
     input = document.getElementById("input");
@@ -109,7 +109,7 @@ test("Input box not there when input function not called", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(document.getElementById("input")).toBeNull();
@@ -140,7 +140,7 @@ describe("Testing stopping the code run with input", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     );
   });
@@ -189,7 +189,7 @@ describe("When in split view, no visual libraries used and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -233,7 +233,7 @@ describe("When in split view, py5 imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -280,7 +280,7 @@ describe("When in split view, py5_imported imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -323,7 +323,7 @@ describe("When in split view, pygal imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -366,7 +366,7 @@ describe("When in split view, turtle imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -409,7 +409,7 @@ describe("When in split view, sense_hat imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -453,7 +453,7 @@ describe("When in tabbed view, no visual libraries used and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -497,7 +497,7 @@ describe("When in tabbed view, py5 imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -544,7 +544,7 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -587,7 +587,7 @@ describe("When in tabbed view, pygal imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -630,7 +630,7 @@ describe("When in tabbed view, turtle imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -673,7 +673,7 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
     store = mockStore(initialState);
     ({ queryByText } = render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     ));
   });
@@ -714,7 +714,7 @@ test("When embedded in split view with visual output does not render output view
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(screen.queryByRole("button")).not.toBeInTheDocument();
@@ -737,7 +737,7 @@ test("When embedded in split view with no visual output does not render output v
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(screen.queryByRole("button")).not.toBeInTheDocument();
@@ -759,7 +759,7 @@ test("When embedded in tabbed view does not render output view toggle", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(screen.queryByRole("button")).not.toBeInTheDocument();
@@ -781,7 +781,7 @@ test("Tabbed view has text and visual tabs with same parent element", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(
@@ -805,7 +805,7 @@ test("Split view has text and visual tabs with different parent elements", () =>
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <PythonRunner />
+      <SkulptRunner />
     </Provider>,
   );
   expect(screen.getByText("output.visualOutput").parentElement).not.toEqual(
@@ -833,7 +833,7 @@ describe("When font size is set", () => {
         <SettingsContext.Provider
           value={{ theme: "dark", fontSize: "myFontSize" }}
         >
-          <PythonRunner />
+          <SkulptRunner />
         </SettingsContext.Provider>
       </Provider>,
     );
@@ -872,7 +872,7 @@ describe("When on desktop", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     );
   });
@@ -908,7 +908,7 @@ describe("When on mobile and not embedded", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PythonRunner />
+        <SkulptRunner />
       </Provider>,
     );
   });

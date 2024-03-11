@@ -36,6 +36,7 @@ const VisualOutputPane = () => {
 
       Sk.p5 = {};
       Sk.p5.sketch = "p5Sketch";
+      console.log(document.getElementById("p5Sketch"));
       Sk.p5.assets = projectImages;
 
       (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;

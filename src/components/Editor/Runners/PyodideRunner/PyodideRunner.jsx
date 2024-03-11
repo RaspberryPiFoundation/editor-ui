@@ -21,7 +21,7 @@ import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
-const PyodideRunner = () => {
+const PyodideRunner = ({ active }) => {
   const pyodideWorker = useMemo(() => new PyodideWorker(), []);
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
@@ -45,6 +45,7 @@ const PyodideRunner = () => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+  const [showRunner, setShowRunner] = useState(false);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -77,13 +78,20 @@ const PyodideRunner = () => {
   }, []);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && active) {
+      console.log("running with pyodide");
       handleRun();
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (codeRunStopped) {
+    if (codeRunTriggered) {
+      setShowRunner(active);
+    }
+  }, [codeRunTriggered]);
+
+  useEffect(() => {
+    if (codeRunStopped && active) {
       handleStop();
     }
   }, [codeRunStopped]);
@@ -274,7 +282,10 @@ const PyodideRunner = () => {
   };
 
   return (
-    <div className={`pythonrunner-container`}>
+    <div
+      className={`pythonrunner-container pyodiderunner`}
+      style={{ display: showRunner ? "flex" : "none" }}
+    >
       {isSplitView ? (
         <>
           {hasVisual && (
