@@ -170,7 +170,6 @@ describe("When page first loaded from search params", () => {
         justLoaded: true,
         errorModalShowing: false,
         isEmbedded: true,
-        browserPreview: true,
         page: "a-new-test-page.html",
       },
     };
@@ -200,6 +199,42 @@ describe("When page first loaded from search params", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([triggerCodeRun()]),
     );
+  });
+});
+
+describe("When page does not exist", () => {
+  let store;
+
+  beforeEach(async () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [{ name: "index", extension: "html", content: "" }],
+        },
+        focussedFileIndices: [0],
+        openFiles: [[]],
+        justLoaded: true,
+        errorModalShowing: false,
+        isEmbedded: true,
+        page: "a-new-test-page.html",
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("Defaults to index.html", () => {
+    expect(screen.queryByText("index.html output.preview")).toBeInTheDocument();
   });
 });
 
