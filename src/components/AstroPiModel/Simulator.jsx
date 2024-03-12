@@ -76,7 +76,7 @@ const Simulator = (props) => {
           far={20000}
           position={[0, 1.5, 0]}
         />
-        <FlightCase />
+        {/* <FlightCase /> */}
         <OrbitControls
           enableRotate={false}
           enablePan={false}
