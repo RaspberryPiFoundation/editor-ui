@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setHasShownSavePrompt,
+  setSenseHatAlwaysEnabled,
+} from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -36,6 +40,7 @@ const WebComponentLoader = (props) => {
     theme,
     embedded = false,
     hostStyles,
+    showSavePrompt = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -71,6 +76,12 @@ const WebComponentLoader = (props) => {
     : "light";
 
   useEmbeddedMode(embedded);
+
+  useEffect(() => {
+    if (!showSavePrompt) {
+      dispatch(setHasShownSavePrompt());
+    }
+  }, [dispatch, showSavePrompt]);
 
   useEffect(() => {
     if (theme) {

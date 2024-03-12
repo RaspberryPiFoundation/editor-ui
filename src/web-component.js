@@ -47,6 +47,7 @@ class WebComponent extends HTMLElement {
       "sidebar_options",
       "theme",
       "embedded",
+      "show_save_prompt",
     ];
   }
 
@@ -54,9 +55,12 @@ class WebComponent extends HTMLElement {
     let value;
 
     if (
-      ["sense_hat_always_enabled", "with_sidebar", "with_projectbar"].includes(
-        name,
-      )
+      [
+        "sense_hat_always_enabled",
+        "with_sidebar",
+        "with_projectbar",
+        "show_save_prompt",
+      ].includes(name)
     ) {
       value = newVal !== "false";
     } else if (
