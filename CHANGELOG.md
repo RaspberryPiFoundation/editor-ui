@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - ASSETS_URL env var to allow assets to be served from R2 bucket
 
+### Changed
+
+- Make the save prompt in web component optional, defaulting to not showing (#965)
+
 ### Fixed
 
 - Page crashing when toggling between projects (#946)
