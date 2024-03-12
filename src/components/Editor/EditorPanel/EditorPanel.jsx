@@ -118,7 +118,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     return () => {
       view.destroy();
     };
-  }, [project]);
+  }, []);
 
   return (
     <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>

@@ -20,7 +20,6 @@ import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import webComponentStyles from "../assets/stylesheets/WebComponent.scss"
 import projectBarStyles from "../assets/stylesheets/ProjectBar.scss"
 import projectStyles from "../assets/stylesheets/Project.scss"
-
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
 
