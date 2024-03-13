@@ -6,6 +6,8 @@ Currently WIP but the basic idea is to separate out the editor standalone websit
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Since this project uses yarn 3.6, you'll need to run `corepack enable` followed by `yarn install`.
+
 ### Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables.
