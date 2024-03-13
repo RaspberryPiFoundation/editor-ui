@@ -14,14 +14,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Enable corepack to support newer yarn versions
+        run: corepack enable
+
       - name: Cache dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "yarn"
-
-      - name: Enable corepack to support newer yarn versions
-        run: corepack enable
 
       - name: Install code
         run: yarn install --frozen-lock-file
