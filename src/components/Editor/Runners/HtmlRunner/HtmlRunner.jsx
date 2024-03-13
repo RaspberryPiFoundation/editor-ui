@@ -327,7 +327,7 @@ function HtmlRunner() {
                 <a
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"
-                  href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
+                  href={`/${locale}/embed/viewer/${
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
                   rel="noreferrer"
