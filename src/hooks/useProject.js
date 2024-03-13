@@ -36,18 +36,6 @@ export const useProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (code) {
-      const project = {
-        name: "Blank project",
-        type: "python",
-        components: [{ name: "main", extension: "py", content: code }],
-      };
-      dispatch(setProject(project));
-      return;
-    }
-  }, [dispatch, code]);
-
-  useEffect(() => {
     if (!loadRemix) {
       const is_cached_saved_project =
         projectIdentifier &&
@@ -71,10 +59,27 @@ export const useProject = ({
         return;
       }
 
+      if (code) {
+        const project = {
+          name: "Blank project",
+          project_type: "python",
+          components: [{ name: "main", extension: "py", content: code }],
+        };
+        dispatch(setProject(project));
+        return;
+      }
+
       const data = defaultPythonProject;
       dispatch(setProject(data));
     }
-  }, [projectIdentifier, cachedProject, i18n.language, accessToken, loadRemix]);
+  }, [
+    code,
+    projectIdentifier,
+    cachedProject,
+    i18n.language,
+    accessToken,
+    loadRemix,
+  ]);
 
   useEffect(() => {
     if (projectIdentifier && loadRemix && (!accessToken || remixLoadFailed)) {
