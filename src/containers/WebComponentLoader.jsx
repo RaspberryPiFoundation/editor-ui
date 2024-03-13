@@ -18,8 +18,6 @@ import ToastCloseButton from "../utils/ToastCloseButton";
 import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import webComponentStyles from "../assets/stylesheets/WebComponent.scss"
-import projectBarStyles from "../assets/stylesheets/ProjectBar.scss"
-import projectStyles from "../assets/stylesheets/Project.scss"
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
 
@@ -130,10 +128,8 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <style>{externalStyles.toString()}</style>
         <style>{webComponentStyles}</style>
-        <style>{projectBarStyles}</style>
-        <style>{projectStyles}</style>
+        <style>{externalStyles.toString()}</style>
         <style>{hostStyles}</style>
         <Style>
           {internalStyles.toString()}
