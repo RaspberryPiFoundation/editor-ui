@@ -37,33 +37,12 @@ button {
 }
 
 svg {
-  fill: $rpf-black;
   min-inline-size: fit-content;
 }
 
 button:focus-visible {
   outline: 2px solid $rpf-black;
 }
-
-// .--dark {
-//   background-color: $rpf-grey-900;
-//   color: $rpf-white;
-
-//   svg {
-//     fill: $rpf-white;
-//   }
-
-//   button {
-//     &:focus-visible {
-//       outline: 2px solid $rpf-white;
-//     }
-//   }
-
-//   .react-tabs__tab--selected {
-//     color: inherit;
-//   }
-
-// }
 
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
