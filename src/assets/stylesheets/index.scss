@@ -26,13 +26,6 @@ code {
   min-block-size: 100dvh;
 }
 .--light {
-
-  // @property --editor-color-layer-1 {
-  //   syntax: "<color>";
-  //   inherits: true;
-  //   initial-value: $rpf-teal-900;
-  // }
-
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-white};
   --editor-color-layer-3: #{$rpf-white};
