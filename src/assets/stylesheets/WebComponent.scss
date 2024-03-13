@@ -9,12 +9,6 @@
   font-size: 1.6rem;
 }
 
-@property --editor-color-layer-1 {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: red; /* Initial value for --editor-color-layer-1 */
-}
-
 #wc {
   background: var(--editor-secondary-theme, transparent);
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
@@ -51,25 +45,25 @@ button:focus-visible {
   outline: 2px solid $rpf-black;
 }
 
-.--dark {
-  background-color: $rpf-grey-900;
-  color: $rpf-white;
+// .--dark {
+//   background-color: $rpf-grey-900;
+//   color: $rpf-white;
 
-  svg {
-    fill: $rpf-white;
-  }
+//   svg {
+//     fill: $rpf-white;
+//   }
 
-  button {
-    &:focus-visible {
-      outline: 2px solid $rpf-white;
-    }
-  }
+//   button {
+//     &:focus-visible {
+//       outline: 2px solid $rpf-white;
+//     }
+//   }
 
-  .react-tabs__tab--selected {
-    color: inherit;
-  }
+//   .react-tabs__tab--selected {
+//     color: inherit;
+//   }
 
-}
+// }
 
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
