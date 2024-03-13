@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  disableTheming,
-  setHasShownSavePrompt,
-  setSenseHatAlwaysEnabled,
-} from "../redux/EditorSlice";
+import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -75,12 +71,6 @@ const WebComponentLoader = (props) => {
   useEmbeddedMode(embedded);
 
   useEffect(() => {
-    if (!showSavePrompt) {
-      dispatch(setHasShownSavePrompt());
-    }
-  }, [dispatch, showSavePrompt]);
-
-  useEffect(() => {
     if (theme) {
       dispatch(disableTheming());
       setCookie("theme", theme, { path: "/" });
@@ -116,7 +106,7 @@ const WebComponentLoader = (props) => {
     user,
     project,
     justLoaded,
-    hasShownSavePrompt,
+    hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
   });
 
