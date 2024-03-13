@@ -27,7 +27,7 @@ jobs:
           cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: eslint
         run: yarn lint
@@ -54,7 +54,7 @@ jobs:
           cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: Run tests
         run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
@@ -85,7 +85,7 @@ jobs:
           cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
