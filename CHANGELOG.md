@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - ASSETS_URL env var to allow assets to be served from R2 bucket
+- `webpackDevServer` allowed headers for Astro Pi (#967)
 
 ### Fixed
 
