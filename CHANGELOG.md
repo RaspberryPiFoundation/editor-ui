@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Editor losing focus when project changes (#959)
 - Fix preview link (#912)
 - Web component code attribute (#963)
+- Web component dark mode (#964)
 
 ## [0.22.1] - 2024-02-23
 
