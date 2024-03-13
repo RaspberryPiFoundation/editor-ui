@@ -1,6 +1,7 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/colours" as *;
+@use "./index" as *;
 
 :host {
   font-size: 1.6rem;
@@ -21,10 +22,6 @@
   .proj {
     min-block-size: 100%;
   }
-
-  // .project-name__title {
-  //   color: yellow;
-  // }
 }
 
 code {
@@ -46,6 +43,11 @@ button:focus-visible {
   outline: 2px solid $rpf-black;
 }
 
+.project-bar {
+  // background-color: yellow !important;
+  // background-color: $rpf-teal-900 !important;
+}
+
 .--dark {
   background-color: $rpf-grey-900;
   color: $rpf-white;
@@ -64,7 +66,4 @@ button:focus-visible {
     color: inherit;
   }
 
-  .project-name {
-    color: inherit;
-  }
 }

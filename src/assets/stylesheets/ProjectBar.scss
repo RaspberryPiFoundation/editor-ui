@@ -8,8 +8,14 @@
   z-index: 1;
   block-size: $space-4;
   container-type: inline-size;
+  // color only for testing purpose, replace with the correct value
+  // check if it's changing for light/dark themes
+  // background-color: var(--editor-color-layer-3, $rpf-teal-900);
+  // background-color: $rpf-teal-900;
   background-color: var(--editor-color-layer-3);
   border: 1px solid var(--editor-color-outline);
+  // --editor-color-layer-1: $rpf-teal-900;
+
 
   @container (max-width: 367px) {
     flex-direction: column;
