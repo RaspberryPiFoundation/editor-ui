@@ -8,6 +8,7 @@ import {
 import {
   createOrUpdateProject,
   readProject,
+  loadRemix,
   createRemix,
   deleteProject,
   readProjectList,
@@ -24,6 +25,9 @@ export const syncProject = (actionName) =>
       switch (actionName) {
         case "load":
           response = await readProject(identifier, locale, accessToken);
+          break;
+        case "loadRemix":
+          response = await loadRemix(identifier, accessToken);
           break;
         case "remix":
           response = await createRemix(project, accessToken);
@@ -76,9 +80,11 @@ export const EditorSlice = createSlice({
   name: "editor",
   initialState: {
     project: {},
+    saveTriggered: false,
     saving: "idle",
     loading: "idle",
     justLoaded: false,
+    remixLoadFailed: false,
     hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
@@ -91,7 +97,11 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    browserPreview: false,
     isSplitView: true,
+    isThemeable: true,
+    webComponent: false,
+    codeRunLoading: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -112,7 +122,7 @@ export const EditorSlice = createSlice({
     newProjectModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
-    sidebarShowing: false,
+    sidebarShowing: true,
     modals: {},
   },
   reducers: {
@@ -160,6 +170,9 @@ export const EditorSlice = createSlice({
       }
       state.project.image_list = action.payload;
     },
+    setWebComponent: (state, action) => {
+      state.webComponent = action.payload;
+    },
     addProjectComponent: (state, action) => {
       state.project.components.push({
         name: action.payload.name,
@@ -168,8 +181,14 @@ export const EditorSlice = createSlice({
       });
       state.saving = "idle";
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
+    },
+    setBrowserPreview: (state, _action) => {
+      state.browserPreview = true;
     },
     setIsSplitView: (state, action) => {
       state.isSplitView = action.payload;
@@ -207,6 +226,9 @@ export const EditorSlice = createSlice({
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
+    },
+    triggerSave: (state) => {
+      state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
       const extension = action.payload.extension;
@@ -255,7 +277,11 @@ export const EditorSlice = createSlice({
     stopDraw: (state) => {
       state.drawTriggered = false;
     },
+    loadingRunner: (state) => {
+      state.codeRunLoading = true;
+    },
     codeRunHandled: (state) => {
+      state.codeRunLoading = false;
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
@@ -283,6 +309,7 @@ export const EditorSlice = createSlice({
     },
     closeLoginToSaveModal: (state) => {
       state.loginToSaveModalShowing = false;
+      state.saveTriggered = false;
     },
     closeNotFoundModal: (state) => {
       state.notFoundModalShowing = false;
@@ -334,10 +361,14 @@ export const EditorSlice = createSlice({
     hideSidebar: (state) => {
       state.sidebarShowing = false;
     },
+    disableTheming: (state) => {
+      state.isThemeable = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
       state.saving = "pending";
+      state.saveTriggered = false;
     });
     builder.addCase("editor/saveProject/fulfilled", (state, action) => {
       localStorage.removeItem(state.project.identifier || "project");
@@ -360,11 +391,23 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
     });
+    builder.addCase("editor/remixProject/pending", (state, action) => {
+      state.saving = "pending";
+    });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+    });
+    builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
+    builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
+      loadProjectFulfilled(state, action);
+      state.remixLoadFailed = false;
+    });
+    builder.addCase("editor/loadRemixProject/rejected", (state, action) => {
+      loadProjectRejected(state, action);
+      state.remixLoadFailed = true;
     });
     builder.addCase("editor/loadProject/pending", loadProjectPending);
     builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);
@@ -398,6 +441,7 @@ export const EditorSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   addProjectComponent,
+  loadingRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,
@@ -405,11 +449,14 @@ export const {
   setOpenFiles,
   addFilePanel,
   setFocussedFileIndex,
+  setPage,
   setEmbedded,
+  setBrowserPreview,
   setError,
   setIsSplitView,
   setNameError,
   setHasShownSavePrompt,
+  setWebComponent,
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
@@ -417,6 +464,7 @@ export const {
   stopDraw,
   triggerCodeRun,
   triggerDraw,
+  triggerSave,
   updateComponentName,
   updateImages,
   updateProjectComponent,
@@ -443,6 +491,7 @@ export const {
   setProjectIndexPage,
   showSidebar,
   hideSidebar,
+  disableTheming,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

@@ -7,7 +7,10 @@ export const login = ({
   accessDeniedData,
   loginRedirect,
 } = {}) => {
-  window.plausible("Login button");
+  if (window.plausible) {
+    window.plausible("Login button");
+  }
+
   if (accessDeniedData) {
     localStorage.setItem(
       "location",

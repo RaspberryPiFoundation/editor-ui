@@ -1,6 +1,6 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
 
 .projects-panel-wrapper {
   .sidebar__panel-content {
@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
     margin: 0;
 
@@ -22,13 +22,13 @@
   }
 
   .projects-panel__download-button {
-    width: 100%;
+    inline-size: 100%;
     margin: 0;
     justify-content: center;
   }
 
   .project-name {
-    height: auto;
+    block-size: auto;
     padding-inline-start: 0;
 
     &__label {
@@ -41,18 +41,19 @@
   }
 
   .projects-panel__item {
-    margin-bottom: $space-1;
+    margin-block-end: $space-1;
   }
 
-  .projects-panel__save, .projects-panel__button {
-    border-top: 1px solid $rpf-grey-150;
+  .projects-panel__save,
+  .projects-panel__button {
+    border-block-start: 1px solid var(--sidebar-border);
     padding: $space-1 0;
     display: flex;
   }
 
   .projects-panel__save-button {
-    width: 100%;
-    margin-bottom: $space-1;
+    inline-size: 100%;
+    margin-block-end: $space-1;
     justify-content: center;
 
     .icon {
@@ -70,15 +71,11 @@
 
   .projects-panel__save-status {
     margin: auto;
-    width: fit-content;
+    inline-size: fit-content;
   }
 }
 
 .--dark {
-  .projects-panel__save {
-    border-top: 1px solid $rpf-grey-600;
-  }
-
   .projects-panel__save-button {
     .content {
       color: white;

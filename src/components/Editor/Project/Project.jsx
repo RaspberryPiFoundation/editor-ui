@@ -25,6 +25,7 @@ const Project = ({ identifier }) => {
               auth_key={authKey}
               data-editor-target="editor"
               identifier={identifier}
+              with_projectbar="true"
               with_sidebar="true"
               sidebar_options={JSON.stringify([
                 "projects",

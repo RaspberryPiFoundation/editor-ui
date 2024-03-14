@@ -14,17 +14,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Enable corepack
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: corepack enable
+
       - name: Cache dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+          cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: eslint
         run: yarn lint
+
+      # - name: stylelint
+      #   run: yarn stylelint
 
   test:
     runs-on: ubuntu-latest
@@ -32,17 +41,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Enable corepack
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: corepack enable
+
       - name: Cache dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+          cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: Run tests
-        run: yarn run test --coverage --maxWorkers=4 --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
+        run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
 
@@ -57,14 +72,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Enable corepack
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: corepack enable
+
       - name: Cache dependencies
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+          cache: yarn
 
       - name: Install code
-        run: yarn install --frozen-lock-file
+        run: yarn install --immutable
 
       - name: Cypress run
         uses: cypress-io/github-action@v5

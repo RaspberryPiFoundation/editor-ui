@@ -1,13 +1,13 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/font-weight' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
 
 .mobile-project-bar {
   background-color: $rpf-white;
-  border-top: 1px solid $rpf-grey-150;
+  border-block-start: 1px solid $rpf-grey-150;
   display: flex;
-  height: 25px;
+  block-size: 25px;
   justify-content: space-between;
   padding: 0 $space-0-5;
 }
@@ -21,7 +21,7 @@
 .--dark {
   .mobile-project-bar {
     background-color: $rpf-grey-800;
-    border-top: 1px solid $rpf-grey-600;
+    border-block-start: 1px solid $rpf-grey-600;
   }
 
   .mobile-project-bar__name {
@@ -32,10 +32,10 @@
 .--light {
   .mobile-project-bar {
     background-color: $rpf-white;
-    border-top: 1px solid $rpf-grey-150;
+    border-block-start: 1px solid $rpf-grey-150;
   }
 
   .mobile-project-bar__name {
-      color: $rpf-text-secondary;
+    color: $rpf-text-secondary;
   }
 }
