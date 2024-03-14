@@ -8,7 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Ability to use `page` query parameter in the embedded viewer when not a browser preview (#958)
 - ASSETS_URL env var to allow assets to be served from R2 bucket
+- `webpackDevServer` allowed headers for Astro Pi (#967)
 
 ### Fixed
 
@@ -19,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix preview link (#912)
 - Web component code attribute (#963)
 - Web component dark mode (#964)
+- Error message wrapping (#968)
 
 ## [0.22.1] - 2024-02-23
 
