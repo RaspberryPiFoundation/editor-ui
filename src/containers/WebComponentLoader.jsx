@@ -128,7 +128,7 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <style>{webComponentStyles}</style>
+        <style>{webComponentStyles.toString()}</style>
         <style>{externalStyles.toString()}</style>
         <style>{hostStyles}</style>
         <Style>
