@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix preview link (#912)
 - Web component code attribute (#963)
 - Error message wrapping (#968)
+- Fix scrollbars not showing (#816)
 
 ## [0.22.1] - 2024-02-23
 
