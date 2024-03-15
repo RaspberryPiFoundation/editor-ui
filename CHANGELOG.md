@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Web component code attribute (#963)
 - Web component dark mode (#964)
 - Error message wrapping (#968)
+- Fix scrollbars not showing (#816)
 - Width of empty `p5` canvas (#969)
 - Scrolling `pygal` output in `pyodide` (#969)
 - Light/dark mode theming updates (#972)
