@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Error message wrapping (#968)
 - Width of empty `p5` canvas (#969)
 - Scrolling `pygal` output in `pyodide` (#969)
+- Light/dark mode theming updates (#972)
 
 ## [0.22.1] - 2024-02-23
 
