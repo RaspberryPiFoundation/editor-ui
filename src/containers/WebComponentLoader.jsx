@@ -33,6 +33,7 @@ const WebComponentLoader = (props) => {
     theme,
     embedded = false,
     hostStyles,
+    showSavePrompt = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -105,7 +106,7 @@ const WebComponentLoader = (props) => {
     user,
     project,
     justLoaded,
-    hasShownSavePrompt,
+    hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
   });
 

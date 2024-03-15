@@ -86,7 +86,7 @@ describe("When no user is in state", () => {
         project: {
           components: [],
         },
-        hasShownSavePrompt: false,
+        hasShownSavePrompt: true,
         justLoaded: false,
         user: undefined,
         saveTriggered: false,
@@ -157,7 +157,7 @@ describe("When no user is in state", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
         user: undefined,
         project: { components: [] },
-        hasShownSavePrompt: false,
+        hasShownSavePrompt: true,
         justLoaded: false,
         saveTriggered: false,
       });
@@ -280,7 +280,7 @@ describe("When user is in state", () => {
         expect(useProjectPersistence).toHaveBeenCalledWith({
           user,
           project: { components: [] },
-          hasShownSavePrompt: false,
+          hasShownSavePrompt: true,
           justLoaded: false,
           saveTriggered: false,
         });

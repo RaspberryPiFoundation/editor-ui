@@ -65,7 +65,13 @@ function HtmlRunner() {
   const previewable = (file) => file.endsWith(".html");
   let defaultPreviewFile = "index.html";
 
-  if (isEmbedded && browserPreview && page && previewable(page)) {
+  const pageExists = (page) => {
+    return projectCode.some(
+      (file) => `${file.name}.${file.extension}` === page,
+    );
+  };
+
+  if (isEmbedded && page && previewable(page) && pageExists(page)) {
     defaultPreviewFile = page;
   } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
     defaultPreviewFile = openFiles[focussedFileIndex];
