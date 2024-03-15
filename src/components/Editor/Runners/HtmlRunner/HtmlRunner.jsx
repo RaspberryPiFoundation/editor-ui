@@ -114,9 +114,11 @@ function HtmlRunner() {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
       projectImages.forEach((image) => {
+        const find = new RegExp(`['"]${image.filename}['"]`, "g"); // prevent substring matches
+        const replace = `"${image.url}"`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
-          image.filename,
-          image.url,
+          find,
+          replace,
         );
       });
     }

@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Editor losing focus when project changes (#959)
 - Fix preview link (#912)
 - Web component code attribute (#963)
+- Fix substring match on CSS images (#910)
 - Error message wrapping (#968)
 - Fix scrollbars not showing (#816)
 - Width of empty `p5` canvas (#969)
