@@ -80,12 +80,23 @@ button:focus-visible {
   outline: 2px solid $rpf-black;
 }
 
+//override for a pesky teal icon
+.select-buttons__tick--selected {
+  svg {
+    path {
+      fill: var(--editor-color-layer-2);
+    }
+  }
+}
+
+
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-white};
   --editor-color-layer-3: #{$rpf-white};
   --editor-color-outline: #{$rpf-grey-150};
-  --editor-color-theme: #{$rpf-teal-800};
+  //theme change to match WC navy colors
+  --editor-color-theme: #{$rpf-navy-800};
   --editor-color-theme-secondary: #{$rpf-teal-900};
   --editor-color-theme-tertiary: #{$rpf-teal-100};
   --editor-color-text: #{$rpf-text-primary};
@@ -94,12 +105,17 @@ button:focus-visible {
 
 .--dark {
   --editor-color-layer-1: #{$rpf-grey-850};
-  --editor-color-layer-2: #{$rpf-grey-800};
+  --editor-color-layer-2: #{$rpf-white};
   --editor-color-layer-3: #{$rpf-grey-700};
   --editor-color-outline: #{$rpf-grey-600};
-  --editor-color-theme: #{$rpf-teal-400};
+  --editor-color-theme: #{$rpf-navy-800};
   --editor-color-theme-secondary: #{$rpf-teal-400};
   --editor-color-theme-tertiary: #{$rpf-teal-900};
   --editor-color-text: #{$rpf-white};
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
+  --rpf-button-secondary-text-color: #{$rpf-white};
+
+  .rpf-button--secondary {
+    border-color: $rpf-navy-800;}
 }
+
