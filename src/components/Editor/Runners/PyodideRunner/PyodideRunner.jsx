@@ -20,7 +20,7 @@ import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
-// import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
+import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
 
 const PyodideRunner = () => {
   const pyodideWorker = useMemo(() => new PyodideWorker(), []);
@@ -53,6 +53,7 @@ const PyodideRunner = () => {
       console.log("registering service worker");
       navigator.serviceWorker
         .register("/PyodideServiceWorker.js")
+        // .register(serviceWorker)
         .then((registration) => {
           if (!registration.active || !navigator.serviceWorker.controller) {
             console.log("reloading");
