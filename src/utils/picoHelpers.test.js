@@ -76,7 +76,7 @@ describe("runOnPico", () => {
       write: jest.fn(),
     };
     await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
-      "No port or writer available"
+      "Port is missing"
     );
   });
 
@@ -86,7 +86,7 @@ describe("runOnPico", () => {
     };
     const writerMock = null;
     await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
-      "No port or writer available"
+      "Writer is missing"
     );
   });
 

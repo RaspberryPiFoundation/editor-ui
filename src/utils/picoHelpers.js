@@ -22,7 +22,8 @@ export const downloadMicroPython = async () => {
 // runOnPico currenly runs only the first project in components collection (ie Main.py))
 export const runOnPico = async (port, writer, project) => {
   if (!port || !writer) {
-    throw new Error("No port or writer available");
+    const missingResource = !port ? "Port" : "Writer";
+    throw new Error(`${missingResource} is missing`);
   }
   console.log("Running on Pico");
   const codeString = project.components[0].content;
