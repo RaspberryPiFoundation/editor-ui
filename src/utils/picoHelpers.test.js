@@ -124,27 +124,46 @@ describe("runOnPico", () => {
       });
     });
 
-    // describe("for a multi-line file", () => {
-    //   const file = {
-    //     name: "blink",
-    //     content:
-    //       "from machine import Pin\nled = Pin(25, Pin.OUT)\n\nled.toggle()\n",
-    //   };
+    describe("for a multi-line file", () => {
+      const file = {
+        name: "blink",
+        content:
+          "from machine import Pin\nled = Pin(25, Pin.OUT)\n\nled.toggle()\n",
+      };
 
-    //   it("should send the correct sequence of encoded MicroPython commands", async () => {
-    //     const openFileCommand = encoder.encode(
-    //       "with open('blink.py', 'w') as file:"
-    //     );
-    //     const code = "from machine import Pin";
-    //     const writeCommand = encoder.encode(`    file.write('${code}\\n')`);
+      it("should send the correct sequence of encoded MicroPython commands", async () => {
+        const openFileCommand = encoder.encode(
+          "with open('blink.py', 'w') as file:"
+        );
+        const codeLineOne = "from machine import Pin";
+        const writeCommandOne = encoder.encode(
+          `    file.write('${codeLineOne}\\n')`
+        );
+        const codeLineTwo = "led = Pin(25, Pin.OUT)";
+        const writeCommandTwo = encoder.encode(
+          `    file.write('${codeLineTwo}\\n')`
+        );
+        const codeLineThree = "";
+        const writeCommandThree = encoder.encode(
+          `    file.write('${codeLineThree}\\n')`
+        );
 
-    //     await writeFileToPico(portMock, writerMock, file);
+        const codeLineFour = "led.toggle()";
+        const writeCommandFour = encoder.encode(
+          `    file.write('${codeLineFour}\\n')`
+        );
 
-    //     expect(writerMock.write.mock.calls[0][0]).toEqual(openFileCommand);
-        // expect(writerMock.write.mock.calls[1][0]).toEqual(carriageReturn);
-        // expect(writerMock.write.mock.calls[2][0]).toEqual(writeCommand);
-        // expect(writerMock.write.mock.calls[3][0]).toEqual(carriageReturn);
-        // expect(writerMock.write.mock.calls[4][0]).toEqual(carriageReturn);
+        await writeFileToPico(portMock, writerMock, file);
+
+        expect(writerMock.write.mock.calls[0][0]).toEqual(openFileCommand);
+        expect(writerMock.write.mock.calls[1][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[2][0]).toEqual(writeCommandOne);
+        expect(writerMock.write.mock.calls[3][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[4][0]).toEqual(writeCommandTwo);
+        expect(writerMock.write.mock.calls[5][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[6][0]).toEqual(writeCommandThree);
+        expect(writerMock.write.mock.calls[7][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[8][0]).toEqual(writeCommandFour);
       });
     });
   });
