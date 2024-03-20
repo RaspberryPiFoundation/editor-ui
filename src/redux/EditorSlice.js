@@ -205,13 +205,12 @@ export const EditorSlice = createSlice({
         state.project.image_list = [];
       }
       state.loading = "success";
-      if (state.openFiles.flat().length === 0) {
-        const firstPanelIndex = 0;
-        if (state.project.project_type === "html") {
-          state.openFiles[firstPanelIndex].push("index.html");
-        } else {
-          state.openFiles[firstPanelIndex].push("main.py");
-        }
+      state.openFiles = [[]];
+      const firstPanelIndex = 0;
+      if (state.project.project_type === "html") {
+        state.openFiles[firstPanelIndex].push("index.html");
+      } else {
+        state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
     },

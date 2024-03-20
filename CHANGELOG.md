@@ -4,7 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.22.2] - 2024-03-18
+
+### Added
+
+- Ability to use `page` query parameter in the embedded viewer when not a browser preview (#958)
+- ASSETS_URL env var to allow assets to be served from R2 bucket
+- `webpackDevServer` allowed headers for Astro Pi (#967)
+
+### Changed
+
+- Make the save prompt in web component optional, defaulting to not showing (#965)
+
+### Fixed
+
+- Page crashing when toggling between projects (#946)
+- Get `pyodide` working in the web component (#945)
+- Allow `pygal` `chart.add` function to take single values as well as an array (#954)
+- Editor losing focus when project changes (#959)
+- Fix preview link (#912)
+- Web component code attribute (#963)
+- Web component dark mode (#964)
+- Fix substring match on CSS images (#910)
+- Error message wrapping (#968)
+- Fix scrollbars not showing (#816)
+- Width of empty `p5` canvas (#969)
+- Scrolling `pygal` output in `pyodide` (#969)
+- Light/dark mode theming updates (#972)
 
 ## [0.22.1] - 2024-02-23
 
@@ -723,7 +749,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.2...HEAD
+[0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
 [0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0
 [0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2

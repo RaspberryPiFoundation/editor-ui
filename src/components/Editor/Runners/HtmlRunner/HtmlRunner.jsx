@@ -65,7 +65,13 @@ function HtmlRunner() {
   const previewable = (file) => file.endsWith(".html");
   let defaultPreviewFile = "index.html";
 
-  if (isEmbedded && browserPreview && page && previewable(page)) {
+  const pageExists = (page) => {
+    return projectCode.some(
+      (file) => `${file.name}.${file.extension}` === page,
+    );
+  };
+
+  if (isEmbedded && page && previewable(page) && pageExists(page)) {
     defaultPreviewFile = page;
   } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
     defaultPreviewFile = openFiles[focussedFileIndex];
@@ -108,9 +114,11 @@ function HtmlRunner() {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
       projectImages.forEach((image) => {
+        const find = new RegExp(`['"]${image.filename}['"]`, "g"); // prevent substring matches
+        const replace = `"${image.url}"`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
-          image.filename,
-          image.url,
+          find,
+          replace,
         );
       });
     }
@@ -321,7 +329,7 @@ function HtmlRunner() {
                 <a
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"
-                  href={`${process.env.PUBLIC_URL}/${locale}/embed/viewer/${
+                  href={`/${locale}/embed/viewer/${
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
                   rel="noreferrer"

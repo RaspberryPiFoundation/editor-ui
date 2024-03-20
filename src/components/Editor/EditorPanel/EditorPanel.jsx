@@ -69,9 +69,15 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
 
   useEffect(() => {
-    const code = project.components.find(
+    const file = project.components.find(
       (item) => item.extension === extension && item.name === fileName,
-    ).content;
+    );
+
+    if (!file) {
+      return;
+    }
+
+    const code = file.content;
     const mode = getMode();
 
     let customIndentUnit = "  ";
