@@ -1,3 +1,4 @@
+import { write } from "fs";
 import { downloadMicroPython, runOnPico, writeFileToPico } from "./picoHelpers";
 import { TextEncoder } from "util";
 
@@ -86,27 +87,37 @@ describe("runOnPico", () => {
   });
 
   describe("writeFileToPico", () => {
-    const portMock = {
-      open: true,
-    };
-    const writerMock = {
-      write: jest.fn(),
-    };
-    const encoder = new TextEncoder();
-    it("should send the command to open the file with the correct name", async () => {
-      const encodedText = encoder.encode("with open('main.py', 'w') as file:");
+    describe("for a single-line file", () => {
+      const portMock = {
+        open: true,
+      };
 
-      await writeFileToPico(portMock, writerMock, projectMock.components[0]);
+      const writerMock = {
+        write: jest.fn(),
+      };
 
-      expect(writerMock.write).toHaveBeenCalledWith(encodedText);
-    });
-    it("should send the code for a simple, single-line file", async () => {
-      const line = `    file.write('print('Hello, Pico!')\\n')`;
-      const encodedText = encoder.encode(line);
+      const file = {
+        name: "main",
+        content: "print('Hello, Pico!')",
+      };
 
-      await writeFileToPico(portMock, writerMock, projectMock.components[0]);
+      const encoder = new TextEncoder();
+      it("should send the correct sequence of encoded MicroPython commands", async () => {
+        const openFileCommand = encoder.encode(
+          "with open('main.py', 'w') as file:"
+        );
+        const code = "print('Hello, Pico!')";
+        const writeCommand = encoder.encode(`    file.write('${code}\\n')`);
+        const carriageReturn = encoder.encode("\r");
 
-      expect(writerMock.write).toHaveBeenCalledWith(encodedText);
+        await writeFileToPico(portMock, writerMock, file);
+
+        expect(writerMock.write.mock.calls[0][0]).toEqual(openFileCommand);
+        expect(writerMock.write.mock.calls[1][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[2][0]).toEqual(writeCommand);
+        expect(writerMock.write.mock.calls[3][0]).toEqual(carriageReturn);
+        expect(writerMock.write.mock.calls[4][0]).toEqual(carriageReturn);
+      });
     });
   });
 });
