@@ -3,6 +3,8 @@ import {
   updateProjectComponent,
 } from "../redux/EditorSlice";
 
+import * as microPythonCommands from "./microPythonCommands";
+
 export const downloadMicroPython = async () => {
   try {
     const fileUrl =
@@ -25,7 +27,6 @@ export const runOnPico = async (port, writer, project) => {
     const missingResource = !port ? "Port" : "Writer";
     throw new Error(`${missingResource} is missing`);
   }
-  console.log("Running on Pico");
   const codeString = project.components[0].content;
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
   let completeCode = "";
@@ -37,30 +38,26 @@ export const runOnPico = async (port, writer, project) => {
 };
 
 export const writeAllFilesToPico = async (port, writer, project) => {
-  if (port && writer) {
-    // for (let i = 0; i < project.components.length; i++) {
-    for (const component of project.components) {
-      await writeFileToPico(port, writer, component);
-    }
-    return "Done";
+  if (!port || !writer) {
+    const missingResource = !port ? "Port" : "Writer";
+    throw new Error(`${missingResource} is missing`);
   }
-  return "Not done";
+  // for (let i = 0; i < project.components.length; i++) {
+  for (const component of project.components) {
+    await writeFileToPico(port, writer, component);
+  }
 };
 
 export const writeFileToPico = async (port, writer, component) => {
   const encoder = new TextEncoder();
-  console.log(`Writing ${component.name} to Pico`);
-  const openFileString = `with open('${component.name}.py', 'w') as file:`;
   const codeString = component.content;
-  console.log(JSON.stringify(codeString));
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
-  console.log(codeLines);
-  await writer.write(encoder.encode(openFileString));
-  console.log("openFile");
+  await writer.write(
+    encoder.encode(microPythonCommands.openFile(component.name))
+  );
   await writer.write(encoder.encode("\r"));
-  console.log("carriageReturn");
   for (let i = 0; i < codeLines.length; i++) {
-    const line = `    file.write('${codeLines[i]}\\n')`;
+    const line = microPythonCommands.writeToFile(codeLines[i]);
     await writer.write(encoder.encode(line));
     await writer.write(encoder.encode("\r"));
   }
@@ -69,7 +66,6 @@ export const writeFileToPico = async (port, writer, component) => {
 };
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
 export const readFromPico = async (port, dispatch) => {
-  console.log("Reading from Pico");
   const readPort = async () => {
     const reader = port.readable.getReader();
     const decoder = new TextDecoder();

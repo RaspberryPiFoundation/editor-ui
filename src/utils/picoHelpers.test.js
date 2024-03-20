@@ -1,9 +1,22 @@
-import { downloadMicroPython, runOnPico, writeFileToPico } from "./picoHelpers";
+import {
+  downloadMicroPython,
+  runOnPico,
+  writeFileToPico,
+  writeAllFilesToPico,
+} from "./picoHelpers";
+
 import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
 
 const encoder = new TextEncoder();
+
+const portMock = {
+  open: true,
+};
+const writerMock = {
+  write: jest.fn(),
+};
 
 const projectMock = {
   components: [
@@ -12,7 +25,12 @@ const projectMock = {
       content: "print('Hello, Pico!')",
     },
     {
-      name: "anotherFile",
+      name: "blink",
+      content:
+        "from machine import Pin\nled = Pin(25, Pin.OUT)\n\nled.toggle()\n",
+    },
+    {
+      name: "blink",
       content:
         "from machine import Pin\nled = Pin(25, Pin.OUT)\n\nled.toggle()\n",
     },
@@ -57,12 +75,6 @@ describe("downloadMicroPython", () => {
 
 describe("runOnPico", () => {
   it("should run code on Pico", async () => {
-    const portMock = {
-      open: true,
-    };
-    const writerMock = {
-      write: jest.fn(),
-    };
     const encodedText = encoder.encode("print('Hello, Pico!')\r\r");
     await runOnPico(portMock, writerMock, projectMock);
 
@@ -71,18 +83,13 @@ describe("runOnPico", () => {
 
   it("should not run code on Pico if the port is missing", async () => {
     const portMock = null;
-    const writerMock = {
-      write: jest.fn(),
-    };
+
     await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
       "Port is missing"
     );
   });
 
   it("should not run code on Pico if the writer is missing", async () => {
-    const portMock = {
-      open: true,
-    };
     const writerMock = null;
     await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
       "Writer is missing"
@@ -90,16 +97,7 @@ describe("runOnPico", () => {
   });
 
   describe("writeFileToPico", () => {
-    const portMock = {
-      open: true,
-    };
-
-    const writerMock = {
-      write: jest.fn(),
-    };
-
     const carriageReturn = encoder.encode("\r");
-    const newLine = encoder.encode("\n");
 
     describe("for a single-line file", () => {
       const file = {
@@ -112,13 +110,15 @@ describe("runOnPico", () => {
           "with open('main.py', 'w') as file:"
         );
         const code = `print("Hello Pico")`;
-        const writeCommand = encoder.encode(`    file.write('${code}\\n')`);
+        const helloWorldCommand = encoder.encode(
+          `    file.write('${code}\\n')`
+        );
 
         await writeFileToPico(portMock, writerMock, file);
 
         expect(writerMock.write.mock.calls[0][0]).toEqual(openFileCommand);
         expect(writerMock.write.mock.calls[1][0]).toEqual(carriageReturn);
-        expect(writerMock.write.mock.calls[2][0]).toEqual(writeCommand);
+        expect(writerMock.write.mock.calls[2][0]).toEqual(helloWorldCommand);
         expect(writerMock.write.mock.calls[3][0]).toEqual(carriageReturn);
         expect(writerMock.write.mock.calls[4][0]).toEqual(carriageReturn);
       });
@@ -136,20 +136,18 @@ describe("runOnPico", () => {
           "with open('blink.py', 'w') as file:"
         );
         const codeLineOne = "from machine import Pin";
-        const writeCommandOne = encoder.encode(
+        const importStatement = encoder.encode(
           `    file.write('${codeLineOne}\\n')`
         );
         const codeLineTwo = "led = Pin(25, Pin.OUT)";
-        const writeCommandTwo = encoder.encode(
-          `    file.write('${codeLineTwo}\\n')`
-        );
+        const assignLed = encoder.encode(`    file.write('${codeLineTwo}\\n')`);
         const codeLineThree = "";
-        const writeCommandThree = encoder.encode(
+        const blankLine = encoder.encode(
           `    file.write('${codeLineThree}\\n')`
         );
 
         const codeLineFour = "led.toggle()";
-        const writeCommandFour = encoder.encode(
+        const toggleLed = encoder.encode(
           `    file.write('${codeLineFour}\\n')`
         );
 
@@ -157,14 +155,28 @@ describe("runOnPico", () => {
 
         expect(writerMock.write.mock.calls[0][0]).toEqual(openFileCommand);
         expect(writerMock.write.mock.calls[1][0]).toEqual(carriageReturn);
-        expect(writerMock.write.mock.calls[2][0]).toEqual(writeCommandOne);
+        expect(writerMock.write.mock.calls[2][0]).toEqual(importStatement);
         expect(writerMock.write.mock.calls[3][0]).toEqual(carriageReturn);
-        expect(writerMock.write.mock.calls[4][0]).toEqual(writeCommandTwo);
+        expect(writerMock.write.mock.calls[4][0]).toEqual(assignLed);
         expect(writerMock.write.mock.calls[5][0]).toEqual(carriageReturn);
-        expect(writerMock.write.mock.calls[6][0]).toEqual(writeCommandThree);
+        expect(writerMock.write.mock.calls[6][0]).toEqual(blankLine);
         expect(writerMock.write.mock.calls[7][0]).toEqual(carriageReturn);
-        expect(writerMock.write.mock.calls[8][0]).toEqual(writeCommandFour);
+        expect(writerMock.write.mock.calls[8][0]).toEqual(toggleLed);
       });
     });
   });
+
+  // describe("writeAllFilesToPico", () => {
+  //   it("should writeFileToPico for each file in a project", async () => {
+  //     const writeFileToPicoSpy = jest.spyOn(picoHelpers, "writeFileToPico");
+
+  //     await writeAllFilesToPico(portMock, writerMock, projectMock);
+
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  //     expect(writeFileToPicoSpy).toHaveBeenCalledTimes(
+  //       projectMock.components.length
+  //     );
+  //   });
+  // });
 });
