@@ -50,11 +50,15 @@ export const writeAllFilesToPico = async (port, writer, project) => {
 export const writeFileToPico = async (port, writer, component) => {
   const encoder = new TextEncoder();
   console.log(`Writing ${component.name} to Pico`);
-  const fileWriteString = `with open('${component.name}.py', 'w') as file:`;
+  const openFileString = `with open('${component.name}.py', 'w') as file:`;
   const codeString = component.content;
+  console.log(JSON.stringify(codeString));
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
-  await writer.write(encoder.encode(fileWriteString));
+  console.log(codeLines);
+  await writer.write(encoder.encode(openFileString));
+  console.log("openFile");
   await writer.write(encoder.encode("\r"));
+  console.log("carriageReturn");
   for (let i = 0; i < codeLines.length; i++) {
     const line = `    file.write('${codeLines[i]}\\n')`;
     await writer.write(encoder.encode(line));
