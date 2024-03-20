@@ -21,17 +21,18 @@ export const downloadMicroPython = async () => {
 
 // runOnPico currenly runs only the first project in components collection (ie Main.py))
 export const runOnPico = async (port, writer, project) => {
-  if (port && writer) {
-    console.log("Running on Pico");
-    const codeString = project.components[0].content;
-    const codeLines = codeString.split(/\r?\n|\r|\n/g);
-    let completeCode = "";
-    for (let i = 0; i < codeLines.length; i++) {
-      completeCode += `${codeLines[i]}\r`;
-    }
-    await writer.write(encodeText(`${completeCode}\r`));
-    await readFromPico();
+  if (!port || !writer) {
+    throw new Error("No port or writer available");
   }
+  console.log("Running on Pico");
+  const codeString = project.components[0].content;
+  const codeLines = codeString.split(/\r?\n|\r|\n/g);
+  let completeCode = "";
+  for (let i = 0; i < codeLines.length; i++) {
+    completeCode += `${codeLines[i]}\r`;
+  }
+  await writer.write(encodeText(`${completeCode}\r`));
+  await readFromPico();
 };
 
 export const writeAllFilesToPico = async (port, writer, project) => {
@@ -59,8 +60,7 @@ export const writeFileToPico = async (port, writer, component) => {
     await writer.write(encoder.encode("\r"));
   }
   await writer.write(encoder.encode("\r"));
-  console.log("Done writing!");
-  // await readFromPico(port);
+  await readFromPico(port);
 };
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
 export const readFromPico = async (port, dispatch) => {

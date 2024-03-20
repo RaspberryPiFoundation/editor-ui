@@ -1,7 +1,21 @@
-import { downloadMicroPython, runOnPico } from "./picoHelpers";
+import { downloadMicroPython, runOnPico, writeFileToPico } from "./picoHelpers";
 import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
+
+const projectMock = {
+  components: [
+    {
+      name: "main",
+      content: "print('Hello, Pico!')",
+    },
+    {
+      name: "anotherFile",
+      content:
+        "from machine import Pin\nled = Pin(25, Pin.OUT)\n\nled.toggle()\n",
+    },
+  ],
+};
 
 describe("downloadMicroPython", () => {
   it("should download the MicroPython file", async () => {
@@ -45,34 +59,54 @@ describe("runOnPico", () => {
     const writerMock = {
       write: jest.fn(),
     };
-
-    const projectMock = {
-      components: [
-        {
-          content: "print('Hello, Pico!')",
-        },
-      ],
-    };
-
     const encodedText = new TextEncoder().encode("print('Hello, Pico!')\r\r");
     await runOnPico(portMock, writerMock, projectMock);
 
     expect(writerMock.write).toHaveBeenCalledWith(encodedText);
   });
 
-  it("should not run code on Pico if port or writer is missing", async () => {
+  it("should not run code on Pico if the port is missing", async () => {
     const portMock = null;
-    const writerMock = null;
-    const projectMock = {
-      components: [
-        {
-          content: "print('Hello, Pico!')",
-        },
-      ],
+    const writerMock = {
+      write: jest.fn(),
     };
+    await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
+      "No port or writer available"
+    );
+  });
 
-    await runOnPico(portMock, writerMock, projectMock);
+  it("should not run code on Pico if the writer is missing", async () => {
+    const portMock = {
+      open: true,
+    };
+    const writerMock = null;
+    await expect(runOnPico(portMock, writerMock, projectMock)).rejects.toThrow(
+      "No port or writer available"
+    );
+  });
 
-    // No assertions needed as the function should not perform any actions
+  describe("writeFileToPico", () => {
+    const portMock = {
+      open: true,
+    };
+    const writerMock = {
+      write: jest.fn(),
+    };
+    const encoder = new TextEncoder();
+    it("should send the command to open the file with the correct name", async () => {
+      const encodedText = encoder.encode("with open('main.py', 'w') as file:");
+
+      await writeFileToPico(portMock, writerMock, projectMock.components[0]);
+
+      expect(writerMock.write).toHaveBeenCalledWith(encodedText);
+    });
+    it("should send the code for a simple, single-line file", async () => {
+      const line = `    file.write('print('Hello, Pico!')\\n')`;
+      const encodedText = encoder.encode(line);
+
+      await writeFileToPico(portMock, writerMock, projectMock.components[0]);
+
+      expect(writerMock.write).toHaveBeenCalledWith(encodedText);
+    });
   });
 });
