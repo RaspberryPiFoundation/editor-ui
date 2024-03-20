@@ -27,22 +27,24 @@ describe("downloadMicroPython", () => {
       download: "",
       click: jest.fn(),
     };
+
+    const micropythonUrl =
+      "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2";
+
     document.createElement = jest.fn(() => linkMock);
     document.body.appendChild = jest.fn();
 
     const result = await downloadMicroPython();
 
     expect(result).toBe("Success");
-    expect(linkMock.href).toBe(
-      "https://micropython.org/download/rp2-pico/rp2-pico-latest.uf2"
-    );
+    expect(linkMock.href).toBe(micropythonUrl);
     expect(linkMock.download).toBe("rp2-pico-latest.uf2");
     expect(document.createElement).toHaveBeenCalledWith("a");
     expect(document.body.appendChild).toHaveBeenCalledWith(linkMock);
     expect(linkMock.click).toHaveBeenCalled();
   });
 
-  it("should return an error if download fails", async () => {
+  it("should return an error if the download fails", async () => {
     const errorMock = new Error("Download failed");
     document.createElement = jest.fn(() => {
       throw errorMock;
@@ -62,7 +64,7 @@ describe("runOnPico", () => {
     const writerMock = {
       write: jest.fn(),
     };
-    const encodedText = new TextEncoder().encode("print('Hello, Pico!')\r\r");
+    const encodedText = encoder.encode("print('Hello, Pico!')\r\r");
     await runOnPico(portMock, writerMock, projectMock);
 
     expect(writerMock.write).toHaveBeenCalledWith(encodedText);
