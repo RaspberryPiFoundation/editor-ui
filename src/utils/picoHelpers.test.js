@@ -4,6 +4,8 @@ import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
 
+const encoder = new TextEncoder();
+
 const projectMock = {
   components: [
     {
@@ -100,7 +102,6 @@ describe("runOnPico", () => {
         content: "print('Hello, Pico!')",
       };
 
-      const encoder = new TextEncoder();
       const carriageReturn = encoder.encode("\r");
 
       it("should send the correct sequence of encoded MicroPython commands", async () => {
