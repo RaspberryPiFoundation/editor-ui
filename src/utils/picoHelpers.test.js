@@ -87,28 +87,28 @@ describe("runOnPico", () => {
   });
 
   describe("writeFileToPico", () => {
+    const portMock = {
+      open: true,
+    };
+
+    const writerMock = {
+      write: jest.fn(),
+    };
     describe("for a single-line file", () => {
-      const portMock = {
-        open: true,
-      };
-
-      const writerMock = {
-        write: jest.fn(),
-      };
-
       const file = {
         name: "main",
         content: "print('Hello, Pico!')",
       };
 
       const encoder = new TextEncoder();
+      const carriageReturn = encoder.encode("\r");
+
       it("should send the correct sequence of encoded MicroPython commands", async () => {
         const openFileCommand = encoder.encode(
           "with open('main.py', 'w') as file:"
         );
         const code = "print('Hello, Pico!')";
         const writeCommand = encoder.encode(`    file.write('${code}\\n')`);
-        const carriageReturn = encoder.encode("\r");
 
         await writeFileToPico(portMock, writerMock, file);
 
