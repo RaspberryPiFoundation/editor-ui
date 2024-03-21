@@ -3,7 +3,7 @@ import configureStore from "redux-mock-store";
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
-import { postMessage } from "./PyodideWorker.mock.js";
+import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
 
 jest.mock("fs");
 
@@ -100,5 +100,117 @@ describe("When the code has been stopped", () => {
     expect(postMessage).toHaveBeenCalledWith({
       method: "stopPython",
     });
+  });
+});
+
+describe("When loading pyodide", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleLoading" });
+  });
+
+  test("it dispatches loadingRunner action", () => {
+    expect(store.getActions()).toEqual([{ type: "editor/loadingRunner" }]);
+  });
+});
+
+describe("When pyodide has loaded", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleLoaded" });
+  });
+
+  test("it dispatches codeRunHandled action", () => {
+    expect(store.getActions()).toEqual([{ type: "editor/codeRunHandled" }]);
+  });
+});
+
+describe("When input is required", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleInput" });
+  });
+
+  test("it activates an input span", () => {
+    expect(
+      document.querySelector('span[contenteditable="true"]'),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("When output is received", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({
+      method: "handleOutput",
+      stream: "stdout",
+      content: "hello",
+    });
+  });
+
+  test("it displays the output", () => {
+    expect(screen.queryByText("hello")).toBeInTheDocument();
+  });
+});
+
+describe("When an error is received", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({
+      method: "handleError",
+      line: 2,
+      file: "main.py",
+      type: "SyntaxError",
+      info: "something's wrong",
+    });
+  });
+
+  test("it dispatches action to set the error with correct message", () => {
+    expect(store.getActions()).toEqual([
+      {
+        type: "editor/setError",
+        payload: "SyntaxError: something's wrong on line 2 of main.py",
+      },
+    ]);
   });
 });
