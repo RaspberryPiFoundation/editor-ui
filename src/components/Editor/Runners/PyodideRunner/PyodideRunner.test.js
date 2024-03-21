@@ -1,9 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import configureStore from "redux-mock-store";
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
+import { codeRunHandled, setError } from "../../../../redux/EditorSlice.js";
 
 jest.mock("fs");
 
@@ -84,8 +85,11 @@ describe("When a code run has been triggered", () => {
 });
 
 describe("When the code has been stopped", () => {
+  let input;
+  let store;
+
   beforeEach(() => {
-    const store = mockStore({
+    store = mockStore({
       ...initialState,
       editor: { ...initialState.editor, codeRunStopped: true },
     });
@@ -142,6 +146,7 @@ describe("When pyodide has loaded", () => {
 });
 
 describe("When input is required", () => {
+  let input;
   let store;
   beforeEach(() => {
     store = mockStore(initialState);
@@ -153,12 +158,32 @@ describe("When input is required", () => {
 
     const worker = PyodideWorker.getLastInstance();
     worker.postMessageFromWorker({ method: "handleInput" });
+    input = document.getElementById("input");
   });
 
   test("it activates an input span", () => {
-    expect(
-      document.querySelector('span[contenteditable="true"]'),
-    ).toBeInTheDocument();
+    expect(input).toHaveAttribute("contentEditable", "true");
+  });
+
+  test("Input box has focus when it appears", () => {
+    expect(input).toHaveFocus();
+  });
+
+  test("Clicking output pane transfers focus to input", () => {
+    const outputPane = document.getElementsByClassName(
+      "pythonrunner-console",
+    )[0];
+    fireEvent.click(outputPane);
+    expect(input).toHaveFocus();
+  });
+
+  test("Pressing enter stops the input box being editable", () => {
+    const inputText = "hello world";
+    input.innerText = inputText;
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+
+    expect(input).not.toHaveAttribute("contentEditable", "true");
+    expect(input.innerText).toBe(inputText + "\n");
   });
 });
 
@@ -212,5 +237,37 @@ describe("When an error is received", () => {
         payload: "SyntaxError: something's wrong on line 2 of main.py",
       },
     ]);
+  });
+});
+
+describe("When the code run is interrupted", () => {
+  let input;
+  let store;
+
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleInput" });
+    input = document.getElementById("input");
+    worker.postMessageFromWorker({
+      method: "handleError",
+      type: "KeyboardInterrupt",
+    });
+  });
+
+  test("Disables input span", () => {
+    expect(input).not.toHaveAttribute("contentEditable", "true");
+  });
+
+  test("Sets interruption error", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setError("output.errors.interrupted")]),
+    );
   });
 });
