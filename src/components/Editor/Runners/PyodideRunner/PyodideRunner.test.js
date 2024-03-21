@@ -7,10 +7,6 @@ import { postMessage } from "./PyodideWorker.mock.js";
 
 jest.mock("fs");
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 const initialState = {
@@ -45,11 +41,9 @@ describe("When first loaded", () => {
 
 describe("When a code run has been triggered", () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     const fetchMock = jest.fn().mockResolvedValue({
-      arrayBuffer: () => {
-        console.log("fetchMock called");
-        return Promise.resolve("image data");
-      },
+      arrayBuffer: () => Promise.resolve("image data"),
     });
 
     global.fetch = fetchMock;
