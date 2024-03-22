@@ -1,10 +1,10 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import configureStore from "redux-mock-store";
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
-import { codeRunHandled, setError } from "../../../../redux/EditorSlice.js";
+import { setError } from "../../../../redux/EditorSlice.js";
 
 jest.mock("fs");
 
@@ -85,7 +85,6 @@ describe("When a code run has been triggered", () => {
 });
 
 describe("When the code has been stopped", () => {
-  let input;
   let store;
 
   beforeEach(() => {
@@ -210,6 +209,38 @@ describe("When output is received", () => {
   });
 });
 
+describe("When visual output is received", () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner />,
+      </Provider>,
+    );
+
+    act(() => {
+      const worker = PyodideWorker.getLastInstance();
+      worker.postMessageFromWorker({
+        method: "handleVisual",
+        origin: "pygal",
+        content: { chart: { events: { load: () => {} } } },
+      });
+    });
+  });
+
+  test("it displays the output view toggle", async () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).toBeInTheDocument();
+  });
+
+  test("it shows the visual output tab", () => {
+    const visualTab = screen.queryByText("output.visualOutput");
+    expect(visualTab).toBeInTheDocument();
+  });
+});
+
 describe("When an error is received", () => {
   let store;
   beforeEach(() => {
@@ -261,11 +292,11 @@ describe("When the code run is interrupted", () => {
     });
   });
 
-  test("Disables input span", () => {
+  test("it disables the input span", () => {
     expect(input).not.toHaveAttribute("contentEditable", "true");
   });
 
-  test("Sets interruption error", () => {
+  test("it sets an interruption error", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setError("output.errors.interrupted")]),
     );
