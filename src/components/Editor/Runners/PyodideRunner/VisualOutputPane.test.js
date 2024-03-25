@@ -71,7 +71,7 @@ describe("When there is turtle output", () => {
           Object.entries({
             tag: "p",
             children: [new Map(Object.entries({ text: "hello world" }))],
-            props: [],
+            props: new Map(Object.entries({ style: 'color: "red"' })),
           }),
         ),
       },
@@ -81,5 +81,29 @@ describe("When there is turtle output", () => {
 
   test("it renders the turtle output", () => {
     expect(screen.queryByText("hello world")).toBeInTheDocument();
+  });
+
+  test("it applies the attributes within turtle", () => {
+    expect(screen.queryByText("hello world")).toHaveStyle('color: "red"');
+  });
+});
+
+describe("When there is an unsupported origin", () => {
+  test("it throws an error", () => {
+    const visuals = [
+      {
+        origin: "unsupported",
+        content: {},
+      },
+    ];
+    expect(() => renderPaneWithVisuals(visuals)).toThrowError(
+      "Unsupported origin: unsupported",
+    );
+  });
+});
+
+describe("When there are no visuals", () => {
+  test("it renders without crashing", () => {
+    renderPaneWithVisuals([]);
   });
 });
