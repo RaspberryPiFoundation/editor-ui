@@ -24,9 +24,21 @@ const renderPaneWithVisuals = (visuals) => {
   );
 };
 
-// describe("When there is sense_hat output", () => {
+describe("When there is sense_hat output", () => {
+  beforeEach(() => {
+    const visuals = [
+      {
+        origin: "sense_hat",
+        content: { colour: "#FF00A4" },
+      },
+    ];
+    renderPaneWithVisuals(visuals);
+  });
 
-// });
+  test("it displays the current state of the sense hat", () => {
+    expect(screen.queryByText(/#FF00A4/)).toBeInTheDocument();
+  });
+});
 
 describe("When there is pygal output", () => {
   beforeEach(() => {
