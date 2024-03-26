@@ -55,7 +55,7 @@
     "watch": "^1.0.2"
   },
   "scripts": {
-    "start": "PORT=3010 craco start",
+    "start": "PORT=3012 craco start",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
