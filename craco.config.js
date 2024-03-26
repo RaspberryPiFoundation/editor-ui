@@ -17,8 +17,6 @@ module.exports = {
       transform: {
         "^.+\\.[t|j]sx?$": "babel-jest",
         "^.+\\.svg$": "jest-transformer-svg",
-        // "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|svg|json)$)":
-        //   "./node_modules/jest-transform-stub",
       },
     },
     configure: {
