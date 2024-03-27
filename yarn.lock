@@ -2720,7 +2720,7 @@ __metadata:
     webpack-dev-server: 4.0.0
     webpack-manifest-plugin: 2.2.0
     workbox-webpack-plugin: 5.1.4
-    worker-loader: ^3.0.8
+    worker-plugin: ^5.0.1
   languageName: unknown
   linkType: soft
 
@@ -19511,15 +19511,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"worker-loader@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "worker-loader@npm:3.0.8"
+"worker-plugin@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "worker-plugin@npm:5.0.1"
   dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^3.0.0
+    loader-utils: ^1.1.0
   peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 84f4a7eeb2a1d8b9704425837e017c91eedfae67ac89e0b866a2dcf283323c1dcabe0258196278b7d5fd0041392da895c8a0c59ddf3a94f1b2e003df68ddfec3
+    webpack: ">= 4"
+  checksum: 5ab10804b01eff82895e9ee516af2a8e24db794f8ea879cabf6cffa81e52ba6b5f5fdde00543cad69e6fd2103d286895fc95bc8179e1202ddfa0cf5c93f9b263
   languageName: node
   linkType: hard
 

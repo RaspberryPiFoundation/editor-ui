@@ -19,10 +19,12 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
-import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
-  const pyodideWorker = useMemo(() => new PyodideWorker(), []);
+  const pyodideWorker = useMemo(
+    () => new Worker("./PyodideWorker.js", { type: "module" }),
+    [],
+  );
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -45,6 +47,21 @@ const PyodideRunner = () => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+
+  useEffect(() => {
+    console.log("trying registering service worker");
+    if ("serviceWorker" in navigator) {
+      console.log("registering service worker");
+      navigator.serviceWorker
+        .register("/PyodideServiceWorker.js")
+        .then((registration) => {
+          if (!registration.active || !navigator.serviceWorker.controller) {
+            console.log("reloading");
+            window.location.reload();
+          }
+        });
+    }
+  }, []);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {

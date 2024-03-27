@@ -29,7 +29,7 @@ if (!supportsAllFeatures && name !== "incremental-features") {
 importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
 
-onmessage = async ({ data }) => {
+const onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
 
   switch (data.method) {
@@ -47,16 +47,20 @@ onmessage = async ({ data }) => {
   }
 };
 
+addEventListener("message", async (event) => {
+  onmessage(event);
+});
+
 const runPython = async (python) => {
   stopped = false;
   await pyodide.runPythonAsync(`
   old_input = input
-  
+
   def patched_input(prompt=False):
       if (prompt):
           print(prompt)
       return old_input()
-  
+
   __builtins__.input = patched_input
   `);
 
@@ -302,4 +306,14 @@ const parsePythonError = (error) => {
   return { file, line, mistake, type, info };
 };
 
-reloadPyodideToClearState();
+// TODO: reinstate this when piodide is mocked out
+// reloadPyodideToClearState();
+
+// TODO: probably delete these
+module.exports = {
+  processMessage: (data) => {
+    console.log("Processing message:", data);
+    return data * 2;
+  },
+  onmessage,
+};
