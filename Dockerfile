@@ -1,4 +1,4 @@
-FROM node:18.14.2
+FROM node:18.17.1
 
 ENV TZ='Europe/London'
 RUN apt-get update && apt-get install -y sudo curl wget vim git less zsh nodejs docker.io
@@ -6,10 +6,15 @@ RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
 WORKDIR /app
 
-COPY package.json yarn.lock .npmrc ./
+COPY package.json yarn.lock ./
 COPY . /app
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc,required=true yarn
 
-EXPOSE 3000
+RUN corepack enable \
+  && yarn set version 3.4.1 \
+  && echo "nodeLinker: node-modules\n\n$(cat /app/.yarnrc.yml)" > /app/.yarnrc.yml \
+  && cat /app/.yarnrc.yml \
+  && printf "Switched to Yarn version: "; yarn --version
 
-CMD ["yarn", "start"]
+RUN yarn
+
+EXPOSE 3012

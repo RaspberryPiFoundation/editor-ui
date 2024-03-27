@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { ReactComponent as BinIcon } from "../../../assets/icons/bin.svg";
-import { ReactComponent as EllipsisVerticalIcon } from "../../../assets/icons/ellipsis_vertical.svg";
-import { ReactComponent as PencilIcon } from "../../../assets/icons/pencil.svg";
+import BinIcon from "../../../assets/icons/bin.svg";
+import EllipsisVerticalIcon from "../../../assets/icons/ellipsis_vertical.svg";
+import PencilIcon from "../../../assets/icons/pencil.svg";
 
 import {
   showDeleteProjectModal,

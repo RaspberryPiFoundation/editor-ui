@@ -4,9 +4,19 @@ Currently WIP but the basic idea is to separate out the editor standalone websit
 
 ## Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It uses [craco](https://craco.js.org/) to avoid ejecting CRA, and the config can be edited in `craco.config.js`.
 
-Since this project uses yarn 3.6, you'll need to run `corepack enable` followed by `yarn install`.
+### Yarn
+
+Note: Since this project uses yarn 3.6, you'll need to run `corepack enable` followed by `yarn install`
+
+The app can be run with `yarn start`
+
+### Docker
+
+Run `docker compose build` followed by `docker compose up -d`
+
+In both cases the app will be available at `http://localhost:3012/`
 
 ### Environment variables
 
