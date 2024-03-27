@@ -189,7 +189,7 @@
     "webpack-dev-server": "4.0.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "5.1.4",
-    "worker-loader": "^3.0.8"
+    "worker-plugin": "^5.0.1"
   },
   "jest": {
     "roots": [
