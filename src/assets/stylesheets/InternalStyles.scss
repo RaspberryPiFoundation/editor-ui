@@ -46,7 +46,7 @@
 }
 
 #wc {
-  background: var(--editor-secondary-theme, transparent);
+  background: var(--editor-color-layer-1, transparent);
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -98,7 +98,6 @@ button:focus-visible {
   --editor-color-theme-tertiary: #{$rpf-teal-100};
   --editor-color-text: #{$rpf-text-primary};
   --editor-color-text-secondary: #{$rpf-text-secondary};
-  --editor-secondary-theme: #{$rpf-teal-100};
 }
 
 .--dark {
