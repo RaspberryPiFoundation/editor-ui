@@ -15,6 +15,8 @@ RUN corepack enable \
   && cat /app/.yarnrc.yml \
   && printf "Switched to Yarn version: "; yarn --version
 
+RUN chsh -s $(which zsh) ${USER}
+
 RUN yarn
 
 EXPOSE 3012

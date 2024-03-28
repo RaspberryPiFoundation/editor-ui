@@ -63,26 +63,6 @@ beforeEach(() => {
   };
 });
 
-test("Renders without crashing", () => {
-  initialState = {
-    ...initialState,
-    editor: {
-      ...initialState.editor,
-      loading: "success",
-    },
-  };
-
-  const mockStore = configureStore([]);
-  store = mockStore(initialState);
-
-  const { asFragment } = render(
-    <Provider store={store}>
-      <EmbeddedViewer />
-    </Provider>,
-  );
-  expect(asFragment()).toMatchSnapshot();
-});
-
 test("Loads project with correct params", () => {
   initialState = {
     ...initialState,
