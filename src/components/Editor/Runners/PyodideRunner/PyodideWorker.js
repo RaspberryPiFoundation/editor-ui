@@ -52,6 +52,7 @@ addEventListener("message", async (event) => {
 });
 
 const runPython = async (python) => {
+  console.log("running python!");
   stopped = false;
   await pyodide.runPythonAsync(`
   old_input = input
@@ -66,6 +67,7 @@ const runPython = async (python) => {
 
   try {
     await withSupportForPackages(python, async () => {
+      console.log("actually running python");
       await pyodide.runPython(python);
     });
   } catch (error) {
@@ -85,6 +87,10 @@ const checkIfStopped = () => {
 };
 
 const withSupportForPackages = async (python, runPythonFn = async () => {}) => {
+  console.log(python);
+  console.log("find_imports function", pyodide._api.pyodide_code.find_imports);
+  console.log("python imports", pyodide._api.pyodide_code.find_imports(python));
+
   const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
   await Promise.all(imports.map((name) => loadDependency(name)));
 
@@ -130,7 +136,7 @@ const loadDependency = async (name) => {
 
   // If the import is for a package built into Pyodide then load it.
   // Built-ins: https://pyodide.org/en/stable/usage/packages-in-pyodide.html
-  await pyodide.loadPackage(name).catch(() => {});
+  await pyodide.loadPackage(name)?.catch(() => {});
   let pyodidePackage;
   try {
     pyodidePackage = pyodide.pyimport(name);
@@ -233,6 +239,7 @@ const fakeBasthonPackage = {
 
 const reloadPyodideToClearState = async () => {
   postMessage({ method: "handleLoading" });
+  console.log("loading pyodide");
 
   pyodidePromise = loadPyodide({
     stdout: (content) =>
@@ -241,7 +248,7 @@ const reloadPyodideToClearState = async () => {
       postMessage({ method: "handleOutput", stream: "stderr", content }),
   });
 
-  const pyodide = await pyodidePromise;
+  pyodide = await pyodidePromise;
 
   if (supportsAllFeatures) {
     stdinBuffer =
@@ -306,14 +313,10 @@ const parsePythonError = (error) => {
   return { file, line, mistake, type, info };
 };
 
-// TODO: reinstate this when piodide is mocked out
-// reloadPyodideToClearState();
+reloadPyodideToClearState();
 
 // TODO: probably delete these
 module.exports = {
-  processMessage: (data) => {
-    console.log("Processing message:", data);
-    return data * 2;
-  },
   onmessage,
+  postMessage,
 };
