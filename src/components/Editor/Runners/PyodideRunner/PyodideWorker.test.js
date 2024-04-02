@@ -16,29 +16,29 @@ describe("PyodideWorker", () => {
   beforeEach(() => {
     jest.resetModules();
     pyodide = {
-      registerJsModule: jest.fn(),
-      runPythonAsync: jest.fn(),
-      setStdin: jest.fn(),
-      setInterruptBuffer: jest.fn(),
-      FS: {
-        readdir: jest.fn().mockReturnValue([]),
-        writeFile: jest.fn(),
-      },
-      ffi: {
-        PythonError: Error,
-      },
       _api: {
         pyodide_code: {
           find_imports: () => new MockPythonArray("numpy", "pygal"),
         },
       },
+      ffi: {
+        PythonError: Error,
+      },
+      FS: {
+        readdir: jest.fn().mockReturnValue([]),
+        writeFile: jest.fn(),
+      },
       loadPackage: jest.fn().mockReturnValue({ catch: jest.fn() }),
       loadPackagesFromImports: jest.fn(),
-      runPython: jest.fn(),
-      pyimport: jest.fn(),
       micropip: {
         install: jest.fn().mockReturnValue({ catch: jest.fn() }),
       },
+      pyimport: jest.fn(),
+      registerJsModule: jest.fn(),
+      runPython: jest.fn(),
+      runPythonAsync: jest.fn(),
+      setInterruptBuffer: jest.fn(),
+      setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
     worker = require("./PyodideWorker.js", { type: "module" });
