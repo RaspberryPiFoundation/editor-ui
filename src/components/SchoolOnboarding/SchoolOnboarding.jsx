@@ -5,7 +5,7 @@ import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
 import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
 
-const Onboarding = () => {
+const SchoolOnboarding = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
@@ -43,9 +43,9 @@ const Onboarding = () => {
           />
         </div>
       </div> */}
-      <p>Onboarding</p>
+      <p>SchoolOnboarding</p>
     </div>
   );
 };
 
-export default Onboarding;
+export default SchoolOnboarding;
