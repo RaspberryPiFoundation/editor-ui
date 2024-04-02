@@ -15,6 +15,7 @@ describe("PyodideWorker", () => {
 
   beforeEach(() => {
     jest.resetModules();
+    // console.log("resetting");
     pyodide = {
       runPythonAsync: jest.fn(),
       setStdin: jest.fn(),
@@ -24,7 +25,7 @@ describe("PyodideWorker", () => {
         writeFile: jest.fn(),
       },
       ffi: {
-        PythonError: jest.fn(),
+        PythonError: Error,
       },
       _api: {
         pyodide_code: {
@@ -49,8 +50,22 @@ describe("PyodideWorker", () => {
     );
   });
 
+  test("it notifies component when pyodide is loading", () => {
+    expect(global.postMessage).toHaveBeenCalledWith({
+      method: "handleLoading",
+    });
+  });
+
   test("it loads pyodide", () => {
     expect(global.loadPyodide).toHaveBeenCalled();
+  });
+
+  test("it notifies component when pyodide has loaded", () => {
+    expect(global.postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "handleLoaded",
+      }),
+    );
   });
 
   test("it writes a file", async () => {
@@ -136,6 +151,40 @@ describe("PyodideWorker", () => {
     await waitFor(() => {
       expect(pyodide.runPython).toHaveBeenCalledWith("print('hello')");
     });
+  });
+
+  test("it reloads pyodide after running the code", async () => {
+    global.loadPyodide.mockClear();
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    await waitFor(() => {
+      expect(global.loadPyodide).toHaveBeenCalled();
+    });
+  });
+
+  test("it handles stopping by notifying component of an error", async () => {
+    worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    await worker.onmessage({
+      data: {
+        method: "stopPython",
+      },
+    });
+    await waitFor(() =>
+      expect(global.postMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: "handleError",
+        }),
+      ),
+    );
   });
 
   // // workerPlugin.js - simple test case
