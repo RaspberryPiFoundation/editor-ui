@@ -20,10 +20,7 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
       setInterruptBuffer: jest.fn(),
       FS: {
-        readdir: jest.fn().mockImplementation(() => {
-          console.log("readdir has been called");
-          return [];
-        }),
+        readdir: jest.fn().mockReturnValue([]),
         writeFile: jest.fn(),
       },
       ffi: {
@@ -34,12 +31,12 @@ describe("PyodideWorker", () => {
           find_imports: () => new MockPythonArray("numpy"),
         },
       },
-      loadPackage: () => ({ catch: jest.fn() }),
+      loadPackage: jest.fn().mockReturnValue({ catch: jest.fn() }),
       loadPackagesFromImports: jest.fn(),
       runPython: jest.fn(),
       pyimport: jest.fn(),
       micropip: {
-        install: () => ({ catch: jest.fn() }),
+        install: jest.fn().mockReturnValue({ catch: jest.fn() }),
       },
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
@@ -84,7 +81,6 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load package from file system", async () => {
-    console.log("loading package test");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -93,6 +89,40 @@ describe("PyodideWorker", () => {
     });
     await waitFor(() =>
       expect(pyodide.FS.readdir).toHaveBeenCalledWith("/home/pyodide"),
+    );
+  });
+
+  test("it checks if the package is built into python", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "import numpy",
+      },
+    });
+    await waitFor(() => expect(pyodide.pyimport).toHaveBeenCalledWith("numpy"));
+  });
+
+  test("it tries to load the package from pyodide", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "import numpy",
+      },
+    });
+    await waitFor(() =>
+      expect(pyodide.loadPackage).toHaveBeenCalledWith("numpy"),
+    );
+  });
+
+  test("it tries to load the package from PyPI", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "import numpy",
+      },
+    });
+    await waitFor(() =>
+      expect(pyodide.micropip.install).toHaveBeenCalledWith("numpy"),
     );
   });
 
