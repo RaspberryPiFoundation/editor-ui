@@ -1,0 +1,80 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+
+.school-onboarding-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: $space-1-5;
+  align-items: center;
+  gap: $space-1;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  @media screen and (min-width: 768px) {
+    padding: $space-5 $space-7-5;
+    gap: $space-4;
+  }
+}
+
+/* Projects */
+
+.school-onboarding__modal {
+  text-align: center;
+}
+
+.school-onboarding__modal--title {
+  @include font-size-2-5(regular);
+  margin: $space-1;
+
+  @media screen and (min-width: 375px) {
+    @include font-size-3(regular);
+  }
+}
+
+.school-onboarding__modal--subtitle {
+  @include font-size-1-5(regular);
+  font-weight: $font-weight-regular;
+  margin: $space-1;
+
+  @media screen and (min-width: 375px) {
+    @include font-size-2(regular);
+  }
+}
+
+.school-onboarding__button * {
+  @include font-size-1-25(regular);
+  display: inline-flex;
+  gap: $space-0-5;
+  align-items: center;
+
+  a {
+    color: $rpf-black;
+    text-decoration: none;
+  }
+}
+
+.school-onboarding__modal--buttons {
+  @include font-size-1-25(regular);
+  display: flex;
+
+  gap: $space-1;
+  inline-size: fit-content;
+  align-items: stretch;
+  @include font-size-1-25(regular);
+
+  a {
+    color: $rpf-black;
+    text-decoration: none;
+  }
+}
+
+/* Dark mode */
+
+.--light {
+}
+
+.--dark {
+}
