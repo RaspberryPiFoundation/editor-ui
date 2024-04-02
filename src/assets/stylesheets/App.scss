@@ -36,7 +36,7 @@ input {
   }
 
   svg {
-    fill: $rpf-black;
+    fill: var(--editor-color-text);
   }
 }
 
@@ -50,7 +50,7 @@ input {
   }
 
   svg {
-    fill: $rpf-white;
+    fill: var(--editor-color-text);
   }
 }
 

@@ -183,7 +183,7 @@ describe("When not embedded", () => {
     const code = "print('hello world')";
     const expectedProject = {
       name: "Blank project",
-      type: "python",
+      project_type: "python",
       components: [{ name: "main", extension: "py", content: code }],
     };
     renderHook(
