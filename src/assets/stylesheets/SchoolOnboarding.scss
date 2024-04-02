@@ -19,18 +19,35 @@
   }
 }
 
+
 /* Projects */
 
 .school-onboarding__modal {
-  text-align: center;
+  background-color: $rpf-white;
+  border: 2px solid #D5D7DC;
+  border-radius: 8px;
+  max-inline-size: 600px;
+  text-align: start;
+  padding: $space-1-5;
+
+  @media screen and (min-width: 768px) {
+    min-inline-size: 600px;
+  }
+
+  
+}
+
+.school-onboarding__modal--text {
+    display: flex;
+    flex-direction: row;
 }
 
 .school-onboarding__modal--title {
-  @include font-size-2-5(regular);
+  @include font-size-1-5(regular);
   margin: $space-1;
 
-  @media screen and (min-width: 375px) {
-    @include font-size-3(regular);
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
   }
 }
 
@@ -39,13 +56,13 @@
   font-weight: $font-weight-regular;
   margin: $space-1;
 
-  @media screen and (min-width: 375px) {
-    @include font-size-2(regular);
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
   }
 }
 
 .school-onboarding__button * {
-  @include font-size-1-25(regular);
+  @include font-size-1-5(regular);
   display: inline-flex;
   gap: $space-0-5;
   align-items: center;

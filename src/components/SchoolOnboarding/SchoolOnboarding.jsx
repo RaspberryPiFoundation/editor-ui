@@ -15,13 +15,17 @@ const SchoolOnboarding = () => {
 
   return (
     <div className="school-onboarding-wrapper">
-      <div className="school-onboarding__modal">
-        <h1 className="school-onboarding__modal--title">
+      <div className="school-onboarding__modal--text">
+        <h2 className="school-onboarding__modal--title">
           {t("schoolOnboarding.title_1")}
-        </h1>
+        </h2>
         <h2 className="school-onboarding__modal--subtitle">
           {t("schoolOnboarding.title_2")}
         </h2>
+      </div>
+      <div className="school-onboarding__modal">
+        <div>Step</div>
+        <div>Step title</div>
         <div className="school-onboarding__modal--buttons">
           <DesignSystemButton
             className="school-onboarding__button"
