@@ -47,6 +47,7 @@ const onmessage = async ({ data }) => {
   }
 };
 
+// eslint-disable-next-line no-restricted-globals
 addEventListener("message", async (event) => {
   onmessage(event);
 });
