@@ -6,38 +6,42 @@ class MockPythonArray extends Array {
   }
 }
 // Mock global functions
-const pyodide = {
-  runPythonAsync: jest.fn(),
-  setStdin: jest.fn(),
-  setInterruptBuffer: jest.fn(),
-  FS: {
-    readdir: (name) => [],
-    writeFile: jest.fn(),
-  },
-  ffi: {
-    PythonError: jest.fn(),
-  },
-  _api: {
-    pyodide_code: {
-      find_imports: () => new MockPythonArray("numpy"),
-    },
-  },
-  loadPackage: () => ({ catch: jest.fn() }),
-  loadPackagesFromImports: jest.fn(),
-  runPython: jest.fn(),
-  pyimport: jest.fn(),
-  micropip: {
-    install: () => ({ catch: jest.fn() }),
-  },
-};
 global.postMessage = jest.fn();
 global.importScripts = jest.fn();
 
 describe("PyodideWorker", () => {
   let worker;
+  let pyodide;
 
   beforeEach(() => {
     jest.resetModules();
+    pyodide = {
+      runPythonAsync: jest.fn(),
+      setStdin: jest.fn(),
+      setInterruptBuffer: jest.fn(),
+      FS: {
+        readdir: jest.fn().mockImplementation(() => {
+          console.log("readdir has been called");
+          return [];
+        }),
+        writeFile: jest.fn(),
+      },
+      ffi: {
+        PythonError: jest.fn(),
+      },
+      _api: {
+        pyodide_code: {
+          find_imports: () => new MockPythonArray("numpy"),
+        },
+      },
+      loadPackage: () => ({ catch: jest.fn() }),
+      loadPackagesFromImports: jest.fn(),
+      runPython: jest.fn(),
+      pyimport: jest.fn(),
+      micropip: {
+        install: () => ({ catch: jest.fn() }),
+      },
+    };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
     worker = require("./PyodideWorker.js", { type: "module" });
   });
@@ -76,6 +80,19 @@ describe("PyodideWorker", () => {
     });
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
       expect.stringMatching(/__builtins__.input = patched_input/),
+    );
+  });
+
+  test("it tries to load package from file system", async () => {
+    console.log("loading package test");
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "import numpy",
+      },
+    });
+    await waitFor(() =>
+      expect(pyodide.FS.readdir).toHaveBeenCalledWith("/home/pyodide"),
     );
   });
 

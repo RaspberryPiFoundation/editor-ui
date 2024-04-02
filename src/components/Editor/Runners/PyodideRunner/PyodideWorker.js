@@ -52,7 +52,6 @@ addEventListener("message", async (event) => {
 });
 
 const runPython = async (python) => {
-  console.log("running python!");
   stopped = false;
   await pyodide.runPythonAsync(`
   old_input = input
@@ -67,7 +66,6 @@ const runPython = async (python) => {
 
   try {
     await withSupportForPackages(python, async () => {
-      console.log("actually running python");
       await pyodide.runPython(python);
     });
   } catch (error) {
@@ -87,10 +85,6 @@ const checkIfStopped = () => {
 };
 
 const withSupportForPackages = async (python, runPythonFn = async () => {}) => {
-  console.log(python);
-  console.log("find_imports function", pyodide._api.pyodide_code.find_imports);
-  console.log("python imports", pyodide._api.pyodide_code.find_imports(python));
-
   const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
   await Promise.all(imports.map((name) => loadDependency(name)));
 
@@ -239,7 +233,6 @@ const fakeBasthonPackage = {
 
 const reloadPyodideToClearState = async () => {
   postMessage({ method: "handleLoading" });
-  console.log("loading pyodide");
 
   pyodidePromise = loadPyodide({
     stdout: (content) =>
