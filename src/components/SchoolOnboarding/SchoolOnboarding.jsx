@@ -1,19 +1,19 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import "../../assets/stylesheets/LandingPage.scss";
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
-import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
+// import { useTranslation } from "react-i18next";
+// import "../../assets/stylesheets/LandingPage.scss";
+// import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+// import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
+// import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
 
 const SchoolOnboarding = () => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
+  // const { t, i18n } = useTranslation();
+  // const locale = i18n.language;
 
-  const onClickPlausible = (msg) => () => {
-    if (window.plausible) {
-      window.plausible(msg);
-    }
-  };
+  // const onClickPlausible = (msg) => () => {
+  //   if (window.plausible) {
+  //     window.plausible(msg);
+  //   }
+  // };
 
   return (
     <div className="landing-page-wrapper">

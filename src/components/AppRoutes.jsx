@@ -24,6 +24,10 @@ const EmbeddedViewer = lazy(() =>
   import(/* webpackPrefetch: true */ "./EmbeddedViewer/EmbeddedViewer"),
 );
 
+const SchoolOnboarding = lazy(() =>
+  import(/* webpackPrefetch: true */ "./SchoolOnboarding/SchoolOnboarding"),
+);
+
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
 const projectLinkRedirects = [
@@ -62,6 +66,8 @@ const AppRoutes = () => (
       element={suspense(<ProjectComponentLoader embedded={true} />)}
     />
 
+    <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
+    {/* <Route path="/schools" element={suspense(<SchoolOnboarding />)} /> */}
     {/* Redirects will be moved into a cloudflare worker. This is just interim */}
 
     {projectLinkRedirects.map((link) => {
