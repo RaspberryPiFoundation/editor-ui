@@ -28,13 +28,11 @@
   border-radius: 8px;
   max-inline-size: 600px;
   text-align: start;
-  padding: $space-1-5;
+  padding: $space-1-25;
 
   @media screen and (min-width: 768px) {
     min-inline-size: 600px;
   }
-
-  
 }
 
 .school-onboarding__modal--text {
@@ -61,31 +59,29 @@
   }
 }
 
-.school-onboarding__button * {
-  @include font-size-1-5(regular);
-  display: inline-flex;
-  gap: $space-0-5;
-  align-items: center;
-
-  a {
-    color: $rpf-black;
-    text-decoration: none;
-  }
+.school-onboarding__modal-step {
+  @include font-size-2(regular);
+  font-weight: $font-weight-bold;
 }
 
 .school-onboarding__modal--buttons {
-  @include font-size-1-25(regular);
   display: flex;
-
+  flex-direction: column;
   gap: $space-1;
   inline-size: fit-content;
   align-items: stretch;
-  @include font-size-1-25(regular);
 
-  a {
-    color: $rpf-black;
-    text-decoration: none;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
   }
+}
+
+/* To be replaced with code */
+.grey__section {
+  block-size: 267px;
+  inline-size: 552px;
+  background-color: #D9D9D9;
 }
 
 /* Dark mode */
@@ -93,5 +89,5 @@
 .--light {
 }
 
-.--dark {
+.--dark {   
 }

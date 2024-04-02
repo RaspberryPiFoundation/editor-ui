@@ -24,8 +24,13 @@ const SchoolOnboarding = () => {
         </h2>
       </div>
       <div className="school-onboarding__modal">
-        <div>Step</div>
-        <div>Step title</div>
+        <span className="school-onboarding__modal-steps">
+          {t("schoolOnboarding.steps")}
+        </span>
+        <h3 className="school-onboarding__modal-step">
+          {t("schoolOnboarding.step")}
+        </h3>
+        <section className="grey__section"></section>
         <div className="school-onboarding__modal--buttons">
           <DesignSystemButton
             className="school-onboarding__button"
@@ -33,6 +38,7 @@ const SchoolOnboarding = () => {
             text={t("schoolOnboarding.button_1")}
             textAlways
             onClick={onClickPlausible("Button text")}
+            type={"secondary"}
           />
           <DesignSystemButton
             className="school-onboarding__button"
