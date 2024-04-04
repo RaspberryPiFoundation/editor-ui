@@ -5,6 +5,7 @@ class MockPythonArray extends Array {
     return this;
   }
 }
+
 // Mock global functions
 global.postMessage = jest.fn();
 global.importScripts = jest.fn();
@@ -41,7 +42,7 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    worker = require("./PyodideWorker.js", { type: "module" });
+    worker = require("./PyodideWorker.test.mock.js", { type: "module" });
   });
 
   test("it imports the pyodide script", () => {
@@ -69,7 +70,6 @@ describe("PyodideWorker", () => {
   });
 
   test("it writes a file", async () => {
-    worker = require("./PyodideWorker.js", { type: "module" });
     await worker.onmessage({
       data: {
         method: "writeFile",
