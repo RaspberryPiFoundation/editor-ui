@@ -309,7 +309,6 @@ const parsePythonError = (error) => {
 
 reloadPyodideToClearState();
 
-// TODO: probably delete these
 module.exports = {
   onmessage,
   postMessage,
