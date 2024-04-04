@@ -137,9 +137,13 @@ it("picks up calls to input()", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", "input()");
+    .invoke("text", "from sense_hat import SenseHat\ninput()");
   cy.get("editor-wc").shadow().find(".btn--run").click();
-  cy.get("editor-wc").shadow().contains("Text output").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find("div[class='pythonrunner-container skulptrunner']")
+    .contains("Text output")
+    .click();
   cy.get("editor-wc")
     .shadow()
     .find("span[contenteditable=true]")

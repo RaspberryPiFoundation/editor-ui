@@ -391,7 +391,7 @@ const SkulptRunner = ({ active }) => {
 
   return (
     <div
-      className={`pythonrunner-container`}
+      className={`pythonrunner-container skulptrunner`}
       style={{ display: showRunner ? "flex" : "none" }}
     >
       {isSplitView ? (
