@@ -24,31 +24,31 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/pygal/pygal.js`,
+    path: `${process.env.ASSETS_URL}/shims/pygal/pygal.js`,
     dependencies: [
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js",
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js",
     ],
   },
   "./py5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5/py5-shim.js`,
-    dependencies: [`${process.env.PUBLIC_URL}/libraries/processing/p5/p5.js`],
+    path: `${process.env.ASSETS_URL}/shims/processing/py5/py5-shim.js`,
+    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./py5_imported/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
+    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
   },
   "./py5_imported_mode.py": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
+    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
   },
   "./p5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
-    dependencies: [`${process.env.PUBLIC_URL}/libraries/processing/p5/p5.js`],
+    path: `${process.env.ASSETS_URL}/shims/processing/p5/p5-shim.js`,
+    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./_internal_sense_hat/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/sense_hat/_internal_sense_hat.js`,
+    path: `${process.env.ASSETS_URL}/shims/sense_hat/_internal_sense_hat.js`,
   },
   "./sense_hat.py": {
-    path: `${process.env.PUBLIC_URL}/shims/sense_hat/sense_hat_blob.py`,
+    path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
   },
 };
 
