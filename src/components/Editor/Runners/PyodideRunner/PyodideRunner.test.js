@@ -30,7 +30,7 @@ describe("When first loaded", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
@@ -55,7 +55,7 @@ describe("When a code run has been triggered", () => {
     });
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
@@ -94,7 +94,7 @@ describe("When the code has been stopped", () => {
     });
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
@@ -112,7 +112,7 @@ describe("When loading pyodide", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -131,7 +131,7 @@ describe("When pyodide has loaded", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -151,7 +151,7 @@ describe("When input is required", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -192,7 +192,7 @@ describe("When output is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -215,7 +215,7 @@ describe("When visual output is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -247,7 +247,7 @@ describe("When an error is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -279,7 +279,7 @@ describe("When the code run is interrupted", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
