@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import PyodideRunner from "../PyodideRunner/PyodideRunner";
 import SkulptRunner from "./SkulptRunner";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-const SKULPT_ONLY_MODULES = ["p5", "py5", "sense_hat"];
+const SKULPT_ONLY_MODULES = ["p5", "py5", "py5_imported", "sense_hat"];
 
 const PythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
@@ -12,6 +13,7 @@ const PythonRunner = () => {
     (state) => state.editor.codeRunTriggered,
   );
   const [usePyodide, setUsePyodide] = useState(false);
+  const { t } = useTranslation();
 
   const getImports = (code) => {
     const importRegex =
@@ -26,6 +28,9 @@ const PythonRunner = () => {
               .map((s) => s.trim())[0],
         )
       : [];
+    if (code.includes(`# ${t("input.comment.py5")}`)) {
+      imports.push("py5");
+    }
     return imports;
   };
 
