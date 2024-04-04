@@ -210,7 +210,9 @@ const PyodideRunner = () => {
   };
 
   const handleStop = () => {
-    interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    if (interruptBuffer.current) {
+      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    }
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
   };
