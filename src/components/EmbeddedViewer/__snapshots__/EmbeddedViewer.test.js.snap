@@ -58,7 +58,7 @@ exports[`Renders without crashing 1`] = `
         </div>
       </div>
       <div
-        class="pythonrunner-container"
+        class="pythonrunner-container skulptrunner"
         style="display: flex;"
       >
         <div
