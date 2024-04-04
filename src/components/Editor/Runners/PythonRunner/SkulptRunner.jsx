@@ -21,6 +21,7 @@ import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import { error } from "highcharts";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -284,6 +285,7 @@ const SkulptRunner = ({ active }) => {
 
   const handleError = (err) => {
     let errorMessage;
+    let explanation;
     if (err.message === t("output.errors.interrupted")) {
       errorMessage = err.message;
     } else {
@@ -294,12 +296,19 @@ const SkulptRunner = ({ active }) => {
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
+      if (errorType === "ImportError") {
+        const moduleName = errorDetails.replace(/No module named /, "");
+        explanation = `This may be because ${moduleName} cannot currently be used with p5 or sense_hat.`;
+      }
+
       let userId;
       if (user?.profile) {
         userId = user.profile?.user;
       }
 
-      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
+      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}${
+        explanation ? `. ${explanation}` : ""
+      }`;
       createError(projectIdentifier, userId, {
         errorType,
         errorMessage,
