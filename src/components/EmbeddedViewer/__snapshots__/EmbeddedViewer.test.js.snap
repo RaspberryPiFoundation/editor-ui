@@ -13,7 +13,8 @@ exports[`Renders without crashing 1`] = `
       class="proj-runner-container"
     >
       <div
-        class="pythonrunner-container"
+        class="pythonrunner-container pyodiderunner"
+        style="display: none;"
       >
         <div
           class="react-tabs"
@@ -48,6 +49,51 @@ exports[`Renders without crashing 1`] = `
             aria-labelledby="react-tabs-0"
             class="react-tabs__tab-panel react-tabs__tab-panel--selected"
             id="react-tabs-1"
+            role="tabpanel"
+          >
+            <pre
+              class="pythonrunner-console pythonrunner-console--small"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="pythonrunner-container"
+        style="display: flex;"
+      >
+        <div
+          class="react-tabs"
+          data-rttabs="true"
+        >
+          <div
+            class="react-tabs__tab-container"
+          >
+            <ul
+              class="react-tabs__tab-list"
+              role="tablist"
+            >
+              <li
+                aria-controls="react-tabs-3"
+                aria-disabled="false"
+                aria-selected="true"
+                class="react-tabs__tab react-tabs__tab--selected"
+                data-rttab="true"
+                id="react-tabs-2"
+                role="tab"
+                tabindex="0"
+              >
+                <span
+                  class="react-tabs__tab-text"
+                >
+                  output.textOutput
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div
+            aria-labelledby="react-tabs-2"
+            class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+            id="react-tabs-3"
             role="tabpanel"
           >
             <pre

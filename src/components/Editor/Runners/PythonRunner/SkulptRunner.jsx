@@ -21,7 +21,6 @@ import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
-import { error } from "highcharts";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
