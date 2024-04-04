@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import "../../../../assets/stylesheets/PythonRunner.scss";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import {
@@ -194,12 +194,16 @@ const PyodideRunner = ({ active }) => {
 
     const program = projectCode[0].content;
 
-    interruptBuffer.current[0] = 0; // Clear previous signals.
+    if (interruptBuffer.current) {
+      interruptBuffer.current[0] = 0; // Clear previous signals.
+    }
     pyodideWorker.postMessage({ method: "runPython", python: program });
   };
 
   const handleStop = () => {
-    interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    if (interruptBuffer.current) {
+      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    }
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
   };
