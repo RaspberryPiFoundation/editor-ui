@@ -42,7 +42,7 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    worker = require("./PyodideWorker.test.mock.js", { type: "module" });
+    worker = require("./PyodideWorker.js", { type: "module" });
   });
 
   test("it imports the pyodide script", () => {
