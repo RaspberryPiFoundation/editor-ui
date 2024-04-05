@@ -16,21 +16,23 @@ self.addEventListener("fetch", (event) => {
 
   console.log(event.request);
 
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // if (!response.url.includes("/some/page/that/hosts/the/editor")) { return; }
+  if (!event.request.url.includes("pyodide")) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          console.log(`Intercepted: ${event.request.url}`);
 
-        const body = response.body;
-        const status = response.status;
-        const headers = new Headers(response.headers);
-        const statusText = response.statusText;
+          const body = response.body;
+          const status = response.status;
+          const headers = new Headers(response.headers);
+          const statusText = response.statusText;
 
-        headers.set("Cross-Origin-Embedder-Policy", "require-corp");
-        headers.set("Cross-Origin-Opener-Policy", "same-origin");
+          headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+          headers.set("Cross-Origin-Opener-Policy", "same-origin");
 
-        return new Response(body, { status, statusText, headers });
-      })
-      .catch(console.error),
-  );
+          return new Response(body, { status, statusText, headers });
+        })
+        .catch(console.error),
+    );
+  }
 });

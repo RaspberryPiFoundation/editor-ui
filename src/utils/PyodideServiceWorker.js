@@ -14,21 +14,25 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // if (!response.url.includes("/some/page/that/hosts/the/editor")) { return; }
+  console.log(event.request);
 
-        const body = response.body;
-        const status = response.status;
-        const headers = new Headers(response.headers);
-        const statusText = response.statusText;
+  if (!event.request.url.includes("pyodide")) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          console.log(`Intercepted: ${event.request.url}`);
 
-        headers.set("Cross-Origin-Embedder-Policy", "require-corp");
-        headers.set("Cross-Origin-Opener-Policy", "same-origin");
+          const body = response.body;
+          const status = response.status;
+          const headers = new Headers(response.headers);
+          const statusText = response.statusText;
 
-        return new Response(body, { status, statusText, headers });
-      })
-      .catch(console.error),
-  );
+          headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+          headers.set("Cross-Origin-Opener-Policy", "same-origin");
+
+          return new Response(body, { status, statusText, headers });
+        })
+        .catch(console.error),
+    );
+  }
 });

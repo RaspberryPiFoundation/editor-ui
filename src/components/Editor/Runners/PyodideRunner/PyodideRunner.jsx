@@ -20,6 +20,7 @@ import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
+// import serviceWorker from "worker-loader!../../../../utils/PyodideServiceWorker.js";
 import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
 
 const PyodideRunner = () => {
@@ -47,13 +48,20 @@ const PyodideRunner = () => {
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
 
+  const getBlobURL = (code, type) => {
+    const blob = new Blob([code], { type });
+    return URL.createObjectURL(blob);
+  };
+
   useEffect(() => {
     console.log("trying registering service worker");
     if ("serviceWorker" in navigator) {
       console.log("registering service worker");
       navigator.serviceWorker
         .register("/PyodideServiceWorker.js")
+        // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
         // .register(serviceWorker)
+        // .register(getBlobURL(serviceWorker, "application/javascript"))
         .then((registration) => {
           if (!registration.active || !navigator.serviceWorker.controller) {
             console.log("reloading");
