@@ -15,26 +15,26 @@ const PythonRunner = () => {
   const [usePyodide, setUsePyodide] = useState(false);
   const { t } = useTranslation();
 
-  const getImports = (code) => {
-    const importRegex =
-      /^(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|^(import\s+([a-zA-Z0-9_.]+))/gm;
-    const matches = code.match(importRegex);
-    const imports = matches
-      ? matches.map(
-          (match) =>
-            match
-              .split(/from|import/)
-              .filter(Boolean)
-              .map((s) => s.trim())[0],
-        )
-      : [];
-    if (code.includes(`# ${t("input.comment.py5")}`)) {
-      imports.push("py5");
-    }
-    return imports;
-  };
-
   useEffect(() => {
+    const getImports = (code) => {
+      const importRegex =
+        /^(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|^(import\s+([a-zA-Z0-9_.]+))/gm;
+      const matches = code.match(importRegex);
+      const imports = matches
+        ? matches.map(
+            (match) =>
+              match
+                .split(/from|import/)
+                .filter(Boolean)
+                .map((s) => s.trim())[0],
+          )
+        : [];
+      if (code.includes(`# ${t("input.comment.py5")}`)) {
+        imports.push("py5");
+      }
+      return imports;
+    };
+
     project.components.forEach((component) => {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
@@ -52,7 +52,7 @@ const PythonRunner = () => {
         }
       }
     });
-  }, [project, codeRunTriggered]);
+  }, [project, codeRunTriggered, t]);
   return (
     <>
       <PyodideRunner active={usePyodide} />
