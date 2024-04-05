@@ -122,7 +122,7 @@ const PyodideRunner = ({ active }) => {
     const { content, ctrlD } = await getInputContent(element);
 
     const encoder = new TextEncoder();
-    const bytes = encoder.encode(content + "\r\n");
+    const bytes = encoder.encode(content + "\n");
 
     const previousLength = stdinBuffer.current[0];
     stdinBuffer.current.set(bytes, previousLength);
