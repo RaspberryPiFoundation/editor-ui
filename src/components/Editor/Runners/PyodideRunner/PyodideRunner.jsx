@@ -49,21 +49,6 @@ const PyodideRunner = () => {
   const [visuals, setVisuals] = useState([]);
 
   useEffect(() => {
-    console.log("trying registering service worker");
-    if ("serviceWorker" in navigator) {
-      console.log("registering service worker");
-      navigator.serviceWorker
-        .register("/PyodideServiceWorker.js")
-        .then((registration) => {
-          if (!registration.active || !navigator.serviceWorker.controller) {
-            console.log("reloading");
-            window.location.reload();
-          }
-        });
-    }
-  }, []);
-
-  useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
       switch (data.method) {
         case "handleLoading":
