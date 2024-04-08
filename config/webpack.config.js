@@ -26,6 +26,7 @@ const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const SVGOConfig = require("./svgo.config.js");
+const WorkerPlugin = require("worker-plugin");
 
 const postcssNormalize = require("postcss-normalize");
 
@@ -566,6 +567,7 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      new WorkerPlugin(),
       // Copies the logo over to the output folder so that it can be referenced
       // in the Web App Manifest at public/manifest.json.
       new CopyPlugin({

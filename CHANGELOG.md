@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to use `page` query parameter in the embedded viewer when not a browser preview (#958)
 - ASSETS_URL env var to allow assets to be served from R2 bucket
 - `webpackDevServer` allowed headers for Astro Pi (#967)
+- Tests for the `PyodideWorker` (#981)
 
 ### Changed
 
