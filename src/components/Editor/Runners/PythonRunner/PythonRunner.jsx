@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import PyodideRunner from "./PyodideRunner/PyodideRunner";
+import PyodideRunner from "../PyodideRunner/PyodideRunner";
 import SkulptRunner from "./SkulptRunner/SkulptRunner";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,10 @@ const PythonRunner = () => {
   );
   const [usePyodide, setUsePyodide] = useState(false);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.log("usePyodide", usePyodide);
+  }, [usePyodide]);
 
   useEffect(() => {
     const getImports = (code) => {
