@@ -44,8 +44,16 @@ const showVisual = (visual, output) => {
             },
           },
         },
+        tooltip: {
+          ...visual.content.tooltip,
+          formatter:
+            visual.content.chart.type === "pie"
+              ? function () {
+                  return this.key + ": " + this.y;
+                }
+              : null,
+        },
       };
-
       Highcharts.chart(output.current, chartContent);
       break;
     case "turtle":

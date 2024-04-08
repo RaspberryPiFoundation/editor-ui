@@ -437,9 +437,7 @@ class _Pie extends Chart {
         }
       }
       chart.tooltip = {
-        formatter: function () {
-          return this.key + ": " + this.y;
-        },
+        //  A patch for the tooltip formatter function has been added in VisualOutputPane.jsx because functions cannot be passed through using postMessage.
       };
       chart.plotOptions = {
         pie: {

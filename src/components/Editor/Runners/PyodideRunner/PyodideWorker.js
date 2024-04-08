@@ -51,12 +51,12 @@ const runPython = async (python) => {
   stopped = false;
   await pyodide.runPythonAsync(`
   old_input = input
-  
+
   def patched_input(prompt=False):
       if (prompt):
           print(prompt)
       return old_input()
-  
+
   __builtins__.input = patched_input
   `);
 
@@ -178,8 +178,9 @@ const vendoredPackages = {
   pygal: {
     before: () => {
       pyodide.registerJsModule("pygal", { ...pygal });
-      pygal.config.renderChart = (content) =>
+      pygal.config.renderChart = (content) => {
         postMessage({ method: "handleVisual", origin: "pygal", content });
+      };
     },
     after: () => {},
   },
