@@ -1,7 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import "../../../../assets/stylesheets/PythonRunner.scss";
+import "../../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -9,16 +9,16 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
-} from "../../../../redux/EditorSlice";
+} from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
-import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../utils/apiCallHandler";
+import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
+import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
+import { createError } from "../../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
-import OutputViewToggle from "../PythonRunner/OutputViewToggle";
-import { SettingsContext } from "../../../../utils/settings";
-import RunnerControls from "../../../RunButton/RunnerControls";
+import OutputViewToggle from "../OutputViewToggle";
+import { SettingsContext } from "../../../../../utils/settings";
+import RunnerControls from "../../../../RunButton/RunnerControls";
 import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = ({ active }) => {

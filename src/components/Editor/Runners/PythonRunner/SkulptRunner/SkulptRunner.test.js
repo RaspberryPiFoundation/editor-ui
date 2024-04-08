@@ -8,10 +8,10 @@ import {
   codeRunHandled,
   setError,
   triggerDraw,
-} from "../../../../redux/EditorSlice";
-import { SettingsContext } from "../../../../utils/settings";
+} from "../../../../../redux/EditorSlice";
+import { SettingsContext } from "../../../../../utils/settings";
 import { matchMedia, setMedia } from "mock-match-media";
-import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
+import { MOBILE_BREAKPOINT } from "../../../../../utils/mediaQueryBreakpoints";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
