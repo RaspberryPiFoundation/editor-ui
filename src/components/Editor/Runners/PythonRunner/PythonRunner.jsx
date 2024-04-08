@@ -17,9 +17,14 @@ const PythonRunner = () => {
 
   useEffect(() => {
     const getImports = (code) => {
+      const codeWithoutMultilineStrings = code.replace(
+        /'''[\s\S]*?'''|"""[\s\S]*?"""/gm,
+        "",
+      );
       const importRegex =
-        /^(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|^(import\s+([a-zA-Z0-9_.]+))/gm;
-      const matches = code.match(importRegex);
+        /(?<=^\s*)(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|(?<=^\s*)(import\s+([a-zA-Z0-9_.]+))/gm;
+      const matches = codeWithoutMultilineStrings.match(importRegex);
+      console.log(matches);
       const imports = matches
         ? matches.map(
             (match) =>
@@ -30,7 +35,7 @@ const PythonRunner = () => {
           )
         : [];
       if (code.includes(`# ${t("input.comment.py5")}`)) {
-        imports.push("py5");
+        imports.push("py5_imported");
       }
       return imports;
     };
