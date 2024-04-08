@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
+import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {

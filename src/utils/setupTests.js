@@ -3,7 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
-import PyodideWorker from "../components/Editor/Runners/PyodideRunner/PyodideWorker.mock.js";
+import PyodideWorker from "../components/Editor/Runners/PythonRunner/PyodideRunner/PyodideWorker.mock.js";
 
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;

@@ -41,6 +41,7 @@ test("Renders with Pyodide runner initially", () => {
   expect(document.querySelector(".skulptrunner")).toHaveStyle("display: none");
 });
 
-// test("Pyodide is used when no Skulpt-only modules are imported", () => {
-//   renderRunnerWithCode("import math");
-// });
+test("Pyodide is used when no Skulpt-only modules are imported", () => {
+  renderRunnerWithCode("import math");
+  expect(document.querySelector(".pyodiderunner")).toHaveStyle("display: flex");
+});

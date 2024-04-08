@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import PyodideRunner from "../PyodideRunner/PyodideRunner";
+import PyodideRunner from "./PyodideRunner/PyodideRunner";
 import SkulptRunner from "./SkulptRunner/SkulptRunner";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";

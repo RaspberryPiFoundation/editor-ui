@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
-import { setError } from "../../../../redux/EditorSlice.js";
+import { setError } from "../../../../../redux/EditorSlice.js";
 
 jest.mock("fs");
 
