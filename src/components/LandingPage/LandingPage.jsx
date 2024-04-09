@@ -10,6 +10,8 @@ import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
 import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
+import TextImage from "../shared/TextImage/TextImage";
+import TextImageImage from "../../assets/start_icon_dark.svg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -99,6 +101,13 @@ const LandingPage = () => {
           <img src={isDarkMode ? startIconDark : startIconLight} alt={""} />
         </div>
       </div>
+      <TextImage
+        text="Poopayee aaaaaah butt pepete tank yuuu! Hana dul sae poulet tikka masala bee do bee do bee do jeje jiji pepete wiiiii po kass potatoooo. Jeje para tú para tú poopayee pepete.."
+        title="Banannnna!"
+        imageSrc={TextImageImage}
+        imageAlt="Image Alt Text"
+        imagePosition="left"
+      />
     </div>
   );
 };
