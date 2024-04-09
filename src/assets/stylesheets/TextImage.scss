@@ -5,11 +5,42 @@
 @use "./rpf_design_system/mixins" as *;
 
 .text-image-slice {
-  display: flex;
-  background-color: $rpf-white;
+    display: flex;
+    flex-direction: column;
+    padding: $space-1-5;
+    align-items: center;
+    gap: $space-1;
+    flex: 1 0 0;
+    align-self: stretch;
+    background-color: $rpf-white;
 
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
     gap: $space-4;
+    flex-direction: row;
   }
+}
+
+.text-image-slice__image {
+    aspect-ratio: 3/2;
+    display: flex;
+    background-color: green;
+    border-radius: 10px;
+
+    img {
+        aspect-ratio: 3/2;
+        display: block;
+        margin: auto;
+        max-inline-size: 301px;
+        inline-size: 100%;
+      }
+    
+      @media screen and (min-width: 768px) {
+        margin-inline-start: auto;
+    
+        img {
+          margin: unset;
+          inline-size: unset;
+        }
+      }
 }
