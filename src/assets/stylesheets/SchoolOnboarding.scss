@@ -65,15 +65,34 @@
 }
 
 .school-onboarding__modal--buttons {
-  display: flex;
+  // display: flex;
   flex-direction: column;
   gap: $space-1;
-  inline-size: fit-content;
-  align-items: stretch;
-
+  // // inline-size: fit-content;
+  // // align-items: stretch;
+  // // justify-content: center;
+  // align-items: center;
+  
+  display: flex;
+  /* Optional: Adjust alignment and spacing */
+  justify-content: center; /* or any other value */
+  align-items: center; 
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.school-onboarding__button {
+  flex: 1;
+  width: -webkit-fill-available;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    flex: inherit;
+    width: fit-content;
   }
 }
 
@@ -85,8 +104,8 @@
   margin-block-end:  $space-2;
 
   @media screen and (min-width: 768px) {
-    block-size: 267px;
-    inline-size: 552px;
+    min-block-size: 267px;
+    min-inline-size: 552px;
   }
 }
 
