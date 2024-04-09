@@ -12,12 +12,8 @@ const PythonRunner = () => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
-  const [usePyodide, setUsePyodide] = useState(false);
+  const [usePyodide, setUsePyodide] = useState(true);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    console.log("usePyodide", usePyodide);
-  }, [usePyodide]);
 
   useEffect(() => {
     const getImports = (code) => {
@@ -28,7 +24,6 @@ const PythonRunner = () => {
       const importRegex =
         /(?<=^\s*)(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|(?<=^\s*)(import\s+([a-zA-Z0-9_.]+))/gm;
       const matches = codeWithoutMultilineStrings.match(importRegex);
-      console.log(matches);
       const imports = matches
         ? matches.map(
             (match) =>

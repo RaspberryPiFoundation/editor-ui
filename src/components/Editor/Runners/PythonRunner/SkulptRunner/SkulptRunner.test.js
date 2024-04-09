@@ -130,7 +130,6 @@ describe("Testing stopping the code run with input", () => {
           ],
           image_list: [],
         },
-        codeRunTriggered: true,
         codeRunStopped: true,
       },
       auth: {
@@ -141,6 +140,7 @@ describe("Testing stopping the code run with input", () => {
     render(
       <Provider store={store}>
         <SkulptRunner active={true} />
+        <span id="input"></span>
       </Provider>,
     );
   });

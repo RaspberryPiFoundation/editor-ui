@@ -79,7 +79,7 @@ const SkulptRunner = ({ active }) => {
     queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled,
   );
 
-  const [showRunner, setShowRunner] = useState(true);
+  const [showRunner, setShowRunner] = useState(false);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");

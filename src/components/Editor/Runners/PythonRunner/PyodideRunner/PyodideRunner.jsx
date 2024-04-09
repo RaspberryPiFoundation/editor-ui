@@ -47,7 +47,7 @@ const PyodideRunner = ({ active }) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
-  const [showRunner, setShowRunner] = useState(false);
+  const [showRunner, setShowRunner] = useState(true);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
