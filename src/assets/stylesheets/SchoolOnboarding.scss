@@ -65,17 +65,10 @@
 }
 
 .school-onboarding__modal--buttons {
-  // display: flex;
   flex-direction: column;
   gap: $space-1;
-  // // inline-size: fit-content;
-  // // align-items: stretch;
-  // // justify-content: center;
-  // align-items: center;
-  
   display: flex;
-  /* Optional: Adjust alignment and spacing */
-  justify-content: center; /* or any other value */
+  justify-content: center;
   align-items: center; 
 
   @media screen and (min-width: 768px) {
@@ -107,12 +100,4 @@
     min-block-size: 267px;
     min-inline-size: 552px;
   }
-}
-
-/* Dark mode */
-
-.--light {
-}
-
-.--dark {   
 }

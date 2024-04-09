@@ -59,16 +59,13 @@ const AppRoutes = () => (
         path="embed/viewer/:identifier"
         element={suspense(<EmbeddedViewer />)}
       />
+      <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
     </Route>
 
     <Route
       path="/embedded/projects/:identifier"
       element={suspense(<ProjectComponentLoader embedded={true} />)}
     />
-
-    <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
-    {/* <Route path="/schools" element={suspense(<SchoolOnboarding />)} /> */}
-    {/* Redirects will be moved into a cloudflare worker. This is just interim */}
 
     {projectLinkRedirects.map((link) => {
       return <Route key={link} path={link} element={<ProjectsRedirect />} />;
