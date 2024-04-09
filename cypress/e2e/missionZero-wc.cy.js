@@ -100,7 +100,10 @@ it("resets criteria correctly", () => {
     );
   cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should("contain", '"readPressure":true');
-  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke("text", "");
+  cy.get("editor-wc")
+    .shadow()
+    .find("div[class=cm-content]")
+    .invoke("text", "from sense_hat import SenseHat");
   cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should(
     "contain",
@@ -167,7 +170,7 @@ it("picks up errors from the editor", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", "zkgjdlzjgl");
+    .invoke("text", "from sense_hat import SenseHat\nzkgjdlzjgl");
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"isErrorFree":false');
 });
@@ -178,7 +181,7 @@ it("does not return null duration if no change in focus", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.show_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("not.contain", '"duration":null');
@@ -190,7 +193,7 @@ it("does not return null duration if focus changed before code run", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.show_message("a")',
     );
   cy.window().blur();
   cy.window().focus();
@@ -204,7 +207,7 @@ it("returns duration of null if focus is lost", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.show_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.window().blur();
@@ -218,7 +221,7 @@ it("does not return duration of null if code rerun after focus lost", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.send_message("a")',
+      'from sense_hat import SenseHat\nsense = SenseHat()\nsense.show_message("a")',
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.window().blur();
