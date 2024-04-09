@@ -92,10 +92,10 @@ jobs:
         with:
           install: false
           start: yarn start
-          wait-on: "http://localhost:3010"
+          wait-on: "http://localhost:3012"
         env:
           REACT_APP_API_ENDPOINT: "https://staging-editor-api.raspberrypi.org"
-          PUBLIC_URL: "http://localhost:3010"
+          PUBLIC_URL: "http://localhost:3012"
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v3

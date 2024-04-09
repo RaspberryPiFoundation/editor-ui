@@ -1,4 +1,4 @@
-const baseUrl = "localhost:3000/en/projects/blank-python-starter";
+const baseUrl = "http://localhost:3012/en/projects/blank-python-starter";
 
 it("renders the web component", () => {
   cy.visit(baseUrl);
