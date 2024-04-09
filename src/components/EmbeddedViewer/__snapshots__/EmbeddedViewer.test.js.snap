@@ -13,7 +13,7 @@ exports[`Renders without crashing 1`] = `
       class="proj-runner-container"
     >
       <div
-        class="pythonrunner-container pyodiderunner"
+        class="pythonrunner-container pyodiderunner pyodiderunner--active"
         style="display: flex;"
       >
         <div
