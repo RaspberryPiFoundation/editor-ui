@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import LineIcon from "../../assets/icons/line.svg";
 
 const SchoolOnboarding = () => {
   const { t, i18n } = useTranslation();
@@ -19,6 +20,7 @@ const SchoolOnboarding = () => {
         <h2 className="school-onboarding__modal--title">
           {t("schoolOnboarding.title_1")}
         </h2>
+        <img src={LineIcon} alt="" />
         <h2 className="school-onboarding__modal--subtitle">
           {t("schoolOnboarding.title_2")}
         </h2>
