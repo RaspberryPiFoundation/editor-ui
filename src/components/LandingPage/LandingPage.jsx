@@ -10,7 +10,6 @@ import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
 import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
-import SchoolOnboarding from "../SchoolOnboarding/SchoolOnboarding";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -100,7 +99,6 @@ const LandingPage = () => {
           <img src={isDarkMode ? startIconDark : startIconLight} alt={""} />
         </div>
       </div>
-      <SchoolOnboarding />
     </div>
   );
 };
