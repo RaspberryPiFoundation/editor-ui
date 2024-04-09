@@ -1,4 +1,6 @@
 import React from "react";
+import classNames from "classnames";
+import "../../../assets/stylesheets/TextImage.scss";
 
 const TextImage = (props) => {
   const {
@@ -10,25 +12,27 @@ const TextImage = (props) => {
     imagePosition = "left",
   } = props;
 
+  const sliceClass = classNames("text-image-slice", className);
+
   return (
-    <div className={`text-image ${className}`}>
+    <div className={sliceClass}>
       {imagePosition === "left" && (
         <>
-          <div className="text">
+          <div className="text-image-slice__text">
             <h2>{title}</h2>
             <p>{text}</p>
           </div>
-          <div className="image">
+          <div className="text-image-slice__image image--left">
             <img src={imageSrc} alt={imageAlt} />
           </div>
         </>
       )}
       {imagePosition === "right" && (
         <>
-          <div className="image">
+          <div className="text-image-slice__image image--right">
             <img src={imageSrc} alt={imageAlt} />
           </div>
-          <div className="text">
+          <div className="text-image-slice__text">
             <h2>{title}</h2>
             <p>{text}</p>
           </div>
