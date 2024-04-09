@@ -95,6 +95,7 @@ jobs:
           wait-on: "http://localhost:3012"
         env:
           REACT_APP_API_ENDPOINT: "https://staging-editor-api.raspberrypi.org"
+          REACT_APP_EDITOR_WEB_COMPONENT_URL: "https://staging-editor-static.raspberrypi.org"
           PUBLIC_URL: "http://localhost:3012"
 
       - name: Archive cypress artifacts
