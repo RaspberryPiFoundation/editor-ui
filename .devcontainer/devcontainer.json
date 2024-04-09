@@ -67,11 +67,7 @@
         "codezombiech.gitignore"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh",
-        "jest.autoRun": {
-          "watch": false,
-          "onSave": "test-src-file"
-        }
+        "terminal.integrated.defaultProfile.linux": "zsh"
       }
     }
   },

@@ -12,6 +12,7 @@ const MobileProject = ({ identifier }) => {
         class="c-editor__wc"
         auth_key={authKey}
         data-editor-target="editor"
+        data-testid="editor-wc"
         identifier={identifier}
         with_projectbar="true"
         with_sidebar="true"

@@ -1613,7 +1613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.12.5, @babel/preset-react@npm:^7.16.0, @babel/preset-react@npm:^7.23.3":
+"@babel/preset-react@npm:^7.12.5, @babel/preset-react@npm:^7.16.0, @babel/preset-react@npm:^7.24.1":
   version: 7.24.1
   resolution: "@babel/preset-react@npm:7.24.1"
   dependencies:
@@ -2975,8 +2975,9 @@ __metadata:
   resolution: "@raspberrypifoundation/editor-ui@workspace:."
   dependencies:
     "@apollo/client": ^3.7.8
+    "@babel/plugin-syntax-jsx": ^7.24.1
     "@babel/preset-env": ^7.24.0
-    "@babel/preset-react": ^7.23.3
+    "@babel/preset-react": ^7.24.1
     "@craco/craco": ^6.4.0
     "@raspberrypifoundation/design-system-core": ^0.1.9
     "@raspberrypifoundation/design-system-react": ^0.1.5
