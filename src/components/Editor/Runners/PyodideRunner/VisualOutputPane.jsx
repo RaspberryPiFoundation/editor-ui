@@ -30,10 +30,23 @@ const showVisuals = (visuals, output) =>
 const showVisual = (visual, output) => {
   switch (visual.origin) {
     case "sense_hat":
-      output.current.innerText = JSON.stringify(visual.content);
+      output.current.textContent = JSON.stringify(visual.content);
       break;
     case "pygal":
-      Highcharts.chart(output.current, visual.content);
+      const chartContent = {
+        ...visual.content,
+        chart: {
+          ...visual.content.chart,
+          events: {
+            ...visual.content.chart.events,
+            load: function () {
+              this.renderTo.style.overflow = "visible";
+            },
+          },
+        },
+      };
+
+      Highcharts.chart(output.current, chartContent);
       break;
     case "turtle":
       output.current.innerHTML = elementFromProps(visual.content).outerHTML;

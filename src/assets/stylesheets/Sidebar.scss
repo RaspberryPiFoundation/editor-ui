@@ -156,7 +156,8 @@
   flex: 1;
   padding: $space-1 0;
   overflow-y: scroll;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  overflow: auto;
 }
 
 .sidebar__panel-footer {
