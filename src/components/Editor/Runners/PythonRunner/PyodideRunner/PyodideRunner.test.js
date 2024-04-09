@@ -25,7 +25,7 @@ const initialState = {
   auth: {},
 };
 
-describe("When first loaded", () => {
+describe("When active and first loaded", () => {
   beforeEach(() => {
     const store = mockStore(initialState);
     render(
@@ -37,6 +37,12 @@ describe("When first loaded", () => {
 
   test("it renders successfully", () => {
     expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  });
+
+  test("it has style display: flex", () => {
+    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
+      "display: flex",
+    );
   });
 });
 
@@ -300,5 +306,40 @@ describe("When the code run is interrupted", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setError("output.errors.interrupted")]),
     );
+  });
+});
+
+describe("When not active and first loaded", () => {
+  beforeEach(() => {
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it renders with display: none", () => {
+    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
+      "display: none",
+    );
+  });
+});
+
+describe("When not active and code run triggered", () => {
+  beforeEach(() => {
+    const store = mockStore({
+      ...initialState,
+      editor: { ...initialState.editor, codeRunTriggered: true },
+    });
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it does not send a message to the worker to run the python code", () => {
+    expect(postMessage).not.toHaveBeenCalled();
   });
 });

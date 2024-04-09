@@ -2,6 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import Sk from "skulpt";
 
 import SkulptRunner from "./SkulptRunner";
 import {
@@ -918,5 +919,114 @@ describe("When on mobile and not embedded", () => {
       screen.getByText("runButton.run").parentElement.parentElement;
     const runButtonContainer = runButton.parentElement.parentElement;
     expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+  });
+});
+
+describe("When active and first loaded", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello')",
+            },
+          ],
+          image_list: [],
+        },
+        isEmbedded: false,
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />,
+      </Provider>,
+    );
+  });
+
+  test("it renders successfully", () => {
+    expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  });
+
+  test("it has style display: flex", () => {
+    expect(document.querySelector(".skulptrunner")).toHaveStyle(
+      "display: flex",
+    );
+  });
+});
+
+describe("When not active", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello')",
+            },
+          ],
+          image_list: [],
+        },
+        isEmbedded: false,
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it has style display: none", () => {
+    expect(document.querySelector(".skulptrunner")).toHaveStyle(
+      "display: none",
+    );
+  });
+});
+
+describe("When not active and a code run has been triggered", () => {
+  beforeEach(() => {
+    Sk.misceval.asyncToPromise = jest.fn();
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "print('Hello')",
+            },
+          ],
+          image_list: [],
+        },
+        isEmbedded: false,
+        codeRunTriggered: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it does not run the code", () => {
+    expect(Sk.misceval.asyncToPromise).not.toHaveBeenCalled();
   });
 });
