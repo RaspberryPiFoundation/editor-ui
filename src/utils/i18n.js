@@ -196,6 +196,14 @@ i18n
             projectPython: "Python path",
             projectHtml: "Web path",
           },
+          schoolOnboarding: {
+            title_1: "Code Editor",
+            title_2: "For Education",
+            step: "Step title",
+            steps: "Step 1 of 5",
+            button_1: "Button text",
+            button_2: "Button text",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:

@@ -1,0 +1,103 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+
+.school-onboarding-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: $space-1-5;
+  align-items: center;
+  gap: $space-1;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  @media screen and (min-width: 768px) {
+    padding: $space-5 $space-7-5;
+    gap: $space-4;
+  }
+}
+
+
+/* Projects */
+
+.school-onboarding__modal {
+  background-color: $rpf-white;
+  border: 2px solid #D5D7DC;
+  border-radius: 8px;
+  max-inline-size: 600px;
+  text-align: start;
+  padding: $space-1-25;
+
+  @media screen and (min-width: 768px) {
+    min-inline-size: 600px;
+  }
+}
+
+.school-onboarding__modal--text {
+    display: flex;
+    flex-direction: row;
+}
+
+.school-onboarding__modal--title {
+  @include font-size-1-5(regular);
+  margin: $space-1;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
+  }
+}
+
+.school-onboarding__modal--subtitle {
+  @include font-size-1-5(regular);
+  font-weight: $font-weight-regular;
+  margin: $space-1;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
+  }
+}
+
+.school-onboarding__modal-step {
+  @include font-size-2(regular);
+  font-weight: $font-weight-bold;
+}
+
+.school-onboarding__modal--buttons {
+  flex-direction: column;
+  gap: $space-1;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.school-onboarding__button {
+  flex: 1;
+  width: -webkit-fill-available;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    flex: inherit;
+    width: fit-content;
+  }
+}
+
+/* To be replaced with code */
+.grey__section {
+  block-size: 256px;
+  inline-size: 267px;
+  background-color: #D9D9D9;
+  margin-block-end:  $space-2;
+
+  @media screen and (min-width: 768px) {
+    min-block-size: 267px;
+    min-inline-size: 552px;
+  }
+}
