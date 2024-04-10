@@ -15,7 +15,7 @@ const TextImage = (props) => {
   const sliceClass = classNames("text-image-slice", className);
 
   return (
-    <div className={sliceClass}>
+    <div className={sliceClass} data-testid="text-image-slice">
       {imagePosition === "left" && (
         <>
           <div className="text-image-slice__text">
