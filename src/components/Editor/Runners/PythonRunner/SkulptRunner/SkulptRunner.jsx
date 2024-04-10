@@ -297,7 +297,7 @@ const SkulptRunner = ({ active }) => {
 
       if (errorType === "ImportError") {
         const moduleName = errorDetails.replace(/No module named /, "");
-        explanation = `Either check your code for typos, or ${moduleName} may not be able to be used with p5, py5 or sense_hat.`;
+        explanation = `You should check your code for typos. If you are using p5, py5 or sense_hat, ${moduleName} might not work.`;
       }
 
       let userId;
