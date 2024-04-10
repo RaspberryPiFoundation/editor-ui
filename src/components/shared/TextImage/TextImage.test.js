@@ -7,7 +7,7 @@ import TextImage from "./TextImage";
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-test("Modal rendered when TextImageShowing is true", () => {
+test("presence of TextImageShowing", () => {
   const initialState = {};
   const store = mockStore(initialState);
 
