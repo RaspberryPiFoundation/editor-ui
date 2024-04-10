@@ -85,15 +85,71 @@ exports[`Renders without crashing 1`] = `
                 <span
                   class="react-tabs__tab-text"
                 >
+                  output.visualOutput
+                </span>
+              </li>
+              <li
+                aria-controls="react-tabs-5"
+                aria-disabled="false"
+                aria-selected="false"
+                class="react-tabs__tab"
+                data-rttab="true"
+                id="react-tabs-4"
+                role="tab"
+              >
+                <span
+                  class="react-tabs__tab-text"
+                >
                   output.textOutput
                 </span>
               </li>
             </ul>
+            <div
+              class="output-view-toggle"
+            >
+              <button
+                aria-label="outputViewToggle.buttonSplitLabel"
+                class="btn btn--tertiary output-view-toggle__button"
+                title="outputViewToggle.buttonSplitTitle"
+              >
+                <span>
+                  outputViewToggle.buttonSplitLabel
+                </span>
+                <svg
+                  data-file-name="SvgSplit_view"
+                />
+              </button>
+            </div>
           </div>
           <div
             aria-labelledby="react-tabs-2"
             class="react-tabs__tab-panel react-tabs__tab-panel--selected"
             id="react-tabs-3"
+            role="tabpanel"
+          >
+            <div
+              class="visual-output"
+            >
+              <div
+                id="p5Sketch"
+              />
+              <div
+                id="pygalOutput"
+              />
+              <div
+                class="pythonrunner-canvas-container"
+              >
+                <div
+                  class="pythonrunner-graphic"
+                  id="outputCanvas"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            aria-labelledby="react-tabs-4"
+            class="react-tabs__tab-panel"
+            id="react-tabs-5"
             role="tabpanel"
           >
             <pre
