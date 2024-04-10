@@ -41,7 +41,6 @@ const TextImage = (props) => {
       )}
     </div>
   );
-
 };
 
 TextImage.propTypes = {
