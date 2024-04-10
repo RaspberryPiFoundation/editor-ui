@@ -144,7 +144,9 @@ it("picks up calls to input()", () => {
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("editor-wc")
     .shadow()
-    .find("div[class='pythonrunner-container skulptrunner']")
+    .find(
+      "div[class='pythonrunner-container skulptrunner skulptrunner--active']",
+    )
     .contains("Text output")
     .click();
   cy.get("editor-wc")
