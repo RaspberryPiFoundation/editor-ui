@@ -163,50 +163,6 @@ describe("Testing stopping the code run with input", () => {
   });
 });
 
-describe("When in split view, no visual libraries used and code run", () => {
-  let store;
-  let queryByText;
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              content: "print('hello world')",
-            },
-          ],
-          image_list: [],
-        },
-        codeRunTriggered: true,
-        isSplitView: true,
-      },
-      auth: {
-        user,
-      },
-    };
-    store = mockStore(initialState);
-    ({ queryByText } = render(
-      <Provider store={store}>
-        <SkulptRunner active={true} />
-      </Provider>,
-    ));
-  });
-
-  test("Output view toggle not shown", () => {
-    expect(
-      screen.queryByText("outputViewToggle.buttonTabLabel"),
-    ).not.toBeInTheDocument();
-  });
-
-  test("Visual tab is not shown", () => {
-    const visualTab = queryByText("output.visualOutput");
-    expect(visualTab).not.toBeInTheDocument();
-  });
-});
-
 describe("When in split view, py5 imported and code run", () => {
   let store;
   let queryByText;
@@ -424,50 +380,6 @@ describe("When in split view, sense_hat imported and code run", () => {
   test("Visual tab is shown", async () => {
     const visualTab = queryByText("output.visualOutput");
     expect(visualTab).toBeInTheDocument();
-  });
-});
-
-describe("When in tabbed view, no visual libraries used and code run", () => {
-  let store;
-  let queryByText;
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              content: "print('hello world')",
-            },
-          ],
-          image_list: [],
-        },
-        codeRunTriggered: true,
-        isSplitView: false,
-      },
-      auth: {
-        user,
-      },
-    };
-    store = mockStore(initialState);
-    ({ queryByText } = render(
-      <Provider store={store}>
-        <SkulptRunner active={true} />
-      </Provider>,
-    ));
-  });
-
-  test("Output view toggle not shown", () => {
-    expect(
-      screen.queryByText("outputViewToggle.buttonSplitLabel"),
-    ).not.toBeInTheDocument();
-  });
-
-  test("Visual tab is not shown", () => {
-    const visualTab = queryByText("output.visualOutput");
-    expect(visualTab).not.toBeInTheDocument();
   });
 });
 

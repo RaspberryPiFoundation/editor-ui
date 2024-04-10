@@ -5,12 +5,21 @@ import SkulptRunner from "./SkulptRunner/SkulptRunner";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const SKULPT_ONLY_MODULES = ["p5", "py5", "py5_imported", "sense_hat"];
+const SKULPT_ONLY_MODULES = [
+  "p5",
+  "py5",
+  "py5_imported",
+  "sense_hat",
+  "turtle",
+];
 
 const PythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
+  );
+  const senseHatAlwaysEnabled = useSelector(
+    (state) => state.editor.senseHatAlwaysEnabled,
   );
   const [usePyodide, setUsePyodide] = useState(true);
   const { t } = useTranslation();
@@ -46,7 +55,7 @@ const PythonRunner = () => {
           const hasSkulptOnlyModules = imports.some((name) =>
             SKULPT_ONLY_MODULES.includes(name),
           );
-          if (hasSkulptOnlyModules) {
+          if (hasSkulptOnlyModules || senseHatAlwaysEnabled) {
             setUsePyodide(false);
           } else {
             setUsePyodide(true);
@@ -56,7 +65,7 @@ const PythonRunner = () => {
         }
       }
     });
-  }, [project, codeRunTriggered, t]);
+  }, [project, codeRunTriggered, senseHatAlwaysEnabled, t]);
   return (
     <>
       <PyodideRunner active={usePyodide} />

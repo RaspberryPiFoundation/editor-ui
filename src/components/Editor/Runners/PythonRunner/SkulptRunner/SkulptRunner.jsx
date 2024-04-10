@@ -65,19 +65,13 @@ const SkulptRunner = ({ active }) => {
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
-  const senseHatAlwaysEnabled = useSelector(
-    (state) => state.editor.senseHatAlwaysEnabled,
-  );
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const [hasVisualOutput, setHasVisualOutput] = useState(
-    queryParams.get("show_visual_tab") === "true" || senseHatAlwaysEnabled,
-  );
+  const [hasVisualOutput, setHasVisualOutput] = useState(true);
 
   const [showRunner, setShowRunner] = useState(active);
 

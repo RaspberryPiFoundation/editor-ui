@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:3011";
 
 beforeEach(() => {
   cy.visit(`${baseUrl}?sense_hat_always_enabled=true`);
@@ -34,10 +34,7 @@ it("loads the sense hat library", () => {
 });
 
 it("sets initial criteria correctly", () => {
-  cy.get("editor-wc")
-    .shadow()
-    .find("div[class=cm-content]")
-    .invoke("text", "from sense_hat import SenseHat");
+  cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke("text", "");
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should(
     "contain",
@@ -140,7 +137,7 @@ it("picks up calls to input()", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", "from sense_hat import SenseHat\ninput()");
+    .invoke("text", "input()");
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("editor-wc")
     .shadow()
@@ -172,7 +169,7 @@ it("picks up errors from the editor", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", "from sense_hat import SenseHat\nzkgjdlzjgl");
+    .invoke("text", "zkgjdlzjgl");
   cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"isErrorFree":false');
 });

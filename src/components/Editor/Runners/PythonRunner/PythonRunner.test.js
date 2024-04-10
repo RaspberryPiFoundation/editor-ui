@@ -21,10 +21,15 @@ const initialState = {
   auth: {},
 };
 
-const renderRunnerWithCode = ({ code = "", codeRunTriggered = false }) => {
+const renderRunnerWithCode = ({
+  code = "",
+  codeRunTriggered = false,
+  senseHatAlwaysEnabled = false,
+}) => {
   let state = initialState;
   state.editor.project.components[0].content = code;
   state.editor.codeRunTriggered = codeRunTriggered;
+  state.editor.senseHatAlwaysEnabled = senseHatAlwaysEnabled;
   const store = mockStore(state);
   render(
     <Provider store={store}>
@@ -51,6 +56,14 @@ test("Uses pyodide when no skulpt-only modules are imported", () => {
 
 test("Uses skulpt when skulpt-only modules are imported", () => {
   renderRunnerWithCode({ code: "import p5" });
+  expect(
+    document.querySelector(".pyodiderunner--active"),
+  ).not.toBeInTheDocument();
+  expect(document.querySelector(".skulptrunner--active")).toBeInTheDocument();
+});
+
+test("Uses skulpt when senseHatAlwaysEnabled is true", () => {
+  renderRunnerWithCode({ code: "import math", senseHatAlwaysEnabled: true });
   expect(
     document.querySelector(".pyodiderunner--active"),
   ).not.toBeInTheDocument();
