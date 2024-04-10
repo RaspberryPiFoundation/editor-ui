@@ -7,31 +7,33 @@
 .text-image-slice {
     display: flex;
     flex-direction: column;
-    padding: $space-1-5;
+    padding: $space-1-5 $space-2;
     align-items: center;
     gap: $space-1;
     flex: 1 0 0;
-    align-self: stretch;
     background-color: $rpf-white;
+    margin: 0 $space-1-5;
+    inline-size: 100%;
+    max-inline-size: 368px;
 
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
     gap: $space-4;
     flex-direction: row;
+    max-inline-size: 1200px;
   }
+
 }
 
 .text-image-slice__image {
-    aspect-ratio: 3/2;
     display: flex;
     background-color: green;
-    border-radius: 10px;
+    border-radius: $space-1-5;
 
     img {
         aspect-ratio: 3/2;
         display: block;
         margin: auto;
-        max-inline-size: 301px;
         inline-size: 100%;
       }
     
