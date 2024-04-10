@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3011";
+const baseUrl = "http://localhost:3001";
 
 beforeEach(() => {
   cy.visit(`${baseUrl}?sense_hat_always_enabled=true`);
