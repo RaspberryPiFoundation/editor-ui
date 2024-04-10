@@ -19,15 +19,17 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
-import PyodideWorker from "worker-loader!./PyodideWorker.js";
-// import serviceWorker from "worker-loader!../../../../utils/PyodideServiceWorker.js";
-import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
+
+const getWorkerURL = (url) => {
+  const content = `importScripts("${url}");`;
+  const blob = new Blob([content], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+};
+
+const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
 
 const PyodideRunner = () => {
-  const pyodideWorker = useMemo(
-    () => new Worker("./PyodideWorker.js", { type: "module" }),
-    [],
-  );
+  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -63,6 +65,7 @@ const PyodideRunner = () => {
       navigator.serviceWorker
         .register("/PyodideServiceWorker.js")
         // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
+        // .register(`${window.location.origin}/PyodideServiceWorker.js`)
         // .register(serviceWorker)
         // .register(getBlobURL(serviceWorker, "application/javascript"))
         .then((registration) => {
