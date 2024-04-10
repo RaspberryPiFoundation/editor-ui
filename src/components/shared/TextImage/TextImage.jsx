@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 import "../../../assets/stylesheets/TextImage.scss";
 
 const TextImage = (props) => {
@@ -40,6 +41,15 @@ const TextImage = (props) => {
       )}
     </div>
   );
+
+};
+
+TextImage.propTypes = {
+  text: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  imageSrc: PropTypes.string.isRequired,
+  imageAlt: PropTypes.string.isRequired,
+  imagePosition: PropTypes.oneOf(["left", "right"]),
 };
 
 export default TextImage;
