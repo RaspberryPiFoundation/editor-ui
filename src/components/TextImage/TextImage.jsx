@@ -12,7 +12,7 @@ const TextImage = (props) => {
     imageAlt,
     imagePosition = "left",
     urlText,
-    urlSrc,
+    urlHref,
   } = props;
 
   const sliceClass = classNames("text-image-slice", className);
@@ -26,7 +26,7 @@ const TextImage = (props) => {
             <p>{text}</p>
             {urlText && (
               <span className="text-image-slice__text--link">
-                <a src={urlSrc}>{urlText}</a>
+                <a href={urlHref}>{urlText}</a>
               </span>
             )}
           </div>
@@ -46,7 +46,7 @@ const TextImage = (props) => {
           </div>
           {urlText && (
             <span className="text-image-slice__text--link">
-              <a src={urlSrc}>{urlText}</a>
+              <a src={urlHref}>{urlText}</a>
             </span>
           )}
         </>
@@ -62,7 +62,7 @@ TextImage.propTypes = {
   imageAlt: PropTypes.string.isRequired,
   imagePosition: PropTypes.oneOf(["left", "right"]),
   urlText: PropTypes.string,
-  urlSrc: PropTypes.string,
+  urlHref: PropTypes.string,
 };
 
 export default TextImage;
