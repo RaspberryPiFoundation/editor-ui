@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import "../../../assets/stylesheets/TextImage.scss";
+import "../../assets/stylesheets/TextImage.scss";
 
 const TextImage = (props) => {
   const {
