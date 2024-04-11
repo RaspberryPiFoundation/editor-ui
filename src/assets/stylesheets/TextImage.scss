@@ -11,10 +11,14 @@
     align-items: center;
     gap: $space-1;
     flex: 1 0 0;
-    background-color: $rpf-white;
     margin: 0 $space-1-5;
     inline-size: 100%;
     max-inline-size: 368px;
+
+    h2 {
+      @include font-size-1(regular);
+      font-weight: $font-weight-bold;
+    }
 
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
@@ -27,7 +31,7 @@
 
 .text-image-slice__image {
     display: flex;
-    background-color: green;
+    background-color: $rpf-grey-300;
     border-radius: $space-1-5;
 
     img {
@@ -45,4 +49,19 @@
           inline-size: unset;
         }
       }
+}
+
+/* Dark mode */
+
+.--light {
+  .text-image-slice {
+    background-color: $rpf-white;
+  }
+
+}
+
+.--dark {
+  .text-image-slice {
+    background-color: $rpf-grey-800;
+  }
 }
