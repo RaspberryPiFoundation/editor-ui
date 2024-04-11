@@ -5,20 +5,24 @@
 @use "./rpf_design_system/mixins" as *;
 
 .text-image-slice {
-    display: flex;
-    flex-direction: column;
-    padding: $space-1-5 $space-2;
-    align-items: center;
-    gap: $space-1;
-    flex: 1 0 0;
-    margin: 0 $space-1-5;
-    inline-size: 100%;
-    max-inline-size: 368px;
+  display: flex;
+  flex-direction: column;
+  padding: $space-1-5 $space-2;
+  align-items: center;
+  gap: $space-1;
+  flex: 1 0 0;
+  margin: 0 $space-1-5;
+  inline-size: 100%;
+  max-inline-size: 368px;
 
-    h2 {
-      @include font-size-1(regular);
-      font-weight: $font-weight-bold;
+  h2 {
+    @include font-size-1-5(regular);
+    font-weight: $font-weight-bold;
+
+    @media screen and (min-width: 768px) {
+      @include font-size-2(regular);
     }
+  }
 
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
@@ -30,25 +34,31 @@
 }
 
 .text-image-slice__image {
-    display: flex;
-    background-color: $rpf-grey-300;
-    border-radius: $space-1-5;
+  display: flex;
+  background-color: $rpf-grey-300;
+  border-radius: $space-1-5;
+
+  img {
+    aspect-ratio: 3/2;
+    display: block;
+    margin: auto;
+    inline-size: 100%;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-inline-start: auto;
 
     img {
-        aspect-ratio: 3/2;
-        display: block;
-        margin: auto;
-        inline-size: 100%;
-      }
-    
-      @media screen and (min-width: 768px) {
-        margin-inline-start: auto;
-    
-        img {
-          margin: unset;
-          inline-size: unset;
-        }
-      }
+      margin: unset;
+      inline-size: unset;
+    }
+  }
+}
+
+.text-image-slice__text--link {
+  @include font-size-1-5(regular);
+  font-weight: $font-weight-bold;
+  text-decoration: underline;
 }
 
 /* Dark mode */
@@ -62,6 +72,6 @@
 
 .--dark {
   .text-image-slice {
-    background-color: $rpf-grey-800;
+    background-color: $rpf-grey-900;
   }
 }
