@@ -202,9 +202,9 @@ i18n
             step: "Step title",
             steps: "Step 1 of 5",
             steps: {
-              step_1: {
+              step1: {
                 title: "Before you start creating your school account",
-                things_to_know:
+                thingsToKnow:
                   "There are a few things you need to know before you set up an account for your school:",
                 employee:
                   "You need to be an employee of the school, however you do not need to be a teacher.",
@@ -214,33 +214,55 @@ i18n
                   "Your school will need to be verified by our team. This may take up to 5 working days.",
                 email:
                   "You will not be able to change your email address or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
-                not_school_question:
+                notSchoolQuestion:
                   "Can I use this if I am not part of a school?",
-                not_school_answer:
+                notSchoolAnswer:
                   "No, Code Editor for Education is only available to schools at this time.",
               },
-              step_2: {
+              step2: {
                 title: "Do you agree to be responsible for the school account?",
                 owner: "Creating the school account will make you the owner.",
                 responsibilities:
                   "As an account owner you must agree to be responsible for:",
-                responsibility_1: "This is a responsibility.",
-                responsibility_2: "This is a responsibility.",
-                responsibility_3: "This is a responsibility.",
-                responsibility_4: "This is a responsibility.",
-                responsibility_5: "This is a responsibility.",
-                terms_and_conditions:
+                responsibility1: "This is a responsibility.",
+                responsibility2: "This is a responsibility.",
+                responsibility3: "This is a responsibility.",
+                responsibility4: "This is a responsibility.",
+                responsibility5: "This is a responsibility.",
+                termsAndConditions:
                   "Full responsibilities are outlined in the school account Terms and conditions, so please ensure you read these.",
-                agree_authority:
+                agreeAuthority:
                   "I have the authority to create this account on behalf of my school.",
-                agree_responsibility:
+                agreeResponsibility:
                   "I agree to be responsible for this school account and I accept the Terms and conditions.",
               },
-              step_3: {
+              step3: {
                 title: "What is your role at the School?",
+                optionalInfo: "Providing this information in optional, however it helps to us to understand our users, how the platform is used, and how we can improve it.",
+                role: "What is your role at the School? (Optional)",
+                select: "Please select",
+                teacher: "Teacher",
+                headOfDepartment: "Head of Department",
+                admin: "Administrative staff",
+                other: "Other",
+                department: "What department are you part of? (Optional)",
+                departmentHint: "For example, Computing, IT, Science, English, Art, etc.",
               },
-              step_4: {
+              step4: {
                 title: "Tell us about your school",
+                schoolDetails: "In order to set up your school in the Editor, we require some details about your school so we can verify it.",
+                schoolName: "School name",
+                schoolWebsite: "School website",
+                schoolAddress: "School address",
+                schoolAddress1: "Address line 1",
+                schoolAddress2: "Address line 2 (Optional)",
+                schoolCity: "Village/Town/City",
+                schoolState: "State/County/Province",
+                schoolPostcode: "Postal code/Zip code",
+                schoolCountry: "Country",
+                select: "Please select",
+                schoolUrn: "School URN (Optional)",
+                schoolUrnHint: "This can be found on the UK Government website here. Although this is not required it will help us to verify your school account.",
               },
             },
             cancel: "Cancel",
