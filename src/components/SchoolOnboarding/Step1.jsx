@@ -16,11 +16,13 @@ const Step1 = () => {
           <li>{t("schoolOnboarding.steps.step_1.email")}</li>
         </ul>
         {/* TODO: Add accordion here once it has been created */}
-        <strong>{t("schoolOnboarding.steps.step_1.not_school_question")}</strong>
+        <strong>
+          {t("schoolOnboarding.steps.step_1.not_school_question")}
+        </strong>
         <p>{t("schoolOnboarding.steps.step_1.not_school_answer")}</p>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Step1;

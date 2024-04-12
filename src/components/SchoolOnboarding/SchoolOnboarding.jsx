@@ -18,7 +18,7 @@ const SchoolOnboarding = () => {
           {t("schoolOnboarding.title_2")}
         </h2>
       </div>
-      <MultiStepForm/>
+      <MultiStepForm />
     </div>
   );
 };

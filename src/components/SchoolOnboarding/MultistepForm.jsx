@@ -9,9 +9,13 @@ import Step4 from "./Step4";
 const MultiStepForm = () => {
   const { t } = useTranslation();
 
-  const steps = [<Step1/>, <Step2/>, <Step3/>, <Step4/>]
-  const schoolOnboardingData = JSON.parse(localStorage.getItem("schoolOnboarding"));
-  const [currentStep, setCurrentStep] = useState(schoolOnboardingData ? schoolOnboardingData["currentStep"] : 0);
+  const steps = [<Step1 />, <Step2 />, <Step3 />, <Step4 />];
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
+  const [currentStep, setCurrentStep] = useState(
+    schoolOnboardingData ? schoolOnboardingData["currentStep"] : 0,
+  );
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -27,7 +31,10 @@ const MultiStepForm = () => {
 
   useEffect(() => {
     console.log("Current step: ", currentStep);
-    localStorage.setItem("schoolOnboarding", JSON.stringify({...schoolOnboardingData, currentStep: currentStep}));
+    localStorage.setItem(
+      "schoolOnboarding",
+      JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
+    );
   }, [currentStep]);
 
   return (
@@ -44,7 +51,7 @@ const MultiStepForm = () => {
       </div> */}
       {steps[currentStep]}
       <div className="school-onboarding__modal--buttons">
-        {currentStep > 0 ?
+        {currentStep > 0 ? (
           <DesignSystemButton
             className="school-onboarding__button"
             text={t("schoolOnboarding.back")}
@@ -52,7 +59,7 @@ const MultiStepForm = () => {
             onClick={previousStep}
             type={"secondary"}
           />
-          :
+        ) : (
           <DesignSystemButton
             className="school-onboarding__button"
             text={t("schoolOnboarding.cancel")}
@@ -60,23 +67,22 @@ const MultiStepForm = () => {
             href={"/"}
             type={"secondary"}
           />
-        }
-        {currentStep < steps.length - 1 ?
+        )}
+        {currentStep < steps.length - 1 ? (
           <DesignSystemButton
             className="school-onboarding__button"
             text={t("schoolOnboarding.continue")}
             textAlways
             onClick={nextStep}
           />
-          :
+        ) : (
           <DesignSystemButton
-          className="school-onboarding__button"
-          text={t("schoolOnboarding.submit")}
-          textAlways
-          onClick={() => {}}
-        />
-        }
-
+            className="school-onboarding__button"
+            text={t("schoolOnboarding.submit")}
+            textAlways
+            onClick={() => {}}
+          />
+        )}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ const Step3 = () => {
         <p>Step 3</p>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Step3;

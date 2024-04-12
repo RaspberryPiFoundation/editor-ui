@@ -204,26 +204,37 @@ i18n
             steps: {
               step_1: {
                 title: "Before you start creating your school account",
-                things_to_know: "There are a few things you need to know before you set up an account for your school:",
-                employee: "You need to be an employee of the school, however you do not need to be a teacher.",
-                owner: "You will become the owner of the school account. This comes with responsibilities you will need to agree to.",
-                verification: "Your school will need to be verified by our team. This may take up to 5 working days.",
-                email: "You will not be able to change your email address or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
-                not_school_question: "Can I use this if I am not part of a school?",
-                not_school_answer: "No, Code Editor for Education is only available to schools at this time.",
+                things_to_know:
+                  "There are a few things you need to know before you set up an account for your school:",
+                employee:
+                  "You need to be an employee of the school, however you do not need to be a teacher.",
+                owner:
+                  "You will become the owner of the school account. This comes with responsibilities you will need to agree to.",
+                verification:
+                  "Your school will need to be verified by our team. This may take up to 5 working days.",
+                email:
+                  "You will not be able to change your email address or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
+                not_school_question:
+                  "Can I use this if I am not part of a school?",
+                not_school_answer:
+                  "No, Code Editor for Education is only available to schools at this time.",
               },
               step_2: {
                 title: "Do you agree to be responsible for the school account?",
                 owner: "Creating the school account will make you the owner.",
-                responsibilities: "As an account owner you must agree to be responsible for:",
+                responsibilities:
+                  "As an account owner you must agree to be responsible for:",
                 responsibility_1: "This is a responsibility.",
                 responsibility_2: "This is a responsibility.",
                 responsibility_3: "This is a responsibility.",
                 responsibility_4: "This is a responsibility.",
                 responsibility_5: "This is a responsibility.",
-                terms_and_conditions: "Full responsibilities are outlined in the school account Terms and conditions, so please ensure you read these.",
-                agree_authority: "I have the authority to create this account on behalf of my school.",
-                agree_responsibility: "I agree to be responsible for this school account and I accept the Terms and conditions.",
+                terms_and_conditions:
+                  "Full responsibilities are outlined in the school account Terms and conditions, so please ensure you read these.",
+                agree_authority:
+                  "I have the authority to create this account on behalf of my school.",
+                agree_responsibility:
+                  "I agree to be responsible for this school account and I accept the Terms and conditions.",
               },
               step_3: {
                 title: "What is your role at the School?",

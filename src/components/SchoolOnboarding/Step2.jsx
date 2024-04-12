@@ -2,12 +2,20 @@ import { useTranslation } from "react-i18next";
 
 const Step2 = () => {
   const { t } = useTranslation();
-  const schoolOnboardingData = JSON.parse(localStorage.getItem("schoolOnboarding"));
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
 
   const onChange = (e) => {
     const { name, checked } = e.target;
-    localStorage.setItem("schoolOnboarding", JSON.stringify({...schoolOnboardingData, step_2: { ...schoolOnboardingData["step_2"], [name]: checked}}));
-  }
+    localStorage.setItem(
+      "schoolOnboarding",
+      JSON.stringify({
+        ...schoolOnboardingData,
+        step_2: { ...schoolOnboardingData["step_2"], [name]: checked },
+      }),
+    );
+  };
 
   return (
     <>
@@ -27,20 +35,32 @@ const Step2 = () => {
         <form>
           <div>
             <label>
-              <input type="checkbox" id="authority" name="authority" value="authority" onChange={onChange} />
+              <input
+                type="checkbox"
+                id="authority"
+                name="authority"
+                value="authority"
+                onChange={onChange}
+              />
               {t("schoolOnboarding.steps.step_2.agree_authority")}
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" id="responsibility" name="responsibility" value="responsibility" onChange={onChange} />
+              <input
+                type="checkbox"
+                id="responsibility"
+                name="responsibility"
+                value="responsibility"
+                onChange={onChange}
+              />
               {t("schoolOnboarding.steps.step_2.agree_responsibility")}
             </label>
           </div>
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Step2;
