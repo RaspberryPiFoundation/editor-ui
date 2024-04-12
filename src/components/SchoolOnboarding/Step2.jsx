@@ -1,37 +1,47 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const Step2 = () => {
   const { t } = useTranslation();
-  const schoolOnboardingData = JSON.parse(
-    localStorage.getItem("schoolOnboarding"),
+  const [stepData, setStepData] = useState(
+    JSON.parse(
+      localStorage.getItem("schoolOnboarding"),
+    )["step_2"] || {}
   );
 
   const onChange = (e) => {
     const { name, checked } = e.target;
+    setStepData((data) => ({ ...data, [name]: checked }));
+  };
+
+  useEffect(() => {
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({
-        ...schoolOnboardingData,
-        step_2: { ...schoolOnboardingData["step_2"], [name]: checked },
+        ...JSON.parse(
+          localStorage.getItem("schoolOnboarding"),
+        ),
+        step_2: stepData,
       }),
     );
-  };
+  }, [stepData]);
 
   return (
     <>
       <h3 className="school-onboarding__modal-step">
-        {t("schoolOnboarding.steps.step_2.title")}
+        {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding__modal--content">
-        <p>{t("schoolOnboarding.steps.step_2.owner")}</p>
-        <p>{t("schoolOnboarding.steps.step_2.responsibilities")}</p>
+        <p>{t("schoolOnboarding.steps.step2.owner")}</p>
+        <p>{t("schoolOnboarding.steps.step2.responsibilities")}</p>
         <ul>
-          <li>{t("schoolOnboarding.steps.step_2.responsibility_1")}</li>
-          <li>{t("schoolOnboarding.steps.step_2.responsibility_2")}</li>
-          <li>{t("schoolOnboarding.steps.step_2.responsibility_3")}</li>
-          <li>{t("schoolOnboarding.steps.step_2.responsibility_4")}</li>
+          <li>{t("schoolOnboarding.steps.step2.responsibility1")}</li>
+          <li>{t("schoolOnboarding.steps.step2.responsibility2")}</li>
+          <li>{t("schoolOnboarding.steps.step2.responsibility3")}</li>
+          <li>{t("schoolOnboarding.steps.step2.responsibility4")}</li>
+          <li>{t("schoolOnboarding.steps.step2.responsibility5")}</li>
         </ul>
-        <p>{t("schoolOnboarding.steps.step_2.terms_and_conditions")}</p>
+        <p>{t("schoolOnboarding.steps.step2.termsAndConditions")}</p>
         <form>
           <div>
             <label>
@@ -41,8 +51,9 @@ const Step2 = () => {
                 name="authority"
                 value="authority"
                 onChange={onChange}
+                checked={!!stepData["authority"]}
               />
-              {t("schoolOnboarding.steps.step_2.agree_authority")}
+              {t("schoolOnboarding.steps.step2.agreeAuthority")}
             </label>
           </div>
           <div>
@@ -53,8 +64,9 @@ const Step2 = () => {
                 name="responsibility"
                 value="responsibility"
                 onChange={onChange}
+                checked={!!stepData["responsibility"]}
               />
-              {t("schoolOnboarding.steps.step_2.agree_responsibility")}
+              {t("schoolOnboarding.steps.step2.agreeResponsibility")}
             </label>
           </div>
         </form>
