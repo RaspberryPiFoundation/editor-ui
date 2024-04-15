@@ -16,9 +16,7 @@ const Step1 = () => {
           <li>{t("schoolOnboarding.steps.step1.email")}</li>
         </ul>
         {/* TODO: Add accordion here once it has been created */}
-        <strong>
-          {t("schoolOnboarding.steps.step1.notSchoolQuestion")}
-        </strong>
+        <strong>{t("schoolOnboarding.steps.step1.notSchoolQuestion")}</strong>
         <p>{t("schoolOnboarding.steps.step1.notSchoolAnswer")}</p>
       </div>
     </>
