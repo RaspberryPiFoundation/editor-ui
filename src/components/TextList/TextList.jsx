@@ -15,8 +15,8 @@ const TextList = (props) => {
     imageAlt,
     listItems = {},
     contact,
-    button1 = {},
-    button2 = {},
+    exploreProjects = {},
+    editorHome = {},
   } = props;
 
   const sliceClass = classNames("text-image-slice", className);
@@ -47,17 +47,17 @@ const TextList = (props) => {
       <p>{contact}</p>
       <DesignSystemButton
         className="text-list__button"
-        href={button1.url}
-        text={button1.text}
+        href={exploreProjects.url}
+        text={exploreProjects.text}
         textAlways
-        onClick={onClickPlausible(button1.plausible)}
+        onClick={onClickPlausible(exploreProjects.plausible)}
       />
       <DesignSystemButton
         className="text-list__button"
-        href={button2.url}
-        text={button2.text}
+        href={editorHome.url}
+        text={editorHome.text}
         textAlways
-        onClick={onClickPlausible(button2.plausible)}
+        onClick={onClickPlausible(editorHome.plausible)}
         type="secondary"
       />
     </div>
@@ -73,12 +73,12 @@ TextList.propTypes = {
   imageAlt: PropTypes.string,
   urlText: PropTypes.string,
   urlHref: PropTypes.string,
-  button1: PropTypes.shape({
+  exploreProjects: PropTypes.shape({
     text: PropTypes.string,
     url: PropTypes.string,
     plausible: PropTypes.string,
   }),
-  button2: PropTypes.shape({
+  editorHome: PropTypes.shape({
     text: PropTypes.string,
     plausible: PropTypes.string,
   }),

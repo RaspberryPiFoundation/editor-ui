@@ -71,14 +71,14 @@ const SchoolOnboarding = () => {
           item3:
             "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
         }}
-        button1={{
+        exploreProjects={{
           text: "Explore our projects",
           url: "https://example.com/button1",
           plausible: "Explore our projects",
         }}
-        button2={{
+        editorHome={{
           text: "Code Editor home",
-          url: "https://example.com/button2",
+          url: "/",
           plausible: "Code Editor home",
         }}
       />
