@@ -17,14 +17,22 @@
     padding: $space-5 $space-7-5;
     gap: $space-4;
   }
+
+  a {
+    border: none;
+    font-weight: $font-weight-bold;
+  }
 }
 
+.school-onboarding__text--bold {
+  font-weight: $font-weight-bold;
+}
 
 /* Projects */
 
 .school-onboarding__modal {
   background-color: $rpf-white;
-  border: 2px solid #D5D7DC;
+  border: 2px solid #d5d7dc;
   border-radius: 8px;
   max-inline-size: 600px;
   text-align: start;
@@ -36,8 +44,8 @@
 }
 
 .school-onboarding__modal--text {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .school-onboarding__modal--title {
@@ -69,7 +77,7 @@
   gap: $space-1;
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -93,8 +101,8 @@
 .grey__section {
   block-size: 256px;
   inline-size: 267px;
-  background-color: #D9D9D9;
-  margin-block-end:  $space-2;
+  background-color: #d9d9d9;
+  margin-block-end: $space-2;
 
   @media screen and (min-width: 768px) {
     min-block-size: 267px;

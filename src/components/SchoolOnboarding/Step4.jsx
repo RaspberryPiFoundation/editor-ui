@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import TextWithLink from "./TextWithLink";
 
 const Step4 = () => {
   const { t } = useTranslation();
@@ -127,7 +128,12 @@ const Step4 = () => {
           <div>
             <label>
               {t("schoolOnboarding.steps.step4.schoolUrn")}
-              <p>{t("schoolOnboarding.steps.step4.schoolUrnHint")}</p>
+              <p>
+                <TextWithLink
+                  i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
+                  to="https://www.get-information-schools.service.gov.uk/Search"
+                />
+              </p>
               <input
                 type="text"
                 name="urn"

@@ -200,20 +200,19 @@ i18n
             title_1: "Code Editor",
             title_2: "For Education",
             step: "Step title",
-            steps: "Step 1 of 5",
             steps: {
               step1: {
                 title: "Before you start creating your school account",
                 thingsToKnow:
                   "There are a few things you need to know before you set up an account for your school:",
                 employee:
-                  "You need to be an employee of the school, however you do not need to be a teacher.",
+                  "You need to be an <0>employee of the school</0>, however you do not need to be a teacher.",
                 owner:
-                  "You will become the owner of the school account. This comes with responsibilities you will need to agree to.",
+                  "You will become the <0>owner of the school account</0>. This comes with responsibilities you will need to agree to.",
                 verification:
-                  "Your school will need to be verified by our team. This may take up to 5 working days.",
+                  "Your school will need to be <0>verified by our team</0>. This may take up to 5 working days.",
                 email:
-                  "You will not be able to change your email address or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
+                  "You will <0>not be able to change your email address</0> or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
                 notSchoolQuestion:
                   "Can I use this if I am not part of a school?",
                 notSchoolAnswer:
@@ -221,21 +220,21 @@ i18n
               },
               step2: {
                 title: "Do you agree to be responsible for the school account?",
-                owner: "Creating the school account will make you the owner.",
+                owner:
+                  "Creating the school account will make you the <0>owner</0>.",
                 responsibilities:
-                  "As an account owner you must agree to be responsible for:",
+                  "As an account <0>owner</0> you must agree to be responsible for:",
                 responsibility1: "This is a responsibility.",
                 responsibility2: "This is a responsibility.",
                 responsibility3: "This is a responsibility.",
                 responsibility4: "This is a responsibility.",
                 responsibility5: "This is a responsibility.",
-                fullResponsibilities:
-                  "Full responsibilities are outlined in the school account <0>{{link}}</0>, so please ensure you read these.",
-                termsAndConditions: "Terms and conditions",
+                termsAndConditions:
+                  "Full responsibilities are outlined in the school account <0>Terms and conditions</0>, so please ensure you read these.",
                 agreeAuthority:
                   "I have the authority to create this account on behalf of my school.",
                 agreeResponsibility:
-                  "I agree to be responsible for this school account and I accept the Terms and conditions.",
+                  "I agree to be responsible for this school account and I accept the <0>Terms and conditions</0>.",
               },
               step3: {
                 title: "What is your role at the School?",
@@ -267,7 +266,7 @@ i18n
                 select: "Please select",
                 schoolUrn: "School URN (Optional)",
                 schoolUrnHint:
-                  "This can be found on the UK Government website here. Although this is not required it will help us to verify your school account.",
+                  "This can be found on the UK Government website <0>here</0>. Although this is not required it will help us to verify your school account.",
               },
             },
             cancel: "Cancel",

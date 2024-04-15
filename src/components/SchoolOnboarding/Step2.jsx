@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import TextWithBoldSpan from "./TextWithBoldSpan";
+import TextWithLink from "./TextWithLink";
 
 const Step2 = () => {
   const { t } = useTranslation();
@@ -28,8 +30,12 @@ const Step2 = () => {
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding__modal--content">
-        <p>{t("schoolOnboarding.steps.step2.owner")}</p>
-        <p>{t("schoolOnboarding.steps.step2.responsibilities")}</p>
+        <p>
+          <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
+        </p>
+        <p>
+          <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.responsibilities" />
+        </p>
         <ul>
           <li>{t("schoolOnboarding.steps.step2.responsibility1")}</li>
           <li>{t("schoolOnboarding.steps.step2.responsibility2")}</li>
@@ -37,17 +43,10 @@ const Step2 = () => {
           <li>{t("schoolOnboarding.steps.step2.responsibility4")}</li>
           <li>{t("schoolOnboarding.steps.step2.responsibility5")}</li>
         </ul>
-        {/* <p>{t("schoolOnboarding.steps.step2.termsAndConditions")}</p> */}
         <p>
-          <Trans
-            i18nKey="schoolOnboarding.steps.step2.fullResponsibilities"
-            components={{
-              link: (
-                <a href="/">
-                  {t("schoolOnboarding.steps.step2.termsAndConditions")}
-                </a>
-              ),
-            }}
+          <TextWithLink
+            i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+            to="/"
           />
         </p>
         <form>
@@ -74,7 +73,10 @@ const Step2 = () => {
                 onChange={onChange}
                 checked={!!stepData["responsibility"]}
               />
-              {t("schoolOnboarding.steps.step2.agreeResponsibility")}
+              <TextWithLink
+                i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+                to="/"
+              />
             </label>
           </div>
         </form>

@@ -1,4 +1,5 @@
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import TextWithBoldSpan from "./TextWithBoldSpan";
 
 const Step1 = () => {
   const { t } = useTranslation();
@@ -10,10 +11,18 @@ const Step1 = () => {
       <div className="school-onboarding__modal--content">
         <p>{t("schoolOnboarding.steps.step1.thingsToKnow")}</p>
         <ul>
-          <li>{t("schoolOnboarding.steps.step1.employee")}</li>
-          <li>{t("schoolOnboarding.steps.step1.owner")}</li>
-          <li>{t("schoolOnboarding.steps.step1.verification")}</li>
-          <li>{t("schoolOnboarding.steps.step1.email")}</li>
+          <li>
+            <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.employee" />
+          </li>
+          <li>
+            <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.owner" />
+          </li>
+          <li>
+            <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.verification" />
+          </li>
+          <li>
+            <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.email" />
+          </li>
         </ul>
         {/* TODO: Add accordion here once it has been created */}
         <strong>{t("schoolOnboarding.steps.step1.notSchoolQuestion")}</strong>
