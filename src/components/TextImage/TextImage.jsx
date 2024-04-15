@@ -46,7 +46,7 @@ const TextImage = (props) => {
           </div>
           {urlText && (
             <span className="text-image-slice__text--link">
-              <a src={urlHref}>{urlText}</a>
+              <a href={urlHref}>{urlText}</a>
             </span>
           )}
         </>
@@ -58,8 +58,8 @@ const TextImage = (props) => {
 TextImage.propTypes = {
   text: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  imageSrc: PropTypes.string.isRequired,
-  imageAlt: PropTypes.string.isRequired,
+  imageSrc: PropTypes.string,
+  imageAlt: PropTypes.string,
   imagePosition: PropTypes.oneOf(["left", "right"]),
   urlText: PropTypes.string,
   urlHref: PropTypes.string,
