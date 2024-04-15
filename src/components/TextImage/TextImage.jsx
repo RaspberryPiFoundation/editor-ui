@@ -22,7 +22,8 @@ const TextImage = (props) => {
       {imagePosition === "left" && (
         <>
           <div className="text-image-slice__text">
-            <h2>{title}</h2>
+            <h2>madzia</h2>
+            <h2 className="" dangerouslySetInnerHTML={{ __html: title }} />
             <p>{text}</p>
             {urlText && (
               <span className="text-image-slice__text--link">

@@ -103,7 +103,7 @@ const LandingPage = () => {
       </div>
       <TextImage
         text="Poopayee aaaaaah butt pepete tank yuuu! Hana dul sae poulet tikka masala bee do bee do bee do jeje jiji pepete wiiiii po kass potatoooo. Jeje para tú para tú poopayee pepete.."
-        title="Banannnna!"
+        title="Banannnna! <a href='www.raspberrypi.org'>link to check</a>"
         imageSrc={TextImageImage}
         imageAlt="Image Alt Text"
         imagePosition="left"
