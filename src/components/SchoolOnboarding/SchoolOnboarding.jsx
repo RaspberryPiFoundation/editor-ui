@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import LineIcon from "../../assets/icons/line.svg";
+import TextListIconExample from "../../assets/icons/temperature.svg";
+import TextList from "../TextList/TextList";
+import TextListImageExample from "../../assets/start_icon_dark.svg";
 
 const SchoolOnboarding = () => {
   const { t, i18n } = useTranslation();
@@ -51,6 +54,34 @@ const SchoolOnboarding = () => {
           />
         </div>
       </div>
+      <TextList
+        title="School account created!"
+        titleIcon={TextListIconExample}
+        text="Thank you for setting up your school account in the Code Editor!"
+        next="What happens next?"
+        imageSrc={TextListImageExample}
+        imageAlt=""
+        contact="If you have any issues you can contact us via email: websupport@raspberrypi.org. 
+        Please wait at least 5 working days before contacting us about verifying your school."
+        listItems={{
+          item1:
+            "Thank you for providing the all the information needed to set up your school account.",
+          item2:
+            "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
+          item3:
+            "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+        }}
+        button1={{
+          text: "Explore our projects",
+          url: "https://example.com/button1",
+          plausible: "Explore our projects",
+        }}
+        button2={{
+          text: "Code Editor home",
+          url: "https://example.com/button2",
+          plausible: "Code Editor home",
+        }}
+      />
     </div>
   );
 };
