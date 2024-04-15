@@ -15,43 +15,25 @@ const TextImage = (props) => {
     urlHref,
   } = props;
 
-  const sliceClass = classNames("text-image-slice", className);
+  const sliceClass = classNames("text-image-slice", className, {
+    "text-image-slice--left": imagePosition === "left",
+    "text-image-slice--right": imagePosition === "right",
+  });
 
   return (
     <div className={sliceClass} data-testid="text-image-slice">
-      {imagePosition === "left" && (
-        <>
-          <div className="text-image-slice__text">
-            <h2>madzia</h2>
-            <h2 className="" dangerouslySetInnerHTML={{ __html: title }} />
-            <p>{text}</p>
-            {urlText && (
-              <span className="text-image-slice__text--link">
-                <a href={urlHref}>{urlText}</a>
-              </span>
-            )}
-          </div>
-          <div className="text-image-slice__image image--left">
-            <img src={imageSrc} alt={imageAlt} />
-          </div>
-        </>
-      )}
-      {imagePosition === "right" && (
-        <>
-          <div className="text-image-slice__image image--right">
-            <img src={imageSrc} alt={imageAlt} />
-          </div>
-          <div className="text-image-slice__text">
-            <h2>{title}</h2>
-            <p>{text}</p>
-          </div>
-          {urlText && (
-            <span className="text-image-slice__text--link">
-              <a href={urlHref}>{urlText}</a>
-            </span>
-          )}
-        </>
-      )}
+      <div className="text-image-slice__content">
+        <h2 className="text-image-slice__title">{title}</h2>
+        <p className="text-image-slice__text">{text}</p>
+        {urlText && (
+          <span className="text-image-slice__link">
+            <a href={urlHref}>{urlText}</a>
+          </span>
+        )}
+      </div>
+      <div className="text-image-slice__image">
+        <img src={imageSrc} alt={imageAlt} />
+      </div>
     </div>
   );
 };

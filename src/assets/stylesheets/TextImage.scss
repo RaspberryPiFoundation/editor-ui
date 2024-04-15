@@ -6,7 +6,7 @@
 
 .text-image-slice {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   padding: $space-1-5 $space-2;
   align-items: center;
   gap: $space-1;
@@ -27,11 +27,20 @@
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
     gap: $space-4;
-    flex-direction: row;
     max-inline-size: 1000px;
   }
 
 }
+
+
+.text-image-slice--left {
+  flex-direction: row;
+}
+
+.text-image-slice--right {
+  flex-direction: row-reverse;
+}
+
 
 .text-image-slice__image {
   display: flex;
