@@ -229,8 +229,9 @@ i18n
                 responsibility3: "This is a responsibility.",
                 responsibility4: "This is a responsibility.",
                 responsibility5: "This is a responsibility.",
-                termsAndConditions:
-                  "Full responsibilities are outlined in the school account Terms and conditions, so please ensure you read these.",
+                fullResponsibilities:
+                  "Full responsibilities are outlined in the school account <0>{{link}}</0>, so please ensure you read these.",
+                termsAndConditions: "Terms and conditions",
                 agreeAuthority:
                   "I have the authority to create this account on behalf of my school.",
                 agreeResponsibility:
@@ -238,7 +239,8 @@ i18n
               },
               step3: {
                 title: "What is your role at the School?",
-                optionalInfo: "Providing this information in optional, however it helps to us to understand our users, how the platform is used, and how we can improve it.",
+                optionalInfo:
+                  "Providing this information in optional, however it helps to us to understand our users, how the platform is used, and how we can improve it.",
                 role: "What is your role at the School? (Optional)",
                 select: "Please select",
                 teacher: "Teacher",
@@ -246,11 +248,13 @@ i18n
                 admin: "Administrative staff",
                 other: "Other",
                 department: "What department are you part of? (Optional)",
-                departmentHint: "For example, Computing, IT, Science, English, Art, etc.",
+                departmentHint:
+                  "For example, Computing, IT, Science, English, Art, etc.",
               },
               step4: {
                 title: "Tell us about your school",
-                schoolDetails: "In order to set up your school in the Editor, we require some details about your school so we can verify it.",
+                schoolDetails:
+                  "In order to set up your school in the Editor, we require some details about your school so we can verify it.",
                 schoolName: "School name",
                 schoolWebsite: "School website",
                 schoolAddress: "School address",
@@ -262,7 +266,8 @@ i18n
                 schoolCountry: "Country",
                 select: "Please select",
                 schoolUrn: "School URN (Optional)",
-                schoolUrnHint: "This can be found on the UK Government website here. Although this is not required it will help us to verify your school account.",
+                schoolUrnHint:
+                  "This can be found on the UK Government website here. Although this is not required it will help us to verify your school account.",
               },
             },
             cancel: "Cancel",
