@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 const Step2 = () => {
   const { t } = useTranslation();
   const [stepData, setStepData] = useState(
-    JSON.parse(
-      localStorage.getItem("schoolOnboarding"),
-    )["step_2"] || {}
+    JSON.parse(localStorage.getItem("schoolOnboarding"))["step_2"] || {},
   );
 
   const onChange = (e) => {
@@ -18,9 +16,7 @@ const Step2 = () => {
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({
-        ...JSON.parse(
-          localStorage.getItem("schoolOnboarding"),
-        ),
+        ...JSON.parse(localStorage.getItem("schoolOnboarding")),
         step_2: stepData,
       }),
     );
@@ -41,7 +37,19 @@ const Step2 = () => {
           <li>{t("schoolOnboarding.steps.step2.responsibility4")}</li>
           <li>{t("schoolOnboarding.steps.step2.responsibility5")}</li>
         </ul>
-        <p>{t("schoolOnboarding.steps.step2.termsAndConditions")}</p>
+        {/* <p>{t("schoolOnboarding.steps.step2.termsAndConditions")}</p> */}
+        <p>
+          <Trans
+            i18nKey="schoolOnboarding.steps.step2.fullResponsibilities"
+            components={{
+              link: (
+                <a href="/">
+                  {t("schoolOnboarding.steps.step2.termsAndConditions")}
+                </a>
+              ),
+            }}
+          />
+        </p>
         <form>
           <div>
             <label>

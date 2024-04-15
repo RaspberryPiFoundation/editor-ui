@@ -79,12 +79,12 @@ const Step4 = () => {
           </div>
           <div>
             <select name="country" onChange={onChange} defaultValue="" value={stepData["country"]} >
-                  <option value="" disabled>{t("schoolOnboarding.steps.step3.select")}</option>
-                  <option value="uk">United Kingdom</option>
-                  <option value="usa">USA</option>
-                  <option value="kenya">Kenya</option>
-                  <option value="india">India</option>
-                </select>
+              <option value="" disabled>{t("schoolOnboarding.steps.step3.select")}</option>
+              <option value="uk">United Kingdom</option>
+              <option value="usa">USA</option>
+              <option value="kenya">Kenya</option>
+              <option value="india">India</option>
+            </select>
           </div>
           <div>
             <label>
