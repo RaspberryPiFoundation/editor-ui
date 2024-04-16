@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import LineIcon from "../../assets/icons/line.svg";
-import TextListIconExample from "../../assets/icons/tick.svg";
+import TexListTickIcon from "../../assets/icons/tick.svg";
 import TextList from "../TextList/TextList";
 import TextListImageExample from "../../assets/images/school-created.svg";
 
@@ -56,7 +56,7 @@ const SchoolOnboarding = () => {
       </div>
       <TextList
         title="School account created!"
-        titleIcon={TextListIconExample}
+        titleIcon={TexListTickIcon}
         text="Thank you for setting up your school account in the Code Editor!"
         next="What happens next?"
         imageSrc={TextListImageExample}
@@ -83,8 +83,8 @@ const SchoolOnboarding = () => {
         }}
       />
       <TextList
-        title="School account created!"
-        text="Thank you for setting up your school account in the Code Editor!"
+        title="Your school account is being verified"
+        text="You have already set up a school account and it is now in the process of being verified. If you wish to set up another account for a different school, you must use a different Raspberry Pi Foundation account."
         next="What happens next?"
         contact="If you have any issues you can contact us via email: websupport@raspberrypi.org. 
         Please wait at least 5 working days before contacting us about verifying your school."

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import "../../assets/stylesheets/TextList.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { ReactComponent as OpenFileIcon } from "../../assets/icons/open_in_new_tab.svg";
 
 const TextList = (props) => {
   const {
@@ -32,27 +33,30 @@ const TextList = (props) => {
           <img src={imageSrc} alt={imageAlt} />
         </div>
       )}
-      <p>{text}</p>
-      <h3>{next}</h3>
+      <p className="text-list__text">{text}</p>
+      <h3 className="text-list__next">{next}</h3>
       <ol>
         {Object.values(listItems).map((item, index) => (
           <li key={index}>{item}</li>
         ))}
       </ol>
       <p>{contact}</p>
-      <DesignSystemButton
-        className="text-list__button"
-        href={exploreProjects.url}
-        text={exploreProjects.text}
-        textAlways
-      />
-      <DesignSystemButton
-        className="text-list__button"
-        href={editorHome.url}
-        text={editorHome.text}
-        textAlways
-        type="secondary"
-      />
+      <div className="text-list__buttons">
+        <DesignSystemButton
+          className="text-list__button"
+          href={exploreProjects.url}
+          text={exploreProjects.text}
+          textAlways
+          icon={<OpenFileIcon />}
+          type="secondary"
+        />
+        <DesignSystemButton
+          className="text-list__button"
+          href={editorHome.url}
+          text={editorHome.text}
+          textAlways
+        />
+      </div>
     </div>
   );
 };
