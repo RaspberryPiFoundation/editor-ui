@@ -29,16 +29,15 @@ const MultiStepForm = () => {
     }
   };
 
-  const onPop = (e) => {
-    setCurrentStep(e.state.currentStep);
-  };
-
   useEffect(() => {
+    const onPop = (e) => {
+      setCurrentStep(e.state.currentStep);
+    };
     window.addEventListener("popstate", onPop);
     return () => {
       window.removeEventListener("popstate", onPop);
     };
-  }, [onPop]);
+  });
 
   useEffect(() => {
     if (window.history.state.currentStep !== currentStep) {
@@ -48,20 +47,11 @@ const MultiStepForm = () => {
       "schoolOnboarding",
       JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
     );
-  }, [currentStep]);
+  }, [currentStep, schoolOnboardingData]);
 
   return (
     <div className="school-onboarding__modal">
       {/* This is where we want the progress bar to be once it's mereged */}
-      {/* <span className="school-onboarding__modal-steps">
-        {t("schoolOnboarding.steps")}
-      </span> */}
-      {/* <h3 className="school-onboarding__modal-step">
-        {steps[currentStep].title}
-      </h3>
-      <div className="school-onboarding__modal--content">
-        {steps[currentStep].content}
-      </div> */}
       {steps[currentStep]}
       <div className="school-onboarding__modal--buttons">
         {currentStep > 0 ? (
