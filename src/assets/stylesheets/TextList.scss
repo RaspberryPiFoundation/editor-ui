@@ -5,11 +5,11 @@
 @use "./rpf_design_system/spacing" as *;
 
 .text-image-slice {
+  background-color: $rpf-white;
   padding: $space-1-5 0;
 
   @media screen and (min-width: 768px) {
-    padding: $space-5 $space-7-5;
-    // padding: $space-1-5;
+    padding: $space-1-5;
     max-inline-size: 600px;
 
   }
