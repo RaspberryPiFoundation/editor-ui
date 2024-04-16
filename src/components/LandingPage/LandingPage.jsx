@@ -102,7 +102,7 @@ const LandingPage = () => {
         </div>
       </div>
       <TextImage
-        text="Poopayee aaaaaah butt pepete tank yuuu! Hana dul <Link to={/}>link to check link</Link> sae poulet tikka masala bee do bee do bee do jeje jiji pepete wiiiii po kass potatoooo. Jeje para tú para tú poopayee pepete.."
+        text="Poopayee aaaaaah butt pepete tank yuuu! Hana dul link to check link sae poulet tikka masala bee do bee do bee do jeje jiji pepete wiiiii po kass potatoooo. Jeje para tú para tú poopayee pepete.."
         title="Banannnna"
         imageSrc={TextImageImage}
         imageAlt="Image Alt Text"
