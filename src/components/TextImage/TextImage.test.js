@@ -11,10 +11,15 @@ test("presence of TextImageShowing", () => {
   const initialState = {};
   const store = mockStore(initialState);
 
+  const imageTextProps = {
+    title: "TextImage title",
+    text: "TextImage text",
+  };
+
   render(
     <Provider store={store}>
       <div id="app">
-        <TextImage />
+        <TextImage {...imageTextProps} />
       </div>
     </Provider>,
   );
@@ -22,4 +27,7 @@ test("presence of TextImageShowing", () => {
   const textImageComponent = screen.getByTestId("text-image-slice");
 
   expect(textImageComponent).toHaveClass("text-image-slice");
+
+  expect(screen.getByText(imageTextProps.title)).toBeInTheDocument();
+  expect(screen.getByText(imageTextProps.text)).toBeInTheDocument();
 });
