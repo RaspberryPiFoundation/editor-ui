@@ -20,11 +20,6 @@ const TextList = (props) => {
   } = props;
 
   const sliceClass = classNames("text-image-slice", className);
-  const onClickPlausible = (msg) => () => {
-    if (window.plausible) {
-      window.plausible(msg);
-    }
-  };
 
   return (
     <div className={sliceClass} data-testid="text-list">
@@ -50,14 +45,12 @@ const TextList = (props) => {
         href={exploreProjects.url}
         text={exploreProjects.text}
         textAlways
-        onClick={onClickPlausible(exploreProjects.plausible)}
       />
       <DesignSystemButton
         className="text-list__button"
         href={editorHome.url}
         text={editorHome.text}
         textAlways
-        onClick={onClickPlausible(editorHome.plausible)}
         type="secondary"
       />
     </div>

@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import LineIcon from "../../assets/icons/line.svg";
-import TextListIconExample from "../../assets/icons/temperature.svg";
+import TextListIconExample from "../../assets/icons/tick.svg";
 import TextList from "../TextList/TextList";
-import TextListImageExample from "../../assets/start_icon_dark.svg";
+import TextListImageExample from "../../assets/images/school-created.svg";
 
 const SchoolOnboarding = () => {
   const { t, i18n } = useTranslation();
