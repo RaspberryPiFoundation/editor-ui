@@ -2540,6 +2540,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@raspberrypifoundation/design-system-core@npm:0.2.1":
+  version: 0.2.1
+  resolution: "@raspberrypifoundation/design-system-core@npm:0.2.1"
+  dependencies:
+    classnames: ^2.3.2
+  checksum: 16a7fde64e3ee55315dc9b84d9f68c528ae066b0aee918dfb1dc64a4280875403ec7e3ee5144f7904058fa100312ffe02106c13da4ee72698163f484347f9919
+  languageName: node
+  linkType: hard
+
 "@raspberrypifoundation/design-system-core@npm:^0.1.9":
   version: 0.1.9
   resolution: "@raspberrypifoundation/design-system-core@npm:0.1.9"
@@ -2581,6 +2590,7 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
     "@raspberrypifoundation/design-system-core": ^0.1.9
     "@raspberrypifoundation/design-system-react": ^0.1.5
+    "@raspberrypifoundation/rpf-global-nav": ^0.0.5
     "@react-three/drei": ^9.65.5
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": ^8.0.12
@@ -2722,6 +2732,17 @@ __metadata:
     workbox-webpack-plugin: 5.1.4
   languageName: unknown
   linkType: soft
+
+"@raspberrypifoundation/rpf-global-nav@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@raspberrypifoundation/rpf-global-nav@npm:0.0.5"
+  dependencies:
+    "@raspberrypifoundation/design-system-core": 0.2.1
+    "@stencil/core": ^4.12.2
+    "@stencil/sass": ^3.0.9
+  checksum: ed6b9bb680d839b1b1c3adbaad7b282c0a124ebac7317b48d231e706f4f9cde193f2fc87f848736f28d89f2413c2bd2224d3bef3cc2f9ab6afbc08a64c705e95
+  languageName: node
+  linkType: hard
 
 "@react-spring/animated@npm:~9.6.1":
   version: 9.6.1
@@ -3105,6 +3126,24 @@ __metadata:
   dependencies:
     "@sinonjs/commons": ^2.0.0
   checksum: c62aa98e7cefda8dedc101ce227abc888dc46b8ff9706c5f0a8dfd9c3ada97d0a5611384738d9ba0b26b59f99c2ba24efece8e779bb08329e9e87358fa309824
+  languageName: node
+  linkType: hard
+
+"@stencil/core@npm:^4.12.2":
+  version: 4.15.0
+  resolution: "@stencil/core@npm:4.15.0"
+  bin:
+    stencil: bin/stencil
+  checksum: 676fd5f304fe7d2783988928831b407d21e94eb2bced928a7be447030318dce01dd5fc77adee1c4f2e62f5280fc23274eac45906e408a53d793fca8a1777a08d
+  languageName: node
+  linkType: hard
+
+"@stencil/sass@npm:^3.0.9":
+  version: 3.0.11
+  resolution: "@stencil/sass@npm:3.0.11"
+  peerDependencies:
+    "@stencil/core": ">=2.0.0 || >=3.0.0-beta.0 || >= 4.0.0-beta.0 || >= 4.0.0"
+  checksum: 4a6c7fe19168ee94a70649cbddffa8e0cecba12398473dd029a715d8df8f88d4b86694c0f45e0e21519a4a91ccf5684a9634f533a9fead2a4a5c607555bfe5b6
   languageName: node
   linkType: hard
 
