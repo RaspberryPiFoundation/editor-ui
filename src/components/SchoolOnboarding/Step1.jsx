@@ -1,4 +1,4 @@
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 
 const Step1 = () => {

@@ -29,8 +29,21 @@ const MultiStepForm = () => {
     }
   };
 
+  const onPop = (e) => {
+    setCurrentStep(e.state.currentStep);
+  };
+
   useEffect(() => {
-    console.log("Current step: ", currentStep);
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+    };
+  }, [onPop]);
+
+  useEffect(() => {
+    if (window.history.state.currentStep !== currentStep) {
+      window.history.pushState({ currentStep }, "");
+    }
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
