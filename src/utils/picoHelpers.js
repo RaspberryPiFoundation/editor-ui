@@ -5,6 +5,7 @@ import {
 
 import * as microPythonCommands from "./microPythonCommands";
 
+const picoBaudRate = 115200;
 export const downloadMicroPython = async () => {
   try {
     const fileUrl =
@@ -185,7 +186,7 @@ export const disconnectFromPico = async (port, writer) => {
 
 export const connectToPico = async (setPort, setWriter) => {
   const obtainedPort = await navigator.serial.requestPort();
-  await obtainedPort.open({ baudRate: 115200 }); // this is the Pico Baud Rate?
+  await obtainedPort.open({ baudRate: picoBaudRate }); 
   setPort(obtainedPort);
   const obtainedWriter = obtainedPort.writable.getWriter();
   setWriter(obtainedWriter);
