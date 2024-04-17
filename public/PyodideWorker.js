@@ -1,6 +1,10 @@
 /* global importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
+// importScripts(`${window.location.origin}/pygal.js`);
+// importScripts("http://localhost:8080/pygal.js");
 importScripts("http://localhost:3011/pygal.js");
+// importScripts(`${window.location.origin}/_internal_sense_hat.js`);
+// importScripts("http://localhost:8080/_internal_sense_hat.js");
 importScripts("http://localhost:3011/_internal_sense_hat.js");
 
 const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";

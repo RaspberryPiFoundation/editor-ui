@@ -16,7 +16,9 @@ self.addEventListener("fetch", (event) => {
 
   console.log(event.request);
 
-  if (!event.request.url.includes("pyodide")) {
+  const interceptedRequests = ["pyodide", "Pyodide"];
+
+  if (!interceptedRequests.some((str) => event.request.url.includes(str))) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -30,7 +32,7 @@ self.addEventListener("fetch", (event) => {
           headers.set("Cross-Origin-Embedder-Policy", "require-corp");
           headers.set("Cross-Origin-Opener-Policy", "same-origin");
 
-          return new Response(body, { status, statusText, headers });
+          // return new Response(body, { status, statusText, headers });
         })
         .catch(console.error),
     );

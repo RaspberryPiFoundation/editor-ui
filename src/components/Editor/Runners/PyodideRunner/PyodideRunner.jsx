@@ -19,6 +19,17 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
+// import PyodideWorker from "worker-loader!./PyodideWorker.js";
+// import PyodideWorker from "worker-plugin/loader!?esModule./PyodideWorkerObj.js";
+// import PyodideWorker from "worker-plugin/loader!./PyodideWorker.js"; // outputs a string like 0.web-component.worker.js
+// import serviceWorker from "worker-loader!../../../../utils/PyodideServiceWorker.js";
+// import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
+
+// import fileContent from "./PyodideWorkerObj.js";
+// import fileContent from "./PyodideWorker.js";
+
+// const blob = new Blob([fileContent], { type: "application/javascript" }); // Create a blob from the imported file
+// const url = URL.createObjectURL(blob); // Create a blob URL
 
 const getWorkerURL = (url) => {
   const content = `importScripts("${url}");`;
@@ -27,9 +38,27 @@ const getWorkerURL = (url) => {
 };
 
 const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
+// const serviceWorkerUrl = getWorkerURL(
+//   `${process.env.PUBLIC_URL}/PyodideServiceWorker.js`,
+// );
 
 const PyodideRunner = () => {
+  // const pyodideWorker = useMemo(
+  //   () =>
+  //     // new Worker(`${process.env.PUBLIC_URL}/PyodideWorker.js`, {
+  //     // new Worker(new URL("./PyodideWorker.js", import.meta.url), {
+  //     new Worker(`./PyodideWorker.js`, {
+  //       type: "module",
+  //       // credentials: "omit", // or "same-origin" if your server requires cookies or HTTP authentication
+  //     }),
+  //   [],
+  // );
+  // const pyodideWorker = useMemo(() => new PyodideWorker(), []);
+  // const pyodideWorker = useMemo(() => new Worker(PyodideWorker), []);
+  // const pyodideWorker = useMemo(() => PyodideWorker, []);
+  // const pyodideWorker = useMemo(() => new Worker(url, { type: "module" }), []);
   const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+  // const pyodideWorker = useMemo(() => new Worker(PyodideWorker()), []);
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -58,24 +87,25 @@ const PyodideRunner = () => {
     return URL.createObjectURL(blob);
   };
 
-  useEffect(() => {
-    console.log("trying registering service worker");
-    if ("serviceWorker" in navigator) {
-      console.log("registering service worker");
-      navigator.serviceWorker
-        .register("/PyodideServiceWorker.js")
-        // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
-        // .register(`${window.location.origin}/PyodideServiceWorker.js`)
-        // .register(serviceWorker)
-        // .register(getBlobURL(serviceWorker, "application/javascript"))
-        .then((registration) => {
-          if (!registration.active || !navigator.serviceWorker.controller) {
-            console.log("reloading");
-            window.location.reload();
-          }
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   console.log("trying registering service worker");
+  //   if ("serviceWorker" in navigator) {
+  //     console.log("registering service worker");
+  //     navigator.serviceWorker
+  //       // .register("./PyodideServiceWorker.js")
+  //       // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
+  //       .register(`${window.location.origin}/PyodideServiceWorker.js`)
+  //       // .register(serviceWorker)
+  //       // .register(getBlobURL(serviceWorker, "application/javascript"))
+  //       // .register(serviceWorkerUrl)
+  //       .then((registration) => {
+  //         if (!registration.active || !navigator.serviceWorker.controller) {
+  //           console.log("registered");
+  //           window.location.reload();
+  //         }
+  //       });
+  //   }
+  // }, []);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
