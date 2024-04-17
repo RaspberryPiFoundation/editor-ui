@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { codeRunHandled } from "../../../../redux/EditorSlice";
+import { codeRunHandled, setPicoOutput } from "../../../../redux/EditorSlice";
 import { runOnPico, stopPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
@@ -54,12 +54,12 @@ const MicroPythonRunner = () => {
     if (codeRunStopped) {
       stopPico();
       dispatch(codeRunHandled());
+      dispatch(setPicoOutput(""));
     }
   }, [codeRunStopped]);
 
   useEffect(() => {
     const parsedOutput = picoOutput.split("\n");
-    console.log(parsedOutput);
 
     const node = output.current;
     parsedOutput.forEach((line, index) => {

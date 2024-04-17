@@ -229,7 +229,6 @@ export const EditorSlice = createSlice({
       state.picoConnected = action.payload;
     },
     setPicoOutput: (state, action) => {
-      console.log("Setting pico output");
       state.picoOutput = action.payload;
     },
     triggerDraw: (state) => {
@@ -239,7 +238,6 @@ export const EditorSlice = createSlice({
       state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
-      console.log("Updating!!!x");
       const extension = action.payload.extension;
       const fileName = action.payload.name;
       const code = action.payload.code;
@@ -277,13 +275,11 @@ export const EditorSlice = createSlice({
       state.error = action.payload;
     },
     triggerCodeRun: (state) => {
-      console.log("Code run triggered");
       state.codeRunTriggered = true;
       state.codeHasBeenRun = true;
     },
     stopCodeRun: (state) => {
       state.codeRunStopped = true;
-      console.log("Code run stopped");
     },
     stopDraw: (state) => {
       state.drawTriggered = false;

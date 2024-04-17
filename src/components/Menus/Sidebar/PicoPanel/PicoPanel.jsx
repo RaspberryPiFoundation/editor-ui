@@ -33,6 +33,7 @@ const PicoPanel = ({ isMobile }) => {
           className="files-list-item"
           onClick={() => connectToPico(dispatch)}
           text="Connect"
+          type="secondary"
           icon={<DuplicateIcon />}
           textAlways
         />
@@ -42,6 +43,7 @@ const PicoPanel = ({ isMobile }) => {
             className="files-list-item"
             onClick={() => runOnPico(project, dispatch)}
             text="Run on pico"
+            type="secondary"
             icon={<DuplicateIcon />}
             textAlways
           />
@@ -49,6 +51,7 @@ const PicoPanel = ({ isMobile }) => {
             className="files-list-item"
             onClick={() => disconnectFromPico(dispatch)}
             text="Disconnect"
+            type="secondary"
             icon={<DuplicateIcon />}
             textAlways
           />
@@ -57,6 +60,7 @@ const PicoPanel = ({ isMobile }) => {
             className="files-list-item"
             onClick={downloadMicroPython}
             text="Download MicroPython"
+            type="secondary"
             icon={<DuplicateIcon />}
             textAlways
           />
@@ -65,6 +69,7 @@ const PicoPanel = ({ isMobile }) => {
             className="files-list-item"
             onClick={() => writeAllFilesToPico(project, dispatch)}
             text="Write to Pico"
+            type="secondary"
             icon={<DuplicateIcon />}
             textAlways
           />
@@ -72,6 +77,7 @@ const PicoPanel = ({ isMobile }) => {
             className="files-list-item"
             onClick={() => readAllFilesFromPico(project, dispatch)}
             text="Get files from Pico"
+            type="secondary"
             icon={<DuplicateIcon />}
             textAlways
           />
