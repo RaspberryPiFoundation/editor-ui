@@ -18,7 +18,7 @@ const SchoolOnboarding = () => {
   };
 
   return (
-    <div className="school-onboarding-wrapper">
+    <div className="school-onboarding-wrapper" data-testid="school-onboarding">
       <div className="school-onboarding__modal--text">
         <h2 className="school-onboarding__modal--title">
           {t("schoolOnboarding.title_1")}
