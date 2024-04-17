@@ -16,7 +16,11 @@ describe("With close button", () => {
           defaultCallback={defaultCallback}
           heading="My modal heading"
           text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
+          buttons={[
+            <button key="button" onClick={jest.fn()}>
+              My amazing button
+            </button>,
+          ]}
         />
       </div>,
     );
@@ -52,7 +56,11 @@ describe("Without close button", () => {
           defaultCallback={defaultCallback}
           heading="My modal heading"
           text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
+          buttons={[
+            <button key="button" onClick={jest.fn()}>
+              My amazing button
+            </button>,
+          ]}
         />
       </div>,
     );
