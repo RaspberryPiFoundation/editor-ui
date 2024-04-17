@@ -5,12 +5,14 @@ import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
 import FilePanel from "./FilePanel/FilePanel";
+import PicoPanel from "./PicoPanel/PicoPanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
 import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
+import PicoIcon from "../../../assets/icons/pico.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
 import StepsIcon from "../../../assets/icons/steps.svg";
 import SaveIcon from "../../../assets/icons/save.svg";
@@ -64,6 +66,13 @@ const Sidebar = ({ options = [] }) => {
       panel: DownloadPanel,
     },
     {
+      name: "pico",
+      icon: PicoIcon,
+      title: t("sidebar.pico"),
+      position: "top",
+      panel: PicoPanel,
+    },
+    {
       name: "settings",
       icon: SettingsIcon,
       title: t("sidebar.settings"),
@@ -82,14 +91,14 @@ const Sidebar = ({ options = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
-    (state) => state.instructions?.project?.steps,
+    (state) => state.instructions?.project?.steps
   );
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
       menuOptions.splice(
         menuOptions.findIndex((option) => option.name === optionName),
-        1,
+        1
       );
     }
   };
@@ -99,7 +108,7 @@ const Sidebar = ({ options = [] }) => {
   removeOption("instructions", instructionsSteps);
 
   const [option, setOption] = useState(
-    instructionsSteps ? "instructions" : "file",
+    instructionsSteps ? "instructions" : "file"
   );
 
   const toggleOption = (newOption) => {

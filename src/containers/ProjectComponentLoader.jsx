@@ -27,34 +27,41 @@ const ProjectComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
+    (state) => state.editor.hasShownSavePrompt
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
-    (state) => state.editor.errorModalShowing,
+    (state) => state.editor.errorModalShowing
   );
   const newFileModalShowing = useSelector(
-    (state) => state.editor.newFileModalShowing,
+    (state) => state.editor.newFileModalShowing
   );
   const renameFileModalShowing = useSelector(
-    (state) => state.editor.renameFileModalShowing,
+    (state) => state.editor.renameFileModalShowing
   );
   const notFoundModalShowing = useSelector(
-    (state) => state.editor.notFoundModalShowing,
+    (state) => state.editor.notFoundModalShowing
   );
   const accessDeniedNoAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedNoAuthModalShowing,
+    (state) => state.editor.accessDeniedNoAuthModalShowing
   );
   const accessDeniedWithAuthModalShowing = useSelector(
-    (state) => state.editor.accessDeniedWithAuthModalShowing,
+    (state) => state.editor.accessDeniedWithAuthModalShowing
   );
 
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const sidebarOptions = ["projects", "file", "images", "settings", "info"];
+  const sidebarOptions = [
+    "projects",
+    "file",
+    "images",
+    "pico",
+    "settings",
+    "info",
+  ];
 
   useEmbeddedMode(embedded);
   useProject({ projectIdentifier: identifier, accessToken: accessToken });

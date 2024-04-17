@@ -15,8 +15,18 @@ import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
+import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
 
-const FilePanel = ({ isMobile }) => {
+import {
+  downloadMicroPython,
+  writeAllFilesToPico,
+  readAllFilesFromPico,
+  runOnPico,
+  disconnectFromPico,
+  connectToPico,
+} from "../../../../utils/picoHelpers";
+
+const PicoPanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const dispatch = useDispatch();
@@ -69,8 +79,52 @@ const FilePanel = ({ isMobile }) => {
           )}
         </div>
       ))}
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={() => runOnPico(port, writer, project)}
+        text="Run on pico"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={() => connectToPico(setPort, setWriter)}
+        text="Connect"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={() => disconnectFromPico(port, writer)}
+        text="Disconnect"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={downloadMicroPython}
+        text="Download MicroPython"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={() => writeAllFilesToPico(port, writer, project)}
+        text="Write to Pico"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
+      <DesignSystemButton
+        className="files-list-item"
+        onClick={() => readAllFilesFromPico(port, writer, project, dispatch)}
+        text="Get files from Pico"
+        icon={<DuplicateIcon />}
+        textAlways
+      />
     </SidebarPanel>
   );
 };
 
-export default FilePanel;
+export default PicoPanel;
