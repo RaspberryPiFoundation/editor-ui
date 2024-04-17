@@ -190,7 +190,7 @@
     "webpack-dev-server": "4.0.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "5.1.4",
-    "worker-loader": "^3.0.8"
+    "worker-plugin": "^5.0.1"
   },
   "jest": {
     "roots": [
@@ -229,8 +229,7 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-      "PyodideWorker.js": "<rootDir>/src/components/Editor/Runners/PyodideRunner/PyodideWorker.mock.js"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "web.js",

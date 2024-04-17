@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Unit tests for `pyodide` runner (#976)
+
 ## [0.22.2] - 2024-03-18
 
 ### Added
@@ -11,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Ability to use `page` query parameter in the embedded viewer when not a browser preview (#958)
 - ASSETS_URL env var to allow assets to be served from R2 bucket
 - `webpackDevServer` allowed headers for Astro Pi (#967)
+- Tests for the `PyodideWorker` (#981)
 
 ### Changed
 
