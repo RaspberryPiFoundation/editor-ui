@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { setError, codeRunHandled } from "../../../../redux/EditorSlice";
+import { codeRunHandled } from "../../../../redux/EditorSlice";
 import { runOnPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
@@ -16,6 +16,8 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const MicroPythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
+
+  const picoOutput = useSelector((state) => state.editor.picoOutput);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier
   );
@@ -42,7 +44,6 @@ const MicroPythonRunner = () => {
   };
 
   useEffect(() => {
-    console.log("Code runinf?");
     if (codeRunTriggered) {
       runOnPico(project, dispatch);
     }
@@ -53,6 +54,17 @@ const MicroPythonRunner = () => {
       dispatch(codeRunHandled());
     }
   }, [codeRunStopped]);
+
+  useEffect(() => {
+    const node = output.current;
+    picoOutput.forEach((text) => {
+      const div = document.createElement("span");
+      div.classList.add("pythonrunner-console-output-line");
+      div.innerHTML = new Option(text).innerHTML;
+      node.appendChild(div);
+      node.scrollTop = node.scrollHeight;
+    });
+  }, [picoOutput]);
 
   function shiftFocusToInput(e) {
     if (document.getSelection().toString().length > 0) {

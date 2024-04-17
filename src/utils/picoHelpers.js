@@ -3,6 +3,7 @@ import {
   updateProjectComponent,
   setPicoConnected,
   stopCodeRun,
+  setPicoOutput,
 } from "../redux/EditorSlice";
 
 import * as microPythonCommands from "./microPythonCommands";
@@ -39,7 +40,7 @@ export const runOnPico = async (project, dispatch) => {
     completeCode += `${codeLines[i]}\r`;
   }
   await writer.write(encodeText(`${completeCode}\r`));
-  await readFromPico();
+  await readFromPico(port, dispatch);
   await writer.releaseLock();
   dispatch(stopCodeRun());
 };
@@ -62,7 +63,7 @@ export const writeAllFilesToPico = async (project) => {
   await writer.releaseLock();
 };
 
-export const writeFileToPico = async (writer, component) => {
+export const writeFileToPico = async (writer, component, dispatch) => {
   const port = await getConnectedPort();
   if (!port) {
     return;
@@ -80,7 +81,7 @@ export const writeFileToPico = async (writer, component) => {
     await writer.write(encoder.encode("\r"));
   }
   await writer.write(encoder.encode("\r"));
-  await readFromPico(port);
+  await readFromPico(port, dispatch);
 };
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
 export const readFromPico = async (port, dispatch) => {
@@ -117,6 +118,7 @@ export const readFromPico = async (port, dispatch) => {
         console.log(error);
       }
       console.log("returning resultStream");
+      dispatch(setPicoOutput(resultStream));
       return resultStream;
     }
   };
@@ -143,7 +145,7 @@ export const readAllFilesFromPico = async (project, dispatch) => {
     await writer.write(encoder.encode(fileListString));
     const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
     await writer.write(encoder.encode(fileReadString));
-    const fileStream = await readFromPico(port);
+    const fileStream = await readFromPico(port, dispatch);
     fileStream.forEach((file) => {
       if (file.includes("name") && file.includes("contents")) {
         try {

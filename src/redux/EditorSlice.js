@@ -125,6 +125,7 @@ export const EditorSlice = createSlice({
     sidebarShowing: true,
     modals: {},
     picoConnected: false,
+    picoOutput: ["Connected to Pico"],
   },
   reducers: {
     closeFile: (state, action) => {
@@ -227,7 +228,10 @@ export const EditorSlice = createSlice({
     setPicoConnected: (state, action) => {
       state.picoConnected = action.payload;
     },
-
+    setPicoOutput: (state, action) => {
+      console.log("Setting pico output");
+      state.picoOutput = action.payload;
+    },
     triggerDraw: (state) => {
       state.drawTriggered = true;
     },
@@ -500,6 +504,8 @@ export const {
   hideSidebar,
   disableTheming,
   setPicoConnected,
+  picoOutput,
+  setPicoOutput,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

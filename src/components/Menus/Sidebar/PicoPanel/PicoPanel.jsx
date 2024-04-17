@@ -63,7 +63,7 @@ const PicoPanel = ({ isMobile }) => {
 
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => writeAllFilesToPico(project)}
+            onClick={() => writeAllFilesToPico(project, dispatch)}
             text="Write to Pico"
             icon={<DuplicateIcon />}
             textAlways
