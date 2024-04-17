@@ -19,7 +19,7 @@ const Output = () => {
         <RunnerFactory
           projectType={project.project_type}
           usePyodide={usePyodide}
-          isPico={isPico}
+          isPico={!!isPico}
         />
         {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
       </div>

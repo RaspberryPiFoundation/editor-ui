@@ -1,8 +1,7 @@
 import {
   addProjectComponent,
   updateProjectComponent,
-  setPicoPort,
-  setPicoWriter,
+  setPicoConnected,
 } from "../redux/EditorSlice";
 
 import * as microPythonCommands from "./microPythonCommands";
@@ -25,11 +24,8 @@ export const downloadMicroPython = async () => {
 };
 
 // runOnPico currenly runs only the first project in components collection (ie Main.py))
-export const runOnPico = async (port, writer, project) => {
-  if (!port || !writer) {
-    const missingResource = !port ? "Port" : "Writer";
-    throw new Error(`${missingResource} is missing`);
-  }
+export const runOnPico = async (port, project) => {
+  const writer = port.writable.getWriter();
   const codeString = project.components[0].content;
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
   let completeCode = "";
@@ -38,10 +34,12 @@ export const runOnPico = async (port, writer, project) => {
   }
   await writer.write(encodeText(`${completeCode}\r`));
   await readFromPico();
+  await writer.releaseLock();
 };
 
-export const writeAllFilesToPico = async (port, writer, project) => {
-  if (!port || !writer) {
+export const writeAllFilesToPico = async (port, project) => {
+  const writer = await port.writable.getWriter();
+  if (!port) {
     const missingResource = !port ? "Port" : "Writer";
     throw new Error(`${missingResource} is missing`);
   }
@@ -49,6 +47,7 @@ export const writeAllFilesToPico = async (port, writer, project) => {
   for (const component of project.components) {
     await writeFileToPico(port, writer, component);
   }
+  await writer.releaseLock();
 };
 
 export const writeFileToPico = async (port, writer, component) => {
@@ -115,15 +114,11 @@ export const readFromPico = async (port, dispatch) => {
   }
 };
 
-export const readAllFilesFromPico = async (port, writer, project, dispatch) => {
+export const readAllFilesFromPico = async (port, project, dispatch) => {
+  const writer = await port.writable.getWriter();
   const encoder = new TextEncoder();
   let files = [];
   if (port && writer) {
-    // for (let i = 0; i < project.components.length; i++) {
-    // // const fileListString = `import os\rfiles = os.listdir()\rprint(files)\r\n`;
-    // // await writer.write(encoder.encode(fileListString));
-    // // const fileList = await readFromPico();
-    // console.log(fileList);
     const fileListString = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
     await writer.write(encoder.encode(fileListString));
     const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
@@ -149,6 +144,7 @@ export const readAllFilesFromPico = async (port, writer, project, dispatch) => {
   console.log("Files");
   console.log(files);
   updateProject(files, project, dispatch);
+  await writer.releaseLock();
 };
 
 const updateProject = (files, project, dispatch) => {
@@ -179,20 +175,16 @@ const updateProject = (files, project, dispatch) => {
 export const connectToPico = async (dispatch) => {
   const obtainedPort = await navigator.serial.requestPort();
   await obtainedPort.open({ baudRate: picoBaudRate });
-  const obtainedWriter = obtainedPort.writable.getWriter();
-  dispatch(setPicoPort(obtainedPort));
-  dispatch(setPicoWriter(obtainedWriter));
+  dispatch(setPicoConnected(true));
 };
 
 export const disconnectFromPico = async (port, writer, dispatch) => {
   if (port && writer) {
     console.log(`Disconnecting ${writer}`);
     await writer.releaseLock();
-    dispatch(setPicoWriter(null));
     console.log(`Disconnecting ${port}`);
     await port.close();
     console.log(`Disconnected ${port}`);
-    dispatch(setPicoPort(null));
   }
 };
 
