@@ -125,7 +125,7 @@ export const EditorSlice = createSlice({
     sidebarShowing: true,
     modals: {},
     picoConnected: false,
-    picoOutput: ["Connected to Pico"],
+    picoOutput: "Connected to Pico",
   },
   reducers: {
     closeFile: (state, action) => {

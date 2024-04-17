@@ -40,9 +40,9 @@ export const runOnPico = async (project, dispatch) => {
     completeCode += `${codeLines[i]}\r`;
   }
   await writer.write(encodeText(`${completeCode}\r`));
-  await readFromPico(port, dispatch);
+  console.log("writer released");
   await writer.releaseLock();
-  dispatch(stopCodeRun());
+  await readFromPico(port, dispatch);
 };
 
 export const writeAllFilesToPico = async (project) => {
@@ -81,7 +81,6 @@ export const writeFileToPico = async (writer, component, dispatch) => {
     await writer.write(encoder.encode("\r"));
   }
   await writer.write(encoder.encode("\r"));
-  await readFromPico(port, dispatch);
 };
 // readFromPico() and readPort() need to make sure that the reader is available (not locked) - before trying to obtain reader
 export const readFromPico = async (port, dispatch) => {
@@ -95,7 +94,7 @@ export const readFromPico = async (port, dispatch) => {
         const { value, done } = await Promise.race([
           reader.read(),
           new Promise((resolve, reject) => {
-            setTimeout(() => resolve({ value: { timeout: true } }), 2000); // 5 seconds timeout
+            setTimeout(() => resolve({ value: { timeout: true } }), 10000); // 5 seconds timeout
           }),
         ]);
         if (done || value.timeout) {
@@ -103,10 +102,8 @@ export const readFromPico = async (port, dispatch) => {
         }
         resultString += decoder.decode(value);
         // Need a more accurate marker than \n as multi-line strings form file contents
-        if (resultString.includes("\n")) {
-          resultStream.push(resultString);
-          resultString = "";
-        }
+
+        dispatch(setPicoOutput(resultString));
       }
     } catch (error) {
       console.log(error);
@@ -118,7 +115,7 @@ export const readFromPico = async (port, dispatch) => {
         console.log(error);
       }
       console.log("returning resultStream");
-      dispatch(setPicoOutput(resultStream));
+      dispatch(stopCodeRun());
       return resultStream;
     }
   };
@@ -216,6 +213,22 @@ export const disconnectFromPico = async (dispatch) => {
     console.log(`Disconnected ${port}`);
     dispatch(setPicoConnected(false));
   }
+};
+
+export const stopPico = async () => {
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
+  const encoder = new TextEncoder();
+
+  const writableStream = port.writable;
+
+  const writer = writableStream.getWriter();
+
+  const ctrlC = String.fromCharCode(0x03);
+  await writer.write(encoder.encode(ctrlC));
+  writer.releaseLock();
 };
 
 export const encodeText = (text) => {

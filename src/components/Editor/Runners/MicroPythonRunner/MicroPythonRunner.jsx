@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { codeRunHandled } from "../../../../redux/EditorSlice";
-import { runOnPico } from "../../../../utils/picoHelpers";
+import { runOnPico, stopPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
 import OutputViewToggle from "./OutputViewToggle";
@@ -45,25 +45,33 @@ const MicroPythonRunner = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
+      output.current.innerHTML = "";
       runOnPico(project, dispatch);
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
     if (codeRunStopped) {
+      stopPico();
       dispatch(codeRunHandled());
     }
   }, [codeRunStopped]);
 
   useEffect(() => {
+    const parsedOutput = picoOutput.split("\n");
+    console.log(parsedOutput);
+
     const node = output.current;
-    picoOutput.forEach((text) => {
+    parsedOutput.forEach((line, index) => {
+      if (line.includes(">>>") || index === 0) {
+        return; // hack to prevent the code itself from being rendered in the output
+      }
       const div = document.createElement("span");
       div.classList.add("pythonrunner-console-output-line");
-      div.innerHTML = new Option(text).innerHTML;
+      div.innerHTML = new Option(line).innerHTML;
       node.appendChild(div);
-      node.scrollTop = node.scrollHeight;
     });
+    node.scrollTop = node.scrollHeight;
   }, [picoOutput]);
 
   function shiftFocusToInput(e) {
