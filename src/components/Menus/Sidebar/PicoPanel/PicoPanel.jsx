@@ -42,7 +42,7 @@ const PicoPanel = ({ isMobile }) => {
 
   return (
     <SidebarPanel heading={t("filePanel.pico")}>
-      {!port && (
+      {!picoConnected && (
         <DesignSystemButton
           className="files-list-item"
           onClick={() => connectToPico(dispatch)}
@@ -51,7 +51,7 @@ const PicoPanel = ({ isMobile }) => {
           textAlways
         />
       )}
-      {port && (
+      {picoConnected && port && (
         <>
           <DesignSystemButton
             className="files-list-item"

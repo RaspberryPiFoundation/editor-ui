@@ -178,13 +178,12 @@ export const connectToPico = async (dispatch) => {
   dispatch(setPicoConnected(true));
 };
 
-export const disconnectFromPico = async (port, writer, dispatch) => {
-  if (port && writer) {
-    console.log(`Disconnecting ${writer}`);
-    await writer.releaseLock();
+export const disconnectFromPico = async (port, dispatch) => {
+  if (port) {
     console.log(`Disconnecting ${port}`);
     await port.close();
     console.log(`Disconnected ${port}`);
+    dispatch(setPicoConnected(false));
   }
 };
 
