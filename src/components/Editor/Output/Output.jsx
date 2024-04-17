@@ -6,6 +6,7 @@ import RunBar from "../../RunButton/RunBar";
 
 const Output = () => {
   const project = useSelector((state) => state.editor.project);
+  const isPico = useSelector((state) => state.editor.picoPort);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
@@ -18,6 +19,7 @@ const Output = () => {
         <RunnerFactory
           projectType={project.project_type}
           usePyodide={usePyodide}
+          isPico={isPico}
         />
         {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
       </div>
