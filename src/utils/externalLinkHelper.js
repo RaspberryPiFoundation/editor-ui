@@ -10,8 +10,6 @@ const hostDomain = new RegExp(`^${host}`);
 const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];
 const allowedExternalLinks = [rpfDomain, hostDomain];
 
-console.log(process.env);
-
 const useExternalLinkState = (showModal) => {
   const dispatch = useDispatch();
   const [externalLink, setExternalLink] = useState();
