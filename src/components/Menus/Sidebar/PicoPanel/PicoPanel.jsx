@@ -40,7 +40,7 @@ const PicoPanel = ({ isMobile }) => {
         <>
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => runOnPico(project)}
+            onClick={() => runOnPico(project, dispatch)}
             text="Run on pico"
             icon={<DuplicateIcon />}
             textAlways

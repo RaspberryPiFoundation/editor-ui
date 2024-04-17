@@ -6,7 +6,7 @@ import RunBar from "../../RunButton/RunBar";
 
 const Output = () => {
   const project = useSelector((state) => state.editor.project);
-  const isPico = useSelector((state) => state.editor.picoPort);
+  const isPico = useSelector((state) => state.editor.picoConnected);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";

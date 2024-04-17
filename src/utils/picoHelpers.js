@@ -2,6 +2,7 @@ import {
   addProjectComponent,
   updateProjectComponent,
   setPicoConnected,
+  stopCodeRun,
 } from "../redux/EditorSlice";
 
 import * as microPythonCommands from "./microPythonCommands";
@@ -24,7 +25,8 @@ export const downloadMicroPython = async () => {
 };
 
 // runOnPico currenly runs only the first project in components collection (ie Main.py))
-export const runOnPico = async (project) => {
+export const runOnPico = async (project, dispatch) => {
+  console.log("Runnin on pico ");
   const port = await getConnectedPort();
   if (!port) {
     return;
@@ -39,6 +41,7 @@ export const runOnPico = async (project) => {
   await writer.write(encodeText(`${completeCode}\r`));
   await readFromPico();
   await writer.releaseLock();
+  dispatch(stopCodeRun());
 };
 
 export const writeAllFilesToPico = async (project) => {

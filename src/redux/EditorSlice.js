@@ -273,11 +273,13 @@ export const EditorSlice = createSlice({
       state.error = action.payload;
     },
     triggerCodeRun: (state) => {
+      console.log("Code run triggered");
       state.codeRunTriggered = true;
       state.codeHasBeenRun = true;
     },
     stopCodeRun: (state) => {
       state.codeRunStopped = true;
+      console.log("Code run stopped");
     },
     stopDraw: (state) => {
       state.drawTriggered = false;
