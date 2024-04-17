@@ -24,7 +24,11 @@ export const downloadMicroPython = async () => {
 };
 
 // runOnPico currenly runs only the first project in components collection (ie Main.py))
-export const runOnPico = async (port, project) => {
+export const runOnPico = async (project) => {
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
   const writer = port.writable.getWriter();
   const codeString = project.components[0].content;
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
@@ -37,7 +41,12 @@ export const runOnPico = async (port, project) => {
   await writer.releaseLock();
 };
 
-export const writeAllFilesToPico = async (port, project) => {
+export const writeAllFilesToPico = async (project) => {
+  console.log(project);
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
   const writer = await port.writable.getWriter();
   if (!port) {
     const missingResource = !port ? "Port" : "Writer";
@@ -45,12 +54,16 @@ export const writeAllFilesToPico = async (port, project) => {
   }
   // for (let i = 0; i < project.components.length; i++) {
   for (const component of project.components) {
-    await writeFileToPico(port, writer, component);
+    await writeFileToPico(writer, component);
   }
   await writer.releaseLock();
 };
 
-export const writeFileToPico = async (port, writer, component) => {
+export const writeFileToPico = async (writer, component) => {
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
   const encoder = new TextEncoder();
   const codeString = component.content;
   const codeLines = codeString.split(/\r?\n|\r|\n/g);
@@ -114,7 +127,11 @@ export const readFromPico = async (port, dispatch) => {
   }
 };
 
-export const readAllFilesFromPico = async (port, project, dispatch) => {
+export const readAllFilesFromPico = async (project, dispatch) => {
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
   const writer = await port.writable.getWriter();
   const encoder = new TextEncoder();
   let files = [];
@@ -178,7 +195,16 @@ export const connectToPico = async (dispatch) => {
   dispatch(setPicoConnected(true));
 };
 
-export const disconnectFromPico = async (port, dispatch) => {
+const getConnectedPort = async () => {
+  const ports = await navigator.serial.getPorts();
+  return ports[0];
+};
+
+export const disconnectFromPico = async (dispatch) => {
+  const port = await getConnectedPort();
+  if (!port) {
+    return;
+  }
   if (port) {
     console.log(`Disconnecting ${port}`);
     await port.close();

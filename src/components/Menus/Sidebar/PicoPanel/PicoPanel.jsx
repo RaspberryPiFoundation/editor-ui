@@ -17,28 +17,14 @@ import {
   disconnectFromPico,
   connectToPico,
 } from "../../../../utils/picoHelpers";
-import { set } from "date-fns";
 
 const PicoPanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
+
   const picoConnected = useSelector((state) => state.editor.picoConnected);
-  const [port, setPort] = useState(null);
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    const getPort = async () => {
-      const ports = await navigator.serial.getPorts();
-      if (ports.length > 0) {
-        setPort(ports[0]);
-      }
-    };
-
-    if (picoConnected && !port) {
-      getPort();
-    }
-  }, [picoConnected, port]);
 
   return (
     <SidebarPanel heading={t("filePanel.pico")}>
@@ -54,14 +40,14 @@ const PicoPanel = ({ isMobile }) => {
         <>
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => runOnPico(port, project)}
+            onClick={() => runOnPico(project)}
             text="Run on pico"
             icon={<DuplicateIcon />}
             textAlways
           />
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => disconnectFromPico(port, dispatch)}
+            onClick={() => disconnectFromPico(dispatch)}
             text="Disconnect"
             icon={<DuplicateIcon />}
             textAlways
@@ -77,14 +63,14 @@ const PicoPanel = ({ isMobile }) => {
 
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => writeAllFilesToPico(port, project)}
+            onClick={() => writeAllFilesToPico(project)}
             text="Write to Pico"
             icon={<DuplicateIcon />}
             textAlways
           />
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => readAllFilesFromPico(port, project, dispatch)}
+            onClick={() => readAllFilesFromPico(project, dispatch)}
             text="Get files from Pico"
             icon={<DuplicateIcon />}
             textAlways

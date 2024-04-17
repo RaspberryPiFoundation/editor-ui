@@ -61,7 +61,7 @@ const MicroPythonRunner = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      runCode();
+      runOnPico();
     }
   }, [codeRunTriggered]);
 
