@@ -124,6 +124,8 @@ export const EditorSlice = createSlice({
     deleteProjectModalShowing: false,
     sidebarShowing: true,
     modals: {},
+    picoPort: null,
+    picoWriter: null,
   },
   reducers: {
     closeFile: (state, action) => {
@@ -222,6 +224,12 @@ export const EditorSlice = createSlice({
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
+    },
+    setPicoPort: (state, action) => {
+      state.picoPort = action.payload;
+    },
+    setPicoWriter: (state, action) => {
+      state.picoWriter = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -492,6 +500,8 @@ export const {
   showSidebar,
   hideSidebar,
   disableTheming,
+  setPicoPort,
+  setPicoWriter,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

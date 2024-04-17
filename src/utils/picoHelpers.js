@@ -1,6 +1,8 @@
 import {
   addProjectComponent,
   updateProjectComponent,
+  setPicoPort,
+  setPicoWriter,
 } from "../redux/EditorSlice";
 
 import * as microPythonCommands from "./microPythonCommands";
@@ -174,22 +176,24 @@ const updateProject = (files, project, dispatch) => {
   });
 };
 
-export const disconnectFromPico = async (port, writer) => {
+export const connectToPico = async (dispatch) => {
+  const obtainedPort = await navigator.serial.requestPort();
+  await obtainedPort.open({ baudRate: picoBaudRate });
+  const obtainedWriter = obtainedPort.writable.getWriter();
+  dispatch(setPicoPort(obtainedPort));
+  dispatch(setPicoWriter(obtainedWriter));
+};
+
+export const disconnectFromPico = async (port, writer, dispatch) => {
   if (port && writer) {
     console.log(`Disconnecting ${writer}`);
     await writer.releaseLock();
+    dispatch(setPicoWriter(null));
     console.log(`Disconnecting ${port}`);
     await port.close();
     console.log(`Disconnected ${port}`);
+    dispatch(setPicoPort(null));
   }
-};
-
-export const connectToPico = async (setPort, setWriter) => {
-  const obtainedPort = await navigator.serial.requestPort();
-  await obtainedPort.open({ baudRate: picoBaudRate }); 
-  setPort(obtainedPort);
-  const obtainedWriter = obtainedPort.writable.getWriter();
-  setWriter(obtainedWriter);
 };
 
 export const encodeText = (text) => {

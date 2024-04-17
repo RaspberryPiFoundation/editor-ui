@@ -150,6 +150,7 @@ i18n
                 "File names must end in {{allowedExtensions}}.",
             },
             files: "Project files",
+            pico: "Pico",
             images: "Image gallery",
             newFileButton: "Add file",
             newFileModal: {
