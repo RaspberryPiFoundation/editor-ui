@@ -283,6 +283,8 @@ function HtmlRunner() {
           projectFile.content,
           mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
         );
+      } else if (matchingRegexes(allowedExternalLinks, srcNode.attrs[attr])) {
+        src = srcNode.attrs[attr];
       }
       srcNode.setAttribute(attr, src);
       srcNode.setAttribute("crossorigin", true);
