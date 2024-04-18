@@ -40,7 +40,10 @@ const MultiStepForm = () => {
   });
 
   useEffect(() => {
-    if (window.history.state.currentStep !== currentStep) {
+    if (
+      window.history.state &&
+      window.history.state.currentStep !== currentStep
+    ) {
       window.history.pushState({ currentStep }, "");
     }
     localStorage.setItem(
