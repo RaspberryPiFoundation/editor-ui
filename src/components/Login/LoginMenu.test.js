@@ -60,6 +60,7 @@ describe("When logged in", () => {
           profile: {
             profile: "profile_url",
           },
+          id_token: "token",
         },
       },
     };
