@@ -5,10 +5,10 @@ const Step1 = () => {
   const { t } = useTranslation();
   return (
     <>
-      <h3 className="school-onboarding__modal-step">
+      <h3 className="school-onboarding-form__step">
         {t("schoolOnboarding.steps.step1.title")}
       </h3>
-      <div className="school-onboarding__modal--content">
+      <div className="school-onboarding-form__content">
         <p>{t("schoolOnboarding.steps.step1.thingsToKnow")}</p>
         <ul>
           <li>

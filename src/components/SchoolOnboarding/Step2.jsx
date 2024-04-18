@@ -5,8 +5,13 @@ import TextWithLink from "./TextWithLink";
 
 const Step2 = () => {
   const { t } = useTranslation();
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
   const [stepData, setStepData] = useState(
-    JSON.parse(localStorage.getItem("schoolOnboarding"))["step_2"] || {},
+    schoolOnboardingData && schoolOnboardingData["step_2"]
+      ? schoolOnboardingData["step_2"]
+      : {},
   );
 
   const onChange = (e) => {
@@ -26,10 +31,10 @@ const Step2 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding__modal-step">
+      <h3 className="school-onboarding-form__step">
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
-      <div className="school-onboarding__modal--content">
+      <div className="school-onboarding-form__content">
         <p>
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
         </p>

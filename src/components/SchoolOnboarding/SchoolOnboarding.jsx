@@ -9,12 +9,12 @@ const SchoolOnboarding = () => {
 
   return (
     <div className="school-onboarding-wrapper">
-      <div className="school-onboarding__modal--text">
-        <h2 className="school-onboarding__modal--title">
+      <div className="school-onboarding-form__text">
+        <h2 className="school-onboarding-form__title">
           {t("schoolOnboarding.title_1")}
         </h2>
         <img src={LineIcon} alt="" />
-        <h2 className="school-onboarding__modal--subtitle">
+        <h2 className="school-onboarding-form__subtitle">
           {t("schoolOnboarding.title_2")}
         </h2>
       </div>

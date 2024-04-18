@@ -4,8 +4,13 @@ import TextWithLink from "./TextWithLink";
 
 const Step4 = () => {
   const { t } = useTranslation();
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
   const [stepData, setStepData] = useState(
-    JSON.parse(localStorage.getItem("schoolOnboarding"))["step_4"] || {},
+    schoolOnboardingData && schoolOnboardingData["step_4"]
+      ? schoolOnboardingData["step_4"]
+      : {},
   );
 
   const onChange = (e) => {
@@ -25,10 +30,10 @@ const Step4 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding__modal-step">
+      <h3 className="school-onboarding-form__step">
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
-      <div className="school-onboarding__modal--content">
+      <div className="school-onboarding-form__content">
         <p>{t("schoolOnboarding.steps.step4.schoolDetails")}</p>
         <form>
           <div>
@@ -110,20 +115,23 @@ const Step4 = () => {
             </label>
           </div>
           <div>
-            <select
-              name="country"
-              onChange={onChange}
-              defaultValue=""
-              value={stepData["country"]}
-            >
-              <option value="" disabled>
-                {t("schoolOnboarding.steps.step3.select")}
-              </option>
-              <option value="uk">United Kingdom</option>
-              <option value="usa">USA</option>
-              <option value="kenya">Kenya</option>
-              <option value="india">India</option>
-            </select>
+            <label>
+              {t("schoolOnboarding.steps.step4.schoolCountry")}
+              <select
+                name="country"
+                onChange={onChange}
+                defaultValue=""
+                value={stepData["country"]}
+              >
+                <option value="" disabled>
+                  {t("schoolOnboarding.steps.step3.select")}
+                </option>
+                <option value="uk">United Kingdom</option>
+                <option value="usa">USA</option>
+                <option value="kenya">Kenya</option>
+                <option value="india">India</option>
+              </select>
+            </label>
           </div>
           <div>
             <label>

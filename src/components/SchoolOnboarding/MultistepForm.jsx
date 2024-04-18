@@ -50,10 +50,10 @@ const MultiStepForm = () => {
   }, [currentStep, schoolOnboardingData]);
 
   return (
-    <div className="school-onboarding__modal">
-      {/* This is where we want the progress bar to be once it's mereged */}
+    <div className="school-onboarding-form">
+      {/* TODO: This is where we want the progress bar to be once it's mereged */}
       {steps[currentStep]}
-      <div className="school-onboarding__modal--buttons">
+      <div className="school-onboarding-form__buttons">
         {currentStep > 0 ? (
           <DesignSystemButton
             className="school-onboarding__button"

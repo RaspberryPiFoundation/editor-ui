@@ -3,10 +3,14 @@ import { useTranslation } from "react-i18next";
 
 const Step3 = () => {
   const { t } = useTranslation();
-  const [stepData, setStepData] = useState(
-    JSON.parse(localStorage.getItem("schoolOnboarding"))["step_3"] || {},
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
   );
-
+  const [stepData, setStepData] = useState(
+    schoolOnboardingData && schoolOnboardingData["step_3"]
+      ? schoolOnboardingData["step_3"]
+      : {},
+  );
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
@@ -24,10 +28,10 @@ const Step3 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding__modal-step">
+      <h3 className="school-onboarding-form__step">
         {t("schoolOnboarding.steps.step3.title")}
       </h3>
-      <div className="school-onboarding__modal--content">
+      <div className="school-onboarding-form__content">
         <p>{t("schoolOnboarding.steps.step3.optionalInfo")}</p>
         <form>
           <div>
@@ -56,6 +60,7 @@ const Step3 = () => {
                     {t("schoolOnboarding.steps.step3.other")}
                   </option>
                 </select>
+                {/* TODO: Add conditional field to allow other roles to be specified */}
               </div>
             </label>
           </div>
