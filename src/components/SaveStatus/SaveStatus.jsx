@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
-import CloudTickIcon from "../../assets/icons/cloud_tick.svg";
-import CloudUploadIcon from "../../assets/icons/cloud_upload.svg";
+import { ReactComponent as CloudTickIcon } from "../../assets/icons/cloud_tick.svg";
+import { ReactComponent as CloudUploadIcon } from "../../assets/icons/cloud_upload.svg";
 
 import "../../assets/stylesheets/SaveStatus.scss";
 

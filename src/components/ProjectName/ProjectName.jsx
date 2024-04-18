@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import PencilIcon from "../../assets/icons/pencil.svg";
-import TickIcon from "../../assets/icons/tick.svg";
+import { ReactComponent as PencilIcon } from "../../assets/icons/pencil.svg";
+import { ReactComponent as TickIcon } from "../../assets/icons/tick.svg";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { updateProjectName } from "../../redux/EditorSlice";

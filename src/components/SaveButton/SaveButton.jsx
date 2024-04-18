@@ -7,7 +7,7 @@ import { logInEvent } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import SaveIcon from "../../assets/icons/save.svg";
+import { ReactComponent as SaveIcon } from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 
 const SaveButton = ({ className, type, fill = false }) => {
