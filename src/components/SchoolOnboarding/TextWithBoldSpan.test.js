@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
-import { I18nContext, I18nextProvider } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 import i18n from "../../utils/i18n";
 import { BrowserRouter } from "react-router-dom";
 
