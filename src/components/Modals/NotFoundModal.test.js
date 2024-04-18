@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -21,6 +22,13 @@ const user = {
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
+beforeAll(() => {
+  const root = global.document.createElement("div");
+  root.setAttribute("id", "app");
+  global.document.body.appendChild(root);
+  Modal.setAppElement("#app");
+});
+
 describe("When logged in and notFoundModalShowing is true", () => {
   let store;
 
@@ -34,11 +42,10 @@ describe("When logged in and notFoundModalShowing is true", () => {
       },
     };
     store = mockStore(initialState);
+
     render(
       <Provider store={store}>
-        <div id="app">
-          <NotFoundModal />
-        </div>
+        <NotFoundModal />
       </Provider>,
     );
   });
@@ -84,9 +91,7 @@ describe("When not logged in", () => {
   test("Clicking new project closes the modal", () => {
     render(
       <Provider store={store}>
-        <div id="app">
-          <NotFoundModal />
-        </div>
+        <NotFoundModal />
       </Provider>,
     );
 
