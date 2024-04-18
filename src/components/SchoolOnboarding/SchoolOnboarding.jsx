@@ -8,7 +8,7 @@ const SchoolOnboarding = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="school-onboarding-wrapper">
+    <div className="school-onboarding-wrapper" data-testid="school-onboarding">
       <div className="school-onboarding-form__text">
         <h2 className="school-onboarding-form__title">
           {t("schoolOnboarding.title_1")}
