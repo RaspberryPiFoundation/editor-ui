@@ -2,10 +2,16 @@
 
 // importScripts(`${window.location.origin}/pygal.js`);
 // importScripts("http://localhost:8080/pygal.js");
-importScripts("http://localhost:3011/pygal.js");
+// importScripts("http://localhost:3011/pygal.js");
+importScripts(
+  "https://staging-editor.raspberrypi.org/branches/issues_903_Investigate_setting_Pyodide_HTTP_headers_via_a_service_worker/pygal.js",
+);
 // importScripts(`${window.location.origin}/_internal_sense_hat.js`);
 // importScripts("http://localhost:8080/_internal_sense_hat.js");
-importScripts("http://localhost:3011/_internal_sense_hat.js");
+// importScripts("http://localhost:3011/_internal_sense_hat.js");
+importScripts(
+  "https://staging-editor.raspberrypi.org/branches/issues_903_Investigate_setting_Pyodide_HTTP_headers_via_a_service_worker/_internal_sense_hat.js",
+);
 
 const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
