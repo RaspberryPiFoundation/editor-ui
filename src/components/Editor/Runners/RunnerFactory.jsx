@@ -10,7 +10,7 @@ const RunnerFactory = ({ projectType, usePyodide }) => {
     } else if (usePyodide) {
       return PyodideRunner;
     } else {
-      return PythonRunner;
+      return PyodideRunner;
     }
   };
 
