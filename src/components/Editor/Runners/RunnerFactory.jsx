@@ -1,6 +1,6 @@
 import React from "react";
 import PyodideRunner from "./PyodideRunner/PyodideRunner";
-import PythonRunner from "./PythonRunner/PythonRunner";
+// import PythonRunner from "./PythonRunner/PythonRunner";
 import HtmlRunner from "./HtmlRunner/HtmlRunner";
 
 const RunnerFactory = ({ projectType, usePyodide }) => {
