@@ -14,7 +14,7 @@ const MultiStepForm = () => {
     localStorage.getItem("schoolOnboarding"),
   );
   const [currentStep, setCurrentStep] = useState(
-    schoolOnboardingData ? schoolOnboardingData["currentStep"] : 0,
+    schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
 
   const nextStep = () => {
