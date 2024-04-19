@@ -94,7 +94,9 @@ const PyodideRunner = () => {
       navigator.serviceWorker
         // .register("./PyodideServiceWorker.js")
         // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
-        .register(`${window.location.origin}/PyodideServiceWorker.js`)
+        .register(
+          `${window.location.origin}/branches/issues_903_Investigate_setting_Pyodide_HTTP_headers_via_a_service_worker/PyodideServiceWorker.js`,
+        )
         // .register(serviceWorker)
         // .register(getBlobURL(serviceWorker, "application/javascript"))
         // .register(serviceWorkerUrl)
