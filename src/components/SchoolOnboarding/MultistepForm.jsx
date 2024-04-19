@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import Step1 from "./Step1";
@@ -10,8 +10,9 @@ const MultiStepForm = () => {
   const { t } = useTranslation();
 
   const steps = [<Step1 />, <Step2 />, <Step3 />, <Step4 />];
-  const schoolOnboardingData =
-    JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
+  const schoolOnboardingData = useMemo(() => {
+    return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
+  }, []);
   const [currentStep, setCurrentStep] = useState(
     schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
