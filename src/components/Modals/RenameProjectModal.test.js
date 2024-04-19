@@ -40,9 +40,13 @@ describe("RenameProjectModal", () => {
         },
         result: jest.fn(() => ({
           data: {
-            id: project.id,
-            name: newName,
-            updatedAt: "2023-02-257T14:48:00Z",
+            updateProject: {
+              project: {
+                id: project.id,
+                name: newName,
+                updatedAt: "2023-02-257T14:48:00Z",
+              },
+            },
           },
         })),
       },
