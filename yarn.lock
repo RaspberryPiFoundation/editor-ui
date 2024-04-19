@@ -2590,7 +2590,7 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
     "@raspberrypifoundation/design-system-core": ^0.1.9
     "@raspberrypifoundation/design-system-react": ^0.1.5
-    "@raspberrypifoundation/rpf-global-nav": ^0.0.5
+    "@raspberrypifoundation/rpf-global-nav": ^0.0.6
     "@react-three/drei": ^9.65.5
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": ^8.0.12
@@ -2733,14 +2733,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@raspberrypifoundation/rpf-global-nav@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@raspberrypifoundation/rpf-global-nav@npm:0.0.5"
+"@raspberrypifoundation/rpf-global-nav@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@raspberrypifoundation/rpf-global-nav@npm:0.0.6"
   dependencies:
     "@raspberrypifoundation/design-system-core": 0.2.1
     "@stencil/core": ^4.12.2
     "@stencil/sass": ^3.0.9
-  checksum: ed6b9bb680d839b1b1c3adbaad7b282c0a124ebac7317b48d231e706f4f9cde193f2fc87f848736f28d89f2413c2bd2224d3bef3cc2f9ab6afbc08a64c705e95
+  checksum: d6b12ae71d5a36af90d6ac53054b4f3163a3c7f13a8c847367484f1eedf487854f6daa0070a712bbf4d79cbc27bc9fbecfb191807a272fbcc55adc0fc07e5d37
   languageName: node
   linkType: hard
 
