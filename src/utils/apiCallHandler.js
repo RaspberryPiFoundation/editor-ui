@@ -114,3 +114,7 @@ export const createError = async (
     user_id: userId,
   });
 };
+
+export const createSchool = async (school, accessToken) => {
+  return await post(`${host}/api/schools`, { school }, headers(accessToken));
+};

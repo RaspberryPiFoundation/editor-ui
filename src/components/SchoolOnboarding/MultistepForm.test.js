@@ -1,9 +1,25 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 import MultiStepForm from "./MultistepForm";
+
+const mockStore = configureStore([]);
+const initialState = {
+  auth: {
+    user: {
+      access_token: "1234",
+    },
+  },
+};
+const store = mockStore(initialState);
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<MultiStepForm />);
+    render(
+      <Provider store={store}>
+        <MultiStepForm />
+      </Provider>,
+    );
   });
 
   test("it default to step 1", () => {
@@ -36,7 +52,11 @@ describe("When there is a step in localStorage", () => {
       "schoolOnboarding",
       JSON.stringify({ currentStep: 2 }),
     );
-    render(<MultiStepForm />);
+    render(
+      <Provider store={store}>
+        <MultiStepForm />
+      </Provider>,
+    );
   });
 
   test("it renders the step from localStorage", async () => {
@@ -69,7 +89,11 @@ describe("When on the last step", () => {
       "schoolOnboarding",
       JSON.stringify({ currentStep: 3 }),
     );
-    render(<MultiStepForm />);
+    render(
+      <Provider store={store}>
+        <MultiStepForm />
+      </Provider>,
+    );
   });
 
   test("it renders a submit button", async () => {
