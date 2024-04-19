@@ -10,9 +10,8 @@ const MultiStepForm = () => {
   const { t } = useTranslation();
 
   const steps = [<Step1 />, <Step2 />, <Step3 />, <Step4 />];
-  const schoolOnboardingData = JSON.parse(
-    localStorage.getItem("schoolOnboarding"),
-  );
+  const schoolOnboardingData =
+    JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
   const [currentStep, setCurrentStep] = useState(
     schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
