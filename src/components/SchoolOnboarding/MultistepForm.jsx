@@ -38,7 +38,7 @@ const MultiStepForm = () => {
         JSON.parse(localStorage.getItem("schoolOnboarding"))["step_4"],
         accessToken,
       );
-      if (response.status === 201) {
+      if (response && response.status === 201) {
         localStorage.removeItem("schoolOnboarding");
       }
     } catch (error) {

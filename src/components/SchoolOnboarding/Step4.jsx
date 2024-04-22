@@ -15,11 +15,11 @@ const Step4 = () => {
           website: "",
           address_line_1: "",
           address_line_2: "",
-          city: "",
-          state: "",
-          postcode: "",
-          country: "",
-          urn: "",
+          municipality: "",
+          administrative_area: "",
+          postal_code: "",
+          country_code: "",
+          reference: "",
         },
   );
 
@@ -130,8 +130,7 @@ const Step4 = () => {
               <select
                 name="country_code"
                 onChange={onChange}
-                defaultValue=""
-                value={stepData["country_code"]}
+                value={stepData["country_code"] || ""}
               >
                 <option value="" disabled>
                   {t("schoolOnboarding.steps.step3.select")}
