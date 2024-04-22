@@ -3011,6 +3011,7 @@ __metadata:
     i18next-browser-languagedetector: ^7.0.0
     identity-obj-proxy: 3.0.0
     jest-axe: ^8.0.0
+    jest-fail-on-console: ^3.2.0
     jest-github-actions-reporter: ^1.0.3
     jest-junit: ^14.0.1
     jest-scss-transform: ^1.0.3
@@ -10182,6 +10183,13 @@ __metadata:
     jest-mock: ^27.5.1
     jest-util: ^27.5.1
   checksum: 0f988330c4f3eec092e3fb37ea753b0c6f702e83cd8f4d770af9c2bf964a70bc45fbd34ec6fdb6d71ce98a778d9f54afd673e63f222e4667fff289e8069dba39
+  languageName: node
+  linkType: hard
+
+"jest-fail-on-console@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "jest-fail-on-console@npm:3.2.0"
+  checksum: 389aa581484825a285fc27f959369a674d4a81ede7474218a27d3596cfc8ed6ea13a0f99053e5d08d7fa43b68246ab8ff51592a70fdb9b4e2b355ca9a165221a
   languageName: node
   linkType: hard
 

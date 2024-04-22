@@ -48,3 +48,6 @@ jest.mock("../../src/utils/i18n.js", () => ({
 
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
+
+import failOnConsole from 'jest-fail-on-console'
+failOnConsole()
