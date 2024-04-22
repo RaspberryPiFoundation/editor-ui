@@ -20,10 +20,10 @@ const TextList = (props) => {
     editorHome = {},
   } = props;
 
-  const sliceClass = classNames("text-image-slice", className);
+  const sliceClass = classNames("text-list-slice", className);
 
   return (
-    <div className={sliceClass} data-testid="text-list">
+    <div className={sliceClass} data-testid="text-list-slice">
       <div className="text-list__title-wrapper">
         {titleIcon && (
           <img className="text-list__title--icon" src={titleIcon} alt="" />
