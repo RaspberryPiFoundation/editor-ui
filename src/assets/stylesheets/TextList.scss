@@ -15,6 +15,11 @@
   }
 }
 
+.text-list__title-wrapper {
+  align-items: center;
+  display: flex;
+}
+
 .text-list__title {
   @include font-size-1-5(regular);
   font-weight: $font-weight-bold;
@@ -25,9 +30,10 @@
 }
 
 .text-list__title--icon {
-  block-size: 20px;
-  display: block;
-  inline-size: 20px;
+  block-size: 40px;
+  // display: block;
+  inline-size: 40px;
+  margin-inline-end: $space-1-5;
 }
 
 .text-list__next {
@@ -36,7 +42,6 @@
 }
 
 .text-list__image {
-
   img {
     aspect-ratio: 3/1;
     display: block;

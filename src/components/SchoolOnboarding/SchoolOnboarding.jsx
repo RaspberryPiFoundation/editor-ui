@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import LineIcon from "../../assets/icons/line.svg";
 import MultiStepForm from "./MultistepForm";
-import TexListTickIcon from "../../assets/icons/tick.svg";
+import TexListTickIcon from "../../assets/icons/tick-teal.svg";
 import TextList from "../TextList/TextList";
 import TextListImageExample from "../../assets/images/school-created.svg";
 

@@ -24,10 +24,12 @@ const TextList = (props) => {
 
   return (
     <div className={sliceClass} data-testid="text-list">
-      {titleIcon && (
-        <img className="text-list__title--icon" src={titleIcon} alt="" />
-      )}
-      <h2 className="text-list__title">{title}</h2>
+      <div className="text-list__title-wrapper">
+        {titleIcon && (
+          <img className="text-list__title--icon" src={titleIcon} alt="" />
+        )}
+        <h2 className="text-list__title">{title}</h2>
+      </div>
       {imageSrc && (
         <div className="text-list__image">
           <img src={imageSrc} alt={imageAlt} />
@@ -77,6 +79,7 @@ TextList.propTypes = {
   }),
   editorHome: PropTypes.shape({
     text: PropTypes.string,
+    url: PropTypes.string,
     plausible: PropTypes.string,
   }),
   listItems: PropTypes.shape({
