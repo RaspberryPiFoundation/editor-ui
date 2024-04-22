@@ -15,11 +15,11 @@ const Step4 = () => {
           website: "",
           address_line_1: "",
           address_line_2: "",
-          city: "",
-          state: "",
-          postcode: "",
-          country: "",
-          urn: "",
+          municipality: "",
+          administrative_area: "",
+          postal_code: "",
+          country_code: "",
+          reference: "",
         },
   );
 
@@ -96,8 +96,8 @@ const Step4 = () => {
               {t("schoolOnboarding.steps.step4.schoolCity")}
               <input
                 type="text"
-                name="city"
-                value={stepData["city"]}
+                name="municipality"
+                value={stepData["municipality"]}
                 onChange={onChange}
               />
             </label>
@@ -107,8 +107,8 @@ const Step4 = () => {
               {t("schoolOnboarding.steps.step4.schoolState")}
               <input
                 type="text"
-                name="state"
-                value={stepData["state"]}
+                name="administrative_area"
+                value={stepData["administrative_area"]}
                 onChange={onChange}
               />
             </label>
@@ -118,8 +118,8 @@ const Step4 = () => {
               {t("schoolOnboarding.steps.step4.schoolPostcode")}
               <input
                 type="text"
-                name="postcode"
-                value={stepData["postcode"]}
+                name="postal_code"
+                value={stepData["postal_code"]}
                 onChange={onChange}
               />
             </label>
@@ -128,17 +128,17 @@ const Step4 = () => {
             <label>
               {t("schoolOnboarding.steps.step4.schoolCountry")}
               <select
-                name="country"
+                name="country_code"
                 onChange={onChange}
-                value={stepData["country"]}
+                value={stepData["country_code"] || ""}
               >
                 <option value="" disabled>
                   {t("schoolOnboarding.steps.step3.select")}
                 </option>
-                <option value="uk">United Kingdom</option>
-                <option value="usa">USA</option>
-                <option value="kenya">Kenya</option>
-                <option value="india">India</option>
+                <option value="GB">United Kingdom</option>
+                <option value="US">USA</option>
+                <option value="KE">Kenya</option>
+                <option value="IN">India</option>
               </select>
             </label>
           </div>
@@ -153,8 +153,8 @@ const Step4 = () => {
               </p>
               <input
                 type="text"
-                name="urn"
-                value={stepData["urn"]}
+                name="reference"
+                value={stepData["reference"]}
                 onChange={onChange}
               />
             </label>

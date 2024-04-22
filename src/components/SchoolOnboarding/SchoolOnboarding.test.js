@@ -8,7 +8,13 @@ const middlewares = [];
 const mockStore = configureStore(middlewares);
 
 test("presence of School Onboarding page", () => {
-  const initialState = {};
+  const initialState = {
+    auth: {
+      user: {
+        access_token: "1234",
+      },
+    },
+  };
   const store = mockStore(initialState);
 
   render(

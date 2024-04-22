@@ -118,7 +118,7 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(inputElement, { target: { value: "Drama City" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.city,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.municipality,
     ).toBe("Drama City");
   });
 
@@ -128,7 +128,8 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(inputElement, { target: { value: "Dramashire" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.state,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4
+        .administrative_area,
     ).toBe("Dramashire");
   });
 
@@ -138,7 +139,7 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(inputElement, { target: { value: "DR1 4MA" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.postcode,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.postal_code,
     ).toBe("DR1 4MA");
   });
 
@@ -146,10 +147,10 @@ describe("When localStorage is empty", () => {
     const inputElement = screen.getByLabelText(
       "schoolOnboarding.steps.step4.schoolCountry",
     );
-    fireEvent.change(inputElement, { target: { value: "uk" } });
+    fireEvent.change(inputElement, { target: { value: "GB" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.country,
-    ).toBe("uk");
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.country_code,
+    ).toBe("GB");
   });
 
   test("typing the URN updates localStorage", () => {
@@ -158,7 +159,7 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(inputElement, { target: { value: "dr4m45ch001" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.urn,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_4.reference,
     ).toBe("dr4m45ch001");
   });
 });
@@ -173,11 +174,11 @@ describe("When previous data is in localStorage", () => {
           website: "https://www.schoolofdrama.org",
           address_line_1: "123 Drama Street",
           address_line_2: "Dramaville",
-          city: "Drama City",
-          state: "Dramashire",
-          postcode: "DR1 4MA",
-          country: "uk",
-          urn: "dr4m45ch001",
+          municipality: "Drama City",
+          administrative_area: "Dramashire",
+          postal_code: "DR1 4MA",
+          country_code: "GB",
+          reference: "dr4m45ch001",
         },
       }),
     );
@@ -229,7 +230,7 @@ describe("When previous data is in localStorage", () => {
   test("the country is populated correctly", () => {
     expect(
       screen.getByLabelText("schoolOnboarding.steps.step4.schoolCountry"),
-    ).toHaveValue("uk");
+    ).toHaveValue("GB");
   });
 
   test("the URN is populated correctly", () => {
