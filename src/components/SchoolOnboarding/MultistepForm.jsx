@@ -18,7 +18,7 @@ const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(
     schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
-  const accessToken = useSelector((state) => state.auth.user.access_token);
+  const accessToken = useSelector((state) => state.auth.user?.access_token);
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
