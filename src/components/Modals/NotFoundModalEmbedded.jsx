@@ -14,6 +14,7 @@ const NotFoundModalEmbedded = (props) => {
         <a
           className="btn btn--secondary"
           href="https://projects.raspberrypi.org"
+          key="not-found"
         >
           {t("project.notFoundModal.projectsSiteLinkText")}
         </a>,

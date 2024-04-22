@@ -44,7 +44,7 @@ describe("Downloading project with name set", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <DownloadButton buttonText="Download" Icon={() => {}} />
+        <DownloadButton buttonText="Download" />
       </Provider>,
     );
     downloadButton = screen.queryByText("Download").parentElement;
@@ -108,7 +108,7 @@ describe("Downloading project with no name set", () => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <DownloadButton buttonText="Download" Icon={() => {}} />
+        <DownloadButton buttonText="Download" />
       </Provider>,
     );
     downloadButton = screen.queryByText("Download").parentElement;
@@ -141,7 +141,7 @@ test("If login to save modal open, closes it when download clicked", () => {
   const store = mockStore(initialState);
   render(
     <Provider store={store}>
-      <DownloadButton buttonText="Download" Icon={() => {}} />
+      <DownloadButton buttonText="Download" />
     </Provider>,
   );
   const downloadButton = screen.queryByText("Download").parentElement;

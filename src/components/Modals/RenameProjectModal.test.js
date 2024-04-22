@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -22,6 +23,13 @@ describe("RenameProjectModal", () => {
   };
   let newName = "renamed project";
   let mocks;
+
+  beforeAll(() => {
+    const root = global.document.createElement("div");
+    root.setAttribute("id", "app");
+    global.document.body.appendChild(root);
+    Modal.setAppElement("#app");
+  });
 
   beforeEach(() => {
     mocks = [
@@ -54,14 +62,12 @@ describe("RenameProjectModal", () => {
     render(
       <MockedProvider mocks={mocks}>
         <Provider store={store}>
-          <div id="app">
-            <RenameProjectModal />
-          </div>
+          <RenameProjectModal />
         </Provider>
       </MockedProvider>,
     );
 
-    inputBox = screen.getByRole("textbox");
+    inputBox = screen.getByRole("textbox", { hidden: true });
     saveButton = screen.getByText("projectList.renameProjectModal.save");
   });
 

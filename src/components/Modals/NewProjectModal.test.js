@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import NewProjectModal from "./NewProjectModal";
@@ -26,6 +27,13 @@ let inputBox;
 let pythonOption;
 let htmlOption;
 let saveButton;
+
+beforeAll(() => {
+  const root = global.document.createElement("div");
+  root.setAttribute("id", "app");
+  global.document.body.appendChild(root);
+  Modal.setAppElement("#app");
+});
 
 beforeEach(() => {
   createOrUpdateProject.mockImplementationOnce(() =>
@@ -57,16 +65,15 @@ beforeEach(() => {
     },
   };
   store = mockStore(initialState);
+
   render(
     <Provider store={store}>
       <MemoryRouter>
-        <div id="app">
-          <NewProjectModal />
-        </div>
+        <NewProjectModal />
       </MemoryRouter>
     </Provider>,
   );
-  inputBox = screen.getByRole("textbox");
+  inputBox = screen.getByRole("textbox", { hidden: true });
   pythonOption = screen.getByText("projectTypes.python");
   htmlOption = screen.getByText("projectTypes.html");
   saveButton = screen.getByText("newProjectModal.createProject");
@@ -99,7 +106,7 @@ test("Creates HTML project correctly", async () => {
 test("Pressing Enter creates new project", async () => {
   fireEvent.change(inputBox, { target: { value: "My amazing project" } });
   fireEvent.click(htmlOption);
-  const modal = screen.getByRole("dialog");
+  const modal = screen.getByRole("dialog", { hidden: true });
   await waitFor(() => fireEvent.keyDown(modal, { key: "Enter" }));
   expect(createOrUpdateProject).toHaveBeenCalledWith(
     { ...defaultHtmlProject, name: "My amazing project" },
