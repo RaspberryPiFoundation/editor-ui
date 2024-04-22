@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import MultiStepForm from "./MultistepForm";
 
 describe("When localStorage is empty", () => {
@@ -21,7 +22,9 @@ describe("When localStorage is empty", () => {
   });
 
   test("clicking next takes you to step 2", async () => {
-    screen.getByText("schoolOnboarding.continue").click();
+    act(() => {
+      screen.getByText("schoolOnboarding.continue").click();
+    });
     await waitFor(() =>
       expect(
         screen.queryByText("schoolOnboarding.steps.step2.title"),
@@ -54,7 +57,9 @@ describe("When there is a step in localStorage", () => {
   });
 
   test("clicking previous takes you to the previous step", async () => {
-    screen.getByText("schoolOnboarding.back").click();
+    act(() => {
+      screen.getByText("schoolOnboarding.back").click();
+    });
     await waitFor(() =>
       expect(
         screen.queryByText("schoolOnboarding.steps.step2.title"),
