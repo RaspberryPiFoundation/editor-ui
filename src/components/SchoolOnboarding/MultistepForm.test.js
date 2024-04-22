@@ -2,12 +2,16 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import MultiStepForm from "./MultistepForm";
+import { createSchool } from "../../utils/apiCallHandler";
+
+jest.mock("../../utils/apiCallHandler");
 
 const mockStore = configureStore([]);
+const accessToken = "1234";
 const initialState = {
   auth: {
     user: {
-      access_token: "1234",
+      access_token: accessToken,
     },
   },
 };
@@ -84,10 +88,21 @@ describe("When there is a step in localStorage", () => {
 });
 
 describe("When on the last step", () => {
+  const school = {
+    name: "Raspberry Pi School of Drama",
+    website: "https://www.schoolofdrama.org",
+    address_line_1: "123 Drama Street",
+    address_line_2: "Dramaville",
+    municipality: "Drama City",
+    administrative_area: "Dramashire",
+    postal_code: "DR1 4MA",
+    country_code: "GB",
+    reference: "dr4m45ch001",
+  };
   beforeEach(() => {
     localStorage.setItem(
       "schoolOnboarding",
-      JSON.stringify({ currentStep: 3 }),
+      JSON.stringify({ currentStep: 3, step_4: school }),
     );
     render(
       <Provider store={store}>
@@ -99,6 +114,23 @@ describe("When on the last step", () => {
   test("it renders a submit button", async () => {
     await waitFor(() =>
       expect(screen.queryByText("schoolOnboarding.submit")).toBeInTheDocument(),
+    );
+  });
+
+  test("clicking submit makes a school creation request", () => {
+    screen.getByText("schoolOnboarding.submit").click();
+    expect(createSchool).toHaveBeenCalledWith(school, accessToken);
+  });
+
+  test("clears localStorage after successful school creation", async () => {
+    createSchool.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 201,
+      }),
+    );
+    screen.getByText("schoolOnboarding.submit").click();
+    await waitFor(() =>
+      expect(localStorage.getItem("schoolOnboarding")).toBeNull(),
     );
   });
 });

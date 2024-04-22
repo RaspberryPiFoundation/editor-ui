@@ -8,6 +8,7 @@ import {
   uploadImages,
   readProjectList,
   createError,
+  createSchool,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -228,6 +229,36 @@ describe("Testing project errors API calls", () => {
         error_type: error?.errorType,
       },
       undefined,
+    );
+  });
+});
+
+describe("School API calls", () => {
+  test("Creating a school", async () => {
+    const school = {
+      name: "Raspberry Pi School of Drama",
+      website: "https://www.schoolofdrama.org",
+      address_line_1: "123 Drama Street",
+      address_line_2: "Dramaville",
+      municipality: "Drama City",
+      administrative_area: "Dramashire",
+      postal_code: "DR1 4MA",
+      country_code: "GB",
+      reference: "dr4m45ch001",
+    };
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 204,
+        data: {
+          school,
+        },
+      }),
+    );
+    await createSchool(school, accessToken);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/schools`,
+      { school },
+      authHeaders,
     );
   });
 });

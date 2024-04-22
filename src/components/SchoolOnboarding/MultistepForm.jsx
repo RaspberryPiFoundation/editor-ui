@@ -40,10 +40,8 @@ const MultiStepForm = () => {
       );
       if (response.status === 201) {
         localStorage.removeItem("schoolOnboarding");
-        console.log("Success!");
       }
     } catch (error) {
-      console.log("there was an error!");
       console.error(error);
     }
   };
