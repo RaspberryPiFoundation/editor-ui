@@ -11,7 +11,7 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    debug: true,
+    debug: process.env.I18N_DEBUG === "true",
     fallbackLng: "en",
     locales: [
       "en",

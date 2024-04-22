@@ -9,7 +9,7 @@ const Step3 = () => {
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_3"]
       ? schoolOnboardingData["step_3"]
-      : {},
+      : { role: "", department: "" },
   );
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +41,6 @@ const Step3 = () => {
                 <select
                   name="role"
                   onChange={onChange}
-                  defaultValue=""
                   value={stepData["role"]}
                 >
                   <option value="">

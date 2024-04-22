@@ -10,7 +10,17 @@ const Step4 = () => {
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_4"]
       ? schoolOnboardingData["step_4"]
-      : {},
+      : {
+          name: "",
+          website: "",
+          address_line_1: "",
+          address_line_2: "",
+          city: "",
+          state: "",
+          postcode: "",
+          country: "",
+          urn: "",
+        },
   );
 
   const onChange = (e) => {

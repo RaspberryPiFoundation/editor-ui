@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import Step2 from "./Step2";
 
 describe("When localStorage is empty", () => {
@@ -25,18 +26,22 @@ describe("When localStorage is empty", () => {
   });
 
   test("checking the authority checkbox updates localStorage", () => {
-    screen
-      .getByLabelText("schoolOnboarding.steps.step2.agreeAuthority")
-      .click();
+    act(() => {
+      screen
+        .getByLabelText("schoolOnboarding.steps.step2.agreeAuthority")
+        .click();
+    });
     expect(
       JSON.parse(localStorage.getItem("schoolOnboarding")).step_2.authority,
     ).toBe(true);
   });
 
   test("checking the responsibility checkbox updates localStorage", () => {
-    screen
-      .getByLabelText("schoolOnboarding.steps.step2.termsAndConditions")
-      .click();
+    act(() => {
+      screen
+        .getByLabelText("schoolOnboarding.steps.step2.termsAndConditions")
+        .click();
+    });
     expect(
       JSON.parse(localStorage.getItem("schoolOnboarding")).step_2
         .responsibility,

@@ -37,6 +37,11 @@ jest.mock("react-i18next", () => ({
   Trans: ({ children, i18nKey }) => children || i18nKey,
 }));
 
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+loadDevMessages();
+loadErrorMessages();
+
 jest.mock("../../src/utils/i18n.js", () => ({
   t: (string) => string,
 }));
