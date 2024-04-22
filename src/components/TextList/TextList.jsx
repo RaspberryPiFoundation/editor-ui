@@ -38,9 +38,9 @@ const TextList = (props) => {
       <p className="text-list__text">{text}</p>
       <h3 className="text-list__next">{next}</h3>
       <ol>
-        {Object.values(listItems).map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
+        <li>{listItems.item1}</li>
+        <li>{listItems.item2}</li>
+        <li>{listItems.item3}</li>
       </ol>
       <p>{contact}</p>
       <div className="text-list__buttons">

@@ -23,14 +23,13 @@ const SchoolOnboarding = () => {
       </div>
       <MultiStepForm />
       <TextList
-        title="School account created!"
+        title={t("schoolCreated.title")}
         titleIcon={TexListTickIcon}
-        text="Thank you for setting up your school account in the Code Editor!"
-        next="What happens next?"
+        text={t("schoolCreated.text")}
+        next={t("schoolCreated.next")}
         imageSrc={TextListImageExample}
         imageAlt=""
-        contact="If you have any issues you can contact us via email: websupport@raspberrypi.org. 
-        Please wait at least 5 working days before contacting us about verifying your school."
+        contact={t("schoolCreated.contact")}
         listItems={{
           item1:
             "Thank you for providing the all the information needed to set up your school account.",
@@ -40,39 +39,35 @@ const SchoolOnboarding = () => {
             "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
         }}
         exploreProjects={{
-          text: "Explore our projects",
-          url: "https://example.com/button1",
-          plausible: "Explore our projects",
+          text: t("schoolCreated.exploreProjects.text"),
+          url: t("schoolCreated.exploreProjects.url"),
+          plausible: t("schoolCreated.exploreProjects.plausible"),
         }}
         editorHome={{
-          text: "Code Editor home",
-          url: "/",
-          plausible: "Code Editor home",
+          text: t("schoolCreated.editorHome.text"),
+          url: t("schoolCreated.editorHome.url"),
+          plausible: t("schoolCreated.editorHome.plausible"),
         }}
       />
       <TextList
-        title="Your school account is being verified"
-        text="You have already set up a school account and it is now in the process of being verified. If you wish to set up another account for a different school, you must use a different Raspberry Pi Foundation account."
-        next="What happens next?"
-        contact="If you have any issues you can contact us via email: websupport@raspberrypi.org. 
-        Please wait at least 5 working days before contacting us about verifying your school."
+        title={t("schoolBeingVerified.title")}
+        text={t("schoolBeingVerified.text")}
+        next={t("schoolBeingVerified.next")}
+        contact={t("schoolBeingVerified.contact")}
         listItems={{
-          item1:
-            "Thank you for providing the all the information needed to set up your school account.",
-          item2:
-            "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
-          item3:
-            "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+          item1: t("schoolBeingVerified.listItems.item1"),
+          item2: t("schoolBeingVerified.listItems.item2"),
+          item3: t("schoolBeingVerified.listItems.item3"),
         }}
         exploreProjects={{
-          text: "Explore our projects",
-          url: "https://example.com/button1",
-          plausible: "Explore our projects",
+          text: t("schoolBeingVerified.exploreProjects.text"),
+          url: t("schoolBeingVerified.exploreProjects.url"),
+          plausible: t("schoolBeingVerified.exploreProjects.plausible"),
         }}
         editorHome={{
-          text: "Code Editor home",
-          url: "/",
-          plausible: "Code Editor home",
+          text: t("schoolBeingVerified.editorHome.text"),
+          url: t("schoolBeingVerified.editorHome.url"),
+          plausible: t("schoolBeingVerified.editorHome.plausible"),
         }}
       />
     </div>
