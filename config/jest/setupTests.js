@@ -48,3 +48,13 @@ jest.mock("../../src/utils/i18n.js", () => ({
 
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
+
+import failOnConsole from 'jest-fail-on-console'
+failOnConsole({
+  silenceMessage: (errorMessage) => {
+    if (/Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array/.test(errorMessage)) {
+      return true
+    }
+    return false
+  },
+})

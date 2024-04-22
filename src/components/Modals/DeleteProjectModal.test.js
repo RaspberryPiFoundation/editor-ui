@@ -78,6 +78,8 @@ describe("Testing the delete project modal", () => {
   });
 
   test("Clicking delete button (eventually) closes the modal", async () => {
+    // Clicking delete results in the following console.warn which we've silenced in the failOnConsole config in setupTests.js
+    //   Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array
     const deleteButton = screen.getByText(
       "projectList.deleteProjectModal.delete",
     );
@@ -90,6 +92,8 @@ describe("Testing the delete project modal", () => {
   });
 
   test("Clicking delete button calls the mutation", async () => {
+    // Clicking delete results in the following console.warn which we've silenced in the failOnConsole config in setupTests.js
+    //   Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array
     const deleteButton = screen.getByText(
       "projectList.deleteProjectModal.delete",
     );
