@@ -9,7 +9,6 @@ import EditorBrand from "../EditorBrand/EditorBrand";
 import heroPlaceholder from "../../assets/images/hero-placeholder.svg";
 
 const Hero = () => {
-  // const sliceClass = classNames("hero-slice", className);
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const { t, i18n } = useTranslation();
@@ -40,14 +39,14 @@ const Hero = () => {
               href={`/${locale}/projects/blank-python-starter`}
               text={t("landingPage.hero.createSchool")}
               textAlways
-              onClick={onClickPlausible("Start coding Python")}
+              onClick={onClickPlausible("Create a School")}
             />
             <DesignSystemButton
               className=""
               href={`/${locale}/projects/blank-html-starter`}
               text={t("landingPage.hero.logIn")}
               textAlways
-              onClick={onClickPlausible("Start coding HTML/CSS")}
+              onClick={onClickPlausible("Log in as a student")}
               type={"secondary"}
             />
           </div>

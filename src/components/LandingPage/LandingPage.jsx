@@ -10,7 +10,7 @@ import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import { ReactComponent as HtmlFileIcon } from "../../assets/icons/html_file.svg";
 import { ReactComponent as PythonFileIcon } from "../../assets/icons/python_file.svg";
-import Hero from "./Hero";
+import Hero from "../Hero/Hero";
 
 const LandingPage = () => {
   const navigate = useNavigate();
