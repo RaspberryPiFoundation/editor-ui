@@ -188,6 +188,11 @@ i18n
             downloadButton: "Download project",
           },
           landingPage: {
+            title: "Code Editor",
+            subtitle: "Start coding, no setup required!",
+            python: "Start coding Python",
+            html: "Start coding HTML/CSS",
+            login: "Log in",
             hero: {
               title: "Same great code editor, now in your classroom.",
               subtitle: "Free now, free forever.",
