@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import EditorBrand from "../EditorBrand/EditorBrand";
+import heroPlaceholder from "../../assets/images/hero-placeholder.svg";
 
 const Hero = () => {
   // const sliceClass = classNames("hero-slice", className);
@@ -26,30 +28,31 @@ const Hero = () => {
   }, [user, locale, navigate]);
 
   return (
-    <header className={"sliceClass"} data-testid="hero-slice">
-      <div className="landing-page__projects">
-        <h1 className="landing-page__projects--title">
-          {t("landingPage.title")}
-        </h1>
-        <h2 className="landing-page__projects--subtitle">
-          {t("landingPage.subtitle")}
-        </h2>
-        <div className="landing-page__projects--buttons">
+    <header className={"header__wrapper"} data-testid="hero-slice">
+      <EditorBrand />
+      <div className="header__copy">
+        <h1 className="">{t("landingPage.hero.title")}</h1>
+        <h2 className="">{t("landingPage.hero.subtitle")}</h2>
+        <div className="hero__buttons">
           <DesignSystemButton
-            className="landing-page__button"
+            className=""
             href={`/${locale}/projects/blank-python-starter`}
-            text={t("landingPage.python")}
+            text={t("landingPage.hero.createSchool")}
             textAlways
             onClick={onClickPlausible("Start coding Python")}
           />
           <DesignSystemButton
-            className="landing-page__button"
+            className=""
             href={`/${locale}/projects/blank-html-starter`}
-            text={t("landingPage.html")}
+            text={t("landingPage.hero.logIn")}
             textAlways
             onClick={onClickPlausible("Start coding HTML/CSS")}
+            type={"secondary"}
           />
         </div>
+      </div>
+      <div className="header__image">
+        <img alt="" src={heroPlaceholder} />
       </div>
     </header>
   );
