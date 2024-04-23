@@ -1,3 +1,5 @@
+import React from "react";
+
 import "./assets/stylesheets/App.scss";
 import "./assets/stylesheets/rpf_design_system/typography.scss";
 import "./assets/stylesheets/Notifications.scss";

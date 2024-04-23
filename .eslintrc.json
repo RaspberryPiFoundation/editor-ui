@@ -2,21 +2,18 @@
   "root": true,
   "extends": [
     "react-app",
-    "react-app/jest",
     "plugin:prettier/recommended"
   ],
   "plugins": [
     "prettier",
     "react",
-    "jsx-a11y",
-    "jest"
+    "jsx-a11y"
   ],
   "settings": {
     "react": {
       "version": "18.1.0"
     }
   },
-  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {

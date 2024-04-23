@@ -27,7 +27,7 @@ input {
 }
 
 .--light {
-  background-color: $rpf-teal-100;
+  background-color: $rpf-white;
   color: $rpf-text-primary;
   caret-color: $rpf-black;
 
@@ -70,14 +70,21 @@ body,
   overflow: auto;
   block-size: 100%;
   block-size: -moz-available;
-  block-size: -webkit-fill-available;
-  block-size: fill-available;
+  block-size: -webkit-stretch;
+  block-size: stretch;
   block-size: 100dvh;
   -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
   scrollbar-width: none; /* Remove scroll bar for Firefox */
 }
 
-/* Remove scrollbar for Chrome, Safari and Opera */
+// Remove scrollbar for Chrome, Safari and Opera
 ::-webkit-scrollbar {
   display: none;
+}
+
+::part(editor-root) {
+  // enables the parent application to control the size of the web components root element
+  display: block;
+  flex: 1 1 auto;
+  height: 100%;
 }

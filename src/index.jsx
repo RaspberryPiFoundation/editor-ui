@@ -16,7 +16,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { OidcProvider } from "redux-oidc";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./store";
 import userManager from "./utils/userManager";
 import apolloCache from "./utils/apolloCache";
 import { CookiesProvider } from "react-cookie";

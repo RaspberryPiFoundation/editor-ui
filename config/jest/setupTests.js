@@ -5,6 +5,10 @@
 import "@testing-library/jest-dom";
 import PyodideWorker from "../components/Editor/Runners/PyodideRunner/PyodideWorker.mock.js";
 
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+import failOnConsole from "jest-fail-on-console";
+
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,12 +39,28 @@ jest.mock("react-i18next", () => ({
       },
     };
   },
+  Trans: ({ children, i18nKey }) => children || i18nKey,
 }));
 
-jest.mock("./i18n", () => ({
+loadDevMessages();
+loadErrorMessages();
+
+jest.mock("../../src/utils/i18n.js", () => ({
   t: (string) => string,
 }));
 
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
 window.Worker = PyodideWorker;
+failOnConsole({
+  silenceMessage: (errorMessage) => {
+    if (
+      /Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array/.test(
+        errorMessage,
+      )
+    ) {
+      return true;
+    }
+    return false;
+  },
+});

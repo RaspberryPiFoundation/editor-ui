@@ -50,6 +50,7 @@ describe("When authenticated", () => {
                     identifier: "amazing-1",
                     locale: "null",
                     updatedAt: "2023-02-21T17:03:53Z",
+                    projectType: "project-type",
                   },
                 },
                 {
@@ -62,6 +63,7 @@ describe("When authenticated", () => {
                     identifier: "amazing-2",
                     locale: "null",
                     updatedAt: "2023-02-20T21:04:42Z",
+                    projectType: "project-type",
                   },
                 },
               ],
