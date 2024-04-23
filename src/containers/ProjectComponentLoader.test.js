@@ -29,49 +29,38 @@ let mockMediaQuery = (query) => {
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
-test("Renders editor", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      loading: "success",
-    },
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
-});
-
-test("handles editor-logIn custom event by calling login", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      loading: "success",
-      project: "my-project",
-    },
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-
-  act(() => {
-    document.dispatchEvent(new CustomEvent("editor-logIn"));
+describe("ProjectComponentLoader", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "success",
+        project: "my-project",
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
   });
 
-  expect(login).toHaveBeenCalledWith({
-    location: "my-location",
-    project: "my-project",
+  it("Renders editor", () => {
+    expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
+  });
+
+  it("handles editor-logIn custom event by calling login", () => {
+    act(() => {
+      document.dispatchEvent(new CustomEvent("editor-logIn"));
+    });
+
+    expect(login).toHaveBeenCalledWith({
+      location: "my-location",
+      project: "my-project",
+    });
   });
 });
