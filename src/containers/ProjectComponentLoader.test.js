@@ -4,17 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectComponentLoader from "./ProjectComponentLoader";
-import { matchMedia } from "mock-match-media";
 import { login } from "../utils/login";
-
-jest.mock("../hooks/useProjectPersistence", () => ({
-  useProjectPersistence: jest.fn(),
-}));
-
-jest.mock("react-responsive", () => ({
-  ...jest.requireActual("react-responsive"),
-  useMediaQuery: ({ query }) => mockMediaQuery(query),
-}));
 
 jest.mock("../utils/login");
 
@@ -23,19 +13,11 @@ jest.mock("react-router", () => ({
   useLocation: () => "my-location",
 }));
 
-let mockMediaQuery = (query) => {
-  return matchMedia(query).matches;
-};
-
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
-
 describe("ProjectComponentLoader", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureStore([]);
     const initialState = {
       editor: {
-        loading: "success",
         project: "my-project",
       },
     };
