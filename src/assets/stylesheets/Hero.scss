@@ -4,6 +4,63 @@
 @use "./rpf_design_system/mixins" as *;
 @use "./rpf_design_system/spacing" as *;
 
-.header__wrapper {
-  background-color: pink;
+.hero__wrapper {
+  background-color: var(--editor-color-layer-1);
+}
+
+.hero {
+  align-items: center;
+  align-self: stretch;
+  padding: $space-1-5;
+  gap: $space-1;
+  flex: 1;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    gap: $space-4;
+    padding: $space-5 $space-7-5;
+  }
+
+}
+
+
+.hero__image {
+
+  img {
+    aspect-ratio: 3/2;
+    display: block;
+    inline-size: 400px;
+    margin: auto;
+    max-inline-size: 601px;
+
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-inline-start: auto;
+
+    img {
+      inline-size: unset;
+      margin: unset;
+    }
+  }
+}
+
+.hero__buttons {
+  @include font-size-1-25(regular);
+
+  @include font-size-1-25(regular);
+
+  a {
+    color: $rpf-black;
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: 768px) {
+    align-items: stretch;
+    display: flex;
+    gap: $space-1;
+    inline-size: fit-content;
+
+  }
 }

@@ -28,33 +28,35 @@ const Hero = () => {
   }, [user, locale, navigate]);
 
   return (
-    <header className={"header__wrapper"} data-testid="hero-slice">
+    <div className="hero__wrapper">
       <EditorBrand />
-      <div className="header__copy">
-        <h1 className="">{t("landingPage.hero.title")}</h1>
-        <h2 className="">{t("landingPage.hero.subtitle")}</h2>
-        <div className="hero__buttons">
-          <DesignSystemButton
-            className=""
-            href={`/${locale}/projects/blank-python-starter`}
-            text={t("landingPage.hero.createSchool")}
-            textAlways
-            onClick={onClickPlausible("Start coding Python")}
-          />
-          <DesignSystemButton
-            className=""
-            href={`/${locale}/projects/blank-html-starter`}
-            text={t("landingPage.hero.logIn")}
-            textAlways
-            onClick={onClickPlausible("Start coding HTML/CSS")}
-            type={"secondary"}
-          />
+      <header className="hero" data-testid="hero-slice">
+        <div className="hero__copy">
+          <h1 className="">{t("landingPage.hero.title")}</h1>
+          <h2 className="">{t("landingPage.hero.subtitle")}</h2>
+          <div className="hero__buttons">
+            <DesignSystemButton
+              className=""
+              href={`/${locale}/projects/blank-python-starter`}
+              text={t("landingPage.hero.createSchool")}
+              textAlways
+              onClick={onClickPlausible("Start coding Python")}
+            />
+            <DesignSystemButton
+              className=""
+              href={`/${locale}/projects/blank-html-starter`}
+              text={t("landingPage.hero.logIn")}
+              textAlways
+              onClick={onClickPlausible("Start coding HTML/CSS")}
+              type={"secondary"}
+            />
+          </div>
         </div>
-      </div>
-      <div className="header__image">
-        <img alt="" src={heroPlaceholder} />
-      </div>
-    </header>
+        <div className="hero__image">
+          <img alt="" src={heroPlaceholder} />
+        </div>
+      </header>
+    </div>
   );
 };
 
