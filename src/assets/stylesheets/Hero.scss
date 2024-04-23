@@ -13,7 +13,7 @@
   align-self: stretch;
   padding: $space-1-5;
   gap: $space-1;
-  flex: 1;
+  // flex: 1 0 0;
 
   @media screen and (min-width: 768px) {
     display: flex;
@@ -24,20 +24,45 @@
 
 }
 
+.hero__copy {
+  // flex: 2;
+}
+
+.hero__copy--title {
+  @include font-size-3(regular);
+  font-weight: $font-weight-regular;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-5(regular);
+  }
+}
+
+.hero__copy--subtitle {
+  @include font-size-2(regular);
+  font-weight: $font-weight-regular;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-3(regular);
+  }
+}
+
 
 .hero__image {
+  margin-block: $space-2;
 
   img {
     aspect-ratio: 3/2;
     display: block;
-    inline-size: 400px;
     margin: auto;
-    max-inline-size: 601px;
-
+    // max-inline-size: 601px;
+    max-inline-size: 100%;
+    block-size: auto;
   }
 
   @media screen and (min-width: 768px) {
+    
     margin-inline-start: auto;
+    min-inline-size: 600px;
 
     img {
       inline-size: unset;
@@ -47,20 +72,23 @@
 }
 
 .hero__buttons {
-  @include font-size-1-25(regular);
+  @include font-size-1-25(regular);    
+  gap: $space-1;
+  display: flex;
+  flex-direction: column;
 
-  @include font-size-1-25(regular);
-
-  a {
-    color: $rpf-black;
-    text-decoration: none;
-  }
 
   @media screen and (min-width: 768px) {
-    align-items: stretch;
-    display: flex;
-    gap: $space-1;
-    inline-size: fit-content;
+    flex-direction: row;
+  }
 
+  a {
+   inline-size: -webkit-fill-available;
+   justify-content: center;
+   align-items: center;
+
+    @media screen and (min-width: 768px) {
+      inline-size: fit-content;
+    }
   }
 }
