@@ -7,12 +7,12 @@ import TextWithLink from "./TextWithLink";
 const Step2 = () => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
-    localStorage.getItem("schoolOnboarding"),
+    localStorage.getItem("schoolOnboarding")
   );
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_2"]
       ? schoolOnboardingData["step_2"]
-      : {},
+      : {}
   );
 
   const onChange = (e) => {
@@ -26,7 +26,7 @@ const Step2 = () => {
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("schoolOnboarding")),
         step_2: stepData,
-      }),
+      })
     );
   }, [stepData]);
 

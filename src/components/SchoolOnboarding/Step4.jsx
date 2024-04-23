@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  SelectInput,
+  TextInput,
+} from "@raspberrypifoundation/design-system-react";
 import TextWithLink from "./TextWithLink";
 
 const Step4 = () => {
@@ -46,119 +50,108 @@ const Step4 = () => {
       <div className="school-onboarding-form__content">
         <p>{t("schoolOnboarding.steps.step4.schoolDetails")}</p>
         <form>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolName")}
-              <input
-                type="text"
-                name="name"
-                value={stepData["name"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolWebsite")}
-              <input
-                type="text"
-                name="website"
-                value={stepData["website"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolName")}
+            name="name"
+            value={stepData["name"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolWebsite")}
+            name="website"
+            value={stepData["website"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
           <h4>{t("schoolOnboarding.steps.step4.schoolAddress")}</h4>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolAddress1")}
-              <input
-                type="text"
-                name="address_line_1"
-                value={stepData["address_line_1"]}
-                onChange={onChange}
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolAddress1")}
+            name="address_line_1"
+            value={stepData["address_line_1"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolAddress2")}
+            name="address_line_2"
+            value={stepData["address_line_2"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolCity")}
+            name="municipality"
+            value={stepData["municipality"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolState")}
+            name="administrative_area"
+            value={stepData["administrative_area"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolPostcode")}
+            name="postal_code"
+            value={stepData["postal_code"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
+          <SelectInput
+            label={t("schoolOnboarding.steps.step4.schoolCountry")}
+            options={[
+              // {
+              //   key: "",
+              //   value: t("schoolOnboarding.steps.step4.select"),
+              //   // disabled: true,
+              // },
+              {
+                key: "IN",
+                value: "India",
+              },
+              {
+                key: "KE",
+                value: "Kenya",
+              },
+              {
+                key: "GB",
+                value: "United Kingdom",
+              },
+              {
+                key: "US",
+                value: "United States of America",
+              },
+            ]}
+            name="country_code"
+            onChange={onChange}
+            selected={stepData["country_code"]}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolUrn")}
+            hint={
+              <TextWithLink
+                i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
+                to="https://www.get-information-schools.service.gov.uk/Search"
               />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolAddress2")}
-              <input
-                type="text"
-                name="address_line_2"
-                value={stepData["address_line_2"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolCity")}
-              <input
-                type="text"
-                name="municipality"
-                value={stepData["municipality"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolState")}
-              <input
-                type="text"
-                name="administrative_area"
-                value={stepData["administrative_area"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolPostcode")}
-              <input
-                type="text"
-                name="postal_code"
-                value={stepData["postal_code"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolCountry")}
-              <select
-                name="country_code"
-                onChange={onChange}
-                value={stepData["country_code"] || ""}
-              >
-                <option value="" disabled>
-                  {t("schoolOnboarding.steps.step3.select")}
-                </option>
-                <option value="GB">United Kingdom</option>
-                <option value="US">USA</option>
-                <option value="KE">Kenya</option>
-                <option value="IN">India</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolUrn")}
-              <p>
-                <TextWithLink
-                  i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
-                  to="https://www.get-information-schools.service.gov.uk/Search"
-                />
-              </p>
-              <input
-                type="text"
-                name="reference"
-                value={stepData["reference"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
+            }
+            name="reference"
+            value={stepData["reference"]}
+            onChange={onChange}
+            fullWidth={true}
+            error=""
+          />
         </form>
       </div>
     </>
