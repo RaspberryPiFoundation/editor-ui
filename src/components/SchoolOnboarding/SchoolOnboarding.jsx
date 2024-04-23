@@ -11,11 +11,11 @@ const SchoolOnboarding = () => {
     <div className="school-onboarding-wrapper" data-testid="school-onboarding">
       <div className="school-onboarding-form__text">
         <h2 className="school-onboarding-form__title">
-          {t("schoolOnboarding.title_1")}
+          {t("schoolOnboarding.codeEditor")}
         </h2>
         <img src={LineIcon} alt="" />
         <h2 className="school-onboarding-form__subtitle">
-          {t("schoolOnboarding.title_2")}
+          {t("schoolOnboarding.forEducation")}
         </h2>
       </div>
       <MultiStepForm />

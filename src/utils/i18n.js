@@ -187,18 +187,19 @@ i18n
             downloadButton: "Download project",
           },
           landingPage: {
-            title: "Code Editor",
-            subtitle: "Start coding, no setup required!",
-            python: "Start coding Python",
-            html: "Start coding HTML/CSS",
-            login: "Log in",
+            hero: {
+              title: "Same great code editor, now in your classroom.",
+              subtitle: "Free now, free forever.",
+              createSchool: "Create a School",
+              logIn: "Log in as a student",
+            },
             start: "Not sure where to start?",
             projectPython: "Python path",
             projectHtml: "Web path",
           },
           schoolOnboarding: {
-            title_1: "Code Editor",
-            title_2: "For Education",
+            codeEditor: "Code Editor",
+            forEducation: "For Education",
             step: "Step title",
             steps: {
               step1: {
