@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.8",
-    "@raspberrypifoundation/design-system-core": "^0.1.9",
-    "@raspberrypifoundation/design-system-react": "^0.1.5",
+    "@raspberrypifoundation/design-system-core": "^0.3.4",
+    "@raspberrypifoundation/design-system-react": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
     "@sentry/browser": "^7.17.3",
     "@sentry/react": "7.16.0",

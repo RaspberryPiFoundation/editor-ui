@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Accordion } from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 
 const Step1 = () => {
@@ -25,6 +26,11 @@ const Step1 = () => {
           </li>
         </ul>
         {/* TODO: Add accordion here once it has been created */}
+        {/* <Accordion
+          id="accordion"
+          title={t("schoolOnboarding.steps.step1.notSchoolQuestion")}
+          content={t("schoolOnboarding.steps.step1.notSchoolAnswer")}
+        /> */}
         <strong>{t("schoolOnboarding.steps.step1.notSchoolQuestion")}</strong>
         <p>{t("schoolOnboarding.steps.step1.notSchoolAnswer")}</p>
       </div>

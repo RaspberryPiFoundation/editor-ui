@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { CheckboxInput } from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
 
@@ -56,33 +57,29 @@ const Step2 = () => {
         </p>
         <form>
           <div>
-            <label>
-              <input
-                type="checkbox"
-                id="authority"
-                name="authority"
-                value="authority"
-                onChange={onChange}
-                checked={!!stepData["authority"]}
-              />
-              {t("schoolOnboarding.steps.step2.agreeAuthority")}
-            </label>
+            <CheckboxInput
+              label={t("schoolOnboarding.steps.step2.agreeAuthority")}
+              name="authority"
+              value="authority"
+              onChange={onChange}
+              checked={!!stepData["authority"]}
+              error=""
+            />
           </div>
           <div>
-            <label>
-              <input
-                type="checkbox"
-                id="responsibility"
-                name="responsibility"
-                value="responsibility"
-                onChange={onChange}
-                checked={!!stepData["responsibility"]}
-              />
-              <TextWithLink
-                i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
-                to="/"
-              />
-            </label>
+            <CheckboxInput
+              label={
+                <TextWithLink
+                  i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+                  to="/"
+                />
+              }
+              name="responsibility"
+              value="responsibility"
+              onChange={onChange}
+              checked={!!stepData["responsibility"]}
+              error=""
+            />
           </div>
         </form>
       </div>

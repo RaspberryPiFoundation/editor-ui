@@ -2949,24 +2949,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^0.1.9":
-  version: 0.1.16
-  resolution: "@raspberrypifoundation/design-system-core@npm:0.1.16"
+"@raspberrypifoundation/design-system-core@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "@raspberrypifoundation/design-system-core@npm:0.3.4"
   dependencies:
     classnames: ^2.3.2
-  checksum: 015534a27d500ff56f7f425584676bae4a7bb818372f2a5b3c587c6e350a2d8949bc053268ecf03420c301a72157cb7b316c9a4dbf73fc525e797b9141c4f2a7
+  checksum: 8676e63e3afb372c29fd52d5b897ac7422b5a8655ece3bfb8dd8e7c92325041b0c2392fd4aa12507a905a2c899b570425457b49c75fbab5a08434617accf3ea2
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@raspberrypifoundation/design-system-react@npm:0.1.5"
+"@raspberrypifoundation/design-system-react@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@raspberrypifoundation/design-system-react@npm:1.1.1"
   dependencies:
     classnames: ^2.3.2
+    material-symbols: ^0.14.5
     prop-types: ^15.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 7dc02f8d68a8dc5899dbb9e671eb062b0278fcdda195755d935e2fd4f1c692166790df94d13adf083d8b7ee8bf399bcb05077e301296cc1b4dc0763b44ab9651
+  checksum: 3837dfb267d4c685966904f824cea4431e2163a65822da9bd971e2c2eeb070810a5f6ee861998722a47bb85d5aabbb775c0a86123bd0e99ed3da1a522eb96d67
   languageName: node
   linkType: hard
 
@@ -2979,8 +2980,8 @@ __metadata:
     "@babel/preset-env": ^7.24.0
     "@babel/preset-react": ^7.24.1
     "@craco/craco": ^6.4.0
-    "@raspberrypifoundation/design-system-core": ^0.1.9
-    "@raspberrypifoundation/design-system-react": ^0.1.5
+    "@raspberrypifoundation/design-system-core": ^0.3.4
+    "@raspberrypifoundation/design-system-react": ^1.1.1
     "@reduxjs/toolkit": ^1.6.2
     "@sentry/browser": ^7.17.3
     "@sentry/react": 7.16.0
@@ -11371,6 +11372,13 @@ __metadata:
   dependencies:
     css-mediaquery: ^0.1.2
   checksum: 154e1650f79d78858424d7086093756ad2fdb1cd9ad19230b99a47c363a1da9c6692d6ca56ea49447fb516f580c59fd60d8b9a06247e088d8e1a658e6e5604d7
+  languageName: node
+  linkType: hard
+
+"material-symbols@npm:^0.14.5":
+  version: 0.14.7
+  resolution: "material-symbols@npm:0.14.7"
+  checksum: 191dea0145eadabd3122b891b965d8568793c3f53a540186a30b459948a8a0c00938642dcca3c4fcca483b08d7480d02722c6de10caeeeae30437306a79f64b6
   languageName: node
   linkType: hard
 
