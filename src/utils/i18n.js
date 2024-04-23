@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import EditorBrand from "../components/EditorBrand/EditorBrand";
 
 i18n
   // detect user language
@@ -197,9 +198,11 @@ i18n
             projectPython: "Python path",
             projectHtml: "Web path",
           },
-          schoolOnboarding: {
+          editorBrand: {
             codeEditor: "Code Editor",
             forEducation: "For Education",
+          },
+          schoolOnboarding: {
             step: "Step title",
             steps: {
               step1: {
