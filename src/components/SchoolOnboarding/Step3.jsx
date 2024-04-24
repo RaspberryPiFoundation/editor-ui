@@ -40,9 +40,10 @@ const Step3 = () => {
         <form>
           <SelectInput
             label={t("schoolOnboarding.steps.step3.role")}
+            placeholder={t("schoolOnboarding.steps.step3.select")}
             options={[
               // {
-              //   key: "",
+              //   // key: "",
               //   value: t("schoolOnboarding.steps.step3.select"),
               //   // disabled: true,
               // },

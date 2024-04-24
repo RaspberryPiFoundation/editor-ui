@@ -26,6 +26,9 @@ const Step4 = () => {
           reference: "",
         },
   );
+  useEffect(() => {
+    console.log(stepData["country_code"]);
+  }, [stepData]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -116,6 +119,7 @@ const Step4 = () => {
           />
           <SelectInput
             label={t("schoolOnboarding.steps.step4.schoolCountry")}
+            placeholder={t("schoolOnboarding.steps.step4.select")}
             options={[
               // {
               //   key: "",
@@ -144,7 +148,6 @@ const Step4 = () => {
             onChange={onChange}
             value={stepData["country_code"]}
             fullWidth={true}
-            error=""
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolUrn")}
@@ -159,7 +162,6 @@ const Step4 = () => {
             value={stepData["reference"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
           />
         </form>
       </div>
