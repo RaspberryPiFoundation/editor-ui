@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { login } from "../utils/login";
 
 import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
 
@@ -30,6 +32,7 @@ const ProjectComponentLoader = (props) => {
   //   (state) => state.editor.hasShownSavePrompt,
   // );
   // const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const location = useLocation();
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
@@ -75,6 +78,17 @@ const ProjectComponentLoader = (props) => {
       navigate("/");
     }
   }, [loading, project, i18n.language, navigate]);
+
+  useEffect(() => {
+    const handleLogIn = () => {
+      login({
+        project,
+        location,
+      });
+    };
+
+    document.addEventListener("editor-logIn", handleLogIn);
+  }, [project, location]);
 
   return (
     <>
