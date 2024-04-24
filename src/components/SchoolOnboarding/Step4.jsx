@@ -9,7 +9,7 @@ import TextWithLink from "./TextWithLink";
 const Step4 = () => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
-    localStorage.getItem("schoolOnboarding"),
+    localStorage.getItem("schoolOnboarding")
   );
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_4"]
@@ -24,7 +24,7 @@ const Step4 = () => {
           postal_code: "",
           country_code: "",
           reference: "",
-        },
+        }
   );
 
   const onChange = (e) => {
@@ -38,7 +38,7 @@ const Step4 = () => {
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("schoolOnboarding")),
         step_4: stepData,
-      }),
+      })
     );
   }, [stepData]);
 
@@ -52,6 +52,7 @@ const Step4 = () => {
         <form>
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolName")}
+            id="name"
             name="name"
             value={stepData["name"]}
             onChange={onChange}
@@ -60,6 +61,7 @@ const Step4 = () => {
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolWebsite")}
+            id="website"
             name="website"
             value={stepData["website"]}
             onChange={onChange}
@@ -69,6 +71,7 @@ const Step4 = () => {
           <h4>{t("schoolOnboarding.steps.step4.schoolAddress")}</h4>
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolAddress1")}
+            id="address_line_1"
             name="address_line_1"
             value={stepData["address_line_1"]}
             onChange={onChange}
@@ -77,6 +80,7 @@ const Step4 = () => {
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolAddress2")}
+            id="address_line_2"
             name="address_line_2"
             value={stepData["address_line_2"]}
             onChange={onChange}
@@ -85,6 +89,7 @@ const Step4 = () => {
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolCity")}
+            id="municipality"
             name="municipality"
             value={stepData["municipality"]}
             onChange={onChange}
@@ -93,6 +98,7 @@ const Step4 = () => {
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolState")}
+            id="administrative_area"
             name="administrative_area"
             value={stepData["administrative_area"]}
             onChange={onChange}
@@ -101,6 +107,7 @@ const Step4 = () => {
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolPostcode")}
+            id="postal_code"
             name="postal_code"
             value={stepData["postal_code"]}
             onChange={onChange}
@@ -132,9 +139,10 @@ const Step4 = () => {
                 value: "United States of America",
               },
             ]}
+            id="country_code"
             name="country_code"
             onChange={onChange}
-            selected={stepData["country_code"]}
+            value={stepData["country_code"]}
             fullWidth={true}
             error=""
           />
@@ -146,6 +154,7 @@ const Step4 = () => {
                 to="https://www.get-information-schools.service.gov.uk/Search"
               />
             }
+            id="reference"
             name="reference"
             value={stepData["reference"]}
             onChange={onChange}

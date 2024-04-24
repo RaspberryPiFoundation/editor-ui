@@ -63,15 +63,17 @@ const Step3 = () => {
                 value: t("schoolOnboarding.steps.step3.other"),
               },
             ]}
+            id="role"
             name="role"
             onChange={onChange}
-            selected={stepData["role"]}
+            value={stepData["role"]}
             fullWidth={true}
             error=""
           />
           <TextInput
             label={t("schoolOnboarding.steps.step3.department")}
             hint={t("schoolOnboarding.steps.step3.departmentHint")}
+            id="department"
             name="department"
             onChange={onChange}
             value={stepData["department"]}

@@ -63,7 +63,6 @@ const Step2 = () => {
               value="authority"
               onChange={onChange}
               checked={!!stepData["authority"]}
-              error=""
             />
           </div>
           <div>
@@ -78,7 +77,6 @@ const Step2 = () => {
               value="responsibility"
               onChange={onChange}
               checked={!!stepData["responsibility"]}
-              error=""
             />
           </div>
         </form>
