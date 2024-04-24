@@ -126,3 +126,17 @@ export const getSchool = async (schoolId, accessToken) => {
   );
   return response.data;
 };
+
+export const getMySchool = async (accessToken) => {
+  let response;
+  try {
+    response = await get(`${host}/api/schools`, headers(accessToken));
+    return response.data[0]; // The API allows a user to be associated with multiple schools but we're only allowing 1 to be associated in this app
+  } catch (error) {
+    if (error.response.status === 403) {
+      return;
+    } else {
+      throw error;
+    }
+  }
+};

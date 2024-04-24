@@ -4,6 +4,9 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import LoginMenu from "./LoginMenu";
+import { getMySchool } from "../../utils/apiCallHandler";
+
+jest.mock("../../utils/apiCallHandler");
 
 describe("When not logged in", () => {
   beforeEach(() => {
@@ -48,6 +51,17 @@ describe("When not logged in", () => {
 });
 
 describe("When logged in", () => {
+  let store;
+  const renderLoginMenu = () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Provider store={store}>
+          <LoginMenu />
+        </Provider>
+      </MemoryRouter>,
+    );
+  };
+
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -61,26 +75,22 @@ describe("When logged in", () => {
             profile: "profile_url",
           },
           id_token: "token",
+          access_token: "access-token",
         },
       },
     };
-    const store = mockStore(initialState);
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Provider store={store}>
-          <LoginMenu />
-        </Provider>
-      </MemoryRouter>,
-    );
+    store = mockStore(initialState);
   });
 
   test("Logout button renders", () => {
+    renderLoginMenu();
     expect(
       screen.queryByText("globalNav.accountMenu.logout"),
     ).toBeInTheDocument();
   });
 
   test("My profile renders with correct link", () => {
+    renderLoginMenu();
     expect(screen.queryByText("globalNav.accountMenu.profile")).toHaveAttribute(
       "href",
       "profile_url/edit",
@@ -88,8 +98,24 @@ describe("When logged in", () => {
   });
 
   test("My projects renders with correct link", () => {
+    renderLoginMenu();
     expect(
       screen.queryByText("globalNav.accountMenu.projects"),
     ).toHaveAttribute("href", "/ja-JP/projects");
+  });
+
+  test("requests the user's school from the api", () => {
+    renderLoginMenu();
+    expect(getMySchool).toHaveBeenCalledWith("access-token");
+  });
+
+  test("links to the user's school in the menu", async () => {
+    getMySchool.mockImplementationOnce(() =>
+      Promise.resolve({ name: "school-name" }),
+    );
+
+    renderLoginMenu();
+
+    expect(await screen.findByText("school-name")).toBeInTheDocument();
   });
 });
