@@ -279,7 +279,7 @@ i18n
             text: "You have already set up a school account and it is now in the process of being verified. If you wish to set up another account for a different school, you must use a different Raspberry Pi Foundation account.",
             next: "What happens next?",
             contact:
-              "If you have any issues you can contact us via email: websupport@raspberrypi.org. Please wait at least 5 working days before contacting us about verifying your school.",
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>. Please wait at least 5 working days before contacting us about verifying your school.",
             listItems: {
               item1:
                 "Thank you for providing the all the information needed to set up your school account.",
@@ -304,7 +304,7 @@ i18n
             text: "Thank you for setting up your school account in the Code Editor!",
             next: "What happens next?",
             contact:
-              "If you have any issues you can contact us via email: websupport@raspberrypi.org. Please wait at least 5 working days before contacting us about verifying your school.",
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>. Please wait at least 5 working days before contacting us about verifying your school.",
             listItems: {
               item1:
                 "Thank you for providing the all the information needed to set up your school account.",

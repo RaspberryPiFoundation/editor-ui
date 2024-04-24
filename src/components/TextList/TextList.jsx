@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import "../../assets/stylesheets/TextList.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as OpenFileIcon } from "../../assets/icons/open_in_new_tab.svg";
+import TextWithBoldSpan from "../SchoolOnboarding/TextWithBoldSpan";
 
 const TextList = (props) => {
   const {
@@ -42,7 +43,9 @@ const TextList = (props) => {
         <li>{listItems.item2}</li>
         <li>{listItems.item3}</li>
       </ol>
-      <p>{contact}</p>
+      <p>
+        <TextWithBoldSpan i18nKey={contact} />
+      </p>
       <div className="text-list__buttons">
         <DesignSystemButton
           className="text-list__button"
