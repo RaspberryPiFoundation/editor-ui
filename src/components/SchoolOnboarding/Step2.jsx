@@ -4,7 +4,7 @@ import { CheckboxInput } from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
 
-const Step2 = () => {
+const Step2 = ({ validationCallback, errorFields }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -20,6 +20,15 @@ const Step2 = () => {
     setStepData((data) => ({ ...data, [name]: checked }));
   };
 
+  const stepErrors = () => {
+    const errors = [];
+
+    if (!stepData["responsibility"]) errors.push("responsibility");
+    if (!stepData["authority"]) errors.push("authority");
+
+    return errors;
+  };
+
   useEffect(() => {
     localStorage.setItem(
       "schoolOnboarding",
@@ -28,6 +37,8 @@ const Step2 = () => {
         step_2: stepData,
       }),
     );
+
+    validationCallback(stepErrors());
   }, [stepData]);
 
   return (
@@ -36,6 +47,7 @@ const Step2 = () => {
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
+        {errorFields.length > 0 && <h3>Error message here</h3>}
         <p>
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
         </p>
@@ -63,6 +75,10 @@ const Step2 = () => {
               value="authority"
               onChange={onChange}
               checked={!!stepData["authority"]}
+              error={
+                errorFields.some((field) => field === "authority") &&
+                "You must confirm you have authority"
+              }
             />
           </div>
           <div>
@@ -77,6 +93,10 @@ const Step2 = () => {
               value="responsibility"
               onChange={onChange}
               checked={!!stepData["responsibility"]}
+              error={
+                errorFields.some((field) => field === "responsibility") &&
+                "You must confirm you accept responsibility"
+              }
             />
           </div>
         </form>

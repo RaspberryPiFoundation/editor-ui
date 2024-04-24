@@ -1,18 +1,39 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import "material-symbols";
 import { ProgressBar } from "@raspberrypifoundation/design-system-react";
+
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { createSchool } from "../../utils/apiCallHandler";
-import { useSelector } from "react-redux";
 
 const MultiStepForm = () => {
   const { t } = useTranslation();
 
-  const steps = [<Step1 />, <Step2 />, <Step3 />, <Step4 />];
+  const [invalidFields, setInvalidFields] = useState([]);
+  const [showInvalidFields, setShowInvalidFields] = useState(false);
+
+  const stepInvalidFields = showInvalidFields ? invalidFields : [];
+
+  const steps = [
+    <Step1 />,
+    <Step2
+      validationCallback={setInvalidFields}
+      errorFields={stepInvalidFields}
+    />,
+    <Step3
+      validationCallback={setInvalidFields}
+      errorFields={stepInvalidFields}
+    />,
+    <Step4
+      validationCallback={setInvalidFields}
+      errorFields={stepInvalidFields}
+    />,
+  ];
   const schoolOnboardingData = useMemo(() => {
     return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
   }, []);
@@ -22,6 +43,12 @@ const MultiStepForm = () => {
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
   const nextStep = () => {
+    // Steps without a validationCallback are just informational
+    if (!!steps[currentStep].props.validationCallback) {
+      setShowInvalidFields(true);
+      if (invalidFields.length > 0) return;
+    }
+
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
