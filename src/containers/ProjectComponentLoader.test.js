@@ -6,11 +6,14 @@ import { MemoryRouter } from "react-router-dom";
 import ProjectComponentLoader from "./ProjectComponentLoader";
 import { login } from "../utils/login";
 
+const mockNavigate = jest.fn();
+
 jest.mock("../utils/login");
 
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useLocation: () => "my-location",
+  useNavigate: () => mockNavigate,
 }));
 
 const setupStore = (initialState) => {
@@ -55,6 +58,20 @@ describe("ProjectComponentLoader", () => {
         location: "my-location",
         project: "my-project",
       });
+    });
+
+    it("redirects to new project identifier on editor-projectIdentifierChanged custom event", () => {
+      act(() => {
+        document.dispatchEvent(
+          new CustomEvent("editor-projectIdentifierChanged", {
+            detail: "new-project-identifier",
+          }),
+        );
+      });
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        "/ja-JP/projects/new-project-identifier",
+      );
     });
   });
 
