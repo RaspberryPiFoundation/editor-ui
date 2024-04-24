@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
@@ -10,9 +10,17 @@ import { MOBILE_BREAKPOINT } from "../utils/mediaQueryBreakpoints";
 
 import { setProject } from "../redux/EditorSlice";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import { login } from "../utils/login";
+
+jest.mock("../utils/login");
 
 jest.mock("../hooks/useProjectPersistence", () => ({
   useProjectPersistence: jest.fn(),
+}));
+
+jest.mock("react-router", () => ({
+  ...jest.requireActual("react-router"),
+  useLocation: () => "my-location",
 }));
 
 jest.mock("react-responsive", () => ({
@@ -33,130 +41,161 @@ const user = {
   },
 };
 
-test("Renders loading message if loading is pending", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      loading: "pending",
-    },
-    auth: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(screen.queryByText("project.loading")).toBeInTheDocument();
-});
-
-test("Loads default project if loading fails", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      loading: "failed",
-    },
-    auth: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  const expectedActions = [setProject(defaultPythonProject)];
-  expect(store.getActions()).toEqual(expectedActions);
-});
-
-test("Does not render loading message if loading is success", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: {
-        components: [],
+describe("ProjectComponentLoader", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        project: "my-project",
       },
-      openFiles: [[]],
-      focussedFileIndices: [0],
-      loading: "success",
-    },
-    auth: {},
-    instructions: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <div id="app"></div>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(screen.queryByText("project.loading")).not.toBeInTheDocument();
-});
-
-test("Calls useProjectPersistence with user when logged in", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: {},
-      hasShownSavePrompt: true,
-      justLoaded: false,
-      saveTriggered: false,
-    },
-    auth: { user },
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <div id="app"></div>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(useProjectPersistence).toHaveBeenCalledWith({
-    user,
-    project: {},
-    hasShownSavePrompt: true,
-    justLoaded: false,
-    saveTriggered: false,
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
   });
-});
 
-test("Calls useProjectPersistence without user when logged in", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
+  it("handles editor-logIn custom event by calling login", () => {
+    act(() => {
+      document.dispatchEvent(new CustomEvent("editor-logIn"));
+    });
+
+    expect(login).toHaveBeenCalledWith({
+      location: "my-location",
+      project: "my-project",
+    });
+  });
+
+  test("Renders loading message if loading is pending", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "pending",
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.queryByText("project.loading")).toBeInTheDocument();
+  });
+
+  test("Loads default project if loading fails", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "failed",
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const expectedActions = [setProject(defaultPythonProject)];
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  test("Does not render loading message if loading is success", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [[]],
+        focussedFileIndices: [0],
+        loading: "success",
+      },
+      auth: {},
+      instructions: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app"></div>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.queryByText("project.loading")).not.toBeInTheDocument();
+  });
+
+  test("Calls useProjectPersistence with user when logged in", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        hasShownSavePrompt: true,
+        justLoaded: false,
+        saveTriggered: false,
+      },
+      auth: { user },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app"></div>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(useProjectPersistence).toHaveBeenCalledWith({
+      user,
       project: {},
       hasShownSavePrompt: true,
       justLoaded: false,
       saveTriggered: false,
-    },
-    auth: {},
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <div id="app"></div>
-        <ProjectComponentLoader match={{ params: {} }} />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(useProjectPersistence).toHaveBeenCalledWith({
-    project: {},
-    hasShownSavePrompt: true,
-    justLoaded: false,
-    saveTriggered: false,
+    });
+  });
+
+  test("Calls useProjectPersistence without user when logged in", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {},
+        hasShownSavePrompt: true,
+        justLoaded: false,
+        saveTriggered: false,
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app"></div>
+          <ProjectComponentLoader match={{ params: {} }} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(useProjectPersistence).toHaveBeenCalledWith({
+      project: {},
+      hasShownSavePrompt: true,
+      justLoaded: false,
+      saveTriggered: false,
+    });
   });
 });
 
