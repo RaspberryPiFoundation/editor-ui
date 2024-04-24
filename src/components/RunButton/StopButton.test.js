@@ -2,7 +2,7 @@ import React from "react";
 import { act, render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import StopButton from "./StopButton";
-import store from "../../app/store";
+import store from "../../store";
 import { codeRunHandled, triggerCodeRun } from "../../redux/EditorSlice";
 
 beforeEach(() => {

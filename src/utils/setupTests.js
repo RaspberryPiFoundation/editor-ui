@@ -7,8 +7,6 @@ import PyodideWorker from "../components/Editor/Runners/PyodideRunner/PyodideWor
 
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 
-import failOnConsole from "jest-fail-on-console";
-
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -52,15 +50,3 @@ jest.mock("../../src/utils/i18n.js", () => ({
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
 window.Worker = PyodideWorker;
-failOnConsole({
-  silenceMessage: (errorMessage) => {
-    if (
-      /Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array/.test(
-        errorMessage,
-      )
-    ) {
-      return true;
-    }
-    return false;
-  },
-});

@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { updateImages, setNameError } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
-import store from "../../../app/store";
+import store from "../../../store";
 import { uploadImages } from "../../../utils/apiCallHandler";
 
 const allowedExtensions = {
