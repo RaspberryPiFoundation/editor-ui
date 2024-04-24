@@ -8,12 +8,12 @@ import {
 const Step3 = () => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
-    localStorage.getItem("schoolOnboarding")
+    localStorage.getItem("schoolOnboarding"),
   );
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_3"]
       ? schoolOnboardingData["step_3"]
-      : { role: "", department: "" }
+      : { role: "", department: "" },
   );
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ const Step3 = () => {
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("schoolOnboarding")),
         step_3: stepData,
-      })
+      }),
     );
   }, [stepData]);
 
