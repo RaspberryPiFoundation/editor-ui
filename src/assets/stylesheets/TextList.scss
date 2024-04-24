@@ -9,8 +9,6 @@
 
   @media screen and (min-width: 768px) {
     padding: $space-1-5;
-    max-inline-size: 600px;
-
   }
 }
 
@@ -32,6 +30,12 @@
   block-size: 40px;
   inline-size: 40px;
   margin-inline-end: $space-1-5;
+}
+
+.text-list__text {
+  @media screen and (min-width: 768px) {
+    max-inline-size: 1200px;
+  }
 }
 
 .text-list__next {
