@@ -88,6 +88,9 @@ const ProjectComponentLoader = (props) => {
     };
 
     document.addEventListener("editor-logIn", handleLogIn);
+    return () => {
+      document.removeEventListener("editor-logIn", handleLogIn);
+    };
   }, [project, location]);
 
   return (
