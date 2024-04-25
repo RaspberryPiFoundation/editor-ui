@@ -57,4 +57,26 @@ describe("ProjectComponentLoader", () => {
       });
     });
   });
+
+  describe("when user is logged in", () => {
+    beforeEach(() => {
+      const store = setupStore({
+        editor: {
+          project: "my-project",
+        },
+        auth: {
+          user: {},
+        },
+      });
+      renderComponent(store);
+    });
+
+    it("does not call login() when editor-logIn event is received", () => {
+      act(() => {
+        document.dispatchEvent(new CustomEvent("editor-logIn"));
+      });
+
+      expect(login).not.toHaveBeenCalled();
+    });
+  });
 });

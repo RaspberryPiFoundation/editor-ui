@@ -24,7 +24,7 @@ const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const embedded = props.embedded || false;
-  // const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   // const accessToken = user ? user.access_token : null;
   const project = useSelector((state) => state.editor.project);
   // const justLoaded = useSelector((state) => state.editor.justLoaded);
@@ -81,14 +81,16 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     const handleLogIn = () => {
-      login({ project, location });
+      if (!user) {
+        login({ project, location });
+      }
     };
 
     document.addEventListener("editor-logIn", handleLogIn);
     return () => {
       document.removeEventListener("editor-logIn", handleLogIn);
     };
-  }, [project, location]);
+  }, [user, project, location]);
 
   return (
     <>
