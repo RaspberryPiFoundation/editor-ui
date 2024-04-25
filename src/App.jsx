@@ -8,7 +8,7 @@ import BetaModal from "./components/Modals/BetaModal";
 import { BrowserRouter } from "react-router-dom";
 import GlobalNav from "./components/GlobalNav/GlobalNav";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
-import { RpfGlobalNav } from "@raspberrypifoundation/rpf-global-nav/dist/react";
+import { RpfGlobalNav } from "@raspberrypifoundation/rpf-global-nav/dist";
 import { SettingsContext } from "./utils/settings";
 import ToastCloseButton from "./utils/ToastCloseButton";
 import { ToastContainer } from "react-toastify";
@@ -49,17 +49,22 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLocaleSwitch = (newLocale) => {
-    console.log(newLocale);
+    console.log("New locale selected: " + newLocale);
     setLocale(newLocale);
   };
 
-  const handleOnLogInClicked = () => {
+  const handleOnLogIn = () => {
     console.log("Log In clicked");
     setLoggedIn(true);
   };
 
-  const handleOnLogOutClicked = () => {
+  const handleOnLogOut = () => {
     console.log("Log Out clicked");
+    setLoggedIn(false);
+  };
+
+  const handleSignUp = () => {
+    console.log("Sign up clicked");
     setLoggedIn(false);
   };
 
@@ -69,8 +74,9 @@ function App() {
         locale={locale}
         locales={locales}
         loggedIn={loggedIn}
-        onLogInClicked={handleOnLogInClicked}
-        onLogOutClicked={handleOnLogOutClicked}
+        onLogIn={handleOnLogIn}
+        onLogOut={handleOnLogOut}
+        onSignUp={handleSignUp}
         onSelectLanguage={handleLocaleSwitch}
       />
       <SettingsContext.Provider
