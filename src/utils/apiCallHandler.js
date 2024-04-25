@@ -118,3 +118,11 @@ export const createError = async (
 export const createSchool = async (school, accessToken) => {
   return await post(`${host}/api/schools`, { school }, headers(accessToken));
 };
+
+export const getSchool = async (schoolId, accessToken) => {
+  const response = await get(
+    `${host}/api/schools/${schoolId}`,
+    headers(accessToken),
+  );
+  return response.data;
+};

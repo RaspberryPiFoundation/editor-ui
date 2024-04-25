@@ -9,6 +9,7 @@ import {
   readProjectList,
   createError,
   createSchool,
+  getSchool,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -258,6 +259,21 @@ describe("School API calls", () => {
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/schools`,
       { school },
+      authHeaders,
+    );
+  });
+
+  test("Getting a single school", async () => {
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        data: {},
+      }),
+    );
+    const schoolId = "school-id";
+    await getSchool(schoolId, accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/schools/${schoolId}`,
       authHeaders,
     );
   });
