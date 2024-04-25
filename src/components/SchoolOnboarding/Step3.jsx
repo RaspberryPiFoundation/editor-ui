@@ -32,21 +32,18 @@ const Step3 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step3.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        <p>{t("schoolOnboarding.steps.step3.optionalInfo")}</p>
+        <p className="school-onboarding-form__text">
+          {t("schoolOnboarding.steps.step3.optionalInfo")}
+        </p>
         <form>
           <SelectInput
             label={t("schoolOnboarding.steps.step3.role")}
             placeholder={t("schoolOnboarding.steps.step3.select")}
             options={[
-              // {
-              //   // key: "",
-              //   value: t("schoolOnboarding.steps.step3.select"),
-              //   // disabled: true,
-              // },
               {
                 key: "teacher",
                 value: t("schoolOnboarding.steps.step3.teacher"),

@@ -46,7 +46,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
 
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
@@ -57,57 +57,65 @@ const Step2 = ({ validationCallback, errorFields }) => {
             text={t("schoolOnboarding.steps.step2.validation.error")}
           />
         )}
-        <p>
+        <p className="school-onboarding-form__text">
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
         </p>
-        <p>
+        <p className="school-onboarding-form__text">
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.responsibilities" />
         </p>
-        <ul>
-          <li>{t("schoolOnboarding.steps.step2.responsibility1")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility2")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility3")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility4")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility5")}</li>
+        <ul className="school-onboarding-form__list">
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility1")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility2")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility3")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility4")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility5")}
+          </li>
         </ul>
-        <p>
+        <p className="school-onboarding-form__text">
           <TextWithLink
             i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
             to="/"
           />
         </p>
         <form>
-          <div>
-            <CheckboxInput
-              label={t("schoolOnboarding.steps.step2.agreeAuthority")}
-              name="authority"
-              value="authority"
-              onChange={onChange}
-              checked={!!stepData["authority"]}
-              error={
-                errorFields.some((field) => field === "authority") &&
-                "You must confirm you have authority"
-              }
-            />
-          </div>
-          <div>
-            <CheckboxInput
-              label={
-                <TextWithLink
-                  i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
-                  to="/"
-                />
-              }
-              name="responsibility"
-              value="responsibility"
-              onChange={onChange}
-              checked={!!stepData["responsibility"]}
-              error={
-                errorFields.some((field) => field === "responsibility") &&
-                "You must confirm you accept responsibility"
-              }
-            />
-          </div>
+          <CheckboxInput
+            id="authority"
+            label={t("schoolOnboarding.steps.step2.agreeAuthority")}
+            name="authority"
+            value="authority"
+            onChange={onChange}
+            checked={!!stepData["authority"]}
+            error={
+              errorFields.some((field) => field === "authority") &&
+              "You must confirm you have authority"
+            }
+          />
+          <CheckboxInput
+            id="responsibility"
+            label={
+              <TextWithLink
+                i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+                to="/"
+              />
+            }
+            name="responsibility"
+            value="responsibility"
+            onChange={onChange}
+            checked={!!stepData["responsibility"]}
+            error={
+              errorFields.some((field) => field === "responsibility") &&
+              "You must confirm you accept responsibility"
+            }
+          />
         </form>
       </div>
     </>

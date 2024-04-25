@@ -282,6 +282,56 @@ i18n
             back: "Back",
             submit: "Submit",
           },
+          schoolBeingVerified: {
+            title: "Your school account is being verified",
+            text: "You have already set up a school account and it is now in the process of being verified. If you wish to set up another account for a different school, you must use a different Raspberry Pi Foundation account.",
+            next: "What happens next?",
+            contact:
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>. Please wait at least 5 working days before contacting us about verifying your school.",
+            listItems: {
+              item1:
+                "Thank you for providing the all the information needed to set up your school account.",
+              item2:
+                "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
+              item3:
+                "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+            },
+            exploreProjects: {
+              text: "Explore our projects",
+              url: "https://example.com/button1",
+              plausible: "Explore our projects",
+            },
+            editorHome: {
+              text: "Code Editor home",
+              url: "/",
+              plausible: "Code Editor home",
+            },
+          },
+          schoolCreated: {
+            title: "School account created!",
+            text: "Thank you for setting up your school account in the Code Editor!",
+            next: "What happens next?",
+            contact:
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>. Please wait at least 5 working days before contacting us about verifying your school.",
+            listItems: {
+              item1:
+                "Thank you for providing the all the information needed to set up your school account.",
+              item2:
+                "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
+              item3:
+                "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+            },
+            exploreProjects: {
+              text: "Explore our projects",
+              url: "https://example.com/button1",
+              plausible: "Explore our projects",
+            },
+            editorHome: {
+              text: "Code Editor home",
+              url: "/",
+              plausible: "Code Editor home",
+            },
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
