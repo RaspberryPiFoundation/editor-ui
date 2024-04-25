@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import EditorBrand from "../EditorBrand/EditorBrand";
+import EditorBrand from "../LogoLM/LogoLM";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import heroPlaceholder from "../../assets/images/hero-placeholder.svg";
 
