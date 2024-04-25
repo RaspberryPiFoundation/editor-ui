@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Support for json package in skulpt python runner (#989)
 - Support to enable embedding iframes in HTML projects from in-house domains (#985)
 - Unit tests for `pyodide` runner (#976)
 

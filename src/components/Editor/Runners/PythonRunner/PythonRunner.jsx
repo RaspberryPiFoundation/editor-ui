@@ -52,9 +52,7 @@ const externalLibraries = {
   },
   "./json/__init__.js": {
     path: `${process.env.ASSETS_URL}/shims/json.sk/__init__.js`,
-    dependencies : [
-      `${process.env.ASSETS_URL}/shims/json.sk/stringify.js`
-    ]
+    dependencies: [`${process.env.ASSETS_URL}/shims/json.sk/stringify.js`],
   },
 };
 
