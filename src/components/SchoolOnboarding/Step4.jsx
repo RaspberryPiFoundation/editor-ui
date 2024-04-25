@@ -123,11 +123,6 @@ const Step4 = () => {
               label={t("schoolOnboarding.steps.step4.schoolCountry")}
               placeholder={t("schoolOnboarding.steps.step4.select")}
               options={[
-                // {
-                //   key: "",
-                //   value: t("schoolOnboarding.steps.step4.select"),
-                //   // disabled: true,
-                // },
                 {
                   key: "IN",
                   value: "India",

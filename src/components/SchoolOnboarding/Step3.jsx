@@ -44,11 +44,6 @@ const Step3 = () => {
             label={t("schoolOnboarding.steps.step3.role")}
             placeholder={t("schoolOnboarding.steps.step3.select")}
             options={[
-              // {
-              //   // key: "",
-              //   value: t("schoolOnboarding.steps.step3.select"),
-              //   // disabled: true,
-              // },
               {
                 key: "teacher",
                 value: t("schoolOnboarding.steps.step3.teacher"),
