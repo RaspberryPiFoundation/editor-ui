@@ -42,12 +42,18 @@ const MultiStepForm = () => {
   );
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
-  const nextStep = () => {
-    // Steps without a validationCallback are just informational
-    if (!!steps[currentStep].props.validationCallback) {
+  const checkValidation = () => {
+    if (steps[currentStep].props.validationCallback) {
       setShowInvalidFields(true);
-      if (invalidFields.length > 0) return;
+      if (invalidFields.length > 0) return false;
     }
+
+    // Steps without a validationCallback prop are just informational
+    return true;
+  };
+
+  const nextStep = () => {
+    if (!checkValidation()) return;
 
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -61,6 +67,8 @@ const MultiStepForm = () => {
   };
 
   const onSubmit = async () => {
+    if (!checkValidation()) return;
+
     try {
       const response = await createSchool(
         JSON.parse(localStorage.getItem("schoolOnboarding"))["step_4"],

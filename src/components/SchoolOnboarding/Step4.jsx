@@ -3,10 +3,16 @@ import { useTranslation } from "react-i18next";
 import {
   SelectInput,
   TextInput,
+  Alert,
 } from "@raspberrypifoundation/design-system-react";
 import TextWithLink from "./TextWithLink";
+import {
+  fieldError,
+  existsValidation,
+  urlValidation,
+} from "../../utils/fieldValidation";
 
-const Step4 = () => {
+const Step4 = ({ validationCallback, errorFields }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -35,6 +41,25 @@ const Step4 = () => {
     setStepData((data) => ({ ...data, [name]: value }));
   };
 
+  const stepErrors = () => {
+    const errors = [];
+    const validations = [
+      () => existsValidation({ stepData, fieldName: "name" }),
+      () => urlValidation({ stepData, fieldName: "website" }),
+      () => existsValidation({ stepData, fieldName: "address_line_1" }),
+      () => existsValidation({ stepData, fieldName: "municipality" }),
+      () => existsValidation({ stepData, fieldName: "administrative_area" }),
+      () => existsValidation({ stepData, fieldName: "postal_code" }),
+      () => existsValidation({ stepData, fieldName: "country" }),
+    ];
+
+    validations.forEach((validation) => {
+      errors.push(validation());
+    });
+
+    return errors;
+  };
+
   useEffect(() => {
     localStorage.setItem(
       "schoolOnboarding",
@@ -43,6 +68,8 @@ const Step4 = () => {
         step_4: stepData,
       }),
     );
+
+    validationCallback(stepErrors());
   }, [stepData]);
 
   return (
@@ -51,6 +78,14 @@ const Step4 = () => {
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
       <div className="school-onboarding-form__content">
+        {errorFields.length > 0 && (
+          <Alert
+            title={t("schoolOnboarding.errorTitle")}
+            type="error"
+            text={t("schoolOnboarding.steps.step4.validation.error")}
+          />
+        )}
+
         <p>{t("schoolOnboarding.steps.step4.schoolDetails")}</p>
         <form>
           <TextInput
@@ -60,7 +95,11 @@ const Step4 = () => {
             value={stepData["name"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "name",
+              errorMessage: "You must enter a school name",
+            })}
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolWebsite")}
@@ -69,7 +108,11 @@ const Step4 = () => {
             value={stepData["website"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "website",
+              errorMessage: "School website doesn't look right",
+            })}
           />
           <h4>{t("schoolOnboarding.steps.step4.schoolAddress")}</h4>
           <TextInput
@@ -79,7 +122,11 @@ const Step4 = () => {
             value={stepData["address_line_1"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "address_line_1",
+              errorMessage: "Address line 1 doesn't look right",
+            })}
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolAddress2")}
@@ -88,7 +135,6 @@ const Step4 = () => {
             value={stepData["address_line_2"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolCity")}
@@ -97,7 +143,11 @@ const Step4 = () => {
             value={stepData["municipality"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "municipality",
+              errorMessage: "Village/Town/City doesn't look right",
+            })}
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolState")}
@@ -106,7 +156,11 @@ const Step4 = () => {
             value={stepData["administrative_area"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "administrative_area",
+              errorMessage: "State/County/Province doesn't look right",
+            })}
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolPostcode")}
@@ -115,7 +169,11 @@ const Step4 = () => {
             value={stepData["postal_code"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={fieldError({
+              errorFields,
+              fieldName: "postal_code",
+              errorMessage: "Postal code/Zip code doesn't look right",
+            })}
           />
           <SelectInput
             label={t("schoolOnboarding.steps.step4.schoolCountry")}

@@ -200,6 +200,7 @@ i18n
             title_1: "Code Editor",
             title_2: "For Education",
             step: "Step title",
+            errorTitle: "There is a problem with the form",
             steps: {
               step1: {
                 title: "Before you start creating your school account",
@@ -235,6 +236,10 @@ i18n
                   "I have the authority to create this account on behalf of my school.",
                 agreeResponsibility:
                   "I agree to be responsible for this school account and I accept the <0>Terms and conditions</0>.",
+                validation: {
+                  error:
+                    "You must agree to the following responsibilities and Terms and conditions to continue.",
+                },
               },
               step3: {
                 title: "What is your role at the School?",
@@ -267,6 +272,9 @@ i18n
                 schoolUrn: "School URN (Optional)",
                 schoolUrnHint:
                   "This can be found on the UK Government website <0>here</0>. Although this is not required it will help us to verify your school account.",
+                validation: {
+                  error: "Some required fields are not filled.",
+                },
               },
             },
             cancel: "Cancel",

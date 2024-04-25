@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckboxInput } from "@raspberrypifoundation/design-system-react";
+import {
+  CheckboxInput,
+  Alert,
+} from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
 
@@ -47,7 +50,13 @@ const Step2 = ({ validationCallback, errorFields }) => {
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        {errorFields.length > 0 && <h3>Error message here</h3>}
+        {errorFields.length > 0 && (
+          <Alert
+            title={t("schoolOnboarding.errorTitle")}
+            type="error"
+            text={t("schoolOnboarding.steps.step2.validation.error")}
+          />
+        )}
         <p>
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
         </p>
