@@ -123,3 +123,12 @@
     width: fit-content;
   }
 }
+
+.rpf-accordion {
+  border: 1px solid var(--rpf-grey-50);
+  border-radius: var(--space-1);
+}
+
+.rpf-accordion__title {
+  @include font-size-1(regular);
+}

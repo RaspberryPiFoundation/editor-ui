@@ -2971,17 +2971,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@raspberrypifoundation/design-system-react@npm:1.1.2"
+"@raspberrypifoundation/design-system-react@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@raspberrypifoundation/design-system-react@npm:1.1.4"
   dependencies:
     classnames: ^2.3.2
     material-symbols: ^0.14.5
     prop-types: ^15.8.1
-  peerDependencies:
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 692775c6ce8ab7861c7705c1bea45b0f62d4610da76df84ced8eae2a26be83c2b9f32ee5187c7b68d302324ae7ce1b336438ba525f611ee82aa1f2aa715beaa4
+  checksum: dee85438eac757a3e9d2d9c25ed09e42666acc438d70f41e98449ddded3ff2cb2c32f39b14010961c7104e76cb3c84061a90d5dea42e5609d2731b3c5e44f43b
   languageName: node
   linkType: hard
 
@@ -2995,7 +2994,7 @@ __metadata:
     "@babel/preset-react": ^7.24.1
     "@craco/craco": ^6.4.0
     "@raspberrypifoundation/design-system-core": ^0.3.4
-    "@raspberrypifoundation/design-system-react": ^1.1.2
+    "@raspberrypifoundation/design-system-react": ^1.1.4
     "@reduxjs/toolkit": ^1.6.2
     "@sentry/browser": ^7.17.3
     "@sentry/react": 7.16.0
@@ -14118,7 +14117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.1.0":
+"react-dom@npm:^18.1.0, react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -14440,7 +14439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.1.0":
+"react@npm:^18.1.0, react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
