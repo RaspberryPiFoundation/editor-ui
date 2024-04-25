@@ -25,10 +25,7 @@ const MultiStepForm = () => {
       validationCallback={setInvalidFields}
       errorFields={stepInvalidFields}
     />,
-    <Step3
-      validationCallback={setInvalidFields}
-      errorFields={stepInvalidFields}
-    />,
+    <Step3 />,
     <Step4
       validationCallback={setInvalidFields}
       errorFields={stepInvalidFields}
@@ -93,6 +90,8 @@ const MultiStepForm = () => {
   });
 
   useEffect(() => {
+    setShowInvalidFields(false);
+
     if (
       window.history.state &&
       window.history.state.currentStep !== currentStep

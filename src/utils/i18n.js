@@ -237,8 +237,13 @@ i18n
                 agreeResponsibility:
                   "I agree to be responsible for this school account and I accept the <0>Terms and conditions</0>.",
                 validation: {
-                  error:
-                    "You must agree to the following responsibilities and Terms and conditions to continue.",
+                  errors: {
+                    message:
+                      "You must agree to the following responsibilities and Terms and conditions to continue.",
+                    authority: "You must confirm you have authority",
+                    responsibility:
+                      "You must confirm you accept responsibility",
+                  },
                 },
               },
               step3: {
@@ -273,7 +278,20 @@ i18n
                 schoolUrnHint:
                   "This can be found on the UK Government website <0>here</0>. Although this is not required it will help us to verify your school account.",
                 validation: {
-                  error: "Some required fields are not filled.",
+                  errors: {
+                    message: "Some required fields are not filled.",
+                    schoolName: "You must supply your school's name",
+                    schoolWebsite: "The school website doesn't look right.",
+                    schoolAddress1:
+                      "You must supply Address line 1 of your school.",
+                    schoolCity:
+                      "You must supply your school's Village/Town/City.",
+                    schoolState:
+                      "You must supply your school's State/County/Province.",
+                    schoolPostcode:
+                      "You must supply your school's Postal code/Zip code.",
+                    schoolCountry: "Please select a country from the list.",
+                  },
                 },
               },
             },

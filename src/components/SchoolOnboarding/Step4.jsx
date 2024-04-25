@@ -47,11 +47,12 @@ const Step4 = ({ validationCallback, errorFields }) => {
       () => existsValidation({ stepData, fieldName: "municipality" }),
       () => existsValidation({ stepData, fieldName: "administrative_area" }),
       () => existsValidation({ stepData, fieldName: "postal_code" }),
-      () => existsValidation({ stepData, fieldName: "country" }),
+      () => existsValidation({ stepData, fieldName: "country_code" }),
     ];
 
-    validations.forEach((validation) => {
-      errors.push(validation());
+    validations.forEach((runValidation) => {
+      const validationResult = runValidation();
+      if (validationResult) errors.push(validationResult);
     });
 
     return errors;
@@ -79,7 +80,7 @@ const Step4 = ({ validationCallback, errorFields }) => {
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"
-            text={t("schoolOnboarding.steps.step4.validation.error")}
+            text={t("schoolOnboarding.steps.step4.validation.errors.message")}
           />
         )}
 
@@ -98,7 +99,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
             error={fieldError({
               errorFields,
               fieldName: "name",
-              errorMessage: "You must enter a school name",
+              errorMessage: t(
+                "schoolOnboarding.steps.step4.validation.errors.schoolName",
+              ),
             })}
           />
           <TextInput
@@ -111,7 +114,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
             error={fieldError({
               errorFields,
               fieldName: "website",
-              errorMessage: "School website doesn't look right",
+              errorMessage: t(
+                "schoolOnboarding.steps.step4.validation.errors.schoolWebsite",
+              ),
             })}
           />
           <section className="school-onboarding-form__section">
@@ -128,7 +133,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
               error={fieldError({
                 errorFields,
                 fieldName: "address_line_1",
-                errorMessage: "Address line 1 doesn't look right",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolAddress1",
+                ),
               })}
             />
             <TextInput
@@ -149,7 +156,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
               error={fieldError({
                 errorFields,
                 fieldName: "municipality",
-                errorMessage: "Village/Town/City doesn't look right",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolCity",
+                ),
               })}
             />
             <TextInput
@@ -162,7 +171,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
               error={fieldError({
                 errorFields,
                 fieldName: "administrative_area",
-                errorMessage: "State/County/Province doesn't look right",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolState",
+                ),
               })}
             />
             <TextInput
@@ -175,7 +186,9 @@ const Step4 = ({ validationCallback, errorFields }) => {
               error={fieldError({
                 errorFields,
                 fieldName: "postal_code",
-                errorMessage: "Postal code/Zip code doesn't look right",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolPostcode",
+                ),
               })}
             />
             <SelectInput
@@ -204,6 +217,13 @@ const Step4 = ({ validationCallback, errorFields }) => {
               onChange={onChange}
               value={stepData["country_code"]}
               fullWidth={true}
+              error={fieldError({
+                errorFields,
+                fieldName: "country_code",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolCountry",
+                ),
+              })}
             />
           </section>
 

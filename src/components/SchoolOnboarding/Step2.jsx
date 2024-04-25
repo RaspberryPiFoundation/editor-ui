@@ -54,7 +54,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"
-            text={t("schoolOnboarding.steps.step2.validation.error")}
+            text={t("schoolOnboarding.steps.step2.validation.errors.message")}
           />
         )}
         <p className="school-onboarding-form__text">
@@ -96,7 +96,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
             checked={!!stepData["authority"]}
             error={
               errorFields.some((field) => field === "authority") &&
-              "You must confirm you have authority"
+              t("schoolOnboarding.steps.step2.validation.errors.authority")
             }
           />
           <CheckboxInput
@@ -113,7 +113,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
             checked={!!stepData["responsibility"]}
             error={
               errorFields.some((field) => field === "responsibility") &&
-              "You must confirm you accept responsibility"
+              t("schoolOnboarding.steps.step2.validation.errors.responsibility")
             }
           />
         </form>
