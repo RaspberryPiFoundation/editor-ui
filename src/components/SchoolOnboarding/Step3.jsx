@@ -32,11 +32,13 @@ const Step3 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step3.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        <p>{t("schoolOnboarding.steps.step3.optionalInfo")}</p>
+        <p className="school-onboarding-form__text">
+          {t("schoolOnboarding.steps.step3.optionalInfo")}
+        </p>
         <form>
           <SelectInput
             label={t("schoolOnboarding.steps.step3.role")}
@@ -67,7 +69,7 @@ const Step3 = () => {
             id="role"
             name="role"
             onChange={onChange}
-            value={stepData["role"]}
+            defaultValue={stepData["role"]}
             fullWidth={true}
             error=""
           />
