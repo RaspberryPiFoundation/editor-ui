@@ -13,36 +13,48 @@ jest.mock("react-router", () => ({
   useLocation: () => "my-location",
 }));
 
+const setupStore = (initialState) => {
+  const mockStore = configureStore([]);
+  return mockStore(initialState);
+};
+
+const renderComponent = (store) => {
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <ProjectComponentLoader match={{ params: {} }} />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
 describe("ProjectComponentLoader", () => {
-  beforeEach(() => {
-    const mockStore = configureStore([]);
-    const initialState = {
-      editor: {
-        project: "my-project",
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  it("Renders editor", () => {
-    expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
-  });
-
-  it("handles editor-logIn custom event by calling login", () => {
-    act(() => {
-      document.dispatchEvent(new CustomEvent("editor-logIn"));
+  describe("when user is not logged in", () => {
+    beforeEach(() => {
+      const store = setupStore({
+        editor: {
+          project: "my-project",
+        },
+        auth: {
+          user: null,
+        },
+      });
+      renderComponent(store);
     });
 
-    expect(login).toHaveBeenCalledWith({
-      location: "my-location",
-      project: "my-project",
+    it("Renders editor", () => {
+      expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
+    });
+
+    it("calls login() when editor-logIn event is received", () => {
+      act(() => {
+        document.dispatchEvent(new CustomEvent("editor-logIn"));
+      });
+
+      expect(login).toHaveBeenCalledWith({
+        location: "my-location",
+        project: "my-project",
+      });
     });
   });
 });
