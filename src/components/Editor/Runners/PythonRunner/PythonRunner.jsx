@@ -50,6 +50,12 @@ const externalLibraries = {
   "./sense_hat.py": {
     path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
   },
+  "./json/__init__.js": {
+    path: `${process.env.ASSETS_URL}/shims/json.sk/__init__.js`,
+    dependencies : [
+      `${process.env.ASSETS_URL}/shims/json.sk/stringify.js`
+    ]
+  },
 };
 
 const PythonRunner = () => {
