@@ -26,9 +26,6 @@ const Step4 = () => {
           reference: "",
         },
   );
-  useEffect(() => {
-    console.log(stepData["country_code"]);
-  }, [stepData]);
 
   const onChange = (e) => {
     const { name, value } = e.target;

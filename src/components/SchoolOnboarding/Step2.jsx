@@ -67,6 +67,7 @@ const Step2 = () => {
         </p>
         <form>
           <CheckboxInput
+            id="authority"
             label={t("schoolOnboarding.steps.step2.agreeAuthority")}
             name="authority"
             value="authority"
@@ -74,6 +75,7 @@ const Step2 = () => {
             checked={!!stepData["authority"]}
           />
           <CheckboxInput
+            id="responsibility"
             label={
               <TextWithLink
                 i18nKey="schoolOnboarding.steps.step2.termsAndConditions"

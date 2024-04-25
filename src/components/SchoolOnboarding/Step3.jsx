@@ -69,7 +69,7 @@ const Step3 = () => {
             id="role"
             name="role"
             onChange={onChange}
-            defaultValue={stepData["role"]}
+            value={stepData["role"]}
             fullWidth={true}
             error=""
           />
