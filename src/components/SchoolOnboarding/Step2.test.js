@@ -4,7 +4,7 @@ import Step2 from "./Step2";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step2 />);
+    render(<Step2 validationCallback={jest.fn} errorFields={[]} />);
   });
 
   test("it renders", () => {
@@ -55,7 +55,7 @@ describe("When previous data is in localStorage", () => {
       "schoolOnboarding",
       JSON.stringify({ step_2: { authority: true, responsibility: true } }),
     );
-    render(<Step2 />);
+    render(<Step2 validationCallback={jest.fn} errorFields={[]} />);
   });
 
   test("the authority checkbox is checked", () => {
@@ -63,11 +63,20 @@ describe("When previous data is in localStorage", () => {
       screen.getByLabelText("schoolOnboarding.steps.step2.agreeAuthority"),
     ).toBeChecked();
   });
+});
 
-  test("the responsibility checkbox is checked", () => {
+describe("When errors are provided", () => {
+  beforeEach(() => {
+    render(<Step2 validationCallback={jest.fn} errorFields={["authority"]} />);
+  });
+
+  test("the error message shows", () => {
     expect(
-      screen.getByLabelText("schoolOnboarding.steps.step2.termsAndConditions"),
-    ).toBeChecked();
+      screen.queryByText("schoolOnboarding.steps.step2.validation.errors.message"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("schoolOnboarding.steps.step2.validation.errors.authority"),
+    ).toBeInTheDocument();
   });
 });
 

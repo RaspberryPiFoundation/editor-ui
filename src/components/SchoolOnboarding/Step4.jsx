@@ -68,7 +68,7 @@ const Step4 = ({ validationCallback, errorFields }) => {
     );
 
     validationCallback(stepErrors());
-  }, [stepData]);
+  }, [stepData, validationCallback, stepErrors]);
 
   return (
     <>

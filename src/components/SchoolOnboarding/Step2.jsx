@@ -6,6 +6,7 @@ import {
 } from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
+import { fieldError, existsValidation } from "../../utils/fieldValidation";
 
 const Step2 = ({ validationCallback, errorFields }) => {
   const { t } = useTranslation();
@@ -26,8 +27,15 @@ const Step2 = ({ validationCallback, errorFields }) => {
   const stepErrors = () => {
     const errors = [];
 
-    if (!stepData["responsibility"]) errors.push("responsibility");
-    if (!stepData["authority"]) errors.push("authority");
+    const validations = [
+      () => existsValidation({ stepData, fieldName: "authority" }),
+      () => existsValidation({ stepData, fieldName: "responsibility" }),
+    ];
+
+    validations.forEach((runValidation) => {
+      const validationResult = runValidation();
+      if (validationResult) errors.push(validationResult);
+    });
 
     return errors;
   };
@@ -42,7 +50,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
     );
 
     validationCallback(stepErrors());
-  }, [stepData]);
+  }, [stepData, validationCallback, stepErrors]);
 
   return (
     <>
@@ -94,10 +102,13 @@ const Step2 = ({ validationCallback, errorFields }) => {
             value="authority"
             onChange={onChange}
             checked={!!stepData["authority"]}
-            error={
-              errorFields.some((field) => field === "authority") &&
-              t("schoolOnboarding.steps.step2.validation.errors.authority")
-            }
+            error={fieldError({
+              errorFields,
+              fieldName: "authority",
+              errorMessage: t(
+                "schoolOnboarding.steps.step2.validation.errors.authority",
+              ),
+            })}
           />
           <CheckboxInput
             id="responsibility"
@@ -111,10 +122,13 @@ const Step2 = ({ validationCallback, errorFields }) => {
             value="responsibility"
             onChange={onChange}
             checked={!!stepData["responsibility"]}
-            error={
-              errorFields.some((field) => field === "responsibility") &&
-              t("schoolOnboarding.steps.step2.validation.errors.responsibility")
-            }
+            error={fieldError({
+              errorFields,
+              fieldName: "responsibility",
+              errorMessage: t(
+                "schoolOnboarding.steps.step2.validation.errors.responsibility",
+              ),
+            })}
           />
         </form>
       </div>

@@ -40,6 +40,7 @@ const MultiStepForm = () => {
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
   const checkValidation = () => {
+    // If there's a validation callback provided we should check it passes
     if (steps[currentStep].props.validationCallback) {
       setShowInvalidFields(true);
       if (invalidFields.length > 0) return false;

@@ -3,7 +3,7 @@ import Step4 from "./Step4";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step4 />);
+    render(<Step4 validationCallback={jest.fn} errorFields={[]} />);
   });
 
   test("it renders", () => {
@@ -182,7 +182,7 @@ describe("When previous data is in localStorage", () => {
         },
       }),
     );
-    render(<Step4 />);
+    render(<Step4 validationCallback={jest.fn} errorFields={[]} />);
   });
 
   test("the name is populated correctly", () => {
@@ -237,6 +237,21 @@ describe("When previous data is in localStorage", () => {
     expect(
       screen.getByLabelText(/schoolOnboarding.steps.step4.schoolUrn/),
     ).toHaveValue("dr4m45ch001");
+  });
+});
+
+describe("When errors are provided", () => {
+  beforeEach(() => {
+    render(<Step4 validationCallback={jest.fn} errorFields={["name"]} />);
+  });
+
+  test("the error message shows", () => {
+    expect(
+      screen.queryByText("schoolOnboarding.steps.step4.validation.errors.message"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("schoolOnboarding.steps.step4.validation.errors.schoolName"),
+    ).toBeInTheDocument();
   });
 });
 
