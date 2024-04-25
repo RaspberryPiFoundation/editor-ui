@@ -81,10 +81,7 @@ const ProjectComponentLoader = (props) => {
 
   useEffect(() => {
     const handleLogIn = () => {
-      login({
-        project,
-        location,
-      });
+      login({ project, location });
     };
 
     document.addEventListener("editor-logIn", handleLogIn);
