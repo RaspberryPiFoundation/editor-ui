@@ -28,7 +28,6 @@ const Step1 = () => {
             <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.email" />
           </li>
         </ul>
-        {/* TODO: Add accordion here once it has been created */}
         <Accordion
           id="accordion"
           title={t("schoolOnboarding.steps.step1.notSchoolQuestion")}
