@@ -41,7 +41,7 @@ const MultiStepForm = () => {
     // If there's a validation callback provided we should check it passes
     if (steps[currentStep].props.stepIsValid) {
       setShowInvalidFields(true);
-      if (stepIsValid) return false;
+      return stepIsValid;
     }
 
     // Steps without a stepIsValid prop are just informational
