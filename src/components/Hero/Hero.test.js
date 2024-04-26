@@ -38,7 +38,7 @@ describe("Hero Component", () => {
     );
 
     expect(
-      screen.getByText(/Same great code editor, now in your classroom/i),
+      screen.findByText(/Same great code editor, now in your classroom/i),
     ).toBeInTheDocument();
   });
 
