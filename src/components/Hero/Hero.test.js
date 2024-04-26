@@ -51,7 +51,7 @@ describe("Hero Component", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Create aSchool/i)).toBeInTheDocument();
+    expect(screen.getByText(/Create a School/i)).toBeInTheDocument();
   });
 
   test("not renders login button when user is not logged in", () => {
