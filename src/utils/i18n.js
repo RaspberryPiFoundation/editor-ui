@@ -247,7 +247,7 @@ i18n
               step3: {
                 title: "What is your role at the School?",
                 optionalInfo:
-                  "Providing this information in optional, however it helps to us to understand our users, how the platform is used, and how we can improve it.",
+                  "Providing this information is optional, however it helps us to understand our users, how the platform is used, and how we can improve it.",
                 role: "What is your role at the School? (Optional)",
                 select: "Please select",
                 teacher: "Teacher",

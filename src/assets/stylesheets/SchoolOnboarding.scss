@@ -7,15 +7,15 @@
 .school-onboarding-wrapper {
   display: flex;
   flex-direction: column;
-  padding: $space-1-5;
+  padding: var(--space-3);
   align-items: center;
-  gap: $space-1;
+  gap: var(--space-2);
   flex: 1 0 0;
   align-self: stretch;
 
   @media screen and (min-width: 768px) {
-    padding: $space-5 $space-7-5;
-    gap: $space-4;
+    padding: var(--space-8) calc(1.5 * var(--space-10));
+    gap: var(--space-8);
   }
 
   a {
@@ -30,30 +30,81 @@
 
 /* Projects */
 
+
+.school-onboarding__text {
+  display: flex;
+  flex-direction: row;
+}
+
+.school-onboarding__title {
+  @include font-size-1-5(regular);
+  margin: var(--space-2);
+
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
+  }
+}
+
+.school-onboarding__subtitle {
+  @include font-size-1-5(regular);
+  font-weight: $font-weight-regular;
+  margin: var(--space-2);
+
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
+  }
+}
+
 .school-onboarding-form {
   background-color: $rpf-white;
   border: 2px solid #d5d7dc;
   border-radius: 8px;
   max-inline-size: 600px;
   text-align: start;
-  padding: $space-1-25;
+  padding: var(--space-3);
 
   @media screen and (min-width: 768px) {
     min-inline-size: 600px;
   }
 }
 
-.school-onboarding-form__step {
+.school-onboarding-form__title {
   @include font-size-2(regular);
   font-weight: $font-weight-bold;
+  margin-block: var(--space-3);
+}
+
+.school-onboarding-form__subtitle {
+  @include font-size-1-5(bold);
+  margin-block: var(--space-3);
+}
+
+.school-onboarding-form__text {
+  margin-block-end: var(--space-3);
+}
+
+.school-onboarding-form__section {
+  border-block-start: 1px solid var(--rpf-grey-150);
+  border-block-end: 1px solid var(--rpf-grey-150);
+  margin-block: var(--space-3);
+}
+
+.school-onboarding-form__list {
+  padding-left: var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+.school-onboarding-form__list-item::marker {
+  color: $rpf-teal-800;
 }
 
 .school-onboarding-form__buttons {
   flex-direction: column;
-  gap: $space-1;
+  gap: var(--space-2);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-block-start: var(--space-3);
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -61,3 +112,23 @@
   }
 }
 
+.school-onboarding__button {
+  flex: 1;
+  width: -webkit-fill-available;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    flex: inherit;
+    width: fit-content;
+  }
+}
+
+.rpf-accordion {
+  border: 1px solid var(--rpf-grey-50);
+  border-radius: var(--space-1);
+}
+
+.rpf-accordion__title {
+  @include font-size-1(regular);
+}

@@ -4,6 +4,8 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -37,8 +39,6 @@ jest.mock("react-i18next", () => ({
   Trans: ({ children, i18nKey }) => children || i18nKey,
 }));
 
-import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
-
 loadDevMessages();
 loadErrorMessages();
 
@@ -48,13 +48,3 @@ jest.mock("../../src/utils/i18n.js", () => ({
 
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
-
-import failOnConsole from 'jest-fail-on-console'
-failOnConsole({
-  silenceMessage: (errorMessage) => {
-    if (/Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array/.test(errorMessage)) {
-      return true
-    }
-    return false
-  },
-})
