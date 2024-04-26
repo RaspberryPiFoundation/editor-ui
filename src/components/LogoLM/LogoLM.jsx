@@ -7,7 +7,7 @@ const LogoLM = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="logo-lm-wrapper" data-testid="">
+    <div className="logo-lm-wrapper" data-testid="logo-lm">
       <div className="logo-lm__text">
         <h2 className="logo-lm__title">{t("logoLM.codeEditor")}</h2>
         <img src={LineIcon} alt="" />
