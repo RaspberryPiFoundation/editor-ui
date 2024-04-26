@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
 import LineIcon from "../../assets/icons/line.svg";
@@ -6,9 +6,31 @@ import MultiStepForm from "./MultistepForm";
 import TexListTickIcon from "../../assets/icons/tick-teal.svg";
 import TextList from "../TextList/TextList";
 import TextListImageExample from "../../assets/images/school-created.svg";
+import { getUserSchools } from "../../utils/apiCallHandler";
+import { useSelector } from "react-redux";
+import { login } from "../../utils/login";
+import { useLocation } from "react-router-dom";
 
 const SchoolOnboarding = () => {
+  const accessToken = useSelector((state) => state.auth.user?.access_token);
   const { t } = useTranslation();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!accessToken) {
+      console.log("trying to get them to log in");
+      login({ location });
+    }
+    async function fetchData() {
+      try {
+        const schools = await getUserSchools(accessToken);
+        console.log(schools);
+      } catch (error) {
+        console.log("no schools");
+      }
+    }
+    fetchData();
+  });
 
   return (
     <div className="school-onboarding-wrapper" data-testid="school-onboarding">
