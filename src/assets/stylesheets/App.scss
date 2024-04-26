@@ -27,7 +27,7 @@ input {
 }
 
 .--light {
-  background-color: $rpf-white;
+  background-color: var(--editor-color-layer-1);
   color: $rpf-text-primary;
   caret-color: $rpf-black;
 

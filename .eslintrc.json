@@ -1,15 +1,7 @@
 {
   "root": true,
-  "extends": [
-    "react-app",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [
-    "prettier",
-    "react",
-    "jsx-a11y",
-    "jest"
-  ],
+  "extends": ["react-app", "plugin:prettier/recommended"],
+  "plugins": ["prettier", "react", "jsx-a11y", "jest"],
   "settings": {
     "react": {
       "version": "18.1.0"

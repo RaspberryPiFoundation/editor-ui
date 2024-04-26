@@ -34,12 +34,12 @@ const SchoolOnboarding = () => {
 
   return (
     <div className="school-onboarding-wrapper" data-testid="school-onboarding">
-      <div className="school-onboarding-form__text">
-        <h2 className="school-onboarding-form__title">
+      <div className="school-onboarding__text">
+        <h2 className="school-onboarding__title">
           {t("schoolOnboarding.title_1")}
         </h2>
         <img src={LineIcon} alt="" />
-        <h2 className="school-onboarding-form__subtitle">
+        <h2 className="school-onboarding__subtitle">
           {t("schoolOnboarding.title_2")}
         </h2>
       </div>

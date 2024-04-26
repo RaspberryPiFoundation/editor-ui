@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ProgressBar } from "@raspberrypifoundation/design-system-react";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -72,6 +73,10 @@ const MultiStepForm = () => {
   return (
     <div className="school-onboarding-form">
       {/* TODO: This is where we want the progress bar to be once it's mereged */}
+      <ProgressBar
+        percent={((currentStep + 1) / steps.length) * 100}
+        text={`Step ${currentStep + 1} of ${steps.length}`}
+      />
       {steps[currentStep]}
       <div className="school-onboarding-form__buttons">
         {currentStep > 0 ? (

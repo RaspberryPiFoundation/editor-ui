@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  SelectInput,
+  TextInput,
+} from "@raspberrypifoundation/design-system-react";
 
 const Step3 = () => {
   const { t } = useTranslation();
@@ -28,53 +32,52 @@ const Step3 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step3.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        <p>{t("schoolOnboarding.steps.step3.optionalInfo")}</p>
+        <p className="school-onboarding-form__text">
+          {t("schoolOnboarding.steps.step3.optionalInfo")}
+        </p>
         <form>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step3.role")}
-              <div>
-                <select
-                  name="role"
-                  onChange={onChange}
-                  value={stepData["role"]}
-                >
-                  <option value="">
-                    {t("schoolOnboarding.steps.step3.select")}
-                  </option>
-                  <option value="teacher">
-                    {t("schoolOnboarding.steps.step3.teacher")}
-                  </option>
-                  <option value="head_of_department">
-                    {t("schoolOnboarding.steps.step3.headOfDepartment")}
-                  </option>
-                  <option value="adminastrative_staff">
-                    {t("schoolOnboarding.steps.step3.admin")}
-                  </option>
-                  <option value="other">
-                    {t("schoolOnboarding.steps.step3.other")}
-                  </option>
-                </select>
-                {/* TODO: Add conditional field to allow other roles to be specified */}
-              </div>
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step3.department")}
-              <p>{t("schoolOnboarding.steps.step3.departmentHint")}</p>
-              <input
-                type="text"
-                name="department"
-                onChange={onChange}
-                value={stepData["department"]}
-              />
-            </label>
-          </div>
+          <SelectInput
+            label={t("schoolOnboarding.steps.step3.role")}
+            placeholder={t("schoolOnboarding.steps.step3.select")}
+            options={[
+              {
+                key: "teacher",
+                value: t("schoolOnboarding.steps.step3.teacher"),
+              },
+              {
+                key: "head_of_department",
+                value: t("schoolOnboarding.steps.step3.headOfDepartment"),
+              },
+              {
+                key: "adminastrative_staff",
+                value: t("schoolOnboarding.steps.step3.admin"),
+              },
+              {
+                key: "other",
+                value: t("schoolOnboarding.steps.step3.other"),
+              },
+            ]}
+            id="role"
+            name="role"
+            onChange={onChange}
+            value={stepData["role"]}
+            fullWidth={true}
+            error=""
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step3.department")}
+            hint={t("schoolOnboarding.steps.step3.departmentHint")}
+            id="department"
+            name="department"
+            onChange={onChange}
+            value={stepData["department"]}
+            fullWidth={true}
+            error=""
+          />
         </form>
       </div>
     </>
