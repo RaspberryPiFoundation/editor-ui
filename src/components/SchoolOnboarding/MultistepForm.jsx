@@ -14,18 +14,18 @@ import { createSchool } from "../../utils/apiCallHandler";
 const MultiStepForm = () => {
   const { t } = useTranslation();
 
-  const [invalidFields, setInvalidFields] = useState(false);
+  const [stepIsValid, setStepIsValid] = useState(false);
   const [showInvalidFields, setShowInvalidFields] = useState(false);
 
   const steps = [
     <Step1 />,
     <Step2
-      stepIsValid={setInvalidFields}
+      stepIsValid={setStepIsValid}
       showInvalidFields={showInvalidFields}
     />,
     <Step3 />,
     <Step4
-      stepIsValid={setInvalidFields}
+      stepIsValid={setStepIsValid}
       showInvalidFields={showInvalidFields}
     />,
   ];
@@ -41,7 +41,7 @@ const MultiStepForm = () => {
     // If there's a validation callback provided we should check it passes
     if (steps[currentStep].props.stepIsValid) {
       setShowInvalidFields(true);
-      if (invalidFields) return false;
+      if (stepIsValid) return false;
     }
 
     // Steps without a stepIsValid prop are just informational
