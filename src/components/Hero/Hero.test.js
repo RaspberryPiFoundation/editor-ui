@@ -51,7 +51,7 @@ describe("Hero Component", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/Create a School/i)).toBeInTheDocument();
+    expect(screen.findByText(/Create a School/i)).toBeInTheDocument();
   });
 
   test("not renders login button when user is not logged in", () => {
@@ -62,7 +62,7 @@ describe("Hero Component", () => {
         </Provider>
       </BrowserRouter>,
     );
-    const loginButton = screen.getByText("Log in as a student");
+    const loginButton = screen.findByText("Log in as a student");
     expect(loginButton).toBeInTheDocument();
   });
 });
