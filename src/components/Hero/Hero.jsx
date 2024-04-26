@@ -43,14 +43,16 @@ const Hero = () => {
               textAlways
               onClick={onClickPlausible("Create a School")}
             />
-            <DesignSystemButton
-              className=""
-              href={`/${locale}/projects/blank-html-starter`}
-              text={t("landingPage.hero.logIn")}
-              textAlways
-              onClick={onClickPlausible("Log in as a student")}
-              type={"secondary"}
-            />
+            {!user && (
+              <DesignSystemButton
+                className=""
+                href={`/${locale}/projects/blank-html-starter`}
+                text={t("landingPage.hero.logIn")}
+                textAlways
+                onClick={onClickPlausible("Log in as a student")}
+                type={"secondary"}
+              />
+            )}
           </div>
         </div>
         <div className="hero__image">
