@@ -27,5 +27,5 @@ test("presence of School Onboarding page", () => {
 
   const LogoLMComponent = screen.getByTestId("logo-lm");
 
-  expect(LogoLMComponent).toHaveClass("school-onboarding-wrapper");
+  expect(LogoLMComponent).toHaveClass("logo-lm-wrapper");
 });
