@@ -42,7 +42,7 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
   }, [stepData]);
 
   useEffect(() => {
-    stepIsValid(errors.length == 0);
+    stepIsValid(errors.length === 0);
   }, [errors, stepIsValid]);
 
   useEffect(() => {
