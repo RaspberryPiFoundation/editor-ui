@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   CheckboxInput,
@@ -8,7 +8,7 @@ import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
 import { fieldError, existsValidation } from "../../utils/fieldValidation";
 
-const Step2 = ({ validationCallback, errorFields }) => {
+const Step2 = ({ stepIsValid, showInvalidFields }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -18,14 +18,15 @@ const Step2 = ({ validationCallback, errorFields }) => {
       ? schoolOnboardingData["step_2"]
       : {},
   );
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     const { name, checked } = e.target;
     setStepData((data) => ({ ...data, [name]: checked }));
   };
 
-  const stepErrors = useCallback(() => {
-    const errors = [];
+  useEffect(() => {
+    const errorList = [];
 
     const validations = [
       () => existsValidation({ stepData, fieldName: "authority" }),
@@ -34,11 +35,15 @@ const Step2 = ({ validationCallback, errorFields }) => {
 
     validations.forEach((runValidation) => {
       const validationResult = runValidation();
-      if (validationResult) errors.push(validationResult);
+      if (validationResult) errorList.push(validationResult);
     });
 
-    return errors;
+    setErrors(errorList);
   }, [stepData]);
+
+  useEffect(() => {
+    stepIsValid(errors.length > 0);
+  }, [errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -48,9 +53,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
         step_2: stepData,
       }),
     );
-
-    validationCallback(stepErrors());
-  }, [stepData, validationCallback, stepErrors]);
+  }, [stepData]);
 
   return (
     <>
@@ -58,7 +61,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        {errorFields.length > 0 && (
+        {showInvalidFields && (
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"
@@ -102,13 +105,16 @@ const Step2 = ({ validationCallback, errorFields }) => {
             value="authority"
             onChange={onChange}
             checked={!!stepData["authority"]}
-            error={fieldError({
-              errorFields,
-              fieldName: "authority",
-              errorMessage: t(
-                "schoolOnboarding.steps.step2.validation.errors.authority",
-              ),
-            })}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "authority",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step2.validation.errors.authority",
+                ),
+              })
+            }
           />
           <CheckboxInput
             id="responsibility"
@@ -122,13 +128,16 @@ const Step2 = ({ validationCallback, errorFields }) => {
             value="responsibility"
             onChange={onChange}
             checked={!!stepData["responsibility"]}
-            error={fieldError({
-              errorFields,
-              fieldName: "responsibility",
-              errorMessage: t(
-                "schoolOnboarding.steps.step2.validation.errors.responsibility",
-              ),
-            })}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "responsibility",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step2.validation.errors.responsibility",
+                ),
+              })
+            }
           />
         </form>
       </div>

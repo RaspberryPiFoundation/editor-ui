@@ -14,21 +14,19 @@ import { createSchool } from "../../utils/apiCallHandler";
 const MultiStepForm = () => {
   const { t } = useTranslation();
 
-  const [invalidFields, setInvalidFields] = useState([]);
+  const [invalidFields, setInvalidFields] = useState(false);
   const [showInvalidFields, setShowInvalidFields] = useState(false);
-
-  const stepInvalidFields = showInvalidFields ? invalidFields : [];
 
   const steps = [
     <Step1 />,
     <Step2
-      validationCallback={setInvalidFields}
-      errorFields={stepInvalidFields}
+      stepIsValid={setInvalidFields}
+      showInvalidFields={showInvalidFields}
     />,
     <Step3 />,
     <Step4
-      validationCallback={setInvalidFields}
-      errorFields={stepInvalidFields}
+      stepIsValid={setInvalidFields}
+      showInvalidFields={showInvalidFields}
     />,
   ];
   const schoolOnboardingData = useMemo(() => {
@@ -41,12 +39,12 @@ const MultiStepForm = () => {
 
   const checkValidation = () => {
     // If there's a validation callback provided we should check it passes
-    if (steps[currentStep].props.validationCallback) {
+    if (steps[currentStep].props.stepIsValid) {
       setShowInvalidFields(true);
-      if (invalidFields.length > 0) return false;
+      if (invalidFields) return false;
     }
 
-    // Steps without a validationCallback prop are just informational
+    // Steps without a stepIsValid prop are just informational
     return true;
   };
 

@@ -4,7 +4,7 @@ import Step2 from "./Step2";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step2 validationCallback={jest.fn} errorFields={[]} />);
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("it renders", () => {
@@ -55,7 +55,7 @@ describe("When previous data is in localStorage", () => {
       "schoolOnboarding",
       JSON.stringify({ step_2: { authority: true, responsibility: true } }),
     );
-    render(<Step2 validationCallback={jest.fn} errorFields={[]} />);
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("the authority checkbox is checked", () => {
@@ -67,7 +67,7 @@ describe("When previous data is in localStorage", () => {
 
 describe("When errors are provided", () => {
   beforeEach(() => {
-    render(<Step2 validationCallback={jest.fn} errorFields={["authority"]} />);
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={true} />);
   });
 
   test("the error message shows", () => {

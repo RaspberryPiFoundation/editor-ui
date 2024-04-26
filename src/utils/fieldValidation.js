@@ -1,5 +1,5 @@
-export const fieldError = ({ errorFields, fieldName, errorMessage }) => {
-  return errorFields.some((field) => field === fieldName) && errorMessage;
+export const fieldError = ({ errors, fieldName, errorMessage }) => {
+  return errors.some((field) => field === fieldName) && errorMessage;
 };
 
 export const existsValidation = ({ stepData, fieldName }) => {

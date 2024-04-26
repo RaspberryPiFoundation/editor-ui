@@ -3,7 +3,7 @@ import Step4 from "./Step4";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step4 validationCallback={jest.fn} errorFields={[]} />);
+    render(<Step4 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("it renders", () => {
@@ -182,7 +182,7 @@ describe("When previous data is in localStorage", () => {
         },
       }),
     );
-    render(<Step4 validationCallback={jest.fn} errorFields={[]} />);
+    render(<Step4 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("the name is populated correctly", () => {
@@ -242,7 +242,7 @@ describe("When previous data is in localStorage", () => {
 
 describe("When errors are provided", () => {
   beforeEach(() => {
-    render(<Step4 validationCallback={jest.fn} errorFields={["name"]} />);
+    render(<Step4 stepIsValid={jest.fn} showInvalidFields={true} />);
   });
 
   test("the error message shows", () => {

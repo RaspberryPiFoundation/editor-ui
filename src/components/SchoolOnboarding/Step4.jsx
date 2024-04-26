@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   SelectInput,
@@ -12,7 +12,7 @@ import {
   urlValidation,
 } from "../../utils/fieldValidation";
 
-const Step4 = ({ validationCallback, errorFields }) => {
+const Step4 = ({ stepIsValid, showInvalidFields }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -32,14 +32,15 @@ const Step4 = ({ validationCallback, errorFields }) => {
           reference: "",
         },
   );
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
   };
 
-  const stepErrors = useCallback(() => {
-    const errors = [];
+  useEffect(() => {
+    const errorList = [];
     const validations = [
       () => existsValidation({ stepData, fieldName: "name" }),
       () => urlValidation({ stepData, fieldName: "website" }),
@@ -52,11 +53,15 @@ const Step4 = ({ validationCallback, errorFields }) => {
 
     validations.forEach((runValidation) => {
       const validationResult = runValidation();
-      if (validationResult) errors.push(validationResult);
+      if (validationResult) errorList.push(validationResult);
     });
 
-    return errors;
+    setErrors(errorList);
   }, [stepData]);
+
+  useEffect(() => {
+    stepIsValid(errors.length > 0);
+  }, [errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -66,9 +71,7 @@ const Step4 = ({ validationCallback, errorFields }) => {
         step_4: stepData,
       }),
     );
-
-    validationCallback(stepErrors());
-  }, [stepData, validationCallback, stepErrors]);
+  }, [stepData]);
 
   return (
     <>
@@ -76,13 +79,14 @@ const Step4 = ({ validationCallback, errorFields }) => {
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        {errorFields.length > 0 && (
+        {showInvalidFields && (
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"
             text={t("schoolOnboarding.steps.step4.validation.errors.message")}
           />
         )}
+        {errors}
 
         <p className="school-onboarding-form__text">
           {t("schoolOnboarding.steps.step4.schoolDetails")}
@@ -96,13 +100,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
             value={stepData["name"]}
             onChange={onChange}
             fullWidth={true}
-            error={fieldError({
-              errorFields,
-              fieldName: "name",
-              errorMessage: t(
-                "schoolOnboarding.steps.step4.validation.errors.schoolName",
-              ),
-            })}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "name",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolName",
+                ),
+              })
+            }
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolWebsite")}
@@ -111,13 +118,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
             value={stepData["website"]}
             onChange={onChange}
             fullWidth={true}
-            error={fieldError({
-              errorFields,
-              fieldName: "website",
-              errorMessage: t(
-                "schoolOnboarding.steps.step4.validation.errors.schoolWebsite",
-              ),
-            })}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "website",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolWebsite",
+                ),
+              })
+            }
           />
           <section className="school-onboarding-form__section">
             <h4 className="school-onboarding-form__subtitle">
@@ -130,13 +140,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
               value={stepData["address_line_1"]}
               onChange={onChange}
               fullWidth={true}
-              error={fieldError({
-                errorFields,
-                fieldName: "address_line_1",
-                errorMessage: t(
-                  "schoolOnboarding.steps.step4.validation.errors.schoolAddress1",
-                ),
-              })}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "address_line_1",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolAddress1",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolAddress2")}
@@ -153,13 +166,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
               value={stepData["municipality"]}
               onChange={onChange}
               fullWidth={true}
-              error={fieldError({
-                errorFields,
-                fieldName: "municipality",
-                errorMessage: t(
-                  "schoolOnboarding.steps.step4.validation.errors.schoolCity",
-                ),
-              })}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "municipality",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCity",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolState")}
@@ -168,13 +184,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
               value={stepData["administrative_area"]}
               onChange={onChange}
               fullWidth={true}
-              error={fieldError({
-                errorFields,
-                fieldName: "administrative_area",
-                errorMessage: t(
-                  "schoolOnboarding.steps.step4.validation.errors.schoolState",
-                ),
-              })}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "administrative_area",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolState",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolPostcode")}
@@ -183,13 +202,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
               value={stepData["postal_code"]}
               onChange={onChange}
               fullWidth={true}
-              error={fieldError({
-                errorFields,
-                fieldName: "postal_code",
-                errorMessage: t(
-                  "schoolOnboarding.steps.step4.validation.errors.schoolPostcode",
-                ),
-              })}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "postal_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolPostcode",
+                  ),
+                })
+              }
             />
             <SelectInput
               label={t("schoolOnboarding.steps.step4.schoolCountry")}
@@ -217,13 +239,16 @@ const Step4 = ({ validationCallback, errorFields }) => {
               onChange={onChange}
               value={stepData["country_code"]}
               fullWidth={true}
-              error={fieldError({
-                errorFields,
-                fieldName: "country_code",
-                errorMessage: t(
-                  "schoolOnboarding.steps.step4.validation.errors.schoolCountry",
-                ),
-              })}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "country_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCountry",
+                  ),
+                })
+              }
             />
           </section>
 
