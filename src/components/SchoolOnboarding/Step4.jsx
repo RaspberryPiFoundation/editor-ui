@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   SelectInput,
@@ -38,7 +38,7 @@ const Step4 = ({ validationCallback, errorFields }) => {
     setStepData((data) => ({ ...data, [name]: value }));
   };
 
-  const stepErrors = () => {
+  const stepErrors = useCallback(() => {
     const errors = [];
     const validations = [
       () => existsValidation({ stepData, fieldName: "name" }),
@@ -56,7 +56,7 @@ const Step4 = ({ validationCallback, errorFields }) => {
     });
 
     return errors;
-  };
+  }, [stepData]);
 
   useEffect(() => {
     localStorage.setItem(

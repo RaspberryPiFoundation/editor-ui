@@ -72,10 +72,15 @@ describe("When errors are provided", () => {
 
   test("the error message shows", () => {
     expect(
-      screen.queryByText("schoolOnboarding.steps.step2.validation.errors.message"),
+      screen.queryByText(
+        "schoolOnboarding.steps.step2.validation.errors.message",
+      ),
     ).toBeInTheDocument();
+
     expect(
-      screen.queryByText("schoolOnboarding.steps.step2.validation.errors.authority"),
+      screen.queryByText(
+        "schoolOnboarding.steps.step2.validation.errors.authority",
+      ),
     ).toBeInTheDocument();
   });
 });

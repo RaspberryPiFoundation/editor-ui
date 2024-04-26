@@ -10,7 +10,7 @@ export const existsValidation = ({ stepData, fieldName }) => {
 
 export const urlValidation = ({ stepData, fieldName }) => {
   if (!stepData[fieldName]) return fieldName;
-  if (!stepData[fieldName].match(/[a-zA-Z0-9_\-]+\.[a-zA-Z0-9_\-]+/))
+  if (!stepData[fieldName].match(/[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/))
     return fieldName;
 
   return false;

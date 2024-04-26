@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   CheckboxInput,
@@ -24,7 +24,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
     setStepData((data) => ({ ...data, [name]: checked }));
   };
 
-  const stepErrors = () => {
+  const stepErrors = useCallback(() => {
     const errors = [];
 
     const validations = [
@@ -38,7 +38,7 @@ const Step2 = ({ validationCallback, errorFields }) => {
     });
 
     return errors;
-  };
+  }, [stepData]);
 
   useEffect(() => {
     localStorage.setItem(
