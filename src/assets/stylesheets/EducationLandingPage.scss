@@ -12,6 +12,7 @@
   gap: $space-1;
   flex: 1 0 0;
   align-self: stretch;
+  background-color: var(--editor-color-layer-3);
 
   @media screen and (min-width: 768px) {
     padding: $space-5 $space-7-5;
@@ -20,8 +21,14 @@
 }
 
 .education-landing-page__get-started {
-  background-color: yellow;
-  padding: $space-1-5;
+  background-color: var(--editor-color-layer-1);
   border-radius: 10px;
-  border: 1px solid green;
+  // border: 1px solid var(--editor-color-border);
+  border: 1px solid pink;
+  display: flex;
+  flex-direction: column;
+  padding: $space-1-5;
+  align-items: center;
+  gap: $space-1;
+  align-self: stretch;
 }
