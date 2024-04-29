@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "../../assets/stylesheets/TextList.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as OpenFileIcon } from "../../assets/icons/open_in_new_tab.svg";
-import TextWithBoldSpan from "../SchoolOnboarding/TextWithBoldSpan";
+import TextWithLink from "../SchoolOnboarding/TextWithLink";
 
 const TextList = (props) => {
   const {
@@ -44,7 +44,11 @@ const TextList = (props) => {
         <li>{listItems.item3}</li>
       </ol>
       <p>
-        <TextWithBoldSpan i18nKey={contact} />
+        <TextWithLink
+          i18nKey={contact}
+          to="mailto:websupport@raspberrypi.org"
+          linkClassName="text-list__link"
+        />
       </p>
       <div className="text-list__buttons">
         <DesignSystemButton

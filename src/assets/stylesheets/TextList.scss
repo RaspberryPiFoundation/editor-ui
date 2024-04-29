@@ -38,6 +38,10 @@
   }
 }
 
+.text-list__link {
+  color: var(--rpf-navy-800);
+}
+
 .text-list__next {
   @include font-size-1(regular);
   font-weight: $font-weight-bold;
@@ -64,7 +68,7 @@
 }
 
 .text-list__buttons {
-  align-items: center; 
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: $space-1;
