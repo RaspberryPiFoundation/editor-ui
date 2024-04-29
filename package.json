@@ -61,7 +61,6 @@
     "test:debug": "craco --inspect-brk test --runInBand --no-cache",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
-    "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
     "stylelint": "stylelint --syntax=scss src/**/*.scss",
     "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "watch-css": "sass --load-path=./ -q --watch src:src",

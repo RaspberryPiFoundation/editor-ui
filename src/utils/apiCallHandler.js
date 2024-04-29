@@ -121,4 +121,25 @@ export const createSchool = async (school, accessToken) => {
 
 export const getUserSchools = async (accessToken) => {
   return await get(`${host}/api/schools`, headers(accessToken));
+
+export const getSchool = async (schoolId, accessToken) => {
+  const response = await get(
+    `${host}/api/schools/${schoolId}`,
+    headers(accessToken),
+  );
+  return response.data;
+};
+
+export const getMySchool = async (accessToken) => {
+  let response;
+  try {
+    response = await get(`${host}/api/schools`, headers(accessToken));
+    return response.data[0]; // The API allows a user to be associated with multiple schools but we're only allowing 1 to be associated in this app
+  } catch (error) {
+    if (error.response.status === 403) {
+      return;
+    } else {
+      throw error;
+    }
+  }
 };
