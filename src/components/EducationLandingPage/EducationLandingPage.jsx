@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/EducationLandingPage.scss";
 import TextImage from "../TextImage/TextImage";
+import editorScreenshot from "../../assets/images/editor.png";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
 const EducationLandingPage = () => {
@@ -33,7 +34,12 @@ const EducationLandingPage = () => {
   return (
     <div className="education-landing-page-wrapper">
       <h1>header</h1>
-      <TextImage />
+      <TextImage
+        title="An IDE designed for learners"
+        text="Tailored specifically to young people's needs, our integrated development environment (IDE) helps make learning text-based programming simple and accessible for children aged 9 and up. It’s safe, age-appropriate, and suitable for use in the classroom."
+        imageAlt="Editor screenshot"
+        imageSrc={editorScreenshot}
+      />
       <div className="education-landing-page__get-started">
         {" "}
         <h2 className="school-onboarding__subtitle">

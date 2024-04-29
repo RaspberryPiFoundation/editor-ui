@@ -39,17 +39,18 @@
   img {
     aspect-ratio: 3/2;
     display: block;
-    inline-size: 100%;
+    max-inline-size: 100%;
     margin: auto;
+    block-size: auto;
   }
 
   @media screen and (min-width: 768px) {
     margin-inline-start: auto;
 
-    img {
-      inline-size: unset;
-      margin: unset;
-    }
+    // img {
+    //   inline-size: unset;
+    //   margin: unset;
+    // }
   }
 }
 
