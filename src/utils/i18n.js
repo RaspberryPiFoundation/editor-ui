@@ -196,6 +196,10 @@ i18n
             projectPython: "Python path",
             projectHtml: "Web path",
           },
+          educationLandingPage: {
+            title: "Get started today!",
+            start: "Create your school account",
+          },
           schoolOnboarding: {
             title_1: "Code Editor",
             title_2: "For Education",
