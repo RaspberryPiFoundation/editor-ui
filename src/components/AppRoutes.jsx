@@ -14,6 +14,12 @@ const LocaleLayout = lazy(() =>
 const LandingPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./LandingPage/LandingPage"),
 );
+
+const EducationLandingPage = lazy(() =>
+  import(
+    /* webpackPrefetch: true */ "./EducationLandingPage/EducationLandingPage"
+  ),
+);
 const ProjectIndex = lazy(() =>
   import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex"),
 );
@@ -60,6 +66,7 @@ const AppRoutes = () => (
         element={suspense(<EmbeddedViewer />)}
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
+      <Route path="education" element={suspense(<EducationLandingPage />)} />
     </Route>
 
     <Route
