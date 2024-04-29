@@ -52,7 +52,7 @@ describe("Hero Component", () => {
     );
 
     expect(
-      await screen.findByText(/landingPage.hero.logIn/i),
+      await screen.findByText(/landingPage.hero.createSchool/i),
     ).toBeInTheDocument();
   });
 
