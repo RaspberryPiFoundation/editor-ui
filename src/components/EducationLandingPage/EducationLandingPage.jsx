@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/EducationLandingPage.scss";
 import TextImage from "../TextImage/TextImage";
 import editorScreenshot from "../../assets/images/editor.png";
+import editorOutput from "../../assets/images/output.png";
+import classroom from "../../assets/images/classroom.jpg";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
 const EducationLandingPage = () => {
@@ -39,6 +41,57 @@ const EducationLandingPage = () => {
         text="Tailored specifically to young people's needs, our integrated development environment (IDE) helps make learning text-based programming simple and accessible for children aged 9 and up. It’s safe, age-appropriate, and suitable for use in the classroom."
         imageAlt="Editor screenshot"
         imageSrc={editorScreenshot}
+      />
+      <div>
+        <h2>All features, totally free</h2>
+        <p>
+          Title: All features, totally free Image: None Access the Code Editor
+          in your web browser without installing any additional software. Add an
+          unlimited number of projects, lessons, teachers, and students to your
+          school account, all for free.
+        </p>
+      </div>
+      <TextImage
+        title="Create engaging coding lessons"
+        text="Create custom coding projects for your students to work on. Help them code their own games and art using Python, or design websites in HTML/CSS/JavaScript.
+        Your students can get creative with code with our wide choice of Python libraries!"
+        imageAlt="Editor output"
+        imageSrc={editorOutput}
+        imagePosition="right"
+      />
+      <TextImage
+        title="Give students personalised feedback"
+        text="Easily check your students’ progress, view their coding projects, and share individual, instant feedback with each student to keep them on track."
+        imageAlt="Editor output"
+        imageSrc={editorOutput}
+      />
+      <div>
+        <h2>Simple and easy class management</h2>
+        <p>
+          Like the Editor itself, we’ve kept our educator interface clean,
+          simple, and easy to use following feedback from teachers. Create and
+          manage student accounts easily. You can organise your students into
+          classes and help them reset their passwords quickly.
+        </p>
+      </div>
+      <div>
+        <h2>Safe and private by design</h2>
+        <p>
+          Accounts for education are designed to be safe for students of all
+          ages. We take safeguarding seriously, with one-way feedback to
+          students, visibility of their work at all times, verified school
+          accounts, and an audit history of communication with students. In line
+          with best practice codes protecting children online, we minimise our
+          data capture so that we have just enough to keep students safe.
+        </p>
+      </div>
+      <TextImage
+        title="What do people say about our Editor?"
+        text="“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.” – Lee Willis, Head of ICT and Computing, Newcastle High School for Girls
+
+        “The class management and feedback features they're working on at the moment look really promising.” – Pete Dring, Head of Computing, Fulford School"
+        imageAlt="Classroom"
+        imageSrc={classroom}
       />
       <div className="education-landing-page__get-started">
         {" "}
