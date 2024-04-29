@@ -28,7 +28,7 @@ describe("Hero Component", () => {
     );
   });
 
-  test("renders correct title", () => {
+  test("renders correct title", async () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -38,11 +38,11 @@ describe("Hero Component", () => {
     );
 
     expect(
-      screen.findByText(/Same great code editor, now in your classroom/i),
+      await screen.findByText(/landingPage.hero.title/i),
     ).toBeInTheDocument();
   });
 
-  test("renders create school button", () => {
+  test("renders create school button", async () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -51,18 +51,28 @@ describe("Hero Component", () => {
       </BrowserRouter>,
     );
 
-    expect(screen.findByText(/Create a School/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/landingPage.hero.logIn/i),
+    ).toBeInTheDocument();
   });
 
-  test("not renders login button when user is not logged in", () => {
+  test("not renders login button when user is not logged in", async () => {
+    const initialState = {
+      auth: {
+        user: null,
+      },
+    };
+    const store = mockStore(initialState);
+
     render(
       <BrowserRouter>
-        <Provider store={mockStore}>
+        <Provider store={store}>
           <Hero />
         </Provider>
       </BrowserRouter>,
     );
-    const loginButton = screen.findByText("Log in as a student");
+
+    const loginButton = await screen.findByText(/landingPage.hero.logIn/i);
     expect(loginButton).toBeInTheDocument();
   });
 });
