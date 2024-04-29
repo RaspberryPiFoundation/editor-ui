@@ -121,6 +121,7 @@ export const createSchool = async (school, accessToken) => {
 
 export const getUserSchools = async (accessToken) => {
   return await get(`${host}/api/schools`, headers(accessToken));
+};
 
 export const getSchool = async (schoolId, accessToken) => {
   const response = await get(
