@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import EditorBrand from "../LogoLM/LogoLM";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import heroPlaceholder from "../../assets/images/hero-placeholder.svg";
+import hero from "../../assets/images/hero.jpg";
 
 import "../../assets/stylesheets/Hero.scss";
 
@@ -47,7 +47,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="hero__image">
-          <img alt="" src={heroPlaceholder} />
+          <img alt="" src={hero} />
         </div>
       </header>
     </div>

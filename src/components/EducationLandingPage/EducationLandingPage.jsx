@@ -8,6 +8,7 @@ import TextImage from "../TextImage/TextImage";
 import editorScreenshot from "../../assets/images/editor.png";
 import editorOutput from "../../assets/images/output.png";
 import classroom from "../../assets/images/classroom.jpg";
+import placeholder from "../../assets/images/hero-placeholder.svg";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import Hero from "../Hero/Hero";
 
@@ -58,19 +59,19 @@ const EducationLandingPage = () => {
         Your students can get creative with code with our wide choice of Python libraries!
         "
         imageAlt="Editor screenshot"
-        imageSrc={editorScreenshot}
+        imageSrc={placeholder}
       />
       <TextImage
         title="Give students personalised feedback"
         text="Easily check your students’ progress, view their coding projects, and share individual, instant feedback with each student to keep them on track."
         imageAlt="Editor output"
-        imageSrc={editorOutput}
+        imageSrc={placeholder}
       />
       <TextImage
         title="Simple and easy class managemen"
         text="Like the Editor itself, we’ve kept our educator interface clean, simple, and easy to use following feedback from teachers. Create and manage student accounts easily. You can organise your students into classes and help them reset their passwords quickly."
         imageAlt="Editor output"
-        imageSrc={editorOutput}
+        imageSrc={placeholder}
       />
       <TextImage
         title="Safe and private by design"

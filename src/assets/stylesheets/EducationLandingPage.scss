@@ -7,7 +7,7 @@
 .education-landing-page-wrapper {
   display: flex;
   flex-direction: column;
-  padding: $space-1-5;
+  // padding: $space-1-5;
   align-items: center;
   gap: $space-1;
   flex: 1 0 0;
@@ -15,7 +15,7 @@
   background-color: var(--editor-color-layer-3);
 
   @media screen and (min-width: 768px) {
-    padding: $space-5 $space-7-5;
+    // padding: $space-5 $space-7-5;
     gap: $space-4;
   }
 }
