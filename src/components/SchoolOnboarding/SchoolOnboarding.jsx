@@ -15,7 +15,6 @@ const SchoolOnboarding = () => {
   const user = useSelector((state) => state.auth.user);
   const accessToken = useSelector((state) => state.auth.user?.access_token);
   const school = useSelector((state) => state.school);
-  const { t } = useTranslation();
   const location = useLocation();
 
   useEffect(() => {
