@@ -23,3 +23,5 @@ export const extraReducers = (builder) => {
     return { ...state, error: action.error, loading: false };
   });
 };
+
+export const reducers = {};
