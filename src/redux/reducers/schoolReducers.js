@@ -4,8 +4,6 @@ import { getSchool, getUserSchool } from "../../utils/apiCallHandler";
 export const loadSchool = createAsyncThunk(
   `school/load`,
   async ({ id, accessToken }) => {
-    console.log("loading the school");
-
     if (id) {
       return await getSchool(id, accessToken);
     } else {

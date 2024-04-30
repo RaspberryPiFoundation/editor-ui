@@ -27,20 +27,20 @@ describe("loadSchool", () => {
 });
 
 describe("extraReducers", () => {
-  it("handles school/load/pending", () => {
+  test("it handles school/load/pending", () => {
     const action = { type: loadSchool.pending.type };
     const newState = SchoolReducer({}, action);
     expect(newState).toEqual({ loading: true });
   });
 
-  it("handles school/load/fulfilled", () => {
+  test("it handles school/load/fulfilled", () => {
     const school = { id: "123", name: "School of Maths" };
     const action = { type: loadSchool.fulfilled.type, payload: school };
     const newState = SchoolReducer({ loading: true }, action);
     expect(newState).toEqual({ loading: false, ...school });
   });
 
-  it("handles school/load/rejected", () => {
+  test("it handles school/load/rejected", () => {
     const action = { type: loadSchool.rejected.type, error: "error message" };
     const newState = SchoolReducer({ loading: true }, action);
     expect(newState).toEqual({ loading: false, error: "error message" });
