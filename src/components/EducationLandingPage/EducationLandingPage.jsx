@@ -9,6 +9,7 @@ import editorScreenshot from "../../assets/images/editor.png";
 import editorOutput from "../../assets/images/output.png";
 import classroom from "../../assets/images/classroom.jpg";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import Hero from "../Hero/Hero";
 
 const EducationLandingPage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const EducationLandingPage = () => {
 
   return (
     <div className="education-landing-page-wrapper">
-      <h1>header placeholder</h1>
+      <Hero />
       <TextImage
         title="An IDE designed for learners"
         text="Tailored specifically to young people's needs, our integrated development environment (IDE) helps make learning text-based programming simple and accessible for children aged 9 and up. It’s safe, age-appropriate, and suitable for use in the classroom."
