@@ -192,6 +192,12 @@ i18n
             python: "Start coding Python",
             html: "Start coding HTML/CSS",
             login: "Log in",
+            hero: {
+              title: "Same great code editor, now in your classroom.",
+              subtitle: "Free now, free forever.",
+              createSchool: "Create a School",
+              logIn: "Log in as a student",
+            },
             start: "Not sure where to start?",
             projectPython: "Python path",
             projectHtml: "Web path",
@@ -200,9 +206,11 @@ i18n
             title: "Get started today!",
             start: "Create your school account",
           },
+          logoLM: {
+            codeEditor: "Code Editor",
+            forEducation: "For Education",
+          },
           schoolOnboarding: {
-            title_1: "Code Editor",
-            title_2: "For Education",
             step: "Step title",
             steps: {
               step1: {
