@@ -32,7 +32,7 @@
 }
 
 .hero__copy--title {
-  @include font-size-2(regular);
+  @include font-size-3(regular);
   font-weight: $font-weight-regular;
 
   @media screen and (min-width: 768px) {
@@ -62,7 +62,8 @@
 
   @media screen and (min-width: 768px) {
     margin-inline-start: auto;
-    max-inline-size: 40%;
+    max-inline-size: 35%;
+    // max-inline-size: 600px;
     
   }
 }
