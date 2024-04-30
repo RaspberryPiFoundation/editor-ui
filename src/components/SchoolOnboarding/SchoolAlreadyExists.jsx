@@ -1,19 +1,23 @@
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import TextWithLink from "./TextWithLink";
 
 const SchoolAlreadyExists = () => {
   const { t } = useTranslation();
   return (
-    <>
+    <div className="school-onboarding-form">
       <h3 className="school-onboarding-form__title">
         {t("schoolAlreadyExists.title")}
       </h3>
       <div className="school-onboarding-form__content">
         <p className="school-onboarding-form__text">
-          {t("schoolAlreadyExists.explantation")}
+          {t("schoolAlreadyExists.explanation")}
         </p>
         <p className="school-onboarding-form__text">
-          {t("schoolAlreadyExists.contact")}
+          <TextWithLink
+            i18nKey="schoolAlreadyExists.contact"
+            href="mailto:websupport@raspberrypi.org"
+          />
         </p>
       </div>
       <div className="school-onboarding-form__buttons">
@@ -29,10 +33,10 @@ const SchoolAlreadyExists = () => {
           text={t("schoolAlreadyExists.editorHome")}
           textAlways
           href="/"
-          type={"secondary"}
+          type={"primary"}
         />
       </div>
-    </>
+    </div>
   );
 };
 

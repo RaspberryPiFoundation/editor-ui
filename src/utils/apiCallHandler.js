@@ -119,10 +119,6 @@ export const createSchool = async (school, accessToken) => {
   return await post(`${host}/api/schools`, { school }, headers(accessToken));
 };
 
-export const getUserSchools = async (accessToken) => {
-  return await get(`${host}/api/schools`, headers(accessToken));
-};
-
 export const getSchool = async (schoolId, accessToken) => {
   const response = await get(
     `${host}/api/schools/${schoolId}`,
@@ -131,7 +127,7 @@ export const getSchool = async (schoolId, accessToken) => {
   return response.data;
 };
 
-export const getMySchool = async (accessToken) => {
+export const getUserSchool = async (accessToken) => {
   let response;
   try {
     response = await get(`${host}/api/schools`, headers(accessToken));

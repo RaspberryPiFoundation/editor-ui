@@ -10,7 +10,7 @@ import {
   createError,
   createSchool,
   getSchool,
-  getMySchool,
+  getUserSchool,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -287,7 +287,7 @@ describe("School API calls", () => {
           data: [],
         }),
       );
-      await getMySchool(accessToken);
+      await getUserSchool(accessToken);
       expect(axios.get).toHaveBeenCalledWith(
         `${host}/api/schools`,
         authHeaders,
@@ -301,7 +301,7 @@ describe("School API calls", () => {
           data: [{ name: "school-1" }, { name: "school-2" }],
         }),
       );
-      const school = await getMySchool(accessToken);
+      const school = await getUserSchool(accessToken);
       expect(school.name).toEqual("school-1");
     });
   });

@@ -67,7 +67,7 @@ const MultiStepForm = () => {
     ) {
       window.history.pushState({ currentStep }, "");
     }
-    schoolOnboardingForm.current.scrollIntoView();
+    document.getElementById("top-center").scrollIntoView();
     if (currentStep < steps.length - 1) {
       localStorage.setItem(
         "schoolOnboarding",

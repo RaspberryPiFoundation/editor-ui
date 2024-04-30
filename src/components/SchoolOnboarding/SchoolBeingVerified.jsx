@@ -5,6 +5,7 @@ const SchoolBeingVerified = () => {
   const { t } = useTranslation();
   return (
     <TextList
+      className="school-onboarding-form"
       title={t("schoolBeingVerified.title")}
       text={t("schoolBeingVerified.text")}
       next={t("schoolBeingVerified.next")}

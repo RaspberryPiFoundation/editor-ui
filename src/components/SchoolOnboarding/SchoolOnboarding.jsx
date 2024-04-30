@@ -41,14 +41,14 @@ const SchoolOnboarding = () => {
             {t("schoolOnboarding.title_2")}
           </h2>
         </div>
-        {school ? (
-          school.verified ? (
+        {school.id ? (
+          school.verified_at ? (
             <SchoolAlreadyExists />
           ) : (
             <SchoolBeingVerified />
           )
         ) : (
-          <MultiStepForm />
+          school.loading === false && <MultiStepForm />
         )}
       </div>
     )
