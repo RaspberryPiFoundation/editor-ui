@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ProgressBar } from "@raspberrypifoundation/design-system-react";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -12,9 +12,11 @@ import SchoolCreated from "./SchoolCreated";
 
 const MultiStepForm = () => {
   const { t } = useTranslation();
-  const schoolOnboardingForm = useRef();
 
-  const steps = [<Step1 />, <Step2 />, <Step3 />, <Step4 />, <SchoolCreated />];
+  const steps = useMemo(
+    () => [<Step1 />, <Step2 />, <Step3 />, <Step4 />, <SchoolCreated />],
+    [],
+  );
   const schoolOnboardingData = useMemo(() => {
     return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
   }, []);
@@ -67,7 +69,7 @@ const MultiStepForm = () => {
     ) {
       window.history.pushState({ currentStep }, "");
     }
-    document.getElementById("top-center").scrollIntoView();
+    document.getElementById("top-center")?.scrollIntoView();
     if (currentStep < steps.length - 1) {
       localStorage.setItem(
         "schoolOnboarding",
@@ -77,7 +79,7 @@ const MultiStepForm = () => {
   }, [currentStep, steps, schoolOnboardingData]);
 
   return (
-    <div className="school-onboarding-form" ref={schoolOnboardingForm}>
+    <div className="school-onboarding-form">
       {currentStep < steps.length - 1 && (
         <ProgressBar
           percent={((currentStep + 1) / (steps.length - 1)) * 100}

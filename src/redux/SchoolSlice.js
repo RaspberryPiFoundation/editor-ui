@@ -8,5 +8,4 @@ export const SchoolSlice = createSlice({
   extraReducers,
 });
 
-// export const {} = SchoolSlice.actions;
 export default SchoolSlice.reducer;

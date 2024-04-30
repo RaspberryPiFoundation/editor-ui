@@ -1,13 +1,5 @@
-// export const setInstructions = (state, action) => {
-//   return { ...state, ...action.payload };
-// };
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getSchool, getUserSchool } from "../../utils/apiCallHandler";
-
-// export const setCurrentStepPosition = (state, action) => {
-//   state.currentStepPosition = action.payload;
-// };
 
 export const loadSchool = createAsyncThunk(
   `school/load`,
@@ -33,5 +25,3 @@ export const extraReducers = (builder) => {
     return { ...state, error: action.error, loading: false };
   });
 };
-
-export const reducers = {};
