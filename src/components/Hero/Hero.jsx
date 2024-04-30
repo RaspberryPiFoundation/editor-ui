@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import EditorBrand from "../LogoLM/LogoLM";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -9,22 +8,14 @@ import heroPlaceholder from "../../assets/images/hero-placeholder.svg";
 import "../../assets/stylesheets/Hero.scss";
 
 const Hero = () => {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
+  const { t } = useTranslation();
 
   const onClickPlausible = (msg) => () => {
     if (window.plausible) {
       window.plausible(msg);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate(`/${locale}/projects`);
-    }
-  }, [user, locale, navigate]);
 
   return (
     <div className="hero__wrapper">
