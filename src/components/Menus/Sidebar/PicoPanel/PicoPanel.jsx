@@ -9,28 +9,48 @@ import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 import DuplicateIcon from "../../../../assets/icons/duplicate.svg";
 
+import { setPicoConnected } from "../../../../redux/EditorSlice";
+
 import {
   downloadMicroPython,
   writeAllFilesToPico,
   readAllFilesFromPico,
-  disconnectFromPico,
-  connectToPico,
 } from "../../../../utils/picoHelpers";
 
 const PicoPanel = ({ isMobile }) => {
+  const picoBaudRate = 115200;
+
   const project = useSelector((state) => state.editor.project);
+  const [port, setPort] = useState(null);
   const dispatch = useDispatch();
 
   const picoConnected = useSelector((state) => state.editor.picoConnected);
 
   const { t } = useTranslation();
 
+  const connectToPico = async () => {
+    const obtainedPort = await navigator.serial.requestPort();
+    await obtainedPort.open({ baudRate: picoBaudRate });
+    setPort(obtainedPort);
+    dispatch(setPicoConnected(true));
+  };
+
+  const disconnectFromPico = async () => {
+    if (port) {
+      console.log(`Disconnecting ${port}`);
+      await port.close();
+      console.log(`Disconnected ${port}`);
+      dispatch(setPicoConnected(false));
+    }
+    setPort(null);
+  };
+
   return (
     <SidebarPanel heading={t("filePanel.pico")}>
       {!picoConnected ? (
         <DesignSystemButton
           className="files-list-item"
-          onClick={() => connectToPico(dispatch)}
+          onClick={() => connectToPico()}
           text="Connect"
           type="secondary"
           icon={<DuplicateIcon />}
@@ -40,7 +60,7 @@ const PicoPanel = ({ isMobile }) => {
         <>
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => disconnectFromPico(dispatch)}
+            onClick={() => disconnectFromPico()}
             text="Disconnect"
             type="secondary"
             icon={<DuplicateIcon />}
@@ -58,7 +78,7 @@ const PicoPanel = ({ isMobile }) => {
 
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => writeAllFilesToPico(project, dispatch)}
+            onClick={() => writeAllFilesToPico(port, project, dispatch)}
             text="Write to Pico"
             type="secondary"
             icon={<DuplicateIcon />}
@@ -66,7 +86,7 @@ const PicoPanel = ({ isMobile }) => {
           />
           <DesignSystemButton
             className="files-list-item"
-            onClick={() => readAllFilesFromPico(project, dispatch)}
+            onClick={() => readAllFilesFromPico(port, project, dispatch)}
             text="Get files from Pico"
             type="secondary"
             icon={<DuplicateIcon />}

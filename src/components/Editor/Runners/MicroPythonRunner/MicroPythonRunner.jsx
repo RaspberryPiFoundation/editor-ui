@@ -16,6 +16,7 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const MicroPythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
+  const picoConnected = useSelector((state) => state.editor.picoConnected);
 
   const picoOutput = useSelector((state) => state.editor.picoOutput);
   const projectIdentifier = useSelector(
@@ -35,6 +36,8 @@ const MicroPythonRunner = () => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
+  const [port, setPort] = useState(null);
+
   const getInput = () => {
     const pageInput = document.getElementById("input");
     const webComponentInput = document.querySelector("editor-wc")
@@ -44,15 +47,30 @@ const MicroPythonRunner = () => {
   };
 
   useEffect(() => {
+    const getPicoPort = async () => {
+      console.log("getting ports");
+      const ports = await navigator.serial.getPorts();
+      const port = ports[0];
+      console.log("Port", ports);
+      setPort(port);
+    };
+    if (picoConnected) {
+      getPicoPort();
+    } else {
+      setPort(null);
+    }
+  }, [picoConnected]);
+
+  useEffect(() => {
     if (codeRunTriggered) {
       output.current.innerHTML = "";
-      runOnPico(project, dispatch);
+      runOnPico(port, project, dispatch);
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
     if (codeRunStopped) {
-      stopPico();
+      stopPico(port);
       dispatch(codeRunHandled());
       dispatch(setPicoOutput(""));
     }
