@@ -8,6 +8,9 @@ const webComponentCustomEvent = (type, detail) =>
 
 export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
 
+export const projectIdentifierChangedEvent = (detail) =>
+  webComponentCustomEvent("editor-projectIdentifierChanged", detail);
+
 export const runCompletedEvent = (detail) =>
   webComponentCustomEvent("editor-runCompleted", detail);
 
