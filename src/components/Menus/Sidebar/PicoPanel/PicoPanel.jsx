@@ -13,7 +13,6 @@ import {
   downloadMicroPython,
   writeAllFilesToPico,
   readAllFilesFromPico,
-  runOnPico,
   disconnectFromPico,
   connectToPico,
 } from "../../../../utils/picoHelpers";
@@ -39,14 +38,6 @@ const PicoPanel = ({ isMobile }) => {
         />
       ) : (
         <>
-          <DesignSystemButton
-            className="files-list-item"
-            onClick={() => runOnPico(project, dispatch)}
-            text="Run on pico"
-            type="secondary"
-            icon={<DuplicateIcon />}
-            textAlways
-          />
           <DesignSystemButton
             className="files-list-item"
             onClick={() => disconnectFromPico(dispatch)}
