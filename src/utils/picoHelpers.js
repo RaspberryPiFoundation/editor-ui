@@ -45,14 +45,10 @@ export const runOnPico = async (port, project, dispatch) => {
 
 export const writeAllFilesToPico = async (port, project, dispatch) => {
   if (!port) {
-    return;
+    throw new Error(`Port is missing`);
   }
   const writer = await port.writable.getWriter();
-  if (!port) {
-    const missingResource = !port ? "Port" : "Writer";
-    throw new Error(`${missingResource} is missing`);
-  }
-  // for (let i = 0; i < project.components.length; i++) {
+
   for (const component of project.components) {
     await writeFileToPico(port, writer, component);
     console.log(`${component.name} written to Pico`);
@@ -68,8 +64,8 @@ export const writeFileToPico = async (port, writer, component) => {
   }
   if (!writer) {
     throw new Error("Writer is missing");
-    return;
   }
+  console.log("Got this far");
   const encoder = new TextEncoder();
   const codeString = component.content;
   const codeLines = codeString.split(/\r?\n|\r|\n/g);

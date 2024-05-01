@@ -45,6 +45,19 @@ const PicoPanel = ({ isMobile }) => {
     setPort(null);
   };
 
+  useEffect(() => {
+    const reconnectToPort = async () => {
+      console.log("Getting port");
+      const ports = await navigator.serial.getPorts();
+      const port = ports[0];
+      console.log(port);
+      setPort(port);
+    };
+    if (picoConnected && !port) {
+      reconnectToPort();
+    }
+  }, [port, picoConnected]);
+
   return (
     <SidebarPanel heading={t("filePanel.pico")}>
       {!picoConnected ? (
