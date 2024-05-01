@@ -12,7 +12,12 @@ import {
   urlValidation,
 } from "../../utils/fieldValidation";
 
-const Step4 = ({ stepIsValid, showInvalidFields }) => {
+const Step4 = ({
+  stepIsValid,
+  showInvalidFields,
+  apiErrors,
+  clearAPIErrors,
+}) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -37,6 +42,7 @@ const Step4 = ({ stepIsValid, showInvalidFields }) => {
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
+    clearAPIErrors();
   };
 
   useEffect(() => {
@@ -56,8 +62,15 @@ const Step4 = ({ stepIsValid, showInvalidFields }) => {
       if (validationResult) errorList.push(validationResult);
     });
 
+    // Get the API errors that match the fields for this step
+    const validationApiErrors = Object.keys(apiErrors).filter((key) =>
+      stepData.hasOwnProperty(key),
+    );
+
+    errorList.push(...validationApiErrors);
+
     setErrors(errorList);
-  }, [stepData]);
+  }, [stepData, apiErrors]);
 
   useEffect(() => {
     stepIsValid(errors.length === 0);
@@ -73,20 +86,36 @@ const Step4 = ({ stepIsValid, showInvalidFields }) => {
     );
   }, [stepData]);
 
+  // Get the API errors that don't match the fields for this step
+  const generalApiErrors = Object.keys(apiErrors).filter(
+    (key) => !stepData.hasOwnProperty(key),
+  );
+
+  // Get the error string
+  const findApiError = (field) =>
+    apiErrors.hasOwnProperty(field) ? apiErrors[field]?.join(", ") : null;
+
   return (
     <>
       <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        {showInvalidFields && (
+        {generalApiErrors.map((v, k) => (
+          <Alert
+            key={k}
+            title={t("schoolOnboarding.apiErrorTitle")}
+            type="error"
+            text={`${v} ${findApiError(v)}`}
+          />
+        ))}
+        {showInvalidFields && errors.length > 0 && (
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"
             text={t("schoolOnboarding.steps.step4.validation.errors.message")}
           />
         )}
-        {errors}
 
         <p className="school-onboarding-form__text">
           {t("schoolOnboarding.steps.step4.schoolDetails")}

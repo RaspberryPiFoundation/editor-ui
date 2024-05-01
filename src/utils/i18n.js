@@ -200,8 +200,13 @@ i18n
             title_1: "Code Editor",
             title_2: "For Education",
             step: "Step title",
+            apiErrorTitle: "There was a problem submitting the form",
             errorTitle: "There is a problem with the form",
             steps: {
+              errors: {
+                401: "You must be logged in to create a school.",
+                500: "An unknown error occurred",
+              },
               step1: {
                 title: "Before you start creating your school account",
                 thingsToKnow:
@@ -279,7 +284,7 @@ i18n
                   "This can be found on the UK Government website <0>here</0>. Although this is not required it will help us to verify your school account.",
                 validation: {
                   errors: {
-                    message: "Some required fields are not filled.",
+                    message: "Please check the fields.",
                     schoolName: "You must supply your school's name",
                     schoolWebsite: "The school website doesn't look right.",
                     schoolAddress1:

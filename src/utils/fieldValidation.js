@@ -10,8 +10,13 @@ export const existsValidation = ({ stepData, fieldName }) => {
 
 export const urlValidation = ({ stepData, fieldName }) => {
   if (!stepData[fieldName]) return fieldName;
-  if (!stepData[fieldName].match(/[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/))
+  if (
+    !stepData[fieldName].match(
+      /^(?:https?:\/\/)?(?:www.)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,6}(\/.*)?$/i,
+    )
+  ) {
     return fieldName;
+  }
 
   return false;
 };

@@ -17,6 +17,8 @@ const MultiStepForm = () => {
   const [stepIsValid, setStepIsValid] = useState(false);
   const [showInvalidFields, setShowInvalidFields] = useState(false);
 
+  const [apiErrors, setAPIErrors] = useState({});
+
   const steps = [
     <Step1 />,
     <Step2
@@ -27,6 +29,8 @@ const MultiStepForm = () => {
     <Step4
       stepIsValid={setStepIsValid}
       showInvalidFields={showInvalidFields}
+      apiErrors={apiErrors}
+      clearAPIErrors={() => setAPIErrors({})}
     />,
   ];
   const schoolOnboardingData = useMemo(() => {
@@ -64,6 +68,7 @@ const MultiStepForm = () => {
 
   const onSubmit = async () => {
     if (!checkValidation()) return;
+    setAPIErrors({});
 
     try {
       const response = await createSchool(
@@ -74,6 +79,23 @@ const MultiStepForm = () => {
         localStorage.removeItem("schoolOnboarding");
       }
     } catch (error) {
+      const { response } = error;
+      let errors = {};
+
+      // If the response is a 422 pass the errors to the form
+      if (response?.status === 422) {
+        errors = response?.data?.error;
+      } else {
+        // otherwise surface the error to the user
+        errors[response?.status] = [
+          t(
+            `schoolOnboarding.steps.errors.${response?.status}`,
+            response?.statusText,
+          ),
+        ];
+      }
+
+      setAPIErrors(errors);
       console.error(error);
     }
   };

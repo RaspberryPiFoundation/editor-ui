@@ -3,7 +3,14 @@ import Step4 from "./Step4";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step4 stepIsValid={jest.fn} showInvalidFields={false} />);
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={false}
+        apiErrors={{}}
+        clearAPIErrors={jest.fn}
+      />,
+    );
   });
 
   test("it renders", () => {
@@ -182,7 +189,14 @@ describe("When previous data is in localStorage", () => {
         },
       }),
     );
-    render(<Step4 stepIsValid={jest.fn} showInvalidFields={false} />);
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={false}
+        apiErrors={{}}
+        clearAPIErrors={jest.fn}
+      />,
+    );
   });
 
   test("the name is populated correctly", () => {
@@ -242,7 +256,14 @@ describe("When previous data is in localStorage", () => {
 
 describe("When errors are provided", () => {
   beforeEach(() => {
-    render(<Step4 stepIsValid={jest.fn} showInvalidFields={true} />);
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={true}
+        apiErrors={{}}
+        clearAPIErrors={jest.fn}
+      />,
+    );
   });
 
   test("the error message shows", () => {
@@ -256,6 +277,67 @@ describe("When errors are provided", () => {
       screen.queryByText(
         "schoolOnboarding.steps.step4.validation.errors.schoolName",
       ),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("When an api validation is returned", () => {
+  let mockClearAPIErrors;
+
+  beforeEach(() => {
+    mockClearAPIErrors = jest.fn();
+
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={true}
+        apiErrors={{
+          website: "must be a valid URL",
+        }}
+        clearAPIErrors={mockClearAPIErrors}
+      />,
+    );
+  });
+
+  test("the validation message shows", () => {
+    expect(
+      screen.queryByText("schoolOnboarding.steps.step4.schoolWebsite"),
+    ).toBeInTheDocument();
+  });
+
+  describe("the user triggers a change", () => {
+    beforeEach(() => {
+      const inputElement = screen.getByLabelText(
+        "schoolOnboarding.steps.step4.schoolWebsite",
+      );
+      fireEvent.change(inputElement, {
+        target: { value: "http://example.com" },
+      });
+    });
+
+    test("clearApiErrors method is called", () => {
+      expect(mockClearAPIErrors).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("When a general api error is returned", () => {
+  beforeEach(() => {
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={true}
+        apiErrors={{
+          401: ["You must be logged in to create a school."],
+        }}
+        clearAPIErrors={jest.fn}
+      />,
+    );
+  });
+
+  test("the error message shows", () => {
+    expect(
+      screen.queryByText("401 You must be logged in to create a school."),
     ).toBeInTheDocument();
   });
 });
