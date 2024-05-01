@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Classroom management functionality (#988)
 - Support to enable embedding iframes in HTML projects from in-house domains (#985)
 - Unit tests for `pyodide` runner (#976)
+- Dispatch event when project identifier changes, e.g. after project is remixed (#2830)
+- Remove broken `format` script (#991)
 
 ## [0.22.2] - 2024-03-18
 
