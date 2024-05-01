@@ -1,3 +1,4 @@
+import { parse } from "date-fns";
 import {
   addProjectComponent,
   updateProjectComponent,
@@ -87,34 +88,38 @@ export const readFromPico = async (port, dispatch) => {
   const readPort = async () => {
     const reader = port.readable.getReader();
     const decoder = new TextDecoder();
-    let resultString = "";
     let resultStream = [];
+    let resultString = "";
     try {
       while (true) {
         const { value, done } = await Promise.race([
           reader.read(),
           new Promise((resolve, reject) => {
-            setTimeout(() => resolve({ value: { timeout: true } }), 10000); // 5 seconds timeout
+            setTimeout(() => resolve({ value: { timeout: true } }), 2000); // 5 seconds timeout
           }),
         ]);
         if (done || value.timeout) {
           break;
         }
         resultString += decoder.decode(value);
-        // Need a more accurate marker than \n as multi-line strings form file contents
-
+        if (resultString.includes("\n")) {
+          resultStream.push(resultString);
+          resultString = "";
+        }
         dispatch(setPicoOutput(resultString));
       }
     } catch (error) {
       console.log(error);
     } finally {
       console.log("Done reading");
+      console.log(resultString);
       try {
         await reader.releaseLock();
       } catch (error) {
         console.log(error);
       }
       console.log("returning resultStream");
+      console.log(resultString.split("{"));
       dispatch(stopCodeRun());
       return resultStream;
     }
@@ -138,10 +143,10 @@ export const readAllFilesFromPico = async (project, dispatch) => {
   const encoder = new TextEncoder();
   let files = [];
   if (port && writer) {
-    const fileListString = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
-    await writer.write(encoder.encode(fileListString));
-    const fileReadString = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
-    await writer.write(encoder.encode(fileReadString));
+    const listFilesCommand = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
+    await writer.write(encoder.encode(listFilesCommand));
+    const readFilesCommand = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
+    await writer.write(encoder.encode(readFilesCommand));
     const fileStream = await readFromPico(port, dispatch);
     fileStream.forEach((file) => {
       if (file.includes("name") && file.includes("contents")) {
