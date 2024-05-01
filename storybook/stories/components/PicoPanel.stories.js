@@ -7,11 +7,11 @@ export default {
   component: PicoPanel,
 };
 
-const DefaultTemplate = () => {
+const DefaultTemplate = ({ connected }) => {
   return (
     <MockStore
       initialState={{
-        picoConnected: true,
+        picoConnected: connected,
       }}
     >
       <PicoPanel />
@@ -19,6 +19,14 @@ const DefaultTemplate = () => {
   );
 };
 
-export const Default = DefaultTemplate.bind();
-Default.args = {};
-Default.parameters = { controls: {} };
+export const NotConnected = DefaultTemplate.bind();
+NotConnected.args = {
+  connected: false,
+};
+
+export const Connected = DefaultTemplate.bind();
+Connected.args = {
+  connected: true,
+};
+
+// NotConnected.parameters = { controls: {} };
