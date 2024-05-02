@@ -15,12 +15,9 @@ const SchoolCreated = () => {
       imageAlt=""
       contact={"schoolCreated.contact"}
       listItems={{
-        item1:
-          "Thank you for providing the all the information needed to set up your school account.",
-        item2:
-          "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
-        item3:
-          "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+        item1: t("schoolCreated.listItems.item1"),
+        item2: t("schoolCreated.listItems.item2"),
+        item3: t("schoolCreated.listItems.item3"),
       }}
       exploreProjects={{
         text: t("schoolCreated.exploreProjects.text"),
