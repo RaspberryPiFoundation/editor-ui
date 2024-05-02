@@ -192,13 +192,21 @@ i18n
             python: "Start coding Python",
             html: "Start coding HTML/CSS",
             login: "Log in",
+            hero: {
+              title: "Same great code editor, now in your classroom.",
+              subtitle: "Free now, free forever.",
+              createSchool: "Create a School",
+              logIn: "Log in as a student",
+            },
             start: "Not sure where to start?",
             projectPython: "Python path",
             projectHtml: "Web path",
           },
+          logoLM: {
+            codeEditor: "Code Editor",
+            forEducation: "For Education",
+          },
           schoolOnboarding: {
-            title_1: "Code Editor",
-            title_2: "For Education",
             step: "Step title",
             apiErrorTitle: "There was a problem submitting the form",
             errorTitle: "There is a problem with the form",
@@ -304,6 +312,15 @@ i18n
             continue: "Continue",
             back: "Back",
             submit: "Submit",
+          },
+          schoolAlreadyExists: {
+            title: "You already have a School account",
+            explanation:
+              "There's already an account linked to this Raspberry Pi Foundation account. If you wish to create another account for a different school, you will need to use a different Raspberry Pi Foundation account.",
+            contact:
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>.",
+            exploreProjects: "Explore our projects",
+            editorHome: "Code Editor home",
           },
           schoolBeingVerified: {
             title: "Your school account is being verified",

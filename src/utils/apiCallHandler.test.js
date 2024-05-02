@@ -9,6 +9,8 @@ import {
   readProjectList,
   createError,
   createSchool,
+  getSchool,
+  getUserSchool,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -260,5 +262,47 @@ describe("School API calls", () => {
       { school },
       authHeaders,
     );
+  });
+
+  test("Getting a single school", async () => {
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        data: {},
+      }),
+    );
+    const schoolId = "school-id";
+    await getSchool(schoolId, accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/schools/${schoolId}`,
+      authHeaders,
+    );
+  });
+
+  describe("Getting the logged in user's school", () => {
+    test("requests the schools the user has access to from the API", async () => {
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 200,
+          data: [],
+        }),
+      );
+      await getUserSchool(accessToken);
+      expect(axios.get).toHaveBeenCalledWith(
+        `${host}/api/schools`,
+        authHeaders,
+      );
+    });
+
+    test("returns the first school that the user is associated with", async () => {
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 200,
+          data: [{ name: "school-1" }, { name: "school-2" }],
+        }),
+      );
+      const school = await getUserSchool(accessToken);
+      expect(school.name).toEqual("school-1");
+    });
   });
 });

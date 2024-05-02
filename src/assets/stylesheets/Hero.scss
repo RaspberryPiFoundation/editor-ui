@@ -1,0 +1,90 @@
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./rpf_design_system/spacing" as *;
+
+.hero__wrapper {
+  background-color: var(--editor-color-layer-1);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  padding: $space-1-5;
+  gap: $space-1;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+  }
+
+}
+
+.hero__copy {
+  @media screen and (min-width: 768px) {
+    flex: 1;
+  }
+}
+
+.hero__copy--title {
+  @include font-size-2(regular);
+  font-weight: $font-weight-regular;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-4(regular);
+  }
+}
+
+.hero__copy--subtitle {
+  @include font-size-2(regular);
+  font-weight: $font-weight-regular;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-3(regular);
+  }
+}
+
+
+.hero__image {
+  margin-block: $space-2;
+
+  img {
+    aspect-ratio: 3/2;
+    margin: auto;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-inline-start: auto;
+    max-inline-size: 40%;
+    
+  }
+}
+
+.hero__buttons {
+  @include font-size-1-25(regular);    
+  gap: $space-1;
+  display: flex;
+  flex-direction: column;
+
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  a {
+   inline-size: -webkit-fill-available;
+   justify-content: center;
+   align-items: center;
+
+    @media screen and (min-width: 768px) {
+      inline-size: fit-content;
+    }
+  }
+}

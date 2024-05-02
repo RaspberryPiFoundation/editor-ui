@@ -10,6 +10,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { createSchool } from "../../utils/apiCallHandler";
+import SchoolCreated from "./SchoolCreated";
 
 const MultiStepForm = () => {
   const { t } = useTranslation();
@@ -19,20 +20,24 @@ const MultiStepForm = () => {
 
   const [apiErrors, setAPIErrors] = useState({});
 
-  const steps = [
-    <Step1 />,
-    <Step2
-      stepIsValid={setStepIsValid}
-      showInvalidFields={showInvalidFields}
-    />,
-    <Step3 />,
-    <Step4
-      stepIsValid={setStepIsValid}
-      showInvalidFields={showInvalidFields}
-      apiErrors={apiErrors}
-      clearAPIErrors={() => setAPIErrors({})}
-    />,
-  ];
+  const steps = useMemo(
+    () => [
+      <Step1 />,
+      <Step2
+        stepIsValid={setStepIsValid}
+        showInvalidFields={showInvalidFields}
+      />,
+      <Step3 />,
+      <Step4
+        stepIsValid={setStepIsValid}
+        showInvalidFields={showInvalidFields}
+        apiErrors={apiErrors}
+        clearAPIErrors={() => setAPIErrors({})}
+      />,
+    ],
+    [],
+  );
+
   const schoolOnboardingData = useMemo(() => {
     return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
   }, []);
@@ -77,6 +82,7 @@ const MultiStepForm = () => {
       );
       if (response && response.status === 201) {
         localStorage.removeItem("schoolOnboarding");
+        nextStep();
       }
     } catch (error) {
       const { response } = error;
@@ -119,54 +125,60 @@ const MultiStepForm = () => {
     ) {
       window.history.pushState({ currentStep }, "");
     }
-    localStorage.setItem(
-      "schoolOnboarding",
-      JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
-    );
-  }, [currentStep, schoolOnboardingData]);
+    document.getElementById("top-center")?.scrollIntoView();
+    if (currentStep < steps.length - 1) {
+      localStorage.setItem(
+        "schoolOnboarding",
+        JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
+      );
+    }
+  }, [currentStep, steps, schoolOnboardingData]);
 
   return (
     <div className="school-onboarding-form">
-      {/* TODO: This is where we want the progress bar to be once it's mereged */}
-      <ProgressBar
-        percent={((currentStep + 1) / steps.length) * 100}
-        text={`Step ${currentStep + 1} of ${steps.length}`}
-      />
+      {currentStep < steps.length - 1 && (
+        <ProgressBar
+          percent={((currentStep + 1) / (steps.length - 1)) * 100}
+          text={`Step ${currentStep + 1} of ${steps.length - 1}`}
+        />
+      )}
       {steps[currentStep]}
-      <div className="school-onboarding-form__buttons">
-        {currentStep > 0 ? (
-          <DesignSystemButton
-            className="school-onboarding__button"
-            text={t("schoolOnboarding.back")}
-            textAlways
-            onClick={previousStep}
-            type={"secondary"}
-          />
-        ) : (
-          <DesignSystemButton
-            className="school-onboarding__button"
-            text={t("schoolOnboarding.cancel")}
-            textAlways
-            href={"/"}
-            type={"secondary"}
-          />
-        )}
-        {currentStep < steps.length - 1 ? (
-          <DesignSystemButton
-            className="school-onboarding__button"
-            text={t("schoolOnboarding.continue")}
-            textAlways
-            onClick={nextStep}
-          />
-        ) : (
-          <DesignSystemButton
-            className="school-onboarding__button"
-            text={t("schoolOnboarding.submit")}
-            textAlways
-            onClick={onSubmit}
-          />
-        )}
-      </div>
+      {currentStep < steps.length - 1 && (
+        <div className="school-onboarding-form__buttons">
+          {currentStep > 0 ? (
+            <DesignSystemButton
+              className="school-onboarding__button"
+              text={t("schoolOnboarding.back")}
+              textAlways
+              onClick={previousStep}
+              type={"secondary"}
+            />
+          ) : (
+            <DesignSystemButton
+              className="school-onboarding__button"
+              text={t("schoolOnboarding.cancel")}
+              textAlways
+              href={"/"}
+              type={"secondary"}
+            />
+          )}
+          {currentStep < steps.length - 2 ? (
+            <DesignSystemButton
+              className="school-onboarding__button"
+              text={t("schoolOnboarding.continue")}
+              textAlways
+              onClick={nextStep}
+            />
+          ) : (
+            <DesignSystemButton
+              className="school-onboarding__button"
+              text={t("schoolOnboarding.submit")}
+              textAlways
+              onClick={onSubmit}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

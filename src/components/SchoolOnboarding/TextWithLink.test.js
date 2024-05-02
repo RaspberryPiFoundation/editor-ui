@@ -15,6 +15,7 @@ beforeEach(() => {
         <TextWithLink
           i18nKey="text with <0>link</0>"
           to="https://www.example.com"
+          linkClassName="my_amazing_link"
         />
       </BrowserRouter>
     </I18nextProvider>,
@@ -34,4 +35,8 @@ test("Renders the link with the correct href", () => {
     "href",
     "https://www.example.com",
   );
+});
+
+test("Renders the link with the correct class name", () => {
+  expect(screen.getByRole("link")).toHaveClass("my_amazing_link");
 });

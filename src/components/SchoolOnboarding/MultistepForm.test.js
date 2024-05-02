@@ -138,6 +138,18 @@ describe("When on the last step", () => {
       expect(localStorage.getItem("schoolOnboarding")).toBeNull(),
     );
   });
+
+  test("it goes to the school created page after successful school creation", async () => {
+    createSchool.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 201,
+      }),
+    );
+    screen.getByText("schoolOnboarding.submit").click();
+    await waitFor(() =>
+      expect(screen.queryByText("schoolCreated.title")).toBeInTheDocument(),
+    );
+  });
 });
 
 afterEach(() => {

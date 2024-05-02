@@ -27,6 +27,9 @@ const EmbeddedViewer = lazy(() =>
 const SchoolOnboarding = lazy(() =>
   import(/* webpackPrefetch: true */ "./SchoolOnboarding/SchoolOnboarding"),
 );
+const School = lazy(() =>
+  import(/* webpackPrefetch: true */ "./School/School"),
+);
 
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
@@ -60,6 +63,7 @@ const AppRoutes = () => (
         element={suspense(<EmbeddedViewer />)}
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
+      <Route path="schools/:identifier" element={suspense(<School />)} />
     </Route>
 
     <Route
