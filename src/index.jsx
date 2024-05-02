@@ -51,17 +51,15 @@ if (!supportsContainerQueries) {
 const div = document.getElementById("root");
 const root = createRoot(div);
 root.render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <OidcProvider store={store} userManager={userManager}>
-            <App />
-          </OidcProvider>
-        </Provider>
-      </ApolloProvider>
-    </CookiesProvider>
-  </React.StrictMode>,
+  <CookiesProvider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <OidcProvider store={store} userManager={userManager}>
+          <App />
+        </OidcProvider>
+      </Provider>
+    </ApolloProvider>
+  </CookiesProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

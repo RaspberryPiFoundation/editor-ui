@@ -127,7 +127,7 @@ export const getSchool = async (schoolId, accessToken) => {
   return response.data;
 };
 
-export const getMySchool = async (accessToken) => {
+export const getUserSchool = async (accessToken) => {
   let response;
   try {
     response = await get(`${host}/api/schools`, headers(accessToken));

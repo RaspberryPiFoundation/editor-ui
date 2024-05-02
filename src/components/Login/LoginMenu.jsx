@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
 import "../../assets/stylesheets/LoginMenu.scss";
 import { Link } from "react-router-dom";
-import { getMySchool } from "../../utils/apiCallHandler";
+import { getUserSchool } from "../../utils/apiCallHandler";
 
 const LoginMenu = () => {
   const { t, i18n } = useTranslation();
@@ -17,7 +17,7 @@ const LoginMenu = () => {
   useEffect(() => {
     if (user) {
       const fetchData = async () => {
-        const school = await getMySchool(accessToken);
+        const school = await getUserSchool(accessToken);
         setSchool(school);
       };
       fetchData();

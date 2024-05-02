@@ -282,6 +282,15 @@ i18n
             back: "Back",
             submit: "Submit",
           },
+          schoolAlreadyExists: {
+            title: "You already have a School account",
+            explanation:
+              "There's already an account linked to this Raspberry Pi Foundation account. If you wish to create another account for a different school, you will need to use a different Raspberry Pi Foundation account.",
+            contact:
+              "If you have any issues you can contact us via email: <0>websupport@raspberrypi.org</0>.",
+            exploreProjects: "Explore our projects",
+            editorHome: "Code Editor home",
+          },
           schoolBeingVerified: {
             title: "Your school account is being verified",
             text: "You have already set up a school account and it is now in the process of being verified. If you wish to set up another account for a different school, you must use a different Raspberry Pi Foundation account.",
