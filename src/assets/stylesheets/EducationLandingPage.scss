@@ -7,41 +7,20 @@
 .education-landing-page-wrapper {
   display: flex;
   flex-direction: column;
-  // padding: $space-1-5;
   align-items: center;
-  gap: $space-1;
   flex: 1 0 0;
   align-self: stretch;
   background-color: var(--editor-color-layer-3);
-  padding-block-end: 4rem;
-
-  @media screen and (min-width: 768px) {
-    // padding: $space-5 $space-7-5;
-    // gap: $space-4;
-  }
-
-  // .logo-lm-wrapper {
-  //   display: block;
-  //   padding: $space-1-5;
-  //   // justify-content: flex-start;
-
-  //   @media screen and (min-width: 768px) {
-  //     padding: $space-2 $space-3;
-
-  //   }
-  // }
+  padding-block-end: $space-3;
 }
 
 .education-landing-page__get-started {
   background-color: var(--editor-color-layer-1);
-  border-radius: 10px;
-  // border: 1px solid var(--editor-color-border);
-  // it's not pulling in Design System border color
+  border-radius: $space-1;
   border: 1px solid $rpf-grey-150;
   display: flex;
   flex-direction: column;
   padding: $space-1-5;
   align-items: center;
   gap: $space-1;
-  // align-self: stretch;
 }

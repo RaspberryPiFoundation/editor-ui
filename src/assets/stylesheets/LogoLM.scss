@@ -5,18 +5,6 @@
 @use "./rpf_design_system/mixins" as *;
 
 .logo-lm-wrapper {
-  // display: flex;
-  // flex-direction: column;
-  // padding: $space-1-5;
-  // align-items: center;
-  // gap: $space-1;
-  // flex: 1 0 0;
-  // align-self: stretch;
-
-  @media screen and (min-width: 768px) {
-    // padding: $space-5 $space-7-5;
-    // gap: $space-4;
-  }
 
   a {
     border: none;

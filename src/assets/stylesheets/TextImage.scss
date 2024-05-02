@@ -29,35 +29,27 @@
 
 .text-image-slice__content {
   margin: $space-1-5 0;
+  flex: 1;
 }
 
 .text-image-slice__image {
-  // background-color: $rpf-grey-300;
-  // border-radius: $space-1-5;
-  // display: flex;
-
   max-width: 100%;
   overflow: hidden; 
+  flex: 1;
 
   img {
-    aspect-ratio: 3/2;
-    // display: block;
-    // max-inline-size: 100%;
-    // margin: auto;
-    // block-size: auto;
     width: 100%; 
     height: auto; 
+    object-fit: cover; 
   }
 
   @media screen and (min-width: 768px) {
-    // margin-inline-start: auto;
-
-    // img {
-    //   inline-size: unset;
-    //   margin: unset;
-    // }
+    img {
+      aspect-ratio: 3/2; 
+    }
   }
 }
+
 
 
 .text-image-slice--left {

@@ -66,9 +66,10 @@ const EducationLandingPage = () => {
         text="Easily check your students’ progress, view their coding projects, and share individual, instant feedback with each student to keep them on track."
         imageAlt="Editor output"
         imageSrc={placeholder}
+        imagePosition="right"
       />
       <TextImage
-        title="Simple and easy class managemen"
+        title="Simple and easy class management"
         text="Like the Editor itself, we’ve kept our educator interface clean, simple, and easy to use following feedback from teachers. Create and manage student accounts easily. You can organise your students into classes and help them reset their passwords quickly."
         imageAlt="Editor output"
         imageSrc={placeholder}
@@ -81,6 +82,7 @@ const EducationLandingPage = () => {
         In line with best practice codes protecting children online, we minimise our data capture so that we have just enough to keep students safe."
         imageAlt="Editor output"
         imageSrc={editorOutput}
+        imagePosition="right"
       />
       <TextImage
         title="What do people say about our Editor?"

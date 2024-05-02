@@ -6,12 +6,12 @@
 
 .hero__wrapper {
   background-color: var(--editor-color-layer-1);
-    padding: $space-1-5;
+  padding: $space-1-5;
 
-    @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) {
 
-      padding: $space-2 $space-3;
-    }
+    padding: $space-2 $space-3;
+  }
 }
 
 .hero {
@@ -19,14 +19,12 @@
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  // padding: $space-1-5;
   gap: $space-1;
 
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: row;
     gap: $space-2;
-    // padding: $space-2 $space-3;
   }
 
 }
@@ -68,9 +66,8 @@
 
   @media screen and (min-width: 768px) {
     margin-inline-start: auto;
-    max-inline-size: 35%;
-    // max-inline-size: 600px;
-    
+    // max-inline-size: 35%;
+    flex: 1;
   }
 }
 
