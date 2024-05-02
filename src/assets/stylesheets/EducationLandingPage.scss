@@ -11,6 +11,21 @@
   flex: 1 0 0;
   align-self: stretch;
   background-color: var(--editor-color-layer-3);
+
+  .logo-lm__title {
+
+  
+    @media screen and (min-width: 768px) {
+      @include font-size-3(regular);
+    }
+  }
+  
+  .logo-lm-__subtitle {
+
+    @media screen and (min-width: 768px) {
+      @include font-size-3(regular);
+    }
+  }
 }
 
 .education-landing-page__get-started {

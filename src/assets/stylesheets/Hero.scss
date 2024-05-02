@@ -41,6 +41,7 @@
 
   @media screen and (min-width: 768px) {
     @include font-size-4(regular);
+    margin-block-start: 0;
   }
 }
 
