@@ -20,7 +20,10 @@ const EducationLandingPage = () => {
   };
 
   return (
-    <div className="education-landing-page-wrapper">
+    <div
+      className="education-landing-page-wrapper"
+      data-testid="education-landing-page"
+    >
       <Hero />
       <TextImage
         title="An IDE designed for learners"
