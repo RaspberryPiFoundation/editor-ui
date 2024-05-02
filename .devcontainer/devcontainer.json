@@ -67,7 +67,8 @@
         "codezombiech.gitignore"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "jest.runMode": "on-demand"
       }
     }
   },

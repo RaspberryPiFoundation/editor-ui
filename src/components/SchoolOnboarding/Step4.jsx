@@ -32,6 +32,8 @@ const Step4 = () => {
     setStepData((data) => ({ ...data, [name]: value }));
   };
 
+  const conditionalField = (value, condition) => value === condition;
+
   useEffect(() => {
     localStorage.setItem(
       "schoolOnboarding",
@@ -147,20 +149,22 @@ const Step4 = () => {
               fullWidth={true}
             />
           </section>
-          <TextInput
-            label={t("schoolOnboarding.steps.step4.schoolUrn")}
-            hint={
-              <TextWithLink
-                i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
-                to="https://www.get-information-schools.service.gov.uk/Search"
-              />
-            }
-            id="reference"
-            name="reference"
-            value={stepData["reference"]}
-            onChange={onChange}
-            fullWidth={true}
-          />
+          {conditionalField(stepData["country_code"], "GB") && (
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolUrn")}
+              hint={
+                <TextWithLink
+                  i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
+                  to="https://www.get-information-schools.service.gov.uk/Search"
+                />
+              }
+              id="reference"
+              name="reference"
+              value={stepData["reference"]}
+              onChange={onChange}
+              fullWidth={true}
+            />
+          )}
         </form>
       </div>
     </>

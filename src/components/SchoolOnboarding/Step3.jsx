@@ -19,6 +19,7 @@ const Step3 = () => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
   };
+  const conditionalField = (value, condition) => value === condition;
 
   useEffect(() => {
     localStorage.setItem(
@@ -53,7 +54,7 @@ const Step3 = () => {
                 value: t("schoolOnboarding.steps.step3.headOfDepartment"),
               },
               {
-                key: "adminastrative_staff",
+                key: "administrative_staff",
                 value: t("schoolOnboarding.steps.step3.admin"),
               },
               {
@@ -68,6 +69,17 @@ const Step3 = () => {
             fullWidth={true}
             error=""
           />
+          {conditionalField(stepData["role"], "other") && (
+            <TextInput
+              label={t("schoolOnboarding.steps.step3.otherRole")}
+              id="other_role"
+              name="other_role"
+              onChange={onChange}
+              value={stepData["other_role"]}
+              fullWidth={true}
+              error=""
+            />
+          )}
           <TextInput
             label={t("schoolOnboarding.steps.step3.department")}
             hint={t("schoolOnboarding.steps.step3.departmentHint")}

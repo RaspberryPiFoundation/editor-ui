@@ -249,6 +249,7 @@ i18n
                 optionalInfo:
                   "Providing this information is optional, however it helps us to understand our users, how the platform is used, and how we can improve it.",
                 role: "What is your role at the School? (Optional)",
+                otherRole: "Please tell us your role",
                 select: "Please select",
                 teacher: "Teacher",
                 headOfDepartment: "Head of Department",
