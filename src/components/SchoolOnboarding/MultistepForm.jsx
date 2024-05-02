@@ -34,6 +34,7 @@ const MultiStepForm = () => {
         apiErrors={apiErrors}
         clearAPIErrors={() => setAPIErrors({})}
       />,
+      <SchoolCreated />,
     ],
     [],
   );
