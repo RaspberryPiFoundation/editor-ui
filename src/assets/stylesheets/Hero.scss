@@ -9,7 +9,6 @@
   padding: $space-1-5;
 
   @media screen and (min-width: 768px) {
-
     padding: $space-2 $space-3;
   }
 }
@@ -67,7 +66,6 @@
 
   @media screen and (min-width: 768px) {
     margin-inline-start: auto;
-    // max-inline-size: 35%;
     flex: 1;
   }
 }
