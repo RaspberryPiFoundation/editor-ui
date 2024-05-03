@@ -12,12 +12,7 @@ import {
   urlValidation,
 } from "../../utils/fieldValidation";
 
-const Step4 = ({
-  stepIsValid,
-  showInvalidFields,
-  apiErrors,
-  clearAPIErrors,
-}) => {
+const Step4 = ({ stepIsValid, showInvalidFields, apiErrors }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -42,7 +37,6 @@ const Step4 = ({
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
-    clearAPIErrors();
   };
 
   useEffect(() => {
@@ -74,7 +68,7 @@ const Step4 = ({
 
   useEffect(() => {
     stepIsValid(errors.length === 0);
-  }, [errors, stepIsValid]);
+  }, [stepData, errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(

@@ -19,6 +19,7 @@ const MultiStepForm = () => {
   const [showInvalidFields, setShowInvalidFields] = useState(false);
 
   const [apiErrors, setAPIErrors] = useState({});
+  const clearAPIErrors = () => setAPIErrors({});
 
   const steps = useMemo(
     () => [
@@ -32,22 +33,25 @@ const MultiStepForm = () => {
         stepIsValid={setStepIsValid}
         showInvalidFields={showInvalidFields}
         apiErrors={apiErrors}
-        clearAPIErrors={() => setAPIErrors({})}
       />,
       <SchoolCreated />,
     ],
-    [],
+    [showInvalidFields, apiErrors],
   );
 
-  const schoolOnboardingData = useMemo(() => {
-    return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
-  }, []);
+  const totalSteps = steps.length - 1;
+
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
   const [currentStep, setCurrentStep] = useState(
     schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
   const checkValidation = () => {
+    setShowInvalidFields(false);
+
     // If there's a validation callback provided we should check it passes
     if (steps[currentStep].props.stepIsValid) {
       setShowInvalidFields(true);
@@ -59,9 +63,11 @@ const MultiStepForm = () => {
   };
 
   const nextStep = () => {
+    document.getElementById("top-center")?.scrollIntoView();
+
     if (!checkValidation()) return;
 
-    if (currentStep < steps.length - 1) {
+    if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -74,7 +80,8 @@ const MultiStepForm = () => {
 
   const onSubmit = async () => {
     if (!checkValidation()) return;
-    setAPIErrors({});
+
+    clearAPIErrors();
 
     try {
       const response = await createSchool(
@@ -118,33 +125,30 @@ const MultiStepForm = () => {
   });
 
   useEffect(() => {
-    setShowInvalidFields(false);
-
     if (
       window.history.state &&
       window.history.state.currentStep !== currentStep
     ) {
       window.history.pushState({ currentStep }, "");
     }
-    document.getElementById("top-center")?.scrollIntoView();
-    if (currentStep < steps.length - 1) {
+    if (currentStep < totalSteps) {
       localStorage.setItem(
         "schoolOnboarding",
         JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
       );
     }
-  }, [currentStep, steps, schoolOnboardingData]);
+  }, [currentStep, steps, schoolOnboardingData, totalSteps]);
 
   return (
     <div className="school-onboarding-form">
-      {currentStep < steps.length - 1 && (
+      {currentStep < totalSteps && (
         <ProgressBar
-          percent={((currentStep + 1) / (steps.length - 1)) * 100}
-          text={`Step ${currentStep + 1} of ${steps.length - 1}`}
+          percent={((currentStep + 1) / totalSteps) * 100}
+          text={`Step ${currentStep + 1} of ${totalSteps}`}
         />
       )}
       {steps[currentStep]}
-      {currentStep < steps.length - 1 && (
+      {currentStep < totalSteps && (
         <div className="school-onboarding-form__buttons">
           {currentStep > 0 ? (
             <DesignSystemButton

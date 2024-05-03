@@ -43,7 +43,7 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
 
   useEffect(() => {
     stepIsValid(errors.length === 0);
-  }, [errors, stepIsValid]);
+  }, [stepData, errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -61,7 +61,7 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        {showInvalidFields && (
+        {showInvalidFields && errors.length > 0 && (
           <Alert
             title={t("schoolOnboarding.errorTitle")}
             type="error"

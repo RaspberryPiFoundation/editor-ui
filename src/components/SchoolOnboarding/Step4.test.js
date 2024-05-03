@@ -4,12 +4,7 @@ import Step4 from "./Step4";
 describe("When localStorage is empty", () => {
   beforeEach(() => {
     render(
-      <Step4
-        stepIsValid={jest.fn}
-        showInvalidFields={false}
-        apiErrors={{}}
-        clearAPIErrors={jest.fn}
-      />,
+      <Step4 stepIsValid={jest.fn} showInvalidFields={false} apiErrors={{}} />,
     );
   });
 
@@ -190,12 +185,7 @@ describe("When previous data is in localStorage", () => {
       }),
     );
     render(
-      <Step4
-        stepIsValid={jest.fn}
-        showInvalidFields={false}
-        apiErrors={{}}
-        clearAPIErrors={jest.fn}
-      />,
+      <Step4 stepIsValid={jest.fn} showInvalidFields={false} apiErrors={{}} />,
     );
   });
 
@@ -257,12 +247,7 @@ describe("When previous data is in localStorage", () => {
 describe("When errors are provided", () => {
   beforeEach(() => {
     render(
-      <Step4
-        stepIsValid={jest.fn}
-        showInvalidFields={true}
-        apiErrors={{}}
-        clearAPIErrors={jest.fn}
-      />,
+      <Step4 stepIsValid={jest.fn} showInvalidFields={true} apiErrors={{}} />,
     );
   });
 
@@ -282,11 +267,7 @@ describe("When errors are provided", () => {
 });
 
 describe("When an api validation is returned", () => {
-  let mockClearAPIErrors;
-
   beforeEach(() => {
-    mockClearAPIErrors = jest.fn();
-
     render(
       <Step4
         stepIsValid={jest.fn}
@@ -294,7 +275,6 @@ describe("When an api validation is returned", () => {
         apiErrors={{
           website: "must be a valid URL",
         }}
-        clearAPIErrors={mockClearAPIErrors}
       />,
     );
   });
@@ -303,21 +283,6 @@ describe("When an api validation is returned", () => {
     expect(
       screen.queryByText("schoolOnboarding.steps.step4.schoolWebsite"),
     ).toBeInTheDocument();
-  });
-
-  describe("the user triggers a change", () => {
-    beforeEach(() => {
-      const inputElement = screen.getByLabelText(
-        "schoolOnboarding.steps.step4.schoolWebsite",
-      );
-      fireEvent.change(inputElement, {
-        target: { value: "http://example.com" },
-      });
-    });
-
-    test("clearApiErrors method is called", () => {
-      expect(mockClearAPIErrors).toHaveBeenCalled();
-    });
   });
 });
 
@@ -330,7 +295,6 @@ describe("When a general api error is returned", () => {
         apiErrors={{
           401: ["You must be logged in to create a school."],
         }}
-        clearAPIErrors={jest.fn}
       />,
     );
   });
