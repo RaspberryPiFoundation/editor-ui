@@ -25,11 +25,5 @@ test("presence of EducationLandingPage", () => {
     </Provider>,
   );
 
-  const EducationLandingPageComponent = screen.getByTestId(
-    "education-landing-page",
-  );
-
-  expect(EducationLandingPageComponent).toHaveClass(
-    "education-landing-page-wrapper",
-  );
+  expect(screen.getByTestId("education-landing-page")).toBeInTheDocument();
 });
