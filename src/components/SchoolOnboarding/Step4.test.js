@@ -62,7 +62,17 @@ describe("When localStorage is empty", () => {
     ).toHaveValue("");
   });
 
-  test("the URN is blank", () => {
+  test("the URN field isn't visible by default", () => {
+    expect(
+      screen.queryByLabelText("schoolOnboarding.steps.step4.schoolUrn"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("the URN is blank and visible when the country is set to GB", () => {
+    let inputElement = screen.getByLabelText(
+      "schoolOnboarding.steps.step4.schoolCountry",
+    );
+    fireEvent.change(inputElement, { target: { value: "GB" } });
     expect(
       screen.getByLabelText(/schoolOnboarding.steps.step4.schoolUrn/),
     ).toHaveValue("");
@@ -156,7 +166,11 @@ describe("When localStorage is empty", () => {
   });
 
   test("typing the URN updates localStorage", () => {
-    const inputElement = screen.getByLabelText(
+    let inputElement = screen.getByLabelText(
+      "schoolOnboarding.steps.step4.schoolCountry",
+    );
+    fireEvent.change(inputElement, { target: { value: "GB" } });
+    inputElement = screen.getByLabelText(
       /schoolOnboarding.steps.step4.schoolUrn/,
     );
     fireEvent.change(inputElement, { target: { value: "dr4m45ch001" } });
@@ -303,6 +317,36 @@ describe("When a general api error is returned", () => {
     expect(
       screen.queryByText("401 You must be logged in to create a school."),
     ).toBeInTheDocument();
+  });
+});
+
+describe("When a country other than GB data is in localStorage", () => {
+  beforeEach(() => {
+    localStorage.setItem(
+      "schoolOnboarding",
+      JSON.stringify({
+        step_4: {
+          name: "Raspberry Pi School of Drama",
+          website: "https://www.schoolofdrama.org",
+          address_line_1: "123 Drama Street",
+          address_line_2: "Dramaville",
+          municipality: "Drama City",
+          administrative_area: "Dramashire",
+          postal_code: "DR1 4MA",
+          country_code: "US",
+          reference: "dr4m45ch001",
+        },
+      }),
+    );
+    render(
+      <Step4 stepIsValid={jest.fn} showInvalidFields={true} apiErrors={{}} />,
+    );
+  });
+
+  test("the URN is not visible", () => {
+    expect(
+      screen.queryByLabelText(/schoolOnboarding.steps.step4.schoolUrn/),
+    ).not.toBeInTheDocument();
   });
 });
 

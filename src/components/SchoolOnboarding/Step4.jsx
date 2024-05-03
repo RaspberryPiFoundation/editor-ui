@@ -39,6 +39,8 @@ const Step4 = ({ stepIsValid, showInvalidFields, apiErrors }) => {
     setStepData((data) => ({ ...data, [name]: value }));
   };
 
+  const conditionalField = (value, condition) => value === condition;
+
   useEffect(() => {
     const errorList = [];
     const validations = [
@@ -273,22 +275,23 @@ const Step4 = ({ stepIsValid, showInvalidFields, apiErrors }) => {
                 })
               }
             />
-          </section>
-
-          <TextInput
-            label={t("schoolOnboarding.steps.step4.schoolUrn")}
-            hint={
-              <TextWithLink
-                i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
-                to="https://www.get-information-schools.service.gov.uk/Search"
+            {conditionalField(stepData["country_code"], "GB") && (
+              <TextInput
+                label={t("schoolOnboarding.steps.step4.schoolUrn")}
+                hint={
+                  <TextWithLink
+                    i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
+                    to="https://www.get-information-schools.service.gov.uk/Search"
+                  />
+                }
+                id="reference"
+                name="reference"
+                value={stepData["reference"]}
+                onChange={onChange}
+                fullWidth={true}
               />
-            }
-            id="reference"
-            name="reference"
-            value={stepData["reference"]}
-            onChange={onChange}
-            fullWidth={true}
-          />
+            )}
+          </section>
         </form>
       </div>
     </>

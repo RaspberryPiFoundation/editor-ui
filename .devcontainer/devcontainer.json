@@ -63,7 +63,8 @@
         "github.vscode-github-actions"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "jest.runMode": "on-demand"
       }
     }
   },

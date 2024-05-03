@@ -18,6 +18,22 @@ describe("When localStorage is empty", () => {
     ).toHaveValue("");
   });
 
+  test("other_role isn't visible by default", () => {
+    expect(
+      screen.queryByLabelText("schoolOnboarding.steps.step3.otherRole"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("other_role is visible when other is selected in the role field, and is empty", () => {
+    const inputElement = screen.getByLabelText(
+      /schoolOnboarding.steps.step3.role/,
+    );
+    fireEvent.change(inputElement, { target: { value: "other" } });
+    expect(
+      screen.queryByLabelText("schoolOnboarding.steps.step3.otherRole"),
+    ).toHaveValue("");
+  });
+
   test("the department input is blank", () => {
     expect(
       screen.getByLabelText(/schoolOnboarding.steps.step3.department/),
@@ -34,14 +50,28 @@ describe("When localStorage is empty", () => {
     ).toBe("teacher");
   });
 
-  test("typing in the department input updates localStorage", () => {
-    const inputElement = screen.getByLabelText(
-      /schoolOnboarding.steps.step3.department/,
+  test("entering other_role updates localStorage", () => {
+    const selectElement = screen.getByLabelText(
+      "schoolOnboarding.steps.step3.role",
     );
-    fireEvent.change(inputElement, { target: { value: "Drama" } });
+    fireEvent.change(selectElement, { target: { value: "teacher" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.department,
-    ).toBe("Drama");
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.role,
+    ).toBe("teacher");
+  });
+
+  test("typing in the department input updates localStorage", () => {
+    let inputElement = screen.getByLabelText(
+      /schoolOnboarding.steps.step3.role/,
+    );
+    fireEvent.change(inputElement, { target: { value: "other" } });
+    inputElement = screen.getByLabelText(
+      /schoolOnboarding.steps.step3.otherRole/,
+    );
+    fireEvent.change(inputElement, { target: { value: "a role" } });
+    expect(
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.other_role,
+    ).toBe("a role");
   });
 });
 
@@ -50,7 +80,7 @@ describe("When previous data is in localStorage", () => {
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({
-        step_3: { role: "adminastrative_staff", department: "English" },
+        step_3: { role: "administrative_staff", department: "English" },
       }),
     );
     render(<Step3 />);
@@ -59,13 +89,37 @@ describe("When previous data is in localStorage", () => {
   test("the role select is populated correctly", () => {
     expect(
       screen.getByLabelText("schoolOnboarding.steps.step3.role"),
-    ).toHaveValue("adminastrative_staff");
+    ).toHaveValue("administrative_staff");
+  });
+
+  test("the otherRole select is populated correctly", () => {
+    expect(
+      screen.queryByLabelText("schoolOnboarding.steps.step3.otherRole"),
+    ).not.toBeInTheDocument();
   });
 
   test("the department input is populated correctly", () => {
     expect(
       screen.getByLabelText(/schoolOnboarding.steps.step3.department/),
     ).toHaveValue("English");
+  });
+});
+
+describe("When other_role data is in localStorage", () => {
+  beforeEach(() => {
+    localStorage.setItem(
+      "schoolOnboarding",
+      JSON.stringify({
+        step_3: { role: "other", other_role: "a role", department: "English" },
+      }),
+    );
+    render(<Step3 />);
+  });
+
+  test("the otherRole select is populated correctly", () => {
+    expect(
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.other_role,
+    ).toBe("a role");
   });
 });
 
