@@ -50,6 +50,8 @@ const MultiStepForm = () => {
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
   const checkValidation = () => {
+    document.getElementById("top-center")?.scrollIntoView();
+
     setShowInvalidFields(false);
 
     // If there's a validation callback provided we should check it passes
@@ -63,8 +65,6 @@ const MultiStepForm = () => {
   };
 
   const nextStep = () => {
-    document.getElementById("top-center")?.scrollIntoView();
-
     if (!checkValidation()) return;
 
     if (currentStep < totalSteps) {
