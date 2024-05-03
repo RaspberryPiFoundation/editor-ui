@@ -5,7 +5,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.8",
     "@raspberrypifoundation/design-system-core": "^0.3.4",
-    "@raspberrypifoundation/design-system-react": "^1.1.4",
+    "@raspberrypifoundation/design-system-react": "^1.1.6",
     "@reduxjs/toolkit": "^1.6.2",
     "@sentry/browser": "^7.17.3",
     "@sentry/react": "7.16.0",
@@ -25,6 +25,7 @@
     "js-convert-case": "^4.2.0",
     "jszip": "^3.10.1",
     "jszip-utils": "^0.1.0",
+    "material-symbols": "^0.17.2",
     "mime-types": "^2.1.35",
     "oidc-client": "^1.11.5",
     "parse-link-header": "^2.0.0",

@@ -66,7 +66,6 @@ const Step3 = () => {
             onChange={onChange}
             value={stepData["role"]}
             fullWidth={true}
-            error=""
           />
           <TextInput
             label={t("schoolOnboarding.steps.step3.department")}
@@ -76,7 +75,6 @@ const Step3 = () => {
             onChange={onChange}
             value={stepData["department"]}
             fullWidth={true}
-            error=""
           />
         </form>
       </div>

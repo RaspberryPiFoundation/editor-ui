@@ -1,32 +1,73 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import "material-symbols";
 import { ProgressBar } from "@raspberrypifoundation/design-system-react";
+
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import { createSchool } from "../../utils/apiCallHandler";
-import { useSelector } from "react-redux";
 import SchoolCreated from "./SchoolCreated";
 
 const MultiStepForm = () => {
   const { t } = useTranslation();
 
+  const [stepIsValid, setStepIsValid] = useState(false);
+  const [showInvalidFields, setShowInvalidFields] = useState(false);
+
+  const [apiErrors, setAPIErrors] = useState({});
+  const clearAPIErrors = () => setAPIErrors({});
+
   const steps = useMemo(
-    () => [<Step1 />, <Step2 />, <Step3 />, <Step4 />, <SchoolCreated />],
-    [],
+    () => [
+      <Step1 />,
+      <Step2
+        stepIsValid={setStepIsValid}
+        showInvalidFields={showInvalidFields}
+      />,
+      <Step3 />,
+      <Step4
+        stepIsValid={setStepIsValid}
+        showInvalidFields={showInvalidFields}
+        apiErrors={apiErrors}
+      />,
+      <SchoolCreated />,
+    ],
+    [showInvalidFields, apiErrors],
   );
-  const schoolOnboardingData = useMemo(() => {
-    return JSON.parse(localStorage.getItem("schoolOnboarding")) || {};
-  }, []);
+
+  const totalSteps = steps.length - 1;
+
+  const schoolOnboardingData = JSON.parse(
+    localStorage.getItem("schoolOnboarding"),
+  );
   const [currentStep, setCurrentStep] = useState(
     schoolOnboardingData?.currentStep ? schoolOnboardingData.currentStep : 0,
   );
   const accessToken = useSelector((state) => state.auth.user?.access_token);
 
+  const checkValidation = () => {
+    document.getElementById("top-center")?.scrollIntoView();
+
+    setShowInvalidFields(false);
+
+    // If there's a validation callback provided we should check it passes
+    if (steps[currentStep].props.stepIsValid) {
+      setShowInvalidFields(true);
+      return stepIsValid;
+    }
+
+    // Steps without a stepIsValid prop are just informational
+    return true;
+  };
+
   const nextStep = () => {
-    if (currentStep < steps.length - 1) {
+    if (!checkValidation()) return;
+
+    if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -38,6 +79,10 @@ const MultiStepForm = () => {
   };
 
   const onSubmit = async () => {
+    if (!checkValidation()) return;
+
+    clearAPIErrors();
+
     try {
       const response = await createSchool(
         JSON.parse(localStorage.getItem("schoolOnboarding"))["step_4"],
@@ -48,6 +93,23 @@ const MultiStepForm = () => {
         nextStep();
       }
     } catch (error) {
+      const { response } = error;
+      let errors = {};
+
+      // If the response is a 422 pass the errors to the form
+      if (response?.status === 422) {
+        errors = response?.data?.error;
+      } else {
+        // otherwise surface the error to the user
+        errors[response?.status] = [
+          t(
+            `schoolOnboarding.steps.errors.${response?.status}`,
+            response?.statusText,
+          ),
+        ];
+      }
+
+      setAPIErrors(errors);
       console.error(error);
     }
   };
@@ -69,25 +131,24 @@ const MultiStepForm = () => {
     ) {
       window.history.pushState({ currentStep }, "");
     }
-    document.getElementById("top-center")?.scrollIntoView();
-    if (currentStep < steps.length - 1) {
+    if (currentStep < totalSteps) {
       localStorage.setItem(
         "schoolOnboarding",
         JSON.stringify({ ...schoolOnboardingData, currentStep: currentStep }),
       );
     }
-  }, [currentStep, steps, schoolOnboardingData]);
+  }, [currentStep, steps, schoolOnboardingData, totalSteps]);
 
   return (
     <div className="school-onboarding-form">
-      {currentStep < steps.length - 1 && (
+      {currentStep < totalSteps && (
         <ProgressBar
-          percent={((currentStep + 1) / (steps.length - 1)) * 100}
-          text={`Step ${currentStep + 1} of ${steps.length - 1}`}
+          percent={((currentStep + 1) / totalSteps) * 100}
+          text={`Step ${currentStep + 1} of ${totalSteps}`}
         />
       )}
       {steps[currentStep]}
-      {currentStep < steps.length - 1 && (
+      {currentStep < totalSteps && (
         <div className="school-onboarding-form__buttons">
           {currentStep > 0 ? (
             <DesignSystemButton

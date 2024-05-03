@@ -3,7 +3,9 @@ import Step4 from "./Step4";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step4 />);
+    render(
+      <Step4 stepIsValid={jest.fn} showInvalidFields={false} apiErrors={{}} />,
+    );
   });
 
   test("it renders", () => {
@@ -182,7 +184,9 @@ describe("When previous data is in localStorage", () => {
         },
       }),
     );
-    render(<Step4 />);
+    render(
+      <Step4 stepIsValid={jest.fn} showInvalidFields={false} apiErrors={{}} />,
+    );
   });
 
   test("the name is populated correctly", () => {
@@ -237,6 +241,68 @@ describe("When previous data is in localStorage", () => {
     expect(
       screen.getByLabelText(/schoolOnboarding.steps.step4.schoolUrn/),
     ).toHaveValue("dr4m45ch001");
+  });
+});
+
+describe("When errors are provided", () => {
+  beforeEach(() => {
+    render(
+      <Step4 stepIsValid={jest.fn} showInvalidFields={true} apiErrors={{}} />,
+    );
+  });
+
+  test("the error message shows", () => {
+    expect(
+      screen.queryByText(
+        "schoolOnboarding.steps.step4.validation.errors.message",
+      ),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText(
+        "schoolOnboarding.steps.step4.validation.errors.schoolName",
+      ),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("When an api validation is returned", () => {
+  beforeEach(() => {
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={true}
+        apiErrors={{
+          website: "must be a valid URL",
+        }}
+      />,
+    );
+  });
+
+  test("the validation message shows", () => {
+    expect(
+      screen.queryByText("schoolOnboarding.steps.step4.schoolWebsite"),
+    ).toBeInTheDocument();
+  });
+});
+
+describe("When a general api error is returned", () => {
+  beforeEach(() => {
+    render(
+      <Step4
+        stepIsValid={jest.fn}
+        showInvalidFields={true}
+        apiErrors={{
+          401: ["You must be logged in to create a school."],
+        }}
+      />,
+    );
+  });
+
+  test("the error message shows", () => {
+    expect(
+      screen.queryByText("401 You must be logged in to create a school."),
+    ).toBeInTheDocument();
   });
 });
 

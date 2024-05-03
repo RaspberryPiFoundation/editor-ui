@@ -3,10 +3,16 @@ import { useTranslation } from "react-i18next";
 import {
   SelectInput,
   TextInput,
+  Alert,
 } from "@raspberrypifoundation/design-system-react";
 import TextWithLink from "./TextWithLink";
+import {
+  fieldError,
+  existsValidation,
+  urlValidation,
+} from "../../utils/fieldValidation";
 
-const Step4 = () => {
+const Step4 = ({ stepIsValid, showInvalidFields, apiErrors }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -26,11 +32,43 @@ const Step4 = () => {
           reference: "",
         },
   );
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
   };
+
+  useEffect(() => {
+    const errorList = [];
+    const validations = [
+      () => existsValidation({ stepData, fieldName: "name" }),
+      () => urlValidation({ stepData, fieldName: "website" }),
+      () => existsValidation({ stepData, fieldName: "address_line_1" }),
+      () => existsValidation({ stepData, fieldName: "municipality" }),
+      () => existsValidation({ stepData, fieldName: "administrative_area" }),
+      () => existsValidation({ stepData, fieldName: "postal_code" }),
+      () => existsValidation({ stepData, fieldName: "country_code" }),
+    ];
+
+    validations.forEach((runValidation) => {
+      const validationResult = runValidation();
+      if (validationResult) errorList.push(validationResult);
+    });
+
+    // Get the API errors that match the fields for this step
+    const validationApiErrors = Object.keys(apiErrors).filter((key) =>
+      stepData.hasOwnProperty(key),
+    );
+
+    errorList.push(...validationApiErrors);
+
+    setErrors(errorList);
+  }, [stepData, apiErrors]);
+
+  useEffect(() => {
+    stepIsValid(errors.length === 0);
+  }, [stepData, errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -42,15 +80,41 @@ const Step4 = () => {
     );
   }, [stepData]);
 
+  // Get the API errors that don't match the fields for this step
+  const generalApiErrors = Object.keys(apiErrors).filter(
+    (key) => !stepData.hasOwnProperty(key),
+  );
+
+  // Get the error string
+  const findApiError = (field) =>
+    apiErrors.hasOwnProperty(field) ? apiErrors[field]?.join(", ") : null;
+
   return (
     <>
       <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
       <div className="school-onboarding-form__content">
+        {generalApiErrors.map((v, k) => (
+          <Alert
+            key={k}
+            title={t("schoolOnboarding.apiErrorTitle")}
+            type="error"
+            text={`${v} ${findApiError(v)}`}
+          />
+        ))}
+        {showInvalidFields && errors.length > 0 && (
+          <Alert
+            title={t("schoolOnboarding.errorTitle")}
+            type="error"
+            text={t("schoolOnboarding.steps.step4.validation.errors.message")}
+          />
+        )}
+
         <p className="school-onboarding-form__text">
           {t("schoolOnboarding.steps.step4.schoolDetails")}
         </p>
+
         <form>
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolName")}
@@ -59,7 +123,16 @@ const Step4 = () => {
             value={stepData["name"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "name",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolName",
+                ),
+              })
+            }
           />
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolWebsite")}
@@ -68,7 +141,16 @@ const Step4 = () => {
             value={stepData["website"]}
             onChange={onChange}
             fullWidth={true}
-            error=""
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "website",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolWebsite",
+                ),
+              })
+            }
           />
           <section className="school-onboarding-form__section">
             <h4 className="school-onboarding-form__subtitle">
@@ -81,7 +163,16 @@ const Step4 = () => {
               value={stepData["address_line_1"]}
               onChange={onChange}
               fullWidth={true}
-              error=""
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "address_line_1",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolAddress1",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolAddress2")}
@@ -90,7 +181,6 @@ const Step4 = () => {
               value={stepData["address_line_2"]}
               onChange={onChange}
               fullWidth={true}
-              error=""
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolCity")}
@@ -99,7 +189,16 @@ const Step4 = () => {
               value={stepData["municipality"]}
               onChange={onChange}
               fullWidth={true}
-              error=""
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "municipality",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCity",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolState")}
@@ -108,7 +207,16 @@ const Step4 = () => {
               value={stepData["administrative_area"]}
               onChange={onChange}
               fullWidth={true}
-              error=""
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "administrative_area",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolState",
+                  ),
+                })
+              }
             />
             <TextInput
               label={t("schoolOnboarding.steps.step4.schoolPostcode")}
@@ -117,7 +225,16 @@ const Step4 = () => {
               value={stepData["postal_code"]}
               onChange={onChange}
               fullWidth={true}
-              error=""
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "postal_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolPostcode",
+                  ),
+                })
+              }
             />
             <SelectInput
               label={t("schoolOnboarding.steps.step4.schoolCountry")}
@@ -145,8 +262,19 @@ const Step4 = () => {
               onChange={onChange}
               value={stepData["country_code"]}
               fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "country_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCountry",
+                  ),
+                })
+              }
             />
           </section>
+
           <TextInput
             label={t("schoolOnboarding.steps.step4.schoolUrn")}
             hint={
