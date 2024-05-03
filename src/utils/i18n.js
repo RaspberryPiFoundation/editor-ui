@@ -208,7 +208,13 @@ i18n
           },
           schoolOnboarding: {
             step: "Step title",
+            apiErrorTitle: "There was a problem submitting the form",
+            errorTitle: "There is a problem with the form",
             steps: {
+              errors: {
+                401: "You must be logged in to create a school.",
+                500: "An unknown error occurred",
+              },
               step1: {
                 title: "Before you start creating your school account",
                 thingsToKnow:
@@ -243,6 +249,15 @@ i18n
                   "I have the authority to create this account on behalf of my school.",
                 agreeResponsibility:
                   "I agree to be responsible for this school account and I accept the <0>Terms and conditions</0>.",
+                validation: {
+                  errors: {
+                    message:
+                      "You must agree to the following responsibilities and Terms and conditions to continue.",
+                    authority: "You must confirm you have authority",
+                    responsibility:
+                      "You must confirm you accept responsibility",
+                  },
+                },
               },
               step3: {
                 title: "What is your role at the School?",
@@ -276,6 +291,22 @@ i18n
                 schoolUrn: "School URN (Optional)",
                 schoolUrnHint:
                   "This can be found on the UK Government website <0>here</0>. Although this is not required it will help us to verify your school account.",
+                validation: {
+                  errors: {
+                    message: "Please check the fields.",
+                    schoolName: "You must supply your school's name",
+                    schoolWebsite: "The school website doesn't look right.",
+                    schoolAddress1:
+                      "You must supply Address line 1 of your school.",
+                    schoolCity:
+                      "You must supply your school's Village/Town/City.",
+                    schoolState:
+                      "You must supply your school's State/County/Province.",
+                    schoolPostcode:
+                      "You must supply your school's Postal code/Zip code.",
+                    schoolCountry: "Please select a country from the list.",
+                  },
+                },
               },
             },
             cancel: "Cancel",

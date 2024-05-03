@@ -67,7 +67,6 @@ const Step3 = () => {
             onChange={onChange}
             value={stepData["role"]}
             fullWidth={true}
-            error=""
           />
           {conditionalField(stepData["role"], "other") && (
             <TextInput
@@ -88,7 +87,6 @@ const Step3 = () => {
             onChange={onChange}
             value={stepData["department"]}
             fullWidth={true}
-            error=""
           />
         </form>
       </div>
