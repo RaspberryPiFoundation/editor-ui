@@ -21,7 +21,7 @@
   @include font-size-1-5(regular);
   margin-inline-end: $space-1;
 
-  @media screen and (min-width: 768px) {
+  @include md-width {    
     @include font-size-4(regular);
   }
 }
@@ -31,7 +31,7 @@
   font-weight: $font-weight-regular;
   margin-inline-start: $space-1;
 
-  @media screen and (min-width: 768px) {
+  @include md-width {    
     @include font-size-4(regular);
   }
 }

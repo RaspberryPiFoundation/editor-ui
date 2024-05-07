@@ -13,13 +13,13 @@
   background-color: var(--editor-color-layer-3);
 
   .logo-lm__title {
-    @media screen and (min-width: 768px) {
+    @include md-width {    
       @include font-size-2(regular);
     }
   }
   
   .logo-lm-__subtitle {
-    @media screen and (min-width: 768px) {
+    @include md-width {    
       @include font-size-2(regular);
     }
   }
