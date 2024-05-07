@@ -35,21 +35,21 @@
 }
 
 .hero__copy--title {
-  @include font-size-3(regular);
-  font-weight: $font-weight-regular;
-
-  @media screen and (min-width: 768px) {
-    @include font-size-4(regular);
-    margin-block-start: 0;
-  }
-}
-
-.hero__copy--subtitle {
   @include font-size-2(regular);
   font-weight: $font-weight-regular;
 
   @media screen and (min-width: 768px) {
     @include font-size-3(regular);
+    margin-block-start: 0;
+  }
+}
+
+.hero__copy--subtitle {
+  @include font-size-1(regular);
+  font-weight: $font-weight-regular;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-2(regular);
   }
 }
 
@@ -59,6 +59,7 @@
 
   img {
     aspect-ratio: 3/2;
+    // aspect-ratio: 16/9;
     margin: auto;
     inline-size: 100%;
     block-size: auto;
