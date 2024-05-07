@@ -31,6 +31,10 @@ const School = lazy(() =>
   import(/* webpackPrefetch: true */ "./School/School"),
 );
 
+const MembersPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./MembersPage/MembersPage"),
+);
+
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
 const projectLinkRedirects = [
@@ -64,6 +68,7 @@ const AppRoutes = () => (
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
       <Route path="schools/:identifier" element={suspense(<School />)} />
+      <Route path="members" element={suspense(<MembersPage />)} />
     </Route>
 
     <Route
