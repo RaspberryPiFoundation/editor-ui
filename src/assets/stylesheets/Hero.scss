@@ -6,6 +6,11 @@
 
 .hero__wrapper {
   background-color: var(--editor-color-layer-1);
+  padding: $space-1;
+
+  @include md-width {    
+    padding: $space-2 $space-3;
+  }
 }
 
 .hero {
@@ -13,58 +18,47 @@
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  padding: $space-1-5;
   gap: $space-1;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1000px) {
     display: flex;
     flex-direction: row;
     gap: $space-2;
-    padding: $space-2 $space-3;
   }
-
 }
 
 .hero__copy {
-  @media screen and (min-width: 768px) {
-    flex: 1;
-  }
+  flex: 0 0 60%; 
 }
 
 .hero__copy--title {
   @include font-size-2(regular);
   font-weight: $font-weight-regular;
 
-  @media screen and (min-width: 768px) {
-    @include font-size-4(regular);
+  @include md-width {    
+    @include font-size-3(regular);
+    margin-block-start: 0;
   }
 }
 
 .hero__copy--subtitle {
-  @include font-size-2(regular);
+  @include font-size-1(regular);
   font-weight: $font-weight-regular;
 
-  @media screen and (min-width: 768px) {
-    @include font-size-3(regular);
+  @include md-width {    
+    @include font-size-2(regular);
   }
 }
 
-
 .hero__image {
-  margin-block: $space-2;
+  flex: 1;
+  margin-block: $space-1;
+}
 
-  img {
-    aspect-ratio: 3/2;
-    margin: auto;
-    inline-size: 100%;
-    block-size: auto;
-  }
-
-  @media screen and (min-width: 768px) {
-    margin-inline-start: auto;
-    max-inline-size: 40%;
-    
-  }
+.hero__image img {
+  aspect-ratio: 3/2;
+  border-radius: $space-1; 
+  inline-size: 100%; 
 }
 
 .hero__buttons {
@@ -73,8 +67,7 @@
   display: flex;
   flex-direction: column;
 
-
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 600px) {
     flex-direction: row;
   }
 
@@ -83,7 +76,7 @@
    justify-content: center;
    align-items: center;
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 600px) {
       inline-size: fit-content;
     }
   }

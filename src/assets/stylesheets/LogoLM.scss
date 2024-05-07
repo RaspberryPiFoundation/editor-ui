@@ -5,18 +5,6 @@
 @use "./rpf_design_system/mixins" as *;
 
 .logo-lm-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: $space-1-5;
-  align-items: center;
-  gap: $space-1;
-  flex: 1 0 0;
-  align-self: stretch;
-
-  @media screen and (min-width: 768px) {
-    padding: $space-5 $space-7-5;
-    gap: $space-4;
-  }
 
   a {
     border: none;
@@ -31,9 +19,9 @@
 
 .logo-lm__title {
   @include font-size-1-5(regular);
-  margin: $space-1;
+  margin-inline-end: $space-1;
 
-  @media screen and (min-width: 768px) {
+  @include md-width {    
     @include font-size-4(regular);
   }
 }
@@ -41,9 +29,9 @@
 .logo-lm-__subtitle {
   @include font-size-1-5(regular);
   font-weight: $font-weight-regular;
-  margin: $space-1;
+  margin-inline-start: $space-1;
 
-  @media screen and (min-width: 768px) {
+  @include md-width {    
     @include font-size-4(regular);
   }
 }
