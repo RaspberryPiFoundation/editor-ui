@@ -48,6 +48,7 @@ class WebComponent extends HTMLElement {
       "theme",
       "embedded",
       "show_save_prompt",
+      "load_remix_disabled",
     ];
   }
 
@@ -60,6 +61,7 @@ class WebComponent extends HTMLElement {
         "with_sidebar",
         "with_projectbar",
         "show_save_prompt",
+        "load_remix_disabled",
       ].includes(name)
     ) {
       value = newVal !== "false";

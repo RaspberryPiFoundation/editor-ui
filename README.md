@@ -68,6 +68,7 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 
 - `code`: A preset blob of code to show in the editor pane.
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
+- `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
 
 ### `yarn start:wc`
 

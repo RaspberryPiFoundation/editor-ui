@@ -111,6 +111,7 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
+    loadRemixDisabled: false,
     accessDeniedNoAuthModalShowing: false,
     accessDeniedWithAuthModalShowing: false,
     betaModalShowing: false,
@@ -222,6 +223,9 @@ export const EditorSlice = createSlice({
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
+    },
+    setLoadRemixDisabled: (state, action) => {
+      state.loadRemixDisabled = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -460,6 +464,7 @@ export const {
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
+  setLoadRemixDisabled,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,
