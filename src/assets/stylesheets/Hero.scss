@@ -20,7 +20,7 @@
   align-self: stretch;
   gap: $space-1;
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 1000px) {
     display: flex;
     flex-direction: row;
     gap: $space-2;
