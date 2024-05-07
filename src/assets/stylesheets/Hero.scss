@@ -29,9 +29,8 @@
 }
 
 .hero__copy {
-  @media screen and (min-width: 768px) {
-    flex: 1;
-  }
+  flex: 0 0 60%; 
+  padding-inline-start: $space-1; 
 }
 
 .hero__copy--title {
@@ -53,22 +52,15 @@
   }
 }
 
-
 .hero__image {
   margin-block: $space-2;
+  flex: 1;
+}
 
-  img {
-    aspect-ratio: 3/2;
-    // aspect-ratio: 16/9;
-    margin: auto;
-    inline-size: 100%;
-    block-size: auto;
-  }
-
-  @media screen and (min-width: 768px) {
-    margin-inline-start: auto;
-    flex: 1;
-  }
+.hero__image img {
+  aspect-ratio: 3/2;
+  border-radius: $space-1; 
+  inline-size: 100%; 
 }
 
 .hero__buttons {

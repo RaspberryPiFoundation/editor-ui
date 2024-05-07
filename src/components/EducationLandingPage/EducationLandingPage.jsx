@@ -68,6 +68,7 @@ const EducationLandingPage = () => {
         title={t("educationLandingPage.people.title")}
         text={t("educationLandingPage.people.text")}
         imageAlt={t("educationLandingPage.people.imageAlt")}
+        o
         imageSrc={classroom}
       />
       <div className="education-landing-page__get-started">
