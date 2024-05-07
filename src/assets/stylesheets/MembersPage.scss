@@ -5,50 +5,7 @@
 @use "./rpf_design_system/spacing" as *;
 
 .members-page__wrapper  {
-  display: flex;
-  flex-direction: column;
   padding: $space-1-5;
-  gap: $space-1;
-  flex: 1 0 0;
-  align-self: stretch;
-
-  @include md-width {
-    padding: $space-5 $space-7-5;
-    gap: $space-4;
-  }
-}
-
-.members-page__members {
-  background-color: var(--editor-color-layer-3);
-  padding: $space-1;
-}
-
-.members-page__members--panel {
-  display: flex;
-  justify-content: space-between;
-}
-
-
-
-.member-list {
-  border: 1px solid $rpf-grey-150;
-  border-radius: $space-1;
-  list-style-type: none;
-  padding: 0;
-}
-
-.member {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $space-1;
-  border-bottom: 1px solid $rpf-grey-150;
-
-
-}
-
-li:last-child {
-  border-bottom: none;
 }
 
 

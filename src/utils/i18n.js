@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import MembersPage from "../components/MembersPage/MembersPage";
 
 i18n
   // detect user language
@@ -372,6 +373,9 @@ i18n
               url: "/",
               plausible: "Code Editor home",
             },
+          },
+          membersPage: {
+            title: "Members page",
           },
           footer: {
             accessibility: "Accessibility",
