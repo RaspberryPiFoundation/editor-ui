@@ -415,7 +415,7 @@ i18n
           schoolDashboard: {
             codeEditorHome: "Code Editor home",
             manageMembers: "Manage members",
-          }
+          },
           membersPage: {
             title: "Members page",
           },
