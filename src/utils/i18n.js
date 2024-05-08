@@ -417,6 +417,9 @@ i18n
           },
           membersPageHeader: {
             title: "School members",
+            text: "These are all the members in your school, this includes, students, teachers and owners.",
+            invite: "Invite teacher",
+            create: "Create student",
           },
           footer: {
             accessibility: "Accessibility",
