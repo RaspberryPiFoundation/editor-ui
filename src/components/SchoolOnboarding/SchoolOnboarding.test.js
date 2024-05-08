@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import SchoolOnboarding from "./SchoolOnboarding";
@@ -7,8 +7,10 @@ import { MemoryRouter } from "react-router-dom";
 import useSchool from "../../hooks/useSchool";
 import { login } from "../../utils/login";
 
-jest.mock("../../utils/login");
+import { createSchool } from "../../utils/apiCallHandler";
 
+jest.mock("../../utils/apiCallHandler");
+jest.mock("../../utils/login");
 jest.mock("../../hooks/useSchool", () => ({
   __esModule: true,
   default: jest.fn(),
@@ -103,6 +105,69 @@ describe("When logged in", () => {
       expect(
         screen.queryByText("schoolAlreadyExists.title"),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("When the user is on the final step of the form", () => {
+    const step_4 = {
+      name: "Raspberry Pi School of Drama",
+      website: "https://www.schoolofdrama.org",
+      address_line_1: "123 Drama Street",
+      address_line_2: "Dramaville",
+      municipality: "Drama City",
+      administrative_area: "Dramashire",
+      postal_code: "DR1 4MA",
+      country_code: "GB",
+      reference: "dr4m45ch001",
+    };
+
+    beforeEach(() => {
+      localStorage.setItem(
+        "schoolOnboarding",
+        JSON.stringify({ currentStep: 3, step_4 }),
+      );
+
+      renderSchoolOnboarding({
+        school: { loading: false },
+        user: { access_token: "1234" },
+      });
+    });
+
+    test("it renders the school onboarding form", () => {
+      expect(screen.queryByText("Step 4 of 4")).toBeInTheDocument();
+    });
+
+    test("it renders a submit button", () => {
+      expect(screen.getByText("multiStepForm.submit")).toBeInTheDocument();
+    });
+
+    test("clicking submit makes a school creation request", () => {
+      screen.getByText("multiStepForm.submit").click();
+      expect(createSchool).toHaveBeenCalledWith(step_4, "1234");
+    });
+
+    test("clears localStorage after successful school creation", async () => {
+      createSchool.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 201,
+        }),
+      );
+      screen.getByText("multiStepForm.submit").click();
+      await waitFor(() =>
+        expect(localStorage.getItem("schoolOnboarding")).toBeNull(),
+      );
+    });
+
+    test("it goes to the school created page after successful school creation", async () => {
+      createSchool.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 201,
+        }),
+      );
+      screen.getByText("multiStepForm.submit").click();
+      await waitFor(() =>
+        expect(screen.queryByText("schoolCreated.title")).toBeInTheDocument(),
+      );
     });
   });
 });

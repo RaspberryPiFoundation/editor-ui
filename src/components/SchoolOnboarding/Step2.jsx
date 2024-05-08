@@ -8,7 +8,7 @@ import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
 import { fieldError, existsValidation } from "../../utils/fieldValidation";
 
-const Step2 = ({ stepIsValid, showInvalidFields }) => {
+const Step2 = ({ stepIsValid = true, showInvalidFields = true }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
