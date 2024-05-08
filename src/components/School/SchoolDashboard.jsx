@@ -1,47 +1,30 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import "material-symbols";
-import { getSchool } from "../../utils/apiCallHandler";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import LogoutButton from "../Login/LogoutButton";
 import "../../assets/stylesheets/SchoolDashboard.scss";
+import useSchool from "../../hooks/useSchool";
 
 const SchoolDashboard = () => {
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user);
   const userRoles = useSelector(
     (state) => state.auth.user?.profile.roles,
-  ).split(",");
+  )?.split(",");
   const accessToken = useSelector((state) => state.auth.user?.access_token);
-  const [school, setSchool] = useState();
-  const [apiResponseCode, setApiResponseCode] = useState();
+  const school = useSelector((state) => state.school);
 
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const school = await getSchool(identifier, accessToken);
-          setSchool(school);
-        } catch (error) {
-          setApiResponseCode(error.response.status);
-        }
-      };
-      fetchData();
-    }
-  }, [user, identifier, accessToken]);
+  useSchool({ id: identifier, accessToken });
 
-  if (!user) return "Not logged in";
+  if (school.loading) return "Loading";
 
-  if (apiResponseCode === 403) return "Not authorised";
-
-  if (apiResponseCode === 404) return "School not found";
-
-  if (!school) return "Loading";
+  if (school.error) return "Error loading school";
 
   return (
     <div className="school-dashboard__header">
