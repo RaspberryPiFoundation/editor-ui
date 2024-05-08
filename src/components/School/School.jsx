@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getSchool } from "../../utils/apiCallHandler";
 import { useParams } from "react-router-dom";
+import ListItem from "../List/ListItem";
 
 const School = () => {
   const { identifier } = useParams();
@@ -32,7 +33,33 @@ const School = () => {
 
   if (!school) return "Loading";
 
-  return <h1>{school.name}</h1>;
+  return (
+    <>
+      <h1>{school.name}</h1>
+      <ListItem
+        primaryText="Student name"
+        secondaryText="username"
+        actions={[
+          {
+            text: "Edit details",
+            icon: "edit",
+            onClick: () => {},
+          },
+          {
+            text: "Change password",
+            icon: "password",
+            onClick: () => {},
+          },
+          {
+            text: "Remove from school",
+            variant: "danger",
+            icon: "close",
+            onClick: () => {},
+          },
+        ]}
+      />
+    </>
+  );
 };
 
 export default School;
