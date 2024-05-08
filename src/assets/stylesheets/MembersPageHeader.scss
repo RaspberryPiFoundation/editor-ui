@@ -1,0 +1,44 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+
+.members-page-header {
+  padding: var(--space-2);
+  gap: $space-1;
+  background-color: var(--editor-color-layer-3);
+
+  @include md-width {    
+    @include font-size-2(regular);
+  }
+}
+
+.members-page-header__title {
+  @include font-size-2(regular);
+
+  @include md-width {    
+    @include font-size-3(regular);
+  }
+}
+
+.members-page-header__buttons {
+  @include font-size-1-25(regular);    
+  gap: $space-1;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: 600px) {
+    flex-direction: row;
+  }
+
+  a {
+   inline-size: -webkit-fill-available;
+   justify-content: center;
+   align-items: center;
+
+    @media screen and (min-width: 600px) {
+      inline-size: fit-content;
+    }
+  }
+}

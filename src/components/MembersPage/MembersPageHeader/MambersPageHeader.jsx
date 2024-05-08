@@ -8,23 +8,27 @@ import { ReactComponent as SendIcon } from "../../../assets/icons/send.svg";
 const MembersPageHeader = () => {
   const { t } = useTranslation();
   return (
-    <div className="members-page">
-      <h2>{t("membersPageHeader.title")}</h2>
+    <div className="members-page-header">
+      <h2 className="members-page-header__title">
+        {t("membersPageHeader.title")}
+      </h2>
       <p>{t("membersPageHeader.text")}</p>
-      <DesignSystemButton
-        className="landing-page__button"
-        href={"/"}
-        text={t("membersPageHeader.invite")}
-        icon={<SendIcon />}
-        textAlways
-      />
-      <DesignSystemButton
-        className="landing-page__button"
-        href={"/"}
-        text={t("membersPageHeader.create")}
-        icon={<PlusIcon />}
-        textAlways
-      />
+      <div className="members-page-header__buttons">
+        <DesignSystemButton
+          className="members-page-header__button"
+          href={"/"}
+          text={t("membersPageHeader.invite")}
+          icon={<SendIcon />}
+          textAlways
+        />
+        <DesignSystemButton
+          className="members-page-header__button"
+          href={"/"}
+          text={t("membersPageHeader.create")}
+          icon={<PlusIcon />}
+          textAlways
+        />
+      </div>
     </div>
   );
 };
