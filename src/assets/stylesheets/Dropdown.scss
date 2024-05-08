@@ -74,6 +74,10 @@
   }
 }
 
+.dropdown-container--list__item.rpf-button {
+  justify-content: flex-start;
+}
+
 .--light {
   .dropdown-container {
     background-color: $rpf-white;
@@ -82,7 +86,10 @@
       border-block-end: 15px solid $rpf-white;
     }
 
-    &--list__item:hover {
+    &--list__item:hover, &--list__item.rpf-button:hover {
+      ::before {
+        background-color: transparent;
+      }
       background-color: $rpf-grey-100;
     }
   }

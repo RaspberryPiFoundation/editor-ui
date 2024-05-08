@@ -373,6 +373,10 @@ i18n
               plausible: "Code Editor home",
             },
           },
+          schoolDashboard: {
+            codeEditorHome: "Code Editor home",
+            manageMembers: "Manage members",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:

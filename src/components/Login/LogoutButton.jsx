@@ -1,10 +1,10 @@
 import React from "react";
 import userManager from "../../utils/userManager";
 import { useTranslation } from "react-i18next";
-import Button from "../Button/Button";
 import PropTypes from "prop-types";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
-const LogoutButton = ({ className, user }) => {
+const LogoutButton = ({ className, user, ...props }) => {
   const { t } = useTranslation();
 
   const onLogoutButtonClick = async (event) => {
@@ -15,10 +15,11 @@ const LogoutButton = ({ className, user }) => {
   };
 
   return (
-    <Button
-      buttonText={t("globalNav.accountMenu.logout")}
+    <DesignSystemButton
+      text={t("globalNav.accountMenu.logout")}
       className={className}
-      onClickHandler={onLogoutButtonClick}
+      onClick={onLogoutButtonClick}
+      {...props}
     />
   );
 };

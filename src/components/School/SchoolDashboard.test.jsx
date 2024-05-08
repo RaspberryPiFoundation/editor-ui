@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import School from "./School";
+import SchoolDashboard from "./SchoolDashboard";
 import { getSchool } from "../../utils/apiCallHandler";
 
 jest.mock("../../utils/apiCallHandler");
@@ -20,7 +20,7 @@ describe("School", () => {
   const renderSchool = (store) => {
     render(
       <Provider store={store}>
-        <School />
+        <SchoolDashboard />
       </Provider>,
     );
   };

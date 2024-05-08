@@ -49,8 +49,9 @@ const LoginMenu = () => {
             </Link>
           )}
           <LogoutButton
+            type="tertiary"
             user={user}
-            className="btn--tertiary dropdown-container--list__item"
+            className="dropdown-container--list__item"
           />
         </>
       ) : (
