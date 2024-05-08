@@ -394,6 +394,7 @@ export const EditorSlice = createSlice({
       state.saving = "pending";
     });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
+      localStorage.removeItem(state.project.identifier);
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;

@@ -187,6 +187,8 @@ describe("When project has an identifier", () => {
   let remixAction;
 
   beforeEach(() => {
+    localStorage.clear();
+
     saveThunk = syncProject("save");
     saveAction = saveThunk({
       project,
@@ -195,6 +197,10 @@ describe("When project has an identifier", () => {
     });
     remixThunk = syncProject("remix");
     remixAction = remixThunk({ project, accessToken: access_token });
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   test("Saving updates existing project", async () => {
@@ -245,6 +251,20 @@ describe("When project has an identifier", () => {
     expect(
       reducer(initialState.editor, remixThunk.fulfilled({ project })),
     ).toEqual(expectedState);
+  });
+
+  test("The remixProject/fulfilled action removes original project from local storage", async () => {
+    localStorage.setItem(project.identifier, JSON.stringify(project));
+
+    const remixedProject = Object.assign({}, project);
+    remixedProject.identifier = "my-remixed-project";
+
+    reducer(
+      initialState.editor,
+      remixThunk.fulfilled({ project: remixedProject }),
+    );
+
+    expect(localStorage.getItem(project.identifier)).toBeNull();
   });
 });
 
