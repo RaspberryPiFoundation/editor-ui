@@ -415,6 +415,9 @@ i18n
           membersPage: {
             title: "Members page",
           },
+          membersPageHeader: {
+            title: "School members",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
