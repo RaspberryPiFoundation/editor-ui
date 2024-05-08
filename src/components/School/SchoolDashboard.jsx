@@ -12,7 +12,7 @@ const SchoolDashboard = () => {
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user);
   const userRoles = useSelector(
-    (state) => state.auth.user?.profile.roles,
+    (state) => state.auth.user?.profile?.roles,
   )?.split(",");
   const accessToken = useSelector((state) => state.auth.user?.access_token);
   const school = useSelector((state) => state.school);
@@ -20,7 +20,12 @@ const SchoolDashboard = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
 
-  useSchool({ id: identifier, accessToken });
+  useSchool({
+    id: identifier,
+    accessToken,
+  });
+
+  if (!user) return "Not logged in";
 
   if (school.loading) return "Loading";
 
@@ -34,7 +39,7 @@ const SchoolDashboard = () => {
           className="school-dashboard__header-home-link"
           to={`/${locale}/education`}
         >
-          <span class="material-symbols-outlined">chevron_left</span>{" "}
+          <span className="material-symbols-outlined">chevron_left</span>{" "}
           {t("schoolDashboard.codeEditorHome")}
         </Link>
       )}

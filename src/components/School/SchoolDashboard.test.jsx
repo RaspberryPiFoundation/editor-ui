@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import SchoolDashboard from "./SchoolDashboard";
-import { getSchool } from "../../utils/apiCallHandler";
+import useSchool from "../../hooks/useSchool";
+import { BrowserRouter } from "react-router-dom";
 
 jest.mock("../../utils/apiCallHandler");
 
@@ -14,14 +15,21 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-describe("School", () => {
+jest.mock("../../hooks/useSchool", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+describe("SchoolDashboard", () => {
   const mockStore = configureStore([]);
 
   const renderSchool = (store) => {
     render(
-      <Provider store={store}>
-        <SchoolDashboard />
-      </Provider>,
+      <BrowserRouter>
+        <Provider store={store}>
+          <SchoolDashboard />
+        </Provider>
+      </BrowserRouter>,
     );
   };
 
@@ -35,45 +43,136 @@ describe("School", () => {
   });
 
   describe("when the user is logged in", () => {
-    const store = mockStore({
-      auth: { user: { access_token: "access-token" } },
+    const auth = {
+      user: {
+        access_token: "access-token",
+        profile: { roles: "" },
+      },
+    };
+
+    describe("Before the school has started loading", () => {
+      test("requests the school from the API", () => {
+        const store = mockStore({ auth, school: {} });
+        renderSchool(store);
+        expect(useSchool).toHaveBeenCalledWith({
+          id: "school-id",
+          accessToken: "access-token",
+        });
+      });
     });
 
-    test("display that the school is loading", () => {
-      renderSchool(store);
-      expect(screen.queryByText("Loading")).toBeInTheDocument();
+    describe("When the school is loading", () => {
+      beforeEach(() => {
+        const school = { loading: true };
+        const store = mockStore({ auth, school });
+        renderSchool(store);
+      });
+
+      test("display that the school is loading", () => {
+        expect(screen.queryByText("Loading")).toBeInTheDocument();
+      });
     });
 
-    test("requests the school from the API", () => {
-      renderSchool(store);
-      expect(getSchool).toHaveBeenCalledWith("school-id", "access-token");
+    describe("When the school fails to load", () => {
+      beforeEach(() => {
+        const school = { error: {} };
+        const store = mockStore({ auth, school });
+        renderSchool(store);
+      });
+
+      test("Displays error message", () => {
+        expect(screen.queryByText("Error loading school")).toBeInTheDocument();
+      });
     });
 
-    test("when the user isn't authorised to see the school", async () => {
-      getSchool.mockImplementationOnce(() =>
-        Promise.reject({ response: { status: 403 } }),
-      );
+    describe("When the school has loaded", () => {
+      beforeEach(() => {
+        const school = { name: "school-name" };
+        const store = mockStore({ auth, school });
+        renderSchool(store);
+      });
 
+      test("Displays school name", () => {
+        expect(screen.queryByText("school-name")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("When the user is a school owner", () => {
+    const auth = {
+      user: {
+        access_token: "access-token",
+        profile: { roles: "school-owner" },
+      },
+    };
+    beforeEach(() => {
+      const school = { name: "school-name", id: "school-id" };
+      const store = mockStore({ auth, school });
       renderSchool(store);
-      expect(await screen.findByText("Not authorised")).toBeInTheDocument();
     });
 
-    test("when the school isn't found", async () => {
-      getSchool.mockImplementationOnce(() =>
-        Promise.reject({ response: { status: 404 } }),
-      );
-
-      renderSchool(store);
-      expect(await screen.findByText("School not found")).toBeInTheDocument();
+    test("Renders the manage members button", () => {
+      expect(
+        screen.queryByText("schoolDashboard.manageMembers"),
+      ).toBeInTheDocument();
     });
 
-    test("when the school has loaded", async () => {
-      getSchool.mockImplementationOnce(() =>
-        Promise.resolve({ name: "school-name" }),
-      );
+    test("Does not render log out button", () => {
+      expect(
+        screen.queryByText("globalNav.accountMenu.logout"),
+      ).not.toBeInTheDocument();
+    });
+  });
 
+  describe("When the user is a school teacher", () => {
+    const auth = {
+      user: {
+        access_token: "access-token",
+        profile: { roles: "school-teacher" },
+      },
+    };
+    beforeEach(() => {
+      const school = { name: "school-name", id: "school-id" };
+      const store = mockStore({ auth, school });
       renderSchool(store);
-      expect(await screen.findByText("school-name")).toBeInTheDocument();
+    });
+
+    test("Renders the manage members button", () => {
+      expect(
+        screen.queryByText("schoolDashboard.manageMembers"),
+      ).toBeInTheDocument();
+    });
+
+    test("Does not render log out button", () => {
+      expect(
+        screen.queryByText("globalNav.accountMenu.logout"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe("When the user is a school student", () => {
+    const auth = {
+      user: {
+        access_token: "access-token",
+        profile: { roles: "school-student" },
+      },
+    };
+    beforeEach(() => {
+      const school = { name: "school-name", id: "school-id" };
+      const store = mockStore({ auth, school });
+      renderSchool(store);
+    });
+
+    test("Does not render the manage members button", () => {
+      expect(
+        screen.queryByText("schoolDashboard.manageMembers"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Renders the log out button", () => {
+      expect(
+        screen.queryByText("globalNav.accountMenu.logout"),
+      ).toBeInTheDocument();
     });
   });
 });
