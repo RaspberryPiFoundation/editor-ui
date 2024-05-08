@@ -4,7 +4,7 @@ import "../../assets/stylesheets/MembersPage.scss";
 
 const MembersPage = () => {
   const { t } = useTranslation();
-  return <div className="members-page__wrapper">{t("membersPage.title")}</div>;
+  return <div className="members-page">{t("membersPage.title")}</div>;
 };
 
 export default MembersPage;
