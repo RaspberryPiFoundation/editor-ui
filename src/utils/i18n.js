@@ -412,6 +412,10 @@ i18n
               plausible: "Code Editor home",
             },
           },
+          schoolDashboard: {
+            codeEditorHome: "Code Editor home",
+            manageMembers: "Manage members",
+          },
           membersPage: {
             title: "Members page",
           },

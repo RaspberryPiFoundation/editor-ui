@@ -33,8 +33,8 @@ const EmbeddedViewer = lazy(() =>
 const SchoolOnboarding = lazy(() =>
   import(/* webpackPrefetch: true */ "./SchoolOnboarding/SchoolOnboarding"),
 );
-const School = lazy(() =>
-  import(/* webpackPrefetch: true */ "./School/School"),
+const SchoolDashboard = lazy(() =>
+  import(/* webpackPrefetch: true */ "./School/SchoolDashboard"),
 );
 
 const MembersPage = lazy(() =>
@@ -74,7 +74,10 @@ const AppRoutes = () => (
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
       <Route path="education" element={suspense(<EducationLandingPage />)} />
-      <Route path="schools/:identifier" element={suspense(<School />)} />
+      <Route
+        path="schools/:identifier"
+        element={suspense(<SchoolDashboard />)}
+      />
       <Route path="members" element={suspense(<MembersPage />)} />
     </Route>
 

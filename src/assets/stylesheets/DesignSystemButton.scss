@@ -12,10 +12,6 @@
   }
 }
 
-.rpf-button {
-  flex-direction: row-reverse;
-}
-
 .rpf-button--fit {
   inline-size: fit-content;
 }
@@ -125,14 +121,6 @@
       &::before {
         background-color: rgba(231, 248, 247, 1);
       }
-
-      border-color: $rpf-teal-400;
-    }
-
-    &:active {
-      &::before {
-        background-color: rgba(220, 245, 243, 1);
-      }
     }
 
     &:disabled {
@@ -151,16 +139,6 @@
 
   .rpf-button--tertiary {
     border: none;
-
-    &::before {
-      background-color: rgba($rpf-white, 1);
-    }
-
-    &:hover {
-      &::before {
-        background-color: rgba(231, 248, 247, 1);
-      }
-    }
 
     &:active {
       &::before {
