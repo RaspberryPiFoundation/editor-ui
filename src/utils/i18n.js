@@ -412,6 +412,9 @@ i18n
               plausible: "Code Editor home",
             },
           },
+          membersPage: {
+            title: "Members page",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
