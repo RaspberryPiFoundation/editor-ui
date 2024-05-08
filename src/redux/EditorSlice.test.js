@@ -15,6 +15,7 @@ import reducer, {
   setFocussedFileIndex,
   updateComponentName,
   loadProjectList,
+  setLoadRemixDisabled,
 } from "./EditorSlice";
 
 jest.mock("../utils/apiCallHandler");
@@ -29,6 +30,30 @@ test("Action stopCodeRun sets codeRunStopped to true", () => {
     codeRunStopped: true,
   };
   expect(reducer(previousState, stopCodeRun())).toEqual(expectedState);
+});
+
+test("Action setLoadRemixDisabled sets loadRemixDisabled to true", () => {
+  const previousState = {
+    loadRemixDisabled: false,
+  };
+  const expectedState = {
+    loadRemixDisabled: true,
+  };
+  expect(reducer(previousState, setLoadRemixDisabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setLoadRemixDisabled sets loadRemixDisabled to false", () => {
+  const previousState = {
+    loadRemixDisabled: true,
+  };
+  const expectedState = {
+    loadRemixDisabled: false,
+  };
+  expect(reducer(previousState, setLoadRemixDisabled(false))).toEqual(
+    expectedState,
+  );
 });
 
 test("Showing rename modal sets file state and showing status", () => {
