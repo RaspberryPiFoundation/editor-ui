@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import Modal from "react-modal";
 
 import MultiStepModal from "./MultiStepModal";
-import Step1 from "../School/Step1";
+import Step1 from "../SchoolOnboarding/Step1";
 
 describe("MultiStepModal", () => {
   const steps = [<Step1 />, <Step1 />, <Step1 />];
