@@ -13,7 +13,7 @@ const Step3 = () => {
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_3"]
       ? schoolOnboardingData["step_3"]
-      : { role: "", department: "" },
+      : { role: "", other_role: null, department: "" },
   );
   const onChange = (e) => {
     const { name, value } = e.target;
