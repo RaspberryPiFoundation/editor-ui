@@ -37,7 +37,7 @@ const List = ({ items, noItemMessage }) => {
 };
 
 List.propTypes = {
-  items: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape()),
   noItemMessage: PropTypes.string.isRequired,
 };
 

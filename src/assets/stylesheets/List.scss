@@ -9,15 +9,15 @@
   padding: var(--space-3);
 
   &__items {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--editor-color-border);
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--editor-color-border);
-    border-radius: var(--border-radius);
 
     &--error {
       align-items: center;
-      padding: var(--space-4);
       background-color: var(--rpf-grey-50);
+      padding: var(--space-4);
     }
   }
 
