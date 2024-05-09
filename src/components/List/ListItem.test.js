@@ -25,6 +25,8 @@ beforeEach(() => {
         primaryText={primaryText}
         secondaryText={secondaryText}
         actions={actions}
+        menuIsOpen={true}
+        onMenuClick={() => {}}
       />
     </Provider>,
   );
