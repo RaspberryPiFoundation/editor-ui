@@ -41,8 +41,6 @@ const EducationLandingPage = () => {
       <TextImage
         title={t("educationLandingPage.engage.title")}
         text={t("educationLandingPage.engage.text")}
-        imageAlt={t("educationLandingPage.engage.imageAlt")}
-        imageSrc={placeholder}
       />
       <TextImage
         title={t("educationLandingPage.feedback.title")}
@@ -54,15 +52,6 @@ const EducationLandingPage = () => {
       <TextImage
         title={t("educationLandingPage.class.title")}
         text={t("educationLandingPage.class.text")}
-        imageAlt={t("educationLandingPage.class.imageAlt")}
-        imageSrc={placeholder}
-      />
-      <TextImage
-        title={t("educationLandingPage.safe.title")}
-        text={t("educationLandingPage.safe.text")}
-        imageAlt={t("educationLandingPage.safe.imageAlt")}
-        imageSrc={editorOutput}
-        imagePosition="right"
       />
       <TextImage
         title={t("educationLandingPage.people.title")}
@@ -70,6 +59,10 @@ const EducationLandingPage = () => {
         imageAlt={t("educationLandingPage.people.imageAlt")}
         o
         imageSrc={classroom}
+      />
+      <TextImage
+        title={t("educationLandingPage.safe.title")}
+        text={t("educationLandingPage.safe.text")}
       />
       <div className="education-landing-page__get-started">
         <h2 className="school-onboarding__subtitle">
