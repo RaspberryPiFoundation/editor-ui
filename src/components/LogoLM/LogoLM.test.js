@@ -7,7 +7,7 @@ import LogoLM from "./LogoLM";
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-test("presence of School Onboarding page", () => {
+test("presence of LogoLM", () => {
   const initialState = {
     auth: {
       user: {
