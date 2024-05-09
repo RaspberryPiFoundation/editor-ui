@@ -1,12 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import "../../../assets/stylesheets/MembersPageHeader.scss";
+
+import {
+  getUserRoles,
+  isSchoolOwner,
+  isSchoolTeacher,
+} from "../../../utils/userRoleHelper";
+
 import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { ReactComponent as SendIcon } from "../../../assets/icons/send.svg";
 
 const MembersPageHeader = () => {
   const { t } = useTranslation();
+  const user = useSelector((state) => state.auth.user);
+  const userRoles = getUserRoles(user);
+
   return (
     <div className="members-page-header">
       <div className="members-page-header__copy">
@@ -32,6 +43,13 @@ const MembersPageHeader = () => {
           icon={<PlusIcon />}
           textAlways
         />
+        {(isSchoolOwner(userRoles) || isSchoolTeacher(userRoles)) && (
+          <DesignSystemButton
+            href={"/"}
+            text={"Testing the role"}
+            icon="group"
+          />
+        )}
       </div>
     </div>
   );
