@@ -418,6 +418,7 @@ i18n
           },
           membersPage: {
             title: "Members page",
+            noMembersFound: "No members found",
           },
           footer: {
             accessibility: "Accessibility",

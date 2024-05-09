@@ -42,7 +42,7 @@ beforeEach(() => {
   render(
     <Provider store={store}>
       <List noItemMessage={message} items={items} />
-    </Provider>
+    </Provider>,
   );
 });
 
