@@ -1,0 +1,31 @@
+@use "@raspberrypifoundation/design-system-core/scss/properties/spacing.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/border.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/colors/greys.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/colors/alert.scss";
+
+.list {
+  --editor-color-border: hsla(223, 9%, 85%, 1);
+  background-color: var(--rpf-white);
+  padding: var(--space-3);
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--editor-color-border);
+    border-radius: var(--border-radius);
+
+    &--error {
+      align-items: center;
+      padding: var(--space-4);
+      background-color: var(--rpf-grey-50);
+    }
+  }
+
+  &__item {
+    padding: var(--space-1);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--rpf-grey-50);
+    }
+  }
+}
