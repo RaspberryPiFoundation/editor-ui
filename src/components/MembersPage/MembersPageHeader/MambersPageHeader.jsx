@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import "../../../assets/stylesheets/MembersPageHeader.scss";
 
-import {
-  getUserRoles,
-  isSchoolOwner,
-  isSchoolTeacher,
-} from "../../../utils/userRoleHelper";
+// import {
+//   getUserRoles,
+//   isSchoolOwner,
+//   isSchoolTeacher,
+// } from "../../../utils/userRoleHelper";
 
 import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
@@ -16,7 +16,14 @@ import { ReactComponent as SendIcon } from "../../../assets/icons/send.svg";
 const MembersPageHeader = () => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
-  const userRoles = getUserRoles(user);
+  console.log(`User: ${JSON.stringify(user)}`);
+  // const userRoles = getUserRoles(user);
+  const userRoles = useSelector(
+    (state) => state.auth.user?.profile?.roles,
+  )?.split(",");
+  console.log(`User roles: ${JSON.stringify(userRoles)}`);
+
+  if (!user) return "Not logged in";
 
   return (
     <div className="members-page-header">
@@ -27,6 +34,8 @@ const MembersPageHeader = () => {
         <p className="members-page-header__subtitle">
           {t("membersPageHeader.text")}
         </p>
+        {userRoles.includes("school-owner") && <p>Checking the logic</p>}
+        {console.log(userRoles)}
       </div>
       <div className="members-page-header__buttons">
         <DesignSystemButton
@@ -43,13 +52,6 @@ const MembersPageHeader = () => {
           icon={<PlusIcon />}
           textAlways
         />
-        {(isSchoolOwner(userRoles) || isSchoolTeacher(userRoles)) && (
-          <DesignSystemButton
-            href={"/"}
-            text={"Testing the role"}
-            icon="group"
-          />
-        )}
       </div>
     </div>
   );
