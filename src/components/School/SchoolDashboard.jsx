@@ -39,7 +39,7 @@ const SchoolDashboard = () => {
           className="school-dashboard__header-home-link"
           to={`/${locale}/education`}
         >
-          <span className="material-symbols-outlined">chevron_left</span>{" "}
+          <span className="material-symbols-outlined">chevron_left</span>
           {t("schoolDashboard.codeEditorHome")}
         </Link>
       )}

@@ -420,6 +420,9 @@ i18n
           },
           membersPage: {
             title: "Members page",
+            csvUploadHint: "<0>Choose a file</0> or drag it here",
+            removeUpload: "Remove upload",
+            fileUploaded: "File uploaded",
           },
           footer: {
             accessibility: "Accessibility",

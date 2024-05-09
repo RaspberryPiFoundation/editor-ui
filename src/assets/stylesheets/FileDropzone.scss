@@ -1,0 +1,27 @@
+.file-dropzone {
+  background-color: var(--rpf-white);
+  border: 2px dashed var(--rpf-text-primary);
+  border-radius: var(--space-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2);
+  gap: var(--space-1);
+}
+
+.file-dropzone--success {
+  border-style: solid;
+}
+
+.file-dropzone__link, .file-dropzone__remove {
+  font-weight: var(--font-weight-bold);
+  color: var(--rpf-teal-900);
+}
+
+.file-dropzone__remove .text {
+  text-decoration: underline;
+}
+
+.file-dropzone__success-text {
+  font-weight: var(--font-weight-bold);
+}
