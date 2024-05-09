@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Fixed
+
+- Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
+
 ## [0.23.0] - 2024-05-09
 
 ### Added
