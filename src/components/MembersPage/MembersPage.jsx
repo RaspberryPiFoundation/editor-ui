@@ -29,7 +29,21 @@ const MembersPage = () => {
     <div className="members-page">
       {t("membersPage.title")}
 
-      <List noItemMessage={t("membersPage.noMembersFound")} items={[]} />
+      <List
+        noItemsMessage={t("membersPage.noMembersFound")}
+        items={[
+          {
+            primaryText: "User Name",
+            secondaryText: "username",
+            actions,
+          },
+          {
+            primaryText: "User Name",
+            secondaryText: "username",
+            actions,
+          },
+        ]}
+      />
     </div>
   );
 };
