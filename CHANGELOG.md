@@ -769,7 +769,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
 [0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0
