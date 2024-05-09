@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/EducationLandingPage.scss";
 import TextImage from "../TextImage/TextImage";
 import editorScreenshot from "../../assets/images/editor.png";
-import editorOutput from "../../assets/images/output.png";
 import classroom from "../../assets/images/classroom.jpg";
 import placeholder from "../../assets/images/hero-placeholder.svg";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -35,20 +34,20 @@ const EducationLandingPage = () => {
         <TextImage
           title={t("educationLandingPage.free.title")}
           text={t("educationLandingPage.free.text")}
-          imageAlt={t("educationLandingPage.free.imageAlt")}
-          imageSrc={editorOutput}
-          imagePosition="right"
         />
         <TextImage
           title={t("educationLandingPage.engage.title")}
           text={t("educationLandingPage.engage.text")}
+          imageAlt={t("educationLandingPage.engage.imageAlt")}
+          imageSrc={placeholder}
+          imagePosition="right"
         />
         <TextImage
           title={t("educationLandingPage.feedback.title")}
           text={t("educationLandingPage.feedback.text")}
           imageAlt={t("educationLandingPage.feedback.imageAlt")}
           imageSrc={placeholder}
-          imagePosition="right"
+          imagePosition="left"
         />
         <TextImage
           title={t("educationLandingPage.class.title")}
