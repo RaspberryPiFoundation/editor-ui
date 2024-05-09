@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "material-symbols";
 import classNames from "classnames";
