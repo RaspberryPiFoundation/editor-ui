@@ -22,7 +22,7 @@ test("presence of TextImageShowing", () => {
       <div id="app">
         <TextImage {...imageTextProps} />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   const textImageComponent = screen.getByTestId("text-image-slice");
@@ -34,6 +34,6 @@ test("presence of TextImageShowing", () => {
 
   // Check for the presence of the no-image class
   expect(
-    textImageComponent.querySelector(".text-image-slice__content")
+    textImageComponent.querySelector(".text-image-slice__content"),
   ).toHaveClass("text-image-slice--no-image");
 });
