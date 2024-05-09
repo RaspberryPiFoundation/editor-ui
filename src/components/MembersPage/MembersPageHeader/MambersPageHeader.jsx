@@ -9,10 +9,14 @@ const MembersPageHeader = () => {
   const { t } = useTranslation();
   return (
     <div className="members-page-header">
-      <h2 className="members-page-header__title">
-        {t("membersPageHeader.title")}
-      </h2>
-      <p>{t("membersPageHeader.text")}</p>
+      <div className="members-page-header__copy">
+        <h2 className="members-page-header__title">
+          {t("membersPageHeader.title")}
+        </h2>
+        <p className="members-page-header__subtitle">
+          {t("membersPageHeader.text")}
+        </p>
+      </div>
       <div className="members-page-header__buttons">
         <DesignSystemButton
           className="members-page-header__button"
