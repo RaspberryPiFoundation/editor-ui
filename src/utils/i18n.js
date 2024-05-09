@@ -245,6 +245,12 @@ i18n
             codeEditor: "Code Editor",
             forEducation: "For Education",
           },
+          multiStepForm: {
+            cancel: "Cancel",
+            continue: "Continue",
+            back: "Back",
+            submit: "Submit",
+          },
           schoolOnboarding: {
             step: "Step title",
             apiErrorTitle: "There was a problem submitting the form",
@@ -348,10 +354,6 @@ i18n
                 },
               },
             },
-            cancel: "Cancel",
-            continue: "Continue",
-            back: "Back",
-            submit: "Submit",
           },
           schoolAlreadyExists: {
             title: "You already have a School account",
