@@ -10,8 +10,7 @@
   max-inline-size: 368px;
   padding: 0 $space-1-5;
 
-
-  @include md-width {    
+  @include md-width {
     display: flex;
     gap: $space-4;
     max-inline-size: 1000px;
@@ -19,13 +18,13 @@
   }
 
   h2 {
+    margin: 0 0 var(--space-1) 0;
     @include font-size-1-5(regular);
     font-weight: $font-weight-bold;
 
-    @include md-width {    
+    @include md-width {
       @include font-size-2(regular);
     }
-  
   }
 }
 
@@ -36,18 +35,18 @@
 
 .text-image-slice__image {
   max-width: 100%;
-  overflow: hidden; 
+  overflow: hidden;
   flex: 1;
 
   img {
-    width: 100%; 
-    height: auto; 
-    object-fit: cover; 
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 
-  @include md-width {    
+  @include md-width {
     img {
-      aspect-ratio: 3/2; 
+      aspect-ratio: 3/2;
     }
   }
 }
@@ -58,6 +57,14 @@
 
 .text-image-slice--right {
   flex-direction: row-reverse;
+}
+
+.text-image-slice--no-image {
+  margin-inline: auto;
+  background-color: var(--editor-color-layer-1);
+  border-radius: var(--space-2);
+  max-width: 800px;
+  padding: var(--space-3);
 }
 
 .text-image-slice__text--link {
@@ -71,7 +78,6 @@
   .text-image-slice {
     background-color: $rpf-white;
   }
-
 }
 
 .--dark {
