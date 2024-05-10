@@ -2,26 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import "../../../assets/stylesheets/MembersPageHeader.scss";
-
-// import {
-//   getUserRoles,
-//   isSchoolOwner,
-//   isSchoolTeacher,
-// } from "../../../utils/userRoleHelper";
-
 import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { ReactComponent as SendIcon } from "../../../assets/icons/send.svg";
 
-const MembersPageHeader = () => {
+const MembersPageHeader = ({ userRoles }) => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
-  console.log(`User: ${JSON.stringify(user)}`);
-  // const userRoles = getUserRoles(user);
-  const userRoles = useSelector(
-    (state) => state.auth.user?.profile?.roles,
-  )?.split(",");
-  console.log(`User roles: ${JSON.stringify(userRoles)}`);
 
   if (!user) return "Not logged in";
 
