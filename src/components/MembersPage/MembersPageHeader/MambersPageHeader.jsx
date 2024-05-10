@@ -22,7 +22,6 @@ const MembersPageHeader = ({ userRoles }) => {
           {t("membersPageHeader.text")}
         </p>
         {userRoles.includes("school-owner") && <p>Checking the logic</p>}
-        {console.log(userRoles)}
       </div>
       <div className="members-page-header__buttons">
         <DesignSystemButton
