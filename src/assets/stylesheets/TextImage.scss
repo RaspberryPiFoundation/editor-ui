@@ -37,12 +37,13 @@
 }
 
 .text-image-slice__content {
-  flex: 1;
+  box-sizing: border-box;
+  inline-size: 100%;
 }
 
 .text-image-slice__image {
   overflow: hidden;
-  flex: 1;
+  inline-size: 100%;
   aspect-ratio: 3/2;
   border-radius: 1rem;
 
