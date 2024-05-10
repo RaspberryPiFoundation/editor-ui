@@ -1,81 +1,81 @@
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/mixins" as *;
-@use "./rpf_design_system/spacing" as *;
+// @use "@RaspberryPiFoundation/design-system-core/scss/mixins/typography";
+// Should use mixins when updated in the design system
 
 .text-image-slice {
-  inline-size: 100%;
-  margin: 0 $space-1-5;
-  max-inline-size: 368px;
-  padding: 0 $space-1-5;
+  display: flex;
+  gap: var(--space-3);
+  max-inline-size: 1200px;
+  align-items: center;
+  flex-direction: column;
 
+  @media screen and (min-width: 800px) {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
 
-  @include md-width {    
-    display: flex;
-    gap: $space-4;
-    max-inline-size: 1000px;
-    padding: $space-3 $space-7-5;
+  @media screen and (min-width: 1200px) {
+    gap: var(--space-10);
   }
 
   h2 {
-    @include font-size-1-5(regular);
-    font-weight: $font-weight-bold;
+    margin: 0 0 var(--space-1) 0;
+    // @include typography.regular-1-5;
+    font-size: var(--font-size-1-5);
+    line-height: var(--line-height-1-5);
+    font-weight: var(--font-weight-bold);
 
-    @include md-width {    
-      @include font-size-2(regular);
+    @media screen and (min-width: 800px) {
+      // @include typography.regular-2;
+      font-size: var(--font-size-2);
+      line-height: var(--line-height-2);
     }
-  
+  }
+
+  p {
+    margin: 0;
   }
 }
 
 .text-image-slice__content {
-  margin: $space-1-5 0;
-  flex: 1;
+  box-sizing: border-box;
+  inline-size: 100%;
 }
 
 .text-image-slice__image {
-  max-width: 100%;
-  overflow: hidden; 
-  flex: 1;
+  overflow: hidden;
+  inline-size: 100%;
+  aspect-ratio: 3/2;
+  border-radius: 1rem;
 
   img {
-    width: 100%; 
-    height: auto; 
-    object-fit: cover; 
-  }
-
-  @include md-width {    
-    img {
-      aspect-ratio: 3/2; 
-    }
+    inline-size: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 3/2;
   }
 }
 
-.text-image-slice--left {
-  flex-direction: row;
+@media screen and (min-width: 800px) {
+  .text-image-slice--left {
+    flex-direction: row;
+  }
+
+  .text-image-slice--right {
+    flex-direction: row-reverse;
+  }
 }
 
-.text-image-slice--right {
-  flex-direction: row-reverse;
+.text-image-slice--no-image {
+  margin-inline: auto;
+  background-color: var(--editor-color-layer-1);
+  border-radius: var(--space-2);
+  max-width: 800px;
+  padding: var(--space-3);
 }
 
 .text-image-slice__text--link {
-  @include font-size-1-5(regular);
-  font-weight: $font-weight-bold;
-}
-
-/* Dark mode */
-
-.--light {
-  .text-image-slice {
-    background-color: $rpf-white;
-  }
-
-}
-
-.--dark {
-  .text-image-slice {
-    background-color: $rpf-grey-900;
-  }
+  // @include typography.regular-1-5;
+  font-size: var(--font-size-1-5);
+  line-height: var(--line-height-1-5);
+  font-weight: var(--font-weight-bold);
 }

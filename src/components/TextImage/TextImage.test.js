@@ -14,6 +14,7 @@ test("presence of TextImageShowing", () => {
   const imageTextProps = {
     title: "TextImage title",
     text: "TextImage text",
+    imageSrc: "", // No image source provided
   };
 
   render(
@@ -30,4 +31,9 @@ test("presence of TextImageShowing", () => {
 
   expect(screen.getByText(imageTextProps.title)).toBeInTheDocument();
   expect(screen.getByText(imageTextProps.text)).toBeInTheDocument();
+
+  // Check for the presence of the no-image class
+  expect(
+    textImageComponent.querySelector(".text-image-slice__content"),
+  ).toHaveClass("text-image-slice--no-image");
 });
