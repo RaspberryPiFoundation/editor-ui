@@ -228,7 +228,7 @@ i18n
               title: "Give students personalised feedback",
               text: "Easily check your students’ progress, view their coding projects, and share individual, instant feedback with each student to keep them on track.",
               imageAlt:
-                "A screenshot from the Code Editor which shows a teacher’s comment on students' code. The Teacher's comment reads “Looks great! Just one small mistake to fix”. Referring to a typo in the students code.",
+                "A screenshot from the Code Editor which shows a teacher’s comment on a student's code. The Teacher's comment reads “Looks great! Just one small mistake to fix”. Referring to a typo in the student's code.",
             },
             class: {
               title: "Simple and easy class management",
@@ -241,7 +241,7 @@ i18n
             people: {
               title: "What do people say about our Editor?",
               text: "<i>“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.”</i><br/><strong>Lee Willis, Head of ICT and Computing, Newcastle High School for Girls</strong><br/><br/><i>“The class management and feedback features they're working on at the moment look really promising.”<i/><br/><strong>Pete Dring, Head of Computing, Fulford School</strong>",
-              imageAlt: "Student’s working on computers in a classroom.",
+              imageAlt: "Students working on computers in a classroom.",
             },
           },
           logoLM: {
