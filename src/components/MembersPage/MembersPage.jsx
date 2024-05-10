@@ -12,7 +12,6 @@ const MembersPage = () => {
 
   return (
     <div className="members-page">
-      {t("membersPage.title")}
       <MembersPageHeader userRoles={userRoles} />
     </div>
   );

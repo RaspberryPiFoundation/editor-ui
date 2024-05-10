@@ -21,16 +21,17 @@ const MembersPageHeader = ({ userRoles }) => {
         <p className="members-page-header__subtitle">
           {t("membersPageHeader.text")}
         </p>
-        {userRoles.includes("school-owner") && <p>Checking the logic</p>}
       </div>
       <div className="members-page-header__buttons">
-        <DesignSystemButton
-          className="members-page-header__button"
-          href={"/"}
-          text={t("membersPageHeader.invite")}
-          icon={<SendIcon />}
-          textAlways
-        />
+        {userRoles.includes("school-owner") && (
+          <DesignSystemButton
+            className="members-page-header__button"
+            href={"/"}
+            text={t("membersPageHeader.invite")}
+            icon={<SendIcon />}
+            textAlways
+          />
+        )}
         <DesignSystemButton
           className="members-page-header__button"
           href={"/"}
