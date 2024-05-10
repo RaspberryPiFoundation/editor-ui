@@ -10,7 +10,7 @@ const TextImage = (props) => {
     title,
     imageSrc,
     imageAlt,
-    imagePosition = "left",
+    imagePosition = "right",
     urlText,
     urlHref,
   } = props;
