@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import "../../assets/stylesheets/EducationLandingPage.scss";
 import TextImage from "../TextImage/TextImage";
 import editorScreenshot from "../../assets/images/editor.png";
@@ -55,14 +55,13 @@ const EducationLandingPage = () => {
         />
         <TextImage
           title={t("educationLandingPage.people.title")}
-          text={t("educationLandingPage.people.text")}
+          text={<Trans i18nKey="educationLandingPage.people.text"></Trans>}
           imageAlt={t("educationLandingPage.people.imageAlt")}
-          o
           imageSrc={classroom}
         />
         <TextImage
           title={t("educationLandingPage.safe.title")}
-          text={t("educationLandingPage.safe.text")}
+          text={<Trans i18nKey="educationLandingPage.safe.text"></Trans>}
         />
         <div className="education-landing-page__get-started">
           <h2 className="school-onboarding__subtitle">

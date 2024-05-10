@@ -232,12 +232,12 @@ i18n
             },
             safe: {
               title: "Safe and private by design",
-              text: "Accounts for education are designed to be safe for students of all ages. We take safeguarding seriously, with one-way feedback to students, visibility of their work at all times, verified school accounts, and an audit history of communication with students. In line with best practice codes protecting children online, we minimise our data capture so that we have just enough to keep students safe.",
+              text: "Accounts for education are designed to be safe for students of all ages. We take safeguarding seriously, with one-way feedback to students, visibility of their work at all times, verified school accounts, and an audit history of communication with students.<br/><br/>In line with best practice codes protecting children online, we minimise our data capture so that we have just enough to keep students safe.",
               imageAlt: "",
             },
             people: {
               title: "What do people say about our Editor?",
-              text: "“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.” – Lee Willis, Head of ICT and Computing, Newcastle High School for Girls “The class management and feedback features they're working on at the moment look really promising.” – Pete Dring, Head of Computing, Fulford School",
+              text: "<i>“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.”</i><br/><strong>Lee Willis, Head of ICT and Computing, Newcastle High School for Girls</strong><br/><br/><i>“The class management and feedback features they're working on at the moment look really promising.”<i/><br/><strong>Pete Dring, Head of Computing, Fulford School</strong>",
               imageAlt: "",
             },
           },
