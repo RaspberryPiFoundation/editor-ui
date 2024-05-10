@@ -22,16 +22,13 @@
   background-color: var(--rpf-teal-100);
 
   .file-dropzone__label {
-    color: var(--rpf-grey-300);
-  }
-
-  .file-dropzone__link {
-    color: var(--rpf-teal-400);
+    opacity: 0.2;
   }
 }
 
 .file-dropzone--success {
   border-style: solid;
+  cursor: default;
 }
 
 .file-dropzone__label {

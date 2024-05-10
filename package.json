@@ -28,6 +28,7 @@
     "material-symbols": "^0.17.2",
     "mime-types": "^2.1.35",
     "oidc-client": "^1.11.5",
+    "papaparse": "^5.4.1",
     "parse-link-header": "^2.0.0",
     "prompts": "2.4.0",
     "prop-types": "^15.8.1",

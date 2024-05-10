@@ -3029,6 +3029,7 @@ __metadata:
     mime-types: ^2.1.35
     mock-match-media: ^0.4.3
     oidc-client: ^1.11.5
+    papaparse: ^5.4.1
     parse-link-header: ^2.0.0
     postcss-flexbugs-fixes: ^5.0.2
     postcss-loader: ^7.3.3
@@ -6476,9 +6477,9 @@ __metadata:
   linkType: hard
 
 "cssdb@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "cssdb@npm:8.0.0"
-  checksum: 52aecbff43c23aaed72f351963a62feafd3ac1d1c75edecd844f0e8ce3d42de0b10ed64b9c9c97de6eacfbabd509e8e3db02ed98affe04a7f5135d9eb8a92291
+  version: 8.0.1
+  resolution: "cssdb@npm:8.0.1"
+  checksum: c99d63f107e93dc246a412c5ef032c7f09b7b4d09a07143c4d41f3af732529e0e5e6177ed2d9606ef4fead6c8e8e0171d35ca43488a5209a4c0d21d557ec5b85
   languageName: node
   linkType: hard
 
@@ -12270,6 +12271,13 @@ __metadata:
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
   checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: fc9e52f7158dca3517c229e3309065b1ab5da6c7194572fba4f31ff138bc43e3c91182cc40365cc828f97fe10d0aca416068fd731661058bea0f69ddb84a411a
   languageName: node
   linkType: hard
 

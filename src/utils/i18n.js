@@ -423,6 +423,9 @@ i18n
             csvUploadHint: "<0>Choose a file</0> or drag it here",
             removeUpload: "Remove upload",
             fileUploaded: "File uploaded",
+            bulkCreateHeading: "Bulk create student accounts",
+            bulkCreateHint:
+              "Create accounts in bulk using <0>this CSV format</0>.",
           },
           footer: {
             accessibility: "Accessibility",

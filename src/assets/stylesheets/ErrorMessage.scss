@@ -9,13 +9,6 @@
   &__content {
     padding: 0;
     margin: 0;
-  }
-
-  &--medium {
-    @include font-size-1-5(regular);
-  }
-
-  &--large {
-    @include font-size-2(regular);
+    white-space: pre-wrap;
   }
 }
