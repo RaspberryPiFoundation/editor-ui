@@ -72,7 +72,7 @@ const EducationLandingPage = () => {
             href={`/${locale}/`}
             text={t("educationLandingPage.start")}
             textAlways
-            onClick={onClickPlausible("Create your school accout")}
+            onClick={onClickPlausible("Create your school account")}
           />
         </div>
       </main>
