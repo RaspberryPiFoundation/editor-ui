@@ -17,7 +17,7 @@ const FileDropzone = ({
   maxFiles,
 }) => {
   const maxFilesReached = files.length >= maxFiles;
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, isDragAccept } = useDropzone({
     onDropAccepted: onDropAccepted,
     accept: allowedFileTypes,
     maxFiles,
@@ -30,6 +30,7 @@ const FileDropzone = ({
         {...getRootProps({
           className: classNames("file-dropzone", {
             "file-dropzone--success": maxFilesReached,
+            "file-dropzone--drag-accept": isDragAccept,
           }),
         })}
       >
@@ -37,16 +38,24 @@ const FileDropzone = ({
           <>
             <span className="file-dropzone__success-text">{successText}</span>
             {files.map((file, i) => (
-              <p key={i}>{file.path}</p>
+              <span className="file-dropzone__file" key={i}>
+                <span className="material-symbols-outlined">description</span>
+                {file.path}
+              </span>
             ))}
           </>
         ) : (
           <>
-            <input {...getInputProps()} />
+            <input id="csv-upload" {...getInputProps()} />
             <span className="material-symbols-outlined">place_item</span>
-            {hintText}
+            <label className="file-dropzone__label" htmlFor="csv-upload">
+              {hintText}
+            </label>
             {files.map((file, i) => (
-              <p key={i}>{file.path}</p>
+              <span className="file-dropzone__file" key={i}>
+                <span className="material-symbols-outlined">description</span>
+                {file.path}
+              </span>
             ))}
           </>
         )}
