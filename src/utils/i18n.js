@@ -200,7 +200,7 @@ i18n
             hero: {
               title: "Same great code editor, now in your classroom.",
               subtitle: "Free now, free forever.",
-              altText: "A young girl using the Code editor in a classroom.",
+              imageAlt: "A young girl using the Code editor in a classroom.",
               createSchool: "Create a School",
               logIn: "Log in as a student",
             },

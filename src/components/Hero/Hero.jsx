@@ -49,7 +49,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="hero__image">
-          <img alt={t("educationLandingPage.hero.altText")} src={hero} />
+          <img alt={t("educationLandingPage.hero.imageAlt")} src={hero} />
         </div>
       </header>
     </div>
