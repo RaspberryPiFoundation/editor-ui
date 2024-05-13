@@ -228,6 +228,14 @@ describe("When project has an identifier", () => {
     localStorage.clear();
   });
 
+  test("The saveProject/pending action sets saveTriggered to false", async () => {
+    const newState = reducer(
+      initialState.editor,
+      saveThunk.pending({ project }),
+    );
+    expect(newState.saveTriggered).toBe(false);
+  });
+
   test("Saving updates existing project", async () => {
     await saveAction(dispatch, () => initialState);
     expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token);
@@ -250,6 +258,14 @@ describe("When project has an identifier", () => {
     expect(
       reducer(initialState.editor, saveThunk.fulfilled({ project })),
     ).toEqual(expectedState);
+  });
+
+  test("The remixProject/pending action sets saveTriggered to false", async () => {
+    const newState = reducer(
+      initialState.editor,
+      remixThunk.pending({ project }),
+    );
+    expect(newState.saveTriggered).toBe(false);
   });
 
   test("Remixing triggers createRemix API call", async () => {
