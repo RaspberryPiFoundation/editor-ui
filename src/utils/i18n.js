@@ -205,7 +205,7 @@ i18n
               logIn: "Log in as a student",
             },
             getStarted: {
-              title: "Get started today!",
+              title: "Pre-register your school!",
               button: "Create your school account",
             },
             ide: {
