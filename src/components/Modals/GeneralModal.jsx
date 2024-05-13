@@ -35,7 +35,7 @@ const GeneralModal = ({
         contentLabel={heading}
         parentSelector={() =>
           document.querySelector("#app") ||
-          document.querySelector("editor-wc").shadowRoot.querySelector("#wc")
+          document.querySelector("editor-wc")?.shadowRoot.querySelector("#wc")
         }
         appElement={
           document.querySelector("editor-wc") ||

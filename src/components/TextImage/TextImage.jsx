@@ -22,7 +22,11 @@ const TextImage = (props) => {
 
   return (
     <div className={sliceClass} data-testid="text-image-slice">
-      <div className="text-image-slice__content">
+      <div
+        className={`text-image-slice__content ${
+          !imageSrc ? "text-image-slice--no-image" : ""
+        }`}
+      >
         <h2 className="text-image-slice__title">{title}</h2>
         <p className="text-image-slice__text">{text}</p>
         {urlText && (
@@ -31,9 +35,11 @@ const TextImage = (props) => {
           </span>
         )}
       </div>
-      <div className="text-image-slice__image">
-        <img src={imageSrc} alt={imageAlt} />
-      </div>
+      {imageSrc && (
+        <div className="text-image-slice__image">
+          <img src={imageSrc} alt={imageAlt} />
+        </div>
+      )}
     </div>
   );
 };

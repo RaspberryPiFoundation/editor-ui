@@ -13,14 +13,35 @@
   background-color: var(--editor-color-layer-3);
 
   .logo-lm__title {
-    @include md-width {    
+    @include md-width {
       @include font-size-2(regular);
     }
   }
-  
+
   .logo-lm-__subtitle {
-    @include md-width {    
+    @include md-width {
       @include font-size-2(regular);
+    }
+  }
+
+  main {
+    inline-size: 100%;
+    box-sizing: border-box;
+    background-color: var(--editor-color-layer-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-5) var(--space-2);
+    gap: var(--space-8);
+
+    @media screen and (min-width: 800px) {
+      padding: var(--space-5) var(--space-4);
+      gap: var(--space-10);
+    }
+
+    @media screen and (min-width: 1200px) {
+      padding: var(--space-10);
+      gap: 7.5rem;
     }
   }
 }
@@ -34,5 +55,4 @@
   padding: $space-1-5;
   align-items: center;
   gap: $space-1;
-  margin-block: $space-2;
 }
