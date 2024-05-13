@@ -396,6 +396,7 @@ export const EditorSlice = createSlice({
     });
     builder.addCase("editor/remixProject/pending", (state, action) => {
       state.saving = "pending";
+      state.saveTriggered = false;
     });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
       localStorage.removeItem(state.project.identifier);
