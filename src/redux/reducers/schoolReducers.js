@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getSchool, getUserSchool } from "../../utils/apiCallHandler";
+import {
+  createStudent,
+  getSchool,
+  getUserSchool,
+} from "../../utils/apiCallHandler";
 
 export const loadSchool = createAsyncThunk(
   `school/load`,
@@ -12,6 +16,14 @@ export const loadSchool = createAsyncThunk(
   },
 );
 
+export const createNewStudent = createAsyncThunk(
+  `school/createStudent`,
+  async ({ student, schoolId, accessToken }) => {
+    console.log("from the thunk creating student", student);
+    return await createStudent(student, schoolId, accessToken);
+  },
+);
+
 export const extraReducers = (builder) => {
   builder.addCase("school/load/pending", (state, action) => {
     return { ...state, loading: true };
@@ -21,6 +33,14 @@ export const extraReducers = (builder) => {
   });
   builder.addCase("school/load/rejected", (state, action) => {
     return { ...state, error: action.error, loading: false };
+  });
+  builder.addCase("school/createStudent/fulfilled", (state, action) => {
+    console.log("Student created successfully");
+    return state;
+  });
+  builder.addCase("school/createStudent/rejected", (state, action) => {
+    console.error("Error creating student", action.error);
+    return state;
   });
 };
 

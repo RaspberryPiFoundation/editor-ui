@@ -426,6 +426,7 @@ i18n
             bulkCreateHeading: "Bulk create student accounts",
             bulkCreateHint:
               "Create accounts in bulk using <0>this CSV format</0>.",
+            bulkCreate: "Create students",
           },
           footer: {
             accessibility: "Accessibility",
