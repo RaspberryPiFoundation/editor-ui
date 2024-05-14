@@ -87,12 +87,31 @@ describe("When the submit button is clicked", () => {
     );
   });
 
-  test("It dispatches the create student action for each student with only the correct data", async () => {
+  test("It dispatches the create student action for each student", async () => {
     const submitButton = screen.getByText(
       "membersPage.bulkCreate",
     ).parentElement;
     await waitFor(() => expect(submitButton).toBeEnabled());
     fireEvent.click(submitButton);
     await waitFor(() => expect(createNewStudent).toHaveBeenCalledTimes(2));
+  });
+
+  test("It dispatches the create student action with only the relevant data", async () => {
+    const submitButton = screen.getByText(
+      "membersPage.bulkCreate",
+    ).parentElement;
+    await waitFor(() => expect(submitButton).toBeEnabled());
+    fireEvent.click(submitButton);
+    await waitFor(() =>
+      expect(createNewStudent).toHaveBeenCalledWith({
+        student: {
+          name: "Joe Bloggs",
+          username: "bloggsy",
+          password: "password",
+        },
+        schoolId: "school-id",
+        accessToken: "1234",
+      }),
+    );
   });
 });
