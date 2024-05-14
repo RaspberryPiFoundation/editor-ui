@@ -57,11 +57,11 @@
 
 @media screen and (min-width: 800px) {
   .text-image-slice--left {
-    flex-direction: row;
+    flex-direction: row-reverse;
   }
 
   .text-image-slice--right {
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
 }
 

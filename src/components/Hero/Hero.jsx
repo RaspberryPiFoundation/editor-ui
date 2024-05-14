@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import EditorBrand from "../LogoLM/LogoLM";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import hero from "../../assets/images/hero.jpg";
+import hero from "../../assets/images/education/hero.jpg";
 
 import "../../assets/stylesheets/Hero.scss";
 
@@ -22,15 +22,17 @@ const Hero = () => {
       <header className="hero" data-testid="hero-slice">
         <div className="hero__copy">
           <EditorBrand />
-          <h1 className="hero__copy--title">{t("landingPage.hero.title")}</h1>
+          <h1 className="hero__copy--title">
+            {t("educationLandingPage.hero.title")}
+          </h1>
           <h2 className="hero__copy--subtitle">
-            {t("landingPage.hero.subtitle")}
+            {t("educationLandingPage.hero.subtitle")}
           </h2>
           <div className="hero__buttons">
             <DesignSystemButton
               className=""
               href={`/`}
-              text={t("landingPage.hero.createSchool")}
+              text={t("educationLandingPage.hero.createSchool")}
               textAlways
               onClick={onClickPlausible("Create a School")}
             />
@@ -38,7 +40,7 @@ const Hero = () => {
               <DesignSystemButton
                 className=""
                 href={`/`}
-                text={t("landingPage.hero.logIn")}
+                text={t("educationLandingPage.hero.logIn")}
                 textAlways
                 onClick={onClickPlausible("Log in as a student")}
                 type={"secondary"}
@@ -47,7 +49,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="hero__image">
-          <img alt="" src={hero} />
+          <img alt={t("educationLandingPage.hero.imageAlt")} src={hero} />
         </div>
       </header>
     </div>
