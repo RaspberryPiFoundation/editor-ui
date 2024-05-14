@@ -22,7 +22,7 @@ test("presence of EducationLogo", () => {
       <div id="app">
         <EducationLogo />
       </div>
-    </Provider>
+    </Provider>,
   );
 
   const EducationLogoComponent = screen.getByTestId("education-logo");
