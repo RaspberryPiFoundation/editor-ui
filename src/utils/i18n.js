@@ -245,7 +245,7 @@ i18n
               imageAlt: "Students working on computers in a classroom.",
             },
           },
-          logoLM: {
+          educationLogo: {
             codeEditor: "Code Editor",
             forEducation: "For Education",
           },

@@ -1,17 +1,17 @@
-.logo-lm-wrapper {
+.education-logo-wrapper {
   a {
     border: none;
     font-weight: var(--font-weight-bold);
   }
 }
 
-.logo-lm__text {
+.education-logo__text {
   display: flex;
   flex-direction: row;
 }
 
-.logo-lm__title,
-.logo-lm-__subtitle {
+.education-logo__title,
+.education-logo-__subtitle {
   margin: 0;
   font-size: var(--font-size-1-5);
   line-height: var(--line-height-1-5);
@@ -27,13 +27,13 @@
   }
 }
 
-.logo-lm__title {
+.education-logo__title {
   font-weight: var(--font-weight-bold);
   padding-inline-end: var(--space-2);
   margin-inline-end: var(--space-2);
   border-inline-end: 2px solid var(--editor-color-outline);
 }
 
-.logo-lm-__subtitle {
+.education-logo-__subtitle {
   font-weight: var(--font-weight-regular);
 }

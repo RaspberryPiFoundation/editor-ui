@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import EditorBrand from "../LogoLM/LogoLM";
+import EditorBrand from "../EducationLogo/EducationLogo";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import hero from "../../assets/images/education/hero.jpg";
 

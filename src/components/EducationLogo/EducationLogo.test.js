@@ -2,12 +2,12 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import LogoLM from "./LogoLM";
+import EducationLogo from "./EducationLogo";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-test("presence of LogoLM", () => {
+test("presence of EducationLogo", () => {
   const initialState = {
     auth: {
       user: {
@@ -20,12 +20,12 @@ test("presence of LogoLM", () => {
   render(
     <Provider store={store}>
       <div id="app">
-        <LogoLM />
+        <EducationLogo />
       </div>
-    </Provider>,
+    </Provider>
   );
 
-  const LogoLMComponent = screen.getByTestId("logo-lm");
+  const EducationLogoComponent = screen.getByTestId("education-logo");
 
-  expect(LogoLMComponent).toHaveClass("logo-lm-wrapper");
+  expect(EducationLogoComponent).toHaveClass("education-logo-wrapper");
 });
