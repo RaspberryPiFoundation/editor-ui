@@ -68,6 +68,7 @@ const EducationLandingPage = () => {
           <h2 className="school-onboarding__subtitle">
             {t("educationLandingPage.getStarted.title")}
           </h2>
+          <p>{t("educationLandingPage.getStarted.text")}</p>
           <DesignSystemButton
             className="landing-page__button"
             href={`/${locale}/`}
