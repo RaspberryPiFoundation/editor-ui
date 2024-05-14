@@ -206,6 +206,7 @@ i18n
             },
             getStarted: {
               title: "Pre-register your school!",
+              text: "These features will be available later this year. However, you can register your school account now, so that you're ready to go once we've finished working on them.",
               button: "Create your school account",
             },
             ide: {
