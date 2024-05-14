@@ -30,7 +30,6 @@
 
 /* Projects */
 
-
 .school-onboarding__text {
   display: flex;
   flex-direction: row;
@@ -38,16 +37,6 @@
 
 .school-onboarding__title {
   @include font-size-1-5(regular);
-  margin: var(--space-2);
-
-  @media screen and (min-width: 768px) {
-    @include font-size-4(regular);
-  }
-}
-
-.school-onboarding__subtitle {
-  @include font-size-1-5(regular);
-  font-weight: $font-weight-regular;
   margin: var(--space-2);
 
   @media screen and (min-width: 768px) {
