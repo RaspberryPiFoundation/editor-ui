@@ -1,14 +1,7 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/mixins" as *;
-
 .logo-lm-wrapper {
-
   a {
     border: none;
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
   }
 }
 
@@ -17,21 +10,30 @@
   flex-direction: row;
 }
 
-.logo-lm__title {
-  @include font-size-1-5(regular);
-  margin-inline-end: $space-1;
+.logo-lm__title,
+.logo-lm-__subtitle {
+  margin: 0;
+  font-size: var(--font-size-1-5);
+  line-height: var(--line-height-1-5);
 
-  @include md-width {    
-    @include font-size-4(regular);
+  @media screen and (min-width: 600px) {
+    font-size: var(--font-size-3);
+    line-height: var(--line-height-2-5);
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: var(--font-size-4);
+    line-height: var(--line-height-3-5);
   }
 }
 
-.logo-lm-__subtitle {
-  @include font-size-1-5(regular);
-  font-weight: $font-weight-regular;
-  margin-inline-start: $space-1;
+.logo-lm__title {
+  font-weight: var(--font-weight-bold);
+  padding-inline-end: var(--space-2);
+  margin-inline-end: var(--space-2);
+  border-inline-end: 2px solid var(--editor-color-outline);
+}
 
-  @include md-width {    
-    @include font-size-4(regular);
-  }
+.logo-lm-__subtitle {
+  font-weight: var(--font-weight-regular);
 }
