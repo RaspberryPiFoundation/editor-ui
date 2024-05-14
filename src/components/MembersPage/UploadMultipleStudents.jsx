@@ -72,17 +72,19 @@ const UploadMultipleStudents = () => {
           components={[<a href="/students.csv" download />]}
         />
       </p>
-      {errors.map((error) => (
-        <ErrorMessage error={error} />
+      {errors.map((error, i) => (
+        <ErrorMessage key={i} error={error} />
       ))}
       <FileDropzone
-        allowedFileTypes={[".csv"]}
+        allowedFileTypes={{ "text/csv": [".csv"] }}
         clearFilesText={t("membersPage.removeUpload")}
         clearFiles={() => setCsvFile()}
         files={files}
         maxFiles={1}
         successText={t("membersPage.fileUploaded")}
-        onDropAccepted={(files) => setCsvFile(files[0])}
+        onDropAccepted={(files) => {
+          setCsvFile(files[0]);
+        }}
         hintText={
           <TextWithLink
             linkClassName="file-dropzone__link"
@@ -94,7 +96,7 @@ const UploadMultipleStudents = () => {
       <DesignSystemButton
         text={t("membersPage.bulkCreate")}
         onClick={createStudents}
-        disabled={!csvFile || errors.length > 0}
+        disabled={!csvFile || students.length === 0 || errors.length > 0}
       />
     </>
   );

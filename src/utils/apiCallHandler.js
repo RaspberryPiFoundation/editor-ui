@@ -142,7 +142,6 @@ export const getUserSchool = async (accessToken) => {
 };
 
 export const createStudent = async (student, schoolId, accessToken) => {
-  console.log("sending API request to create student", student);
   return await post(
     `${host}/api/schools/${schoolId}/students`,
     { school_student: student },
