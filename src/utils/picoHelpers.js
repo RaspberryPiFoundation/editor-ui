@@ -37,10 +37,9 @@ export const runOnPico = async (port, project, dispatch) => {
   for (let i = 0; i < codeLines.length; i++) {
     completeCode += `${codeLines[i]}\r`;
   }
+  console.log(completeCode);
   await writer.write(encodeText(`${completeCode}\r`));
-  console.log("writer released");
   await writer.releaseLock();
-  await readFromPico(port, dispatch);
 };
 
 export const writeAllFilesToPico = async (port, project, dispatch) => {
@@ -92,7 +91,7 @@ export const readFromPico = async (port, dispatch) => {
         const { value, done } = await Promise.race([
           reader.read(),
           new Promise((resolve, reject) => {
-            setTimeout(() => resolve({ value: { timeout: true } }), 2000); // 5 seconds timeout
+            setTimeout(() => resolve({ value: { timeout: true } }), 2000);
           }),
         ]);
         if (done || value.timeout) {
@@ -101,9 +100,9 @@ export const readFromPico = async (port, dispatch) => {
         resultString += decoder.decode(value);
         if (resultString.includes("\n")) {
           resultStream.push(resultString);
+          dispatch(setPicoOutput(resultString));
           resultString = "";
         }
-        dispatch(setPicoOutput(resultString));
       }
     } catch (error) {
       console.log(error);
@@ -115,8 +114,6 @@ export const readFromPico = async (port, dispatch) => {
       } catch (error) {
         console.log(error);
       }
-      console.log("returning resultStream");
-      console.log(resultString.split("{"));
       dispatch(stopCodeRun());
       return resultStream;
     }
@@ -193,6 +190,7 @@ const updateProject = (files, project, dispatch) => {
 };
 
 export const stopPico = async (port) => {
+  console.log("Stopping in helper");
   if (!port) {
     return;
   }
@@ -202,9 +200,9 @@ export const stopPico = async (port) => {
 
   const writer = writableStream.getWriter();
 
-  const ctrlC = String.fromCharCode(0x03);
+  const ctrlC = String.fromCharCode(3);
   await writer.write(encoder.encode(ctrlC));
-  writer.releaseLock();
+  await writer.releaseLock();
 };
 
 export const encodeText = (text) => {
