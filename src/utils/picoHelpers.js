@@ -201,7 +201,7 @@ export const stopPico = async (port) => {
   const writer = writableStream.getWriter();
 
   const ctrlC = String.fromCharCode(3);
-  await writer.write(encoder.encode(ctrlC));
+  await writer.write(encoder.encode(`\n${ctrlC}\n`));
   await writer.releaseLock();
 };
 

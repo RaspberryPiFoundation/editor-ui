@@ -123,7 +123,7 @@ const MicroPythonRunner = () => {
               setTimeout(() => resolve({ value: { timeout: true } }), 5000);
             }),
           ]);
-          if (done || value.timeout) {
+          if (done || value.timeout || codeRunStopped) {
             releaseReader(reader);
             console.log("No more output");
             break;
@@ -155,43 +155,15 @@ const MicroPythonRunner = () => {
     };
   }, [codeRunTriggered, codeRunStopped, reader]);
 
-  // useEffect(() => {
-  //   const readFromPico = async () => {
-  //     try {
-  //       const reader = await getReader();
-  //       const { value, done } = await reader.read();
-  //       if (value) {
-  //         const decoder = new TextDecoder();
-  //         const decodedValue = decoder.decode(value);
-  //         console.log(decodedValue);
-  //         setPicoOutput({ time: new Date().getTime(), string: decodedValue });
-  //       }
-  //     }
-  //       reader.releaseLock();
-  //     } catch (error) {
-  //       setPicoOutput({
-  //         time: new Date().getTime(),
-  //         output: error.message,
-  //       });
-  //     }
-  //   };
-  //   if (codeRunTriggered && !codeRunStopped && port) {
-  //     output.current.innerHTML = "";
-  //     runOnPico(port, project, dispatch);
-  //     readFromPico();
-  //   }
-  // }, [codeRunTriggered, codeRunStopped]);
-
   useEffect(() => {
+    dispatch(codeRunHandled());
+
     const stopPicoRunning = async () => {
-      await stopPico(port);
+      stopPico(port);
     };
 
-    if (codeRunStopped) {
-      stopTimer();
+    if (!codeRunStopped) {
       stopPicoRunning();
-      console.log("Code run stopped");
-      dispatch(codeRunHandled());
     }
   }, [codeRunStopped]);
 
