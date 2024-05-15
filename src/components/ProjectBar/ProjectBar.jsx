@@ -10,7 +10,7 @@ import SaveButton from "../SaveButton/SaveButton";
 import "../../assets/stylesheets/ProjectBar.scss";
 import { isOwner } from "../../utils/projectHelpers";
 
-const ProjectBar = ({ projectNameReadonly = false }) => {
+const ProjectBar = ({ projectNameEditable = true }) => {
   const { t } = useTranslation();
 
   const project = useSelector((state) => state.editor.project);
@@ -24,7 +24,7 @@ const ProjectBar = ({ projectNameReadonly = false }) => {
     loading === "success" && (
       <div className="project-bar">
         {loading === "success" && (
-          <ProjectName projectNameReadonly={projectNameReadonly} />
+          <ProjectName projectNameEditable={projectNameEditable} />
         )}
         <div className="project-bar__right">
           {loading === "success" && (

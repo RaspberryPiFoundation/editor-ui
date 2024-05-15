@@ -86,7 +86,7 @@ const WebComponentProject = ({
         />
       ) : (
         <Project
-          projectNameReadonly={true}
+          projectNameEditable={false}
           withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}
