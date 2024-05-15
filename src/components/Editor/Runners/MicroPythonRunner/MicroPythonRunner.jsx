@@ -104,6 +104,12 @@ const MicroPythonRunner = () => {
   }, [port]);
 
   useEffect(() => {
+    if (codeRunTriggered) {
+      runOnPico(port, project, dispatch);
+    }
+  }, [codeRunTriggered]);
+
+  useEffect(() => {
     const readFromPico = async () => {
       if (!port) {
         return;
