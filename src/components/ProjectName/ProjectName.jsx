@@ -109,9 +109,7 @@ const ProjectName = ({
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {!projectNameEditable ? (
-          <div className="project-name__title">{name}</div>
-        ) : (
+        {projectNameEditable ? (
           <input
             className="project-name__input"
             id={"project_name"}
@@ -124,6 +122,8 @@ const ProjectName = ({
             disabled={!isEditable}
             onChange={handleOnChange}
           />
+        ) : (
+          <div className="project-name__title">{name}</div>
         )}
         {projectNameEditable && (
           <div ref={tickButton}>
