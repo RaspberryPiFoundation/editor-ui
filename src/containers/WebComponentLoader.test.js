@@ -259,6 +259,7 @@ describe("When user is in state", () => {
                 instructions={instructions}
                 authKey={authKey}
                 theme="light"
+                loadRemixDisabled={false}
               />
             </CookiesProvider>
           </Provider>,
@@ -273,6 +274,35 @@ describe("When user is in state", () => {
           loadRemix: true,
           loadCache: false,
           remixLoadFailed: false,
+        });
+      });
+
+      describe("when loadRemixDisabled is true", () => {
+        beforeEach(() => {
+          render(
+            <Provider store={store}>
+              <CookiesProvider cookies={cookies}>
+                <WebComponentLoader
+                  identifier={identifier}
+                  instructions={instructions}
+                  authKey={authKey}
+                  theme="light"
+                  loadRemixDisabled={true}
+                />
+              </CookiesProvider>
+            </Provider>,
+          );
+        });
+
+        test("Calls useProject hook with loadRemix set to false, i.e. it is overidden", () => {
+          expect(useProject).toHaveBeenCalledWith({
+            projectIdentifier: identifier,
+            code: undefined,
+            accessToken: "my_token",
+            loadRemix: false,
+            loadCache: false,
+            remixLoadFailed: false,
+          });
         });
       });
 

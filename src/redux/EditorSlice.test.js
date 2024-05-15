@@ -15,6 +15,7 @@ import reducer, {
   setFocussedFileIndex,
   updateComponentName,
   loadProjectList,
+  setLoadRemixDisabled,
 } from "./EditorSlice";
 
 jest.mock("../utils/apiCallHandler");
@@ -29,6 +30,30 @@ test("Action stopCodeRun sets codeRunStopped to true", () => {
     codeRunStopped: true,
   };
   expect(reducer(previousState, stopCodeRun())).toEqual(expectedState);
+});
+
+test("Action setLoadRemixDisabled sets loadRemixDisabled to true", () => {
+  const previousState = {
+    loadRemixDisabled: false,
+  };
+  const expectedState = {
+    loadRemixDisabled: true,
+  };
+  expect(reducer(previousState, setLoadRemixDisabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setLoadRemixDisabled sets loadRemixDisabled to false", () => {
+  const previousState = {
+    loadRemixDisabled: true,
+  };
+  const expectedState = {
+    loadRemixDisabled: false,
+  };
+  expect(reducer(previousState, setLoadRemixDisabled(false))).toEqual(
+    expectedState,
+  );
 });
 
 test("Showing rename modal sets file state and showing status", () => {
@@ -187,6 +212,8 @@ describe("When project has an identifier", () => {
   let remixAction;
 
   beforeEach(() => {
+    localStorage.clear();
+
     saveThunk = syncProject("save");
     saveAction = saveThunk({
       project,
@@ -195,6 +222,18 @@ describe("When project has an identifier", () => {
     });
     remixThunk = syncProject("remix");
     remixAction = remixThunk({ project, accessToken: access_token });
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  test("The saveProject/pending action sets saveTriggered to false", async () => {
+    const newState = reducer(
+      initialState.editor,
+      saveThunk.pending({ project }),
+    );
+    expect(newState.saveTriggered).toBe(false);
   });
 
   test("Saving updates existing project", async () => {
@@ -221,6 +260,14 @@ describe("When project has an identifier", () => {
     ).toEqual(expectedState);
   });
 
+  test("The remixProject/pending action sets saveTriggered to false", async () => {
+    const newState = reducer(
+      initialState.editor,
+      remixThunk.pending({ project }),
+    );
+    expect(newState.saveTriggered).toBe(false);
+  });
+
   test("Remixing triggers createRemix API call", async () => {
     await remixAction(dispatch, () => initialState);
     expect(createRemix).toHaveBeenCalledWith(project, access_token);
@@ -245,6 +292,20 @@ describe("When project has an identifier", () => {
     expect(
       reducer(initialState.editor, remixThunk.fulfilled({ project })),
     ).toEqual(expectedState);
+  });
+
+  test("The remixProject/fulfilled action removes original project from local storage", async () => {
+    localStorage.setItem(project.identifier, JSON.stringify(project));
+
+    const remixedProject = Object.assign({}, project);
+    remixedProject.identifier = "my-remixed-project";
+
+    reducer(
+      initialState.editor,
+      remixThunk.fulfilled({ project: remixedProject }),
+    );
+
+    expect(localStorage.getItem(project.identifier)).toBeNull();
   });
 });
 

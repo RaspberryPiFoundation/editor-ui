@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setSenseHatAlwaysEnabled,
+  setLoadRemixDisabled,
+} from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -34,6 +38,7 @@ const WebComponentLoader = (props) => {
     embedded = false,
     hostStyles,
     showSavePrompt = false,
+    loadRemixDisabled = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -97,7 +102,7 @@ const WebComponentLoader = (props) => {
     projectIdentifier: projectIdentifier,
     code,
     accessToken: user?.access_token,
-    loadRemix,
+    loadRemix: loadRemix && !loadRemixDisabled,
     loadCache,
     remixLoadFailed,
   });
@@ -113,6 +118,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
   }, [senseHatAlwaysEnabled, dispatch]);
+
+  useEffect(() => {
+    dispatch(setLoadRemixDisabled(loadRemixDisabled));
+  }, [loadRemixDisabled, dispatch]);
 
   useEffect(() => {
     if (instructions) {
