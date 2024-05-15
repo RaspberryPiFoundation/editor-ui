@@ -141,7 +141,7 @@ export const readAllFilesFromPico = async (port, project, dispatch) => {
     const readFilesCommand = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
     await writer.write(encoder.encode(readFilesCommand));
     const fileStream = await readFromPico(port, dispatch);
-    fileStream.forEach((file) => {
+    fileStream?.forEach((file) => {
       if (file.includes("name") && file.includes("contents")) {
         try {
           // Is there a better way that doesn't use regex??!!
