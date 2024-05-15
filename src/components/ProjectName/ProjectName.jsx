@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 const ProjectName = ({
   className = null,
   showLabel = false,
-  forWebComponent = false,
+  projectNameReadonly = false,
 }) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
 
@@ -109,7 +109,7 @@ const ProjectName = ({
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {forWebComponent ? (
+        {projectNameReadonly ? (
           <div className="project-name__title">{name}</div>
         ) : (
           <input
@@ -125,7 +125,7 @@ const ProjectName = ({
             onChange={handleOnChange}
           />
         )}
-        {!forWebComponent && (
+        {!projectNameReadonly && (
           <div ref={tickButton}>
             <DesignSystemButton
               className="project-name__button"
