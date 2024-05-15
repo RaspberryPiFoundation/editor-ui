@@ -53,7 +53,7 @@ describe("With a webComponent=true", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <ProjectName showLabel={true} projectNameEditable={false} />
+        <ProjectName showLabel={true} editable={false} />
       </Provider>,
     );
   });
