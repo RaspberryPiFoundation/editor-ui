@@ -111,7 +111,6 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
-    loadRemixDisabled: false,
     accessDeniedNoAuthModalShowing: false,
     accessDeniedWithAuthModalShowing: false,
     betaModalShowing: false,
@@ -226,8 +225,11 @@ export const EditorSlice = createSlice({
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
     },
-    setLoadRemixDisabled: (state, action) => {
-      state.loadRemixDisabled = action.payload;
+    setPicoConnected: (state, action) => {
+      state.picoConnected = action.payload;
+    },
+    setPicoOutput: (state, action) => {
+      state.picoOutput = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -398,10 +400,8 @@ export const EditorSlice = createSlice({
     });
     builder.addCase("editor/remixProject/pending", (state, action) => {
       state.saving = "pending";
-      state.saveTriggered = false;
     });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
-      localStorage.removeItem(state.project.identifier);
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
@@ -467,7 +467,6 @@ export const {
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
-  setLoadRemixDisabled,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,
