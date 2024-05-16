@@ -26,7 +26,9 @@ const initialState = {
 };
 const store = mockStore(initialState);
 const dropCsvFile = async (csvFile) => {
-  const dropzone = screen.getByLabelText("membersPage.csvUploadHint");
+  const dropzone = screen.getByLabelText(
+    "membersPage.createMultipleStudents.csvUploadHint",
+  );
   Object.defineProperty(dropzone, "files", {
     value: [csvFile],
   });
@@ -45,7 +47,7 @@ beforeEach(() => {
 
 test("it renders successfully", () => {
   expect(
-    screen.queryByText("membersPage.bulkCreateHeading"),
+    screen.queryByText("membersPage.createMultipleStudents.title"),
   ).toBeInTheDocument();
 });
 
@@ -82,14 +84,15 @@ describe("When valid csv file is uploaded", () => {
   test("The submit button is enabled", async () => {
     await waitFor(() =>
       expect(
-        screen.getByText("membersPage.bulkCreate").parentElement,
+        screen.getByText("membersPage.createMultipleStudents.createStudents")
+          .parentElement,
       ).toBeEnabled(),
     );
   });
 
   test("It dispatches the create student action for each student", async () => {
     const submitButton = screen.getByText(
-      "membersPage.bulkCreate",
+      "membersPage.createMultipleStudents.createStudents",
     ).parentElement;
     await waitFor(() => expect(submitButton).toBeEnabled());
     fireEvent.click(submitButton);
@@ -98,7 +101,7 @@ describe("When valid csv file is uploaded", () => {
 
   test("It dispatches the create student action with only the relevant data", async () => {
     const submitButton = screen.getByText(
-      "membersPage.bulkCreate",
+      "membersPage.createMultipleStudents.createStudents",
     ).parentElement;
     await waitFor(() => expect(submitButton).toBeEnabled());
     fireEvent.click(submitButton);

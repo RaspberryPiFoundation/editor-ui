@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 const CreateSingleStudent = () => {
   const school = useSelector((state) => state.school);
   const accessToken = useSelector((state) => state.auth.user?.access_token);
-  const [student, setStudent] = useState({});
+  const [student, setStudent] = useState({
+    name: "",
+    username: "",
+    password: "",
+  });
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -33,6 +37,7 @@ const CreateSingleStudent = () => {
         name="name"
         fullWidth={true}
         onChange={onChange}
+        value={student.name}
       />
       <TextInput
         label={t("membersPage.createSingleStudent.username")}
@@ -41,6 +46,7 @@ const CreateSingleStudent = () => {
         name="username"
         fullWidth={true}
         onChange={onChange}
+        value={student.username}
       />
       <PasswordField
         label={t("membersPage.createSingleStudent.password")}
@@ -48,8 +54,12 @@ const CreateSingleStudent = () => {
         name="password"
         id="password"
         onChange={onChange}
+        value={student.password}
       />
-      <DesignSystemButton text="Create student" onClick={createStudent} />
+      <DesignSystemButton
+        text={t("membersPage.createSingleStudent.createStudent")}
+        onClick={createStudent}
+      />
     </>
   );
 };

@@ -433,14 +433,17 @@ i18n
               password: "Temporary password",
               passwordHint:
                 "Students will choose their own password when they log in for the first time.",
+              createStudent: "Create student",
             },
-            csvUploadHint: "<0>Choose a file</0> or drag it here",
-            removeUpload: "Remove upload",
-            fileUploaded: "File uploaded",
-            bulkCreateHeading: "Bulk create student accounts",
-            bulkCreateHint:
-              "Create accounts in bulk using <0>this CSV format</0>.",
-            bulkCreate: "Create students",
+            createMultipleStudents: {
+              title: "Bulk create student accounts",
+              explanation:
+                "Create accounts in bulk using <0>this CSV format</0>.",
+              csvUploadHint: "<0>Choose a file</0> or drag it here",
+              removeUpload: "Remove upload",
+              fileUploaded: "File uploaded",
+              createStudents: "Create students",
+            },
           },
           footer: {
             accessibility: "Accessibility",

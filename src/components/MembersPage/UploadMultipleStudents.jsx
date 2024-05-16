@@ -64,10 +64,10 @@ const UploadMultipleStudents = () => {
 
   return (
     <>
-      <h3>{t("membersPage.bulkCreateHeading")}</h3>
+      <h3>{t("membersPage.createMultipleStudents.title")}</h3>
       <p>
         <Trans
-          i18nKey="membersPage.bulkCreateHint"
+          i18nKey="membersPage.createMultipleStudents.explanation"
           // eslint-disable-next-line jsx-a11y/anchor-has-content
           components={[<a href="/students.csv" download />]}
         />
@@ -77,24 +77,24 @@ const UploadMultipleStudents = () => {
       ))}
       <FileDropzone
         allowedFileTypes={{ "text/csv": [".csv"] }}
-        clearFilesText={t("membersPage.removeUpload")}
+        clearFilesText={t("membersPage.createMultipleStudents.removeUpload")}
         clearFiles={() => setCsvFile()}
         files={files}
         maxFiles={1}
-        successText={t("membersPage.fileUploaded")}
+        successText={t("membersPage.createMultipleStudents.fileUploaded")}
         onDropAccepted={(files) => {
           setCsvFile(files[0]);
         }}
         hintText={
           <TextWithLink
             linkClassName="file-dropzone__link"
-            i18nKey="membersPage.csvUploadHint"
+            i18nKey="membersPage.createMultipleStudents.csvUploadHint"
             to=""
           />
         }
       />
       <DesignSystemButton
-        text={t("membersPage.bulkCreate")}
+        text={t("membersPage.createMultipleStudents.createStudents")}
         onClick={createStudents}
         disabled={!csvFile || students.length === 0 || errors.length > 0}
       />
