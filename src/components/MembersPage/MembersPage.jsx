@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import MembersPageHeader from "./MembersPageHeader/MembersPageHeader";
 import { getUserRoles } from "../../utils/userRoleHelper";
 import List from "../List/List";
+import useSchool from "../../hooks/useSchool";
 
 import "../../assets/stylesheets/MembersPage.scss";
 
@@ -12,6 +13,9 @@ const MembersPage = () => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
   const userRoles = getUserRoles(user);
+  const accessToken = useSelector((state) => state.auth.user?.access_token);
+
+  useSchool({ accessToken });
 
   const actions = [
     {

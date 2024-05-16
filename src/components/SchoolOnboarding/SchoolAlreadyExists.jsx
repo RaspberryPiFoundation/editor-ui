@@ -16,7 +16,7 @@ const SchoolAlreadyExists = () => {
         <p className="school-onboarding-form__text">
           <TextWithLink
             i18nKey="schoolAlreadyExists.contact"
-            href="mailto:websupport@raspberrypi.org"
+            to="mailto:websupport@raspberrypi.org"
           />
         </p>
       </div>

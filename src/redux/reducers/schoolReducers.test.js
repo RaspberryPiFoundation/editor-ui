@@ -1,5 +1,9 @@
-import { loadSchool } from "./schoolReducers";
-import { getSchool, getUserSchool } from "../../utils/apiCallHandler";
+import { createNewStudent, loadSchool } from "./schoolReducers";
+import {
+  createStudent,
+  getSchool,
+  getUserSchool,
+} from "../../utils/apiCallHandler";
 import SchoolReducer from "../SchoolSlice";
 
 jest.mock("../../utils/apiCallHandler");
@@ -23,6 +27,19 @@ describe("loadSchool", () => {
     );
 
     expect(getSchool).toHaveBeenCalledWith("my_id", "my_token");
+  });
+});
+
+describe("createStudent", () => {
+  test("it calls createStudent", async () => {
+    const student = { name: "Alice" };
+    const schoolId = "school-id";
+    const accessToken = "my_token";
+    await createNewStudent({ student, schoolId, accessToken })(
+      dispatch,
+      getState,
+    );
+    expect(createStudent).toHaveBeenCalledWith(student, schoolId, accessToken);
   });
 });
 

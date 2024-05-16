@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getSchool, getUserSchool } from "../../utils/apiCallHandler";
+import {
+  createStudent,
+  getSchool,
+  getUserSchool,
+} from "../../utils/apiCallHandler";
 
 export const loadSchool = createAsyncThunk(
   `school/load`,
@@ -9,6 +13,14 @@ export const loadSchool = createAsyncThunk(
     } else {
       return await getUserSchool(accessToken);
     }
+  },
+);
+
+export const createNewStudent = createAsyncThunk(
+  `school/createStudent`,
+  async ({ student, schoolId, accessToken }) => {
+    const response = await createStudent(student, schoolId, accessToken);
+    return response?.data;
   },
 );
 
