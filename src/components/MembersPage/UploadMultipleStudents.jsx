@@ -3,7 +3,7 @@ import Papa from "papaparse";
 import FileDropzone from "../FileDropzone/FileDropzone";
 import TextWithLink from "../SchoolOnboarding/TextWithLink";
 import { Trans, useTranslation } from "react-i18next";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { Alert } from "@raspberrypifoundation/design-system-react";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewStudent } from "../../redux/reducers/schoolReducers";
@@ -73,7 +73,7 @@ const UploadMultipleStudents = () => {
         />
       </p>
       {errors.map((error, i) => (
-        <ErrorMessage key={i} error={error} />
+        <Alert key={i} title="Error" text={error} type="error" />
       ))}
       <FileDropzone
         allowedFileTypes={{ "text/csv": [".csv"] }}

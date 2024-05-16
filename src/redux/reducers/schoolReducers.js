@@ -20,7 +20,7 @@ export const createNewStudent = createAsyncThunk(
   `school/createStudent`,
   async ({ student, schoolId, accessToken }) => {
     const response = await createStudent(student, schoolId, accessToken);
-    return response.data;
+    return response?.data;
   },
 );
 
