@@ -49,7 +49,7 @@ test("it renders successfully", () => {
   ).toBeInTheDocument();
 });
 
-describe("When csv file is uploaded", () => {
+describe("When invalid csv file is uploaded", () => {
   test("It throws error for missing data", async () => {
     const csvFile = new File(
       ["name,username,password\nJoe Bloggs,bloggsy,"],
@@ -67,7 +67,7 @@ describe("When csv file is uploaded", () => {
   });
 });
 
-describe("When the submit button is clicked", () => {
+describe("When valid csv file is uploaded", () => {
   beforeEach(async () => {
     const csvFile = new File(
       [

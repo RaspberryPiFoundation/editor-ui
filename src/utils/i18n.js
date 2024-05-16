@@ -420,6 +420,20 @@ i18n
           },
           membersPage: {
             title: "Members page",
+            createSingleStudent: {
+              title: "Create a single student",
+              explanation:
+                "These are the details that you will need to provide to the student in order for them to log in.",
+              name: "Student's name",
+              nameHint:
+                "This should be the student's real name. This will only be visible to teachers.",
+              username: "Username",
+              usernameHint:
+                "This username should be unique within this school account and should NOT contain the student's real name. We recommend using a unique identifier that is already used in your school for this student.",
+              password: "Temporary password",
+              passwordHint:
+                "Students will choose their own password when they log in for the first time.",
+            },
             csvUploadHint: "<0>Choose a file</0> or drag it here",
             removeUpload: "Remove upload",
             fileUploaded: "File uploaded",
