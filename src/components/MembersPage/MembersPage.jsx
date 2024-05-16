@@ -12,7 +12,7 @@ const MembersPage = () => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
   const userRoles = getUserRoles(user);
-  
+
   const actions = [
     {
       text: "Edit details",
@@ -51,6 +51,7 @@ const MembersPage = () => {
           },
         ]}
       />
+    </div>
   );
 };
 
