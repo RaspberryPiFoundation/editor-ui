@@ -262,7 +262,9 @@ i18n
             steps: {
               errors: {
                 401: "You must be logged in to create a school.",
-                500: "An unknown error occurred",
+                500: "There was an error processing the form. Please try again later.",
+                unknown:
+                  "An unknown error occurred. Please refresh and try again later.",
               },
               step1: {
                 title: "Before you start creating your school account",
