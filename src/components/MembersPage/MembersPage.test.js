@@ -3,8 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import MembersPage from "./MembersPage";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
 import useSchool from "../../hooks/useSchool";
 
 jest.mock("../../hooks/useSchool", () => ({
@@ -16,8 +14,6 @@ const middlewares = [];
 const mockStore = configureStore(middlewares);
 
 beforeEach(() => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
   const initialState = {
     auth: {
       user: {
