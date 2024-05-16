@@ -19,7 +19,8 @@ export const loadSchool = createAsyncThunk(
 export const createNewStudent = createAsyncThunk(
   `school/createStudent`,
   async ({ student, schoolId, accessToken }) => {
-    return await createStudent(student, schoolId, accessToken);
+    const response = await createStudent(student, schoolId, accessToken);
+    return response.data;
   },
 );
 
@@ -32,13 +33,6 @@ export const extraReducers = (builder) => {
   });
   builder.addCase("school/load/rejected", (state, action) => {
     return { ...state, error: action.error, loading: false };
-  });
-  builder.addCase("school/createStudent/fulfilled", (state, action) => {
-    return state;
-  });
-  builder.addCase("school/createStudent/rejected", (state, action) => {
-    console.error("Error creating student", action.error);
-    return state;
   });
 };
 

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import "../../assets/stylesheets/PasswordField.scss";
 
-const PasswordField = ({ label, hint, name, id }) => {
+const PasswordField = ({ label, hint, name, id, onChange }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <InputField label={label} hint={hint} name={name}>
@@ -11,8 +11,9 @@ const PasswordField = ({ label, hint, name, id }) => {
         <input
           className="rpf-input rpf-input--full-width password-field__input"
           type={showPassword ? "text" : "password"}
-          id="password"
-          name="password"
+          id={id}
+          name={name}
+          onChange={onChange}
         />
         <DesignSystemButton
           className="password-field__button"
