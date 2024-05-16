@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from "react";
 import "../../assets/stylesheets/SchoolOnboarding.scss";
-import LogoLM from "../LogoLM/LogoLM";
+import EducationLogo from "../EducationLogo/EducationLogo";
 import MultiStepForm from "../MultistepForm/MultistepForm";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -117,7 +117,7 @@ const SchoolOnboarding = () => {
         className="school-onboarding-wrapper"
         data-testid="school-onboarding"
       >
-        <LogoLM />
+        <EducationLogo />
         {school.id ? (
           school.verified_at ? (
             <SchoolAlreadyExists />

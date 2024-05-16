@@ -7,13 +7,17 @@ import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import LogoutButton from "../Login/LogoutButton";
 import "../../assets/stylesheets/SchoolDashboard.scss";
 import useSchool from "../../hooks/useSchool";
+import {
+  getUserRoles,
+  isSchoolStudent,
+  isSchoolOwner,
+  isSchoolTeacher,
+} from "../../utils/userRoleHelper";
 
 const SchoolDashboard = () => {
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user);
-  const userRoles = useSelector(
-    (state) => state.auth.user?.profile?.roles,
-  )?.split(",");
+  const userRoles = getUserRoles(user);
   const accessToken = useSelector((state) => state.auth.user?.access_token);
   const school = useSelector((state) => state.school);
 
@@ -33,8 +37,7 @@ const SchoolDashboard = () => {
 
   return (
     <div className="school-dashboard__header">
-      {(userRoles.includes("school-owner") ||
-        userRoles.includes("school-teacher")) && (
+      {(isSchoolOwner(userRoles) || isSchoolTeacher(userRoles)) && (
         <Link
           className="school-dashboard__header-home-link"
           to={`/${locale}/education`}
@@ -46,15 +49,14 @@ const SchoolDashboard = () => {
       <div className="school-dashboard__header-content">
         <h1 className="school-dashboard__header-title">{school.name}</h1>
         <div className="school-dashboard__header-actions">
-          {(userRoles.includes("school-owner") ||
-            userRoles.includes("school-teacher")) && (
+          {(isSchoolOwner(userRoles) || isSchoolTeacher(userRoles)) && (
             <DesignSystemButton
               href={`/${locale}/members`}
               text={t("schoolDashboard.manageMembers")}
               icon="group"
             />
           )}
-          {userRoles.includes("school-student") && (
+          {isSchoolStudent(userRoles) && (
             <LogoutButton type="secondary" user={user} />
           )}
         </div>
