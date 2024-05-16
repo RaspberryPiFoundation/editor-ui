@@ -11,6 +11,7 @@ import {
   createSchool,
   getSchool,
   getUserSchool,
+  createStudent,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -304,5 +305,27 @@ describe("School API calls", () => {
       const school = await getUserSchool(accessToken);
       expect(school.name).toEqual("school-1");
     });
+  });
+});
+
+describe("School student API calls", () => {
+  test("Creating a student", async () => {
+    const student = {
+      name: "Alice",
+      username: "alice",
+      password: "password",
+    };
+    const schoolId = "school-id";
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+      }),
+    );
+    await createStudent(student, schoolId, accessToken);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/schools/${schoolId}/students`,
+      { school_student: student },
+      authHeaders,
+    );
   });
 });

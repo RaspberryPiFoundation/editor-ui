@@ -424,6 +424,30 @@ i18n
           },
           membersPage: {
             title: "Members page",
+            createSingleStudent: {
+              title: "Create a single student",
+              explanation:
+                "These are the details that you will need to provide to the student in order for them to log in.",
+              name: "Student's name",
+              nameHint:
+                "This should be the student's real name. This will only be visible to teachers.",
+              username: "Username",
+              usernameHint:
+                "This username should be unique within this school account and should NOT contain the student's real name. We recommend using a unique identifier that is already used in your school for this student.",
+              password: "Temporary password",
+              passwordHint:
+                "Students will choose their own password when they log in for the first time.",
+              createStudent: "Create student",
+            },
+            createMultipleStudents: {
+              title: "Bulk create student accounts",
+              explanation:
+                "Create accounts in bulk using <0>this CSV format</0>.",
+              csvUploadHint: "<0>Choose a file</0> or drag it here",
+              removeUpload: "Remove upload",
+              fileUploaded: "File uploaded",
+              createStudents: "Create students",
+            },
           },
           membersPageHeader: {
             title: "School members",

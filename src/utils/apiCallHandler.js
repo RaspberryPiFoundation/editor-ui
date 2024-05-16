@@ -140,3 +140,11 @@ export const getUserSchool = async (accessToken) => {
     }
   }
 };
+
+export const createStudent = async (student, schoolId, accessToken) => {
+  return await post(
+    `${host}/api/schools/${schoolId}/students`,
+    { school_student: student },
+    headers(accessToken),
+  );
+};
