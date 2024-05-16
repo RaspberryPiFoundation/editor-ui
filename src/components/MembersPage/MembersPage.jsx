@@ -1,11 +1,18 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+
+import MembersPageHeader from "./MembersPageHeader/MembersPageHeader";
+import { getUserRoles } from "../../utils/userRoleHelper";
+import List from "../List/List";
 
 import "../../assets/stylesheets/MembersPage.scss";
-import List from "../List/List";
 
 const MembersPage = () => {
   const { t } = useTranslation();
+  const user = useSelector((state) => state.auth.user);
+  const userRoles = getUserRoles(user);
+  
   const actions = [
     {
       text: "Edit details",
@@ -26,8 +33,8 @@ const MembersPage = () => {
   ];
 
   return (
-    <div className="members-page">
-      {t("membersPage.title")}
+    <div className="members-page" data-testid="members-page">
+      <MembersPageHeader userRoles={userRoles} />
 
       <List
         noItemsMessage={t("membersPage.noMembersFound")}
@@ -44,7 +51,6 @@ const MembersPage = () => {
           },
         ]}
       />
-    </div>
   );
 };
 

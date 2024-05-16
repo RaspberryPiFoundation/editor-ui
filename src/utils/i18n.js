@@ -192,56 +192,60 @@ i18n
             python: "Start coding Python",
             html: "Start coding HTML/CSS",
             login: "Log in",
-            hero: {
-              title: "Same great code editor, now in your classroom.",
-              subtitle: "Free now, free forever.",
-              createSchool: "Create a School",
-              logIn: "Log in as a student",
-            },
             start: "Not sure where to start?",
             projectPython: "Python path",
             projectHtml: "Web path",
           },
           educationLandingPage: {
-            title: "Get started today!",
-            start: "Create your school account",
+            hero: {
+              title: "Same great code editor, now in your classroom.",
+              subtitle: "Free now, free forever.",
+              imageAlt: "A young girl using the Code editor in a classroom.",
+              createSchool: "Create a School",
+              logIn: "Log in as a student",
+            },
+            getStarted: {
+              title: "Pre-register your school!",
+              text: "These features will be available later this year. However, you can register your school account now, so that you're ready to go once we've finished working on them.",
+              button: "Create your school account",
+            },
             ide: {
               title: "An IDE designed for learners",
               text: "Tailored specifically to young people's needs, our integrated development environment (IDE) helps make learning text-based programming simple and accessible for children aged 9 and up. It’s safe, age-appropriate, and suitable for use in the classroom.",
-              imageAlt: "Editor screenshot",
+              imageAlt:
+                "A screenshot of the Code Editor showing a Python project that generates geometric patterns from a string.",
             },
             free: {
               title: "All features, totally free",
-              text: "Create custom coding projects for your students to work on. Help them code their own games and art using Python, or design websites in HTML/CSS/JavaScript. Your students can get creative with code with our wide choice of Python libraries!",
-              imageAlt: "Editor output",
+              text: "Access the Code Editor in your web browser without installing any additional software. Add an unlimited number of projects, lessons, teachers, and students to your school account, all for free.",
             },
             engage: {
               title: "Create engaging coding lessons",
               text: "Create custom coding projects for your students to work on. Help them code their own games and art using Python, or design websites in HTML/CSS/JavaScript. Your students can get creative with code with our wide choice of Python libraries!",
-              imageAlt: "",
+              imageAlt:
+                "A collage of images showing different visual outputs from the Code Editor. Such as, geometric patterns, a solar system simulation and a map visualisation.",
             },
             feedback: {
               title: "Give students personalised feedback",
               text: "Easily check your students’ progress, view their coding projects, and share individual, instant feedback with each student to keep them on track.",
-              imageAlt: "",
+              imageAlt:
+                "A screenshot from the Code Editor which shows a teacher’s comment on a student's code. The Teacher's comment reads “Looks great! Just one small mistake to fix”. Referring to a typo in the student's code.",
             },
             class: {
               title: "Simple and easy class management",
               text: "Like the Editor itself, we’ve kept our educator interface clean, simple, and easy to use following feedback from teachers. Create and manage student accounts easily. You can organise your students into classes and help them reset their passwords quickly.",
-              imageAlt: "",
             },
             safe: {
               title: "Safe and private by design",
-              text: "Accounts for education are designed to be safe for students of all ages. We take safeguarding seriously, with one-way feedback to students, visibility of their work at all times, verified school accounts, and an audit history of communication with students. In line with best practice codes protecting children online, we minimise our data capture so that we have just enough to keep students safe.",
-              imageAlt: "",
+              text: "Accounts for education are designed to be safe for students of all ages. We take safeguarding seriously, with one-way feedback to students, visibility of their work at all times, verified school accounts, and an audit history of communication with students.<br/><br/>In line with best practice codes protecting children online, we minimise our data capture so that we have just enough to keep students safe.",
             },
             people: {
               title: "What do people say about our Editor?",
-              text: "“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.” – Lee Willis, Head of ICT and Computing, Newcastle High School for Girls “The class management and feedback features they're working on at the moment look really promising.” – Pete Dring, Head of Computing, Fulford School",
-              imageAlt: "",
+              text: "<i>“We have used it and love it, the fact that it is both for HTML / CSS and then Python is great as the students have a one-stop shop for IDEs.”</i><br/><strong>Lee Willis, Head of ICT and Computing, Newcastle High School for Girls</strong><br/><br/><i>“The class management and feedback features they're working on at the moment look really promising.”<i/><br/><strong>Pete Dring, Head of Computing, Fulford School</strong>",
+              imageAlt: "Students working on computers in a classroom.",
             },
           },
-          logoLM: {
+          educationLogo: {
             codeEditor: "Code Editor",
             forEducation: "For Education",
           },
@@ -421,6 +425,12 @@ i18n
           membersPage: {
             title: "Members page",
             noMembersFound: "No members found",
+          },
+          membersPageHeader: {
+            title: "School members",
+            text: "These are all the members in your school, this includes, students, teachers and owners.",
+            invite: "Invite teacher",
+            create: "Create student",
           },
           footer: {
             accessibility: "Accessibility",
