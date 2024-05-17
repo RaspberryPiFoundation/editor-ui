@@ -198,7 +198,9 @@ i18n
           },
           educationLandingPage: {
             hero: {
-              title: "Same great code editor, now in your classroom.",
+              // TODO: Change title back to "...now in your classroom." for full launch
+              // title: "Same great code editor, now in your classroom.",
+              title: "Same great code editor, soon to be in your classroom.",
               subtitle: "Free now, free forever.",
               imageAlt: "A young girl using the Code editor in a classroom.",
               createSchool: "Create a School",
