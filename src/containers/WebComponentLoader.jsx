@@ -32,6 +32,7 @@ const WebComponentLoader = (props) => {
     senseHatAlwaysEnabled = false,
     instructions,
     withProjectbar = false,
+    projectNameEditable = false,
     withSidebar = false,
     sidebarOptions = [],
     theme,
@@ -151,6 +152,7 @@ const WebComponentLoader = (props) => {
             />
             <WebComponentProject
               withProjectbar={withProjectbar}
+              nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
             />

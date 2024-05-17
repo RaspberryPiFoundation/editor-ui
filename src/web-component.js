@@ -43,6 +43,7 @@ class WebComponent extends HTMLElement {
       "sense_hat_always_enabled",
       "instructions",
       "with_projectbar",
+      "project_name_editable",
       "with_sidebar",
       "sidebar_options",
       "theme",
@@ -60,6 +61,7 @@ class WebComponent extends HTMLElement {
         "sense_hat_always_enabled",
         "with_sidebar",
         "with_projectbar",
+        "project_name_editable",
         "show_save_prompt",
         "load_remix_disabled",
       ].includes(name)
