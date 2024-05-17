@@ -56,7 +56,8 @@ describe("Hero Component", () => {
     ).toBeInTheDocument();
   });
 
-  test("not renders login button when user is not logged in", async () => {
+  // TODO: Reinstate "Log in as a student" button for full launch
+  test.skip("renders login button when user is not logged in", async () => {
     const initialState = {
       auth: {
         user: null,
