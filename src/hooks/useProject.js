@@ -14,6 +14,7 @@ export const useProject = ({
   loadCache = true,
   remixLoadFailed = false,
 }) => {
+  const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
@@ -119,4 +120,37 @@ export const useProject = ({
       }
     }
   }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
+
+  useEffect(() => {
+    if (code && loading === "success") {
+      const defaultName = project.project_type === "html" ? "index" : "main";
+      const defaultExtension = project.project_type === "html" ? "html" : "py";
+
+      const mainComponent = project.components?.find(
+        (component) =>
+          component.name === defaultName &&
+          component.extension === defaultExtension,
+      ) || { name: defaultName, extension: defaultExtension, content: "" };
+
+      const otherComponents =
+        project.components?.filter(
+          (component) =>
+            component.name !== defaultName &&
+            component.extension !== defaultExtension,
+        ) || [];
+
+      const updatedProject = {
+        ...project,
+        project_type: project.project_type || "python",
+        components: [
+          ...otherComponents,
+          {
+            ...mainComponent,
+            content: code,
+          },
+        ],
+      };
+      dispatch(setProject(updatedProject));
+    }
+  }, [code, loading]);
 };
