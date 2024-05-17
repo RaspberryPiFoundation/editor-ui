@@ -239,6 +239,24 @@ describe("When not embedded", () => {
     );
   });
 
+  test("If assetsIdentifer is set then set assetsOnly to true when loading project", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    renderHook(
+      () =>
+        useProject({ assetsIdentifier: "hello-world-project", accessToken }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: "hello-world-project",
+        locale: "ja-JP",
+        accessToken,
+        assetsOnly: true,
+      }),
+    );
+  });
+
   afterEach(() => {
     localStorage.clear();
   });

@@ -26,6 +26,7 @@ import Style from "style-it";
 
 const WebComponentLoader = (props) => {
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
@@ -105,6 +106,7 @@ const WebComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
+    assetsIdentifier: assetsIdentifier,
     code,
     accessToken: user?.access_token,
     loadRemix: loadRemix && !loadRemixDisabled,

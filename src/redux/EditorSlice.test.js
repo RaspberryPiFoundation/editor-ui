@@ -2,6 +2,8 @@ import {
   createOrUpdateProject,
   createRemix,
   deleteProject,
+  loadAssets,
+  readProject,
   readProjectList,
 } from "../utils/apiCallHandler";
 
@@ -612,5 +614,56 @@ describe("Updating file name", () => {
         updateComponentName({ key: 1, name: "my_file", extension: "py" }),
       ),
     ).toEqual(expectedState);
+  });
+});
+
+describe("Loading a project", () => {
+  const dispatch = jest.fn();
+  const identifier = "my-project-identifier";
+  const accessToken = "myToken";
+  const locale = "es-LA";
+
+  let initialState;
+  let loadThunk;
+
+  beforeEach(() => {
+    initialState = { editor: {}, auth: {} };
+    loadThunk = syncProject("load");
+  });
+
+  describe("when assetsOnly is false", () => {
+    let loadAction;
+
+    beforeEach(() => {
+      loadAction = loadThunk({
+        identifier,
+        locale,
+        accessToken,
+        assetsOnly: false,
+      });
+    });
+
+    test("readProject is called", async () => {
+      await loadAction(dispatch, () => initialState);
+      expect(readProject).toHaveBeenCalledWith(identifier, locale, accessToken);
+    });
+  });
+
+  describe("when assetsOnly is true", () => {
+    let loadAction;
+
+    beforeEach(() => {
+      loadAction = loadThunk({
+        identifier,
+        locale,
+        accessToken,
+        assetsOnly: true,
+      });
+    });
+
+    test("loadAssets is called", async () => {
+      await loadAction(dispatch, () => initialState);
+      expect(loadAssets).toHaveBeenCalledWith(identifier, locale, accessToken);
+    });
   });
 });
