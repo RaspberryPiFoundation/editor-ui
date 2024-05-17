@@ -424,6 +424,7 @@ i18n
           },
           membersPage: {
             title: "Members page",
+            noMembersFound: "No members found",
             createSingleStudent: {
               title: "Create a single student",
               explanation:

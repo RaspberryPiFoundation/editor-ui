@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import "material-symbols";
 
 import "../../assets/stylesheets/ListItem.scss";
 
-const ListItem = ({ primaryText, secondaryText = false, actions = [] }) => {
-  const [open, setOpen] = useState(false);
+const ListItem = ({
+  actions,
+  menuIsOpen,
+  onMenuClick,
+  primaryText,
+  secondaryText,
+}) => {
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!menuIsOpen) return;
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        onMenuClick();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [wrapperRef, menuIsOpen, onMenuClick]);
 
   return (
     <div className="list-item">
@@ -16,17 +36,17 @@ const ListItem = ({ primaryText, secondaryText = false, actions = [] }) => {
       </div>
 
       {actions && actions.length && (
-        <div className="list-item__actions">
+        <div className="list-item__actions" ref={wrapperRef}>
           <Button
             type="tertiary"
             iconOnly={true}
             icon="more_vert"
-            onClick={() => setOpen(!open)}
+            onClick={onMenuClick}
           />
         </div>
       )}
 
-      {open && (
+      {menuIsOpen && (
         <div className="list-item__menu">
           {actions.map((action) => (
             <Button
@@ -43,9 +63,11 @@ const ListItem = ({ primaryText, secondaryText = false, actions = [] }) => {
 };
 
 ListItem.propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape()),
+  isMenuOpen: PropTypes.bool.isRequired,
+  onMenuOpen: PropTypes.func.isRequired,
   primaryText: PropTypes.string.isRequired,
   secondaryText: PropTypes.string,
-  actions: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 export default ListItem;

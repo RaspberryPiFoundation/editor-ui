@@ -47,10 +47,10 @@
     position: absolute;
     right: var(--space-1);
     top: var(--space-8);
+    z-index: 100;
   }
 
   &__button {
-    border: 1px solid red;
     flex-direction: row;
     justify-content: flex-start;
   }

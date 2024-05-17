@@ -27,6 +27,7 @@ const Project = ({ identifier }) => {
               data-testid="editor-wc"
               identifier={identifier}
               with_projectbar="true"
+              project_name_editable="true"
               with_sidebar="true"
               sidebar_options={JSON.stringify([
                 "projects",
