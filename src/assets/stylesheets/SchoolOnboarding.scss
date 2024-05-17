@@ -27,8 +27,6 @@
   font-weight: var(--font-weight-bold);
 }
 
-/* Projects */
-
 .school-onboarding__text {
   display: flex;
   flex-direction: row;
@@ -96,6 +94,8 @@
 	margin-block-start: var(--space-3);
 }
 
+// Should investigate why this is needed.
+// With the design system button layout styles shouldn't be needed.
 .school-onboarding__button {
   flex: 1;
   width: -webkit-fill-available;
