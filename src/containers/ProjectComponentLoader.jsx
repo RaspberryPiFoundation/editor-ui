@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useProject } from "../hooks/useProject";
-import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -21,7 +20,6 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 const ProjectComponentLoader = (props) => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
-  const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user);
   const accessToken = user ? user.access_token : null;
   const project = useSelector((state) => state.editor.project);
@@ -56,7 +54,6 @@ const ProjectComponentLoader = (props) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const sidebarOptions = ["projects", "file", "images", "settings", "info"];
 
-  useEmbeddedMode(embedded);
   useProject({ projectIdentifier: identifier, accessToken: accessToken });
   useProjectPersistence({
     user,

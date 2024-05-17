@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Remove unused `/embedded/projects/:identifier` route (#1013)
+
 ### Fixed
 
 - Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
