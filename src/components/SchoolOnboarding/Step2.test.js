@@ -21,7 +21,7 @@ describe("When localStorage is empty", () => {
 
   test("the responsibility checkbox is unchecked", () => {
     expect(
-      screen.getByLabelText("schoolOnboarding.steps.step2.termsAndConditions"),
+      screen.getByLabelText("schoolOnboarding.steps.step2.agreeResponsibility"),
     ).not.toBeChecked();
   });
 
@@ -39,7 +39,7 @@ describe("When localStorage is empty", () => {
   test("checking the responsibility checkbox updates localStorage", () => {
     act(() => {
       screen
-        .getByLabelText("schoolOnboarding.steps.step2.termsAndConditions")
+        .getByLabelText("schoolOnboarding.steps.step2.agreeResponsibility")
         .click();
     });
     expect(
