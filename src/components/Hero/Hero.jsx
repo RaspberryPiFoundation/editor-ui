@@ -1,5 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
+// TODO: Reinstate "Log in as a student" button for full launch
+// import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import EditorBrand from "../EducationLogo/EducationLogo";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -8,7 +9,8 @@ import hero from "../../assets/images/education/hero.jpg";
 import "../../assets/stylesheets/Hero.scss";
 
 const Hero = () => {
-  const user = useSelector((state) => state.auth.user);
+  // TODO: Reinstate "Log in as a student" button for full launch
+  // const user = useSelector((state) => state.auth.user);
   const { t } = useTranslation();
 
   const onClickPlausible = (msg) => () => {
@@ -36,7 +38,8 @@ const Hero = () => {
               textAlways
               onClick={onClickPlausible("Create a School")}
             />
-            {!user && (
+            {/* TODO: Reinstate "Log in as a student" button for full launch */}
+            {/* {!user && (
               <DesignSystemButton
                 className=""
                 href={`/`}
@@ -45,7 +48,7 @@ const Hero = () => {
                 onClick={onClickPlausible("Log in as a student")}
                 type={"secondary"}
               />
-            )}
+            )} */}
           </div>
         </div>
         <div className="hero__image">

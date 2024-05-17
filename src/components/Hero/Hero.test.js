@@ -56,23 +56,25 @@ describe("Hero Component", () => {
     ).toBeInTheDocument();
   });
 
-  test("not renders login button when user is not logged in", async () => {
-    const initialState = {
-      auth: {
-        user: null,
-      },
-    };
-    const store = mockStore(initialState);
+  // TODO: Reinstate "Log in as a student" button for full launch
 
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Hero />
-        </Provider>
-      </BrowserRouter>,
-    );
+  // test("renders login button when user is not logged in", async () => {
+  //   const initialState = {
+  //     auth: {
+  //       user: null,
+  //     },
+  //   };
+  //   const store = mockStore(initialState);
 
-    const loginButton = await screen.findByText(/landingPage.hero.logIn/i);
-    expect(loginButton).toBeInTheDocument();
-  });
+  //   render(
+  //     <BrowserRouter>
+  //       <Provider store={store}>
+  //         <Hero />
+  //       </Provider>
+  //     </BrowserRouter>,
+  //   );
+
+  //   const loginButton = await screen.findByText(/landingPage.hero.logIn/i);
+  //   expect(loginButton).toBeInTheDocument();
+  // });
 });
