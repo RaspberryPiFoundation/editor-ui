@@ -57,24 +57,23 @@ describe("Hero Component", () => {
   });
 
   // TODO: Reinstate "Log in as a student" button for full launch
+  test.skip("renders login button when user is not logged in", async () => {
+    const initialState = {
+      auth: {
+        user: null,
+      },
+    };
+    const store = mockStore(initialState);
 
-  // test("renders login button when user is not logged in", async () => {
-  //   const initialState = {
-  //     auth: {
-  //       user: null,
-  //     },
-  //   };
-  //   const store = mockStore(initialState);
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <Hero />
+        </Provider>
+      </BrowserRouter>,
+    );
 
-  //   render(
-  //     <BrowserRouter>
-  //       <Provider store={store}>
-  //         <Hero />
-  //       </Provider>
-  //     </BrowserRouter>,
-  //   );
-
-  //   const loginButton = await screen.findByText(/landingPage.hero.logIn/i);
-  //   expect(loginButton).toBeInTheDocument();
-  // });
+    const loginButton = await screen.findByText(/landingPage.hero.logIn/i);
+    expect(loginButton).toBeInTheDocument();
+  });
 });
