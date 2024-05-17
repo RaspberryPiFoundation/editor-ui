@@ -120,7 +120,7 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
             id="responsibility"
             label={
               <TextWithLink
-                i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+                i18nKey="schoolOnboarding.steps.step2.agreeResponsibility"
                 to="/"
               />
             }
