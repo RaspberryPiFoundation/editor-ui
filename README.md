@@ -71,6 +71,7 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
 - `output_only`: Only display the output panel (defaults to `false`)
+- `assets_identifier`: Load assets (not code) from this project identifier
 
 ### `yarn start:wc`
 
