@@ -113,7 +113,7 @@ const MultiStepForm = ({
             />
           ) : (
             <DesignSystemButton
-              className="multi-step-form__button school-onboarding__button"
+              className="multi-step-form__button"
               text={t("multiStepForm.submit")}
               textAlways
               onClick={() => onSubmit(currentStep, nextStep)}

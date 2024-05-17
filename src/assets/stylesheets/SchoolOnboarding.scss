@@ -94,20 +94,6 @@
 	margin-block-start: var(--space-3);
 }
 
-// Should investigate why this is needed.
-// With the design system button layout styles shouldn't be needed.
-.school-onboarding__button {
-  flex: 1;
-  width: -webkit-fill-available;
-  justify-content: center;
-  align-items: center;
-
-  @media screen and (min-width: 600px) {
-    flex: inherit;
-    width: fit-content;
-  }
-}
-
 .rpf-accordion {
   border: 1px solid var(--rpf-grey-50);
 	border-radius: var(--space-1);
