@@ -22,14 +22,12 @@ const SchoolAlreadyExists = () => {
       </div>
       <div className="school-onboarding-form__buttons">
         <DesignSystemButton
-          className="school-onboarding__button"
           text={t("schoolAlreadyExists.exploreProjects")}
           href="https://projects.raspberrypi.org"
           textAlways
           type={"secondary"}
         />
         <DesignSystemButton
-          className="school-onboarding__button"
           text={t("schoolAlreadyExists.editorHome")}
           textAlways
           href="/"

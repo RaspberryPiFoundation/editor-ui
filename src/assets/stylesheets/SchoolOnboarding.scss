@@ -1,123 +1,105 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/mixins" as *;
-
 .school-onboarding-wrapper {
   display: flex;
   flex-direction: column;
-  padding: var(--space-3);
+  padding: var(--space-4) var(--space-2);
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
   flex: 1 0 0;
   align-self: stretch;
 
-  @media screen and (min-width: 768px) {
-    padding: var(--space-8) calc(1.5 * var(--space-10));
+  @media screen and (min-width: 600px) {
+    padding: var(--space-5) var(--space-4);
+		gap: var(--space-5);
+  }
+
+  @media screen and (min-width: 1200px) {
+    padding: var(--space-8) var(--space-10);
     gap: var(--space-8);
   }
 
   a {
     border: none;
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
   }
 }
 
 .school-onboarding__text--bold {
-  font-weight: $font-weight-bold;
+  font-weight: var(--font-weight-bold);
 }
-
-/* Projects */
 
 .school-onboarding__text {
   display: flex;
   flex-direction: row;
 }
 
-.school-onboarding__title {
-  @include font-size-1-5(regular);
-  margin: var(--space-2);
-
-  @media screen and (min-width: 768px) {
-    @include font-size-4(regular);
-  }
-}
-
 .school-onboarding-form {
-  background-color: $rpf-white;
-  border: 2px solid #d5d7dc;
-  border-radius: 8px;
-  max-inline-size: 600px;
-  text-align: start;
-  padding: var(--space-3);
+  box-sizing: border-box;
+	background-color: var(--editor-color-layer-2);
+	border: 1px solid var(--editor-color-outline);
+	border-radius: 8px;
+	max-inline-size: 600px;
+	text-align: start;
+	padding: var(--space-2);
 
-  @media screen and (min-width: 768px) {
-    min-inline-size: 600px;
-  }
+	@media screen and (min-width: 600px) {
+		padding: var(--space-3);
+	}
 }
 
 .school-onboarding-form__title {
-  @include font-size-2(regular);
-  font-weight: $font-weight-bold;
-  margin-block: var(--space-3);
+	font-size: var(--font-size-1-5);
+	line-height: var(--line-height-1-5);
+	font-weight: var(--font-weight-bold);
+	margin-block: var(--space-2);
+
+	@media screen and (min-width: 600px) {
+		margin-block: var(--space-3);
+		font-size: var(--font-size-2);
+		line-height: var(--line-height-2);
+	}
 }
 
 .school-onboarding-form__subtitle {
-  @include font-size-1-5(bold);
-  margin-block: var(--space-3);
+	font-size: var(--font-size-1-5);
+	line-height: var(--line-height-1-5);
+	margin-block: var(--space-3);
 }
 
 .school-onboarding-form__text {
-  margin-block-end: var(--space-3);
+	margin-block-end: var(--space-3);
 }
 
 .school-onboarding-form__section {
-  border-block-start: 1px solid var(--rpf-grey-150);
-  border-block-end: 1px solid var(--rpf-grey-150);
-  margin-block: var(--space-3);
+	border-block-start: 1px solid var(--rpf-grey-150);
+	border-block-end: 1px solid var(--rpf-grey-150);
+	margin-block: var(--space-3);
 }
 
 .school-onboarding-form__list {
-  padding-left: var(--space-3);
-  margin-block-end: var(--space-3);
+	padding-left: var(--space-3);
+	margin-block-end: var(--space-3);
 }
 
 .school-onboarding-form__list-item::marker {
-  color: $rpf-teal-800;
+	color: var(--editor-color-theme);
 }
 
 .school-onboarding-form__buttons {
-  flex-direction: column;
-  gap: var(--space-2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-block-start: var(--space-3);
-
-  @media screen and (min-width: 768px) {
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-}
-
-.school-onboarding__button {
-  flex: 1;
-  width: -webkit-fill-available;
-  justify-content: center;
-  align-items: center;
-
-  @media screen and (min-width: 768px) {
-    flex: inherit;
-    width: fit-content;
-  }
+	display: flex;
+	flex-direction: row;
+  flex-wrap: wrap;
+	gap: var(--space-1);
+	justify-content: flex-end;
+	align-items: center;
+	margin-block-start: var(--space-3);
 }
 
 .rpf-accordion {
   border: 1px solid var(--rpf-grey-50);
-  border-radius: var(--space-1);
+	border-radius: var(--space-1);
 }
 
 .rpf-accordion__title {
-  @include font-size-1(regular);
+  font-size: var(--font-size-1);
+	line-height: var(--line-height-1-5);
 }
