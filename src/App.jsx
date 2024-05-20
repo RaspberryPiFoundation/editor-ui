@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./assets/stylesheets/App.scss";
 import "./assets/stylesheets/rpf_design_system/typography.scss";
@@ -9,29 +9,20 @@ import { BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-import { SettingsContext } from "./utils/settings";
 import AppRoutes from "./components/AppRoutes";
 import GlobalNav from "./components/GlobalNav/GlobalNav";
 import BetaBanner from "./components/BetaBanner/BetaBanner";
 import BetaModal from "./components/Modals/BetaModal";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
 import ToastCloseButton from "./utils/ToastCloseButton";
+import SettingsProvider from "./utils/SettingsProvider";
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
-  const [cookies] = useCookies(["theme", "fontSize"]);
-  const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
-    ? "dark"
-    : "light";
 
   return (
-    <div id="app" className={`--${cookies.theme || themeDefault}`}>
-      <SettingsContext.Provider
-        value={{
-          theme: cookies.theme || themeDefault,
-          fontSize: cookies.fontSize || "small",
-        }}
-      >
+    <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
+      <SettingsProvider id="app">
         <ToastContainer
           enableMultiContainer
           containerId="top-center"
@@ -39,25 +30,23 @@ function App() {
           className="toast--top-center"
           closeButton={ToastCloseButton}
         />
-        <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
-          {isEmbedded ? null : (
-            <>
-              <GlobalNav />
-              <BetaBanner />
-            </>
-          )}
-          <AppRoutes />
-          <BetaModal />
-          <LoginToSaveModal />
-        </BrowserRouter>
+        {isEmbedded ? null : (
+          <>
+            <GlobalNav />
+            <BetaBanner />
+          </>
+        )}
+        <AppRoutes />
+        <BetaModal />
+        <LoginToSaveModal />
         <ToastContainer
           enableMultiContainer
           containerId="bottom-center"
           position="bottom-center"
           className="toast--bottom-center"
         />
-      </SettingsContext.Provider>
-    </div>
+      </SettingsProvider>
+    </BrowserRouter>
   );
 }
 
