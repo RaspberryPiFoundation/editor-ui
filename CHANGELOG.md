@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Add `project_name_editable` attribute to web component (#1009)
+- Fires custom event when the theme changes (#1015)
 
 ### Changed
 
