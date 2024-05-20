@@ -1,9 +1,10 @@
 import { useCookies } from "react-cookie";
 import { useLocation } from "react-router-dom";
 import { SettingsContext } from "./settings";
+import { startTransition } from "react";
 
 const SettingsProvider = ({ id, children }) => {
-  const [cookies] = useCookies(["theme", "fontSize"]);
+  const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
@@ -13,6 +14,12 @@ const SettingsProvider = ({ id, children }) => {
     /\/[a-z]{2}\/projects\/[a-z0-9-]+/,
   );
   const theme = useTheming ? cookies.theme || themeDefault : "light";
+
+  document.addEventListener("editor-themeUpdated", (e) => {
+    startTransition(() => {
+      setCookie("theme", e.detail, { path: "/" });
+    });
+  });
 
   return (
     <div id={id} className={`--${theme}`}>
