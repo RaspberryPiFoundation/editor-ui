@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import "./assets/stylesheets/App.scss";
 import "./assets/stylesheets/rpf_design_system/typography.scss";
 import "./assets/stylesheets/Notifications.scss";
 
-import { useCookies } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
