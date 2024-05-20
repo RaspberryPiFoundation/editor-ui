@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -22,7 +21,6 @@ import ErrorModal from "../components/Modals/ErrorModal";
 
 const ProjectComponentLoader = (props) => {
   const { identifier } = useParams();
-  const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user);
   // const accessToken = user ? user.access_token : null;
   const project = useSelector((state) => state.editor.project);
@@ -56,8 +54,6 @@ const ProjectComponentLoader = (props) => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-
-  useEmbeddedMode(embedded);
 
   // TODO: sort out loading and error states
   // useProject({ projectIdentifier: identifier, accessToken: accessToken });
