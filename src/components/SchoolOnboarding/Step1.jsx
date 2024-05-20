@@ -27,6 +27,9 @@ const Step1 = () => {
           <li className="school-onboarding-form__list-item">
             <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.email" />
           </li>
+          <li className="school-onboarding-form__list-item">
+            <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step1.inDevelopment" />
+          </li>
         </ul>
         <Accordion
           id="accordion"

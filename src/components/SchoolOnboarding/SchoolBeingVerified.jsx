@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import TextList from "../TextList/TextList";
+import TextWithBoldSpan from "./TextWithBoldSpan";
 
 const SchoolBeingVerified = () => {
   const { t } = useTranslation();
@@ -13,7 +14,9 @@ const SchoolBeingVerified = () => {
       listItems={{
         item1: t("schoolBeingVerified.listItems.item1"),
         item2: t("schoolBeingVerified.listItems.item2"),
-        item3: t("schoolBeingVerified.listItems.item3"),
+        item3: (
+          <TextWithBoldSpan i18nKey="schoolBeingVerified.listItems.item3" />
+        ),
       }}
       exploreProjects={{
         text: t("schoolBeingVerified.exploreProjects.text"),

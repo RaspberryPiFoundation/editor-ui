@@ -280,6 +280,8 @@ i18n
                   "Your school will need to be <0>verified by our team</0>. This may take up to 5 working days.",
                 email:
                   "You will <0>not be able to change your email address</0> or delete your Raspberry Pi Foundation account while you are the owner of the school account. You will have to contact us to do this.",
+                inDevelopment:
+                  "These features are still in development. You can register now so that you'll have access as soon as they are available. <0>We'll let you know when they're ready</0>.",
                 notSchoolQuestion:
                   "Can I use this if I am not part of a school?",
                 notSchoolAnswer:
@@ -384,7 +386,7 @@ i18n
               item2:
                 "We will verify your school. This may take up to 5 working days. You'll receive a confirmation email once it's been verified.",
               item3:
-                "Once your school has been verified, you will be able to log in to the Code Editor with your Raspberry Pi Foundation account and access your school dashboard.",
+                "Please note that you are <0>pre-registering for upcoming features</0>. We'll let you know when these features become available, so that you can start using your school account.",
             },
             exploreProjects: {
               text: "Explore our projects",
