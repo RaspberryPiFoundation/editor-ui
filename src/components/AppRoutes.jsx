@@ -81,11 +81,6 @@ const AppRoutes = () => (
       <Route path="members" element={suspense(<MembersPage />)} />
     </Route>
 
-    <Route
-      path="/embedded/projects/:identifier"
-      element={suspense(<ProjectComponentLoader embedded={true} />)}
-    />
-
     {projectLinkRedirects.map((link) => {
       return <Route key={link} path={link} element={<ProjectsRedirect />} />;
     })}
