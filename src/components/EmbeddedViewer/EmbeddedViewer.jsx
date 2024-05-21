@@ -31,7 +31,6 @@ const EmbeddedViewer = () => {
   useProject({
     projectIdentifier: identifier,
     accessToken: user.access_token,
-    isEmbedded: true,
   });
 
   useEmbeddedMode(true);
