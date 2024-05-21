@@ -104,7 +104,6 @@ test("Loads project with correct params", () => {
   expect(useProject).toHaveBeenCalledWith({
     projectIdentifier: "my-amazing-project",
     accessToken: "my_token",
-    isEmbedded: true,
   });
 });
 
@@ -130,7 +129,6 @@ test("Loads project with correct params if browser preview", () => {
   expect(useProject).toHaveBeenCalledWith({
     projectIdentifier: "my-amazing-project",
     accessToken: "my_token",
-    isEmbedded: true,
   });
 
   expect(store.getActions()).toEqual(
