@@ -76,7 +76,17 @@
         document.getElementById("results").innerText = JSON.stringify(e.detail);
       });
 
-      document.getElementsByTagName("body")[0].prepend(webComp);
+      const body = document.getElementsByTagName("body")[0];
+      body.prepend(webComp);
+
+      const runButton = document.createElement("button");
+      const runButtonText = document.createTextNode("Run code");
+      runButton.appendChild(runButtonText);
+      runButton.onclick = (event) => {
+        const webComponent = document.querySelector("editor-wc");
+        webComponent.rerunCode();
+      }
+      body.append(runButton);
     });
   </script>
 </html>
