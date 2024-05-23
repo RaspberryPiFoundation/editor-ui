@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixes for docker-compose.yml (#1008)
 - Fix deprecation warnings in GitHub Actions (#1011)
 - Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
+- Improvements to Cypress specs in CI (#1017)
+- Fix warnings and verbose output when starting Webpack Dev Server (#1018)
 
 ## [0.23.0] - 2024-05-09
 
