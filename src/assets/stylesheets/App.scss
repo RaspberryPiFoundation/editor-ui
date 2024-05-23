@@ -70,8 +70,8 @@ body,
   overflow: auto;
   block-size: 100%;
   block-size: -moz-available;
-  block-size: -webkit-fill-available;
-  block-size: fill-available;
+  block-size: -webkit-stretch;
+  block-size: stretch;
   block-size: 100dvh;
   -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
   scrollbar-width: none; /* Remove scroll bar for Firefox */
