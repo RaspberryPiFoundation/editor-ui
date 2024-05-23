@@ -163,3 +163,17 @@ describe("When on a page that does not render a project", () => {
     act(() => cookies.remove("theme"));
   });
 });
+
+describe("When the theme updated event is received", () => {
+  beforeEach(() => {
+    document.dispatchEvent(
+      new CustomEvent("editor-themeUpdated", {
+        detail: "dark",
+      }),
+    );
+  });
+  test("the theme cookie is updated", () => {
+    const cookies = new Cookies();
+    expect(cookies.get("theme")).toBe("dark");
+  });
+});
