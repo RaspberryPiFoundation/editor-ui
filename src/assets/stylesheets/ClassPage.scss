@@ -1,12 +1,23 @@
 .class_wrapper {
-  display: flex;
-  flex-direction: column;
   padding: var(--space-4) var(--space-2);
-  align-items: center;
-  gap: var(--space-4);
-  flex: 1 0 0;
-  align-self: stretch;
   background-color: var(--editor-color-layer-3);
+
+  @media screen and (min-width: 1200px) {
+    align-items: center;
+    gap: var(--space-4);
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    // flex: 1 0 0;
+    margin-block: auto;
+    justify-content: space-between;
+  }
+
+}
+
+.class__copy {
+  // flex: 3;
+  max-inline-size: 800px;
 }
 
 .class__title {
@@ -28,13 +39,20 @@
 	margin-block: var(--space-2);
 }
 
-.class__button {
+.class__buttons {
+  display: flex;
+  gap: var(--space-1);
+  // flex: 1;
+}
 
-  border: 1px solid green;
+.class__button {
+  border: 3px solid var(--editor-color-theme);
   width: fit-content;
-  border-radius: 10px;
+  border-radius: 8px;
+
   button {
       color: var(--editor-color-layer-5);
+
   }
 
 }

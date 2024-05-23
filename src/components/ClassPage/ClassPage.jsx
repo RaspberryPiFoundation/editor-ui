@@ -10,21 +10,21 @@ const ClassPage = () => {
   const { t } = useTranslation();
   return (
     <div className="class_wrapper">
-      <header>
+      <div className="class__copy">
         <h1 className="class__title">{t("classPage.title")}</h1>
         <p className="class__text">{t("classPage.text")}</p>
-        <div className="class__buttons">
-          <DesignSystemButton
-            className=""
-            href={`/`}
-            text={t("classPage.classMembers")}
-            textAlways
-          />
-          <div className="class__button">
-            <Button type="tertiary" iconOnly={true} icon="settings" />
-          </div>
+      </div>
+      <div className="class__buttons">
+        <DesignSystemButton
+          className=""
+          href={`/`}
+          text={t("classPage.classMembers")}
+          textAlways
+        />
+        <div className="class__button">
+          <Button type="tertiary" iconOnly={true} icon="settings" />
         </div>
-      </header>
+      </div>
     </div>
   );
 };
