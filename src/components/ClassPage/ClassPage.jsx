@@ -1,9 +1,25 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
-import "../../assets/stylesheets/Hero.scss";
+import "../../assets/stylesheets/ClassPage.scss";
 
 const ClassPage = () => {
-  return <div className="class">Class</div>;
+  const { t } = useTranslation();
+  return (
+    <div className="class_wrapper">
+      <header>
+        <h1 className="class__title">{t("classPage.title")}</h1>
+        <p className="class__text">{t("classPage.text")}</p>
+        <DesignSystemButton
+          className=""
+          href={`/`}
+          text={t("classPage.classMembers")}
+          textAlways
+        />
+      </header>
+    </div>
+  );
 };
 
 export default ClassPage;
