@@ -90,3 +90,49 @@ describe("default behaviour", () => {
     cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
   });
 });
+
+describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
+  // Must match HydraPublicApiClient::BYPASS_AUTH_USER_ID in editor-api
+  const authKey = "00000000-0000-0000-0000-000000000000";
+
+  const user = { access_token: "dummy-access-token" };
+  const originalIdentifier = "blank-python-starter";
+
+  let baseUrl;
+
+  beforeEach(() => {
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("identifier", originalIdentifier);
+    params.set("load_remix_disabled", "true");
+    baseUrl = `${origin}?${params.toString()}`;
+
+    cy.on('window:before:load', (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+  });
+
+  it("loads the original project in preference to the remixed version", () => {
+    // Visit the original project URL
+    cy.visit(baseUrl);
+    cy.get("#project-identifier").should("have.text", originalIdentifier);
+
+    // Edit code
+    cy.get("editor-wc").shadow().find("[contenteditable]").type("# remixed!");
+
+    // Save project
+    cy.get("editor-wc").shadow().contains("Save").click();
+
+    // Check receipt of an event to trigger a redirect to the remixed project URL
+    cy.get("#project-identifier").should("not.have.text", originalIdentifier);
+
+    // Check we're still seeing the changed code
+    cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+
+    // Visit the original project URL
+    cy.visit(baseUrl);
+
+    // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
+    cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
+  });
+});
