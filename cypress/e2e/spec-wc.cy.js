@@ -1,8 +1,8 @@
-const baseUrl = "http://localhost:3001";
+const origin = "http://localhost:3001";
 
 describe("default behaviour", () => {
   beforeEach(() => {
-    cy.visit(baseUrl);
+    cy.visit(origin);
   });
 
   it("renders the web component", () => {
