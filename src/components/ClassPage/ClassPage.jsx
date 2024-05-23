@@ -13,13 +13,17 @@ const ClassPage = () => {
       <header>
         <h1 className="class__title">{t("classPage.title")}</h1>
         <p className="class__text">{t("classPage.text")}</p>
-        <DesignSystemButton
-          className=""
-          href={`/`}
-          text={t("classPage.classMembers")}
-          textAlways
-        />
-        <Button type="tertiary" iconOnly={true} icon="settings" />
+        <div className="class__buttons">
+          <DesignSystemButton
+            className=""
+            href={`/`}
+            text={t("classPage.classMembers")}
+            textAlways
+          />
+          <div className="class__button">
+            <Button type="tertiary" iconOnly={true} icon="settings" />
+          </div>
+        </div>
       </header>
     </div>
   );

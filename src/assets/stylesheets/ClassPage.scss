@@ -26,5 +26,15 @@
 	line-height: var(--line-height-1-5);
 	font-weight: var(--font-weight-regular);
 	margin-block: var(--space-2);
+}
+
+.class__button {
+
+  border: 1px solid green;
+  width: fit-content;
+  border-radius: 10px;
+  button {
+      color: var(--editor-color-layer-5);
+  }
 
 }
