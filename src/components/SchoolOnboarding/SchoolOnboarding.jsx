@@ -73,8 +73,16 @@ const SchoolOnboarding = () => {
     clearAPIErrors();
 
     try {
+      const formData = JSON.parse(localStorage.getItem(storageKey));
+      const creator_data = {
+        creator_role:
+          formData["step_3"].creator_role !== "other"
+            ? formData["step_3"].creator_role
+            : formData["step_3"].creator_role_other,
+        creator_department: formData["step_3"].creator_department,
+      };
       const response = await createSchool(
-        JSON.parse(localStorage.getItem(storageKey))["step_4"],
+        { ...formData["step_2"], ...creator_data, ...formData["step_4"] },
         accessToken,
       );
       if (response && response.status === 201) {

@@ -29,8 +29,13 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
     const errorList = [];
 
     const validations = [
-      () => existsValidation({ stepData, fieldName: "authority" }),
-      () => existsValidation({ stepData, fieldName: "responsibility" }),
+      () =>
+        existsValidation({ stepData, fieldName: "creator_agree_authority" }),
+      () =>
+        existsValidation({
+          stepData,
+          fieldName: "creator_agree_terms_and_conditions",
+        }),
     ];
 
     validations.forEach((runValidation) => {
@@ -99,42 +104,42 @@ const Step2 = ({ stepIsValid, showInvalidFields }) => {
         </p>
         <form>
           <CheckboxInput
-            id="authority"
+            id="creator_agree_authority"
             label={t("schoolOnboarding.steps.step2.agreeAuthority")}
-            name="authority"
-            value="authority"
+            name="creator_agree_authority"
+            value="creator_agree_authority"
             onChange={onChange}
-            checked={!!stepData["authority"]}
+            checked={!!stepData["creator_agree_authority"]}
             error={
               showInvalidFields &&
               fieldError({
                 errors,
-                fieldName: "authority",
+                fieldName: "creator_agree_authority",
                 errorMessage: t(
-                  "schoolOnboarding.steps.step2.validation.errors.authority",
+                  "schoolOnboarding.steps.step2.validation.errors.agreeAuthority",
                 ),
               })
             }
           />
           <CheckboxInput
-            id="responsibility"
+            id="creator_agree_terms_and_conditions"
             label={
               <TextWithLink
-                i18nKey="schoolOnboarding.steps.step2.agreeResponsibility"
+                i18nKey="schoolOnboarding.steps.step2.agreeTermsAndConditions"
                 to="/"
               />
             }
-            name="responsibility"
-            value="responsibility"
+            name="creator_agree_terms_and_conditions"
+            value="creator_agree_terms_and_conditions"
             onChange={onChange}
-            checked={!!stepData["responsibility"]}
+            checked={!!stepData["creator_agree_terms_and_conditions"]}
             error={
               showInvalidFields &&
               fieldError({
                 errors,
-                fieldName: "responsibility",
+                fieldName: "creator_agree_terms_and_conditions",
                 errorMessage: t(
-                  "schoolOnboarding.steps.step2.validation.errors.responsibility",
+                  "schoolOnboarding.steps.step2.validation.errors.agreeTermsAndConditions",
                 ),
               })
             }

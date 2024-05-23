@@ -21,7 +21,9 @@ describe("When localStorage is empty", () => {
 
   test("the responsibility checkbox is unchecked", () => {
     expect(
-      screen.getByLabelText("schoolOnboarding.steps.step2.agreeResponsibility"),
+      screen.getByLabelText(
+        "schoolOnboarding.steps.step2.agreeTermsAndConditions",
+      ),
     ).not.toBeChecked();
   });
 
@@ -32,19 +34,20 @@ describe("When localStorage is empty", () => {
         .click();
     });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_2.authority,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_2
+        .creator_agree_authority,
     ).toBe(true);
   });
 
   test("checking the responsibility checkbox updates localStorage", () => {
     act(() => {
       screen
-        .getByLabelText("schoolOnboarding.steps.step2.agreeResponsibility")
+        .getByLabelText("schoolOnboarding.steps.step2.agreeTermsAndConditions")
         .click();
     });
     expect(
       JSON.parse(localStorage.getItem("schoolOnboarding")).step_2
-        .responsibility,
+        .creator_agree_terms_and_conditions,
     ).toBe(true);
   });
 });
@@ -53,7 +56,12 @@ describe("When previous data is in localStorage", () => {
   beforeEach(() => {
     localStorage.setItem(
       "schoolOnboarding",
-      JSON.stringify({ step_2: { authority: true, responsibility: true } }),
+      JSON.stringify({
+        step_2: {
+          creator_agree_authority: true,
+          creator_agree_terms_and_conditions: true,
+        },
+      }),
     );
     render(<Step2 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
@@ -79,7 +87,7 @@ describe("When errors are provided", () => {
 
     expect(
       screen.queryByText(
-        "schoolOnboarding.steps.step2.validation.errors.authority",
+        "schoolOnboarding.steps.step2.validation.errors.agreeAuthority",
       ),
     ).toBeInTheDocument();
   });

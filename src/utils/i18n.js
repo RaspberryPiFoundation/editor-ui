@@ -302,14 +302,14 @@ i18n
                   "Full responsibilities are outlined in the school account <0>Terms and conditions</0>, so please ensure you read these.",
                 agreeAuthority:
                   "I have the authority to create this account on behalf of my school.",
-                agreeResponsibility:
+                agreeTermsAndConditions:
                   "I agree to be responsible for this school account and I accept the <0>Terms and conditions</0>.",
                 validation: {
                   errors: {
                     message:
                       "You must agree to the following responsibilities and Terms and conditions to continue.",
-                    authority: "You must confirm you have authority",
-                    responsibility:
+                    agreeAuthority: "You must confirm you have authority",
+                    agreeTermsAndConditions:
                       "You must confirm you accept responsibility",
                   },
                 },
