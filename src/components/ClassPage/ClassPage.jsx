@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 import "../../assets/stylesheets/ClassPage.scss";
 
@@ -17,6 +18,7 @@ const ClassPage = () => {
           text={t("classPage.classMembers")}
           textAlways
         />
+        <Button type="tertiary" iconOnly={true} icon="more_vert" />
       </header>
     </div>
   );
