@@ -462,6 +462,9 @@ i18n
             invite: "Invite teacher",
             create: "Create student",
           },
+          classPage: {
+            classMembers: "Class members",
+          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:

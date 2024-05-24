@@ -41,6 +41,10 @@ const MembersPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./MembersPage/MembersPage"),
 );
 
+const ClassPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./ClassPage/ClassPage"),
+);
+
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
 
 const projectLinkRedirects = [
@@ -73,6 +77,7 @@ const AppRoutes = () => (
         element={suspense(<EmbeddedViewer />)}
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
+      <Route path="schools/class" element={suspense(<ClassPage />)} />
       <Route path="education" element={suspense(<EducationLandingPage />)} />
       <Route
         path="schools/:identifier"
