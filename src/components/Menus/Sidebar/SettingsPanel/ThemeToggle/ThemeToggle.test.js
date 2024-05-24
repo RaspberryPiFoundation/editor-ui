@@ -6,7 +6,9 @@ import { Cookies, CookiesProvider } from "react-cookie";
 const themeUpdatedHandler = jest.fn();
 
 beforeAll(() => {
-  document.addEventListener("editor-themeUpdated", themeUpdatedHandler);
+  document.addEventListener("editor-themeUpdated", (e) =>
+    themeUpdatedHandler(e.detail),
+  );
 });
 
 describe("When default theme is light mode and cookie unset", () => {
@@ -47,11 +49,13 @@ describe("When default theme is light mode and cookie unset", () => {
   test("Fires theme updated custom event when button clicked", async () => {
     const button = screen.getByText("sidebar.settingsMenu.themeOptions.dark");
     fireEvent.click(button);
-    expect(themeUpdatedHandler).toHaveBeenCalled();
+    expect(themeUpdatedHandler).toHaveBeenCalledWith("dark");
   });
 
   afterEach(() => {
-    cookies.remove("theme");
+    act(() => {
+      cookies.remove("theme");
+    });
   });
 });
 
@@ -93,11 +97,13 @@ describe("When default theme is dark mode and cookie unset", () => {
   test("Fires theme updated custom event when button clicked", async () => {
     const button = screen.getByText("sidebar.settingsMenu.themeOptions.light");
     fireEvent.click(button);
-    expect(themeUpdatedHandler).toHaveBeenCalled();
+    expect(themeUpdatedHandler).toHaveBeenCalledWith("light");
   });
 
   afterEach(() => {
-    cookies.remove("theme");
+    act(() => {
+      cookies.remove("theme");
+    });
   });
 });
 
