@@ -8,16 +8,12 @@
     align-self: stretch;
     display: flex;
     flex-direction: row;
-    // flex: 1 0 0;
-    // margin-block: auto;
     justify-content: space-between;
     padding: var(--space-4);
   }
-
 }
 
 .class__copy {
-  // flex: 3;
   max-inline-size: 800px;
 }
 
@@ -43,19 +39,14 @@
 .class__buttons {
   display: flex;
   gap: var(--space-1);
-  // flex: 1;
 }
 
 .class__button {
   border: 2px solid var(--editor-color-theme);
   width: fit-content;
-  border-radius: 8px;
-
-  color: var(--editor-color-layer-5);
+  border-radius: var(--space-1);
 
   button {
-      color: var(--editor-color-layer-5);
-
+    color: var(--editor-color-layer-5);
   }
-
 }
