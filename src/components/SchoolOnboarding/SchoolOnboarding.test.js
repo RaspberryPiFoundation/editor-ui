@@ -109,6 +109,15 @@ describe("When logged in", () => {
   });
 
   describe("When the user is on the final step of the form", () => {
+    const step_2 = {
+      creator_agree_authority: true,
+      creator_agree_terms_and_conditions: true,
+    };
+    const step_3 = {
+      creator_role: "teacher",
+      creator_role_other: "",
+      creator_department: "Drama",
+    };
     const step_4 = {
       name: "Raspberry Pi School of Drama",
       website: "https://www.schoolofdrama.org",
@@ -121,53 +130,96 @@ describe("When logged in", () => {
       reference: "dr4m45ch001",
     };
 
-    beforeEach(() => {
-      localStorage.setItem(
-        "schoolOnboarding",
-        JSON.stringify({ currentStep: 3, step_4 }),
-      );
+    describe("When the user's role is not 'other'", () => {
+      beforeEach(() => {
+        localStorage.setItem(
+          "schoolOnboarding",
+          JSON.stringify({ currentStep: 3, step_2, step_3, step_4 }),
+        );
 
-      renderSchoolOnboarding({
-        school: { loading: false },
-        user: { access_token: "1234" },
+        renderSchoolOnboarding({
+          school: { loading: false },
+          user: { access_token: "1234" },
+        });
+      });
+
+      test("it renders the school onboarding form", () => {
+        expect(screen.queryByText("Step 4 of 4")).toBeInTheDocument();
+      });
+
+      test("it renders a submit button", () => {
+        expect(screen.getByText("multiStepForm.submit")).toBeInTheDocument();
+      });
+
+      test("clicking submit makes a school creation request", () => {
+        screen.getByText("multiStepForm.submit").click();
+        expect(createSchool).toHaveBeenCalledWith(
+          {
+            ...step_2,
+            creator_role: "teacher",
+            creator_department: "Drama",
+            ...step_4,
+          },
+          "1234",
+        );
+      });
+
+      test("clears localStorage after successful school creation", async () => {
+        createSchool.mockImplementationOnce(() =>
+          Promise.resolve({
+            status: 201,
+          }),
+        );
+        screen.getByText("multiStepForm.submit").click();
+        await waitFor(() =>
+          expect(localStorage.getItem("schoolOnboarding")).toBeNull(),
+        );
+      });
+
+      test("it goes to the school created page after successful school creation", async () => {
+        createSchool.mockImplementationOnce(() =>
+          Promise.resolve({
+            status: 201,
+          }),
+        );
+        screen.getByText("multiStepForm.submit").click();
+        await waitFor(() =>
+          expect(screen.queryByText("schoolCreated.title")).toBeInTheDocument(),
+        );
       });
     });
 
-    test("it renders the school onboarding form", () => {
-      expect(screen.queryByText("Step 4 of 4")).toBeInTheDocument();
-    });
+    describe("When the user's role is set to 'other'", () => {
+      const step_3 = {
+        creator_role: "other",
+        creator_role_other: "parent",
+        creator_department: "Drama",
+      };
 
-    test("it renders a submit button", () => {
-      expect(screen.getByText("multiStepForm.submit")).toBeInTheDocument();
-    });
+      beforeEach(() => {
+        localStorage.setItem(
+          "schoolOnboarding",
+          JSON.stringify({ currentStep: 3, step_2, step_3, step_4 }),
+        );
 
-    test("clicking submit makes a school creation request", () => {
-      screen.getByText("multiStepForm.submit").click();
-      expect(createSchool).toHaveBeenCalledWith(step_4, "1234");
-    });
+        renderSchoolOnboarding({
+          school: { loading: false },
+          user: { access_token: "1234" },
+        });
+      });
 
-    test("clears localStorage after successful school creation", async () => {
-      createSchool.mockImplementationOnce(() =>
-        Promise.resolve({
-          status: 201,
-        }),
-      );
-      screen.getByText("multiStepForm.submit").click();
-      await waitFor(() =>
-        expect(localStorage.getItem("schoolOnboarding")).toBeNull(),
-      );
-    });
-
-    test("it goes to the school created page after successful school creation", async () => {
-      createSchool.mockImplementationOnce(() =>
-        Promise.resolve({
-          status: 201,
-        }),
-      );
-      screen.getByText("multiStepForm.submit").click();
-      await waitFor(() =>
-        expect(screen.queryByText("schoolCreated.title")).toBeInTheDocument(),
-      );
+      test("it sends creator_role_other as the creator_role", () => {
+        screen.getByText("multiStepForm.submit").click();
+        expect(createSchool).toHaveBeenCalledWith(
+          {
+            ...step_2,
+            creator_role: "parent",
+            creator_department: "Drama",
+            ...step_4,
+          },
+          "1234",
+        );
+      });
     });
   });
 });

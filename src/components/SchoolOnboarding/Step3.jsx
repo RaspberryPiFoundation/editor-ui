@@ -13,7 +13,7 @@ const Step3 = () => {
   const [stepData, setStepData] = useState(
     schoolOnboardingData && schoolOnboardingData["step_3"]
       ? schoolOnboardingData["step_3"]
-      : { role: "", other_role: null, department: "" },
+      : { creator_role: "", creator_role_other: null, creator_department: "" },
   );
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -62,19 +62,19 @@ const Step3 = () => {
                 value: t("schoolOnboarding.steps.step3.other"),
               },
             ]}
-            id="role"
-            name="role"
+            id="creator_role"
+            name="creator_role"
             onChange={onChange}
-            value={stepData["role"]}
+            value={stepData["creator_role"]}
             fullWidth={true}
           />
-          {conditionalField(stepData["role"], "other") && (
+          {conditionalField(stepData["creator_role"], "other") && (
             <TextInput
               label={t("schoolOnboarding.steps.step3.otherRole")}
-              id="other_role"
-              name="other_role"
+              id="creator_role_other"
+              name="creator_role_other"
               onChange={onChange}
-              value={stepData["other_role"]}
+              value={stepData["creator_role_other"]}
               fullWidth={true}
               error=""
             />
@@ -82,10 +82,10 @@ const Step3 = () => {
           <TextInput
             label={t("schoolOnboarding.steps.step3.department")}
             hint={t("schoolOnboarding.steps.step3.departmentHint")}
-            id="department"
-            name="department"
+            id="creator_department"
+            name="creator_department"
             onChange={onChange}
-            value={stepData["department"]}
+            value={stepData["creator_department"]}
             fullWidth={true}
           />
         </form>

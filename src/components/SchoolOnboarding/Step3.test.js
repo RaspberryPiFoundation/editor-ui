@@ -18,13 +18,13 @@ describe("When localStorage is empty", () => {
     ).toHaveValue("");
   });
 
-  test("other_role isn't visible by default", () => {
+  test("creator_role_other isn't visible by default", () => {
     expect(
       screen.queryByLabelText("schoolOnboarding.steps.step3.otherRole"),
     ).not.toBeInTheDocument();
   });
 
-  test("other_role is visible when other is selected in the role field, and is empty", () => {
+  test("creator_role_other is visible when other is selected in the role field, and is empty", () => {
     const inputElement = screen.getByLabelText(
       /schoolOnboarding.steps.step3.role/,
     );
@@ -46,17 +46,17 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(selectElement, { target: { value: "teacher" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.role,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.creator_role,
     ).toBe("teacher");
   });
 
-  test("entering other_role updates localStorage", () => {
+  test("entering creator_role_other updates localStorage", () => {
     const selectElement = screen.getByLabelText(
       "schoolOnboarding.steps.step3.role",
     );
     fireEvent.change(selectElement, { target: { value: "teacher" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.role,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.creator_role,
     ).toBe("teacher");
   });
 
@@ -70,7 +70,8 @@ describe("When localStorage is empty", () => {
     );
     fireEvent.change(inputElement, { target: { value: "a role" } });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.other_role,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3
+        .creator_role_other,
     ).toBe("a role");
   });
 });
@@ -80,7 +81,10 @@ describe("When previous data is in localStorage", () => {
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({
-        step_3: { role: "administrative_staff", department: "English" },
+        step_3: {
+          creator_role: "administrative_staff",
+          creator_department: "English",
+        },
       }),
     );
     render(<Step3 />);
@@ -105,12 +109,16 @@ describe("When previous data is in localStorage", () => {
   });
 });
 
-describe("When other_role data is in localStorage", () => {
+describe("When creator_role_other data is in localStorage", () => {
   beforeEach(() => {
     localStorage.setItem(
       "schoolOnboarding",
       JSON.stringify({
-        step_3: { role: "other", other_role: "a role", department: "English" },
+        step_3: {
+          creator_role: "other",
+          creator_role_other: "a role",
+          creator_department: "English",
+        },
       }),
     );
     render(<Step3 />);
@@ -118,7 +126,8 @@ describe("When other_role data is in localStorage", () => {
 
   test("the otherRole select is populated correctly", () => {
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3.other_role,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_3
+        .creator_role_other,
     ).toBe("a role");
   });
 });
