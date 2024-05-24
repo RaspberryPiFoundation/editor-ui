@@ -3,7 +3,7 @@
   background-color: var(--editor-color-layer-3);
 
   @media screen and (min-width: 1200px) {
-    align-items: center;
+    align-items: baseline;
     gap: var(--space-4);
     align-self: stretch;
     display: flex;
@@ -11,6 +11,7 @@
     // flex: 1 0 0;
     // margin-block: auto;
     justify-content: space-between;
+    padding: var(--space-4);
   }
 
 }
@@ -49,6 +50,8 @@
   border: 2px solid var(--editor-color-theme);
   width: fit-content;
   border-radius: 8px;
+
+  color: var(--editor-color-layer-5);
 
   button {
       color: var(--editor-color-layer-5);
