@@ -1,6 +1,7 @@
 .class_wrapper {
-  padding: var(--space-4) var(--space-2);
+  padding: var(--space-2);
   background-color: var(--editor-color-layer-3);
+  gap: var(--space-3);
 
   @media screen and (min-width: 1200px) {
     align-items: baseline;
@@ -20,8 +21,6 @@
 .class__title {
   font-size: var(--font-size-3);
 	line-height: var(--line-height-3);
-	font-weight: var(--font-weight-bold);
-	margin-block: var(--space-2);
 
   @media screen and (min-width: 1200px) {
     font-size: var(--font-size-4);
@@ -32,7 +31,6 @@
 .class__text {
   font-size: var(--font-size-1-5);
 	line-height: var(--line-height-1-5);
-	font-weight: var(--font-weight-regular);
 	margin-block: var(--space-2);
 }
 
