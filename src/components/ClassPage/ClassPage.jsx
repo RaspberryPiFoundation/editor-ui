@@ -9,7 +9,7 @@ import "../../assets/stylesheets/ClassPage.scss";
 const ClassPage = () => {
   const { t } = useTranslation();
   return (
-    <div data-testid="class-page" className="class_wrapper">
+    <div className="class_wrapper">
       <div className="class__copy">
         <h1 className="class__title">Year 8 Computer Science</h1>
         <p className="class__text">
