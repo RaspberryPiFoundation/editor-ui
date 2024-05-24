@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import "../../assets/stylesheets/LandingPage.scss";
 import LoginButton from "../Login/LoginButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import startIconDark from "../../assets/start_icon_dark.svg";
 import startIconLight from "../../assets/start_icon_light.svg";
 import HtmlFileIcon from "../../assets/icons/html_file.svg";
 import PythonFileIcon from "../../assets/icons/python_file.svg";
@@ -13,7 +15,12 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const { t, i18n } = useTranslation();
+  const [cookies] = useCookies(["theme"]);
   const locale = i18n.language;
+  const isDarkMode =
+    cookies.theme === "dark" ||
+    (!cookies.theme &&
+      window.matchMedia("(prefers-color-scheme:dark)").matches);
 
   const onClickPlausible = (msg) => () => {
     if (window.plausible) {
@@ -89,7 +96,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="landing-page__paths-media">
-          <img src={startIconLight} alt={""} />
+          <img src={isDarkMode ? startIconDark : startIconLight} alt={""} />
         </div>
       </div>
     </div>
