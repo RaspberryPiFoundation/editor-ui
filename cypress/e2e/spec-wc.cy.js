@@ -1,5 +1,12 @@
 const origin = "http://localhost:3001";
 
+beforeEach(() => {
+  cy.intercept("*", (req) => {
+    req.headers["Origin"] = origin;
+    req.continue();
+  });
+});
+
 describe("default behaviour", () => {
   beforeEach(() => {
     cy.visit(origin);
