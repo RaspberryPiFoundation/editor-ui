@@ -26,6 +26,7 @@ const Project = ({ identifier }) => {
               data-editor-target="editor"
               data-testid="editor-wc"
               identifier={identifier}
+              load_remix_disabled="true"
               with_projectbar="true"
               project_name_editable="true"
               with_sidebar="true"

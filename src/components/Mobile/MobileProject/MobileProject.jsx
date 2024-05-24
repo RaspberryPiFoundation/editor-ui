@@ -14,6 +14,7 @@ const MobileProject = ({ identifier }) => {
         data-editor-target="editor"
         data-testid="editor-wc"
         identifier={identifier}
+        load_remix_disabled="true"
         with_projectbar="true"
         with_sidebar="true"
         sidebar_options={JSON.stringify([
