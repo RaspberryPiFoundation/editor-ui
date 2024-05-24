@@ -463,8 +463,6 @@ i18n
             create: "Create student",
           },
           classPage: {
-            title: "Year 8 Computer Science",
-            text: "Lorem ipsum dolor sit amet consectetur. Purus ultrices tristique purus eget non felis turpis bibendum. In in malesuada pellentesque arcu eget dolor. Aliquam risus magnis semper proin enim nunc. Nibh eget arcu sed id sed scelerisque in duis sit.",
             classMembers: "Class members",
           },
           footer: {

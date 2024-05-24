@@ -25,5 +25,5 @@ test("presence of ClassPage", () => {
     </Provider>,
   );
 
-  expect(screen.getByTestId("class-page")).toBeInTheDocument();
+  expect(screen.getByText("Year 8 Computer Science")).toBeInTheDocument();
 });

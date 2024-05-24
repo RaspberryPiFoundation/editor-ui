@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { ReactComponent as GroupIcon } from "../../assets/icons/group.svg";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import "material-symbols";
 
@@ -12,8 +11,13 @@ const ClassPage = () => {
   return (
     <div data-testid="class-page" className="class_wrapper">
       <div className="class__copy">
-        <h1 className="class__title">{t("classPage.title")}</h1>
-        <p className="class__text">{t("classPage.text")}</p>
+        <h1 className="class__title">Year 8 Computer Science</h1>
+        <p className="class__text">
+          Lorem ipsum dolor sit amet consectetur. Purus ultrices tristique purus
+          eget non felis turpis bibendum. In in malesuada pellentesque arcu eget
+          dolor. Aliquam risus magnis semper proin enim nunc. Nibh eget arcu sed
+          id sed scelerisque in duis sit.
+        </p>
       </div>
       <div className="class__buttons">
         <DesignSystemButton
@@ -21,7 +25,7 @@ const ClassPage = () => {
           href={`/`}
           text={t("classPage.classMembers")}
           textAlways
-          icon={<GroupIcon />}
+          icon={"group"}
         />
         <div className="class__button">
           <Button type="tertiary" iconOnly={true} icon="settings" />
