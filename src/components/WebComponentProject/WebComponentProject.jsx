@@ -18,6 +18,7 @@ import {
 
 const WebComponentProject = ({
   withProjectbar = false,
+  nameEditable = false,
   withSidebar = false,
   sidebarOptions = [],
 }) => {
@@ -86,7 +87,7 @@ const WebComponentProject = ({
         />
       ) : (
         <Project
-          forWebComponent={true}
+          nameEditable={nameEditable}
           withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}

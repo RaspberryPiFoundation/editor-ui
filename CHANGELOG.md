@@ -9,13 +9,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Classroom management functionality (#988)
+- Add `project_name_editable` attribute to web component (#1009)
+- Fires custom event when the theme changes (#1015)
+
 ### Changed
+
+- Remove unused `/embedded/projects/:identifier` route (#1013)
 
 ### Fixed
 
 - Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
 - Fix infinite remix loop when `BYPASS_AUTH` set in `editor-api` (#1007)
 - Fixes for docker-compose.yml (#1008)
+- Fix deprecation warnings in GitHub Actions (#1011)
+- Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
+- Improvements to Cypress specs in CI (#1017)
+- Fix warnings and verbose output when starting Webpack Dev Server (#1018)
+- Add e2e spec for project remix behaviour in web component (#1020)
 
 ## [0.23.0] - 2024-05-09
 

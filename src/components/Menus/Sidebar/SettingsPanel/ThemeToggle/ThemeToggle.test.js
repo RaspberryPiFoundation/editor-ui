@@ -1,7 +1,15 @@
 import React from "react";
-import { act, render, fireEvent } from "@testing-library/react";
+import { act, render, fireEvent, screen } from "@testing-library/react";
 import ThemeToggle from "./ThemeToggle";
 import { Cookies, CookiesProvider } from "react-cookie";
+
+const themeUpdatedHandler = jest.fn();
+
+beforeAll(() => {
+  document.addEventListener("editor-themeUpdated", (e) =>
+    themeUpdatedHandler(e.detail),
+  );
+});
 
 describe("When default theme is light mode and cookie unset", () => {
   let cookies;
@@ -38,8 +46,16 @@ describe("When default theme is light mode and cookie unset", () => {
     expect(cookies.cookies.theme).toBe("dark");
   });
 
+  test("Fires theme updated custom event when button clicked", async () => {
+    const button = screen.getByText("sidebar.settingsMenu.themeOptions.dark");
+    fireEvent.click(button);
+    expect(themeUpdatedHandler).toHaveBeenCalledWith("dark");
+  });
+
   afterEach(() => {
-    cookies.remove("theme");
+    act(() => {
+      cookies.remove("theme");
+    });
   });
 });
 
@@ -78,8 +94,16 @@ describe("When default theme is dark mode and cookie unset", () => {
     expect(cookies.cookies.theme).toBe("light");
   });
 
+  test("Fires theme updated custom event when button clicked", async () => {
+    const button = screen.getByText("sidebar.settingsMenu.themeOptions.light");
+    fireEvent.click(button);
+    expect(themeUpdatedHandler).toHaveBeenCalledWith("light");
+  });
+
   afterEach(() => {
-    cookies.remove("theme");
+    act(() => {
+      cookies.remove("theme");
+    });
   });
 });
 
@@ -115,4 +139,8 @@ test("Cookie set to light intially changes to dark when button clicked", () => {
     fireEvent.click(button);
   });
   expect(cookies.cookies.theme).toBe("dark");
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-themeUpdated", themeUpdatedHandler);
 });
