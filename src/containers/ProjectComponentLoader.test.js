@@ -64,7 +64,12 @@ describe("ProjectComponentLoader", () => {
     beforeEach(() => {
       const store = setupStore({
         editor: {
-          project: "my-project",
+          project: {
+            components: [],
+          },
+          openFiles: [[]],
+          focussedFileIndices: [0],
+          loading: "success",
         },
         auth: {
           user: null,
@@ -74,7 +79,10 @@ describe("ProjectComponentLoader", () => {
     });
 
     it("Renders editor", () => {
-      expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
+      act(() => {
+        screen.debug();
+        expect(screen.queryByTestId("editor-proj")).toBeInTheDocument();
+      });
     });
 
     it("calls login() when editor-logIn event is received", () => {
@@ -84,7 +92,9 @@ describe("ProjectComponentLoader", () => {
 
       expect(login).toHaveBeenCalledWith({
         location: "my-location",
-        project: "my-project",
+        project: {
+          components: [],
+        },
       });
     });
 

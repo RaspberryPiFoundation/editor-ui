@@ -19,7 +19,7 @@ import RenameFileModal from "../components/Modals/RenameFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
-const ProjectComponentLoader = (props) => {
+const ProjectComponentLoader = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user);

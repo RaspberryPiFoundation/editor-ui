@@ -53,7 +53,7 @@ const Project = (props) => {
   }, []);
 
   return (
-    <div className="proj">
+    <div className="proj" data-testid="editor-proj">
       <div
         className={classnames("proj-container", {
           "proj-container--wc": webComponent,
