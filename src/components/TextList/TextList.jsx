@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import "../../assets/stylesheets/TextList.scss";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { ReactComponent as OpenFileIcon } from "../../assets/icons/open_in_new_tab.svg";
+import OpenFileIcon from "../../assets/icons/open_in_new_tab.svg";
 import TextWithLink from "../SchoolOnboarding/TextWithLink";
 
 const TextList = (props) => {

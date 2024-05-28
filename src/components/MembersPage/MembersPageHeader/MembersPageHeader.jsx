@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import "../../../assets/stylesheets/MembersPageHeader.scss";
 import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
-import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
-import { ReactComponent as SendIcon } from "../../../assets/icons/send.svg";
+import PlusIcon from "../../../assets/icons/plus.svg";
+import SendIcon from "../../../assets/icons/send.svg";
 import { isSchoolOwner } from "../../../utils/userRoleHelper";
 
 const MembersPageHeader = ({ userRoles }) => {

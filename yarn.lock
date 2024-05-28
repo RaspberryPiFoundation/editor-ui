@@ -3606,24 +3606,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "@raspberrypifoundation/design-system-core@npm:0.1.9"
+"@raspberrypifoundation/design-system-core@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "@raspberrypifoundation/design-system-core@npm:0.3.4"
   dependencies:
     classnames: ^2.3.2
-  checksum: 15c2dfbfa98cf2e96ce9c5eb8ae91419ad964e73570b0ddf6f9ab83aad1d3987bb2626c78d0e1c8dc6543146d8c287bea1c946fc73cfa01e4a1816b2a74c85bb
+  checksum: 8676e63e3afb372c29fd52d5b897ac7422b5a8655ece3bfb8dd8e7c92325041b0c2392fd4aa12507a905a2c899b570425457b49c75fbab5a08434617accf3ea2
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@raspberrypifoundation/design-system-react@npm:0.1.5"
+"@raspberrypifoundation/design-system-react@npm:^1.1.6":
+  version: 1.1.7
+  resolution: "@raspberrypifoundation/design-system-react@npm:1.1.7"
   dependencies:
     classnames: ^2.3.2
+    material-symbols: ^0.14.5
     prop-types: ^15.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 7dc02f8d68a8dc5899dbb9e671eb062b0278fcdda195755d935e2fd4f1c692166790df94d13adf083d8b7ee8bf399bcb05077e301296cc1b4dc0763b44ab9651
+  checksum: 6d2c30700ac4bf4d90d4c502cdb10548accbc92724fb77f8be595aeeef51fbcd2f35f5e97e544b4a71a9fcbc041bb55b99b9c1763d199e5f09562c13cf5feac6
   languageName: node
   linkType: hard
 
@@ -3645,8 +3646,8 @@ __metadata:
     "@juggle/resize-observer": ^3.3.1
     "@lezer/highlight": ^1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
-    "@raspberrypifoundation/design-system-core": ^0.1.9
-    "@raspberrypifoundation/design-system-react": ^0.1.5
+    "@raspberrypifoundation/design-system-core": ^0.3.4
+    "@raspberrypifoundation/design-system-react": ^1.1.6
     "@react-three/drei": ^9.65.5
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": ^8.0.12
@@ -3720,12 +3721,14 @@ __metadata:
     js-convert-case: ^4.2.0
     jszip: ^3.10.1
     jszip-utils: ^0.1.0
+    material-symbols: ^0.17.2
     mime-types: ^2.1.35
     mini-css-extract-plugin: 0.11.3
     mock-match-media: ^0.4.3
     node-html-parser: ^6.1.5
     oidc-client: ^1.11.5
     optimize-css-assets-webpack-plugin: 5.0.4
+    papaparse: ^5.4.1
     parse-link-header: ^2.0.0
     pnp-webpack-plugin: 1.6.4
     postcss-flexbugs-fixes: 4.2.1
@@ -3747,7 +3750,7 @@ __metadata:
     react-cookie: ^4.1.1
     react-dev-utils: ^11.0.3
     react-dom: ^18.1.0
-    react-dropzone: ^12.0.4
+    react-dropzone: ^14.2.3
     react-i18next: ^12.0.0
     react-modal: ^3.14.4
     react-redux: ^7.2.5
@@ -10065,12 +10068,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-selector@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "file-selector@npm:0.5.0"
+"file-selector@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "file-selector@npm:0.6.0"
   dependencies:
-    tslib: ^2.0.3
-  checksum: f95a06938123a2b765d136a4430cc8b19165f06a53e7ae1dcca4947716d61e9181453fcfeb2358c2660cbcecf96d7334f0528ba60071fed81f8bd358ea08454a
+    tslib: ^2.4.0
+  checksum: 7d051b6e5d793f3c6e2ab287ba5e7c2c6a0971bccc9d56e044c8047ba483e18f60fc0b5771c951dc707c0d15f4f36ccb4f1f1aaf385d21ec8f7700dadf8325ba
   languageName: node
   linkType: hard
 
@@ -13725,6 +13728,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"material-symbols@npm:^0.14.5":
+  version: 0.14.7
+  resolution: "material-symbols@npm:0.14.7"
+  checksum: 191dea0145eadabd3122b891b965d8568793c3f53a540186a30b459948a8a0c00938642dcca3c4fcca483b08d7480d02722c6de10caeeeae30437306a79f64b6
+  languageName: node
+  linkType: hard
+
+"material-symbols@npm:^0.17.2":
+  version: 0.17.4
+  resolution: "material-symbols@npm:0.17.4"
+  checksum: 1533764553847f0d0c6f7a34374702861f0dc98ac90162f4481c37f3a194e391e7193050d60170ebd2294bf33b578650306f2b6e251f0341e8edc2b98d460cd2
+  languageName: node
+  linkType: hard
+
 "mathml-tag-names@npm:^2.1.3":
   version: 2.1.3
   resolution: "mathml-tag-names@npm:2.1.3"
@@ -14925,6 +14942,13 @@ __metadata:
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
   checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: fc9e52f7158dca3517c229e3309065b1ab5da6c7194572fba4f31ff138bc43e3c91182cc40365cc828f97fe10d0aca416068fd731661058bea0f69ddb84a411a
   languageName: node
   linkType: hard
 
@@ -16694,16 +16718,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^12.0.4":
-  version: 12.1.0
-  resolution: "react-dropzone@npm:12.1.0"
+"react-dropzone@npm:^14.2.3":
+  version: 14.2.3
+  resolution: "react-dropzone@npm:14.2.3"
   dependencies:
     attr-accept: ^2.2.2
-    file-selector: ^0.5.0
+    file-selector: ^0.6.0
     prop-types: ^15.8.1
   peerDependencies:
-    react: ">= 16.8"
-  checksum: 1be37433cf42b8a9f98c8f59678e30fffc1e9b8e3fdb20f3a376557948f727156123ca0a7e45cd3882606184d945ea1139f17da0e1e5ba0b646a23be0ed65fb3
+    react: ">= 16.8 || 18.0.0"
+  checksum: 174b744d5ca898cf3d84ec1aeb6cef5211c446697e45dc8ece8287a03d291f8d07253206d5a1247ef156fd385d65e7de666d4d5c2986020b8543b8f2434e8b40
   languageName: node
   linkType: hard
 
@@ -19685,6 +19709,13 @@ __metadata:
   version: 2.5.0
   resolution: "tslib@npm:2.5.0"
   checksum: ae3ed5f9ce29932d049908ebfdf21b3a003a85653a9a140d614da6b767a93ef94f460e52c3d787f0e4f383546981713f165037dc2274df212ea9f8a4541004e1
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.4.0":
+  version: 2.6.2
+  resolution: "tslib@npm:2.6.2"
+  checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
   languageName: node
   linkType: hard
 

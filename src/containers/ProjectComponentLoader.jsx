@@ -21,6 +21,7 @@ import ErrorModal from "../components/Modals/ErrorModal";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const ProjectComponentLoader = (props) => {
+  const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user);

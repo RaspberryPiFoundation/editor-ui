@@ -7,8 +7,6 @@ import PyodideWorker from "../components/Editor/Runners/PyodideRunner/PyodideWor
 
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 
-import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
-
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

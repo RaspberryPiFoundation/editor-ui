@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import LoginMenu from "./LoginMenu";
-import { getUserSchool } from "../../utils/apiCallHandler";
 
 jest.mock("../../utils/apiCallHandler");
 
@@ -102,20 +101,5 @@ describe("When logged in", () => {
     expect(
       screen.queryByText("globalNav.accountMenu.projects"),
     ).toHaveAttribute("href", "/ja-JP/projects");
-  });
-
-  test("requests the user's school from the api", () => {
-    renderLoginMenu();
-    expect(getUserSchool).toHaveBeenCalledWith("access-token");
-  });
-
-  test("links to the user's school in the menu", async () => {
-    getUserSchool.mockImplementationOnce(() =>
-      Promise.resolve({ name: "school-name" }),
-    );
-
-    renderLoginMenu();
-
-    expect(await screen.findByText("school-name")).toBeInTheDocument();
   });
 });
