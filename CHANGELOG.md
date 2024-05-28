@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
 - Improvements to Cypress specs in CI (#1017)
 - Fix warnings and verbose output when starting Webpack Dev Server (#1018)
+- Add e2e spec for project remix behaviour in web component (#1020)
 
 ## [0.23.0] - 2024-05-09
 
