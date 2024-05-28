@@ -1,0 +1,77 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+
+.education-landing-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  background-color: var(--editor-color-layer-3);
+
+  .education-logo__title {
+    @include md-width {
+      @include font-size-2(regular);
+    }
+  }
+
+  .education-logo-__subtitle {
+    @include md-width {
+      @include font-size-2(regular);
+    }
+  }
+
+  main {
+    inline-size: 100%;
+    box-sizing: border-box;
+    background-color: var(--editor-color-layer-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-5) var(--space-2);
+    gap: var(--space-8);
+
+    @media screen and (min-width: 800px) {
+      padding: var(--space-5) var(--space-4);
+      gap: var(--space-10);
+    }
+
+    @media screen and (min-width: 1200px) {
+      padding: var(--space-10);
+      gap: 7.5rem;
+    }
+  }
+}
+
+.education-landing-page__get-started {
+  background-color: var(--editor-color-layer-1);
+  border-radius: var(--space-2);
+  border: 3px solid var(--editor-color-theme);
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+
+  h2 {
+    margin: 0;
+    margin-block-end: var(--space-1);
+    font-size: var(--font-size-1-5);
+    line-height: var(--line-height-1-5);
+    font-weight: var(--font-weight-bold);
+
+    @media screen and (min-width: 600px) {
+      font-size: var(--font-size-2);
+      line-height: var(--line-height-2);
+    }
+  }
+
+  p {
+    margin: 0;
+    margin-block-end: var(--space-3);
+    font-size: var(--font-size-1);
+    line-height: var(--line-height-1-5);
+  }
+}

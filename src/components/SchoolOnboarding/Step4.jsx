@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  SelectInput,
+  TextInput,
+  Alert,
+} from "@raspberrypifoundation/design-system-react";
 import TextWithLink from "./TextWithLink";
+import {
+  fieldError,
+  existsValidation,
+  urlValidation,
+} from "../../utils/fieldValidation";
 
-const Step4 = () => {
+const Step4 = ({ stepIsValid, showInvalidFields, apiErrors }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -22,11 +32,45 @@ const Step4 = () => {
           reference: "",
         },
   );
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setStepData((data) => ({ ...data, [name]: value }));
   };
+
+  const conditionalField = (value, condition) => value === condition;
+
+  useEffect(() => {
+    const errorList = [];
+    const validations = [
+      () => existsValidation({ stepData, fieldName: "name" }),
+      () => urlValidation({ stepData, fieldName: "website" }),
+      () => existsValidation({ stepData, fieldName: "address_line_1" }),
+      () => existsValidation({ stepData, fieldName: "municipality" }),
+      () => existsValidation({ stepData, fieldName: "administrative_area" }),
+      () => existsValidation({ stepData, fieldName: "postal_code" }),
+      () => existsValidation({ stepData, fieldName: "country_code" }),
+    ];
+
+    validations.forEach((runValidation) => {
+      const validationResult = runValidation();
+      if (validationResult) errorList.push(validationResult);
+    });
+
+    // Get the API errors that match the fields for this step
+    const validationApiErrors = Object.keys(apiErrors).filter((key) =>
+      stepData.hasOwnProperty(key),
+    );
+
+    errorList.push(...validationApiErrors);
+
+    setErrors(errorList);
+  }, [stepData, apiErrors]);
+
+  useEffect(() => {
+    stepIsValid(errors.length === 0);
+  }, [stepData, errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -38,127 +82,216 @@ const Step4 = () => {
     );
   }, [stepData]);
 
+  // Get the API errors that don't match the fields for this step
+  const generalApiErrors = Object.keys(apiErrors).filter(
+    (key) => !stepData.hasOwnProperty(key),
+  );
+
+  // Get the error string
+  const findApiError = (field) =>
+    apiErrors.hasOwnProperty(field) ? apiErrors[field]?.join(", ") : null;
+
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step4.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        <p>{t("schoolOnboarding.steps.step4.schoolDetails")}</p>
+        {generalApiErrors.map((v, k) => (
+          <Alert
+            key={k}
+            title={t("schoolOnboarding.apiErrorTitle")}
+            type="error"
+            text={`${v} ${findApiError(v)}`}
+          />
+        ))}
+        {showInvalidFields && errors.length > 0 && (
+          <Alert
+            title={t("schoolOnboarding.errorTitle")}
+            type="error"
+            text={t("schoolOnboarding.steps.step4.validation.errors.message")}
+          />
+        )}
+
+        <p className="school-onboarding-form__text">
+          {t("schoolOnboarding.steps.step4.schoolDetails")}
+        </p>
+
         <form>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolName")}
-              <input
-                type="text"
-                name="name"
-                value={stepData["name"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolWebsite")}
-              <input
-                type="text"
-                name="website"
-                value={stepData["website"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <h4>{t("schoolOnboarding.steps.step4.schoolAddress")}</h4>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolAddress1")}
-              <input
-                type="text"
-                name="address_line_1"
-                value={stepData["address_line_1"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolAddress2")}
-              <input
-                type="text"
-                name="address_line_2"
-                value={stepData["address_line_2"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolCity")}
-              <input
-                type="text"
-                name="municipality"
-                value={stepData["municipality"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolState")}
-              <input
-                type="text"
-                name="administrative_area"
-                value={stepData["administrative_area"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolPostcode")}
-              <input
-                type="text"
-                name="postal_code"
-                value={stepData["postal_code"]}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolCountry")}
-              <select
-                name="country_code"
-                onChange={onChange}
-                value={stepData["country_code"] || ""}
-              >
-                <option value="" disabled>
-                  {t("schoolOnboarding.steps.step3.select")}
-                </option>
-                <option value="GB">United Kingdom</option>
-                <option value="US">USA</option>
-                <option value="KE">Kenya</option>
-                <option value="IN">India</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              {t("schoolOnboarding.steps.step4.schoolUrn")}
-              <p>
-                <TextWithLink
-                  i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
-                  to="https://www.get-information-schools.service.gov.uk/Search"
-                />
-              </p>
-              <input
-                type="text"
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolName")}
+            id="name"
+            name="name"
+            value={stepData["name"]}
+            onChange={onChange}
+            fullWidth={true}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "name",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolName",
+                ),
+              })
+            }
+          />
+          <TextInput
+            label={t("schoolOnboarding.steps.step4.schoolWebsite")}
+            id="website"
+            name="website"
+            value={stepData["website"]}
+            onChange={onChange}
+            fullWidth={true}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "website",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step4.validation.errors.schoolWebsite",
+                ),
+              })
+            }
+          />
+          <section className="school-onboarding-form__section">
+            <h4 className="school-onboarding-form__subtitle">
+              {t("schoolOnboarding.steps.step4.schoolAddress")}
+            </h4>
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolAddress1")}
+              id="address_line_1"
+              name="address_line_1"
+              value={stepData["address_line_1"]}
+              onChange={onChange}
+              fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "address_line_1",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolAddress1",
+                  ),
+                })
+              }
+            />
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolAddress2")}
+              id="address_line_2"
+              name="address_line_2"
+              value={stepData["address_line_2"]}
+              onChange={onChange}
+              fullWidth={true}
+            />
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolCity")}
+              id="municipality"
+              name="municipality"
+              value={stepData["municipality"]}
+              onChange={onChange}
+              fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "municipality",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCity",
+                  ),
+                })
+              }
+            />
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolState")}
+              id="administrative_area"
+              name="administrative_area"
+              value={stepData["administrative_area"]}
+              onChange={onChange}
+              fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "administrative_area",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolState",
+                  ),
+                })
+              }
+            />
+            <TextInput
+              label={t("schoolOnboarding.steps.step4.schoolPostcode")}
+              id="postal_code"
+              name="postal_code"
+              value={stepData["postal_code"]}
+              onChange={onChange}
+              fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "postal_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolPostcode",
+                  ),
+                })
+              }
+            />
+            <SelectInput
+              label={t("schoolOnboarding.steps.step4.schoolCountry")}
+              placeholder={t("schoolOnboarding.steps.step4.select")}
+              options={[
+                {
+                  key: "IN",
+                  value: "India",
+                },
+                {
+                  key: "KE",
+                  value: "Kenya",
+                },
+                {
+                  key: "GB",
+                  value: "United Kingdom",
+                },
+                {
+                  key: "US",
+                  value: "United States of America",
+                },
+              ]}
+              id="country_code"
+              name="country_code"
+              onChange={onChange}
+              value={stepData["country_code"]}
+              fullWidth={true}
+              error={
+                showInvalidFields &&
+                fieldError({
+                  errors,
+                  fieldName: "country_code",
+                  errorMessage: t(
+                    "schoolOnboarding.steps.step4.validation.errors.schoolCountry",
+                  ),
+                })
+              }
+            />
+            {conditionalField(stepData["country_code"], "GB") && (
+              <TextInput
+                label={t("schoolOnboarding.steps.step4.schoolUrn")}
+                hint={
+                  <TextWithLink
+                    i18nKey="schoolOnboarding.steps.step4.schoolUrnHint"
+                    to="https://www.get-information-schools.service.gov.uk/Search"
+                  />
+                }
+                id="reference"
                 name="reference"
                 value={stepData["reference"]}
                 onChange={onChange}
+                fullWidth={true}
               />
-            </label>
-          </div>
+            )}
+          </section>
         </form>
       </div>
     </>

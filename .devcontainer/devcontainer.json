@@ -45,21 +45,16 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "ninoseki.vscode-gem-lens",
-        "rebornix.ruby",
         "eamodio.gitlens",
         "github.vscode-pull-request-github",
         "wmaurer.change-case",
         "aliariff.auto-add-brackets",
         "editorconfig.editorconfig",
         "dbaeumer.vscode-eslint",
-        "kumar-harsh.graphql-for-vscode",
-        "hashicorp.terraform",
         "ivangabriele.vscode-heroku",
         "pkosta2005.heroku-command",
         "yzhang.markdown-all-in-one",
         "mikestead.dotenv",
-        "wingrunr21.vscode-ruby",
         "ms-vscode.remote-repositories",
         "github.remotehub",
         "circleci.circleci",
@@ -70,7 +65,8 @@
         "avraammavridis.vsc-react-documentation",
         "ofhumanbondage.react-proptypes-intellisense",
         "syler.sass-indented",
-        "codezombiech.gitignore"
+        "codezombiech.gitignore",
+        "github.vscode-github-actions"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",

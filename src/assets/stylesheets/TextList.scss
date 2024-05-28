@@ -1,0 +1,81 @@
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./rpf_design_system/spacing" as *;
+
+.text-image-slice {
+  padding: $space-1-5 0;
+
+  @media screen and (min-width: 768px) {
+    padding: $space-1-5;
+  }
+}
+
+.text-list__title-wrapper {
+  align-items: center;
+  display: flex;
+}
+
+.text-list__title {
+  @include font-size-1-5(regular);
+  font-weight: $font-weight-bold;
+
+  @media screen and (min-width: 768px) {
+    @include font-size-2(regular);
+  }
+}
+
+.text-list__title--icon {
+  block-size: 40px;
+  inline-size: 40px;
+  margin-inline-end: $space-1-5;
+}
+
+.text-list__text {
+  @media screen and (min-width: 768px) {
+    max-inline-size: 1200px;
+  }
+}
+
+.text-list__link {
+  color: var(--rpf-navy-800);
+}
+
+.text-list__next {
+  @include font-size-1(regular);
+  font-weight: $font-weight-bold;
+}
+
+.text-list__image {
+  img {
+    aspect-ratio: 3/1;
+    display: block;
+    inline-size: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-inline-start: auto;
+
+    img {
+      inline-size: 100%;
+      block-size: auto;
+    }
+
+  }
+}
+
+.text-list__buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

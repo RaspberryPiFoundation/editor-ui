@@ -88,7 +88,12 @@ code {
 }
 
 .btn,
-.rpf-button {
+.rpf-button, .btn.rpf-button {
+  --rpf-button-background-color: var(--rpf-teal-800);
+  --rpf-button-background-color-hover: var(--rpf-teal-900);
+  --rpf-button-background-color-active: var(--rpf-teal-600);
+  --rpf-button-background-color-disabled: var(--rpf-teal-200);
+
   --rpf-button-primary-background-color: var(--rpf-teal-800);
   --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
   --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
@@ -108,6 +113,10 @@ code {
   --rpf-button-secondary-text-color: var(--rpf-black);
 
   --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+}
+
+.rpf-progress-bar__bar {
+  --color-progress-bar-complete: var(--rpf-teal-800);
 }
 
 .--dark {

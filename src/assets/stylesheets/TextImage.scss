@@ -1,83 +1,81 @@
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/mixins" as *;
-@use "./rpf_design_system/spacing" as *;
+// @use "@RaspberryPiFoundation/design-system-core/scss/mixins/typography";
+// Should use mixins when updated in the design system
 
 .text-image-slice {
-  inline-size: 100%;
-  margin: 0 $space-1-5;
-  max-inline-size: 368px;
-  padding: 0 $space-1-5;
+  display: flex;
+  gap: var(--space-3);
+  max-inline-size: 1200px;
+  align-items: center;
+  flex-direction: column;
 
-  @media screen and (min-width: 768px) {
-    display: flex;
-    gap: $space-4;
-    max-inline-size: 1000px;
-    padding: $space-5 $space-7-5;
+  @media screen and (min-width: 800px) {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
+
+  @media screen and (min-width: 1200px) {
+    gap: var(--space-10);
   }
 
   h2 {
-    @include font-size-1-5(regular);
-    font-weight: $font-weight-bold;
+    margin: 0 0 var(--space-1) 0;
+    // @include typography.regular-1-5;
+    font-size: var(--font-size-1-5);
+    line-height: var(--line-height-1-5);
+    font-weight: var(--font-weight-bold);
 
-    @media screen and (min-width: 768px) {
-      @include font-size-2(regular);
+    @media screen and (min-width: 800px) {
+      // @include typography.regular-2;
+      font-size: var(--font-size-2);
+      line-height: var(--line-height-2);
     }
+  }
+
+  p {
+    margin: 0;
   }
 }
 
 .text-image-slice__content {
-  margin: $space-1-5 0;
+  box-sizing: border-box;
+  inline-size: 100%;
 }
 
 .text-image-slice__image {
-  background-color: $rpf-grey-300;
-  border-radius: $space-1-5;
-  display: flex;
+  overflow: hidden;
+  inline-size: 100%;
+  aspect-ratio: 3/2;
+  border-radius: 1rem;
 
   img {
-    aspect-ratio: 3/2;
-    display: block;
     inline-size: 100%;
-    margin: auto;
-  }
-
-  @media screen and (min-width: 768px) {
-    margin-inline-start: auto;
-
-    img {
-      inline-size: unset;
-      margin: unset;
-    }
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 3/2;
   }
 }
 
+@media screen and (min-width: 800px) {
+  .text-image-slice--left {
+    flex-direction: row-reverse;
+  }
 
-.text-image-slice--left {
-  flex-direction: row;
+  .text-image-slice--right {
+    flex-direction: row;
+  }
 }
 
-.text-image-slice--right {
-  flex-direction: row-reverse;
+.text-image-slice--no-image {
+  margin-inline: auto;
+  background-color: var(--editor-color-layer-1);
+  border-radius: var(--space-2);
+  max-width: 800px;
+  padding: var(--space-3);
 }
 
 .text-image-slice__text--link {
-  @include font-size-1-5(regular);
-  font-weight: $font-weight-bold;
-}
-
-/* Dark mode */
-
-.--light {
-  .text-image-slice {
-    background-color: $rpf-white;
-  }
-
-}
-
-.--dark {
-  .text-image-slice {
-    background-color: $rpf-grey-900;
-  }
+  // @include typography.regular-1-5;
+  font-size: var(--font-size-1-5);
+  line-height: var(--line-height-1-5);
+  font-weight: var(--font-weight-bold);
 }

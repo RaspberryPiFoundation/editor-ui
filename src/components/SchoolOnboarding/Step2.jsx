@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  CheckboxInput,
+  Alert,
+} from "@raspberrypifoundation/design-system-react";
 import TextWithBoldSpan from "./TextWithBoldSpan";
 import TextWithLink from "./TextWithLink";
+import { fieldError, existsValidation } from "../../utils/fieldValidation";
 
-const Step2 = () => {
+const Step2 = ({ stepIsValid, showInvalidFields }) => {
   const { t } = useTranslation();
   const schoolOnboardingData = JSON.parse(
     localStorage.getItem("schoolOnboarding"),
@@ -13,11 +18,37 @@ const Step2 = () => {
       ? schoolOnboardingData["step_2"]
       : {},
   );
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     const { name, checked } = e.target;
     setStepData((data) => ({ ...data, [name]: checked }));
   };
+
+  useEffect(() => {
+    const errorList = [];
+
+    const validations = [
+      () =>
+        existsValidation({ stepData, fieldName: "creator_agree_authority" }),
+      () =>
+        existsValidation({
+          stepData,
+          fieldName: "creator_agree_terms_and_conditions",
+        }),
+    ];
+
+    validations.forEach((runValidation) => {
+      const validationResult = runValidation();
+      if (validationResult) errorList.push(validationResult);
+    });
+
+    setErrors(errorList);
+  }, [stepData]);
+
+  useEffect(() => {
+    stepIsValid(errors.length === 0);
+  }, [stepData, errors, stepIsValid]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -31,59 +62,88 @@ const Step2 = () => {
 
   return (
     <>
-      <h3 className="school-onboarding-form__step">
+      <h3 className="school-onboarding-form__title">
         {t("schoolOnboarding.steps.step2.title")}
       </h3>
       <div className="school-onboarding-form__content">
-        <p>
+        {showInvalidFields && errors.length > 0 && (
+          <Alert
+            title={t("schoolOnboarding.errorTitle")}
+            type="error"
+            text={t("schoolOnboarding.steps.step2.validation.errors.message")}
+          />
+        )}
+        <p className="school-onboarding-form__text">
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.owner" />
         </p>
-        <p>
+        <p className="school-onboarding-form__text">
           <TextWithBoldSpan i18nKey="schoolOnboarding.steps.step2.responsibilities" />
         </p>
-        <ul>
-          <li>{t("schoolOnboarding.steps.step2.responsibility1")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility2")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility3")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility4")}</li>
-          <li>{t("schoolOnboarding.steps.step2.responsibility5")}</li>
+        <ul className="school-onboarding-form__list">
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility1")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility2")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility3")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility4")}
+          </li>
+          <li className="school-onboarding-form__list-item">
+            {t("schoolOnboarding.steps.step2.responsibility5")}
+          </li>
         </ul>
-        <p>
+        <p className="school-onboarding-form__text">
           <TextWithLink
             i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
             to="/"
           />
         </p>
         <form>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                id="authority"
-                name="authority"
-                value="authority"
-                onChange={onChange}
-                checked={!!stepData["authority"]}
-              />
-              {t("schoolOnboarding.steps.step2.agreeAuthority")}
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                id="responsibility"
-                name="responsibility"
-                value="responsibility"
-                onChange={onChange}
-                checked={!!stepData["responsibility"]}
-              />
+          <CheckboxInput
+            id="creator_agree_authority"
+            label={t("schoolOnboarding.steps.step2.agreeAuthority")}
+            name="creator_agree_authority"
+            value="creator_agree_authority"
+            onChange={onChange}
+            checked={!!stepData["creator_agree_authority"]}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "creator_agree_authority",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step2.validation.errors.agreeAuthority",
+                ),
+              })
+            }
+          />
+          <CheckboxInput
+            id="creator_agree_terms_and_conditions"
+            label={
               <TextWithLink
-                i18nKey="schoolOnboarding.steps.step2.termsAndConditions"
+                i18nKey="schoolOnboarding.steps.step2.agreeTermsAndConditions"
                 to="/"
               />
-            </label>
-          </div>
+            }
+            name="creator_agree_terms_and_conditions"
+            value="creator_agree_terms_and_conditions"
+            onChange={onChange}
+            checked={!!stepData["creator_agree_terms_and_conditions"]}
+            error={
+              showInvalidFields &&
+              fieldError({
+                errors,
+                fieldName: "creator_agree_terms_and_conditions",
+                errorMessage: t(
+                  "schoolOnboarding.steps.step2.validation.errors.agreeTermsAndConditions",
+                ),
+              })
+            }
+          />
         </form>
       </div>
     </>

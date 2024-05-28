@@ -21,7 +21,6 @@ import ErrorModal from "../components/Modals/ErrorModal";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
 const ProjectComponentLoader = (props) => {
-  const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const embedded = props.embedded || false;
   const user = useSelector((state) => state.auth.user);
@@ -70,24 +69,28 @@ const ProjectComponentLoader = (props) => {
   });
 
   useEffect(() => {
-    if (loading === "idle" && project.identifier) {
-      navigate(`/${i18n.language}/projects/${project.identifier}`);
-    }
-    if (loading === "failed") {
-      navigate("/");
-    }
-  }, [loading, project, i18n.language, navigate]);
+    const eventName = "editor-projectIdentifierChanged";
+    const handleProjectIdentifierChanged = (e) => {
+      navigate(`/${i18n.language}/projects/${e.detail}`);
+    };
+    document.addEventListener(eventName, handleProjectIdentifierChanged);
+    return () => {
+      document.removeEventListener(eventName, handleProjectIdentifierChanged);
+    };
+  }, [i18n.language, navigate]);
 
   useEffect(() => {
     const handleLogIn = () => {
-      login({
-        project,
-        location,
-      });
+      if (!user) {
+        login({ project, location });
+      }
     };
 
     document.addEventListener("editor-logIn", handleLogIn);
-  }, [project, location]);
+    return () => {
+      document.removeEventListener("editor-logIn", handleLogIn);
+    };
+  }, [user, project, location]);
 
   return (
     <>

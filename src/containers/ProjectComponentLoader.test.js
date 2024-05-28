@@ -12,6 +12,8 @@ import { setProject } from "../redux/EditorSlice";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { login } from "../utils/login";
 
+const mockNavigate = jest.fn();
+
 jest.mock("../utils/login");
 
 jest.mock("../hooks/useProjectPersistence", () => ({
@@ -21,6 +23,7 @@ jest.mock("../hooks/useProjectPersistence", () => ({
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useLocation: () => "my-location",
+  useNavigate: () => mockNavigate,
 }));
 
 jest.mock("react-responsive", () => ({
@@ -65,9 +68,55 @@ describe("ProjectComponentLoader", () => {
       document.dispatchEvent(new CustomEvent("editor-logIn"));
     });
 
-    expect(login).toHaveBeenCalledWith({
-      location: "my-location",
-      project: "my-project",
+    it("Renders editor", () => {
+      expect(screen.queryByTestId("editor-wc")).toBeInTheDocument();
+    });
+
+    it("calls login() when editor-logIn event is received", () => {
+      act(() => {
+        document.dispatchEvent(new CustomEvent("editor-logIn"));
+      });
+
+      expect(login).toHaveBeenCalledWith({
+        location: "my-location",
+        project: "my-project",
+      });
+    });
+
+    it("redirects to new project identifier on editor-projectIdentifierChanged custom event", () => {
+      act(() => {
+        document.dispatchEvent(
+          new CustomEvent("editor-projectIdentifierChanged", {
+            detail: "new-project-identifier",
+          }),
+        );
+      });
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        "/ja-JP/projects/new-project-identifier",
+      );
+    });
+  });
+
+  describe("when user is logged in", () => {
+    beforeEach(() => {
+      const store = setupStore({
+        editor: {
+          project: "my-project",
+        },
+        auth: {
+          user: {},
+        },
+      });
+      renderComponent(store);
+    });
+
+    it("does not call login() when editor-logIn event is received", () => {
+      act(() => {
+        document.dispatchEvent(new CustomEvent("editor-logIn"));
+      });
+
+      expect(login).not.toHaveBeenCalled();
     });
   });
 

@@ -14,6 +14,12 @@ const LocaleLayout = lazy(() =>
 const LandingPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./LandingPage/LandingPage"),
 );
+
+const EducationLandingPage = lazy(() =>
+  import(
+    /* webpackPrefetch: true */ "./EducationLandingPage/EducationLandingPage"
+  ),
+);
 const ProjectIndex = lazy(() =>
   import(/* webpackPrefetch: true */ "./ProjectIndex/ProjectIndex"),
 );
@@ -26,6 +32,17 @@ const EmbeddedViewer = lazy(() =>
 
 const SchoolOnboarding = lazy(() =>
   import(/* webpackPrefetch: true */ "./SchoolOnboarding/SchoolOnboarding"),
+);
+const SchoolDashboard = lazy(() =>
+  import(/* webpackPrefetch: true */ "./School/SchoolDashboard"),
+);
+
+const MembersPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./MembersPage/MembersPage"),
+);
+
+const ClassPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./ClassPage/ClassPage"),
 );
 
 const suspense = (comp) => <Suspense fallback={<></>}>{comp}</Suspense>;
@@ -60,12 +77,14 @@ const AppRoutes = () => (
         element={suspense(<EmbeddedViewer />)}
       />
       <Route path="schools/new" element={suspense(<SchoolOnboarding />)} />
+      <Route path="schools/class" element={suspense(<ClassPage />)} />
+      <Route path="education" element={suspense(<EducationLandingPage />)} />
+      <Route
+        path="schools/:identifier"
+        element={suspense(<SchoolDashboard />)}
+      />
+      <Route path="members" element={suspense(<MembersPage />)} />
     </Route>
-
-    <Route
-      path="/embedded/projects/:identifier"
-      element={suspense(<ProjectComponentLoader embedded={true} />)}
-    />
 
     {projectLinkRedirects.map((link) => {
       return <Route key={link} path={link} element={<ProjectsRedirect />} />;

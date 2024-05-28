@@ -1,0 +1,83 @@
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/font-weight" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./rpf_design_system/spacing" as *;
+
+.hero__wrapper {
+  background-color: var(--editor-color-layer-1);
+  padding: $space-1;
+
+  @include md-width {    
+    padding: $space-2 $space-3;
+  }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: $space-1;
+
+  @media screen and (min-width: 1000px) {
+    display: flex;
+    flex-direction: row;
+    gap: $space-2;
+  }
+}
+
+.hero__copy {
+  flex: 0 0 60%; 
+}
+
+.hero__copy--title {
+  @include font-size-2(regular);
+  font-weight: $font-weight-regular;
+
+  @include md-width {    
+    @include font-size-3(regular);
+    margin-block-start: 0;
+  }
+}
+
+.hero__copy--subtitle {
+  @include font-size-1(regular);
+  font-weight: $font-weight-regular;
+
+  @include md-width {    
+    @include font-size-2(regular);
+  }
+}
+
+.hero__image {
+  flex: 1;
+  margin-block: $space-1;
+}
+
+.hero__image img {
+  aspect-ratio: 3/2;
+  border-radius: $space-1; 
+  inline-size: 100%; 
+}
+
+.hero__buttons {
+  @include font-size-1-25(regular);    
+  gap: $space-1;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: 600px) {
+    flex-direction: row;
+  }
+
+  a {
+   inline-size: -webkit-fill-available;
+   justify-content: center;
+   align-items: center;
+
+    @media screen and (min-width: 600px) {
+      inline-size: fit-content;
+    }
+  }
+}

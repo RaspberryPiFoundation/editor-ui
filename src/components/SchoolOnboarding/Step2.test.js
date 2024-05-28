@@ -4,7 +4,7 @@ import Step2 from "./Step2";
 
 describe("When localStorage is empty", () => {
   beforeEach(() => {
-    render(<Step2 />);
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("it renders", () => {
@@ -21,7 +21,9 @@ describe("When localStorage is empty", () => {
 
   test("the responsibility checkbox is unchecked", () => {
     expect(
-      screen.getByLabelText("schoolOnboarding.steps.step2.termsAndConditions"),
+      screen.getByLabelText(
+        "schoolOnboarding.steps.step2.agreeTermsAndConditions",
+      ),
     ).not.toBeChecked();
   });
 
@@ -32,19 +34,20 @@ describe("When localStorage is empty", () => {
         .click();
     });
     expect(
-      JSON.parse(localStorage.getItem("schoolOnboarding")).step_2.authority,
+      JSON.parse(localStorage.getItem("schoolOnboarding")).step_2
+        .creator_agree_authority,
     ).toBe(true);
   });
 
   test("checking the responsibility checkbox updates localStorage", () => {
     act(() => {
       screen
-        .getByLabelText("schoolOnboarding.steps.step2.termsAndConditions")
+        .getByLabelText("schoolOnboarding.steps.step2.agreeTermsAndConditions")
         .click();
     });
     expect(
       JSON.parse(localStorage.getItem("schoolOnboarding")).step_2
-        .responsibility,
+        .creator_agree_terms_and_conditions,
     ).toBe(true);
   });
 });
@@ -53,9 +56,14 @@ describe("When previous data is in localStorage", () => {
   beforeEach(() => {
     localStorage.setItem(
       "schoolOnboarding",
-      JSON.stringify({ step_2: { authority: true, responsibility: true } }),
+      JSON.stringify({
+        step_2: {
+          creator_agree_authority: true,
+          creator_agree_terms_and_conditions: true,
+        },
+      }),
     );
-    render(<Step2 />);
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={false} />);
   });
 
   test("the authority checkbox is checked", () => {
@@ -63,11 +71,25 @@ describe("When previous data is in localStorage", () => {
       screen.getByLabelText("schoolOnboarding.steps.step2.agreeAuthority"),
     ).toBeChecked();
   });
+});
 
-  test("the responsibility checkbox is checked", () => {
+describe("When errors are provided", () => {
+  beforeEach(() => {
+    render(<Step2 stepIsValid={jest.fn} showInvalidFields={true} />);
+  });
+
+  test("the error message shows", () => {
     expect(
-      screen.getByLabelText("schoolOnboarding.steps.step2.termsAndConditions"),
-    ).toBeChecked();
+      screen.queryByText(
+        "schoolOnboarding.steps.step2.validation.errors.message",
+      ),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.queryByText(
+        "schoolOnboarding.steps.step2.validation.errors.agreeAuthority",
+      ),
+    ).toBeInTheDocument();
   });
 });
 
