@@ -26,6 +26,21 @@ jest.mock("react-router", () => ({
   useNavigate: () => mockNavigate,
 }));
 
+const setupStore = (initialState) => {
+  const mockStore = configureStore([]);
+  return mockStore(initialState);
+};
+
+const renderComponent = (store) => {
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <ProjectComponentLoader match={{ params: {} }} />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
 jest.mock("react-responsive", () => ({
   ...jest.requireActual("react-responsive"),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
@@ -45,27 +60,17 @@ const user = {
 };
 
 describe("ProjectComponentLoader", () => {
-  beforeEach(() => {
-    const mockStore = configureStore([]);
-    const initialState = {
-      editor: {
-        project: "my-project",
-      },
-      auth: {},
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  it("handles editor-logIn custom event by calling login", () => {
-    act(() => {
-      document.dispatchEvent(new CustomEvent("editor-logIn"));
+  describe("when user is not logged in", () => {
+    beforeEach(() => {
+      const store = setupStore({
+        editor: {
+          project: "my-project",
+        },
+        auth: {
+          user: null,
+        },
+      });
+      renderComponent(store);
     });
 
     it("Renders editor", () => {
@@ -120,50 +125,36 @@ describe("ProjectComponentLoader", () => {
     });
   });
 
+
+
   test("Renders loading message if loading is pending", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    const store = setupStore({
       editor: {
         loading: "pending",
       },
-      auth: {},
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
+      auth: {
+        user: {},
+      },
+    });
+    renderComponent(store);
     expect(screen.queryByText("project.loading")).toBeInTheDocument();
   });
 
   test("Loads default project if loading fails", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    const store = setupStore({
       editor: {
         loading: "failed",
       },
-      auth: {},
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
+      auth: {
+        user: {},
+      },
+    });
+    renderComponent(store);
     const expectedActions = [setProject(defaultPythonProject)];
     expect(store.getActions()).toEqual(expectedActions);
   });
 
   test("Does not render loading message if loading is success", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -176,21 +167,12 @@ describe("ProjectComponentLoader", () => {
       auth: {},
       instructions: {},
     };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app"></div>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
+    const store = setupStore(initialState);
+    renderComponent(store);
     expect(screen.queryByText("project.loading")).not.toBeInTheDocument();
   });
 
   test("Calls useProjectPersistence with user when logged in", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {},
@@ -200,15 +182,8 @@ describe("ProjectComponentLoader", () => {
       },
       auth: { user },
     };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app"></div>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
+    const store = setupStore(initialState);
+    renderComponent(store);
     expect(useProjectPersistence).toHaveBeenCalledWith({
       user,
       project: {},
@@ -219,8 +194,6 @@ describe("ProjectComponentLoader", () => {
   });
 
   test("Calls useProjectPersistence without user when logged in", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
         project: {},
@@ -230,15 +203,8 @@ describe("ProjectComponentLoader", () => {
       },
       auth: {},
     };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app"></div>
-          <ProjectComponentLoader match={{ params: {} }} />
-        </MemoryRouter>
-      </Provider>,
-    );
+    const store = setupStore(initialState);
+    renderComponent(store);
     expect(useProjectPersistence).toHaveBeenCalledWith({
       project: {},
       hasShownSavePrompt: true,
@@ -249,14 +215,11 @@ describe("ProjectComponentLoader", () => {
 });
 
 describe("When on mobile", () => {
-  let mockStore;
 
   beforeEach(() => {
     setMedia({
       width: MOBILE_BREAKPOINT,
     });
-    const middlewares = [];
-    mockStore = configureStore(middlewares);
   });
 
   test("Has code and output tabs for python project", () => {
@@ -272,16 +235,8 @@ describe("When on mobile", () => {
       },
       auth: {},
     };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <ProjectComponentLoader match={{ params: {} }} />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
+    const store = setupStore(initialState);
+    renderComponent(store);
     expect(screen.queryByText("mobile.code")).toBeInTheDocument();
     expect(screen.queryByText("mobile.output")).toBeInTheDocument();
   });
@@ -299,16 +254,8 @@ describe("When on mobile", () => {
       },
       auth: {},
     };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <ProjectComponentLoader match={{ params: {} }} />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
+    const store = setupStore(initialState);
+    renderComponent(store);
     expect(screen.queryByText("mobile.code")).toBeInTheDocument();
     expect(screen.queryByText("mobile.preview")).toBeInTheDocument();
   });

@@ -1,8 +1,7 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import UploadMultipleStudents from "./UploadMultipleStudents";
-import { act } from "react";
 import { createNewStudent } from "../../redux/reducers/schoolReducers";
 
 jest.mock("react-redux", () => ({
