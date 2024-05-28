@@ -98,23 +98,23 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   const user = { access_token: "dummy-access-token" };
   const originalIdentifier = "blank-python-starter";
 
-  let baseUrl;
-
-  beforeEach(() => {
+  const urlFor = (identifier) => {
     const params = new URLSearchParams();
     params.set("auth_key", authKey);
-    params.set("identifier", originalIdentifier);
+    params.set("identifier", identifier);
     params.set("load_remix_disabled", "true");
-    baseUrl = `${origin}?${params.toString()}`;
+    return `${origin}?${params.toString()}`;
+  };
 
+  beforeEach(() => {
     cy.on('window:before:load', (win) => {
       win.localStorage.setItem(authKey, JSON.stringify(user));
     });
   });
 
   it("loads the original project in preference to the remixed version", () => {
-    // Visit the original project URL
-    cy.visit(baseUrl);
+    // View the original project
+    cy.visit(urlFor(originalIdentifier));
     cy.get("#project-identifier").should("have.text", originalIdentifier);
 
     // Edit code
@@ -125,14 +125,21 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
 
     // Check receipt of an event to trigger a redirect to the remixed project URL
     cy.get("#project-identifier").should("not.have.text", originalIdentifier);
+    cy.get("#project-identifier").invoke("text").then((remixIdentifier) => {
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
 
-    // Check we're still seeing the changed code
-    cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+      // Visit the original project again
+      cy.visit(urlFor(originalIdentifier));
 
-    // Visit the original project URL
-    cy.visit(baseUrl);
+      // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
 
-    // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
-    cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
+      // View the remixed project
+      cy.visit(urlFor(remixIdentifier));
+
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+    });
   });
 });
