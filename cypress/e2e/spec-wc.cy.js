@@ -125,14 +125,21 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
 
     // Check receipt of an event to trigger a redirect to the remixed project URL
     cy.get("#project-identifier").should("not.have.text", originalIdentifier);
+    cy.get("#project-identifier").invoke("text").then((remixIdentifier) => {
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
 
-    // Check we're still seeing the changed code
-    cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+      // Visit the original project again
+      cy.visit(urlFor(originalIdentifier));
 
-    // Visit the original project again
-    cy.visit(urlFor(originalIdentifier));
+      // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
 
-    // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
-    cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
+      // View the remixed project
+      cy.visit(urlFor(remixIdentifier));
+
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+    });
   });
 });

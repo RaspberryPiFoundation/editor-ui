@@ -88,7 +88,7 @@ describe("When no user is in state", () => {
         },
         hasShownSavePrompt: true,
         justLoaded: false,
-        user: undefined,
+        user: null,
         saveTriggered: false,
       });
     });
@@ -146,16 +146,16 @@ describe("When no user is in state", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: undefined,
-        loadRemix: false,
-        loadCache: true,
+        accessToken: "my_token",
+        loadRemix: true,
+        loadCache: false,
         remixLoadFailed: false,
       });
     });
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user: undefined,
+        user,
         project: { components: [] },
         hasShownSavePrompt: true,
         justLoaded: false,

@@ -46,7 +46,10 @@ const WebComponentLoader = (props) => {
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const user = useSelector((state) => state.auth.user);
+  const localStorageUser = authKey
+    ? JSON.parse(localStorage.getItem(authKey))
+    : null;
+  const user = useSelector((state) => state.auth.user || localStorageUser);
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
