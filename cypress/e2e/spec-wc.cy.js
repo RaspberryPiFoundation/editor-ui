@@ -113,7 +113,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   });
 
   it("loads the original project in preference to the remixed version", () => {
-    // Visit the original project URL
+    // View the original project
     cy.visit(baseUrl);
     cy.get("#project-identifier").should("have.text", originalIdentifier);
 
@@ -129,7 +129,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
     // Check we're still seeing the changed code
     cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
 
-    // Visit the original project URL
+    // Visit the original project again
     cy.visit(baseUrl);
 
     // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
