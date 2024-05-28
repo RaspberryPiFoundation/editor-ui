@@ -26,6 +26,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improvements to Cypress specs in CI (#1017)
 - Fix warnings and verbose output when starting Webpack Dev Server (#1018)
 - Add e2e spec for project remix behaviour in web component (#1020)
+- Fix initial value of `user` in `WebComponentLoader` (#1021)
+- Make `authKey` in e2e web component spec more realistic (#1022)
+- Remove unused `ComponentStore` (#1023)
 
 ## [0.23.0] - 2024-05-09
 
