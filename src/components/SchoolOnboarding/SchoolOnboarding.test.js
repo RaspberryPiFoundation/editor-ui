@@ -61,7 +61,7 @@ describe("When logged in", () => {
       expect(login).not.toHaveBeenCalled();
     });
 
-    it("it attempts to load up the school", () => {
+    it("attempts to load up the school", () => {
       expect(useSchool).toHaveBeenCalledWith({ accessToken: "1234" });
     });
 
@@ -78,7 +78,7 @@ describe("When logged in", () => {
       });
     });
 
-    it("it loads up the school", () => {
+    it("loads up the school", () => {
       expect(useSchool).toHaveBeenCalledWith({ accessToken: "1234" });
     });
 
@@ -97,7 +97,7 @@ describe("When logged in", () => {
       });
     });
 
-    it("it loads up the school", () => {
+    it("loads up the school", () => {
       expect(useSchool).toHaveBeenCalledWith({ accessToken: "1234" });
     });
 

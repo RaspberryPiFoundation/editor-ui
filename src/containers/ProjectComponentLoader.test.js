@@ -135,8 +135,6 @@ describe("ProjectComponentLoader", () => {
     });
   });
 
-
-
   test("Renders loading message if loading is pending", () => {
     const store = setupStore({
       editor: {
@@ -225,7 +223,6 @@ describe("ProjectComponentLoader", () => {
 });
 
 describe("When on mobile", () => {
-
   beforeEach(() => {
     setMedia({
       width: MOBILE_BREAKPOINT,
