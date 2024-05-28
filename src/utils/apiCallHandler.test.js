@@ -8,6 +8,10 @@ import {
   uploadImages,
   readProjectList,
   createError,
+  createSchool,
+  getSchool,
+  getUserSchool,
+  createStudent,
 } from "./apiCallHandler";
 
 jest.mock("axios");
@@ -228,6 +232,100 @@ describe("Testing project errors API calls", () => {
         error_type: error?.errorType,
       },
       undefined,
+    );
+  });
+});
+
+describe("School API calls", () => {
+  test("Creating a school", async () => {
+    const school = {
+      name: "Raspberry Pi School of Drama",
+      website: "https://www.schoolofdrama.org",
+      address_line_1: "123 Drama Street",
+      address_line_2: "Dramaville",
+      municipality: "Drama City",
+      administrative_area: "Dramashire",
+      postal_code: "DR1 4MA",
+      country_code: "GB",
+      reference: "dr4m45ch001",
+    };
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 204,
+        data: {
+          school,
+        },
+      }),
+    );
+    await createSchool(school, accessToken);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/schools`,
+      { school },
+      authHeaders,
+    );
+  });
+
+  test("Getting a single school", async () => {
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        data: {},
+      }),
+    );
+    const schoolId = "school-id";
+    await getSchool(schoolId, accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/schools/${schoolId}`,
+      authHeaders,
+    );
+  });
+
+  describe("Getting the logged in user's school", () => {
+    test("requests the schools the user has access to from the API", async () => {
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 200,
+          data: [],
+        }),
+      );
+      await getUserSchool(accessToken);
+      expect(axios.get).toHaveBeenCalledWith(
+        `${host}/api/schools`,
+        authHeaders,
+      );
+    });
+
+    test("returns the first school that the user is associated with", async () => {
+      axios.get.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 200,
+          data: [{ name: "school-1" }, { name: "school-2" }],
+        }),
+      );
+      const school = await getUserSchool(accessToken);
+      expect(school.name).toEqual("school-1");
+    });
+  });
+});
+
+describe("School student API calls", () => {
+  test("Creating a student", async () => {
+    const student = {
+      name: "Alice",
+      username: "alice",
+      password: "password",
+    };
+    const schoolId = "school-id";
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+      }),
+    );
+    await createStudent(student, schoolId, accessToken);
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/schools/${schoolId}/students`,
+      { school_student: student },
+      authHeaders,
     );
   });
 });

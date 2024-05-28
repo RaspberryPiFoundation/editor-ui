@@ -83,7 +83,7 @@ const DownloadButton = (props) => {
 DownloadButton.propTypes = {
   buttonText: PropTypes.string,
   className: PropTypes.string,
-  Icon: PropTypes.func,
+  Icon: PropTypes.object,
 };
 
 export default DownloadButton;

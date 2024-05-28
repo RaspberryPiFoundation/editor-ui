@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import EmbeddedViewer from "./EmbeddedViewer";
 
 import { Provider } from "react-redux";
@@ -36,6 +37,13 @@ jest.mock("../../hooks/useProject", () => ({
 
 let initialState;
 let store;
+
+beforeAll(() => {
+  const root = global.document.createElement("div");
+  root.setAttribute("id", "app");
+  global.document.body.appendChild(root);
+  Modal.setAppElement("#app");
+});
 
 beforeEach(() => {
   initialState = {
@@ -150,9 +158,7 @@ test("Renders the expected modal when the project can't be found", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <EmbeddedViewer />
-      </div>
+      <EmbeddedViewer />
     </Provider>,
   );
 
@@ -178,9 +184,7 @@ test("Renders the expected modal when the project is found but user is not autho
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <EmbeddedViewer />
-      </div>
+      <EmbeddedViewer />
     </Provider>,
   );
 
@@ -210,9 +214,7 @@ describe("When page first loaded from search params", () => {
         <MemoryRouter
           initialEntries={[`?browserPreview=true&page=${testPage}`]}
         >
-          <div id="app">
-            <EmbeddedViewer />
-          </div>
+          <EmbeddedViewer />
         </MemoryRouter>
       </Provider>,
     );

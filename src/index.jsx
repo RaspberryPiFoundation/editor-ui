@@ -16,7 +16,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { OidcProvider } from "redux-oidc";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./store";
 import userManager from "./utils/userManager";
 import apolloCache from "./utils/apolloCache";
 import { CookiesProvider } from "react-cookie";
@@ -51,17 +51,15 @@ if (!supportsContainerQueries) {
 const div = document.getElementById("root");
 const root = createRoot(div);
 root.render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <OidcProvider store={store} userManager={userManager}>
-            <App />
-          </OidcProvider>
-        </Provider>
-      </ApolloProvider>
-    </CookiesProvider>
-  </React.StrictMode>,
+  <CookiesProvider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <OidcProvider store={store} userManager={userManager}>
+          <App />
+        </OidcProvider>
+      </Provider>
+    </ApolloProvider>
+  </CookiesProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

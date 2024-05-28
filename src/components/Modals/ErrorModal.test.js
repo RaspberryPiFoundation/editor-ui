@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -7,6 +8,13 @@ import { closeErrorModal, setError } from "../../redux/EditorSlice";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
+
+beforeAll(() => {
+  const root = global.document.createElement("div");
+  root.setAttribute("id", "app");
+  global.document.body.appendChild(root);
+  Modal.setAppElement("#app");
+});
 
 test("Modal rendered when errorModalShowing is true", () => {
   const initialState = {
@@ -18,9 +26,7 @@ test("Modal rendered when errorModalShowing is true", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal />
-      </div>
+      <ErrorModal />
     </Provider>,
   );
 
@@ -40,9 +46,7 @@ test("Modal not rendered when errorModalShowing is false", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal />
-      </div>
+      <ErrorModal />
     </Provider>,
   );
 
@@ -59,9 +63,7 @@ test("Clicking close dispatches close modal action", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal />
-      </div>
+      <ErrorModal />
     </Provider>,
   );
 
@@ -80,9 +82,7 @@ test("Error message shown via props", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal errorType="someTestError" />
-      </div>
+      <ErrorModal errorType="someTestError" />
     </Provider>,
   );
 
@@ -102,9 +102,7 @@ test("Error message shown via state", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal />
-      </div>
+      <ErrorModal />
     </Provider>,
   );
 
@@ -124,9 +122,7 @@ test("Additional closeModal function fired", () => {
 
   render(
     <Provider store={store}>
-      <div id="app">
-        <ErrorModal additionalOnClose={testOnClose} />
-      </div>
+      <ErrorModal additionalOnClose={testOnClose} />
     </Provider>,
   );
 

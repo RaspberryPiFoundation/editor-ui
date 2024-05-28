@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -14,6 +15,13 @@ const mockStore = configureStore(middlewares);
 describe("When loginToSaveModalShowing is true", () => {
   let store;
 
+  beforeAll(() => {
+    const root = global.document.createElement("div");
+    root.setAttribute("id", "app");
+    global.document.body.appendChild(root);
+    Modal.setAppElement("#app");
+  });
+
   beforeEach(() => {
     const initialState = {
       editor: {
@@ -22,11 +30,10 @@ describe("When loginToSaveModalShowing is true", () => {
       },
     };
     store = mockStore(initialState);
+
     render(
       <Provider store={store}>
-        <div id="app">
-          <LoginToSaveModal />
-        </div>
+        <LoginToSaveModal />
       </Provider>,
     );
   });

@@ -1,0 +1,50 @@
+.class_wrapper {
+  padding: var(--space-2);
+  background-color: var(--editor-color-layer-3);
+  gap: var(--space-3);
+
+  @media screen and (min-width: 1200px) {
+    align-items: baseline;
+    gap: var(--space-4);
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--space-4);
+  }
+}
+
+.class__copy {
+  max-inline-size: 800px;
+}
+
+.class__title {
+  font-size: var(--font-size-3);
+	line-height: var(--line-height-3);
+
+  @media screen and (min-width: 1200px) {
+    font-size: var(--font-size-4);
+    line-height: var(--line-height-4);
+  }
+}
+
+.class__text {
+  font-size: var(--font-size-1-5);
+	line-height: var(--line-height-1-5);
+	margin-block: var(--space-2);
+}
+
+.class__buttons {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.class__button {
+  border: 2px solid var(--editor-color-theme);
+  width: fit-content;
+  border-radius: var(--space-1);
+
+  button {
+    color: var(--rpf-black);
+  }
+}

@@ -1,0 +1,81 @@
+// @use "@RaspberryPiFoundation/design-system-core/scss/mixins/typography";
+// Should use mixins when updated in the design system
+
+.text-image-slice {
+  display: flex;
+  gap: var(--space-3);
+  max-inline-size: 1200px;
+  align-items: center;
+  flex-direction: column;
+
+  @media screen and (min-width: 800px) {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
+
+  @media screen and (min-width: 1200px) {
+    gap: var(--space-10);
+  }
+
+  h2 {
+    margin: 0 0 var(--space-1) 0;
+    // @include typography.regular-1-5;
+    font-size: var(--font-size-1-5);
+    line-height: var(--line-height-1-5);
+    font-weight: var(--font-weight-bold);
+
+    @media screen and (min-width: 800px) {
+      // @include typography.regular-2;
+      font-size: var(--font-size-2);
+      line-height: var(--line-height-2);
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.text-image-slice__content {
+  box-sizing: border-box;
+  inline-size: 100%;
+}
+
+.text-image-slice__image {
+  overflow: hidden;
+  inline-size: 100%;
+  aspect-ratio: 3/2;
+  border-radius: 1rem;
+
+  img {
+    inline-size: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 3/2;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .text-image-slice--left {
+    flex-direction: row-reverse;
+  }
+
+  .text-image-slice--right {
+    flex-direction: row;
+  }
+}
+
+.text-image-slice--no-image {
+  margin-inline: auto;
+  background-color: var(--editor-color-layer-1);
+  border-radius: var(--space-2);
+  max-width: 800px;
+  padding: var(--space-3);
+}
+
+.text-image-slice__text--link {
+  // @include typography.regular-1-5;
+  font-size: var(--font-size-1-5);
+  line-height: var(--line-height-1-5);
+  font-weight: var(--font-weight-bold);
+}

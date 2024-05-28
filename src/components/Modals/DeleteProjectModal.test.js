@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -13,6 +14,13 @@ describe("Testing the delete project modal", () => {
   let store;
   let mocks;
   let project = { id: "abc", name: "my first project" };
+
+  beforeAll(() => {
+    const root = global.document.createElement("div");
+    root.setAttribute("id", "app");
+    global.document.body.appendChild(root);
+    Modal.setAppElement("#app");
+  });
 
   beforeEach(() => {
     const middlewares = [];
@@ -47,9 +55,7 @@ describe("Testing the delete project modal", () => {
     render(
       <MockedProvider mocks={mocks}>
         <Provider store={store}>
-          <div id="app">
-            <DeleteProjectModal />
-          </div>
+          <DeleteProjectModal />
         </Provider>
       </MockedProvider>,
     );
@@ -72,6 +78,8 @@ describe("Testing the delete project modal", () => {
   });
 
   test("Clicking delete button (eventually) closes the modal", async () => {
+    // Clicking delete results in the following console.warn which we've silenced in the failOnConsole config in setupTests.js
+    //   Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array
     const deleteButton = screen.getByText(
       "projectList.deleteProjectModal.delete",
     );
@@ -84,6 +92,8 @@ describe("Testing the delete project modal", () => {
   });
 
   test("Clicking delete button calls the mutation", async () => {
+    // Clicking delete results in the following console.warn which we've silenced in the failOnConsole config in setupTests.js
+    //   Unknown query named "ProjectIndexQuery" requested in refetchQueries options.include array
     const deleteButton = screen.getByText(
       "projectList.deleteProjectModal.delete",
     );

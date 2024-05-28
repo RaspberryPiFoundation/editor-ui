@@ -1,0 +1,57 @@
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/border.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/colors/alert.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/colors/greys.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/colors/text.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/font-weight.scss";
+@use "@raspberrypifoundation/design-system-core/scss/properties/spacing.scss";
+
+.list-item {
+  background-color: var(--rpf-white);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: var(--space-1);
+  position: relative;
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    font-weight: var(--font-weight-bold);
+
+    > * {
+      @include typography.regular-1;
+      font-weight: var(--font-weight-bold);
+    }
+
+    :nth-child(2){
+      color: var(--rpf-text-secondary);
+    }
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    width: fit-content;
+  }
+
+  &__menu {
+    background-color: var(--rpf-white);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--rpf-grey-50);
+    box-shadow: 0 0 8px var(--rpf-grey-50);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+    padding: var(--space-1);
+    position: absolute;
+    right: var(--space-1);
+    top: var(--space-8);
+    z-index: 100;
+  }
+
+  &__button {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}

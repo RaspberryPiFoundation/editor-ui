@@ -5,6 +5,8 @@ import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import LoginMenu from "./LoginMenu";
 
+jest.mock("../../utils/apiCallHandler");
+
 describe("When not logged in", () => {
   beforeEach(() => {
     const middlewares = [];
@@ -48,6 +50,17 @@ describe("When not logged in", () => {
 });
 
 describe("When logged in", () => {
+  let store;
+  const renderLoginMenu = () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <Provider store={store}>
+          <LoginMenu />
+        </Provider>
+      </MemoryRouter>,
+    );
+  };
+
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -60,26 +73,23 @@ describe("When logged in", () => {
           profile: {
             profile: "profile_url",
           },
+          id_token: "token",
+          access_token: "access-token",
         },
       },
     };
-    const store = mockStore(initialState);
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Provider store={store}>
-          <LoginMenu />
-        </Provider>
-      </MemoryRouter>,
-    );
+    store = mockStore(initialState);
   });
 
   test("Logout button renders", () => {
+    renderLoginMenu();
     expect(
       screen.queryByText("globalNav.accountMenu.logout"),
     ).toBeInTheDocument();
   });
 
   test("My profile renders with correct link", () => {
+    renderLoginMenu();
     expect(screen.queryByText("globalNav.accountMenu.profile")).toHaveAttribute(
       "href",
       "profile_url/edit",
@@ -87,6 +97,7 @@ describe("When logged in", () => {
   });
 
   test("My projects renders with correct link", () => {
+    renderLoginMenu();
     expect(
       screen.queryByText("globalNav.accountMenu.projects"),
     ).toHaveAttribute("href", "/ja-JP/projects");

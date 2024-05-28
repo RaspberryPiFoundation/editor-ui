@@ -14,6 +14,7 @@ const AccessDeniedNoAuthModalEmbedded = (props) => {
         <a
           className="btn btn--secondary"
           href="https://projects.raspberrypi.org"
+          key="access-denied"
         >
           {t("project.accessDeniedNoAuthModal.projectsSiteLinkText")}
         </a>,

@@ -1,24 +1,34 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
+import Modal from "react-modal";
 import GeneralModal from "./GeneralModal";
 
 const defaultCallback = jest.fn();
 const closeModal = jest.fn();
 
+beforeAll(() => {
+  const root = global.document.createElement("div");
+  root.setAttribute("id", "app");
+  global.document.body.appendChild(root);
+  Modal.setAppElement("#app");
+});
+
 describe("With close button", () => {
   beforeEach(() => {
     render(
-      <div id="app">
-        <GeneralModal
-          isOpen={true}
-          closeModal={closeModal}
-          withCloseButton
-          defaultCallback={defaultCallback}
-          heading="My modal heading"
-          text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
-        />
-      </div>,
+      <GeneralModal
+        isOpen={true}
+        closeModal={closeModal}
+        withCloseButton
+        defaultCallback={defaultCallback}
+        heading="My modal heading"
+        text={[{ content: "Paragraph1", type: "paragraph" }]}
+        buttons={[
+          <button key="button" onClick={jest.fn()}>
+            My amazing button
+          </button>,
+        ]}
+      />,
     );
   });
 
@@ -35,7 +45,7 @@ describe("With close button", () => {
   });
 
   test("Pressing Enter calls the default callback", () => {
-    const modal = screen.getByRole("dialog");
+    const modal = screen.getByRole("dialog", { hidden: true });
     fireEvent.keyDown(modal, { key: "Enter" });
     expect(defaultCallback).toHaveBeenCalled();
   });
@@ -44,17 +54,19 @@ describe("With close button", () => {
 describe("Without close button", () => {
   beforeEach(() => {
     render(
-      <div id="app">
-        <GeneralModal
-          isOpen={true}
-          closeModal={closeModal}
-          withCloseButton={false}
-          defaultCallback={defaultCallback}
-          heading="My modal heading"
-          text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
-        />
-      </div>,
+      <GeneralModal
+        isOpen={true}
+        closeModal={closeModal}
+        withCloseButton={false}
+        defaultCallback={defaultCallback}
+        heading="My modal heading"
+        text={[{ content: "Paragraph1", type: "paragraph" }]}
+        buttons={[
+          <button key="button" onClick={jest.fn()}>
+            My amazing button
+          </button>,
+        ]}
+      />,
     );
   });
 

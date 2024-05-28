@@ -5,6 +5,8 @@
 import "@testing-library/jest-dom";
 import PyodideWorker from "../components/Editor/Runners/PyodideRunner/PyodideWorker.mock.js";
 
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,9 +37,13 @@ jest.mock("react-i18next", () => ({
       },
     };
   },
+  Trans: ({ children, i18nKey }) => children || i18nKey,
 }));
 
-jest.mock("./i18n", () => ({
+loadDevMessages();
+loadErrorMessages();
+
+jest.mock("../../src/utils/i18n.js", () => ({
   t: (string) => string,
 }));
 

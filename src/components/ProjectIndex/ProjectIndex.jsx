@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector, connect, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";

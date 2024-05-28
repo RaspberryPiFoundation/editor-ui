@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "react-modal";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -14,6 +15,13 @@ describe("Testing the rename file modal", () => {
   let store;
   let inputBox;
   let saveButton;
+
+  beforeAll(() => {
+    const root = global.document.createElement("div");
+    root.setAttribute("id", "app");
+    global.document.body.appendChild(root);
+    Modal.setAppElement("#app");
+  });
 
   beforeEach(() => {
     const middlewares = [];
@@ -45,14 +53,13 @@ describe("Testing the rename file modal", () => {
       },
     };
     store = mockStore(initialState);
+
     render(
       <Provider store={store}>
-        <div id="app">
-          <RenameFileModal />
-        </div>
+        <RenameFileModal />
       </Provider>,
     );
-    inputBox = screen.getByRole("textbox");
+    inputBox = screen.getByRole("textbox", { hidden: true });
     saveButton = screen
       .getByText("filePanel.renameFileModal.save")
       .closest("button");

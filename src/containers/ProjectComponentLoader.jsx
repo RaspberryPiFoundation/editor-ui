@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useProject } from "../hooks/useProject";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { login } from "../utils/login";
 
 import { MOBILE_MEDIA_QUERY } from "../utils/mediaQueryBreakpoints";
 
@@ -17,7 +19,7 @@ import RenameFileModal from "../components/Modals/RenameFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 
-const ProjectComponentLoader = (props) => {
+const ProjectComponentLoader = () => {
   const loading = useSelector((state) => state.editor.loading);
   const { identifier } = useParams();
   const user = useSelector((state) => state.auth.user);
@@ -28,6 +30,7 @@ const ProjectComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
+  const location = useLocation();
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
@@ -64,13 +67,28 @@ const ProjectComponentLoader = (props) => {
   });
 
   useEffect(() => {
-    if (loading === "idle" && project.identifier) {
-      navigate(`/${i18n.language}/projects/${project.identifier}`);
-    }
-    if (loading === "failed") {
-      navigate("/");
-    }
-  }, [loading, project, i18n.language, navigate]);
+    const eventName = "editor-projectIdentifierChanged";
+    const handleProjectIdentifierChanged = (e) => {
+      navigate(`/${i18n.language}/projects/${e.detail}`);
+    };
+    document.addEventListener(eventName, handleProjectIdentifierChanged);
+    return () => {
+      document.removeEventListener(eventName, handleProjectIdentifierChanged);
+    };
+  }, [i18n.language, navigate]);
+
+  useEffect(() => {
+    const handleLogIn = () => {
+      if (!user) {
+        login({ project, location });
+      }
+    };
+
+    document.addEventListener("editor-logIn", handleLogIn);
+    return () => {
+      document.removeEventListener("editor-logIn", handleLogIn);
+    };
+  }, [user, project, location]);
 
   return (
     <>
