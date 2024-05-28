@@ -92,8 +92,7 @@ describe("default behaviour", () => {
 });
 
 describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
-  // Must match HydraPublicApiClient::BYPASS_AUTH_USER_ID in editor-api
-  const authKey = "00000000-0000-0000-0000-000000000000";
+  const authKey = `oidc.user:https://auth-v1.raspberrypi.org:editor-api`;
 
   const user = { access_token: "dummy-access-token" };
   const originalIdentifier = "blank-python-starter";
