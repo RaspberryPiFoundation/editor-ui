@@ -6,14 +6,6 @@ import configureStore from "redux-mock-store";
 import Output from "./Output";
 import { MemoryRouter } from "react-router-dom";
 
-let mockBrowserPreview = "false";
-
-jest
-  .spyOn(URLSearchParams.prototype, "get")
-  .mockImplementation((key) =>
-    key === "browserPreview" ? mockBrowserPreview : null,
-  );
-
 const user = {
   access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
   profile: {
@@ -76,16 +68,17 @@ describe("When embedded", () => {
     expect(screen.queryByText("runButton.run")).toBeInTheDocument();
   });
 
-  // TODO: Get this test working
-  // test("Does not show run bar when browser preview", () => {
-  //   mockBrowserPreview = "true";
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <Output />
-  //       </MemoryRouter>
-  //     </Provider>,
-  //   );
-  //   expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
-  // });
+  test("Does not show run bar when browser preview", () => {
+    delete window.location;
+    window.location = { search: '?browserPreview=true' };
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Output />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  });
 });
