@@ -418,6 +418,26 @@ describe("When not embedded", () => {
           ],
         };
       });
+
+      test("leaves existing components intact", () => {
+        renderHook(() => useProject({ code: "# my source code" }), { wrapper });
+        expect(setProject).toHaveBeenCalledWith({
+          ...projectWithOnlyAssets,
+          components: [
+            {
+              name: "not-main",
+              extension: "py",
+              content: "# some other code",
+            },
+            {
+              name: "main",
+              extension: "py",
+              content: "# my source code",
+            },
+          ],
+          project_type: "python",
+        });
+      });
     });
   });
 

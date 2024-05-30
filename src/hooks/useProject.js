@@ -135,8 +135,10 @@ export const useProject = ({
       const otherComponents =
         project.components?.filter(
           (component) =>
-            component.name !== defaultName &&
-            component.extension !== defaultExtension,
+            !(
+              component.name === defaultName &&
+              component.extension === defaultExtension
+            ),
         ) || [];
 
       const updatedProject = {
