@@ -47,6 +47,7 @@
     "mime-types": "^2.1.35",
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
+    "ollama": "^0.5.1",
     "parse-link-header": "^2.0.0",
     "prismjs": "^1.29.0",
     "prompts": "2.4.0",

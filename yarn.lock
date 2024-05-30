@@ -2659,6 +2659,7 @@ __metadata:
     mock-match-media: ^0.4.3
     node-html-parser: ^6.1.5
     oidc-client: ^1.11.5
+    ollama: ^0.5.1
     optimize-css-assets-webpack-plugin: 5.0.4
     parse-link-header: ^2.0.0
     pnp-webpack-plugin: 1.6.4
@@ -13418,6 +13419,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ollama@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "ollama@npm:0.5.1"
+  dependencies:
+    whatwg-fetch: ^3.6.20
+  checksum: ec8f39f189d67c559729d1aaf58f48c425efaccc59a79c412e46b31f1501e068f415a3854698f15fc0a552fc0114749bad0f75e1d7c4e02dbb689d878012a326
+  languageName: node
+  linkType: hard
+
 "on-finished@npm:2.4.1":
   version: 2.4.1
   resolution: "on-finished@npm:2.4.1"
@@ -19202,6 +19212,13 @@ __metadata:
   version: 3.6.2
   resolution: "whatwg-fetch@npm:3.6.2"
   checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
+  languageName: node
+  linkType: hard
+
+"whatwg-fetch@npm:^3.6.20":
+  version: 3.6.20
+  resolution: "whatwg-fetch@npm:3.6.20"
+  checksum: c58851ea2c4efe5c2235f13450f426824cf0253c1d45da28f45900290ae602a20aff2ab43346f16ec58917d5562e159cd691efa368354b2e82918c2146a519c5
   languageName: node
   linkType: hard
 

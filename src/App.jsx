@@ -14,6 +14,7 @@ import BetaBanner from "./components/BetaBanner/BetaBanner";
 import BetaModal from "./components/Modals/BetaModal";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
 import ToastCloseButton from "./utils/ToastCloseButton";
+import ollama from "ollama";
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -21,6 +22,18 @@ function App() {
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
+
+  const response = ollama.chat({
+    model: "llama3",
+    messages: [
+      {
+        role: "user",
+        content: "What is the meaning of life?",
+      },
+    ],
+  });
+
+  console.log(response.message.content);
 
   return (
     <div id="app" className={`--${cookies.theme || themeDefault}`}>
