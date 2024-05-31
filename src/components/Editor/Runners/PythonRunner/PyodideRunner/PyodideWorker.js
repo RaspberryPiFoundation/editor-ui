@@ -183,8 +183,9 @@ const vendoredPackages = {
   pygal: {
     before: () => {
       pyodide.registerJsModule("pygal", { ...pygal });
-      pygal.config.renderChart = (content) =>
+      pygal.config.renderChart = (content) => {
         postMessage({ method: "handleVisual", origin: "pygal", content });
+      };
     },
     after: () => {},
   },

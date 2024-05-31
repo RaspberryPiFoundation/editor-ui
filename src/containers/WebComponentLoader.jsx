@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setSenseHatAlwaysEnabled,
+  setLoadRemixDisabled,
+} from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
@@ -28,19 +32,24 @@ const WebComponentLoader = (props) => {
     senseHatAlwaysEnabled = false,
     instructions,
     withProjectbar = false,
+    projectNameEditable = false,
     withSidebar = false,
     sidebarOptions = [],
     theme,
     embedded = false,
     hostStyles,
     showSavePrompt = false,
+    loadRemixDisabled = false,
   } = props;
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const user = useSelector((state) => state.auth.user);
+  const localStorageUser = authKey
+    ? JSON.parse(localStorage.getItem(authKey))
+    : null;
+  const user = useSelector((state) => state.auth.user || localStorageUser);
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
@@ -97,7 +106,7 @@ const WebComponentLoader = (props) => {
     projectIdentifier: projectIdentifier,
     code,
     accessToken: user?.access_token,
-    loadRemix,
+    loadRemix: loadRemix && !loadRemixDisabled,
     loadCache,
     remixLoadFailed,
   });
@@ -113,6 +122,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
   }, [senseHatAlwaysEnabled, dispatch]);
+
+  useEffect(() => {
+    dispatch(setLoadRemixDisabled(loadRemixDisabled));
+  }, [loadRemixDisabled, dispatch]);
 
   useEffect(() => {
     if (instructions) {
@@ -142,6 +155,7 @@ const WebComponentLoader = (props) => {
             />
             <WebComponentProject
               withProjectbar={withProjectbar}
+              nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
             />
@@ -154,7 +168,7 @@ const WebComponentLoader = (props) => {
     </>
   ) : (
     <>
-      <p>{t("webComponent.loading")}</p>;
+      <p>{t("webComponent.loading")}</p>
     </>
   );
 };

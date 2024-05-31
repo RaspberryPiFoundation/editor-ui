@@ -94,4 +94,5 @@ module.exports = {
       filename: "web-component.html",
     }),
   ],
+    stats: "minimal",
 };

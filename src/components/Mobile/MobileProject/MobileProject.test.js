@@ -30,6 +30,7 @@ describe("When code is not running", () => {
               content: "print('hello')",
             },
           ],
+          image_list: [],
           user_id: user.profile.user,
         },
         codeRunTriggered: false,
@@ -67,6 +68,7 @@ describe("When code is running", () => {
               content: "print('hello')",
             },
           ],
+          image_list: [],
           user_id: user.profile.user,
         },
         codeRunTriggered: true,
@@ -98,7 +100,14 @@ describe("When withSidebar is true", () => {
     const initialState = {
       editor: {
         project: {
-          components: [],
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -129,7 +138,14 @@ describe("When sidebar is open", () => {
     const initialState = {
       editor: {
         project: {
-          components: [],
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -156,7 +172,14 @@ describe("When withSidebar is false", () => {
     const initialState = {
       editor: {
         project: {
-          components: [],
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],

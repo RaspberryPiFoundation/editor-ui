@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 const ProjectName = ({
   className = null,
   showLabel = false,
-  forWebComponent = false,
+  editable = true,
 }) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
 
@@ -24,11 +24,11 @@ const ProjectName = ({
   const nameInput = useRef();
   const tickButton = useRef();
 
-  const [isEditable, setEditable] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [name, setName] = useState(project.name || t("projectName.newProject"));
 
   const onEditNameButtonClick = () => {
-    setEditable(true);
+    setEditing(true);
   };
 
   const selectText = () => {
@@ -36,7 +36,7 @@ const ProjectName = ({
   };
 
   const handleScroll = () => {
-    if (!isEditable) {
+    if (!isEditing) {
       nameInput.current.scrollLeft = 0;
     }
   };
@@ -52,14 +52,14 @@ const ProjectName = ({
   const updateName = (event) => {
     event.stopPropagation();
     event.preventDefault();
-    setEditable(false);
+    setEditing(false);
     dispatch(updateProjectName(nameInput.current.value));
   };
 
   const resetName = useCallback(
     (event) => {
       event.preventDefault();
-      setEditable(false);
+      setEditing(false);
       setName(project.name);
     },
     [project.name],
@@ -74,7 +74,7 @@ const ProjectName = ({
   };
 
   useEffect(() => {
-    if (isEditable) {
+    if (isEditing) {
       nameInput.current.focus();
     }
   });
@@ -82,7 +82,7 @@ const ProjectName = ({
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        isEditable &&
+        isEditing &&
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
         tickButton.current &&
@@ -95,7 +95,7 @@ const ProjectName = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isEditable, nameInput, tickButton, project, resetName]);
+  }, [isEditing, nameInput, tickButton, project, resetName]);
 
   return (
     <>
@@ -109,9 +109,7 @@ const ProjectName = ({
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {forWebComponent ? (
-          <div className="project-name__title">{name}</div>
-        ) : (
+        {editable ? (
           <input
             className="project-name__input"
             id={"project_name"}
@@ -121,23 +119,25 @@ const ProjectName = ({
             onScroll={handleScroll}
             onKeyDown={handleKeyDown}
             value={name}
-            disabled={!isEditable}
+            disabled={!isEditing}
             onChange={handleOnChange}
           />
+        ) : (
+          <div className="project-name__title">{name}</div>
         )}
-        {!forWebComponent && (
+        {editable && (
           <div ref={tickButton}>
             <DesignSystemButton
               className="project-name__button"
               aria-label={t(
-                isEditable ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
               title={t(
-                isEditable ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
-              icon={isEditable ? <TickIcon /> : <PencilIcon />}
-              onClick={isEditable ? updateName : onEditNameButtonClick}
-              type={isEditable ? "primary" : "tertiary"}
+              icon={isEditing ? <TickIcon /> : <PencilIcon />}
+              onClick={isEditing ? updateName : onEditNameButtonClick}
+              type={isEditing ? "primary" : "tertiary"}
             />
           </div>
         )}

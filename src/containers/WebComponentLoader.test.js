@@ -88,7 +88,7 @@ describe("When no user is in state", () => {
         },
         hasShownSavePrompt: true,
         justLoaded: false,
-        user: undefined,
+        user: null,
         saveTriggered: false,
       });
     });
@@ -146,16 +146,16 @@ describe("When no user is in state", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: undefined,
-        loadRemix: false,
-        loadCache: true,
+        accessToken: "my_token",
+        loadRemix: true,
+        loadCache: false,
         remixLoadFailed: false,
       });
     });
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user: undefined,
+        user,
         project: { components: [] },
         hasShownSavePrompt: true,
         justLoaded: false,
@@ -259,6 +259,7 @@ describe("When user is in state", () => {
                 instructions={instructions}
                 authKey={authKey}
                 theme="light"
+                loadRemixDisabled={false}
               />
             </CookiesProvider>
           </Provider>,
@@ -273,6 +274,35 @@ describe("When user is in state", () => {
           loadRemix: true,
           loadCache: false,
           remixLoadFailed: false,
+        });
+      });
+
+      describe("when loadRemixDisabled is true", () => {
+        beforeEach(() => {
+          render(
+            <Provider store={store}>
+              <CookiesProvider cookies={cookies}>
+                <WebComponentLoader
+                  identifier={identifier}
+                  instructions={instructions}
+                  authKey={authKey}
+                  theme="light"
+                  loadRemixDisabled={true}
+                />
+              </CookiesProvider>
+            </Provider>,
+          );
+        });
+
+        test("Calls useProject hook with loadRemix set to false, i.e. it is overidden", () => {
+          expect(useProject).toHaveBeenCalledWith({
+            projectIdentifier: identifier,
+            code: undefined,
+            accessToken: "my_token",
+            loadRemix: false,
+            loadCache: false,
+            remixLoadFailed: false,
+          });
         });
       });
 

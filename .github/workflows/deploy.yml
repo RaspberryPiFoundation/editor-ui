@@ -42,10 +42,6 @@ on:
         required: false
         default: ""
         type: string
-      react_app_login_enabled:
-        required: false
-        default: "true"
-        type: string
       react_app_plausible_data_domain:
         required: false
         default: "staging-editor.raspberrypi.org"
@@ -111,10 +107,10 @@ jobs:
           [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Cache dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: "yarn"
@@ -144,7 +140,6 @@ jobs:
           REACT_APP_BASE_URL: ${{ needs.setup-environment.outputs.react_app_base_url }}
           REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
           REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
-          REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
           REACT_APP_PLAUSIBLE_DATA_DOMAIN: ${{ inputs.react_app_plausible_data_domain }}
           REACT_APP_PLAUSIBLE_SOURCE: ${{ inputs.react_app_plausible_source }}
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
