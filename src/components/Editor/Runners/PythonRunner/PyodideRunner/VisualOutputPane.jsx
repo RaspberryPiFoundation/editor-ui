@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
+import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {
@@ -44,8 +44,16 @@ const showVisual = (visual, output) => {
             },
           },
         },
+        tooltip: {
+          ...visual.content.tooltip,
+          formatter:
+            visual.content.chart.type === "pie"
+              ? function () {
+                  return this.key + ": " + this.y;
+                }
+              : null,
+        },
       };
-
       Highcharts.chart(output.current, chartContent);
       break;
     case "turtle":

@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Support to enable embedding iframes in HTML projects from in-house domains (#985)
 - Unit tests for `pyodide` runner (#976)
+- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
+
+### Changed
+
+- Runner defaults to `pyodide` (#937)
 
 ## [0.22.2] - 2024-03-18
 
