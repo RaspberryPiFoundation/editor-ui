@@ -8,13 +8,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Support to enable embedding iframes in HTML projects from in-house domains (#985)
-- Unit tests for `pyodide` runner (#976)
-- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
+- Add `project_name_editable` attribute to web component (#1009)
+- Fires custom event when the theme changes (#1015)
 
 ### Changed
 
+- Remove unused `/embedded/projects/:identifier` route (#1013)
 - Runner defaults to `pyodide` (#937)
+
+### Fixed
+
+- Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
+- Fix infinite remix loop when `BYPASS_AUTH` set in `editor-api` (#1007)
+- Fixes for docker-compose.yml (#1008)
+- Fix deprecation warnings in GitHub Actions (#1011)
+- Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
+- Improvements to Cypress specs in CI (#1017)
+- Fix warnings and verbose output when starting Webpack Dev Server (#1018)
+- Add e2e spec for project remix behaviour in web component (#1020)
+- Fix initial value of `user` in `WebComponentLoader` (#1021)
+- Make `authKey` in e2e web component spec more realistic (#1022)
+- Remove unused `ComponentStore` (#1023)
+- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
+
+## [0.23.0] - 2024-05-09
+
+### Added
+
+- Support to enable embedding iframes in HTML projects from in-house domains (#985)
+- Dispatch event when project identifier changes, e.g. after project is remixed (#2830)
+- Add `load_remix_disabled` attribute to web component (#992)
+
+### Changed
+
+- Invalidate cached project when project is remixed (#1003)
+
+### Fixed
+
+- Unit tests for `pyodide` runner (#976)
+- Remove broken `format` script (#991)
 
 ## [0.22.2] - 2024-03-18
 
@@ -762,7 +794,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.22.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
 [0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0

@@ -5,7 +5,6 @@ export default defineConfig({
     chromeWebSecurity: false,
     supportFile: false,
     defaultCommandTimeout: 10000,
-    screenshotOnRunFailure: process.env.CI !== "true",
     video: false,
     setupNodeEvents(on, config) {
       on("task", {

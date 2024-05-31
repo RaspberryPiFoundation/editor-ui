@@ -10,6 +10,7 @@ import { setIsSplitView, setWebComponent } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
+  projectIdentifierChangedEvent,
   runCompletedEvent,
   runStartedEvent,
   stepChangedEvent,
@@ -17,10 +18,14 @@ import {
 
 const WebComponentProject = ({
   withProjectbar = false,
+  nameEditable = false,
   withSidebar = false,
   sidebarOptions = [],
 }) => {
   const project = useSelector((state) => state.editor.project);
+  const projectIdentifier = useSelector(
+    (state) => state.editor.project.identifier,
+  );
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -45,6 +50,12 @@ const WebComponentProject = ({
     }, 2000);
     return () => clearTimeout(timeout);
   }, [project]);
+
+  useEffect(() => {
+    if (projectIdentifier) {
+      document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
+    }
+  }, [projectIdentifier]);
 
   useEffect(() => {
     if (codeRunTriggered) {
@@ -76,7 +87,7 @@ const WebComponentProject = ({
         />
       ) : (
         <Project
-          forWebComponent={true}
+          nameEditable={nameEditable}
           withProjectbar={withProjectbar}
           withSidebar={withSidebar}
           sidebarOptions={sidebarOptions}

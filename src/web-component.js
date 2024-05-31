@@ -43,11 +43,13 @@ class WebComponent extends HTMLElement {
       "sense_hat_always_enabled",
       "instructions",
       "with_projectbar",
+      "project_name_editable",
       "with_sidebar",
       "sidebar_options",
       "theme",
       "embedded",
       "show_save_prompt",
+      "load_remix_disabled",
     ];
   }
 
@@ -59,7 +61,9 @@ class WebComponent extends HTMLElement {
         "sense_hat_always_enabled",
         "with_sidebar",
         "with_projectbar",
+        "project_name_editable",
         "show_save_prompt",
+        "load_remix_disabled",
       ].includes(name)
     ) {
       value = newVal !== "false";

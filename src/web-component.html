@@ -32,6 +32,7 @@
   </head>
   <body>
     <p id="results"></p>
+    <p id="project-identifier"></p>
   </body>
 
   <script>
@@ -74,6 +75,10 @@
         // const error = webComp.isErrorFree
         console.log(e.detail);
         document.getElementById("results").innerText = JSON.stringify(e.detail);
+      });
+
+      document.addEventListener("editor-projectIdentifierChanged", (e) => {
+        document.getElementById("project-identifier").innerText = e.detail;
       });
 
       document.getElementsByTagName("body")[0].prepend(webComp);
