@@ -1,5 +1,6 @@
 import React from "react";
-import PythonRunner from "./PythonRunner/PythonRunner";
+import PyodideRunner from "./PythonRunner/PyodideRunner/PyodideRunner";
+// import PythonRunner from "./PythonRunner/SkulptRunner/SkulptRunner";
 import HtmlRunner from "./HtmlRunner/HtmlRunner";
 
 const RunnerFactory = ({ projectType }) => {
@@ -7,7 +8,7 @@ const RunnerFactory = ({ projectType }) => {
     if (projectType === "html") {
       return HtmlRunner;
     } else {
-      return PythonRunner;
+      return PyodideRunner;
     }
   };
 

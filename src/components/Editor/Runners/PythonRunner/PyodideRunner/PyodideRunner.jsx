@@ -19,12 +19,46 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+// import PyodideWorker from "worker-loader!./PyodideWorker.js";
+// import PyodideWorker from "worker-plugin/loader!?esModule./PyodideWorkerObj.js";
+// import PyodideWorker from "worker-plugin/loader!./PyodideWorker.js"; // outputs a string like 0.web-component.worker.js
+// import serviceWorker from "worker-loader!../../../../utils/PyodideServiceWorker.js";
+// import serviceWorker from "../../../../utils/PyodideServiceWorker.js";
+
+// import fileContent from "./PyodideWorkerObj.js";
+// import fileContent from "./PyodideWorker.js";
+
+// const blob = new Blob([fileContent], { type: "application/javascript" }); // Create a blob from the imported file
+// const url = URL.createObjectURL(blob); // Create a blob URL
+
+const getWorkerURL = (url) => {
+  const content = `importScripts("${url}");`;
+  const blob = new Blob([content], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+};
+
+const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
+// const serviceWorkerUrl = getWorkerURL(
+//   `${process.env.PUBLIC_URL}/PyodideServiceWorker.js`,
+// );
 
 const PyodideRunner = ({ active }) => {
-  const pyodideWorker = useMemo(
-    () => new Worker("./PyodideWorker.js", { type: "module" }),
-    [],
-  );
+  // const pyodideWorker = useMemo(
+  //   () =>
+  //     // new Worker(`${process.env.PUBLIC_URL}/PyodideWorker.js`, {
+  //     // new Worker(new URL("./PyodideWorker.js", import.meta.url), {
+  //     new Worker(`./PyodideWorker.js`, {
+  //       type: "module",
+  //       // credentials: "omit", // or "same-origin" if your server requires cookies or HTTP authentication
+  //     }),
+  //   [],
+  // );
+  // const pyodideWorker = useMemo(() => new PyodideWorker(), []);
+  // const pyodideWorker = useMemo(() => new Worker(PyodideWorker), []);
+  // const pyodideWorker = useMemo(() => PyodideWorker, []);
+  // const pyodideWorker = useMemo(() => new Worker(url, { type: "module" }), []);
+  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+  // const pyodideWorker = useMemo(() => new Worker(PyodideWorker()), []);
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
