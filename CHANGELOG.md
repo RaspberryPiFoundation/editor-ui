@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Remove unused `/embedded/projects/:identifier` route (#1013)
+- Runner defaults to `pyodide` (#937)
 
 ### Fixed
 
@@ -28,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix initial value of `user` in `WebComponentLoader` (#1021)
 - Make `authKey` in e2e web component spec more realistic (#1022)
 - Remove unused `ComponentStore` (#1023)
+- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
 
 ## [0.23.0] - 2024-05-09
 

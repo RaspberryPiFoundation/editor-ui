@@ -30,6 +30,7 @@ describe("When state set", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -85,6 +86,7 @@ describe("When code run finishes", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -115,7 +117,10 @@ describe("When withSidebar is true", () => {
     const initialState = {
       editor: {
         project: {
-          components: [],
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -148,7 +153,10 @@ describe("When withProjectbar is true", () => {
     const initialState = {
       editor: {
         project: {
-          components: [],
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+          image_list: [],
         },
         openFiles: [],
         focussedFileIndices: [],
