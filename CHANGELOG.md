@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.24.0] - 2024-06-03
+
+### Added
+
 - Add `project_name_editable` attribute to web component (#1009)
 - Fires custom event when the theme changes (#1015)
 - Add `output_only` attribute to web component (#1019 & originally #782)
@@ -799,7 +807,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.23.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
 [0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
