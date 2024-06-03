@@ -10,6 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Add `project_name_editable` attribute to web component (#1009)
 - Fires custom event when the theme changes (#1015)
+- Add `output_only` attribute to web component (#1019 & originally #782)
+- Add `assets_identifier` attribute to web component (#1019 & originally #901)
+- Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
+- Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
+- Send error details in "editor-runCompleted" event (#1019 & originally #915)
+- Return error details to web component (#1019 & originally #915)
+- Add `output_panels` attribute to web component (#1019 & originally #909)
 
 ### Changed
 

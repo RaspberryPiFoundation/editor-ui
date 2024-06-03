@@ -6,14 +6,6 @@ import configureStore from "redux-mock-store";
 import Output from "./Output";
 import { MemoryRouter } from "react-router-dom";
 
-let mockBrowserPreview = "false";
-
-jest
-  .spyOn(URLSearchParams.prototype, "get")
-  .mockImplementation((key) =>
-    key === "browserPreview" ? mockBrowserPreview : null,
-  );
-
 const user = {
   access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
   profile: {
@@ -21,71 +13,140 @@ const user = {
   },
 };
 
-test("Component renders", () => {
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: {
-        components: [],
-      },
-    },
-    auth: {
-      user,
-    },
-  };
-  const store = mockStore(initialState);
-  const { container } = render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <Output />
-      </MemoryRouter>
-    </Provider>,
-  );
-  expect(container.lastChild).toHaveClass("proj-runner-container");
-});
+let store;
+let mockStore;
+let initialState;
 
-describe("When embedded", () => {
-  let store;
-
+describe("Output component", () => {
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    mockStore = configureStore(middlewares);
+    initialState = {
       editor: {
         project: {
           components: [],
         },
-        isEmbedded: true,
       },
       auth: {
         user,
       },
     };
-    store = mockStore(initialState);
   });
 
-  test("Shows run bar when not browser preview", () => {
-    render(
+  test("renders", () => {
+    const store = mockStore(initialState);
+    const { container } = render(
       <Provider store={store}>
         <MemoryRouter>
           <Output />
         </MemoryRouter>
       </Provider>,
     );
-    expect(screen.queryByText("runButton.run")).toBeInTheDocument();
+    expect(container.lastChild).toHaveClass("proj-runner-container");
   });
 
-  // TODO: Get this test working
-  // test("Does not show run bar when browser preview", () => {
-  //   mockBrowserPreview = "true";
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <Output />
-  //       </MemoryRouter>
-  //     </Provider>,
-  //   );
-  //   expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
-  // });
+  describe("when isEmbedded state is true", () => {
+    beforeEach(() => {
+      initialState.editor.isEmbedded = true;
+      store = mockStore(initialState);
+    });
+
+    test("shows run bar", () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <Output />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(screen.queryByText("runButton.run")).toBeInTheDocument();
+    });
+
+    describe("when webComponent state is true", () => {
+      beforeEach(() => {
+        initialState.editor.webComponent = true;
+        store = mockStore(initialState);
+      });
+
+      test("does not show run bar", () => {
+        render(
+          <Provider store={store}>
+            <MemoryRouter>
+              <Output />
+            </MemoryRouter>
+          </Provider>,
+        );
+        expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+      });
+    });
+
+    describe("when browserPreview property is true", () => {
+      test("does not show run bar", () => {
+        render(
+          <Provider store={store}>
+            <MemoryRouter>
+              <Output browserPreview={true} />
+            </MemoryRouter>
+          </Provider>,
+        );
+        expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+      });
+    });
+
+    describe("when browserPreview is true in query string", () => {
+      let originalLocation;
+
+      beforeEach(() => {
+        originalLocation = window.location;
+        delete window.location;
+        window.location = { search: "?browserPreview=true" };
+      });
+
+      afterEach(() => {
+        window.location = originalLocation;
+      });
+
+      test("does not show run bar", () => {
+        render(
+          <Provider store={store}>
+            <MemoryRouter>
+              <Output />
+            </MemoryRouter>
+          </Provider>,
+        );
+        expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("when isEmbedded state is false", () => {
+    beforeEach(() => {
+      initialState.editor.isEmbedded = false;
+      store = mockStore(initialState);
+    });
+
+    test("does not show run bar", () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <Output />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+    });
+
+    describe("when embedded property is true", () => {
+      test("shows run bar", () => {
+        render(
+          <Provider store={store}>
+            <MemoryRouter>
+              <Output embedded={true} />
+            </MemoryRouter>
+          </Provider>,
+        );
+        expect(screen.queryByText("runButton.run")).toBeInTheDocument();
+      });
+    });
+  });
 });

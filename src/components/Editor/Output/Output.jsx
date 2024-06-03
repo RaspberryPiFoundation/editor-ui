@@ -4,22 +4,32 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = () => {
+const Output = ({
+  embedded = false,
+  browserPreview = false,
+  outputPanels = ["text", "visual"],
+}) => {
   const project = useSelector((state) => state.editor.project);
-  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const isEmbedded =
+    useSelector((state) => state.editor.isEmbedded) || embedded;
   const searchParams = new URLSearchParams(window.location.search);
-  const isBrowserPreview = searchParams.get("browserPreview") === "true";
+  const isBrowserPreview =
+    searchParams.get("browserPreview") === "true" || browserPreview;
   const usePyodide = searchParams.get("pyodide") === "true";
+  const webComponent = useSelector((state) => state.editor.webComponent);
 
   return (
     <>
       <ExternalFiles />
-      <div className="proj-runner-container">
+      <div className="proj-runner-container" data-testid="output">
         <RunnerFactory
           projectType={project.project_type}
           usePyodide={usePyodide}
+          outputPanels={outputPanels}
         />
-        {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
+        {!webComponent && isEmbedded && !isBrowserPreview && (
+          <RunBar embedded />
+        )}
       </div>
     </>
   );

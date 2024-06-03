@@ -4,6 +4,7 @@ import {
   getImage,
   createOrUpdateProject,
   readProject,
+  loadAssets,
   createRemix,
   uploadImages,
   readProjectList,
@@ -128,6 +129,40 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier, null, accessToken);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}`,
+      authHeaders,
+    );
+  });
+
+  test("Load assets with identifier only", async () => {
+    const projectIdentifier = "hello-world-project";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images`,
+      defaultHeaders,
+    );
+  });
+
+  test("Load assets with locale", async () => {
+    const projectIdentifier = "hello-world-project";
+    const locale = "es-LA";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier, locale);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images?locale=${locale}`,
+      defaultHeaders,
+    );
+  });
+
+  test("Load assets with access token", async () => {
+    const projectIdentifier = "hello-world-project";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier, null, accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images`,
       authHeaders,
     );
   });

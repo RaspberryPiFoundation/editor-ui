@@ -26,6 +26,7 @@ import Style from "style-it";
 
 const WebComponentLoader = (props) => {
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
@@ -36,10 +37,12 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     sidebarOptions = [],
     theme,
+    outputPanels = ["text", "visual"],
     embedded = false,
     hostStyles,
     showSavePrompt = false,
     loadRemixDisabled = false,
+    outputOnly = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -104,6 +107,7 @@ const WebComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
+    assetsIdentifier: assetsIdentifier,
     code,
     accessToken: user?.access_token,
     loadRemix: loadRemix && !loadRemixDisabled,
@@ -158,6 +162,8 @@ const WebComponentLoader = (props) => {
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
+              outputOnly={outputOnly}
+              outputPanels={outputPanels}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
