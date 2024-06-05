@@ -255,6 +255,79 @@ describe("When output_only is true", () => {
   });
 });
 
+describe("outputSplitView property", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+  });
+
+  describe("when property is not set", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to false by default", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: false },
+        ]),
+      );
+    });
+  });
+
+  describe("when property is false", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputSplitView={false} />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to false", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: false },
+        ]),
+      );
+    });
+  });
+
+  describe("when property is true", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputSplitView={true} />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to true", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: true },
+        ]),
+      );
+    });
+  });
+});
+
 afterAll(() => {
   document.removeEventListener("editor-codeChanged", codeChangedHandler);
   document.removeEventListener("editor-runStarted", runStartedHandler);

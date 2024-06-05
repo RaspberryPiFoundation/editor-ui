@@ -43,6 +43,7 @@ const WebComponentLoader = (props) => {
     showSavePrompt = false,
     loadRemixDisabled = false,
     outputOnly = false,
+    outputSplitView = false,
   } = props;
 
   const dispatch = useDispatch();
@@ -164,6 +165,7 @@ const WebComponentLoader = (props) => {
               sidebarOptions={sidebarOptions}
               outputOnly={outputOnly}
               outputPanels={outputPanels}
+              outputSplitView={outputSplitView}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
