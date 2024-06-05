@@ -69,6 +69,7 @@ class WebComponent extends HTMLElement {
         "show_save_prompt",
         "load_remix_disabled",
         "output_only",
+        "embedded",
       ].includes(name)
     ) {
       value = newVal !== "false";

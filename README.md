@@ -73,6 +73,7 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `output_only`: Only display the output panel (defaults to `false`)
 - `assets_identifier`: Load assets (not code) from this project identifier
 - `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 
 ### `yarn start:wc`
 
