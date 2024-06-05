@@ -10,7 +10,6 @@ const Output = ({ outputPanels = ["text", "visual"] }) => {
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
   const usePyodide = searchParams.get("pyodide") === "true";
-  const webComponent = useSelector((state) => state.editor.webComponent);
 
   return (
     <>
@@ -21,9 +20,7 @@ const Output = ({ outputPanels = ["text", "visual"] }) => {
           usePyodide={usePyodide}
           outputPanels={outputPanels}
         />
-        {!webComponent && isEmbedded && !isBrowserPreview && (
-          <RunBar embedded />
-        )}
+        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>
     </>
   );
