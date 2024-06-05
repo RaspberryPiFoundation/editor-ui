@@ -80,19 +80,6 @@ describe("Output component", () => {
       });
     });
 
-    describe("when browserPreview property is true", () => {
-      test("does not show run bar", () => {
-        render(
-          <Provider store={store}>
-            <MemoryRouter>
-              <Output browserPreview={true} />
-            </MemoryRouter>
-          </Provider>,
-        );
-        expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
-      });
-    });
-
     describe("when browserPreview is true in query string", () => {
       let originalLocation;
 
@@ -134,19 +121,6 @@ describe("Output component", () => {
         </Provider>,
       );
       expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
-    });
-
-    describe("when embedded property is true", () => {
-      test("shows run bar", () => {
-        render(
-          <Provider store={store}>
-            <MemoryRouter>
-              <Output embedded={true} />
-            </MemoryRouter>
-          </Provider>,
-        );
-        expect(screen.queryByText("runButton.run")).toBeInTheDocument();
-      });
     });
   });
 });

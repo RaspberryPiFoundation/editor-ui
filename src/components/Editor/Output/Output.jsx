@@ -4,17 +4,11 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = ({
-  embedded = false,
-  browserPreview = false,
-  outputPanels = ["text", "visual"],
-}) => {
+const Output = ({ outputPanels = ["text", "visual"] }) => {
   const project = useSelector((state) => state.editor.project);
-  const isEmbedded =
-    useSelector((state) => state.editor.isEmbedded) || embedded;
+  const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
-  const isBrowserPreview =
-    searchParams.get("browserPreview") === "true" || browserPreview;
+  const isBrowserPreview = searchParams.get("browserPreview") === "true";
   const usePyodide = searchParams.get("pyodide") === "true";
   const webComponent = useSelector((state) => state.editor.webComponent);
 

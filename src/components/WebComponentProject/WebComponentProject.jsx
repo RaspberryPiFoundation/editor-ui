@@ -108,13 +108,7 @@ const WebComponentProject = ({
         ))}
       {outputOnly && (
         <div className="embedded-viewer" data-testid="output-only">
-          {loading === "success" && (
-            <Output
-              embedded={true}
-              browserPreview={false}
-              outputPanels={outputPanels}
-            />
-          )}
+          {loading === "success" && <Output outputPanels={outputPanels} />}
         </div>
       )}
     </>
