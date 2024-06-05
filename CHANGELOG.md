@@ -8,7 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Add `embedded` attribute to web component (#1030)
+- Add `output_split_view` attribute to web component (#1030)
+
 ### Changed
+
+- Changes to web component behaviour to support use in embedded view in editor-standalone (#1030)
 
 ### Fixed
 
