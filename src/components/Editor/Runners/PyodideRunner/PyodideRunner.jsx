@@ -14,7 +14,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../utils/apiCallHandler";
+import { Api } from "../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
@@ -25,6 +25,7 @@ const PyodideRunner = () => {
     () => new Worker("./PyodideWorker.js", { type: "module" }),
     [],
   );
+  const api = new Api();
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -139,7 +140,7 @@ const PyodideRunner = () => {
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
+  const handleError = async (file, line, mistake, type, info) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {

@@ -1,124 +1,130 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
-const host = process.env.REACT_APP_API_ENDPOINT;
+export class Api {
+  api;
 
-const get = async (url, headers) => {
-  return await axios.get(url, headers);
-};
+  constructor() {
+    this.api = axios.create({ baseURL: process.env.REACT_APP_API_ENDPOINT });
+  };
 
-const post = async (url, body, headers) => {
-  return await axios.post(url, body, headers);
-};
+  async createOrUpdateProject (projectWithUserId, accessToken) {
+    const project = omit(projectWithUserId, ["user_id"]);
+    if (!project.identifier) {
+      return await post(
+        `${host}/api/projects`,
+        { project },
+        headers(accessToken),
+      );
+    } else {
+      return await put(
+        `${host}/api/projects/${project.identifier}`,
+        { project },
+        headers(accessToken),
+      );
+    }
+  };
 
-const put = async (url, body, headers) => {
-  return await axios.put(url, body, headers);
-};
+  async deleteProject(identifier, accessToken) {
+    return await axios.delete(
+      `${host}/api/projects/${identifier}`,
+      headers(accessToken),
+    );
+  };
 
-const headers = (accessToken) => {
-  let headersHash;
-  if (accessToken) {
-    headersHash = { Accept: "application/json", Authorization: accessToken };
-  } else {
-    headersHash = { Accept: "application/json" };
-  }
-  return { headers: headersHash };
-};
+  async getImage(url) {
+    return await get(url, headers());
+  };
 
-export const createOrUpdateProject = async (projectWithUserId, accessToken) => {
-  const project = omit(projectWithUserId, ["user_id"]);
-  if (!project.identifier) {
+  async loadRemix(projectIdentifier, accessToken) {
+    return await get(
+      `${host}/api/projects/${projectIdentifier}/remix`,
+      headers(accessToken),
+    );
+  };
+
+  async createRemix(project, accessToken) {
     return await post(
-      `${host}/api/projects`,
+      `${host}/api/projects/${project.identifier}/remix`,
       { project },
       headers(accessToken),
     );
-  } else {
-    return await put(
-      `${host}/api/projects/${project.identifier}`,
-      { project },
+  };
+
+  async readProject(projectIdentifier, locale, accessToken) {
+    const queryString = locale ? `?locale=${locale}` : "";
+    return await get(
+      `${host}/api/projects/${projectIdentifier}${queryString}`,
       headers(accessToken),
     );
-  }
-};
+  };
 
-export const deleteProject = async (identifier, accessToken) => {
-  return await axios.delete(
-    `${host}/api/projects/${identifier}`,
-    headers(accessToken),
-  );
-};
+  async loadAssets(assetsIdentifier, locale, accessToken) {
+    const queryString = locale ? `?locale=${locale}` : "";
+    return await get(
+      `${host}/api/projects/${assetsIdentifier}/images${queryString}`,
+      headers(accessToken),
+    );
+  };
 
-export const getImage = async (url) => {
-  return await get(url, headers());
-};
+  async readProjectList(page, accessToken) {
+    return await get(`${host}/api/projects`, {
+      params: { page },
+      ...headers(accessToken),
+    });
+  };
 
-export const loadRemix = async (projectIdentifier, accessToken) => {
-  return await get(
-    `${host}/api/projects/${projectIdentifier}/remix`,
-    headers(accessToken),
-  );
-};
+  async uploadImages(projectIdentifier, accessToken, images) {
+    var formData = new FormData();
 
-export const createRemix = async (project, accessToken) => {
-  return await post(
-    `${host}/api/projects/${project.identifier}/remix`,
-    { project },
-    headers(accessToken),
-  );
-};
+    images.forEach((image) => {
+      formData.append("images[]", image, image.name);
+    });
 
-export const readProject = async (projectIdentifier, locale, accessToken) => {
-  const queryString = locale ? `?locale=${locale}` : "";
-  return await get(
-    `${host}/api/projects/${projectIdentifier}${queryString}`,
-    headers(accessToken),
-  );
-};
+    return await post(
+      `${host}/api/projects/${projectIdentifier}/images`,
+      formData,
+      { ...headers(accessToken), "Content-Type": "multipart/form-data" },
+    );
+  };
 
-export const loadAssets = async (assetsIdentifier, locale, accessToken) => {
-  const queryString = locale ? `?locale=${locale}` : "";
-  return await get(
-    `${host}/api/projects/${assetsIdentifier}/images${queryString}`,
-    headers(accessToken),
-  );
-};
+  async createError(
+    projectIdentifier,
+    userId,
+    error,
+    sendError = false,
+  ) {
+    if (!sendError) {
+      return;
+    }
+    const { errorMessage, errorType } = error;
+    return await post(`${host}/api/project_errors`, {
+      error: errorMessage,
+      error_type: errorType,
+      project_id: projectIdentifier,
+      user_id: userId,
+    });
+  };
 
-export const readProjectList = async (page, accessToken) => {
-  return await get(`${host}/api/projects`, {
-    params: { page },
-    ...headers(accessToken),
-  });
-};
+  async #get(url, headers) {
+    return await axios.get(url, headers);
+  };
 
-export const uploadImages = async (projectIdentifier, accessToken, images) => {
-  var formData = new FormData();
+  async #post(url, body, headers) {
+    return await axios.post(url, body, headers);
+  };
 
-  images.forEach((image) => {
-    formData.append("images[]", image, image.name);
-  });
+  async #put(url, body, headers) {
+    return await axios.put(url, body, headers);
+  };
 
-  return await post(
-    `${host}/api/projects/${projectIdentifier}/images`,
-    formData,
-    { ...headers(accessToken), "Content-Type": "multipart/form-data" },
-  );
-};
-
-export const createError = async (
-  projectIdentifier,
-  userId,
-  error,
-  sendError = false,
-) => {
-  if (!sendError) {
-    return;
-  }
-  const { errorMessage, errorType } = error;
-  return await post(`${host}/api/project_errors`, {
-    error: errorMessage,
-    error_type: errorType,
-    project_id: projectIdentifier,
-    user_id: userId,
-  });
-};
+  #headers(accessToken) {
+    let headersHash;
+    if (accessToken) {
+      headersHash = { Accept: "application/json", Authorization: accessToken };
+    } else {
+      headersHash = { Accept: "application/json" };
+    }
+    return { headers: headersHash };
+  };
+}

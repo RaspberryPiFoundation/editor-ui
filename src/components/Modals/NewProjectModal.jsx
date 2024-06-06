@@ -5,13 +5,14 @@ import { closeNewProjectModal } from "../../redux/EditorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import InputModal from "./InputModal";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
+import { Api } from "../../utils/apiCallHandler";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_PROJECTS } from "../../utils/defaultProjects";
 import HTMLIcon from "../../assets/icons/html.svg";
 import PythonIcon from "../../assets/icons/python.svg";
 
 const NewProjectModal = () => {
+  const api = new Api();
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -29,7 +30,7 @@ const NewProjectModal = () => {
   const navigate = useNavigate();
 
   const createProject = async () => {
-    const response = await createOrUpdateProject(
+    const response = await api.createOrUpdateProject(
       { ...DEFAULT_PROJECTS[projectType], name: projectName },
       user.access_token,
     );

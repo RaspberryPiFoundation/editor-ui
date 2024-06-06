@@ -15,7 +15,7 @@ import {
   triggerDraw,
 } from "../../../../redux/EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../utils/apiCallHandler";
+import { Api } from "../../../../utils/apiCallHandler";
 import store from "../../../../app/store";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
@@ -55,6 +55,7 @@ const externalLibraries = {
 };
 
 const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
+  const api = new Api();
   const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -301,7 +302,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
       }
 
       errorMessage = `${errorType}: ${errorDescription} on line ${lineNumber} of ${fileName}`;
-      createError(projectIdentifier, userId, {
+      api.createError(projectIdentifier, userId, {
         errorType,
         errorMessage,
       });
