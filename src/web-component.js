@@ -54,6 +54,7 @@ class WebComponent extends HTMLElement {
       "embedded",
       "show_save_prompt",
       "load_remix_disabled",
+      "output_split_view",
     ];
   }
 
@@ -69,6 +70,8 @@ class WebComponent extends HTMLElement {
         "show_save_prompt",
         "load_remix_disabled",
         "output_only",
+        "embedded",
+        "output_split_view",
       ].includes(name)
     ) {
       value = newVal !== "false";

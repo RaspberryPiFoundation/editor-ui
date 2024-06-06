@@ -31,6 +31,7 @@ const WebComponentProject = ({
   sidebarOptions = [],
   outputOnly = false,
   outputPanels = ["text", "visual"],
+  outputSplitView = false,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -51,7 +52,7 @@ const WebComponentProject = ({
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
 
-  dispatch(setIsSplitView(false));
+  dispatch(setIsSplitView(outputSplitView));
   dispatch(setWebComponent(true));
   dispatch(setIsOutputOnly(outputOnly));
 
@@ -108,13 +109,7 @@ const WebComponentProject = ({
         ))}
       {outputOnly && (
         <div className="embedded-viewer" data-testid="output-only">
-          {loading === "success" && (
-            <Output
-              embedded={true}
-              browserPreview={false}
-              outputPanels={outputPanels}
-            />
-          )}
+          {loading === "success" && <Output outputPanels={outputPanels} />}
         </div>
       )}
     </>
