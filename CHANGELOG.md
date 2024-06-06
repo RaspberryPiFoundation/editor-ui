@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.25.0] - 2024-06-06
+
+### Added
+
 - Add `embedded` attribute to web component (#1030)
 - Add `output_split_view` attribute to web component (#1030)
 
@@ -812,7 +820,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.24.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.0...HEAD
+[0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
 [0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
 [0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
