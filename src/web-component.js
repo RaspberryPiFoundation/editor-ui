@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
 import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
+import { BrowserRouter } from "react-router-dom";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -158,7 +159,9 @@ class WebComponent extends HTMLElement {
     this.root.render(
       <React.StrictMode>
         <Provider store={store}>
-          <WebComponentLoader {...this.reactProps()} />
+          <BrowserRouter>
+            <WebComponentLoader {...this.reactProps()} />
+          </BrowserRouter>
         </Provider>
       </React.StrictMode>,
     );
