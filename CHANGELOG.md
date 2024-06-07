@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Wrap `WebComponentLoader` in a `BrowserRouter` to fix routing issues (#1035)
+
 ## [0.25.0] - 2024-06-06
 
 ### Added
