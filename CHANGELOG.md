@@ -4,17 +4,62 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-
 ### Added
 
 ### Changed
 
 ### Fixed
 
+## [0.25.1] - 2024-11-06
+
+### Fixed
+
+- Wrap `WebComponentLoader` in a `BrowserRouter` to fix routing issues (#1035)
+
+## [0.25.0] - 2024-06-06
+
+### Added
+
+- Add `embedded` attribute to web component (#1030)
+- Add `output_split_view` attribute to web component (#1030)
+
+### Changed
+
+- Changes to web component behaviour to support use in embedded view in editor-standalone (#1030)
+
+### Fixed
+
+## [0.24.0] - 2024-06-03
+
+### Added
+
+- Add `project_name_editable` attribute to web component (#1009)
+- Fires custom event when the theme changes (#1015)
+- Add `output_only` attribute to web component (#1019 & originally #782)
+- Add `assets_identifier` attribute to web component (#1019 & originally #901)
+- Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
+- Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
+- Send error details in "editor-runCompleted" event (#1019 & originally #915)
+- Return error details to web component (#1019 & originally #915)
+- Add `output_panels` attribute to web component (#1019 & originally #909)
+
+### Changed
+
+- Remove unused `/embedded/projects/:identifier` route (#1013)
+
+### Fixed
+
 - Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
 - Fix infinite remix loop when `BYPASS_AUTH` set in `editor-api` (#1007)
 - Fixes for docker-compose.yml (#1008)
+- Fix deprecation warnings in GitHub Actions (#1011)
+- Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
+- Improvements to Cypress specs in CI (#1017)
+- Fix warnings and verbose output when starting Webpack Dev Server (#1018)
+- Add e2e spec for project remix behaviour in web component (#1020)
+- Fix initial value of `user` in `WebComponentLoader` (#1021)
+- Make `authKey` in e2e web component spec more realistic (#1022)
+- Remove unused `ComponentStore` (#1023)
 
 ## [0.23.0] - 2024-05-09
 
@@ -779,7 +824,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.23.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.1...HEAD
+[0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
+[0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
+[0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
 [0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1

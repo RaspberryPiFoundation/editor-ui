@@ -239,6 +239,208 @@ describe("When not embedded", () => {
     );
   });
 
+  test("If assetsIdentifer is set then set assetsOnly to true when loading project", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    renderHook(
+      () =>
+        useProject({ assetsIdentifier: "hello-world-project", accessToken }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: "hello-world-project",
+        locale: "ja-JP",
+        accessToken,
+        assetsOnly: true,
+      }),
+    );
+  });
+
+  describe("when code property is set and loading state is 'success'", () => {
+    const projectWithOnlyAssets = {
+      image_list: [
+        { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
+      ],
+    };
+
+    beforeEach(() => {
+      initialState.editor.loading = "success";
+      const mockStore = configureStore([]);
+      store = mockStore(initialState);
+      wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
+    });
+
+    describe("when project_type is not set", () => {
+      beforeEach(() => {
+        initialState.editor.project = projectWithOnlyAssets;
+      });
+
+      test("updates project with supplied source code", () => {
+        renderHook(() => useProject({ code: "# my source code" }), { wrapper });
+        expect(setProject).toHaveBeenCalledWith({
+          project_type: "python",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "# my source code",
+            },
+          ],
+          ...projectWithOnlyAssets,
+        });
+      });
+    });
+
+    describe("when project_type is python", () => {
+      beforeEach(() => {
+        initialState.editor.project = {
+          ...projectWithOnlyAssets,
+          project_type: "python",
+        };
+      });
+
+      test("updates project with supplied source code", () => {
+        renderHook(() => useProject({ code: "# my source code" }), { wrapper });
+        expect(setProject).toHaveBeenCalledWith({
+          project_type: "python",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "# my source code",
+            },
+          ],
+          ...projectWithOnlyAssets,
+        });
+      });
+    });
+
+    describe("when project_type is html", () => {
+      beforeEach(() => {
+        initialState.editor.project = {
+          ...projectWithOnlyAssets,
+          project_type: "html",
+        };
+      });
+
+      test("updates project with supplied source code", () => {
+        renderHook(() => useProject({ code: "<!-- my source code -->" }), {
+          wrapper,
+        });
+        expect(setProject).toHaveBeenCalledWith({
+          project_type: "html",
+          components: [
+            {
+              name: "index",
+              extension: "html",
+              content: "<!-- my source code -->",
+            },
+          ],
+          ...projectWithOnlyAssets,
+        });
+      });
+    });
+
+    describe("when project already has a python main component", () => {
+      beforeEach(() => {
+        initialState.editor.project = {
+          ...projectWithOnlyAssets,
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "# code for existing main component",
+            },
+          ],
+        };
+      });
+
+      test("overwrites source code in existing main component", () => {
+        renderHook(() => useProject({ code: "# my source code" }), { wrapper });
+        expect(setProject).toHaveBeenCalledWith({
+          project_type: "python",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "# my source code",
+            },
+          ],
+          ...projectWithOnlyAssets,
+        });
+      });
+    });
+
+    describe("when project already has an html main component", () => {
+      beforeEach(() => {
+        initialState.editor.project = {
+          ...projectWithOnlyAssets,
+          project_type: "html",
+          components: [
+            {
+              name: "index",
+              extension: "html",
+              content: "<!-- code for existing main component -->",
+            },
+          ],
+        };
+      });
+
+      test("overwrites source code in existing main component", () => {
+        renderHook(() => useProject({ code: "<!-- my source code -->" }), {
+          wrapper,
+        });
+        expect(setProject).toHaveBeenCalledWith({
+          project_type: "html",
+          components: [
+            {
+              name: "index",
+              extension: "html",
+              content: "<!-- my source code -->",
+            },
+          ],
+          ...projectWithOnlyAssets,
+        });
+      });
+    });
+
+    describe("when project already has other components", () => {
+      beforeEach(() => {
+        initialState.editor.project = {
+          ...projectWithOnlyAssets,
+          components: [
+            {
+              name: "not-main",
+              extension: "py",
+              content: "# some other code",
+            },
+          ],
+        };
+      });
+
+      test("leaves existing components intact", () => {
+        renderHook(() => useProject({ code: "# my source code" }), { wrapper });
+        expect(setProject).toHaveBeenCalledWith({
+          ...projectWithOnlyAssets,
+          components: [
+            {
+              name: "not-main",
+              extension: "py",
+              content: "# some other code",
+            },
+            {
+              name: "main",
+              extension: "py",
+              content: "# my source code",
+            },
+          ],
+          project_type: "python",
+        });
+      });
+    });
+  });
+
   afterEach(() => {
     localStorage.clear();
   });

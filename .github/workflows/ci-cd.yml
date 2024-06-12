@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: "yarn"
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Cache dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: "yarn"
@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Cache dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
           cache: "yarn"
@@ -85,17 +85,19 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           install: false
           start: |
             yarn start
             yarn start:wc
           wait-on: "http://localhost:3000, http://localhost:3001"
+          quiet: true
         env:
-          REACT_APP_API_ENDPOINT: "https://staging-editor-api.raspberrypi.org"
+          REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
           PUBLIC_URL: "http://localhost:3000"
           ASSETS_URL: "http://localhost:3000"
+          REACT_APP_PLAUSIBLE_SOURCE: ""
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v3

@@ -150,6 +150,10 @@ describe("When page first loaded in embedded viewer", () => {
       expect.arrayContaining([triggerCodeRun()]),
     );
   });
+
+  test("does not display link to open preview in another browser tab", () => {
+    expect(screen.queryByText("output.newTab")).not.toBeInTheDocument();
+  });
 });
 
 describe("When page first loaded from search params", () => {
@@ -494,6 +498,40 @@ describe("When on desktop", () => {
 
   test("There is no run button", () => {
     expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  });
+});
+
+describe("When not embedded", () => {
+  let store;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [indexPage],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        codeHasBeenRun: true,
+        isEmbedded: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("displays link to open preview in another browser tab", () => {
+    expect(screen.queryByText("output.newTab")).toBeInTheDocument();
   });
 });
 

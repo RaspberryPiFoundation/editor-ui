@@ -57,11 +57,6 @@ const AppRoutes = () => (
       />
     </Route>
 
-    <Route
-      path="/embedded/projects/:identifier"
-      element={suspense(<ProjectComponentLoader embedded={true} />)}
-    />
-
     {/* Redirects will be moved into a cloudflare worker. This is just interim */}
 
     {projectLinkRedirects.map((link) => {

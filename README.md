@@ -66,9 +66,15 @@ The repo includes the Editor Web Component which shares components with the edit
 
 The web component can be included in a page by using the `<editor-wc>` HTML element. It takes the following attributes
 
-- `code`: A preset blob of code to show in the editor pane.
+- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
+- `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
+- `output_only`: Only display the output panel (defaults to `false`)
+- `assets_identifier`: Load assets (not code) from this project identifier
+- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
+- `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 
 ### `yarn start:wc`
 

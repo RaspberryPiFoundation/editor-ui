@@ -119,6 +119,10 @@
       padding: 0 $space-0-25 0 0;
     }
 
+    &__tab-container--hidden {
+      display: none;
+    }
+
     &__tab-panel--selected {
       flex: 1;
       display: flex;
@@ -127,8 +131,6 @@
   }
 
   .react-tabs {
-    background-color: var(--rpf-tab-button-background);
-
     &__tab-container {
       border-block-end: 1px solid var(--editor-color-outline);
     }

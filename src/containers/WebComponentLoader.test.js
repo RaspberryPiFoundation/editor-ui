@@ -88,7 +88,7 @@ describe("When no user is in state", () => {
         },
         hasShownSavePrompt: true,
         justLoaded: false,
-        user: undefined,
+        user: null,
         saveTriggered: false,
       });
     });
@@ -122,6 +122,38 @@ describe("When no user is in state", () => {
     });
   });
 
+  describe("with assetsIdentifier set", () => {
+    const assetsIdentifier = "my-assets-identifier";
+
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              assetsIdentifier={assetsIdentifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("Calls useProject hook with correct attributes", () => {
+      expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: assetsIdentifier,
+        code,
+        accessToken: undefined,
+        loadRemix: false,
+        loadCache: true,
+        remixLoadFailed: false,
+      });
+    });
+  });
+
   describe("with user set in local storage", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
@@ -146,16 +178,16 @@ describe("When no user is in state", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: undefined,
-        loadRemix: false,
-        loadCache: true,
+        accessToken: "my_token",
+        loadRemix: true,
+        loadCache: false,
         remixLoadFailed: false,
       });
     });
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user: undefined,
+        user,
         project: { components: [] },
         hasShownSavePrompt: true,
         justLoaded: false,

@@ -4,7 +4,7 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = () => {
+const Output = ({ outputPanels = ["text", "visual"] }) => {
   const project = useSelector((state) => state.editor.project);
   const isPico = useSelector((state) => state.editor.picoConnected);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -15,13 +15,14 @@ const Output = () => {
   return (
     <>
       <ExternalFiles />
-      <div className="proj-runner-container">
+      <div className="proj-runner-container" data-testid="output">
         <RunnerFactory
           projectType={project.project_type}
           usePyodide={usePyodide}
           isPico={!!isPico}
+          outputPanels={outputPanels}
         />
-        {isEmbedded && !isBrowserPreview ? <RunBar embedded /> : null}
+        {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>
     </>
   );

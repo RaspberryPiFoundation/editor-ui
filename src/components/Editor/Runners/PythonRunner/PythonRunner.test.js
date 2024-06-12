@@ -7,6 +7,7 @@ import PythonRunner from "./PythonRunner";
 import {
   codeRunHandled,
   setError,
+  setErrorDetails,
   triggerDraw,
 } from "../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../utils/settings";
@@ -159,6 +160,111 @@ describe("Testing stopping the code run with input", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([codeRunHandled()]),
     );
+  });
+});
+
+describe("When an error occurs", () => {
+  let store;
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "boom!",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+  });
+
+  test("Sets error in state", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setError("SyntaxError: bad token T_OP on line 1 of main.py"),
+      ]),
+    );
+  });
+
+  test("Sets errorDetails in state", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setErrorDetails({
+          type: "SyntaxError",
+          line: 1,
+          file: "main.py",
+          description: "bad token T_OP",
+          message: "SyntaxError: bad token T_OP on line 1 of main.py",
+        }),
+      ]),
+    );
+  });
+});
+
+describe("When an error has occurred", () => {
+  let mockStore;
+  let store;
+  let initialState;
+
+  beforeEach(() => {
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+    initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              content: "boom!",
+            },
+          ],
+          image_list: [],
+        },
+        error: "SyntaxError: bad token T_OP on line 1 of main.py",
+      },
+      auth: {
+        user,
+      },
+    };
+  });
+
+  test("Displays error message", () => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+
+    expect(
+      screen.getByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).toBeVisible();
+  });
+
+  test("Does not display error message when isOutputOnly state is true", () => {
+    initialState.editor.isOutputOnly = true;
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+    expect(
+      screen.queryByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).not.toBeInTheDocument();
   });
 });
 
@@ -811,6 +917,50 @@ test("Split view has text and visual tabs with different parent elements", () =>
   expect(screen.getByText("output.visualOutput").parentElement).not.toEqual(
     screen.getByText("output.textOutput").parentElement,
   );
+});
+
+test("only displays text tab when outputPanels is set to just text", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["text"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).not.toBeInTheDocument();
+});
+
+test("only displays visual tab when outputPanels is set to just visual", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["visual"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).toBeInTheDocument();
 });
 
 describe("When font size is set", () => {

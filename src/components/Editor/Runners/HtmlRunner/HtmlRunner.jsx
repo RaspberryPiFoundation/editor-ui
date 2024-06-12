@@ -27,7 +27,6 @@ import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
-  const webComponent = useSelector((state) => state.editor.webComponent);
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -327,7 +326,7 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!!!isEmbedded && !!!webComponent && (
+              {!!!isEmbedded && (
                 <a
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"

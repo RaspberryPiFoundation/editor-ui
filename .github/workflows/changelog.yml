@@ -9,7 +9,7 @@ jobs:
   changelog-updated:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Check if changelog updated
@@ -26,4 +26,3 @@ jobs:
       if: steps.changed-files-specific.outputs.any_changed == 'false'
       run: |
         exit 1
-

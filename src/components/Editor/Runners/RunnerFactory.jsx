@@ -19,7 +19,9 @@ const RunnerFactory = ({ isPico, projectType, usePyodide }) => {
 
   const Selected = Runner();
 
-  return <Selected />;
+  const props = projectType === "html" ? {} : { outputPanels };
+
+  return <Selected {...props} />;
 };
 
 export default RunnerFactory;

@@ -11,6 +11,7 @@ exports[`Renders without crashing 1`] = `
     />
     <div
       class="proj-runner-container"
+      data-testid="output"
     >
       <div
         class="pythonrunner-container"

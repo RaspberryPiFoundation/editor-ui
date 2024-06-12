@@ -26,26 +26,34 @@ import Style from "style-it";
 
 const WebComponentLoader = (props) => {
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
     senseHatAlwaysEnabled = false,
     instructions,
     withProjectbar = false,
+    projectNameEditable = false,
     withSidebar = false,
     sidebarOptions = [],
     theme,
+    outputPanels = ["text", "visual"],
     embedded = false,
     hostStyles,
     showSavePrompt = false,
     loadRemixDisabled = false,
+    outputOnly = false,
+    outputSplitView = false,
   } = props;
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const user = useSelector((state) => state.auth.user);
+  const localStorageUser = authKey
+    ? JSON.parse(localStorage.getItem(authKey))
+    : null;
+  const user = useSelector((state) => state.auth.user || localStorageUser);
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
@@ -100,6 +108,7 @@ const WebComponentLoader = (props) => {
 
   useProject({
     projectIdentifier: projectIdentifier,
+    assetsIdentifier: assetsIdentifier,
     code,
     accessToken: user?.access_token,
     loadRemix: loadRemix && !loadRemixDisabled,
@@ -151,8 +160,12 @@ const WebComponentLoader = (props) => {
             />
             <WebComponentProject
               withProjectbar={withProjectbar}
+              nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
+              outputOnly={outputOnly}
+              outputPanels={outputPanels}
+              outputSplitView={outputSplitView}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
@@ -163,7 +176,7 @@ const WebComponentLoader = (props) => {
     </>
   ) : (
     <>
-      <p>{t("webComponent.loading")}</p>;
+      <p>{t("webComponent.loading")}</p>
     </>
   );
 };

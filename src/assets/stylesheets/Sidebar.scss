@@ -166,8 +166,8 @@
   inset-block-end: 0px;
   inline-size: 100%;
   inline-size: -moz-available;
-  inline-size: -webkit-fill-available;
-  inline-size: fill-available;
+  inline-size: -webkit-stretch;
+  inline-size: stretch;
   background-color: white;
   border-end-end-radius: 8px;
 }

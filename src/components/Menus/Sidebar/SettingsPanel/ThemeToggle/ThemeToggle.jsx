@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 
 import SelectButtons from "../../../../../utils/SelectButtons";
+import { themeUpdatedEvent } from "../../../../../events/WebComponentCustomEvents";
 
 const COOKIE_PATHS = ["/", "/projects", "/python"];
 
@@ -23,6 +24,8 @@ const ThemeToggle = () => {
     startTransition(() => {
       setCookie("theme", theme, { path: "/" });
     });
+    // Fire custom event
+    document.dispatchEvent(themeUpdatedEvent(theme));
   };
 
   return (

@@ -44,7 +44,6 @@ const EmbeddedViewer = () => {
   useProject({
     projectIdentifier: identifier,
     accessToken: user.access_token,
-    isEmbedded: true,
   });
 
   useEffect(() => {

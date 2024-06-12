@@ -24,3 +24,6 @@ export const logInEvent = webComponentCustomEvent("editor-logIn");
 export const signUpEvent = webComponentCustomEvent("editor-signUp");
 
 export const quizReadyEvent = webComponentCustomEvent("editor-quizReady");
+
+export const themeUpdatedEvent = (detail) =>
+  webComponentCustomEvent("editor-themeUpdated", detail);

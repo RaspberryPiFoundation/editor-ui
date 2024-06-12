@@ -37,7 +37,10 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   }, [codeRunTriggered, sidebarShowing, withSidebar]);
 
   return (
-    <div className="proj-container proj-editor-container proj-container--mobile">
+    <div
+      className="proj-container proj-editor-container proj-container--mobile"
+      data-testid="mobile-project"
+    >
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
