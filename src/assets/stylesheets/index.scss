@@ -25,9 +25,9 @@ code {
 #app {
   min-block-size: 100dvh;
 }
-.--light {
+.--light, #wc.--light {
   --editor-color-layer-1: #{$rpf-teal-100};
-  --editor-color-layer-2: #{$rpf-white};
+  --editor-color-layer-2: #{$rpf-black};
   --editor-color-layer-3: #{$rpf-white};
   --editor-color-outline: #{$rpf-grey-150};
   --editor-color-theme: #{$rpf-teal-800};
@@ -35,9 +35,11 @@ code {
   --editor-color-theme-tertiary: #{$rpf-teal-100};
   --editor-color-text: #{$rpf-text-primary};
   --editor-color-text-secondary: #{$rpf-text-secondary};
+  --rpf-files-list-item-active: #{$rpf-teal-secondary-tertiary-active};
+  --rpf-files-list-item-hover: #{$rpf-teal-secondary-tertiary-hover};
 }
 
-.--dark {
+.--dark, #wc.--dark {
   --editor-color-layer-1: #{$rpf-grey-850};
   --editor-color-layer-2: #{$rpf-grey-800};
   --editor-color-layer-3: #{$rpf-grey-700};
@@ -47,6 +49,34 @@ code {
   --editor-color-theme-tertiary: #{$rpf-teal-900};
   --editor-color-text: #{$rpf-white};
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
+  --rpf-files-list-item-active: #{$rpf-grey-secondary-tertiary-active};
+  --rpf-files-list-item-hover: #{$rpf-grey-secondary-tertiary-hover};
+
+  .btn,
+  .rpf-button {
+    --rpf-button-primary-background-color: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-700);
+    --rpf-button-primary-color-disabled-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
+
+    --rpf-button-secondary-background-color: var(--rpf-grey-800);
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-secondary-color-disabled-background: var(--rpf-grey-700);
+    --rpf-button-secondary-background-color-hover: var(--rpf-grey-600);
+    --rpf-button-secondary-border-color-hover: var(--rpf-teal-400);
+    --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
+    --rpf-button-secondary-color: var(--rpf-white);
+    --rpf-button-secondary-text-color: var(--rpf-white);
+
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+  }
+
+  .rpf-button--secondary {
+    border-color: var(--rpf-teal-400);
+  }
 }
 
 .btn,
@@ -70,29 +100,9 @@ code {
   --rpf-button-secondary-text-color: var(--rpf-black);
 
   --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
-}
 
-.--dark {
-  .btn,
-  .rpf-button {
-    --rpf-button-primary-background-color: var(--rpf-teal-400);
-    --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
-    --rpf-button-primary-background-color-active: var(--rpf-teal-200);
-    --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
-    --rpf-button-primary-color-disabled: var(--rpf-grey-700);
-    --rpf-button-primary-color-disabled-focus: var(--rpf-teal-400);
-    --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
-
-    --rpf-button-secondary-background-color: var(--rpf-grey-800);
-    --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
-    --rpf-button-secondary-color-disabled-background: var(--rpf-grey-700);
-    --rpf-button-secondary-background-color-hover: var(--rpf-grey-600);
-    --rpf-button-secondary-border-color-hover: var(--rpf-teal-400);
-    --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
-    --rpf-button-secondary-color: var(--rpf-white);
-    --rpf-button-secondary-text-color: var(--rpf-white);
-
-    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+  .rpf-button--secondary {
+    border-color: var(--rpf-teal-800);
   }
 }
 
@@ -102,14 +112,4 @@ code {
 
 .modal-overlay {
   --rpf-input-active-border: var(--editor-color-theme)
-}
-
-.--light {
-  --rpf-files-list-item-active: #{$rpf-teal-secondary-tertiary-active};
-  --rpf-files-list-item-hover: #{$rpf-teal-secondary-tertiary-hover};
-}
-
-.--dark {
-  --rpf-files-list-item-active: #{$rpf-grey-secondary-tertiary-active};
-  --rpf-files-list-item-hover: #{$rpf-grey-secondary-tertiary-hover};
 }
