@@ -72,11 +72,7 @@ function HtmlRunner() {
 
   if (isEmbedded && page && previewable(page) && pageExists(page)) {
     defaultPreviewFile = page;
-  } else if (
-    !isEmbedded &&
-    // openFiles[focussedFileIndex] &&
-    previewable(openFiles[focussedFileIndex])
-  ) {
+  } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
     defaultPreviewFile = openFiles[focussedFileIndex];
   }
 
