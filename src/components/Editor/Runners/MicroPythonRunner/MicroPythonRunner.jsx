@@ -19,9 +19,6 @@ const MicroPythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
   const picoConnected = useSelector((state) => state.editor.picoConnected);
 
-  const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier
-  );
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -37,7 +34,6 @@ const MicroPythonRunner = () => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const [port, setPort] = useState(null);
-  const [timerId, setTimerId] = useState(null);
   const [reader, setReader] = useState(null);
   const [picoOutput, setPicoOutput] = useState({
     time: new Date().getTime(),
@@ -73,10 +69,6 @@ const MicroPythonRunner = () => {
       await reader.releaseLock();
       setReader(null);
     }
-  };
-
-  const stopTimer = () => {
-    clearInterval(timerId);
   };
 
   useEffect(() => {
