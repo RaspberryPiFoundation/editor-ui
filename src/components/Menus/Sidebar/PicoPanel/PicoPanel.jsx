@@ -37,10 +37,14 @@ const PicoPanel = ({ isMobile }) => {
 
   const disconnectFromPico = async () => {
     if (port) {
-      console.log(`Disconnecting ${port}`);
-      await port.close();
-      console.log(`Disconnected ${port}`);
-      dispatch(setPicoConnected(false));
+      try {
+        console.log(`Disconnecting ${port}`);
+        await port.close();
+        console.log(`Disconnected ${port}`);
+        dispatch(setPicoConnected(false));
+      } catch (error) {
+        console.error(error);
+      }
     }
     setPort(null);
   };

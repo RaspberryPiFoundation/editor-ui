@@ -94,14 +94,10 @@ const MicroPythonRunner = () => {
   }, [picoConnected]);
 
   useEffect(() => {
-    if (port) {
-      getReader();
-    }
-
     return () => {
       releaseReader(reader);
     };
-  }, [port]);
+  }, [port, reader]);
 
   useEffect(() => {
     if (codeRunTriggered) {
