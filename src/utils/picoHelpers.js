@@ -27,6 +27,8 @@ export const downloadMicroPython = async () => {
 export const runOnPico = async (port, project, dispatch) => {
   if (!port) {
     throw new Error("Port is missing");
+  } else {
+    console.log("Port is available", port);
   }
   const writer = port.writable.getWriter();
   console.log("Writer");
@@ -132,35 +134,31 @@ export const readAllFilesFromPico = async (port, project, dispatch) => {
   if (!port) {
     return;
   }
-  let writer;
-  try {
-    writer = await port.writable.getWriter();
-  } catch (error) {
-    console.log(error);
-    return;
-  }
+  const writer = await port.writable.getWriter();
   const encoder = new TextEncoder();
   let files = [];
-  const listFilesCommand = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
-  await writer.write(encoder.encode(listFilesCommand));
-  const readFilesCommand = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
-  await writer.write(encoder.encode(readFilesCommand));
-  const fileStream = await readFromPico(port, dispatch);
-  fileStream?.forEach((file) => {
-    if (file.includes("name") && file.includes("contents")) {
-      try {
-        // Is there a better way that doesn't use regex??!!
-        const regex = /{([^}]*)}/;
-        const rawFile = file.match(regex);
+  if (port && writer) {
+    const listFilesCommand = `import ujson\rimport os\rfiles = os.listdir('/')\r`;
+    await writer.write(encoder.encode(listFilesCommand));
+    const readFilesCommand = `for filename in files:\r    with open(filename, 'r') as file:\r        contents = file.read()\r        data = {\r            "name": filename,\r            "contents": contents\r        }\r        print(ujson.dumps(data))\r\r`;
+    await writer.write(encoder.encode(readFilesCommand));
+    const fileStream = await readFromPico(port, dispatch);
+    fileStream?.forEach((file) => {
+      if (file.includes("name") && file.includes("contents")) {
+        try {
+          // Is there a better way that doesn't use regex??!!
+          const regex = /{([^}]*)}/;
+          const rawFile = file.match(regex);
 
-        const jsonFile = JSON.parse(rawFile[0].toString());
-        console.log(jsonFile);
-        files.push(jsonFile);
-      } catch (error) {
-        console.log(error);
+          const jsonFile = JSON.parse(rawFile[0].toString());
+          console.log(jsonFile);
+          files.push(jsonFile);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-  });
+    });
+  }
 
   console.log("Files");
   console.log(files);

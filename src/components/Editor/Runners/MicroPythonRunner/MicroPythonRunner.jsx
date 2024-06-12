@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { codeRunHandled } from "../../../../redux/EditorSlice";
+import { codeRunHandled, stopCodeRun } from "../../../../redux/EditorSlice";
 import { runOnPico, stopPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
@@ -49,15 +49,12 @@ const MicroPythonRunner = () => {
   };
 
   const getReader = async () => {
-    console.log("Getting reader");
-    if (!port || reader) {
+    if (!port) {
       return;
     }
     try {
-      console.log("Getting reader");
       const reader = await port.readable.getReader();
       setReader(reader);
-      return reader;
     } catch (error) {
       console.log(error);
     }
@@ -77,11 +74,16 @@ const MicroPythonRunner = () => {
   useEffect(() => {
     const getPicoPort = async () => {
       const ports = await navigator.serial.getPorts();
-      const port = ports[0];
+
+      const port = ports.find((port) => port.readable !== null);
+      if (port) {
+        setPort(port);
+      } else {
+        console.log("No port with a non-null readable stream was found.");
+      }
       setPort(port);
     };
     if (picoConnected) {
-      console.log("Getting port");
       getPicoPort();
     } else {
       setPort(null);
@@ -89,8 +91,7 @@ const MicroPythonRunner = () => {
   }, [picoConnected]);
 
   useEffect(() => {
-    if (port) {
-      console.log("Reader useEffect");
+    if (port && !reader) {
       getReader();
     }
     return () => {
@@ -99,13 +100,12 @@ const MicroPythonRunner = () => {
   }, [port, reader]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && port) {
       runOnPico(port, project, dispatch);
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, port]);
 
   useEffect(() => {
-    console.log("Reader ready on codeRun", reader);
     const readFromPico = async () => {
       const decoder = new TextDecoder();
       try {
@@ -131,13 +131,9 @@ const MicroPythonRunner = () => {
       }
     };
 
-    if (codeRunTriggered && reader) {
+    if (!codeRunStopped && reader) {
       console.log("Ready to read");
       readFromPico();
-    }
-
-    if (codeRunStopped) {
-      releaseReader();
     }
 
     // Clean-up function
@@ -151,6 +147,7 @@ const MicroPythonRunner = () => {
 
     const stopPicoRunning = async () => {
       stopPico(port);
+      stopCodeRun();
     };
 
     if (!codeRunStopped) {
