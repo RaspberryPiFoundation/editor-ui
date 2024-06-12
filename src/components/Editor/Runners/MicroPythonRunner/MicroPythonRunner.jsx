@@ -50,8 +50,7 @@ const MicroPythonRunner = () => {
 
   const getReader = async () => {
     console.log("Getting reader");
-    if (!port) {
-      console.log("No port");
+    if (!port || reader) {
       return;
     }
     try {
