@@ -56,7 +56,7 @@ const externalLibraries = {
 
 const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
-  const mainComponent = projectCode.find(
+  const mainComponent = projectCode?.find(
     (component) => component.name === "main" && component.extension === "py",
   );
   const projectIdentifier = useSelector(
@@ -337,7 +337,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
     }
     dispatch(setSenseHatEnabled(false));
 
-    var prog = mainComponent.content;
+    var prog = mainComponent?.content;
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
