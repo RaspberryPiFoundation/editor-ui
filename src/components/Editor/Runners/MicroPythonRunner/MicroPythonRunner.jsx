@@ -108,6 +108,7 @@ const MicroPythonRunner = () => {
   useEffect(() => {
     console.log("Reader ready on codeRun", reader);
     const readFromPico = async () => {
+      const decoder = new TextDecoder();
       try {
         while (true) {
           const { value, done } = await Promise.race([
@@ -121,8 +122,6 @@ const MicroPythonRunner = () => {
             console.log("No more output");
             break;
           }
-
-          const decoder = new TextDecoder();
           const decodedValue = decoder.decode(value);
           console.log(decodedValue);
           setPicoOutput({ time: new Date().getTime(), string: decodedValue });
