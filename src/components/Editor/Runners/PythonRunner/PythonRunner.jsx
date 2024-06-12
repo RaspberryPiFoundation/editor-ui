@@ -337,7 +337,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
     }
     dispatch(setSenseHatEnabled(false));
 
-    var prog = mainComponent?.content;
+    var prog = mainComponent?.content || "";
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
