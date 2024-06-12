@@ -66,8 +66,12 @@ const MicroPythonRunner = () => {
 
   const releaseReader = async () => {
     if (reader && reader.locked) {
-      await reader.releaseLock();
-      setReader(null);
+      try {
+        await reader.releaseLock();
+        setReader(null);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -86,8 +90,12 @@ const MicroPythonRunner = () => {
   }, [picoConnected]);
 
   useEffect(() => {
+    if (port) {
+      console.log("Reader useEffect");
+      getReader();
+    }
     return () => {
-      releaseReader(reader);
+      releaseReader();
     };
   }, [port, reader]);
 
@@ -98,11 +106,8 @@ const MicroPythonRunner = () => {
   }, [codeRunTriggered]);
 
   useEffect(() => {
+    console.log("Reader ready on codeRun", reader);
     const readFromPico = async () => {
-      if (!port) {
-        return;
-      }
-      console.log("Ready to read from Pico");
       try {
         while (true) {
           const { value, done } = await Promise.race([
@@ -112,7 +117,7 @@ const MicroPythonRunner = () => {
             }),
           ]);
           if (done || value.timeout || codeRunStopped) {
-            releaseReader(reader);
+            releaseReader();
             console.log("No more output");
             break;
           }
@@ -139,7 +144,7 @@ const MicroPythonRunner = () => {
 
     // Clean-up function
     return () => {
-      releaseReader(reader);
+      releaseReader();
     };
   }, [codeRunTriggered, codeRunStopped, reader]);
 
