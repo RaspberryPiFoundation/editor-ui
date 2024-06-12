@@ -61,7 +61,7 @@ function HtmlRunner() {
       (component) => `${component.name}.${component.extension}` === fileName,
     )[0];
 
-  const previewable = (file) => file.endsWith(".html");
+  const previewable = (file = "") => file.endsWith(".html");
   let defaultPreviewFile = "index.html";
 
   const pageExists = (page) => {
@@ -72,7 +72,11 @@ function HtmlRunner() {
 
   if (isEmbedded && page && previewable(page) && pageExists(page)) {
     defaultPreviewFile = page;
-  } else if (!isEmbedded && previewable(openFiles[focussedFileIndex])) {
+  } else if (
+    !isEmbedded &&
+    // openFiles[focussedFileIndex] &&
+    previewable(openFiles[focussedFileIndex])
+  ) {
     defaultPreviewFile = openFiles[focussedFileIndex];
   }
 
