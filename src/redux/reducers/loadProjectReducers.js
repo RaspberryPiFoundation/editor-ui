@@ -22,6 +22,7 @@ const loadProjectFulfilled = (state, action) => {
     } else {
       state.openFiles[firstPanelIndex].push("main.py");
     }
+    state.focussedFileIndices = [0];
   }
 };
 
