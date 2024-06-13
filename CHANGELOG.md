@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Fix bug where `skulpt` runs the first component rather than `main.py` (#1039)
+- Fixing bug with `HTML` projects loading after remix if they have multiple `HTML files` (#1040)
 
 ## [0.25.1] - 2024-11-06
 

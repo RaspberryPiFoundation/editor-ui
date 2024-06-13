@@ -55,6 +55,7 @@ const requestingAProject = function (project, projectFile) {
     };
     const expectedState = {
       openFiles: [[projectFile]],
+      focussedFileIndices: [0],
       loading: "success",
       justLoaded: true,
       saving: "idle",

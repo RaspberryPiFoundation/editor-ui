@@ -61,7 +61,7 @@ function HtmlRunner() {
       (component) => `${component.name}.${component.extension}` === fileName,
     )[0];
 
-  const previewable = (file) => file.endsWith(".html");
+  const previewable = (file = "") => file.endsWith(".html");
   let defaultPreviewFile = "index.html";
 
   const pageExists = (page) => {
