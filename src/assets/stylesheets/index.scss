@@ -25,6 +25,7 @@ code {
 #app {
   min-block-size: 100dvh;
 }
+
 .--light, #wc.--light {
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-black};
@@ -37,6 +38,18 @@ code {
   --editor-color-text-secondary: #{$rpf-text-secondary};
   --rpf-files-list-item-active: #{$rpf-teal-secondary-tertiary-active};
   --rpf-files-list-item-hover: #{$rpf-teal-secondary-tertiary-hover};
+  --rpf-tab-button-hover: var(--rpf-grey-100);
+  --rpf-tab-button-background: inherit;
+  --rpf-tab-border-bottom-selected: var(--rpf-teal-900);
+  --sidebar-border: var(--rpf-grey-150);
+  --sidebar-background: var(--rpf-white);
+  --sidebar-background-selected: var(--rpf-off-white);
+  --sidebar-panel-background: var(--rpf-white);
+  --sidebar-option-hover: var(--rpf-grey-100);
+  --sidebar-option-selected-icon: var(--rpf-black);
+  --sidebar-option-selected-border: var(--editor-color-theme);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-200);
 }
 
 .--dark, #wc.--dark {
@@ -51,6 +64,18 @@ code {
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
   --rpf-files-list-item-active: #{$rpf-grey-secondary-tertiary-active};
   --rpf-files-list-item-hover: #{$rpf-grey-secondary-tertiary-hover};
+  --rpf-tab-button-hover: var(--rpf-grey-900);
+  --rpf-tab-button-background: var(--rpf-grey-800);
+  --rpf-tab-border-bottom-selected: var(--rpf-teal-800);
+  --sidebar-border: var(--rpf-grey-600);
+  --sidebar-background: var(--rpf-grey-800);
+  --sidebar-background-selected: var(--rpf-grey-800);
+  --sidebar-panel-background: var(--rpf-grey-700);
+  --sidebar-option-hover: var(--rpf-grey-600);
+  --sidebar-option-selected-icon: var(--rpf-white);
+  --sidebar-option-selected-border: var(--editor-color-theme);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-800);
 
   .btn,
   .rpf-button {
@@ -94,9 +119,7 @@ code {
   --rpf-button-secondary-background-color-hover: var(--rpf-teal-100);
   --rpf-button-secondary-border-color-hover: var(--rpf-teal-900);
   --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
-  --rpf-button-secondary-background-color-disabled: var(
-    --rpf-grey-50
-  ); // might not exist
+  --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50); // might not exist
   --rpf-button-secondary-text-color: var(--rpf-black);
 
   --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
