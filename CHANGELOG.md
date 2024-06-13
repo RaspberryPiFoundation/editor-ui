@@ -4,13 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.25.2] - 2024-13-06
 
 ### Added
 
 - Web component now supports using standard editor-ui styles if useEditorStyles is true
-
-### Changed
 
 ### Fixed
 
@@ -831,7 +829,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.2...HEAD
+[0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
 [0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
 [0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
 [0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
