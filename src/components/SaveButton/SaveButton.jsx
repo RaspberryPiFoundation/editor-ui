@@ -18,6 +18,7 @@ const SaveButton = ({ className, type, fill = false }) => {
   const loading = useSelector((state) => state.editor.loading);
   const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
+  console.log("SaveButton user = ", user);
   const project = useSelector((state) => state.editor.project);
 
   useEffect(() => {

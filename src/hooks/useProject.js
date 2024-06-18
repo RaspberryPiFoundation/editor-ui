@@ -18,7 +18,7 @@ export const useProject = ({
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
-
+console.log("useProject accessToken = ", accessToken);
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
@@ -63,13 +63,14 @@ export const useProject = ({
       }
 
       if (projectIdentifier) {
+        console.log('dispatching syncProject("load") accessToken = ', accessToken)
         dispatch(
           syncProject("load")({
             identifier: projectIdentifier,
             locale: i18n.language,
             accessToken: accessToken,
           }),
-        );
+        ).unwrap().catch((e) => console.log("*** e", e));
         return;
       }
 

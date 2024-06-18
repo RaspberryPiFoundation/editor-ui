@@ -48,14 +48,30 @@ const WebComponentLoader = (props) => {
     useEditorStyles = false, // If true use the standard editor styling for the web component
   } = props;
 
+  const getLocalStorageUser = function(authKey) {
+    if (authKey) {
+      console.log('authKey = ', authKey)
+      const user = JSON.parse(localStorage.getItem(authKey));
+      console.log('user = ', user);
+      let expiry = new Date(0);
+      expiry.setUTCSeconds(user.expires_at);
+      // if (expiry <= new Date()) {
+        // return null
+      // } else {
+        return user
+      // }
+    } else {
+      return null
+    }
+  }
+
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const localStorageUser = authKey
-    ? JSON.parse(localStorage.getItem(authKey))
-    : null;
-  const user = useSelector((state) => state.auth.user || localStorageUser);
+  const localStorageUser = getLocalStorageUser(authKey);
+  const user = useSelector((state) => { console.log("state.auth.user = ", state.auth.user); return state.auth.user });
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);

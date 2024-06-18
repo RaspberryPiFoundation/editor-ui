@@ -69,6 +69,7 @@ export const createRemix = async (project, accessToken) => {
 };
 
 export const readProject = async (projectIdentifier, locale, accessToken) => {
+  console.log("readProject accessToken = ", accessToken)
   const queryString = locale ? `?locale=${locale}` : "";
   return await get(
     `${host}/api/projects/${projectIdentifier}${queryString}`,

@@ -28,7 +28,7 @@ const ProjectComponentLoader = (props) => {
     (state) => state.editor.hasShownSavePrompt,
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
-
+  console.log("ProjectComponentLoader user", user);
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
     (state) => state.editor.errorModalShowing,

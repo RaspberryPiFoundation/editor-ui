@@ -1,4 +1,5 @@
 const loadProjectPending = (state, action) => {
+  console.log("in loadProjectReducers.js loadProjectPending currentLoadingRequestId = ", action.meta.requestId);
   state.loading = "pending";
   state.accessDeniedNoAuthModalShowing = false;
   state.modals = {};
@@ -27,6 +28,10 @@ const loadProjectFulfilled = (state, action) => {
 };
 
 const loadProjectRejected = (state, action) => {
+  console.log("in loadProjectReducers.js loadProjectRejected")
+  console.log("in loadProjectReducers.js loadProjectRejected state.loading = ", state.loading)
+  console.log("in loadProjectReducers.js loadProjectRejected state.currentLoadingRequestId = ", state.currentLoadingRequestId)
+  console.log("in loadProjectReducers.js loadProjectRejected action.meta.requestId = ", action.meta.requestId)
   if (
     state.loading === "pending" &&
     state.currentLoadingRequestId === action.meta.requestId

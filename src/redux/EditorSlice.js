@@ -15,19 +15,30 @@ import {
   loadAssets,
 } from "../utils/apiCallHandler";
 
-export const syncProject = (actionName) =>
-  createAsyncThunk(
+export const syncProject = (actionName) => {
+  console.log("EditorSlice.js syncProject");
+  return createAsyncThunk(
     `editor/${actionName}Project`,
     async (
       { project, identifier, locale, accessToken, autosave, assetsOnly },
-      { rejectWithValue },
+      { getState, requestId, rejectWithValue },
     ) => {
+      console.log('EditorSlice.js syncProject requestId = ', requestId);
+      console.log('EditorSlice.js syncProject getState = ', getState());
+      const { currentLoadingRequestId, loading } = getState().editor
+      console.log('EditorSlice.js syncProject loading = ', loading);
+      console.log('EditorSlice.js syncProject currentLoadingRequestId = ', currentLoadingRequestId);
+      if (loading !== 'pending' || requestId !== currentLoadingRequestId) {
+        return
+      }
+
       let response;
       switch (actionName) {
         case "load":
           if (assetsOnly) {
             response = await loadAssets(identifier, locale, accessToken);
           } else {
+            console.log("EditorSlice.js syncProject load")
             response = await readProject(identifier, locale, accessToken);
           }
           break;
@@ -46,6 +57,7 @@ export const syncProject = (actionName) =>
         default:
           rejectWithValue({ error: "no such sync action" });
       }
+      console.log("EditorSlice.js syncProject returning response.data", response.data)
       return { project: response.data, autosave };
     },
     {
@@ -53,6 +65,9 @@ export const syncProject = (actionName) =>
         const { editor, auth } = getState();
         const saveStatus = editor.saving;
         const loadStatus = editor.loading;
+        console.log("auth", auth);
+        console.log("saveStatus", saveStatus);
+        console.log("loadStatus", loadStatus);
         if (auth.isLoadingUser) {
           return false;
         }
@@ -62,12 +77,13 @@ export const syncProject = (actionName) =>
         ) {
           return false;
         }
-        if (actionName === "load" && loadStatus === "pending") {
+        if (actionName === "load" && loadStatus === "pending123") {
           return false;
         }
       },
     },
   );
+}
 
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
