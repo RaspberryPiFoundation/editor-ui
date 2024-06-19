@@ -52,7 +52,12 @@ const WebComponentLoader = (props) => {
     if (authKey) {
       const user = JSON.parse(localStorage.getItem(authKey));
       if (user) {
-        return user;
+        const expiresAt = new Date(user.expires_at * 1000);
+        if (new Date() < expiresAt) {
+          return user;
+        } else {
+          return null;
+        }
       } else {
         return null;
       }
