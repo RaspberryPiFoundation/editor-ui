@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Quick fix for expired access token problem in web component (#1046)
 
-## [0.25.2] - 2024-13-06
+## [0.25.2] - 2024-06-13
 
 ### Added
 
@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix bug where `skulpt` runs the first component rather than `main.py` (#1039)
 - Fixing bug with `HTML` projects loading after remix if they have multiple `HTML files` (#1040)
 
-## [0.25.1] - 2024-11-06
+## [0.25.1] - 2024-06-11
 
 ### Fixed
 
