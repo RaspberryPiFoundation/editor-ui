@@ -12,9 +12,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+## [0.25.3] - 2024-06-19
+
+### Fixed
+
 - Quick fix for expired access token problem in web component (#1046)
 
-## [0.25.2] - 2024-13-06
+## [0.25.2] - 2024-06-13
 
 ### Added
 
@@ -25,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix bug where `skulpt` runs the first component rather than `main.py` (#1039)
 - Fixing bug with `HTML` projects loading after remix if they have multiple `HTML files` (#1040)
 
-## [0.25.1] - 2024-11-06
+## [0.25.1] - 2024-06-11
 
 ### Fixed
 
@@ -839,7 +843,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.3...HEAD
+[0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
 [0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
 [0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
 [0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
