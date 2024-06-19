@@ -94,7 +94,8 @@ describe("default behaviour", () => {
 describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   const authKey = `oidc.user:https://auth-v1.raspberrypi.org:editor-api`;
 
-  const user = { access_token: "dummy-access-token" };
+  const oneHourFromNow = (new Date().getTime() + 60 * 60 * 1000) / 1000;
+  const user = { access_token: "dummy-access-token", expires_at: oneHourFromNow };
   const originalIdentifier = "blank-python-starter";
 
   const urlFor = (identifier) => {

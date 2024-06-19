@@ -26,7 +26,8 @@ const identifier = "My amazing project";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
-const user = { access_token: "my_token" };
+const oneHourFromNow = (new Date().getTime() + 60 * 60 * 1000) / 1000;
+const user = { access_token: "my_token", expires_at: oneHourFromNow };
 
 describe("When no user is in state", () => {
   beforeEach(() => {
@@ -229,6 +230,51 @@ describe("When no user is in state", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setUser(user)]),
       );
+    });
+  });
+
+  describe("with user set in local storage, but access token has expired", () => {
+    beforeEach(() => {
+      const oneHourAgo = (new Date().getTime() - 60 * 60 * 1000) / 1000;
+      user.expires_at = oneHourAgo;
+
+      localStorage.setItem(authKey, JSON.stringify(user));
+      localStorage.setItem("authKey", authKey);
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("Calls useProject hook as if user was not set in local storage", () => {
+      expect(useProject).toHaveBeenCalledWith({
+        projectIdentifier: identifier,
+        code,
+        accessToken: undefined,
+        loadRemix: false,
+        loadCache: true,
+        remixLoadFailed: false,
+      });
+    });
+
+    test("Calls useProjectPersistence hook as if user was not set in local storage", () => {
+      expect(useProjectPersistence).toHaveBeenCalledWith({
+        user: null,
+        project: { components: [] },
+        hasShownSavePrompt: true,
+        justLoaded: false,
+        saveTriggered: false,
+      });
     });
   });
 
