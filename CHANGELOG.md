@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+## [0.25.4] - 2024-06-20
+
+### Fixed
+
 - Revert: Quick fix for expired access token problem in web component (#1048)
 
 ## [0.25.3] - 2024-06-19
@@ -845,7 +849,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.4...HEAD
+[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
 [0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
 [0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
 [0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
