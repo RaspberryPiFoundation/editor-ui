@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Revert: Quick fix for expired access token problem in web component (#1048)
+
 ## [0.25.3] - 2024-06-19
 
 ### Fixed
