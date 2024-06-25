@@ -70,15 +70,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./build"),
     filename: "web-component.js",
+    publicPath: "/",
   },
   devServer: {
     host: "0.0.0.0",
     allowedHosts: "all",
     port: 3001,
-    devMiddleware: {
-      index: "web-component.html",
-      writeToDisk: true,
-    },
+    liveReload: true,
+    hot: false,
     client: {
       webSocketURL: `ws://localhost:${process.env.PORT || "3011"}/ws`,
     },
