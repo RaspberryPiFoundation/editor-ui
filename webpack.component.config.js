@@ -1,6 +1,9 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
+const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+dotenv.config({ path: "./.env.webcomponent" });
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/web-component.js"),
@@ -69,13 +72,15 @@ module.exports = {
     filename: "web-component.js",
   },
   devServer: {
-    allowedHosts: ["react-ui-test-wc"],
     host: "0.0.0.0",
     allowedHosts: "all",
     port: 3001,
     devMiddleware: {
       index: "web-component.html",
       writeToDisk: true,
+    },
+    client: {
+      webSocketURL: `ws://localhost:${process.env.PORT || "3011"}/ws`,
     },
     static: {
       directory: path.join(__dirname, "public"),
@@ -92,5 +97,5 @@ module.exports = {
       filename: "web-component.html",
     }),
   ],
-    stats: "minimal",
+  stats: "minimal",
 };
