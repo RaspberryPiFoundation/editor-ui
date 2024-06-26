@@ -27,7 +27,7 @@ params.set("code", code);
 params.set("output_only", true);
 params.set("output_panels", JSON.stringify(["visual"]));
 
-const baseUrl = `http://localhost:3001?${params.toString()}`;
+const baseUrl = `http://localhost:3011?${params.toString()}`;
 
 it("runs p5 sketch including image loaded from project ", () => {
   cy.visit(baseUrl);

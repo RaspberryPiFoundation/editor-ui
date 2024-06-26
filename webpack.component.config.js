@@ -1,9 +1,9 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-dotenv.config({ path: "./.env.webcomponent" });
+// dotenv.config({ path: "./.env.webcomponent" });
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/web-component.js"),
@@ -74,12 +74,9 @@ module.exports = {
   devServer: {
     host: "0.0.0.0",
     allowedHosts: "all",
-    port: 3001,
+    port: 3011,
     liveReload: true,
     hot: false,
-    client: {
-      webSocketURL: `ws://localhost:${process.env.PORT || "3001"}/ws`,
-    },
     static: {
       directory: path.join(__dirname, "public"),
     },

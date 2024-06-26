@@ -84,7 +84,7 @@ Runs the web component in development mode. Open [http://localhost:3011](http://
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
-For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3001?sense_hat_always_enabled)
+For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3011?sense_hat_always_enabled)
 
 ### Styling
 
