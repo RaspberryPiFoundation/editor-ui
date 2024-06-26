@@ -8,14 +8,14 @@ import { useMediaQuery } from "react-responsive";
 import { codeRunHandled, stopCodeRun } from "../../../../redux/EditorSlice";
 import { runOnPico, stopPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import MicroPython from "./micropython/micrpython";
+import MicroPython from "./micropython/micropython";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const MicroPythonRunner = () => {
-  const [microPython, setMicroPython] = useState(new MicroPython());
+  const [microPython, setMicroPython] = useState(null);
   const [port, setPort] = useState(null);
   const project = useSelector((state) => state.editor.project);
   const picoConnected = useSelector((state) => state.editor.picoConnected);
@@ -69,16 +69,31 @@ const MicroPythonRunner = () => {
   useEffect(() => {
     if (port) {
       (async () => {
+        const microPython = new MicroPython();
         await microPython.configurePort(port);
+        setMicroPython(microPython);
       })();
     }
-  }, [port, reader]);
+    return () => {
+      if (!port && microPython) {
+        (async () => {
+          console.log("CLOSING PORT");
+          await microPython.closePort();
+          setMicroPython(null);
+        })();
+      }
+    };
+  }, [port]);
 
-  // useEffect(() => {
-  //   if (codeRunTriggered && port) {
-  //     runOnPico(port, project, dispatch);
-  //   }
-  // }, [codeRunTriggered, port]);
+  useEffect(() => {
+    console.log("project changed");
+  }, [project]);
+
+  useEffect(() => {
+    if (codeRunTriggered && port) {
+      microPython.runCode(project.components[0].content);
+    }
+  }, [codeRunTriggered, port, microPython]);
 
   // useEffect(() => {
   //   const readFromPico = async () => {
