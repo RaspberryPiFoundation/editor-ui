@@ -1,4 +1,4 @@
-const origin = "http://localhost:3011";
+const origin = "http://localhost:3011/web-component.html";
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
