@@ -1,4 +1,5 @@
 export default class MicroPython {
+  output = null;
   async configurePort(port) {
     this.port = port;
     console.log(this, port);
@@ -57,6 +58,28 @@ export default class MicroPython {
     try {
       console.log("Sending code to pico");
       await this.writer.write(this.encodeText(`${formattedCode}\r`));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async read() {
+    const decoder = new TextDecoder();
+    try {
+      while (true) {
+        const { value, done } = await Promise.race([
+          this.reader.read(),
+          new Promise((resolve, reject) => {
+            setTimeout(() => resolve({ value: { timeout: true } }), 5000);
+          }),
+        ]);
+        if (done || value.timeout) {
+          console.log("No more output");
+          break;
+        }
+        const decodedValue = decoder.decode(value);
+        console.log(decodedValue);
+      }
     } catch (error) {
       console.log(error);
     }

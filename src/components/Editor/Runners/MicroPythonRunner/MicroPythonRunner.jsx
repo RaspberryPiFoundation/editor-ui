@@ -95,42 +95,20 @@ const MicroPythonRunner = () => {
     }
   }, [codeRunTriggered, port, microPython]);
 
-  // useEffect(() => {
-  //   const readFromPico = async () => {
-  //     const decoder = new TextDecoder();
-  //     try {
-  //       while (true) {
-  //         const { value, done } = await Promise.race([
-  //           reader.read(),
-  //           new Promise((resolve, reject) => {
-  //             setTimeout(() => resolve({ value: { timeout: true } }), 5000);
-  //           }),
-  //         ]);
-  //         if (done || value.timeout || codeRunStopped) {
-  //           releaseReader();
-  //           console.log("No more output");
-  //           break;
-  //         }
-  //         const decodedValue = decoder.decode(value);
-  //         console.log(decodedValue);
-  //         setPicoOutput({ time: new Date().getTime(), string: decodedValue });
-  //       }
-  //     } catch (error) {
-  //       releaseReader();
-  //       console.log(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const readFromPico = async () => {
+      try {
+        await microPython.read();
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  //   if (!codeRunStopped && reader) {
-  //     console.log("Ready to read");
-  //     readFromPico();
-  //   }
-
-  //   // Clean-up function
-  //   return () => {
-  //     releaseReader();
-  //   };
-  // }, [codeRunTriggered, codeRunStopped, reader]);
+    if (!codeRunStopped) {
+      console.log("Ready to read");
+      readFromPico();
+    }
+  }, [codeRunTriggered, codeRunStopped]);
 
   // useEffect(() => {
   //   dispatch(codeRunHandled());
