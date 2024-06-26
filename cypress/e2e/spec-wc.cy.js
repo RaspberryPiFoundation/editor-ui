@@ -61,10 +61,7 @@ describe("default behaviour", () => {
       .find("div[class=cm-content]")
       .invoke("text", "import sense_hat");
     cy.get("editor-wc").shadow().find(".btn--run").click();
-    cy.get("editor-wc")
-      .shadow()
-      .find("#root")
-      .should("contain", "Visual output");
+    cy.get("editor-wc").shadow().find("#root").should("contain", "Visual output");
   });
 
   it("does not render astro pi component on page load", () => {
@@ -87,10 +84,7 @@ describe("default behaviour", () => {
       .find("div[class=cm-content]")
       .invoke("text", "import sense_hat");
     cy.get("editor-wc").shadow().find(".btn--run").click();
-    cy.get("editor-wc")
-      .shadow()
-      .find("div[class=cm-content]")
-      .invoke("text", "");
+    cy.get("editor-wc").shadow().find("div[class=cm-content]").invoke("text", "");
     cy.get("editor-wc").shadow().find(".btn--run").click();
     cy.get("editor-wc").shadow().contains("Visual output").click();
     cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
@@ -112,7 +106,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   };
 
   beforeEach(() => {
-    cy.on("window:before:load", (win) => {
+    cy.on('window:before:load', (win) => {
       win.localStorage.setItem(authKey, JSON.stringify(user));
     });
   });
@@ -130,33 +124,22 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
 
     // Check receipt of an event to trigger a redirect to the remixed project URL
     cy.get("#project-identifier").should("not.have.text", originalIdentifier);
-    cy.get("#project-identifier")
-      .invoke("text")
-      .then((remixIdentifier) => {
-        // Check we're still seeing the changed code
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("have.text", "# remixed!");
+    cy.get("#project-identifier").invoke("text").then((remixIdentifier) => {
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
 
-        // Visit the original project again
-        cy.visit(urlFor(originalIdentifier));
+      // Visit the original project again
+      cy.visit(urlFor(originalIdentifier));
 
-        // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("not.have.text", "# remixed!");
+      // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("not.have.text", "# remixed!");
 
-        // View the remixed project
-        cy.visit(urlFor(remixIdentifier));
+      // View the remixed project
+      cy.visit(urlFor(remixIdentifier));
 
-        // Check we're still seeing the changed code
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("have.text", "# remixed!");
-      });
+      // Check we're still seeing the changed code
+      cy.get("editor-wc").shadow().find("[contenteditable]").should("have.text", "# remixed!");
+    });
   });
 });
 
@@ -177,24 +160,14 @@ describe("when embedded, output_only & output_split_view are true", () => {
     // Check text output panel is visible and has a run button
     // Important to wait for this before making the negative assertions that follow
     cy.get("editor-wc").shadow().contains("Text output").should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("Run")
-      .should("be.visible");
+    cy.get("editor-wc").shadow().find("button").contains("Run").should("be.visible");
 
     // Check that the side bar is not displayed
     cy.get("editor-wc").shadow().contains("Project files").should("not.exist");
     // Check that the project bar is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Don't Collide: Clean Car")
-      .should("not.exist");
+    cy.get("editor-wc").shadow().contains("Don't Collide: Clean Car").should("not.exist");
     // Check that the editor input containing the code is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("# The draw_obstacle function goes here")
-      .should("not.exist");
+    cy.get("editor-wc").shadow().contains("# The draw_obstacle function goes here").should("not.exist");
 
     // Run the code and check it executed without error
     cy.get("editor-wc").shadow().find("button").contains("Run").click();
@@ -202,12 +175,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
     cy.get("editor-wc").shadow().contains("Visual output").should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Visual output")
-      .parents("ul")
-      .children()
-      .should("have.length", 1);
+    cy.get("editor-wc").shadow().contains("Visual output").parents("ul").children().should("have.length", 1);
   });
 
   it("displays the embedded view for an HTML project", () => {
@@ -215,35 +183,18 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check HTML preview output panel is visible and has a run button
     // Important to wait for this before making the negative assertions that follow
-    cy.get("editor-wc")
-      .shadow()
-      .contains("index.html preview")
-      .should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("Run")
-      .should("be.visible");
+    cy.get("editor-wc").shadow().contains("index.html preview").should("be.visible");
+    cy.get("editor-wc").shadow().find("button").contains("Run").should("be.visible");
 
     // Check that the code has automatically run i.e. the HTML has been rendered
-    cy.get("editor-wc")
-      .shadow()
-      .find("iframe#output-frame")
-      .its("0.contentDocument.body")
-      .should("contain", "Draw anime with me");
+    cy.get("editor-wc").shadow().find("iframe#output-frame").its("0.contentDocument.body").should("contain", "Draw anime with me");
 
     // Check that the side bar is not displayed
     cy.get("editor-wc").shadow().contains("Project files").should("not.exist");
     // Check that the project bar is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Anime expressions solution")
-      .should("not.exist");
+    cy.get("editor-wc").shadow().contains("Anime expressions solution").should("not.exist");
     // Check that the editor input containing the code is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("<h1>Draw anime with me</h1>")
-      .should("not.exist");
+    cy.get("editor-wc").shadow().contains("<h1>Draw anime with me</h1>").should("not.exist");
 
     // Run the code and check it executed without error
     cy.get("editor-wc").shadow().find("button").contains("Run").click();
