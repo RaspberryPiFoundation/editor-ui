@@ -120,6 +120,30 @@ describe("When no user is in state", () => {
         expect.arrayContaining([setUser(null)]),
       );
     });
+
+    test("Renders editor styles when useEditorStyles is true", () => {
+      const { container } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+              useEditorStyles={true}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      const styleTags = container.querySelectorAll("style");
+      const editorStyles = Array.from(styleTags).find((tag) =>
+        tag.textContent.includes("editorStyles"),
+      );
+      expect(editorStyles).not.toBeNull();
+    });
   });
 
   describe("with assetsIdentifier set", () => {

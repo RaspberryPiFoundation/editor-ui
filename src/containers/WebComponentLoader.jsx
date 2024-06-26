@@ -21,6 +21,7 @@ import ToastCloseButton from "../utils/ToastCloseButton";
 
 import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
+import editorStyles from "../assets/stylesheets/index.scss";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
 
@@ -39,11 +40,12 @@ const WebComponentLoader = (props) => {
     theme,
     outputPanels = ["text", "visual"],
     embedded = false,
-    hostStyles,
+    hostStyles, // Pass in styles from the host
     showSavePrompt = false,
     loadRemixDisabled = false,
     outputOnly = false,
     outputSplitView = false,
+    useEditorStyles = false, // If true use the standard editor styling for the web component
   } = props;
 
   const dispatch = useDispatch();
@@ -147,7 +149,8 @@ const WebComponentLoader = (props) => {
         }}
       >
         <style>{externalStyles.toString()}</style>
-        <style>{hostStyles}</style>
+        {useEditorStyles && <style>{editorStyles.toString()}</style>}
+        {hostStyles && <style>{hostStyles}</style>}
         <Style>
           {internalStyles.toString()}
           <div id="wc" className={`--${cookies.theme || themeDefault}`}>

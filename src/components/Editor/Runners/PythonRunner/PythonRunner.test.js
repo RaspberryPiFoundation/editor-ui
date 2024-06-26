@@ -42,6 +42,8 @@ describe("Testing basic input span functionality", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "input()",
             },
           ],
@@ -96,6 +98,8 @@ test("Input box not there when input function not called", () => {
       project: {
         components: [
           {
+            name: "main",
+            extension: "py",
             content: "print('Hello')",
           },
         ],
@@ -126,6 +130,8 @@ describe("Testing stopping the code run with input", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "input()",
             },
           ],
@@ -173,6 +179,8 @@ describe("When an error occurs", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "boom!",
             },
           ],
@@ -228,6 +236,8 @@ describe("When an error has occurred", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "boom!",
             },
           ],
@@ -280,6 +290,8 @@ describe("When in split view, no visual libraries used and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "print('hello world')",
             },
           ],
@@ -324,6 +336,8 @@ describe("When in split view, py5 imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5",
             },
           ],
@@ -371,6 +385,8 @@ describe("When in split view, py5_imported imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5_imported",
             },
           ],
@@ -414,6 +430,8 @@ describe("When in split view, pygal imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import pygal",
             },
           ],
@@ -457,6 +475,8 @@ describe("When in split view, turtle imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import turtle",
             },
           ],
@@ -500,6 +520,8 @@ describe("When in split view, sense_hat imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import _internal_sense_hat",
             },
           ],
@@ -544,6 +566,8 @@ describe("When in tabbed view, no visual libraries used and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "print('hello world')",
             },
           ],
@@ -588,6 +612,8 @@ describe("When in tabbed view, py5 imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5",
             },
           ],
@@ -635,6 +661,8 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5_imported",
             },
           ],
@@ -678,6 +706,8 @@ describe("When in tabbed view, pygal imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import pygal",
             },
           ],
@@ -721,6 +751,8 @@ describe("When in tabbed view, turtle imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import turtle",
             },
           ],
@@ -764,6 +796,8 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import _internal_sense_hat",
             },
           ],
@@ -804,6 +838,8 @@ test("When embedded in split view with visual output does not render output view
       project: {
         components: [
           {
+            name: "main",
+            extension: "py",
             content: "import p5",
           },
         ],
