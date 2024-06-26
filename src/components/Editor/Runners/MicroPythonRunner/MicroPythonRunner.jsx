@@ -15,7 +15,7 @@ import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 const MicroPythonRunner = () => {
-  const [microPython, setMicroPython] = useState(null);
+  const [microPython, setMicroPython] = useState(new MicroPython());
   const [port, setPort] = useState(null);
   const project = useSelector((state) => state.editor.project);
   const picoConnected = useSelector((state) => state.editor.picoConnected);
@@ -68,8 +68,9 @@ const MicroPythonRunner = () => {
 
   useEffect(() => {
     if (port) {
-      const microPython = new MicroPython(port);
-      setMicroPython(microPython);
+      (async () => {
+        await microPython.configurePort(port);
+      })();
     }
   }, [port, reader]);
 
