@@ -86,7 +86,6 @@
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
     "stylelint": "stylelint src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
-    "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
     "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",

@@ -69,14 +69,11 @@ module.exports = {
     filename: "web-component.js",
   },
   devServer: {
-    allowedHosts: ["react-ui-test-wc"],
     host: "0.0.0.0",
     allowedHosts: "all",
-    port: 3001,
-    devMiddleware: {
-      index: "web-component.html",
-      writeToDisk: true,
-    },
+    port: 3011,
+    liveReload: true,
+    hot: false,
     static: {
       directory: path.join(__dirname, "public"),
     },
@@ -92,5 +89,5 @@ module.exports = {
       filename: "web-component.html",
     }),
   ],
-    stats: "minimal",
+  stats: "minimal",
 };
