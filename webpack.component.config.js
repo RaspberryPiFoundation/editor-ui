@@ -1,9 +1,6 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
-// const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-// dotenv.config({ path: "./.env.webcomponent" });
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/web-component.js"),
