@@ -65,6 +65,7 @@ export default class MicroPython {
 
   async read() {
     const decoder = new TextDecoder();
+    let decodedValue;
     try {
       while (true) {
         const { value, done } = await Promise.race([
@@ -77,11 +78,14 @@ export default class MicroPython {
           console.log("No more output");
           break;
         }
-        const decodedValue = decoder.decode(value);
-        console.log(decodedValue);
+        decodedValue += decoder.decode(value);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      console.log("returning");
+      console.log(decodedValue);
+      return decodedValue;
     }
   }
 

@@ -34,11 +34,7 @@ const MicroPythonRunner = () => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [reader, setReader] = useState(null);
-  const [picoOutput, setPicoOutput] = useState({
-    time: new Date().getTime(),
-    string: "Pico connected",
-  });
+  const [picoOutput, setPicoOutput] = useState("Pico connected");
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -86,10 +82,6 @@ const MicroPythonRunner = () => {
   }, [port]);
 
   useEffect(() => {
-    console.log("project changed");
-  }, [project]);
-
-  useEffect(() => {
     if (codeRunTriggered && port) {
       microPython.runCode(project.components[0].content);
     }
@@ -97,8 +89,10 @@ const MicroPythonRunner = () => {
 
   useEffect(() => {
     const readFromPico = async () => {
+      setPicoOutput("Reading from Pico");
       try {
-        await microPython.read();
+        let output = await microPython.read();
+        setPicoOutput(output);
       } catch (error) {
         console.log(error);
       }
@@ -110,25 +104,17 @@ const MicroPythonRunner = () => {
     }
   }, [codeRunTriggered, codeRunStopped]);
 
-  // useEffect(() => {
-  //   dispatch(codeRunHandled());
-
-  //   const stopPicoRunning = async () => {
-  //     stopPico(port);
-  //     stopCodeRun();
-  //   };
-
-  //   if (!codeRunStopped) {
-  //     stopPicoRunning();
-  //   }
-  // }, [codeRunStopped]);
+  useEffect(() => {
+    dispatch(codeRunHandled());
+  }, [codeRunStopped]);
 
   useEffect(() => {
+    console.log("Setting output in useeffect", picoOutput);
     const node = output.current;
 
     const div = document.createElement("span");
     div.classList.add("pythonrunner-console-output-line");
-    div.innerHTML = new Option(picoOutput.string).innerHTML;
+    div.innerHTML = new Option(picoOutput).innerHTML;
     node.appendChild(div);
     node.scrollTop = node.scrollHeight;
   }, [picoOutput]);
