@@ -8,14 +8,15 @@ import { useMediaQuery } from "react-responsive";
 import { codeRunHandled, stopCodeRun } from "../../../../redux/EditorSlice";
 import { runOnPico, stopPico } from "../../../../utils/picoHelpers";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-
+import MicroPython from "./micropython/micrpython";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
-import { set } from "date-fns";
 
 const MicroPythonRunner = () => {
+  const [microPython, setMicroPython] = useState(null);
+  const [port, setPort] = useState(null);
   const project = useSelector((state) => state.editor.project);
   const picoConnected = useSelector((state) => state.editor.picoConnected);
 
@@ -33,7 +34,6 @@ const MicroPythonRunner = () => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [port, setPort] = useState(null);
   const [reader, setReader] = useState(null);
   const [picoOutput, setPicoOutput] = useState({
     time: new Date().getTime(),
@@ -48,33 +48,9 @@ const MicroPythonRunner = () => {
     return pageInput || webComponentInput;
   };
 
-  const getReader = async () => {
-    if (!port) {
-      return;
-    }
-    try {
-      const reader = await port.readable.getReader();
-      setReader(reader);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const releaseReader = async () => {
-    if (reader && reader.locked) {
-      try {
-        await reader.releaseLock();
-        setReader(null);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
   useEffect(() => {
     const getPicoPort = async () => {
       const ports = await navigator.serial.getPorts();
-
       const port = ports.find((port) => port.readable !== null);
       if (port) {
         setPort(port);
@@ -91,69 +67,67 @@ const MicroPythonRunner = () => {
   }, [picoConnected]);
 
   useEffect(() => {
-    if (port && !reader) {
-      getReader();
+    if (port) {
+      const microPython = new MicroPython(port);
+      setMicroPython(microPython);
     }
-    return () => {
-      releaseReader();
-    };
   }, [port, reader]);
 
-  useEffect(() => {
-    if (codeRunTriggered && port) {
-      runOnPico(port, project, dispatch);
-    }
-  }, [codeRunTriggered, port]);
+  // useEffect(() => {
+  //   if (codeRunTriggered && port) {
+  //     runOnPico(port, project, dispatch);
+  //   }
+  // }, [codeRunTriggered, port]);
 
-  useEffect(() => {
-    const readFromPico = async () => {
-      const decoder = new TextDecoder();
-      try {
-        while (true) {
-          const { value, done } = await Promise.race([
-            reader.read(),
-            new Promise((resolve, reject) => {
-              setTimeout(() => resolve({ value: { timeout: true } }), 5000);
-            }),
-          ]);
-          if (done || value.timeout || codeRunStopped) {
-            releaseReader();
-            console.log("No more output");
-            break;
-          }
-          const decodedValue = decoder.decode(value);
-          console.log(decodedValue);
-          setPicoOutput({ time: new Date().getTime(), string: decodedValue });
-        }
-      } catch (error) {
-        releaseReader();
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const readFromPico = async () => {
+  //     const decoder = new TextDecoder();
+  //     try {
+  //       while (true) {
+  //         const { value, done } = await Promise.race([
+  //           reader.read(),
+  //           new Promise((resolve, reject) => {
+  //             setTimeout(() => resolve({ value: { timeout: true } }), 5000);
+  //           }),
+  //         ]);
+  //         if (done || value.timeout || codeRunStopped) {
+  //           releaseReader();
+  //           console.log("No more output");
+  //           break;
+  //         }
+  //         const decodedValue = decoder.decode(value);
+  //         console.log(decodedValue);
+  //         setPicoOutput({ time: new Date().getTime(), string: decodedValue });
+  //       }
+  //     } catch (error) {
+  //       releaseReader();
+  //       console.log(error);
+  //     }
+  //   };
 
-    if (!codeRunStopped && reader) {
-      console.log("Ready to read");
-      readFromPico();
-    }
+  //   if (!codeRunStopped && reader) {
+  //     console.log("Ready to read");
+  //     readFromPico();
+  //   }
 
-    // Clean-up function
-    return () => {
-      releaseReader();
-    };
-  }, [codeRunTriggered, codeRunStopped, reader]);
+  //   // Clean-up function
+  //   return () => {
+  //     releaseReader();
+  //   };
+  // }, [codeRunTriggered, codeRunStopped, reader]);
 
-  useEffect(() => {
-    dispatch(codeRunHandled());
+  // useEffect(() => {
+  //   dispatch(codeRunHandled());
 
-    const stopPicoRunning = async () => {
-      stopPico(port);
-      stopCodeRun();
-    };
+  //   const stopPicoRunning = async () => {
+  //     stopPico(port);
+  //     stopCodeRun();
+  //   };
 
-    if (!codeRunStopped) {
-      stopPicoRunning();
-    }
-  }, [codeRunStopped]);
+  //   if (!codeRunStopped) {
+  //     stopPicoRunning();
+  //   }
+  // }, [codeRunStopped]);
 
   useEffect(() => {
     const node = output.current;
