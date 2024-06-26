@@ -70,7 +70,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./build"),
     filename: "web-component.js",
-    publicPath: "/",
   },
   devServer: {
     host: "0.0.0.0",
@@ -79,7 +78,7 @@ module.exports = {
     liveReload: true,
     hot: false,
     client: {
-      webSocketURL: `ws://localhost:${process.env.PORT || "3011"}/ws`,
+      webSocketURL: `ws://localhost:${process.env.PORT || "3001"}/ws`,
     },
     static: {
       directory: path.join(__dirname, "public"),
