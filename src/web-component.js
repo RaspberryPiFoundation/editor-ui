@@ -170,4 +170,6 @@ class WebComponent extends HTMLElement {
   }
 }
 
-window.customElements.define("editor-wc", WebComponent);
+if (!window.customElements.get("editor-wc")) {
+  window.customElements.define("editor-wc", WebComponent);
+}
