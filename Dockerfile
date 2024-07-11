@@ -7,7 +7,6 @@ RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-COPY . /app
 
 RUN corepack enable \
   && corepack prepare yarn@stable --activate \
@@ -17,6 +16,8 @@ RUN corepack enable \
   && printf "Switched to Yarn version: "; yarn --version
 
 RUN yarn
+
+COPY . /app
 
 EXPOSE 3010
 
