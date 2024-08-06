@@ -1,10 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { createPortal } from "react-dom";
 
 const ExternalFiles = () => {
   const project = useSelector((state) => state.editor.project);
+  const hostElement = document.body;
 
-  return (
+  if (!hostElement) {
+    return null;
+  }
+
+  return createPortal(
     <div id="file-content" hidden>
       {project.components?.map((file, i) => {
         if (["csv", "txt"].includes(file.extension)) {
@@ -16,7 +22,8 @@ const ExternalFiles = () => {
         }
         return null;
       })}
-    </div>
+    </div>,
+    hostElement,
   );
 };
 
