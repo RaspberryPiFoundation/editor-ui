@@ -26,4 +26,5 @@ services:
     container_name: react-ui-wc
 networks:
   default:
+    external: true
     name: shared-development
