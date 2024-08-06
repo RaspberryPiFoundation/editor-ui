@@ -2,18 +2,19 @@ import "./assets/stylesheets/App.scss";
 import "./assets/stylesheets/rpf_design_system/typography.scss";
 import "./assets/stylesheets/Notifications.scss";
 
-import { useCookies } from "react-cookie";
-import { BrowserRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-
-import { SettingsContext } from "./utils/settings";
 import AppRoutes from "./components/AppRoutes";
-import GlobalNav from "./components/GlobalNav/GlobalNav";
 import BetaBanner from "./components/BetaBanner/BetaBanner";
 import BetaModal from "./components/Modals/BetaModal";
+import { BrowserRouter } from "react-router-dom";
+import GlobalNav from "./components/GlobalNav/GlobalNav";
 import LoginToSaveModal from "./components/Modals/LoginToSaveModal";
+import { RpfGlobalNav } from "@raspberrypifoundation/rpf-global-nav/dist";
+import { SettingsContext } from "./utils/settings";
 import ToastCloseButton from "./utils/ToastCloseButton";
+import { ToastContainer } from "react-toastify";
+import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function App() {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -22,8 +23,62 @@ function App() {
     ? "dark"
     : "light";
 
+  const locales = {
+    "en-GB": { url: "/en-GB", text: "English" },
+    "fr-FR": { url: "/fr-FR", text: "French" },
+    "es-ES": { url: "/es-ES", text: "Spanish" },
+    "de-DE": { url: "/de-DE", text: "German" },
+    "it-IT": { url: "/it-IT", text: "Italian" },
+    "pt-PT": { url: "/pt-PT", text: "Portuguese" },
+    "ja-JP": { url: "/ja-JP", text: "Japanese" },
+    "ko-KR": { url: "/ko-KR", text: "Korean" },
+    "zh-CN": { url: "/zh-CN", text: "Chinese" },
+    "ru-RU": { url: "/ru-RU", text: "Russian" },
+    "ar-SA": { url: "/ar-SA", text: "Arabic" },
+    "hi-IN": { url: "/hi-IN", text: "Hindi" },
+    "nl-NL": { url: "/nl-NL", text: "Dutch" },
+    "sv-SE": { url: "/sv-SE", text: "Swedish" },
+    "pl-PL": { url: "/pl-PL", text: "Polish" },
+    "fi-FI": { url: "/fi-FI", text: "Finnish" },
+    "tr-TR": { url: "/tr-TR", text: "Turkish" },
+    "cs-CZ": { url: "/cs-CZ", text: "Czech" },
+    "da-DK": { url: "/da-DK", text: "Danish" },
+    "no-NO": { url: "/no-NO", text: "Norwegian" },
+  };
+  const [locale, setLocale] = useState("en");
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLocaleSwitch = (newLocale) => {
+    console.log("New locale selected: " + newLocale);
+    setLocale(newLocale);
+  };
+
+  const handleOnLogIn = () => {
+    console.log("Log In clicked");
+    setLoggedIn(true);
+  };
+
+  const handleOnLogOut = () => {
+    console.log("Log Out clicked");
+    setLoggedIn(false);
+  };
+
+  const handleSignUp = () => {
+    console.log("Sign up clicked");
+    setLoggedIn(false);
+  };
+
   return (
     <div id="app" className={`--${cookies.theme || themeDefault}`}>
+      <RpfGlobalNav
+        locale={locale}
+        locales={locales}
+        loggedIn={loggedIn}
+        onLogIn={handleOnLogIn}
+        onLogOut={handleOnLogOut}
+        onSignUp={handleSignUp}
+        onSelectLanguage={handleLocaleSwitch}
+      />
       <SettingsContext.Provider
         value={{
           theme: cookies.theme || themeDefault,
