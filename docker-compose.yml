@@ -27,3 +27,4 @@ services:
 networks:
   default:
     name: shared-development
+    external: true

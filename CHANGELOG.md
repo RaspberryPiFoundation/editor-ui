@@ -10,10 +10,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+## [0.25.5] - 2024-08-06
+
+## Unreleased
+
+### Fixed
+
+- CSS fix for the bottom of Sidebar (Unreleased)
+
 ### Fixed
 
 - Small fix to ensure webpack is using the correct webSocketURL for live reloading\
 - Only register `editor-wc` once (#1052)
+  `
 
 ## [0.25.4] - 2024-06-20
 
