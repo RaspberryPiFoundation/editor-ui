@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+## Unreleased
+
+### Fixed
+
+- CSS fix for the bottom of Sidebar
+
 ### Fixed
 
 - Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
