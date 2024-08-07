@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
 - Small fix to ensure webpack is using the correct webSocketURL for live reloading\
 - Only register `editor-wc` once (#1052)
 
