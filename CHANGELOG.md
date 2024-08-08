@@ -10,16 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-## Unreleased
+## [0.25.5] - 2024-08-08
 
 ### Fixed
 
-- CSS fix for the bottom of Sidebar
-
-### Fixed
-
+- CSS fix for the bottom of Sidebar (#1061)
 - Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
-- Small fix to ensure webpack is using the correct webSocketURL for live reloading\
+- Small fix to ensure webpack is using the correct webSocketURL for live reloading (#1051)
 - Only register `editor-wc` once (#1052)
 
 ## [0.25.4] - 2024-06-20
@@ -859,8 +856,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.4...HEAD
-[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.5...HEAD
+[0.25.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.5
+[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.4
 [0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
 [0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
 [0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
