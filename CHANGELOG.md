@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+## [0.25.6] - 2024-08-16
+
+### Changed
+
+- Attach part to a run-bar component to be able to hide it from Block To Text
+
 ## [0.25.5] - 2024-08-08
 
 ### Fixed
