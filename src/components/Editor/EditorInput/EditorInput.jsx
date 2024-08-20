@@ -29,6 +29,7 @@ const EditorInput = () => {
   );
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const readOnly = useSelector((state) => state.editor.readOnly);
 
   const onDragStart = (input) => {
     const { source } = input;
@@ -154,6 +155,11 @@ const EditorInput = () => {
             </div>
             {panel.map((fileName, i) => (
               <TabPanel key={i}>
+                {readOnly && (
+                  <span className="editor-input__view-only-banner">
+                    View only
+                  </span>
+                )}
                 <EditorPanel
                   fileName={fileName.split(".")[0]}
                   extension={fileName.split(".").slice(1).join(".")}
