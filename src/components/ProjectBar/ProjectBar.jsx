@@ -38,7 +38,7 @@ const ProjectBar = ({ nameEditable = true }) => {
               />
             </div>
           )}
-          {loading === "success" && !projectOwner && readOnly && (
+          {loading === "success" && !projectOwner && !readOnly && (
             <div className="project-bar__btn-wrapper">
               <SaveButton className="project-bar__btn btn--save" />
             </div>
