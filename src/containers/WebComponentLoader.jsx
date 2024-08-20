@@ -24,6 +24,7 @@ import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import editorStyles from "../assets/stylesheets/index.scss";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
+import { projectOwnerLoadedEvent } from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const {
@@ -59,6 +60,7 @@ const WebComponentLoader = (props) => {
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
+  const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
@@ -107,6 +109,12 @@ const WebComponentLoader = (props) => {
       setProjectIdentifier(project.identifier);
     }
   }, [loading, project]);
+
+  useEffect(() => {
+    if (justLoaded) {
+      document.dispatchEvent(projectOwnerLoadedEvent(projectOwner));
+    }
+  }, [projectOwner, justLoaded]);
 
   useProject({
     projectIdentifier: projectIdentifier,
