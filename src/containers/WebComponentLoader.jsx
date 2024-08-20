@@ -4,6 +4,7 @@ import {
   disableTheming,
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
+  setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -43,6 +44,7 @@ const WebComponentLoader = (props) => {
     hostStyles, // Pass in styles from the host
     showSavePrompt = false,
     loadRemixDisabled = false,
+    readOnly = false,
     outputOnly = false,
     outputSplitView = false,
     useEditorStyles = false, // If true use the standard editor styling for the web component
@@ -139,6 +141,10 @@ const WebComponentLoader = (props) => {
       dispatch(setInstructions(instructions));
     }
   }, [instructions, dispatch]);
+
+  useEffect(() => {
+    dispatch(setReadOnly(readOnly));
+  }, [readOnly, dispatch]);
 
   return loading === "success" ? (
     <>

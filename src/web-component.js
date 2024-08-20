@@ -48,6 +48,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "project_name_editable",
       "with_sidebar",
+      "read_only",
       "output_only",
       "output_panels",
       "sidebar_options",

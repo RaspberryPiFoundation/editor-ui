@@ -19,11 +19,14 @@ const ProjectBar = ({ nameEditable = true }) => {
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const projectOwner = isOwner(user, project);
+  const readOnly = useSelector((state) => state.editor.readOnly);
 
   return (
     loading === "success" && (
       <div className="project-bar">
-        {loading === "success" && <ProjectName editable={nameEditable} />}
+        {loading === "success" && (
+          <ProjectName editable={!readOnly && nameEditable} />
+        )}
         <div className="project-bar__right">
           {loading === "success" && (
             <div className="project-bar__btn-wrapper">
@@ -35,12 +38,12 @@ const ProjectBar = ({ nameEditable = true }) => {
               />
             </div>
           )}
-          {loading === "success" && !projectOwner && (
+          {loading === "success" && !projectOwner && readOnly && (
             <div className="project-bar__btn-wrapper">
               <SaveButton className="project-bar__btn btn--save" />
             </div>
           )}
-          {lastSavedTime && user && (
+          {lastSavedTime && user && !readOnly && (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
           )}
         </div>

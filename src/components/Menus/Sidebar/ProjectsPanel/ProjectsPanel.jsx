@@ -21,8 +21,8 @@ const ProjectsPanel = () => {
   } = useTranslation();
 
   const isLoggedIn = useSelector((state) => state?.auth?.user);
-
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const readOnly = useSelector((state) => state.editor.readOnly);
 
   const saveOptions = (
     <>
@@ -50,7 +50,11 @@ const ProjectsPanel = () => {
       }
       className="projects-panel-wrapper"
     >
-      <ProjectName showLabel={true} className="projects-panel__item" />
+      <ProjectName
+        showLabel={true}
+        className="projects-panel__item"
+        editable={!readOnly}
+      />
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
         <DownloadButton

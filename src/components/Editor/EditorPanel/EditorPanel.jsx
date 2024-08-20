@@ -24,6 +24,7 @@ import { SettingsContext } from "../../../utils/settings";
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
+  const readOnly = useSelector((state) => state.editor.readOnly);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -96,6 +97,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         editorTheme,
         indentationMarkers(),
         indentUnit.of(customIndentUnit),
+        // EditorState.readOnly.of(readOnly),
+        EditorView.editable.of(!readOnly),
       ],
     });
 
