@@ -11,6 +11,9 @@ export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
 export const projectIdentifierChangedEvent = (detail) =>
   webComponentCustomEvent("editor-projectIdentifierChanged", detail);
 
+export const projectOwnerLoadedEvent = (detail) =>
+  webComponentCustomEvent("editor-projectOwnerLoaded", detail);
+
 export const runCompletedEvent = (detail) =>
   webComponentCustomEvent("editor-runCompleted", detail);
 
