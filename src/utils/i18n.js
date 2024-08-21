@@ -139,6 +139,7 @@ i18n
           },
           editorPanel: {
             ariaLabel: "editor text input",
+            viewOnly: "View only",
           },
           filePanel: {
             errors: {

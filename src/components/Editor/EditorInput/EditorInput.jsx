@@ -20,6 +20,7 @@ import "../../../assets/stylesheets/EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import CloseIcon from "../../../utils/CloseIcon";
+import { useTranslation } from "react-i18next";
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);
@@ -30,6 +31,8 @@ const EditorInput = () => {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
+
+  const { t } = useTranslation();
 
   const onDragStart = (input) => {
     const { source } = input;
@@ -157,7 +160,7 @@ const EditorInput = () => {
               <TabPanel key={i}>
                 {readOnly && (
                   <span className="editor-input__view-only-banner">
-                    View only
+                    {t("editorPanel.viewOnly")}
                   </span>
                 )}
                 <EditorPanel
