@@ -6,8 +6,215 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- RPi logo and text link at top left opens in new tab (#830)
+
 ### Added
 
+- `editor-projectOwnerChanged` custom event (#1065)
+
+### Changed
+
+## [0.25.5] - 2024-08-08
+
+### Fixed
+
+- CSS fix for the bottom of Sidebar (#1061)
+- Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
+- Small fix to ensure webpack is using the correct webSocketURL for live reloading (#1051)
+- Only register `editor-wc` once (#1052)
+
+## [0.25.4] - 2024-06-20
+
+### Fixed
+
+- Revert: Quick fix for expired access token problem in web component (#1048)
+
+## [0.25.3] - 2024-06-19
+
+### Fixed
+
+- Quick fix for expired access token problem in web component (#1046)
+
+## [0.25.2] - 2024-06-13
+
+### Added
+
+- Web component now supports using standard editor-ui styles if useEditorStyles is true
+
+### Fixed
+
+- Fix bug where `skulpt` runs the first component rather than `main.py` (#1039)
+- Fixing bug with `HTML` projects loading after remix if they have multiple `HTML files` (#1040)
+
+## [0.25.1] - 2024-06-11
+
+### Fixed
+
+- Wrap `WebComponentLoader` in a `BrowserRouter` to fix routing issues (#1035)
+
+## [0.25.0] - 2024-06-06
+
+### Added
+
+- Add `embedded` attribute to web component (#1030)
+- Add `output_split_view` attribute to web component (#1030)
+
+### Changed
+
+- Changes to web component behaviour to support use in embedded view in editor-standalone (#1030)
+
+### Fixed
+
+## [0.24.0] - 2024-06-03
+
+### Added
+
+- Add `project_name_editable` attribute to web component (#1009)
+- Fires custom event when the theme changes (#1015)
+- Add `output_only` attribute to web component (#1019 & originally #782)
+- Add `assets_identifier` attribute to web component (#1019 & originally #901)
+- Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
+- Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
+- Send error details in "editor-runCompleted" event (#1019 & originally #915)
+- Return error details to web component (#1019 & originally #915)
+- Add `output_panels` attribute to web component (#1019 & originally #909)
+
+### Changed
+
+- Remove unused `/embedded/projects/:identifier` route (#1013)
+
+### Fixed
+
+- Remove unused `REACT_APP_LOGIN_ENABLED` env var (#1006)
+- Fix infinite remix loop when `BYPASS_AUTH` set in `editor-api` (#1007)
+- Fixes for docker-compose.yml (#1008)
+- Fix deprecation warnings in GitHub Actions (#1011)
+- Removed unused `isEmbedded` param from `useProject` call in `EmbeddedViewer` (#1016)
+- Improvements to Cypress specs in CI (#1017)
+- Fix warnings and verbose output when starting Webpack Dev Server (#1018)
+- Add e2e spec for project remix behaviour in web component (#1020)
+- Fix initial value of `user` in `WebComponentLoader` (#1021)
+- Make `authKey` in e2e web component spec more realistic (#1022)
+- Remove unused `ComponentStore` (#1023)
+
+## [0.23.0] - 2024-05-09
+
+### Added
+
+- Support to enable embedding iframes in HTML projects from in-house domains (#985)
+- Dispatch event when project identifier changes, e.g. after project is remixed (#2830)
+- Add `load_remix_disabled` attribute to web component (#992)
+
+### Changed
+
+- Invalidate cached project when project is remixed (#1003)
+
+### Fixed
+
+- Unit tests for `pyodide` runner (#976)
+- Remove broken `format` script (#991)
+
+## [0.22.2] - 2024-03-18
+
+### Added
+
+- Ability to use `page` query parameter in the embedded viewer when not a browser preview (#958)
+- ASSETS_URL env var to allow assets to be served from R2 bucket
+- `webpackDevServer` allowed headers for Astro Pi (#967)
+- Tests for the `PyodideWorker` (#981)
+
+### Changed
+
+- Make the save prompt in web component optional, defaulting to not showing (#965)
+
+### Fixed
+
+- Page crashing when toggling between projects (#946)
+- Get `pyodide` working in the web component (#945)
+- Allow `pygal` `chart.add` function to take single values as well as an array (#954)
+- Editor losing focus when project changes (#959)
+- Fix preview link (#912)
+- Web component code attribute (#963)
+- Web component dark mode (#964)
+- Fix substring match on CSS images (#910)
+- Error message wrapping (#968)
+- Fix scrollbars not showing (#816)
+- Width of empty `p5` canvas (#969)
+- Scrolling `pygal` output in `pyodide` (#969)
+- Light/dark mode theming updates (#972)
+
+## [0.22.1] - 2024-02-23
+
+### Fixed
+
+- HTMLRunner images - add crossorigin attribute to iframe imgs (#927)
+- Fix HTML indentation (#928)
+- Pyodide input function (#935)
+- Loading imports from multiple files with `pyodide` (#941)
+
+## [0.22.0] - 2024-02-22
+
+### Added
+
+- Add a Pyodide runner (#893)
+
+### Changed
+
+- Made `p5` canvas responsive to the available space (#887)
+- Specify the 'roles' scope in OAuth requests
+
+### Fixed
+
+- Local docker setup with yarn v3 (#905)
+- Part of Stylelint issues: duplicates, logical properties (#916)
+- Text output wrapping on Firefox (#922)
+
+## [0.21.2] - 2024-01-23
+
+### Changed
+
+- Minor copy changes to HTML add file modal
+- Toggle errors sent via apiCallHandler off (#890)
+- Upgrade webpack-dev-server to 4.0.0 to support conditional headers
+- Upgrade yarn to 3.4.1 to workaround a string-width issue
+- Improved file structure as part of the linter update (#926)
+- Add a ?pyodide=true flag for python project pages
+
+### Fixed
+
+- Editor input not focussing on iPad (#898)
+
+### Fixed
+
+- Sidebar selected option styling (#886)
+
+## [0.21.1] - 2024-01-11
+
+### Added
+
+- Download panel save button (#872)
+
+### Changed
+
+- Stack editor input and output panels based on container width (#869)
+- Blob/URL replacement in HTMLRunner (#877)
+
+### Fixed
+
+- Boolean web component attributes (#881)
+- Wrap the project bar when sidebar is wide (#869)
+- Web component project bar state update delay (#869)
+- Left border of the project bar (#869)
+- Indentation of code block first line (#883)
+- Code block 3-digit line numbers (#883)
+
+## [0.21.0] - 2024-01-05
+
+### Added
+
+- Load remix functionality (#804)
 - ProjectBar functionality in the web component (#799)
 - WebComponent can receive style strings from host app (#811)
 - Quiz rendering in InstructionsPanel (#777)
@@ -17,11 +224,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Styling for the instructions code snippets (#795)
 - Styling for the instructions code blocks (#794, #808)
 - quizReady custom event (#812)
+- Code snippet and code block syntax highlighting for HTML and CSS in the instructions (#824)
 - Toast save reminder to web component (#822)
+- ProgressBar and completion-handling on quizzes (#834)
+- Support for multiple host styles in the web component (#863)
 
 ### Changed
 
-- RPi logo and text link at top left opens in new tab (#830)
+- Untangle HTML runner (#876)
+- Project sidebar mobile structure and default to instructions behaviour (#823)
+- Auth web component from user in local storage (#852)
+- Save and download panel copy (#784)
 - Application of styles in the web component to remove `sass-to-string` (#788)
 - Info panel links open in a new tab (#803)
 - Copy updates (#803)
@@ -29,11 +242,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Fixed
 
+- Standalone editor height (#864)
+- Web component height on Firefox (#838)
 - Web component resizable handle errors & sidebar width (#806)
 - HTML projects loading in web component (#789)
 - Enabled modals in the web component (#802)
 - Context menu styling in the web component (#819)
 - Collect web component login data (#818)
+- Syntax highlighting contrast in dark mode (#824)
+- Secondary button theming (#827)
+- Instructions step buttons hit area (#827)
+- Instructions code block line highlighting (#827)
+- Instructions image widths (#827)
+- Save status spacing (#827)
+- Disappearing borders on tablet (#827)
+- Dark mode button theming (#850)
+- `<strong>` styling on Firefox (#854)
+- Progress bar width on Firefox (#855)
+- Instructions blocks spacing (#856)
+- Font family stacking (#857)
+- Save/download panel spacing (#859)
+- Instructions output wrapping in Firefox (#862)
+- Instructions code blocks with no line numbers (#863)
+- New file button width (#865)
 
 ## [0.20.0] - 2023-11-24
 
@@ -50,6 +281,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions Panel for the sidebar (#751, #768)
 - Added ability to fix the theme in the web component (#757)
 - Added ability to increase font size in the web component (#757)
+- Instructions table styling (#858)
 
 ### Changed
 
@@ -630,7 +862,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.20.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.5...HEAD
+[0.25.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.5
+[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.4
+[0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
+[0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
+[0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
+[0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
+[0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
+[0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
+[0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
+[0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1
+[0.22.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.0
+[0.21.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.2
+[0.21.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.1
+[0.21.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.21.0
 [0.20.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.20.0
 [0.19.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.4
 [0.19.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.19.3

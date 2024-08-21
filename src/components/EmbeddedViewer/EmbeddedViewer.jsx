@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import { useProject } from "../../hooks/useProject";
-import { useEmbeddedMode } from "../../hooks/useEmbeddedMode";
-import { setBrowserPreview, setPage } from "../../redux/EditorSlice";
+import {
+  setBrowserPreview,
+  setEmbedded,
+  setPage,
+} from "../../redux/EditorSlice";
 import Output from "../Editor/Output/Output";
 import NotFoundModalEmbedded from "../Modals/NotFoundModalEmbedded";
 import AccessDeniedNoAuthModalEmbedded from "../Modals/AccessDeniedNoAuthModalEmbedded";
@@ -28,13 +31,20 @@ const EmbeddedViewer = () => {
   const { identifier } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  dispatch(setEmbedded());
+
+  if (searchParams.get("browserPreview") === "true") {
+    dispatch(setBrowserPreview(true));
+  }
+
+  if (searchParams.get("page")) {
+    dispatch(setPage(searchParams.get("page")));
+  }
+
   useProject({
     projectIdentifier: identifier,
     accessToken: user.access_token,
-    isEmbedded: true,
   });
-
-  useEmbeddedMode(true);
 
   useEffect(() => {
     if (browserPreview) {
@@ -44,16 +54,6 @@ const EmbeddedViewer = () => {
       });
     }
   }, [page]);
-
-  useEffect(() => {
-    if (searchParams.get("browserPreview") === "true") {
-      dispatch(setBrowserPreview(true));
-    }
-
-    if (searchParams.get("page")) {
-      dispatch(setPage(searchParams.get("page")));
-    }
-  }, []);
 
   return (
     <div className="embedded-viewer">

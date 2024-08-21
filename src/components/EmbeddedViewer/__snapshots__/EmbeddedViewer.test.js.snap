@@ -6,11 +6,8 @@ exports[`Renders without crashing 1`] = `
     class="embedded-viewer"
   >
     <div
-      hidden=""
-      id="file-content"
-    />
-    <div
       class="proj-runner-container"
+      data-testid="output"
     >
       <div
         class="pythonrunner-container"

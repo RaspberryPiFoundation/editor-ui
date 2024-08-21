@@ -6,7 +6,7 @@ import { invalidate } from "@react-three/fiber";
 
 const FlightCase = () => {
   const { scene } = useGLTF(
-    `${process.env.PUBLIC_URL}/models/raspi-compressed.glb`,
+    `${process.env.ASSETS_URL}/models/raspi-compressed.glb`,
   );
   window.mod = scene;
 

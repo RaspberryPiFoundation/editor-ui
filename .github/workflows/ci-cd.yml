@@ -3,33 +3,33 @@ name: CI-CD
 on:
   push:
     branches:
-      - '**'
+      - "**"
     tags:
-      - '**'
+      - "**"
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
-        registry-url: 'https://npm.pkg.github.com'
-        # Defaults to the user or organization that owns the workflow file
-        scope: '@RaspberryPiFoundation'
+      - name: Cache dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "yarn"
+          registry-url: "https://npm.pkg.github.com"
+          # Defaults to the user or organization that owns the workflow file
+          scope: "@RaspberryPiFoundation"
 
-    - name: Install code
-      run: yarn install --frozen-lock-file
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install code
+        run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: eslint
-      run: yarn lint
+      - name: eslint
+        run: yarn lint
 
     # - name: stylelint
     #   run: yarn stylelint
@@ -37,87 +37,90 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
-        registry-url: 'https://npm.pkg.github.com'
-        # Defaults to the user or organization that owns the workflow file
-        scope: '@RaspberryPiFoundation'
+      - name: Cache dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "yarn"
+          registry-url: "https://npm.pkg.github.com"
+          # Defaults to the user or organization that owns the workflow file
+          scope: "@RaspberryPiFoundation"
 
-    - name: Install code
-      run: yarn install --frozen-lock-file
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install code
+        run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Run tests
-      run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
-      env:
-        JEST_JUNIT_OUTPUT_DIR: ./coverage/
+      - name: Run tests
+        run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./coverage/
 
-    - name: Record coverage
-      run: ./.github/workflows/record_coverage
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      - name: Record coverage
+        run: ./.github/workflows/record_coverage
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
   test-cypress:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
-        registry-url: 'https://npm.pkg.github.com'
-        # Defaults to the user or organization that owns the workflow file
-        scope: '@RaspberryPiFoundation'
+      - name: Cache dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "yarn"
+          registry-url: "https://npm.pkg.github.com"
+          # Defaults to the user or organization that owns the workflow file
+          scope: "@RaspberryPiFoundation"
 
-    - name: Install code
-      run: yarn install --frozen-lock-file
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install code
+        run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v5
-      with:
-        install: false
-        start: |
-          yarn start
-          yarn start:wc
-        wait-on: 'http://localhost:3000, http://localhost:3001'
-      env:
-        REACT_APP_API_ENDPOINT: "https://staging-editor-api.raspberrypi.org"
-        PUBLIC_URL: 'http://localhost:3000'
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: |
+            yarn start
+            yarn start:wc
+          wait-on: "http://localhost:3010, http://localhost:3011"
+          quiet: true
+        env:
+          REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
+          PUBLIC_URL: "http://localhost:3010"
+          ASSETS_URL: "http://localhost:3010"
+          REACT_APP_PLAUSIBLE_SOURCE: ""
 
-    - name: Archive cypress artifacts
-      uses: actions/upload-artifact@v3
-      if: failure()
-      with:
-        name: cypress-artifacts
-        path: |
-          cypress/screenshots
-
+      - name: Archive cypress artifacts
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
 
   deploy-tag:
     if: github.ref_type == 'tag'
     uses: ./.github/workflows/deploy.yml
     with:
       base_url: https://editor.raspberrypi.org/
+      assets_url: https://editor-static.raspberrypi.org
       environment: production
       prefix: releases
       react_app_api_endpoint: https://editor-api.raspberrypi.org
       react_app_authentication_url: https://auth-v1.raspberrypi.org
-      react_app_base_url: ''
+      react_app_base_url: ""
       react_app_google_tag_manager_id: GTM-5FWFWFJ
-      react_app_plausible_data_domain: 'editor.raspberrypi.org'
-      react_app_plausible_source: 'https://plausible.io/js/script.js'
+      react_app_plausible_data_domain: "editor.raspberrypi.org"
+      react_app_plausible_source: "https://plausible.io/js/script.js"
       react_app_sentry_dsn: https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376
       react_app_sentry_env: production
     secrets: inherit
@@ -127,7 +130,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
-      react_app_base_url: ''
+      react_app_base_url: ""
       react_app_sentry_env: staging
     secrets: inherit
 

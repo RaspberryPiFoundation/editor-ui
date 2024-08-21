@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EditorReducer from "../redux/EditorSlice";
-import InstructionsReducer from "../redux/InstructionsSlice";
-import WebComponentAuthReducer from "../redux/WebComponentAuthSlice";
+import EditorReducer from "../EditorSlice";
+import InstructionsReducer from "../InstructionsSlice";
+import WebComponentAuthReducer, { setUser } from "../WebComponentAuthSlice";
+import userMiddleWare from "../middlewares/localStorageUserMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,7 @@ const store = configureStore({
         ],
         ignoredPaths: ["auth.user"],
       },
-    }),
+    }).concat(userMiddleWare(setUser)),
 });
 
 export default store;

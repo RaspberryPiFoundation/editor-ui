@@ -10,7 +10,7 @@ const userManagerConfig = {
   redirect_uri: `${host}/auth/callback`,
   post_logout_redirect_uri: host,
   response_type: "code",
-  scope: "openid email profile force-consent allow-u13-login",
+  scope: "openid email profile force-consent allow-u13-login roles",
   authority: process.env.REACT_APP_AUTHENTICATION_URL,
   silent_redirect_uri: `${host}/auth/silent_renew`,
   automaticSilentRenew: true,

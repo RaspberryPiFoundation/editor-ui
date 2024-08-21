@@ -53,6 +53,13 @@ export const getImage = async (url) => {
   return await get(url, headers());
 };
 
+export const loadRemix = async (projectIdentifier, accessToken) => {
+  return await get(
+    `${host}/api/projects/${projectIdentifier}/remix`,
+    headers(accessToken),
+  );
+};
+
 export const createRemix = async (project, accessToken) => {
   return await post(
     `${host}/api/projects/${project.identifier}/remix`,
@@ -65,6 +72,14 @@ export const readProject = async (projectIdentifier, locale, accessToken) => {
   const queryString = locale ? `?locale=${locale}` : "";
   return await get(
     `${host}/api/projects/${projectIdentifier}${queryString}`,
+    headers(accessToken),
+  );
+};
+
+export const loadAssets = async (assetsIdentifier, locale, accessToken) => {
+  const queryString = locale ? `?locale=${locale}` : "";
+  return await get(
+    `${host}/api/projects/${assetsIdentifier}/images${queryString}`,
     headers(accessToken),
   );
 };
@@ -90,7 +105,15 @@ export const uploadImages = async (projectIdentifier, accessToken, images) => {
   );
 };
 
-export const createError = async (projectIdentifier, userId, error) => {
+export const createError = async (
+  projectIdentifier,
+  userId,
+  error,
+  sendError = false,
+) => {
+  if (!sendError) {
+    return;
+  }
   const { errorMessage, errorType } = error;
   return await post(`${host}/api/project_errors`, {
     error: errorMessage,

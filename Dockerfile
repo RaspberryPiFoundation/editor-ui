@@ -8,8 +8,16 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 COPY . /app
+
+RUN corepack enable \
+  && corepack prepare yarn@stable --activate \
+  && yarn set version 3.4.1 \
+  && echo -e "nodeLinker: node-modules\n\n$(cat /app/.yarnrc.yml)" > /app/.yarnrc.yml \
+  && cat /app/.yarnrc.yml \
+  && printf "Switched to Yarn version: "; yarn --version
+
 RUN yarn
 
-EXPOSE 3000
+EXPOSE 3010
 
 CMD ["yarn", "start"]

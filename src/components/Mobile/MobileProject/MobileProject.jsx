@@ -8,11 +8,11 @@ import "../../../assets/stylesheets/MobileProject.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CodeIcon from "../../../assets/icons/code.svg";
 import MenuIcon from "../../../assets/icons/menu.svg";
+import StepsIcon from "../../../assets/icons/steps.svg";
 import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
 
 const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -20,7 +20,9 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
-  const [selectedTab, setSelectedTab] = useState(0);
+  const includesInstructions = sidebarOptions.includes("instructions");
+
+  const [selectedTab, setSelectedTab] = useState(1);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -28,18 +30,27 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      setSelectedTab(1);
+      setSelectedTab(withSidebar ? 2 : 1);
+    } else if (!sidebarShowing) {
+      setSelectedTab(withSidebar ? 1 : 0);
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, sidebarShowing, withSidebar]);
 
   return (
-    <div className="proj-container proj-editor-container proj-container--mobile">
-      {sidebarShowing && <Sidebar options={sidebarOptions} />}
+    <div
+      className="proj-container proj-editor-container proj-container--mobile"
+      data-testid="mobile-project"
+    >
       <Tabs
         forceRenderTabPanel={true}
         selectedIndex={selectedTab}
         onSelect={(index) => setSelectedTab(index)}
       >
+        {withSidebar && (
+          <TabPanel>
+            <Sidebar options={sidebarOptions} />
+          </TabPanel>
+        )}
         <TabPanel>
           <EditorInput />
         </TabPanel>
@@ -48,15 +59,15 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
         </TabPanel>
         <MobileProjectBar />
         <div className="react-tabs__tab-container mobile-nav">
-          {withSidebar && (
-            <Button
-              className="mobile-nav__menu"
-              ButtonIcon={MenuIcon}
-              onClickHandler={openSidebar}
-              title={t("sidebar.expand")}
-            />
-          )}
           <TabList>
+            {withSidebar && (
+              <Tab onClick={openSidebar}>
+                {includesInstructions ? <StepsIcon /> : <MenuIcon />}
+                <span className="react-tabs__tab-text">
+                  {includesInstructions ? t("mobile.steps") : t("mobile.menu")}
+                </span>
+              </Tab>
+            )}
             <Tab>
               <CodeIcon />
               <span className="react-tabs__tab-text">{t("mobile.code")}</span>

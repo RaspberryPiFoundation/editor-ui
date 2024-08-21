@@ -1,16 +1,19 @@
+@use './rpf_design_system/spacing' as *;
+
 .progress-bar {
   accent-color: var(--editor-color-theme);
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 300px;
+  max-inline-size: 300px;
   margin: auto;
 
   progress {
     flex: 1;
+    min-inline-size: 0px;
   }
 
   .btn-outer {
-    padding: 0;
+    padding: $space-0-5;
   }
 }

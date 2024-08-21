@@ -12,8 +12,9 @@ import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
 import SettingsIcon from "../../../assets/icons/settings.svg";
-import DownloadIcon from "../../../assets/icons/download.svg";
 import StepsIcon from "../../../assets/icons/steps.svg";
+import SaveIcon from "../../../assets/icons/save.svg";
+
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
 import "../../../assets/stylesheets/Sidebar.scss";
@@ -57,7 +58,7 @@ const Sidebar = ({ options = [] }) => {
     },
     {
       name: "download",
-      icon: DownloadIcon,
+      icon: SaveIcon,
       title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
@@ -81,7 +82,7 @@ const Sidebar = ({ options = [] }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
-    (state) => state.instructions.project?.steps,
+    (state) => state.instructions?.project?.steps,
   );
 
   const removeOption = (optionName, depArray = []) => {
@@ -97,7 +98,9 @@ const Sidebar = ({ options = [] }) => {
   removeOption("images", projectImages);
   removeOption("instructions", instructionsSteps);
 
-  const [option, setOption] = useState(isMobile ? "file" : null);
+  const [option, setOption] = useState(
+    instructionsSteps ? "instructions" : "file",
+  );
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
@@ -120,6 +123,7 @@ const Sidebar = ({ options = [] }) => {
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
+        instructions={instructionsSteps}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>

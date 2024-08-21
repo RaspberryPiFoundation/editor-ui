@@ -14,6 +14,10 @@ on:
         required: false
         default: "https://staging-editor.raspberrypi.org"
         type: string
+      assets_url:
+        required: false
+        default: "https://staging-editor-static.raspberrypi.org"
+        type: string
       react_app_api_endpoint:
         required: false
         default: "https://staging-editor-api.raspberrypi.org"
@@ -36,27 +40,23 @@ on:
         type: string
       react_app_google_tag_manager_id:
         required: false
-        default: ''
-        type: string
-      react_app_login_enabled:
-        required: false
-        default: "true"
+        default: ""
         type: string
       react_app_plausible_data_domain:
         required: false
-        default: 'staging-editor.raspberrypi.org'
+        default: "staging-editor.raspberrypi.org"
         type: string
       react_app_plausible_source:
         required: false
-        default: 'https://staging-analytics.raspberrypi.org/js/plausible.js'
+        default: "https://staging-analytics.raspberrypi.org/js/plausible.js"
         type: string
       react_app_sentry_dsn:
         required: false
-        default: 'https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376'
+        default: "https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376"
         type: string
       react_app_sentry_env:
         required: false
-        default: 'review'
+        default: "review"
         type: string
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -76,20 +76,23 @@ jobs:
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
+      assets_url: ${{ steps.setup-environment.outputs.assets_url }}
       react_app_base_url: ${{ steps.setup-environment.outputs.react_app_base_url }}
     steps:
-    - id: setup-environment
-      run: |
-        safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
-        deploy_dir=${{inputs.prefix}}/$safe_ref_name
-        public_url=${{inputs.base_url}}/$deploy_dir
-        echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
-        echo "public_url=$public_url" >> $GITHUB_OUTPUT
-        if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
-          echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
-        else
-          echo "react_app_base_url=${{inputs.react_app_base_url}}" >> $GITHUB_OUTPUT
-        fi
+      - id: setup-environment
+        run: |
+          safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
+          deploy_dir=${{inputs.prefix}}/$safe_ref_name
+          public_url=${{inputs.base_url}}/$deploy_dir
+          assets_url=${{inputs.assets_url}}/$deploy_dir
+          echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
+          echo "public_url=$public_url" >> $GITHUB_OUTPUT
+          echo "assets_url=$assets_url" >> $GITHUB_OUTPUT
+          if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
+            echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
+          else
+            echo "react_app_base_url=${{inputs.react_app_base_url}}" >> $GITHUB_OUTPUT
+          fi
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -98,54 +101,53 @@ jobs:
       name: ${{ inputs.environment }}
       url: ${{ needs.setup-environment.outputs.public_url }}
     steps:
+      - name: Check deployment path
+        run: |
+          echo "Deploying to '${{ needs.setup-environment.outputs.deploy_dir }}' -- job will fail if this is empty!"
+          [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
 
-    - name: Check deployment path
-      run: |
-        echo "Deploying to '${{ needs.setup-environment.outputs.deploy_dir }}' -- job will fail if this is empty!"
-        [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Checkout
-      uses: actions/checkout@v1
+      - name: Cache dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: "yarn"
+          registry-url: "https://npm.pkg.github.com"
+          # Defaults to the user or organization that owns the workflow file
+          scope: "@RaspberryPiFoundation"
 
-    - name: Cache dependencies
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
-        registry-url: 'https://npm.pkg.github.com'
-        # Defaults to the user or organization that owns the workflow file
-        scope: '@RaspberryPiFoundation'
+      - name: Install code
+        run: yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Install code
-      run: yarn install --frozen-lock-file
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build site and WC bundle
+        run: |
+          if [[ "${{ inputs.environment }}" == "production" ]]; then
+            yarn build
+          else
+            yarn build:dev
+          fi
+          yarn build:wc
+        env:
+          PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
+          ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}
+          REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
+          REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
+          REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
+          REACT_APP_BASE_URL: ${{ needs.setup-environment.outputs.react_app_base_url }}
+          REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
+          REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
+          REACT_APP_PLAUSIBLE_DATA_DOMAIN: ${{ inputs.react_app_plausible_data_domain }}
+          REACT_APP_PLAUSIBLE_SOURCE: ${{ inputs.react_app_plausible_source }}
+          REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
+          REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
 
-    - name: Build site and WC bundle
-      run: |
-        if [[ "${{ inputs.environment }}" == "production" ]]; then
-          yarn build
-        else
-          yarn build:dev
-        fi
-        yarn build:wc
-      env:
-        PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
-        REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
-        REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
-        REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
-        REACT_APP_BASE_URL: ${{ needs.setup-environment.outputs.react_app_base_url }}
-        REACT_APP_COOKIEBOT_DOMAIN_GROUP_ID: ${{ inputs.react_app_cookiebot_domain_group_id }}
-        REACT_APP_GOOGLE_TAG_MANAGER_ID: ${{ inputs.react_app_google_tag_manager_id }}
-        REACT_APP_LOGIN_ENABLED: ${{ inputs.react_app_login_enabled }}
-        REACT_APP_PLAUSIBLE_DATA_DOMAIN: ${{ inputs.react_app_plausible_data_domain }}
-        REACT_APP_PLAUSIBLE_SOURCE: ${{ inputs.react_app_plausible_source }}
-        REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
-        REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
-
-    - name: Deploy site to S3 bucket
-      run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }}
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
+      - name: Deploy site to S3 bucket
+        run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}

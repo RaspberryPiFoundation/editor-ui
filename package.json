@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "0.20.0",
+  "version": "0.25.5",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.8",
@@ -80,14 +80,12 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:dev": "yarn install --force && yarn run build-storybook && node scripts/build.js",
+    "build:dev": "yarn install --check-cache && yarn run build-storybook && node scripts/build.js",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
-    "format": "prettier --write src/**/*.{js,jsx,css,md,json,scss} --config ./.prettierrc",
     "stylelint": "stylelint src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
-    "test:integration": "cd e2e; docker compose up --exit-code-from cypress",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
     "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
@@ -186,9 +184,10 @@
     "webgl-mock-threejs": "^0.0.1",
     "webpack": "4.44.2",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "3.11.1",
+    "webpack-dev-server": "4.0.0",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "5.1.4"
+    "workbox-webpack-plugin": "5.1.4",
+    "worker-plugin": "^5.0.1"
   },
   "jest": {
     "roots": [
@@ -246,5 +245,6 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }

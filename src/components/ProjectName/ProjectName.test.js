@@ -48,20 +48,22 @@ describe("With a webComponent=true", () => {
     const initialState = {
       editor: {
         project,
-        webComponent: true,
       },
     };
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <ProjectName showLabel={true} />
+        <ProjectName showLabel={true} editable={false} />
       </Provider>,
     );
   });
 
-  test("Project name shown", () => {
-    screen.debug();
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+  test("Contains hidden project name heading", () => {
+    expect(screen.queryByRole("heading")).toHaveTextContent(project.name);
+  });
+
+  test("Shows project name", () => {
+    expect(screen.queryAllByText(project.name)[1]).toBeInTheDocument();
   });
 
   test("Edit field not shown", () => {

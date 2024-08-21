@@ -1,15 +1,12 @@
-// Basic colors
 $rpf-black: #000000;
 $rpf-white: #ffffff;
 $rpf-off-white: #f5f6f9;
 $rpf-dark-blue: #2a3e4f;
-
 // Text
 $rpf-text-primary: #212121;
 $rpf-text-primary-darkmode: $rpf-white;
 $rpf-text-secondary: #4d575b;
 $rpf-text-secondary-darkmode: #cccccc;
-
 //Greys
 $rpf-grey-50: #f1f2f3;
 $rpf-grey-100: #e3e4e8;
@@ -136,7 +133,7 @@ $rpf-text-secondary: #4d575b;
 $rpf-text-secondary-dark: #cccccc;
 
 // Syntax highlighting
-$rpf-syntax-blue: #1498D0;
-$rpf-syntax-green: #6CE68D;
-$rpf-syntax-grey: #C1C1C1;
-$rpf-syntax-pink: #FF00A4;
+$rpf-syntax-1: #9EE8FF;
+$rpf-syntax-2: #94F9AF;
+$rpf-syntax-3: #FFCA99;
+$rpf-syntax-4: #EECCFF;

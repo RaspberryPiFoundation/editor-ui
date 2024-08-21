@@ -50,7 +50,7 @@ const Dropdown = (props) => {
         buttonImageAltText={buttonImageAltText}
       />
 
-      {isOpen ? (
+      {isOpen && (
         <>
           <div
             className="dropdown-backdrop"
@@ -58,7 +58,7 @@ const Dropdown = (props) => {
           ></div>
           <MenuContent />
         </>
-      ) : null}
+      )}
     </div>
   );
 };

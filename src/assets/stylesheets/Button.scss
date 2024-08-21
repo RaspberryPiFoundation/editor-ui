@@ -33,10 +33,6 @@
     outline: none;
   }
 
-  &--small {
-    padding: $space-0-25;
-  }
-
   &--primary {
     background-color: var(--rpf-button-primary-background-color);
     border-radius: $space-0-5;
@@ -81,10 +77,10 @@
   &--secondary {
     background-color: inherit;
 
-    color: var(--rpf-button-primary-text-color);
+    color: var(--rpf-button-secondary-text-color);
 
     svg {
-      fill: var(--rpf-button-primary-text-color);
+      fill: var(--rpf-button-secondary-text-color);
     }
 
     &:active,
@@ -123,13 +119,12 @@
     }
 
     &:hover {
-      color: var(--rpf-button-secondary-background-color-hover);
-      border-color: var(
-        --rpf-button-secondary-background-color-hover
-      ) !important;
+      background-color: var(--rpf-button-secondary-background-color-hover);
+      color: var(--rpf-button-secondary-text-color-hover);
+      border-color: var(--rpf-button-secondary-border-color-hover) !important;
 
       svg {
-        fill: var(--rpf-button-secondary-background-color-hover);
+        fill: var(--rpf-button-secondary-text-color-hover);
       }
     }
 
@@ -181,10 +176,10 @@
     }
 
     &:hover {
-      color: $rpf-grey-600;
+      color: var(--rpf-button-tertiary-text-color-hover);
 
       svg {
-        fill: $rpf-grey-600;
+        fill: var(--rpf-button-tertiary-text-color-hover);
       }
     }
   }
@@ -237,6 +232,7 @@
   &--small {
     min-block-size: unset;
     min-inline-size: unset;
+    padding: $space-0-25;
   }
 
   &--svg-only {

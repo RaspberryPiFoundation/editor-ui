@@ -11,9 +11,12 @@ import "../../assets/stylesheets/ProjectName.scss";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
-const ProjectName = ({ className = null, showLabel = false }) => {
+const ProjectName = ({
+  className = null,
+  showLabel = false,
+  editable = true,
+}) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
-  const webComponent = useSelector((state) => state.editor.webComponent);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -21,12 +24,11 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   const nameInput = useRef();
   const tickButton = useRef();
 
-  const [isEditable, setEditable] = useState(false);
-  const [isReadOnly, setReadOnly] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [name, setName] = useState(project.name || t("projectName.newProject"));
 
   const onEditNameButtonClick = () => {
-    setEditable(true);
+    setEditing(true);
   };
 
   const selectText = () => {
@@ -34,14 +36,10 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   };
 
   const handleScroll = () => {
-    if (!isEditable) {
+    if (!isEditing) {
       nameInput.current.scrollLeft = 0;
     }
   };
-
-  useEffect(() => {
-    setReadOnly(!!webComponent);
-  }, [webComponent]);
 
   useEffect(() => {
     setName(project.name);
@@ -54,14 +52,14 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   const updateName = (event) => {
     event.stopPropagation();
     event.preventDefault();
-    setEditable(false);
+    setEditing(false);
     dispatch(updateProjectName(nameInput.current.value));
   };
 
   const resetName = useCallback(
     (event) => {
       event.preventDefault();
-      setEditable(false);
+      setEditing(false);
       setName(project.name);
     },
     [project.name],
@@ -76,7 +74,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   };
 
   useEffect(() => {
-    if (isEditable) {
+    if (isEditing) {
       nameInput.current.focus();
     }
   });
@@ -84,6 +82,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
+        isEditing &&
         nameInput.current &&
         !nameInput.current.contains(event.target) &&
         tickButton.current &&
@@ -96,7 +95,7 @@ const ProjectName = ({ className = null, showLabel = false }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [nameInput, tickButton, project, resetName]);
+  }, [isEditing, nameInput, tickButton, project, resetName]);
 
   return (
     <>
@@ -106,9 +105,11 @@ const ProjectName = ({ className = null, showLabel = false }) => {
         </label>
       )}
       <div className={classNames("project-name", className)}>
-        {isReadOnly ? (
-          <div className="project-name__title">{name}</div>
-        ) : (
+        {/* TODO: Look into alternative approach so we don't need hidden h1 */}
+        <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
+          {project.name || t("header.newProject")}
+        </h1>
+        {editable ? (
           <input
             className="project-name__input"
             id={"project_name"}
@@ -118,24 +119,25 @@ const ProjectName = ({ className = null, showLabel = false }) => {
             onScroll={handleScroll}
             onKeyDown={handleKeyDown}
             value={name}
-            disabled={!isEditable}
+            disabled={!isEditing}
             onChange={handleOnChange}
           />
+        ) : (
+          <div className="project-name__title">{name}</div>
         )}
-        {!isReadOnly && (
+        {editable && (
           <div ref={tickButton}>
             <DesignSystemButton
               className="project-name__button"
               aria-label={t(
-                isEditable ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
               title={t(
-                isEditable ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
-              icon={isEditable ? <TickIcon /> : <PencilIcon />}
-              onClick={isEditable ? updateName : onEditNameButtonClick}
-              type={isEditable ? "primary" : "tertiary"}
-              fill
+              icon={isEditing ? <TickIcon /> : <PencilIcon />}
+              onClick={isEditing ? updateName : onEditNameButtonClick}
+              type={isEditing ? "primary" : "tertiary"}
             />
           </div>
         )}

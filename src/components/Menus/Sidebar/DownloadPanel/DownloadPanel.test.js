@@ -113,6 +113,10 @@ describe("DownloadPanel", () => {
       ).toBeInTheDocument();
     });
 
+    test("Does not render the save button", () => {
+      expect(container.queryByText("header.save")).not.toBeInTheDocument();
+    });
+
     test("The download button initiates a download", async () => {
       const webComponentDownloadButton = screen.getByText(
         "downloadPanel.downloadButton",
@@ -122,7 +126,7 @@ describe("DownloadPanel", () => {
     });
   });
 
-  describe("When logged in", () => {
+  describe("When logged in and not the project owner", () => {
     beforeEach(() => {
       const middlewares = [];
       const mockStore = configureStore(middlewares);
@@ -144,10 +148,14 @@ describe("DownloadPanel", () => {
               },
             ],
           },
+          loading: "success",
         },
         auth: {
           user: {
             access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+            profile: {
+              user: "some-user-id",
+            },
           },
         },
       };
@@ -199,6 +207,107 @@ describe("DownloadPanel", () => {
       expect(
         container.getByText("downloadPanel.downloadButton"),
       ).toBeInTheDocument();
+    });
+
+    test("Renders the save button", () => {
+      expect(container.getByText("header.save")).toBeInTheDocument();
+    });
+
+    test("The download button initiates a download", async () => {
+      const webComponentDownloadButton = screen.getByText(
+        "downloadPanel.downloadButton",
+      ).parentElement;
+      fireEvent.click(webComponentDownloadButton);
+      await waitFor(() => expect(FileSaver.saveAs).toHaveBeenCalled());
+    });
+  });
+
+  describe("When logged in and the project owner", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            name: "My epic project",
+            identifier: "hello-world-project",
+            components: [
+              {
+                name: "main",
+                extension: "py",
+                content: "print('hello world')",
+              },
+            ],
+            image_list: [
+              {
+                url: "a.com/b",
+              },
+            ],
+            user_id: "some-user-id",
+          },
+          loading: "success",
+        },
+        auth: {
+          user: {
+            access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
+            profile: {
+              user: "some-user-id",
+            },
+          },
+        },
+      };
+      const store = mockStore(initialState);
+
+      container = render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <DownloadPanel />
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
+    test("Renders the correct heading", () => {
+      expect(container.getByText("downloadPanel.heading")).toBeInTheDocument();
+    });
+
+    test("Does not render the log-in subtitle", () => {
+      expect(
+        container.queryByText("downloadPanel.logInTitle"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the log-in hint", () => {
+      expect(
+        container.queryByText("downloadPanel.logInHint"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the log-in button", () => {
+      expect(
+        container.queryByText("downloadPanel.logInButton"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the sign-up button", () => {
+      expect(
+        container.queryByText("downloadPanel.signUpButton"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Renders the download hint", () => {
+      expect(
+        container.getByText("downloadPanel.downloadHint"),
+      ).toBeInTheDocument();
+    });
+
+    test("Renders the download button", () => {
+      expect(
+        container.getByText("downloadPanel.downloadButton"),
+      ).toBeInTheDocument();
+    });
+
+    test("Does not render the save button", () => {
+      expect(container.queryByText("header.save")).not.toBeInTheDocument();
     });
 
     test("The download button initiates a download", async () => {

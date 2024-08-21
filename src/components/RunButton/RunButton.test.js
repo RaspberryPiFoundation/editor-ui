@@ -6,7 +6,12 @@ import RunButton from "./RunButton";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
-const store = mockStore({});
+const initialState = {
+  editor: {
+    codeRunLoading: false,
+  },
+};
+const store = mockStore(initialState);
 
 test("Run button renders with expected button text", () => {
   render(

@@ -69,13 +69,20 @@ module.exports = {
     filename: "web-component.js",
   },
   devServer: {
-    allowedHosts: ["react-ui-test-wc"],
-    contentBase: path.join(__dirname, "public"),
-    index: "web-component.html",
     host: "0.0.0.0",
-    disableHostCheck: true,
-    port: 3001,
-    writeToDisk: true,
+    allowedHosts: "all",
+    port: 3011,
+    liveReload: true,
+    hot: false,
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    },
   },
   plugins: [
     new Dotenv({
@@ -88,4 +95,5 @@ module.exports = {
       filename: "web-component.html",
     }),
   ],
+  stats: "minimal",
 };

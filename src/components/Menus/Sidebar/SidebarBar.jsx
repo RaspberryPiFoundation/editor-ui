@@ -1,23 +1,21 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
+import classNames from "classnames";
 
 import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
 import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
-import { hideSidebar } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
-import CloseIcon from "../../../utils/CloseIcon";
 
 const SidebarBar = (props) => {
-  const { menuOptions, option, toggleOption } = props;
+  const { menuOptions, option, toggleOption, instructions = false } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const topMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "top",
   );
@@ -27,8 +25,10 @@ const SidebarBar = (props) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const expandPopOut = () => {
-    toggleOption("file");
+    const option = instructions ? "instructions" : "file";
+    toggleOption(option);
     if (window.plausible) {
+      // TODO: Make dynamic events for each option or rename this event
       window.plausible("Expand file pane");
     }
   };
@@ -40,10 +40,12 @@ const SidebarBar = (props) => {
     }
   };
 
-  const collapseSidebar = () => dispatch(hideSidebar());
-
   return (
-    <div className={`sidebar__bar${option ? " sidebar__bar--selected" : ""}`}>
+    <div
+      className={classNames("sidebar__bar", {
+        "sidebar__bar--selected": option,
+      })}
+    >
       <div className={`sidebar__bar-options--top`}>
         <img
           className="editor-logo"
@@ -72,8 +74,8 @@ const SidebarBar = (props) => {
             name={menuOption.name}
           />
         ))}
-        {!isMobile ? (
-          option ? (
+        {!isMobile &&
+          (option ? (
             <div className="sidebar__bar-option-wrapper">
               <Button
                 className="sidebar__bar-option"
@@ -91,17 +93,7 @@ const SidebarBar = (props) => {
                 onClickHandler={expandPopOut}
               />
             </div>
-          )
-        ) : (
-          <div className="sidebar__bar-option-wrapper sidebar__bar-close">
-            <Button
-              className="sidebar__bar-option"
-              ButtonIcon={CloseIcon}
-              title={t("sidebar.expand")}
-              onClickHandler={collapseSidebar}
-            />
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );

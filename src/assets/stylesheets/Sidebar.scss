@@ -2,41 +2,7 @@
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/colours" as *;
 
-:root,
-:host {
-  .--light {
-    --sidebar-border: var(--rpf-grey-150);
-    --sidebar-background: var(--rpf-white);
-    --sidebar-background-selected: var(--rpf-off-white);
-    --sidebar-panel-background: var(--rpf-white);
-    --sidebar-option-hover: var(--rpf-grey-100);
-    --sidebar-option-selected-icon: var(--rpf-black);
-  }
-
-  .--dark {
-    --sidebar-border: var(--rpf-grey-600);
-    --sidebar-background: var(--rpf-grey-800);
-    --sidebar-background-selected: var(--rpf-grey-800);
-    --sidebar-panel-background: var(--rpf-grey-700);
-    --sidebar-option-hover: var(--rpf-grey-600);
-    --sidebar-option-selected-icon: var(--rpf-white);
-  }
-}
-
-:root {
-  .--light {
-    --sidebar-option-selected-border: var(--editor-color-theme);
-    --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
-    --sidebar-option-selected-background-hover: var(--rpf-teal-200);
-  }
-  .--dark {
-    --sidebar-option-selected-border: var(--editor-color-theme);
-    --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
-    --sidebar-option-selected-background-hover: var(--rpf-teal-800);
-  }
-}
-
-// Sidebar
+/* Sidebar */
 .sidebar {
   display: flex;
   position: relative;
@@ -48,7 +14,6 @@
   overflow-y: hidden;
 }
 
-// SidebarBar
 .editor-logo {
   block-size: $space-2-5;
   inline-size: $space-2-5;
@@ -69,7 +34,6 @@
   border-inline-end: 1px solid var(--sidebar-border);
 }
 
-// SidebarBar - Options
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;
@@ -80,7 +44,7 @@
 }
 
 .sidebar__bar-option-wrapper {
-  padding: 0.625rem;
+  padding: calc(0.75 * $space-0-5);
   border: 1px solid transparent;
 
   &--selected {
@@ -88,6 +52,10 @@
     border-radius: $space-0-5 0 0 $space-0-5;
     border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
+
+    .sidebar__bar-option {
+      border: 2px solid var(--sidebar-option-selected-border);
+    }
   }
 }
 
@@ -108,7 +76,6 @@
   }
 
   &--selected {
-    border: 2px solid var(--sidebar-option-selected-border);
     background-color: var(--sidebar-option-selected-background);
 
     svg {
@@ -125,7 +92,6 @@
   border-block-start: 1px solid var(--sidebar-border);
 }
 
-/* Panel */
 .sidebar__panel {
   display: flex;
   flex-direction: column;
@@ -156,15 +122,17 @@
   flex: 1;
   padding: $space-1 0;
   overflow-y: scroll;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  overflow: auto;
 }
 
 .sidebar__panel-footer {
   border-block-start: 1px solid $rpf-grey-150;
-  position: absolute;
-  bottom: 0px;
+  inset-block-end: 0px;
   inline-size: 100%;
-  inset-inline-start: 0;
+  inline-size: -moz-available;
+  inline-size: -webkit-stretch;
+  inline-size: stretch;
   background-color: white;
-  border-bottom-right-radius: 8px;
+  border-end-end-radius: 8px;
 }

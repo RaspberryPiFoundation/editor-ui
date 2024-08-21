@@ -114,11 +114,11 @@ describe("When withSidebar is true", () => {
   });
 
   test("renders the sidebar open button", () => {
-    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.getByText("mobile.menu")).toBeInTheDocument();
   });
 
   test("clicking sidebar open button dispatches action to open the sidebar", () => {
-    const sidebarOpenButton = screen.getByTitle("sidebar.expand");
+    const sidebarOpenButton = screen.getByText("mobile.menu");
     fireEvent.click(sidebarOpenButton);
     expect(store.getActions()).toEqual([showSidebar()]);
   });

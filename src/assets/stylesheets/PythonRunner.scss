@@ -17,6 +17,7 @@
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
+  width: 100%;
   word-wrap: break-word;
   overflow-y: auto;
 
@@ -31,6 +32,10 @@
 
 .pythonrunner-console-output-line {
   padding-inline-end: 5px;
+
+  &.stderr {
+    color: red;
+  }
 }
 
 .pythonrunner-input {
@@ -54,6 +59,13 @@
   flex: 1;
   display: flex;
   min-block-size: 100%;
+  inline-size: 100%;
+}
+
+#p5Sketch {
+  display: flex;
+  flex: 1;
+  position: absolute;
 }
 
 .--light .visual-output {
@@ -83,4 +95,8 @@
       border-block-end: 5px solid $rpf-grey-600;
     }
   }
+}
+
+  .--light .output-panel--single, .--dark .output-panel--single {
+    border-block-end: none;
 }

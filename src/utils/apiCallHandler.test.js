@@ -4,6 +4,7 @@ import {
   getImage,
   createOrUpdateProject,
   readProject,
+  loadAssets,
   createRemix,
   uploadImages,
   readProjectList,
@@ -132,6 +133,40 @@ describe("Testing project API calls", () => {
     );
   });
 
+  test("Load assets with identifier only", async () => {
+    const projectIdentifier = "hello-world-project";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images`,
+      defaultHeaders,
+    );
+  });
+
+  test("Load assets with locale", async () => {
+    const projectIdentifier = "hello-world-project";
+    const locale = "es-LA";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier, locale);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images?locale=${locale}`,
+      defaultHeaders,
+    );
+  });
+
+  test("Load assets with access token", async () => {
+    const projectIdentifier = "hello-world-project";
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await loadAssets(projectIdentifier, null, accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/${projectIdentifier}/images`,
+      authHeaders,
+    );
+  });
+
   test("Upload image", async () => {
     const projectIdentifier = "my-amazing-project";
     const image = new File(["(⌐□_□)"], "image1.png", { type: "image/png" });
@@ -185,7 +220,7 @@ describe("Testing project errors API calls", () => {
   test("Create a basic project error", async () => {
     projectIdentifier = undefined;
     userId = undefined;
-    await createError(projectIdentifier, userId, error);
+    await createError(projectIdentifier, userId, error, true);
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/project_errors`,
       {
@@ -200,8 +235,26 @@ describe("Testing project errors API calls", () => {
       errorMessage: "Something went wrong",
       errorType: "SomeDummyError",
     };
-    await createError(projectIdentifier, userId, error);
+    await createError(projectIdentifier, userId, error, true);
     expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/project_errors`,
+      {
+        project_id: projectIdentifier,
+        user_id: userId,
+        error: error.errorMessage,
+        error_type: error?.errorType,
+      },
+      undefined,
+    );
+  });
+
+  test("Create project error not called", async () => {
+    error = {
+      errorMessage: "Something went wrong",
+      errorType: "SomeDummyError",
+    };
+    await createError(projectIdentifier, userId, error);
+    expect(axios.post).not.toHaveBeenCalledWith(
       `${host}/api/project_errors`,
       {
         project_id: projectIdentifier,

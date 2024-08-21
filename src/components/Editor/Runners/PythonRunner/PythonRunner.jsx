@@ -8,6 +8,7 @@ import Sk from "skulpt";
 import { useMediaQuery } from "react-responsive";
 import {
   setError,
+  setErrorDetails,
   codeRunHandled,
   stopDraw,
   setSenseHatEnabled,
@@ -21,45 +22,50 @@ import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import classNames from "classnames";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/pygal/pygal.js`,
+    path: `${process.env.ASSETS_URL}/shims/pygal/pygal.js`,
     dependencies: [
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js",
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js",
     ],
   },
   "./py5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5/py5-shim.js`,
-    dependencies: [`${process.env.PUBLIC_URL}/libraries/processing/p5/p5.js`],
+    path: `${process.env.ASSETS_URL}/shims/processing/py5/py5-shim.js`,
+    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./py5_imported/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
+    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
   },
   "./py5_imported_mode.py": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
+    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
   },
   "./p5/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/processing/p5/p5-shim.js`,
-    dependencies: [`${process.env.PUBLIC_URL}/libraries/processing/p5/p5.js`],
+    path: `${process.env.ASSETS_URL}/shims/processing/p5/p5-shim.js`,
+    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
   },
   "./_internal_sense_hat/__init__.js": {
-    path: `${process.env.PUBLIC_URL}/shims/sense_hat/_internal_sense_hat.js`,
+    path: `${process.env.ASSETS_URL}/shims/sense_hat/_internal_sense_hat.js`,
   },
   "./sense_hat.py": {
-    path: `${process.env.PUBLIC_URL}/shims/sense_hat/sense_hat_blob.py`,
+    path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
   },
 };
 
-const PythonRunner = () => {
+const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
+  const mainComponent = projectCode?.find(
+    (component) => component.name === "main" && component.extension === "py",
+  );
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
   );
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
+  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -125,11 +131,13 @@ const PythonRunner = () => {
   const outf = (text) => {
     if (text !== "") {
       const node = output.current;
-      const div = document.createElement("span");
-      div.classList.add("pythonrunner-console-output-line");
-      div.innerHTML = new Option(text).innerHTML;
-      node.appendChild(div);
-      node.scrollTop = node.scrollHeight;
+      if (node) {
+        const div = document.createElement("span");
+        div.classList.add("pythonrunner-console-output-line");
+        div.innerHTML = new Option(text).innerHTML;
+        node.appendChild(div);
+        node.scrollTop = node.scrollHeight;
+      }
     }
   };
 
@@ -274,11 +282,16 @@ const PythonRunner = () => {
   };
 
   const handleError = (err) => {
+    let errorDetails = {};
     let errorMessage;
     if (err.message === t("output.errors.interrupted")) {
       errorMessage = err.message;
+      errorDetails = {
+        type: "Interrupted",
+        message: errorMessage,
+      };
     } else {
-      const errorDetails = (err.tp$str && err.tp$str().v)
+      const errorDescription = (err.tp$str && err.tp$str().v)
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
       const errorType = err.tp$name || err.constructor.name;
@@ -290,14 +303,23 @@ const PythonRunner = () => {
         userId = user.profile?.user;
       }
 
-      errorMessage = `${errorType}: ${errorDetails} on line ${lineNumber} of ${fileName}`;
+      errorMessage = `${errorType}: ${errorDescription} on line ${lineNumber} of ${fileName}`;
       createError(projectIdentifier, userId, {
         errorType,
         errorMessage,
       });
+
+      errorDetails = {
+        type: errorType,
+        line: lineNumber,
+        file: fileName,
+        description: errorDescription,
+        message: errorMessage,
+      };
     }
 
     dispatch(setError(errorMessage));
+    dispatch(setErrorDetails(errorDetails));
     dispatch(stopDraw());
     if (getInput()) {
       const input = getInput();
@@ -309,10 +331,13 @@ const PythonRunner = () => {
   const runCode = () => {
     // clear previous output
     dispatch(setError(""));
-    output.current.innerHTML = "";
+    dispatch(setErrorDetails({}));
+    if (output.current) {
+      output.current.innerHTML = "";
+    }
     dispatch(setSenseHatEnabled(false));
 
-    var prog = projectCode[0].content;
+    var prog = mainComponent?.content || "";
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
@@ -372,14 +397,28 @@ const PythonRunner = () => {
     }
   }
 
+  const singleOutputPanel = outputPanels.length === 1;
+  const showVisualOutput = outputPanels.includes("visual");
+  const showTextOutput = outputPanels.includes("text");
+
+  const outputPanelClasses = (panelType) => {
+    return classNames("output-panel", `output-panel--${panelType}`, {
+      "output-panel--single": singleOutputPanel,
+    });
+  };
+
   return (
     <div className={`pythonrunner-container`}>
-      {isSplitView ? (
+      {isSplitView || singleOutputPanel ? (
         <>
-          {hasVisualOutput ? (
-            <div className="output-panel output-panel--visual">
+          {hasVisualOutput && showVisualOutput && (
+            <div className={outputPanelClasses("visual")}>
               <Tabs forceRenderTabPanel={true}>
-                <div className="react-tabs__tab-container">
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
                   <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
@@ -387,39 +426,45 @@ const PythonRunner = () => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
-                  {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+                  {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+                  {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
                   <VisualOutputPane />
                 </TabPanel>
               </Tabs>
             </div>
-          ) : null}
-          <div className="output-panel output-panel--text">
-            <Tabs forceRenderTabPanel={true}>
-              <div className="react-tabs__tab-container">
-                <TabList>
-                  <Tab key={0}>
-                    <span className="react-tabs__tab-text">
-                      {t("output.textOutput")}
-                    </span>
-                  </Tab>
-                </TabList>
-                {!hasVisualOutput && !isEmbedded && isMobile ? (
-                  <RunnerControls skinny />
-                ) : null}
-              </div>
-              <ErrorMessage />
-              <TabPanel key={0}>
-                <pre
-                  className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
-                  onClick={shiftFocusToInput}
-                  ref={output}
-                ></pre>
-              </TabPanel>
-            </Tabs>
-          </div>
+          )}
+          {showTextOutput && (
+            <div className={outputPanelClasses("text")}>
+              <Tabs forceRenderTabPanel={true}>
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
+                  <TabList>
+                    <Tab key={0}>
+                      <span className="react-tabs__tab-text">
+                        {t("output.textOutput")}
+                      </span>
+                    </Tab>
+                  </TabList>
+                  {!hasVisualOutput && !isEmbedded && isMobile && (
+                    <RunnerControls skinny />
+                  )}
+                </div>
+                <ErrorMessage />
+                <TabPanel key={0}>
+                  <pre
+                    className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
+                    onClick={shiftFocusToInput}
+                    ref={output}
+                  ></pre>
+                </TabPanel>
+              </Tabs>
+            </div>
+          )}
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
@@ -438,10 +483,10 @@ const PythonRunner = () => {
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisualOutput ? <OutputViewToggle /> : null}
-            {!isEmbedded && isMobile ? <RunnerControls skinny /> : null}
+            {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+            {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          <ErrorMessage />
+          {!isOutputOnly && <ErrorMessage />}
           {hasVisualOutput ? (
             <TabPanel key={0}>
               <VisualOutputPane />

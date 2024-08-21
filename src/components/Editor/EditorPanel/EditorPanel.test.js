@@ -41,4 +41,9 @@ describe("When font size is set", () => {
     const axeResults = await axe(editor);
     expect(axeResults).toHaveNoViolations();
   });
+
+  test("Correct indentation for Python projects", () => {
+    const regex = /^( {2}| {4})/gm;
+    expect(regex.test("    ")).toBe(true);
+  });
 });

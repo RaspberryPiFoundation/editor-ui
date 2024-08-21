@@ -8,22 +8,31 @@ import {
 import {
   createOrUpdateProject,
   readProject,
+  loadRemix,
   createRemix,
   deleteProject,
   readProjectList,
+  loadAssets,
 } from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave },
+      { project, identifier, locale, accessToken, autosave, assetsOnly },
       { rejectWithValue },
     ) => {
       let response;
       switch (actionName) {
         case "load":
-          response = await readProject(identifier, locale, accessToken);
+          if (assetsOnly) {
+            response = await loadAssets(identifier, locale, accessToken);
+          } else {
+            response = await readProject(identifier, locale, accessToken);
+          }
+          break;
+        case "loadRemix":
+          response = await loadRemix(identifier, accessToken);
           break;
         case "remix":
           response = await createRemix(project, accessToken);
@@ -80,6 +89,7 @@ export const EditorSlice = createSlice({
     saving: "idle",
     loading: "idle",
     justLoaded: false,
+    remixLoadFailed: false,
     hasShownSavePrompt: false,
     loadError: "",
     saveError: "",
@@ -92,10 +102,12 @@ export const EditorSlice = createSlice({
     codeHasBeenRun: false,
     drawTriggered: false,
     isEmbedded: false,
+    isOutputOnly: false,
     browserPreview: false,
     isSplitView: true,
     isThemeable: true,
     webComponent: false,
+    codeRunLoading: false,
     codeRunStopped: false,
     projectList: [],
     projectListLoaded: "idle",
@@ -105,6 +117,7 @@ export const EditorSlice = createSlice({
     lastSavedTime: null,
     senseHatAlwaysEnabled: false,
     senseHatEnabled: false,
+    loadRemixDisabled: false,
     accessDeniedNoAuthModalShowing: false,
     accessDeniedWithAuthModalShowing: false,
     betaModalShowing: false,
@@ -116,8 +129,9 @@ export const EditorSlice = createSlice({
     newProjectModalShowing: false,
     renameProjectModalShowing: false,
     deleteProjectModalShowing: false,
-    sidebarShowing: false,
+    sidebarShowing: true,
     modals: {},
+    errorDetails: {},
   },
   reducers: {
     closeFile: (state, action) => {
@@ -181,6 +195,9 @@ export const EditorSlice = createSlice({
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
     },
+    setIsOutputOnly: (state, action) => {
+      state.isOutputOnly = action.payload;
+    },
     setBrowserPreview: (state, _action) => {
       state.browserPreview = true;
     },
@@ -199,13 +216,12 @@ export const EditorSlice = createSlice({
         state.project.image_list = [];
       }
       state.loading = "success";
-      if (state.openFiles.flat().length === 0) {
-        const firstPanelIndex = 0;
-        if (state.project.project_type === "html") {
-          state.openFiles[firstPanelIndex].push("index.html");
-        } else {
-          state.openFiles[firstPanelIndex].push("main.py");
-        }
+      state.openFiles = [[]];
+      const firstPanelIndex = 0;
+      if (state.project.project_type === "html") {
+        state.openFiles[firstPanelIndex].push("index.html");
+      } else {
+        state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
     },
@@ -217,6 +233,9 @@ export const EditorSlice = createSlice({
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
+    },
+    setLoadRemixDisabled: (state, action) => {
+      state.loadRemixDisabled = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -271,7 +290,11 @@ export const EditorSlice = createSlice({
     stopDraw: (state) => {
       state.drawTriggered = false;
     },
+    loadingRunner: (state) => {
+      state.codeRunLoading = true;
+    },
     codeRunHandled: (state) => {
+      state.codeRunLoading = false;
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
@@ -354,6 +377,9 @@ export const EditorSlice = createSlice({
     disableTheming: (state) => {
       state.isThemeable = false;
     },
+    setErrorDetails: (state, action) => {
+      state.errorDetails = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
@@ -381,11 +407,25 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
     });
+    builder.addCase("editor/remixProject/pending", (state, action) => {
+      state.saving = "pending";
+      state.saveTriggered = false;
+    });
     builder.addCase("editor/remixProject/fulfilled", (state, action) => {
+      localStorage.removeItem(state.project.identifier);
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+    });
+    builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
+    builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
+      loadProjectFulfilled(state, action);
+      state.remixLoadFailed = false;
+    });
+    builder.addCase("editor/loadRemixProject/rejected", (state, action) => {
+      loadProjectRejected(state, action);
+      state.remixLoadFailed = true;
     });
     builder.addCase("editor/loadProject/pending", loadProjectPending);
     builder.addCase("editor/loadProject/fulfilled", loadProjectFulfilled);
@@ -419,6 +459,7 @@ export const EditorSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   addProjectComponent,
+  loadingRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,
@@ -428,6 +469,7 @@ export const {
   setFocussedFileIndex,
   setPage,
   setEmbedded,
+  setIsOutputOnly,
   setBrowserPreview,
   setError,
   setIsSplitView,
@@ -437,6 +479,7 @@ export const {
   setProject,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
+  setLoadRemixDisabled,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,
@@ -469,6 +512,7 @@ export const {
   showSidebar,
   hideSidebar,
   disableTheming,
+  setErrorDetails,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

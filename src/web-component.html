@@ -32,6 +32,7 @@
   </head>
   <body>
     <p id="results"></p>
+    <p id="project-identifier"></p>
   </body>
 
   <script>
@@ -51,13 +52,14 @@
           "download",
           "settings",
           "info",
+          "use_editor_styles"
         ]),
       );
 
       // Pre-set the code attribute with an empty string.
       webComp.setAttribute("code", "");
       webComp.setAttribute("class", "editor-wc");
-      webComp.setAttribute("host_styles", "");
+      webComp.setAttribute("host_styles", JSON.stringify([]));
       // Set any attribute you like in the query string, including class, style, hidden, script, etc.
       queryParams.forEach((value, key) => {
         webComp.setAttribute(key, value);
@@ -76,7 +78,20 @@
         document.getElementById("results").innerText = JSON.stringify(e.detail);
       });
 
-      document.getElementsByTagName("body")[0].prepend(webComp);
+      document.addEventListener("editor-projectIdentifierChanged", (e) => {
+        document.getElementById("project-identifier").innerText = e.detail;
+      });
+
+      const body = document.getElementsByTagName("body")[0];
+      body.prepend(webComp);
+
+      const runButton = document.createElement("button");
+      const runButtonText = document.createTextNode("Run code");
+      runButton.appendChild(runButtonText);
+      runButton.onclick = (event) => {
+        webComp.rerunCode();
+      }
+      body.append(runButton);
     });
   </script>
 </html>

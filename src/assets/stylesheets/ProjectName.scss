@@ -17,8 +17,12 @@
 .project-name__title {
   @include font-size-1-25(bold);
   font-weight: $font-weight-bold;
+  margin-block: $space-1;
   margin-inline-start: $space-0-5;
   margin-inline-end: $space-1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
 }
 
 .project-name__label {
@@ -41,26 +45,14 @@
 }
 
 .project-name__button {
-  height: fit-content;
   margin: $space-0-5;
-  width: 48px;
-  height: 48px;
+  inline-size: 48px;
+  block-size: 48px;
 
   svg {
     block-size: $space-1-5;
     inline-size: $space-1-5;
     margin: 0;
-  }
-}
-
-.--light {
-  .project-name__input {
-    background-color: $rpf-grey-50;
-
-    &:focus-visible {
-      background-color: inherit;
-      outline: 2px solid $rpf-text-primary;
-    }
   }
 }
 
@@ -75,3 +67,13 @@
   }
 }
 
+.--light {
+  .project-name__input {
+    background-color: $rpf-grey-50;
+
+    &:focus-visible {
+      background-color: inherit;
+      outline: 2px solid $rpf-text-primary;
+    }
+  }
+}
