@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - CSS fix for the bottom of Sidebar
+- Fixes multiple dispatches on loadRemix
+- Ensures remix is loaded immediately after creation, to avoid state inconsistencies
 
 ### Fixed
 
