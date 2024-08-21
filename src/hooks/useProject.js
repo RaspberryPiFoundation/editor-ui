@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
@@ -18,6 +18,8 @@ export const useProject = ({
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
+
+  const loadRemixDispatched = useRef(false);
 
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
@@ -109,14 +111,15 @@ export const useProject = ({
 
   useEffect(() => {
     if (projectIdentifier && loadRemix && !remixLoadFailed) {
-      if (accessToken && !!!project?.user_id) {
+      if (accessToken && !!!project?.user_id && !loadRemixDispatched.current) {
         dispatch(
           syncProject("loadRemix")({
             identifier: projectIdentifier,
             accessToken: accessToken,
           }),
         );
-        return;
+        // Prevents a failure on the initial render (using a ref to avoid triggering a render)
+        loadRemixDispatched.current = true;
       }
     }
   }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
