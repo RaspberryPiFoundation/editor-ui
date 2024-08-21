@@ -2720,7 +2720,7 @@ __metadata:
     webpack-dev-server: 4.0.0
     webpack-manifest-plugin: 2.2.0
     workbox-webpack-plugin: 5.1.4
-    worker-loader: ^3.0.8
+    worker-plugin: ^5.0.1
   languageName: unknown
   linkType: soft
 
@@ -5746,17 +5746,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001449":
-  version: 1.0.30001486
-  resolution: "caniuse-lite@npm:1.0.30001486"
-  checksum: 5e8c2ba2679e4ad17dea6d2761a6449b814441bfeac81af6cc9d58af187df6af4b79b27befcbfc4a557e720b21c0399a7d1911c8705922e38938dcc0f40b5d4b
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001125":
-  version: 1.0.30001561
-  resolution: "caniuse-lite@npm:1.0.30001561"
-  checksum: 949829fe037e23346595614e01d362130245920503a12677f2506ce68e1240360113d6383febed41e8aa38cd0f5fd9c69c21b0af65a71c0246d560db489f1373
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001449":
+  version: 1.0.30001621
+  resolution: "caniuse-lite@npm:1.0.30001621"
+  checksum: 0afb65bbf558faea769c16e831fbbd5600c684c0f6bb4ffbc0d38528671fb5cb5d88714804241a88c61872ce289f7c6333aef6cfdfb09277bda0dbdf0aab3459
   languageName: node
   linkType: hard
 
@@ -19511,15 +19504,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"worker-loader@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "worker-loader@npm:3.0.8"
+"worker-plugin@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "worker-plugin@npm:5.0.1"
   dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^3.0.0
+    loader-utils: ^1.1.0
   peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 84f4a7eeb2a1d8b9704425837e017c91eedfae67ac89e0b866a2dcf283323c1dcabe0258196278b7d5fd0041392da895c8a0c59ddf3a94f1b2e003df68ddfec3
+    webpack: ">= 4"
+  checksum: 5ab10804b01eff82895e9ee516af2a8e24db794f8ea879cabf6cffa81e52ba6b5f5fdde00543cad69e6fd2103d286895fc95bc8179e1202ddfa0cf5c93f9b263
   languageName: node
   linkType: hard
 

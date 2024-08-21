@@ -30,7 +30,7 @@ const showVisuals = (visuals, output) =>
 const showVisual = (visual, output) => {
   switch (visual.origin) {
     case "sense_hat":
-      output.current.innerText = JSON.stringify(visual.content);
+      output.current.textContent = JSON.stringify(visual.content);
       break;
     case "pygal":
       const chartContent = {

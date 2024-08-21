@@ -28,6 +28,55 @@ const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
 
+describe("When initially rendered", () => {
+  beforeEach(() => {
+    document.dispatchEvent = jest.fn();
+    const middlewares = [localStorageUserMiddleware(setUser)];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "success",
+        project: {
+          components: [],
+          user_name: "Joe Bloggs",
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        justLoaded: true,
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+    cookies = new Cookies();
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader
+            code={code}
+            identifier={identifier}
+            senseHatAlwaysEnabled={true}
+            instructions={instructions}
+            authKey={authKey}
+            theme="light"
+          />
+        </CookiesProvider>
+      </Provider>,
+    );
+  });
+
+  test("It fires the projectOwnerLoadedEvent with correct name", () => {
+    expect(document.dispatchEvent).toHaveBeenCalledWith(
+      new CustomEvent("editor-projectOwnerLoaded", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: { user_name: "Joe Bloggs" },
+      }),
+    );
+  });
+});
+
 describe("When no user is in state", () => {
   beforeEach(() => {
     const middlewares = [localStorageUserMiddleware(setUser)];
@@ -88,7 +137,7 @@ describe("When no user is in state", () => {
         },
         hasShownSavePrompt: true,
         justLoaded: false,
-        user: undefined,
+        user: null,
         saveTriggered: false,
       });
     });
@@ -120,6 +169,62 @@ describe("When no user is in state", () => {
         expect.arrayContaining([setUser(null)]),
       );
     });
+
+    test("Renders editor styles when useEditorStyles is true", () => {
+      const { container } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+              useEditorStyles={true}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      const styleTags = container.querySelectorAll("style");
+      const editorStyles = Array.from(styleTags).find((tag) =>
+        tag.textContent.includes("editorStyles"),
+      );
+      expect(editorStyles).not.toBeNull();
+    });
+  });
+
+  describe("with assetsIdentifier set", () => {
+    const assetsIdentifier = "my-assets-identifier";
+
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              assetsIdentifier={assetsIdentifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("Calls useProject hook with correct attributes", () => {
+      expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: assetsIdentifier,
+        code,
+        accessToken: undefined,
+        loadRemix: false,
+        loadCache: true,
+        remixLoadFailed: false,
+      });
+    });
   });
 
   describe("with user set in local storage", () => {
@@ -146,16 +251,16 @@ describe("When no user is in state", () => {
       expect(useProject).toHaveBeenCalledWith({
         projectIdentifier: identifier,
         code,
-        accessToken: undefined,
-        loadRemix: false,
-        loadCache: true,
+        accessToken: "my_token",
+        loadRemix: true,
+        loadCache: false,
         remixLoadFailed: false,
       });
     });
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
-        user: undefined,
+        user,
         project: { components: [] },
         hasShownSavePrompt: true,
         justLoaded: false,
@@ -259,6 +364,7 @@ describe("When user is in state", () => {
                 instructions={instructions}
                 authKey={authKey}
                 theme="light"
+                loadRemixDisabled={false}
               />
             </CookiesProvider>
           </Provider>,
@@ -273,6 +379,35 @@ describe("When user is in state", () => {
           loadRemix: true,
           loadCache: false,
           remixLoadFailed: false,
+        });
+      });
+
+      describe("when loadRemixDisabled is true", () => {
+        beforeEach(() => {
+          render(
+            <Provider store={store}>
+              <CookiesProvider cookies={cookies}>
+                <WebComponentLoader
+                  identifier={identifier}
+                  instructions={instructions}
+                  authKey={authKey}
+                  theme="light"
+                  loadRemixDisabled={true}
+                />
+              </CookiesProvider>
+            </Provider>,
+          );
+        });
+
+        test("Calls useProject hook with loadRemix set to false, i.e. it is overidden", () => {
+          expect(useProject).toHaveBeenCalledWith({
+            projectIdentifier: identifier,
+            code: undefined,
+            accessToken: "my_token",
+            loadRemix: false,
+            loadCache: false,
+            remixLoadFailed: false,
+          });
         });
       });
 

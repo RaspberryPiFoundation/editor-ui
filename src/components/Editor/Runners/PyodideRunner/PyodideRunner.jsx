@@ -19,10 +19,12 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../PythonRunner/OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
 import RunnerControls from "../../../RunButton/RunnerControls";
-import PyodideWorker from "worker-loader!./PyodideWorker.js";
 
 const PyodideRunner = () => {
-  const pyodideWorker = useMemo(() => new PyodideWorker(), []);
+  const pyodideWorker = useMemo(
+    () => new Worker("./PyodideWorker.js", { type: "module" }),
+    [],
+  );
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -193,7 +195,9 @@ const PyodideRunner = () => {
   };
 
   const handleStop = () => {
-    interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    if (interruptBuffer.current) {
+      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+    }
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
   };

@@ -29,7 +29,7 @@ if (!supportsAllFeatures && name !== "incremental-features") {
 importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
 
-onmessage = async ({ data }) => {
+const onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
 
   switch (data.method) {
@@ -47,16 +47,21 @@ onmessage = async ({ data }) => {
   }
 };
 
+// eslint-disable-next-line no-restricted-globals
+addEventListener("message", async (event) => {
+  onmessage(event);
+});
+
 const runPython = async (python) => {
   stopped = false;
   await pyodide.runPythonAsync(`
   old_input = input
-  
+
   def patched_input(prompt=False):
       if (prompt):
           print(prompt)
       return old_input()
-  
+
   __builtins__.input = patched_input
   `);
 
@@ -126,7 +131,7 @@ const loadDependency = async (name) => {
 
   // If the import is for a package built into Pyodide then load it.
   // Built-ins: https://pyodide.org/en/stable/usage/packages-in-pyodide.html
-  await pyodide.loadPackage(name).catch(() => {});
+  await pyodide.loadPackage(name)?.catch(() => {});
   let pyodidePackage;
   try {
     pyodidePackage = pyodide.pyimport(name);
@@ -237,7 +242,7 @@ const reloadPyodideToClearState = async () => {
       postMessage({ method: "handleOutput", stream: "stderr", content }),
   });
 
-  const pyodide = await pyodidePromise;
+  pyodide = await pyodidePromise;
 
   if (supportsAllFeatures) {
     stdinBuffer =
@@ -303,3 +308,8 @@ const parsePythonError = (error) => {
 };
 
 reloadPyodideToClearState();
+
+module.exports = {
+  onmessage,
+  postMessage,
+};

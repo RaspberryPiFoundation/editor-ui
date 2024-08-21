@@ -18,6 +18,7 @@ const GlobalNav = () => {
         <a
           className="editor-global-nav__home"
           href="https://www.raspberrypi.org/"
+          target="_blank"
         >
           <img src={rpf_logo} alt={t("globalNav.raspberryPiLogoAltText")} />
           <span>Raspberry Pi Foundation</span>

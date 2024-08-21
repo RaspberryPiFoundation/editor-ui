@@ -8,6 +8,8 @@ import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
 import "./utils/i18n";
 import camelCase from "camelcase";
+import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
+import { BrowserRouter } from "react-router-dom";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -37,17 +39,24 @@ class WebComponent extends HTMLElement {
   static get observedAttributes() {
     return [
       "host_styles",
+      "assets_identifier",
       "auth_key",
       "identifier",
       "code",
       "sense_hat_always_enabled",
       "instructions",
       "with_projectbar",
+      "project_name_editable",
       "with_sidebar",
+      "output_only",
+      "output_panels",
       "sidebar_options",
       "theme",
       "embedded",
       "show_save_prompt",
+      "load_remix_disabled",
+      "output_split_view",
+      "use_editor_styles",
     ];
   }
 
@@ -59,12 +68,23 @@ class WebComponent extends HTMLElement {
         "sense_hat_always_enabled",
         "with_sidebar",
         "with_projectbar",
+        "project_name_editable",
         "show_save_prompt",
+        "load_remix_disabled",
+        "output_only",
+        "embedded",
+        "output_split_view",
+        "use_editor_styles",
       ].includes(name)
     ) {
       value = newVal !== "false";
     } else if (
-      ["instructions", "sidebar_options", "host_styles"].includes(name)
+      [
+        "instructions",
+        "sidebar_options",
+        "host_styles",
+        "output_panels",
+      ].includes(name)
     ) {
       value = JSON.parse(newVal);
     } else {
@@ -94,6 +114,34 @@ class WebComponent extends HTMLElement {
     this.mountReactApp();
   }
 
+  stopCode() {
+    const state = store.getState();
+    if (state.editor.codeRunTriggered || state.editor.drawTriggered) {
+      store.dispatch(stopCodeRun());
+      store.dispatch(stopDraw());
+    }
+  }
+
+  runCode() {
+    store.dispatch(triggerCodeRun());
+  }
+
+  rerunCode() {
+    this.stopCode();
+
+    new Promise((resolve) => {
+      let checkInterval = setInterval(() => {
+        let state = store.getState();
+        if (!state.codeRunTriggered && !state.drawTriggered) {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }).then(() => {
+      this.runCode();
+    });
+  }
+
   reactProps() {
     return {
       ...this.componentAttributes,
@@ -113,11 +161,15 @@ class WebComponent extends HTMLElement {
     this.root.render(
       <React.StrictMode>
         <Provider store={store}>
-          <WebComponentLoader {...this.reactProps()} />
+          <BrowserRouter>
+            <WebComponentLoader {...this.reactProps()} />
+          </BrowserRouter>
         </Provider>
       </React.StrictMode>,
     );
   }
 }
 
-window.customElements.define("editor-wc", WebComponent);
+if (!window.customElements.get("editor-wc")) {
+  window.customElements.define("editor-wc", WebComponent);
+}

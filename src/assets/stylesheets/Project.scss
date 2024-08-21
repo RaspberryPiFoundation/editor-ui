@@ -7,8 +7,8 @@
   overflow: hidden;
   block-size: 100%;
   block-size: -moz-available;
-  block-size: -webkit-fill-available;
-  block-size: fill-available;
+  block-size: -webkit-stretch;
+  block-size: stretch;
 }
 
 .proj-header {
