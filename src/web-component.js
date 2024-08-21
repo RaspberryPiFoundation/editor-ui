@@ -95,9 +95,7 @@ class WebComponent extends HTMLElement {
   }
 
   get editorCode() {
-    // console.log('getting editor code');
     const state = store.getState();
-    // console.log(state.editor.foo);
     return state.editor.project.components[0].content;
   }
 
