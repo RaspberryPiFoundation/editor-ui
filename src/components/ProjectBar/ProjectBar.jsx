@@ -25,7 +25,7 @@ const ProjectBar = ({ nameEditable = true }) => {
     loading === "success" && (
       <div className="project-bar">
         {loading === "success" && (
-          <ProjectName editable={!readOnly && nameEditable} />
+          <ProjectName editable={!readOnly && nameEditable} isHeading={true} />
         )}
         <div className="project-bar__right">
           {loading === "success" && (
