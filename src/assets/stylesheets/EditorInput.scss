@@ -17,3 +17,8 @@
 .--light .editor-input__view-only-banner {
   background-color: $rpf-grey-100;
 }
+
+.--dark .editor-input__view-only-banner {
+  background-color: $rpf-grey-300;
+  color: $rpf-black;
+}
