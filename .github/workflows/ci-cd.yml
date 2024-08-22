@@ -2,10 +2,11 @@ name: CI-CD
 
 on:
   push:
-    branches:
-      - "**"
     tags:
       - "**"
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   lint:
