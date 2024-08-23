@@ -76,6 +76,7 @@ class WebComponent extends HTMLElement {
         "embedded",
         "output_split_view",
         "use_editor_styles",
+        "read_only",
       ].includes(name)
     ) {
       value = newVal !== "false";

@@ -97,7 +97,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         editorTheme,
         indentationMarkers(),
         indentUnit.of(customIndentUnit),
-        // EditorState.readOnly.of(readOnly),
         EditorView.editable.of(!readOnly),
       ],
     });
