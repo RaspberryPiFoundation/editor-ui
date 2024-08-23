@@ -6,16 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Changed
-
-- RPi logo and text link at top left opens in new tab (#830)
-
 ### Added
 
 - `editor-projectOwnerChanged` custom event (#1065)
+- Read only mode (#1067)
 
 ### Changed
 
+- RPi logo and text link at top left opens in new tab (#830)
 - "test" workflow to trigger on pull_request branches rather than push (#1069)
 
 ## [0.25.5] - 2024-08-08

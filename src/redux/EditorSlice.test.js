@@ -20,6 +20,7 @@ import reducer, {
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
+  setReadOnly,
 } from "./EditorSlice";
 
 jest.mock("../utils/apiCallHandler");
@@ -93,6 +94,12 @@ test("Action setErrorDetails sets errorDetails to true", () => {
       setErrorDetails({ type: "Interrupted", message: "Some error message" }),
     ),
   ).toEqual(expectedState);
+});
+
+test("Action setReadOnly correctly sets readOnly", () => {
+  const previousState = { readOnly: false };
+  const expectedState = { readOnly: true };
+  expect(reducer(previousState, setReadOnly(true))).toEqual(expectedState);
 });
 
 test("Showing rename modal sets file state and showing status", () => {
