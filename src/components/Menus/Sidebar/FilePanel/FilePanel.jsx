@@ -43,6 +43,10 @@ const FilePanel = ({ isMobile }) => {
   };
   const { t } = useTranslation();
 
+  if (!project || !project.components) {
+    return null;
+  }
+
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
       {project.components.map((file, i) => (

@@ -75,20 +75,24 @@ const EditorInput = () => {
   };
 
   const [numberOfComponents, setNumberOfComponents] = useState(
-    project.components.length,
+    project?.components?.length,
   );
-  let tabRefs = useRef(project.components.map(createRef));
+  let tabRefs = useRef(project?.components?.map(createRef));
 
   useEffect(() => {
+    if (!project?.components) return;
+
     setNumberOfComponents(project.components.length);
     Array(project.components.length)
       .fill()
       .forEach((_, i) => {
         tabRefs.current[i] = tabRefs.current[i] || React.createRef();
       });
-  }, [project.components.length]);
+  }, [project?.components]);
 
   useEffect(() => {
+    if (!project?.components) return;
+
     focussedFileIndices.forEach((index, i) => {
       const fileName = openFiles[i][index];
       const componentIndex = project.components.findIndex(
@@ -100,6 +104,10 @@ const EditorInput = () => {
       }
     });
   }, [focussedFileIndices, openFiles, numberOfComponents, project]);
+
+  if (!project || !project.components) {
+    return null;
+  }
 
   return (
     <DragDropContext
@@ -130,7 +138,7 @@ const EditorInput = () => {
                       })}
                       ref={
                         tabRefs.current[
-                          project.components.findIndex(
+                          project?.components?.findIndex(
                             (file) =>
                               `${file.name}.${file.extension}` === fileName,
                           )
