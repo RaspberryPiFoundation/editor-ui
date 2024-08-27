@@ -17,11 +17,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - "test" workflow to trigger on pull_request branches rather than push (#1069)
+- adds an extra failed state for when a project fails to load
 
 ### Fixed
 
 - Fixes multiple dispatches on loadRemix
 - Ensures remix is loaded immediately after creation, to avoid state inconsistencies
+- Fixes error when clicking the `Go to your project` button
+- Improves web component mount/unmount and fixes errors
+- Makes EditorInput and FilePanel more resilient to an empty project
 
 ## [0.25.5] - 2024-08-08
 
