@@ -39,13 +39,13 @@ const ProjectsPanel = () => {
     <SidebarPanel
       heading={t("projectsPanel.projects")}
       Button={() =>
-        isLoggedIn ? (
+        isLoggedIn && (
           <DesignSystemButton
             className="btn--primary projects-panel__your-projects-button"
             href={`/${locale}/projects`}
             text={t("projectsPanel.yourProjectsButton")}
           />
-        ) : null
+        )
       }
       className="projects-panel-wrapper"
     >
