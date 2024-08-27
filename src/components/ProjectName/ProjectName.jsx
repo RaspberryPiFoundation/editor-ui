@@ -15,6 +15,7 @@ const ProjectName = ({
   className = null,
   showLabel = false,
   editable = true,
+  isHeading = false,
 }) => {
   const project = useSelector((state) => state.editor.project, shallowEqual);
 
@@ -109,7 +110,7 @@ const ProjectName = ({
         <h1 style={{ height: 0, width: 0, overflow: "hidden" }}>
           {project.name || t("header.newProject")}
         </h1>
-        {editable ? (
+        {editable || !isHeading ? (
           <input
             className="project-name__input"
             id={"project_name"}

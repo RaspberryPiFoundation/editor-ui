@@ -83,6 +83,7 @@ export const loadProjectList = createAsyncThunk(
 
 const initialState = {
   project: {},
+  readOnly: false,
   saveTriggered: false,
   saving: "idle",
   loading: "idle",
@@ -229,6 +230,9 @@ export const EditorSlice = createSlice({
     },
     expireJustLoaded: (state) => {
       state.justLoaded = false;
+    },
+    setReadOnly: (state, action) => {
+      state.readOnly = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -479,6 +483,7 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  setReadOnly,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,

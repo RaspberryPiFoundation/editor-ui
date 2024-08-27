@@ -19,6 +19,7 @@ import FileIcon from "../../../../utils/FileIcon";
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
+  const readOnly = useSelector((state) => state.editor.readOnly);
 
   const dispatch = useDispatch();
 
@@ -42,13 +43,15 @@ const FilePanel = ({ isMobile }) => {
     }
   };
   const { t } = useTranslation();
+  
+  const Button = readOnly ? null : NewComponentButton;
 
   if (!project || !project.components) {
     return null;
   }
 
   return (
-    <SidebarPanel heading={t("filePanel.files")} Button={NewComponentButton}>
+    <SidebarPanel heading={t("filePanel.files")} Button={Button}>
       {project.components.map((file, i) => (
         <div className="files-list-item-wrapper" key={i}>
           <DesignSystemButton
@@ -60,7 +63,8 @@ const FilePanel = ({ isMobile }) => {
             textAlways
             small
           />
-          {(file.name === "main" && file.extension === "py") ||
+          {readOnly ||
+          (file.name === "main" && file.extension === "py") ||
           (file.name === "index" && file.extension === "html") ? null : (
             <div className="files-list-item__menu">
               <FileMenu fileKey={i} name={file.name} ext={file.extension} />

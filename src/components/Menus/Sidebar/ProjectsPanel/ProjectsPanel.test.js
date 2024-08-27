@@ -6,32 +6,31 @@ import { MemoryRouter } from "react-router-dom";
 
 import ProjectsPanel from "./ProjectsPanel";
 
+const initialState = {
+  editor: {
+    project: {
+      components: [{ name: "main", extension: "py" }],
+    },
+  },
+};
+
+const renderProjectsPanel = (state) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const store = mockStore({ ...initialState, ...state });
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <ProjectsPanel t={() => {}} />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
 describe("Projects Panel", () => {
   describe("When not logged in", () => {
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
-        editor: {
-          project: {
-            components: [
-              {
-                name: "main",
-                extension: "py",
-              },
-            ],
-          },
-        },
-      };
-      const store = mockStore(initialState);
-
-      render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <ProjectsPanel t={() => {}} />
-          </MemoryRouter>
-        </Provider>,
-      );
+      renderProjectsPanel({});
     });
 
     test("Projects button is not visible", () => {
@@ -55,40 +54,49 @@ describe("Projects Panel", () => {
 
   describe("When logged in", () => {
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
-        editor: {
-          project: {
-            components: [
-              {
-                name: "main",
-                extension: "py",
-              },
-            ],
-          },
-        },
+      renderProjectsPanel({
         auth: {
-          user: {
-            access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
-          },
+          user: { access_token: "39a09671-be55-4847-baf5-8919a0c24a25" },
         },
-      };
-      const store = mockStore(initialState);
-
-      render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <ProjectsPanel t={() => {}} />
-          </MemoryRouter>
-        </Provider>,
-      );
+      });
     });
 
     test("Projects button is visible", () => {
       expect(
         screen.queryByText("projectsPanel.yourProjectsButton"),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("When not read only", () => {
+    beforeEach(() => {
+      renderProjectsPanel({
+        editor: {
+          ...initialState.editor,
+          readOnly: false,
+        },
+      });
+    });
+
+    test("Project name is editable", () => {
+      expect(screen.queryByTitle("header.renameProject")).toBeInTheDocument();
+    });
+  });
+
+  describe("When read only", () => {
+    beforeEach(() => {
+      renderProjectsPanel({
+        editor: {
+          ...initialState.editor,
+          readOnly: true,
+        },
+      });
+    });
+
+    test("Project name is not editable", () => {
+      expect(
+        screen.queryByTitle("header.renameProject"),
+      ).not.toBeInTheDocument();
     });
   });
 });

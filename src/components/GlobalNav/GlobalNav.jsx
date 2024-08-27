@@ -18,6 +18,7 @@ const GlobalNav = () => {
         <a
           className="editor-global-nav__home"
           href="https://www.raspberrypi.org/"
+          rel="noreferrer"
           target="_blank"
           rel="noreferrer"
         >
