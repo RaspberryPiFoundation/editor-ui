@@ -204,9 +204,9 @@ const WebComponentLoader = (props) => {
     </>
   );
 
-  if (loading === "success" && project?.identifier) {
+  if (loading === "success") {
     return renderSuccessState();
-  } else if (["idle", "failed"].includes(loading) && !project?.identifier) {
+  } else if (["idle", "failed"].includes(loading)) {
     return renderFailedState();
   } else {
     return renderLoadingState();
