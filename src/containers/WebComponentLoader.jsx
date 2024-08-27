@@ -48,7 +48,6 @@ const WebComponentLoader = (props) => {
     outputSplitView = false,
     useEditorStyles = false, // If true use the standard editor styling for the web component
   } = props;
-
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
@@ -148,7 +147,7 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  return loading === "success" ? (
+  const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
         value={{
@@ -185,11 +184,27 @@ const WebComponentLoader = (props) => {
         </Style>
       </SettingsContext.Provider>
     </>
-  ) : (
+  );
+
+  const renderFailedState = () => (
+    <>
+      <p>{t("webComponent.failed")}</p>
+    </>
+  );
+
+  const renderLoadingState = () => (
     <>
       <p>{t("webComponent.loading")}</p>
     </>
   );
+
+  if (loading === "success" && project?.identifier) {
+    return renderSuccessState();
+  } else if (["idle", "failed"].includes(loading) && !project?.identifier) {
+    return renderFailedState();
+  } else {
+    return renderLoadingState();
+  }
 };
 
 export default WebComponentLoader;
