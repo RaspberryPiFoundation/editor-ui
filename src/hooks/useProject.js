@@ -18,8 +18,7 @@ export const useProject = ({
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
-
-  const loadRemixDispatched = useRef(false);
+  const loadDispatched = useRef(false);
 
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
@@ -97,8 +96,27 @@ export const useProject = ({
     loadRemix,
   ]);
 
+  // Try to load the remix, if it fails set `remixLoadFailed` true, and load the project in the next useEffect
   useEffect(() => {
-    if (projectIdentifier && loadRemix && (!accessToken || remixLoadFailed)) {
+    if (!projectIdentifier || !accessToken || !loadRemix) return;
+
+    if (!remixLoadFailed && !loadDispatched.current) {
+      dispatch(
+        syncProject("loadRemix")({
+          identifier: projectIdentifier,
+          accessToken: accessToken,
+        }),
+      );
+
+      // Prevents a failure on the initial render (using a ref to avoid triggering a render)
+      loadDispatched.current = true;
+    }
+  }, [projectIdentifier, accessToken, project, loadRemix, remixLoadFailed]);
+
+  useEffect(() => {
+    if (!projectIdentifier || !loadRemix) return;
+
+    if (remixLoadFailed && !loadDispatched.current) {
       dispatch(
         syncProject("load")({
           identifier: projectIdentifier,
@@ -106,23 +124,10 @@ export const useProject = ({
           accessToken: accessToken,
         }),
       );
+
+      loadDispatched.current = true;
     }
   }, [projectIdentifier, i18n.language, accessToken, remixLoadFailed]);
-
-  useEffect(() => {
-    if (projectIdentifier && loadRemix && !remixLoadFailed) {
-      if (accessToken && !!!project?.user_id && !loadRemixDispatched.current) {
-        dispatch(
-          syncProject("loadRemix")({
-            identifier: projectIdentifier,
-            accessToken: accessToken,
-          }),
-        );
-        // Prevents a failure on the initial render (using a ref to avoid triggering a render)
-        loadRemixDispatched.current = true;
-      }
-    }
-  }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
 
   useEffect(() => {
     if (code && loading === "success") {
