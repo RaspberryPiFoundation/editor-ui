@@ -46,6 +46,10 @@ const FilePanel = ({ isMobile }) => {
 
   const Button = readOnly ? null : NewComponentButton;
 
+  if (!project || !project.components) {
+    return null;
+  }
+
   return (
     <SidebarPanel heading={t("filePanel.files")} Button={Button}>
       {project.components.map((file, i) => (

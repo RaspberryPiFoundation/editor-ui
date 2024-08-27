@@ -18,27 +18,44 @@ export const useProjectPersistence = ({
 }) => {
   const dispatch = useDispatch();
 
+  const saveToLocalStorage = (project) => {
+    localStorage.setItem(
+      project.identifier || "project",
+      JSON.stringify(project),
+    );
+  };
+
   useEffect(() => {
-    if (Object.keys(project).length !== 0) {
-      if (saveTriggered || (user && localStorage.getItem("awaitingSave"))) {
-        if (isOwner(user, project)) {
-          dispatch(
-            syncProject("save")({
-              project,
-              accessToken: user.access_token,
-              autosave: false,
-            }),
-          );
-        } else if (user && project.identifier) {
-          dispatch(
-            syncProject("remix")({ project, accessToken: user.access_token }),
-          );
-        } else {
-          dispatch(showLoginToSaveModal());
+    const saveProject = async () => {
+      if (Object.keys(project).length !== 0) {
+        if (saveTriggered || (user && localStorage.getItem("awaitingSave"))) {
+          if (isOwner(user, project)) {
+            dispatch(
+              syncProject("save")({
+                project,
+                accessToken: user.access_token,
+                autosave: false,
+              }),
+            );
+          } else if (user && project.identifier) {
+            await dispatch(
+              syncProject("remix")({ project, accessToken: user.access_token }),
+            );
+            // Ensure the remixed project is loaded, otherwise we'll get in a mess
+            dispatch(
+              syncProject("loadRemix")({
+                identifier: project.identifier,
+                accessToken: user.access_token,
+              }),
+            );
+          } else {
+            dispatch(showLoginToSaveModal());
+          }
+          localStorage.removeItem("awaitingSave");
         }
-        localStorage.removeItem("awaitingSave");
       }
-    }
+    };
+    saveProject();
   }, [saveTriggered, project, user, dispatch]);
 
   useEffect(() => {
@@ -59,10 +76,8 @@ export const useProjectPersistence = ({
           if (justLoaded) {
             dispatch(expireJustLoaded());
           } else {
-            localStorage.setItem(
-              project.identifier || "project",
-              JSON.stringify(project),
-            );
+            saveToLocalStorage(project);
+
             if (!hasShownSavePrompt) {
               user ? showSavePrompt() : showLoginPrompt();
               dispatch(setHasShownSavePrompt());

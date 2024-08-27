@@ -27,6 +27,7 @@ const remixAction = { type: "REMIX_PROJECT" };
 const remixProject = jest.fn(() => remixAction);
 const saveAction = { type: "SAVE_PROJECT" };
 const saveProject = jest.fn(() => saveAction);
+const loadProject = jest.fn();
 
 jest.useFakeTimers();
 
@@ -217,6 +218,7 @@ describe("When logged in", () => {
       beforeEach(() => {
         localStorage.setItem("awaitingSave", "true");
         syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
+        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
         renderHook(() =>
           useProjectPersistence({
             user: user2,
@@ -237,6 +239,8 @@ describe("When logged in", () => {
     describe("When project has identifier and save triggered", () => {
       beforeEach(() => {
         syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
+        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+
         renderHook(() =>
           useProjectPersistence({
             user: user2,
@@ -246,9 +250,18 @@ describe("When logged in", () => {
         );
         jest.runAllTimers();
       });
+
       test("Clicking save dispatches remixProject with correct parameters", async () => {
-        expect(remixProject).toHaveBeenCalledWith({
+        await expect(remixProject).toHaveBeenCalledWith({
           project: project,
+          accessToken: user2.access_token,
+        });
+      });
+
+      test("loadRemix is dispatched after project is remixed", async () => {
+        await remixProject();
+        await expect(loadProject).toHaveBeenCalledWith({
+          identifier: project.identifier,
           accessToken: user2.access_token,
         });
       });
@@ -288,8 +301,9 @@ describe("When logged in", () => {
         );
         jest.runAllTimers();
       });
-      test("Save project is called with the correct parameters", () => {
-        expect(saveProject).toHaveBeenCalledWith({
+
+      test("Save project is called with the correct parameters", async () => {
+        await expect(saveProject).toHaveBeenCalledWith({
           project: { ...project, identifier: null },
           accessToken: user2.access_token,
           autosave: false,

@@ -456,6 +456,7 @@ i18n
           },
           webComponent: {
             loading: "Loading",
+            failed: "Load failed",
           },
         },
       },
