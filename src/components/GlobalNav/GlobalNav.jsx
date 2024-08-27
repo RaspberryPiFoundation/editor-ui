@@ -20,7 +20,6 @@ const GlobalNav = () => {
           href="https://www.raspberrypi.org/"
           rel="noreferrer"
           target="_blank"
-          rel="noreferrer"
         >
           <img src={rpf_logo} alt={t("globalNav.raspberryPiLogoAltText")} />
           <span>Raspberry Pi Foundation</span>

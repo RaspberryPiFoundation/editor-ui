@@ -148,11 +148,11 @@ const WebComponentLoader = (props) => {
       dispatch(setInstructions(instructions));
     }
   }, [instructions, dispatch]);
-  
+
   useEffect(() => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
-  
+
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider

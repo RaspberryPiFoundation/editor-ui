@@ -43,7 +43,7 @@ const FilePanel = ({ isMobile }) => {
     }
   };
   const { t } = useTranslation();
-  
+
   const Button = readOnly ? null : NewComponentButton;
 
   if (!project || !project.components) {
