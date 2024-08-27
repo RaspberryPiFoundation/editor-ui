@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
@@ -29,11 +28,20 @@ class WebComponent extends HTMLElement {
   componentProperties = {};
 
   connectedCallback() {
+    if (!this.shadowRoot) {
+      this.mountPoint = this.shadowRoot;
+    }
+
+    console.log("Mounted web-component...");
+
     this.mountReactApp();
   }
 
   disconnectedCallback() {
-    ReactDOM.unmountComponentAtNode(this.mountPoint);
+    if (this.root) {
+      console.log("Unmounted web-component...");
+      this.root.unmount();
+    }
   }
 
   static get observedAttributes() {
@@ -106,7 +114,6 @@ class WebComponent extends HTMLElement {
   set menuItems(newValue) {
     // update properties in the web component via js calls from host app
     // see public/web-component/index.html
-    console.log("menu items set");
     this.componentProperties.menuItems = newValue;
 
     this.mountReactApp();
