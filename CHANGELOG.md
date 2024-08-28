@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Staging web component CI deployment
 - Fixes multiple dispatches on loadRemix
 - Ensures remix is loaded immediately after creation, to avoid state inconsistencies
 - Fixes error when clicking the `Go to your project` button
