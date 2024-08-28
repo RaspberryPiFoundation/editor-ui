@@ -139,6 +139,7 @@ i18n
           },
           editorPanel: {
             ariaLabel: "editor text input",
+            viewOnly: "View only",
           },
           filePanel: {
             errors: {
@@ -455,6 +456,7 @@ i18n
           },
           webComponent: {
             loading: "Loading",
+            failed: "Load failed",
           },
         },
       },

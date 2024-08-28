@@ -20,6 +20,7 @@ import "../../../assets/stylesheets/EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import CloseIcon from "../../../utils/CloseIcon";
+import { useTranslation } from "react-i18next";
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);
@@ -29,6 +30,9 @@ const EditorInput = () => {
   );
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const readOnly = useSelector((state) => state.editor.readOnly);
+
+  const { t } = useTranslation();
 
   const onDragStart = (input) => {
     const { source } = input;
@@ -75,20 +79,24 @@ const EditorInput = () => {
   };
 
   const [numberOfComponents, setNumberOfComponents] = useState(
-    project.components.length,
+    project?.components?.length,
   );
-  let tabRefs = useRef(project.components.map(createRef));
+  let tabRefs = useRef(project?.components?.map(createRef));
 
   useEffect(() => {
+    if (!project?.components) return;
+
     setNumberOfComponents(project.components.length);
     Array(project.components.length)
       .fill()
       .forEach((_, i) => {
         tabRefs.current[i] = tabRefs.current[i] || React.createRef();
       });
-  }, [project.components.length]);
+  }, [project?.components]);
 
   useEffect(() => {
+    if (!project?.components) return;
+
     focussedFileIndices.forEach((index, i) => {
       const fileName = openFiles[i][index];
       const componentIndex = project.components.findIndex(
@@ -100,6 +108,10 @@ const EditorInput = () => {
       }
     });
   }, [focussedFileIndices, openFiles, numberOfComponents, project]);
+
+  if (!project || !project.components) {
+    return null;
+  }
 
   return (
     <DragDropContext
@@ -130,7 +142,7 @@ const EditorInput = () => {
                       })}
                       ref={
                         tabRefs.current[
-                          project.components.findIndex(
+                          project?.components?.findIndex(
                             (file) =>
                               `${file.name}.${file.extension}` === fileName,
                           )
@@ -154,6 +166,11 @@ const EditorInput = () => {
             </div>
             {panel.map((fileName, i) => (
               <TabPanel key={i}>
+                {readOnly && (
+                  <span className="editor-input__view-only-banner">
+                    {t("editorPanel.viewOnly")}
+                  </span>
+                )}
                 <EditorPanel
                   fileName={fileName.split(".")[0]}
                   extension={fileName.split(".").slice(1).join(".")}
