@@ -91,11 +91,12 @@ describe("When code run is triggered", () => {
       },
     };
     store = mockStore(initialState);
-    container = render(
+    const renderResult = render(
       <Provider store={store}>
         <VisualOutputPane />
       </Provider>,
     );
+    container = renderResult.container;
   });
 
   test("Sets up p5 canvas", () => {
