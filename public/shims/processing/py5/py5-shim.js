@@ -1338,7 +1338,7 @@ const $builtinmodule = function (name) {
   };
 
   document
-    .getElementById(Sk.py5.sketch)
+    .getElementById("p5Sketch")
     .addEventListener("mousemove", updateMouseCoords);
 
   // NOTE: difference with ProcessingJS
@@ -1495,7 +1495,7 @@ const $builtinmodule = function (name) {
         }
       };
 
-      Sk.py5.stop = function () {
+      window.py5.stop = function () {
         mod.pInst.noLoop();
 
         for (const cb of Object.keys(callBacks)) {
@@ -1506,7 +1506,7 @@ const $builtinmodule = function (name) {
       };
     };
 
-    const p5Sketch = document.getElementById(Sk.py5.sketch);
+    const p5Sketch = document.getElementById("p5Sketch");
 
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message);
@@ -1632,7 +1632,7 @@ const $builtinmodule = function (name) {
   };
 
   mod.load_image = new Sk.builtin.func(function (path) {
-    const asset = Sk.py5.assets.find((el) => el.filename === path.v);
+    const asset = window.assets.find((el) => el.filename === path.v);
     if (asset) {
       path.v = asset.url;
     }

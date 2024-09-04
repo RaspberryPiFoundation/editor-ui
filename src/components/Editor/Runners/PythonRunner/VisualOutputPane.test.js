@@ -76,6 +76,7 @@ describe("When Sense Hat library not used", () => {
 
 describe("When code run is triggered", () => {
   let store;
+  let container;
 
   beforeEach(() => {
     const middlewares = [];
@@ -90,15 +91,17 @@ describe("When code run is triggered", () => {
       },
     };
     store = mockStore(initialState);
-    render(
+    const renderResult = render(
       <Provider store={store}>
         <VisualOutputPane />
       </Provider>,
     );
+    container = renderResult.container;
   });
 
   test("Sets up p5 canvas", () => {
-    expect(Sk.py5.sketch).not.toBeNull();
+    const p5Sketch = container.querySelector("#p5Sketch");
+    expect(p5Sketch).not.toBeNull();
   });
 
   test("Sets up pygal canvas", () => {
