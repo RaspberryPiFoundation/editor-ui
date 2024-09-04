@@ -59,11 +59,7 @@ const VisualOutputPane = () => {
       p5Output.current &&
       p5Output.current.innerHTML !== ""
     ) {
-      if (Sk.py5?.stop) {
-        Sk.py5.stop();
-      } else if (Sk.p5?.stop) {
-        Sk.p5.stop();
-      } else if (window.p5?.stop) {
+      if (window.p5?.stop) {
         window.p5.stop();
       } else if (window.py5?.stop) {
         window.py5.stop();
