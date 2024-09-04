@@ -1,11 +1,30 @@
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import EditorPanel from "./EditorPanel";
 
 expect.extend(toHaveNoViolations);
+
+const renderEditorPanel = ({ readOnly }) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {
+        components: [{ name: "main", extension: "py", content: "" }],
+      },
+      readOnly,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <EditorPanel fileName="main" extension="py" />
+    </Provider>,
+  );
+};
 
 describe("When font size is set", () => {
   let editor;
@@ -45,5 +64,27 @@ describe("When font size is set", () => {
   test("Correct indentation for Python projects", () => {
     const regex = /^( {2}| {4})/gm;
     expect(regex.test("    ")).toBe(true);
+  });
+});
+
+describe("When not read only", () => {
+  beforeEach(() => {
+    renderEditorPanel({ readOnly: false });
+  });
+
+  test("Editor is not read only", async () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    expect(editorInputArea).toHaveAttribute("contenteditable", "true");
+  });
+});
+
+describe("When read only", () => {
+  beforeEach(() => {
+    renderEditorPanel({ readOnly: true });
+  });
+
+  test("Editor is not read only", async () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    expect(editorInputArea).toHaveAttribute("contenteditable", "false");
   });
 });

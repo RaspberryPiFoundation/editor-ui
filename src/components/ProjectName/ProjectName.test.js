@@ -41,7 +41,7 @@ describe("With a label", () => {
   });
 });
 
-describe("With a webComponent=true", () => {
+describe("When not editable", () => {
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -62,18 +62,42 @@ describe("With a webComponent=true", () => {
     expect(screen.queryByRole("heading")).toHaveTextContent(project.name);
   });
 
-  test("Shows project name", () => {
-    expect(screen.queryAllByText(project.name)[1]).toBeInTheDocument();
-  });
-
-  test("Edit field not shown", () => {
-    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+  test("Project name renders inside a disabled input", () => {
+    const textBox = screen.getByRole("textbox");
+    expect(textBox).toBeDisabled();
+    expect(textBox).toHaveValue(project.name);
   });
 
   test("Edit button not shown", () => {
     expect(
       screen.queryByLabelText("header.renameProject"),
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("When editable and a heading", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <ProjectName showLabel={true} editable={false} isHeading={true} />
+      </Provider>,
+    );
+  });
+
+  test("Shows project name", () => {
+    expect(screen.queryAllByText(project.name)[1]).toBeInTheDocument();
+  });
+
+  test("Does not render an input field", () => {
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
   });
 });
 
