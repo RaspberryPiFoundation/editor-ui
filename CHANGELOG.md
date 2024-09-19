@@ -4,15 +4,36 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.26.0] - 2024-09-13
 
 ### Added
 
+- `editor-projectOwnerChanged` custom event (#1065)
+- Read only mode (#1067)
+
 ### Changed
+
+- RPi logo and text link at top left opens in new tab (#830)
+- "test" workflow to trigger on pull_request branches rather than push (#1069)
+- adds an extra failed state for when a project fails to load
 
 ### Fixed
 
-- Small fix to ensure webpack is using the correct webSocketURL for live reloading\
+- P5/Py5 scope related errors when using the web component in different contexts (#1075)
+- Staging web component CI deployment
+- Fixes multiple dispatches on loadRemix
+- Ensures remix is loaded immediately after creation, to avoid state inconsistencies
+- Fixes error when clicking the `Go to your project` button
+- Improves web component mount/unmount and fixes errors
+- Makes EditorInput and FilePanel more resilient to an empty project
+
+## [0.25.5] - 2024-08-08
+
+### Fixed
+
+- CSS fix for the bottom of Sidebar (#1061)
+- Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
+- Small fix to ensure webpack is using the correct webSocketURL for live reloading (#1051)
 - Only register `editor-wc` once (#1052)
 
 ## [0.25.4] - 2024-06-20
@@ -852,8 +873,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.25.4...HEAD
-[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.26.0...HEAD
+[0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0
+[0.25.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.5
+[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.4
 [0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
 [0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
 [0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1

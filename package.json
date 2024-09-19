@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "0.25.4",
+  "version": "0.26.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.8",

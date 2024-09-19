@@ -193,7 +193,7 @@ const $builtinmodule = function (name) {
   // Shadow root manipulation
   const webComponent = document.querySelector("editor-wc");
   const element = !!webComponent ? webComponent.shadowRoot : document;
-  const p5Sketch = element.getElementById(Sk.p5.sketch);
+  const p5Sketch = element.getElementById("p5Sketch");
 
   // eslint-disable-next-line no-native-reassign
 
@@ -1554,7 +1554,7 @@ const $builtinmodule = function (name) {
         }
       };
 
-      Sk.p5.stop = function () {
+      window.p5.stop = function () {
         mod.pInst.noLoop();
 
         for (const cb of Object.keys(callBacks)) {
@@ -1692,7 +1692,7 @@ const $builtinmodule = function (name) {
   };
 
   mod.load_image = new Sk.builtin.func(function (path) {
-    const asset = Sk.p5.assets.find((el) => el.filename === path.v);
+    const asset = window.assets.find((el) => el.filename === path.v);
     if (asset) {
       path.v = asset.url;
     }

@@ -3,7 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setReadOnly,
+  setSenseHatAlwaysEnabled,
+} from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
@@ -27,6 +31,55 @@ const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
+
+describe("When initially rendered", () => {
+  beforeEach(() => {
+    document.dispatchEvent = jest.fn();
+    const middlewares = [localStorageUserMiddleware(setUser)];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "success",
+        project: {
+          components: [],
+          user_name: "Joe Bloggs",
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        justLoaded: true,
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+    cookies = new Cookies();
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader
+            code={code}
+            identifier={identifier}
+            senseHatAlwaysEnabled={true}
+            instructions={instructions}
+            authKey={authKey}
+            theme="light"
+          />
+        </CookiesProvider>
+      </Provider>,
+    );
+  });
+
+  test("It fires the projectOwnerLoadedEvent with correct name", () => {
+    expect(document.dispatchEvent).toHaveBeenCalledWith(
+      new CustomEvent("editor-projectOwnerLoaded", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: { user_name: "Joe Bloggs" },
+      }),
+    );
+  });
+});
 
 describe("When no user is in state", () => {
   beforeEach(() => {
@@ -62,6 +115,7 @@ describe("When no user is in state", () => {
               identifier={identifier}
               senseHatAlwaysEnabled={true}
               instructions={instructions}
+              readOnly={true}
               authKey={authKey}
               theme="light"
             />
@@ -102,6 +156,12 @@ describe("When no user is in state", () => {
     test("Sets the instructions", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setInstructions(instructions)]),
+      );
+    });
+
+    test("Sets the read only state correctly", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setReadOnly(true)]),
       );
     });
 
