@@ -351,6 +351,7 @@ function HtmlRunner() {
               title={t("runners.HtmlOutput")}
               ref={output}
               onLoad={iframeReload}
+              sandbox="allow-scripts"
             />
           </TabPanel>
         </Tabs>
