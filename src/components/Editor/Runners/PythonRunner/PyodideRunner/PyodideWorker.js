@@ -2,6 +2,7 @@
 
 import * as pygal from "./pygal.js";
 import * as _internal_sense_hat from "./_internal_sense_hat.js";
+import * as picamzero from "./picamzero.js";
 
 const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
@@ -177,6 +178,15 @@ const vendoredPackages = {
         "setuptools",
         `${process.env.ASSETS_URL}/packages/p5-0.0.1-py3-none-any.whl`,
       ]);
+    },
+    after: () => {},
+  },
+  picamzero: {
+    before: () => {
+      pyodide.registerJsModule("picamzero", { ...picamzero });
+      picamzero.config.renderContent = (content) => {
+        postMessage({ method: "handleVisual", origin: "picamzero", content });
+      };
     },
     after: () => {},
   },

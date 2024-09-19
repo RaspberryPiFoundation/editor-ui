@@ -32,6 +32,9 @@ const showVisual = (visual, output) => {
     case "sense_hat":
       output.current.textContent = JSON.stringify(visual.content);
       break;
+    case "picamzero":
+      output.current.innerHTML = visual.content;
+      break;
     case "pygal":
       const chartContent = {
         ...visual.content,
