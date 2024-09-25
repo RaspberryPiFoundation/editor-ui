@@ -20,6 +20,24 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
 };
 
+it("blocks access to localStorage", () => {
+  localStorage.clear();
+  localStorage.setItem("foo", "bar");
+
+  cy.visit(baseUrl);
+  cy.get(".btn--run").click();
+  cy.get("iframe#output-frame").should("exist");
+
+  cy.get('iframe#output-frame').then(($iframe) => {
+    const iframeWindow = $iframe[0].contentWindow;
+
+    cy.wrap(iframeWindow).then((win) => {
+      const result = win.localStorage.getItem("foo");
+      expect(result).to.equal(null);
+    });
+  });
+});
+
 it("renders the html runner", () => {
   cy.visit(baseUrl);
   cy.get(".btn--run").click();
