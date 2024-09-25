@@ -297,6 +297,55 @@ function HtmlRunner() {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
 
+      // insert script to disable access to specific localStorage keys
+      // localstorage.getItem() is a potential security risk when executing untrusted code
+      const disableLocalStorageScript = `
+      <script>
+        (function() {
+          const disallowedKeys = ['authKey', 'oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api', 'oidc.user:https://auth-v1.raspberrypi.org:editor-api'];
+
+          const originalGetItem = window.localStorage.getItem.bind(window.localStorage);
+          const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
+          const originalRemoveItem = window.localStorage.removeItem.bind(window.localStorage);
+          const originalClear = window.localStorage.clear.bind(window.localStorage);
+
+          Object.defineProperty(window, 'localStorage', {
+            value: {
+              getItem: function(key) {
+                if (disallowedKeys.includes(key)) {
+                  console.log(\`localStorage.getItem for "\${key}" is disabled\`);
+                  return null;
+                }
+                return originalGetItem(key);
+              },
+              setItem: function(key, value) {
+                if (disallowedKeys.includes(key)) {
+                  console.log(\`localStorage.setItem for "\${key}" is disabled\`);
+                  return;
+                }
+                return originalSetItem(key, value);
+              },
+              removeItem: function(key) {
+                if (disallowedKeys.includes(key)) {
+                  console.log(\`localStorage.removeItem for "\${key}" is disabled\`);
+                  return;
+                }
+                return originalRemoveItem(key);
+              },
+              clear: function() {
+                console.log('localStorage.clear is disabled');
+                return;
+              }
+            },
+            writable: false,
+            configurable: false
+          });
+        })();
+      </script>
+    `;
+
+      body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
+
       replaceHrefNodes(indexPage, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
