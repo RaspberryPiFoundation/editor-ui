@@ -297,6 +297,34 @@ function HtmlRunner() {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
 
+      // insert script to disable access to localStorage
+      // localstorage.getItem() is a potential security risk when executing untrusted code
+      const disableLocalStorageScript = `
+        <script>
+          Object.defineProperty(window, 'localStorage', {
+            value: {
+              getItem: function() {
+                console.log('localStorage.getItem is disabled');
+                return null;
+              },
+              setItem: function() {
+                console.log('localStorage.setItem is disabled');
+              },
+              removeItem: function() {
+                console.log('localStorage.removeItem is disabled');
+              },
+              clear: function() {
+                console.log('localStorage.clear is disabled');
+              }
+            },
+            writable: false,
+            configurable: false
+          });
+        </script>
+      `;
+
+      body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
+
       replaceHrefNodes(indexPage, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
