@@ -284,6 +284,21 @@ describe("When run is triggered", () => {
       expect.arrayContaining([codeRunHandled()]),
     );
   });
+
+  test("Includes localStorage disabling script in the iframe", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain("<script>");
+    expect(generatedHtml).toContain(
+      "Object.defineProperty(window, 'localStorage'",
+    );
+    expect(generatedHtml).toContain("getItem: function() {");
+    expect(generatedHtml).toContain(
+      "console.log('localStorage.getItem is disabled')",
+    );
+    expect(generatedHtml).toContain("return null;");
+    expect(generatedHtml).toContain("</script>");
+  });
 });
 
 describe("When a non-permitted external link is rendered", () => {
