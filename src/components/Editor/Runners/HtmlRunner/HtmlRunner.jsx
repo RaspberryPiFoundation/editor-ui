@@ -297,7 +297,7 @@ function HtmlRunner() {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
 
-      // insert script to disable access to localStorage
+      // insert script to disable access to specific localStorage keys
       // localstorage.getItem() is a potential security risk when executing untrusted code
       const disableLocalStorageScript = `
       <script>
