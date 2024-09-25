@@ -300,28 +300,47 @@ function HtmlRunner() {
       // insert script to disable access to localStorage
       // localstorage.getItem() is a potential security risk when executing untrusted code
       const disableLocalStorageScript = `
-        <script>
+      <script>
+        (function() {
+          const originalGetItem = window.localStorage.getItem.bind(window.localStorage);
+          const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
+          const originalRemoveItem = window.localStorage.removeItem.bind(window.localStorage);
+          const originalClear = window.localStorage.clear.bind(window.localStorage);
+
           Object.defineProperty(window, 'localStorage', {
             value: {
-              getItem: function() {
-                console.log('localStorage.getItem is disabled');
-                return null;
+              getItem: function(key) {
+                if (key === 'authKey') {
+                  console.log('localStorage.getItem for "authKey" is disabled');
+                  return null;
+                }
+                return originalGetItem(key);
               },
-              setItem: function() {
-                console.log('localStorage.setItem is disabled');
+              setItem: function(key, value) {
+                if (key === 'authKey') {
+                  console.log('localStorage.setItem for "authKey" is disabled');
+                  return;
+                }
+                return originalSetItem(key, value);
               },
-              removeItem: function() {
-                console.log('localStorage.removeItem is disabled');
+              removeItem: function(key) {
+                if (key === 'authKey') {
+                  console.log('localStorage.removeItem for "authKey" is disabled');
+                  return;
+                }
+                return originalRemoveItem(key);
               },
               clear: function() {
                 console.log('localStorage.clear is disabled');
+                return;
               }
             },
             writable: false,
             configurable: false
           });
-        </script>
-      `;
+        })();
+      </script>
+    `;
 
       body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
 

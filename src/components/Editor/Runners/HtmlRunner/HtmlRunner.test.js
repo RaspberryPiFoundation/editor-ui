@@ -285,16 +285,17 @@ describe("When run is triggered", () => {
     );
   });
 
-  test("Includes localStorage disabling script in the iframe", () => {
+  test("Includes localStorage disabling script for 'authKey' in the iframe", () => {
     const [generatedHtml] = Blob.mock.calls[0][0];
 
     expect(generatedHtml).toContain("<script>");
     expect(generatedHtml).toContain(
       "Object.defineProperty(window, 'localStorage'",
     );
-    expect(generatedHtml).toContain("getItem: function() {");
+    expect(generatedHtml).toContain("getItem: function(key) {");
+    expect(generatedHtml).toContain("if (key === 'authKey')");
     expect(generatedHtml).toContain(
-      "console.log('localStorage.getItem is disabled')",
+      'localStorage.getItem for "authKey" is disabled',
     );
     expect(generatedHtml).toContain("return null;");
     expect(generatedHtml).toContain("</script>");

@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Disabling of localstorage access at runtime (#1079)
+- Disabling of `localstorage.getItem()` access to `authKey` at runtime (#1079)
 
 ## [0.26.0] - 2024-09-13
 

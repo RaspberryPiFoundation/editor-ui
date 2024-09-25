@@ -20,20 +20,24 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
 };
 
-it("blocks access to localStorage", () => {
+it("blocks access to localStorage 'authKey' but allows other keys", () => {
   localStorage.clear();
   localStorage.setItem("foo", "bar");
+  localStorage.setItem("authKey", "secret");
 
   cy.visit(baseUrl);
   cy.get(".btn--run").click();
   cy.get("iframe#output-frame").should("exist");
 
-  cy.get('iframe#output-frame').then(($iframe) => {
+  cy.get("iframe#output-frame").then(($iframe) => {
     const iframeWindow = $iframe[0].contentWindow;
 
     cy.wrap(iframeWindow).then((win) => {
-      const result = win.localStorage.getItem("foo");
-      expect(result).to.equal(null);
+      const authKeyResult = win.localStorage.getItem("authKey");
+      expect(authKeyResult).to.equal(null);
+
+      const fooResult = win.localStorage.getItem("foo");
+      expect(fooResult).to.equal("bar");
     });
   });
 });
