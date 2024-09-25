@@ -285,7 +285,7 @@ describe("When run is triggered", () => {
     );
   });
 
-  test("Includes localStorage disabling script for 'authKey' in the iframe", () => {
+  test("Includes localStorage disabling script for 'authKey' and other disallowed keys in the iframe", () => {
     const [generatedHtml] = Blob.mock.calls[0][0];
 
     expect(generatedHtml).toContain("<script>");
@@ -293,10 +293,26 @@ describe("When run is triggered", () => {
       "Object.defineProperty(window, 'localStorage'",
     );
     expect(generatedHtml).toContain("getItem: function(key) {");
+
     expect(generatedHtml).toContain("if (key === 'authKey')");
     expect(generatedHtml).toContain(
       'localStorage.getItem for "authKey" is disabled',
     );
+
+    expect(generatedHtml).toContain(
+      "if (key === 'oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api')",
+    );
+    expect(generatedHtml).toContain(
+      'localStorage.getItem for "oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api" is disabled',
+    );
+
+    expect(generatedHtml).toContain(
+      "if (key === 'oidc.user:https://auth-v1.raspberrypi.org:editor-api')",
+    );
+    expect(generatedHtml).toContain(
+      'localStorage.getItem for "oidc.user:https://auth-v1.raspberrypi.org:editor-api" is disabled',
+    );
+
     expect(generatedHtml).toContain("return null;");
     expect(generatedHtml).toContain("</script>");
   });

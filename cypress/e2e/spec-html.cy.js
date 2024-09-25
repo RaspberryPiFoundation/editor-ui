@@ -20,10 +20,18 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
 };
 
-it("blocks access to localStorage 'authKey' but allows other keys", () => {
+it("blocks access to specific localStorage keys but allows other keys", () => {
   localStorage.clear();
   localStorage.setItem("foo", "bar");
   localStorage.setItem("authKey", "secret");
+  localStorage.setItem(
+    "oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api",
+    "staging-token",
+  );
+  localStorage.setItem(
+    "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
+    "prod-token",
+  );
 
   cy.visit(baseUrl);
   cy.get(".btn--run").click();
@@ -35,6 +43,16 @@ it("blocks access to localStorage 'authKey' but allows other keys", () => {
     cy.wrap(iframeWindow).then((win) => {
       const authKeyResult = win.localStorage.getItem("authKey");
       expect(authKeyResult).to.equal(null);
+
+      const stagingOidcResult = win.localStorage.getItem(
+        "oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api",
+      );
+      expect(stagingOidcResult).to.equal(null);
+
+      const prodOidcResult = win.localStorage.getItem(
+        "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
+      );
+      expect(prodOidcResult).to.equal(null);
 
       const fooResult = win.localStorage.getItem("foo");
       expect(fooResult).to.equal("bar");
