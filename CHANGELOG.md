@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Disabling of `localstorage.getItem()` access to `authKey`, `oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api` and `oidc.user:https://auth-v1.raspberrypi.org:editor-api` at runtime (#1079)
+- Disabling of `localstorage` access to `authKey` and `oidc.*` keys at runtime (#1079, #1080)
 
 ## [0.26.0] - 2024-09-13
 
