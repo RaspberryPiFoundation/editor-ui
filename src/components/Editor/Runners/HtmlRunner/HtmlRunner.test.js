@@ -299,7 +299,7 @@ describe("When run is triggered", () => {
     );
     expect(generatedHtml).toContain("if (isDisallowedKey(key))");
     expect(generatedHtml).toContain(
-      'localStorage.getItem for "${key}" is disabled',
+      'localStorage.getItem for "${key}" is disabled', // eslint-disable-line no-template-curly-in-string
     );
     expect(generatedHtml).toContain("return null;");
     expect(generatedHtml).toContain("</script>");
