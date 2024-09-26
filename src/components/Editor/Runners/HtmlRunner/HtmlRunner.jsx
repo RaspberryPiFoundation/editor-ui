@@ -302,31 +302,31 @@ function HtmlRunner() {
       const disableLocalStorageScript = `
       <script>
         (function() {
-          const disallowedKeys = ['authKey', 'oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api', 'oidc.user:https://auth-v1.raspberrypi.org:editor-api'];
-
           const originalGetItem = window.localStorage.getItem.bind(window.localStorage);
           const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
           const originalRemoveItem = window.localStorage.removeItem.bind(window.localStorage);
           const originalClear = window.localStorage.clear.bind(window.localStorage);
 
+          const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');
+
           Object.defineProperty(window, 'localStorage', {
             value: {
               getItem: function(key) {
-                if (disallowedKeys.includes(key)) {
+                if (isDisallowedKey(key)) {
                   console.log(\`localStorage.getItem for "\${key}" is disabled\`);
                   return null;
                 }
                 return originalGetItem(key);
               },
               setItem: function(key, value) {
-                if (disallowedKeys.includes(key)) {
+                if (isDisallowedKey(key)) {
                   console.log(\`localStorage.setItem for "\${key}" is disabled\`);
                   return;
                 }
                 return originalSetItem(key, value);
               },
               removeItem: function(key) {
-                if (disallowedKeys.includes(key)) {
+                if (isDisallowedKey(key)) {
                   console.log(\`localStorage.removeItem for "\${key}" is disabled\`);
                   return;
                 }

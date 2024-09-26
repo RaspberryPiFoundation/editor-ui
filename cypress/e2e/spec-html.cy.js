@@ -25,13 +25,10 @@ it("blocks access to specific localStorage keys but allows other keys", () => {
   localStorage.setItem("foo", "bar");
   localStorage.setItem("authKey", "secret");
   localStorage.setItem(
-    "oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api",
-    "staging-token",
-  );
-  localStorage.setItem(
     "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
-    "prod-token",
+    "token",
   );
+  localStorage.setItem("oidc.something:else", "another-token");
 
   cy.visit(baseUrl);
   cy.get(".btn--run").click();
@@ -45,13 +42,11 @@ it("blocks access to specific localStorage keys but allows other keys", () => {
       expect(authKeyResult).to.equal(null);
 
       const stagingOidcResult = win.localStorage.getItem(
-        "oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api",
+        "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
       );
       expect(stagingOidcResult).to.equal(null);
 
-      const prodOidcResult = win.localStorage.getItem(
-        "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
-      );
+      const prodOidcResult = win.localStorage.getItem("oidc.something:else");
       expect(prodOidcResult).to.equal(null);
 
       const fooResult = win.localStorage.getItem("foo");

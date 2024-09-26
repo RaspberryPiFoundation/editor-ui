@@ -295,11 +295,11 @@ describe("When run is triggered", () => {
     expect(generatedHtml).toContain("getItem: function(key) {");
 
     expect(generatedHtml).toContain(
-      "const disallowedKeys = ['authKey', 'oidc.user:https://staging-auth-v1.raspberrypi.org:editor-api', 'oidc.user:https://auth-v1.raspberrypi.org:editor-api']",
+      "const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');",
     );
-    expect(generatedHtml).toContain("if (disallowedKeys.includes(key))");
+    expect(generatedHtml).toContain("if (isDisallowedKey(key))");
     expect(generatedHtml).toContain(
-      'localStorage.getItem for "${key}" is disabled',
+      'localStorage.getItem for "${key}" is disabled', // eslint-disable-line no-template-curly-in-string
     );
     expect(generatedHtml).toContain("return null;");
     expect(generatedHtml).toContain("</script>");
