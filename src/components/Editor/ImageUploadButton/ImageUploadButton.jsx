@@ -9,7 +9,7 @@ import { updateImages, setNameError } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
-import { uploadImages } from "../../../utils/apiCallHandler";
+import { Api } from "../../../utils/apiCallHandler";
 
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],
@@ -31,6 +31,7 @@ const allowedExtensionsString = (projectType) => {
 };
 
 const ImageUploadButton = () => {
+  const api = new Api();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const ImageUploadButton = () => {
       }
     });
     if (store.getState().editor.nameError === "") {
-      const response = await uploadImages(
+      const response = await api.uploadImages(
         projectIdentifier,
         user.access_token,
         files,
