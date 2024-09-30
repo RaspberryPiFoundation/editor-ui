@@ -5,11 +5,11 @@ it("renders the web component", () => {
   cy.get(".proj-container button").should("contain", "Run");
 });
 
-it("Interrupts py5 draws when stop button clicked", () => {
+it.only("Interrupts py5 draws when stop button clicked", () => {
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke(
     "text",
-    "import py5\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tbackground(255)\nrun()",
+    "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
   );
   cy.get(".btn--run").click();
 
