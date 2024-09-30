@@ -127,6 +127,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Support for json package in skulpt python runner (#989)
 - Support to enable embedding iframes in HTML projects from in-house domains (#985)
 - Dispatch event when project identifier changes, e.g. after project is remixed (#2830)
 - Add `load_remix_disabled` attribute to web component (#992)
