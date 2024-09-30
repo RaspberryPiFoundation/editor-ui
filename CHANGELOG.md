@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Enabling web component to find the `turtle` canvas
+- Enabling web component to find the `turtle` canvas (#1082)
+- Ability to stop code in the web component (#1083)
 
 ## [0.27.0] - 2024-09-26
 

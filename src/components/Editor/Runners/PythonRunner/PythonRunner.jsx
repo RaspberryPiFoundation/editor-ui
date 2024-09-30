@@ -16,7 +16,7 @@ import {
 } from "../../../../redux/EditorSlice";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { createError } from "../../../../utils/apiCallHandler";
-import store from "../../../../app/store";
+import store from "../../../../redux/stores/WebComponentStore";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "./OutputViewToggle";
 import { SettingsContext } from "../../../../utils/settings";
