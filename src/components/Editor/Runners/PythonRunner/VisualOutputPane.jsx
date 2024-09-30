@@ -18,7 +18,7 @@ const VisualOutputPane = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const error = useSelector((state) => state.editor.error);
 
-  const outputCanvas = useRef();
+  const turtleOutput = useRef();
   const pygalOutput = useRef();
   const p5Output = useRef();
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const VisualOutputPane = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      outputCanvas.current.innerHTML = "";
+      turtleOutput.current.innerHTML = "";
       pygalOutput.current.innerHTML = "";
       p5Output.current.innerHTML = "";
 
@@ -43,7 +43,8 @@ const VisualOutputPane = () => {
 
       (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;
 
-      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = "outputCanvas";
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
+        turtleOutput.current;
       Sk.TurtleGraphics.assets = Object.assign(
         {},
         ...projectImages.map((image) => ({
@@ -78,8 +79,8 @@ const VisualOutputPane = () => {
       <div id="pygalOutput" ref={pygalOutput} />
       <div className="pythonrunner-canvas-container">
         <div
-          id="outputCanvas"
-          ref={outputCanvas}
+          id="turtleOutput"
+          ref={turtleOutput}
           className="pythonrunner-graphic"
         />
       </div>
