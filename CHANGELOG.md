@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.27.1] - 2024-10-01
+
 ### Fixed
 
 - Enabling web component to find the `turtle` canvas (#1082)
@@ -886,7 +888,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.1...HEAD
+[0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
 [0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
 [0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0
 [0.25.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.5
