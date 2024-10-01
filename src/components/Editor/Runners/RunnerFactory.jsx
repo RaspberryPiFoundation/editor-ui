@@ -1,5 +1,5 @@
 import React from "react";
-import PythonRunner from "./PythonRunner/NewPythonRunner";
+import PythonRunner from "./PythonRunner/PythonRunner";
 import HtmlRunner from "./HtmlRunner/HtmlRunner";
 
 const RunnerFactory = ({ projectType, outputPanels = ["text", "visual"] }) => {

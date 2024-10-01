@@ -138,7 +138,7 @@ exports[`Renders without crashing 1`] = `
               >
                 <div
                   class="pythonrunner-graphic"
-                  id="outputCanvas"
+                  id="turtleOutput"
                 />
               </div>
             </div>
