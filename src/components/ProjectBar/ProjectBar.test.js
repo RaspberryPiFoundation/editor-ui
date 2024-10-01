@@ -26,33 +26,39 @@ const user = {
   },
 };
 
-describe("When logged in and user owns project", () => {
-  let store;
+const renderProjectBar = (state) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const store = mockStore({ ...state });
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <ProjectBar />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
 
+describe("When logged in and user owns project", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    renderProjectBar({
       editor: {
         project: project,
         loading: "success",
+        lastSavedTime: new Date().getTime(),
       },
       auth: {
         user: user,
       },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    });
   });
 
   test("Project name is shown", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
+  });
+
+  test("Project name is editable", () => {
+    expect(screen.queryByTitle("header.renameProject")).toBeInTheDocument();
   });
 
   test("Download button shown", () => {
@@ -62,16 +68,17 @@ describe("When logged in and user owns project", () => {
   test("Save button is not shown", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
+
+  test("Save status is shown", () => {
+    expect(screen.queryByText(/saveStatus.saved/)).toBeInTheDocument();
+  });
 });
 
 describe("When logged in and no project identifier", () => {
-  let store;
   const project_without_id = { ...project, identifier: null };
 
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    renderProjectBar({
       editor: {
         project: project_without_id,
         loading: "success",
@@ -79,15 +86,7 @@ describe("When logged in and no project identifier", () => {
       auth: {
         user: user,
       },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    });
   });
 
   test("Download button shown", () => {
@@ -96,6 +95,10 @@ describe("When logged in and no project identifier", () => {
 
   test("Project name is shown", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
+  });
+
+  test("Project name is editable", () => {
+    expect(screen.queryByTitle("header.renameProject")).toBeInTheDocument();
   });
 
   test("Save button is not shown", () => {
@@ -104,12 +107,8 @@ describe("When logged in and no project identifier", () => {
 });
 
 describe("When not logged in", () => {
-  let store;
-
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    renderProjectBar({
       editor: {
         project: project,
         loading: "success",
@@ -117,15 +116,7 @@ describe("When not logged in", () => {
       auth: {
         user: null,
       },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    });
   });
 
   test("Download button shown", () => {
@@ -134,6 +125,10 @@ describe("When not logged in", () => {
 
   test("Project name is shown", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
+  });
+
+  test("Project name is editable", () => {
+    expect(screen.queryByTitle("header.renameProject")).toBeInTheDocument();
   });
 
   test("Login to save button shown", () => {
@@ -143,9 +138,7 @@ describe("When not logged in", () => {
 
 describe("When no project loaded", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    renderProjectBar({
       editor: {
         project: {},
         loading: "idle",
@@ -153,15 +146,7 @@ describe("When no project loaded", () => {
       auth: {
         user: user,
       },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <ProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    });
   });
 
   test("No project name", () => {
@@ -174,5 +159,33 @@ describe("When no project loaded", () => {
 
   test("No save button", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+  });
+});
+
+describe("When read only", () => {
+  beforeEach(() => {
+    renderProjectBar({
+      editor: {
+        project: project,
+        loading: "success",
+        readOnly: true,
+        lastSavedTime: new Date().getTime(),
+      },
+      auth: {
+        user: user,
+      },
+    });
+  });
+
+  test("Project name is not editable", () => {
+    expect(screen.queryByTitle("header.renameProject")).not.toBeInTheDocument();
+  });
+
+  test("Save button is not shown", () => {
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+  });
+
+  test("Save status is not shown", () => {
+    expect(screen.queryByText(/saveStatus.saved/)).not.toBeInTheDocument();
   });
 });

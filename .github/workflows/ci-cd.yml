@@ -3,8 +3,11 @@ name: CI-CD
 on:
   push:
     branches:
-      - "**"
+      - main
     tags:
+      - "**"
+  pull_request:
+    branches:
       - "**"
 
 jobs:
@@ -91,12 +94,12 @@ jobs:
           start: |
             yarn start
             yarn start:wc
-          wait-on: "http://localhost:3000, http://localhost:3001"
+          wait-on: "http://localhost:3010, http://localhost:3011"
           quiet: true
         env:
           REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
-          PUBLIC_URL: "http://localhost:3000"
-          ASSETS_URL: "http://localhost:3000"
+          PUBLIC_URL: "http://localhost:3010"
+          ASSETS_URL: "http://localhost:3010"
           REACT_APP_PLAUSIBLE_SOURCE: ""
 
       - name: Archive cypress artifacts

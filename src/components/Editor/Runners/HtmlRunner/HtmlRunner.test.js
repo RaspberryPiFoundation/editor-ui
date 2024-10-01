@@ -150,6 +150,10 @@ describe("When page first loaded in embedded viewer", () => {
       expect.arrayContaining([triggerCodeRun()]),
     );
   });
+
+  test("does not display link to open preview in another browser tab", () => {
+    expect(screen.queryByText("output.newTab")).not.toBeInTheDocument();
+  });
 });
 
 describe("When page first loaded from search params", () => {
@@ -269,11 +273,10 @@ describe("When run is triggered", () => {
   });
 
   test("Runs HTML code and adds meta tag", () => {
-    const indexPageContent =
-      '<head></head><body><p>hello world</p><meta filename="index.html" ></body>';
-    expect(Blob).toHaveBeenCalledWith([indexPageContent], {
-      type: "text/html",
-    });
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain("<p>hello world</p>");
+    expect(generatedHtml).toContain('<meta filename="index.html"');
   });
 
   test("Dispatches action to end code run", () => {
@@ -281,13 +284,32 @@ describe("When run is triggered", () => {
       expect.arrayContaining([codeRunHandled()]),
     );
   });
+
+  test("Includes localStorage disabling script for disallowed keys in the iframe", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain("<script>");
+    expect(generatedHtml).toContain(
+      "Object.defineProperty(window, 'localStorage'",
+    );
+    expect(generatedHtml).toContain("getItem: function(key) {");
+
+    expect(generatedHtml).toContain(
+      "const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');",
+    );
+    expect(generatedHtml).toContain("if (isDisallowedKey(key))");
+    expect(generatedHtml).toContain(
+      'localStorage.getItem for "${key}" is disabled', // eslint-disable-line no-template-curly-in-string
+    );
+    expect(generatedHtml).toContain("return null;");
+    expect(generatedHtml).toContain("</script>");
+  });
 });
 
 describe("When a non-permitted external link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="https://google.test/">EXTERNAL LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'ERROR: External link'})">EXTERNAL LINK!</a><meta filename="index.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -322,10 +344,15 @@ describe("When a non-permitted external link is rendered", () => {
     );
   });
 
-  test("Runs HTML code without the link", () => {
-    expect(Blob).toHaveBeenCalledWith([output], {
-      type: "text/html",
-    });
+  test("Transforms the external link and includes the meta tag", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
+    expect(generatedHtml).toContain(
+      "onclick=\"window.parent.postMessage({msg: 'ERROR: External link'})\"",
+    );
+    expect(generatedHtml).toContain("EXTERNAL LINK!");
+    expect(generatedHtml).toContain('<meta filename="index.html"');
   });
 });
 
@@ -333,7 +360,6 @@ describe("When a new tab link is rendered", () => {
   let store;
   const input =
     '<head></head><body><a href="index.html" target="_blank">NEW TAB LINK!</a></body>';
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})">NEW TAB LINK!</a><meta filename="some_file.html" ></body>`;
 
   beforeEach(() => {
     const middlewares = [];
@@ -369,16 +395,21 @@ describe("When a new tab link is rendered", () => {
     );
   });
 
-  test("Runs HTML code removes target attribute", () => {
-    expect(Blob).toHaveBeenCalledWith([output], {
-      type: "text/html",
-    });
+  test("Removes target attribute and adds onclick event", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).not.toContain('target="_blank"');
+    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
+    expect(generatedHtml).toContain(
+      "onclick=\"window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})\"",
+    );
+    expect(generatedHtml).toContain("NEW TAB LINK!");
+    expect(generatedHtml).toContain('<meta filename="some_file.html"');
   });
 });
 
 describe("When an internal link is rendered", () => {
   let store;
-  const output = `<head></head><body><a href="javascript:void(0)" onclick="window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'test' }})">ANCHOR LINK!</a><meta filename="internal_link.html" ></body>`;
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -413,18 +444,20 @@ describe("When an internal link is rendered", () => {
     );
   });
 
-  test("Runs HTML code without changes apart from meta tag", () => {
-    expect(Blob).toHaveBeenCalledWith([output], {
-      type: "text/html",
-    });
+  test("Transforms internal link and includes meta tag", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
+    expect(generatedHtml).toContain(
+      "onclick=\"window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'test' }})\"",
+    );
+    expect(generatedHtml).toContain("ANCHOR LINK!");
+    expect(generatedHtml).toContain('<meta filename="internal_link.html"');
   });
 });
 
 describe("When an allowed external link is rendered", () => {
   let store;
-
-  const output = `<head></head><body><a href="https://rpf.io/seefood" onclick="window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})">RPF link</a><meta filename="allowed_external_link.html" ></body>`;
-
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
@@ -452,10 +485,17 @@ describe("When an allowed external link is rendered", () => {
     );
   });
 
-  test("Runs HTML code with the link included", () => {
-    expect(Blob).toHaveBeenCalledWith([output], {
-      type: "text/html",
-    });
+  test("Transforms allowed external link and includes meta tag", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain('<a href="https://rpf.io/seefood"');
+    expect(generatedHtml).toContain(
+      "onclick=\"window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})\"",
+    );
+    expect(generatedHtml).toContain("RPF link");
+    expect(generatedHtml).toContain(
+      '<meta filename="allowed_external_link.html"',
+    );
   });
 });
 
@@ -494,6 +534,40 @@ describe("When on desktop", () => {
 
   test("There is no run button", () => {
     expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  });
+});
+
+describe("When not embedded", () => {
+  let store;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [indexPage],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        codeHasBeenRun: true,
+        isEmbedded: false,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+  });
+
+  test("displays link to open preview in another browser tab", () => {
+    expect(screen.queryByText("output.newTab")).toBeInTheDocument();
   });
 });
 

@@ -107,6 +107,21 @@ describe("When code run finishes", () => {
 
   test("Triggers runCompletedEvent", () => {
     expect(runCompletedHandler).toHaveBeenCalled();
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
+      "isErrorFree",
+    );
+  });
+
+  test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
+    render(
+      <Provider store={store}>
+        <WebComponentProject outputOnly={true} />
+      </Provider>,
+    );
+    expect(runCompletedHandler).toHaveBeenCalled();
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
+      "errorDetails",
+    );
   });
 });
 
@@ -176,6 +191,148 @@ describe("When withProjectbar is true", () => {
 
   test("Renders the projectbar", () => {
     expect(screen.queryByText("header.newProject")).toBeInTheDocument();
+  });
+});
+
+describe("When output_only is true", () => {
+  let mockStore;
+  let initialState;
+
+  beforeEach(() => {
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+    initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: {},
+      auth: {},
+    };
+  });
+
+  describe("when loading is pending", () => {
+    beforeEach(() => {
+      initialState.editor.loading = "pending";
+      store = mockStore(initialState);
+
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputOnly={true} />
+        </Provider>,
+      );
+    });
+
+    test("sets isOutputOnly state to true", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsOutputOnly", payload: true },
+        ]),
+      );
+    });
+
+    test("does not render anything", () => {
+      expect(screen.queryByTestId("output")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when loading is success", () => {
+    beforeEach(() => {
+      initialState.editor.loading = "success";
+      store = mockStore(initialState);
+
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputOnly={true} />
+        </Provider>,
+      );
+    });
+
+    test("only renders the output", () => {
+      expect(screen.queryByTestId("output")).toBeInTheDocument();
+      expect(screen.queryByTestId("project")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobile-project")).not.toBeInTheDocument();
+    });
+
+    test("styles output like embedded viewer", () => {
+      expect(screen.getByTestId("output-only")).toHaveClass("embedded-viewer");
+    });
+  });
+});
+
+describe("outputSplitView property", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+  });
+
+  describe("when property is not set", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to false by default", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: false },
+        ]),
+      );
+    });
+  });
+
+  describe("when property is false", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputSplitView={false} />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to false", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: false },
+        ]),
+      );
+    });
+  });
+
+  describe("when property is true", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <WebComponentProject outputSplitView={true} />
+        </Provider>,
+      );
+    });
+
+    test("sets isSplitView state to true", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          { type: "editor/setIsSplitView", payload: true },
+        ]),
+      );
+    });
   });
 });
 

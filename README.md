@@ -56,7 +56,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework `Jest` and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
 
-Integration testing is carried out via `cypress` and can be run using the `yarn exec cypress run` commmand. Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
+Integration testing is carried out via `cypress` and can be run using:
+* `yarn exec cypress run` to run in the CLI
+* `yarn exec cypress open` to run in the GUI
+
+Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
 ## Web Component
 
@@ -66,10 +70,15 @@ The repo includes the Editor Web Component which shares components with the edit
 
 The web component can be included in a page by using the `<editor-wc>` HTML element. It takes the following attributes
 
-- `code`: A preset blob of code to show in the editor pane.
+- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
+- `output_only`: Only display the output panel (defaults to `false`)
+- `assets_identifier`: Load assets (not code) from this project identifier
+- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
+- `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 
 ### `yarn start:wc`
 
@@ -79,7 +88,7 @@ Runs the web component in development mode. Open [http://localhost:3011](http://
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
-For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3001?sense_hat_always_enabled)
+For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3011?sense_hat_always_enabled)
 
 ### Styling
 

@@ -27,7 +27,6 @@ import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 
 function HtmlRunner() {
-  const webComponent = useSelector((state) => state.editor.webComponent);
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectImages = project.image_list;
@@ -62,7 +61,7 @@ function HtmlRunner() {
       (component) => `${component.name}.${component.extension}` === fileName,
     )[0];
 
-  const previewable = (file) => file.endsWith(".html");
+  const previewable = (file = "") => file.endsWith(".html");
   let defaultPreviewFile = "index.html";
 
   const pageExists = (page) => {
@@ -298,6 +297,55 @@ function HtmlRunner() {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
 
+      // insert script to disable access to specific localStorage keys
+      // localstorage.getItem() is a potential security risk when executing untrusted code
+      const disableLocalStorageScript = `
+      <script>
+        (function() {
+          const originalGetItem = window.localStorage.getItem.bind(window.localStorage);
+          const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
+          const originalRemoveItem = window.localStorage.removeItem.bind(window.localStorage);
+          const originalClear = window.localStorage.clear.bind(window.localStorage);
+
+          const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');
+
+          Object.defineProperty(window, 'localStorage', {
+            value: {
+              getItem: function(key) {
+                if (isDisallowedKey(key)) {
+                  console.log(\`localStorage.getItem for "\${key}" is disabled\`);
+                  return null;
+                }
+                return originalGetItem(key);
+              },
+              setItem: function(key, value) {
+                if (isDisallowedKey(key)) {
+                  console.log(\`localStorage.setItem for "\${key}" is disabled\`);
+                  return;
+                }
+                return originalSetItem(key, value);
+              },
+              removeItem: function(key) {
+                if (isDisallowedKey(key)) {
+                  console.log(\`localStorage.removeItem for "\${key}" is disabled\`);
+                  return;
+                }
+                return originalRemoveItem(key);
+              },
+              clear: function() {
+                console.log('localStorage.clear is disabled');
+                return;
+              }
+            },
+            writable: false,
+            configurable: false
+          });
+        })();
+      </script>
+    `;
+
+      body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
+
       replaceHrefNodes(indexPage, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode);
       replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
@@ -327,7 +375,7 @@ function HtmlRunner() {
                   "output.preview",
                 )}`}</span>
               </Tab>
-              {!!!isEmbedded && !!!webComponent && (
+              {!!!isEmbedded && (
                 <a
                   className="btn btn--tertiary htmlrunner-link"
                   target="_blank"

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
+  assetsIdentifier = null,
   projectIdentifier = null,
   code = null,
   accessToken = null,
@@ -13,9 +14,11 @@ export const useProject = ({
   loadCache = true,
   remixLoadFailed = false,
 }) => {
+  const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
+  const loadDispatched = useRef(false);
 
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
@@ -45,6 +48,18 @@ export const useProject = ({
 
       if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
         loadCachedProject();
+        return;
+      }
+
+      if (assetsIdentifier) {
+        dispatch(
+          syncProject("load")({
+            identifier: assetsIdentifier,
+            locale: i18n.language,
+            accessToken,
+            assetsOnly: true,
+          }),
+        );
         return;
       }
 
@@ -81,8 +96,27 @@ export const useProject = ({
     loadRemix,
   ]);
 
+  // Try to load the remix, if it fails set `remixLoadFailed` true, and load the project in the next useEffect
   useEffect(() => {
-    if (projectIdentifier && loadRemix && (!accessToken || remixLoadFailed)) {
+    if (!projectIdentifier || !accessToken || !loadRemix) return;
+
+    if (!remixLoadFailed && !loadDispatched.current) {
+      dispatch(
+        syncProject("loadRemix")({
+          identifier: projectIdentifier,
+          accessToken: accessToken,
+        }),
+      );
+
+      // Prevents a failure on the initial render (using a ref to avoid triggering a render)
+      loadDispatched.current = true;
+    }
+  }, [projectIdentifier, accessToken, project, loadRemix, remixLoadFailed]);
+
+  useEffect(() => {
+    if (!projectIdentifier || !loadRemix) return;
+
+    if (remixLoadFailed && !loadDispatched.current) {
       dispatch(
         syncProject("load")({
           identifier: projectIdentifier,
@@ -90,20 +124,43 @@ export const useProject = ({
           accessToken: accessToken,
         }),
       );
+
+      loadDispatched.current = true;
     }
   }, [projectIdentifier, i18n.language, accessToken, remixLoadFailed]);
 
   useEffect(() => {
-    if (projectIdentifier && loadRemix && !remixLoadFailed) {
-      if (accessToken && !!!project?.user_id) {
-        dispatch(
-          syncProject("loadRemix")({
-            identifier: projectIdentifier,
-            accessToken: accessToken,
-          }),
-        );
-        return;
-      }
+    if (code && loading === "success") {
+      const defaultName = project.project_type === "html" ? "index" : "main";
+      const defaultExtension = project.project_type === "html" ? "html" : "py";
+
+      const mainComponent = project.components?.find(
+        (component) =>
+          component.name === defaultName &&
+          component.extension === defaultExtension,
+      ) || { name: defaultName, extension: defaultExtension, content: "" };
+
+      const otherComponents =
+        project.components?.filter(
+          (component) =>
+            !(
+              component.name === defaultName &&
+              component.extension === defaultExtension
+            ),
+        ) || [];
+
+      const updatedProject = {
+        ...project,
+        project_type: project.project_type || "python",
+        components: [
+          ...otherComponents,
+          {
+            ...mainComponent,
+            content: code,
+          },
+        ],
+      };
+      dispatch(setProject(updatedProject));
     }
-  }, [projectIdentifier, accessToken, loadRemix, remixLoadFailed]);
+  }, [code, loading]);
 };

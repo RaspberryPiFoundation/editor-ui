@@ -1,8 +1,10 @@
 const loadProjectPending = (state, action) => {
   state.loading = "pending";
+  state.remixLoadFailed = false; // We need to reset this at the start of any project load
   state.accessDeniedNoAuthModalShowing = false;
   state.modals = {};
   state.currentLoadingRequestId = action.meta.requestId;
+  state.lastSavedTime = null;
 };
 
 const loadProjectFulfilled = (state, action) => {
@@ -22,6 +24,7 @@ const loadProjectFulfilled = (state, action) => {
     } else {
       state.openFiles[firstPanelIndex].push("main.py");
     }
+    state.focussedFileIndices = [0];
   }
 };
 

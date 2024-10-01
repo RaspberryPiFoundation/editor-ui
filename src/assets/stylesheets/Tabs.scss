@@ -2,20 +2,6 @@
 @use "./rpf_design_system/font-weight" as *;
 @use "./rpf_design_system/colours" as *;
 
-:root {
-  .--light {
-    --rpf-tab-button-hover: var(--rpf-grey-100);
-    --rpf-tab-button-background: inherit;
-    --rpf-tab-border-bottom-selected: var(--rpf-teal-900);
-  }
-
-  .--dark {
-    --rpf-tab-button-hover: var(--rpf-grey-900);
-    --rpf-tab-button-background: var(--rpf-grey-800);
-    --rpf-tab-border-bottom-selected: var(--rpf-teal-800);
-  }
-}
-
 #app,
 #wc {
   .react-tabs {
@@ -119,9 +105,14 @@
       padding: 0 $space-0-25 0 0;
     }
 
+    &__tab-container--hidden {
+      display: none;
+    }
+
     &__tab-panel--selected {
       flex: 1;
       display: flex;
+      flex-direction: column;
       overflow-y: auto;
     }
   }

@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000/en/projects/blank-html-starter";
+const baseUrl = "http://localhost:3010/en/projects/blank-html-starter";
 
 const getIframeDocument = () => {
   return cy
@@ -19,6 +19,41 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("div[class=modal-content__input]").find("input").type(filename);
   cy.get("div[class=modal-content__buttons]").contains("Add file").click();
 };
+
+it("blocks access to specific localStorage keys but allows other keys", () => {
+  localStorage.clear();
+  localStorage.setItem("foo", "bar");
+  localStorage.setItem("authKey", "secret");
+  localStorage.setItem(
+    "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
+    "token",
+  );
+  localStorage.setItem("oidc.something:else", "another-token");
+
+  cy.visit(baseUrl);
+  cy.get(".btn--run").click();
+  cy.get("iframe#output-frame").should("exist");
+
+  cy.get("iframe#output-frame").then(($iframe) => {
+    const iframeWindow = $iframe[0].contentWindow;
+
+    cy.wrap(iframeWindow).then((win) => {
+      const authKeyResult = win.localStorage.getItem("authKey");
+      expect(authKeyResult).to.equal(null);
+
+      const stagingOidcResult = win.localStorage.getItem(
+        "oidc.user:https://auth-v1.raspberrypi.org:editor-api",
+      );
+      expect(stagingOidcResult).to.equal(null);
+
+      const prodOidcResult = win.localStorage.getItem("oidc.something:else");
+      expect(prodOidcResult).to.equal(null);
+
+      const fooResult = win.localStorage.getItem("foo");
+      expect(fooResult).to.equal("bar");
+    });
+  });
+});
 
 it("renders the html runner", () => {
   cy.visit(baseUrl);

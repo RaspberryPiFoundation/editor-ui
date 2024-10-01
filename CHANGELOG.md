@@ -6,10 +6,106 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.27.1] - 2024-10-01
+
+### Fixed
+
+- Enabling web component to find the `turtle` canvas (#1082)
+- Ability to stop code in the web component (#1083)
+
+## [0.27.0] - 2024-09-26
+
+### Added
+
+- Disabling of `localstorage` access to `authKey` and `oidc.*` keys at runtime (#1079, #1080)
+
+## [0.26.0] - 2024-09-13
+
+### Added
+
+- `editor-projectOwnerChanged` custom event (#1065)
+- Read only mode (#1067)
+
+### Changed
+
+- RPi logo and text link at top left opens in new tab (#830)
+- "test" workflow to trigger on pull_request branches rather than push (#1069)
+- adds an extra failed state for when a project fails to load
+
+### Fixed
+
+- P5/Py5 scope related errors when using the web component in different contexts (#1075)
+- Staging web component CI deployment
+- Fixes multiple dispatches on loadRemix
+- Ensures remix is loaded immediately after creation, to avoid state inconsistencies
+- Fixes error when clicking the `Go to your project` button
+- Improves web component mount/unmount and fixes errors
+- Makes EditorInput and FilePanel more resilient to an empty project
+
+## [0.25.5] - 2024-08-08
+
+### Fixed
+
+- CSS fix for the bottom of Sidebar (#1061)
+- Attach Skulpt files to the `document.body` to avoid issues with the shadow DOM (#1062)
+- Small fix to ensure webpack is using the correct webSocketURL for live reloading (#1051)
+- Only register `editor-wc` once (#1052)
+
+## [0.25.4] - 2024-06-20
+
+### Fixed
+
+- Revert: Quick fix for expired access token problem in web component (#1048)
+
+## [0.25.3] - 2024-06-19
+
+### Fixed
+
+- Quick fix for expired access token problem in web component (#1046)
+
+## [0.25.2] - 2024-06-13
+
+### Added
+
+- Web component now supports using standard editor-ui styles if useEditorStyles is true
+
+### Fixed
+
+- Fix bug where `skulpt` runs the first component rather than `main.py` (#1039)
+- Fixing bug with `HTML` projects loading after remix if they have multiple `HTML files` (#1040)
+
+## [0.25.1] - 2024-06-11
+
+### Fixed
+
+- Wrap `WebComponentLoader` in a `BrowserRouter` to fix routing issues (#1035)
+
+## [0.25.0] - 2024-06-06
+
+### Added
+
+- Add `embedded` attribute to web component (#1030)
+- Add `output_split_view` attribute to web component (#1030)
+
+### Changed
+
+- Changes to web component behaviour to support use in embedded view in editor-standalone (#1030)
+
+### Fixed
+
+## [0.24.0] - 2024-06-03
+
 ### Added
 
 - Add `project_name_editable` attribute to web component (#1009)
 - Fires custom event when the theme changes (#1015)
+- Add `output_only` attribute to web component (#1019 & originally #782)
+- Add `assets_identifier` attribute to web component (#1019 & originally #901)
+- Enhance `code` attribute on web component to override project main component content (#1019 & originally #901)
+- Add `runCode`, `stopCode` & `rerunCode` methods to web component (#1019 & originally #899)
+- Send error details in "editor-runCompleted" event (#1019 & originally #915)
+- Return error details to web component (#1019 & originally #915)
+- Add `output_panels` attribute to web component (#1019 & originally #909)
 
 ### Changed
 
@@ -794,7 +890,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.23.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.1...HEAD
+[0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
+[0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
+[0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0
+[0.25.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.5
+[0.25.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.4
+[0.25.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.3
+[0.25.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.2
+[0.25.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.1
+[0.25.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.25.0
+[0.24.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.24.0
 [0.23.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.23.0
 [0.22.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.2
 [0.22.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.22.1

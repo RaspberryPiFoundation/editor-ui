@@ -52,6 +52,7 @@
           "download",
           "settings",
           "info",
+          "use_editor_styles"
         ]),
       );
 
@@ -81,7 +82,16 @@
         document.getElementById("project-identifier").innerText = e.detail;
       });
 
-      document.getElementsByTagName("body")[0].prepend(webComp);
+      const body = document.getElementsByTagName("body")[0];
+      body.prepend(webComp);
+
+      const runButton = document.createElement("button");
+      const runButtonText = document.createTextNode("Run code");
+      runButton.appendChild(runButtonText);
+      runButton.onclick = (event) => {
+        webComp.rerunCode();
+      }
+      body.append(runButton);
     });
   </script>
 </html>

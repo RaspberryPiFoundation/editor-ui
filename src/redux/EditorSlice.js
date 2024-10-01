@@ -12,19 +12,24 @@ import {
   createRemix,
   deleteProject,
   readProjectList,
+  loadAssets,
 } from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave },
+      { project, identifier, locale, accessToken, autosave, assetsOnly },
       { rejectWithValue },
     ) => {
       let response;
       switch (actionName) {
         case "load":
-          response = await readProject(identifier, locale, accessToken);
+          if (assetsOnly) {
+            response = await loadAssets(identifier, locale, accessToken);
+          } else {
+            response = await readProject(identifier, locale, accessToken);
+          }
           break;
         case "loadRemix":
           response = await loadRemix(identifier, accessToken);
@@ -76,56 +81,61 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
+const initialState = {
+  project: {},
+  readOnly: false,
+  saveTriggered: false,
+  saving: "idle",
+  loading: "idle",
+  justLoaded: false,
+  remixLoadFailed: false,
+  hasShownSavePrompt: false,
+  loadError: "",
+  saveError: "",
+  currentLoadingRequestId: undefined,
+  openFiles: [[]],
+  focussedFileIndices: [0],
+  nameError: "",
+  autorunEnabled: false,
+  codeRunTriggered: false,
+  codeHasBeenRun: false,
+  drawTriggered: false,
+  isEmbedded: false,
+  isOutputOnly: false,
+  browserPreview: false,
+  isSplitView: true,
+  isThemeable: true,
+  webComponent: false,
+  codeRunLoading: false,
+  codeRunStopped: false,
+  projectList: [],
+  projectListLoaded: "idle",
+  projectIndexCurrentPage: 1,
+  projectIndexTotalPages: 1,
+  lastSaveAutosave: false,
+  lastSavedTime: null,
+  senseHatAlwaysEnabled: false,
+  senseHatEnabled: false,
+  loadRemixDisabled: false,
+  accessDeniedNoAuthModalShowing: false,
+  accessDeniedWithAuthModalShowing: false,
+  betaModalShowing: false,
+  errorModalShowing: false,
+  loginToSaveModalShowing: false,
+  notFoundModalShowing: false,
+  newFileModalShowing: false,
+  renameFileModalShowing: false,
+  newProjectModalShowing: false,
+  renameProjectModalShowing: false,
+  deleteProjectModalShowing: false,
+  sidebarShowing: true,
+  modals: {},
+  errorDetails: {},
+};
+
 export const EditorSlice = createSlice({
   name: "editor",
-  initialState: {
-    project: {},
-    saveTriggered: false,
-    saving: "idle",
-    loading: "idle",
-    justLoaded: false,
-    remixLoadFailed: false,
-    hasShownSavePrompt: false,
-    loadError: "",
-    saveError: "",
-    currentLoadingRequestId: undefined,
-    openFiles: [[]],
-    focussedFileIndices: [0],
-    nameError: "",
-    autorunEnabled: false,
-    codeRunTriggered: false,
-    codeHasBeenRun: false,
-    drawTriggered: false,
-    isEmbedded: false,
-    browserPreview: false,
-    isSplitView: true,
-    isThemeable: true,
-    webComponent: false,
-    codeRunLoading: false,
-    codeRunStopped: false,
-    projectList: [],
-    projectListLoaded: "idle",
-    projectIndexCurrentPage: 1,
-    projectIndexTotalPages: 1,
-    lastSaveAutosave: false,
-    lastSavedTime: null,
-    senseHatAlwaysEnabled: false,
-    senseHatEnabled: false,
-    loadRemixDisabled: false,
-    accessDeniedNoAuthModalShowing: false,
-    accessDeniedWithAuthModalShowing: false,
-    betaModalShowing: false,
-    errorModalShowing: false,
-    loginToSaveModalShowing: false,
-    notFoundModalShowing: false,
-    newFileModalShowing: false,
-    renameFileModalShowing: false,
-    newProjectModalShowing: false,
-    renameProjectModalShowing: false,
-    deleteProjectModalShowing: false,
-    sidebarShowing: true,
-    modals: {},
-  },
+  initialState,
   reducers: {
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
@@ -188,6 +198,9 @@ export const EditorSlice = createSlice({
     setEmbedded: (state, _action) => {
       state.isEmbedded = true;
     },
+    setIsOutputOnly: (state, action) => {
+      state.isOutputOnly = action.payload;
+    },
     setBrowserPreview: (state, _action) => {
       state.browserPreview = true;
     },
@@ -217,6 +230,9 @@ export const EditorSlice = createSlice({
     },
     expireJustLoaded: (state) => {
       state.justLoaded = false;
+    },
+    setReadOnly: (state, action) => {
+      state.readOnly = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -367,6 +383,9 @@ export const EditorSlice = createSlice({
     disableTheming: (state) => {
       state.isThemeable = false;
     },
+    setErrorDetails: (state, action) => {
+      state.errorDetails = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase("editor/saveProject/pending", (state) => {
@@ -456,6 +475,7 @@ export const {
   setFocussedFileIndex,
   setPage,
   setEmbedded,
+  setIsOutputOnly,
   setBrowserPreview,
   setError,
   setIsSplitView,
@@ -463,6 +483,7 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  setReadOnly,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,
@@ -498,6 +519,7 @@ export const {
   showSidebar,
   hideSidebar,
   disableTheming,
+  setErrorDetails,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

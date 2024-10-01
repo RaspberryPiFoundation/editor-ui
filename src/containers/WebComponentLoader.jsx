@@ -4,6 +4,7 @@ import {
   disableTheming,
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
+  setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -21,11 +22,14 @@ import ToastCloseButton from "../utils/ToastCloseButton";
 
 import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
+import editorStyles from "../assets/stylesheets/index.scss";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
+import { projectOwnerLoadedEvent } from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const {
+    assetsIdentifier,
     authKey,
     identifier,
     code,
@@ -36,12 +40,16 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     sidebarOptions = [],
     theme,
+    outputPanels = ["text", "visual"],
     embedded = false,
-    hostStyles,
+    hostStyles, // Pass in styles from the host
     showSavePrompt = false,
     loadRemixDisabled = false,
+    readOnly = false,
+    outputOnly = false,
+    outputSplitView = false,
+    useEditorStyles = false, // If true use the standard editor styling for the web component
   } = props;
-
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
@@ -53,6 +61,7 @@ const WebComponentLoader = (props) => {
   const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
+  const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
@@ -102,8 +111,15 @@ const WebComponentLoader = (props) => {
     }
   }, [loading, project]);
 
+  useEffect(() => {
+    if (justLoaded) {
+      document.dispatchEvent(projectOwnerLoadedEvent(projectOwner));
+    }
+  }, [projectOwner, justLoaded]);
+
   useProject({
     projectIdentifier: projectIdentifier,
+    assetsIdentifier: assetsIdentifier,
     code,
     accessToken: user?.access_token,
     loadRemix: loadRemix && !loadRemixDisabled,
@@ -133,7 +149,11 @@ const WebComponentLoader = (props) => {
     }
   }, [instructions, dispatch]);
 
-  return loading === "success" ? (
+  useEffect(() => {
+    dispatch(setReadOnly(readOnly));
+  }, [readOnly, dispatch]);
+
+  const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
         value={{
@@ -142,7 +162,8 @@ const WebComponentLoader = (props) => {
         }}
       >
         <style>{externalStyles.toString()}</style>
-        <style>{hostStyles}</style>
+        {useEditorStyles && <style>{editorStyles.toString()}</style>}
+        {hostStyles && <style>{hostStyles}</style>}
         <Style>
           {internalStyles.toString()}
           <div id="wc" className={`--${cookies.theme || themeDefault}`}>
@@ -158,6 +179,9 @@ const WebComponentLoader = (props) => {
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
               sidebarOptions={sidebarOptions}
+              outputOnly={outputOnly}
+              outputPanels={outputPanels}
+              outputSplitView={outputSplitView}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
@@ -166,11 +190,27 @@ const WebComponentLoader = (props) => {
         </Style>
       </SettingsContext.Provider>
     </>
-  ) : (
+  );
+
+  const renderFailedState = () => (
+    <>
+      <p>{t("webComponent.failed")}</p>
+    </>
+  );
+
+  const renderLoadingState = () => (
     <>
       <p>{t("webComponent.loading")}</p>
     </>
   );
+
+  if (loading === "success") {
+    return renderSuccessState();
+  } else if (["idle", "failed"].includes(loading)) {
+    return renderFailedState();
+  } else {
+    return renderLoadingState();
+  }
 };
 
 export default WebComponentLoader;

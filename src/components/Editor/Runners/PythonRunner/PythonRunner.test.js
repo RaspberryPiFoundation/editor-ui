@@ -8,6 +8,7 @@ import SkulptRunner from "./PythonRunner";
 import {
   codeRunHandled,
   setError,
+  setErrorDetails,
   triggerDraw,
 } from "../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../utils/settings";
@@ -42,6 +43,8 @@ describe("Testing basic input span functionality", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "input()",
             },
           ],
@@ -96,6 +99,8 @@ test("Input box not there when input function not called", () => {
       project: {
         components: [
           {
+            name: "main",
+            extension: "py",
             content: "print('Hello')",
           },
         ],
@@ -126,6 +131,8 @@ describe("Testing stopping the code run with input", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "input()",
             },
           ],
@@ -163,6 +170,161 @@ describe("Testing stopping the code run with input", () => {
   });
 });
 
+describe("When an error occurs", () => {
+  let store;
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "boom!",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+  });
+
+  test("Sets error in state", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setError("SyntaxError: bad token T_OP on line 1 of main.py"),
+      ]),
+    );
+  });
+
+  test("Sets errorDetails in state", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setErrorDetails({
+          type: "SyntaxError",
+          line: 1,
+          file: "main.py",
+          description: "bad token T_OP",
+          message: "SyntaxError: bad token T_OP on line 1 of main.py",
+        }),
+      ]),
+    );
+  });
+});
+
+describe("When an error has occurred", () => {
+  let mockStore;
+  let store;
+  let initialState;
+
+  beforeEach(() => {
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+    initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "boom!",
+            },
+          ],
+          image_list: [],
+        },
+        error: "SyntaxError: bad token T_OP on line 1 of main.py",
+      },
+      auth: {
+        user,
+      },
+    };
+  });
+
+  test("Displays error message", () => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+
+    expect(
+      screen.getByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).toBeVisible();
+  });
+
+  test("Does not display error message when isOutputOnly state is true", () => {
+    initialState.editor.isOutputOnly = true;
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    );
+    expect(
+      screen.queryByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe("When in split view, no visual libraries used and code run", () => {
+  let store;
+  let queryByText;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello world')",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+        isSplitView: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    ({ queryByText } = render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonTabLabel"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("Visual tab is not shown", () => {
+    const visualTab = queryByText("output.visualOutput");
+    expect(visualTab).not.toBeInTheDocument();
+  });
+});
+
 describe("When in split view, py5 imported and code run", () => {
   let store;
   let queryByText;
@@ -175,6 +337,8 @@ describe("When in split view, py5 imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5",
             },
           ],
@@ -222,6 +386,8 @@ describe("When in split view, py5_imported imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5_imported",
             },
           ],
@@ -265,6 +431,8 @@ describe("When in split view, pygal imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import pygal",
             },
           ],
@@ -308,6 +476,8 @@ describe("When in split view, turtle imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import turtle",
             },
           ],
@@ -351,6 +521,8 @@ describe("When in split view, sense_hat imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import _internal_sense_hat",
             },
           ],
@@ -383,6 +555,52 @@ describe("When in split view, sense_hat imported and code run", () => {
   });
 });
 
+describe("When in tabbed view, no visual libraries used and code run", () => {
+  let store;
+  let queryByText;
+
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello world')",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+        isSplitView: false,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    ({ queryByText } = render(
+      <Provider store={store}>
+        <PythonRunner />
+      </Provider>,
+    ));
+  });
+
+  test("Output view toggle not shown", () => {
+    expect(
+      screen.queryByText("outputViewToggle.buttonSplitLabel"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("Visual tab is not shown", () => {
+    const visualTab = queryByText("output.visualOutput");
+    expect(visualTab).not.toBeInTheDocument();
+  });
+});
+
 describe("When in tabbed view, py5 imported and code run", () => {
   let store;
   let queryByText;
@@ -395,6 +613,8 @@ describe("When in tabbed view, py5 imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5",
             },
           ],
@@ -442,6 +662,8 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import py5_imported",
             },
           ],
@@ -485,6 +707,8 @@ describe("When in tabbed view, pygal imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import pygal",
             },
           ],
@@ -528,6 +752,8 @@ describe("When in tabbed view, turtle imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import turtle",
             },
           ],
@@ -571,6 +797,8 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
         project: {
           components: [
             {
+              name: "main",
+              extension: "py",
               content: "import _internal_sense_hat",
             },
           ],
@@ -611,6 +839,8 @@ test("When embedded in split view with visual output does not render output view
       project: {
         components: [
           {
+            name: "main",
+            extension: "py",
             content: "import p5",
           },
         ],
@@ -724,6 +954,50 @@ test("Split view has text and visual tabs with different parent elements", () =>
   expect(screen.getByText("output.visualOutput").parentElement).not.toEqual(
     screen.getByText("output.textOutput").parentElement,
   );
+});
+
+test("only displays text tab when outputPanels is set to just text", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["text"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).not.toBeInTheDocument();
+});
+
+test("only displays visual tab when outputPanels is set to just visual", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {},
+      senseHatAlwaysEnabled: true,
+    },
+    auth: {
+      user,
+    },
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <PythonRunner outputPanels={["visual"]} />
+    </Provider>,
+  );
+  expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
+  expect(screen.queryByText("output.visualOutput")).toBeInTheDocument();
 });
 
 describe("When font size is set", () => {

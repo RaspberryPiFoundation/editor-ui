@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../../Button/Button";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +12,7 @@ import { useSelector } from "react-redux";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
 const ProjectsPanel = () => {
   const {
@@ -21,8 +21,8 @@ const ProjectsPanel = () => {
   } = useTranslation();
 
   const isLoggedIn = useSelector((state) => state?.auth?.user);
-
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const readOnly = useSelector((state) => state.editor.readOnly);
 
   const saveOptions = (
     <>
@@ -39,18 +39,21 @@ const ProjectsPanel = () => {
     <SidebarPanel
       heading={t("projectsPanel.projects")}
       Button={() =>
-        isLoggedIn ? (
-          <Button
-            text={t("projectsPanel.yourProjectsButton")}
+        isLoggedIn && (
+          <DesignSystemButton
             className="btn--primary projects-panel__your-projects-button"
-            buttonIconPosition="right"
             href={`/${locale}/projects`}
+            text={t("projectsPanel.yourProjectsButton")}
           />
-        ) : null
+        )
       }
       className="projects-panel-wrapper"
     >
-      <ProjectName showLabel={true} className="projects-panel__item" />
+      <ProjectName
+        showLabel={true}
+        className="projects-panel__item"
+        editable={!readOnly}
+      />
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
         <DownloadButton

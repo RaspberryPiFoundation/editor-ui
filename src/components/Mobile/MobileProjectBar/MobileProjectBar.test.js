@@ -17,29 +17,36 @@ const user = {
     user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
   },
 };
-describe("When logged in and user owns project", () => {
-  let store;
 
+const initialState = {
+  editor: {
+    project: {},
+    loading: "idle",
+  },
+  auth: {
+    user: {},
+  },
+};
+
+const renderMobileProjectBar = (state) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const store = mockStore({ ...initialState, ...state });
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <MobileProjectBar />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
+describe("When logged in and user owns project", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: project,
-        loading: "success",
-      },
-      auth: {
-        user: user,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MobileProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    renderMobileProjectBar({
+      editor: { project, loading: "success" },
+      auth: { user },
+    });
   });
 
   test("Project name is shown", () => {
@@ -49,25 +56,20 @@ describe("When logged in and user owns project", () => {
 
 describe("When logged out", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {},
-        loading: "idle",
-      },
-      auth: {
-        user: {},
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MobileProjectBar />
-        </MemoryRouter>
-      </Provider>,
-    );
+    renderMobileProjectBar({});
+  });
+
+  test("No saved info", () => {
+    expect(screen.queryByText("saveButton.saved")).not.toBeInTheDocument();
+  });
+});
+
+describe("When read only", () => {
+  beforeEach(() => {
+    renderMobileProjectBar({
+      editor: { project, loading: "success", readOnly: true },
+      auth: { user },
+    });
   });
 
   test("No saved info", () => {

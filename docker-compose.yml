@@ -16,14 +16,15 @@ services:
     <<: *x-app
     command: yarn start
     ports:
-      - "3010:3000"
+      - "3010:3010"
     container_name: react-ui
   react-ui-wc:
     <<: *x-app
     command: yarn start:wc
     ports:
-      - "3011:3001"
+      - "3011:3011"
     container_name: react-ui-wc
 networks:
   default:
     name: shared-development
+    external: true

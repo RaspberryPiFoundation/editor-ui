@@ -3,7 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import WebComponentLoader from "./WebComponentLoader";
-import { disableTheming, setSenseHatAlwaysEnabled } from "../redux/EditorSlice";
+import {
+  disableTheming,
+  setReadOnly,
+  setSenseHatAlwaysEnabled,
+} from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
@@ -27,6 +31,55 @@ const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
 const instructions = { currentStepPosition: 3, project: { steps: steps } };
 const authKey = "my_key";
 const user = { access_token: "my_token" };
+
+describe("When initially rendered", () => {
+  beforeEach(() => {
+    document.dispatchEvent = jest.fn();
+    const middlewares = [localStorageUserMiddleware(setUser)];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        loading: "success",
+        project: {
+          components: [],
+          user_name: "Joe Bloggs",
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        justLoaded: true,
+      },
+      instructions: {},
+      auth: {},
+    };
+    store = mockStore(initialState);
+    cookies = new Cookies();
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader
+            code={code}
+            identifier={identifier}
+            senseHatAlwaysEnabled={true}
+            instructions={instructions}
+            authKey={authKey}
+            theme="light"
+          />
+        </CookiesProvider>
+      </Provider>,
+    );
+  });
+
+  test("It fires the projectOwnerLoadedEvent with correct name", () => {
+    expect(document.dispatchEvent).toHaveBeenCalledWith(
+      new CustomEvent("editor-projectOwnerLoaded", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: { user_name: "Joe Bloggs" },
+      }),
+    );
+  });
+});
 
 describe("When no user is in state", () => {
   beforeEach(() => {
@@ -62,6 +115,7 @@ describe("When no user is in state", () => {
               identifier={identifier}
               senseHatAlwaysEnabled={true}
               instructions={instructions}
+              readOnly={true}
               authKey={authKey}
               theme="light"
             />
@@ -105,6 +159,12 @@ describe("When no user is in state", () => {
       );
     });
 
+    test("Sets the read only state correctly", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setReadOnly(true)]),
+      );
+    });
+
     test("Disables theming", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([disableTheming()]),
@@ -119,6 +179,62 @@ describe("When no user is in state", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setUser(null)]),
       );
+    });
+
+    test("Renders editor styles when useEditorStyles is true", () => {
+      const { container } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+              useEditorStyles={true}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      const styleTags = container.querySelectorAll("style");
+      const editorStyles = Array.from(styleTags).find((tag) =>
+        tag.textContent.includes("editorStyles"),
+      );
+      expect(editorStyles).not.toBeNull();
+    });
+  });
+
+  describe("with assetsIdentifier set", () => {
+    const assetsIdentifier = "my-assets-identifier";
+
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              assetsIdentifier={assetsIdentifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("Calls useProject hook with correct attributes", () => {
+      expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: assetsIdentifier,
+        code,
+        accessToken: undefined,
+        loadRemix: false,
+        loadCache: true,
+        remixLoadFailed: false,
+      });
     });
   });
 
