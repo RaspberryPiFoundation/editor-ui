@@ -59,6 +59,14 @@ const showVisual = (visual, output) => {
     case "turtle":
       output.current.innerHTML = elementFromProps(visual.content).outerHTML;
       break;
+    case "matplotlib":
+      // convert visual.content from Uint8Array to jpg
+      const img = document.createElement("img");
+      img.src = `data:image/jpg;base64,${window.btoa(
+        String.fromCharCode(...new Uint8Array(visual.content)),
+      )}`;
+      output.current.innerHTML = img.outerHTML;
+      break;
     default:
       throw new Error(`Unsupported origin: ${visual.origin}`);
   }
