@@ -62,6 +62,7 @@ const showVisual = (visual, output) => {
     case "matplotlib":
       // convert visual.content from Uint8Array to jpg
       const img = document.createElement("img");
+      img.style = "max-width: 100%; max-height: 100%;";
       img.src = `data:image/jpg;base64,${window.btoa(
         String.fromCharCode(...new Uint8Array(visual.content)),
       )}`;
