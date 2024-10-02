@@ -248,21 +248,10 @@ const vendoredPackages = {
       import base64
       import basthon
 
-      # Print base64 string to stdout
       bytes_io = io.BytesIO()
-
       plt.savefig(bytes_io, format='jpg')
-
       bytes_io.seek(0)
-
-      # print(base64.b64encode(bytes_io.read()).decode('utf-8'))
-
       basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
-
-
-      # base64_encoded_spectrogram = base64.b64encode(bytes_io.read())
-
-      # print(base64_encoded_spectrogram.decode('utf-8'))
       `);
     },
   },
