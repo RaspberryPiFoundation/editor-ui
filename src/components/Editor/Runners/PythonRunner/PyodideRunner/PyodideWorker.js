@@ -29,7 +29,7 @@ if (!supportsAllFeatures && name !== "incremental-features") {
 importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
 
-const onmessage = async ({ data }) => {
+export const onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
 
   switch (data.method) {
@@ -344,8 +344,3 @@ const parsePythonError = (error) => {
 };
 
 reloadPyodideToClearState();
-
-module.exports = {
-  onmessage,
-  postMessage,
-};
