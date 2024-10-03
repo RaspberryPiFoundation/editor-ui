@@ -5,7 +5,7 @@ it("renders the web component", () => {
   cy.get(".proj-container button").should("contain", "Run");
 });
 
-it.only("Interrupts py5 draws when stop button clicked", () => {
+it("Interrupts py5 draws when stop button clicked", () => {
   cy.visit(baseUrl);
   cy.get("div[class=cm-content]").invoke(
     "text",
