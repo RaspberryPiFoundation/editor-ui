@@ -48,7 +48,7 @@ const PythonRunner = () => {
       return imports;
     };
 
-    project.components.forEach((component) => {
+    project.components?.forEach((component) => {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
           const imports = getImports(component.content);
