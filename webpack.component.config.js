@@ -59,6 +59,18 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.worker\.js$/,
+        use: [
+          { loader: "worker-loader" },
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {

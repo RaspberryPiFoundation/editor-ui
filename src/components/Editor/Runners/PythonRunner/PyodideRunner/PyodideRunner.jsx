@@ -19,12 +19,10 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import PyodideWorker from "./PyodideWorker.worker.js";
 
 const PyodideRunner = ({ active }) => {
-  const pyodideWorker = useMemo(
-    () => new Worker("./PyodideWorker.js", { type: "module" }),
-    [],
-  );
+  const pyodideWorker = useMemo(() => new PyodideWorker(), []);
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
