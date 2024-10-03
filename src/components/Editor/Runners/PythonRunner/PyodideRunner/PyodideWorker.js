@@ -245,7 +245,6 @@ const vendoredPackages = {
       pyodide.runPython(`
       import matplotlib.pyplot as plt
       import io
-      import base64
       import basthon
 
       bytes_io = io.BytesIO()
