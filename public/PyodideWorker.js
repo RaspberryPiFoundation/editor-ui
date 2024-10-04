@@ -220,41 +220,6 @@ const vendoredPackages = {
       });
     },
   },
-  matplotlib: {
-    before: async () => {
-      pyodide.registerJsModule("basthon", fakeBasthonPackage);
-      pyodide.runPython(`
-      import js
-
-      class Dud:
-          def __init__(self, *args, **kwargs) -> None:
-              return
-          def __getattr__(self, __name: str):
-              return Dud
-      js.document = Dud()
-      `);
-      await pyodide.loadPackage("matplotlib")?.catch(() => {});
-      let pyodidePackage;
-      try {
-        pyodidePackage = pyodide.pyimport("matplotlib");
-      } catch (_) {}
-      if (pyodidePackage) {
-        return;
-      }
-    },
-    after: () => {
-      pyodide.runPython(`
-      import matplotlib.pyplot as plt
-      import io
-      import basthon
-
-      bytes_io = io.BytesIO()
-      plt.savefig(bytes_io, format='jpg')
-      bytes_io.seek(0)
-      basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
-      `);
-    },
-  },
 };
 
 const fakeBasthonPackage = {
