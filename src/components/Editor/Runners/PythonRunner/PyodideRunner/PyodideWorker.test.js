@@ -1,4 +1,5 @@
 import { waitFor } from "@testing-library/react";
+import { TextEncoder } from "util";
 
 class MockPythonArray extends Array {
   toJs() {
@@ -9,6 +10,7 @@ class MockPythonArray extends Array {
 // Mock global functions
 global.postMessage = jest.fn();
 global.importScripts = jest.fn();
+global.TextEncoder = TextEncoder;
 
 describe("PyodideWorker", () => {
   let worker;
@@ -19,7 +21,7 @@ describe("PyodideWorker", () => {
     pyodide = {
       _api: {
         pyodide_code: {
-          find_imports: () => new MockPythonArray("numpy", "pygal"),
+          find_imports: () => new MockPythonArray(),
         },
       },
       ffi: {
@@ -42,7 +44,9 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    worker = require("./PyodideWorker.js", { type: "module" });
+    worker = require("../../../../../../public/PyodideWorker.js", {
+      type: "module",
+    });
   });
 
   test("it imports the pyodide script", () => {
@@ -77,9 +81,10 @@ describe("PyodideWorker", () => {
         content: "print('hello')",
       },
     });
+    const encoder = new TextEncoder();
     expect(pyodide.FS.writeFile).toHaveBeenCalledWith(
       "main.py",
-      new Buffer("print('hello')"),
+      encoder.encode("print('hello')"),
     );
   });
 
@@ -96,6 +101,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load package from file system", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -108,6 +114,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it checks if the package is built into python", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -118,6 +125,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load the package from pyodide", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -130,6 +138,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load the package from PyPI", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -142,6 +151,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it registers JS module for pygal", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("pygal");
     await worker.onmessage({
       data: {
         method: "runPython",

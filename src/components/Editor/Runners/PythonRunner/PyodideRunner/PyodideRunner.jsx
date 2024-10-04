@@ -19,7 +19,6 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
-// import PyodideWorker from "../../../../../../public/PyodideWorker.js";
 
 const getWorkerURL = (url) => {
   const content = `importScripts("${url}");`;
