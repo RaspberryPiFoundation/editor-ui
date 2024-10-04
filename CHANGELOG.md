@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Enabling `pyodide` support in the web component (#1090)
+
 ## [0.27.1] - 2024-10-01
 
 ### Fixed
