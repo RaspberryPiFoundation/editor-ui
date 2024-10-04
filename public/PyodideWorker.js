@@ -1,7 +1,10 @@
 /* global importScripts, loadPyodide, SharedArrayBuffer, Atomics */
 
-import * as pygal from "./pygal.js";
-import * as _internal_sense_hat from "./_internal_sense_hat.js";
+// import * as pygal from "../src/components/Editor/Runners/PythonRunner/PyodideRunner/pygal.js";
+// import * as _internal_sense_hat from "../src/components/Editor/Runners/PythonRunner/PyodideRunner/_internal_sense_hat.js";
+
+importScripts("http://localhost:3011/_internal_sense_hat.js");
+importScripts("http://localhost:3011/pygal.js");
 
 const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
@@ -29,12 +32,13 @@ if (!supportsAllFeatures && name !== "incremental-features") {
 importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
 
-export const onmessage = async ({ data }) => {
+const onmessage = async ({ data }) => {
   pyodide = await pyodidePromise;
+  let encoder = new TextEncoder();
 
   switch (data.method) {
     case "writeFile":
-      pyodide.FS.writeFile(data.filename, new Buffer(data.content));
+      pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
       break;
     case "runPython":
       runPython(data.python);
