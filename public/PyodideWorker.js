@@ -1,8 +1,5 @@
 /* global importScripts, loadPyodide, SharedArrayBuffer, Atomics */
 
-// import * as pygal from "../src/components/Editor/Runners/PythonRunner/PyodideRunner/pygal.js";
-// import * as _internal_sense_hat from "../src/components/Editor/Runners/PythonRunner/PyodideRunner/_internal_sense_hat.js";
-
 importScripts("http://localhost:3011/_internal_sense_hat.js");
 importScripts("http://localhost:3011/pygal.js");
 
