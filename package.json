@@ -75,8 +75,7 @@
     "three": "^0.140.0",
     "ts-pnp": "1.2.0",
     "watch": "^1.0.2",
-    "web-vitals": "^1.0.1",
-    "worker-loader": "^3.0.8"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
