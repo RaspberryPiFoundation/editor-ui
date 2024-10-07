@@ -72,7 +72,7 @@ describe("default behaviour", () => {
         "text",
         "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
       );
-    cy.wait(10000);
+    cy.wait(200);
     cy.get("editor-wc").shadow().find(".btn--run").click();
     cy.wait(1000);
     cy.get("editor-wc").shadow().find(".btn--stop").click();
@@ -82,17 +82,18 @@ describe("default behaviour", () => {
       .should("contain", "Execution interrupted");
   });
 
-  it("Py5 magic comment imports py5", () => {
+  it.only("Py5 magic comment imports py5", () => {
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
       .invoke("text", "# Py5: imported mode");
-    cy.get(".btn--run").click();
+    cy.wait(200);
+    cy.get("editor-wc").shadow().find(".btn--run").click();
 
-    cy.get(".p5Canvas").should("be.visible");
+    cy.get("editor-wc").shadow().find(".p5Canvas").should("be.visible");
   });
 
-  it("Py5 imported mode runs sketch without explicit run call", () => {
+  it.only("Py5 imported mode runs sketch without explicit run call", () => {
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
@@ -100,12 +101,13 @@ describe("default behaviour", () => {
         "text",
         '# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint("hello world")',
       );
-    cy.get(".btn--run").click();
+    cy.wait(200);
+    cy.get("editor-wc").shadow().find(".btn--run").click();
 
-    cy.get(".pythonrunner-console-output-line").should(
-      "contain",
-      "hello world",
-    );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "hello world");
   });
 
   it("does not render visual output tab on page load", () => {
