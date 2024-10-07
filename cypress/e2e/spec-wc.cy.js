@@ -64,7 +64,7 @@ describe("default behaviour", () => {
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
 
-  it.only("Interrupts py5 draws when stop button clicked", () => {
+  it("Interrupts py5 draws when stop button clicked", () => {
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
@@ -82,7 +82,7 @@ describe("default behaviour", () => {
       .should("contain", "Execution interrupted");
   });
 
-  it.only("Py5 magic comment imports py5", () => {
+  it("Py5 magic comment imports py5", () => {
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
@@ -93,7 +93,7 @@ describe("default behaviour", () => {
     cy.get("editor-wc").shadow().find(".p5Canvas").should("be.visible");
   });
 
-  it.only("Py5 imported mode runs sketch without explicit run call", () => {
+  it("Py5 imported mode runs sketch without explicit run call", () => {
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
