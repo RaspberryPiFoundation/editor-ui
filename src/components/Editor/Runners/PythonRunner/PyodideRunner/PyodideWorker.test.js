@@ -11,6 +11,8 @@ class MockPythonArray extends Array {
 global.postMessage = jest.fn();
 global.importScripts = jest.fn();
 global.TextEncoder = TextEncoder;
+global.pygal = {};
+global._internal_sense_hat = {};
 
 describe("PyodideWorker", () => {
   let worker;
