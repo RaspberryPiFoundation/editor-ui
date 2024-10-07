@@ -311,7 +311,9 @@ const parsePythonError = (error) => {
 
 reloadPyodideToClearState();
 
-module.exports = {
-  onmessage,
-  postMessage,
-};
+if (typeof module !== "undefined") {
+  module.exports = {
+    onmessage,
+    postMessage,
+  };
+}
