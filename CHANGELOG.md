@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.27.2] - 2024-10-01
+
+### Fixed
+
+- Pin react-router-dom to 6.24.0 as part of investigating useContext issues
+
 ## [0.27.1] - 2024-10-01
 
 ### Fixed
