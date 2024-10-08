@@ -28,9 +28,7 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
-              sassOptions: {
-                sourceMap: true,
-              },
+              sourceMap: true,
             },
           },
         ],
@@ -62,7 +60,11 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx", ".css"],
+    extensions: [".*", ".js", ".mjs", ".jsx", ".css"],
+    fallback: {
+      path: require.resolve("path-browserify"),
+      url: require.resolve("url/"),
+    },
   },
   output: {
     path: path.resolve(__dirname, "./build"),
@@ -96,4 +98,7 @@ module.exports = {
     }),
   ],
   stats: "minimal",
+  experiments: {
+    topLevelAwait: true, // Enable top-level await if needed
+  },
 };

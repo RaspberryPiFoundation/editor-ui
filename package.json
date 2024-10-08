@@ -72,8 +72,9 @@
     "react-toggle": "^4.1.3",
     "redux-oidc": "^4.0.0-beta1",
     "skulpt": "^1.2.0",
-    "three": "^0.140.0",
+    "three": "0.169.0",
     "ts-pnp": "1.2.0",
+    "url": "^0.11.4",
     "watch": "^1.0.2",
     "web-vitals": "^1.0.1"
   },
@@ -88,8 +89,8 @@
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
-    "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
-    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
+    "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.cjs",
+    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.cjs",
     "heroku-postbuild": "export PUBLIC_URL='' && yarn build && yarn build:wc"
   },
   "browserslist": {
@@ -128,7 +129,7 @@
     "cypress": "12.12.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
-    "dotenv-webpack": "^7.1.0",
+    "dotenv-webpack": "latest",
     "eslint": "^7.11.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -141,7 +142,7 @@
     "eslint-plugin-testing-library": "^3.9.2",
     "eslint-webpack-plugin": "^2.5.2",
     "file-loader": "6.1.1",
-    "html-webpack-plugin": "4.5.0",
+    "html-webpack-plugin": "latest",
     "jest": "^29.1.2",
     "jest-circus": "^29.1.2",
     "jest-css-modules-transform": "^4.4.2",
@@ -156,6 +157,7 @@
     "mini-css-extract-plugin": "0.11.3",
     "mock-match-media": "^0.4.3",
     "optimize-css-assets-webpack-plugin": "5.0.4",
+    "path-browserify": "^1.0.1",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "3.0.0",
@@ -182,12 +184,12 @@
     "terser-webpack-plugin": "4.2.3",
     "url-loader": "4.1.1",
     "webgl-mock-threejs": "^0.0.1",
-    "webpack": "4.44.2",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "4.0.0",
+    "webpack": "5.95.0",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "5.1.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "5.1.4",
-    "worker-plugin": "^5.0.1"
+    "worker-plugin": "5.0.1"
   },
   "jest": {
     "roots": [
