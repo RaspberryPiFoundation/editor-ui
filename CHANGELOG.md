@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `Pyodide` `matplotlib` support (#1087)
 
+### Fixed
+
+- Dynamic runner switching with more than one `python` file (#1097)
+
 ## [0.27.1] - 2024-10-01
 
 ### Fixed
