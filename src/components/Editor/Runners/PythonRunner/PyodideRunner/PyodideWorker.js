@@ -219,6 +219,43 @@ const vendoredPackages = {
       });
     },
   },
+  matplotlib: {
+    before: async () => {
+      pyodide.registerJsModule("basthon", fakeBasthonPackage);
+      // Patch the document object to prevent matplotlib from trying to render. Since we are running in a web worker,
+      // the document object is not available. We will instead capture the image and send it back to the main thread.
+      pyodide.runPython(`
+      import js
+
+      class DummyDocument:
+          def __init__(self, *args, **kwargs) -> None:
+              return
+          def __getattr__(self, __name: str):
+              return DummyDocument
+      js.document = DummyDocument()
+      `);
+      await pyodide.loadPackage("matplotlib")?.catch(() => {});
+      let pyodidePackage;
+      try {
+        pyodidePackage = pyodide.pyimport("matplotlib");
+      } catch (_) {}
+      if (pyodidePackage) {
+        return;
+      }
+    },
+    after: () => {
+      pyodide.runPython(`
+      import matplotlib.pyplot as plt
+      import io
+      import basthon
+
+      bytes_io = io.BytesIO()
+      plt.savefig(bytes_io, format='jpg')
+      bytes_io.seek(0)
+      basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+      `);
+    },
+  },
 };
 
 const fakeBasthonPackage = {
