@@ -17,7 +17,7 @@
     "@lezer/highlight": "^1.0.0",
     "@raspberrypifoundation/design-system-core": "^0.1.9",
     "@raspberrypifoundation/design-system-react": "^0.1.5",
-    "@react-three/drei": "^9.65.5",
+    "@react-three/drei": "9.114.3",
     "@react-three/fiber": "^8.0.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@replit/codemirror-indentation-markers": "^6.1.0",
