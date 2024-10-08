@@ -1,7 +1,8 @@
 /* global importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
-importScripts("http://localhost:3011/_internal_sense_hat.js");
-importScripts("http://localhost:3011/pygal.js");
+// Import scripts dynamically based on the environment
+importScripts(`${process.env.PUBLIC_URL}/_internal_sense_hat.js`);
+importScripts(`${process.env.PUBLIC_URL}/pygal.js`);
 
 const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
