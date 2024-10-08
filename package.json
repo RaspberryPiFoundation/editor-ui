@@ -89,8 +89,8 @@
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
-    "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.cjs",
-    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.cjs",
+    "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
+    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
     "heroku-postbuild": "export PUBLIC_URL='' && yarn build && yarn build:wc"
   },
   "browserslist": {
