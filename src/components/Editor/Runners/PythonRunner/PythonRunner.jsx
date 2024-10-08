@@ -48,7 +48,7 @@ const PythonRunner = () => {
       return imports;
     };
 
-    project.components?.forEach((component) => {
+    for (const component of project.components || []) {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
           const imports = getImports(component.content);
@@ -57,6 +57,7 @@ const PythonRunner = () => {
           );
           if (hasSkulptOnlyModules || senseHatAlwaysEnabled) {
             setUsePyodide(false);
+            break;
           } else {
             setUsePyodide(true);
           }
@@ -64,7 +65,7 @@ const PythonRunner = () => {
           console.error("Error occurred while getting imports:", error);
         }
       }
-    });
+    }
   }, [project, codeRunTriggered, senseHatAlwaysEnabled, t]);
   return (
     <>
