@@ -231,7 +231,7 @@ const vendoredPackages = {
           def __init__(self, *args, **kwargs) -> None:
               return
           def __getattr__(self, __name: str):
-              return DummyDocument()
+              return DummyDocument
       js.document = DummyDocument()
       `);
       await pyodide.loadPackage("matplotlib")?.catch(() => {});
