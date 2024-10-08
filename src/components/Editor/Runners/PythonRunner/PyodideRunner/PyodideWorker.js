@@ -222,15 +222,17 @@ const vendoredPackages = {
   matplotlib: {
     before: async () => {
       pyodide.registerJsModule("basthon", fakeBasthonPackage);
+      // Patch the document object to prevent matplotlib from trying to render. Since we are running in a web worker,
+      // the document object is not available. We will instead capture the image and send it back to the main thread.
       pyodide.runPython(`
       import js
 
-      class Dud:
+      class DummyDocument:
           def __init__(self, *args, **kwargs) -> None:
               return
           def __getattr__(self, __name: str):
-              return Dud
-      js.document = Dud()
+              return DummyDocument()
+      js.document = DummyDocument()
       `);
       await pyodide.loadPackage("matplotlib")?.catch(() => {});
       let pyodidePackage;
