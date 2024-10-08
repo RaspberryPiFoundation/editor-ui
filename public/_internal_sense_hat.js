@@ -381,7 +381,6 @@ const _read = () => {
 
 _internal_sense_hat = {
   ..._internal_sense_hat,
-  // config,
   init,
   setpixel,
   getpixel,

@@ -1,6 +1,5 @@
 import { waitFor } from "@testing-library/react";
 import { TextEncoder } from "util";
-
 class MockPythonArray extends Array {
   toJs() {
     return this;
@@ -46,7 +45,7 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    worker = require("../../../../../../public/PyodideWorker.js", {
+    worker = require("../../../../../PyodideWorker.js", {
       type: "module",
     });
   });
