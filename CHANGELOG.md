@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.27.1] - 2024-09-10
+
+### Changed
+
+- added "Help" link to the information panel in the sidebar as the first link
+
 ## [0.27.1] - 2024-10-01
 
 ### Fixed

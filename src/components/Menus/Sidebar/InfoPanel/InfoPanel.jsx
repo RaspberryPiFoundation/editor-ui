@@ -8,6 +8,11 @@ const InfoPanel = () => {
   const { t } = useTranslation();
   const links = [
     {
+      id: "help",
+      text: t("sidebar.help"),
+      href: "https://help.editor.raspberrypi.org/hc/en-us",
+    },
+    {
       id: "feedback",
       text: t("sidebar.feedback"),
       href: "https://form.raspberrypi.org/f/code-editor-feedback",

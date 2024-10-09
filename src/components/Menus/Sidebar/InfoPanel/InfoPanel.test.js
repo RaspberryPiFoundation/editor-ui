@@ -34,6 +34,7 @@ describe("Info panel", () => {
   });
 
   test("Links are rendered", () => {
+    expect(screen.queryByText("sidebar.help")).toBeInTheDocument();
     expect(screen.queryByText("sidebar.feedback")).toBeInTheDocument();
     expect(screen.queryByText("sidebar.privacy")).toBeInTheDocument();
   });
@@ -42,6 +43,10 @@ describe("Info panel", () => {
     expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
       "href",
       "https://form.raspberrypi.org/f/code-editor-feedback",
+    );
+    expect(screen.queryByText("sidebar.help")).toHaveAttribute(
+      "href",
+      "https://help.editor.raspberrypi.org/hc/en-us",
     );
   });
 });
