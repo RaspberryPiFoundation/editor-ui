@@ -14,6 +14,7 @@ const initialState = {
   editor: {
     project: {
       components: [
+        { name: "a", extension: "py", content: "print('a')" },
         { name: "main", extension: "py", content: "print('hello')" },
       ],
       image_list: [
@@ -67,6 +68,11 @@ describe("When a code run has been triggered", () => {
   });
 
   test("it writes the current files to the worker", () => {
+    expect(postMessage).toHaveBeenCalledWith({
+      method: "writeFile",
+      filename: "a.py",
+      content: "print('a')",
+    });
     expect(postMessage).toHaveBeenCalledWith({
       method: "writeFile",
       filename: "main.py",
