@@ -14,6 +14,11 @@ const initialState = {
           extension: "py",
           content: "",
         },
+        {
+          name: "amazing",
+          extension: "py",
+          content: "",
+        },
       ],
       image_list: [],
     },
