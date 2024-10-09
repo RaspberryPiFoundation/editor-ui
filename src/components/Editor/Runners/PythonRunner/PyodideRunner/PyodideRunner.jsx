@@ -194,7 +194,10 @@ const PyodideRunner = ({ active }) => {
       writeFile([name, extension].join("."), content);
     }
 
-    const program = projectCode[0].content;
+    // program is the content of the component with name main and extension py
+    const program = projectCode.find(
+      (component) => component.name === "main" && component.extension === "py",
+    ).content;
 
     if (interruptBuffer.current) {
       interruptBuffer.current[0] = 0; // Clear previous signals.
