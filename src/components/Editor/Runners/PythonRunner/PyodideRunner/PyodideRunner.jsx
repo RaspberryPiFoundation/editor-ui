@@ -1,7 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import "../../../../assets/stylesheets/PythonRunner.scss";
+import "../../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -9,18 +9,18 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
-} from "../../../../redux/EditorSlice";
+} from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
-import ErrorMessage from "../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../utils/apiCallHandler";
+import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
+import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
+import { createError } from "../../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
-import OutputViewToggle from "../PythonRunner/OutputViewToggle";
-import { SettingsContext } from "../../../../utils/settings";
-import RunnerControls from "../../../RunButton/RunnerControls";
+import OutputViewToggle from "../OutputViewToggle";
+import { SettingsContext } from "../../../../../utils/settings";
+import RunnerControls from "../../../../RunButton/RunnerControls";
 
-const PyodideRunner = () => {
+const PyodideRunner = ({ active }) => {
   const pyodideWorker = useMemo(
     () => new Worker("./PyodideWorker.js", { type: "module" }),
     [],
@@ -47,6 +47,7 @@ const PyodideRunner = () => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+  const [showRunner, setShowRunner] = useState(active);
 
   useEffect(() => {
     pyodideWorker.onmessage = ({ data }) => {
@@ -79,13 +80,20 @@ const PyodideRunner = () => {
   }, []);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && active) {
+      console.log("running with pyodide");
       handleRun();
     }
   }, [codeRunTriggered]);
 
   useEffect(() => {
-    if (codeRunStopped) {
+    if (codeRunTriggered) {
+      setShowRunner(active);
+    }
+  }, [codeRunTriggered]);
+
+  useEffect(() => {
+    if (codeRunStopped && active) {
       handleStop();
     }
   }, [codeRunStopped]);
@@ -116,7 +124,7 @@ const PyodideRunner = () => {
     const { content, ctrlD } = await getInputContent(element);
 
     const encoder = new TextEncoder();
-    const bytes = encoder.encode(content + "\r\n");
+    const bytes = encoder.encode(content + "\n");
 
     const previousLength = stdinBuffer.current[0];
     stdinBuffer.current.set(bytes, previousLength);
@@ -278,7 +286,12 @@ const PyodideRunner = () => {
   };
 
   return (
-    <div className={`pythonrunner-container`}>
+    <div
+      className={`pythonrunner-container pyodiderunner${
+        active ? " pyodiderunner--active" : ""
+      }`}
+      style={{ display: showRunner ? "flex" : "none" }}
+    >
       {isSplitView ? (
         <>
           {hasVisual && (
