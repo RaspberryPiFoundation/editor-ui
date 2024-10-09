@@ -20,16 +20,27 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-const getWorkerURL = (url) => {
-  const content = `importScripts("${url}");`;
-  const blob = new Blob([content], { type: "application/javascript" });
-  return URL.createObjectURL(blob);
-};
-
-const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-
 const PyodideRunner = ({ active }) => {
+  const getWorkerURL = (url) => {
+    const content = `
+      /* global PyodideWorker */
+      console.log("Worker loading");
+      importScripts("${url}");
+      const pyodide = PyodideWorker();
+      console.log("Worker loaded");
+    `;
+    const blob = new Blob([content], { type: "application/javascript" });
+    return URL.createObjectURL(blob);
+  };
+
+  const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
+
   const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+
+  if (!pyodideWorker) {
+    console.error("PyodideWorker is not initialized");
+  }
+
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -55,33 +66,41 @@ const PyodideRunner = ({ active }) => {
   const [showRunner, setShowRunner] = useState(active);
 
   useEffect(() => {
-    pyodideWorker.onmessage = ({ data }) => {
-      switch (data.method) {
-        case "handleLoading":
-          handleLoading();
-          break;
-        case "handleLoaded":
-          handleLoaded(data.stdinBuffer, data.interruptBuffer);
-          break;
-        case "handleInput":
-          handleInput();
-          break;
-        case "handleOutput":
-          handleOutput(data.stream, data.content);
-          break;
-        case "handleError":
-          handleError(data.file, data.line, data.mistake, data.type, data.info);
-          break;
-        case "handleVisual":
-          handleVisual(data.origin, data.content);
-          break;
-        case "handleSenseHatEvent":
-          handleSenseHatEvent(data.type);
-          break;
-        default:
-          throw new Error(`Unsupported method: ${data.method}`);
-      }
-    };
+    if (pyodideWorker) {
+      pyodideWorker.onmessage = ({ data }) => {
+        switch (data.method) {
+          case "handleLoading":
+            handleLoading();
+            break;
+          case "handleLoaded":
+            handleLoaded(data.stdinBuffer, data.interruptBuffer);
+            break;
+          case "handleInput":
+            handleInput();
+            break;
+          case "handleOutput":
+            handleOutput(data.stream, data.content);
+            break;
+          case "handleError":
+            handleError(
+              data.file,
+              data.line,
+              data.mistake,
+              data.type,
+              data.info,
+            );
+            break;
+          case "handleVisual":
+            handleVisual(data.origin, data.content);
+            break;
+          case "handleSenseHatEvent":
+            handleSenseHatEvent(data.type);
+            break;
+          default:
+            throw new Error(`Unsupported method: ${data.method}`);
+        }
+      };
+    }
   }, []);
 
   useEffect(() => {
