@@ -26,7 +26,7 @@ if (!supportsAllFeatures && name !== "incremental-features") {
     ].join("\n"),
   );
 }
-importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
+importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
 let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
 
 export const onmessage = async ({ data }) => {

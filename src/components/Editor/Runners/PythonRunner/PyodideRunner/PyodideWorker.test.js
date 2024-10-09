@@ -47,7 +47,7 @@ describe("PyodideWorker", () => {
 
   test("it imports the pyodide script", () => {
     expect(global.importScripts).toHaveBeenCalledWith(
-      "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js",
     );
   });
 
