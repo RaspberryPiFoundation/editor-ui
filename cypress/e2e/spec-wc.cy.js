@@ -157,21 +157,6 @@ describe("default behaviour", () => {
     cy.get("editor-wc").shadow().contains("Visual output").click();
     cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
   });
-
-  it("does not render astro pi component if sense hat unimported", () => {
-    cy.get("editor-wc")
-      .shadow()
-      .find("div[class=cm-content]")
-      .invoke("text", "import sense_hat");
-    cy.get("editor-wc").shadow().find(".btn--run").click();
-    cy.get("editor-wc")
-      .shadow()
-      .find("div[class=cm-content]")
-      .invoke("text", "import p5");
-    cy.get("editor-wc").shadow().find(".btn--run").click();
-    cy.get("editor-wc").shadow().contains("Visual output").click();
-    cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
-  });
 });
 
 describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
