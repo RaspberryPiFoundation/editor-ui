@@ -12,7 +12,7 @@ on:
         type: string
       base_url:
         required: false
-        default: "https://staging-editor.raspberrypi.org"
+        default: "https://staging-editor-static.raspberrypi.org"
         type: string
       assets_url:
         required: false
@@ -44,7 +44,7 @@ on:
         type: string
       react_app_plausible_data_domain:
         required: false
-        default: "staging-editor.raspberrypi.org"
+        default: "staging-editor-static.raspberrypi.org"
         type: string
       react_app_plausible_source:
         required: false

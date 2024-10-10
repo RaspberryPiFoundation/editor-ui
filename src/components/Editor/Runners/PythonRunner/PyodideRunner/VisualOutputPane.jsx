@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
+import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {
@@ -44,12 +44,29 @@ const showVisual = (visual, output) => {
             },
           },
         },
+        tooltip: {
+          ...visual.content.tooltip,
+          formatter:
+            visual.content.chart.type === "pie"
+              ? function () {
+                  return this.key + ": " + this.y;
+                }
+              : null,
+        },
       };
-
       Highcharts.chart(output.current, chartContent);
       break;
     case "turtle":
       output.current.innerHTML = elementFromProps(visual.content).outerHTML;
+      break;
+    case "matplotlib":
+      // convert visual.content from Uint8Array to jpg
+      const img = document.createElement("img");
+      img.style = "max-width: 100%; max-height: 100%;";
+      img.src = `data:image/jpg;base64,${window.btoa(
+        String.fromCharCode(...new Uint8Array(visual.content)),
+      )}`;
+      output.current.innerHTML = img.outerHTML;
       break;
     default:
       throw new Error(`Unsupported origin: ${visual.origin}`);

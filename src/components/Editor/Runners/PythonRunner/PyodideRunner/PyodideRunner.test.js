@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
-import { setError } from "../../../../redux/EditorSlice.js";
+import { setError } from "../../../../../redux/EditorSlice.js";
 
 jest.mock("fs");
 
@@ -14,6 +14,7 @@ const initialState = {
   editor: {
     project: {
       components: [
+        { name: "a", extension: "py", content: "print('a')" },
         { name: "main", extension: "py", content: "print('hello')" },
       ],
       image_list: [
@@ -25,18 +26,24 @@ const initialState = {
   auth: {},
 };
 
-describe("When first loaded", () => {
+describe("When active and first loaded", () => {
   beforeEach(() => {
     const store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
 
   test("it renders successfully", () => {
     expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+  });
+
+  test("it has style display: flex", () => {
+    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
+      "display: flex",
+    );
   });
 });
 
@@ -55,12 +62,17 @@ describe("When a code run has been triggered", () => {
     });
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
 
   test("it writes the current files to the worker", () => {
+    expect(postMessage).toHaveBeenCalledWith({
+      method: "writeFile",
+      filename: "a.py",
+      content: "print('a')",
+    });
     expect(postMessage).toHaveBeenCalledWith({
       method: "writeFile",
       filename: "main.py",
@@ -94,7 +106,7 @@ describe("When the code has been stopped", () => {
     });
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
   });
@@ -112,7 +124,7 @@ describe("When loading pyodide", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -131,7 +143,7 @@ describe("When pyodide has loaded", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -151,7 +163,7 @@ describe("When input is required", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -192,7 +204,7 @@ describe("When output is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -215,7 +227,7 @@ describe("When visual output is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -247,7 +259,7 @@ describe("When an error is received", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -279,7 +291,7 @@ describe("When the code run is interrupted", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
-        <PyodideRunner />,
+        <PyodideRunner active={true} />,
       </Provider>,
     );
 
@@ -300,5 +312,40 @@ describe("When the code run is interrupted", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setError("output.errors.interrupted")]),
     );
+  });
+});
+
+describe("When not active and first loaded", () => {
+  beforeEach(() => {
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it renders with display: none", () => {
+    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
+      "display: none",
+    );
+  });
+});
+
+describe("When not active and code run triggered", () => {
+  beforeEach(() => {
+    const store = mockStore({
+      ...initialState,
+      editor: { ...initialState.editor, codeRunTriggered: true },
+    });
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={false} />,
+      </Provider>,
+    );
+  });
+
+  test("it does not send a message to the worker to run the python code", () => {
+    expect(postMessage).not.toHaveBeenCalled();
   });
 });

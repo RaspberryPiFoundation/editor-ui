@@ -98,8 +98,8 @@ jobs:
           quiet: true
         env:
           REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
-          PUBLIC_URL: "http://localhost:3010"
-          ASSETS_URL: "http://localhost:3010"
+          PUBLIC_URL: "http://localhost:3011"
+          ASSETS_URL: "http://localhost:3011"
           REACT_APP_PLAUSIBLE_SOURCE: ""
 
       - name: Archive cypress artifacts
