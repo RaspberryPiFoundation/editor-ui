@@ -1,5 +1,6 @@
 /* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
+// Nest the PyodideWorker function inside a globalThis object so we control when its initialised.
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
   importScripts(`${process.env.PUBLIC_URL}/_internal_sense_hat.js`);
@@ -353,12 +354,16 @@ const PyodideWorker = () => {
 
   reloadPyodideToClearState();
 
-  if (typeof module !== "undefined") {
-    module.exports = {
-      onmessage,
-      postMessage,
-    };
-  }
+  return {
+    postMessage,
+    onmessage,
+  };
 };
 
 globalThis.PyodideWorker = PyodideWorker;
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    PyodideWorker,
+  };
+}
