@@ -303,7 +303,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
       if (errorType === "ImportError") {
-        const moduleName = errorDetails.replace(/No module named /, "");
+        const moduleName = errorDescription.replace(/No module named /, "");
         explanation = `You should check your code for typos. If you are using p5, py5, sense_hat or turtle, ${moduleName} might not work.`;
       }
 

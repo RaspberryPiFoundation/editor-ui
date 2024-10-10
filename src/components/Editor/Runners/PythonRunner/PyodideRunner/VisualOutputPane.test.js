@@ -88,6 +88,37 @@ describe("When there is turtle output", () => {
   });
 });
 
+describe("When there is a matplotlib output", () => {
+  beforeEach(() => {
+    const visuals = [
+      {
+        origin: "matplotlib",
+        content: [1, 2, 3, 4],
+      },
+    ];
+    renderPaneWithVisuals(visuals);
+  });
+
+  test("it renders without crashing", () => {
+    expect(document.getElementsByClassName("pythonrunner-graphic").length).toBe(
+      1,
+    );
+  });
+
+  test("it renders the jpg", () => {
+    const jpg = screen.getByRole("img");
+    const expectedSrc = `data:image/jpg;base64,${window.btoa(
+      String.fromCharCode(...new Uint8Array([1, 2, 3, 4])),
+    )}`;
+    expect(jpg).toHaveAttribute("src", expectedSrc);
+  });
+
+  test("it resizes the jpg to fit into the available space", () => {
+    const jpg = screen.getByRole("img");
+    expect(jpg).toHaveStyle("max-width: 100%; max-height: 100%;");
+  });
+});
+
 describe("When there is an unsupported origin", () => {
   test("it throws an error", () => {
     const visuals = [
