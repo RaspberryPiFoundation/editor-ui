@@ -1,6 +1,8 @@
 /* global globalThis */
 
-export const config = {
+var pygal = {};
+
+pygal.config = {
   renderChart: (chart) => {
     throw new Error(
       "The config.renderChart function has not been set for pygal.",
@@ -30,7 +32,7 @@ const COLORS = [
 ];
 
 const some = (val) => typeof val !== "undefined";
-const toJs = (val) => (val?.toJs ? val.toJs() : val);
+pygal.toJs = (val) => (val?.toJs ? val.toJs() : val);
 
 class Chart {
   constructor({
@@ -47,34 +49,36 @@ class Chart {
     x_labels,
   } = {}) {
     const options = {};
-    if (some(title)) options.title = toJs(title);
-    if (some(width)) options.width = toJs(width);
-    if (some(height)) options.height = toJs(height);
+    if (some(title)) options.title = pygal.toJs(title);
+    if (some(width)) options.width = pygal.toJs(width);
+    if (some(height)) options.height = pygal.toJs(height);
     if (some(range))
       options.range = {
-        min: toJs(range)[0],
-        max: toJs(range)[1],
+        min: pygal.toJs(range)[0],
+        max: pygal.toJs(range)[1],
       };
-    if (some(include_x_axis)) options.include_x_axis = toJs(include_x_axis);
-    if (some(x_title)) options.x_title = toJs(x_title);
-    if (some(y_title)) options.y_title = toJs(y_title);
-    if (some(title_font_size)) options.title_font_size = toJs(title_font_size);
-    if (some(fill)) options.fill = toJs(fill);
-    if (some(stroke)) options.stroke = toJs(stroke);
-    if (some(x_labels)) options.x_labels = toJs(x_labels);
+    if (some(include_x_axis))
+      options.include_x_axis = pygal.toJs(include_x_axis);
+    if (some(x_title)) options.x_title = pygal.toJs(x_title);
+    if (some(y_title)) options.y_title = pygal.toJs(y_title);
+    if (some(title_font_size))
+      options.title_font_size = pygal.toJs(title_font_size);
+    if (some(fill)) options.fill = pygal.toJs(fill);
+    if (some(stroke)) options.stroke = pygal.toJs(stroke);
+    if (some(x_labels)) options.x_labels = pygal.toJs(x_labels);
 
     this._options = options;
     this._data = [];
   }
 
   add(label, values) {
-    if (!Array.isArray(toJs(values))) {
+    if (!Array.isArray(pygal.toJs(values))) {
       values = [values];
     }
-    const data = [...toJs(values)].map((v) => v || 0);
+    const data = [...pygal.toJs(values)].map((v) => v || 0);
 
     this._data.unshift({
-      name: toJs(label),
+      name: pygal.toJs(label),
       color: this.#rgba(COLORS[this._data.length % COLORS.length], 0.75),
       data: data,
       marker: {
@@ -104,8 +108,8 @@ class Chart {
       });
     }
 
-    const defaultWidth = config.availableWidth;
-    const defaultHeight = Math.min(defaultWidth, config.availableHeight);
+    const defaultWidth = pygal.config.availableWidth;
+    const defaultHeight = Math.min(defaultWidth, pygal.config.availableHeight);
 
     let chart = {
       chart: {
@@ -177,7 +181,7 @@ class Chart {
       chart = this.renderer(options, chart);
     }
 
-    config.renderChart(chart);
+    pygal.config.renderChart(chart);
 
     return "";
   }
@@ -217,37 +221,37 @@ class Chart {
   }
 
   set title(val) {
-    this._options.title = toJs(val);
+    this._options.title = pygal.toJs(val);
   }
   set width(val) {
-    this._options.width = toJs(val);
+    this._options.width = pygal.toJs(val);
   }
   set height(val) {
-    this._options.height = toJs(val);
+    this._options.height = pygal.toJs(val);
   }
   set range(val) {
-    this._options.range = toJs(val);
+    this._options.range = pygal.toJs(val);
   }
   set include_x_axis(val) {
-    this._options.include_x_axis = toJs(val);
+    this._options.include_x_axis = pygal.toJs(val);
   }
   set x_title(val) {
-    this._options.x_title = toJs(val);
+    this._options.x_title = pygal.toJs(val);
   }
   set y_title(val) {
-    this._options.y_title = toJs(val);
+    this._options.y_title = pygal.toJs(val);
   }
   set title_font_size(val) {
-    this._options.title_font_size = toJs(val);
+    this._options.title_font_size = pygal.toJs(val);
   }
   set fill(val) {
-    this._options.fill = toJs(val);
+    this._options.fill = pygal.toJs(val);
   }
   set stroke(val) {
-    this._options.stroke = toJs(val);
+    this._options.stroke = pygal.toJs(val);
   }
   set x_labels(val) {
-    this._options.x_labels = toJs(val);
+    this._options.x_labels = pygal.toJs(val);
   }
 
   #rgba(rgb, a) {
@@ -262,18 +266,18 @@ class _Line extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = toJs(options.fill) ? "area" : "line";
+      chart.chart.type = pygal.toJs(options.fill) ? "area" : "line";
       return chart;
     };
   }
 }
-export const Line = (...args) => new _Line(...args);
+const Line = (...args) => new _Line(...args);
 
 class _StackedLine extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      chart.chart.type = toJs(options.fill) ? "area" : "line";
+      chart.chart.type = pygal.toJs(options.fill) ? "area" : "line";
       chart.plotOptions = {
         area: {
           stacking: "percent",
@@ -286,7 +290,7 @@ class _StackedLine extends Chart {
     };
   }
 }
-export const StackedLine = (...args) => new _StackedLine(...args);
+const StackedLine = (...args) => new _StackedLine(...args);
 
 class _Bar extends Chart {
   constructor(...args) {
@@ -297,7 +301,7 @@ class _Bar extends Chart {
     };
   }
 }
-export const Bar = (...args) => new _Bar(...args);
+const Bar = (...args) => new _Bar(...args);
 
 class _StackedBar extends Chart {
   constructor(...args) {
@@ -313,7 +317,7 @@ class _StackedBar extends Chart {
     };
   }
 }
-export const StackedBar = (...args) => new _StackedBar(...args);
+const StackedBar = (...args) => new _StackedBar(...args);
 
 class _HorizontalBar extends Chart {
   constructor(...args) {
@@ -324,7 +328,7 @@ class _HorizontalBar extends Chart {
     };
   }
 }
-export const HorizontalBar = (...args) => new _HorizontalBar(...args);
+const HorizontalBar = (...args) => new _HorizontalBar(...args);
 
 class _StackedHorizontalBar extends Chart {
   constructor(...args) {
@@ -340,17 +344,16 @@ class _StackedHorizontalBar extends Chart {
     };
   }
 }
-export const StackedHorizontalBar = (...args) =>
-  new _StackedHorizontalBar(...args);
+const StackedHorizontalBar = (...args) => new _StackedHorizontalBar(...args);
 
 class _XY extends Chart {
   constructor(...args) {
     super(...args);
     this.renderer = (options, chart) => {
-      if (toJs(options.stroke) === false) {
+      if (pygal.toJs(options.stroke) === false) {
         chart.chart.type = "scatter";
       } else {
-        chart.chart.type = toJs(options.fill) ? "area" : "line";
+        chart.chart.type = pygal.toJs(options.fill) ? "area" : "line";
       }
       chart.xAxis.labels.enabled = true;
 
@@ -358,7 +361,7 @@ class _XY extends Chart {
     };
   }
 }
-export const XY = (...args) => new _XY(...args);
+const XY = (...args) => new _XY(...args);
 
 class _Radar extends Chart {
   constructor(...args) {
@@ -367,7 +370,7 @@ class _Radar extends Chart {
       chart.chart.polar = true;
       chart.chart.type = "line";
       chart.xAxis = {
-        categories: toJs(options.x_labels),
+        categories: pygal.toJs(options.x_labels),
         tickmarkPlacement: "on",
         lineWidth: 0,
       };
@@ -386,7 +389,7 @@ class _Radar extends Chart {
     };
   }
 }
-export const Radar = (...args) => new _Radar(...args);
+const Radar = (...args) => new _Radar(...args);
 
 class _Pie extends Chart {
   constructor(...args) {
@@ -437,7 +440,9 @@ class _Pie extends Chart {
         }
       }
       chart.tooltip = {
-        //  A patch for the tooltip formatter function has been added in VisualOutputPane.jsx because functions cannot be passed through using postMessage.
+        formatter: function () {
+          return this.key + ": " + this.y;
+        },
       };
       chart.plotOptions = {
         pie: {
@@ -469,4 +474,22 @@ class _Pie extends Chart {
     };
   }
 }
-export const Pie = (...args) => new _Pie(...args);
+const Pie = (...args) => new _Pie(...args);
+
+pygal = {
+  ...pygal,
+  Chart,
+  COLORS,
+  some,
+  Line,
+  StackedLine,
+  Bar,
+  StackedBar,
+  HorizontalBar,
+  StackedHorizontalBar,
+  XY,
+  Radar,
+  Pie,
+};
+
+globalThis.pygal = pygal;
