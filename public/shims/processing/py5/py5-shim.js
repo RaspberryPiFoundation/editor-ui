@@ -23,6 +23,16 @@ const $builtinmodule = function (name) {
   let vectorClass;
   let fontClass;
 
+  let p5Sketch = document.getElementById("p5Sketch");
+
+  if (p5Sketch === null) {
+    const editors = document.getElementsByTagName("editor-wc");
+    const editor = editors[0];
+
+    const shadow = editor.shadowRoot;
+    p5Sketch = shadow.getElementById("p5Sketch");
+  }
+
   const mod = { __name__: new Sk.builtin.str("py5") };
 
   // Helper function for extracting values from arguments
@@ -1337,9 +1347,7 @@ const $builtinmodule = function (name) {
     }
   };
 
-  document
-    .getElementById("p5Sketch")
-    .addEventListener("mousemove", updateMouseCoords);
+  p5Sketch.addEventListener("mousemove", updateMouseCoords);
 
   // NOTE: difference with ProcessingJS
   // Use pmouseX() or mouse.px rather than pmouseX
@@ -1505,8 +1513,6 @@ const $builtinmodule = function (name) {
         }
       };
     };
-
-    const p5Sketch = document.getElementById("p5Sketch");
 
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message);
