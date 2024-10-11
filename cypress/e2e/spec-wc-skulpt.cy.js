@@ -12,12 +12,25 @@ describe("Running the code with skulpt", () => {
     cy.visit(origin);
   });
 
-  it("runs p5 code", () => {
+  it("runs a simple p5 program", () => {
     const code = `from p5 import *\n\ndef setup():\n    size(400, 400)  # width and height of screen\n\ndef draw():\n    fill('cyan')  # Set the fill color for the sky to cyan\n    rect(0, 0, 400, 250)  # Draw a rectangle for the sky with these values for x, y, width, height    \n  \nrun(frame_rate=2)\n`;
     cy.get("editor-wc")
       .shadow()
       .find("div[class=cm-content]")
       .invoke("text", code);
+    cy.get("editor-wc").shadow().find(".btn--run").click();
+    cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
+  });
+
+  it("runs a simple py5 program", () => {
+    cy.get("editor-wc")
+      .shadow()
+      .find("div[class=cm-content]")
+      .invoke(
+        "text",
+        "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
+      );
+    cy.wait(200);
     cy.get("editor-wc").shadow().find(".btn--run").click();
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
@@ -68,6 +81,27 @@ describe("Running the code with skulpt", () => {
       .should("contain", "hello world");
   });
 
+  it("runs a simple sense_hat program", () => {
+    cy.get("editor-wc")
+      .shadow()
+      .find("div[class=cm-content]")
+      .invoke(
+        "text",
+        "from sense_hat import SenseHat\nsense = SenseHat()\nprint(sense.get_humidity())",
+      );
+    cy.get("editor-wc").shadow().find(".btn--run").click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .contains("Text output")
+      .click();
+
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .should("contain.text", "45");
+  });
+
   it("renders visual output tab if sense hat imported", () => {
     cy.get("editor-wc")
       .shadow()
@@ -107,6 +141,22 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc").shadow().find(".btn--run").click();
     cy.get("editor-wc").shadow().contains("Visual output").click();
     cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
+  });
+
+  it("runs a simple turtle program", () => {
+    const code =
+      "import turtle\nskk = turtle.Turtle()\nfor i in range(4):\n\tskk.forward(50)\n\tskk.left(90)\nturtle.done()";
+    cy.get("editor-wc")
+      .shadow()
+      .find("div[class=cm-content]")
+      .invoke("text", code);
+    cy.wait(100);
+    cy.get("editor-wc").shadow().find(".btn--run").click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .find("#turtleOutput")
+      .should("exist");
   });
 
   it("includes an explanation of import errors", () => {
