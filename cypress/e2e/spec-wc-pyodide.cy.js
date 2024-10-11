@@ -8,10 +8,11 @@ beforeEach(() => {
 });
 
 const runCode = (code) => {
+  // Add extra newline to ensure any tooltips are dismissed so they don't get in the way of the run button
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", code);
+    .invoke("text", `${code}\n`);
   cy.get("editor-wc").shadow().find(".btn--run").click();
 };
 
@@ -85,7 +86,7 @@ describe("Running the code with pyodide", () => {
     runCode(
       "import matplotlib.pyplot as plt\nx = [1,2,3]\ny = [2,4,1]\nplt.plot(x, y)\nplt.title('My first graph!')\nplt.show()",
     );
-    cy.wait(3000);
+    cy.wait(5000);
     cy.get("editor-wc")
       .shadow()
       .find(".pyodiderunner")

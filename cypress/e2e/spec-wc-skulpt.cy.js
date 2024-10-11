@@ -8,10 +8,11 @@ beforeEach(() => {
 });
 
 const runCode = (code) => {
+  // Add extra newline to ensure any tooltips are dismissed so they don't get in the way of the run button
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", code);
+    .invoke("text", `${code}\n`);
   cy.wait(200);
   cy.get("editor-wc").shadow().find(".btn--run").click();
 };
@@ -115,7 +116,7 @@ describe("Running the code with skulpt", () => {
   });
 
   it("includes an explanation of import errors", () => {
-    runCode("import turtle\nimport matplotlib\n");
+    runCode("import turtle\nimport matplotlib");
     cy.get("editor-wc")
       .shadow()
       .find(".error-message__content")
