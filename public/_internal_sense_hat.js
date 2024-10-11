@@ -1,10 +1,14 @@
+/* global globalThis */
+
 /**
  * Internal SenseHat Module for reading and writing values from
  * JavaScript World to the Python World. This modules set ups
  * the commmunication and allows to read and write pixels.
  */
 
-export const config = {
+let _internal_sense_hat = {};
+
+_internal_sense_hat.config = {
   pyodide: null,
   emit: () => {},
   colour: "#FF00A4",
@@ -40,15 +44,17 @@ export const config = {
 };
 
 const raisePythonError = (errorType, message) => {
-  if (config.pyodide) {
+  if (_internal_sense_hat.config.pyodide) {
     const escaped = message.replaceAll('"', '\\"');
-    config.pyodide.runPython(`raise ${errorType}("${escaped}")`);
+    _internal_sense_hat.config.pyodide.runPython(
+      `raise ${errorType}("${escaped}")`,
+    );
   } else {
     throw new Error(`${errorType}: ${message}`);
   }
 };
 
-const toJs = (val) => (val?.toJs ? val.toJs() : val);
+_internal_sense_hat.toJs = (val) => (val?.toJs ? val.toJs() : val);
 const isIterable = (val) => !!val?.[Symbol.iterator];
 const isInteger = (val) => val === parseInt(val, 10);
 
@@ -70,16 +76,16 @@ const checkNumberAndReturn = (val) => {
   };
 };
 
-export const init = () => {
-  config.emit("init");
+const init = () => {
+  _internal_sense_hat.config.emit("init");
 };
 
 // _fb_device specific methods
-export const setpixel = (index, value) => {
-  config.mz_criteria.usedLEDs = true;
+const setpixel = (index, value) => {
+  _internal_sense_hat.config.mz_criteria.usedLEDs = true;
 
-  const _index = toJs(index);
-  const _value = toJs(value);
+  const _index = _internal_sense_hat.toJs(index);
+  const _value = _internal_sense_hat.toJs(value);
 
   if (!isIterable(_value)) {
     raisePythonError("ValueError", "'value' should be iterable");
@@ -92,60 +98,60 @@ export const setpixel = (index, value) => {
   }
 
   try {
-    config.pixels[_index] = _value;
+    _internal_sense_hat.config.pixels[_index] = _value;
   } catch (e) {
     raisePythonError("ValueError", e.message);
   }
 
-  config.emit("setpixel", _index);
+  _internal_sense_hat.config.emit("setpixel", _index);
 };
 
-export const getpixel = (index) => {
-  const _index = toJs(index);
+const getpixel = (index) => {
+  const _index = _internal_sense_hat.toJs(index);
 
   try {
-    return config.pixels[_index];
+    return _internal_sense_hat.config.pixels[_index];
   } catch (e) {
     raisePythonError("ValueError", e.message);
   }
 };
 
-export const setpixels = (indexes, values) => {
-  const _indexes = toJs(indexes);
-  const _values = toJs(values);
+const setpixels = (indexes, values) => {
+  const _indexes = _internal_sense_hat.toJs(indexes);
+  const _values = _internal_sense_hat.toJs(values);
 
   if (_indexes) {
-    config.mz_criteria.usedLEDs = true;
+    _internal_sense_hat.config.mz_criteria.usedLEDs = true;
   }
 
   try {
-    config.pixels = _values;
+    _internal_sense_hat.config.pixels = _values;
   } catch (e) {
     raisePythonError("ValueError", e.message);
   }
 
-  config.emit("setpixels", _indexes);
+  _internal_sense_hat.config.emit("setpixels", _indexes);
 };
 
-export const getpixels = () => {
-  return config.pixels;
+const getpixels = () => {
+  return _internal_sense_hat.config.pixels;
 };
 
-export const getGamma = () => {
-  return config.gamma;
+const getGamma = () => {
+  return _internal_sense_hat.config.gamma;
 };
 
-export const setGamma = (gamma) => {
+const setGamma = (gamma) => {
   // checks are made in fb_device.py
-  config.gamma = toJs(gamma);
-  config.emit("setGamma");
+  _internal_sense_hat.config.gamma = _internal_sense_hat.toJs(gamma);
+  _internal_sense_hat.config.emit("setGamma");
 };
 
-export const setLowlight = (value) => {
-  const _value = toJs(value);
+const setLowlight = (value) => {
+  const _value = _internal_sense_hat.toJs(value);
 
-  config.low_light = toJs(_value);
-  config.emit("changeLowlight", _value);
+  _internal_sense_hat.config.low_light = _internal_sense_hat.toJs(_value);
+  _internal_sense_hat.config.emit("changeLowlight", _value);
 };
 
 // RTIMU stuff
@@ -153,17 +159,22 @@ export const setLowlight = (value) => {
 /**
  * 260 - 1260 hPa
  */
-export const pressureRead = () => {
-  config.mz_criteria.readPressure = true;
+const pressureRead = () => {
+  _internal_sense_hat.config.mz_criteria.readPressure = true;
   const temperature = temperatureRead(); // does the validation for us
 
-  if (!config.rtimu.pressure || config.rtimu.pressure.length !== 2) {
+  if (
+    !_internal_sense_hat.config.rtimu.pressure ||
+    _internal_sense_hat.config.rtimu.pressure.length !== 2
+  ) {
     // something was set wrong
     return [].concat([0, -1], temperature);
   }
 
   // check type of the temperature
-  const { valid, value } = checkNumberAndReturn(config.rtimu.pressure[1]);
+  const { valid, value } = checkNumberAndReturn(
+    _internal_sense_hat.config.rtimu.pressure[1],
+  );
 
   // invalid value provided
   if (!valid) {
@@ -181,17 +192,22 @@ export const pressureRead = () => {
 /**
  * >= 0%
  */
-export const humidityRead = () => {
-  config.mz_criteria.readHumidity = true;
+const humidityRead = () => {
+  _internal_sense_hat.config.mz_criteria.readHumidity = true;
   const temperature = temperatureRead(); // does the validation for us
 
-  if (!config.rtimu.humidity || config.rtimu.humidity.length !== 2) {
+  if (
+    !_internal_sense_hat.config.rtimu.humidity ||
+    _internal_sense_hat.config.rtimu.humidity.length !== 2
+  ) {
     // something was set wrong
     return [].concat([0, -1], temperature);
   }
 
   // check type of the temperature
-  const { valid, value } = checkNumberAndReturn(config.rtimu.humidity[1]);
+  const { valid, value } = checkNumberAndReturn(
+    _internal_sense_hat.config.rtimu.humidity[1],
+  );
 
   // invalid value provided
   if (!valid) {
@@ -209,16 +225,21 @@ export const humidityRead = () => {
 /**
  * Temperature Range: -40 to +120 degrees celsius
  */
-export const temperatureRead = () => {
-  config.mz_criteria.readTemperature = true;
+const temperatureRead = () => {
+  _internal_sense_hat.config.mz_criteria.readTemperature = true;
 
-  if (!config.rtimu.temperature || config.rtimu.temperature.length !== 2) {
+  if (
+    !_internal_sense_hat.config.rtimu.temperature ||
+    _internal_sense_hat.config.rtimu.temperature.length !== 2
+  ) {
     // something was set wrong
     return [0, -1];
   }
 
   // check type of the temperature
-  const { valid, value } = checkNumberAndReturn(config.rtimu.temperature[1]);
+  const { valid, value } = checkNumberAndReturn(
+    _internal_sense_hat.config.rtimu.temperature[1],
+  );
 
   // invalid value provided
   if (!valid) {
@@ -243,60 +264,62 @@ const hex2rgb = (hex) => [
   ("0x" + hex[5] + hex[6]) | 0,
 ];
 
-export const colourRead = () => {
-  config.mz_criteria.readColour = true;
-  return hex2rgb(config.colour);
+const colourRead = () => {
+  _internal_sense_hat.config.mz_criteria.readColour = true;
+  return hex2rgb(_internal_sense_hat.config.colour);
 };
 
 /**
  * Motion
  */
-export const motionRead = () => {
-  return config.motion;
+const motionRead = () => {
+  return _internal_sense_hat.config.motion;
 };
 
 /**
  * Sets start motion callback
  */
-export const _start_motion = (callback) => {
+const _start_motion = (callback) => {
   if (callback) {
-    config.start_motion_callback = callback;
+    _internal_sense_hat.config.start_motion_callback = callback;
   }
 };
 
 /**
  * Sets stop motion callback
  */
-export const _stop_motion = (callback) => {
+const _stop_motion = (callback) => {
   if (callback) {
-    config.stop_motion_callback = callback;
+    _internal_sense_hat.config.stop_motion_callback = callback;
   }
 };
 
-export const fusionPoseRead = () => {
-  return config.rtimu.raw_orientation.map((x) => (x * Math.PI) / 180);
+const fusionPoseRead = () => {
+  return _internal_sense_hat.config.rtimu.raw_orientation.map(
+    (x) => (x * Math.PI) / 180,
+  );
 };
 
-export const accelRead = () => {
-  return config.rtimu.accel;
+const accelRead = () => {
+  return _internal_sense_hat.config.rtimu.accel;
 };
 
-export const compassRead = () => {
-  return config.rtimu.compass;
+const compassRead = () => {
+  return _internal_sense_hat.config.rtimu.compass;
 };
 
-export const headingRead = () => {
+const headingRead = () => {
   /* Returns tilt-compensated magnetometer heading in radians */
   /* Note: RTIMULib calculates a moving average. This gives an instant reading */
 
   // Accelerometer's roll and pitch, used for compensation
-  const x = config.rtimu.raw_orientation[0]; // roll
-  const y = config.rtimu.raw_orientation[1]; // pitch
+  const x = _internal_sense_hat.config.rtimu.raw_orientation[0]; // roll
+  const y = _internal_sense_hat.config.rtimu.raw_orientation[1]; // pitch
 
   // Compass raw values in microteslas
-  const mx = config.rtimu.compass[0];
-  const my = config.rtimu.compass[1];
-  const mz = config.rtimu.compass[2];
+  const mx = _internal_sense_hat.config.rtimu.compass[0];
+  const my = _internal_sense_hat.config.rtimu.compass[1];
+  const mz = _internal_sense_hat.config.rtimu.compass[2];
 
   // Tilt compensation for Tait-Bryan XYZ convention
   // Formulas here: https://dev.widemeadows.de/2014/01/24/to-tilt-compensate-or-not-to-tilt-compensate/
@@ -314,8 +337,8 @@ export const headingRead = () => {
   return heading;
 };
 
-export const gyroRead = () => {
-  return config.rtimu.gyro;
+const gyroRead = () => {
+  return _internal_sense_hat.config.rtimu.gyro;
 };
 
 /********************************************************/
@@ -325,33 +348,65 @@ export const gyroRead = () => {
 /*
  **/
 
-export const _wait = (timeout) => {
+const _wait = (timeout) => {
   raisePythonError("NotImplementedError", "_wait");
 };
 
-export const _waitmotion = (timeout, motion) => {
-  config.mz_criteria.noInputEvents = false;
+const _waitmotion = (timeout, motion) => {
+  _internal_sense_hat.config.mz_criteria.noInputEvents = false;
   raisePythonError("NotImplementedError", "_waitmotion");
 };
 
-export const _inspectFunction = (func) => {
+const _inspectFunction = (func) => {
   raisePythonError("NotImplementedError", "_inspectFunction");
 };
 
 /**
  * Removes the event handler for simulating threading
  */
-export const _stop_stick_thread = () => {
+const _stop_stick_thread = () => {
   raisePythonError("NotImplementedError", "_stop_stick_thread");
 };
 
 /**
  * Adds the event handler for simulating threading for the SenseStick callbacks
  */
-export const _start_stick_thread = (callback) => {
+const _start_stick_thread = (callback) => {
   raisePythonError("NotImplementedError", "_start_stick_thread");
 };
 
-export const _read = () => {
+const _read = () => {
   raisePythonError("NotImplementedError", "_read");
 };
+
+_internal_sense_hat = {
+  ..._internal_sense_hat,
+  init,
+  setpixel,
+  getpixel,
+  setpixels,
+  getpixels,
+  getGamma,
+  setGamma,
+  setLowlight,
+  pressureRead,
+  humidityRead,
+  temperatureRead,
+  colourRead,
+  motionRead,
+  _start_motion,
+  _stop_motion,
+  fusionPoseRead,
+  accelRead,
+  compassRead,
+  headingRead,
+  gyroRead,
+  _wait,
+  _waitmotion,
+  _inspectFunction,
+  _stop_stick_thread,
+  _start_stick_thread,
+  _read,
+};
+
+globalThis._internal_sense_hat = _internal_sense_hat;
