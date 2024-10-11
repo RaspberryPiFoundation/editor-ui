@@ -115,7 +115,7 @@ describe("Running the code with skulpt", () => {
   });
 
   it("includes an explanation of import errors", () => {
-    runCode("import turtle\nimport matplotlib");
+    runCode("import turtle\nimport matplotlib\n");
     cy.get("editor-wc")
       .shadow()
       .find(".error-message__content")
