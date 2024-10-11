@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabling `pyodide` support in the web component (#1090)
 - `Pyodide` `matplotlib` support (#1087)
 
+### Changed
+
+- Bump `pyodide` to `v0.26.2` (#1098)
+
 ### Fixed
 
 - Dynamic runner switching with more than one `python` file (#1097)

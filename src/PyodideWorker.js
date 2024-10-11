@@ -5,7 +5,7 @@ const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
   importScripts(`${process.env.PUBLIC_URL}/_internal_sense_hat.js`);
   importScripts(`${process.env.PUBLIC_URL}/pygal.js`);
-  importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
+  importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
