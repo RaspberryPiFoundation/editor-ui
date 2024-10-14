@@ -125,7 +125,7 @@ jobs:
 
       - name: Build WC bundle
         run: |
-          if [[ "${{ inputs.environment }}" !== "production" ]]; then
+          if [[ "${{ inputs.environment }}" != "production" ]]; then
             yarn build:dev
           fi
           yarn build:wc
