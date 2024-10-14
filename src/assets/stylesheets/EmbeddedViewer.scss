@@ -1,0 +1,35 @@
+@use './rpf_design_system/colours' as *;
+
+.embedded-viewer {
+  display: flex;
+  flex: 1 1 auto;
+  block-size: auto;
+  overflow: hidden;
+
+  .proj-runner-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    border-radius: 10px;
+    block-size: auto;
+    inline-size: 100%;
+  }
+
+  .pythonrunner-container {
+    border-radius: 10px;
+    flex: 1;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .visual-output {
+    box-sizing: border-box;
+    overflow: auto;
+  }
+}
+
+#app.--light {
+  .embedded-viewer {
+    background-color: $rpf-white;
+  }
+}

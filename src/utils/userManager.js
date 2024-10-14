@@ -13,6 +13,7 @@ const userManagerConfig = {
   scope: "openid email profile force-consent allow-u13-login roles",
   authority: process.env.REACT_APP_AUTHENTICATION_URL,
   silent_redirect_uri: `${host}/auth/silent_renew`,
+  automaticSilentRenew: true,
   filterProtocolClaims: false,
   loadUserInfo: false,
   monitorSession: false,
