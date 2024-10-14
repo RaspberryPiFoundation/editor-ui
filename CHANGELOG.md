@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Enabling web component to find the `turtle` canvas (#1082)
 - Ability to stop code in the web component (#1083)
+- Remove redundant code (#PR)
 
 ## [0.27.0] - 2024-09-26
 
