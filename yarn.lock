@@ -2690,7 +2690,7 @@ __metadata:
     date-fns: ^2.29.3
     dotenv: 8.2.0
     dotenv-expand: 5.1.0
-    dotenv-webpack: latest
+    dotenv-webpack: 8.1.0
     eslint: ^7.11.0
     eslint-config-prettier: ^8.8.0
     eslint-config-react-app: ^6.0.0
@@ -2709,7 +2709,7 @@ __metadata:
     graphql: ^16.6.0
     highcharts: ^9.3.1
     highcharts-react-official: ^3.1.0
-    html-webpack-plugin: latest
+    html-webpack-plugin: 5.6.0
     i18next: ^22.0.3
     i18next-browser-languagedetector: ^7.0.0
     identity-obj-proxy: 3.0.0
@@ -7421,7 +7421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-webpack@npm:latest":
+"dotenv-webpack@npm:8.1.0":
   version: 8.1.0
   resolution: "dotenv-webpack@npm:8.1.0"
   dependencies:
@@ -9612,7 +9612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:latest":
+"html-webpack-plugin@npm:5.6.0":
   version: 5.6.0
   resolution: "html-webpack-plugin@npm:5.6.0"
   dependencies:
