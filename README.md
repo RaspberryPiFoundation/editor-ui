@@ -8,12 +8,10 @@ The app uses the `dotenv` package to provide access to environment variables.
 Copy the example files into the correct place:
 
 ```
-cp .env.example .env
 
 cp .env.webcomponent.example .env.webcomponent
 ```
 
-Variables for the web application need to go into the `.env` file.
 Variables for the web component can be placed in `.env.webcomponent`.
 
 ## Private repo setup (.npmrc)
@@ -25,40 +23,14 @@ The app requires a Git token for access to private repos (currently limited to `
 
 This will then be mounted as a secret in docker, and used to authenticate against the package repo.
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3010](http://localhost:3010) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## Testing
 
 Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework `Jest` and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
 
 Integration testing is carried out via `cypress` and can be run using:
-* `yarn exec cypress run` to run in the CLI
-* `yarn exec cypress open` to run in the GUI
+
+- `yarn exec cypress run` to run in the CLI
+- `yarn exec cypress open` to run in the GUI
 
 Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
@@ -83,8 +55,6 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 ### `yarn start:wc`
 
 Runs the web component in development mode. Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
-
-**NB** You need to have the main `yarn start` process running too.
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
