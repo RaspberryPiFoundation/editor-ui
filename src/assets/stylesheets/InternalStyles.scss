@@ -40,7 +40,6 @@
 @use "./SaveStatus" as *;
 @use "./ContextMenu" as *;
 @use "./FilePanel" as *; // needs to be below Button
-@use "./EmbeddedViewer" as *;
 
 :host {
   font-size: 1.6rem;
