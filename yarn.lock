@@ -2657,7 +2657,7 @@ __metadata:
     "@raspberrypifoundation/design-system-react": ^0.1.5
     "@react-three/drei": 9.114.3
     "@react-three/fiber": ^8.0.13
-    "@react-three/test-renderer": ^8.0.12
+    "@react-three/test-renderer": 8.2.1
     "@reduxjs/toolkit": ^1.6.2
     "@replit/codemirror-indentation-markers": ^6.1.0
     "@sentry/browser": ^7.17.3
@@ -2715,6 +2715,7 @@ __metadata:
     identity-obj-proxy: 3.0.0
     jest: ^29.1.2
     jest-axe: ^7.0.0
+    jest-canvas-mock: ^2.5.2
     jest-circus: ^29.1.2
     jest-css-modules-transform: ^4.4.2
     jest-environment-jsdom: ^29.1.2
@@ -2942,14 +2943,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-three/test-renderer@npm:^8.0.12":
-  version: 8.1.2
-  resolution: "@react-three/test-renderer@npm:8.1.2"
+"@react-three/test-renderer@npm:8.2.1":
+  version: 8.2.1
+  resolution: "@react-three/test-renderer@npm:8.2.1"
   peerDependencies:
     "@react-three/fiber": ">=8.0.0"
     react: ">=17.0"
     three: ">=0.126"
-  checksum: 776883ebcc9a61fe752297922e24f4021edce746e6aee63e454f9d43c1f9a3c05b632eac5dd200b7ce2c429e56785fbd8f3875b6f8b499fd7f1f1519390d2802
+  checksum: cfc3bb9f0c1dbfaaffb80f8ce13dd0d8ba4de627b27b0810fa345be586ccfb7a1e29eb3dc02875ba45be9019c3d059b42e32ea8b5211eef17ba5f94b3861b282
   languageName: node
   linkType: hard
 
@@ -6106,7 +6107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:^1.0.0, color-name@npm:~1.1.4":
+"color-name@npm:^1.0.0, color-name@npm:^1.1.4, color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
@@ -6717,6 +6718,13 @@ __metadata:
   bin:
     cssesc: bin/cssesc
   checksum: f8c4ababffbc5e2ddf2fa9957dda1ee4af6048e22aeda1869d0d00843223c1b13ad3f5d88b51caa46c994225eacb636b764eb807a8883e2fb6f99b4f4e8c48b2
+  languageName: node
+  linkType: hard
+
+"cssfontparser@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "cssfontparser@npm:1.2.1"
+  checksum: 952d487cddab591fb944f2a4c326a7736bc963784a6d92b6ad4051f3bf5ee49a732eff62e29a52ff085197cb07f5bd66525a2245ded7fd356113ac81be9238b9
   languageName: node
   linkType: hard
 
@@ -10814,6 +10822,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-canvas-mock@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "jest-canvas-mock@npm:2.5.2"
+  dependencies:
+    cssfontparser: ^1.2.1
+    moo-color: ^1.0.2
+  checksum: a3004d2e96473049045e49dcf98e5ea6011494048ab42b5422b3089d9ff406aaca8353e79587055d840fa145541668eb8f78613765f252ad5901a8217e91ea5d
+  languageName: node
+  linkType: hard
+
 "jest-changed-files@npm:^29.5.0":
   version: 29.5.0
   resolution: "jest-changed-files@npm:29.5.0"
@@ -12545,6 +12563,15 @@ __metadata:
   dependencies:
     css-mediaquery: ^0.1.2
   checksum: 648fbe8e1eff4d28526d375e847b2a087e5d517323d733ed313b74f039a782432354da675f6a729ae9d73bb8c1ca030c36cec62679d54b5a592adce93e095e48
+  languageName: node
+  linkType: hard
+
+"moo-color@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "moo-color@npm:1.0.3"
+  dependencies:
+    color-name: ^1.1.4
+  checksum: 02bf59b6bbd5e86641bc062e2dc0843e6e579e18ef67e1c8e93bfc01945df578f20e66ce16aa9632db2aa0e16806e0914a26eb345a804f45fff1ae12a8906a29
   languageName: node
   linkType: hard
 
