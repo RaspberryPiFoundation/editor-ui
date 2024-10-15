@@ -583,6 +583,7 @@ module.exports = function (webpackEnv) {
             favicon: path.join(paths.appSrc, "assets", "editor_logo.svg"),
             inject: true,
             template: paths.appHtml,
+            filename: "web-component.html",
             hash: true,
           },
           isEnvProduction
