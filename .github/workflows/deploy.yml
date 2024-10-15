@@ -123,11 +123,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build site and WC bundle
+      - name: Build WC bundle
         run: |
-          if [[ "${{ inputs.environment }}" == "production" ]]; then
-            yarn build
-          else
+          if [[ "${{ inputs.environment }}" != "production" ]]; then
             yarn build:dev
           fi
           yarn build:wc
