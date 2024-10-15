@@ -362,15 +362,9 @@ const PyodideWorker = () => {
 };
 
 globalThis.PyodideWorker = PyodideWorker;
-// globalThis = {
-//   postMessage,
-//   onmessage,
-// };
 
 if (typeof module !== "undefined") {
   module.exports = {
     PyodideWorker: PyodideWorker,
-    // postMessage,
-    // onmessage,
   };
 }

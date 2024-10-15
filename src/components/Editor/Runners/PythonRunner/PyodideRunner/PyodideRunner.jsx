@@ -1,6 +1,3 @@
-/* eslint import/no-webpack-loader-syntax: off */
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import "../../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,8 +17,6 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-// import { PyodideWorker } from "worker-plugin/loader!../../../../../PyodideWorker";
-
 /**
  * A Worker that can be run on a different origin by respecting CORS
  * By default, a Worker constructor that uses an url as its parameters ignores CORS
@@ -36,27 +31,29 @@ export class CorsWorker {
   constructor(url, options) {
     this.url = url;
     this.options = options;
-    const absoluteUrl = new URL(url, window.location.href).toString();
-    const workerSource = `\
-  /* global PyodideWorker */
-  const urlString = ${JSON.stringify(absoluteUrl)}
-  const originURL = new URL(urlString)
-  const originalImportScripts = self.importScripts
-  self.importScripts = (url) => {
-    try {
-      originalImportScripts.call(self, new URL(url, originURL).toString())
-    } catch (e) {
-      console.error('Failed to import script:', url, e);
-      throw e;
-    }
-  }
-  importScripts(urlString);
-  const pyodide = PyodideWorker();
-`;
-    const blob = new Blob([workerSource], { type: "application/javascript" });
-    const objectURL = URL.createObjectURL(blob);
-    this.worker = new Worker(objectURL, options);
-    URL.revokeObjectURL(objectURL);
+    // const absoluteUrl = new URL(url, window.location.href).toString();
+    // const workerSource = `\
+    //   const urlString = ${JSON.stringify(absoluteUrl)}
+    //   const originURL = new URL(urlString)
+    //   const isValidUrl = (urlString) => {
+    //     try { return Boolean(new URL(urlString, originURL)) } catch(e){ return false }
+    //   }
+    //   const originalImportScripts = self.importScripts
+    //   self.importScripts = (url) => {
+    //     /* see note 1 below */
+    //     if(url.startsWith("blob:") && isValidUrl(url.replace("blob:", ""))){
+    //       const urlWithoutBlob = url.replace("blob:", "")
+    //       const { pathname } = new URL(urlWithoutBlob, originURL)
+    //       url = pathname && pathname.substring(1) /* see note 2 below */
+    //     }
+    //     originalImportScripts.call(self, new URL(url, originURL).toString())
+    //   }
+    //   importScripts(urlString);
+    // `;
+    // const blob = new Blob([workerSource], { type: "application/javascript" });
+    // const objectURL = URL.createObjectURL(blob);
+    // this.worker = new Worker(objectURL, options);
+    // URL.revokeObjectURL(objectURL);
   }
 
   getWorker() {
@@ -64,14 +61,43 @@ export class CorsWorker {
   }
 
   async createWorker() {
-    const f = await fetch(this.url);
-    const t = await f.text();
-    const b = new Blob([t], {
-      type: "application/javascript",
-    });
-    const url = URL.createObjectURL(b);
-    const worker = new Worker(url, this.options);
-    return worker;
+    if (!this.url) {
+      console.error("Worker URL is undefined");
+      return;
+    }
+
+    if (!this.options) {
+      console.warn("Worker options are undefined, using default options");
+      this.options = {};
+    }
+
+    try {
+      const response = await fetch(this.url);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch worker script: ${response.statusText}`,
+        );
+      }
+
+      const scriptText = await response.text();
+      const extendedScript = `
+        /* global PyodideWorker */
+        console.log("Worker loading");
+        ${scriptText}
+        const pyodide = PyodideWorker();
+      `;
+
+      const blob = new Blob([extendedScript], {
+        type: "application/javascript",
+      });
+      const objectURL = URL.createObjectURL(blob);
+      const worker = new Worker(objectURL, this.options);
+
+      console.log("Worker created successfully");
+      return worker;
+    } catch (error) {
+      console.error("Error creating worker:", error);
+    }
   }
 
   /*
@@ -96,7 +122,56 @@ export class CorsWorker {
    */
 }
 
-const PyodideRunner = ({ active }) => {
+export class CorsWorker2 {
+  constructor(url) {
+    // Get the public path (if available) - this might be specific to your environment
+    const publicPath =
+      typeof __webpack_public_path__ !== "undefined"
+        ? __webpack_public_path__
+        : "";
+
+    // Create a blob with the worker code, including the public path and imported script
+    const workerCode = `
+      /* global PyodideWorker */
+      const publicPath = ${JSON.stringify(publicPath)};
+      globalThis = new Proxy(globalThis, {
+        get: (target, prop) => prop === 'location' ? publicPath : target[prop]
+      });
+      try {
+        importScripts(${JSON.stringify(url.toString())});
+        const pyodide = PyodideWorker();
+      } catch (e) {
+        console.error('Failed to load script:', e);
+      }
+    `;
+    const blob = new Blob([workerCode], { type: "application/javascript" });
+
+    // Create an object URL for the blob
+    const objectURL = URL.createObjectURL(blob);
+
+    // Create the worker using the object URL
+    this._worker = new Worker(objectURL);
+
+    // Revoke the object URL to release resources
+    URL.revokeObjectURL(objectURL);
+  }
+
+  getWorker() {
+    return this._worker;
+  }
+}
+
+const PyodideRunner = (props) => {
+  // const pyodideWorker = new Worker(
+  //   new URL("./PyodideWorker.js", import.meta.url),
+  // );
+
+  // if (!props) {
+  //   return null;
+  // }
+
+  const { active } = props;
+
   const getWorkerURL = (url) => {
     const content = `
       /* global PyodideWorker */
@@ -109,6 +184,15 @@ const PyodideRunner = ({ active }) => {
     return URL.createObjectURL(blob);
   };
 
+  // const pyodideWorker = useMemo(
+  //   () =>
+  //     new CorsWorker(new URL("./PyodideWorker.js", import.meta.url), {
+  //       type: "classic",
+  //       name: "PyodideWorker",
+  //     }).getWorker(),
+  //   [],
+  // );
+
   // Blob approach - works in web component but not in the editor
   // Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'http://localhost:3011/PyodideWorker.js' failed to load.
   // const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
@@ -117,23 +201,53 @@ const PyodideRunner = ({ active }) => {
   // CORS worker - works in web component but not in the editor
   // Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'http://localhost:3012/en/projects/PyodideWorker.js' failed to load.
   // const workerUrl = new CorsWorker("./PyodideWorker.js", {
-  const workerUrl = new CorsWorker(
-    `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-    // {
-    //   type: "classic",
-    // },
-  );
-  const pyodideWorker = useMemo(() => workerUrl.getWorker(), []);
+  // const workerUrl = new CorsWorker(
+  //   `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+  //   {
+  //     type: "classic",
+  //   },
+  // );
+  // const workerUrl = new CorsWorker(
+  //   `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+  // );
+  // const pyodideWorker = useMemo(() => workerUrl.getWorker(), []);
+
+  // CORS worker - async fetch approach - works in both but targeted headers needed for pygal and sense_hat imports
+  // const [pyodideWorker, setPyodideWorker] = useState(null);
+
+  // useMemo(() => {
+  //   const workerUrl = new CorsWorker(
+  //     new URL("/PyodideWorker.js", process.env.PUBLIC_URL),
+  //     { type: "classic" },
+  //   );
+  //   workerUrl
+  //     .createWorker()
+  //     .then((worker) => {
+  //       setPyodideWorker(worker);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to create worker:", error);
+  //     });
+  // }, []);
+
+  // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
+  const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
+  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+
+  // Altered CORS worker 2 - works in web component but not in the editor
+  // const pyodideWorker = new CorsWorker2(
+  //   new URL("http://localhost:3011/PyodideWorker.js"),
+  // ).getWorker();
+
+  // pyodideWorker.onerror = (event) => {
+  //   console.error("Worker error:", event);
+  // };
 
   // DOESN'T WORK
   // const pyodideWorker = await workerUrl.createWorker();
   // const pyodideWorker = useMemo(() => workerUrl.createWorker(), []);
   // const pyodideWorker = useMemo(() => new Worker(PyodideWorker), []);
   // const pyodideWorker = useMemo(() => new Worker(`./PyodideWorker.js`, []));
-
-  if (!pyodideWorker) {
-    console.error("PyodideWorker is not initialized");
-  }
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
@@ -158,26 +272,6 @@ const PyodideRunner = ({ active }) => {
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
   const [showRunner, setShowRunner] = useState(active);
-
-  // useEffect(() => {
-  //   console.log("trying registering service worker");
-  //   if ("serviceWorker" in navigator) {
-  //     console.log("registering service worker");
-  //     navigator.serviceWorker
-  //       .register("./PyodideServiceWorker.js")
-  //       // .register(`${process.env.PUBLIC_URL}/PyodideServiceWorker.js`)
-  //       // .register(`${window.location.origin}/PyodideServiceWorker.js`)
-  //       // .register(serviceWorker)
-  //       // .register(getBlobURL(serviceWorker, "application/javascript"))
-  //       // .register(serviceWorkerUrl)
-  //       .then((registration) => {
-  //         if (!registration.active || !navigator.serviceWorker.controller) {
-  //           console.log("registered");
-  //           window.location.reload();
-  //         }
-  //       });
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -248,8 +342,6 @@ const PyodideRunner = ({ active }) => {
   };
 
   const handleInput = async () => {
-    // TODO: Sk.sense_hat.mz_criteria.noInputEvents = false;
-
     if (stdinClosed.current) {
       stdinBuffer.current[0] = -1;
       return;
@@ -271,7 +363,7 @@ const PyodideRunner = ({ active }) => {
     stdinBuffer.current[0] = currentLength;
 
     if (ctrlD) {
-      stdinClosed.current = true; // Don't accept any more stdin this run.
+      stdinClosed.current = true;
     }
   };
 
@@ -332,20 +424,19 @@ const PyodideRunner = ({ active }) => {
       writeFile([name, extension].join("."), content);
     }
 
-    // program is the content of the component with name main and extension py
     const program = projectCode.find(
       (component) => component.name === "main" && component.extension === "py",
     ).content;
 
     if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 0; // Clear previous signals.
+      interruptBuffer.current[0] = 0;
     }
     pyodideWorker.postMessage({ method: "runPython", python: program });
   };
 
   const handleStop = () => {
     if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
+      interruptBuffer.current[0] = 2;
     }
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
@@ -425,6 +516,13 @@ const PyodideRunner = ({ active }) => {
       element.removeAttribute("contentEditable");
     }
   };
+
+  if (!pyodideWorker) {
+    console.error("PyodideWorker is not initialized");
+    return;
+  } else {
+    console.log("IT WORKED!!");
+  }
 
   return (
     <div
