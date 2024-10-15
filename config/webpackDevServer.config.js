@@ -50,6 +50,7 @@ module.exports = function (proxy, _allowedHost) {
       // use an image, put it in `src` and `import` it from JavaScript instead.
       directory: paths.appPublic,
       publicPath: paths.publicUrlOrPath,
+      filename: "web-component.html",
       // By default files from `directory` will not trigger a page reload.
       // Reportedly, this avoids CPU overload on some systems.
       // https://github.com/facebook/create-react-app/issues/293
