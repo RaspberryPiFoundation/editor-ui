@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
 import "../../assets/stylesheets/Project.scss";
-
+import "../../assets/stylesheets/EmbeddedViewer.scss";
 import Project from "../Editor/Project/Project";
 import MobileProject from "../Mobile/MobileProject/MobileProject";
 import Output from "../Editor/Output/Output";
