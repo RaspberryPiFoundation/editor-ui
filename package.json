@@ -79,8 +79,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "build:dev": "yarn install --check-cache && yarn run build-storybook && node scripts/build.js",
+    "build:dev": "yarn install --check-cache && yarn run build-storybook",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,json}\"",
