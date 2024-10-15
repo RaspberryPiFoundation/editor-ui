@@ -103,7 +103,4 @@ module.exports = {
     }),
   ],
   stats: "minimal",
-  experiments: {
-    topLevelAwait: true, // Enable top-level await if needed
-  },
 };
