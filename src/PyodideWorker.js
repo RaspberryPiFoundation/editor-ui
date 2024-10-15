@@ -263,6 +263,54 @@ const PyodideWorker = () => {
         `);
       },
     },
+    seaborn: {
+      before: async () => {
+        pyodide.registerJsModule("basthon", fakeBasthonPackage);
+        // Patch the document object to prevent matplotlib from trying to render. Since we are running in a web worker,
+        // the document object is not available. We will instead capture the image and send it back to the main thread.
+        pyodide.runPython(`
+        import js
+
+        class DummyDocument:
+            def __init__(self, *args, **kwargs) -> None:
+                return
+            def __getattr__(self, __name: str):
+                return DummyDocument
+        js.document = DummyDocument()
+        `);
+        // await pyodide.loadPackage("seaborn")?.catch(() => {});
+        // let pyodidePackage;
+        // try {
+        //   pyodidePackage = pyodide.pyimport("seaborn");
+        // } catch (_) {}
+        // if (pyodidePackage) {
+        //   return;
+        // }
+
+        // Ensure micropip is loaded which can fetch packages from PyPi.
+        // See: https://pyodide.org/en/stable/usage/loading-packages.html
+        if (!pyodide.micropip) {
+          await pyodide.loadPackage("micropip");
+          pyodide.micropip = pyodide.pyimport("micropip");
+        }
+
+        // If the import is for a PyPi package then load it.
+        // Otherwise, don't error now so that we get an error later from Python.
+        await pyodide.micropip.install("seaborn").catch(() => {});
+      },
+      after: () => {
+        pyodide.runPython(`
+        import matplotlib.pyplot as plt
+        import io
+        import basthon
+
+        bytes_io = io.BytesIO()
+        plt.savefig(bytes_io, format='jpg')
+        bytes_io.seek(0)
+        basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+        `);
+      },
+    },
   };
 
   const fakeBasthonPackage = {
