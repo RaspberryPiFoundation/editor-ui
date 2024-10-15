@@ -92,9 +92,8 @@ jobs:
         with:
           install: false
           start: |
-            yarn start
             yarn start:wc
-          wait-on: "http://localhost:3010, http://localhost:3011"
+          wait-on: "http://localhost:3011"
           quiet: true
         env:
           REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
