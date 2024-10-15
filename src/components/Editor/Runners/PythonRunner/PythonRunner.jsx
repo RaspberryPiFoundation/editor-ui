@@ -25,6 +25,10 @@ const PythonRunner = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!crossOriginIsolated) {
+      setUsePyodide(false);
+      return;
+    }
     const getImports = (code) => {
       const codeWithoutMultilineStrings = code.replace(
         /'''[\s\S]*?'''|"""[\s\S]*?"""/gm,
