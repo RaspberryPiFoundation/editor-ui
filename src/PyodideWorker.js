@@ -8,6 +8,7 @@ const PyodideWorker = () => {
   importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
+  console.log(`crossOriginIsolated: ${globalThis.crossOriginIsolated}`);
 
   // eslint-disable-next-line no-restricted-globals
   if (!supportsAllFeatures && name !== "incremental-features") {
@@ -361,9 +362,15 @@ const PyodideWorker = () => {
 };
 
 globalThis.PyodideWorker = PyodideWorker;
+// globalThis = {
+//   postMessage,
+//   onmessage,
+// };
 
 if (typeof module !== "undefined") {
   module.exports = {
-    PyodideWorker,
+    PyodideWorker: PyodideWorker,
+    // postMessage,
+    // onmessage,
   };
 }

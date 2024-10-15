@@ -71,6 +71,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./build"),
     filename: "[name].js",
+    // publicPath: "http://localhost:3011/",
   },
   devServer: {
     host: "0.0.0.0",
@@ -86,7 +87,18 @@ module.exports = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
         "X-Requested-With, content-type, Authorization",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      // "Cross-Origin-Resource-Policy": "same-site",
     },
+    // onBeforeSetupMiddleware: function (devServer) {
+    //   devServer.app.use((req, res, next) => {
+    //     res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+    //     res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    //     res.setHeader("Cross-Origin-Resource-Policy", "same-site");
+    //     next();
+    //   });
+    // },
   },
   plugins: [
     new WorkerPlugin(),
