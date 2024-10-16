@@ -104,8 +104,8 @@ module.exports = {
         // PyodideWorker scripts - cross origin required on scripts needed for importScripts
         if (
           [
-            "/_internal_sense_hat.js",
-            "/pygal.js",
+            "/pyodide/shims/_internal_sense_hat.js",
+            "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
           ].includes(req.url)
         ) {

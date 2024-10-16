@@ -35,7 +35,7 @@ const PyodideRunner = (props) => {
 
   // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
   const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-  const pyodideWorker = useMemo(() => new Worker(workerUrl), [workerUrl]);
+  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
