@@ -308,8 +308,6 @@ const PyodideRunner = (props) => {
   if (!pyodideWorker) {
     console.error("PyodideWorker is not initialized");
     return;
-  } else {
-    console.log("IT WORKED!!");
   }
 
   return (
