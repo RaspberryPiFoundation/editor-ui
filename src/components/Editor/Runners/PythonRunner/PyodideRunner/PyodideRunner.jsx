@@ -149,7 +149,6 @@ const PyodideRunner = (props) => {
 
   useEffect(() => {
     if (autoRun) {
-      console.log("autorunning...");
       dispatch(triggerCodeRun());
     }
   }, []);

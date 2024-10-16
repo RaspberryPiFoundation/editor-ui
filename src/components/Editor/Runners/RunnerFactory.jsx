@@ -3,7 +3,7 @@ import PythonRunner from "./PythonRunner/PythonRunner";
 import HtmlRunner from "./HtmlRunner/HtmlRunner";
 
 const RunnerFactory = ({
-  autoRun,
+  autoRun = false,
   projectType,
   outputPanels = ["text", "visual"],
 }) => {

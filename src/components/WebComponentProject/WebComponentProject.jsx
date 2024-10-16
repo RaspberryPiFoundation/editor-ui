@@ -112,7 +112,9 @@ const WebComponentProject = ({
         ))}
       {outputOnly && (
         <div className="embedded-viewer" data-testid="output-only">
-          {loading === "success" && <Output outputPanels={outputPanels} />}
+          {loading === "success" && (
+            <Output autoRun={autoRun} outputPanels={outputPanels} />
+          )}
         </div>
       )}
     </>
