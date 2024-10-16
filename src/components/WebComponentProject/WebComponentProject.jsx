@@ -24,6 +24,7 @@ import {
 } from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = ({
+  autoRun = false,
   withProjectbar = false,
   nameEditable = false,
   withSidebar = false,
@@ -97,11 +98,13 @@ const WebComponentProject = ({
       {!outputOnly &&
         (isMobile ? (
           <MobileProject
+            autoRun={autoRun}
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
           />
         ) : (
           <Project
+            autoRun={autoRun}
             nameEditable={nameEditable}
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
