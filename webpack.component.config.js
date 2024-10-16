@@ -80,10 +80,6 @@ module.exports = {
     filename: "[name].js",
     publicPath: publicUrl,
     workerPublicPath: publicUrl,
-    // wasmLoading: "fetch",
-    // webassemblyModuleFilename: "[id].[hash].wasm",
-    // workerChunkLoading: "import-scripts",
-    // workerWasmLoading: "fetch",
   },
   devServer: {
     host: "0.0.0.0",

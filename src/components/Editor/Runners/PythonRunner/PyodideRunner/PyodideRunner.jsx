@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,237 +18,24 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-/**
- * A Worker that can be run on a different origin by respecting CORS
- * By default, a Worker constructor that uses an url as its parameters ignores CORS
- * and fails on a different origin.
- * This way we can run web worker on scripts served by a CDN
- */
-export class CorsWorker {
-  /**
-   * @param {string | URL} url - worker script URL
-   * @param {WorkerOptions} [options] - worker options
-   */
-  constructor(url, options) {
-    this.url = url;
-    this.options = options;
-    // const absoluteUrl = new URL(url, window.location.href).toString();
-    // const workerSource = `\
-    //   const urlString = ${JSON.stringify(absoluteUrl)}
-    //   const originURL = new URL(urlString)
-    //   const isValidUrl = (urlString) => {
-    //     try { return Boolean(new URL(urlString, originURL)) } catch(e){ return false }
-    //   }
-    //   const originalImportScripts = self.importScripts
-    //   self.importScripts = (url) => {
-    //     /* see note 1 below */
-    //     if(url.startsWith("blob:") && isValidUrl(url.replace("blob:", ""))){
-    //       const urlWithoutBlob = url.replace("blob:", "")
-    //       const { pathname } = new URL(urlWithoutBlob, originURL)
-    //       url = pathname && pathname.substring(1) /* see note 2 below */
-    //     }
-    //     originalImportScripts.call(self, new URL(url, originURL).toString())
-    //   }
-    //   importScripts(urlString);
-    // `;
-    // const blob = new Blob([workerSource], { type: "application/javascript" });
-    // const objectURL = URL.createObjectURL(blob);
-    // this.worker = new Worker(objectURL, options);
-    // URL.revokeObjectURL(objectURL);
-  }
-
-  getWorker() {
-    return this.worker;
-  }
-
-  async createWorker() {
-    if (!this.url) {
-      console.error("Worker URL is undefined");
-      return;
-    }
-
-    if (!this.options) {
-      console.warn("Worker options are undefined, using default options");
-      this.options = {};
-    }
-
-    try {
-      const response = await fetch(this.url);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch worker script: ${response.statusText}`,
-        );
-      }
-
-      const scriptText = await response.text();
-      const extendedScript = `
-        /* global PyodideWorker */
-        console.log("Worker loading");
-        ${scriptText}
-        const pyodide = PyodideWorker();
-      `;
-
-      const blob = new Blob([extendedScript], {
-        type: "application/javascript",
-      });
-      const objectURL = URL.createObjectURL(blob);
-      const worker = new Worker(objectURL, this.options);
-
-      console.log("Worker created successfully");
-      return worker;
-    } catch (error) {
-      console.error("Error creating worker:", error);
-    }
-  }
-
-  /*
-      The notes here are outside workerSource to not increase the ObjectURL size with
-    long explanations as comments
-
-    Note 1
-    ======
-      Sometimes Webpack will try to import url with "blob:" prefixed and with relative
-    path as absolute path.
-
-      Not only this will cause a security error due to different url, such as a "blob:" 
-    protocol (meaning a CORS error), the path will be wrong. Any of those 2 problems 
-    fails the importScripts. Since we can import JS with blobs, lets just remove "blob:"
-    prefix and fix the URL its content is a valid URL
-
-    Note 2
-    ======
-       URL#pathname always starts with "/", we want to remove the / to be a relative path
-     to the Worker file URL
-
-   */
-}
-
-export class CorsWorker2 {
-  constructor(url) {
-    // Get the public path (if available) - this might be specific to your environment
-    const publicPath =
-      typeof __webpack_public_path__ !== "undefined"
-        ? __webpack_public_path__
-        : "";
-
-    // Create a blob with the worker code, including the public path and imported script
-    const workerCode = `
-      /* global PyodideWorker */
-      const publicPath = ${JSON.stringify(publicPath)};
-      globalThis = new Proxy(globalThis, {
-        get: (target, prop) => prop === 'location' ? publicPath : target[prop]
-      });
-      try {
-        importScripts(${JSON.stringify(url.toString())});
-        const pyodide = PyodideWorker();
-      } catch (e) {
-        console.error('Failed to load script:', e);
-      }
-    `;
-    const blob = new Blob([workerCode], { type: "application/javascript" });
-
-    // Create an object URL for the blob
-    const objectURL = URL.createObjectURL(blob);
-
-    // Create the worker using the object URL
-    this._worker = new Worker(objectURL);
-
-    // Revoke the object URL to release resources
-    URL.revokeObjectURL(objectURL);
-  }
-
-  getWorker() {
-    return this._worker;
-  }
-}
+const getWorkerURL = (url) => {
+  const content = `
+    /* global PyodideWorker */
+    console.log("Worker loading");
+    importScripts("${url}");
+    const pyodide = PyodideWorker();
+    console.log("Worker loaded");
+  `;
+  const blob = new Blob([content], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+};
 
 const PyodideRunner = (props) => {
-  // const pyodideWorker = new Worker(
-  //   new URL("./PyodideWorker.js", import.meta.url),
-  // );
-
-  // if (!props) {
-  //   return null;
-  // }
-
   const { active } = props;
-
-  const getWorkerURL = (url) => {
-    const content = `
-      /* global PyodideWorker */
-      console.log("Worker loading");
-      importScripts("${url}");
-      const pyodide = PyodideWorker();
-      console.log("Worker loaded");
-    `;
-    const blob = new Blob([content], { type: "application/javascript" });
-    return URL.createObjectURL(blob);
-  };
-
-  // const pyodideWorker = useMemo(
-  //   () =>
-  //     new CorsWorker(new URL("./PyodideWorker.js", import.meta.url), {
-  //       type: "classic",
-  //       name: "PyodideWorker",
-  //     }).getWorker(),
-  //   [],
-  // );
-
-  // Blob approach - works in web component but not in the editor
-  // Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'http://localhost:3011/PyodideWorker.js' failed to load.
-  // const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-  // const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
-
-  // CORS worker - works in web component but not in the editor
-  // Uncaught NetworkError: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'http://localhost:3012/en/projects/PyodideWorker.js' failed to load.
-  // const workerUrl = new CorsWorker("./PyodideWorker.js", {
-  // const workerUrl = new CorsWorker(
-  //   `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-  //   {
-  //     type: "classic",
-  //   },
-  // );
-  // const workerUrl = new CorsWorker(
-  //   `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-  // );
-  // const pyodideWorker = useMemo(() => workerUrl.getWorker(), []);
-
-  // CORS worker - async fetch approach - works in both but targeted headers needed for pygal and sense_hat imports
-  // const [pyodideWorker, setPyodideWorker] = useState(null);
-
-  // useMemo(() => {
-  //   const workerUrl = new CorsWorker(
-  //     new URL("/PyodideWorker.js", process.env.PUBLIC_URL),
-  //     { type: "classic" },
-  //   );
-  //   workerUrl
-  //     .createWorker()
-  //     .then((worker) => {
-  //       setPyodideWorker(worker);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to create worker:", error);
-  //     });
-  // }, []);
 
   // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
   const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
-
-  // Altered CORS worker 2 - works in web component but not in the editor
-  // const pyodideWorker = new CorsWorker2(
-  //   new URL("http://localhost:3011/PyodideWorker.js"),
-  // ).getWorker();
-
-  // pyodideWorker.onerror = (event) => {
-  //   console.error("Worker error:", event);
-  // };
-
-  // DOESN'T WORK
-  // const pyodideWorker = await workerUrl.createWorker();
-  // const pyodideWorker = useMemo(() => workerUrl.createWorker(), []);
-  // const pyodideWorker = useMemo(() => new Worker(PyodideWorker), []);
-  // const pyodideWorker = useMemo(() => new Worker(`./PyodideWorker.js`, []));
+  const pyodideWorker = useMemo(() => new Worker(workerUrl), [workerUrl]);
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();

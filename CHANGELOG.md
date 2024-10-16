@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- PyodideWorker setup for the editor (#1104)
 - Enabling `pyodide` support in the web component (#1090)
 - `Pyodide` `matplotlib` support (#1087)
 
