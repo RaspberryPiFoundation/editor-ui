@@ -4,7 +4,7 @@ import ExternalFiles from "../../ExternalFiles/ExternalFiles";
 import RunnerFactory from "../Runners/RunnerFactory";
 import RunBar from "../../RunButton/RunBar";
 
-const Output = ({ outputPanels = ["text", "visual"] }) => {
+const Output = ({ outputPanels = ["text", "visual"] }, autoRun = false) => {
   const project = useSelector((state) => state.editor.project);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
@@ -17,6 +17,7 @@ const Output = ({ outputPanels = ["text", "visual"] }) => {
         <RunnerFactory
           projectType={project.project_type}
           outputPanels={outputPanels}
+          autoRun={autoRun}
         />
         {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>

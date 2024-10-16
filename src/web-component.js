@@ -49,6 +49,7 @@ class WebComponent extends HTMLElement {
       "host_styles",
       "assets_identifier",
       "auth_key",
+      "auto_run",
       "identifier",
       "code",
       "sense_hat_always_enabled",
@@ -74,6 +75,7 @@ class WebComponent extends HTMLElement {
 
     if (
       [
+        "auto_run",
         "sense_hat_always_enabled",
         "with_sidebar",
         "with_projectbar",

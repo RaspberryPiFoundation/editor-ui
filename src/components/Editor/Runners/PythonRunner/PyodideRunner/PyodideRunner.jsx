@@ -7,6 +7,7 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
+  triggerCodeRun,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -31,7 +32,7 @@ const getWorkerURL = (url) => {
 };
 
 const PyodideRunner = (props) => {
-  const { active } = props;
+  const { active, consoleMode = false, autoRun = false } = props;
 
   // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
   const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
@@ -60,6 +61,53 @@ const PyodideRunner = (props) => {
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
   const [showRunner, setShowRunner] = useState(active);
+  const [inputStack, setInputStack] = useState([]);
+  const prependToInputStack = (input) => {
+    setInputStack((prevInputStack) => {
+      if (prevInputStack[0] === "") {
+        console.log("overwriting...");
+        const newStack = [...prevInputStack];
+        newStack[0] = input;
+        return newStack;
+      } else {
+        console.log("prepending...");
+        console.log(prevInputStack);
+        return [input, ...prevInputStack];
+      }
+    });
+  };
+  const [inputStackIndex, setInputStackIndex] = useState(0);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowUp") {
+        if (inputStackIndex < inputStack.length - 1) {
+          setInputStackIndex(inputStackIndex + 1);
+        }
+      } else if (event.key === "ArrowDown") {
+        if (inputStackIndex > 0) {
+          setInputStackIndex(inputStackIndex - 1);
+        }
+      }
+    };
+    if (consoleMode) {
+      const inputElement = getInputElement();
+      inputElement?.removeEventListener("keydown", handleKeyDown);
+      inputElement?.addEventListener("keydown", handleKeyDown);
+    }
+  }, [inputStack, inputStackIndex, consoleMode]);
+
+  useEffect(() => {
+    console.log("inputStack", inputStack);
+  }, [inputStack]);
+
+  useEffect(() => {
+    console.log("inputStackIndex", inputStackIndex);
+    const inputElement = getInputElement();
+    if (inputElement) {
+      inputElement.innerText = inputStack[inputStackIndex];
+    }
+  }, [inputStackIndex]);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -100,6 +148,13 @@ const PyodideRunner = (props) => {
   }, []);
 
   useEffect(() => {
+    if (autoRun) {
+      console.log("autorunning...");
+      dispatch(triggerCodeRun());
+    }
+  }, []);
+
+  useEffect(() => {
     if (codeRunTriggered && active) {
       console.log("running with pyodide");
       handleRun();
@@ -135,11 +190,19 @@ const PyodideRunner = (props) => {
       return;
     }
 
+    prependToInputStack("");
+    setInputStackIndex(0);
     const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
+    // remove last new line character from last line
+    outputPane.lastChild.innerText = outputPane.lastChild.innerText.slice(
+      0,
+      -1,
+    );
+    outputPane.lastChild.appendChild(inputSpan());
 
     const element = getInputElement();
     const { content, ctrlD } = await getInputContent(element);
+    prependToInputStack(content);
 
     const encoder = new TextEncoder();
     const bytes = encoder.encode(content + "\n");
@@ -302,6 +365,7 @@ const PyodideRunner = (props) => {
     if (element) {
       element.removeAttribute("id");
       element.removeAttribute("contentEditable");
+      element.addEventListener("keydown");
     }
   };
 
