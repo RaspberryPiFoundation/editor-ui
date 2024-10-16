@@ -43,8 +43,5 @@
         "arrowParens": "always"
       }
     ]
-  },
-  "globals": {
-    "crossOriginIsolated": "readonly"
   }
 }

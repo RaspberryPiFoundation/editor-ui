@@ -25,7 +25,7 @@ const PythonRunner = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (!crossOriginIsolated) {
+    if (!window.crossOriginIsolated) {
       setUsePyodide(false);
       return;
     }
