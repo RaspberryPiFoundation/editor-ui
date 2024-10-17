@@ -129,7 +129,7 @@ module.exports = {
       filename: "web-component.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "public" }],
+      patterns: [{ from: "public", to: "" }],
     }),
   ],
   stats: "minimal",
