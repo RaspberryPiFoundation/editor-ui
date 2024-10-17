@@ -10,7 +10,7 @@ exports[`Renders without crashing 1`] = `
       data-testid="output"
     >
       <div
-        class="pythonrunner-container pyodiderunner"
+        class="pythonrunner-container pyodiderunner pyodiderunner--active"
         style="display: flex;"
       >
         <div
@@ -55,7 +55,7 @@ exports[`Renders without crashing 1`] = `
         </div>
       </div>
       <div
-        class="pythonrunner-container skulptrunner skulptrunner--active"
+        class="pythonrunner-container skulptrunner"
         style="display: none;"
       >
         <div
