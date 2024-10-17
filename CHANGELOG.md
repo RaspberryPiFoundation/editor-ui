@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Updated the ImportErrors message
+- In ErrorMassege component added the way to display html elements in string
+
 ### Added
 
 - Enabling `pyodide` support in the web component (#1090)
