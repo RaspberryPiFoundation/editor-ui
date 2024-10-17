@@ -3,6 +3,11 @@ const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 
+let publicUrl = process.env.PUBLIC_URL || "/";
+if (!publicUrl.endsWith("/")) {
+  publicUrl += "/";
+}
+
 module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
@@ -73,6 +78,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./build"),
     filename: "[name].js",
+    publicPath: publicUrl,
+    workerPublicPath: publicUrl,
   },
   devServer: {
     host: "0.0.0.0",
@@ -88,6 +95,25 @@ module.exports = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
         "X-Requested-With, content-type, Authorization",
+      // Pyodide - required for input and code interruption - needed on the host app
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "require-corp",
+    },
+    setupMiddlewares: (middlewares, devServer) => {
+      devServer.app.use((req, res, next) => {
+        // PyodideWorker scripts - cross origin required on scripts needed for importScripts
+        if (
+          [
+            "/pyodide/shims/_internal_sense_hat.js",
+            "/pyodide/shims/pygal.js",
+            "/PyodideWorker.js",
+          ].includes(req.url)
+        ) {
+          res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+        }
+        next();
+      });
+      return middlewares;
     },
   },
   plugins: [

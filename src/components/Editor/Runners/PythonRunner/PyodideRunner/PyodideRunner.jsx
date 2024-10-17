@@ -1,6 +1,4 @@
-/* eslint import/no-webpack-loader-syntax: off */
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import "../../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,26 +18,24 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-const PyodideRunner = ({ active }) => {
-  const getWorkerURL = (url) => {
-    const content = `
-      /* global PyodideWorker */
-      console.log("Worker loading");
-      importScripts("${url}");
-      const pyodide = PyodideWorker();
-      console.log("Worker loaded");
-    `;
-    const blob = new Blob([content], { type: "application/javascript" });
-    return URL.createObjectURL(blob);
-  };
+const getWorkerURL = (url) => {
+  const content = `
+    /* global PyodideWorker */
+    console.log("Worker loading");
+    importScripts("${url}");
+    const pyodide = PyodideWorker();
+    console.log("Worker loaded");
+  `;
+  const blob = new Blob([content], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+};
 
+const PyodideRunner = (props) => {
+  const { active } = props;
+
+  // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
   const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-
   const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
-
-  if (!pyodideWorker) {
-    console.error("PyodideWorker is not initialized");
-  }
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
@@ -311,6 +307,11 @@ const PyodideRunner = ({ active }) => {
       element.removeAttribute("contentEditable");
     }
   };
+
+  if (!pyodideWorker) {
+    console.error("PyodideWorker is not initialized");
+    return;
+  }
 
   return (
     <div
