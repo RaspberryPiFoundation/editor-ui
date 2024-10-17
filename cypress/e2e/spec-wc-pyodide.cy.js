@@ -5,6 +5,7 @@ beforeEach(() => {
     req.headers["Origin"] = origin;
     req.continue();
   });
+  window.crossOriginIsolated = true;
 });
 
 const runCode = (code) => {
