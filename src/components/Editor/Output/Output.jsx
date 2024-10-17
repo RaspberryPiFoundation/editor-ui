@@ -9,7 +9,6 @@ const Output = ({ outputPanels = ["text", "visual"] }) => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
-  const usePyodide = searchParams.get("pyodide") === "true";
 
   return (
     <>
@@ -17,7 +16,6 @@ const Output = ({ outputPanels = ["text", "visual"] }) => {
       <div className="proj-runner-container" data-testid="output">
         <RunnerFactory
           projectType={project.project_type}
-          usePyodide={usePyodide}
           outputPanels={outputPanels}
         />
         {isEmbedded && !isBrowserPreview && <RunBar embedded />}
