@@ -121,7 +121,7 @@ describe("Running the code with skulpt", () => {
       .should("exist");
   });
 
-  it("includes an explanation of import errors", () => {
+  it("includes an explanation of import errors if cross-origin isolated", () => {
     cy.window().then((win) => {
       Object.defineProperty(win, "crossOriginIsolated", {
         value: true,
