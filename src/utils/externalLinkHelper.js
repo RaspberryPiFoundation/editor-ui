@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setError, triggerCodeRun } from "../redux/EditorSlice";
 
 const domain = "https://rpf.io/";
-const host = process.env.PUBLIC_URL || "http://localhost:3010";
+const host = process.env.PUBLIC_URL || "http://localhost:3011";
 const rpfDomain = new RegExp(`^${domain}`);
 const hostDomain = new RegExp(`^${host}`);
 const allowedInternalLinks = [new RegExp(`^#[a-zA-Z0-9]+`)];

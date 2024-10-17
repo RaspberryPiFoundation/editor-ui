@@ -1,6 +1,8 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+process.env.BABEL_ENV = "development";
+process.env.NODE_ENV = "development";
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/web-component.js"),
@@ -86,7 +88,7 @@ module.exports = {
   },
   plugins: [
     new Dotenv({
-      path: "./.env.webcomponent",
+      path: "./.env",
       systemvars: true,
     }),
     new HtmlWebpackPlugin({
