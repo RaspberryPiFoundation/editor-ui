@@ -10,11 +10,11 @@ Copy the example files into the correct place:
 ```
 cp .env.example .env
 
-cp .env.webcomponent.example .env.webcomponent
+cp .env.example .env
 ```
 
 Variables for the web application need to go into the `.env` file.
-Variables for the web component can be placed in `.env.webcomponent`.
+Variables for the web component can be placed in `.env`.
 
 ## Private repo setup (.npmrc)
 
@@ -198,6 +198,7 @@ Other variables that pertain to the app, rather than its deployment are set with
 ### Review apps
 
 Currently the build is deployed to both S3 and Heroku. The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
+
 ### Release Process
 
 A new release of `editor-ui` is created via following process:
