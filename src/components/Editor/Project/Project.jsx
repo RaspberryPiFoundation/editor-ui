@@ -18,6 +18,7 @@ import { projContainer } from "../../../utils/containerQueries";
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const {
+    autoRun = false,
     nameEditable = true,
     withProjectbar = true,
     withSidebar = true,
@@ -75,7 +76,7 @@ const Project = (props) => {
               >
                 <EditorInput />
               </ResizableWithHandle>
-              <Output />
+              <Output autoRun={autoRun} />
             </div>
           )}
         </div>

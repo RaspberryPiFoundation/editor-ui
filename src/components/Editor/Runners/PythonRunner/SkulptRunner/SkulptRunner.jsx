@@ -259,7 +259,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       Sk.sense_hat.mz_criteria.noInputEvents = false;
     }
     const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
+    outputPane.lastChild.appendChild(inputSpan());
 
     const input = getInput();
     input.focus();

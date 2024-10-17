@@ -7,6 +7,7 @@ import {
   setError,
   codeRunHandled,
   loadingRunner,
+  triggerCodeRun,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -31,7 +32,7 @@ const getWorkerURL = (url) => {
 };
 
 const PyodideRunner = (props) => {
-  const { active } = props;
+  const { active, consoleMode = false, autoRun = false } = props;
 
   // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
   const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
@@ -55,11 +56,63 @@ const PyodideRunner = (props) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
+  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const queryParams = new URLSearchParams(window.location.search);
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
   const [showRunner, setShowRunner] = useState(active);
+  const [inputStack, setInputStack] = useState([]);
+  const prependToInputStack = (input) => {
+    setInputStack((prevInputStack) => {
+      if (prevInputStack[0] === "") {
+        console.log("overwriting...");
+        const newStack = [...prevInputStack];
+        newStack[0] = input;
+        return newStack;
+      } else {
+        console.log("prepending...");
+        console.log(prevInputStack);
+        return [input, ...prevInputStack];
+      }
+    });
+  };
+  const [inputStackIndex, setInputStackIndex] = useState(0);
+
+  useEffect(() => {
+    console.log("isOutputOnly", isOutputOnly);
+  });
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowUp") {
+        if (inputStackIndex < inputStack.length - 1) {
+          setInputStackIndex(inputStackIndex + 1);
+        }
+      } else if (event.key === "ArrowDown") {
+        if (inputStackIndex > 0) {
+          setInputStackIndex(inputStackIndex - 1);
+        }
+      }
+    };
+    if (consoleMode) {
+      const inputElement = getInputElement();
+      inputElement?.removeEventListener("keydown", handleKeyDown);
+      inputElement?.addEventListener("keydown", handleKeyDown);
+    }
+  }, [inputStack, inputStackIndex, consoleMode]);
+
+  useEffect(() => {
+    console.log("inputStack", inputStack);
+  }, [inputStack]);
+
+  useEffect(() => {
+    console.log("inputStackIndex", inputStackIndex);
+    const inputElement = getInputElement();
+    if (inputElement) {
+      inputElement.innerText = inputStack[inputStackIndex];
+    }
+  }, [inputStackIndex]);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -96,6 +149,12 @@ const PyodideRunner = (props) => {
             throw new Error(`Unsupported method: ${data.method}`);
         }
       };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (autoRun) {
+      dispatch(triggerCodeRun());
     }
   }, []);
 
@@ -137,11 +196,19 @@ const PyodideRunner = (props) => {
       return;
     }
 
+    prependToInputStack("");
+    setInputStackIndex(0);
     const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
+    // remove last new line character from last line
+    outputPane.lastChild.innerText = outputPane.lastChild.innerText.slice(
+      0,
+      -1,
+    );
+    outputPane.lastChild.appendChild(inputSpan());
 
     const element = getInputElement();
     const { content, ctrlD } = await getInputContent(element);
+    prependToInputStack(content);
 
     const encoder = new TextEncoder();
     const bytes = encoder.encode(content + "\n");
@@ -305,6 +372,7 @@ const PyodideRunner = (props) => {
     if (element) {
       element.removeAttribute("id");
       element.removeAttribute("contentEditable");
+      element.addEventListener("keydown");
     }
   };
 
@@ -351,6 +419,11 @@ const PyodideRunner = (props) => {
                       {t("output.textOutput")}
                     </span>
                   </Tab>
+                  {!isOutputOnly && (
+                    <Tab key={1}>
+                      <span className="react-tabs__tab-text">Console</span>
+                    </Tab>
+                  )}
                 </TabList>
                 {!hasVisual && !isEmbedded && isMobile && (
                   <RunnerControls skinny />
@@ -364,6 +437,16 @@ const PyodideRunner = (props) => {
                   ref={output}
                 ></pre>
               </TabPanel>
+              {!isOutputOnly && (
+                <TabPanel key={1}>
+                  <iframe
+                    title="console"
+                    src="http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true"
+                    crossOrigin
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </TabPanel>
+              )}
             </Tabs>
           </div>
         </>
@@ -383,6 +466,11 @@ const PyodideRunner = (props) => {
                   {t("output.textOutput")}
                 </span>
               </Tab>
+              {/* {!isOutputOnly && (
+                <Tab key={2}>
+                  <span className="react-tabs__tab-text">Console</span>
+                </Tab>
+              )} */}
             </TabList>
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
@@ -400,6 +488,20 @@ const PyodideRunner = (props) => {
               ref={output}
             ></pre>
           </TabPanel>
+          {/* {!isOutputOnly && (
+            <TabPanel key={2}>
+              <editor-wc
+                autoRun={true}
+                class="c-editor__wc"
+                code={`from IPython import embed\nembed()`}
+                load_remix_disabled={true}
+                embedded={false}
+                output_only={true}
+                output_split_view={false}
+                use_editor_styles={true}
+              ></editor-wc>
+            </TabPanel>
+          )} */}
         </Tabs>
       )}
     </div>

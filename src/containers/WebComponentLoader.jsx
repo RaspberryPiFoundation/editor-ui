@@ -31,6 +31,7 @@ const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
     authKey,
+    autoRun = false,
     identifier,
     code,
     senseHatAlwaysEnabled = false,
@@ -175,6 +176,7 @@ const WebComponentLoader = (props) => {
               closeButton={ToastCloseButton}
             />
             <WebComponentProject
+              autoRun={autoRun}
               withProjectbar={withProjectbar}
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
