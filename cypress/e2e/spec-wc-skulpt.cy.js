@@ -5,7 +5,12 @@ beforeEach(() => {
     req.headers["Origin"] = origin;
     req.continue();
   });
-  window.crossOriginIsolated = false;
+  cy.window().then((win) => {
+    Object.defineProperty(win, "crossOriginIsolated", {
+      value: false,
+      configurable: true,
+    });
+  });
 });
 
 const runCode = (code) => {
