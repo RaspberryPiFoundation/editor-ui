@@ -5,12 +5,6 @@ beforeEach(() => {
     req.headers["Origin"] = origin;
     req.continue();
   });
-  cy.window().then((win) => {
-    Object.defineProperty(win, "crossOriginIsolated", {
-      value: true,
-      configurable: true,
-    });
-  });
 });
 
 const runCode = (code) => {
@@ -25,6 +19,12 @@ const runCode = (code) => {
 describe("Running the code with pyodide", () => {
   beforeEach(() => {
     cy.visit(origin);
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: true,
+        configurable: true,
+      });
+    });
   });
 
   it("runs a simple program", () => {
