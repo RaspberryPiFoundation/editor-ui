@@ -198,7 +198,6 @@ Other variables that pertain to the app, rather than its deployment are set with
 ### Review apps
 
 Currently the build is deployed to both S3 and Heroku. The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
-
 ### Release Process
 
 A new release of `editor-ui` is created via following process:
