@@ -130,6 +130,8 @@ const PyodideRunner = (props) => {
   };
 
   const handleInput = async () => {
+    // TODO: Sk.sense_hat.mz_criteria.noInputEvents = false;
+
     if (stdinClosed.current) {
       stdinBuffer.current[0] = -1;
       return;
@@ -151,7 +153,7 @@ const PyodideRunner = (props) => {
     stdinBuffer.current[0] = currentLength;
 
     if (ctrlD) {
-      stdinClosed.current = true;
+      stdinClosed.current = true; // Don't accept any more stdin this run.
     }
   };
 
@@ -212,19 +214,20 @@ const PyodideRunner = (props) => {
       writeFile([name, extension].join("."), content);
     }
 
+    // program is the content of the component with name main and extension py
     const program = projectCode.find(
       (component) => component.name === "main" && component.extension === "py",
     ).content;
 
     if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 0;
+      interruptBuffer.current[0] = 0; // Clear previous signals.
     }
     pyodideWorker.postMessage({ method: "runPython", python: program });
   };
 
   const handleStop = () => {
     if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 2;
+      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
     }
     pyodideWorker.postMessage({ method: "stopPython" });
     disableInput();
