@@ -122,7 +122,7 @@ describe("Running the code with skulpt", () => {
       .find(".error-message__content")
       .should(
         "contain.text",
-        "If you are using p5, py5, sense_hat or turtle, matplotlib might not work.",
+        "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
       );
   });
 });
