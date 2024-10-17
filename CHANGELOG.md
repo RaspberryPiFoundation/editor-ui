@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Build to include public files (#1112)
 - Dynamic runner switching with more than one `python` file (#1097)
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
 
