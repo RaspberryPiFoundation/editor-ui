@@ -279,9 +279,11 @@ describe("When an error has occurred", () => {
   });
 });
 
-describe("When there is an import error", () => {
+describe("When there is an import error and the site is cross-origin isolated", () => {
   let store;
   beforeEach(() => {
+    window.crossOriginIsolated = true;
+
     const middlewares = [];
     const mockStore = configureStore(middlewares);
     const initialState = {
