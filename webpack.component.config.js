@@ -2,6 +2,7 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
@@ -126,6 +127,9 @@ module.exports = {
       inject: "body",
       template: "src/web-component.html",
       filename: "web-component.html",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: "public", to: "" }],
     }),
   ],
   stats: "minimal",
