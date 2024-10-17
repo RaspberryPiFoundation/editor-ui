@@ -9,6 +9,7 @@ const Output = ({ outputPanels = ["text", "visual"], autoRun = false }) => {
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const searchParams = new URLSearchParams(window.location.search);
   const isBrowserPreview = searchParams.get("browserPreview") === "true";
+  const isAutoRun = autoRun || searchParams.get("autoRun") === "true";
 
   return (
     <>
@@ -17,7 +18,7 @@ const Output = ({ outputPanels = ["text", "visual"], autoRun = false }) => {
         <RunnerFactory
           projectType={project.project_type}
           outputPanels={outputPanels}
-          autoRun={autoRun}
+          autoRun={isAutoRun}
         />
         {isEmbedded && !isBrowserPreview && <RunBar embedded />}
       </div>
