@@ -13,7 +13,6 @@ const ErrorMessage = () => {
       message.current.innerHTML = error;
     }
   }, [error]);
-  console.log(error);
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>
       <pre ref={message} className="error-message__content"></pre>
