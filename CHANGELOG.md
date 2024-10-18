@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- PyodideWorker setup for the editor (#1104)
+- Enabling `pyodide` support in the web component (#1090)
+- `Pyodide` `matplotlib` support (#1087)
+- Tests for running simple programs in `pyodide` and `skulpt` (#1100)
+- Fall back to `skulpt` if the host is not `crossOriginIsolated` (#1107)
+
+### Changed
+
+- Upgrade to `webpack 5` (#1096)
+- Bump `pyodide` to `v0.26.2` (#1098)
+
+### Fixed
+
+- Build to include public files (#1112)
+- Dynamic runner switching with more than one `python` file (#1097)
+- Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
+
 ## [0.27.1] - 2024-10-01
 
 ### Fixed
@@ -111,6 +130,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Remove unused `/embedded/projects/:identifier` route (#1013)
+- Runner defaults to `pyodide` (#937)
 
 ### Fixed
 
@@ -125,6 +145,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix initial value of `user` in `WebComponentLoader` (#1021)
 - Make `authKey` in e2e web component spec more realistic (#1022)
 - Remove unused `ComponentStore` (#1023)
+- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
 
 ## [0.23.0] - 2024-05-09
 
