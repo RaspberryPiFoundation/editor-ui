@@ -206,6 +206,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                     scriptElement.type = "text/javascript";
                     scriptElement.src = path;
                     scriptElement.async = true;
+                    scriptElement.crossOrigin = "";
                     scriptElement.onload = function () {
                       resolve(true);
                     };
@@ -302,7 +303,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
-      if (errorType === "ImportError") {
+      if (errorType === "ImportError" && window.crossOriginIsolated) {
         const moduleName = errorDescription.replace(/No module named /, "");
         explanation = `You should check your code for typos. If you are using p5, py5, sense_hat or turtle, ${moduleName} might not work.`;
       }

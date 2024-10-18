@@ -279,6 +279,49 @@ describe("When an error has occurred", () => {
   });
 });
 
+describe("When there is an import error and the site is cross-origin isolated", () => {
+  let store;
+  beforeEach(() => {
+    window.crossOriginIsolated = true;
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "import fake_module",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+  });
+  test("it shows the original error message and the explanation", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setError(
+          "ImportError: No module named fake_module on line 1 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, fake_module might not work.",
+        ),
+      ]),
+    );
+  });
+});
+
 // describe("When in split view, no visual libraries used and code run", () => {
 //   let store;
 //   let queryByText;
