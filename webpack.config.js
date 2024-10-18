@@ -120,7 +120,7 @@ module.exports = {
   plugins: [
     new WorkerPlugin(),
     new Dotenv({
-      path: "./.env.webcomponent",
+      path: "./.env",
       systemvars: true,
     }),
     new HtmlWebpackPlugin({

@@ -18,6 +18,6 @@ RUN corepack enable \
 
 RUN yarn
 
-EXPOSE 3010
+EXPOSE 3011
 
 CMD ["yarn", "start"]
