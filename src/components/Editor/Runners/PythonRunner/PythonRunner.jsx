@@ -29,7 +29,6 @@ const PythonRunner = () => {
       setUsePyodide(false);
       return;
     }
-
     const getImports = (code) => {
       const codeWithoutMultilineStrings = code.replace(
         /'''[\s\S]*?'''|"""[\s\S]*?"""/gm,
