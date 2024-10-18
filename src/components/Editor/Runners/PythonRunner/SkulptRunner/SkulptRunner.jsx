@@ -207,7 +207,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                     scriptElement.src = path;
                     scriptElement.async = true;
                     scriptElement.crossOrigin = "";
-                    
                     scriptElement.onload = function () {
                       resolve(true);
                     };
