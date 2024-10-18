@@ -287,6 +287,7 @@ describe("When there is an import error and the site is cross-origin isolated", 
     const mockStore = configureStore(middlewares);
     const initialState = {
       editor: {
+        locale: "ja-JP",
         project: {
           components: [
             {
@@ -313,7 +314,7 @@ describe("When there is an import error and the site is cross-origin isolated", 
   test("it shows the original error message and the explanation", () => {
     expect(store.getActions()).toContainEqual(
       setError(
-        "ImportError: No module named fake_module on line 1 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, fake_module might not work - read this <a href=https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor>article</a> for more information.",
+        `ImportError: No module named fake_module on line 1 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, fake_module might not work - read this <a href=https://help.editor.raspberrypi.org/hc/ja-JP/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor>article</a> for more information.`,
       ),
     );
   });
