@@ -282,14 +282,47 @@ const PyodideWorker = () => {
   const reloadPyodideToClearState = async () => {
     postMessage({ method: "handleLoading" });
 
-    pyodidePromise = loadPyodide({
-      stdout: (content) =>
-        postMessage({ method: "handleOutput", stream: "stdout", content }),
-      stderr: (content) =>
-        postMessage({ method: "handleOutput", stream: "stderr", content }),
-    });
+    const alreadyLoaded = !!(pyodide)
 
-    pyodide = await pyodidePromise;
+    if (!alreadyLoaded) {
+      pyodidePromise = loadPyodide({
+        stdout: (content) =>
+          postMessage({ method: "handleOutput", stream: "stdout", content }),
+        stderr: (content) =>
+          postMessage({ method: "handleOutput", stream: "stderr", content }),
+      });
+
+      pyodide = await pyodidePromise;
+    }
+
+    // await pyodide.runPythonAsync(`
+    //   import gc
+    //   import sys
+
+    //   # Clear imported modules
+    //   for name in list(sys.modules.keys()):
+    //       if name not in sys.builtin_module_names:
+    //           del sys.modules[name]
+
+    //   # Run garbage collection to free up memory
+    //   gc.collect()
+
+    //   # Clear all user-defined variables and modules
+    //   for name in dir():
+    //       if not name.startswith('_'):
+    //           del globals()[name]
+    // `);
+
+
+    if (alreadyLoaded) {
+      console.log("Clearing state")
+      await pyodide.runPythonAsync(`
+        # Clear all user-defined variables and modules
+        for name in dir():
+            if not name.startswith('_') and not name in ['DummyDocument', 'input']:
+                del globals()[name]
+      `);
+    }
 
     if (supportsAllFeatures) {
       stdinBuffer =
