@@ -254,21 +254,22 @@ const PyodideWorker = () => {
           pyodidePackage = pyodide.pyimport("matplotlib");
         } catch (_) {}
         if (pyodidePackage) {
+          pyodide.runPython(`
+            import matplotlib.pyplot as plt
+            import io
+            import basthon
+
+            def show_chart():
+                bytes_io = io.BytesIO()
+                plt.savefig(bytes_io, format='jpg')
+                bytes_io.seek(0)
+                basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+            plt.show = show_chart
+            `)
           return;
         }
       },
-      after: () => {
-        pyodide.runPython(`
-        import matplotlib.pyplot as plt
-        import io
-        import basthon
-
-        bytes_io = io.BytesIO()
-        plt.savefig(bytes_io, format='jpg')
-        bytes_io.seek(0)
-        basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
-        `);
-      },
+      after: () => {},
     },
     seaborn: {
       before: async () => {
@@ -303,10 +304,19 @@ const PyodideWorker = () => {
         import io
         import basthon
 
-        bytes_io = io.BytesIO()
-        plt.savefig(bytes_io, format='jpg')
-        bytes_io.seek(0)
-        basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+        def is_plot_empty():
+            fig = plt.gcf()
+            for ax in fig.get_axes():
+                # Check if the axes contain any lines, patches, collections, etc.
+                if ax.lines or ax.patches or ax.collections or ax.images or ax.texts:
+                    return False
+            return True
+
+        if not is_plot_empty():
+            bytes_io = io.BytesIO()
+            plt.savefig(bytes_io, format='jpg')
+            bytes_io.seek(0)
+            basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
         `);
       },
     },
