@@ -280,14 +280,6 @@ const PyodideWorker = () => {
                 return DummyDocument
         js.document = DummyDocument()
         `);
-        // await pyodide.loadPackage("seaborn")?.catch(() => {});
-        // let pyodidePackage;
-        // try {
-        //   pyodidePackage = pyodide.pyimport("seaborn");
-        // } catch (_) {}
-        // if (pyodidePackage) {
-        //   return;
-        // }
 
         // Ensure micropip is loaded which can fetch packages from PyPi.
         // See: https://pyodide.org/en/stable/usage/loading-packages.html
