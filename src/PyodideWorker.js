@@ -60,7 +60,12 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
+    await pyodide.loadPackage("pyodide_http");
+
     await pyodide.runPythonAsync(`
+    import pyodide_http
+    pyodide_http.patch_all()
+
     old_input = input
 
     def patched_input(prompt=False):
