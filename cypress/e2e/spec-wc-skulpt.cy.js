@@ -20,6 +20,12 @@ const runCode = (code) => {
 describe("Running the code with skulpt", () => {
   beforeEach(() => {
     cy.visit(origin);
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: false,
+        configurable: true,
+      });
+    });
   });
 
   it("runs a simple p5 program", () => {
@@ -115,7 +121,13 @@ describe("Running the code with skulpt", () => {
       .should("exist");
   });
 
-  it("includes an explanation of import errors", () => {
+  it("includes an explanation of import errors if cross-origin isolated", () => {
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: true,
+        configurable: true,
+      });
+    });
     runCode("import turtle\nimport matplotlib");
     cy.get("editor-wc")
       .shadow()

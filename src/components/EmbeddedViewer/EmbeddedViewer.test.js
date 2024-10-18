@@ -61,6 +61,7 @@ beforeEach(() => {
       },
     },
   };
+  window.crossOriginIsolated = true;
 });
 
 test("Renders without crashing", () => {

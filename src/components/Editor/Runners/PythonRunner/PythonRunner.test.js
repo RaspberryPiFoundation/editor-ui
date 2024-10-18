@@ -43,6 +43,10 @@ const renderRunnerWithCode = ({
   );
 };
 
+beforeEach(() => {
+  window.crossOriginIsolated = true;
+});
+
 test("Renders with Pyodide runner initially", () => {
   renderRunnerWithCode({});
   expect(
@@ -69,6 +73,15 @@ test("Uses skulpt when skulpt-only modules are imported", () => {
 
 test("Uses skulpt when senseHatAlwaysEnabled is true", () => {
   renderRunnerWithCode({ code: "import math", senseHatAlwaysEnabled: true });
+  expect(
+    document.querySelector(".pyodiderunner--active"),
+  ).not.toBeInTheDocument();
+  expect(document.querySelector(".skulptrunner--active")).toBeInTheDocument();
+});
+
+test("Uses skulpt if not cross origin isolated", () => {
+  window.crossOriginIsolated = false;
+  renderRunnerWithCode({ code: "import math" });
   expect(
     document.querySelector(".pyodiderunner--active"),
   ).not.toBeInTheDocument();

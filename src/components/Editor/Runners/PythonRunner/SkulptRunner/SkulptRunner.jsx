@@ -206,6 +206,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                     scriptElement.type = "text/javascript";
                     scriptElement.src = path;
                     scriptElement.async = true;
+                    scriptElement.crossOrigin = "";
+                    
                     scriptElement.onload = function () {
                       resolve(true);
                     };
@@ -302,7 +304,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
-      if (errorType === "ImportError") {
+      if (errorType === "ImportError" && window.crossOriginIsolated) {
         const articleLink =
           "https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor";
         const moduleName = errorDescription.replace(/No module named /, "");
