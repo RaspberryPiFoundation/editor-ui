@@ -60,7 +60,12 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
+    await pyodide.loadPackage("pyodide_http");
+
     await pyodide.runPythonAsync(`
+    import pyodide_http
+    pyodide_http.patch_all()
+
     old_input = input
 
     def patched_input(prompt=False):
@@ -249,8 +254,49 @@ const PyodideWorker = () => {
           pyodidePackage = pyodide.pyimport("matplotlib");
         } catch (_) {}
         if (pyodidePackage) {
+          pyodide.runPython(`
+            import matplotlib.pyplot as plt
+            import io
+            import basthon
+
+            def show_chart():
+                bytes_io = io.BytesIO()
+                plt.savefig(bytes_io, format='jpg')
+                bytes_io.seek(0)
+                basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+            plt.show = show_chart
+            `);
           return;
         }
+      },
+      after: () => {},
+    },
+    seaborn: {
+      before: async () => {
+        pyodide.registerJsModule("basthon", fakeBasthonPackage);
+        // Patch the document object to prevent matplotlib from trying to render. Since we are running in a web worker,
+        // the document object is not available. We will instead capture the image and send it back to the main thread.
+        pyodide.runPython(`
+        import js
+
+        class DummyDocument:
+            def __init__(self, *args, **kwargs) -> None:
+                return
+            def __getattr__(self, __name: str):
+                return DummyDocument
+        js.document = DummyDocument()
+        `);
+
+        // Ensure micropip is loaded which can fetch packages from PyPi.
+        // See: https://pyodide.org/en/stable/usage/loading-packages.html
+        if (!pyodide.micropip) {
+          await pyodide.loadPackage("micropip");
+          pyodide.micropip = pyodide.pyimport("micropip");
+        }
+
+        // If the import is for a PyPi package then load it.
+        // Otherwise, don't error now so that we get an error later from Python.
+        await pyodide.micropip.install("seaborn").catch(() => {});
       },
       after: () => {
         pyodide.runPython(`
@@ -258,10 +304,19 @@ const PyodideWorker = () => {
         import io
         import basthon
 
-        bytes_io = io.BytesIO()
-        plt.savefig(bytes_io, format='jpg')
-        bytes_io.seek(0)
-        basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+        def is_plot_empty():
+            fig = plt.gcf()
+            for ax in fig.get_axes():
+                # Check if the axes contain any lines, patches, collections, etc.
+                if ax.lines or ax.patches or ax.collections or ax.images or ax.texts:
+                    return False
+            return True
+
+        if not is_plot_empty():
+            bytes_io = io.BytesIO()
+            plt.savefig(bytes_io, format='jpg')
+            bytes_io.seek(0)
+            basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
         `);
       },
     },

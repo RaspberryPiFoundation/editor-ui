@@ -100,6 +100,18 @@ describe("PyodideWorker", () => {
     );
   });
 
+  test("it patches urllib and requests modules", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/pyodide_http.patch_all()/),
+    );
+  });
+
   test("it tries to load package from file system", async () => {
     pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({

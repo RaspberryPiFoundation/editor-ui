@@ -47,7 +47,7 @@ describe("Running the code with pyodide", () => {
   });
 
   // skip this test for now until we get the headers set up
-  it.skip("runs a simple program with an input", () => {
+  it("runs a simple program with an input", () => {
     runCode('name = input("What is your name?")\nprint("Hello", name)');
     cy.get("editor-wc")
       .shadow()
@@ -92,6 +92,16 @@ describe("Running the code with pyodide", () => {
     runCode(
       "import matplotlib.pyplot as plt\nx = [1,2,3]\ny = [2,4,1]\nplt.plot(x, y)\nplt.title('My first graph!')\nplt.show()",
     );
+    cy.wait(5000);
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .find("img")
+      .should("be.visible");
+  });
+
+  it("runs a simple seaborn program", () => {
+    runCode("import seaborn as sns\ndata = [50, 30, 100]\nsns.displot(data)");
     cy.wait(5000);
     cy.get("editor-wc")
       .shadow()
