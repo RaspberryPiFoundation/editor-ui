@@ -52,9 +52,11 @@ const WebComponentProject = ({
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
 
-  dispatch(setIsSplitView(outputSplitView));
-  dispatch(setWebComponent(true));
-  dispatch(setIsOutputOnly(outputOnly));
+  useEffect(() => {
+    dispatch(setIsSplitView(outputSplitView));
+    dispatch(setWebComponent(true));
+    dispatch(setIsOutputOnly(outputOnly));
+  }, [outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
