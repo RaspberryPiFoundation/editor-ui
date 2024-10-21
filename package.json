@@ -80,7 +80,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
+    "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
     "build:dev": "yarn install --check-cache && yarn run build-storybook",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
