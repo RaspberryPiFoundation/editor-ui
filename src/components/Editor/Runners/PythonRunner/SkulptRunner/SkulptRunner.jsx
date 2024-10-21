@@ -304,8 +304,9 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
       if (errorType === "ImportError" && window.crossOriginIsolated) {
+        const articleLink = `https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor`;
         const moduleName = errorDescription.replace(/No module named /, "");
-        explanation = `You should check your code for typos. If you are using p5, py5, sense_hat or turtle, ${moduleName} might not work.`;
+        explanation = `You should check your code for typos. If you are using p5, py5, sense_hat or turtle, ${moduleName} might not work - read this <a href=${articleLink}>article</a> for more information.`;
       }
 
       let userId;
