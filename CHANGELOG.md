@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated the ImportErrors message
-- In ErrorMassege component added the way to display html elements in string
+- In ErrorMessage component added the way to display html elements in string
 
 ### Added
 
