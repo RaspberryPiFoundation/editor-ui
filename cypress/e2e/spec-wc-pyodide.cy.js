@@ -100,7 +100,7 @@ describe("Running the code with pyodide", () => {
       .should("be.visible");
   });
 
-  it.only("runs a simple seaborn program", () => {
+  it("runs a simple seaborn program", () => {
     runCode("import seaborn as sns\ndata = [50, 30, 100]\nsns.displot(data)");
     cy.wait(10000);
     cy.get("editor-wc")
