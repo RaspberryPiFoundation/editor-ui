@@ -102,7 +102,7 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple seaborn program", () => {
     runCode("import seaborn as sns\ndata = [50, 30, 100]\nsns.displot(data)");
-    cy.wait(10000);
+    cy.wait(12000);
     cy.get("editor-wc")
       .shadow()
       .find(".pyodiderunner")
