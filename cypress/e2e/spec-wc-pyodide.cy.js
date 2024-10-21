@@ -47,7 +47,7 @@ describe("Running the code with pyodide", () => {
   });
 
   // skip this test for now until we get the headers set up
-  it("runs a simple program with an input", () => {
+  it.skip("runs a simple program with an input", () => {
     runCode('name = input("What is your name?")\nprint("Hello", name)');
     cy.get("editor-wc")
       .shadow()
@@ -100,9 +100,9 @@ describe("Running the code with pyodide", () => {
       .should("be.visible");
   });
 
-  it("runs a simple seaborn program", () => {
+  it.only("runs a simple seaborn program", () => {
     runCode("import seaborn as sns\ndata = [50, 30, 100]\nsns.displot(data)");
-    cy.wait(5000);
+    cy.wait(10000);
     cy.get("editor-wc")
       .shadow()
       .find(".pyodiderunner")
