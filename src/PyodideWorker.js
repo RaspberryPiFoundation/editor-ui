@@ -60,16 +60,6 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
-    await pyodide.runPythonAsync(`
-    old_input = input
-
-    def patched_input(prompt=False):
-        if (prompt):
-            print(prompt)
-        return old_input()
-
-    __builtins__.input = patched_input
-    `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -82,7 +72,7 @@ const PyodideWorker = () => {
       postMessage({ method: "handleError", ...parsePythonError(error) });
     }
 
-    await reloadPyodideToClearState();
+    await clearPyodideData();
   };
 
   const checkIfStopped = () => {
@@ -236,12 +226,12 @@ const PyodideWorker = () => {
         pyodide.runPython(`
         import js
 
-        class DummyDocument:
+        class __DummyDocument__:
             def __init__(self, *args, **kwargs) -> None:
                 return
             def __getattr__(self, __name: str):
-                return DummyDocument
-        js.document = DummyDocument()
+                return __DummyDocument__
+        js.document = __DummyDocument__()
         `);
         await pyodide.loadPackage("matplotlib")?.catch(() => {});
         let pyodidePackage;
@@ -279,50 +269,38 @@ const PyodideWorker = () => {
     },
   };
 
-  const reloadPyodideToClearState = async () => {
+  const clearPyodideData = async () => {
     postMessage({ method: "handleLoading" });
-
-    const alreadyLoaded = !!(pyodide)
-
-    if (!alreadyLoaded) {
-      pyodidePromise = loadPyodide({
-        stdout: (content) =>
-          postMessage({ method: "handleOutput", stream: "stdout", content }),
-        stderr: (content) =>
-          postMessage({ method: "handleOutput", stream: "stderr", content }),
-      });
-
-      pyodide = await pyodidePromise;
-    }
-
-    // await pyodide.runPythonAsync(`
-    //   import gc
-    //   import sys
-
-    //   # Clear imported modules
-    //   for name in list(sys.modules.keys()):
-    //       if name not in sys.builtin_module_names:
-    //           del sys.modules[name]
-
-    //   # Run garbage collection to free up memory
-    //   gc.collect()
-
-    //   # Clear all user-defined variables and modules
-    //   for name in dir():
-    //       if not name.startswith('_'):
-    //           del globals()[name]
-    // `);
-
-
-    if (alreadyLoaded) {
-      console.log("Clearing state")
-      await pyodide.runPythonAsync(`
+    await pyodide.runPythonAsync(`
         # Clear all user-defined variables and modules
         for name in dir():
-            if not name.startswith('_') and not name in ['DummyDocument', 'input']:
+            if not name.startswith('_'):
                 del globals()[name]
       `);
-    }
+    postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
+  };
+
+  const initialisePyodide = async () => {
+    postMessage({ method: "handleLoading" });
+
+    pyodidePromise = loadPyodide({
+      stdout: (content) =>
+        postMessage({ method: "handleOutput", stream: "stdout", content }),
+      stderr: (content) =>
+        postMessage({ method: "handleOutput", stream: "stderr", content }),
+    });
+
+    pyodide = await pyodidePromise;
+    await pyodide.runPythonAsync(`
+        __old_input__ = input
+
+        def __patched_input__(prompt=False):
+            if (prompt):
+                print(prompt)
+            return __old_input__()
+
+        __builtins__.input = __patched_input__
+        `);
 
     if (supportsAllFeatures) {
       stdinBuffer =
@@ -387,7 +365,7 @@ const PyodideWorker = () => {
     return { file, line, mistake, type, info };
   };
 
-  reloadPyodideToClearState();
+  initialisePyodide();
 
   return {
     postMessage,
