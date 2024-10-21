@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Build to include public files (#1112)
 - Dynamic runner switching with more than one `python` file (#1097)
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
+- Persisting choice of tabbed/split view when running `python` code (#1114)
 
 ## [0.27.1] - 2024-10-01
 
