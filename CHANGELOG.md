@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `Pyodide` `matplotlib` support (#1087)
 - Tests for running simple programs in `pyodide` and `skulpt` (#1100)
 - Fall back to `skulpt` if the host is not `crossOriginIsolated` (#1107)
+- `Pyodide` module caching (#1113)
 
 ### Changed
 
