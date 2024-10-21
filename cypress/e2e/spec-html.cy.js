@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-const baseUrl = "http://localhost:3011/en/projects/blank-html-starter";
-=======
 import { defaultHtmlProject } from "../../src/utils/defaultProjects";
 
 const baseUrl =
   "http://localhost:3011/web-component.html?identifier=blank-html-starter";
->>>>>>> main
 
 const getIframeDocument = () => {
   return cy
