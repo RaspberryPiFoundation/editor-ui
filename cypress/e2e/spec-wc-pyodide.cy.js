@@ -120,4 +120,43 @@ describe("Running the code with pyodide", () => {
         "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py",
       );
   });
+
+  it("clears user-defined variables between code runs", () => {
+    runCode("a = 1\nprint(a)");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "1");
+    runCode("print(a)");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".error-message__content")
+      .should("contain", "NameError: name 'a' is not defined");
+  });
+
+  it("clears user-defined functions between code runs", () => {
+    runCode("def my_function():\n\treturn 1\nprint(my_function())");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "1");
+    runCode("print(my_function())");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".error-message__content")
+      .should("contain", "NameError: name 'my_function' is not defined");
+  });
+
+  it("clears user-imported modules between code runs", () => {
+    runCode("import math\nprint(math.floor(math.pi))");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "3");
+    runCode("print(math.floor(math.pi))");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".error-message__content")
+      .should("contain", "NameError: name 'math' is not defined");
+  });
 });
