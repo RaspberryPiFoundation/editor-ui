@@ -60,6 +60,12 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
+    await pyodide.loadPackage("pyodide_http");
+
+    await pyodide.runPythonAsync(`
+    import pyodide_http
+    pyodide_http.patch_all()
+  `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -341,12 +347,8 @@ const PyodideWorker = () => {
     });
 
     pyodide = await pyodidePromise;
-    await pyodide.loadPackage("pyodide_http");
 
     await pyodide.runPythonAsync(`
-    import pyodide_http
-    pyodide_http.patch_all()
-
     __old_input__ = input
     def __patched_input__(prompt=False):
         if (prompt):
