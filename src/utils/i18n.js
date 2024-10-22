@@ -121,22 +121,6 @@ i18n
               },
             },
           },
-          betaBanner: {
-            buttonLabel: "close",
-            buttonTitle: "close",
-            message: "The Code Editor is in",
-            feedbackText: "Give us your",
-            feedback: "feedback",
-            feedbackImprove: "to help us improve.",
-            modal: {
-              close: "Close",
-              heading: "Code Editor is in beta",
-              meaningHeading: "What does beta mean?",
-              meaningText:
-                "Beta means that we are not quite finished yet, and some things might not look or work as well as we’d like. However, it also means you are one of the first people to use our new Code Editor!",
-            },
-            modalLink: "beta",
-          },
           editorPanel: {
             ariaLabel: "editor text input",
             viewOnly: "View only",
@@ -187,16 +171,6 @@ i18n
               "Download your project files so you can use them offline and in a different code editor.",
             downloadButton: "Download project",
           },
-          landingPage: {
-            title: "Code Editor",
-            subtitle: "Start coding, no setup required!",
-            python: "Start coding Python",
-            html: "Start coding HTML/CSS",
-            login: "Log in",
-            start: "Not sure where to start?",
-            projectPython: "Python path",
-            projectHtml: "Web path",
-          },
           footer: {
             accessibility: "Accessibility",
             charityNameAndNumber:
@@ -204,17 +178,6 @@ i18n
             cookies: "Cookies",
             privacy: "Privacy",
             safeguarding: "Safeguarding",
-          },
-          globalNav: {
-            accountMenu: {
-              login: "Log in",
-              logout: "Log out",
-              profile: "My profile",
-              projects: "My projects",
-            },
-            accountMenuDefaultAltText: "Account menu",
-            accountMenuProfileAltText: "{{name}}'s account",
-            raspberryPiLogoAltText: "Raspberry Pi logo",
           },
           projectName: {
             label: "Project name",
