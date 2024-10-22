@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## [0.28.0] - 2024-10-22 
+## [0.28.1] - 2024-10-22
+
+### Fixed
+
+- PUBLIC_URL in build pipeline
+
+## [0.28.0] - 2024-10-22
 
 ### Added
 
@@ -916,7 +922,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.1...HEAD
+[0.28.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.1
 [0.28.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.0
 [0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
 [0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
