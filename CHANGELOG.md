@@ -6,10 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Changed
-
-- Updated the ImportErrors message
-- In ErrorMessage component added the way to display html elements in string
+## [0.28.0] - 2024-10-22 
 
 ### Added
 
@@ -25,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Upgrade to `webpack 5` (#1096)
 - Bump `pyodide` to `v0.26.2` (#1098)
+- Updated the ImportErrors message (#1105)
+- In ErrorMessage component added the way to display html elements in string (#1105)
 
 ### Fixed
 
@@ -917,7 +916,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.0...HEAD
+[0.28.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.0
 [0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
 [0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
 [0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0
