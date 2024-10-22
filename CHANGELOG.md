@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- PUBLIC_URL in build pipeline
+- PUBLIC_URL in build pipeline (#1120)
 
 ## [0.28.0] - 2024-10-22
 
