@@ -113,7 +113,7 @@ jobs:
     if: github.ref_type == 'tag'
     uses: ./.github/workflows/deploy.yml
     with:
-      base_url: https://editor.raspberrypi.org/
+      base_url: https://editor-static.raspberrypi.org/
       assets_url: https://editor-static.raspberrypi.org
       environment: production
       prefix: releases
