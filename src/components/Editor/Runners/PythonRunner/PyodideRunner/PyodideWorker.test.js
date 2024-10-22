@@ -96,7 +96,7 @@ describe("PyodideWorker", () => {
       },
     });
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
-      expect.stringMatching(/__builtins__.input = patched_input/),
+      expect.stringMatching(/__builtins__.input = __patched_input__/),
     );
   });
 
@@ -190,17 +190,18 @@ describe("PyodideWorker", () => {
     });
   });
 
-  test("it reloads pyodide after running the code", async () => {
-    global.loadPyodide.mockClear();
+  test("it clears the pyodide variables after running the code", async () => {
     await worker.onmessage({
       data: {
         method: "runPython",
         python: "print('hello')",
       },
     });
-    await waitFor(() => {
-      expect(global.loadPyodide).toHaveBeenCalled();
-    });
+    await waitFor(() =>
+      expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+        expect.stringContaining("del globals()[name]"),
+      ),
+    );
   });
 
   test("it handles stopping by notifying component of an error", async () => {

@@ -65,16 +65,7 @@ const PyodideWorker = () => {
     await pyodide.runPythonAsync(`
     import pyodide_http
     pyodide_http.patch_all()
-
-    old_input = input
-
-    def patched_input(prompt=False):
-        if (prompt):
-            print(prompt)
-        return old_input()
-
-    __builtins__.input = patched_input
-    `);
+  `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -87,7 +78,7 @@ const PyodideWorker = () => {
       postMessage({ method: "handleError", ...parsePythonError(error) });
     }
 
-    await reloadPyodideToClearState();
+    await clearPyodideData();
   };
 
   const checkIfStopped = () => {
@@ -241,12 +232,12 @@ const PyodideWorker = () => {
         pyodide.runPython(`
         import js
 
-        class DummyDocument:
+        class __DummyDocument__:
             def __init__(self, *args, **kwargs) -> None:
                 return
             def __getattr__(self, __name: str):
-                return DummyDocument
-        js.document = DummyDocument()
+                return __DummyDocument__
+        js.document = __DummyDocument__()
         `);
         await pyodide.loadPackage("matplotlib")?.catch(() => {});
         let pyodidePackage;
@@ -334,7 +325,18 @@ const PyodideWorker = () => {
     },
   };
 
-  const reloadPyodideToClearState = async () => {
+  const clearPyodideData = async () => {
+    postMessage({ method: "handleLoading" });
+    await pyodide.runPythonAsync(`
+        # Clear all user-defined variables and modules
+        for name in dir():
+            if not name.startswith('_'):
+                del globals()[name]
+      `);
+    postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
+  };
+
+  const initialisePyodide = async () => {
     postMessage({ method: "handleLoading" });
 
     pyodidePromise = loadPyodide({
@@ -345,6 +347,15 @@ const PyodideWorker = () => {
     });
 
     pyodide = await pyodidePromise;
+
+    await pyodide.runPythonAsync(`
+    __old_input__ = input
+    def __patched_input__(prompt=False):
+        if (prompt):
+            print(prompt)
+        return __old_input__()
+    __builtins__.input = __patched_input__
+    `);
 
     if (supportsAllFeatures) {
       stdinBuffer =
@@ -409,7 +420,7 @@ const PyodideWorker = () => {
     return { file, line, mistake, type, info };
   };
 
-  reloadPyodideToClearState();
+  initialisePyodide();
 
   return {
     postMessage,
