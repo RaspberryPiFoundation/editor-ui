@@ -100,6 +100,29 @@ describe("Running the code with pyodide", () => {
       .should("be.visible");
   });
 
+  it("runs a simple seaborn program", () => {
+    runCode("import seaborn as sns\ndata = [50, 30, 100]\nsns.displot(data)");
+    cy.wait(12000);
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .find("img")
+      .should("be.visible");
+  });
+
+  it("runs a simple urllib program", () => {
+    cy.intercept("GET", "https://www.my-amazing-website.com", {
+      statusCode: 200,
+    });
+    runCode(
+      "import urllib.request\nresponse = urllib.request.urlopen('https://www.my-amazing-website.com')\nprint(response.getcode())",
+    );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "200");
+  });
+
   it("runs a simple program with a module from PyPI", () => {
     runCode(
       "from strsimpy.levenshtein import Levenshtein\nlevenshtein = Levenshtein()\nprint(levenshtein.distance('hello', 'world'))",

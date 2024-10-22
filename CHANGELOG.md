@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `Pyodide` `matplotlib` support (#1087)
 - Tests for running simple programs in `pyodide` and `skulpt` (#1100)
 - Fall back to `skulpt` if the host is not `crossOriginIsolated` (#1107)
+- `Pyodide` `seaborn` support (#1106)
 - `Pyodide` module caching (#1113)
 
 ### Changed
@@ -27,9 +28,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Build to include public files (#1112)
 - Dynamic runner switching with more than one `python` file (#1097)
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
+- Build to include public files (#1112)
 - Persisting choice of tabbed/split view when running `python` code (#1114)
 
 ## [0.27.1] - 2024-10-01
