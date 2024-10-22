@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- BASE_URL in build pipeline (#1120)
+- BASE_URL in build pipeline (#1121)
 
 ## [0.28.1] - 2024-10-22
 
