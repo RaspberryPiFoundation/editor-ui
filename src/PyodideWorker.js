@@ -260,7 +260,12 @@ const PyodideWorker = () => {
           return;
         }
       },
-      after: () => {},
+      after: () => {
+        pyodide.runPython(`
+        import matplotlib.pyplot as plt
+        plt.clf()
+        `);
+      },
     },
     seaborn: {
       before: async () => {
@@ -270,12 +275,12 @@ const PyodideWorker = () => {
         pyodide.runPython(`
         import js
 
-        class DummyDocument:
+        class __DummyDocument__:
             def __init__(self, *args, **kwargs) -> None:
                 return
             def __getattr__(self, __name: str):
-                return DummyDocument
-        js.document = DummyDocument()
+                return __DummyDocument__
+        js.document = __DummyDocument__()
         `);
 
         // Ensure micropip is loaded which can fetch packages from PyPi.
