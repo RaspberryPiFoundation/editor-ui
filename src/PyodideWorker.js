@@ -313,6 +313,8 @@ const PyodideWorker = () => {
             plt.savefig(bytes_io, format='jpg')
             bytes_io.seek(0)
             basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+
+        plt.clf()
         `);
       },
     },
