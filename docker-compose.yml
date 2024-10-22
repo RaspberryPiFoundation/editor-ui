@@ -18,7 +18,3 @@ services:
     ports:
       - "3011:3011"
     container_name: react-ui-wc
-networks:
-  default:
-    name: shared-development
-    external: true

@@ -9,11 +9,8 @@ Copy the example files into the correct place:
 
 ```
 cp .env.example .env
-
-cp .env.example .env
 ```
 
-Variables for the web application need to go into the `.env` file.
 Variables for the web component can be placed in `.env`.
 
 ## Private repo setup (.npmrc)
@@ -32,7 +29,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3010](http://localhost:3010) to view it in the browser.
+Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -80,12 +77,6 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
-
-### `yarn start:wc`
-
-Runs the web component in development mode. Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
-
-**NB** You need to have the main `yarn start` process running too.
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
