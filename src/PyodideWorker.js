@@ -161,7 +161,6 @@ const PyodideWorker = () => {
     // Support for https://pypi.org/project/py-enigma/ due to package not having a whl file on PyPi.
     enigma: {
       before: async () => {
-        pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage(
           `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
         );
