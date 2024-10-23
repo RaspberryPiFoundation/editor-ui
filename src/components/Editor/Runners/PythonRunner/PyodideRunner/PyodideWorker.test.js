@@ -1,5 +1,5 @@
 import { waitFor } from "@testing-library/react";
-
+import { TextEncoder } from "util";
 class MockPythonArray extends Array {
   toJs() {
     return this;
@@ -9,6 +9,9 @@ class MockPythonArray extends Array {
 // Mock global functions
 global.postMessage = jest.fn();
 global.importScripts = jest.fn();
+global.TextEncoder = TextEncoder;
+global.pygal = {};
+global._internal_sense_hat = {};
 
 describe("PyodideWorker", () => {
   let worker;
@@ -19,7 +22,7 @@ describe("PyodideWorker", () => {
     pyodide = {
       _api: {
         pyodide_code: {
-          find_imports: () => new MockPythonArray("numpy", "pygal"),
+          find_imports: () => new MockPythonArray(),
         },
       },
       ffi: {
@@ -42,12 +45,13 @@ describe("PyodideWorker", () => {
       setStdin: jest.fn(),
     };
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    worker = require("./PyodideWorker.js", { type: "module" });
+    const { PyodideWorker } = require("../../../../../PyodideWorker.js");
+    worker = PyodideWorker();
   });
 
   test("it imports the pyodide script", () => {
     expect(global.importScripts).toHaveBeenCalledWith(
-      "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js",
     );
   });
 
@@ -77,9 +81,10 @@ describe("PyodideWorker", () => {
         content: "print('hello')",
       },
     });
+    const encoder = new TextEncoder();
     expect(pyodide.FS.writeFile).toHaveBeenCalledWith(
       "main.py",
-      new Buffer("print('hello')"),
+      encoder.encode("print('hello')"),
     );
   });
 
@@ -91,11 +96,24 @@ describe("PyodideWorker", () => {
       },
     });
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
-      expect.stringMatching(/__builtins__.input = patched_input/),
+      expect.stringMatching(/__builtins__.input = __patched_input__/),
+    );
+  });
+
+  test("it patches urllib and requests modules", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/pyodide_http.patch_all()/),
     );
   });
 
   test("it tries to load package from file system", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -108,6 +126,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it checks if the package is built into python", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -118,6 +137,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load the package from pyodide", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -130,6 +150,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it tries to load the package from PyPI", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("numpy");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -142,6 +163,7 @@ describe("PyodideWorker", () => {
   });
 
   test("it registers JS module for pygal", async () => {
+    pyodide._api.pyodide_code.find_imports = () => new MockPythonArray("pygal");
     await worker.onmessage({
       data: {
         method: "runPython",
@@ -168,17 +190,18 @@ describe("PyodideWorker", () => {
     });
   });
 
-  test("it reloads pyodide after running the code", async () => {
-    global.loadPyodide.mockClear();
+  test("it clears the pyodide variables after running the code", async () => {
     await worker.onmessage({
       data: {
         method: "runPython",
         python: "print('hello')",
       },
     });
-    await waitFor(() => {
-      expect(global.loadPyodide).toHaveBeenCalled();
-    });
+    await waitFor(() =>
+      expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+        expect.stringContaining("del globals()[name]"),
+      ),
+    );
   });
 
   test("it handles stopping by notifying component of an error", async () => {

@@ -6,11 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## [0.27.2] - 2024-10-01
+## [0.28.4] - 2024-10-23
 
 ### Fixed
 
 - Pin react-router-dom to 6.24.0 as part of investigating useContext issues
+
+## [0.28.3] - 2024-10-22
+
+### Fixed
+
+- `seaborn` document patch (#1122)
+- Clearing `matplotlib` and `seaborn` plots at the end of each code run (#1122)
+
+## [0.28.2] - 2024-10-22
+
+### Fixed
+
+- BASE_URL in build pipeline (#1121)
+
+## [0.28.1] - 2024-10-22
+
+### Fixed
+
+- PUBLIC_URL in build pipeline (#1120)
+
+## [0.28.0] - 2024-10-22
+
+### Added
+
+- PyodideWorker setup for the editor (#1104)
+- Enabling `pyodide` support in the web component (#1090)
+- `Pyodide` `matplotlib` support (#1087)
+- Tests for running simple programs in `pyodide` and `skulpt` (#1100)
+- Fall back to `skulpt` if the host is not `crossOriginIsolated` (#1107)
+- `Pyodide` `seaborn` support (#1106)
+- `Pyodide` module caching (#1113)
+
+### Changed
+
+- Upgrade to `webpack 5` (#1096)
+- Bump `pyodide` to `v0.26.2` (#1098)
+- Updated the ImportErrors message (#1105)
+- In ErrorMessage component added the way to display html elements in string (#1105)
+
+### Fixed
+
+- Dynamic runner switching with more than one `python` file (#1097)
+- Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
+- Build to include public files (#1112)
+- Persisting choice of tabbed/split view when running `python` code (#1114)
 
 ## [0.27.1] - 2024-10-01
 
@@ -18,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Enabling web component to find the `turtle` canvas (#1082)
 - Ability to stop code in the web component (#1083)
+- Remove redundant code (#1103)
 
 ## [0.27.0] - 2024-09-26
 
@@ -116,6 +162,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Remove unused `/embedded/projects/:identifier` route (#1013)
+- Runner defaults to `pyodide` (#937)
 
 ### Fixed
 
@@ -130,6 +177,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix initial value of `user` in `WebComponentLoader` (#1021)
 - Make `authKey` in e2e web component spec more realistic (#1022)
 - Remove unused `ComponentStore` (#1023)
+- Dynamic switching between `pyodide` and `skulpt` based on user imports (#937)
 
 ## [0.23.0] - 2024-05-09
 
@@ -894,7 +942,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.3...HEAD
+[0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
+[0.28.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.2
+[0.28.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.1
+[0.28.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.0
 [0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
 [0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
 [0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0
