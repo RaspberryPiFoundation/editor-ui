@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.4] - 2024-10-23
+
+### Added
+
+- py-enigma support (#1109)
+
 ## [0.28.3] - 2024-10-22
 
 ### Fixed
@@ -30,7 +36,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - PyodideWorker setup for the editor (#1104)
-- py-enigma support (#1109)
 - Enabling `pyodide` support in the web component (#1090)
 - `Pyodide` `matplotlib` support (#1087)
 - Tests for running simple programs in `pyodide` and `skulpt` (#1100)
@@ -937,7 +942,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.4...HEAD
+[0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
 [0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
 [0.28.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.2
 [0.28.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.1
