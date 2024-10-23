@@ -1,6 +1,8 @@
 import axios from "axios";
 
-import {
+import ApiCallHandler from "./apiCallHandler";
+
+const {
   getImage,
   createOrUpdateProject,
   readProject,
@@ -9,7 +11,7 @@ import {
   uploadImages,
   readProjectList,
   createError,
-} from "./apiCallHandler";
+} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 jest.mock("axios");
 const host = process.env.REACT_APP_API_ENDPOINT;

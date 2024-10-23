@@ -1,11 +1,12 @@
 import produce from "immer";
 
-import { readProject } from "../../utils/apiCallHandler";
+import ApiCallHandler from "../../utils/apiCallHandler";
 import reducer, { syncProject } from "../../redux/EditorSlice";
 import { loadProjectRejected } from "./loadProjectReducers";
 
 jest.mock("../../utils/apiCallHandler");
 
+const { readProject } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 const requestingAProject = function (project, projectFile) {
   const dispatch = jest.fn();
   const initialState = {

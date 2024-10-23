@@ -1,11 +1,4 @@
-import {
-  createOrUpdateProject,
-  createRemix,
-  deleteProject,
-  loadAssets,
-  readProject,
-  readProjectList,
-} from "../utils/apiCallHandler";
+import ApiCallHandler from "../utils/apiCallHandler";
 
 import reducer, {
   syncProject,
@@ -22,6 +15,15 @@ import reducer, {
   setErrorDetails,
   setReadOnly,
 } from "./EditorSlice";
+
+const {
+  createOrUpdateProject,
+  createRemix,
+  deleteProject,
+  loadAssets,
+  readProject,
+  readProjectList,
+} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 jest.mock("../utils/apiCallHandler");
 

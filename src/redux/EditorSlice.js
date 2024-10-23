@@ -5,7 +5,9 @@ import {
   loadProjectFulfilled,
   loadProjectRejected,
 } from "./reducers/loadProjectReducers";
-import {
+import ApiCallHandler from "../utils/apiCallHandler";
+
+const {
   createOrUpdateProject,
   readProject,
   loadRemix,
@@ -13,7 +15,7 @@ import {
   deleteProject,
   readProjectList,
   loadAssets,
-} from "../utils/apiCallHandler";
+} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 export const syncProject = (actionName) =>
   createAsyncThunk(

@@ -15,7 +15,7 @@ import {
   triggerDraw,
 } from "../../../../../redux/EditorSlice";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
 import VisualOutputPane from "../VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
@@ -23,6 +23,8 @@ import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import classNames from "classnames";
+
+const { createError } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 const externalLibraries = {
   "./pygal/__init__.js": {

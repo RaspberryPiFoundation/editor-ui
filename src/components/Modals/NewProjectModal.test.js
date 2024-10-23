@@ -4,12 +4,15 @@ import configureStore from "redux-mock-store";
 import NewProjectModal from "./NewProjectModal";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
+import ApiCallHandler from "../../utils/apiCallHandler";
 import {
   defaultHtmlProject,
   defaultPythonProject,
 } from "../../utils/defaultProjects";
 
+const { createOrUpdateProject } = ApiCallHandler({
+  reactAppApiEndpoint: "TODO",
+});
 const mockNavigate = jest.fn();
 
 jest.mock("react-router", () => ({

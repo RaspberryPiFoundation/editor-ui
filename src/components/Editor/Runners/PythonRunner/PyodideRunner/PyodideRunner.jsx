@@ -12,11 +12,13 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+
+const { createError } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 const getWorkerURL = (url) => {
   const content = `

@@ -1,4 +1,5 @@
-import userManager from "./userManager";
+import UserManager from "./userManager";
+const userManager = UserManager({ reactAppAuthenticationUrl: "TODO" });
 
 export const login = ({
   project,

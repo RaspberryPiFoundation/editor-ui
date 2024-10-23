@@ -9,7 +9,9 @@ import { updateImages, setNameError } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
-import { uploadImages } from "../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../utils/apiCallHandler";
+
+const { uploadImages } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
 
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],

@@ -5,11 +5,15 @@ import { closeNewProjectModal } from "../../redux/EditorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import InputModal from "./InputModal";
-import { createOrUpdateProject } from "../../utils/apiCallHandler";
+import ApiCallHandler from "../../utils/apiCallHandler";
 import { useNavigate } from "react-router-dom";
 import { DEFAULT_PROJECTS } from "../../utils/defaultProjects";
 import HTMLIcon from "../../assets/icons/html.svg";
 import PythonIcon from "../../assets/icons/python.svg";
+
+const { createOrUpdateProject } = ApiCallHandler({
+  reactAppApiEndpoint: "TODO",
+});
 
 const NewProjectModal = () => {
   const { t, i18n } = useTranslation();
