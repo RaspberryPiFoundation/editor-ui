@@ -18,7 +18,7 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-const { createError } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
+const { createError } = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
 
 const getWorkerURL = (url) => {
   const content = `

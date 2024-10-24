@@ -7,23 +7,29 @@ import {
 } from "./reducers/loadProjectReducers";
 import ApiCallHandler from "../utils/apiCallHandler";
 
-const {
-  createOrUpdateProject,
-  readProject,
-  loadRemix,
-  createRemix,
-  deleteProject,
-  readProjectList,
-  loadAssets,
-} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
-
 export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave, assetsOnly },
-      { rejectWithValue },
+      {
+        reactAppApiEndpoint,
+        project,
+        identifier,
+        locale,
+        accessToken,
+        autosave,
+        assetsOnly,
+      },
+      { rejectWithValue }
     ) => {
+      const {
+        createOrUpdateProject,
+        readProject,
+        loadRemix,
+        createRemix,
+        deleteProject,
+        loadAssets,
+      } = ApiCallHandler({ reactAppApiEndpoint });
       let response;
       switch (actionName) {
         case "load":
@@ -68,19 +74,22 @@ export const syncProject = (actionName) =>
           return false;
         }
       },
-    },
+    }
   );
 
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
-  async ({ page, accessToken }) => {
+  async ({ reactAppApiEndpoint, page, accessToken }) => {
+    const { readProjectList } = ApiCallHandler({
+      reactAppApiEndpoint,
+    });
     const response = await readProjectList(page, accessToken);
     return {
       projects: response.data,
       page,
       links: parseLinkHeader(response.headers.link),
     };
-  },
+  }
 );
 
 const initialState = {
@@ -144,10 +153,10 @@ export const EditorSlice = createSlice({
         .map((fileNames) => fileNames.includes(action.payload))
         .indexOf(true);
       const closedFileIndex = state.openFiles[panelIndex].indexOf(
-        action.payload,
+        action.payload
       );
       state.openFiles[panelIndex] = state.openFiles[panelIndex].filter(
-        (fileName) => fileName !== action.payload,
+        (fileName) => fileName !== action.payload
       );
       if (
         state.focussedFileIndices[panelIndex] >=

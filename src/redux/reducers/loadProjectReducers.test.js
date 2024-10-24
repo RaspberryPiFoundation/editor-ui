@@ -6,7 +6,7 @@ import { loadProjectRejected } from "./loadProjectReducers";
 
 jest.mock("../../utils/apiCallHandler");
 
-const { readProject } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
+const { readProject } = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
 const requestingAProject = function (project, projectFile) {
   const dispatch = jest.fn();
   const initialState = {

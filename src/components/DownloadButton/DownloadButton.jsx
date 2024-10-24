@@ -21,7 +21,7 @@ const DownloadButton = (props) => {
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
   const loginToSaveModalShowing = useSelector(
-    (state) => state.editor.loginToSaveModalShowing,
+    (state) => state.editor.loginToSaveModalShowing
   );
   const dispatch = useDispatch();
 
@@ -62,8 +62,8 @@ const DownloadButton = (props) => {
         project.name ||
           t("header.downloadFileNameDefault", {
             project_type: project.project_type,
-          }),
-      )}`,
+          })
+      )}`
     );
   };
 

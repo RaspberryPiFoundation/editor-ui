@@ -4,7 +4,7 @@ import InstructionsReducer from "../redux/InstructionsSlice";
 import { reducer, loadUser } from "redux-oidc";
 import UserManager from "../utils/userManager";
 
-const userManager = UserManager({ reactAppAuthenticationUrl: "TODO" });
+const userManager = UserManager({ reactAppAuthenticationUrl: "TODORAAU" });
 const store = configureStore({
   reducer: {
     editor: EditorReducer,

@@ -11,8 +11,6 @@ import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 
-const { uploadImages } = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
-
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],
 };
@@ -32,13 +30,13 @@ const allowedExtensionsString = (projectType) => {
   }
 };
 
-const ImageUploadButton = () => {
+const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier,
+    (state) => state.editor.project.identifier
   );
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const imageNames = projectImages.map((image) => `${image.filename}`);
@@ -53,6 +51,10 @@ const ImageUploadButton = () => {
     setIsOpen(true);
   };
   const saveImages = async () => {
+    const { uploadImages } = ApiCallHandler({
+      reactAppApiEndpoint,
+    });
+
     files.every((file) => {
       const fileName = file.name;
       const extension = fileName.split(".").slice(1).join(".").toLowerCase();
@@ -67,8 +69,8 @@ const ImageUploadButton = () => {
       } else if (!allowedExtensions[projectType].includes(extension)) {
         dispatch(
           setNameError(
-            `Image names must end in ${allowedExtensionsString(projectType)}.`,
-          ),
+            `Image names must end in ${allowedExtensionsString(projectType)}.`
+          )
         );
         return false;
       } else {
@@ -80,7 +82,7 @@ const ImageUploadButton = () => {
       const response = await uploadImages(
         projectIdentifier,
         user.access_token,
-        files,
+        files
       );
       dispatch(updateImages(response.data.image_list));
       closeModal();

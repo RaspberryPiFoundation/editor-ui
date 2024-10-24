@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const LogoutButton = ({ className, user }) => {
   const { t } = useTranslation();
-  const userManager = UserManager({ reactAppAuthenticationUrl: "TODO" });
+  const userManager = UserManager({ reactAppAuthenticationUrl: "TODORAAU" });
 
   const onLogoutButtonClick = async (event) => {
     event.preventDefault();

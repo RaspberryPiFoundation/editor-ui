@@ -17,6 +17,7 @@ export const useProjectPersistence = ({
   saveTriggered,
 }) => {
   const dispatch = useDispatch();
+  dispatch(showLoginToSaveModal());
 
   const saveToLocalStorage = (project) => {
     localStorage.setItem(

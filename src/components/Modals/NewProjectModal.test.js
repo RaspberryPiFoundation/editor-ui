@@ -11,7 +11,7 @@ import {
 } from "../../utils/defaultProjects";
 
 const { createOrUpdateProject } = ApiCallHandler({
-  reactAppApiEndpoint: "TODO",
+  reactAppApiEndpoint: "TODORAAE",
 });
 const mockNavigate = jest.fn();
 

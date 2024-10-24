@@ -11,7 +11,7 @@ const {
   uploadImages,
   readProjectList,
   createError,
-} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
+} = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
 
 jest.mock("axios");
 const host = process.env.REACT_APP_API_ENDPOINT;

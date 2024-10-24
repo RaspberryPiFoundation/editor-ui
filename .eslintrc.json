@@ -37,7 +37,7 @@
       {
         "singleQuote": false,
         "jsxSingleQuote": false,
-        "trailingComma": "all",
+        "trailingComma": "es5",
         "semi": true,
         "bracketSpacing": true,
         "arrowParens": "always"

@@ -12,7 +12,7 @@ import HTMLIcon from "../../assets/icons/html.svg";
 import PythonIcon from "../../assets/icons/python.svg";
 
 const { createOrUpdateProject } = ApiCallHandler({
-  reactAppApiEndpoint: "TODO",
+  reactAppApiEndpoint: "TODORAAE",
 });
 
 const NewProjectModal = () => {

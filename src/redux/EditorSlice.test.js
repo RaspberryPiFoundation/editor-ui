@@ -16,6 +16,8 @@ import reducer, {
   setReadOnly,
 } from "./EditorSlice";
 
+jest.mock("../utils/apiCallHandler");
+
 const {
   createOrUpdateProject,
   createRemix,
@@ -23,9 +25,7 @@ const {
   loadAssets,
   readProject,
   readProjectList,
-} = ApiCallHandler({ reactAppApiEndpoint: "TODO" });
-
-jest.mock("../utils/apiCallHandler");
+} = ApiCallHandler({ reactAppApiEndpoint: "" });
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
