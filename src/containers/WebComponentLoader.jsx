@@ -31,24 +31,25 @@ const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
     authKey,
-    identifier,
     code,
-    senseHatAlwaysEnabled = false,
-    instructions,
-    withProjectbar = false,
-    projectNameEditable = false,
-    withSidebar = false,
-    sidebarOptions = [],
-    theme,
-    outputPanels = ["text", "visual"],
     embedded = false,
     hostStyles, // Pass in styles from the host
-    showSavePrompt = false,
+    identifier,
+    instructions,
     loadRemixDisabled = false,
-    readOnly = false,
     outputOnly = false,
+    outputPanels = ["text", "visual"],
     outputSplitView = false,
+    projectNameEditable = false,
+    reactAppApiEndpoint,
+    readOnly = false,
+    senseHatAlwaysEnabled = false,
+    showSavePrompt = false,
+    sidebarOptions = [],
+    theme,
     useEditorStyles = false, // If true use the standard editor styling for the web component
+    withProjectbar = false,
+    withSidebar = false,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -66,19 +67,19 @@ const WebComponentLoader = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
+    (state) => state.editor.hasShownSavePrompt
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
-    (state) => state.editor.errorModalShowing,
+    (state) => state.editor.errorModalShowing
   );
   const newFileModalShowing = useSelector(
-    (state) => state.editor.newFileModalShowing,
+    (state) => state.editor.newFileModalShowing
   );
   const renameFileModalShowing = useSelector(
-    (state) => state.editor.renameFileModalShowing,
+    (state) => state.editor.renameFileModalShowing
   );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
@@ -118,6 +119,7 @@ const WebComponentLoader = (props) => {
   }, [projectOwner, justLoaded]);
 
   useProject({
+    reactAppApiEndpoint,
     projectIdentifier: projectIdentifier,
     assetsIdentifier: assetsIdentifier,
     code,

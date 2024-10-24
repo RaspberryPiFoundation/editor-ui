@@ -1,4 +1,5 @@
-import userManager from "./userManager";
+import UserManager from "./userManager";
+const userManager = UserManager({ reactAppAuthenticationUrl: "TODORAAU" });
 
 export const login = ({
   project,
@@ -14,14 +15,14 @@ export const login = ({
   if (accessDeniedData) {
     localStorage.setItem(
       "location",
-      `/projects/${accessDeniedData.identifier}`,
+      `/projects/${accessDeniedData.identifier}`
     );
   } else {
     localStorage.setItem("location", loginRedirect || location.pathname);
     if (project) {
       localStorage.setItem(
         project.identifier || "project",
-        JSON.stringify(project),
+        JSON.stringify(project)
       );
     }
   }

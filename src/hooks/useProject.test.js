@@ -15,7 +15,7 @@ const loadProject = jest.fn();
 
 jest.mock("../redux/EditorSlice");
 
-jest.mock("../utils/apiCallHandler", () => ({
+jest.mock("../utils/apiCallHandler", () => () => ({
   readProject: async (identifier, projectType) =>
     Promise.resolve({
       data: { identifier: identifier, project_type: projectType },

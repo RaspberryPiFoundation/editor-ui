@@ -1,11 +1,4 @@
-import {
-  createOrUpdateProject,
-  createRemix,
-  deleteProject,
-  loadAssets,
-  readProject,
-  readProjectList,
-} from "../utils/apiCallHandler";
+import ApiCallHandler from "../utils/apiCallHandler";
 
 import reducer, {
   syncProject,
@@ -24,6 +17,15 @@ import reducer, {
 } from "./EditorSlice";
 
 jest.mock("../utils/apiCallHandler");
+
+const {
+  createOrUpdateProject,
+  createRemix,
+  deleteProject,
+  loadAssets,
+  readProject,
+  readProjectList,
+} = ApiCallHandler({ reactAppApiEndpoint: "" });
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
