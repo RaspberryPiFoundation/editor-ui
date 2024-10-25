@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Fixed pyodide input test and cypress config to enable further pyodide tests (#1125)
+- Image sizing and wrapping in the sidebar (#1126)
 
 ## [0.28.4] - 2024-10-23
 

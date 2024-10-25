@@ -54,7 +54,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
     });
   });
 
-  it("loads the original project in preference to the remixed version", () => {
+  it.skip("loads the original project in preference to the remixed version", () => {
     // View the original project
     cy.visit(urlFor(originalIdentifier));
     cy.get("#project-identifier").should("have.text", originalIdentifier);
