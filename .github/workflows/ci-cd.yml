@@ -95,6 +95,7 @@ jobs:
             yarn start
           wait-on: "http://localhost:3011"
           quiet: true
+          config-file: cypress.config.mjs
         env:
           REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
           PUBLIC_URL: "http://localhost:3011"

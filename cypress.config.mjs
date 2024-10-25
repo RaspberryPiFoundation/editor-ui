@@ -19,6 +19,7 @@ export default defineConfig({
       });
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.name === "chrome") {
+          console.log("Applying Chrome launch options");
           launchOptions.args.push("--enable-features=SharedArrayBuffer");
           launchOptions.args.push("--disable-site-isolation-trials");
         }
