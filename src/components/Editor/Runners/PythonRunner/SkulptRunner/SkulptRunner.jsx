@@ -13,6 +13,7 @@ import {
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
+  loadedRunner,
 } from "../../../../../redux/EditorSlice";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import { createError } from "../../../../../utils/apiCallHandler";
@@ -88,6 +89,12 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       : null;
     return pageInput || webComponentInput;
   };
+
+  useEffect(() => {
+    if (active) {
+      dispatch(loadedRunner("skulpt"));
+    }
+  }, [active]);
 
   useEffect(() => {
     if (codeRunTriggered && active && showRunner) {
