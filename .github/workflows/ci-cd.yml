@@ -96,6 +96,7 @@ jobs:
           wait-on: "http://localhost:3011"
           quiet: true
           config-file: cypress.config.mjs
+          browser: chrome
         env:
           REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
           PUBLIC_URL: "http://localhost:3011"
