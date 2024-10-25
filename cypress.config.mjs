@@ -17,6 +17,13 @@ export default defineConfig({
           return null;
         },
       });
+      on("before:browser:launch", (browser = {}, launchOptions) => {
+        if (browser.name === "chrome") {
+          launchOptions.args.push("--enable-features=SharedArrayBuffer");
+          launchOptions.args.push("--disable-site-isolation-trials");
+        }
+        return launchOptions;
+      });
     },
     retries: {
       runMode: 3,
