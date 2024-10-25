@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.5] - 2024-10-25
+
 ### Fixed
 
 - Image sizing and wrapping in the sidebar (#1126)
@@ -946,7 +948,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.4...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.5...HEAD
+[0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
 [0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
 [0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
 [0.28.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.2
