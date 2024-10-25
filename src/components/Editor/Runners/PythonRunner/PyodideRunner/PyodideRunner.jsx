@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import {
   setError,
   codeRunHandled,
-  loadingRunner,
+  loadedRunner,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -33,9 +33,17 @@ const getWorkerURL = (url) => {
 const PyodideRunner = (props) => {
   const { active } = props;
 
-  // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
-  const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+  const [pyodideWorker, setPyodideWorker] = useState(null);
+
+  useEffect(() => {
+    if (active) {
+      const workerUrl = getWorkerURL(
+        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+      );
+      const worker = new Worker(workerUrl);
+      setPyodideWorker(worker);
+    }
+  }, [active]);
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
@@ -63,8 +71,6 @@ const PyodideRunner = (props) => {
 
   useEffect(() => {
     if (pyodideWorker) {
-      // initialise as loading
-      handleLoading();
       pyodideWorker.onmessage = ({ data }) => {
         switch (data.method) {
           case "handleLoading":
@@ -99,7 +105,7 @@ const PyodideRunner = (props) => {
         }
       };
     }
-  }, []);
+  }, [pyodideWorker]);
 
   useEffect(() => {
     if (codeRunTriggered && active) {
@@ -121,12 +127,13 @@ const PyodideRunner = (props) => {
   }, [codeRunStopped]);
 
   const handleLoading = () => {
-    dispatch(loadingRunner());
+    return;
   };
 
   const handleLoaded = (stdin, interrupt) => {
     stdinBuffer.current = stdin;
     interruptBuffer.current = interrupt;
+    dispatch(loadedRunner("pyodide"));
     dispatch(codeRunHandled());
     disableInput();
   };
