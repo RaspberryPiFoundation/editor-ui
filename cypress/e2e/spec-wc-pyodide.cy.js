@@ -3,7 +3,6 @@ const origin = "http://localhost:3011/web-component.html";
 beforeEach(() => {
   cy.intercept("*", (req) => {
     req.headers["Origin"] = origin;
-    req.continue();
   });
 });
 
@@ -13,12 +12,22 @@ const runCode = (code) => {
     .shadow()
     .find("div[class=cm-content]")
     .invoke("text", `${code}\n`);
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find(".btn--run")
+    .should("not.be.disabled")
+    .click();
 };
 
 describe("Running the code with pyodide", () => {
   beforeEach(() => {
-    cy.visit(origin);
+    cy.visit({
+      url: origin,
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+      },
+    });
     cy.window().then((win) => {
       Object.defineProperty(win, "crossOriginIsolated", {
         value: true,
@@ -39,21 +48,33 @@ describe("Running the code with pyodide", () => {
     runCode(
       "from time import sleep\nfor i in range(100):\n\tprint(i)\n\tsleep(1)",
     );
-    cy.get("editor-wc").shadow().find(".btn--stop").click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "3");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".btn--stop")
+      .should("be.visible")
+      .click();
     cy.get("editor-wc")
       .shadow()
       .find(".error-message__content")
       .should("contain", "Execution interrupted");
   });
 
-  // skip this test for now until we get the headers set up
-  it.skip("runs a simple program with an input", () => {
+  it("runs a simple program with an input", () => {
     runCode('name = input("What is your name?")\nprint("Hello", name)');
+    cy.get("editor-wc").shadow().find(".btn--stop").should("be.visible");
     cy.get("editor-wc")
       .shadow()
       .find(".pythonrunner-console-output-line")
       .should("contain", "What is your name?");
-    cy.get("editor-wc").shadow().find("#input").invoke("text", "Lois{enter}");
+    cy.get("editor-wc")
+      .shadow()
+      .find("#input")
+      .should("be.visible")
+      .type("Lois{enter}");
     cy.get("editor-wc")
       .shadow()
       .find(".pythonrunner-console-output-line")
