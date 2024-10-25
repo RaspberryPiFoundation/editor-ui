@@ -11,6 +11,8 @@ import {
   showErrorModal,
   codeRunHandled,
   triggerCodeRun,
+  loadingRunner,
+  loadedRunner,
 } from "../../../../redux/EditorSlice";
 
 import {
@@ -166,6 +168,8 @@ function HtmlRunner() {
 
   useEffect(() => {
     eventListener();
+    dispatch(loadingRunner("html"));
+    dispatch(loadedRunner("html"));
   }, []);
 
   let timeout;
