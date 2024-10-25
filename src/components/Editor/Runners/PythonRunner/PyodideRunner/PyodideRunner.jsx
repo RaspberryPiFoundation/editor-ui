@@ -63,6 +63,8 @@ const PyodideRunner = (props) => {
 
   useEffect(() => {
     if (pyodideWorker) {
+      // initialise as loading
+      handleLoading();
       pyodideWorker.onmessage = ({ data }) => {
         switch (data.method) {
           case "handleLoading":

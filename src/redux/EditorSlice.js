@@ -106,7 +106,7 @@ const initialState = {
   isSplitView: true,
   isThemeable: true,
   webComponent: false,
-  codeRunLoading: true,
+  codeRunLoading: false,
   codeRunStopped: false,
   projectList: [],
   projectListLoaded: "idle",
