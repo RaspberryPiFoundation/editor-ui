@@ -422,7 +422,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   return (
     <div
       className={classNames("pythonrunner-container", "skulptrunner", {
-        active: "skulptrunner--active",
+        "skulptrunner--active": active,
       })}
       style={{ display: active ? "flex" : "none" }}
     >

@@ -319,7 +319,7 @@ const PyodideRunner = (props) => {
   return (
     <div
       className={classNames("pythonrunner-container", "pyodiderunner", {
-        active: "pyodiderunner--active",
+        "pyodiderunner--active": active,
       })}
       style={{ display: active ? "flex" : "none" }}
     >
