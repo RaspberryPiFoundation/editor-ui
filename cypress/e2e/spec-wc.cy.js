@@ -113,7 +113,13 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check text output panel is visible and has a run button
     // Important to wait for this before making the negative assertions that follow
-    cy.get("editor-wc").shadow().contains("Text output").should("be.visible");
+    const runnerContainer = cy
+      .get("editor-wc")
+      .shadow()
+      .find(".proj-runner-container");
+    runnerContainer
+      .find(".react-tabs__tab--selected")
+      .should("contain", "Text output");
     cy.get("editor-wc")
       .shadow()
       .find("button")
