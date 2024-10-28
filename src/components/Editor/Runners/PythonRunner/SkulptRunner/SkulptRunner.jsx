@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Sk from "skulpt";
 import { useMediaQuery } from "react-responsive";
+import classNames from "classnames";
 import {
   setError,
   setErrorDetails,
@@ -23,7 +24,6 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
-import classNames from "classnames";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -78,9 +78,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [hasVisualOutput, setHasVisualOutput] = useState(true);
-
-  const [showRunner, setShowRunner] = useState(active);
+  const [hasVisualOutput, setHasVisualOutput] = useState(false);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -97,17 +95,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }, [active]);
 
   useEffect(() => {
-    if (codeRunTriggered && active && showRunner) {
+    if (codeRunTriggered && active) {
       console.log("running with skulpt");
       runCode();
     }
-  }, [codeRunTriggered, showRunner]);
-
-  useEffect(() => {
-    if (codeRunTriggered) {
-      setShowRunner(active);
-    }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, active]);
 
   useEffect(() => {
     if (codeRunStopped && active && getInput()) {
@@ -429,10 +421,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   return (
     <div
-      className={`pythonrunner-container skulptrunner${
-        active ? " skulptrunner--active" : ""
-      }`}
-      style={{ display: showRunner ? "flex" : "none" }}
+      className={classNames("pythonrunner-container", "skulptrunner", {
+        active: "skulptrunner--active",
+      })}
+      style={{ display: active ? "flex" : "none" }}
     >
       {isSplitView || singleOutputPanel ? (
         <>

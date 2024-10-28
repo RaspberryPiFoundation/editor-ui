@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../../assets/stylesheets/PythonRunner.scss";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 import {
   setError,
   codeRunHandled,
@@ -67,7 +68,6 @@ const PyodideRunner = (props) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
-  const [showRunner, setShowRunner] = useState(active);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -111,12 +111,6 @@ const PyodideRunner = (props) => {
     if (codeRunTriggered && active) {
       console.log("running with pyodide");
       handleRun();
-    }
-  }, [codeRunTriggered]);
-
-  useEffect(() => {
-    if (codeRunTriggered) {
-      setShowRunner(active);
     }
   }, [codeRunTriggered]);
 
@@ -317,17 +311,17 @@ const PyodideRunner = (props) => {
     }
   };
 
-  if (!pyodideWorker) {
-    console.error("PyodideWorker is not initialized");
+  if (!pyodideWorker && active) {
+    console.warn("PyodideWorker is not initialized");
     return;
   }
 
   return (
     <div
-      className={`pythonrunner-container pyodiderunner${
-        active ? " pyodiderunner--active" : ""
-      }`}
-      style={{ display: showRunner ? "flex" : "none" }}
+      className={classNames("pythonrunner-container", "pyodiderunner", {
+        active: "pyodiderunner--active",
+      })}
+      style={{ display: active ? "flex" : "none" }}
     >
       {isSplitView ? (
         <>
