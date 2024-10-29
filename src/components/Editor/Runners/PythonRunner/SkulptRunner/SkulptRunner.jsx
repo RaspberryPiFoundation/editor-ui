@@ -72,13 +72,17 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const senseHatAlwaysEnabled = useSelector(
+    (state) => state.editor.senseHatAlwaysEnabled,
+  );
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [hasVisualOutput, setHasVisualOutput] = useState(true);
+  const [hasVisualOutput, setHasVisualOutput] = useState(senseHatAlwaysEnabled);
+  const [visualOutput, setVisualOutput] = useState(true);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -95,11 +99,22 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }, [active]);
 
   useEffect(() => {
-    if (codeRunTriggered && active) {
-      console.log("running with skulpt");
-      runCode();
+    if (active) {
+      if (codeRunTriggered) {
+        console.log("running with skulpt");
+        // setVisualOutput(true);
+        runCode();
+      } else if (!senseHatAlwaysEnabled) {
+        setHasVisualOutput(false);
+      }
     }
   }, [codeRunTriggered, active]);
+
+  useEffect(() => {
+    if (codeRunTriggered && !senseHatAlwaysEnabled) {
+      setVisualOutput(!!hasVisualOutput);
+    }
+  }, [codeRunTriggered, hasVisualOutput]);
 
   useEffect(() => {
     if (codeRunStopped && active && getInput()) {
@@ -428,7 +443,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     >
       {isSplitView || singleOutputPanel ? (
         <>
-          {hasVisualOutput && showVisualOutput && (
+          {visualOutput && showVisualOutput && (
             <div className={outputPanelClasses("visual")}>
               <Tabs forceRenderTabPanel={true}>
                 <div
@@ -443,7 +458,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+                  {!isEmbedded && visualOutput && <OutputViewToggle />}
                   {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
@@ -467,7 +482,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!hasVisualOutput && !isEmbedded && isMobile && (
+                  {!visualOutput && !isEmbedded && isMobile && (
                     <RunnerControls skinny />
                   )}
                 </div>
@@ -484,10 +499,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           )}
         </>
       ) : (
-        <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
+        <Tabs forceRenderTabPanel={true} defaultIndex={visualOutput ? 0 : 1}>
           <div className="react-tabs__tab-container">
             <TabList>
-              {hasVisualOutput ? (
+              {visualOutput ? (
                 <Tab key={0}>
                   <span className="react-tabs__tab-text">
                     {t("output.visualOutput")}
@@ -500,11 +515,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+            {!isEmbedded && visualOutput && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           {!isOutputOnly && <ErrorMessage />}
-          {hasVisualOutput ? (
+          {visualOutput ? (
             <TabPanel key={0}>
               <VisualOutputPane />
             </TabPanel>
