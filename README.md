@@ -9,12 +9,9 @@ Copy the example files into the correct place:
 
 ```
 cp .env.example .env
-
-cp .env.webcomponent.example .env.webcomponent
 ```
 
-Variables for the web application need to go into the `.env` file.
-Variables for the web component can be placed in `.env.webcomponent`.
+Variables for the web component can be placed in `.env`.
 
 ## Private repo setup (.npmrc)
 
@@ -32,7 +29,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3010](http://localhost:3010) to view it in the browser.
+Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -57,8 +54,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework `Jest` and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
 
 Integration testing is carried out via `cypress` and can be run using:
-* `yarn exec cypress run` to run in the CLI
-* `yarn exec cypress open` to run in the GUI
+
+- `yarn exec cypress run` to run in the CLI
+- `yarn exec cypress open` to run in the GUI
 
 Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
@@ -79,12 +77,6 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
-
-### `yarn start:wc`
-
-Runs the web component in development mode. Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
-
-**NB** You need to have the main `yarn start` process running too.
 
 It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
 
