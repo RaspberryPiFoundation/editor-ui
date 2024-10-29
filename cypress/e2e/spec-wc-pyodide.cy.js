@@ -154,6 +154,34 @@ describe("Running the code with pyodide", () => {
       .should("contain", "4");
   });
 
+  it.only("runs a simple program with the py-enigma library", () => {
+    runCode(
+      `
+from enigma.machine import EnigmaMachine
+# Sheet settings
+ROTORS = "IV I V"
+RINGS = "20 5 10"
+PLUGBOARD = "KT AJ IV US NY HL GD XF PB CQ"
+def use_enigma_machine(msg, rotor_start):
+  # Set up the Enigma machine
+  machine = EnigmaMachine.from_key_sheet(rotors=ROTORS, reflector="B", ring_settings=RINGS, plugboard_settings=PLUGBOARD)
+  # Set the initial position of the rotors
+  machine.set_display(rotor_start)
+  # Encrypt or decrypt the message
+  transformed_msg = machine.process_text(msg)
+  return(transformed_msg)
+text_in = "This is a test message"
+rotor_start = "FNZ"
+text_out = use_enigma_machine(text_in, rotor_start)
+print(text_out)
+      `,
+    );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "ULRYQJMVHLFQKBEFUGEOFL");
+  });
+
   it("errors when importing a non-existent module", () => {
     runCode("import i_do_not_exist");
     cy.get("editor-wc")
