@@ -32,7 +32,7 @@ describe("Running the code with skulpt", () => {
     });
   });
 
-  it.only("runs a simple program", () => {
+  it("runs a simple program", () => {
     runCode("print('Hello world')");
     cy.get("editor-wc")
       .shadow()

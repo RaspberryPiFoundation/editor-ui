@@ -36,7 +36,7 @@ describe("Running the code with pyodide", () => {
     });
   });
 
-  it.only("runs a simple program", () => {
+  it("runs a simple program", () => {
     runCode('print("Hello world")');
     cy.get("editor-wc")
       .shadow()
