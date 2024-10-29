@@ -78,7 +78,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [hasVisualOutput, setHasVisualOutput] = useState(false);
+  const [hasVisualOutput, setHasVisualOutput] = useState(true);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -156,8 +156,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     if (visualLibraries.includes(library)) {
       setHasVisualOutput(true);
-    } else {
-      setHasVisualOutput(false);
     }
 
     let localProjectFiles = projectCode
