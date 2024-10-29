@@ -150,6 +150,10 @@ it("picks up calls to input()", () => {
     .find("span[contenteditable=true]")
     .type("Scott{enter}");
   cy.get("#results").should("contain", '"noInputEvents":false');
+  cy.get("editor-wc")
+    .shadow()
+    .find(".pythonrunner-console-output-line")
+    .should("contain", "Hello Scott");
 });
 
 it("picks up calls to wait for motion", () => {
