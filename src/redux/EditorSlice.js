@@ -302,7 +302,7 @@ export const EditorSlice = createSlice({
       state.activeRunner = action.payload;
       state.codeRunLoading = true;
     },
-    loadedRunner: (state, action) => {
+    setLoadedRunner: (state, action) => {
       state.loadedRunner = action.payload;
       state.codeRunLoading = false;
     },
@@ -478,7 +478,7 @@ export const EditorSlice = createSlice({
 export const {
   addProjectComponent,
   loadingRunner,
-  loadedRunner,
+  setLoadedRunner,
   resetRunner,
   codeRunHandled,
   expireJustLoaded,

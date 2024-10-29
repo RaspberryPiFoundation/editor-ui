@@ -14,7 +14,7 @@ import {
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
-  loadedRunner,
+  setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import { createError } from "../../../../../utils/apiCallHandler";
@@ -90,7 +90,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   useEffect(() => {
     if (active) {
-      dispatch(loadedRunner("skulpt"));
+      dispatch(setLoadedRunner("skulpt"));
     }
   }, [active]);
 
@@ -156,6 +156,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     if (visualLibraries.includes(library)) {
       setHasVisualOutput(true);
+    } else {
+      setHasVisualOutput(false);
     }
 
     let localProjectFiles = projectCode

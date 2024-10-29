@@ -7,7 +7,7 @@ import classNames from "classnames";
 import {
   setError,
   codeRunHandled,
-  loadedRunner,
+  setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -127,7 +127,7 @@ const PyodideRunner = (props) => {
   const handleLoaded = (stdin, interrupt) => {
     stdinBuffer.current = stdin;
     interruptBuffer.current = interrupt;
-    dispatch(loadedRunner("pyodide"));
+    dispatch(setLoadedRunner("pyodide"));
     dispatch(codeRunHandled());
     disableInput();
   };
