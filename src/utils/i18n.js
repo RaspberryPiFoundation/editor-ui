@@ -218,16 +218,6 @@ i18n
               py5: "Py5: imported mode",
             },
           },
-          loginToSaveModal: {
-            cancel: "Cancel",
-            downloadButtonText: "Download",
-            downloadText:
-              "Or you can download your project and save it on your computer.",
-            heading: "Save your project",
-            loginButtonText: "Log in to save",
-            loginText:
-              "Log in to your Raspberry Pi account to save your work, and you'll be able to access and edit your project whenever you need to.",
-          },
           mobile: {
             code: "Code",
             menu: "Menu",
@@ -237,21 +227,6 @@ i18n
           },
           modals: {
             close: "Close",
-          },
-          newProjectModal: {
-            cancel: "Cancel",
-            createProject: "Create project",
-            heading: "Create a new project",
-            projectName: {
-              default: "Untitled",
-              helpText: "You can always rename your project later",
-              inputLabel: "Project name",
-            },
-            projectType: {
-              html: "HTML",
-              inputLabel: "What kind of project do you want to make?",
-              python: "Python",
-            },
           },
           notifications: {
             close: "close",
@@ -299,16 +274,6 @@ i18n
             buttonSplitTitle: "Split view",
           },
           project: {
-            accessDeniedNoAuthModal: {
-              embedded: {
-                text: "Visit the Projects site for cool project ideas",
-              },
-              heading: "You are not able to see this project",
-              loginButtonText: "Log in to your account",
-              newProject: "Create a new code project",
-              projectsSiteLinkText: "Explore Projects site",
-              text: "If this is your project, log in to see it. If this is not your project you can visit the Projects site for cool project ideas or to start coding in a new project.",
-            },
             accessDeniedWithAuthModal: {
               embedded: {
                 text: "Visit the Projects site for cool project ideas",
@@ -338,12 +303,6 @@ i18n
           projectList: {
             delete: "Delete",
             deleteLabel: "Delete project",
-            deleteProjectModal: {
-              cancel: "Cancel",
-              delete: "Delete",
-              heading: "Delete project",
-              text: "Are you sure you want to delete this project?",
-            },
             empty: "No projects created yet",
             label: "Open project menu",
             loading: "Loading",

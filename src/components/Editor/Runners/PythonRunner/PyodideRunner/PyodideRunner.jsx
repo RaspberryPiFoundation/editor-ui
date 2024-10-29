@@ -18,8 +18,6 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
-const { createError } = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
-
 const getWorkerURL = (url) => {
   const content = `
     /* global PyodideWorker */
@@ -49,6 +47,7 @@ const PyodideRunner = (props) => {
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
+  const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
@@ -85,7 +84,7 @@ const PyodideRunner = (props) => {
               data.line,
               data.mistake,
               data.type,
-              data.info,
+              data.info
             );
             break;
           case "handleVisual":
@@ -182,6 +181,9 @@ const PyodideRunner = (props) => {
         errorMessage += `:\n${mistake}`;
       }
 
+      const { createError } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
       createError(projectIdentifier, userId, { errorType: type, errorMessage });
     }
 
@@ -208,8 +210,8 @@ const PyodideRunner = (props) => {
       projectImages.map(({ filename, url }) =>
         fetch(url)
           .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer)),
-      ),
+          .then((buffer) => writeFile(filename, buffer))
+      )
     );
 
     for (const { name, extension, content } of projectCode) {
@@ -218,7 +220,7 @@ const PyodideRunner = (props) => {
 
     // program is the content of the component with name main and extension py
     const program = projectCode.find(
-      (component) => component.name === "main" && component.extension === "py",
+      (component) => component.name === "main" && component.extension === "py"
     ).content;
 
     if (interruptBuffer.current) {

@@ -242,7 +242,6 @@ describe("EditorSliceReducers::loadProjectRejectedReducer", () => {
     let expectedState = {
       loading: "failed",
       saving: "idle",
-      accessDeniedNoAuthModalShowing: true,
       currentLoadingRequestId: undefined,
       modals: {
         accessDenied: {

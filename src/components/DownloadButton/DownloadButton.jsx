@@ -4,11 +4,10 @@ import { toSnakeCase } from "js-convert-case";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import { closeLoginToSaveModal } from "../../redux/EditorSlice";
 
 const DownloadButton = (props) => {
   const {
@@ -20,10 +19,6 @@ const DownloadButton = (props) => {
   } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
-  const loginToSaveModalShowing = useSelector(
-    (state) => state.editor.loginToSaveModalShowing
-  );
-  const dispatch = useDispatch();
 
   const urlToPromise = (url) => {
     return new Promise(function (resolve, reject) {
@@ -42,9 +37,6 @@ const DownloadButton = (props) => {
       window.plausible("Download");
     }
 
-    if (loginToSaveModalShowing) {
-      dispatch(closeLoginToSaveModal());
-    }
     const zip = new JSZip();
 
     project.components.forEach((file) => {

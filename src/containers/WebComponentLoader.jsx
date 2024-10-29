@@ -4,6 +4,7 @@ import {
   disableTheming,
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
+  setReactAppApiEndpoint,
   setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
@@ -136,6 +137,10 @@ const WebComponentLoader = (props) => {
     hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
   });
+
+  useEffect(() => {
+    dispatch(setReactAppApiEndpoint(reactAppApiEndpoint));
+  }, [reactAppApiEndpoint, dispatch]);
 
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));

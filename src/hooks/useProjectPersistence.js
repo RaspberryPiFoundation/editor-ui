@@ -4,7 +4,6 @@ import { isOwner } from "../utils/projectHelpers";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
-  showLoginToSaveModal,
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
@@ -17,7 +16,6 @@ export const useProjectPersistence = ({
   saveTriggered,
 }) => {
   const dispatch = useDispatch();
-  dispatch(showLoginToSaveModal());
 
   const saveToLocalStorage = (project) => {
     localStorage.setItem(
@@ -49,8 +47,6 @@ export const useProjectPersistence = ({
                 accessToken: user.access_token,
               }),
             );
-          } else {
-            dispatch(showLoginToSaveModal());
           }
           localStorage.removeItem("awaitingSave");
         }
