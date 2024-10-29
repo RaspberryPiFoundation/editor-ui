@@ -14,7 +14,11 @@ const runCode = (code) => {
     .find("div[class=cm-content]")
     .invoke("text", `${code}\n`);
   cy.wait(200);
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find(".btn--run")
+    .should("not.be.disabled")
+    .click();
 };
 
 describe("Running the code with skulpt", () => {
