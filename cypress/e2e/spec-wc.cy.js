@@ -124,6 +124,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .shadow()
       .find("button")
       .contains("Run")
+      .should("not.be.disabled")
       .should("be.visible");
 
     // Check that the side bar is not displayed
@@ -166,6 +167,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .shadow()
       .find("button")
       .contains("Run")
+      .should("not.be.disabled")
       .should("be.visible");
 
     // Check that the code has automatically run i.e. the HTML has been rendered

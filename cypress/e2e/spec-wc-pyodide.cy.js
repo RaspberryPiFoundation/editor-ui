@@ -36,8 +36,18 @@ describe("Running the code with pyodide", () => {
     });
   });
 
-  it("runs a simple program", () => {
+  it.only("runs a simple program", () => {
     runCode('print("Hello world")');
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .contains(".react-tabs__tab", "Visual output")
+      .should("not.exist");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .find(".react-tabs__tab--selected")
+      .should("contain", "Text output");
     cy.get("editor-wc")
       .shadow()
       .find(".pythonrunner-console-output-line")
