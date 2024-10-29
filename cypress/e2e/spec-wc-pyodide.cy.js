@@ -154,7 +154,7 @@ describe("Running the code with pyodide", () => {
       .should("contain", "4");
   });
 
-  it.only("runs a simple program with the py-enigma library", () => {
+  it("runs a simple program with the py-enigma library", () => {
     runCode(
       `
 from enigma.machine import EnigmaMachine
