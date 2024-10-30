@@ -18,6 +18,10 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+// import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
+// import Prism from "prismjs";
+
+// window.Prism = Prism;
 
 const getWorkerURL = (url) => {
   const content = `
@@ -111,6 +115,7 @@ const PyodideRunner = (props) => {
           setInputStackIndex(inputStackIndex - 1);
         }
       }
+      // window.Prism.highlightElement(event.target);
     };
     if (consoleMode) {
       const inputElement = getInputElement();
@@ -122,6 +127,7 @@ const PyodideRunner = (props) => {
   useEffect(() => {
     if (awaitingInput && consoleMode) {
       const inputElement = getInputElement();
+      // inputElement.classList.add("language-python");
       inputElement.innerText = " ".repeat(indentationLevel * 4);
       // move cursor to end of text
       const range = document.createRange();
