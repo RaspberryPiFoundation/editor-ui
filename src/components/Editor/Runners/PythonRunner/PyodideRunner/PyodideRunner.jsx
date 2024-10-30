@@ -90,12 +90,6 @@ const PyodideRunner = (props) => {
     setIndentationLevel((prevIndentationLevel) => prevIndentationLevel + 1);
   };
 
-  const decrementIndentationLevel = () => {
-    setIndentationLevel((prevIndentationLevel) => {
-      return Math.max(0, prevIndentationLevel - 1);
-    });
-  };
-
   useEffect(() => {
     console.log("indentationLevel", indentationLevel);
   }, [indentationLevel]);
@@ -253,7 +247,7 @@ const PyodideRunner = (props) => {
     } else if (content.trimEnd() === "") {
       console.log("the content is");
       console.log(content);
-      decrementIndentationLevel();
+      setIndentationLevel(0);
     }
 
     const encoder = new TextEncoder();
