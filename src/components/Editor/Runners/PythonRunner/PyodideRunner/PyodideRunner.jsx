@@ -63,6 +63,9 @@ const PyodideRunner = (props) => {
   const [visuals, setVisuals] = useState([]);
   const [showRunner, setShowRunner] = useState(active);
   const [inputStack, setInputStack] = useState([]);
+  const [indentationLevel, setIndentationLevel] = useState(0);
+  const [awaitingInput, setAwaitingInput] = useState(false);
+
   const prependToInputStack = (input) => {
     setInputStack((prevInputStack) => {
       if (prevInputStack[0] === "") {
@@ -78,6 +81,20 @@ const PyodideRunner = (props) => {
     });
   };
   const [inputStackIndex, setInputStackIndex] = useState(0);
+
+  const incrementIndentationLevel = () => {
+    setIndentationLevel((prevIndentationLevel) => prevIndentationLevel + 1);
+  };
+
+  const decrementIndentationLevel = () => {
+    setIndentationLevel((prevIndentationLevel) => {
+      return Math.max(0, prevIndentationLevel - 1);
+    });
+  };
+
+  useEffect(() => {
+    console.log("indentationLevel", indentationLevel);
+  }, [indentationLevel]);
 
   useEffect(() => {
     console.log("isOutputOnly", isOutputOnly);
@@ -101,6 +118,20 @@ const PyodideRunner = (props) => {
       inputElement?.addEventListener("keydown", handleKeyDown);
     }
   }, [inputStack, inputStackIndex, consoleMode]);
+
+  useEffect(() => {
+    if (awaitingInput && consoleMode) {
+      const inputElement = getInputElement();
+      inputElement.innerText = " ".repeat(indentationLevel * 4);
+      // move cursor to end of text
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(inputElement);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }, [awaitingInput, indentationLevel, consoleMode]);
 
   useEffect(() => {
     console.log("inputStack", inputStack);
@@ -208,7 +239,16 @@ const PyodideRunner = (props) => {
 
     const element = getInputElement();
     const { content, ctrlD } = await getInputContent(element);
+    setAwaitingInput(false);
+
     prependToInputStack(content);
+    if (content.trimEnd().slice(-1) === ":") {
+      incrementIndentationLevel();
+    } else if (content.trimEnd() === "") {
+      console.log("the content is");
+      console.log(content);
+      decrementIndentationLevel();
+    }
 
     const encoder = new TextEncoder();
     const bytes = encoder.encode(content + "\n");
@@ -310,6 +350,7 @@ const PyodideRunner = (props) => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
+    setAwaitingInput(true);
     return span;
   };
 
