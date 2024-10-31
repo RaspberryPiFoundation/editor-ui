@@ -45,7 +45,7 @@ const requestingAProject = function (project, projectFile) {
     expect(mockReadProject).toHaveBeenCalledWith(
       "my-project-identifier",
       "ja-JP",
-      "my_token"
+      "my_token",
     );
   });
 
@@ -80,7 +80,7 @@ const requestingAProject = function (project, projectFile) {
       loading: "failed",
     };
     expect(reducer(initialState, syncProject("load").fulfilled())).toEqual(
-      initialState
+      initialState,
     );
   });
 

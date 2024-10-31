@@ -84,7 +84,7 @@ const PyodideRunner = (props) => {
               data.line,
               data.mistake,
               data.type,
-              data.info
+              data.info,
             );
             break;
           case "handleVisual":
@@ -210,8 +210,8 @@ const PyodideRunner = (props) => {
       projectImages.map(({ filename, url }) =>
         fetch(url)
           .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer))
-      )
+          .then((buffer) => writeFile(filename, buffer)),
+      ),
     );
 
     for (const { name, extension, content } of projectCode) {
@@ -220,7 +220,7 @@ const PyodideRunner = (props) => {
 
     // program is the content of the component with name main and extension py
     const program = projectCode.find(
-      (component) => component.name === "main" && component.extension === "py"
+      (component) => component.name === "main" && component.extension === "py",
     ).content;
 
     if (interruptBuffer.current) {

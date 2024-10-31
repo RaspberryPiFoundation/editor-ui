@@ -20,7 +20,7 @@ export const syncProject = (actionName) =>
         autosave,
         assetsOnly,
       },
-      { rejectWithValue }
+      { rejectWithValue },
     ) => {
       const {
         createOrUpdateProject,
@@ -75,7 +75,7 @@ export const syncProject = (actionName) =>
           return false;
         }
       },
-    }
+    },
   );
 
 export const loadProjectList = createAsyncThunk(
@@ -90,7 +90,7 @@ export const loadProjectList = createAsyncThunk(
       page,
       links: parseLinkHeader(response.headers.link),
     };
-  }
+  },
 );
 
 const initialState = {
@@ -148,10 +148,10 @@ export const EditorSlice = createSlice({
         .map((fileNames) => fileNames.includes(action.payload))
         .indexOf(true);
       const closedFileIndex = state.openFiles[panelIndex].indexOf(
-        action.payload
+        action.payload,
       );
       state.openFiles[panelIndex] = state.openFiles[panelIndex].filter(
-        (fileName) => fileName !== action.payload
+        (fileName) => fileName !== action.payload,
       );
       if (
         state.focussedFileIndices[panelIndex] >=

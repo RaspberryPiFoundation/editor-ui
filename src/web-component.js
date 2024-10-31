@@ -173,7 +173,7 @@ class WebComponent extends HTMLElement {
             <WebComponentLoader {...this.reactProps()} />
           </BrowserRouter>
         </Provider>
-      </React.StrictMode>
+      </React.StrictMode>,
     );
   }
 }

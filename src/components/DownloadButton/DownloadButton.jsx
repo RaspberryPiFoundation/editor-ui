@@ -54,8 +54,8 @@ const DownloadButton = (props) => {
         project.name ||
           t("header.downloadFileNameDefault", {
             project_type: project.project_type,
-          })
-      )}`
+          }),
+      )}`,
     );
   };
 

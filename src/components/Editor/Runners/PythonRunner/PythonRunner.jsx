@@ -16,10 +16,10 @@ const SKULPT_ONLY_MODULES = [
 const PythonRunner = () => {
   const project = useSelector((state) => state.editor.project);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const senseHatAlwaysEnabled = useSelector(
-    (state) => state.editor.senseHatAlwaysEnabled
+    (state) => state.editor.senseHatAlwaysEnabled,
   );
   const [usePyodide, setUsePyodide] = useState(true);
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const PythonRunner = () => {
     const getImports = (code) => {
       const codeWithoutMultilineStrings = code.replace(
         /'''[\s\S]*?'''|"""[\s\S]*?"""/gm,
-        ""
+        "",
       );
       const importRegex =
         /(?<=^\s*)(from\s+([a-zA-Z0-9_.]+)(\s+import\s+([a-zA-Z0-9_.]+))?)|(?<=^\s*)(import\s+([a-zA-Z0-9_.]+))/gm;
@@ -43,7 +43,7 @@ const PythonRunner = () => {
               match
                 .split(/from|import/)
                 .filter(Boolean)
-                .map((s) => s.trim())[0]
+                .map((s) => s.trim())[0],
           )
         : [];
       if (code.includes(`# ${t("input.comment.py5")}`)) {
@@ -57,7 +57,7 @@ const PythonRunner = () => {
         try {
           const imports = getImports(component.content);
           const hasSkulptOnlyModules = imports.some((name) =>
-            SKULPT_ONLY_MODULES.includes(name)
+            SKULPT_ONLY_MODULES.includes(name),
           );
           if (hasSkulptOnlyModules || senseHatAlwaysEnabled) {
             setUsePyodide(false);

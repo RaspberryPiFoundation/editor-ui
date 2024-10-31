@@ -26,7 +26,7 @@ export const useProject = ({
       ? null
       : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
-    getCachedProject(projectIdentifier)
+    getCachedProject(projectIdentifier),
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ export const useProject = ({
             locale: i18n.language,
             accessToken,
             assetsOnly: true,
-          })
+          }),
         );
         return;
       }
@@ -72,7 +72,7 @@ export const useProject = ({
             identifier: projectIdentifier,
             locale: i18n.language,
             accessToken: accessToken,
-          })
+          }),
         );
         return;
       }
@@ -109,7 +109,7 @@ export const useProject = ({
           reactAppApiEndpoint,
           identifier: projectIdentifier,
           accessToken: accessToken,
-        })
+        }),
       );
 
       // Prevents a failure on the initial render (using a ref to avoid triggering a render)
@@ -127,7 +127,7 @@ export const useProject = ({
           identifier: projectIdentifier,
           locale: i18n.language,
           accessToken: accessToken,
-        })
+        }),
       );
 
       loadDispatched.current = true;
@@ -142,7 +142,7 @@ export const useProject = ({
       const mainComponent = project.components?.find(
         (component) =>
           component.name === defaultName &&
-          component.extension === defaultExtension
+          component.extension === defaultExtension,
       ) || { name: defaultName, extension: defaultExtension, content: "" };
 
       const otherComponents =
@@ -151,7 +151,7 @@ export const useProject = ({
             !(
               component.name === defaultName &&
               component.extension === defaultExtension
-            )
+            ),
         ) || [];
 
       const updatedProject = {

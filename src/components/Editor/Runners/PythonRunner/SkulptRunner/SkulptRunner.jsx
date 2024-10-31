@@ -57,17 +57,17 @@ const externalLibraries = {
 const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const projectCode = useSelector((state) => state.editor.project.components);
   const mainComponent = projectCode?.find(
-    (component) => component.name === "main" && component.extension === "py"
+    (component) => component.name === "main" && component.extension === "py",
   );
   const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier
+    (state) => state.editor.project.identifier,
   );
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
@@ -190,7 +190,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             .then((code) => {
               if (!code) {
                 throw new Sk.builtin.ImportError(
-                  "Failed to load remote module"
+                  "Failed to load remote module",
                 );
               }
               externalLibraries[library].code = code;
@@ -199,7 +199,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               function mapUrlToPromise(path) {
                 // If the script is already in the DOM don't add it again.
                 const existingScriptElement = document.querySelector(
-                  `script[src="${path}"]`
+                  `script[src="${path}"]`,
                 );
                 if (!existingScriptElement) {
                   return new Promise(function (resolve, _reject) {
@@ -221,11 +221,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                   (p, url) => {
                     return p.then(() => mapUrlToPromise(url));
                   },
-                  Promise.resolve()
+                  Promise.resolve(),
                 ); // initial
               } else {
                 promise = Promise.all(
-                  (externalLibraryInfo.dependencies || []).map(mapUrlToPromise)
+                  (externalLibraryInfo.dependencies || []).map(mapUrlToPromise),
                 );
               }
 
@@ -235,10 +235,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                 })
                 .catch(function () {
                   throw new Sk.builtin.ImportError(
-                    "Failed to load dependencies required"
+                    "Failed to load dependencies required",
                   );
                 });
-            })
+            }),
         )
       );
     }
@@ -358,7 +358,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
       prog = prog.replace(
         `# ${t("input.comment.py5")}`,
-        "from py5_imported_mode import *"
+        "from py5_imported_mode import *",
       );
 
       if (!prog.match(/(\nrun_sketch)/)) {

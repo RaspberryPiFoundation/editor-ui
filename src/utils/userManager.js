@@ -28,7 +28,7 @@ const UserManager = ({ reactAppAuthenticationUrl }) => {
   const mgr = createUserManager(
     userManagerConfig({
       reactAppAuthenticationUrl,
-    })
+    }),
   );
 
   mgr.events.addAccessTokenExpired(() => {

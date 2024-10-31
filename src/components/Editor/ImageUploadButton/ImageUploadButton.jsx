@@ -36,7 +36,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier
+    (state) => state.editor.project.identifier,
   );
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const imageNames = projectImages.map((image) => `${image.filename}`);
@@ -69,8 +69,8 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
       } else if (!allowedExtensions[projectType].includes(extension)) {
         dispatch(
           setNameError(
-            `Image names must end in ${allowedExtensionsString(projectType)}.`
-          )
+            `Image names must end in ${allowedExtensionsString(projectType)}.`,
+          ),
         );
         return false;
       } else {
@@ -82,7 +82,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
       const response = await uploadImages(
         projectIdentifier,
         user.access_token,
-        files
+        files,
       );
       dispatch(updateImages(response.data.image_list));
       closeModal();
