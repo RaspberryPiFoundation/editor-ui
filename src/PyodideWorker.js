@@ -60,16 +60,12 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
+    await pyodide.loadPackage("pyodide_http");
+
     await pyodide.runPythonAsync(`
-    old_input = input
-
-    def patched_input(prompt=False):
-        if (prompt):
-            print(prompt)
-        return old_input()
-
-    __builtins__.input = patched_input
-    `);
+    import pyodide_http
+    pyodide_http.patch_all()
+  `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -82,7 +78,7 @@ const PyodideWorker = () => {
       postMessage({ method: "handleError", ...parsePythonError(error) });
     }
 
-    await reloadPyodideToClearState();
+    await clearPyodideData();
   };
 
   const checkIfStopped = () => {
@@ -162,6 +158,14 @@ const PyodideWorker = () => {
   };
 
   const vendoredPackages = {
+    // Support for https://pypi.org/project/py-enigma/ due to package not having a whl file on PyPi.
+    enigma: {
+      before: async () => {
+        await pyodide.loadPackage(
+          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
+        );
+      },
+    },
     turtle: {
       before: async () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
@@ -236,12 +240,12 @@ const PyodideWorker = () => {
         pyodide.runPython(`
         import js
 
-        class DummyDocument:
+        class __DummyDocument__:
             def __init__(self, *args, **kwargs) -> None:
                 return
             def __getattr__(self, __name: str):
-                return DummyDocument
-        js.document = DummyDocument()
+                return __DummyDocument__
+        js.document = __DummyDocument__()
         `);
         await pyodide.loadPackage("matplotlib")?.catch(() => {});
         let pyodidePackage;
@@ -249,8 +253,54 @@ const PyodideWorker = () => {
           pyodidePackage = pyodide.pyimport("matplotlib");
         } catch (_) {}
         if (pyodidePackage) {
+          pyodide.runPython(`
+            import matplotlib.pyplot as plt
+            import io
+            import basthon
+
+            def show_chart():
+                bytes_io = io.BytesIO()
+                plt.savefig(bytes_io, format='jpg')
+                bytes_io.seek(0)
+                basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+            plt.show = show_chart
+            `);
           return;
         }
+      },
+      after: () => {
+        pyodide.runPython(`
+        import matplotlib.pyplot as plt
+        plt.clf()
+        `);
+      },
+    },
+    seaborn: {
+      before: async () => {
+        pyodide.registerJsModule("basthon", fakeBasthonPackage);
+        // Patch the document object to prevent matplotlib from trying to render. Since we are running in a web worker,
+        // the document object is not available. We will instead capture the image and send it back to the main thread.
+        pyodide.runPython(`
+        import js
+
+        class __DummyDocument__:
+            def __init__(self, *args, **kwargs) -> None:
+                return
+            def __getattr__(self, __name: str):
+                return __DummyDocument__
+        js.document = __DummyDocument__()
+        `);
+
+        // Ensure micropip is loaded which can fetch packages from PyPi.
+        // See: https://pyodide.org/en/stable/usage/loading-packages.html
+        if (!pyodide.micropip) {
+          await pyodide.loadPackage("micropip");
+          pyodide.micropip = pyodide.pyimport("micropip");
+        }
+
+        // If the import is for a PyPi package then load it.
+        // Otherwise, don't error now so that we get an error later from Python.
+        await pyodide.micropip.install("seaborn").catch(() => {});
       },
       after: () => {
         pyodide.runPython(`
@@ -258,10 +308,21 @@ const PyodideWorker = () => {
         import io
         import basthon
 
-        bytes_io = io.BytesIO()
-        plt.savefig(bytes_io, format='jpg')
-        bytes_io.seek(0)
-        basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+        def is_plot_empty():
+            fig = plt.gcf()
+            for ax in fig.get_axes():
+                # Check if the axes contain any lines, patches, collections, etc.
+                if ax.lines or ax.patches or ax.collections or ax.images or ax.texts:
+                    return False
+            return True
+
+        if not is_plot_empty():
+            bytes_io = io.BytesIO()
+            plt.savefig(bytes_io, format='jpg')
+            bytes_io.seek(0)
+            basthon.kernel.display_event({ "display_type": "matplotlib", "content": bytes_io.read() })
+
+        plt.clf()
         `);
       },
     },
@@ -279,7 +340,18 @@ const PyodideWorker = () => {
     },
   };
 
-  const reloadPyodideToClearState = async () => {
+  const clearPyodideData = async () => {
+    postMessage({ method: "handleLoading" });
+    await pyodide.runPythonAsync(`
+        # Clear all user-defined variables and modules
+        for name in dir():
+            if not name.startswith('_'):
+                del globals()[name]
+      `);
+    postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
+  };
+
+  const initialisePyodide = async () => {
     postMessage({ method: "handleLoading" });
 
     pyodidePromise = loadPyodide({
@@ -290,6 +362,15 @@ const PyodideWorker = () => {
     });
 
     pyodide = await pyodidePromise;
+
+    await pyodide.runPythonAsync(`
+    __old_input__ = input
+    def __patched_input__(prompt=False):
+        if (prompt):
+            print(prompt)
+        return __old_input__()
+    __builtins__.input = __patched_input__
+    `);
 
     if (supportsAllFeatures) {
       stdinBuffer =
@@ -354,7 +435,7 @@ const PyodideWorker = () => {
     return { file, line, mistake, type, info };
   };
 
-  reloadPyodideToClearState();
+  initialisePyodide();
 
   return {
     postMessage,

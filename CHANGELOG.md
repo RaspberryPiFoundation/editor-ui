@@ -6,10 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Changed
+## [0.28.5] - 2024-10-25
 
-- Updated the ImportErrors message
-- In ErrorMessage component added the way to display html elements in string
+### Fixed
+
+- Image sizing and wrapping in the sidebar (#1126)
+
+## [0.28.4] - 2024-10-23
+
+### Added
+
+- py-enigma support (#1109)
+
+## [0.28.3] - 2024-10-22
+
+### Fixed
+
+- `seaborn` document patch (#1122)
+- Clearing `matplotlib` and `seaborn` plots at the end of each code run (#1122)
+
+## [0.28.2] - 2024-10-22
+
+### Fixed
+
+- BASE_URL in build pipeline (#1121)
+
+## [0.28.1] - 2024-10-22
+
+### Fixed
+
+- PUBLIC_URL in build pipeline (#1120)
+
+## [0.28.0] - 2024-10-22
 
 ### Added
 
@@ -18,17 +46,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `Pyodide` `matplotlib` support (#1087)
 - Tests for running simple programs in `pyodide` and `skulpt` (#1100)
 - Fall back to `skulpt` if the host is not `crossOriginIsolated` (#1107)
+- `Pyodide` `seaborn` support (#1106)
+- `Pyodide` module caching (#1113)
 
 ### Changed
 
 - Upgrade to `webpack 5` (#1096)
 - Bump `pyodide` to `v0.26.2` (#1098)
+- Updated the ImportErrors message (#1105)
+- In ErrorMessage component added the way to display html elements in string (#1105)
 
 ### Fixed
 
-- Build to include public files (#1112)
 - Dynamic runner switching with more than one `python` file (#1097)
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
+- Build to include public files (#1112)
 - Persisting choice of tabbed/split view when running `python` code (#1114)
 
 ## [0.27.1] - 2024-10-01
@@ -37,6 +69,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Enabling web component to find the `turtle` canvas (#1082)
 - Ability to stop code in the web component (#1083)
+- Remove redundant code (#1103)
 
 ## [0.27.0] - 2024-09-26
 
@@ -915,7 +948,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.27.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.5...HEAD
+[0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
+[0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
+[0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
+[0.28.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.2
+[0.28.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.1
+[0.28.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.0
 [0.27.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.1
 [0.27.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.27.0
 [0.26.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.26.0

@@ -1,6 +1,6 @@
 {
   "name": "@raspberrypifoundation/editor-ui",
-  "version": "0.27.1",
+  "version": "0.28.5",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.8",
@@ -80,7 +80,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
+    "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
     "build:dev": "yarn install --check-cache && yarn run build-storybook",
     "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
@@ -89,9 +90,7 @@
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
     "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
-    "start:wc": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.component.config.js",
-    "build:wc": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.component.config.js",
-    "heroku-postbuild": "export PUBLIC_URL='' && yarn build && yarn build:wc"
+    "heroku-postbuild": "export PUBLIC_URL='' && yarn build"
   },
   "browserslist": {
     "production": [

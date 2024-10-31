@@ -14,7 +14,7 @@ x-app: &x-app
 services:
   react-ui-wc:
     <<: *x-app
-    command: yarn start:wc
+    command: yarn start
     ports:
       - "3011:3011"
     container_name: react-ui-wc
