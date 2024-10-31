@@ -18,6 +18,7 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import { useCookies } from "react-cookie";
 // import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
 // import Prism from "prismjs";
 
@@ -69,6 +70,11 @@ const PyodideRunner = (props) => {
   const [inputStack, setInputStack] = useState([]);
   const [indentationLevel, setIndentationLevel] = useState(0);
   const [awaitingInput, setAwaitingInput] = useState(false);
+  const [cookies] = useCookies(["theme"]);
+  const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
+    ? "dark"
+    : "light";
+  const theme = cookies.theme || defaultTheme;
 
   const prependToInputStack = (input) => {
     setInputStack((prevInputStack) => {
@@ -482,7 +488,7 @@ const PyodideRunner = (props) => {
                 <TabPanel key={1}>
                   <iframe
                     title="console"
-                    src="http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true"
+                    src={`http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}`}
                     crossOrigin
                     style={{ width: "100%", height: "100%" }}
                   />
