@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [1.0.0] - 2024-10-31
+
+### Removed
+
+- Remove REACT_APP_API_ENDPOINT and REACT_APP_AUTHENTICATION_URL env vars in place of params (#1124)
+
 ## [0.28.5] - 2024-10-25
 
 ### Fixed
