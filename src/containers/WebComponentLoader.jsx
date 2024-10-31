@@ -42,7 +42,7 @@ const WebComponentLoader = (props) => {
     outputPanels = ["text", "visual"],
     outputSplitView = false,
     projectNameEditable = false,
-    reactAppApiEndpoint,
+    reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
     showSavePrompt = false,
