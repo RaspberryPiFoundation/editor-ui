@@ -1,12 +1,13 @@
 import produce from "immer";
 
-import ApiCallHandler from "../../utils/apiCallHandler";
 import reducer, { syncProject } from "../../redux/EditorSlice";
 import { loadProjectRejected } from "./loadProjectReducers";
 
-jest.mock("../../utils/apiCallHandler");
+const mockReadProject = jest.fn();
+jest.mock("../../utils/apiCallHandler", () => () => ({
+  readProject: jest.fn(mockReadProject),
+}));
 
-const { readProject } = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
 const requestingAProject = function (project, projectFile) {
   const dispatch = jest.fn();
   const initialState = {
@@ -41,10 +42,10 @@ const requestingAProject = function (project, projectFile) {
 
   test("Reads project from database", async () => {
     await loadAction(dispatch, () => initialState);
-    expect(readProject).toHaveBeenCalledWith(
+    expect(mockReadProject).toHaveBeenCalledWith(
       "my-project-identifier",
       "ja-JP",
-      "my_token",
+      "my_token"
     );
   });
 
@@ -79,7 +80,7 @@ const requestingAProject = function (project, projectFile) {
       loading: "failed",
     };
     expect(reducer(initialState, syncProject("load").fulfilled())).toEqual(
-      initialState,
+      initialState
     );
   });
 

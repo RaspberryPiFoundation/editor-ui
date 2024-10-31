@@ -1,5 +1,3 @@
-import ApiCallHandler from "../utils/apiCallHandler";
-
 import reducer, {
   syncProject,
   stopCodeRun,
@@ -9,23 +7,25 @@ import reducer, {
   closeFile,
   setFocussedFileIndex,
   updateComponentName,
-  loadProjectList,
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
   setReadOnly,
 } from "./EditorSlice";
 
-jest.mock("../utils/apiCallHandler");
+const mockCreateRemix = jest.fn();
+const mockDeleteProject = jest.fn();
+const mockLoadAssets = jest.fn();
+const mockReadProject = jest.fn();
+const mockCreateOrUpdateProject = jest.fn();
 
-const {
-  createOrUpdateProject,
-  createRemix,
-  deleteProject,
-  loadAssets,
-  readProject,
-  readProjectList,
-} = ApiCallHandler({ reactAppApiEndpoint: "" });
+jest.mock("../utils/apiCallHandler", () => () => ({
+  createRemix: jest.fn(mockCreateRemix),
+  deleteProject: jest.fn(mockDeleteProject),
+  loadAssets: jest.fn(mockLoadAssets),
+  readProject: jest.fn(mockReadProject),
+  createOrUpdateProject: jest.fn(mockCreateOrUpdateProject),
+}));
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
@@ -47,7 +47,7 @@ test("Action setLoadRemixDisabled sets loadRemixDisabled to true", () => {
     loadRemixDisabled: true,
   };
   expect(reducer(previousState, setLoadRemixDisabled(true))).toEqual(
-    expectedState,
+    expectedState
   );
 });
 
@@ -59,7 +59,7 @@ test("Action setLoadRemixDisabled sets loadRemixDisabled to false", () => {
     loadRemixDisabled: false,
   };
   expect(reducer(previousState, setLoadRemixDisabled(false))).toEqual(
-    expectedState,
+    expectedState
   );
 });
 
@@ -93,8 +93,8 @@ test("Action setErrorDetails sets errorDetails to true", () => {
   expect(
     reducer(
       previousState,
-      setErrorDetails({ type: "Interrupted", message: "Some error message" }),
-    ),
+      setErrorDetails({ type: "Interrupted", message: "Some error message" })
+    )
   ).toEqual(expectedState);
 });
 
@@ -122,8 +122,8 @@ test("Showing rename modal sets file state and showing status", () => {
   expect(
     reducer(
       previousState,
-      showRenameFileModal({ name: "main", ext: ".py", fileKey: 0 }),
-    ),
+      showRenameFileModal({ name: "main", ext: ".py", fileKey: 0 })
+    )
   ).toEqual(expectedState);
 });
 
@@ -193,12 +193,15 @@ describe("When project has no identifier", () => {
 
   test("Saving creates new project", async () => {
     await saveAction(dispatch, () => initialState);
-    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateOrUpdateProject).toHaveBeenCalledWith(
+      project,
+      access_token
+    );
   });
 
   test("Successfully creating project triggers fulfilled action", async () => {
-    createOrUpdateProject.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200 }),
+    mockCreateOrUpdateProject.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200 })
     );
     await saveAction(dispatch, () => initialState);
     expect(dispatch.mock.calls[1][0].type).toBe("editor/saveProject/fulfilled");
@@ -219,8 +222,8 @@ describe("When project has no identifier", () => {
     expect(
       reducer(
         initialState.editor,
-        saveThunk.fulfilled({ project: returnedProject }),
-      ),
+        saveThunk.fulfilled({ project: returnedProject })
+      )
     ).toEqual(expectedState);
   });
 
@@ -279,19 +282,22 @@ describe("When project has an identifier", () => {
   test("The saveProject/pending action sets saveTriggered to false", async () => {
     const newState = reducer(
       initialState.editor,
-      saveThunk.pending({ project }),
+      saveThunk.pending({ project })
     );
     expect(newState.saveTriggered).toBe(false);
   });
 
   test("Saving updates existing project", async () => {
     await saveAction(dispatch, () => initialState);
-    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateOrUpdateProject).toHaveBeenCalledWith(
+      project,
+      access_token
+    );
   });
 
   test("Successfully updating project triggers fulfilled action", async () => {
-    createOrUpdateProject.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200 }),
+    mockCreateOrUpdateProject.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200 })
     );
     await saveAction(dispatch, () => initialState);
     expect(dispatch.mock.calls[1][0].type).toBe("editor/saveProject/fulfilled");
@@ -304,28 +310,30 @@ describe("When project has an identifier", () => {
     };
 
     expect(
-      reducer(initialState.editor, saveThunk.fulfilled({ project })),
+      reducer(initialState.editor, saveThunk.fulfilled({ project }))
     ).toEqual(expectedState);
   });
 
   test("The remixProject/pending action sets saveTriggered to false", async () => {
     const newState = reducer(
       initialState.editor,
-      remixThunk.pending({ project }),
+      remixThunk.pending({ project })
     );
     expect(newState.saveTriggered).toBe(false);
   });
 
   test("Remixing triggers createRemix API call", async () => {
     await remixAction(dispatch, () => initialState);
-    expect(createRemix).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateRemix).toHaveBeenCalledWith(project, access_token);
   });
 
   test("Successfully remixing project triggers fulfilled action", async () => {
-    createRemix.mockImplementationOnce(() => Promise.resolve({ status: 200 }));
+    mockCreateRemix.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200 })
+    );
     await remixAction(dispatch, () => initialState);
     expect(dispatch.mock.calls[1][0].type).toBe(
-      "editor/remixProject/fulfilled",
+      "editor/remixProject/fulfilled"
     );
   });
 
@@ -338,7 +346,7 @@ describe("When project has an identifier", () => {
     };
 
     expect(
-      reducer(initialState.editor, remixThunk.fulfilled({ project })),
+      reducer(initialState.editor, remixThunk.fulfilled({ project }))
     ).toEqual(expectedState);
   });
 
@@ -350,7 +358,7 @@ describe("When project has an identifier", () => {
 
     reducer(
       initialState.editor,
-      remixThunk.fulfilled({ project: remixedProject }),
+      remixThunk.fulfilled({ project: remixedProject })
     );
 
     expect(localStorage.getItem(project.identifier)).toBeNull();
@@ -385,7 +393,7 @@ describe("When renaming a project from the rename project modal", () => {
       projectListLoaded: "idle",
     };
     expect(
-      reducer(initialState.editor, saveThunk.fulfilled({ project })),
+      reducer(initialState.editor, saveThunk.fulfilled({ project }))
     ).toEqual(expectedState);
   });
 });
@@ -416,19 +424,19 @@ describe("When deleting a project", () => {
 
   test("Deleting a project triggers deleteProject API call", async () => {
     await deleteAction(dispatch, () => initialState);
-    expect(deleteProject).toHaveBeenCalledWith(
+    expect(mockDeleteProject).toHaveBeenCalledWith(
       project.identifier,
-      access_token,
+      access_token
     );
   });
 
   test("Successfully deleting project triggers fulfilled action", async () => {
-    deleteProject.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200 }),
+    mockDeleteProject.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200 })
     );
     await deleteAction(dispatch, () => initialState);
     expect(dispatch.mock.calls[1][0].type).toBe(
-      "editor/deleteProject/fulfilled",
+      "editor/deleteProject/fulfilled"
     );
   });
 
@@ -439,7 +447,7 @@ describe("When deleting a project", () => {
       projectListLoaded: "idle",
     };
     expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(
-      expectedState,
+      expectedState
     );
   });
 });
@@ -474,8 +482,8 @@ describe("Opening files", () => {
     expect(
       reducer(
         initialState,
-        setFocussedFileIndex({ panelIndex: 0, fileIndex: 1 }),
-      ),
+        setFocussedFileIndex({ panelIndex: 0, fileIndex: 1 })
+      )
     ).toEqual(expectedState);
   });
 });
@@ -555,8 +563,8 @@ describe("Updating file name", () => {
     expect(
       reducer(
         initialState,
-        updateComponentName({ key: 0, name: "my_file", extension: "py" }),
-      ),
+        updateComponentName({ key: 0, name: "my_file", extension: "py" })
+      )
     ).toEqual(expectedState);
   });
 
@@ -574,8 +582,8 @@ describe("Updating file name", () => {
     expect(
       reducer(
         initialState,
-        updateComponentName({ key: 1, name: "my_file", extension: "py" }),
-      ),
+        updateComponentName({ key: 1, name: "my_file", extension: "py" })
+      )
     ).toEqual(expectedState);
   });
 });
@@ -608,7 +616,11 @@ describe("Loading a project", () => {
 
     test("readProject is called", async () => {
       await loadAction(dispatch, () => initialState);
-      expect(readProject).toHaveBeenCalledWith(identifier, locale, accessToken);
+      expect(mockReadProject).toHaveBeenCalledWith(
+        identifier,
+        locale,
+        accessToken
+      );
     });
   });
 
@@ -626,7 +638,11 @@ describe("Loading a project", () => {
 
     test("loadAssets is called", async () => {
       await loadAction(dispatch, () => initialState);
-      expect(loadAssets).toHaveBeenCalledWith(identifier, locale, accessToken);
+      expect(mockLoadAssets).toHaveBeenCalledWith(
+        identifier,
+        locale,
+        accessToken
+      );
     });
   });
 });

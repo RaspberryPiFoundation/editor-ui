@@ -12,6 +12,7 @@ jest.mock("react-redux", () => ({
 }));
 
 const loadProject = jest.fn();
+const reactAppApiEndpoint = "localhost";
 
 jest.mock("../redux/EditorSlice");
 
@@ -60,11 +61,11 @@ describe("When not embedded", () => {
   test("If cached project matches identifer uses cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
-      JSON.stringify(cachedProject),
+      JSON.stringify(cachedProject)
     );
     renderHook(
       () => useProject({ projectIdentifier: cachedProject.identifier }),
-      { wrapper },
+      { wrapper }
     );
     expect(setProject).toHaveBeenCalledWith(cachedProject);
   });
@@ -72,11 +73,11 @@ describe("When not embedded", () => {
   test("If cached project matches identifer clears cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
-      JSON.stringify(cachedProject),
+      JSON.stringify(cachedProject)
     );
     renderHook(
       () => useProject({ projectIdentifier: cachedProject.identifier }),
-      { wrapper },
+      { wrapper }
     );
     expect(localStorage.getItem("project")).toBeNull();
   });
@@ -88,11 +89,11 @@ describe("When not embedded", () => {
       () => useProject({ projectIdentifier: "my-favourite-project" }),
       {
         wrapper,
-      },
+      }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
-      expect(setProject).not.toHaveBeenCalledWith(cachedProject),
+      expect(setProject).not.toHaveBeenCalledWith(cachedProject)
     );
   });
 
@@ -100,8 +101,13 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
-      () => useProject({ projectIdentifier: project1.identifier, accessToken }),
-      { wrapper },
+      () =>
+        useProject({
+          projectIdentifier: project1.identifier,
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -109,7 +115,8 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -122,8 +129,9 @@ describe("When not embedded", () => {
           projectIdentifier: project1.identifier,
           accessToken,
           loadCache: false,
+          reactAppApiEndpoint,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -131,7 +139,8 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -139,8 +148,12 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
       () =>
-        useProject({ projectIdentifier: "hello-world-project", accessToken }),
-      { wrapper },
+        useProject({
+          projectIdentifier: "hello-world-project",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -148,7 +161,8 @@ describe("When not embedded", () => {
         identifier: "hello-world-project",
         locale: "ja-JP",
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -158,7 +172,7 @@ describe("When not embedded", () => {
       () => useProject({ projectIdentifier: "my-favourite-project" }),
       {
         wrapper,
-      },
+      }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
@@ -174,7 +188,7 @@ describe("When not embedded", () => {
           isEmbedded: true,
           isBrowserPreview: true,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(setProject).toHaveBeenCalledWith(cachedProject);
   });
@@ -192,7 +206,7 @@ describe("When not embedded", () => {
           code,
           accessToken,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(setProject).toHaveBeenCalledWith(expectedProject);
   });
@@ -205,15 +219,17 @@ describe("When not embedded", () => {
           projectIdentifier: project1.identifier,
           accessToken,
           loadRemix: true,
+          reactAppApiEndpoint,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("loadRemix");
     await waitFor(() =>
       expect(loadProject).toHaveBeenCalledWith({
         identifier: project1.identifier,
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -226,8 +242,9 @@ describe("When not embedded", () => {
           accessToken,
           loadRemix: true,
           remixLoadFailed: true,
+          reactAppApiEndpoint,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -235,7 +252,8 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -243,8 +261,12 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
       () =>
-        useProject({ assetsIdentifier: "hello-world-project", accessToken }),
-      { wrapper },
+        useProject({
+          assetsIdentifier: "hello-world-project",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -253,7 +275,8 @@ describe("When not embedded", () => {
         locale: "ja-JP",
         accessToken,
         assetsOnly: true,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 
@@ -468,8 +491,9 @@ describe("When embedded", () => {
           projectIdentifier: "hello-world-project",
           accessToken,
           isEmbedded: true,
+          reactAppApiEndpoint,
         }),
-      { wrapper },
+      { wrapper }
     );
     expect(syncProject).toHaveBeenCalledWith("load");
     await waitFor(() =>
@@ -477,7 +501,8 @@ describe("When embedded", () => {
         identifier: "hello-world-project",
         locale: "ja-JP",
         accessToken,
-      }),
+        reactAppApiEndpoint,
+      })
     );
   });
 

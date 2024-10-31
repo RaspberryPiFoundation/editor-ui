@@ -123,19 +123,6 @@ describe("When not logged in", () => {
       );
     });
   });
-
-  describe("When save has been triggered", () => {
-    beforeEach(() => {
-      renderHook(() =>
-        useProjectPersistence({
-          user: null,
-          project: project,
-          saveTriggered: true,
-        }),
-      );
-      jest.runAllTimers();
-    });
-  });
 });
 
 describe("When logged in", () => {

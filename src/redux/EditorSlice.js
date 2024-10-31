@@ -30,6 +30,7 @@ export const syncProject = (actionName) =>
         deleteProject,
         loadAssets,
       } = ApiCallHandler({ reactAppApiEndpoint });
+
       let response;
       switch (actionName) {
         case "load":

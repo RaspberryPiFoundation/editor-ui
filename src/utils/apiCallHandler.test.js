@@ -2,6 +2,14 @@ import axios from "axios";
 
 import ApiCallHandler from "./apiCallHandler";
 
+jest.mock("axios");
+const host = "http://localhost:3009";
+const defaultHeaders = { headers: { Accept: "application/json" } };
+const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25";
+const authHeaders = {
+  headers: { Accept: "application/json", Authorization: accessToken },
+};
+
 const {
   getImage,
   createOrUpdateProject,
@@ -11,15 +19,7 @@ const {
   uploadImages,
   readProjectList,
   createError,
-} = ApiCallHandler({ reactAppApiEndpoint: "TODORAAE" });
-
-jest.mock("axios");
-const host = process.env.REACT_APP_API_ENDPOINT;
-const defaultHeaders = { headers: { Accept: "application/json" } };
-const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25";
-const authHeaders = {
-  headers: { Accept: "application/json", Authorization: accessToken },
-};
+} = ApiCallHandler({ reactAppApiEndpoint: host });
 
 describe("Testing project API calls", () => {
   test("Creating project", async () => {
@@ -37,14 +37,14 @@ describe("Testing project API calls", () => {
             ...newProject,
           },
         },
-      }),
+      })
     );
 
     const data = await createOrUpdateProject(newProject);
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/projects`,
       { project: newProject },
-      defaultHeaders,
+      defaultHeaders
     );
     expect(data).toStrictEqual({
       status: 204,
@@ -81,7 +81,7 @@ describe("Testing project API calls", () => {
           project_type: "python",
         },
       },
-      authHeaders,
+      authHeaders
     );
   });
 
@@ -97,7 +97,7 @@ describe("Testing project API calls", () => {
     expect(axios.put).toHaveBeenCalledWith(
       `${host}/api/projects/${project["identifier"]}`,
       { project: project },
-      defaultHeaders,
+      defaultHeaders
     );
   });
 
@@ -108,7 +108,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}`,
-      defaultHeaders,
+      defaultHeaders
     );
   });
 
@@ -120,7 +120,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier, locale);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}?locale=${locale}`,
-      defaultHeaders,
+      defaultHeaders
     );
   });
 
@@ -131,7 +131,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier, null, accessToken);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}`,
-      authHeaders,
+      authHeaders
     );
   });
 
@@ -142,7 +142,7 @@ describe("Testing project API calls", () => {
     await loadAssets(projectIdentifier);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}/images`,
-      defaultHeaders,
+      defaultHeaders
     );
   });
 
@@ -154,7 +154,7 @@ describe("Testing project API calls", () => {
     await loadAssets(projectIdentifier, locale);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}/images?locale=${locale}`,
-      defaultHeaders,
+      defaultHeaders
     );
   });
 
@@ -165,7 +165,7 @@ describe("Testing project API calls", () => {
     await loadAssets(projectIdentifier, null, accessToken);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}/images`,
-      authHeaders,
+      authHeaders
     );
   });
 
@@ -173,7 +173,7 @@ describe("Testing project API calls", () => {
     const projectIdentifier = "my-amazing-project";
     const image = new File(["(⌐□_□)"], "image1.png", { type: "image/png" });
     axios.post.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200, url: "google.drive.com/image1.png" }),
+      Promise.resolve({ status: 200, url: "google.drive.com/image1.png" })
     );
 
     var formData = new FormData();
@@ -183,7 +183,7 @@ describe("Testing project API calls", () => {
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}/images`,
       formData,
-      { ...authHeaders, "Content-Type": "multipart/form-data" },
+      { ...authHeaders, "Content-Type": "multipart/form-data" }
     );
   });
 
@@ -228,7 +228,7 @@ describe("Testing project errors API calls", () => {
       {
         error: error.errorMessage,
       },
-      undefined,
+      undefined
     );
   });
 
@@ -246,7 +246,7 @@ describe("Testing project errors API calls", () => {
         error: error.errorMessage,
         error_type: error?.errorType,
       },
-      undefined,
+      undefined
     );
   });
 
@@ -264,7 +264,7 @@ describe("Testing project errors API calls", () => {
         error: error.errorMessage,
         error_type: error?.errorType,
       },
-      undefined,
+      undefined
     );
   });
 });
