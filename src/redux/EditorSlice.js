@@ -139,6 +139,7 @@ export const EditorSlice = createSlice({
   name: "editor",
   initialState,
   reducers: {
+    resetState: () => initialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))
@@ -476,6 +477,7 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  resetState,
   addProjectComponent,
   loadingRunner,
   setLoadedRunner,

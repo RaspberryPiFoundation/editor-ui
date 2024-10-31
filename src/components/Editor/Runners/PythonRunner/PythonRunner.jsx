@@ -33,9 +33,11 @@ const PythonRunner = () => {
   useEffect(() => {
     if (typeof usePyodide === "boolean") {
       const runner = usePyodide ? "pyodide" : "skulpt";
-      dispatch(loadingRunner(runner));
+      if (runner !== activeRunner) {
+        dispatch(loadingRunner(runner));
+      }
     }
-  }, [dispatch, usePyodide]);
+  }, [dispatch, usePyodide, activeRunner]);
 
   useEffect(() => {
     if (!!!window?.crossOriginIsolated) {

@@ -56,6 +56,7 @@ const externalLibraries = {
 };
 
 const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+  const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectCode = useSelector((state) => state.editor.project.components);
   const mainComponent = projectCode?.find(
     (component) => component.name === "main" && component.extension === "py",
@@ -93,7 +94,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   };
 
   useEffect(() => {
-    if (active) {
+    if (active && loadedRunner !== "skulpt") {
       dispatch(setLoadedRunner("skulpt"));
     }
   }, [active]);

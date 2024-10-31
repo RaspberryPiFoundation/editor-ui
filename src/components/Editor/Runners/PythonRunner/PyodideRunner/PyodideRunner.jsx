@@ -31,9 +31,7 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = (props) => {
-  const { active } = props;
-
+const PyodideRunner = ({ active }) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
 
   useEffect(() => {
@@ -49,6 +47,7 @@ const PyodideRunner = (props) => {
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
+  const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((s) => s.editor.project.image_list);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
@@ -108,11 +107,11 @@ const PyodideRunner = (props) => {
   }, [pyodideWorker]);
 
   useEffect(() => {
-    if (codeRunTriggered && active) {
+    if (codeRunTriggered && active && output.current) {
       console.log("running with pyodide");
       handleRun();
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, output.current]);
 
   useEffect(() => {
     if (codeRunStopped && active) {
@@ -127,7 +126,9 @@ const PyodideRunner = (props) => {
   const handleLoaded = (stdin, interrupt) => {
     stdinBuffer.current = stdin;
     interruptBuffer.current = interrupt;
-    dispatch(setLoadedRunner("pyodide"));
+    if (loadedRunner !== "pyodide") {
+      dispatch(setLoadedRunner("pyodide"));
+    }
     dispatch(codeRunHandled());
     disableInput();
   };
