@@ -6,11 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+
 ## [0.28.5] - 2024-11-01
 
 ### Fixed
 
 - Hight of the sidebar for mobile (#1117)
+
+
+## [0.28.6] - 2024-10-29
+
+### Changed
+
+- added "Help" link to the information panel in the sidebar as the first link
+
 
 ## [0.28.5] - 2024-10-25
 
@@ -68,6 +77,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
 - Build to include public files (#1112)
 - Persisting choice of tabbed/split view when running `python` code (#1114)
+
 
 ## [0.27.1] - 2024-10-01
 
