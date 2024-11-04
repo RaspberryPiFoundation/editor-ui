@@ -7,11 +7,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 
+## [0.28.5] - 2024-11-01
+
+### Fixed
+
+- Hight of the sidebar for mobile (#1117)
+
+
 ## [0.28.6] - 2024-10-29
 
 ### Changed
 
 - added "Help" link to the information panel in the sidebar as the first link
+
 
 ## [0.28.5] - 2024-10-25
 
