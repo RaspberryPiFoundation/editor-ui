@@ -7,6 +7,7 @@ import {
   disableTheming,
   setReadOnly,
   setSenseHatAlwaysEnabled,
+  setReactAppApiEndpoint,
 } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
@@ -105,6 +106,53 @@ describe("When no user is in state", () => {
     cookies = new Cookies();
   });
 
+  describe("react app API endpoint", () => {
+    test("when react app API endpoint isn't set", () => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              readOnly={true}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setReactAppApiEndpoint("http://localhost:3009"),
+        ]),
+      );
+    });
+
+    test("when react app API endpoint is set", () => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              readOnly={true}
+              authKey={authKey}
+              reactAppApiEndpoint="http://local.dev"
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setReactAppApiEndpoint("http://local.dev")]),
+      );
+    });
+  });
+
   describe("with no user in local storage", () => {
     beforeEach(() => {
       render(
@@ -126,12 +174,14 @@ describe("When no user is in state", () => {
 
     test("Calls useProject hook with correct attributes", () => {
       expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: undefined,
         projectIdentifier: identifier,
         code,
         accessToken: undefined,
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -234,6 +284,7 @@ describe("When no user is in state", () => {
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
   });
@@ -260,12 +311,14 @@ describe("When no user is in state", () => {
 
     test("Calls useProject hook with correct attributes", () => {
       expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: undefined,
         projectIdentifier: identifier,
         code,
         accessToken: "my_token",
         loadRemix: true,
         loadCache: false,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -384,12 +437,14 @@ describe("When user is in state", () => {
 
       test("Calls useProject hook with correct attributes", () => {
         expect(useProject).toHaveBeenCalledWith({
+          assetsIdentifier: undefined,
           projectIdentifier: identifier,
           code: undefined,
           accessToken: "my_token",
           loadRemix: true,
           loadCache: false,
           remixLoadFailed: false,
+          reactAppApiEndpoint: "http://localhost:3009",
         });
       });
 
@@ -412,12 +467,14 @@ describe("When user is in state", () => {
 
         test("Calls useProject hook with loadRemix set to false, i.e. it is overidden", () => {
           expect(useProject).toHaveBeenCalledWith({
+            assetsIdentifier: undefined,
             projectIdentifier: identifier,
             code: undefined,
             accessToken: "my_token",
             loadRemix: false,
             loadCache: false,
             remixLoadFailed: false,
+            reactAppApiEndpoint: "http://localhost:3009",
           });
         });
       });
@@ -488,12 +545,14 @@ describe("When user is in state", () => {
 
       test("Calls useProject hook with correct attributes", () => {
         expect(useProject).toHaveBeenCalledWith({
+          assetsIdentifier: undefined,
           projectIdentifier: identifier,
           code: undefined,
           accessToken: "my_token",
           loadRemix: false,
           loadCache: true,
           remixLoadFailed: true,
+          reactAppApiEndpoint: "http://localhost:3009",
         });
       });
     });
