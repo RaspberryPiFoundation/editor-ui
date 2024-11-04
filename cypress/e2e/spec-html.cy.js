@@ -35,7 +35,9 @@ beforeEach(() => {
   // intercept request to editor api
   cy.intercept(
     "GET",
-    "https://test-editor-api.raspberrypi.org/api/projects/blank-html-starter?locale=en",
+    `${Cypress.env(
+      "REACT_APP_API_ENDPOINT",
+    )}/api/projects/blank-html-starter?locale=en`,
     defaultHtmlProject,
   );
 });

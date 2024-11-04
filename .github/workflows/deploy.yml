@@ -18,6 +18,10 @@ on:
         required: false
         default: "https://staging-editor-static.raspberrypi.org"
         type: string
+      react_app_api_endpoint:
+        required: false
+        default: "https://staging-editor-api.raspberrypi.org"
+        type: string
       react_app_authentication_client_id:
         required: false
         default: editor-api
@@ -128,6 +132,7 @@ jobs:
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
           ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}
+          REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
           REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
           REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
           REACT_APP_BASE_URL: ${{ needs.setup-environment.outputs.react_app_base_url }}

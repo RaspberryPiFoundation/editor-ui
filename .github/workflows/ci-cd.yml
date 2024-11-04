@@ -96,6 +96,7 @@ jobs:
           wait-on: "http://localhost:3011"
           quiet: true
         env:
+          REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
           PUBLIC_URL: "http://localhost:3011"
           ASSETS_URL: "http://localhost:3011"
           REACT_APP_PLAUSIBLE_SOURCE: ""
@@ -116,6 +117,7 @@ jobs:
       assets_url: https://editor-static.raspberrypi.org
       environment: production
       prefix: releases
+      react_app_api_endpoint: https://editor-api.raspberrypi.org
       react_app_authentication_url: https://auth-v1.raspberrypi.org
       react_app_base_url: ""
       react_app_google_tag_manager_id: GTM-5FWFWFJ
