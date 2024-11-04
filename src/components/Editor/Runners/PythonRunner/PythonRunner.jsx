@@ -27,7 +27,7 @@ const PythonRunner = () => {
     (state) => state.editor.senseHatAlwaysEnabled,
   );
   const [usePyodide, setUsePyodide] = useState(null);
-  const [skupltFallback, setSkulptFallback] = useState(false);
+  const [skulptFallback, setSkulptFallback] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const PythonRunner = () => {
             SKULPT_ONLY_MODULES.includes(name),
           );
           if (
-            !skupltFallback &&
+            !skulptFallback &&
             (hasSkulptOnlyModules || senseHatAlwaysEnabled)
           ) {
             setUsePyodide(false);
@@ -89,7 +89,7 @@ const PythonRunner = () => {
         }
       }
     }
-  }, [project, codeRunTriggered, senseHatAlwaysEnabled, skupltFallback, t]);
+  }, [project, codeRunTriggered, senseHatAlwaysEnabled, skulptFallback, t]);
   return (
     <>
       <PyodideRunner active={activeRunner === "pyodide"} />

@@ -108,7 +108,6 @@ const PyodideRunner = ({ active }) => {
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
-      console.log("running with pyodide");
       handleRun();
     }
   }, [codeRunTriggered, output.current]);

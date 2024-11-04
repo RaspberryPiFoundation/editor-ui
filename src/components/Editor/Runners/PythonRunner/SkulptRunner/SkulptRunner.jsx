@@ -102,7 +102,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   useEffect(() => {
     if (active) {
       if (codeRunTriggered) {
-        console.log("running with skulpt");
         runCode();
       } else if (!senseHatAlwaysEnabled) {
         setHasVisualOutput(false);
