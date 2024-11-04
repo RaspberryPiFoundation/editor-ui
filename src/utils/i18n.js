@@ -356,6 +356,7 @@ i18n
               "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
             instructions: "Project steps",
             feedback: "Feedback",
+            help: "Help",
             privacy: "Privacy",
             cookies: "Cookies",
             accessibility: "Accessibility",
