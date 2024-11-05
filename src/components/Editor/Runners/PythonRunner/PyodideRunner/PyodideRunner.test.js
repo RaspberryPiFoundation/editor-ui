@@ -1,8 +1,15 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
+
 import {
   resetState,
   setError,
@@ -26,6 +33,7 @@ const project = {
 };
 
 window.crossOriginIsolated = true;
+process.env.PUBLIC_URL = ".";
 
 const updateRunner = ({ project = {}, codeRunTriggered = false }) => {
   act(() => {
@@ -80,35 +88,40 @@ describe("When a code run has been triggered", () => {
         <PyodideRunner active={true} />,
       </Provider>,
     );
-
     updateRunner({ project, codeRunTriggered: true });
   });
 
-  test("it writes the current files to the worker", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "a.py",
-      content: "print('a')",
-    });
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "main.py",
-      content: "print('hello')",
-    });
-  });
-
-  test("it writes the images to the worker", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "image1.jpg",
-      content: "image data",
+  test("it writes the current files to the worker", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "a.py",
+        content: "print('a')",
+      });
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "main.py",
+        content: "print('hello')",
+      });
     });
   });
 
-  test("it sends a message to the worker to run the python code", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "runPython",
-      python: "print('hello')",
+  test("it writes the images to the worker", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "image1.jpg",
+        content: "image data",
+      });
+    });
+  });
+
+  test("it sends a message to the worker to run the python code", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "runPython",
+        python: "print('hello')",
+      });
     });
   });
 });
@@ -123,9 +136,11 @@ describe("When the code has been stopped", () => {
     store.dispatch(stopCodeRun());
   });
 
-  test("it sends a message to the worker to stop the python code", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "stopPython",
+  test("it sends a message to the worker to stop the python code", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "stopPython",
+      });
     });
   });
 });
@@ -252,9 +267,11 @@ describe("When visual output is received", () => {
   });
 
   test("it displays the output view toggle", async () => {
-    expect(
-      screen.queryByText("outputViewToggle.buttonSplitLabel"),
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByText("outputViewToggle.buttonSplitLabel"),
+      ).toBeInTheDocument();
+    });
   });
 
   test("it shows the visual output tab", () => {
