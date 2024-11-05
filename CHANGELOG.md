@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.8] - 2024-11-04
+
+### Changed
+- REACT_APP_API_ENDPOINT env var is now only a default for the editor-wc prop, which can be overridden (#1124)
+  
+### Removed 
+- REACT_APP_AUTHENTICATION_URL env var no longer used and is instead a editor-wc prop (#1124)
+
 
 ## [0.28.5] - 2024-11-01
 

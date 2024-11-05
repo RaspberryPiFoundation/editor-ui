@@ -15,7 +15,7 @@ import {
   triggerDraw,
 } from "../../../../../redux/EditorSlice";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
 import VisualOutputPane from "../VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
@@ -71,6 +71,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const output = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -313,6 +314,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       if (user?.profile) {
         userId = user.profile?.user;
       }
+
+      const { createError } = ApiCallHandler({ reactAppApiEndpoint });
 
       errorMessage = `${errorType}: ${errorDescription} on line ${lineNumber} of ${fileName}${
         explanation ? `. ${explanation}` : ""

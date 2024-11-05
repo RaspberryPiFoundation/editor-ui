@@ -5,23 +5,32 @@ import {
   loadProjectFulfilled,
   loadProjectRejected,
 } from "./reducers/loadProjectReducers";
-import {
-  createOrUpdateProject,
-  readProject,
-  loadRemix,
-  createRemix,
-  deleteProject,
-  readProjectList,
-  loadAssets,
-} from "../utils/apiCallHandler";
+import ApiCallHandler from "../utils/apiCallHandler";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(
     `editor/${actionName}Project`,
     async (
-      { project, identifier, locale, accessToken, autosave, assetsOnly },
+      {
+        reactAppApiEndpoint,
+        project,
+        identifier,
+        locale,
+        accessToken,
+        autosave,
+        assetsOnly,
+      },
       { rejectWithValue },
     ) => {
+      const {
+        createOrUpdateProject,
+        readProject,
+        loadRemix,
+        createRemix,
+        deleteProject,
+        loadAssets,
+      } = ApiCallHandler({ reactAppApiEndpoint });
+
       let response;
       switch (actionName) {
         case "load":
@@ -71,7 +80,10 @@ export const syncProject = (actionName) =>
 
 export const loadProjectList = createAsyncThunk(
   `editor/loadProjectList`,
-  async ({ page, accessToken }) => {
+  async ({ reactAppApiEndpoint, page, accessToken }) => {
+    const { readProjectList } = ApiCallHandler({
+      reactAppApiEndpoint,
+    });
     const response = await readProjectList(page, accessToken);
     return {
       projects: response.data,
@@ -110,24 +122,18 @@ const initialState = {
   codeRunStopped: false,
   projectList: [],
   projectListLoaded: "idle",
-  projectIndexCurrentPage: 1,
-  projectIndexTotalPages: 1,
   lastSaveAutosave: false,
   lastSavedTime: null,
   senseHatAlwaysEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
-  accessDeniedNoAuthModalShowing: false,
   accessDeniedWithAuthModalShowing: false,
   betaModalShowing: false,
   errorModalShowing: false,
-  loginToSaveModalShowing: false,
   notFoundModalShowing: false,
   newFileModalShowing: false,
   renameFileModalShowing: false,
-  newProjectModalShowing: false,
   renameProjectModalShowing: false,
-  deleteProjectModalShowing: false,
   sidebarShowing: true,
   modals: {},
   errorDetails: {},
@@ -243,6 +249,9 @@ export const EditorSlice = createSlice({
     setLoadRemixDisabled: (state, action) => {
       state.loadRemixDisabled = action.payload;
     },
+    setReactAppApiEndpoint: (state, action) => {
+      state.reactAppApiEndpoint = action.payload;
+    },
     triggerDraw: (state) => {
       state.drawTriggered = true;
     },
@@ -304,10 +313,6 @@ export const EditorSlice = createSlice({
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
     },
-    closeAccessDeniedNoAuthModal: (state) => {
-      state.accessDeniedNoAuthModalShowing = false;
-      state.modals = {};
-    },
     closeAccessDeniedWithAuthModal: (state) => {
       state.accessDeniedWithAuthModalShowing = false;
     },
@@ -322,13 +327,6 @@ export const EditorSlice = createSlice({
     },
     closeErrorModal: (state) => {
       state.errorModalShowing = false;
-    },
-    showLoginToSaveModal: (state) => {
-      state.loginToSaveModalShowing = true;
-    },
-    closeLoginToSaveModal: (state) => {
-      state.loginToSaveModalShowing = false;
-      state.saveTriggered = false;
     },
     closeNotFoundModal: (state) => {
       state.notFoundModalShowing = false;
@@ -348,12 +346,6 @@ export const EditorSlice = createSlice({
       state.renameFileModalShowing = false;
       state.nameError = "";
     },
-    showNewProjectModal: (state) => {
-      state.newProjectModalShowing = true;
-    },
-    closeNewProjectModal: (state) => {
-      state.newProjectModalShowing = false;
-    },
     showRenameProjectModal: (state, action) => {
       state.modals.renameProject = action.payload;
       state.renameProjectModalShowing = true;
@@ -361,18 +353,6 @@ export const EditorSlice = createSlice({
     closeRenameProjectModal: (state) => {
       state.modals.renameProject = null;
       state.renameProjectModalShowing = false;
-    },
-    showDeleteProjectModal: (state, action) => {
-      state.modals.deleteProject = action.payload;
-      state.deleteProjectModalShowing = true;
-    },
-    closeDeleteProjectModal: (state) => {
-      state.modals.deleteProject = null;
-      state.deleteProjectModalShowing = false;
-    },
-    setProjectIndexPage: (state, action) => {
-      state.projectIndexCurrentPage = action.payload;
-      state.projectListLoaded = "idle";
     },
     showSidebar: (state) => {
       state.sidebarShowing = true;
@@ -439,25 +419,6 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/deleteProject/fulfilled", (state) => {
       state.projectListLoaded = "idle";
       state.modals.deleteProject = null;
-      state.deleteProjectModalShowing = false;
-    });
-    builder.addCase("editor/loadProjectList/pending", (state) => {
-      state.projectListLoaded = "pending";
-    });
-    builder.addCase("editor/loadProjectList/fulfilled", (state, action) => {
-      if (action.payload.projects.length > 0 || action.payload.page === 1) {
-        state.projectListLoaded = "success";
-        state.projectList = action.payload.projects;
-        const links = action.payload.links;
-        state.projectIndexTotalPages =
-          links && links.last ? parseInt(links.last.page) : action.payload.page;
-      } else {
-        state.projectIndexCurrentPage = state.projectIndexCurrentPage - 1;
-        state.projectListLoaded = "idle";
-      }
-    });
-    builder.addCase("editor/loadProjectList/rejected", (state) => {
-      state.projectListLoaded = "failed";
     });
   },
 });
@@ -487,6 +448,7 @@ export const {
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,
+  setReactAppApiEndpoint,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,
@@ -496,26 +458,18 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
-  closeAccessDeniedNoAuthModal,
   closeAccessDeniedWithAuthModal,
   showBetaModal,
   closeBetaModal,
   showErrorModal,
   closeErrorModal,
-  showLoginToSaveModal,
-  closeLoginToSaveModal,
   closeNotFoundModal,
   showNewFileModal,
   closeNewFileModal,
   showRenameFileModal,
   closeRenameFileModal,
-  showNewProjectModal,
-  closeNewProjectModal,
   showRenameProjectModal,
   closeRenameProjectModal,
-  showDeleteProjectModal,
-  closeDeleteProjectModal,
-  setProjectIndexPage,
   showSidebar,
   hideSidebar,
   disableTheming,

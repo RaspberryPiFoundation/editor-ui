@@ -3,7 +3,6 @@ import { useProjectPersistence } from "./useProjectPersistence";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
-  showLoginToSaveModal,
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
@@ -18,7 +17,6 @@ jest.mock("../redux/EditorSlice", () => ({
   syncProject: jest.fn((_) => jest.fn()),
   expireJustLoaded: jest.fn(),
   setHasShownSavePrompt: jest.fn(),
-  showLoginToSaveModal: jest.fn(),
 }));
 
 jest.mock("../utils/Notifications");
@@ -123,23 +121,6 @@ describe("When not logged in", () => {
       expect(localStorage.getItem("hello-world-project")).toEqual(
         JSON.stringify(project),
       );
-    });
-  });
-
-  describe("When save has been triggered", () => {
-    beforeEach(() => {
-      renderHook(() =>
-        useProjectPersistence({
-          user: null,
-          project: project,
-          saveTriggered: true,
-        }),
-      );
-      jest.runAllTimers();
-    });
-
-    test("Login to save modal is shown", () => {
-      expect(showLoginToSaveModal).toHaveBeenCalled();
     });
   });
 });

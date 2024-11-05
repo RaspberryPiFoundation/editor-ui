@@ -46,26 +46,27 @@ class WebComponent extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "host_styles",
       "assets_identifier",
       "auth_key",
-      "identifier",
       "code",
-      "sense_hat_always_enabled",
+      "embedded",
+      "host_styles",
+      "identifier",
       "instructions",
-      "with_projectbar",
-      "project_name_editable",
-      "with_sidebar",
-      "read_only",
+      "load_remix_disabled",
       "output_only",
       "output_panels",
+      "output_split_view",
+      "project_name_editable",
+      "react_app_api_endpoint",
+      "read_only",
+      "sense_hat_always_enabled",
+      "show_save_prompt",
       "sidebar_options",
       "theme",
-      "embedded",
-      "show_save_prompt",
-      "load_remix_disabled",
-      "output_split_view",
       "use_editor_styles",
+      "with_projectbar",
+      "with_sidebar",
     ];
   }
 
@@ -74,17 +75,17 @@ class WebComponent extends HTMLElement {
 
     if (
       [
-        "sense_hat_always_enabled",
-        "with_sidebar",
-        "with_projectbar",
-        "project_name_editable",
-        "show_save_prompt",
+        "embedded",
         "load_remix_disabled",
         "output_only",
-        "embedded",
         "output_split_view",
-        "use_editor_styles",
+        "project_name_editable",
         "read_only",
+        "sense_hat_always_enabled",
+        "show_save_prompt",
+        "use_editor_styles",
+        "with_projectbar",
+        "with_sidebar",
       ].includes(name)
     ) {
       value = newVal !== "false";

@@ -9,7 +9,7 @@ import { updateImages, setNameError } from "../../../redux/EditorSlice";
 import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
-import { uploadImages } from "../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../utils/apiCallHandler";
 
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],
@@ -30,7 +30,7 @@ const allowedExtensionsString = (projectType) => {
   }
 };
 
-const ImageUploadButton = () => {
+const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
@@ -51,6 +51,10 @@ const ImageUploadButton = () => {
     setIsOpen(true);
   };
   const saveImages = async () => {
+    const { uploadImages } = ApiCallHandler({
+      reactAppApiEndpoint,
+    });
+
     files.every((file) => {
       const fileName = file.name;
       const extension = fileName.split(".").slice(1).join(".").toLowerCase();

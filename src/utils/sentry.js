@@ -21,7 +21,7 @@ Sentry.init({
         createRoutesFromChildren,
         matchRoutes,
       ),
-      tracePropagationTargets: [process.env.REACT_APP_API_ENDPOINT, /\//],
+      tracePropagationTargets: [/\//],
     }),
   ],
   environment: process.env.REACT_APP_SENTRY_ENV,
