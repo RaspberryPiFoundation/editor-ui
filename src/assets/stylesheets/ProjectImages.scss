@@ -3,11 +3,13 @@
 
 .project-images {
   display: grid;
+  grid-template-columns: repeat(auto-fill, 135px);
   justify-content: center;
   gap: $space-1;
 
   &__block {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -17,12 +19,12 @@
 
   &__image-wrapper {
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
   }
 
   &__image {
-    block-size: auto;
     inline-size: 100%;
   }
 

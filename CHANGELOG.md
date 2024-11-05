@@ -6,11 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## [0.28.4] - 2024-10-23
+## [0.28.8] - 2024-11-05
 
 ### Fixed
 
 - Pin react-router-dom to 6.24.0 as part of investigating useContext issues
+
+
+## [0.28.5] - 2024-11-01
+
+### Fixed
+
+- Hight of the sidebar for mobile (#1117)
+
+
+## [0.28.6] - 2024-10-29
+
+### Changed
+
+- added "Help" link to the information panel in the sidebar as the first link
+
+
+## [0.28.5] - 2024-10-25
+
+### Fixed
+
+- Image sizing and wrapping in the sidebar (#1126)
+
+## [0.28.4] - 2024-10-23
+
+### Added
+
+- py-enigma support (#1109)
 
 ## [0.28.3] - 2024-10-22
 
@@ -56,6 +83,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
 - Build to include public files (#1112)
 - Persisting choice of tabbed/split view when running `python` code (#1114)
+
 
 ## [0.27.1] - 2024-10-01
 
@@ -942,7 +970,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.5...HEAD
+[0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
+[0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
 [0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
 [0.28.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.2
 [0.28.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.1
