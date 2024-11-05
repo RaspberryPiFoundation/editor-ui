@@ -21,6 +21,7 @@ import {
 import store from "../../../../../app/store";
 
 jest.mock("fs");
+global.fetch = jest.fn();
 
 const project = {
   components: [
@@ -52,6 +53,7 @@ beforeEach(() => {
   store.dispatch(resetState());
   window.crossOriginIsolated = true;
   dispatchSpy = jest.spyOn(store, "dispatch");
+  fetch.mockClear();
 });
 
 afterEach(() => {
@@ -82,7 +84,9 @@ describe("When active and first loaded", () => {
 describe("When a code run has been triggered", () => {
   beforeEach(() => {
     window.crossOriginIsolated = true;
-
+    global.fetch.mockResolvedValueOnce({
+      arrayBuffer: () => Promise.resolve(new ArrayBuffer(1)),
+    });
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -111,7 +115,7 @@ describe("When a code run has been triggered", () => {
       expect(postMessage).toHaveBeenCalledWith({
         method: "writeFile",
         filename: "image1.jpg",
-        content: "image data",
+        content: expect.any(ArrayBuffer),
       });
     });
   });
@@ -269,7 +273,7 @@ describe("When visual output is received", () => {
   test("it displays the output view toggle", async () => {
     await waitFor(() => {
       expect(
-        screen.queryByText("outputViewToggle.buttonSplitLabel"),
+        screen.queryByText("outputViewToggle.buttonTabLabel"),
       ).toBeInTheDocument();
     });
   });
