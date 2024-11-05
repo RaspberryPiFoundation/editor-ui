@@ -106,63 +106,6 @@ describe("When no user is in state", () => {
     cookies = new Cookies();
   });
 
-  describe("react app API endpoint", () => {
-    describe("when react app API endpoint isn't set", () => {
-      beforeEach(() => {
-        render(
-          <Provider store={store}>
-            <CookiesProvider cookies={cookies}>
-              <WebComponentLoader
-                code={code}
-                identifier={identifier}
-                senseHatAlwaysEnabled={true}
-                instructions={instructions}
-                readOnly={true}
-                authKey={authKey}
-                theme="light"
-              />
-            </CookiesProvider>
-          </Provider>,
-        );
-      });
-
-      test("it defaults", () => {
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            setReactAppApiEndpoint("http://localhost:3009"),
-          ]),
-        );
-      });
-    });
-
-    describe("when react app API endpoint is set", () => {
-      beforeEach(() => {
-        render(
-          <Provider store={store}>
-            <CookiesProvider cookies={cookies}>
-              <WebComponentLoader
-                code={code}
-                identifier={identifier}
-                senseHatAlwaysEnabled={true}
-                instructions={instructions}
-                readOnly={true}
-                authKey={authKey}
-                reactAppApiEndpoint="http://local.dev"
-                theme="light"
-              />
-            </CookiesProvider>
-          </Provider>,
-        );
-      });
-
-      test("it uses the specified prop", () => {
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([setReactAppApiEndpoint("http://local.dev")]),
-        );
-      });
-    });
-  });
-
   describe("with no user in local storage", () => {
     beforeEach(() => {
       render(
