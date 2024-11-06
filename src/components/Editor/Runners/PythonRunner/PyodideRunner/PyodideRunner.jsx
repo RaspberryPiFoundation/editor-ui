@@ -13,7 +13,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
-import { createError } from "../../../../../utils/apiCallHandler";
+import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
@@ -55,6 +55,7 @@ const PyodideRunner = ({ active }) => {
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
+  const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
@@ -183,6 +184,9 @@ const PyodideRunner = ({ active }) => {
         errorMessage += `:\n${mistake}`;
       }
 
+      const { createError } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
       createError(projectIdentifier, userId, { errorType: type, errorMessage });
     }
 

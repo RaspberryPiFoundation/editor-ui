@@ -12,10 +12,11 @@ jest.mock("react-redux", () => ({
 }));
 
 const loadProject = jest.fn();
+const reactAppApiEndpoint = "localhost";
 
 jest.mock("../redux/EditorSlice");
 
-jest.mock("../utils/apiCallHandler", () => ({
+jest.mock("../utils/apiCallHandler", () => () => ({
   readProject: async (identifier, projectType) =>
     Promise.resolve({
       data: { identifier: identifier, project_type: projectType },
@@ -100,7 +101,12 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
-      () => useProject({ projectIdentifier: project1.identifier, accessToken }),
+      () =>
+        useProject({
+          projectIdentifier: project1.identifier,
+          accessToken,
+          reactAppApiEndpoint,
+        }),
       { wrapper },
     );
     expect(syncProject).toHaveBeenCalledWith("load");
@@ -109,6 +115,7 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -122,6 +129,7 @@ describe("When not embedded", () => {
           projectIdentifier: project1.identifier,
           accessToken,
           loadCache: false,
+          reactAppApiEndpoint,
         }),
       { wrapper },
     );
@@ -131,6 +139,7 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -139,7 +148,11 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
       () =>
-        useProject({ projectIdentifier: "hello-world-project", accessToken }),
+        useProject({
+          projectIdentifier: "hello-world-project",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
       { wrapper },
     );
     expect(syncProject).toHaveBeenCalledWith("load");
@@ -148,6 +161,7 @@ describe("When not embedded", () => {
         identifier: "hello-world-project",
         locale: "ja-JP",
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -205,6 +219,7 @@ describe("When not embedded", () => {
           projectIdentifier: project1.identifier,
           accessToken,
           loadRemix: true,
+          reactAppApiEndpoint,
         }),
       { wrapper },
     );
@@ -213,6 +228,7 @@ describe("When not embedded", () => {
       expect(loadProject).toHaveBeenCalledWith({
         identifier: project1.identifier,
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -226,6 +242,7 @@ describe("When not embedded", () => {
           accessToken,
           loadRemix: true,
           remixLoadFailed: true,
+          reactAppApiEndpoint,
         }),
       { wrapper },
     );
@@ -235,6 +252,7 @@ describe("When not embedded", () => {
         identifier: project1.identifier,
         locale: "ja-JP",
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -243,7 +261,11 @@ describe("When not embedded", () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
       () =>
-        useProject({ assetsIdentifier: "hello-world-project", accessToken }),
+        useProject({
+          assetsIdentifier: "hello-world-project",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
       { wrapper },
     );
     expect(syncProject).toHaveBeenCalledWith("load");
@@ -253,6 +275,7 @@ describe("When not embedded", () => {
         locale: "ja-JP",
         accessToken,
         assetsOnly: true,
+        reactAppApiEndpoint,
       }),
     );
   });
@@ -468,6 +491,7 @@ describe("When embedded", () => {
           projectIdentifier: "hello-world-project",
           accessToken,
           isEmbedded: true,
+          reactAppApiEndpoint,
         }),
       { wrapper },
     );
@@ -477,6 +501,7 @@ describe("When embedded", () => {
         identifier: "hello-world-project",
         locale: "ja-JP",
         accessToken,
+        reactAppApiEndpoint,
       }),
     );
   });

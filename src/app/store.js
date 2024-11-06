@@ -2,8 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import EditorReducer from "../redux/EditorSlice";
 import InstructionsReducer from "../redux/InstructionsSlice";
 import { reducer, loadUser } from "redux-oidc";
-import userManager from "../utils/userManager";
+import UserManager from "../utils/userManager";
 
+// TODO - not used but keeping this in preparation for using
+// src/components/Editor/ImageUploadButton/ImageUploadButton.jsx
+const userManager = UserManager({ reactAppAuthenticationUrl: "TODO" });
 const store = configureStore({
   reducer: {
     editor: EditorReducer,

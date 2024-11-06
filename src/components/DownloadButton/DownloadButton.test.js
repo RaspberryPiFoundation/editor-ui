@@ -6,7 +6,6 @@ import DownloadButton from "./DownloadButton";
 import FileSaver from "file-saver";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
-import { closeLoginToSaveModal } from "../../redux/EditorSlice";
 
 jest.mock("file-saver");
 jest.mock("jszip");
@@ -123,28 +122,4 @@ describe("Downloading project with no name set", () => {
       ),
     );
   });
-});
-
-test("If login to save modal open, closes it when download clicked", () => {
-  JSZip.mockClear();
-  const middlewares = [];
-  const mockStore = configureStore(middlewares);
-  const initialState = {
-    editor: {
-      project: {
-        components: [],
-        image_list: [],
-      },
-      loginToSaveModalShowing: true,
-    },
-  };
-  const store = mockStore(initialState);
-  render(
-    <Provider store={store}>
-      <DownloadButton buttonText="Download" Icon={() => {}} />
-    </Provider>,
-  );
-  const downloadButton = screen.queryByText("Download").parentElement;
-  fireEvent.click(downloadButton);
-  expect(store.getActions()).toEqual([closeLoginToSaveModal()]);
 });

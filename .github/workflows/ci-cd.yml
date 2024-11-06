@@ -61,7 +61,7 @@ jobs:
         run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
-
+          REACT_APP_API_ENDPOINT: http://localhost:3009
       - name: Record coverage
         run: ./.github/workflows/record_coverage
         env:
