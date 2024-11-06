@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- stopped autoscrolling to top on project content change (#1132)
+
 ## [0.28.8] - 2024-11-04
 
 ### Changed
