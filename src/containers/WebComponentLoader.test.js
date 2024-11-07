@@ -204,6 +204,7 @@ describe("When no user is in state", () => {
         justLoaded: false,
         user: null,
         saveTriggered: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -339,6 +340,7 @@ describe("When no user is in state", () => {
         hasShownSavePrompt: true,
         justLoaded: false,
         saveTriggered: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -491,6 +493,7 @@ describe("When user is in state", () => {
 
       test("Calls useProjectPersistence hook with correct attributes", () => {
         expect(useProjectPersistence).toHaveBeenCalledWith({
+          reactAppApiEndpoint: "http://localhost:3009",
           user,
           project: { components: [] },
           hasShownSavePrompt: true,
