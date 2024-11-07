@@ -131,6 +131,7 @@ const WebComponentLoader = (props) => {
   });
 
   useProjectPersistence({
+    reactAppApiEndpoint,
     user,
     project,
     justLoaded,

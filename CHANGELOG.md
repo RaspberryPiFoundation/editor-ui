@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.10] - 2024-11-04
+
+### Fixed
+
+- Bug with saving remix caused by not passing prop
+
+
+## [0.28.9] - 2024-11-04
+
 ### Fixed
 
 - stopped autoscrolling to top on project content change (#1132)
