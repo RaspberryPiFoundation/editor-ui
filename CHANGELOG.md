@@ -6,41 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## [0.28.10] - 2024-11-04
+## [0.28.6] - 2024-10-29
 
 ### Fixed
 
 - Bug with saving remix caused by not passing prop
-
-
-## [0.28.9] - 2024-11-04
-
-### Fixed
-
 - stopped autoscrolling to top on project content change (#1132)
-
-## [0.28.8] - 2024-11-04
-
-### Changed
-- REACT_APP_API_ENDPOINT env var is now only a default for the editor-wc prop, which can be overridden (#1124)
-  
-### Removed 
-- REACT_APP_AUTHENTICATION_URL env var no longer used and is instead a editor-wc prop (#1124)
-
-
-## [0.28.5] - 2024-11-01
-
-### Fixed
-
 - Hight of the sidebar for mobile (#1117)
 
-
-## [0.28.6] - 2024-10-29
-
 ### Changed
 
+- REACT_APP_API_ENDPOINT env var is now only a default for the editor-wc prop, which can be overridden (#1124)
 - added "Help" link to the information panel in the sidebar as the first link
 
+### Removed 
+
+- REACT_APP_AUTHENTICATION_URL env var no longer used and is instead a editor-wc prop (#1124)
 
 ## [0.28.5] - 2024-10-25
 
@@ -985,7 +966,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.5...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.6...HEAD
+[0.28.6]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.6
 [0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
 [0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
 [0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3
