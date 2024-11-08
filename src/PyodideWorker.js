@@ -165,6 +165,7 @@ const PyodideWorker = () => {
           `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
         );
       },
+      after: () => {},
     },
     turtle: {
       before: async () => {

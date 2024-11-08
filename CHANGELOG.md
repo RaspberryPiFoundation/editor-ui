@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-## [0.28.6] - 2024-10-29
+## [0.28.7] - 2024-11-08
+
+### Fixed
+
+- Bug causing py-enigma code to disable stop button
+
+## [0.28.6] - 2024-11-08
 
 ### Fixed
 
@@ -19,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - REACT_APP_API_ENDPOINT env var is now only a default for the editor-wc prop, which can be overridden (#1124)
 - added "Help" link to the information panel in the sidebar as the first link
 
-### Removed 
+### Removed
 
 - REACT_APP_AUTHENTICATION_URL env var no longer used and is instead a editor-wc prop (#1124)
 
@@ -79,7 +85,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pyodide running the correct file (`main.py`) when there are multiple `python` files (#1097)
 - Build to include public files (#1112)
 - Persisting choice of tabbed/split view when running `python` code (#1114)
-
 
 ## [0.27.1] - 2024-10-01
 
@@ -966,7 +971,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.6...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.7...HEAD
+[0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
 [0.28.6]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.6
 [0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
 [0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
