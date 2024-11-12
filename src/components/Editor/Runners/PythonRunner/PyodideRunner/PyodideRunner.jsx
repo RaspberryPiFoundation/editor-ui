@@ -325,7 +325,6 @@ const PyodideRunner = ({ active }) => {
       className={classNames("pythonrunner-container", "pyodiderunner", {
         "pyodiderunner--active": active,
       })}
-      style={{ display: active ? "flex" : "none" }}
     >
       {isSplitView ? (
         <>

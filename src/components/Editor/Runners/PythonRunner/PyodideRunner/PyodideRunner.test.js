@@ -74,10 +74,9 @@ describe("When active and first loaded", () => {
     expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
   });
 
-  test("it has style display: flex", () => {
-    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
-      "display: flex",
-    );
+  test("it does have active styles", () => {
+    const element = document.querySelector(".pyodiderunner");
+    expect(element).toHaveClass("pyodiderunner--active");
   });
 });
 
@@ -349,10 +348,9 @@ describe("When not active and first loaded", () => {
     );
   });
 
-  test("it renders with display: none", () => {
-    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
-      "display: none",
-    );
+  test("it does not have active styles", () => {
+    const element = document.querySelector(".pyodiderunner");
+    expect(element).not.toHaveClass("pyodiderunner--active");
   });
 });
 
