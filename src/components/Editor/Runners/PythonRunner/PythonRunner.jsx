@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import PyodideRunner from "./PyodideRunner/PyodideRunner";
 import SkulptRunner from "./SkulptRunner/SkulptRunner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+
+import { loadingRunner } from "../../../../redux/EditorSlice";
 
 const SKULPT_ONLY_MODULES = [
   "p5",
@@ -14,19 +16,33 @@ const SKULPT_ONLY_MODULES = [
 ];
 
 const PythonRunner = () => {
+  const dispatch = useDispatch();
+
   const project = useSelector((state) => state.editor.project);
+  const activeRunner = useSelector((state) => state.editor.activeRunner);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
   const senseHatAlwaysEnabled = useSelector(
     (state) => state.editor.senseHatAlwaysEnabled,
   );
-  const [usePyodide, setUsePyodide] = useState(true);
+  const [usePyodide, setUsePyodide] = useState(null);
+  const [skulptFallback, setSkulptFallback] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (!window.crossOriginIsolated) {
+    if (typeof usePyodide === "boolean") {
+      const runner = usePyodide ? "pyodide" : "skulpt";
+      if (runner !== activeRunner) {
+        dispatch(loadingRunner(runner));
+      }
+    }
+  }, [dispatch, usePyodide, activeRunner]);
+
+  useEffect(() => {
+    if (!!!window?.crossOriginIsolated) {
       setUsePyodide(false);
+      setSkulptFallback(true);
       return;
     }
     const getImports = (code) => {
@@ -59,7 +75,10 @@ const PythonRunner = () => {
           const hasSkulptOnlyModules = imports.some((name) =>
             SKULPT_ONLY_MODULES.includes(name),
           );
-          if (hasSkulptOnlyModules || senseHatAlwaysEnabled) {
+          if (
+            !skulptFallback &&
+            (hasSkulptOnlyModules || senseHatAlwaysEnabled)
+          ) {
             setUsePyodide(false);
             break;
           } else {
@@ -70,11 +89,11 @@ const PythonRunner = () => {
         }
       }
     }
-  }, [project, codeRunTriggered, senseHatAlwaysEnabled, t]);
+  }, [project, codeRunTriggered, senseHatAlwaysEnabled, skulptFallback, t]);
   return (
     <>
-      <PyodideRunner active={usePyodide} />
-      <SkulptRunner active={!usePyodide} />
+      <PyodideRunner active={activeRunner === "pyodide"} />
+      <SkulptRunner active={activeRunner === "skulpt"} />
     </>
   );
 };

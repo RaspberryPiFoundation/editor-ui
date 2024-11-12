@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../../assets/stylesheets/PythonRunner.scss";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 import {
   setError,
   codeRunHandled,
-  loadingRunner,
+  setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -30,16 +31,23 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = (props) => {
-  const { active } = props;
+const PyodideRunner = ({ active }) => {
+  const [pyodideWorker, setPyodideWorker] = useState(null);
 
-  // Blob approach + targeted headers - no errors but headers required in host app to interrupt code
-  const workerUrl = getWorkerURL(`${process.env.PUBLIC_URL}/PyodideWorker.js`);
-  const pyodideWorker = useMemo(() => new Worker(workerUrl), []);
+  useEffect(() => {
+    if (active) {
+      const workerUrl = getWorkerURL(
+        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+      );
+      const worker = new Worker(workerUrl);
+      setPyodideWorker(worker);
+    }
+  }, [active]);
 
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
+  const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((s) => s.editor.project.image_list);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
@@ -60,7 +68,6 @@ const PyodideRunner = (props) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
-  const [showRunner, setShowRunner] = useState(active);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -98,20 +105,13 @@ const PyodideRunner = (props) => {
         }
       };
     }
-  }, []);
+  }, [pyodideWorker]);
 
   useEffect(() => {
-    if (codeRunTriggered && active) {
-      console.log("running with pyodide");
+    if (codeRunTriggered && active && output.current) {
       handleRun();
     }
-  }, [codeRunTriggered]);
-
-  useEffect(() => {
-    if (codeRunTriggered) {
-      setShowRunner(active);
-    }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, output.current]);
 
   useEffect(() => {
     if (codeRunStopped && active) {
@@ -120,12 +120,15 @@ const PyodideRunner = (props) => {
   }, [codeRunStopped]);
 
   const handleLoading = () => {
-    dispatch(loadingRunner());
+    return;
   };
 
   const handleLoaded = (stdin, interrupt) => {
     stdinBuffer.current = stdin;
     interruptBuffer.current = interrupt;
+    if (loadedRunner !== "pyodide") {
+      dispatch(setLoadedRunner("pyodide"));
+    }
     dispatch(codeRunHandled());
     disableInput();
   };
@@ -312,17 +315,16 @@ const PyodideRunner = (props) => {
     }
   };
 
-  if (!pyodideWorker) {
-    console.error("PyodideWorker is not initialized");
+  if (!pyodideWorker && active) {
+    console.warn("PyodideWorker is not initialized");
     return;
   }
 
   return (
     <div
-      className={`pythonrunner-container pyodiderunner${
-        active ? " pyodiderunner--active" : ""
-      }`}
-      style={{ display: showRunner ? "flex" : "none" }}
+      className={classNames("pythonrunner-container", "pyodiderunner", {
+        "pyodiderunner--active": active,
+      })}
     >
       {isSplitView ? (
         <>

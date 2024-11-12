@@ -118,6 +118,8 @@ const initialState = {
   isSplitView: true,
   isThemeable: true,
   webComponent: false,
+  activeRunner: null,
+  loadedRunner: null,
   codeRunLoading: false,
   codeRunStopped: false,
   projectList: [],
@@ -143,6 +145,7 @@ export const EditorSlice = createSlice({
   name: "editor",
   initialState,
   reducers: {
+    resetState: () => initialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))
@@ -305,7 +308,17 @@ export const EditorSlice = createSlice({
     stopDraw: (state) => {
       state.drawTriggered = false;
     },
-    loadingRunner: (state) => {
+    loadingRunner: (state, action) => {
+      state.activeRunner = action.payload;
+      state.codeRunLoading = true;
+    },
+    setLoadedRunner: (state, action) => {
+      state.loadedRunner = action.payload;
+      state.codeRunLoading = false;
+    },
+    resetRunner: (state) => {
+      state.activeRunner = null;
+      state.loadedRunner = null;
       state.codeRunLoading = true;
     },
     codeRunHandled: (state) => {
@@ -425,8 +438,11 @@ export const EditorSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  resetState,
   addProjectComponent,
   loadingRunner,
+  setLoadedRunner,
+  resetRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,

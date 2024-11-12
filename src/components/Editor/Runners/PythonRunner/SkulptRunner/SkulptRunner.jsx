@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Sk from "skulpt";
 import { useMediaQuery } from "react-responsive";
+import classNames from "classnames";
 import {
   setError,
   setErrorDetails,
@@ -13,6 +14,7 @@ import {
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
+  setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
@@ -22,7 +24,6 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
-import classNames from "classnames";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -55,6 +56,7 @@ const externalLibraries = {
 };
 
 const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+  const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectCode = useSelector((state) => state.editor.project.components);
   const mainComponent = projectCode?.find(
     (component) => component.name === "main" && component.extension === "py",
@@ -71,6 +73,9 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   );
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
+  const senseHatAlwaysEnabled = useSelector(
+    (state) => state.editor.senseHatAlwaysEnabled,
+  );
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const output = useRef();
   const dispatch = useDispatch();
@@ -78,9 +83,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const [hasVisualOutput, setHasVisualOutput] = useState(true);
-
-  const [showRunner, setShowRunner] = useState(active);
+  const [codeHasVisualOutput, setCodeHasVisualOutput] = useState(
+    senseHatAlwaysEnabled,
+  );
+  const [showVisualOutput, setShowVisualOutput] = useState(true);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -91,17 +97,26 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   };
 
   useEffect(() => {
-    if (codeRunTriggered && active && showRunner) {
-      console.log("running with skulpt");
-      runCode();
+    if (active && loadedRunner !== "skulpt") {
+      dispatch(setLoadedRunner("skulpt"));
     }
-  }, [codeRunTriggered, showRunner]);
+  }, [active]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
-      setShowRunner(active);
+    if (active) {
+      if (codeRunTriggered) {
+        runCode();
+      } else if (!senseHatAlwaysEnabled) {
+        setCodeHasVisualOutput(false);
+      }
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, active]);
+
+  useEffect(() => {
+    if (codeRunTriggered && !senseHatAlwaysEnabled) {
+      setShowVisualOutput(!!codeHasVisualOutput);
+    }
+  }, [codeRunTriggered, codeHasVisualOutput]);
 
   useEffect(() => {
     if (codeRunStopped && active && getInput()) {
@@ -157,7 +172,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
 
     if (visualLibraries.includes(library)) {
-      setHasVisualOutput(true);
+      setCodeHasVisualOutput(true);
     }
 
     let localProjectFiles = projectCode
@@ -388,6 +403,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       })
       .finally(() => {
         dispatch(codeRunHandled());
+        setCodeHasVisualOutput(false);
       });
     myPromise.then(function (_mod) {});
   };
@@ -414,8 +430,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }
 
   const singleOutputPanel = outputPanels.length === 1;
-  const showVisualOutput = outputPanels.includes("visual");
-  const showTextOutput = outputPanels.includes("text");
+  const showVisualOutputPanel = outputPanels.includes("visual");
+  const showTextOutputPanel = outputPanels.includes("text");
 
   const outputPanelClasses = (panelType) => {
     return classNames("output-panel", `output-panel--${panelType}`, {
@@ -425,14 +441,13 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   return (
     <div
-      className={`pythonrunner-container skulptrunner${
-        active ? " skulptrunner--active" : ""
-      }`}
-      style={{ display: showRunner ? "flex" : "none" }}
+      className={classNames("pythonrunner-container", "skulptrunner", {
+        "skulptrunner--active": active,
+      })}
     >
       {isSplitView || singleOutputPanel ? (
         <>
-          {hasVisualOutput && showVisualOutput && (
+          {showVisualOutput && showVisualOutputPanel && (
             <div className={outputPanelClasses("visual")}>
               <Tabs forceRenderTabPanel={true}>
                 <div
@@ -447,7 +462,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+                  {!isEmbedded && showVisualOutput && <OutputViewToggle />}
                   {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
@@ -456,7 +471,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               </Tabs>
             </div>
           )}
-          {showTextOutput && (
+          {showTextOutputPanel && (
             <div className={outputPanelClasses("text")}>
               <Tabs forceRenderTabPanel={true}>
                 <div
@@ -471,7 +486,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                       </span>
                     </Tab>
                   </TabList>
-                  {!hasVisualOutput && !isEmbedded && isMobile && (
+                  {!showVisualOutput && !isEmbedded && isMobile && (
                     <RunnerControls skinny />
                   )}
                 </div>
@@ -488,10 +503,13 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           )}
         </>
       ) : (
-        <Tabs forceRenderTabPanel={true} defaultIndex={hasVisualOutput ? 0 : 1}>
+        <Tabs
+          forceRenderTabPanel={true}
+          defaultIndex={showVisualOutput ? 0 : 1}
+        >
           <div className="react-tabs__tab-container">
             <TabList>
-              {hasVisualOutput ? (
+              {showVisualOutput ? (
                 <Tab key={0}>
                   <span className="react-tabs__tab-text">
                     {t("output.visualOutput")}
@@ -504,11 +522,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisualOutput && <OutputViewToggle />}
+            {!isEmbedded && showVisualOutput && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           {!isOutputOnly && <ErrorMessage />}
-          {hasVisualOutput ? (
+          {showVisualOutput ? (
             <TabPanel key={0}>
               <VisualOutputPane />
             </TabPanel>
