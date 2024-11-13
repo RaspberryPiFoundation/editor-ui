@@ -151,15 +151,18 @@ const PyodideRunner = ({
   useEffect(() => {
     if (awaitingInput && consoleMode) {
       const inputElement = getInputElement();
+      const inputParent = inputElement?.parentElement;
       // inputElement.classList.add("language-python");
-      inputElement.innerText = " ".repeat(indentationLevel * 4);
-      // move cursor to end of text
-      const range = document.createRange();
-      const selection = window.getSelection();
-      range.selectNodeContents(inputElement);
-      range.collapse(false);
-      selection.removeAllRanges();
-      selection.addRange(range);
+      if (inputParent.innerText.match(/...:/)) {
+        inputElement.innerText = " ".repeat(indentationLevel * 4);
+        // move cursor to end of text
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(inputElement);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
     }
   }, [awaitingInput, indentationLevel, consoleMode]);
 
@@ -271,18 +274,6 @@ const PyodideRunner = ({
     setAwaitingInput(false);
 
     prependToInputStack(content);
-    // if (content.trimEnd().slice(-1) === ":") {
-    //   incrementIndentationLevel(content);
-    // } else if (content.trimEnd() === "") {
-    //   // console.log("the content is");
-    //   // console.log(content);
-    //   setIndentationLevel(0);
-    // }
-
-    console.log(
-      "indentedLine",
-      getInputElement().parentElement.innerText.matches(/...:/),
-    );
     handleIndentationLevel(content);
 
     const encoder = new TextEncoder();
