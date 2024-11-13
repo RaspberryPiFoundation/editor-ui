@@ -75,7 +75,6 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
-  const [showRunner, setShowRunner] = useState(active);
   const [inputStack, setInputStack] = useState([]);
   const [indentationLevel, setIndentationLevel] = useState(0);
   const [awaitingInput, setAwaitingInput] = useState(false);
@@ -88,30 +87,41 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
   const prependToInputStack = (input) => {
     setInputStack((prevInputStack) => {
       if (prevInputStack[0] === "") {
-        console.log("overwriting...");
         const newStack = [...prevInputStack];
         newStack[0] = input;
         return newStack;
       } else {
-        console.log("prepending...");
-        console.log(prevInputStack);
         return [input, ...prevInputStack];
       }
     });
   };
   const [inputStackIndex, setInputStackIndex] = useState(0);
 
-  const incrementIndentationLevel = () => {
-    setIndentationLevel((prevIndentationLevel) => prevIndentationLevel + 1);
+  const incrementIndentationLevel = (prevLine) => {
+    // console.log("prevLine", prevLine);
+    // console.log(prevLine.match(/^\s*/)[0].length);
+    const prevLevel = prevLine
+      ? Math.floor(prevLine.match(/^\s*/)[0].length / 4)
+      : 0;
+    setIndentationLevel(prevLevel + 1);
   };
 
-  useEffect(() => {
-    console.log("indentationLevel", indentationLevel);
-  }, [indentationLevel]);
+  const keepSameIndentationLevel = (prevLine) => {
+    const prevLevel = prevLine
+      ? Math.floor(prevLine.match(/^\s*/)[0].length / 4)
+      : 0;
+    setIndentationLevel(prevLevel);
+  };
 
-  useEffect(() => {
-    console.log("isOutputOnly", isOutputOnly);
-  });
+  const handleIndentationLevel = (prevLine) => {
+    if (prevLine.trimEnd().slice(-1) === ":") {
+      incrementIndentationLevel(prevLine);
+    } else if (prevLine.trimEnd() === "") {
+      setIndentationLevel(0);
+    } else {
+      keepSameIndentationLevel(prevLine);
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -149,14 +159,16 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
   }, [awaitingInput, indentationLevel, consoleMode]);
 
   useEffect(() => {
-    console.log("inputStack", inputStack);
-  }, [inputStack]);
-
-  useEffect(() => {
-    console.log("inputStackIndex", inputStackIndex);
     const inputElement = getInputElement();
     if (inputElement) {
       inputElement.innerText = inputStack[inputStackIndex];
+      // move cursor to end of text
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(inputElement);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
   }, [inputStackIndex]);
 
@@ -199,10 +211,10 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
   }, [pyodideWorker]);
 
   useEffect(() => {
-    if (autoRun) {
+    if (autoRun && active && pyodideWorker) {
       dispatch(triggerCodeRun());
     }
-  }, []);
+  }, [active, pyodideWorker]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -254,13 +266,19 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
     setAwaitingInput(false);
 
     prependToInputStack(content);
-    if (content.trimEnd().slice(-1) === ":") {
-      incrementIndentationLevel();
-    } else if (content.trimEnd() === "") {
-      console.log("the content is");
-      console.log(content);
-      setIndentationLevel(0);
-    }
+    // if (content.trimEnd().slice(-1) === ":") {
+    //   incrementIndentationLevel(content);
+    // } else if (content.trimEnd() === "") {
+    //   // console.log("the content is");
+    //   // console.log(content);
+    //   setIndentationLevel(0);
+    // }
+
+    console.log(
+      "indentedLine",
+      getInputElement().parentElement.innerText.matches(/...:/),
+    );
+    handleIndentationLevel(content);
 
     const encoder = new TextEncoder();
     const bytes = encoder.encode(content + "\n");
