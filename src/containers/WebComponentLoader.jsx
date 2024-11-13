@@ -46,6 +46,7 @@ const WebComponentLoader = (props) => {
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
+    showOutputTabs = true,
     showSavePrompt = false,
     sidebarOptions = [],
     theme,
@@ -192,6 +193,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              showOutputTabs={showOutputTabs}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

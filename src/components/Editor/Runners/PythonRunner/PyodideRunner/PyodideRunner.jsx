@@ -37,7 +37,12 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
+const PyodideRunner = ({
+  active,
+  consoleMode = false,
+  autoRun = false,
+  showOutputTabs = true,
+}) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
 
   useEffect(() => {
@@ -466,17 +471,19 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
           {hasVisual && (
             <div className="output-panel output-panel--visual">
               <Tabs forceRenderTabPanel={true}>
-                <div className="react-tabs__tab-container">
-                  <TabList>
-                    <Tab key={0}>
-                      <span className="react-tabs__tab-text">
-                        {t("output.visualOutput")}
-                      </span>
-                    </Tab>
-                  </TabList>
-                  {!isEmbedded && hasVisual && <OutputViewToggle />}
-                  {!isEmbedded && isMobile && <RunnerControls skinny />}
-                </div>
+                {showOutputTabs && (
+                  <div className="react-tabs__tab-container">
+                    <TabList>
+                      <Tab key={0}>
+                        <span className="react-tabs__tab-text">
+                          {t("output.visualOutput")}
+                        </span>
+                      </Tab>
+                    </TabList>
+                    {!isEmbedded && hasVisual && <OutputViewToggle />}
+                    {!isEmbedded && isMobile && <RunnerControls skinny />}
+                  </div>
+                )}
                 <TabPanel key={0}>
                   <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
                 </TabPanel>
@@ -485,23 +492,26 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
           )}
           <div className="output-panel output-panel--text">
             <Tabs forceRenderTabPanel={true}>
-              <div className="react-tabs__tab-container">
-                <TabList>
-                  <Tab key={0}>
-                    <span className="react-tabs__tab-text">
-                      {t("output.textOutput")}
-                    </span>
-                  </Tab>
-                  {!isOutputOnly && (
-                    <Tab key={1}>
-                      <span className="react-tabs__tab-text">Console</span>
+              {showOutputTabs && (
+                <div className="react-tabs__tab-container">
+                  <TabList>
+                    <Tab key={0}>
+                      <span className="react-tabs__tab-text">
+                        {t("output.textOutput")}
+                      </span>
                     </Tab>
+                    {!isOutputOnly && (
+                      <Tab key={1}>
+                        <span className="react-tabs__tab-text">Console</span>
+                      </Tab>
+                    )}
+                  </TabList>
+
+                  {!hasVisual && !isEmbedded && isMobile && (
+                    <RunnerControls skinny />
                   )}
-                </TabList>
-                {!hasVisual && !isEmbedded && isMobile && (
-                  <RunnerControls skinny />
-                )}
-              </div>
+                </div>
+              )}
               <ErrorMessage />
               <TabPanel key={0}>
                 <pre
@@ -514,7 +524,7 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
                 <TabPanel key={1}>
                   <iframe
                     title="console"
-                    src={`http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}`}
+                    src={`http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}&showOutputTabs=false`}
                     crossOrigin
                     style={{ width: "100%", height: "100%" }}
                   />
@@ -525,29 +535,32 @@ const PyodideRunner = ({ active, consoleMode = false, autoRun = false }) => {
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
-          <div className="react-tabs__tab-container">
-            <TabList>
-              {hasVisual && (
-                <Tab key={0}>
+          {showOutputTabs && (
+            <div className="react-tabs__tab-container">
+              <TabList>
+                {hasVisual && (
+                  <Tab key={0}>
+                    <span className="react-tabs__tab-text">
+                      {t("output.visualOutput")}
+                    </span>
+                  </Tab>
+                )}
+                <Tab key={1}>
                   <span className="react-tabs__tab-text">
-                    {t("output.visualOutput")}
+                    {t("output.textOutput")}
                   </span>
                 </Tab>
-              )}
-              <Tab key={1}>
-                <span className="react-tabs__tab-text">
-                  {t("output.textOutput")}
-                </span>
-              </Tab>
-              {/* {!isOutputOnly && (
+                {/* {!isOutputOnly && (
                 <Tab key={2}>
                   <span className="react-tabs__tab-text">Console</span>
                 </Tab>
               )} */}
-            </TabList>
-            {!isEmbedded && hasVisual && <OutputViewToggle />}
-            {!isEmbedded && isMobile && <RunnerControls skinny />}
-          </div>
+              </TabList>
+              {!isEmbedded && hasVisual && <OutputViewToggle />}
+              {!isEmbedded && isMobile && <RunnerControls skinny />}
+            </div>
+          )}
+
           <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>

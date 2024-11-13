@@ -15,7 +15,7 @@ const SKULPT_ONLY_MODULES = [
   "turtle",
 ];
 
-const PythonRunner = ({ autoRun = false }) => {
+const PythonRunner = ({ autoRun = false, showOutputTabs = true }) => {
   const dispatch = useDispatch();
   const project = useSelector((state) => state.editor.project);
   const activeRunner = useSelector((state) => state.editor.activeRunner);
@@ -102,6 +102,7 @@ const PythonRunner = ({ autoRun = false }) => {
         active={activeRunner === "pyodide"}
         consoleMode={consoleMode}
         autoRun={autoRun}
+        showOutputTabs={showOutputTabs}
       />
       <SkulptRunner active={activeRunner === "skulpt"} />
     </>

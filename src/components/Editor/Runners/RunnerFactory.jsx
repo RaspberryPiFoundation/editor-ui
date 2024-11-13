@@ -6,6 +6,7 @@ const RunnerFactory = ({
   autoRun = false,
   projectType,
   outputPanels = ["text", "visual"],
+  showOutputTabs = true,
 }) => {
   const Runner = () => {
     if (projectType === "html") {
@@ -17,7 +18,8 @@ const RunnerFactory = ({
 
   const Selected = Runner();
 
-  const props = projectType === "html" ? {} : { outputPanels, autoRun };
+  const props =
+    projectType === "html" ? {} : { outputPanels, autoRun, showOutputTabs };
 
   return <Selected {...props} />;
 };
