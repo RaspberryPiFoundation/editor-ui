@@ -14,7 +14,11 @@ const runCode = (code) => {
     .find("div[class=cm-content]")
     .invoke("text", `${code}\n`);
   cy.wait(200);
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find(".btn--run")
+    .should("not.be.disabled")
+    .click();
 };
 
 describe("Running the code with skulpt", () => {
@@ -28,10 +32,38 @@ describe("Running the code with skulpt", () => {
     });
   });
 
+  it("runs a simple program", () => {
+    runCode("print('Hello world')");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .contains(".react-tabs__tab", "Visual output")
+      .should("not.exist");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .find(".react-tabs__tab--selected")
+      .should("contain", "Text output");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pythonrunner-console-output-line")
+      .should("contain", "Hello world");
+  });
+
   it("runs a simple p5 program", () => {
     runCode(
       "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tfill('cyan')\n\trect(0, 0, 400, 250)\nrun(frame_rate=2)",
     );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .contains(".react-tabs__tab", "Text output")
+      .should("exist");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .find(".react-tabs__tab--selected")
+      .should("contain", "Visual output");
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
 

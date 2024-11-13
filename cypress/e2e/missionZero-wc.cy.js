@@ -137,20 +137,23 @@ it("picks up calls to input()", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
-    .invoke("text", "input()");
+    .invoke("text", "name = input('What is your name?')\nprint('Hello', name)");
   cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc").shadow().find(".btn--stop").should("be.visible");
   cy.get("editor-wc")
     .shadow()
-    .find(
-      "div[class='pythonrunner-container skulptrunner skulptrunner--active']",
-    )
-    .contains("Text output")
+    .find("div.pythonrunner-container.skulptrunner.skulptrunner--active")
+    .contains(".react-tabs__tab-text", "Text output")
     .click();
   cy.get("editor-wc")
     .shadow()
     .find("span[contenteditable=true]")
-    .type("{enter}");
+    .type("Scott{enter}");
   cy.get("#results").should("contain", '"noInputEvents":false');
+  cy.get("editor-wc")
+    .shadow()
+    .find(".pythonrunner-console-output-line")
+    .should("contain", "Hello Scott");
 });
 
 it("picks up calls to wait for motion", () => {
@@ -208,7 +211,12 @@ it("returns duration of null if focus is lost", () => {
       "text",
       'from sense_hat import SenseHat\nsense = SenseHat()\nsense.show_message("a")',
     );
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find(".btn--run")
+    .should("not.be.disabled")
+    .click();
+  cy.get("editor-wc").shadow().find(".btn--stop").should("be.visible");
   cy.window().blur();
   cy.window().focus();
   cy.get("#results").should("contain", '"duration":null');

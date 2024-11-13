@@ -7,6 +7,7 @@ import {
   disableTheming,
   setReadOnly,
   setSenseHatAlwaysEnabled,
+  setReactAppApiEndpoint,
 } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
@@ -79,6 +80,63 @@ describe("When initially rendered", () => {
       }),
     );
   });
+
+  describe("react app API endpoint", () => {
+    describe("when react app API endpoint isn't set", () => {
+      beforeEach(() => {
+        render(
+          <Provider store={store}>
+            <CookiesProvider cookies={cookies}>
+              <WebComponentLoader
+                code={code}
+                identifier={identifier}
+                senseHatAlwaysEnabled={true}
+                instructions={instructions}
+                readOnly={true}
+                authKey={authKey}
+                theme="light"
+              />
+            </CookiesProvider>
+          </Provider>,
+        );
+      });
+
+      test("it defaults", () => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            setReactAppApiEndpoint("http://localhost:3009"),
+          ]),
+        );
+      });
+    });
+
+    describe("when react app API endpoint is set", () => {
+      beforeEach(() => {
+        render(
+          <Provider store={store}>
+            <CookiesProvider cookies={cookies}>
+              <WebComponentLoader
+                code={code}
+                identifier={identifier}
+                senseHatAlwaysEnabled={true}
+                instructions={instructions}
+                readOnly={true}
+                authKey={authKey}
+                reactAppApiEndpoint="http://local.dev"
+                theme="light"
+              />
+            </CookiesProvider>
+          </Provider>,
+        );
+      });
+
+      test("it uses the specified prop", () => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([setReactAppApiEndpoint("http://local.dev")]),
+        );
+      });
+    });
+  });
 });
 
 describe("When no user is in state", () => {
@@ -126,12 +184,14 @@ describe("When no user is in state", () => {
 
     test("Calls useProject hook with correct attributes", () => {
       expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: undefined,
         projectIdentifier: identifier,
         code,
         accessToken: undefined,
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -144,6 +204,7 @@ describe("When no user is in state", () => {
         justLoaded: false,
         user: null,
         saveTriggered: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -234,6 +295,7 @@ describe("When no user is in state", () => {
         loadRemix: false,
         loadCache: true,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
   });
@@ -260,12 +322,14 @@ describe("When no user is in state", () => {
 
     test("Calls useProject hook with correct attributes", () => {
       expect(useProject).toHaveBeenCalledWith({
+        assetsIdentifier: undefined,
         projectIdentifier: identifier,
         code,
         accessToken: "my_token",
         loadRemix: true,
         loadCache: false,
         remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -276,6 +340,7 @@ describe("When no user is in state", () => {
         hasShownSavePrompt: true,
         justLoaded: false,
         saveTriggered: false,
+        reactAppApiEndpoint: "http://localhost:3009",
       });
     });
 
@@ -384,12 +449,14 @@ describe("When user is in state", () => {
 
       test("Calls useProject hook with correct attributes", () => {
         expect(useProject).toHaveBeenCalledWith({
+          assetsIdentifier: undefined,
           projectIdentifier: identifier,
           code: undefined,
           accessToken: "my_token",
           loadRemix: true,
           loadCache: false,
           remixLoadFailed: false,
+          reactAppApiEndpoint: "http://localhost:3009",
         });
       });
 
@@ -412,18 +479,21 @@ describe("When user is in state", () => {
 
         test("Calls useProject hook with loadRemix set to false, i.e. it is overidden", () => {
           expect(useProject).toHaveBeenCalledWith({
+            assetsIdentifier: undefined,
             projectIdentifier: identifier,
             code: undefined,
             accessToken: "my_token",
             loadRemix: false,
             loadCache: false,
             remixLoadFailed: false,
+            reactAppApiEndpoint: "http://localhost:3009",
           });
         });
       });
 
       test("Calls useProjectPersistence hook with correct attributes", () => {
         expect(useProjectPersistence).toHaveBeenCalledWith({
+          reactAppApiEndpoint: "http://localhost:3009",
           user,
           project: { components: [] },
           hasShownSavePrompt: true,
@@ -488,12 +558,14 @@ describe("When user is in state", () => {
 
       test("Calls useProject hook with correct attributes", () => {
         expect(useProject).toHaveBeenCalledWith({
+          assetsIdentifier: undefined,
           projectIdentifier: identifier,
           code: undefined,
           accessToken: "my_token",
           loadRemix: false,
           loadCache: true,
           remixLoadFailed: true,
+          reactAppApiEndpoint: "http://localhost:3009",
         });
       });
     });

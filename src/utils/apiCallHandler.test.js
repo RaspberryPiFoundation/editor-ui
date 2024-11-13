@@ -1,6 +1,16 @@
 import axios from "axios";
 
-import {
+import ApiCallHandler from "./apiCallHandler";
+
+jest.mock("axios");
+const host = "http://localhost:3009";
+const defaultHeaders = { headers: { Accept: "application/json" } };
+const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25";
+const authHeaders = {
+  headers: { Accept: "application/json", Authorization: accessToken },
+};
+
+const {
   getImage,
   createOrUpdateProject,
   readProject,
@@ -9,15 +19,7 @@ import {
   uploadImages,
   readProjectList,
   createError,
-} from "./apiCallHandler";
-
-jest.mock("axios");
-const host = process.env.REACT_APP_API_ENDPOINT;
-const defaultHeaders = { headers: { Accept: "application/json" } };
-const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25";
-const authHeaders = {
-  headers: { Accept: "application/json", Authorization: accessToken },
-};
+} = ApiCallHandler({ reactAppApiEndpoint: host });
 
 describe("Testing project API calls", () => {
   test("Creating project", async () => {

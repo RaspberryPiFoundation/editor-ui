@@ -32,6 +32,11 @@ const EditorInput = () => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
 
+  const [numberOfComponents, setNumberOfComponents] = useState(
+    project?.components?.length,
+  );
+  const [fileNames, setFileNames] = useState();
+
   const { t } = useTranslation();
 
   const onDragStart = (input) => {
@@ -78,9 +83,6 @@ const EditorInput = () => {
     dispatch(closeFile(fileName));
   };
 
-  const [numberOfComponents, setNumberOfComponents] = useState(
-    project?.components?.length,
-  );
   let tabRefs = useRef(project?.components?.map(createRef));
 
   useEffect(() => {
@@ -95,19 +97,26 @@ const EditorInput = () => {
   }, [project?.components]);
 
   useEffect(() => {
-    if (!project?.components) return;
+    const newFileNames = project.components.map(
+      (file) => `${file.name}.${file.extension}`,
+    );
+    if (newFileNames.join() !== fileNames?.join()) {
+      setFileNames(newFileNames);
+    }
+  }, [fileNames, project.components]);
+
+  useEffect(() => {
+    if (!fileNames) return;
 
     focussedFileIndices.forEach((index, i) => {
       const fileName = openFiles[i][index];
-      const componentIndex = project.components.findIndex(
-        (file) => `${file.name}.${file.extension}` === fileName,
-      );
+      const componentIndex = fileNames.findIndex((name) => name === fileName);
       const fileRef = tabRefs.current[componentIndex];
       if (fileRef && fileRef.current) {
         fileRef.current.parentElement.scrollIntoView();
       }
     });
-  }, [focussedFileIndices, openFiles, numberOfComponents, project]);
+  }, [focussedFileIndices, openFiles, numberOfComponents, fileNames]);
 
   if (!project || !project.components) {
     return null;

@@ -1,34 +1,68 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
-import configureStore from "redux-mock-store";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
-import { setError } from "../../../../../redux/EditorSlice.js";
+
+import {
+  resetState,
+  setError,
+  triggerCodeRun,
+  setProject,
+  setLoadedRunner,
+  stopCodeRun,
+} from "../../../../../redux/EditorSlice.js";
+import store from "../../../../../app/store";
 
 jest.mock("fs");
+global.fetch = jest.fn();
 
-const middlewares = [];
-const mockStore = configureStore(middlewares);
-const initialState = {
-  editor: {
-    project: {
-      components: [
-        { name: "a", extension: "py", content: "print('a')" },
-        { name: "main", extension: "py", content: "print('hello')" },
-      ],
-      image_list: [
-        { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
-      ],
-    },
-    codeRunTriggered: false,
-  },
-  auth: {},
+const project = {
+  components: [
+    { name: "a", extension: "py", content: "print('a')" },
+    { name: "main", extension: "py", content: "print('hello')" },
+  ],
+  image_list: [
+    { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
+  ],
 };
+
+window.crossOriginIsolated = true;
+process.env.PUBLIC_URL = ".";
+
+const updateRunner = ({ project = {}, codeRunTriggered = false }) => {
+  act(() => {
+    if (project) {
+      store.dispatch(setProject(project));
+    }
+    if (codeRunTriggered) {
+      store.dispatch(triggerCodeRun());
+    }
+  });
+};
+
+let dispatchSpy;
+
+beforeEach(() => {
+  store.dispatch(resetState());
+  window.crossOriginIsolated = true;
+  dispatchSpy = jest.spyOn(store, "dispatch");
+  fetch.mockClear();
+});
+
+afterEach(() => {
+  dispatchSpy.mockRestore();
+});
 
 describe("When active and first loaded", () => {
   beforeEach(() => {
-    const store = mockStore(initialState);
+    window.crossOriginIsolated = true;
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -40,88 +74,82 @@ describe("When active and first loaded", () => {
     expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
   });
 
-  test("it has style display: flex", () => {
-    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
-      "display: flex",
-    );
+  test("it does have active styles", () => {
+    const element = document.querySelector(".pyodiderunner");
+    expect(element).toHaveClass("pyodiderunner--active");
   });
 });
 
 describe("When a code run has been triggered", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    const fetchMock = jest.fn().mockResolvedValue({
-      arrayBuffer: () => Promise.resolve("image data"),
-    });
-
-    global.fetch = fetchMock;
-
-    const store = mockStore({
-      ...initialState,
-      editor: { ...initialState.editor, codeRunTriggered: true },
+    window.crossOriginIsolated = true;
+    global.fetch.mockResolvedValueOnce({
+      arrayBuffer: () => Promise.resolve(new ArrayBuffer(1)),
     });
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
       </Provider>,
     );
+    updateRunner({ project, codeRunTriggered: true });
   });
 
-  test("it writes the current files to the worker", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "a.py",
-      content: "print('a')",
-    });
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "main.py",
-      content: "print('hello')",
-    });
-  });
-
-  test("it writes the images to the worker", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "writeFile",
-      filename: "image1.jpg",
-      content: "image data",
+  test("it writes the current files to the worker", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "a.py",
+        content: "print('a')",
+      });
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "main.py",
+        content: "print('hello')",
+      });
     });
   });
 
-  test("it sends a message to the worker to run the python code", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "runPython",
-      python: "print('hello')",
+  test("it writes the images to the worker", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "writeFile",
+        filename: "image1.jpg",
+        content: expect.any(ArrayBuffer),
+      });
+    });
+  });
+
+  test("it sends a message to the worker to run the python code", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "runPython",
+        python: "print('hello')",
+      });
     });
   });
 });
 
 describe("When the code has been stopped", () => {
-  let store;
-
   beforeEach(() => {
-    store = mockStore({
-      ...initialState,
-      editor: { ...initialState.editor, codeRunStopped: true },
-    });
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
       </Provider>,
     );
+    store.dispatch(stopCodeRun());
   });
 
-  test("it sends a message to the worker to stop the python code", () => {
-    expect(postMessage).toHaveBeenCalledWith({
-      method: "stopPython",
+  test("it sends a message to the worker to stop the python code", async () => {
+    await waitFor(() => {
+      expect(postMessage).toHaveBeenCalledWith({
+        method: "stopPython",
+      });
     });
   });
 });
 
 describe("When loading pyodide", () => {
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -129,18 +157,23 @@ describe("When loading pyodide", () => {
     );
 
     const worker = PyodideWorker.getLastInstance();
-    worker.postMessageFromWorker({ method: "handleLoading" });
+    worker.postMessageFromWorker({ method: "handleLoaded" });
   });
 
   test("it dispatches loadingRunner action", () => {
-    expect(store.getActions()).toEqual([{ type: "editor/loadingRunner" }]);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/setLoadedRunner",
+      payload: "pyodide",
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/codeRunHandled",
+    });
   });
 });
 
 describe("When pyodide has loaded", () => {
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
+    store.dispatch(setLoadedRunner("pyodide"));
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -152,15 +185,13 @@ describe("When pyodide has loaded", () => {
   });
 
   test("it dispatches codeRunHandled action", () => {
-    expect(store.getActions()).toEqual([{ type: "editor/codeRunHandled" }]);
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/codeRunHandled" });
   });
 });
 
 describe("When input is required", () => {
   let input;
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -199,9 +230,7 @@ describe("When input is required", () => {
 });
 
 describe("When output is received", () => {
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -209,6 +238,7 @@ describe("When output is received", () => {
     );
 
     const worker = PyodideWorker.getLastInstance();
+    worker.postMessage = jest.fn();
     worker.postMessageFromWorker({
       method: "handleOutput",
       stream: "stdout",
@@ -222,9 +252,7 @@ describe("When output is received", () => {
 });
 
 describe("When visual output is received", () => {
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -242,9 +270,11 @@ describe("When visual output is received", () => {
   });
 
   test("it displays the output view toggle", async () => {
-    expect(
-      screen.queryByText("outputViewToggle.buttonSplitLabel"),
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByText("outputViewToggle.buttonTabLabel"),
+      ).toBeInTheDocument();
+    });
   });
 
   test("it shows the visual output tab", () => {
@@ -254,9 +284,7 @@ describe("When visual output is received", () => {
 });
 
 describe("When an error is received", () => {
-  let store;
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -274,21 +302,17 @@ describe("When an error is received", () => {
   });
 
   test("it dispatches action to set the error with correct message", () => {
-    expect(store.getActions()).toEqual([
-      {
-        type: "editor/setError",
-        payload: "SyntaxError: something's wrong on line 2 of main.py",
-      },
-    ]);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/setError",
+      payload: "SyntaxError: something's wrong on line 2 of main.py",
+    });
   });
 });
 
 describe("When the code run is interrupted", () => {
   let input;
-  let store;
 
   beforeEach(() => {
-    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={true} />,
@@ -309,15 +333,14 @@ describe("When the code run is interrupted", () => {
   });
 
   test("it sets an interruption error", () => {
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([setError("output.errors.interrupted")]),
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      setError("output.errors.interrupted"),
     );
   });
 });
 
 describe("When not active and first loaded", () => {
   beforeEach(() => {
-    const store = mockStore(initialState);
     render(
       <Provider store={store}>
         <PyodideRunner active={false} />,
@@ -325,24 +348,20 @@ describe("When not active and first loaded", () => {
     );
   });
 
-  test("it renders with display: none", () => {
-    expect(document.querySelector(".pyodiderunner")).toHaveStyle(
-      "display: none",
-    );
+  test("it does not have active styles", () => {
+    const element = document.querySelector(".pyodiderunner");
+    expect(element).not.toHaveClass("pyodiderunner--active");
   });
 });
 
 describe("When not active and code run triggered", () => {
   beforeEach(() => {
-    const store = mockStore({
-      ...initialState,
-      editor: { ...initialState.editor, codeRunTriggered: true },
-    });
     render(
       <Provider store={store}>
         <PyodideRunner active={false} />,
       </Provider>,
     );
+    updateRunner({ project, codeRunTriggered: true });
   });
 
   test("it does not send a message to the worker to run the python code", () => {

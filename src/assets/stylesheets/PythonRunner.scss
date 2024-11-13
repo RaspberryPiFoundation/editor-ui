@@ -53,6 +53,22 @@
   position: relative;
 }
 
+.pyodiderunner {
+  display: none;
+
+  &--active {
+    display: flex;
+  }
+}
+
+.skulptrunner {
+  display: none;
+
+  &--active {
+    display: flex;
+  }
+}
+
 .visual-output {
   flex: 1;
   display: flex;

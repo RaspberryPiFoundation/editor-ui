@@ -4,6 +4,7 @@ import {
   disableTheming,
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
+  setReactAppApiEndpoint,
   setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
@@ -32,24 +33,25 @@ const WebComponentLoader = (props) => {
     assetsIdentifier,
     authKey,
     autoRun = false,
-    identifier,
     code,
-    senseHatAlwaysEnabled = false,
-    instructions,
-    withProjectbar = false,
-    projectNameEditable = false,
-    withSidebar = false,
-    sidebarOptions = [],
-    theme,
-    outputPanels = ["text", "visual"],
     embedded = false,
     hostStyles, // Pass in styles from the host
-    showSavePrompt = false,
+    identifier,
+    instructions,
     loadRemixDisabled = false,
-    readOnly = false,
     outputOnly = false,
+    outputPanels = ["text", "visual"],
     outputSplitView = false,
+    projectNameEditable = false,
+    reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    readOnly = false,
+    senseHatAlwaysEnabled = false,
+    showSavePrompt = false,
+    sidebarOptions = [],
+    theme,
     useEditorStyles = false, // If true use the standard editor styling for the web component
+    withProjectbar = false,
+    withSidebar = false,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -119,6 +121,7 @@ const WebComponentLoader = (props) => {
   }, [projectOwner, justLoaded]);
 
   useProject({
+    reactAppApiEndpoint,
     projectIdentifier: projectIdentifier,
     assetsIdentifier: assetsIdentifier,
     code,
@@ -129,12 +132,17 @@ const WebComponentLoader = (props) => {
   });
 
   useProjectPersistence({
+    reactAppApiEndpoint,
     user,
     project,
     justLoaded,
     hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
   });
+
+  useEffect(() => {
+    dispatch(setReactAppApiEndpoint(reactAppApiEndpoint));
+  }, [reactAppApiEndpoint, dispatch]);
 
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));

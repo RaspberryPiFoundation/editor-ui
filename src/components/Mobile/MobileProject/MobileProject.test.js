@@ -99,6 +99,8 @@ describe("When withSidebar is true", () => {
   beforeEach(() => {
     const initialState = {
       editor: {
+        activeRunner: "skulpt",
+        loadedRunner: "skulpt",
         project: {
           components: [
             {

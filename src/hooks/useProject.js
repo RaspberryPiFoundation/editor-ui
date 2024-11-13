@@ -6,6 +6,7 @@ import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
+  reactAppApiEndpoint = null,
   assetsIdentifier = null,
   projectIdentifier = null,
   code = null,
@@ -54,6 +55,7 @@ export const useProject = ({
       if (assetsIdentifier) {
         dispatch(
           syncProject("load")({
+            reactAppApiEndpoint,
             identifier: assetsIdentifier,
             locale: i18n.language,
             accessToken,
@@ -66,6 +68,7 @@ export const useProject = ({
       if (projectIdentifier) {
         dispatch(
           syncProject("load")({
+            reactAppApiEndpoint,
             identifier: projectIdentifier,
             locale: i18n.language,
             accessToken: accessToken,
@@ -103,6 +106,7 @@ export const useProject = ({
     if (!remixLoadFailed && !loadDispatched.current) {
       dispatch(
         syncProject("loadRemix")({
+          reactAppApiEndpoint,
           identifier: projectIdentifier,
           accessToken: accessToken,
         }),
@@ -119,6 +123,7 @@ export const useProject = ({
     if (remixLoadFailed && !loadDispatched.current) {
       dispatch(
         syncProject("load")({
+          reactAppApiEndpoint,
           identifier: projectIdentifier,
           locale: i18n.language,
           accessToken: accessToken,

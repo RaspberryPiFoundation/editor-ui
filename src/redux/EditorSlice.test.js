@@ -1,12 +1,3 @@
-import {
-  createOrUpdateProject,
-  createRemix,
-  deleteProject,
-  loadAssets,
-  readProject,
-  readProjectList,
-} from "../utils/apiCallHandler";
-
 import reducer, {
   syncProject,
   stopCodeRun,
@@ -16,14 +7,25 @@ import reducer, {
   closeFile,
   setFocussedFileIndex,
   updateComponentName,
-  loadProjectList,
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
   setReadOnly,
 } from "./EditorSlice";
 
-jest.mock("../utils/apiCallHandler");
+const mockCreateRemix = jest.fn();
+const mockDeleteProject = jest.fn();
+const mockLoadAssets = jest.fn();
+const mockReadProject = jest.fn();
+const mockCreateOrUpdateProject = jest.fn();
+
+jest.mock("../utils/apiCallHandler", () => () => ({
+  createRemix: jest.fn(mockCreateRemix),
+  deleteProject: jest.fn(mockDeleteProject),
+  loadAssets: jest.fn(mockLoadAssets),
+  readProject: jest.fn(mockReadProject),
+  createOrUpdateProject: jest.fn(mockCreateOrUpdateProject),
+}));
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
@@ -191,11 +193,14 @@ describe("When project has no identifier", () => {
 
   test("Saving creates new project", async () => {
     await saveAction(dispatch, () => initialState);
-    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateOrUpdateProject).toHaveBeenCalledWith(
+      project,
+      access_token,
+    );
   });
 
   test("Successfully creating project triggers fulfilled action", async () => {
-    createOrUpdateProject.mockImplementationOnce(() =>
+    mockCreateOrUpdateProject.mockImplementationOnce(() =>
       Promise.resolve({ status: 200 }),
     );
     await saveAction(dispatch, () => initialState);
@@ -284,11 +289,14 @@ describe("When project has an identifier", () => {
 
   test("Saving updates existing project", async () => {
     await saveAction(dispatch, () => initialState);
-    expect(createOrUpdateProject).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateOrUpdateProject).toHaveBeenCalledWith(
+      project,
+      access_token,
+    );
   });
 
   test("Successfully updating project triggers fulfilled action", async () => {
-    createOrUpdateProject.mockImplementationOnce(() =>
+    mockCreateOrUpdateProject.mockImplementationOnce(() =>
       Promise.resolve({ status: 200 }),
     );
     await saveAction(dispatch, () => initialState);
@@ -316,11 +324,13 @@ describe("When project has an identifier", () => {
 
   test("Remixing triggers createRemix API call", async () => {
     await remixAction(dispatch, () => initialState);
-    expect(createRemix).toHaveBeenCalledWith(project, access_token);
+    expect(mockCreateRemix).toHaveBeenCalledWith(project, access_token);
   });
 
   test("Successfully remixing project triggers fulfilled action", async () => {
-    createRemix.mockImplementationOnce(() => Promise.resolve({ status: 200 }));
+    mockCreateRemix.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200 }),
+    );
     await remixAction(dispatch, () => initialState);
     expect(dispatch.mock.calls[1][0].type).toBe(
       "editor/remixProject/fulfilled",
@@ -396,7 +406,6 @@ describe("When deleting a project", () => {
     editor: {
       project: {},
       modals: { deleteProject: project },
-      deleteProjectModalShowing: true,
       projectListLoaded: "success",
     },
     auth: { user: { access_token } },
@@ -415,14 +424,14 @@ describe("When deleting a project", () => {
 
   test("Deleting a project triggers deleteProject API call", async () => {
     await deleteAction(dispatch, () => initialState);
-    expect(deleteProject).toHaveBeenCalledWith(
+    expect(mockDeleteProject).toHaveBeenCalledWith(
       project.identifier,
       access_token,
     );
   });
 
   test("Successfully deleting project triggers fulfilled action", async () => {
-    deleteProject.mockImplementationOnce(() =>
+    mockDeleteProject.mockImplementationOnce(() =>
       Promise.resolve({ status: 200 }),
     );
     await deleteAction(dispatch, () => initialState);
@@ -435,93 +444,11 @@ describe("When deleting a project", () => {
     const expectedState = {
       project: {},
       modals: { deleteProject: null },
-      deleteProjectModalShowing: false,
       projectListLoaded: "idle",
     };
     expect(reducer(initialState.editor, deleteThunk.fulfilled({}))).toEqual(
       expectedState,
     );
-  });
-});
-
-describe("When requesting project list", () => {
-  const dispatch = jest.fn();
-  const projects = [{ name: "project1" }, { name: "project2" }];
-  const initialState = {
-    projectList: [],
-    projectListLoaded: "pending",
-    projectIndexCurrentPage: 4,
-  };
-  let loadProjectListThunk;
-
-  beforeEach(() => {
-    loadProjectListThunk = loadProjectList({
-      page: 12,
-      accessToken: "access_token",
-    });
-  });
-
-  test("Loading project list triggers loadProjectList API call", async () => {
-    await loadProjectListThunk(dispatch, () => initialState);
-    expect(readProjectList).toHaveBeenCalledWith(12, "access_token");
-  });
-
-  test("Successfully loading project list triggers fulfilled action", async () => {
-    readProjectList.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200, headers: {} }),
-    );
-    await loadProjectListThunk(dispatch, () => initialState);
-    expect(dispatch.mock.calls[1][0].type).toBe(
-      "editor/loadProjectList/fulfilled",
-    );
-  });
-
-  test("The loadProjectList/fulfilled action with projects returned sets the projectList and total pages", () => {
-    const expectedState = {
-      projectList: projects,
-      projectListLoaded: "success",
-      projectIndexCurrentPage: 4,
-      projectIndexTotalPages: 12,
-    };
-    expect(
-      reducer(
-        initialState,
-        loadProjectList.fulfilled({
-          projects,
-          page: 4,
-          links: { last: { page: 12 } },
-        }),
-      ),
-    ).toEqual(expectedState);
-  });
-
-  test("The loadProjectList/fulfilled action with no projects loads previous page", () => {
-    const expectedState = {
-      projectList: [],
-      projectListLoaded: "idle",
-      projectIndexCurrentPage: 3,
-    };
-    expect(
-      reducer(
-        initialState,
-        loadProjectList.fulfilled({ projects: [], page: 4 }),
-      ),
-    ).toEqual(expectedState);
-  });
-
-  test("The loadProjectList/fulfilled action with no projects on page 1 sets loading to success", () => {
-    const expectedState = {
-      projectList: [],
-      projectListLoaded: "success",
-      projectIndexCurrentPage: 1,
-      projectIndexTotalPages: 1,
-    };
-    expect(
-      reducer(
-        { ...initialState, projectIndexCurrentPage: 1 },
-        loadProjectList.fulfilled({ projects: [], page: 1 }),
-      ),
-    ).toEqual(expectedState);
   });
 });
 
@@ -689,7 +616,11 @@ describe("Loading a project", () => {
 
     test("readProject is called", async () => {
       await loadAction(dispatch, () => initialState);
-      expect(readProject).toHaveBeenCalledWith(identifier, locale, accessToken);
+      expect(mockReadProject).toHaveBeenCalledWith(
+        identifier,
+        locale,
+        accessToken,
+      );
     });
   });
 
@@ -707,7 +638,11 @@ describe("Loading a project", () => {
 
     test("loadAssets is called", async () => {
       await loadAction(dispatch, () => initialState);
-      expect(loadAssets).toHaveBeenCalledWith(identifier, locale, accessToken);
+      expect(mockLoadAssets).toHaveBeenCalledWith(
+        identifier,
+        locale,
+        accessToken,
+      );
     });
   });
 });

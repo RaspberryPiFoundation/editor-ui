@@ -4,7 +4,6 @@ import { isOwner } from "../utils/projectHelpers";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
-  showLoginToSaveModal,
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
@@ -15,6 +14,7 @@ export const useProjectPersistence = ({
   justLoaded,
   hasShownSavePrompt,
   saveTriggered,
+  reactAppApiEndpoint,
 }) => {
   const dispatch = useDispatch();
 
@@ -32,6 +32,7 @@ export const useProjectPersistence = ({
           if (isOwner(user, project)) {
             dispatch(
               syncProject("save")({
+                reactAppApiEndpoint,
                 project,
                 accessToken: user.access_token,
                 autosave: false,
@@ -39,24 +40,27 @@ export const useProjectPersistence = ({
             );
           } else if (user && project.identifier) {
             await dispatch(
-              syncProject("remix")({ project, accessToken: user.access_token }),
+              syncProject("remix")({
+                reactAppApiEndpoint,
+                project,
+                accessToken: user.access_token,
+              }),
             );
             // Ensure the remixed project is loaded, otherwise we'll get in a mess
             dispatch(
               syncProject("loadRemix")({
+                reactAppApiEndpoint,
                 identifier: project.identifier,
                 accessToken: user.access_token,
               }),
             );
-          } else {
-            dispatch(showLoginToSaveModal());
           }
           localStorage.removeItem("awaitingSave");
         }
       }
     };
     saveProject();
-  }, [saveTriggered, project, user, dispatch]);
+  }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint]);
 
   useEffect(() => {
     let debouncer = setTimeout(() => {
@@ -67,6 +71,7 @@ export const useProjectPersistence = ({
           }
           dispatch(
             syncProject("save")({
+              reactAppApiEndpoint,
               project,
               accessToken: user.access_token,
               autosave: true,

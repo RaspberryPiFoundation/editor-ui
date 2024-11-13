@@ -6,10 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.7] - 2024-11-08
+
+### Fixed
+
+- Bug causing py-enigma code to disable stop button
+
+## [0.28.6] - 2024-11-08
+
+### Fixed
+
+- Bug with saving remix caused by not passing prop
+- stopped autoscrolling to top on project content change (#1132)
+- Hight of the sidebar for mobile (#1117)
+
+### Changed
+
+- REACT_APP_API_ENDPOINT env var is now only a default for the editor-wc prop, which can be overridden (#1124)
+- added "Help" link to the information panel in the sidebar as the first link
+
+### Removed
+
+- REACT_APP_AUTHENTICATION_URL env var no longer used and is instead a editor-wc prop (#1124)
+
 ## [0.28.5] - 2024-10-25
 
 ### Fixed
 
+- Fixed pyodide input test and cypress config to enable further pyodide tests (#1125)
 - Image sizing and wrapping in the sidebar (#1126)
 
 ## [0.28.4] - 2024-10-23
@@ -948,7 +972,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.5...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.7...HEAD
+[0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
+[0.28.6]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.6
 [0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5
 [0.28.4]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.4
 [0.28.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.3

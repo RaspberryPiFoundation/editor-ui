@@ -1180,10 +1180,9 @@ describe("When active and first loaded", () => {
     expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
   });
 
-  test("it has style display: flex", () => {
-    expect(document.querySelector(".skulptrunner")).toHaveStyle(
-      "display: flex",
-    );
+  test("it does have active styles", () => {
+    const element = document.querySelector(".skulptrunner");
+    expect(element).toHaveClass("skulptrunner--active");
   });
 });
 
@@ -1215,10 +1214,9 @@ describe("When not active", () => {
     );
   });
 
-  test("it has style display: none", () => {
-    expect(document.querySelector(".skulptrunner")).toHaveStyle(
-      "display: none",
-    );
+  test("it does not have active styles", () => {
+    const element = document.querySelector(".skulptrunner");
+    expect(element).not.toHaveClass("skulptrunner--active");
   });
 });
 
