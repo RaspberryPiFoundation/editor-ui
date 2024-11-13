@@ -471,19 +471,20 @@ const PyodideRunner = ({
           {hasVisual && (
             <div className="output-panel output-panel--visual">
               <Tabs forceRenderTabPanel={true}>
-                {showOutputTabs && (
-                  <div className="react-tabs__tab-container">
-                    <TabList>
-                      <Tab key={0}>
-                        <span className="react-tabs__tab-text">
-                          {t("output.visualOutput")}
-                        </span>
-                      </Tab>
-                    </TabList>
-                    {!isEmbedded && hasVisual && <OutputViewToggle />}
-                    {!isEmbedded && isMobile && <RunnerControls skinny />}
-                  </div>
-                )}
+                <div
+                  className="react-tabs__tab-container"
+                  {...(!showOutputTabs && { style: { display: "none" } })}
+                >
+                  <TabList>
+                    <Tab key={0}>
+                      <span className="react-tabs__tab-text">
+                        {t("output.visualOutput")}
+                      </span>
+                    </Tab>
+                  </TabList>
+                  {!isEmbedded && hasVisual && <OutputViewToggle />}
+                  {!isEmbedded && isMobile && <RunnerControls skinny />}
+                </div>
                 <TabPanel key={0}>
                   <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
                 </TabPanel>
@@ -492,26 +493,27 @@ const PyodideRunner = ({
           )}
           <div className="output-panel output-panel--text">
             <Tabs forceRenderTabPanel={true}>
-              {showOutputTabs && (
-                <div className="react-tabs__tab-container">
-                  <TabList>
-                    <Tab key={0}>
-                      <span className="react-tabs__tab-text">
-                        {t("output.textOutput")}
-                      </span>
+              <div
+                className="react-tabs__tab-container"
+                {...(!showOutputTabs && { style: { display: "none" } })}
+              >
+                <TabList>
+                  <Tab key={0}>
+                    <span className="react-tabs__tab-text">
+                      {t("output.textOutput")}
+                    </span>
+                  </Tab>
+                  {!isOutputOnly && (
+                    <Tab key={1}>
+                      <span className="react-tabs__tab-text">Console</span>
                     </Tab>
-                    {!isOutputOnly && (
-                      <Tab key={1}>
-                        <span className="react-tabs__tab-text">Console</span>
-                      </Tab>
-                    )}
-                  </TabList>
-
-                  {!hasVisual && !isEmbedded && isMobile && (
-                    <RunnerControls skinny />
                   )}
-                </div>
-              )}
+                </TabList>
+
+                {!hasVisual && !isEmbedded && isMobile && (
+                  <RunnerControls skinny />
+                )}
+              </div>
               <ErrorMessage />
               <TabPanel key={0}>
                 <pre
@@ -535,31 +537,32 @@ const PyodideRunner = ({
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
-          {showOutputTabs && (
-            <div className="react-tabs__tab-container">
-              <TabList>
-                {hasVisual && (
-                  <Tab key={0}>
-                    <span className="react-tabs__tab-text">
-                      {t("output.visualOutput")}
-                    </span>
-                  </Tab>
-                )}
-                <Tab key={1}>
+          <div
+            className="react-tabs__tab-container"
+            {...(!showOutputTabs && { style: { display: "none" } })}
+          >
+            <TabList>
+              {hasVisual && (
+                <Tab key={0}>
                   <span className="react-tabs__tab-text">
-                    {t("output.textOutput")}
+                    {t("output.visualOutput")}
                   </span>
                 </Tab>
-                {/* {!isOutputOnly && (
+              )}
+              <Tab key={1}>
+                <span className="react-tabs__tab-text">
+                  {t("output.textOutput")}
+                </span>
+              </Tab>
+              {/* {!isOutputOnly && (
                 <Tab key={2}>
                   <span className="react-tabs__tab-text">Console</span>
                 </Tab>
               )} */}
-              </TabList>
-              {!isEmbedded && hasVisual && <OutputViewToggle />}
-              {!isEmbedded && isMobile && <RunnerControls skinny />}
-            </div>
-          )}
+            </TabList>
+            {!isEmbedded && hasVisual && <OutputViewToggle />}
+            {!isEmbedded && isMobile && <RunnerControls skinny />}
+          </div>
 
           <ErrorMessage />
           {hasVisual && (
