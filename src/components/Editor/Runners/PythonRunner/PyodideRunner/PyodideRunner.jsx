@@ -517,7 +517,7 @@ const PyodideRunner = ({
                 <TabPanel key={1}>
                   <iframe
                     title="console"
-                    src={`http://localhost:3012/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}&showOutputTabs=false`}
+                    src={`${process.env.EDITOR_STANDALONE_URL}/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}&showOutputTabs=false`}
                     crossOrigin
                     style={{ width: "100%", height: "100%" }}
                   />
