@@ -20,7 +20,7 @@ on:
         type: string
       editor_standalone_url:
           required: false
-          default: "https://https://ipython-spike.editor-standalone-staging.pages.dev"
+          default: "https://ipython-spike.editor-standalone-staging.pages.dev"
           type: string
       react_app_api_endpoint:
         required: false
