@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Bug causing py-enigma code to disable stop button
 
+### Changed
+
+- Docker config matches standalone, and bumped to node 18 (for parity)
+- Runs yarn install when the container starts to avoid doing this manually
+
 ## [0.28.6] - 2024-11-08
 
 ### Fixed
