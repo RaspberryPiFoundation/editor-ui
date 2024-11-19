@@ -21,6 +21,8 @@ import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
 
+const MAX_CHARACTERS = 1000000;
+
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
   const project = useSelector((state) => state.editor.project);
@@ -86,6 +88,14 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       customIndentUnit = "    ";
     }
 
+    const limitCharacters = EditorState.transactionFilter.of((transaction) => {
+      const newDoc = transaction.newDoc;
+      if (newDoc.length > MAX_CHARACTERS) {
+        return [];
+      }
+      return transaction;
+    })
+
     const startState = EditorState.create({
       doc: code,
       extensions: [
@@ -98,6 +108,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         indentationMarkers(),
         indentUnit.of(customIndentUnit),
         EditorView.editable.of(!readOnly),
+        limitCharacters
       ],
     });
 
