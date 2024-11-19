@@ -21,7 +21,7 @@ import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
 
-const MAX_CHARACTERS = 1000000;
+const MAX_CHARACTERS = 8500000;
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
