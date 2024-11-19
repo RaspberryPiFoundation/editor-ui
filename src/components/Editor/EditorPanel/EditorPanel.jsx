@@ -94,7 +94,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         return [];
       }
       return transaction;
-    })
+    });
 
     const startState = EditorState.create({
       doc: code,
@@ -108,7 +108,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         indentationMarkers(),
         indentUnit.of(customIndentUnit),
         EditorView.editable.of(!readOnly),
-        limitCharacters
+        limitCharacters,
       ],
     });
 
