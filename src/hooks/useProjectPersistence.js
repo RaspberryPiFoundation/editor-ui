@@ -8,6 +8,8 @@ import {
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
+const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
+
 export const useProjectPersistence = ({
   user,
   project = {},
@@ -19,7 +21,7 @@ export const useProjectPersistence = ({
   const dispatch = useDispatch();
 
   const combinedFileSize = project.components?.reduce((sum, component) => sum + component.content.length, 0);
-  const autoSaveInterval = combinedFileSize > 1000000 ? 10000 : 2000;
+  const autoSaveInterval = combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
 
   const saveToLocalStorage = (project) => {
     localStorage.setItem(
