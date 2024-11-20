@@ -18,6 +18,9 @@ export const useProjectPersistence = ({
 }) => {
   const dispatch = useDispatch();
 
+  const combinedFileSize = project.components?.reduce((sum, component) => sum + component.content.length, 0);
+  const autoSaveFrequency = combinedFileSize > 1000000 ? 10000 : 2000;
+
   const saveToLocalStorage = (project) => {
     localStorage.setItem(
       project.identifier || "project",
@@ -90,7 +93,7 @@ export const useProjectPersistence = ({
           }
         }
       }
-    }, 2000);
+    }, autoSaveFrequency);
 
     return () => clearTimeout(debouncer);
   }, [dispatch, project, user, hasShownSavePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
