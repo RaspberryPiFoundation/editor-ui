@@ -123,6 +123,8 @@ i18n
           },
           editorPanel: {
             ariaLabel: "editor text input",
+            characterLimitError: "Error: Character limit reached",
+            characterLimitExplanation: "Files in the editor are limited to {{maxCharacters}} characters",
             viewOnly: "View only",
           },
           filePanel: {
