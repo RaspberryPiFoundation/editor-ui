@@ -141,11 +141,15 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   return (
     <>
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
-      {
-        characterLimitExceeded && (
-          <Alert title={t("editorPanel.characterLimitError")} type='error' text={t("editorPanel.characterLimitExplanation", { maxCharacters: MAX_CHARACTERS })} />
-        )
-      }
+      {characterLimitExceeded && (
+        <Alert
+          title={t("editorPanel.characterLimitError")}
+          type="error"
+          text={t("editorPanel.characterLimitExplanation", {
+            maxCharacters: MAX_CHARACTERS,
+          })}
+        />
+      )}
     </>
   );
 };
