@@ -20,8 +20,12 @@ export const useProjectPersistence = ({
 }) => {
   const dispatch = useDispatch();
 
-  const combinedFileSize = project.components?.reduce((sum, component) => sum + component.content.length, 0);
-  const autoSaveInterval = combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
+  const combinedFileSize = project.components?.reduce(
+    (sum, component) => sum + component.content.length,
+    0,
+  );
+  const autoSaveInterval =
+    combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
 
   const saveToLocalStorage = (project) => {
     localStorage.setItem(
