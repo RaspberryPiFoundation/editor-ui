@@ -2835,6 +2835,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@raspberrypifoundation/design-system-core@npm:^1.6.0":
+  version: 1.6.1
+  resolution: "@raspberrypifoundation/design-system-core@npm:1.6.1"
+  dependencies:
+    classnames: ^2.3.2
+  checksum: a204d21a373e89b08a2cda763591f7be22c5d72c2974f1cd6f4331fe5c29f3816979e0a1224e7f15cfd03190f28e171329e5e729e2ffec8ea00ca8910406a1a9
+  languageName: node
+  linkType: hard
+
+"@raspberrypifoundation/design-system-react@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@raspberrypifoundation/design-system-react@npm:1.6.0"
+  dependencies:
+    classnames: ^2.3.2
+    material-symbols: ^0.14.5
+    prop-types: ^15.8.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-router-dom: ^6.24.0
+  peerDependencies:
+    react-router-dom: ^6.24.0
+  checksum: 6bb6341f90d3c4fa569817813de7a1a9e69a23c12ca2cf0f20d47b9d0954771e237bda27eedba93b91a0d1d81fca32e155415ddc902947630711b38583f97ac5
+  languageName: node
+  linkType: hard
+
 "@reduxjs/toolkit@npm:^1.8.3":
   version: 1.9.5
   resolution: "@reduxjs/toolkit@npm:1.9.5"
@@ -2859,6 +2884,13 @@ __metadata:
   version: 1.11.0
   resolution: "@remix-run/router@npm:1.11.0"
   checksum: 1966436ab3ab982862195e4871790644ce21e01511aa3f4350436296224e4dec2e6ee35f1f4cb83db69f7aa0e8ad4a0a01928b05359ae654edc8e2aa82bf754b
+  languageName: node
+  linkType: hard
+
+"@remix-run/router@npm:1.21.0":
+  version: 1.21.0
+  resolution: "@remix-run/router@npm:1.21.0"
+  checksum: d9477a7772053ad0ffcf03385cfb1a54e56f8a56d1f9f5062de3b1dfcbd019dd73282a00a5a72aa55c120771110982448c165c1405d64540aaef13051a8e45cc
   languageName: node
   linkType: hard
 
@@ -6651,6 +6683,13 @@ __metadata:
     isobject: ^3.0.0
     static-extend: ^0.1.1
   checksum: be108900801e639e50f96a7e4bfa8867c753a7750a7603879f3981f8b0a89cba657497a2d5f40cd4ea557ff15d535a100818bb486baf6e26fe5d7872e75f1078
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.3.2":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
   languageName: node
   linkType: hard
 
@@ -11007,6 +11046,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"material-symbols@npm:^0.14.5":
+  version: 0.14.7
+  resolution: "material-symbols@npm:0.14.7"
+  checksum: 191dea0145eadabd3122b891b965d8568793c3f53a540186a30b459948a8a0c00938642dcca3c4fcca483b08d7480d02722c6de10caeeeae30437306a79f64b6
+  languageName: node
+  linkType: hard
+
 "md5.js@npm:^1.3.4":
   version: 1.3.5
   resolution: "md5.js@npm:1.3.5"
@@ -13204,7 +13250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.0.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.0.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -13470,6 +13516,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18.2.0":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.2
+  peerDependencies:
+    react: ^18.3.1
+  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
+  languageName: node
+  linkType: hard
+
 "react-element-to-jsx-string@npm:^14.3.4":
   version: 14.3.4
   resolution: "react-element-to-jsx-string@npm:14.3.4"
@@ -13591,6 +13649,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.24.0":
+  version: 6.28.0
+  resolution: "react-router-dom@npm:6.28.0"
+  dependencies:
+    "@remix-run/router": 1.21.0
+    react-router: 6.28.0
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 0cf4658a92bc66f50ec9d8518c36aa5a402bcadce71fb624ed6f900d73a29ea87ff904a4f2c42279107e75e80cc08c6192563fadcc5d4e642e6d476e38e83b21
+  languageName: node
+  linkType: hard
+
 "react-router@npm:6.18.0":
   version: 6.18.0
   resolution: "react-router@npm:6.18.0"
@@ -13599,6 +13670,17 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 03e9a23c5b75d8813720745e2952bb9e62ec310d238cde4f19e0ce73582701fa5e04cf609ff9ced978e9e6c531b5e333b9aee35371e6c4743afc2829e32e926a
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.28.0":
+  version: 6.28.0
+  resolution: "react-router@npm:6.28.0"
+  dependencies:
+    "@remix-run/router": 1.21.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 23246ca957b5c2bc8d6f9a81fee2df2ce4fc3feca3ec27c2fd85999568fc1299a4e8273e4ab70b6f3acd43a1fb45e0c93cb01ef77e68c9f9e1f7e4f42a1419ea
   languageName: node
   linkType: hard
 
@@ -13627,6 +13709,15 @@ __metadata:
     object-assign: ^4.1.1
     prop-types: ^15.6.2
   checksum: 8484f3ecb13414526f2a7412190575fc134da785c02695eb92bb6028c930bfe1c238d7be2a125088fec663cc7cda0a3623373c46807cf2c281f49c34b79881ac
+  languageName: node
+  linkType: hard
+
+"react@npm:^18.2.0":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
   languageName: node
   linkType: hard
 
@@ -14246,6 +14337,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"scheduler@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
+  languageName: node
+  linkType: hard
+
 "schema-utils@npm:2.7.0":
   version: 2.7.0
   resolution: "schema-utils@npm:2.7.0"
@@ -14862,6 +14962,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook@workspace:."
   dependencies:
+    "@raspberrypifoundation/design-system-core": ^1.6.0
+    "@raspberrypifoundation/design-system-react": ^1.6.0
     "@reduxjs/toolkit": ^1.8.3
     "@storybook/addon-actions": 6.5.10
     "@storybook/addon-essentials": 6.5.10
