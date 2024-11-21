@@ -64,6 +64,7 @@ module.exports = {
     });
     // add the app to allow alias imports
     config.resolve.modules.push(path.resolve(__dirname, "../../src"));
+    config.resolve.modules.push("../__webpack__");
     return config;
   },
   managerWebpack: async (config) => {

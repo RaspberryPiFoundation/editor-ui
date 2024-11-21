@@ -1,7 +1,7 @@
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import EditorPanel from "./EditorPanel";
 
@@ -86,5 +86,50 @@ describe("When read only", () => {
   test("Editor is not read only", async () => {
     const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
     expect(editorInputArea).toHaveAttribute("contenteditable", "false");
+  });
+});
+
+describe("When excessive file content is pasted into the editor", () => {
+  beforeEach(() => {
+    renderEditorPanel({ readOnly: false });
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    const massiveFileContent = "mango".repeat(2000000);
+    fireEvent.paste(editorInputArea, {
+      clipboardData: {
+        getData: () => massiveFileContent,
+      },
+    });
+  });
+
+  test("It does not display the file content", () => {
+    expect(screen.queryByText(/mango/)).not.toBeInTheDocument();
+  });
+
+  test("Character limit exceeded message is displayed", () => {
+    expect(
+      screen.getByText("editorPanel.characterLimitError"),
+    ).toBeInTheDocument();
+  });
+
+  test("It allows the user to input text below the limit", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    fireEvent.paste(editorInputArea, {
+      clipboardData: {
+        getData: () => "mango",
+      },
+    });
+    expect(screen.getByText("mango")).toBeInTheDocument();
+  });
+
+  test("It removes the character limit exceeded message when the user inputs text below the limit", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    fireEvent.paste(editorInputArea, {
+      clipboardData: {
+        getData: () => "mango",
+      },
+    });
+    expect(
+      screen.queryByText("editorPanel.characterLimitError"),
+    ).not.toBeInTheDocument();
   });
 });

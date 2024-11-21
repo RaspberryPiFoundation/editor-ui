@@ -4,9 +4,11 @@
   "version": "0.1.0",
   "scripts": {
     "storybook": "PORT=6006 start-storybook -p 6006 --no-manager-cache",
-    "build-storybook": "build-storybook"
+    "build-storybook": "yarn install && build-storybook"
   },
   "dependencies": {
+    "@raspberrypifoundation/design-system-core": "^1.6.0",
+    "@raspberrypifoundation/design-system-react": "^1.6.0",
     "@reduxjs/toolkit": "^1.8.3",
     "@storybook/addon-actions": "6.5.10",
     "@storybook/addon-essentials": "6.5.10",
