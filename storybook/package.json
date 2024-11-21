@@ -49,5 +49,9 @@
       }
     ]
   },
-  "baseUrl": "../src"
+  "baseUrl": "../src",
+  "description": "This directory contains the config and dependencies for separate Storybook instance alongside an application.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
