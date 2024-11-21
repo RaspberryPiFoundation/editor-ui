@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "storybook": "PORT=6006 start-storybook -p 6006 --no-manager-cache",
-    "build-storybook": "build-storybook"
+    "build-storybook": "yarn install && build-storybook"
   },
   "dependencies": {
     "@raspberrypifoundation/design-system-core": "^1.6.0",
