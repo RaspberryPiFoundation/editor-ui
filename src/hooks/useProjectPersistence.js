@@ -8,6 +8,8 @@ import {
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
+const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
+
 export const useProjectPersistence = ({
   user,
   project = {},
@@ -17,6 +19,13 @@ export const useProjectPersistence = ({
   reactAppApiEndpoint,
 }) => {
   const dispatch = useDispatch();
+
+  const combinedFileSize = project.components?.reduce(
+    (sum, component) => sum + component.content.length,
+    0,
+  );
+  const autoSaveInterval =
+    combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
 
   const saveToLocalStorage = (project) => {
     localStorage.setItem(
@@ -90,7 +99,7 @@ export const useProjectPersistence = ({
           }
         }
       }
-    }, 2000);
+    }, autoSaveInterval);
 
     return () => clearTimeout(debouncer);
   }, [dispatch, project, user, hasShownSavePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
