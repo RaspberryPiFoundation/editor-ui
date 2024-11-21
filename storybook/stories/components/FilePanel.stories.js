@@ -1,5 +1,5 @@
 import React from "react";
-import FilePanel from "components/Menus/Sidebar/FilePanel/FilePanel";
+import FilePanel from "../../../src/components/Menus/Sidebar/FilePanel/FilePanel";
 import MockStore from "../../store/MockStore";
 
 export default {

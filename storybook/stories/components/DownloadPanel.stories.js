@@ -1,5 +1,5 @@
 import React from "react";
-import DownloadPanel from "components/Menus/Sidebar/DownloadPanel/DownloadPanel";
+import DownloadPanel from "../../../src/components/Menus/Sidebar/DownloadPanel/DownloadPanel";
 import MockStore from "../../store/MockStore";
 
 export default {
