@@ -3099,13 +3099,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.21.0":
-  version: 1.21.0
-  resolution: "@remix-run/router@npm:1.21.0"
-  checksum: d9477a7772053ad0ffcf03385cfb1a54e56f8a56d1f9f5062de3b1dfcbd019dd73282a00a5a72aa55c120771110982448c165c1405d64540aaef13051a8e45cc
-  languageName: node
-  linkType: hard
-
 "@replit/codemirror-indentation-markers@npm:^6.1.0":
   version: 6.5.3
   resolution: "@replit/codemirror-indentation-markers@npm:6.5.3"
@@ -14920,11 +14913,11 @@ __metadata:
   linkType: hard
 
 "psl@npm:^1.1.28, psl@npm:^1.1.33":
-  version: 1.11.0
-  resolution: "psl@npm:1.11.0"
+  version: 1.12.0
+  resolution: "psl@npm:1.12.0"
   dependencies:
     punycode: ^2.3.1
-  checksum: c4ab2533a41c993d7cc68c4174c7212df0e3ee7cfbc674da0df3e714a58537652f8838175239fb4dbd371c5e50d6ce475f57bc9e4e4014a1ca2ffc5414edc95d
+  checksum: 45c46690ecbe9b2d98a8dcfa2d037130882778f46c7a550db495fb23e1b5043bfeb4cba3e5aadac748f61346cd0f851e14cad851daa8f58b69cdbac90bcadcc6
   languageName: node
   linkType: hard
 
@@ -15422,17 +15415,6 @@ __metadata:
     react: ">=16.8"
     react-dom: ">=16.8"
   checksum: 0cf4658a92bc66f50ec9d8518c36aa5a402bcadce71fb624ed6f900d73a29ea87ff904a4f2c42279107e75e80cc08c6192563fadcc5d4e642e6d476e38e83b21
-  languageName: node
-  linkType: hard
-
-"react-router@npm:6.28.0":
-  version: 6.28.0
-  resolution: "react-router@npm:6.28.0"
-  dependencies:
-    "@remix-run/router": 1.21.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: 23246ca957b5c2bc8d6f9a81fee2df2ce4fc3feca3ec27c2fd85999568fc1299a4e8273e4ab70b6f3acd43a1fb45e0c93cb01ef77e68c9f9e1f7e4f42a1419ea
   languageName: node
   linkType: hard
 
