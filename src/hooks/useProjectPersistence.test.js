@@ -314,6 +314,34 @@ describe("When logged in", () => {
       });
     });
 
+    test("Increases save interval for large projects", async () => {
+      const largeProject = {
+        ...project,
+        components: [
+          {
+            name: "main",
+            extension: "py",
+            content: "mango".repeat(200001),
+          },
+        ],
+      };
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: largeProject,
+          saveTriggered: false,
+        }),
+      );
+      jest.advanceTimersByTime(2500);
+      expect(saveProject).not.toHaveBeenCalled();
+      jest.runAllTimers();
+      expect(saveProject).toHaveBeenCalledWith({
+        project: largeProject,
+        accessToken: user1.access_token,
+        autosave: true,
+      });
+    });
+
     test("Saves project to database if save triggered", async () => {
       renderHook(() =>
         useProjectPersistence({
