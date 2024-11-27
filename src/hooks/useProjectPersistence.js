@@ -17,6 +17,7 @@ export const useProjectPersistence = ({
   hasShownSavePrompt,
   saveTriggered,
   reactAppApiEndpoint,
+  loadRemix = true,
 }) => {
   const dispatch = useDispatch();
 
@@ -56,20 +57,22 @@ export const useProjectPersistence = ({
               }),
             );
             // Ensure the remixed project is loaded, otherwise we'll get in a mess
-            dispatch(
-              syncProject("loadRemix")({
-                reactAppApiEndpoint,
-                identifier: project.identifier,
-                accessToken: user.access_token,
-              }),
-            );
+            if (loadRemix) {
+              dispatch(
+                syncProject("loadRemix")({
+                  reactAppApiEndpoint,
+                  identifier: project.identifier,
+                  accessToken: user.access_token,
+                }),
+              );
+            }
           }
           localStorage.removeItem("awaitingSave");
         }
       }
     };
     saveProject();
-  }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint]);
+  }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint, loadRemix]);
 
   useEffect(() => {
     let debouncer = setTimeout(() => {

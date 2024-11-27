@@ -248,6 +248,35 @@ describe("When logged in", () => {
       });
     });
 
+    describe("When project has identifier and save triggered without loadRemix", () => {
+      beforeEach(() => {
+        syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
+        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+
+        renderHook(() =>
+          useProjectPersistence({
+            user: user2,
+            project: project,
+            saveTriggered: true,
+            loadRemix: false,
+          }),
+        );
+        jest.runAllTimers();
+      });
+
+      test("Clicking save dispatches remixProject with correct parameters", async () => {
+        await expect(remixProject).toHaveBeenCalledWith({
+          project: project,
+          accessToken: user2.access_token,
+        });
+      });
+
+      test("loadRemix is not dispatched after project is remixed", async () => {
+        await remixProject();
+        await expect(loadProject).not.toHaveBeenCalled();
+      });
+    });
+
     describe("When project has no identifier and awaiting save", () => {
       beforeEach(() => {
         localStorage.setItem("awaitingSave", "true");

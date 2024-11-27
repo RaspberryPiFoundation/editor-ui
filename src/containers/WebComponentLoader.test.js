@@ -200,6 +200,7 @@ describe("When no user is in state", () => {
         project: {
           components: [],
         },
+        loadRemix: false,
         hasShownSavePrompt: true,
         justLoaded: false,
         user: null,
@@ -337,6 +338,7 @@ describe("When no user is in state", () => {
       expect(useProjectPersistence).toHaveBeenCalledWith({
         user,
         project: { components: [] },
+        loadRemix: true,
         hasShownSavePrompt: true,
         justLoaded: false,
         saveTriggered: false,
@@ -496,6 +498,7 @@ describe("When user is in state", () => {
           reactAppApiEndpoint: "http://localhost:3009",
           user,
           project: { components: [] },
+          loadRemix: true,
           hasShownSavePrompt: true,
           justLoaded: false,
           saveTriggered: false,
