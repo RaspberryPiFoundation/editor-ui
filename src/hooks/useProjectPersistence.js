@@ -17,7 +17,7 @@ export const useProjectPersistence = ({
   hasShownSavePrompt,
   saveTriggered,
   reactAppApiEndpoint,
-  loadRemix = false,
+  loadRemix = true,
 }) => {
   const dispatch = useDispatch();
 
@@ -72,7 +72,7 @@ export const useProjectPersistence = ({
       }
     };
     saveProject();
-  }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint]);
+  }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint, loadRemix]);
 
   useEffect(() => {
     let debouncer = setTimeout(() => {
