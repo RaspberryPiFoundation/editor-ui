@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.28.9] - 2024-11-27
 
 ### Fixed
 
@@ -987,7 +987,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.8...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.9...HEAD
+[0.28.9]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.9
 [0.28.8]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.8
 [0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
 [0.28.6]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.6
