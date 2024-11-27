@@ -121,25 +121,31 @@ describe("Running the code with skulpt", () => {
     runCode("import sense_hat");
     cy.get("editor-wc")
       .shadow()
-      .find("#root")
+      .find(".skulptrunner")
       .should("contain", "Visual output");
   });
 
   it("does not render astro pi component on page load", () => {
-    cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .should("not.contain", "yaw");
   });
 
   it("renders astro pi component if sense hat imported", () => {
     runCode("import sense_hat");
     cy.get("editor-wc").shadow().contains("Visual output").click();
-    cy.get("editor-wc").shadow().find("#root").should("contain", "yaw");
+    cy.get("editor-wc").shadow().find(".skulptrunner").should("contain", "yaw");
   });
 
   it("does not render astro pi component if sense hat unimported", () => {
     runCode("import sense_hat");
     runCode("import p5");
     cy.get("editor-wc").shadow().contains("Visual output").click();
-    cy.get("editor-wc").shadow().find("#root").should("not.contain", "yaw");
+    cy.get("editor-wc")
+      .shadow()
+      .find(".skulptrunner")
+      .should("not.contain", "yaw");
   });
 
   it("runs a simple turtle program", () => {

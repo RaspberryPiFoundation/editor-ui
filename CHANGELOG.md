@@ -6,11 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.8] - 2024-11-21
+
+### Fixed
+
+- Crashing caused by excessive file sizes (#1138)
+
 ## [0.28.7] - 2024-11-08
 
 ### Fixed
 
 - Bug causing py-enigma code to disable stop button
+
+### Changed
+
+- Docker config matches standalone, and bumped to node 18 (for parity)
+- Runs yarn install when the container starts to avoid doing this manually
 
 ## [0.28.6] - 2024-11-08
 
@@ -972,7 +983,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.7...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.8...HEAD
+[0.28.8]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.8
 [0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
 [0.28.6]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.6
 [0.28.5]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.5

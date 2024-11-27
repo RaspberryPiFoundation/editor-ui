@@ -129,9 +129,10 @@ jobs:
 
       - name: Build WC bundle
         run: |
-          if [[ "${{ inputs.environment }}" != "production" ]]; then
-            yarn build:dev
-          fi
+          # TODO: Reinitialise when storybook build is fixed
+          # if [[ "${{ inputs.environment }}" != "production" ]]; then
+          #   yarn build:dev
+          # fi
           yarn build
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
