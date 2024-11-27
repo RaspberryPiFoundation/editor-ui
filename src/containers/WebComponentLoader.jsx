@@ -137,6 +137,7 @@ const WebComponentLoader = (props) => {
     justLoaded,
     hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
+    loadRemix: loadRemix && !loadRemixDisabled,
   });
 
   useEffect(() => {
