@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Auto loading remixes when loadRemixDisabled is explicitly set (#1145)
+
 ## [0.28.8] - 2024-11-21
 
 ### Fixed
