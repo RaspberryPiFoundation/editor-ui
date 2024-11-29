@@ -106,8 +106,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     if (active) {
       if (codeRunTriggered) {
         runCode();
-      } else if (!senseHatAlwaysEnabled) {
-        setCodeHasVisualOutput(false);
       }
     }
   }, [codeRunTriggered, active]);
@@ -403,7 +401,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       })
       .finally(() => {
         dispatch(codeRunHandled());
-        setCodeHasVisualOutput(false);
       });
     myPromise.then(function (_mod) {});
   };
