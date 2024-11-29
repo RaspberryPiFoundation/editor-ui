@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.10] - 2024-11-29
+
 ### Fixed
 
 - Enable p5 code to be ran multiple times without runner errors (#1147)
@@ -993,7 +995,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.9...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.10...HEAD
+[0.28.10]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.10
 [0.28.9]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.9
 [0.28.8]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.8
 [0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
