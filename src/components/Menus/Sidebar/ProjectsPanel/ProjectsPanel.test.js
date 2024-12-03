@@ -25,7 +25,7 @@ const renderProjectsPanel = (state) => {
       <MemoryRouter>
         <ProjectsPanel t={() => {}} />
       </MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -37,7 +37,7 @@ describe("Projects Panel", () => {
 
     test("Projects button is not visible", () => {
       expect(
-        screen.queryByText("projectsPanel.yourProjectsButton")
+        screen.queryByText("projectsPanel.yourProjectsButton"),
       ).not.toBeInTheDocument();
     });
 
@@ -65,13 +65,13 @@ describe("Projects Panel", () => {
 
     test("Projects button is visible", () => {
       expect(
-        screen.queryByText("projectsPanel.yourProjectsButton")
+        screen.queryByText("projectsPanel.yourProjectsButton"),
       ).toBeInTheDocument();
     });
 
     test("Clicking projects button dispatches navigateToProjectsPageEvent", () => {
       const projectsPageButton = screen.getByText(
-        "projectsPanel.yourProjectsButton"
+        "projectsPanel.yourProjectsButton",
       );
       projectsPageButton.click();
       expect(document.dispatchEvent).toHaveBeenCalledWith(
@@ -79,7 +79,7 @@ describe("Projects Panel", () => {
           bubbles: true,
           cancelable: false,
           composed: true,
-        })
+        }),
       );
     });
   });
@@ -111,7 +111,7 @@ describe("Projects Panel", () => {
 
     test("Project name is not editable", () => {
       expect(
-        screen.queryByTitle("header.renameProject")
+        screen.queryByTitle("header.renameProject"),
       ).not.toBeInTheDocument();
     });
   });
