@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.11] - 2024-12-03
+
+### Fixed
+
+- Link to "Your projects" page (#1149)
+
 ## [0.28.10] - 2024-11-29
 
 ### Fixed
@@ -995,7 +1001,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.10...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.11...HEAD
+[0.28.11]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.11
 [0.28.10]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.10
 [0.28.9]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.9
 [0.28.8]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.8
