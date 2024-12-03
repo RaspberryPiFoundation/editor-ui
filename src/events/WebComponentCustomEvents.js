@@ -8,6 +8,10 @@ const webComponentCustomEvent = (type, detail) =>
 
 export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
 
+export const navigateToProjectsPageEvent = webComponentCustomEvent(
+  "editor-navigateToProjectsPage"
+);
+
 export const projectIdentifierChangedEvent = (detail) =>
   webComponentCustomEvent("editor-projectIdentifierChanged", detail);
 

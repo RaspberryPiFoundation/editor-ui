@@ -13,12 +13,10 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
 
 const ProjectsPanel = () => {
-  const {
-    t,
-    i18n: { language: locale },
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const isLoggedIn = useSelector((state) => state?.auth?.user);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
@@ -35,6 +33,10 @@ const ProjectsPanel = () => {
     </>
   );
 
+  const navigateToProjectsPage = () => {
+    document.dispatchEvent(navigateToProjectsPageEvent);
+  };
+
   return (
     <SidebarPanel
       heading={t("projectsPanel.projects")}
@@ -42,7 +44,7 @@ const ProjectsPanel = () => {
         isLoggedIn && (
           <DesignSystemButton
             className="btn--primary projects-panel__your-projects-button"
-            href={`/${locale}/projects`}
+            onClick={navigateToProjectsPage}
             text={t("projectsPanel.yourProjectsButton")}
           />
         )
