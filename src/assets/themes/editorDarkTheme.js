@@ -20,6 +20,9 @@ export const editorDarkTheme = EditorView.theme(
     "&.cm-focused.ͼ3 .cm-selectionLayer .cm-selectionBackground": {
       backgroundColor: "#144866",
     },
+    ".cm-selectionMatch": {
+      backgroundColor: "rgba(153, 255, 119, 0.2)",
+    },
     "&.cm-focused .cm-cursor": {
       borderLeftColor: "white",
     },
