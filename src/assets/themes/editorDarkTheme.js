@@ -17,8 +17,8 @@ export const editorDarkTheme = EditorView.theme(
       "background-color": "inherit",
       color: "inherit",
     },
-    "&.cm-focused .cm-selectionBackground, ::selection": {
-      background: "#144866",
+    "&.cm-focused.ͼ3 .cm-selectionLayer .cm-selectionBackground": {
+      backgroundColor: "#144866",
     },
     "&.cm-focused .cm-cursor": {
       borderLeftColor: "white",
@@ -42,5 +42,5 @@ export const editorDarkTheme = EditorView.theme(
     ".ͼj": { color: "#9EE8FF" },
     ".ͼm": { color: "#FFCA99" },
   },
-  { dark: true },
+  { dark: true }
 );
