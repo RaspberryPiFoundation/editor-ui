@@ -42,5 +42,5 @@ export const editorDarkTheme = EditorView.theme(
     ".ͼj": { color: "#9EE8FF" },
     ".ͼm": { color: "#FFCA99" },
   },
-  { dark: true }
+  { dark: true },
 );
