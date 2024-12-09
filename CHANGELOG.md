@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.28.12] - 2024-12-09
+
 ### Fixed
 
 - Selected text background colour contrast in editor dark mode (#1150)
@@ -1009,7 +1011,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.11...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.12...HEAD
+[0.28.12]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.12
 [0.28.11]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.11
 [0.28.10]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.10
 [0.28.9]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.9
