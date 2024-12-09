@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Selected text background colour contrast in editor dark mode (#1150)
+
+### Changed
+
+- Toned down the match highlighting colour in editor dark mode (#1150)
+
 ## [0.28.11] - 2024-12-03
 
 ### Fixed
