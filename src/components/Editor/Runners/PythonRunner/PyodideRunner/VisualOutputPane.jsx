@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
-import { updateProjectComponent } from "../../../../../redux/EditorSlice";
+import {
+  addProjectComponent,
+  updateProjectComponent,
+} from "../../../../../redux/EditorSlice";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
@@ -68,23 +71,29 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         console.log("from the main thread:", visual);
         const content = JSON.parse(visual.content.replace(/'/g, '"'));
         const [name, extension] = content.filename.split(".");
+        const componentToUpdate = project.components.find(
+          (item) => item.extension === extension && item.name === name
+        );
         let updatedContent;
         if (content.mode === "w") {
           updatedContent = content.content;
         } else if (content.mode === "a") {
-          const componentToUpdate = project.components.find(
-            (item) => item.extension === extension && item.name === name
-          );
           updatedContent = componentToUpdate.content + "\n" + content.content;
         }
 
-        dispatch(
-          updateProjectComponent({
-            extension: extension,
-            name: name,
-            code: updatedContent,
-          })
-        );
+        if (componentToUpdate) {
+          dispatch(
+            updateProjectComponent({
+              extension,
+              name,
+              code: updatedContent,
+            })
+          );
+        } else {
+          dispatch(
+            addProjectComponent({ name, extension, content: updatedContent })
+          );
+        }
         break;
       default:
         throw new Error(`Unsupported origin: ${visual.origin}`);
