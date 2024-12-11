@@ -6,6 +6,8 @@ import { MemoryRouter } from "react-router-dom";
 
 import ProjectsPanel from "./ProjectsPanel";
 
+document.dispatchEvent = jest.fn();
+
 const initialState = {
   editor: {
     project: {
@@ -65,6 +67,20 @@ describe("Projects Panel", () => {
       expect(
         screen.queryByText("projectsPanel.yourProjectsButton"),
       ).toBeInTheDocument();
+    });
+
+    test("Clicking projects button dispatches navigateToProjectsPageEvent", () => {
+      const projectsPageButton = screen.getByText(
+        "projectsPanel.yourProjectsButton",
+      );
+      projectsPageButton.click();
+      expect(document.dispatchEvent).toHaveBeenCalledWith(
+        new CustomEvent("editor-navigateToProjectsPageEvent", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        }),
+      );
     });
   });
 

@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+## [0.28.12] - 2024-12-09
+
+### Fixed
+
+- Selected text background colour contrast in editor dark mode (#1150)
+
+### Changed
+
+- Toned down the match highlighting colour in editor dark mode (#1150)
+
+## [0.28.11] - 2024-12-03
+
+### Fixed
+
+- Link to "Your projects" page (#1149)
+
+## [0.28.10] - 2024-11-29
+
+### Fixed
+
+- Enable p5 code to be ran multiple times without runner errors (#1147)
+
 ## [0.28.9] - 2024-11-27
 
 ### Fixed
@@ -987,7 +1011,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.9...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.12...HEAD
+[0.28.12]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.12
+[0.28.11]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.11
+[0.28.10]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.10
 [0.28.9]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.9
 [0.28.8]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.8
 [0.28.7]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.7
