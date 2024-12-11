@@ -9,6 +9,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   // const projectComponents = useSelector((s) => s.editor.project.components);
   const output = useRef();
+  const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,11 +68,21 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         console.log("from the main thread:", visual);
         const content = JSON.parse(visual.content.replace(/'/g, '"'));
         const [name, extension] = content.filename.split(".");
+        let updatedContent;
+        if (content.mode === "w") {
+          updatedContent = content.content;
+        } else if (content.mode === "a") {
+          const componentToUpdate = project.components.find(
+            (item) => item.extension === extension && item.name === name
+          );
+          updatedContent = componentToUpdate.content + "\n" + content.content;
+        }
+
         dispatch(
           updateProjectComponent({
             extension: extension,
             name: name,
-            code: content.content,
+            code: updatedContent,
           })
         );
         break;
