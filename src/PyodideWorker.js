@@ -63,7 +63,7 @@ const PyodideWorker = () => {
     await pyodide.loadPackage("pyodide_http");
     // pyodide.registerJsModule("basthon", fakeBasthonPackage);
 
-    //   await pyodide.runPythonAsync(`
+    // await pyodide.runPythonAsync(`
     //   import pyodide_http
     //   pyodide_http.patch_all()
     // `);
@@ -349,7 +349,7 @@ const PyodideWorker = () => {
     await pyodide.runPythonAsync(`
         # Clear all user-defined variables and modules
         for name in dir():
-            if not name.startswith('_'):
+            if not name.startswith('_') and not name=='basthon':
                 del globals()[name]
       `);
     postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
@@ -395,7 +395,7 @@ const PyodideWorker = () => {
                   def write(self, content):
                       self.content += content
                       # print(f"{self.filename} {self.content}")
-                      basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content}) })
+                      basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
 
                   def close(self):
                       pass
