@@ -381,12 +381,15 @@ const PyodideWorker = () => {
     await pyodide.runPythonAsync(`
       import basthon
       import builtins
+      import os
 
       # Save the original open function
       _original_open = builtins.open
 
       def _custom_open(filename, mode="r", *args, **kwargs):
-          if "w" in mode or "a" in mode:
+          if "x" in mode and os.path.exists(filename):
+            raise FileExistsError(f"File '{filename}' already exists")
+          if "w" in mode or "a" in mode or "x" in mode:
               class CustomFile:
                   def __init__(self, filename):
                       self.filename = filename
@@ -399,6 +402,12 @@ const PyodideWorker = () => {
 
                   def close(self):
                       pass
+
+                  def __enter__(self):
+                      return self
+
+                  def __exit__(self, exc_type, exc_val, exc_tb):
+                      self.close()
 
               return CustomFile(filename)
           else:
