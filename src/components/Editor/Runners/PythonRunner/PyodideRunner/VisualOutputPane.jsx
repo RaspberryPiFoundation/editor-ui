@@ -10,9 +10,8 @@ import {
 const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
-  // const projectComponents = useSelector((s) => s.editor.project.components);
+  const projectComponents = useSelector((s) => s.editor.project.components);
   const output = useRef();
-  const project = useSelector((state) => state.editor.project);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -71,7 +70,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         console.log("from the main thread:", visual);
         const content = JSON.parse(visual.content.replace(/'/g, '"'));
         const [name, extension] = content.filename.split(".");
-        const componentToUpdate = project.components.find(
+        const componentToUpdate = projectComponents.find(
           (item) => item.extension === extension && item.name === name
         );
         let updatedContent;
