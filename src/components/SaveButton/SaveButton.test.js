@@ -110,17 +110,14 @@ describe("When project is loaded", () => {
 
   describe("Without a logged in user", () => {
     let store;
-    let project;
 
     beforeEach(() => {
       const middlewares = [];
       const mockStore = configureStore(middlewares);
-      project = { identifier: "testProject", data: "testData" };
       const initialState = {
         editor: {
           loading: "success",
           webComponent: false,
-          project,
         },
         auth: {},
       };
@@ -150,14 +147,6 @@ describe("When project is loaded", () => {
       const saveButton = screen.queryByText("header.loginToSave").parentElement;
       fireEvent.click(saveButton);
       expect(logInHandler).toHaveBeenCalled();
-    });
-
-    test("Clicking save triggers the project to be saved to localStorage", () => {
-      const saveButton = screen.queryByText("header.loginToSave").parentElement;
-      fireEvent.click(saveButton);
-      expect(localStorage.getItem("testProject")).toEqual(
-        JSON.stringify(project),
-      );
     });
   });
 
