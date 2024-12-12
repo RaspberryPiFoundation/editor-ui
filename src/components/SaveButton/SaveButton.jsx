@@ -31,8 +31,18 @@ const SaveButton = ({ className, type, fill = false }) => {
       window.plausible("Save button");
     }
     document.dispatchEvent(logInEvent);
+
+    // The project is not persisted to localStorage correctly after logging out, so this
+    // workaround ensures it will be whenever the user clicks login to save
+    if (project && Object.keys(project).length > 0) {
+      localStorage.setItem(
+        project.identifier || "project",
+        JSON.stringify(project),
+      );
+    }
+
     dispatch(triggerSave());
-  }, [dispatch]);
+  }, [dispatch, project]);
 
   const projectOwner = isOwner(user, project);
 

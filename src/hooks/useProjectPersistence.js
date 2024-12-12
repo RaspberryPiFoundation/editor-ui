@@ -38,36 +38,27 @@ export const useProjectPersistence = ({
   useEffect(() => {
     const saveProject = async () => {
       if (Object.keys(project).length !== 0) {
-        if (saveTriggered || (user && localStorage.getItem("awaitingSave"))) {
+        const identifier = project?.identifier;
+        const accessToken = user?.access_token;
+        const params = { reactAppApiEndpoint, accessToken };
+
+        // Note the awaitingSave flag must be removed conditionally, or it happens too soon breaking the next load
+        if (saveTriggered) {
           if (isOwner(user, project)) {
-            dispatch(
-              syncProject("save")({
-                reactAppApiEndpoint,
-                project,
-                accessToken: user.access_token,
-                autosave: false,
-              }),
-            );
-          } else if (user && project.identifier) {
             await dispatch(
-              syncProject("remix")({
-                reactAppApiEndpoint,
-                project,
-                accessToken: user.access_token,
-              }),
+              syncProject("save")({ ...params, project, autosave: false }),
             );
-            // Ensure the remixed project is loaded, otherwise we'll get in a mess
+            localStorage.removeItem("awaitingSave");
+          } else if (user && identifier) {
+            await dispatch(syncProject("remix")({ ...params, project }));
             if (loadRemix) {
-              dispatch(
-                syncProject("loadRemix")({
-                  reactAppApiEndpoint,
-                  identifier: project.identifier,
-                  accessToken: user.access_token,
-                }),
+              // Ensure the remixed project is loaded, otherwise we'll get in a mess
+              await dispatch(
+                syncProject("loadRemix")({ ...params, identifier }),
               );
             }
+            localStorage.removeItem("awaitingSave");
           }
-          localStorage.removeItem("awaitingSave");
         }
       }
     };
