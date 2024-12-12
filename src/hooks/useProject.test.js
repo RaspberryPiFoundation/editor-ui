@@ -166,22 +166,6 @@ describe("When not embedded", () => {
     );
   });
 
-  test("If awaitingSave is true, loads cached project", () => {
-    localStorage.setItem("awaitingSave", "true");
-    localStorage.setItem(
-      cachedProject.identifier,
-      JSON.stringify(cachedProject),
-    );
-
-    renderHook(
-      () => useProject({ projectIdentifier: cachedProject.identifier }),
-      { wrapper },
-    );
-
-    expect(setProject).toHaveBeenCalledWith(cachedProject);
-    localStorage.removeItem("awaitingSave");
-  });
-
   test("If requested locale does not match the set language, does not set project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
     renderHook(

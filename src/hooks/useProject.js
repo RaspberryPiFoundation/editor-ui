@@ -47,13 +47,7 @@ export const useProject = ({
         cachedProject.identifier === projectIdentifier;
       const is_cached_unsaved_project = !projectIdentifier && cachedProject;
 
-      const isAwaitingSave =
-        cachedProject && localStorage.getItem("awaitingSave");
-
-      if (
-        (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) ||
-        isAwaitingSave
-      ) {
+      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
         loadCachedProject();
         return;
       }

@@ -42,13 +42,11 @@ export const useProjectPersistence = ({
         const accessToken = user?.access_token;
         const params = { reactAppApiEndpoint, accessToken };
 
-        // Note the awaitingSave flag must be removed conditionally, or it happens too soon breaking the next load
         if (saveTriggered) {
           if (isOwner(user, project)) {
             await dispatch(
               syncProject("save")({ ...params, project, autosave: false }),
             );
-            localStorage.removeItem("awaitingSave");
           } else if (user && identifier) {
             await dispatch(syncProject("remix")({ ...params, project }));
             if (loadRemix) {
@@ -57,7 +55,6 @@ export const useProjectPersistence = ({
                 syncProject("loadRemix")({ ...params, identifier }),
               );
             }
-            localStorage.removeItem("awaitingSave");
           }
         }
       }

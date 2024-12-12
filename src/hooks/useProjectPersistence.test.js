@@ -199,7 +199,6 @@ describe("When logged in", () => {
       beforeEach(() => {
         syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
         syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-        localStorage.setItem("awaitingSave", "true");
 
         renderHook(() =>
           useProjectPersistence({
@@ -225,17 +224,12 @@ describe("When logged in", () => {
           accessToken: user2.access_token,
         });
       });
-
-      test("The awaitingSave flag is removed", async () => {
-        expect(localStorage.getItem("awaitingSave")).toBeNull();
-      });
     });
 
     describe("When project has identifier and save triggered without loadRemix", () => {
       beforeEach(() => {
         syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
         syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-        localStorage.setItem("awaitingSave", "true");
 
         renderHook(() =>
           useProjectPersistence({
@@ -259,10 +253,6 @@ describe("When logged in", () => {
         await remixProject();
         await expect(loadProject).not.toHaveBeenCalled();
       });
-
-      test("The awaitingSave flag is removed", async () => {
-        expect(localStorage.getItem("awaitingSave")).toBeNull();
-      });
     });
 
     describe("When project has no identifier and save triggered", () => {
@@ -275,7 +265,6 @@ describe("When logged in", () => {
             saveTriggered: true,
           }),
         );
-        localStorage.setItem("awaitingSave", "true");
         jest.runAllTimers();
       });
 
@@ -285,10 +274,6 @@ describe("When logged in", () => {
           accessToken: user2.access_token,
           autosave: false,
         });
-      });
-
-      test("The awaitingSave flag is removed", async () => {
-        expect(localStorage.getItem("awaitingSave")).toBeNull();
       });
     });
   });
