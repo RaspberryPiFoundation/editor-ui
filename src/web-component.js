@@ -67,6 +67,7 @@ class WebComponent extends HTMLElement {
       "use_editor_styles",
       "with_projectbar",
       "with_sidebar",
+      "load_cache",
     ];
   }
 
@@ -86,6 +87,7 @@ class WebComponent extends HTMLElement {
         "use_editor_styles",
         "with_projectbar",
         "with_sidebar",
+        "load_cache",
       ].includes(name)
     ) {
       value = newVal !== "false";

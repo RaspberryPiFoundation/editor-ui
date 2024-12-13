@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Log in to save and log in now preserve the cache (#1137)
+
 ## [0.28.12] - 2024-12-09
 
 ### Fixed

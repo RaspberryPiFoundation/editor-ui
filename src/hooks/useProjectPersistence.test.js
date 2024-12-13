@@ -195,28 +195,6 @@ describe("When logged in", () => {
       });
     });
 
-    describe("When project has identifier and awaiting save", () => {
-      beforeEach(() => {
-        localStorage.setItem("awaitingSave", "true");
-        syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
-        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-        renderHook(() =>
-          useProjectPersistence({
-            user: user2,
-            project: project,
-          }),
-        );
-        jest.runAllTimers();
-      });
-
-      test("Project remixed and saved to database", () => {
-        expect(remixProject).toHaveBeenCalledWith({
-          project,
-          accessToken: user2.access_token,
-        });
-      });
-    });
-
     describe("When project has identifier and save triggered", () => {
       beforeEach(() => {
         syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
@@ -274,28 +252,6 @@ describe("When logged in", () => {
       test("loadRemix is not dispatched after project is remixed", async () => {
         await remixProject();
         await expect(loadProject).not.toHaveBeenCalled();
-      });
-    });
-
-    describe("When project has no identifier and awaiting save", () => {
-      beforeEach(() => {
-        localStorage.setItem("awaitingSave", "true");
-        syncProject.mockImplementationOnce(jest.fn((_) => saveProject));
-        renderHook(() =>
-          useProjectPersistence({
-            user: user2,
-            project: { ...project, identifier: null },
-          }),
-        );
-        jest.runAllTimers();
-      });
-
-      test("Project saved to database", () => {
-        expect(saveProject).toHaveBeenCalledWith({
-          project: { ...project, identifier: null },
-          accessToken: user2.access_token,
-          autosave: false,
-        });
       });
     });
 
