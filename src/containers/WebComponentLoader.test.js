@@ -315,7 +315,7 @@ describe("When no user is in state", () => {
               instructions={instructions}
               authKey={authKey}
               theme="light"
-              useCache={true}
+              loadCache={true}
             />
           </CookiesProvider>
         </Provider>,
