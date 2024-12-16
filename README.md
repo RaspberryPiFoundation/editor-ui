@@ -172,7 +172,14 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 
 ## Deployment
 
-Deployment is managed through Github actions. The UI is deployed to staging and production environments using Cloudflare Pages. Environment variables related to the app are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml).
+Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_REGION`
+- `AWS_S3_BUCKET`
+- `AWS_SECRET_ACCESS_KEY`
+
+Other variables that pertain to the app, rather than its deployment are set with defaults in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
 
 ### Review apps
 
