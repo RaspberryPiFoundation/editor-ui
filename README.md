@@ -1,23 +1,20 @@
 # Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but the app has been ejected so build scripts etc. are all in the repo now.
+This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
 
 ## Environment variables
 
-The app uses the `dotenv` package to provide access to environment variables.
-Copy the example files into the correct place:
+The app uses the `dotenv` package to provide access to environment variables. Copy the example file into `.env` and use this file for any other environment variables the web component may require:
 
 ```
 cp .env.example .env
 ```
 
-Variables for the web component can be placed in `.env`.
-
 ## Private repo setup (.npmrc)
 
-The app requires a Git token for access to private repos (currently limited to `design-system-react`).
+The app requires a Git token for access to private repos (currently limited to [`design-system-react`](https://github.com/RaspberryPiFoundation/design-system-react).
 
-- Generated a token here, it'll be prefixed with `ghp_`: https://github.com/settings/tokens
+- Generate a token [here](https://github.com/settings/tokens) - it should be prefixed with `ghp_`
 - Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
 
 This will then be mounted as a secret in docker, and used to authenticate against the package repo.
