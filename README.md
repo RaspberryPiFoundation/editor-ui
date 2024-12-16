@@ -55,15 +55,11 @@ Integration testing is carried out via `cypress` and can be run using:
 - `yarn exec cypress run` to run in the CLI
 - `yarn exec cypress open` to run in the GUI
 
-Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
+Currently, there are `cypress` tests for various aspects of the web component, such as running `python` and `HTML` code and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to any failures in the most recent test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
-## Web Component
+## Usage
 
-The repo includes the Editor Web Component which shares components with the editor application but has a separate build process.
-
-### Embedding
-
-The web component can be included in a page by using the `<editor-wc>` HTML element. It takes the following attributes
+The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component. The `editor-wc` tag accepts the following attributes:
 
 - `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
@@ -75,9 +71,11 @@ The web component can be included in a page by using the `<editor-wc>` HTML elem
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 
-It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
+## Development
 
-For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3011?sense_hat_always_enabled)
+### Previewing
+
+The web component test page at `http://localhost:3011` can be used to develop the web component in isolation if needed. This page is configured to pass query parameters into the web component as attributes (including `class`, `style` etc.), allowing the web component to be previewed in different states during development. For example, to preview the web component with the Sense HAT always showing, visit `http://localhost:3011?sense_hat_always_enabled=true`.
 
 ### Styling
 
