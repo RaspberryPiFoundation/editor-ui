@@ -172,14 +172,7 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 
 ## Deployment
 
-Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set
-
-- `AWS_ACCESS_KEY_ID`
-- `AWS_REGION`
-- `AWS_S3_BUCKET`
-- `AWS_SECRET_ACCESS_KEY`
-
-Other variables that pertain to the app, rather than its deployment are set with defaults in the [build-and-deploy workflow](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
+Deployment is managed through Github actions. The UI is deployed to staging and production environments using Cloudflare Pages. Environment variables related to the app are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml).
 
 ### Review apps
 
@@ -198,6 +191,4 @@ A new release of `editor-ui` is created via following process:
 7. Get someone to approve the PR and then merge.
 8. Within the releases tab, create a new tag with the version number of the new release with the target set to `main`.
 9. Give the release the same name as the tag and paste the `CHANGELOG` diff in the description.
-10. Set the release to be the latest release and publish.
-11. Go to Cloudflare and under `Workers > KV` select `editor` and change the `production-ref` to `releases/<new_version_number>`.
-12. Go to `editor.raspberrypi.org` to see the new changes on production... 🚀
+10. Set the release to be the latest release and publish 🚀
