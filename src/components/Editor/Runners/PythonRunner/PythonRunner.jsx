@@ -15,9 +15,8 @@ const SKULPT_ONLY_MODULES = [
   "turtle",
 ];
 
-const PythonRunner = () => {
+const PythonRunner = ({ autoRun = false, showOutputTabs = true }) => {
   const dispatch = useDispatch();
-
   const project = useSelector((state) => state.editor.project);
   const activeRunner = useSelector((state) => state.editor.activeRunner);
   const codeRunTriggered = useSelector(
@@ -28,6 +27,7 @@ const PythonRunner = () => {
   );
   const [usePyodide, setUsePyodide] = useState(null);
   const [skulptFallback, setSkulptFallback] = useState(false);
+  const [consoleMode, setConsoleMode] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -83,6 +83,12 @@ const PythonRunner = () => {
             break;
           } else {
             setUsePyodide(true);
+            if (imports.includes("IPython")) {
+              setConsoleMode(true);
+              break;
+            } else {
+              setConsoleMode(false);
+            }
           }
         } catch (error) {
           console.error("Error occurred while getting imports:", error);
@@ -92,7 +98,12 @@ const PythonRunner = () => {
   }, [project, codeRunTriggered, senseHatAlwaysEnabled, skulptFallback, t]);
   return (
     <>
-      <PyodideRunner active={activeRunner === "pyodide"} />
+      <PyodideRunner
+        active={activeRunner === "pyodide"}
+        consoleMode={consoleMode}
+        autoRun={autoRun}
+        showOutputTabs={showOutputTabs}
+      />
       <SkulptRunner active={activeRunner === "skulpt"} />
     </>
   );

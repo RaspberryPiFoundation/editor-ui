@@ -2,7 +2,12 @@ import React from "react";
 import PythonRunner from "./PythonRunner/PythonRunner";
 import HtmlRunner from "./HtmlRunner/HtmlRunner";
 
-const RunnerFactory = ({ projectType, outputPanels = ["text", "visual"] }) => {
+const RunnerFactory = ({
+  autoRun = false,
+  projectType,
+  outputPanels = ["text", "visual"],
+  showOutputTabs = true,
+}) => {
   const Runner = () => {
     if (projectType === "html") {
       return HtmlRunner;
@@ -13,7 +18,8 @@ const RunnerFactory = ({ projectType, outputPanels = ["text", "visual"] }) => {
 
   const Selected = Runner();
 
-  const props = projectType === "html" ? {} : { outputPanels };
+  const props =
+    projectType === "html" ? {} : { outputPanels, autoRun, showOutputTabs };
 
   return <Selected {...props} />;
 };

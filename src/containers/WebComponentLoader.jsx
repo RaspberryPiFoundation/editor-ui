@@ -32,6 +32,7 @@ const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
     authKey,
+    autoRun = false,
     code,
     embedded = false,
     hostStyles, // Pass in styles from the host
@@ -46,6 +47,7 @@ const WebComponentLoader = (props) => {
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
+    showOutputTabs = true,
     showSavePrompt = false,
     sidebarOptions = [],
     useEditorStyles = false, // If true use the standard editor styling for the web component
@@ -182,6 +184,7 @@ const WebComponentLoader = (props) => {
               closeButton={ToastCloseButton}
             />
             <WebComponentProject
+              autoRun={autoRun}
               withProjectbar={withProjectbar}
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
@@ -189,6 +192,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              showOutputTabs={showOutputTabs}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

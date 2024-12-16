@@ -24,6 +24,7 @@ import {
 } from "../../events/WebComponentCustomEvents";
 
 const WebComponentProject = ({
+  autoRun = false,
   withProjectbar = false,
   nameEditable = false,
   withSidebar = false,
@@ -31,6 +32,7 @@ const WebComponentProject = ({
   outputOnly = false,
   outputPanels = ["text", "visual"],
   outputSplitView = false,
+  showOutputTabs = true,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -97,11 +99,14 @@ const WebComponentProject = ({
       {!outputOnly &&
         (isMobile ? (
           <MobileProject
+            autoRun={autoRun}
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
+            showOutputTabs={showOutputTabs}
           />
         ) : (
           <Project
+            autoRun={autoRun}
             nameEditable={nameEditable}
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
@@ -110,7 +115,13 @@ const WebComponentProject = ({
         ))}
       {outputOnly && (
         <div className="embedded-viewer" data-testid="output-only">
-          {loading === "success" && <Output outputPanels={outputPanels} />}
+          {loading === "success" && (
+            <Output
+              autoRun={autoRun}
+              outputPanels={outputPanels}
+              showOutputTabs={showOutputTabs}
+            />
+          )}
         </div>
       )}
     </>

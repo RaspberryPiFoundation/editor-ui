@@ -7,6 +7,7 @@ import classNames from "classnames";
 import {
   setError,
   codeRunHandled,
+  triggerCodeRun,
   setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -18,6 +19,11 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import { useCookies } from "react-cookie";
+// import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
+// import Prism from "prismjs";
+
+// window.Prism = Prism;
 
 const getWorkerURL = (url) => {
   const content = `
@@ -31,7 +37,12 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = ({ active }) => {
+const PyodideRunner = ({
+  active,
+  consoleMode = false,
+  autoRun = false,
+  showOutputTabs = true,
+}) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
 
   useEffect(() => {
@@ -64,10 +75,110 @@ const PyodideRunner = ({ active }) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
+  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const queryParams = new URLSearchParams(window.location.search);
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+  const [inputStack, setInputStack] = useState([]);
+  const [indentationLevel, setIndentationLevel] = useState(0);
+  const [awaitingInput, setAwaitingInput] = useState(false);
+  const [cookies] = useCookies(["theme"]);
+  const defaultTheme = window.matchMedia("(prefers-color-scheme:dark)").matches
+    ? "dark"
+    : "light";
+  const theme = cookies.theme || defaultTheme;
+
+  const prependToInputStack = (input) => {
+    setInputStack((prevInputStack) => {
+      if (prevInputStack[0] === "") {
+        const newStack = [...prevInputStack];
+        newStack[0] = input;
+        return newStack;
+      } else {
+        return [input, ...prevInputStack];
+      }
+    });
+  };
+  const [inputStackIndex, setInputStackIndex] = useState(0);
+
+  const incrementIndentationLevel = (prevLine) => {
+    // console.log("prevLine", prevLine);
+    // console.log(prevLine.match(/^\s*/)[0].length);
+    const prevLevel = prevLine
+      ? Math.floor(prevLine.match(/^\s*/)[0].length / 4)
+      : 0;
+    setIndentationLevel(prevLevel + 1);
+  };
+
+  const keepSameIndentationLevel = (prevLine) => {
+    const prevLevel = prevLine
+      ? Math.floor(prevLine.match(/^\s*/)[0].length / 4)
+      : 0;
+    setIndentationLevel(prevLevel);
+  };
+
+  const handleIndentationLevel = (prevLine) => {
+    if (prevLine.trimEnd().slice(-1) === ":") {
+      incrementIndentationLevel(prevLine);
+    } else if (prevLine.trimEnd() === "") {
+      setIndentationLevel(0);
+    } else {
+      keepSameIndentationLevel(prevLine);
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowUp") {
+        if (inputStackIndex < inputStack.length - 1) {
+          setInputStackIndex(inputStackIndex + 1);
+        }
+      } else if (event.key === "ArrowDown") {
+        if (inputStackIndex > 0) {
+          setInputStackIndex(inputStackIndex - 1);
+        }
+      }
+      // window.Prism.highlightElement(event.target);
+    };
+    if (consoleMode) {
+      const inputElement = getInputElement();
+      inputElement?.removeEventListener("keydown", handleKeyDown);
+      inputElement?.addEventListener("keydown", handleKeyDown);
+    }
+  }, [inputStack, inputStackIndex, consoleMode]);
+
+  useEffect(() => {
+    if (awaitingInput && consoleMode) {
+      const inputElement = getInputElement();
+      const inputParent = inputElement?.parentElement;
+      // inputElement.classList.add("language-python");
+      if (inputParent.innerText.match(/...:/)) {
+        inputElement.innerText = " ".repeat(indentationLevel * 4);
+        // move cursor to end of text
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(inputElement);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  }, [awaitingInput, indentationLevel, consoleMode]);
+
+  useEffect(() => {
+    const inputElement = getInputElement();
+    if (inputElement) {
+      inputElement.innerText = inputStack[inputStackIndex];
+      // move cursor to end of text
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(inputElement);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }, [inputStackIndex]);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -108,7 +219,14 @@ const PyodideRunner = ({ active }) => {
   }, [pyodideWorker]);
 
   useEffect(() => {
+    if (autoRun && active && pyodideWorker) {
+      dispatch(triggerCodeRun());
+    }
+  }, [active, pyodideWorker]);
+
+  useEffect(() => {
     if (codeRunTriggered && active && output.current) {
+      console.log("running with pyodide");
       handleRun();
     }
   }, [codeRunTriggered, output.current]);
@@ -141,11 +259,22 @@ const PyodideRunner = ({ active }) => {
       return;
     }
 
+    prependToInputStack("");
+    setInputStackIndex(0);
     const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
+    // remove last new line character from last line
+    outputPane.lastChild.innerText = outputPane.lastChild.innerText.slice(
+      0,
+      -1,
+    );
+    outputPane.lastChild.appendChild(inputSpan());
 
     const element = getInputElement();
     const { content, ctrlD } = await getInputContent(element);
+    setAwaitingInput(false);
+
+    prependToInputStack(content);
+    handleIndentationLevel(content);
 
     const encoder = new TextEncoder();
     const bytes = encoder.encode(content + "\n");
@@ -250,6 +379,7 @@ const PyodideRunner = ({ active }) => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
+    setAwaitingInput(true);
     return span;
   };
 
@@ -312,6 +442,7 @@ const PyodideRunner = ({ active }) => {
     if (element) {
       element.removeAttribute("id");
       element.removeAttribute("contentEditable");
+      element.addEventListener("keydown");
     }
   };
 
@@ -331,7 +462,10 @@ const PyodideRunner = ({ active }) => {
           {hasVisual && (
             <div className="output-panel output-panel--visual">
               <Tabs forceRenderTabPanel={true}>
-                <div className="react-tabs__tab-container">
+                <div
+                  className="react-tabs__tab-container"
+                  {...(!showOutputTabs && { style: { display: "none" } })}
+                >
                   <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
@@ -350,14 +484,23 @@ const PyodideRunner = ({ active }) => {
           )}
           <div className="output-panel output-panel--text">
             <Tabs forceRenderTabPanel={true}>
-              <div className="react-tabs__tab-container">
+              <div
+                className="react-tabs__tab-container"
+                {...(!showOutputTabs && { style: { display: "none" } })}
+              >
                 <TabList>
                   <Tab key={0}>
                     <span className="react-tabs__tab-text">
                       {t("output.textOutput")}
                     </span>
                   </Tab>
+                  {!isOutputOnly && (
+                    <Tab key={1}>
+                      <span className="react-tabs__tab-text">Console</span>
+                    </Tab>
+                  )}
                 </TabList>
+
                 {!hasVisual && !isEmbedded && isMobile && (
                   <RunnerControls skinny />
                 )}
@@ -370,12 +513,25 @@ const PyodideRunner = ({ active }) => {
                   ref={output}
                 ></pre>
               </TabPanel>
+              {!isOutputOnly && (
+                <TabPanel key={1}>
+                  <iframe
+                    title="console"
+                    src={`${process.env.EDITOR_STANDALONE_URL}/en/embed/viewer/ipython-console?browserPreview=true&autoRun=true&theme=${theme}&showOutputTabs=false`}
+                    crossOrigin
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </TabPanel>
+              )}
             </Tabs>
           </div>
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
-          <div className="react-tabs__tab-container">
+          <div
+            className="react-tabs__tab-container"
+            {...(!showOutputTabs && { style: { display: "none" } })}
+          >
             <TabList>
               {hasVisual && (
                 <Tab key={0}>
@@ -389,10 +545,16 @@ const PyodideRunner = ({ active }) => {
                   {t("output.textOutput")}
                 </span>
               </Tab>
+              {/* {!isOutputOnly && (
+                <Tab key={2}>
+                  <span className="react-tabs__tab-text">Console</span>
+                </Tab>
+              )} */}
             </TabList>
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
+
           <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>
@@ -406,6 +568,20 @@ const PyodideRunner = ({ active }) => {
               ref={output}
             ></pre>
           </TabPanel>
+          {/* {!isOutputOnly && (
+            <TabPanel key={2}>
+              <editor-wc
+                autoRun={true}
+                class="c-editor__wc"
+                code={`from IPython import embed\nembed()`}
+                load_remix_disabled={true}
+                embedded={false}
+                output_only={true}
+                output_split_view={false}
+                use_editor_styles={true}
+              ></editor-wc>
+            </TabPanel>
+          )} */}
         </Tabs>
       )}
     </div>

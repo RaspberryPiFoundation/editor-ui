@@ -48,6 +48,7 @@ class WebComponent extends HTMLElement {
     return [
       "assets_identifier",
       "auth_key",
+      "auto_run",
       "code",
       "embedded",
       "host_styles",
@@ -61,6 +62,7 @@ class WebComponent extends HTMLElement {
       "react_app_api_endpoint",
       "read_only",
       "sense_hat_always_enabled",
+      "show_output_tabs",
       "show_save_prompt",
       "sidebar_options",
       "theme",
@@ -76,6 +78,7 @@ class WebComponent extends HTMLElement {
 
     if (
       [
+        "auto_run",
         "embedded",
         "load_remix_disabled",
         "output_only",
@@ -83,6 +86,7 @@ class WebComponent extends HTMLElement {
         "project_name_editable",
         "read_only",
         "sense_hat_always_enabled",
+        "show_output_tabs",
         "show_save_prompt",
         "use_editor_styles",
         "with_projectbar",
