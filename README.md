@@ -97,6 +97,17 @@ The web component communicates with the host page via the following custom event
 
 These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
 
+### Custom methods
+
+The host page is able to communicate with the web component via custom methods provided by the web component. These currently include:
+
+- `editorCode`: getter that returns the code from the first file in the editor
+- `runCode`: triggers a code run in the editor
+- `rerunCode`: stops the current code run and starts another code run in the editor
+- `stopCode`: stops the current code run
+
+This allows the host page to query the current code in the editor and to control code runs from outside the web component, for example.
+
 ## Development
 
 ### Previewing
