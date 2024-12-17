@@ -75,7 +75,7 @@ The editor web component can be included in a page using the `<editor-wc>` HTML 
 
 ### Previewing
 
-The web component test page at `http://localhost:3011` can be used to develop the web component in isolation if needed. This page is configured to pass query parameters into the web component as attributes (including `class`, `style` etc.), allowing the web component to be previewed in different states during development. For example, to preview the web component with the Sense HAT always showing, visit `http://localhost:3011?sense_hat_always_enabled=true`.
+The web component test page at `http://localhost:3011` can be used to develop the web component in isolation if needed. This page is configured to pass query parameters into the web component as attributes (including `class`, `style` etc.), allowing the web component to be previewed in different states during development. For example, to preview the web component with the Sense HAT always showing, visit `http://localhost:3011/web-component.html?sense_hat_always_enabled=true`.
 
 ### Styling
 
