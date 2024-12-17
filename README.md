@@ -52,15 +52,28 @@ Currently, there are `cypress` tests for various aspects of the web component, s
 
 The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). The `editor-wc` tag accepts the following attributes:
 
-- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
-- `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
-- `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
-- `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
-- `output_only`: Only display the output panel (defaults to `false`)
 - `assets_identifier`: Load assets (not code) from this project identifier
-- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
+- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
+- `host_styles`: Styles passed into the web component from the host page
+- `identifier`: Load the project with this identifier from the database
+- `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
+- `load_cache`: Load latest version of project code from local storage (defaults to `true`)
+- `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
+- `output_only`: Only display the output panel (defaults to `false`)
+- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
+- `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
+- `react_app_api_endpoint`: API endpoint to send project-related requests to
+- `read_only`: Display the editor in read only mode (defaults to `false`)
+- `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load (defaults to `false`)
+- `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
+- `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar. The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
+- `theme`: Force editor into `"dark"` or `"light"` mode - browser or system preferences will be used if not specified
+- `use_editor_styles`: Use styling themes for the main editor site (defaults to `false`)
+- `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)
+- `with_sidebar`: Show the sidebar (defaults to `false`)
 
 ## Development
 
