@@ -54,7 +54,7 @@ The editor web component can be included in a page using the `<editor-wc>` HTML 
 
 ### Attributes
 
-The `editor-wc` tag accepts the following attributes:
+The `editor-wc` tag accepts the following attributes, which must be provided as strings or booleans:
 
 - `assets_identifier`: Load assets (not code) from this project identifier
 - `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
