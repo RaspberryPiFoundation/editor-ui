@@ -216,7 +216,7 @@ Deployment is managed through Github actions. The UI is deployed to staging and 
 
 Other variables that pertain to the app, rather than its deployment, are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
 
-The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` can be previewed https://staging-editor-static.raspberrypi.org/branches/main/web-component.html. The staging bundle for use on the staging version of other sites is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.js.
+The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` can be previewed at https://staging-editor-static.raspberrypi.org/branches/main/web-component.html. The staging bundle for use on the staging version of other sites is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.js.
 
 The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist), contains the versioned releases of the web component that are used on other sites. Each release can be previewed at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.html`, and the bundle is available at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`.
 
