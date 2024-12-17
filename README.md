@@ -50,7 +50,7 @@ Currently, there are `cypress` tests for various aspects of the web component, s
 
 ## Usage
 
-The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component. The `editor-wc` tag accepts the following attributes:
+The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). The `editor-wc` tag accepts the following attributes:
 
 - `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
@@ -172,10 +172,9 @@ Deployment is managed through Github actions. The UI is deployed to staging and 
 
 Other variables that pertain to the app, rather than its deployment, are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
 
-The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.html.
+The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` can be previewed https://staging-editor-static.raspberrypi.org/branches/main/web-component.html. The staging bundle for use on the staging version of other sites is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.js.
 
-The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist), contains the versioned releases of the web component that are used on other sites. Each release can be previewed at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.html`.
-
+The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist), contains the versioned releases of the web component that are used on other sites. Each release can be previewed at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.html`, and the bundle is available at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`.
 
 ### Review apps
 
