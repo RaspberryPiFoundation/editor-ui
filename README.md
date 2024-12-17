@@ -172,18 +172,23 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 
 ## Deployment
 
-Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set
+Deployment is managed through Github actions. The UI is deployed to staging and production environments through an S3 bucket, managed via Cloudflare. This requires the following environment variables to be set
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_REGION`
 - `AWS_S3_BUCKET`
 - `AWS_SECRET_ACCESS_KEY`
 
-Other variables that pertain to the app, rather than its deployment are set with defaults in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
+Other variables that pertain to the app, rather than its deployment, are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
+
+The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.html.
+
+The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist), contains the versioned releases of the web component that are used on other sites. Each release can be previewed at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.html`.
+
 
 ### Review apps
 
-Currently the build is deployed to both S3 and Heroku. The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
+The build for each PR is deployed to the smae S3 bucket as staging, and can be previewed at `https://staging-editor-static.raspberrypi.org/branches/<branch-slug>/web-component.html`. The PR should get updated with the URL to the relevant directory of the host bucket, and `/web-component.html` may need to be appended to reach the preview.
 
 ### Release Process
 
