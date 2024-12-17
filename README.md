@@ -66,7 +66,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `load_cache`: Load latest version of project code from local storage (defaults to `true`)
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
 - `output_only`: Only display the output panel (defaults to `false`)
-- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `output_panels`: Array of output panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
 - `react_app_api_endpoint`: API endpoint to send project-related requests to
