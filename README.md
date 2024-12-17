@@ -10,15 +10,6 @@ The app uses the `dotenv` package to provide access to environment variables. Co
 cp .env.example .env
 ```
 
-## Private repo setup (.npmrc)
-
-The app requires a Git token for access to private repos (currently limited to [`design-system-react`](https://github.com/RaspberryPiFoundation/design-system-react).
-
-- Generate a token [here](https://github.com/settings/tokens) - it should be prefixed with `ghp_`
-- Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
-
-This will then be mounted as a secret in docker, and used to authenticate against the package repo.
-
 ## Available Scripts
 
 In the project directory, you can run:
