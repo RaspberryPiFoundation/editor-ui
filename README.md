@@ -50,7 +50,11 @@ Currently, there are `cypress` tests for various aspects of the web component, s
 
 ## Usage
 
-The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). The `editor-wc` tag accepts the following attributes:
+The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). 
+
+### Attributes
+
+The `editor-wc` tag accepts the following attributes:
 
 - `assets_identifier`: Load assets (not code) from this project identifier
 - `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
@@ -74,6 +78,24 @@ The editor web component can be included in a page using the `<editor-wc>` HTML 
 - `use_editor_styles`: Use styling themes for the main editor site (defaults to `false`)
 - `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)
 - `with_sidebar`: Show the sidebar (defaults to `false`)
+
+### Custom events
+
+The web component communicates with the host page via the following custom events:
+
+- `editor-codeChanged` - When the code in the editor is changed
+- `editor-navigateToProjectsPage` - When the user requests to navigate to the projects index page
+- `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier
+- `editor-projectOwnerLoaded`: When the project owner has been loaded - event detail is the user's name
+- `editor-runCompleted`: When a code run is completed in the editor -  event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
+- `editor-runStarted`: When a code run is started in the editor
+- `editor-stepChanged`: When the instructions step changes - event details contains the new step position
+- `editor-logIn`: When the user requests to log in
+- `editor-signUp`: When the user requests to sign up
+- `editor-quizReady`: When the quiz is ready
+- `editor-themeUpdated`: When the theme changes to light/dark mode - event detail contains the new theme
+
+These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
 
 ## Development
 
