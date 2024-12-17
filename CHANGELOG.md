@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### CHanged
+### Changed
 
 - Updated `README.md` to reflect the switch to `editor-standalone` (#1155)
 
