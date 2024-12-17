@@ -73,9 +73,9 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `read_only`: Display the editor in read only mode (defaults to `false`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load (defaults to `false`)
 - `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
-- `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar. The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
+- `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar (defaults to an empty array). The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
 - `theme`: Force editor into `"dark"` or `"light"` mode - browser or system preferences will be used if not specified
-- `use_editor_styles`: Use styling themes for the main editor site (defaults to `false`)
+- `use_editor_styles`: Style web component using themes for the main editor site (defaults to `false`)
 - `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)
 - `with_sidebar`: Show the sidebar (defaults to `false`)
 
@@ -83,13 +83,13 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 
 The web component communicates with the host page via the following custom events:
 
-- `editor-codeChanged` - When the code in the editor is changed
-- `editor-navigateToProjectsPage` - When the user requests to navigate to the projects index page
+- `editor-codeChanged`: When the code in the editor is changed
+- `editor-navigateToProjectsPage`: When the user requests to navigate to the projects index page
 - `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier
 - `editor-projectOwnerLoaded`: When the project owner has been loaded - event detail is the user's name
-- `editor-runCompleted`: When a code run is completed in the editor -  event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
+- `editor-runCompleted`: When a code run is completed in the editor - event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
 - `editor-runStarted`: When a code run is started in the editor
-- `editor-stepChanged`: When the instructions step changes - event details contains the new step position
+- `editor-stepChanged`: When the instructions step changes - event detail contains the new step position
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
 - `editor-quizReady`: When the quiz is ready
@@ -116,13 +116,13 @@ The web component test page at `http://localhost:3011` can be used to develop th
 
 ### Styling
 
-There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied from within the web component itself or by the page containing the web component.
+There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied from within the web component itself or from the page containing the web component.
 
 #### Styling internally
 
-The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and that stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
+The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
 
-To account for the fact that different host pages may have varying base font sizes and spacing variables, a `--scale-factor` is being used to scale the font and spacing variables in the web component. This allows the web component to make use of existing font and spacing variables from the host page, alongside the `em` unit. However, use of the `rem` unit should be avoided because it cannot be overwritten in the shadow DOM. Wherever possible, existing calculations using the `--scale-factor` or `em` should be used instead, but beware of nested relative styling scaling variables more than once.
+To account for the fact that different host pages may have varying base font sizes and spacing variables, a `--scale-factor` is being used to scale the font and spacing variables in the web component. This allows the web component to make use of existing font and spacing variables from the host page, alongside the `em` unit. However, use of the `rem` unit should be avoided because it cannot be overwritten in the shadow DOM. Wherever possible, existing calculations using the `--scale-factor` or `em` should be used instead, but beware of nested relative styling, which may scale variables more than once.
 
 #### Styling externally
 
