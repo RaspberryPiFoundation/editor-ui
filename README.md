@@ -188,7 +188,7 @@ The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b
 
 ### Review apps
 
-The build for each PR is deployed to the same S3 bucket as staging, and can be previewed at `https://staging-editor-static.raspberrypi.org/branches/<PR-number>_merge/web-component.html`. The PR should get updated with the URL to the relevant directory of the host bucket, and `/web-component.html` may need to be appended to reach the preview.
+The build for each PR is deployed to the same S3 bucket as staging, and can be previewed at `https://staging-editor-static.raspberrypi.org/branches/<PR-number>_merge/web-component.html`. The PR should get updated with the URL to the relevant directory of the host bucket, but `/web-component.html` may need to be appended to reach the preview.
 
 ### Release Process
 
