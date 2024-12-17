@@ -116,11 +116,11 @@ The web component test page at `http://localhost:3011` can be used to develop th
 
 ### Styling
 
-There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied to the web component itself or to the page that contains the web component.
+There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied from within the web component itself or by the page containing the web component.
 
 #### Styling internally
 
-Internal styles can be utilised and shared between the standalone editor and the web component. These styles are passed to the web component via the `style` attribute as a string and can be found in [`WebComponentProject.js`](LearnerExperience/editor-ui/src/components/WebComponent/Project/WebComponentProject.js) which uses [`InternalStyles.scss`](./src/components/WebComponent/InternalStyles.scss) and [`ExternalStyles.scss`](./src/components/WebComponent/ExternalStyles.scss) to style the web component.
+The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and that stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
 
 Internal styles can be utilised due to a `--scale-factor` being set on font size and spacing variables and an update to the base font size being set at the appropriate size i.e. in [WebComponent.scss](./src/components/WebComponent/WebComponent.scss). This enables the use of the existing font and spacing variables as well as the `em` unit, allowing the web component to utilise the same definitions as the standalone editor.
 
