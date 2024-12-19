@@ -1,26 +1,14 @@
 # Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) but the app has been ejected so build scripts etc. are all in the repo now.
+This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
 
 ## Environment variables
 
-The app uses the `dotenv` package to provide access to environment variables.
-Copy the example files into the correct place:
+The app uses the `dotenv` package to provide access to environment variables. Copy the example file into `.env` and use this file for any other environment variables the web component may require:
 
 ```
 cp .env.example .env
 ```
-
-Variables for the web component can be placed in `.env`.
-
-## Private repo setup (.npmrc)
-
-The app requires a Git token for access to private repos (currently limited to `design-system-react`).
-
-- Generated a token here, it'll be prefixed with `ghp_`: https://github.com/settings/tokens
-- Add a line to the bottom of `~/.npmrc` (this is in addition to the one in the repo): `//npm.pkg.github.com/:_authToken=<github_token>`
-
-This will then be mounted as a secret in docker, and used to authenticate against the package repo.
 
 ## Available Scripts
 
@@ -29,20 +17,20 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3011](http://localhost:3011) to view it in the browser.
+Open [http://localhost:3011](http://localhost:3011) to view the web component test page in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 ### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
@@ -58,41 +46,83 @@ Integration testing is carried out via `cypress` and can be run using:
 - `yarn exec cypress run` to run in the CLI
 - `yarn exec cypress open` to run in the GUI
 
-Currently, there are basic `cypress` tests for the standalone editor site, the web component and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to the most recent `cypress` test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
+Currently, there are `cypress` tests for various aspects of the web component, such as running `python` and `HTML` code and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to any failures in the most recent test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
-## Web Component
+## Usage
 
-The repo includes the Editor Web Component which shares components with the editor application but has a separate build process.
+The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). 
 
-### Embedding
+### Attributes
 
-The web component can be included in a page by using the `<editor-wc>` HTML element. It takes the following attributes
+The `editor-wc` tag accepts the following attributes, which must be provided as strings or booleans:
 
-- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
-- `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load
-- `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
-- `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
-- `output_only`: Only display the output panel (defaults to `false`)
 - `assets_identifier`: Load assets (not code) from this project identifier
-- `output_panels`: Array of panel names to display (defaults to `["text", "visual"]`)
+- `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
+- `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
+- `host_styles`: Styles passed into the web component from the host page
+- `identifier`: Load the project with this identifier from the database
+- `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
+- `load_cache`: Load latest version of project code from local storage (defaults to `true`)
+- `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
+- `output_only`: Only display the output panel (defaults to `false`)
+- `output_panels`: Array of output panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
+- `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
+- `react_app_api_endpoint`: API endpoint to send project-related requests to
+- `read_only`: Display the editor in read only mode (defaults to `false`)
+- `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load (defaults to `false`)
+- `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
+- `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar (defaults to an empty array). The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
+- `theme`: Force editor into `"dark"` or `"light"` mode - browser or system preferences will be used if not specified
+- `use_editor_styles`: Style web component using themes for the main editor site (defaults to `false`)
+- `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)
+- `with_sidebar`: Show the sidebar (defaults to `false`)
 
-It is possible to add query strings to control how the web component is configured. Any HTML attribute can be set on the query string, including `class`, `style` etc.
+### Custom events
 
-For example, to load the page with the Sense Hat always showing, add [`?sense_hat_always_enabled` to the URL](http://localhost:3011?sense_hat_always_enabled)
+The web component communicates with the host page via the following custom events:
+
+- `editor-codeChanged`: When the code in the editor is changed
+- `editor-navigateToProjectsPage`: When the user requests to navigate to the projects index page
+- `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier
+- `editor-projectOwnerLoaded`: When the project owner has been loaded - event detail is the user's name
+- `editor-runCompleted`: When a code run is completed in the editor - event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
+- `editor-runStarted`: When a code run is started in the editor
+- `editor-stepChanged`: When the instructions step changes - event detail contains the new step position
+- `editor-logIn`: When the user requests to log in
+- `editor-signUp`: When the user requests to sign up
+- `editor-quizReady`: When the quiz is ready
+- `editor-themeUpdated`: When the theme changes to light/dark mode - event detail contains the new theme
+
+These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
+
+### Custom methods
+
+The host page is able to communicate with the web component via custom methods provided by the web component. These currently include:
+
+- `editorCode`: getter that returns the code from the first file in the editor
+- `runCode`: triggers a code run in the editor
+- `rerunCode`: stops the current code run and starts another code run in the editor
+- `stopCode`: stops the current code run
+
+This allows the host page to query the current code in the editor and to control code runs from outside the web component, for example.
+
+## Development
+
+### Previewing
+
+The web component test page at `http://localhost:3011` can be used to develop the web component in isolation if needed. This page is configured to pass query parameters into the web component as attributes (including `class`, `style` etc.), allowing the web component to be previewed in different states during development. For example, to preview the web component with the Sense HAT always showing, visit `http://localhost:3011/web-component.html?sense_hat_always_enabled=true`.
 
 ### Styling
 
-There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied to the web component itself or to the page that contains the web component.
+There are several mechanisms that can be utilised to style part or all of the web component. Due to the nature of the web component, styles can either be applied from within the web component itself or from the page containing the web component.
 
 #### Styling internally
 
-Internal styles can be utilised and shared between the standalone editor and the web component. These styles are passed to the web component via the `style` attribute as a string and can be found in [`WebComponentProject.js`](LearnerExperience/editor-ui/src/components/WebComponent/Project/WebComponentProject.js) which uses [`InternalStyles.scss`](./src/components/WebComponent/InternalStyles.scss) and [`ExternalStyles.scss`](./src/components/WebComponent/ExternalStyles.scss) to style the web component.
+The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
 
-Internal styles can be utilised due to a `--scale-factor` being set on font size and spacing variables and an update to the base font size being set at the appropriate size i.e. in [WebComponent.scss](./src/components/WebComponent/WebComponent.scss). This enables the use of the existing font and spacing variables as well as the `em` unit, allowing the web component to utilise the same definitions as the standalone editor.
-
-**NB** due to `rem` using the `font-size` from the root it is unable to be overwritten in the shadow root so it should be avoided. Wherever possible use the existing calculations with the `--scale-factor` or `em` (however beware of nested relative sizing).
+To account for the fact that different host pages may have varying base font sizes and spacing variables, a `--scale-factor` is being used to scale the font and spacing variables in the web component. This allows the web component to make use of existing font and spacing variables from the host page, alongside the `em` unit. However, use of the `rem` unit should be avoided because it cannot be overwritten in the shadow DOM. Wherever possible, existing calculations using the `--scale-factor` or `em` should be used instead, but beware of nested relative styling, which may scale variables more than once.
 
 #### Styling externally
 
@@ -177,18 +207,22 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 
 ## Deployment
 
-Deployment is managed through Github actions. The UI is deployed to staging and production environments via an S3 bucket. This requires the following environment variables to be set
+Deployment is managed through Github actions. The UI is deployed to staging and production environments through an S3 bucket, managed via Cloudflare. This requires the following environment variables to be set
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_REGION`
 - `AWS_S3_BUCKET`
 - `AWS_SECRET_ACCESS_KEY`
 
-Other variables that pertain to the app, rather than its deployment are set with defaults in the [build-and-deploy workflow](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
+Other variables that pertain to the app, rather than its deployment, are set to default values in the [build-and-deploy workflow file](./.github/workflows/build-and-deploy.yml). These are also in `.env.example`.
+
+The staging bucket is called [`editor-dist-staging`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist-staging), and the latest deployment of `main` can be previewed at https://staging-editor-static.raspberrypi.org/branches/main/web-component.html. The staging bundle for use on the staging version of other sites is available at https://staging-editor-static.raspberrypi.org/branches/main/web-component.js.
+
+The production bucket, [`edtior-dist`](https://dash.cloudflare.com/44a2049cd9f2b11d21474e06251367df/r2/default/buckets/editor-dist), contains the versioned releases of the web component that are used on other sites. Each release can be previewed at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.html`, and the bundle is available at `https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`.
 
 ### Review apps
 
-Currently the build is deployed to both S3 and Heroku. The PR should get updated with the Heroku URL, and the web component demo is at `/web-component.html` on the Heroku review app domain.
+The build for each PR is deployed to the same S3 bucket as staging, and can be previewed at `https://staging-editor-static.raspberrypi.org/branches/<PR-number>_merge/web-component.html`. The PR should get updated with the URL to the relevant directory of the host bucket, but `/web-component.html` may need to be appended to reach the preview.
 
 ### Release Process
 
@@ -203,6 +237,4 @@ A new release of `editor-ui` is created via following process:
 7. Get someone to approve the PR and then merge.
 8. Within the releases tab, create a new tag with the version number of the new release with the target set to `main`.
 9. Give the release the same name as the tag and paste the `CHANGELOG` diff in the description.
-10. Set the release to be the latest release and publish.
-11. Go to Cloudflare and under `Workers > KV` select `editor` and change the `production-ref` to `releases/<new_version_number>`.
-12. Go to `editor.raspberrypi.org` to see the new changes on production... 🚀
+10. Set the release to be the latest release and publish 🚀

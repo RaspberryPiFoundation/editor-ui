@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.28.13] - 2024-12-18
 
+### Changed
+
+- Updated `README.md` to reflect the switch to `editor-standalone` (#1155)
+
 ### Fixed
 
 - Log in to save and log in now preserve the cache (#1137)
