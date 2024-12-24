@@ -60,13 +60,6 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
-    await pyodide.loadPackage("pyodide_http");
-    // pyodide.registerJsModule("basthon", fakeBasthonPackage);
-
-    // await pyodide.runPythonAsync(`
-    //   import pyodide_http
-    //   pyodide_http.patch_all()
-    // `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -377,6 +370,12 @@ const PyodideWorker = () => {
         return __old_input__()
     __builtins__.input = __patched_input__
     `);
+
+    await pyodide.loadPackage("pyodide-http");
+    await pyodide.runPythonAsync(`
+        import pyodide_http
+        pyodide_http.patch_all()
+      `);
 
     await pyodide.runPythonAsync(`
       import basthon
