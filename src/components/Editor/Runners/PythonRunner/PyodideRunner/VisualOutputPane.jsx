@@ -77,7 +77,9 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         if (content.mode === "w" || content.mode === "x") {
           updatedContent = content.content;
         } else if (content.mode === "a") {
-          updatedContent = componentToUpdate.content + "\n" + content.content;
+          updatedContent =
+            (componentToUpdate ? componentToUpdate.content + "\n" : "") +
+            content.content;
         }
 
         if (componentToUpdate) {
