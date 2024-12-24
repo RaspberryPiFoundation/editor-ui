@@ -4,7 +4,7 @@
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
   importScripts(
-    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`
+    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
   );
   importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
   importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
@@ -29,7 +29,7 @@ const PyodideWorker = () => {
         "Please refer to these code snippets for registering a service worker:",
         "  - https://github.com/RaspberryPiFoundation/python-execution-prototypes/blob/fd2c50e032cba3bb0e92e19a88eb62e5b120fe7a/pyodide/index.html#L92-L98",
         "  - https://github.com/RaspberryPiFoundation/python-execution-prototypes/blob/fd2c50e032cba3bb0e92e19a88eb62e5b120fe7a/pyodide/serviceworker.js",
-      ].join("\n")
+      ].join("\n"),
     );
   }
   let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
@@ -83,7 +83,7 @@ const PyodideWorker = () => {
 
   const withSupportForPackages = async (
     python,
-    runPythonFn = async () => {}
+    runPythonFn = async () => {},
   ) => {
     const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
     await Promise.all(imports.map((name) => loadDependency(name)));
@@ -156,7 +156,7 @@ const PyodideWorker = () => {
     enigma: {
       before: async () => {
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`
+          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
         );
       },
       after: () => {},
@@ -165,7 +165,7 @@ const PyodideWorker = () => {
       before: async () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`
+          `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`,
         );
       },
       after: () =>
