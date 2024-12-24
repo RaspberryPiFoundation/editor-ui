@@ -14,14 +14,6 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
   const output = useRef();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (visuals.length === 0) {
-      output.current.innerHTML = "";
-    } else if (visuals.some((v) => !v.showing)) {
-      setVisuals((visuals) => showVisuals(visuals, output));
-    }
-  }, [visuals, setVisuals, showVisuals]);
-
   const showVisuals = (visuals, output) =>
     visuals.map((v) => (v.showing ? v : showVisual(v, output)));
 
@@ -103,6 +95,14 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
     visual.showing = true;
     return visual;
   };
+
+  useEffect(() => {
+    if (visuals.length === 0) {
+      output.current.innerHTML = "";
+    } else if (visuals.some((v) => !v.showing)) {
+      setVisuals((visuals) => showVisuals(visuals, output));
+    }
+  }, [visuals, setVisuals, showVisuals]);
 
   return (
     <div className="visual-output">
