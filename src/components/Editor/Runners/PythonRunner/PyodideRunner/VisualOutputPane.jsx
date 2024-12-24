@@ -62,7 +62,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         const img = document.createElement("img");
         img.style = "max-width: 100%; max-height: 100%;";
         img.src = `data:image/jpg;base64,${window.btoa(
-          String.fromCharCode(...new Uint8Array(visual.content))
+          String.fromCharCode(...new Uint8Array(visual.content)),
         )}`;
         output.current.innerHTML = img.outerHTML;
         break;
@@ -71,7 +71,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         const content = JSON.parse(visual.content.replace(/'/g, '"'));
         const [name, extension] = content.filename.split(".");
         const componentToUpdate = projectComponents.find(
-          (item) => item.extension === extension && item.name === name
+          (item) => item.extension === extension && item.name === name,
         );
         let updatedContent;
         if (content.mode === "w" || content.mode === "x") {
@@ -88,11 +88,11 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
               extension,
               name,
               code: updatedContent,
-            })
+            }),
           );
         } else {
           dispatch(
-            addProjectComponent({ name, extension, content: updatedContent })
+            addProjectComponent({ name, extension, content: updatedContent }),
           );
         }
         break;
