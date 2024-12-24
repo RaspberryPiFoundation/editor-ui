@@ -315,6 +315,7 @@ describe("When no user is in state", () => {
               instructions={instructions}
               authKey={authKey}
               theme="light"
+              loadCache={true}
             />
           </CookiesProvider>
         </Provider>,
@@ -328,7 +329,7 @@ describe("When no user is in state", () => {
         code,
         accessToken: "my_token",
         loadRemix: true,
-        loadCache: false,
+        loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",
       });
@@ -456,7 +457,7 @@ describe("When user is in state", () => {
           code: undefined,
           accessToken: "my_token",
           loadRemix: true,
-          loadCache: false,
+          loadCache: true,
           remixLoadFailed: false,
           reactAppApiEndpoint: "http://localhost:3009",
         });
@@ -486,7 +487,7 @@ describe("When user is in state", () => {
             code: undefined,
             accessToken: "my_token",
             loadRemix: false,
-            loadCache: false,
+            loadCache: true,
             remixLoadFailed: false,
             reactAppApiEndpoint: "http://localhost:3009",
           });

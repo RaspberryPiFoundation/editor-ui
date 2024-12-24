@@ -37,6 +37,7 @@ const WebComponentLoader = (props) => {
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
+    theme,
     loadRemixDisabled = false,
     outputOnly = false,
     outputPanels = ["text", "visual"],
@@ -47,10 +48,10 @@ const WebComponentLoader = (props) => {
     senseHatAlwaysEnabled = false,
     showSavePrompt = false,
     sidebarOptions = [],
-    theme,
     useEditorStyles = false, // If true use the standard editor styling for the web component
     withProjectbar = false,
     withSidebar = false,
+    loadCache = true, // Always use cache unless explicitly disabled
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -60,7 +61,6 @@ const WebComponentLoader = (props) => {
     ? JSON.parse(localStorage.getItem(authKey))
     : null;
   const user = useSelector((state) => state.auth.user || localStorageUser);
-  const [loadCache, setLoadCache] = useState(!!!user);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
@@ -99,10 +99,8 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (remixLoadFailed) {
-      setLoadCache(true);
       setLoadRemix(false);
     } else {
-      setLoadCache(!!!user);
       setLoadRemix(!!user);
     }
   }, [user, project, remixLoadFailed]);

@@ -149,6 +149,7 @@ describe("When project is loaded", () => {
       expect(logInHandler).toHaveBeenCalled();
     });
   });
+
   describe("with webComponent=false", () => {
     let store;
 
