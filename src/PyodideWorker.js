@@ -4,7 +4,7 @@
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
   importScripts(
-    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
+    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`
   );
   importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
   importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
@@ -29,7 +29,7 @@ const PyodideWorker = () => {
         "Please refer to these code snippets for registering a service worker:",
         "  - https://github.com/RaspberryPiFoundation/python-execution-prototypes/blob/fd2c50e032cba3bb0e92e19a88eb62e5b120fe7a/pyodide/index.html#L92-L98",
         "  - https://github.com/RaspberryPiFoundation/python-execution-prototypes/blob/fd2c50e032cba3bb0e92e19a88eb62e5b120fe7a/pyodide/serviceworker.js",
-      ].join("\n"),
+      ].join("\n")
     );
   }
   let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
@@ -83,7 +83,7 @@ const PyodideWorker = () => {
 
   const withSupportForPackages = async (
     python,
-    runPythonFn = async () => {},
+    runPythonFn = async () => {}
   ) => {
     const imports = await pyodide._api.pyodide_code.find_imports(python).toJs();
     await Promise.all(imports.map((name) => loadDependency(name)));
@@ -92,6 +92,44 @@ const PyodideWorker = () => {
     await pyodide.loadPackagesFromImports(python);
 
     checkIfStopped();
+    await pyodide.runPythonAsync(`
+      import basthon
+      import builtins
+      import os
+
+      # Save the original open function
+      _original_open = builtins.open
+
+      def _custom_open(filename, mode="r", *args, **kwargs):
+          if "x" in mode and os.path.exists(filename):
+            raise FileExistsError(f"File '{filename}' already exists")
+          if "w" in mode or "a" in mode or "x" in mode:
+              class CustomFile:
+                  def __init__(self, filename):
+                      self.filename = filename
+                      self.content = ""
+
+                  def write(self, content):
+                      self.content += content
+                      # print(f"{self.filename} {self.content}")
+                      basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
+
+                  def close(self):
+                      pass
+
+                  def __enter__(self):
+                      return self
+
+                  def __exit__(self, exc_type, exc_val, exc_tb):
+                      self.close()
+
+              return CustomFile(filename)
+          else:
+              return _original_open(filename, mode, *args, **kwargs)
+
+      # Override the built-in open function
+      builtins.open = _custom_open
+      `);
     await runPythonFn();
 
     for (let name of imports) {
@@ -156,7 +194,7 @@ const PyodideWorker = () => {
     enigma: {
       before: async () => {
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
+          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`
         );
       },
       after: () => {},
@@ -165,7 +203,7 @@ const PyodideWorker = () => {
       before: async () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`,
+          `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`
         );
       },
       after: () =>
@@ -375,45 +413,6 @@ const PyodideWorker = () => {
     await pyodide.runPythonAsync(`
         import pyodide_http
         pyodide_http.patch_all()
-      `);
-
-    await pyodide.runPythonAsync(`
-      import basthon
-      import builtins
-      import os
-
-      # Save the original open function
-      _original_open = builtins.open
-
-      def _custom_open(filename, mode="r", *args, **kwargs):
-          if "x" in mode and os.path.exists(filename):
-            raise FileExistsError(f"File '{filename}' already exists")
-          if "w" in mode or "a" in mode or "x" in mode:
-              class CustomFile:
-                  def __init__(self, filename):
-                      self.filename = filename
-                      self.content = ""
-
-                  def write(self, content):
-                      self.content += content
-                      # print(f"{self.filename} {self.content}")
-                      basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
-
-                  def close(self):
-                      pass
-
-                  def __enter__(self):
-                      return self
-
-                  def __exit__(self, exc_type, exc_val, exc_tb):
-                      self.close()
-
-              return CustomFile(filename)
-          else:
-              return _original_open(filename, mode, *args, **kwargs)
-
-      # Override the built-in open function
-      builtins.open = _custom_open
       `);
 
     if (supportsAllFeatures) {
