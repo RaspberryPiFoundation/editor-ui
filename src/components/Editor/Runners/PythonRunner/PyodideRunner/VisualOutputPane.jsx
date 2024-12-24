@@ -20,7 +20,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
     } else if (visuals.some((v) => !v.showing)) {
       setVisuals((visuals) => showVisuals(visuals, output));
     }
-  }, [visuals, setVisuals]);
+  }, [visuals, setVisuals, showVisuals]);
 
   const showVisuals = (visuals, output) =>
     visuals.map((v) => (v.showing ? v : showVisual(v, output)));
