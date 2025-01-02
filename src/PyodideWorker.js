@@ -100,10 +100,15 @@ const PyodideWorker = () => {
       # Save the original open function
       _original_open = builtins.open
 
+      MAX_FILES = 100
+      MAX_FILE_SIZE = 8500000
+
       def _custom_open(filename, mode="r", *args, **kwargs):
           if "x" in mode and os.path.exists(filename):
             raise FileExistsError(f"File '{filename}' already exists")
           if "w" in mode or "a" in mode or "x" in mode:
+              if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
+                  raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
               class CustomFile:
                   def __init__(self, filename):
                       self.filename = filename
@@ -112,6 +117,8 @@ const PyodideWorker = () => {
                   def write(self, content):
                       self.content += content
                       # print(f"{self.filename} {self.content}")
+                      if len(self.content) > MAX_FILE_SIZE:
+                          raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
                       basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
 
                   def close(self):
