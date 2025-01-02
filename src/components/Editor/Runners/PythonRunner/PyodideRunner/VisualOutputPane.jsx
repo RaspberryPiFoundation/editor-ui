@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
@@ -14,87 +14,93 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
   const output = useRef();
   const dispatch = useDispatch();
 
-  const showVisuals = (visuals, output) =>
-    visuals.map((v) => (v.showing ? v : showVisual(v, output)));
-
-  const showVisual = (visual, output) => {
-    switch (visual.origin) {
-      case "sense_hat":
-        output.current.textContent = JSON.stringify(visual.content);
-        break;
-      case "pygal":
-        const chartContent = {
-          ...visual.content,
-          chart: {
-            ...visual.content.chart,
-            events: {
-              ...visual.content.chart.events,
-              load: function () {
-                this.renderTo.style.overflow = "visible";
+  const showVisual = useCallback(
+    (visual, output) => {
+      switch (visual.origin) {
+        case "sense_hat":
+          output.current.textContent = JSON.stringify(visual.content);
+          break;
+        case "pygal":
+          const chartContent = {
+            ...visual.content,
+            chart: {
+              ...visual.content.chart,
+              events: {
+                ...visual.content.chart.events,
+                load: function () {
+                  this.renderTo.style.overflow = "visible";
+                },
               },
             },
-          },
-          tooltip: {
-            ...visual.content.tooltip,
-            formatter:
-              visual.content.chart.type === "pie"
-                ? function () {
-                    return this.key + ": " + this.y;
-                  }
-                : null,
-          },
-        };
-        Highcharts.chart(output.current, chartContent);
-        break;
-      case "turtle":
-        output.current.innerHTML = elementFromProps(visual.content).outerHTML;
-        break;
-      case "matplotlib":
-        // convert visual.content from Uint8Array to jpg
-        const img = document.createElement("img");
-        img.style = "max-width: 100%; max-height: 100%;";
-        img.src = `data:image/jpg;base64,${window.btoa(
-          String.fromCharCode(...new Uint8Array(visual.content)),
-        )}`;
-        output.current.innerHTML = img.outerHTML;
-        break;
-      case "file":
-        console.log("from the main thread:", visual);
-        const content = JSON.parse(visual.content.replace(/'/g, '"'));
-        const [name, extension] = content.filename.split(".");
-        const componentToUpdate = projectComponents.find(
-          (item) => item.extension === extension && item.name === name,
-        );
-        let updatedContent;
-        if (content.mode === "w" || content.mode === "x") {
-          updatedContent = content.content;
-        } else if (content.mode === "a") {
-          updatedContent =
-            (componentToUpdate ? componentToUpdate.content + "\n" : "") +
-            content.content;
-        }
-
-        if (componentToUpdate) {
-          dispatch(
-            updateProjectComponent({
-              extension,
-              name,
-              code: updatedContent,
-            }),
+            tooltip: {
+              ...visual.content.tooltip,
+              formatter:
+                visual.content.chart.type === "pie"
+                  ? function () {
+                      return this.key + ": " + this.y;
+                    }
+                  : null,
+            },
+          };
+          Highcharts.chart(output.current, chartContent);
+          break;
+        case "turtle":
+          output.current.innerHTML = elementFromProps(visual.content).outerHTML;
+          break;
+        case "matplotlib":
+          // convert visual.content from Uint8Array to jpg
+          const img = document.createElement("img");
+          img.style = "max-width: 100%; max-height: 100%;";
+          img.src = `data:image/jpg;base64,${window.btoa(
+            String.fromCharCode(...new Uint8Array(visual.content))
+          )}`;
+          output.current.innerHTML = img.outerHTML;
+          break;
+        case "file":
+          console.log("from the main thread:", visual);
+          const content = JSON.parse(visual.content.replace(/'/g, '"'));
+          const [name, extension] = content.filename.split(".");
+          const componentToUpdate = projectComponents.find(
+            (item) => item.extension === extension && item.name === name
           );
-        } else {
-          dispatch(
-            addProjectComponent({ name, extension, content: updatedContent }),
-          );
-        }
-        break;
-      default:
-        throw new Error(`Unsupported origin: ${visual.origin}`);
-    }
+          let updatedContent;
+          if (content.mode === "w" || content.mode === "x") {
+            updatedContent = content.content;
+          } else if (content.mode === "a") {
+            updatedContent =
+              (componentToUpdate ? componentToUpdate.content + "\n" : "") +
+              content.content;
+          }
 
-    visual.showing = true;
-    return visual;
-  };
+          if (componentToUpdate) {
+            dispatch(
+              updateProjectComponent({
+                extension,
+                name,
+                code: updatedContent,
+              })
+            );
+          } else {
+            dispatch(
+              addProjectComponent({ name, extension, content: updatedContent })
+            );
+          }
+          break;
+        default:
+          throw new Error(`Unsupported origin: ${visual.origin}`);
+      }
+
+      visual.showing = true;
+      return visual;
+    },
+    [dispatch, projectComponents]
+  );
+
+  const showVisuals = useCallback(
+    (visuals, output) =>
+      visuals.map((v) => (v.showing ? v : showVisual(v, output))),
+    [showVisual]
+  );
 
   useEffect(() => {
     if (visuals.length === 0) {
