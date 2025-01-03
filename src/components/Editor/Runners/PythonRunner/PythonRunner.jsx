@@ -15,7 +15,7 @@ const SKULPT_ONLY_MODULES = [
   "turtle",
 ];
 
-const PythonRunner = () => {
+const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.editor.project);
@@ -92,7 +92,10 @@ const PythonRunner = () => {
   }, [project, codeRunTriggered, senseHatAlwaysEnabled, skulptFallback, t]);
   return (
     <>
-      <PyodideRunner active={activeRunner === "pyodide"} />
+      <PyodideRunner
+        active={activeRunner === "pyodide"}
+        outputPanels={outputPanels}
+      />
       <SkulptRunner active={activeRunner === "skulpt"} />
     </>
   );
