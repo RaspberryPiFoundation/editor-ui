@@ -40,6 +40,7 @@ const PyodideWorker = () => {
 
     switch (data.method) {
       case "writeFile":
+        console.log("writing to file in worker", data.filename, data.content);
         pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
         break;
       case "runPython":
@@ -97,15 +98,12 @@ const PyodideWorker = () => {
       import builtins
       import os
 
-      # Save the original open function
-      _original_open = builtins.open
-
       MAX_FILES = 100
       MAX_FILE_SIZE = 8500000
 
       def _custom_open(filename, mode="r", *args, **kwargs):
           if "x" in mode and os.path.exists(filename):
-            raise FileExistsError(f"File '{filename}' already exists")
+              raise FileExistsError(f"File '{filename}' already exists")
           if "w" in mode or "a" in mode or "x" in mode:
               if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
                   raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
@@ -118,6 +116,8 @@ const PyodideWorker = () => {
                       self.content += content
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
+                      with _original_open(self.filename, "w") as f:
+                          f.write(self.content)
                       basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
 
                   def close(self):
@@ -413,6 +413,12 @@ const PyodideWorker = () => {
             print(prompt)
         return __old_input__()
     __builtins__.input = __patched_input__
+    `);
+
+    await pyodide.runPythonAsync(`
+    import builtins
+    # Save the original open function
+    _original_open = builtins.open
     `);
 
     await pyodide.loadPackage("pyodide-http");
