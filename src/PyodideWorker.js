@@ -40,7 +40,6 @@ const PyodideWorker = () => {
 
     switch (data.method) {
       case "writeFile":
-        console.log("writing to file in worker", data.filename, data.content);
         pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
         break;
       case "runPython":
@@ -118,7 +117,7 @@ const PyodideWorker = () => {
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
                       with _original_open(self.filename, "w") as f:
                           f.write(self.content)
-                      basthon.kernel.display_event({ "display_type": "file", "filename": self.filename, "content": str({"filename": self.filename, "content": self.content, "mode": mode}) })
+                      basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
 
                   def close(self):
                       pass
@@ -372,10 +371,14 @@ const PyodideWorker = () => {
       display_event: (event) => {
         const origin = event.toJs().get("display_type");
         const content = event.toJs().get("content");
-        const filename = event.toJs().get("filename");
 
-        console.log({ origin, content, filename });
-        postMessage({ method: "handleVisual", origin, content, filename });
+        postMessage({ method: "handleVisual", origin, content });
+      },
+      write_file: (event) => {
+        const filename = event.toJs().get("filename");
+        const content = event.toJs().get("content");
+        const mode = event.toJs().get("mode");
+        postMessage({ method: "handleFileWrite", filename, content, mode });
       },
       locals: () => pyodide.runPython("globals()"),
     },

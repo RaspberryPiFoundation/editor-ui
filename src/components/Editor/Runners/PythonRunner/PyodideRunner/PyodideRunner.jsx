@@ -8,6 +8,8 @@ import {
   setError,
   codeRunHandled,
   setLoadedRunner,
+  updateProjectComponent,
+  addProjectComponent,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -93,6 +95,9 @@ const PyodideRunner = ({ active }) => {
               data.type,
               data.info,
             );
+            break;
+          case "handleFileWrite":
+            handleFileWrite(data.filename, data.content, data.mode);
             break;
           case "handleVisual":
             handleVisual(data.origin, data.content);
@@ -192,6 +197,34 @@ const PyodideRunner = ({ active }) => {
 
     dispatch(setError(errorMessage));
     disableInput();
+  };
+
+  const handleFileWrite = (filename, content, mode) => {
+    const [name, extension] = filename.split(".");
+    const componentToUpdate = projectCode.find(
+      (item) => item.extension === extension && item.name === name,
+    );
+    let updatedContent;
+    if (mode === "w" || mode === "x") {
+      updatedContent = content;
+    } else if (mode === "a") {
+      updatedContent =
+        (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
+    }
+
+    if (componentToUpdate) {
+      dispatch(
+        updateProjectComponent({
+          extension,
+          name,
+          code: updatedContent,
+        }),
+      );
+    } else {
+      dispatch(
+        addProjectComponent({ name, extension, content: updatedContent }),
+      );
+    }
   };
 
   const handleVisual = (origin, content) => {
