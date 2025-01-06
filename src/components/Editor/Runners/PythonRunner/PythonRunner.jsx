@@ -96,7 +96,10 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
         active={activeRunner === "pyodide"}
         outputPanels={outputPanels}
       />
-      <SkulptRunner active={activeRunner === "skulpt"} />
+      <SkulptRunner
+        active={activeRunner === "skulpt"}
+        outputPanels={outputPanels}
+      />
     </>
   );
 };
