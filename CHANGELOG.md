@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Ability to write to files in `python` (#1146)
+- Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
 
 ## [0.28.14] - 2025-01-06
 

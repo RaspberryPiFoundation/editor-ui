@@ -33,7 +33,7 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = ({ active }) => {
+const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
 
   useEffect(() => {
@@ -67,6 +67,9 @@ const PyodideRunner = ({ active }) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
   const queryParams = new URLSearchParams(window.location.search);
+  const singleOutputPanel = outputPanels.length === 1;
+  const showVisualOutputPanel = outputPanels.includes("visual");
+  const showTextOutputPanel = outputPanels.includes("text");
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
@@ -228,8 +231,10 @@ const PyodideRunner = ({ active }) => {
   };
 
   const handleVisual = (origin, content) => {
-    setHasVisual(true);
-    setVisuals((array) => [...array, { origin, content }]);
+    if (showVisualOutputPanel) {
+      setHasVisual(true);
+      setVisuals((array) => [...array, { origin, content }]);
+    }
   };
 
   const handleSenseHatEvent = (type) => {
@@ -359,12 +364,16 @@ const PyodideRunner = ({ active }) => {
         "pyodiderunner--active": active,
       })}
     >
-      {isSplitView ? (
+      {isSplitView || singleOutputPanel ? (
         <>
-          {hasVisual && (
+          {hasVisual && showVisualOutputPanel && (
             <div className="output-panel output-panel--visual">
               <Tabs forceRenderTabPanel={true}>
-                <div className="react-tabs__tab-container">
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
                   <TabList>
                     <Tab key={0}>
                       <span className="react-tabs__tab-text">
@@ -381,30 +390,36 @@ const PyodideRunner = ({ active }) => {
               </Tabs>
             </div>
           )}
-          <div className="output-panel output-panel--text">
-            <Tabs forceRenderTabPanel={true}>
-              <div className="react-tabs__tab-container">
-                <TabList>
-                  <Tab key={0}>
-                    <span className="react-tabs__tab-text">
-                      {t("output.textOutput")}
-                    </span>
-                  </Tab>
-                </TabList>
-                {!hasVisual && !isEmbedded && isMobile && (
-                  <RunnerControls skinny />
-                )}
-              </div>
-              <ErrorMessage />
-              <TabPanel key={0}>
-                <pre
-                  className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
-                  onClick={shiftFocusToInput}
-                  ref={output}
-                ></pre>
-              </TabPanel>
-            </Tabs>
-          </div>
+          {showTextOutputPanel && (
+            <div className="output-panel output-panel--text">
+              <Tabs forceRenderTabPanel={true}>
+                <div
+                  className={classNames("react-tabs__tab-container", {
+                    "react-tabs__tab-container--hidden": singleOutputPanel,
+                  })}
+                >
+                  <TabList>
+                    <Tab key={0}>
+                      <span className="react-tabs__tab-text">
+                        {t("output.textOutput")}
+                      </span>
+                    </Tab>
+                  </TabList>
+                  {!hasVisual && !isEmbedded && isMobile && (
+                    <RunnerControls skinny />
+                  )}
+                </div>
+                <ErrorMessage />
+                <TabPanel key={0}>
+                  <pre
+                    className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
+                    onClick={shiftFocusToInput}
+                    ref={output}
+                  ></pre>
+                </TabPanel>
+              </Tabs>
+            </div>
+          )}
         </>
       ) : (
         <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
