@@ -27,6 +27,7 @@ const project = {
   components: [
     { name: "a", extension: "py", content: "print('a')" },
     { name: "main", extension: "py", content: "print('hello')" },
+    { name: "existing_file", extension: "txt", content: "hello" },
   ],
   image_list: [
     { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
@@ -248,6 +249,107 @@ describe("When output is received", () => {
 
   test("it displays the output", () => {
     expect(screen.queryByText("hello")).toBeInTheDocument();
+  });
+});
+
+describe("When file write event is received", () => {
+  let worker;
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />,
+      </Provider>,
+    );
+    updateRunner({ project });
+    worker = PyodideWorker.getLastInstance();
+  });
+
+  test("it overwrites existing files in 'w' mode", () => {
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "existing_file.txt",
+      content: "new content",
+      mode: "w",
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/updateProjectComponent",
+      payload: {
+        name: "existing_file",
+        extension: "txt",
+        code: "new content",
+      },
+    });
+  });
+
+  test("it creates new file if not already existing in 'w' mode", () => {
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "new_file.txt",
+      content: "new content",
+      mode: "w",
+    });
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/addProjectComponent",
+      payload: {
+        name: "new_file",
+        extension: "txt",
+        content: "new content",
+      },
+    });
+  });
+
+  test("it appends to existing files in 'a' mode", () => {
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "existing_file.txt",
+      content: "new content",
+      mode: "a",
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/updateProjectComponent",
+      payload: {
+        name: "existing_file",
+        extension: "txt",
+        code: "hello\nnew content",
+      },
+    });
+  });
+
+  test("it creates new file if not already existing in 'a' mode", () => {
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "new_file.txt",
+      content: "new content",
+      mode: "a",
+    });
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/addProjectComponent",
+      payload: {
+        name: "new_file",
+        extension: "txt",
+        content: "new content",
+      },
+    });
+  });
+
+  test("it creates new file if not already existing in 'x' mode", () => {
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "new_file.txt",
+      content: "new content",
+      mode: "x",
+    });
+
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/addProjectComponent",
+      payload: {
+        name: "new_file",
+        extension: "txt",
+        content: "new content",
+      },
+    });
   });
 });
 

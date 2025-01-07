@@ -89,26 +89,20 @@ describe("PyodideWorker", () => {
   });
 
   test("it patches the input function", async () => {
-    await worker.onmessage({
-      data: {
-        method: "runPython",
-        python: "print('hello')",
-      },
-    });
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
       expect.stringMatching(/__builtins__.input = __patched_input__/),
     );
   });
 
   test("it patches urllib and requests modules", async () => {
-    await worker.onmessage({
-      data: {
-        method: "runPython",
-        python: "print('hello')",
-      },
-    });
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
       expect.stringMatching(/pyodide_http.patch_all()/),
+    );
+  });
+
+  test("it saves original open function", async () => {
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/_original_open = builtins.open/),
     );
   });
 
@@ -176,6 +170,20 @@ describe("PyodideWorker", () => {
         expect.any(Object),
       );
     });
+  });
+
+  test("it patches the open function", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    await waitFor(() =>
+      expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+        expect.stringMatching(/builtins.open = _custom_open/),
+      ),
+    );
   });
 
   test("it runs the python code", async () => {
