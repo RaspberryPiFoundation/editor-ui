@@ -182,6 +182,7 @@ describe("PyodideWorker", () => {
     await waitFor(() =>
       expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
         expect.stringMatching(/builtins.open = _custom_open/),
+        { filename: "__custom_open__.py" },
       ),
     );
   });
