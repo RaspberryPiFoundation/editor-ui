@@ -27,6 +27,7 @@ const MAX_CHARACTERS = 8500000;
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
+  const editorViewRef = useRef();
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const [cookies] = useCookies(["theme", "fontSize"]);
@@ -74,11 +75,11 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       window.matchMedia("(prefers-color-scheme:dark)").matches);
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
 
-  useEffect(() => {
-    const file = project.components.find(
-      (item) => item.extension === extension && item.name === fileName,
-    );
+  const file = project.components.find(
+    (item) => item.extension === extension && item.name === fileName,
+  );
 
+  useEffect(() => {
     if (!file) {
       return;
     }
@@ -123,6 +124,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       parent: editor.current,
     });
 
+    editorViewRef.current = view;
+
     // 'aria-hidden' to fix keyboard access accessibility error
     view.scrollDOM.setAttribute("aria-hidden", "true");
 
@@ -137,6 +140,21 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       view.destroy();
     };
   }, [cookies]);
+
+  useEffect(() => {
+    if (
+      editorViewRef.current &&
+      file.content !== editorViewRef.current.state.doc.toString()
+    ) {
+      editorViewRef.current.dispatch({
+        changes: {
+          from: 0,
+          to: editorViewRef.current.state.doc.length,
+          insert: file.content,
+        },
+      });
+    }
+  }, [file, editorViewRef]);
 
   return (
     <>
