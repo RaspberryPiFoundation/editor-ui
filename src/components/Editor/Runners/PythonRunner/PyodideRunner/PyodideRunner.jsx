@@ -110,7 +110,7 @@ const PyodideRunner = ({ active }) => {
         }
       };
     }
-  }, [pyodideWorker]);
+  }, [pyodideWorker, projectCode]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
