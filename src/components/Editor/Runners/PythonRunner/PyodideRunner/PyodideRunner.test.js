@@ -17,6 +17,7 @@ import {
   setProject,
   setLoadedRunner,
   stopCodeRun,
+  setSenseHatAlwaysEnabled,
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
@@ -26,7 +27,11 @@ global.fetch = jest.fn();
 const project = {
   components: [
     { name: "a", extension: "py", content: "print('a')" },
-    { name: "main", extension: "py", content: "print('hello')" },
+    {
+      name: "main",
+      extension: "py",
+      content: "print('hello')",
+    },
   ],
   image_list: [
     { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
@@ -366,5 +371,47 @@ describe("When not active and code run triggered", () => {
 
   test("it does not send a message to the worker to run the python code", () => {
     expect(postMessage).not.toHaveBeenCalled();
+  });
+});
+
+describe("When there is visual output", () => {
+  beforeEach(() => {
+    act(() => {
+      store.dispatch(setSenseHatAlwaysEnabled(true));
+    });
+  });
+
+  test("displays both text and visual tabs by default", () => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner />
+      </Provider>,
+    );
+    expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+    expect(screen.queryByText("output.visualOutput")).toBeInTheDocument();
+  });
+
+  test("only displays text tab when outputPanels is set to just text", () => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner outputPanels={["text"]} />
+      </Provider>,
+    );
+    expect(screen.queryByText("output.textOutput")).toBeInTheDocument();
+    expect(screen.queryByText("output.visualOutput")).not.toBeInTheDocument();
+  });
+
+  test("only displays visual tab when outputPanels is set to just visual", () => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner outputPanels={["visual"]} />
+      </Provider>,
+    );
+    expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
+    expect(screen.queryByText("output.visualOutput")).toBeInTheDocument();
+  });
+
+  afterEach(() => {
+    store.dispatch(setSenseHatAlwaysEnabled(false));
   });
 });

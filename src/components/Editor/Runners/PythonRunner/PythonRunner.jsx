@@ -92,7 +92,10 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   }, [project, codeRunTriggered, senseHatAlwaysEnabled, skulptFallback, t]);
   return (
     <>
-      <PyodideRunner active={activeRunner === "pyodide"} />
+      <PyodideRunner
+        active={activeRunner === "pyodide"}
+        outputPanels={outputPanels}
+      />
       <SkulptRunner
         active={activeRunner === "skulpt"}
         outputPanels={outputPanels}
