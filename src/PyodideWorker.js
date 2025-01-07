@@ -92,7 +92,8 @@ const PyodideWorker = () => {
     await pyodide.loadPackagesFromImports(python);
 
     checkIfStopped();
-    await pyodide.runPythonAsync(`
+    await pyodide.runPythonAsync(
+      `
       import basthon
       import builtins
       import os
@@ -134,7 +135,9 @@ const PyodideWorker = () => {
 
       # Override the built-in open function
       builtins.open = _custom_open
-      `);
+      `,
+      { filename: "__custom_open__.py" },
+    );
     await runPythonFn();
 
     for (let name of imports) {
@@ -470,8 +473,18 @@ const PyodideWorker = () => {
   const parsePythonError = (error) => {
     const type = error.type;
     const [trace, info] = error.message.split(`${type}:`).map((s) => s?.trim());
+    console.log(trace);
+    console.log(info);
 
     const lines = trace.split("\n");
+
+    // if the third from last line matches /File "__custom_open__\.py", line (\d+)/g then strip off the last three lines
+    if (
+      lines.length > 3 &&
+      /File "__custom_open__\.py", line (\d+)/g.test(lines[lines.length - 3])
+    ) {
+      lines.splice(-3, 3);
+    }
 
     const snippetLine = lines[lines.length - 2]; //    print("hi")invalid
     const caretLine = lines[lines.length - 1]; //                 ^^^^^^^
@@ -481,7 +494,9 @@ const PyodideWorker = () => {
       ? [snippetLine.slice(4), caretLine.slice(4)].join("\n")
       : "";
 
-    const matches = [...trace.matchAll(/File "(.*)", line (\d+)/g)];
+    const matches = [
+      ...trace.matchAll(/File "(?!__custom_open__\.py)(.*)", line (\d+)/g),
+    ];
     const match = matches[matches.length - 1];
 
     const path = match ? match[1] : "";
