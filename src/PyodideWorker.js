@@ -116,6 +116,8 @@ const PyodideWorker = () => {
                       if "b" in mode:
                           self.content = content
                           write_mode = "wb"
+                          print("writing binary file with content", content)
+                          #return
                       else:
                           self.content += content
                           write_mode = "w"

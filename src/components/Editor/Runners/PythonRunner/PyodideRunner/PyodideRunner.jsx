@@ -10,6 +10,7 @@ import {
   setLoadedRunner,
   updateProjectComponent,
   addProjectComponent,
+  updateImages,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -206,11 +207,25 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     disableInput();
   };
 
-  const handleFileWrite = (filename, content, mode) => {
+  const handleFileWrite = async (filename, content, mode) => {
     const [name, extension] = filename.split(".");
     const componentToUpdate = projectCode.find(
       (item) => item.extension === extension && item.name === name,
     );
+
+    if (mode === "wb") {
+      const { uploadImages } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
+      const response = await uploadImages(
+        projectIdentifier,
+        user.access_token,
+        // file object with the correct filename and binary content
+        [new File([content], filename, { type: "application/octet-stream" })],
+      );
+      dispatch(updateImages(response.data.image_list));
+      return;
+    }
     let updatedContent;
     if (mode === "w" || mode === "x") {
       updatedContent = content;
