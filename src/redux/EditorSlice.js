@@ -95,6 +95,7 @@ export const loadProjectList = createAsyncThunk(
 
 const initialState = {
   project: {},
+  cascadeUpdate: false,
   readOnly: false,
   saveTriggered: false,
   saving: "idle",
@@ -265,6 +266,7 @@ export const EditorSlice = createSlice({
       const extension = action.payload.extension;
       const fileName = action.payload.name;
       const code = action.payload.code;
+      const cascadeUpdate = action.payload.cascadeUpdate;
 
       const mapped = state.project.components.map((item) => {
         if (item.extension !== extension || item.name !== fileName) {
@@ -274,6 +276,7 @@ export const EditorSlice = createSlice({
         return { ...item, ...{ content: code } };
       });
       state.project.components = mapped;
+      state.cascadeUpdate = cascadeUpdate;
     },
     updateProjectName: (state, action) => {
       state.project.name = action.payload;
@@ -294,6 +297,9 @@ export const EditorSlice = createSlice({
         state.openFiles[panelIndex][fileIndex] = `${name}.${extension}`;
       }
       state.saving = "idle";
+    },
+    setCascadeUpdate: (state, action) => {
+      state.cascadeUpdate = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -454,6 +460,7 @@ export const {
   setEmbedded,
   setIsOutputOnly,
   setBrowserPreview,
+  setCascadeUpdate,
   setError,
   setIsSplitView,
   setNameError,

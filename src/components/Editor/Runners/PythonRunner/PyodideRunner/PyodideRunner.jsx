@@ -53,6 +53,10 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const projectImages = useSelector((s) => s.editor.project.image_list);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
+  const focussedFileIndex = useSelector(
+    (state) => state.editor.focussedFileIndices,
+  )[0];
+  const openFiles = useSelector((state) => state.editor.openFiles)[0];
   const user = useSelector((s) => s.auth.user);
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
@@ -221,6 +225,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           extension,
           name,
           code: updatedContent,
+          cascadeUpdate: openFiles[focussedFileIndex] === filename,
         }),
       );
     } else {

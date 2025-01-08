@@ -2,7 +2,10 @@
 import "../../../assets/stylesheets/EditorPanel.scss";
 import React, { useRef, useEffect, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProjectComponent } from "../../../redux/EditorSlice";
+import {
+  setCascadeUpdate,
+  updateProjectComponent,
+} from "../../../redux/EditorSlice";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
@@ -30,6 +33,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editorViewRef = useRef();
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const cascadeUpdate = useSelector((state) => state.editor.cascadeUpdate);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -42,6 +46,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         extension: extension,
         name: fileName,
         code: content,
+        cascadeUpdate: false,
       }),
     );
   };
@@ -143,6 +148,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
 
   useEffect(() => {
     if (
+      cascadeUpdate &&
       editorViewRef.current &&
       file.content !== editorViewRef.current.state.doc.toString()
     ) {
@@ -153,8 +159,9 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
           insert: file.content,
         },
       });
+      dispatch(setCascadeUpdate(false));
     }
-  }, [file, editorViewRef]);
+  }, [file, cascadeUpdate, editorViewRef]);
 
   return (
     <>

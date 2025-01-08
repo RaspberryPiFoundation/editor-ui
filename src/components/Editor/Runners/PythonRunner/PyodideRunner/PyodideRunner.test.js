@@ -278,6 +278,7 @@ describe("When file write event is received", () => {
         name: "existing_file",
         extension: "txt",
         code: "new content",
+        cascadeUpdate: false,
       },
     });
   });
@@ -313,6 +314,7 @@ describe("When file write event is received", () => {
         name: "existing_file",
         extension: "txt",
         code: "hello\nnew content",
+        cascadeUpdate: false,
       },
     });
   });
