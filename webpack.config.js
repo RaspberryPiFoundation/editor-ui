@@ -107,6 +107,7 @@ module.exports = {
       // Pyodide - required for input and code interruption - needed on the host app
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Resource-Policy": "cross-origin",
     },
     setupMiddlewares: (middlewares, devServer) => {
       devServer.app.use((req, res, next) => {
@@ -136,8 +137,13 @@ module.exports = {
       template: "src/web-component.html",
       filename: "web-component.html",
     }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/scratch-component.html",
+      filename: "scratch-component.html",
+    }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "" }],
+      patterns: [{ from: "public", to: "" }, { from: "src/gui.js", to: "" }],
     }),
   ],
   stats: "minimal",

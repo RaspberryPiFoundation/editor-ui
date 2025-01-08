@@ -43,5 +43,6 @@
         "arrowParens": "always"
       }
     ]
-  }
+  },
+  "ignorePatterns": ["src/gui.js"]
 }
