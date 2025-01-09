@@ -9,6 +9,7 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
+    "@raspberrypifoundation/scratch-gui": "0.1.0-raspberrypifoundation.20230606092831",
     "scratch-gui": "^5.1.27"
   },
   "devDependencies": {

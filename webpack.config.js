@@ -143,7 +143,15 @@ module.exports = {
       filename: "scratch-component.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "" }, { from: "src/gui.js", to: "" }, { from: "scratch/dist/main.js", to: "scratch.js" }],
+      patterns: [
+        { from: "public", to: "" },
+        { from: "src/gui.js", to: "" },
+        { from: "scratch/dist/main.js", to: "scratch.js" },
+        // { from: "scratch/node_modules/scratch-gui/dist/static/blocks-media/default/*.svg", to: "static/blocks-media/default/[name][ext]" },
+        // { from: "scratch/node_modules/scratch-gui/dist/static/blocks-media/high-contrast/*.svg", to: "static/blocks-media/high-contrast/[name][ext]" },
+        { from: "scratch/node_modules/@raspberrypifoundation/scratch-gui/dist/static/assets/*.*", to: "static/assets/[name][ext]" },
+        { from: "scratch/node_modules/@raspberrypifoundation/scratch-gui/dist/static/blocks-media/*.*", to: "static/blocks-media/[name][ext]" },
+      ],
     }),
   ],
   stats: "minimal",
