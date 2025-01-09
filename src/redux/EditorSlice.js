@@ -265,7 +265,7 @@ export const EditorSlice = createSlice({
     updateProjectComponent: (state, action) => {
       const extension = action.payload.extension;
       const fileName = action.payload.name;
-      const code = action.payload.code;
+      const content = action.payload.content;
       const cascadeUpdate = action.payload.cascadeUpdate;
 
       const mapped = state.project.components.map((item) => {
@@ -273,7 +273,7 @@ export const EditorSlice = createSlice({
           return item;
         }
 
-        return { ...item, ...{ content: code } };
+        return { ...item, ...{ content } };
       });
       state.project.components = mapped;
       state.cascadeUpdate = cascadeUpdate;

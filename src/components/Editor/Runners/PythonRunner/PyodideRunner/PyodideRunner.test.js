@@ -18,6 +18,8 @@ import {
   setLoadedRunner,
   stopCodeRun,
   setSenseHatAlwaysEnabled,
+  openFile,
+  setFocussedFileIndex,
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
@@ -277,7 +279,7 @@ describe("When file write event is received", () => {
       payload: {
         name: "existing_file",
         extension: "txt",
-        code: "new content",
+        content: "new content",
         cascadeUpdate: false,
       },
     });
@@ -313,7 +315,7 @@ describe("When file write event is received", () => {
       payload: {
         name: "existing_file",
         extension: "txt",
-        code: "hello\nnew content",
+        content: "hello\nnew content",
         cascadeUpdate: false,
       },
     });
@@ -351,6 +353,27 @@ describe("When file write event is received", () => {
         name: "new_file",
         extension: "txt",
         content: "new content",
+      },
+    });
+  });
+
+  test("it cascades updates if the file is open and focused", () => {
+    store.dispatch(openFile({ name: "existing_file", extension: "txt" }));
+    store.dispatch(setFocussedFileIndex({ panelIndex: 0, fileIndex: 1 }));
+
+    worker.postMessageFromWorker({
+      method: "handleFileWrite",
+      filename: "existing_file.txt",
+      content: "new content",
+      mode: "a",
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "editor/updateProjectComponent",
+      payload: {
+        name: "existing_file",
+        extension: "txt",
+        content: "hello\nnew content",
+        cascadeUpdate: false,
       },
     });
   });

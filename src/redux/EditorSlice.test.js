@@ -12,6 +12,7 @@ import reducer, {
   setErrorDetails,
   setReadOnly,
   addProjectComponent,
+  updateProjectComponent,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -130,6 +131,44 @@ test("Action addProjectComponent adds component to project with correct content"
         name: "main",
         extension: "py",
         content: "print('hello world')",
+      }),
+    ),
+  ).toEqual(expectedState);
+});
+
+test("Action updateProjectComponent updates component in project with correct content", () => {
+  const previousState = {
+    project: {
+      components: [
+        {
+          name: "main",
+          extension: "py",
+          content: "print('hello world')",
+        },
+      ],
+    },
+    cascadeUpdate: false,
+  };
+  const expectedState = {
+    project: {
+      components: [
+        {
+          name: "main",
+          extension: "py",
+          content: "print('hello there world!')",
+        },
+      ],
+    },
+    cascadeUpdate: true,
+  };
+  expect(
+    reducer(
+      previousState,
+      updateProjectComponent({
+        name: "main",
+        extension: "py",
+        content: "print('hello there world!')",
+        cascadeUpdate: true,
       }),
     ),
   ).toEqual(expectedState);

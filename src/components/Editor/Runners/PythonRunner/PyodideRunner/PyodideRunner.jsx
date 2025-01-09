@@ -224,7 +224,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         updateProjectComponent({
           extension,
           name,
-          code: updatedContent,
+          content: updatedContent,
           cascadeUpdate: openFiles[focussedFileIndex] === filename,
         }),
       );
