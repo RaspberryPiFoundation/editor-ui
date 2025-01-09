@@ -143,7 +143,7 @@ module.exports = {
       filename: "scratch-component.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "" }, { from: "src/gui.js", to: "" }],
+      patterns: [{ from: "public", to: "" }, { from: "src/gui.js", to: "" }, { from: "scratch/dist/main.js", to: "scratch.js" }],
     }),
   ],
   stats: "minimal",

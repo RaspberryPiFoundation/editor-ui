@@ -1,0 +1,21 @@
+{
+  "name": "my-webpack-project",
+  "packageManager": "yarn@3.4.1",
+  "scripts": {
+    "start": "webpack serve --mode=development --node-env=development",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch"
+  },
+  "dependencies": {
+    "scratch-gui": "^5.1.27"
+  },
+  "devDependencies": {
+    "@webpack-cli/generators": "^3.0.7",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "version": "1.0.0",
+  "description": "My webpack project"
+}
