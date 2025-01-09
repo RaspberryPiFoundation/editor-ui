@@ -473,8 +473,6 @@ const PyodideWorker = () => {
   const parsePythonError = (error) => {
     const type = error.type;
     const [trace, info] = error.message.split(`${type}:`).map((s) => s?.trim());
-    console.log(trace);
-    console.log(info);
 
     const lines = trace.split("\n");
 

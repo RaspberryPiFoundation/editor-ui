@@ -147,12 +147,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   }, [cookies]);
 
   useEffect(() => {
-    console.log("file changed", file);
-    console.log("cascadeUpdate", cascadeUpdate);
-    console.log(
-      "file different from editor doc",
-      file.content !== editorViewRef.current.state.doc.toString(),
-    );
     if (
       cascadeUpdate &&
       editorViewRef.current &&
