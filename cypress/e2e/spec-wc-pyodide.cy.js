@@ -119,6 +119,30 @@ describe("Running the code with pyodide", () => {
       );
   });
 
+  it.only("updates the file in the editor when the content is updated programatically", () => {
+    runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
+    cy.get("editor-wc")
+      .shadow()
+      .find("div[class=cm-content]")
+      .invoke(
+        "text",
+        'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
+      );
+    cy.get("editor-wc")
+      .shadow()
+      .contains(".files-list-item", "output.txt")
+      .click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".btn--run")
+      .should("not.be.disabled")
+      .click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".cm-editor")
+      .should("contain", "Hello again world");
+  });
+
   it("runs a simple program with a built-in python module", () => {
     runCode("from math import floor, pi\nprint(floor(pi))");
     cy.get("editor-wc")

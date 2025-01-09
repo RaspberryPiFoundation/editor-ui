@@ -104,7 +104,14 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             );
             break;
           case "handleFileWrite":
-            handleFileWrite(data.filename, data.content, data.mode);
+            const cascadeUpdate =
+              openFiles[focussedFileIndex] === data.filename;
+            handleFileWrite(
+              data.filename,
+              data.content,
+              data.mode,
+              cascadeUpdate,
+            );
             break;
           case "handleVisual":
             handleVisual(data.origin, data.content);
@@ -117,7 +124,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         }
       };
     }
-  }, [pyodideWorker, projectCode]);
+  }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -206,7 +213,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     disableInput();
   };
 
-  const handleFileWrite = (filename, content, mode) => {
+  const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
     const [name, extension] = filename.split(".");
     const componentToUpdate = projectCode.find(
       (item) => item.extension === extension && item.name === name,
@@ -225,7 +232,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           extension,
           name,
           content: updatedContent,
-          cascadeUpdate: openFiles[focussedFileIndex] === filename,
+          cascadeUpdate,
         }),
       );
     } else {

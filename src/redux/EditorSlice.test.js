@@ -13,6 +13,7 @@ import reducer, {
   setReadOnly,
   addProjectComponent,
   updateProjectComponent,
+  setCascadeUpdate,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -172,6 +173,14 @@ test("Action updateProjectComponent updates component in project with correct co
       }),
     ),
   ).toEqual(expectedState);
+});
+
+test("Action setCascadeUpdate sets cascadeUpdate correctly", () => {
+  const previousState = { cascadeUpdate: true };
+  const expectedState = { cascadeUpdate: false };
+  expect(reducer(previousState, setCascadeUpdate(false))).toEqual(
+    expectedState,
+  );
 });
 
 test("Showing rename modal sets file state and showing status", () => {
