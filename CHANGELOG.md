@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
 - Downloading project instructions (#1160)
 
+### Changed
+
+- Made `INSTRUCTIONS.md` a reserved file name (#1160)
+
 ## [0.28.14] - 2025-01-06
 
 ### Fixed
