@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
+- Downloading project instructions (#1160)
 
 ## [0.28.14] - 2025-01-06
 
