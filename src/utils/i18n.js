@@ -130,6 +130,8 @@ i18n
           },
           filePanel: {
             errors: {
+              reservedFileName:
+                "{{fileName}} is a reserved file name. Please choose a different name.",
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
               notUnique: "File names must be unique.",

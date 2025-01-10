@@ -25,6 +25,7 @@ describe("Downloading project with name set", () => {
         project: {
           name: "My epic project",
           identifier: "hello-world-project",
+          instructions: "print hello world to the console",
           components: [
             {
               name: "main",
@@ -51,6 +52,18 @@ describe("Downloading project with name set", () => {
 
   test("Download button renders", () => {
     expect(downloadButton).toBeInTheDocument();
+  });
+
+  test("Clicking download zips instructions", async () => {
+    fireEvent.click(downloadButton);
+    const JSZipInstance = JSZip.mock.instances[0];
+    const mockFile = JSZipInstance.file;
+    await waitFor(() =>
+      expect(mockFile).toHaveBeenCalledWith(
+        "INSTRUCTIONS.md",
+        "print hello world to the console",
+      ),
+    );
   });
 
   test("Clicking download zips project file content", async () => {
@@ -119,6 +132,51 @@ describe("Downloading project with no name set", () => {
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         undefined,
         "header_download_file_name_default",
+      ),
+    );
+  });
+});
+
+describe("Downloading project with no instructions set", () => {
+  let downloadButton;
+
+  beforeEach(() => {
+    JSZip.mockClear();
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          name: "My epic project",
+          identifier: "hello-world-project",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "",
+            },
+          ],
+          image_list: [],
+        },
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <DownloadButton buttonText="Download" Icon={() => {}} />
+      </Provider>,
+    );
+    downloadButton = screen.queryByText("Download").parentElement;
+  });
+
+  test("Clicking download button does not zip instructions", async () => {
+    fireEvent.click(downloadButton);
+    const JSZipInstance = JSZip.mock.instances[0];
+    const mockFile = JSZipInstance.file;
+    await waitFor(() =>
+      expect(mockFile).not.toHaveBeenCalledWith(
+        "INSTRUCTIONS.md",
+        expect.anything(),
       ),
     );
   });

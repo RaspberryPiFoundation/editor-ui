@@ -5,6 +5,8 @@ const allowedExtensions = {
   html: ["html", "css", "js"],
 };
 
+const reservedFileNames = ["INSTRUCTIONS.md"];
+
 const allowedExtensionsString = (projectType, t) => {
   const extensionsList = allowedExtensions[projectType];
   if (extensionsList.length === 1) {
@@ -19,6 +21,7 @@ const allowedExtensionsString = (projectType, t) => {
 const isValidFileName = (fileName, projectType, componentNames) => {
   const extension = fileName.split(".").slice(1).join(".");
   if (
+    !reservedFileNames.includes(fileName) &&
     allowedExtensions[projectType].includes(extension) &&
     !componentNames.includes(fileName) &&
     fileName.split(" ").length === 1
@@ -44,6 +47,10 @@ export const validateFileName = (
     (currentFileName && fileName === currentFileName)
   ) {
     callback();
+  } else if (reservedFileNames.includes(fileName)) {
+    dispatch(
+      setNameError(t("filePanel.errors.reservedFileName", { fileName })),
+    );
   } else if (componentNames.includes(fileName)) {
     dispatch(setNameError(t("filePanel.errors.notUnique")));
   } else if (fileName.split(" ").length > 1) {
