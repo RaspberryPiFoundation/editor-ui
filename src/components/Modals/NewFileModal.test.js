@@ -81,6 +81,17 @@ describe("Testing the new file modal", () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
+  test("Reserved file names throws error", () => {
+    fireEvent.change(inputBox, { target: { value: "INSTRUCTIONS.md" } });
+    fireEvent.click(saveButton);
+    const expectedActions = [
+      setNameError("filePanel.errors.reservedFileName", {
+        fileName: "INSTRUCTIONS.md",
+      }),
+    ];
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
   test("Unsupported extension throws error", () => {
     fireEvent.change(inputBox, { target: { value: "file1.js" } });
     fireEvent.click(saveButton);
