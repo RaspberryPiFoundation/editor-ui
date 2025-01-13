@@ -109,7 +109,6 @@ const WebComponentProject = ({
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
-            editableInstructions={editableInstructions}
           />
         ))}
       {outputOnly && (
