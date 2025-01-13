@@ -13,6 +13,7 @@ import {
   setIsSplitView,
   setWebComponent,
   setIsOutputOnly,
+  setInstructionsEditable,
 } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
@@ -26,6 +27,7 @@ import {
 const WebComponentProject = ({
   withProjectbar = false,
   nameEditable = false,
+  editableInstructions = false,
   withSidebar = false,
   sidebarOptions = [],
   outputOnly = false,
@@ -54,8 +56,9 @@ const WebComponentProject = ({
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
     dispatch(setWebComponent(true));
+    dispatch(setInstructionsEditable(editableInstructions));
     dispatch(setIsOutputOnly(outputOnly));
-  }, [outputSplitView, outputOnly, dispatch]);
+  }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -106,6 +109,7 @@ const WebComponentProject = ({
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
+            editableInstructions={editableInstructions}
           />
         ))}
       {outputOnly && (

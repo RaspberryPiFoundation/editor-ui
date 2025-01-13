@@ -12,6 +12,9 @@ import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 
 const InstructionsPanel = () => {
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
@@ -82,6 +85,7 @@ const InstructionsPanel = () => {
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >
+      {instructionsEditable && "editpanel"}
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
   );

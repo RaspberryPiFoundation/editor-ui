@@ -34,6 +34,7 @@ const WebComponentLoader = (props) => {
     authKey,
     code,
     embedded = false,
+    editableInstructions,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -68,19 +69,19 @@ const WebComponentLoader = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
+    (state) => state.editor.hasShownSavePrompt
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
-    (state) => state.editor.errorModalShowing,
+    (state) => state.editor.errorModalShowing
   );
   const newFileModalShowing = useSelector(
-    (state) => state.editor.newFileModalShowing,
+    (state) => state.editor.newFileModalShowing
   );
   const renameFileModalShowing = useSelector(
-    (state) => state.editor.renameFileModalShowing,
+    (state) => state.editor.renameFileModalShowing
   );
 
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
@@ -160,6 +161,7 @@ const WebComponentLoader = (props) => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
 
+  console.log("-0------", instructions);
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
@@ -189,6 +191,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              editableInstructions={editableInstructions}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
