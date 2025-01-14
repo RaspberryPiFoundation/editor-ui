@@ -12,7 +12,6 @@ const renderProgressBarOnStep = (stepNumber, numberOfSteps = 3) => {
     content: `<p>step ${i + 1}</p>`,
   }));
 
-  console.log("--------------", steps);
   const initialState = {
     instructions: {
       project: {
