@@ -30,6 +30,11 @@ const ProgressBar = () => {
   const goToPreviousStep = () => {
     dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
   };
+
+  if (numberOfSteps === 1) {
+    return <></>;
+  }
+
   return (
     <div className="progress-bar">
       <Button

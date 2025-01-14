@@ -49,6 +49,7 @@ class WebComponent extends HTMLElement {
       "assets_identifier",
       "auth_key",
       "code",
+      "editable_instructions",
       "embedded",
       "host_styles",
       "identifier",
@@ -77,6 +78,7 @@ class WebComponent extends HTMLElement {
     if (
       [
         "embedded",
+        "editable_instructions",
         "load_remix_disabled",
         "output_only",
         "output_split_view",
