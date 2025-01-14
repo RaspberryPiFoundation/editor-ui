@@ -263,10 +263,7 @@ export const EditorSlice = createSlice({
       state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
-      const extension = action.payload.extension;
-      const fileName = action.payload.name;
-      const content = action.payload.content;
-      const cascadeUpdate = action.payload.cascadeUpdate;
+      const { extension, name: fileName, content, cascadeUpdate } = action.payload;
 
       const mapped = state.project.components.map((item) => {
         if (item.extension !== extension || item.name !== fileName) {
