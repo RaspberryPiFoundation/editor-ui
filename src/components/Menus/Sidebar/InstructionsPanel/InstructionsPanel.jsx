@@ -31,8 +31,11 @@ const InstructionsPanel = () => {
   }, [quiz]);
 
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project.steps.length,
+    (state) => state.instructions.project?.steps?.length || 0,
   );
+
+  const hasInstructions = steps && steps.length > 0;
+  const hasMultipleSteps = numberOfSteps > 1;
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -64,10 +67,17 @@ const InstructionsPanel = () => {
     if (isQuiz && !quizCompleted) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
       document.dispatchEvent(quizReadyEvent);
-    } else if (steps[currentStepPosition]) {
+    } else if (hasInstructions && steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
     }
-  }, [steps, currentStepPosition, quiz, quizCompleted, isQuiz]);
+  }, [
+    hasInstructions,
+    steps,
+    currentStepPosition,
+    quiz,
+    quizCompleted,
+    isQuiz,
+  ]);
 
   useEffect(() => {
     if (quizCompleted && isQuiz) {
@@ -83,7 +93,7 @@ const InstructionsPanel = () => {
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
-      Footer={ProgressBar}
+      {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
       <div>{instructionsEditable && <p>Edit panel will go here</p>}</div>
       <div className="project-instructions" ref={stepContent}></div>
