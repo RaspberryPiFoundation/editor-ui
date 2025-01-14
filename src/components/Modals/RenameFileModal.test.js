@@ -91,6 +91,17 @@ describe("Testing the rename file modal", () => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 
+  test("Reserved file name throws error", () => {
+    fireEvent.change(inputBox, { target: { value: "INSTRUCTIONS.md" } });
+    fireEvent.click(saveButton);
+    const expectedActions = [
+      setNameError("filePanel.errors.reservedFileName", {
+        fileName: "INSTRUCTIONS.md",
+      }),
+    ];
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
   test("Unchanged file name does not throw error", () => {
     fireEvent.click(saveButton);
     const expectedActions = [
