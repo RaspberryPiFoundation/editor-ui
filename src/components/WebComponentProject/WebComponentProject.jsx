@@ -79,6 +79,8 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
+    if (!projectInstructions) return;
+
     dispatch(
       setInstructions({
         project: {
