@@ -119,7 +119,7 @@ describe("Running the code with pyodide", () => {
       );
   });
 
-  it.only("updates the file in the editor when the content is updated programatically", () => {
+  it("updates the file in the editor when the content is updated programatically", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
     cy.get("editor-wc")
       .shadow()
