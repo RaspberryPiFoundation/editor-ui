@@ -26,6 +26,9 @@ import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 
 const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
 
   let menuOptions = [
     {
@@ -96,7 +99,9 @@ const Sidebar = ({ options = [] }) => {
 
   // Remove panels if dependency arrays are empty
   removeOption("images", projectImages);
-  removeOption("instructions", instructionsSteps);
+  if (!instructionsEditable) {
+    removeOption("instructions", instructionsSteps);
+  }
 
   const [option, setOption] = useState(
     instructionsSteps ? "instructions" : "file",
