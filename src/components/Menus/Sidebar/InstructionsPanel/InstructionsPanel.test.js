@@ -70,6 +70,45 @@ describe("It renders project steps when there is no quiz", () => {
   });
 });
 
+
+describe("When instructionsEditable is true", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: true,
+      },
+      instructions: {
+        project: {
+          steps: [
+            { content: "<p>step 0</p>" },
+            {
+              content: `<p>step 1</p>
+                <code class='language-python'>print('hello')</code>
+                <code class='language-html'><p>Hello world</p></code>
+                <code class='language-css'>.hello { color: purple }</code>
+                `,
+            },
+          ],
+        },
+        quiz: {},
+        currentStepPosition: 1,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("Renders the edit panel", () => {
+    // TODO: CR: 2024-01-14: Add edit panel
+    expect(screen.queryByText("Edit panel will go here")).toBeInTheDocument();
+  });
+});
+
 describe("It renders a quiz when it has one", () => {
   const quizHandler = jest.fn();
 
