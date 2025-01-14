@@ -70,7 +70,6 @@ describe("It renders project steps when there is no quiz", () => {
   });
 });
 
-
 describe("When instructionsEditable is true", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
