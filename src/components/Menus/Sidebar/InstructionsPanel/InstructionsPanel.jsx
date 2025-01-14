@@ -85,6 +85,7 @@ const InstructionsPanel = () => {
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >
+      <div>{instructionsEditable && <p>Edit panel will go here</p>}</div>
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
   );
