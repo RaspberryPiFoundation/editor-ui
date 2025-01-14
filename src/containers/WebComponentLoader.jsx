@@ -161,7 +161,6 @@ const WebComponentLoader = (props) => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
 
-  console.log("-0------", instructions);
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
