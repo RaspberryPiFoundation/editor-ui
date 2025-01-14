@@ -10,11 +10,13 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import { setProject } from "../../../../redux/EditorSlice";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
+  const project = useSelector((state) => state.editor?.project);
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
+  const [editInstructions, setEditInstructions] = useState("");
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -79,13 +82,28 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
+  useEffect(() => {
+    dispatch(
+      setProject({
+        ...project,
+        instructions: editInstructions,
+      }),
+    );
+  }, [project, editInstructions, dispatch]);
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
       Footer={ProgressBar}
     >
-      <div>{instructionsEditable && <p>Edit panel will go here</p>}</div>
+      <div>
+        {instructionsEditable && (
+          <textarea
+            onChange={(e) => setEditInstructions(e.target.value)}
+          ></textarea>
+        )}
+      </div>
       <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
   );
