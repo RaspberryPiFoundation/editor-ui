@@ -104,7 +104,7 @@ const PyodideWorker = () => {
       def _custom_open(filename, mode="r", *args, **kwargs):
           if "x" in mode and os.path.exists(filename):
               raise FileExistsError(f"File '{filename}' already exists")
-          if "w" in mode or "a" in mode or "x" in mode:
+          if ("w" in mode or "a" in mode or "x" in mode) and "b" not in mode:
               if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
                   raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
               class CustomFile:
