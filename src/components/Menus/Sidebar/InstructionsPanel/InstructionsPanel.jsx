@@ -13,7 +13,7 @@ import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
-    (state) => state.editor.instructionsEditable,
+    (state) => state.editor?.instructionsEditable,
   );
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);

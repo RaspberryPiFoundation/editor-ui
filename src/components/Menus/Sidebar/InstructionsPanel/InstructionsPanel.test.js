@@ -12,6 +12,9 @@ describe("It renders project steps when there is no quiz", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
       instructions: {
         project: {
           steps: [
