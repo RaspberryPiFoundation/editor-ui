@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -26,9 +26,6 @@ import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 
 const Sidebar = ({ options = [] }) => {
   const { t } = useTranslation();
-  const instructionsEditable = useSelector(
-    (state) => state.editor.instructionsEditable,
-  );
 
   let menuOptions = [
     {
@@ -87,6 +84,9 @@ const Sidebar = ({ options = [] }) => {
   const instructionsSteps = useSelector(
     (state) => state.instructions?.project?.steps,
   );
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
@@ -104,8 +104,20 @@ const Sidebar = ({ options = [] }) => {
   }
 
   const [option, setOption] = useState(
-    instructionsSteps ? "instructions" : "file",
+    instructionsEditable || instructionsSteps ? "instructions" : "file",
   );
+
+  useEffect(() => {
+    if (instructionsEditable || instructionsSteps) {
+      setOption("instructions");
+    }
+  }, [instructionsEditable, instructionsSteps]);
+
+  // useEffect(() => {
+  //   console.log("option set to", option);
+  //   console.log("instructionsEditable", instructionsEditable);
+  //   console.log("instructionsSteps", !!instructionsSteps);
+  // }, [option, instructionsEditable]);
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
