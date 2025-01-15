@@ -95,13 +95,17 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
+  const addInstructions = () => {
+    dispatch(setProjectInstructions(demoInstructions));
+  };
+
   const AddInstructionsButton = () => {
     return (
       <DesignSystemButton
         className="btn--primary"
         icon="add"
         text={"Add instructions"}
-        onClick={() => dispatch(setProjectInstructions(demoInstructions))}
+        onClick={addInstructions}
         fill
         textAlways
         small
