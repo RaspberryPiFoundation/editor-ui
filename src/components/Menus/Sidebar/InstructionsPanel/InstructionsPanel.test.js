@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import InstructionsPanel from "./InstructionsPanel";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-
+import { setProjectInstructions } from "../../../../redux/EditorSlice";
 window.HTMLElement.prototype.scrollTo = jest.fn();
 window.Prism = {
   highlightElement: jest.fn(),
@@ -13,6 +13,7 @@ describe("It renders project steps when there is no quiz", () => {
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
+        project: {},
         instructionsEditable: false,
       },
       instructions: {
@@ -71,30 +72,24 @@ describe("It renders project steps when there is no quiz", () => {
 });
 
 describe("When instructionsEditable is true", () => {
+  let store;
+
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
+        project: {},
         instructionsEditable: true,
       },
       instructions: {
         project: {
-          steps: [
-            { content: "<p>step 0</p>" },
-            {
-              content: `<p>step 1</p>
-                <code class='language-python'>print('hello')</code>
-                <code class='language-html'><p>Hello world</p></code>
-                <code class='language-css'>.hello { color: purple }</code>
-                `,
-            },
-          ],
+          steps: [{ content: "instructions" }],
         },
         quiz: {},
         currentStepPosition: 1,
       },
     };
-    const store = mockStore(initialState);
+    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <InstructionsPanel />
@@ -103,8 +98,20 @@ describe("When instructionsEditable is true", () => {
   });
 
   test("Renders the edit panel", () => {
-    // TODO: CR: 2024-01-14: Add edit panel
-    expect(screen.queryByText("Edit panel will go here")).toBeInTheDocument();
+    expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
+  });
+
+  test("saves content", async () => {
+    const textarea = screen.getByTestId("instructionTextarea");
+    const testString = "SomeInstructions";
+
+    fireEvent.change(textarea, { target: { value: testString } });
+
+    await waitFor(() => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setProjectInstructions(testString)]),
+      );
+    });
   });
 });
 

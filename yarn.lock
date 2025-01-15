@@ -2816,6 +2816,7 @@ __metadata:
     js-convert-case: ^4.2.0
     jszip: ^3.10.1
     jszip-utils: ^0.1.0
+    marked: ^15.0.6
     material-symbols: ^0.27.0
     mime-types: ^2.1.35
     mini-css-extract-plugin: 0.11.3
@@ -12498,6 +12499,15 @@ __metadata:
   dependencies:
     object-visit: ^1.0.0
   checksum: c27045a5021c344fc19b9132eb30313e441863b2951029f8f8b66f79d3d8c1e7e5091578075a996f74e417479506fe9ede28c44ca7bc351a61c9d8073daec36a
+  languageName: node
+  linkType: hard
+
+"marked@npm:^15.0.6":
+  version: 15.0.6
+  resolution: "marked@npm:15.0.6"
+  bin:
+    marked: bin/marked.js
+  checksum: 5218363ac4f6cd1893318ad8b1efacdc8a416f87da28cbcffb419d97602168935249351a3fbe2c59221e7e9955862c6a038ec00f19bf4a6d7e8e0e2e9643d154
   languageName: node
   linkType: hard
 

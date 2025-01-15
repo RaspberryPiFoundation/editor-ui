@@ -237,6 +237,9 @@ export const EditorSlice = createSlice({
       }
       state.justLoaded = true;
     },
+    setProjectInstructions: (state, action) => {
+      state.project.instructions = action.payload;
+    },
     expireJustLoaded: (state) => {
       state.justLoaded = false;
     },
@@ -463,6 +466,7 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  setProjectInstructions,
   setReadOnly,
   setInstructionsEditable,
   setSenseHatAlwaysEnabled,
