@@ -10,6 +10,7 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
@@ -89,14 +90,45 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
+  const AddInstructionsButton = () => {
+    return (
+      <DesignSystemButton
+        className="btn--primary"
+        icon="add"
+        text={"Add instructions"}
+        onClick={() => console.log("clicked")}
+        fill
+        textAlways
+        small
+      />
+    );
+  };
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
+      Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
-      <div>{instructionsEditable && <p>Edit panel will go here</p>}</div>
-      <div className="project-instructions" ref={stepContent}></div>
+      <div className="project-instructions" ref={stepContent}>
+        {instructionsEditable && !hasInstructions && (
+          <div className="project-instructions__empty">
+            <p className="project-instructions__empty-text">
+              {t("instructionsPanel.emptyState.purpose")}
+            </p>
+            <p className="project-instructions__empty-text">
+              {t("instructionsPanel.emptyState.location")}
+            </p>
+            <p className="project-instructions__empty-text">
+              {t("instructionsPanel.emptyState.markdown")}
+            </p>
+            <p className="project-instructions__empty-text">
+              {t("instructionsPanel.emptyState.edits")}
+            </p>
+          </div>
+        )}
+      </div>
     </SidebarPanel>
   );
 };
