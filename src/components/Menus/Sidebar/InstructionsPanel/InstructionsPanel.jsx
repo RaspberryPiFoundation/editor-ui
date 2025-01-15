@@ -86,7 +86,7 @@ const InstructionsPanel = () => {
   }, [editInstructions, dispatch]);
 
   useEffect(() => {
-    if (project.instructions) {
+    if (project?.instructions) {
       setEditInstructions(project.instructions);
     }
   }, [project, dispatch]);

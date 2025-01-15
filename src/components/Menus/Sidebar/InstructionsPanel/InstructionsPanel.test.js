@@ -13,6 +13,7 @@ describe("It renders project steps when there is no quiz", () => {
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
+        project: {},
         instructionsEditable: false,
       },
       instructions: {
@@ -75,6 +76,7 @@ describe("When instructionsEditable is true", () => {
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
+        project: {},
         instructionsEditable: true,
       },
       instructions: {
