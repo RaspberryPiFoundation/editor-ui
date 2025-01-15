@@ -100,6 +100,7 @@ const InstructionsPanel = () => {
       <div>
         {instructionsEditable && (
           <textarea
+            data-testid="instructionTextarea"
             value={editInstructions}
             onChange={(e) => setEditInstructions(e.target.value)}
           ></textarea>

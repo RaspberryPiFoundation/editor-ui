@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import InstructionsPanel from "./InstructionsPanel";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-
+import { setProjectInstructions } from "../../../../redux/EditorSlice";
 window.HTMLElement.prototype.scrollTo = jest.fn();
 window.Prism = {
   highlightElement: jest.fn(),
@@ -72,6 +72,8 @@ describe("It renders project steps when there is no quiz", () => {
 });
 
 describe("When instructionsEditable is true", () => {
+  let store;
+
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
@@ -87,12 +89,29 @@ describe("When instructionsEditable is true", () => {
         currentStepPosition: 1,
       },
     };
-    const store = mockStore(initialState);
+    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <InstructionsPanel />
       </Provider>,
     );
+  });
+
+  test("Renders the edit panel", () => {
+    expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
+  });
+
+  test("saves content", async () => {
+    const textarea = screen.getByTestId("instructionTextarea");
+    const testString = "SomeInstructions";
+
+    fireEvent.change(textarea, { target: { value: testString } });
+
+    await waitFor(() => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setProjectInstructions(testString)]),
+      );
+    });
   });
 });
 
