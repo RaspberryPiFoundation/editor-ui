@@ -113,12 +113,6 @@ const Sidebar = ({ options = [] }) => {
     }
   }, [instructionsEditable, instructionsSteps]);
 
-  // useEffect(() => {
-  //   console.log("option set to", option);
-  //   console.log("instructionsEditable", instructionsEditable);
-  //   console.log("instructionsSteps", !!instructionsSteps);
-  // }, [option, instructionsEditable]);
-
   const toggleOption = (newOption) => {
     if (option !== newOption) {
       setOption(newOption);
