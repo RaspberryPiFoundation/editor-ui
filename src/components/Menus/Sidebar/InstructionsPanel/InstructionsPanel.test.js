@@ -81,16 +81,7 @@ describe("When instructionsEditable is true", () => {
       },
       instructions: {
         project: {
-          steps: [
-            { content: "<p>step 0</p>" },
-            {
-              content: `<p>step 1</p>
-                <code class='language-python'>print('hello')</code>
-                <code class='language-html'><p>Hello world</p></code>
-                <code class='language-css'>.hello { color: purple }</code>
-                `,
-            },
-          ],
+          steps: [{ content: "instructions" }],
         },
         quiz: {},
         currentStepPosition: 1,
@@ -106,7 +97,7 @@ describe("When instructionsEditable is true", () => {
 
   test("Renders the edit panel", () => {
     // TODO: CR: 2024-01-14: Add edit panel
-    expect(screen.queryByText("Edit panel will go here")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("instructions")).toBeInTheDocument();
   });
 });
 
