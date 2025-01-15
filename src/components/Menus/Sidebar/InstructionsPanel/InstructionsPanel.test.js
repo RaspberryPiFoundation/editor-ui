@@ -12,6 +12,9 @@ describe("It renders project steps when there is no quiz", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
       instructions: {
         project: {
           steps: [
@@ -64,6 +67,106 @@ describe("It renders project steps when there is no quiz", () => {
   test("Applies syntax highlighting to CSS code", () => {
     const codeElement = document.getElementsByClassName("language-css")[0];
     expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+  });
+});
+
+describe("When instructionsEditable is true", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: true,
+      },
+      instructions: {
+        project: {
+          steps: [
+            { content: "<p>step 0</p>" },
+            {
+              content: `<p>step 1</p>
+                <code class='language-python'>print('hello')</code>
+                <code class='language-html'><p>Hello world</p></code>
+                <code class='language-css'>.hello { color: purple }</code>
+                `,
+            },
+          ],
+        },
+        quiz: {},
+        currentStepPosition: 1,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("Renders the edit panel", () => {
+    // TODO: CR: 2024-01-14: Add edit panel
+    expect(screen.queryByText("Edit panel will go here")).toBeInTheDocument();
+  });
+});
+
+describe("When there is only one step", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
+      instructions: {
+        project: {
+          steps: [{ content: "<p>step 0</p>" }],
+        },
+        quiz: {},
+        currentStepPosition: 0,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("Does not render the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+});
+
+describe("When there are no steps", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
+      instructions: {
+        project: {
+          steps: [],
+        },
+        quiz: {},
+        currentStepPosition: 0,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("It renders without crashing", () => {
+    expect(
+      screen.queryByText("instructionsPanel.projectSteps"),
+    ).toBeInTheDocument();
+  });
+
+  test("Does not render the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
   });
 });
 

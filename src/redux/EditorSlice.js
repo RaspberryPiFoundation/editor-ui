@@ -243,6 +243,9 @@ export const EditorSlice = createSlice({
     setReadOnly: (state, action) => {
       state.readOnly = action.payload;
     },
+    setInstructionsEditable: (state, action) => {
+      state.instructionsEditable = action.payload;
+    },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
     },
@@ -461,6 +464,7 @@ export const {
   setWebComponent,
   setProject,
   setReadOnly,
+  setInstructionsEditable,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,

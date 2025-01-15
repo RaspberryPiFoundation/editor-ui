@@ -59,6 +59,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `assets_identifier`: Load assets (not code) from this project identifier
 - `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
 - `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
+- `editable_instructions`: Boolean whether to show edit panel for instructions
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 - `host_styles`: Styles passed into the web component from the host page
 - `identifier`: Load the project with this identifier from the database

@@ -34,6 +34,7 @@ const WebComponentLoader = (props) => {
     authKey,
     code,
     embedded = false,
+    editableInstructions,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -189,6 +190,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              editableInstructions={editableInstructions}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

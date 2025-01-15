@@ -13,7 +13,9 @@ import {
   setIsSplitView,
   setWebComponent,
   setIsOutputOnly,
+  setInstructionsEditable,
 } from "../../redux/EditorSlice";
+import { setInstructions } from "../../redux/InstructionsSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -26,6 +28,7 @@ import {
 const WebComponentProject = ({
   withProjectbar = false,
   nameEditable = false,
+  editableInstructions = false,
   withSidebar = false,
   sidebarOptions = [],
   outputOnly = false,
@@ -44,6 +47,9 @@ const WebComponentProject = ({
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const projectInstructions = useSelector(
+    (state) => state.editor.project.instructions,
+  );
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
@@ -54,8 +60,9 @@ const WebComponentProject = ({
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
     dispatch(setWebComponent(true));
+    dispatch(setInstructionsEditable(editableInstructions));
     dispatch(setIsOutputOnly(outputOnly));
-  }, [outputSplitView, outputOnly, dispatch]);
+  }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -70,6 +77,24 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
+
+  useEffect(() => {
+    if (!projectInstructions) return;
+
+    dispatch(
+      setInstructions({
+        project: {
+          steps: [
+            {
+              quiz: false,
+              title: "",
+              content: projectInstructions,
+            },
+          ],
+        },
+      }),
+    );
+  }, [dispatch, projectInstructions]);
 
   useEffect(() => {
     if (codeRunTriggered) {
