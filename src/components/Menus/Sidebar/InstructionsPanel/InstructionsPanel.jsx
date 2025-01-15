@@ -10,8 +10,7 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
-import { setProject } from "../../../../redux/EditorSlice";
-
+import { setProjectInstructions } from "../../../../redux/EditorSlice";
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -83,13 +82,14 @@ const InstructionsPanel = () => {
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
   useEffect(() => {
-    dispatch(
-      setProject({
-        ...project,
-        instructions: editInstructions,
-      }),
-    );
-  }, [project, editInstructions, dispatch]);
+    dispatch(setProjectInstructions(editInstructions));
+  }, [editInstructions, dispatch]);
+
+  useEffect(() => {
+    if (project.instructions) {
+      setEditInstructions(project.instructions);
+    }
+  }, [project, dispatch]);
 
   return (
     <SidebarPanel
@@ -100,6 +100,7 @@ const InstructionsPanel = () => {
       <div>
         {instructionsEditable && (
           <textarea
+            value={editInstructions}
             onChange={(e) => setEditInstructions(e.target.value)}
           ></textarea>
         )}
