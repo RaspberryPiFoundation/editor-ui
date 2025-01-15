@@ -26,7 +26,6 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
-  const [editInstructions, setEditInstructions] = useState("");
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -81,15 +80,9 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
-  useEffect(() => {
-    dispatch(setProjectInstructions(editInstructions));
-  }, [editInstructions, dispatch]);
-
-  useEffect(() => {
-    if (project?.instructions) {
-      setEditInstructions(project.instructions);
-    }
-  }, [project, dispatch]);
+  const onChange = (e) => {
+    dispatch(setProjectInstructions(e.target.value));
+  };
 
   return (
     <SidebarPanel
@@ -101,8 +94,8 @@ const InstructionsPanel = () => {
         {instructionsEditable && (
           <textarea
             data-testid="instructionTextarea"
-            value={editInstructions}
-            onChange={(e) => setEditInstructions(e.target.value)}
+            value={project.instructions}
+            onChange={onChange}
           ></textarea>
         )}
       </div>
