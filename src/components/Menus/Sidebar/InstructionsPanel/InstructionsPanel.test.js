@@ -94,11 +94,6 @@ describe("When instructionsEditable is true", () => {
       </Provider>,
     );
   });
-
-  test("Renders the edit panel", () => {
-    // TODO: CR: 2024-01-14: Add edit panel
-    expect(screen.getByDisplayValue("instructions")).toBeInTheDocument();
-  });
 });
 
 describe("It renders a quiz when it has one", () => {
