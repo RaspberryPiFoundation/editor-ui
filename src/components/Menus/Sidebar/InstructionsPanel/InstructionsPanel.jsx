@@ -12,6 +12,7 @@ import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
+import demoInstructions from "./demoInstructions.md";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
@@ -63,9 +64,11 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     const setStepContent = (content) => {
-      stepContent.current.parentElement.scrollTo({ top: 0 });
-      stepContent.current.innerHTML = content;
-      applySyntaxHighlighting(stepContent.current);
+      if (stepContent.current) {
+        stepContent.current?.parentElement.scrollTo({ top: 0 });
+        stepContent.current.innerHTML = content;
+        applySyntaxHighlighting(stepContent.current);
+      }
     };
     if (isQuiz && !quizCompleted) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
@@ -98,7 +101,7 @@ const InstructionsPanel = () => {
         className="btn--primary"
         icon="add"
         text={"Add instructions"}
-        onClick={() => console.log("clicked")}
+        onClick={() => dispatch(setProjectInstructions(demoInstructions))}
         fill
         textAlways
         small
@@ -117,31 +120,39 @@ const InstructionsPanel = () => {
       Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
-      <div>
-        {instructionsEditable && (
-          <textarea
-            data-testid="instructionTextarea"
-            value={project.instructions}
-            onChange={onChange}
-          ></textarea>
-        )}
-      </div>
-      <div className="project-instructions" ref={stepContent}>
-        {instructionsEditable && !hasInstructions && (
-          <div className="project-instructions__empty">
-            <p className="project-instructions__empty-text">
-              {t("instructionsPanel.emptyState.purpose")}
-            </p>
-            <p className="project-instructions__empty-text">
-              {t("instructionsPanel.emptyState.location")}
-            </p>
-            <p className="project-instructions__empty-text">
-              {t("instructionsPanel.emptyState.markdown")}
-            </p>
-            <p className="project-instructions__empty-text">
-              {t("instructionsPanel.emptyState.edits")}
-            </p>
-          </div>
+      <div className="project-instructions">
+        {instructionsEditable ? (
+          hasInstructions ? (
+            <div>
+              {instructionsEditable && (
+                <textarea
+                  data-testid="instructionTextarea"
+                  value={project.instructions}
+                  onChange={onChange}
+                ></textarea>
+              )}
+            </div>
+          ) : (
+            <div className="project-instructions__empty">
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.purpose")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.location")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.markdown")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.edits")}
+              </p>
+            </div>
+          )
+        ) : (
+          <div
+            className="project-instructions__content"
+            ref={stepContent}
+          ></div>
         )}
       </div>
     </SidebarPanel>
