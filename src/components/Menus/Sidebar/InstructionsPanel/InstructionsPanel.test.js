@@ -108,6 +108,68 @@ describe("When instructionsEditable is true", () => {
   });
 });
 
+describe("When there is only one step", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
+      instructions: {
+        project: {
+          steps: [{ content: "<p>step 0</p>" }],
+        },
+        quiz: {},
+        currentStepPosition: 0,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("Does not render the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+});
+
+describe("When there are no steps", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        instructionsEditable: false,
+      },
+      instructions: {
+        project: {
+          steps: [],
+        },
+        quiz: {},
+        currentStepPosition: 0,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+  });
+
+  test("It renders without crashing", () => {
+    expect(
+      screen.queryByText("instructionsPanel.projectSteps"),
+    ).toBeInTheDocument();
+  });
+
+  test("Does not render the progress bar", () => {
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+});
+
 describe("It renders a quiz when it has one", () => {
   const quizHandler = jest.fn();
 

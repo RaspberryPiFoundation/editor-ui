@@ -28,24 +28,6 @@ const renderProgressBarOnStep = (stepNumber, numberOfSteps = 3) => {
   );
 };
 
-describe("When there is only one step", () => {
-  beforeEach(() => {
-    renderProgressBarOnStep(0, 1);
-  });
-
-  test("Previous step button is not shown", () => {
-    expect(
-      screen.queryByTitle("instructionsPanel.previousStep"),
-    ).not.toBeInTheDocument();
-  });
-
-  test("Next step button is not shown", () => {
-    expect(
-      screen.queryByTitle("instructionsPanel.nextStep"),
-    ).not.toBeInTheDocument();
-  });
-});
-
 describe("When on first step", () => {
   beforeEach(() => {
     renderProgressBarOnStep(0);

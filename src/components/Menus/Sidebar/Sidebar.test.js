@@ -250,3 +250,69 @@ describe("When the project has instructions", () => {
     expect(screen.queryByTitle("sidebar.instructions")).toBeInTheDocument();
   });
 });
+
+describe("When the project has no instructions", () => {
+  describe("When instructions are not editable", () => {
+    beforeEach(() => {
+      const mockStore = configureStore([]);
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: [],
+          },
+          instructionsEditable: false,
+        },
+        instructions: {},
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Does not show instructions icon", () => {
+      expect(
+        screen.queryByTitle("sidebar.instructions"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe("When instructions are editable", () => {
+    beforeEach(() => {
+      const mockStore = configureStore([]);
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: [],
+          },
+          instructionsEditable: true,
+        },
+        instructions: {},
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Show instructions icon", () => {
+      expect(screen.queryByTitle("sidebar.instructions")).toBeInTheDocument();
+    });
+
+    test("Renders instructions panel open by default", () => {
+      expect(
+        screen.queryByText("instructionsPanel.projectSteps"),
+      ).toBeInTheDocument();
+    });
+  });
+});
