@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
@@ -11,6 +13,7 @@ import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
+
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -26,6 +29,7 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
+  const [instructionsTab, setInstructionsTab] = useState(0);
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -61,6 +65,8 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     const setStepContent = (content) => {
+      if (!stepContent?.current) return;
+
       stepContent.current.parentElement.scrollTo({ top: 0 });
       stepContent.current.innerHTML = content;
       applySyntaxHighlighting(stepContent.current);
@@ -78,6 +84,7 @@ const InstructionsPanel = () => {
     quiz,
     quizCompleted,
     isQuiz,
+    instructionsTab,
   ]);
 
   useEffect(() => {
@@ -100,16 +107,32 @@ const InstructionsPanel = () => {
       heading={t("instructionsPanel.projectSteps")}
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
-      <div>
-        {instructionsEditable && (
-          <textarea
-            data-testid="instructionTextarea"
-            value={project.instructions}
-            onChange={onChange}
-          ></textarea>
-        )}
-      </div>
-      <div className="project-instructions" ref={stepContent}></div>
+      {instructionsEditable ? (
+        <Tabs
+          onSelect={(index) => {
+            setInstructionsTab(index);
+          }}
+        >
+          <TabList>
+            <Tab>{t("instructionsPanel.edit")}</Tab>
+            <Tab>{t("instructionsPanel.view")}</Tab>
+          </TabList>
+          <TabPanel>
+            <textarea
+              data-testid="instructionTextarea"
+              value={project.instructions}
+              onChange={onChange}
+            ></textarea>
+          </TabPanel>
+          <TabPanel>
+            <>
+              <div className="project-instructions" ref={stepContent}></div>
+            </>
+          </TabPanel>
+        </Tabs>
+      ) : (
+        <div className="project-instructions" ref={stepContent}></div>
+      )}
     </SidebarPanel>
   );
 };

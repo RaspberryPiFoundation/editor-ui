@@ -207,6 +207,8 @@ i18n
             nextStep: "Next step",
             previousStep: "Previous step",
             projectSteps: "Project steps",
+            edit: "Edit",
+            view: "View",
           },
           projectsPanel: {
             projects: "Projects",
