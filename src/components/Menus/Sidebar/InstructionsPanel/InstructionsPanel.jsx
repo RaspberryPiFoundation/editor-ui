@@ -132,7 +132,7 @@ const InstructionsPanel = () => {
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
-            <div>
+            <div className="c-instruction-tabs">
               {instructionsEditable && (
                 <Tabs
                   onSelect={(index) => {
@@ -140,7 +140,7 @@ const InstructionsPanel = () => {
                   }}
                 >
                   <TabList>
-                    <Tab>{t("instructionsPanel.edit")}</Tab>
+                    <Tab className="react-tabs__tab project-instructions__tab">{t("instructionsPanel.edit")}</Tab>
                     <Tab>{t("instructionsPanel.view")}</Tab>
                   </TabList>
                   <TabPanel>

@@ -1,0 +1,26 @@
+@use './rpf_design_system/colours' as *;
+@use './rpf_design_system/spacing' as *;
+
+.draggable-tab {
+  user-select: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.--dark .draggable-tab:focus-visible .react-tabs__tab {
+  outline: 2px auto $rpf-white;
+  outline-offset: -1px;
+}
+
+.--light .draggable-tab:focus-visible .react-tabs__tab {
+  outline: 2px auto Highlight;
+  outline: 2px auto -webkit-focus-ring-color;
+  outline-offset: -1px;
+}
+
+.droppable-tab-list {
+  display: flex;
+  inline-size: 100%;
+}
