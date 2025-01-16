@@ -11,6 +11,9 @@ import reducer, {
   setIsOutputOnly,
   setErrorDetails,
   setReadOnly,
+  addProjectComponent,
+  updateProjectComponent,
+  setCascadeUpdate,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -102,6 +105,82 @@ test("Action setReadOnly correctly sets readOnly", () => {
   const previousState = { readOnly: false };
   const expectedState = { readOnly: true };
   expect(reducer(previousState, setReadOnly(true))).toEqual(expectedState);
+});
+
+test("Action addProjectComponent adds component to project with correct content", () => {
+  const previousState = {
+    project: {
+      components: [],
+    },
+  };
+  const expectedState = {
+    project: {
+      components: [
+        {
+          name: "main",
+          extension: "py",
+          content: "print('hello world')",
+        },
+      ],
+    },
+    saving: "idle",
+  };
+  expect(
+    reducer(
+      previousState,
+      addProjectComponent({
+        name: "main",
+        extension: "py",
+        content: "print('hello world')",
+      }),
+    ),
+  ).toEqual(expectedState);
+});
+
+test("Action updateProjectComponent updates component in project with correct content", () => {
+  const previousState = {
+    project: {
+      components: [
+        {
+          name: "main",
+          extension: "py",
+          content: "print('hello world')",
+        },
+      ],
+    },
+    cascadeUpdate: false,
+  };
+  const expectedState = {
+    project: {
+      components: [
+        {
+          name: "main",
+          extension: "py",
+          content: "print('hello there world!')",
+        },
+      ],
+    },
+    cascadeUpdate: true,
+  };
+  expect(
+    reducer(
+      previousState,
+      updateProjectComponent({
+        name: "main",
+        extension: "py",
+        content: "print('hello there world!')",
+        cascadeUpdate: true,
+      }),
+    ),
+  ).toEqual(expectedState);
+});
+
+test("Action setCascadeUpdate sets cascadeUpdate correctly", () => {
+  const previousState = { cascadeUpdate: true };
+  const expectedState = { cascadeUpdate: false };
+  expect(reducer(previousState, setCascadeUpdate(false))).toEqual(
+    expectedState,
+  );
 });
 
 test("Showing rename modal sets file state and showing status", () => {
