@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
@@ -13,6 +13,7 @@ import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "./demoInstructions.md";
+import { Link } from "react-router-dom";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
@@ -145,7 +146,12 @@ const InstructionsPanel = () => {
                 {t("instructionsPanel.emptyState.location")}
               </p>
               <p className="project-instructions__empty-text">
-                {t("instructionsPanel.emptyState.markdown")}
+                <Trans
+                  i18nKey="instructionsPanel.emptyState.markdown"
+                  components={[
+                    <Link to="https://commonmark.org/help/" target="_blank" />,
+                  ]}
+                />
               </p>
               <p className="project-instructions__empty-text">
                 {t("instructionsPanel.emptyState.edits")}

@@ -211,7 +211,7 @@ i18n
                 "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
               location:
                 "These instructions will be shown to students in their project sidebar and will be view-only.",
-              markdown: "Instructions are written in markdown.",
+              markdown: "Instructions are written in <0>markdown</0>.",
               purpose:
                 "Instructions can be added to your project to guide students.",
             },
