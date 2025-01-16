@@ -12,7 +12,7 @@ import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import demoInstructions from "./demoInstructions.md";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import { Link } from "react-router-dom";
 
 const InstructionsPanel = () => {
@@ -105,7 +105,7 @@ const InstructionsPanel = () => {
       <DesignSystemButton
         className="btn--primary"
         icon="add"
-        text={"Add instructions"}
+        text={t("instructionsPanel.emptyState.addInstructions")}
         onClick={addInstructions}
         fill
         textAlways
