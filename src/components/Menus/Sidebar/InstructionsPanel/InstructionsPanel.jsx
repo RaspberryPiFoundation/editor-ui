@@ -19,14 +19,14 @@ import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
-    (state) => state.editor?.instructionsEditable,
+    (state) => state.editor?.instructionsEditable
   );
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
   const currentStepPosition = useSelector(
-    (state) => state.instructions.currentStepPosition,
+    (state) => state.instructions.currentStepPosition
   );
   const { t } = useTranslation();
   const stepContent = useRef();
@@ -39,7 +39,7 @@ const InstructionsPanel = () => {
   }, [quiz]);
 
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project?.steps?.length || 0,
+    (state) => state.instructions.project?.steps?.length || 0
   );
 
   const hasInstructions = steps && steps.length > 0;
@@ -47,7 +47,7 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css",
+      ".language-python, .language-html, .language-css"
     );
 
     codeElements.forEach((element) => {
@@ -94,8 +94,8 @@ const InstructionsPanel = () => {
     if (quizCompleted && isQuiz) {
       dispatch(
         setCurrentStepPosition(
-          Math.min(currentStepPosition + 1, numberOfSteps - 1),
-        ),
+          Math.min(currentStepPosition + 1, numberOfSteps - 1)
+        )
       );
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
@@ -140,9 +140,7 @@ const InstructionsPanel = () => {
                   }}
                 >
                   <TabList>
-                    <Tab className="react-tabs__tab project-instructions__tab">
-                      {t("instructionsPanel.edit")}
-                    </Tab>
+                    <Tab>{t("instructionsPanel.edit")}</Tab>
                     <Tab>{t("instructionsPanel.view")}</Tab>
                   </TabList>
                   <TabPanel>
