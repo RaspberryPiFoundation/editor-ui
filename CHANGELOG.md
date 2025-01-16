@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Downloading project instructions (#1160)
 - Show instructions option in sidebar if instructions are editable (#1164)
 - Open instructions panel by default if instructions are editable (#1164)
+- Instructions empty state to show when instructions are editable (#1165)
 
 ### Changed
 
