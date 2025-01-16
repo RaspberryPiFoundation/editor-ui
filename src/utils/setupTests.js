@@ -42,6 +42,10 @@ jest.mock("./i18n", () => ({
   t: (string) => string,
 }));
 
+jest.mock("../assets/markdown/demoInstructions.md", () => {
+  return "demoInstructions.md";
+});
+
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
 window.Worker = PyodideWorker;
