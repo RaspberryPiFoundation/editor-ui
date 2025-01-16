@@ -39,6 +39,10 @@ const DownloadButton = (props) => {
 
     const zip = new JSZip();
 
+    if (project.instructions) {
+      zip.file("INSTRUCTIONS.md", project.instructions);
+    }
+
     project.components.forEach((file) => {
       zip.file(`${file.name}.${file.extension}`, file.content);
     });
