@@ -140,7 +140,9 @@ const InstructionsPanel = () => {
                   }}
                 >
                   <TabList>
-                    <Tab className="react-tabs__tab project-instructions__tab">{t("instructionsPanel.edit")}</Tab>
+                    <Tab className="react-tabs__tab project-instructions__tab">
+                      {t("instructionsPanel.edit")}
+                    </Tab>
                     <Tab>{t("instructionsPanel.view")}</Tab>
                   </TabList>
                   <TabPanel>
