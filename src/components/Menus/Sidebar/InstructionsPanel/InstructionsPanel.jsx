@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
@@ -10,7 +10,11 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
+import { Link } from "react-router-dom";
+
 const InstructionsPanel = () => {
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -61,9 +65,11 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     const setStepContent = (content) => {
-      stepContent.current.parentElement.scrollTo({ top: 0 });
-      stepContent.current.innerHTML = content;
-      applySyntaxHighlighting(stepContent.current);
+      if (stepContent.current) {
+        stepContent.current?.parentElement.scrollTo({ top: 0 });
+        stepContent.current.innerHTML = content;
+        applySyntaxHighlighting(stepContent.current);
+      }
     };
     if (isQuiz && !quizCompleted) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
@@ -90,6 +96,24 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
+  const addInstructions = () => {
+    dispatch(setProjectInstructions(demoInstructions));
+  };
+
+  const AddInstructionsButton = () => {
+    return (
+      <DesignSystemButton
+        className="btn--primary"
+        icon="add"
+        text={t("instructionsPanel.emptyState.addInstructions")}
+        onClick={addInstructions}
+        fill
+        textAlways
+        small
+      />
+    );
+  };
+
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
@@ -98,18 +122,55 @@ const InstructionsPanel = () => {
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
+      Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
-      <div>
-        {instructionsEditable && (
-          <textarea
-            data-testid="instructionTextarea"
-            value={project.instructions}
-            onChange={onChange}
-          ></textarea>
+      <div className="project-instructions">
+        {instructionsEditable ? (
+          hasInstructions ? (
+            <div>
+              {instructionsEditable && (
+                <textarea
+                  data-testid="instructionTextarea"
+                  value={project.instructions}
+                  onChange={onChange}
+                ></textarea>
+              )}
+            </div>
+          ) : (
+            <div className="project-instructions__empty">
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.purpose")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.location")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {() => (
+                  <Trans
+                    i18nKey="instructionsPanel.emptyState.markdown"
+                    components={[
+                      <Link
+                        href="https://commonmark.org/help/"
+                        target="_blank"
+                        rel="noreferrer"
+                      />,
+                    ]}
+                  />
+                )}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.edits")}
+              </p>
+            </div>
+          )
+        ) : (
+          <div
+            className="project-instructions__content"
+            ref={stepContent}
+          ></div>
         )}
       </div>
-      <div className="project-instructions" ref={stepContent}></div>
     </SidebarPanel>
   );
 };

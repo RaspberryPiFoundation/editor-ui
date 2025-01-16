@@ -255,4 +255,17 @@
       white-space: pre-wrap;
     }
   }
+
+  .project-instructions__empty {
+    background-color: $rpf-teal-100;
+    border-radius: $space-0-5;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1-5;
+    padding: $space-1;
+  }
+
+  .project-instructions__empty-text {
+    margin: 0;
+  }
 }
