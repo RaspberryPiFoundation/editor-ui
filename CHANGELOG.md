@@ -8,13 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Autosave instructions
-- Editable instructions
+- Autosave instructions (#1163)
+- Editable instructions (#1161)
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
 - Downloading project instructions (#1160)
 - Show instructions option in sidebar if instructions are editable (#1164)
 - Open instructions panel by default if instructions are editable (#1164)
 - Instructions empty state to show when instructions are editable (#1165)
+- Instructions tabs for edit and viewing (#1167)
 
 ### Changed
 
