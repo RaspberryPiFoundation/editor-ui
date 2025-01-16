@@ -104,7 +104,7 @@ jobs:
           REACT_APP_PLAUSIBLE_SOURCE: ""
 
       - name: Archive cypress artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.0
         if: failure()
         with:
           name: cypress-artifacts
