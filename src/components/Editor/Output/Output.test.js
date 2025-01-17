@@ -26,6 +26,8 @@ describe("Output component", () => {
         project: {
           components: [],
         },
+        focussedFileIndices: [0],
+        openFiles: [["main.py"]],
       },
       auth: {
         user,
