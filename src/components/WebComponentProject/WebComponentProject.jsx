@@ -80,19 +80,22 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!projectInstructions) return;
+    // if (!projectInstructions) return;
 
     dispatch(
       setInstructions({
         project: {
-          steps: [
-            {
-              quiz: false,
-              title: "",
-              content: marked.parse(projectInstructions),
-            },
-          ],
+          steps: projectInstructions
+            ? [
+                {
+                  quiz: false,
+                  title: "",
+                  content: marked.parse(projectInstructions),
+                },
+              ]
+            : [],
         },
+        permitOverride: true,
       }),
     );
   }, [dispatch, projectInstructions]);
