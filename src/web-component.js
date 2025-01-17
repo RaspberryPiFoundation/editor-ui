@@ -9,6 +9,7 @@ import "./utils/i18n";
 import camelCase from "camelcase";
 import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 import { BrowserRouter } from "react-router-dom";
+import { resetStore } from "./redux/RootSlice";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -42,6 +43,7 @@ class WebComponent extends HTMLElement {
       console.log("Unmounted web-component...");
       this.root.unmount();
     }
+    store.dispatch(resetStore());
   }
 
   static get observedAttributes() {
