@@ -43,17 +43,3 @@ test("Keeps original step position if no progress", () => {
     currentStepPosition: 0,
   });
 });
-
-test("Does not set instructions when permitOverride is false", () => {
-  let state = { currentStepPosition: 0, permitOverride: false };
-
-  const step = { quiz: false, title: "Step 1", content: "Do something!" };
-  const instructions = {
-    currentStepPosition: 7,
-    project: {
-      steps: [step],
-    },
-    permitOverride: true,
-  };
-  expect(setInstructions(state, { payload: instructions })).toEqual(state);
-});

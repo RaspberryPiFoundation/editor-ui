@@ -31,6 +31,7 @@ describe("When state set", () => {
             { name: "main", extension: "py", content: "print('hello')" },
           ],
           image_list: [],
+          instructions: "My amazing instructions",
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -38,6 +39,7 @@ describe("When state set", () => {
       },
       instructions: {
         currentStepPosition: 3,
+        permitOverride: true,
       },
       auth: {},
     };
@@ -71,6 +73,127 @@ describe("When state set", () => {
 
   test("Defaults to not showing the projectbar", () => {
     expect(screen.queryByText("header.newProject")).not.toBeInTheDocument();
+  });
+
+  test("Dispatches action to set instructions", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>My amazing instructions</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
+describe("When there are no instructions", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+          image_list: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: { permitOverride: true },
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+  });
+
+  test("Does not dispatch action to set instructions", () => {
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>My amazing instructions</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
+describe("When overriding instructions is not permitted", () => {
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+      },
+      instructions: { permitOverride: false },
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+  });
+
+  test("Does not dispatch action to set instructions", () => {
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>My amazing instructions</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
   });
 });
 

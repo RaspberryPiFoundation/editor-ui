@@ -1,8 +1,5 @@
 export const setInstructions = (state, action) => {
-  if (state.permitOverride) {
-    return { ...state, ...action.payload };
-  }
-  return state;
+  return { ...state, ...action.payload };
 };
 
 export const setCurrentStepPosition = (state, action) => {
