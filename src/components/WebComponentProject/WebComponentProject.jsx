@@ -83,7 +83,7 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!projectInstructions || !permitInstructionsOverride) return;
+    if (!projectInstructions && !permitInstructionsOverride) return;
 
     dispatch(
       setInstructions({
