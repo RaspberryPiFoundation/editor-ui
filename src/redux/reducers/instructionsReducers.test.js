@@ -12,7 +12,7 @@ test("Sets step number correctly", () => {
   expect(state).toEqual(expectedState);
 });
 
-test("Sets instructions including step position correctly when permitOverride is true", () => {
+test("Sets instructions including step position correctly", () => {
   let state = { currentStepPosition: 0 };
 
   const step = { quiz: false, title: "Step 1", content: "Do something!" };
