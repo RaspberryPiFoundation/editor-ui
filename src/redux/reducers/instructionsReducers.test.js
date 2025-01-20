@@ -13,7 +13,7 @@ test("Sets step number correctly", () => {
 });
 
 test("Sets instructions including step position correctly when permitOverride is true", () => {
-  let state = { currentStepPosition: 0, permitOverride: true };
+  let state = { currentStepPosition: 0 };
 
   const step = { quiz: false, title: "Step 1", content: "Do something!" };
   const instructions = {
@@ -21,7 +21,6 @@ test("Sets instructions including step position correctly when permitOverride is
     project: {
       steps: [step],
     },
-    permitOverride: true,
   };
   expect(setInstructions(state, { payload: instructions })).toEqual(
     instructions,
@@ -29,14 +28,13 @@ test("Sets instructions including step position correctly when permitOverride is
 });
 
 test("Keeps original step position if no progress", () => {
-  let state = { currentStepPosition: 0, permitOverride: true };
+  let state = { currentStepPosition: 0 };
 
   const step = { quiz: false, title: "Step 1", content: "Do something!" };
   const instructions = {
     project: {
       steps: [step],
     },
-    permitOverride: true,
   };
   expect(setInstructions(state, { payload: instructions })).toEqual({
     ...instructions,
