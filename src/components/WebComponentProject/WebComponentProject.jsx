@@ -80,9 +80,6 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    // if (!projectInstructions) return;
-    console.log("the instructions changed to", projectInstructions);
-
     dispatch(
       setInstructions({
         project: {
