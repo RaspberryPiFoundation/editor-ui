@@ -2,7 +2,10 @@
 import "../../../assets/stylesheets/EditorPanel.scss";
 import React, { useRef, useEffect, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProjectComponent } from "../../../redux/EditorSlice";
+import {
+  setCascadeUpdate,
+  updateProjectComponent,
+} from "../../../redux/EditorSlice";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
@@ -27,8 +30,10 @@ const MAX_CHARACTERS = 8500000;
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
+  const editorViewRef = useRef();
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const cascadeUpdate = useSelector((state) => state.editor.cascadeUpdate);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -40,7 +45,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       updateProjectComponent({
         extension: extension,
         name: fileName,
-        code: content,
+        content,
+        cascadeUpdate: false,
       }),
     );
   };
@@ -74,11 +80,11 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       window.matchMedia("(prefers-color-scheme:dark)").matches);
   const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
 
-  useEffect(() => {
-    const file = project.components.find(
-      (item) => item.extension === extension && item.name === fileName,
-    );
+  const file = project.components.find(
+    (item) => item.extension === extension && item.name === fileName,
+  );
 
+  useEffect(() => {
     if (!file) {
       return;
     }
@@ -123,6 +129,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       parent: editor.current,
     });
 
+    editorViewRef.current = view;
+
     // 'aria-hidden' to fix keyboard access accessibility error
     view.scrollDOM.setAttribute("aria-hidden", "true");
 
@@ -137,6 +145,23 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       view.destroy();
     };
   }, [cookies]);
+
+  useEffect(() => {
+    if (
+      cascadeUpdate &&
+      editorViewRef.current &&
+      file.content !== editorViewRef.current.state.doc.toString()
+    ) {
+      editorViewRef.current.dispatch({
+        changes: {
+          from: 0,
+          to: editorViewRef.current.state.doc.length,
+          insert: file.content,
+        },
+      });
+      dispatch(setCascadeUpdate(false));
+    }
+  }, [file, cascadeUpdate, editorViewRef]);
 
   return (
     <>

@@ -170,18 +170,16 @@ const InstructionsPanel = () => {
                 {t("instructionsPanel.emptyState.location")}
               </p>
               <p className="project-instructions__empty-text">
-                {() => (
-                  <Trans
-                    i18nKey="instructionsPanel.emptyState.markdown"
-                    components={[
-                      <Link
-                        href="https://commonmark.org/help/"
-                        target="_blank"
-                        rel="noreferrer"
-                      />,
-                    ]}
-                  />
-                )}
+                <Trans
+                  i18nKey="instructionsPanel.emptyState.markdown"
+                  components={[
+                    <Link
+                      href="https://commonmark.org/help/"
+                      target="_blank"
+                      rel="noreferrer"
+                    />,
+                  ]}
+                />
               </p>
               <p className="project-instructions__empty-text">
                 {t("instructionsPanel.emptyState.edits")}
