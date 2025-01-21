@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 
 import { useProject } from "./useProject";
 import { syncProject, setProject } from "../redux/EditorSlice";
-import { defaultPythonProject } from "../utils/defaultProjects";
+import { defaultScratchProject } from "../utils/defaultProjects";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
@@ -53,9 +53,9 @@ describe("When not embedded", () => {
     wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
   });
 
-  test("If no identifier uses default python project", () => {
+  test("If no identifier uses default Scratch project", () => {
     renderHook(() => useProject({}), { wrapper });
-    expect(setProject).toHaveBeenCalledWith(defaultPythonProject);
+    expect(setProject).toHaveBeenCalledWith(defaultScratchProject);
   });
 
   test("If cached project matches identifer uses cached project", () => {

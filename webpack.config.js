@@ -106,7 +106,7 @@ module.exports = {
         "X-Requested-With, content-type, Authorization",
       // Pyodide - required for input and code interruption - needed on the host app
       "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Embedder-Policy": "cross-origin"
     },
     setupMiddlewares: (middlewares, devServer) => {
       devServer.app.use((req, res, next) => {
