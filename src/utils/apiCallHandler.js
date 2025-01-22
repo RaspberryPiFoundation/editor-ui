@@ -106,6 +106,17 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     );
   };
 
+  const updateImage = async (projectIdentifier, accessToken, image) => {
+    var formData = new FormData();
+    formData.append("image", image, image.name);
+
+    return await put(
+      `${host}/api/projects/${projectIdentifier}/images`,
+      formData,
+      { ...headers(accessToken), "Content-Type": "multipart/form-data" },
+    );
+  };
+
   const createError = async (
     projectIdentifier,
     userId,
@@ -137,6 +148,7 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     loadAssets,
     readProjectList,
     uploadImages,
+    updateImage,
     createError,
   };
 };

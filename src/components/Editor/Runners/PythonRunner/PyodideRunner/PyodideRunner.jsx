@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../../assets/stylesheets/PythonRunner.scss";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
@@ -118,7 +124,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         }
       };
     }
-  }, [pyodideWorker, projectCode]);
+  }, [pyodideWorker, projectCode, projectImages]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -207,48 +213,67 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     disableInput();
   };
 
-  const handleFileWrite = async (filename, content, mode) => {
-    const [name, extension] = filename.split(".");
-    const componentToUpdate = projectCode.find(
-      (item) => item.extension === extension && item.name === name,
-    );
+  const handleFileWrite = useCallback(
+    async (filename, content, mode) => {
+      const [name, extension] = filename.split(".");
+      const componentToUpdate = projectCode.find(
+        (item) => item.extension === extension && item.name === name,
+      );
 
-    if (mode === "wb") {
-      const { uploadImages } = ApiCallHandler({
-        reactAppApiEndpoint,
-      });
-      const response = await uploadImages(
-        projectIdentifier,
-        user.access_token,
-        // file object with the correct filename and binary content
-        [new File([content], filename, { type: "application/octet-stream" })],
-      );
-      dispatch(updateImages(response.data.image_list));
-      return;
-    }
-    let updatedContent;
-    if (mode === "w" || mode === "x") {
-      updatedContent = content;
-    } else if (mode === "a") {
-      updatedContent =
-        (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
-    }
+      if (mode === "wb") {
+        const { uploadImages, updateImage } = ApiCallHandler({
+          reactAppApiEndpoint,
+        });
 
-    if (componentToUpdate) {
-      dispatch(
-        updateProjectComponent({
-          extension,
-          name,
-          code: updatedContent,
-          cascadeUpdate: openFiles[focussedFileIndex] === filename,
-        }),
-      );
-    } else {
-      dispatch(
-        addProjectComponent({ name, extension, content: updatedContent }),
-      );
-    }
-  };
+        const projectImageNames = projectImages.map((image) => image.filename);
+        console.log("Project Image Names: ", projectImageNames);
+        if (projectImageNames.includes(filename)) {
+          console.log("Image already exists");
+          const response = await updateImage(
+            projectIdentifier,
+            user.access_token,
+            // file object with the correct filename and binary content
+            new File([content], filename, { type: "application/octet-stream" }),
+          );
+          if (response.status === 200) {
+            dispatch(updateImages(response.data.image_list));
+          }
+          return;
+        }
+        const response = await uploadImages(
+          projectIdentifier,
+          user.access_token,
+          // file object with the correct filename and binary content
+          [new File([content], filename, { type: "application/octet-stream" })],
+        );
+        dispatch(updateImages(response.data.image_list));
+        return;
+      }
+      let updatedContent;
+      if (mode === "w" || mode === "x") {
+        updatedContent = content;
+      } else if (mode === "a") {
+        updatedContent =
+          (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
+      }
+
+      if (componentToUpdate) {
+        dispatch(
+          updateProjectComponent({
+            extension,
+            name,
+            code: updatedContent,
+            cascadeUpdate: openFiles[focussedFileIndex] === filename,
+          }),
+        );
+      } else {
+        dispatch(
+          addProjectComponent({ name, extension, content: updatedContent }),
+        );
+      }
+    },
+    [projectImages],
+  );
 
   const handleVisual = (origin, content) => {
     if (showVisualOutputPanel) {
