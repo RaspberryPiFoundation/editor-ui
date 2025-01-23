@@ -93,7 +93,7 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
-const initialState = {
+export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
   readOnly: false,
@@ -144,9 +144,9 @@ const initialState = {
 
 export const EditorSlice = createSlice({
   name: "editor",
-  initialState,
+  initialState: editorInitialState,
   reducers: {
-    resetState: () => initialState,
+    resetState: () => editorInitialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))

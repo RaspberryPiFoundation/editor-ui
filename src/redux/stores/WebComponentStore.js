@@ -1,15 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EditorReducer from "../EditorSlice";
-import InstructionsReducer from "../InstructionsSlice";
-import WebComponentAuthReducer, { setUser } from "../WebComponentAuthSlice";
+import { setUser } from "../WebComponentAuthSlice";
+import rootReducer from "../RootSlice";
 import userMiddleWare from "../middlewares/localStorageUserMiddleware";
 
 const store = configureStore({
-  reducer: {
-    editor: EditorReducer,
-    instructions: InstructionsReducer,
-    auth: WebComponentAuthReducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

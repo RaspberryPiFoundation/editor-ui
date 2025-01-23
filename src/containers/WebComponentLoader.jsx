@@ -153,7 +153,7 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (instructions) {
-      dispatch(setInstructions(instructions));
+      dispatch(setInstructions({ ...instructions, permitOverride: false }));
     }
   }, [instructions, dispatch]);
 

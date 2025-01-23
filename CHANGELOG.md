@@ -16,10 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Show instructions option in sidebar if instructions are editable (#1164)
 - Open instructions panel by default if instructions are editable (#1164)
 - Instructions empty state to show when instructions are editable (#1165, ##1168)
+- Allow `instructions` attribute to override instructions attached to the project (#1169) 
 
 ### Changed
 
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
+- Clear the redux store when the component unmounts (#1169)
 
 ## [0.28.14] - 2025-01-06
 

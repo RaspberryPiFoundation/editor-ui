@@ -20,34 +20,52 @@ jest.useFakeTimers();
 
 let store;
 
+const renderWebComponentProject = ({
+  instructions,
+  permitOverride = true,
+  loading,
+  codeRunTriggered = false,
+  codeHasBeenRun = false,
+  props = {},
+}) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+        instructions,
+      },
+      loading,
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered,
+      codeHasBeenRun,
+    },
+    instructions: {
+      currentStepPosition: 3,
+      permitOverride,
+    },
+    auth: {},
+  };
+  store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <WebComponentProject {...props} />
+    </Provider>,
+  );
+};
+
 describe("When state set", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-        codeRunTriggered: true,
-      },
-      instructions: {
-        currentStepPosition: 3,
-      },
-      auth: {},
-    };
-    store = mockStore(initialState);
-
-    render(
-      <Provider store={store}>
-        <WebComponentProject />
-      </Provider>,
-    );
+    renderWebComponentProject({
+      instructions: "My amazing instructions",
+      codeRunTriggered: true,
+    });
   });
 
   test("Triggers codeChanged event", () => {
@@ -72,40 +90,70 @@ describe("When state set", () => {
   test("Defaults to not showing the projectbar", () => {
     expect(screen.queryByText("header.newProject")).not.toBeInTheDocument();
   });
+
+  test("Dispatches action to set instructions", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>My amazing instructions</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
+describe("When there are no instructions", () => {
+  beforeEach(() => {
+    renderWebComponentProject({});
+  });
+
+  test("Does not dispatch action to set instructions", () => {
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: expect.any(Object),
+        },
+      ]),
+    );
+  });
+});
+
+describe("When overriding instructions is not permitted", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: "My amazing instructions",
+      permitOverride: false,
+    });
+  });
+
+  test("Does not dispatch action to set instructions", () => {
+    expect(store.getActions()).not.toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: expect.any(Object),
+        },
+      ]),
+    );
+  });
 });
 
 describe("When code run finishes", () => {
-  let store;
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-        codeRunTriggered: false,
-        codeHasBeenRun: true,
-      },
-      instructions: {},
-      auth: {},
-    };
-    store = mockStore(initialState);
-
-    render(
-      <Provider store={store}>
-        <WebComponentProject />
-      </Provider>,
-    );
-  });
-
   test("Triggers runCompletedEvent", () => {
+    renderWebComponentProject({ codeHasBeenRun: true });
     expect(runCompletedHandler).toHaveBeenCalled();
     expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
       "isErrorFree",
@@ -113,11 +161,10 @@ describe("When code run finishes", () => {
   });
 
   test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
-    render(
-      <Provider store={store}>
-        <WebComponentProject outputOnly={true} />
-      </Provider>,
-    );
+    renderWebComponentProject({
+      codeHasBeenRun: true,
+      props: { outputOnly: true },
+    });
     expect(runCompletedHandler).toHaveBeenCalled();
     expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
       "errorDetails",
@@ -127,29 +174,9 @@ describe("When code run finishes", () => {
 
 describe("When withSidebar is true", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-      },
-      instructions: {},
-      auth: {},
-    };
-    store = mockStore(initialState);
-
-    render(
-      <Provider store={store}>
-        <WebComponentProject withSidebar={true} sidebarOptions={["settings"]} />
-      </Provider>,
-    );
+    renderWebComponentProject({
+      props: { withSidebar: true, sidebarOptions: ["settings"] },
+    });
   });
 
   test("Renders the sidebar", () => {
@@ -163,30 +190,10 @@ describe("When withSidebar is true", () => {
 
 describe("When withProjectbar is true", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-        loading: "success",
-      },
-      instructions: {},
-      auth: {},
-    };
-    store = mockStore(initialState);
-
-    render(
-      <Provider store={store}>
-        <WebComponentProject withProjectbar={true} />
-      </Provider>,
-    );
+    renderWebComponentProject({
+      loading: "success",
+      props: { withProjectbar: true },
+    });
   });
 
   test("Renders the projectbar", () => {
@@ -195,35 +202,12 @@ describe("When withProjectbar is true", () => {
 });
 
 describe("When output_only is true", () => {
-  let mockStore;
-  let initialState;
-
-  beforeEach(() => {
-    const middlewares = [];
-    mockStore = configureStore(middlewares);
-    initialState = {
-      editor: {
-        project: {
-          components: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-      },
-      instructions: {},
-      auth: {},
-    };
-  });
-
   describe("when loading is pending", () => {
     beforeEach(() => {
-      initialState.editor.loading = "pending";
-      store = mockStore(initialState);
-
-      render(
-        <Provider store={store}>
-          <WebComponentProject outputOnly={true} />
-        </Provider>,
-      );
+      renderWebComponentProject({
+        loading: "pending",
+        props: { outputOnly: true },
+      });
     });
 
     test("sets isOutputOnly state to true", () => {
@@ -241,14 +225,10 @@ describe("When output_only is true", () => {
 
   describe("when loading is success", () => {
     beforeEach(() => {
-      initialState.editor.loading = "success";
-      store = mockStore(initialState);
-
-      render(
-        <Provider store={store}>
-          <WebComponentProject outputOnly={true} />
-        </Provider>,
-      );
+      renderWebComponentProject({
+        loading: "success",
+        props: { outputOnly: true },
+      });
     });
 
     test("only renders the output", () => {
@@ -264,30 +244,9 @@ describe("When output_only is true", () => {
 });
 
 describe("outputSplitView property", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [],
-        },
-        openFiles: [],
-        focussedFileIndices: [],
-      },
-      instructions: {},
-      auth: {},
-    };
-    store = mockStore(initialState);
-  });
-
   describe("when property is not set", () => {
     beforeEach(() => {
-      render(
-        <Provider store={store}>
-          <WebComponentProject />
-        </Provider>,
-      );
+      renderWebComponentProject({});
     });
 
     test("sets isSplitView state to false by default", () => {
@@ -301,11 +260,7 @@ describe("outputSplitView property", () => {
 
   describe("when property is false", () => {
     beforeEach(() => {
-      render(
-        <Provider store={store}>
-          <WebComponentProject outputSplitView={false} />
-        </Provider>,
-      );
+      renderWebComponentProject({ props: { outputSplitView: false } });
     });
 
     test("sets isSplitView state to false", () => {
@@ -319,11 +274,7 @@ describe("outputSplitView property", () => {
 
   describe("when property is true", () => {
     beforeEach(() => {
-      render(
-        <Provider store={store}>
-          <WebComponentProject outputSplitView={true} />
-        </Provider>,
-      );
+      renderWebComponentProject({ props: { outputSplitView: true } });
     });
 
     test("sets isSplitView state to true", () => {
