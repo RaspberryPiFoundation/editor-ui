@@ -39,23 +39,23 @@ const WebComponentProject = ({
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
   const projectIdentifier = useSelector(
-    (state) => state.editor.project.identifier,
+    (state) => state.editor.project.identifier
   );
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
+    (state) => state.editor.codeRunTriggered
   );
 
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const projectInstructions = useSelector(
-    (state) => state.editor.project.instructions,
+    (state) => state.editor.project.instructions
   );
   const currentStepPosition = useSelector(
-    (state) => state.instructions.currentStepPosition,
+    (state) => state.instructions.currentStepPosition
   );
   const permitInstructionsOverride = useSelector(
-    (state) => state.instructions.permitOverride,
+    (state) => state.instructions.permitOverride
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
@@ -83,21 +83,23 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!projectInstructions || !permitInstructionsOverride) return;
+    if (!permitInstructionsOverride) return;
 
     dispatch(
       setInstructions({
         project: {
-          steps: [
-            {
-              quiz: false,
-              title: "",
-              content: marked.parse(projectInstructions),
-            },
-          ],
+          steps: projectInstructions
+            ? [
+                {
+                  quiz: false,
+                  title: "",
+                  content: marked.parse(projectInstructions),
+                },
+              ]
+            : [],
         },
         permitOverride: true,
-      }),
+      })
     );
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 

@@ -103,7 +103,7 @@ const InstructionsPanel = () => {
   };
 
   const removeInstructions = () => {
-    dispatch(setProjectInstructions(""));
+    dispatch(setProjectInstructions(null));
     setShowModal(false);
   };
 
