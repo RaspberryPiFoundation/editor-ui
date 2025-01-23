@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducers } from "./reducers/webComponentAuthReducers";
 
+export const authInitialState = {};
+
 export const WebComponentAuthSlice = createSlice({
   name: "auth",
-  initialState: {},
+  initialState: authInitialState,
   reducers,
 });
 

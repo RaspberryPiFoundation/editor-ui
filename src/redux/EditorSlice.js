@@ -93,8 +93,9 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
-const initialState = {
+export const editorInitialState = {
   project: {},
+  cascadeUpdate: false,
   readOnly: false,
   saveTriggered: false,
   saving: "idle",
@@ -143,9 +144,9 @@ const initialState = {
 
 export const EditorSlice = createSlice({
   name: "editor",
-  initialState,
+  initialState: editorInitialState,
   reducers: {
-    resetState: () => initialState,
+    resetState: () => editorInitialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))
@@ -197,7 +198,7 @@ export const EditorSlice = createSlice({
       state.project.components.push({
         name: action.payload.name,
         extension: action.payload.extension,
-        content: "",
+        content: action.payload.content || "",
       });
       state.saving = "idle";
     },
@@ -268,18 +269,22 @@ export const EditorSlice = createSlice({
       state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
-      const extension = action.payload.extension;
-      const fileName = action.payload.name;
-      const code = action.payload.code;
+      const {
+        extension,
+        name: fileName,
+        content,
+        cascadeUpdate,
+      } = action.payload;
 
       const mapped = state.project.components.map((item) => {
         if (item.extension !== extension || item.name !== fileName) {
           return item;
         }
 
-        return { ...item, ...{ content: code } };
+        return { ...item, ...{ content } };
       });
       state.project.components = mapped;
+      state.cascadeUpdate = cascadeUpdate;
     },
     updateProjectName: (state, action) => {
       state.project.name = action.payload;
@@ -300,6 +305,9 @@ export const EditorSlice = createSlice({
         state.openFiles[panelIndex][fileIndex] = `${name}.${extension}`;
       }
       state.saving = "idle";
+    },
+    setCascadeUpdate: (state, action) => {
+      state.cascadeUpdate = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -460,6 +468,7 @@ export const {
   setEmbedded,
   setIsOutputOnly,
   setBrowserPreview,
+  setCascadeUpdate,
   setError,
   setIsSplitView,
   setNameError,

@@ -91,6 +91,58 @@ describe("Running the code with pyodide", () => {
       .should("contain", "Hello Lois");
   });
 
+  it("runs a simple program to write to a file", () => {
+    runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
+    cy.get("editor-wc")
+      .shadow()
+      .contains(".files-list-item", "output.txt")
+      .click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".cm-editor")
+      .should("contain", "Hello world");
+  });
+
+  it("errors when trying to write to an existing file in 'x' mode", () => {
+    runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
+    cy.get("editor-wc")
+      .shadow()
+      .find(".files-list-item")
+      .should("contain", "output.txt");
+    runCode('with open("output.txt", "x") as f:\n\tf.write("Something else")');
+    cy.get("editor-wc")
+      .shadow()
+      .find(".error-message__content")
+      .should(
+        "contain",
+        "FileExistsError: File 'output.txt' already exists on line 1 of main.py",
+      );
+  });
+
+  it("updates the file in the editor when the content is updated programatically", () => {
+    runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
+    cy.get("editor-wc")
+      .shadow()
+      .find("div[class=cm-content]")
+      .invoke(
+        "text",
+        'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
+      );
+    cy.get("editor-wc")
+      .shadow()
+      .contains(".files-list-item", "output.txt")
+      .click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".btn--run")
+      .should("not.be.disabled")
+      .click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".cm-editor")
+      .should("contain", "Hello again world");
+  });
+
   it("runs a simple program with a built-in python module", () => {
     runCode("from math import floor, pi\nprint(floor(pi))");
     cy.get("editor-wc")
