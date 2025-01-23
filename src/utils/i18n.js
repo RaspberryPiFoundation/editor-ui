@@ -208,6 +208,7 @@ i18n
           instructionsPanel: {
             emptyState: {
               addInstructions: "Add instructions",
+              removeInstructions: "Remove instructions",
               edits:
                 "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
               location:

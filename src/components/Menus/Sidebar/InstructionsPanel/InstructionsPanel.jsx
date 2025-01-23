@@ -14,17 +14,19 @@ import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import { Link } from "react-router-dom";
+import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 
 const InstructionsPanel = () => {
+  const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
-    (state) => state.editor?.instructionsEditable,
+    (state) => state.editor?.instructionsEditable
   );
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
   const currentStepPosition = useSelector(
-    (state) => state.instructions.currentStepPosition,
+    (state) => state.instructions.currentStepPosition
   );
   const { t } = useTranslation();
   const stepContent = useRef();
@@ -36,7 +38,7 @@ const InstructionsPanel = () => {
   }, [quiz]);
 
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project?.steps?.length || 0,
+    (state) => state.instructions.project?.steps?.length || 0
   );
 
   const hasInstructions = steps && steps.length > 0;
@@ -44,7 +46,7 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css",
+      ".language-python, .language-html, .language-css"
     );
 
     codeElements.forEach((element) => {
@@ -90,14 +92,19 @@ const InstructionsPanel = () => {
     if (quizCompleted && isQuiz) {
       dispatch(
         setCurrentStepPosition(
-          Math.min(currentStepPosition + 1, numberOfSteps - 1),
-        ),
+          Math.min(currentStepPosition + 1, numberOfSteps - 1)
+        )
       );
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
   const addInstructions = () => {
     dispatch(setProjectInstructions(demoInstructions));
+  };
+
+  const removeInstructions = () => {
+    dispatch(setProjectInstructions(""));
+    setShowModal(false);
   };
 
   const AddInstructionsButton = () => {
@@ -114,6 +121,21 @@ const InstructionsPanel = () => {
     );
   };
 
+  const RemoveInstructionsButton = () => {
+    return (
+      <DesignSystemButton
+        className="btn--secondary"
+        text={t("instructionsPanel.emptyState.removeInstructions")}
+        onClick={() => {
+          setShowModal(true);
+        }}
+        fill
+        textAlways
+        small
+      />
+    );
+  };
+
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
@@ -122,7 +144,13 @@ const InstructionsPanel = () => {
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
-      Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
+      Button={
+        instructionsEditable
+          ? hasInstructions
+            ? RemoveInstructionsButton
+            : AddInstructionsButton
+          : null
+      }
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
       <div className="project-instructions">
@@ -171,6 +199,27 @@ const InstructionsPanel = () => {
           ></div>
         )}
       </div>
+      {showModal && (
+        <RemoveInstructionsModal
+          buttons={[
+            <DesignSystemButton
+              type="primary"
+              variant="danger"
+              text={t(
+                "instructionsPanel.removeInstructionsModal.removeInstructions"
+              )}
+              onClick={removeInstructions}
+            />,
+            <DesignSystemButton
+              type="secondary"
+              text={t("instructionsPanel.removeInstructionsModal.close")}
+              onClick={() => setShowModal(false)}
+            />,
+          ]}
+          isOpen={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </SidebarPanel>
   );
 };
