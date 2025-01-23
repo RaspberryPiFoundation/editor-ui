@@ -223,7 +223,7 @@ i18n
             removeInstructionsModal: {
               removeInstructions: "Remove instructions",
               close: "Close",
-              heading: "Remove project instructions",
+              heading: "Remove project instructions?",
               removeInstuctionsWarning:
                 "You are about to remove the instructions from the project.",
               resultRemovingInstructions:
