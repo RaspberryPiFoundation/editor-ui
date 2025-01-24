@@ -29,28 +29,30 @@ const RemoveInstructionsModal = (props) => {
       closeModal={() => setShowModal(false)}
       withCloseButton={withCloseButton}
     >
-      <ul>
+      <div>
         <p>
           {t(
             "instructionsPanel.removeInstructionsModal.resultRemovingInstructions"
           )}
         </p>
-        <li>
-          {t(
-            "instructionsPanel.removeInstructionsModal.instructionsWillBeDeleted"
-          )}
-        </li>
-        <li>
-          {t(
-            "instructionsPanel.removeInstructionsModal.studentsWorkingProjectNotRecievedInstructions"
-          )}
-        </li>
-        <li>
-          {t(
-            "instructionsPanel.removeInstructionsModal.studentsStartedWillSeeInstructions"
-          )}
-        </li>
-      </ul>
+        <ul>
+          <li>
+            {t(
+              "instructionsPanel.removeInstructionsModal.instructionsWillBeDeleted"
+            )}
+          </li>
+          <li>
+            {t(
+              "instructionsPanel.removeInstructionsModal.studentsWorkingProjectNotRecievedInstructions"
+            )}
+          </li>
+          <li>
+            {t(
+              "instructionsPanel.removeInstructionsModal.studentsStartedWillSeeInstructions"
+            )}
+          </li>
+        </ul>
+      </div>
     </GeneralModal>
   );
 };
