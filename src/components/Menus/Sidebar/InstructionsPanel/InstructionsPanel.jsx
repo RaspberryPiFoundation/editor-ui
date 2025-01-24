@@ -202,6 +202,7 @@ const InstructionsPanel = () => {
           buttons={[
             <DesignSystemButton
               type="primary"
+              key="remove"
               variant="danger"
               text={t(
                 "instructionsPanel.removeInstructionsModal.removeInstructions"
@@ -210,6 +211,7 @@ const InstructionsPanel = () => {
             />,
             <DesignSystemButton
               type="secondary"
+              key="close"
               text={t("instructionsPanel.removeInstructionsModal.close")}
               onClick={() => setShowModal(false)}
             />,
