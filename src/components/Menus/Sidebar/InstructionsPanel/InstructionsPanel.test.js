@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { act } from "react";
+import Modal from "react-modal";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
 window.Prism = {
@@ -13,6 +14,13 @@ window.Prism = {
 describe("When instructionsEditable is true", () => {
   describe("When there are instructions", () => {
     let store;
+
+    beforeAll(() => {
+      const root = global.document.createElement("div");
+      root.setAttribute("id", "app");
+      global.document.body.appendChild(root);
+      Modal.setAppElement("#app");
+    });
 
     beforeEach(() => {
       const mockStore = configureStore([]);
@@ -59,6 +67,23 @@ describe("When instructionsEditable is true", () => {
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).not.toBeInTheDocument();
     });
+
+    test("Renders the remove instructions button", () => {
+      expect(
+        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
+      ).toBeInTheDocument();
+    });
+
+    test("Remove instructions modal is opened", () => {
+      const button = screen.queryByText(
+        "instructionsPanel.emptyState.removeInstructions",
+      );
+      fireEvent.click(button);
+
+      expect(
+        screen.queryByText("instructionsPanel.removeInstructionsModal.heading"),
+      ).toBeInTheDocument();
+    });
   });
 
   describe("When there are no instructions", () => {
@@ -87,10 +112,16 @@ describe("When instructionsEditable is true", () => {
       );
     });
 
-    test("Renders the add instrucitons button", () => {
+    test("Renders the add instructions button", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).toBeInTheDocument();
+    });
+
+    test("Does not render the remove instructions button", () => {
+      expect(
+        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
+      ).not.toBeInTheDocument();
     });
 
     test("Clicking the add instructions button adds the demo instructions", () => {
@@ -142,6 +173,12 @@ describe("When instructions are not editable", () => {
     test("Does not render the add instructions button", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the remove instructions button", () => {
+      expect(
+        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
       ).not.toBeInTheDocument();
     });
 
