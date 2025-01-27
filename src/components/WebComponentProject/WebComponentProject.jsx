@@ -54,6 +54,9 @@ const WebComponentProject = ({
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
+  const permitInstructionsOverride = useSelector(
+    (state) => state.instructions.permitOverride,
+  );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
@@ -80,7 +83,7 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!projectInstructions) return;
+    if (!projectInstructions || !permitInstructionsOverride) return;
 
     dispatch(
       setInstructions({
@@ -93,9 +96,10 @@ const WebComponentProject = ({
             },
           ],
         },
+        permitOverride: true,
       }),
     );
-  }, [dispatch, projectInstructions]);
+  }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
     if (codeRunTriggered) {
