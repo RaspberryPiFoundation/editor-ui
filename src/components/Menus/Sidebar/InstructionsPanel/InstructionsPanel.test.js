@@ -37,6 +37,14 @@ describe("When instructionsEditable is true", () => {
       );
     });
 
+    test("Renders two tab titles", () => {
+      expect(screen.getAllByRole("tab")).toHaveLength(2);
+    });
+
+    test("Renders two tab panels", () => {
+      expect(screen.getAllByRole("tabpanel")).toHaveLength(2);
+    });
+
     test("Renders the edit panel", () => {
       expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
     });
