@@ -3,26 +3,26 @@ name: Changelog
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
 
 jobs:
   changelog-updated:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.03
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Check if changelog updated
-      id: changed-files-specific
-      uses: tj-actions/changed-files@v29.0.4
-      with:
-        base_sha: ${{ github.event.pull_request.base.sha }}
-        files: |
-          CHANGELOG.md
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check if changelog updated
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v29.0.4
+        with:
+          base_sha: ${{ github.event.pull_request.base.sha }}
+          files: |
+            CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
-    - name: Fail job if changelog not updated
-      if: steps.changed-files-specific.outputs.any_changed == 'false'
-      run: |
-        exit 1
+      - name: Fail job if changelog not updated
+        if: steps.changed-files-specific.outputs.any_changed == 'false'
+        run: |
+          exit 1
