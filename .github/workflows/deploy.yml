@@ -72,7 +72,7 @@ on:
 
 jobs:
   setup-environment:
-    runs-on: ubuntu-24.03
+    runs-on: 22.04
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
@@ -95,7 +95,7 @@ jobs:
           fi
 
   build-deploy:
-    runs-on: ubuntu-24.03
+    runs-on: 22.04
     needs: setup-environment
     environment:
       name: ${{ inputs.environment }}

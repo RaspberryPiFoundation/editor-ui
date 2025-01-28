@@ -7,7 +7,7 @@ on:
 
 jobs:
   changelog-updated:
-    runs-on: ubuntu-24.03
+    runs-on: 22.04
     steps:
       - uses: actions/checkout@v4
         with:
