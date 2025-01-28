@@ -20,7 +20,7 @@ const RemoveInstructionsModal = (props) => {
         {
           type: "paragraph",
           content: t(
-            "instructionsPanel.removeInstructionsModal.removeInstuctionsWarning"
+            "instructionsPanel.removeInstructionsModal.removeInstuctionsWarning",
           ),
         },
       ]}
@@ -32,23 +32,23 @@ const RemoveInstructionsModal = (props) => {
       <div>
         <p>
           {t(
-            "instructionsPanel.removeInstructionsModal.resultRemovingInstructions"
+            "instructionsPanel.removeInstructionsModal.resultRemovingInstructions",
           )}
         </p>
         <ul>
           <li>
             {t(
-              "instructionsPanel.removeInstructionsModal.instructionsWillBeDeleted"
+              "instructionsPanel.removeInstructionsModal.instructionsWillBeDeleted",
             )}
           </li>
           <li>
             {t(
-              "instructionsPanel.removeInstructionsModal.studentsWorkingProjectNotRecievedInstructions"
+              "instructionsPanel.removeInstructionsModal.studentsWorkingProjectNotRecievedInstructions",
             )}
           </li>
           <li>
             {t(
-              "instructionsPanel.removeInstructionsModal.studentsStartedWillSeeInstructions"
+              "instructionsPanel.removeInstructionsModal.studentsStartedWillSeeInstructions",
             )}
           </li>
         </ul>
