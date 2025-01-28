@@ -281,13 +281,13 @@
   .c-instruction-tabs {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    block-size: 100%;
 
     .react-tabs {
       border: 1px solid var(--editor-color-outline);
 
       .react-tabs__tab-list {
-        border-bottom: 1px solid var(--editor-color-outline);
+        border-block-end: 1px solid var(--editor-color-outline);
       }
     }
 
@@ -310,8 +310,8 @@
       @include typography.style-1();
 
       border: none;
-      height: 100%;
-      overflow-y: scroll;
+      block-size: 100%;
+      overflow-block: scroll;
       padding: var(--space-1);
     }
   }

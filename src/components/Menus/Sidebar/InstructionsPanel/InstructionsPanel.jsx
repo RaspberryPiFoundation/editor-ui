@@ -133,33 +133,31 @@ const InstructionsPanel = () => {
         {instructionsEditable ? (
           hasInstructions ? (
             <div className="c-instruction-tabs">
-              {instructionsEditable && (
-                <Tabs
-                  onSelect={(index) => {
-                    setInstructionsTab(index);
-                  }}
-                >
-                  <TabList>
-                    <Tab>{t("instructionsPanel.edit")}</Tab>
-                    <Tab>{t("instructionsPanel.view")}</Tab>
-                  </TabList>
-                  <TabPanel>
-                    <textarea
-                      data-testid="instructionTextarea"
-                      value={project.instructions}
-                      onChange={onChange}
-                    ></textarea>
-                  </TabPanel>
-                  <TabPanel>
-                    <>
-                      <div
-                        className="project-instructions"
-                        ref={stepContent}
-                      ></div>
-                    </>
-                  </TabPanel>
-                </Tabs>
-              )}
+              <Tabs
+                onSelect={(index) => {
+                  setInstructionsTab(index);
+                }}
+              >
+                <TabList>
+                  <Tab>{t("instructionsPanel.edit")}</Tab>
+                  <Tab>{t("instructionsPanel.view")}</Tab>
+                </TabList>
+                <TabPanel>
+                  <textarea
+                    data-testid="instructionTextarea"
+                    value={project.instructions}
+                    onChange={onChange}
+                  ></textarea>
+                </TabPanel>
+                <TabPanel>
+                  <>
+                    <div
+                      className="project-instructions"
+                      ref={stepContent}
+                    ></div>
+                  </>
+                </TabPanel>
+              </Tabs>
             </div>
           ) : (
             <div className="project-instructions__empty">
