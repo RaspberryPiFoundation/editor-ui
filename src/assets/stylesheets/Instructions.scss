@@ -7,7 +7,7 @@
 @use "./rpf_design_system/font-weight" as *;
 
 .project-instructions {
-  height: 100%;
+  block-size: 100%;
 
   h2 {
     @include font-size-1-25(bold);
