@@ -203,6 +203,14 @@ describe("When instructions are not editable", () => {
       );
     });
 
+    test("Renders no tab titles", () => {
+      expect(screen.queryAllByRole("tab")).toHaveLength(0);
+    });
+
+    test("Renders no tab panels", () => {
+      expect(screen.queryAllByRole("tabpanel")).toHaveLength(0);
+    });
+
     test("Renders with correct instruction step content", () => {
       expect(screen.queryByText("step 1")).toBeInTheDocument();
     });
