@@ -60,12 +60,6 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
-    await pyodide.loadPackage("pyodide_http");
-
-    await pyodide.runPythonAsync(`
-    import pyodide_http
-    pyodide_http.patch_all()
-  `);
 
     try {
       await withSupportForPackages(python, async () => {
@@ -98,6 +92,52 @@ const PyodideWorker = () => {
     await pyodide.loadPackagesFromImports(python);
 
     checkIfStopped();
+    await pyodide.runPythonAsync(
+      `
+      import basthon
+      import builtins
+      import os
+
+      MAX_FILES = 100
+      MAX_FILE_SIZE = 8500000
+
+      def _custom_open(filename, mode="r", *args, **kwargs):
+          if "x" in mode and os.path.exists(filename):
+              raise FileExistsError(f"File '{filename}' already exists")
+          if ("w" in mode or "a" in mode or "x" in mode) and "b" not in mode:
+              if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
+                  raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
+              class CustomFile:
+                  def __init__(self, filename):
+                      self.filename = filename
+                      self.content = ""
+
+                  def write(self, content):
+                      self.content += content
+                      if len(self.content) > MAX_FILE_SIZE:
+                          raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
+                      with _original_open(self.filename, "w") as f:
+                          f.write(self.content)
+                      basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
+
+                  def close(self):
+                      pass
+
+                  def __enter__(self):
+                      return self
+
+                  def __exit__(self, exc_type, exc_val, exc_tb):
+                      self.close()
+
+              return CustomFile(filename)
+          else:
+              return _original_open(filename, mode, *args, **kwargs)
+
+      # Override the built-in open function
+      builtins.open = _custom_open
+      `,
+      { filename: "__custom_open__.py" },
+    );
     await runPythonFn();
 
     for (let name of imports) {
@@ -337,6 +377,12 @@ const PyodideWorker = () => {
 
         postMessage({ method: "handleVisual", origin, content });
       },
+      write_file: (event) => {
+        const filename = event.toJs().get("filename");
+        const content = event.toJs().get("content");
+        const mode = event.toJs().get("mode");
+        postMessage({ method: "handleFileWrite", filename, content, mode });
+      },
       locals: () => pyodide.runPython("globals()"),
     },
   };
@@ -346,7 +392,7 @@ const PyodideWorker = () => {
     await pyodide.runPythonAsync(`
         # Clear all user-defined variables and modules
         for name in dir():
-            if not name.startswith('_'):
+            if not name.startswith('_') and not name=='basthon':
                 del globals()[name]
       `);
     postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
@@ -364,6 +410,8 @@ const PyodideWorker = () => {
 
     pyodide = await pyodidePromise;
 
+    pyodide.registerJsModule("basthon", fakeBasthonPackage);
+
     await pyodide.runPythonAsync(`
     __old_input__ = input
     def __patched_input__(prompt=False):
@@ -372,6 +420,18 @@ const PyodideWorker = () => {
         return __old_input__()
     __builtins__.input = __patched_input__
     `);
+
+    await pyodide.runPythonAsync(`
+    import builtins
+    # Save the original open function
+    _original_open = builtins.open
+    `);
+
+    await pyodide.loadPackage("pyodide-http");
+    await pyodide.runPythonAsync(`
+        import pyodide_http
+        pyodide_http.patch_all()
+      `);
 
     if (supportsAllFeatures) {
       stdinBuffer =
@@ -416,6 +476,14 @@ const PyodideWorker = () => {
 
     const lines = trace.split("\n");
 
+    // if the third from last line matches /File "__custom_open__\.py", line (\d+)/g then strip off the last three lines
+    if (
+      lines.length > 3 &&
+      /File "__custom_open__\.py", line (\d+)/g.test(lines[lines.length - 3])
+    ) {
+      lines.splice(-3, 3);
+    }
+
     const snippetLine = lines[lines.length - 2]; //    print("hi")invalid
     const caretLine = lines[lines.length - 1]; //                 ^^^^^^^
 
@@ -424,7 +492,9 @@ const PyodideWorker = () => {
       ? [snippetLine.slice(4), caretLine.slice(4)].join("\n")
       : "";
 
-    const matches = [...trace.matchAll(/File "(.*)", line (\d+)/g)];
+    const matches = [
+      ...trace.matchAll(/File "(?!__custom_open__\.py)(.*)", line (\d+)/g),
+    ];
     const match = matches[matches.length - 1];
 
     const path = match ? match[1] : "";

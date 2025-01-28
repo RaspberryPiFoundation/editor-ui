@@ -8,6 +8,8 @@ import {
   setError,
   codeRunHandled,
   setLoadedRunner,
+  updateProjectComponent,
+  addProjectComponent,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -51,6 +53,10 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const projectImages = useSelector((s) => s.editor.project.image_list);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
+  const focussedFileIndex = useSelector(
+    (state) => state.editor.focussedFileIndices,
+  )[0];
+  const openFiles = useSelector((state) => state.editor.openFiles)[0];
   const user = useSelector((s) => s.auth.user);
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
@@ -97,6 +103,16 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               data.info,
             );
             break;
+          case "handleFileWrite":
+            const cascadeUpdate =
+              openFiles[focussedFileIndex] === data.filename;
+            handleFileWrite(
+              data.filename,
+              data.content,
+              data.mode,
+              cascadeUpdate,
+            );
+            break;
           case "handleVisual":
             handleVisual(data.origin, data.content);
             break;
@@ -108,7 +124,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         }
       };
     }
-  }, [pyodideWorker]);
+  }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -195,6 +211,35 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     dispatch(setError(errorMessage));
     disableInput();
+  };
+
+  const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
+    const [name, extension] = filename.split(".");
+    const componentToUpdate = projectCode.find(
+      (item) => item.extension === extension && item.name === name,
+    );
+    let updatedContent;
+    if (mode === "w" || mode === "x") {
+      updatedContent = content;
+    } else if (mode === "a") {
+      updatedContent =
+        (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
+    }
+
+    if (componentToUpdate) {
+      dispatch(
+        updateProjectComponent({
+          extension,
+          name,
+          content: updatedContent,
+          cascadeUpdate,
+        }),
+      );
+    } else {
+      dispatch(
+        addProjectComponent({ name, extension, content: updatedContent }),
+      );
+    }
   };
 
   const handleVisual = (origin, content) => {
