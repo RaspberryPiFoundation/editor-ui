@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Changed
+
+- Login to save now logs in and automatically saves (#1162)
+
 ### Added
 
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
