@@ -31,7 +31,6 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
-  // const projectImages = project.image_list;
   const projectMedia = [
     ...(project.image_list || []),
     ...(project.audio || []),
