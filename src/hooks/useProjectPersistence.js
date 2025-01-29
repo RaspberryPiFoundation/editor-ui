@@ -42,17 +42,26 @@ export const useProjectPersistence = ({
         const accessToken = user?.access_token;
         const params = { reactAppApiEndpoint, accessToken };
 
-        if (saveTriggered) {
+        if (saveTriggered || localStorage.getItem("awaitingSave")) {
           if (isOwner(user, project)) {
             await dispatch(
               syncProject("save")({ ...params, project, autosave: false }),
             );
+            localStorage.removeItem("awaitingSave");
           } else if (user && identifier) {
-            await dispatch(syncProject("remix")({ ...params, project }));
+            await dispatch(
+              syncProject("remix")({
+                ...params,
+                project,
+              }),
+            );
             if (loadRemix) {
               // Ensure the remixed project is loaded, otherwise we'll get in a mess
               await dispatch(
-                syncProject("loadRemix")({ ...params, identifier }),
+                syncProject("loadRemix")({
+                  ...params,
+                  identifier,
+                }),
               );
             }
           }
@@ -81,13 +90,12 @@ export const useProjectPersistence = ({
           if (justLoaded) {
             dispatch(expireJustLoaded());
           } else {
-            saveToLocalStorage(project);
-
             if (!hasShownSavePrompt) {
               user ? showSavePrompt() : showLoginPrompt();
               dispatch(setHasShownSavePrompt());
             }
           }
+          saveToLocalStorage(project);
         }
       }
     }, autoSaveInterval);
