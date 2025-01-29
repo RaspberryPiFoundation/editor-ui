@@ -72,7 +72,7 @@ on:
 
 jobs:
   setup-environment:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
@@ -95,7 +95,7 @@ jobs:
           fi
 
   build-deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: setup-environment
     environment:
       name: ${{ inputs.environment }}
@@ -122,6 +122,12 @@ jobs:
         run: yarn install --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install AWS CLI v2.22.35
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
 
       - name: Build WC bundle
         run: |
