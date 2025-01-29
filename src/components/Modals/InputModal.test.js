@@ -15,20 +15,21 @@ beforeEach(() => {
     },
   };
   const store = mockStore(initialState);
+  const app = document.createElement("div");
+  app.setAttribute("id", "app");
+  document.body.appendChild(app);
   render(
     <Provider store={store}>
-      <div id="app">
-        <InputModal
-          isOpen={true}
-          inputs={[
-            {
-              label: "input",
-              helpText: "help me",
-              value: "my amazing default",
-            },
-          ]}
-        />
-      </div>
+      <InputModal
+        isOpen={true}
+        inputs={[
+          {
+            label: "input",
+            helpText: "help me",
+            value: "my amazing default",
+          },
+        ]}
+      />,
     </Provider>,
   );
   inputBox = screen.getByLabelText(/input/);
