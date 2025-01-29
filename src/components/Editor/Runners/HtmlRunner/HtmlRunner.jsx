@@ -31,7 +31,12 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
-  const projectImages = project.image_list;
+  // const projectImages = project.image_list;
+  const projectMedia = [
+    ...(project.image_list || []),
+    ...(project.audio || []),
+    ...(project.videos || []),
+  ];
 
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
@@ -114,7 +119,7 @@ function HtmlRunner() {
   const cssProjectImgs = (projectFile) => {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
-      projectImages.forEach((image) => {
+      projectMedia.forEach((image) => {
         const find = new RegExp(`['"]${image.filename}['"]`, "g"); // prevent substring matches
         const replace = `"${image.url}"`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
@@ -264,14 +269,14 @@ function HtmlRunner() {
 
   const replaceSrcNodes = (
     indexPage,
-    projectImages,
+    projectMedia,
     projectCode,
     attr = "src",
   ) => {
     const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
 
     srcNodes.forEach((srcNode) => {
-      const projectImage = projectImages.find(
+      const projectImage = projectMedia.find(
         (component) => component.filename === srcNode.attrs[attr],
       );
       const projectFile = projectCode.find(
@@ -351,8 +356,8 @@ function HtmlRunner() {
       body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
 
       replaceHrefNodes(indexPage, projectCode);
-      replaceSrcNodes(indexPage, projectImages, projectCode);
-      replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
+      replaceSrcNodes(indexPage, projectMedia, projectCode);
+      replaceSrcNodes(indexPage, projectMedia, projectCode, "data-src");
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
