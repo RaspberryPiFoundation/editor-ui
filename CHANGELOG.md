@@ -6,9 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Changed
-
-- Login to save now logs in and automatically saves (#1162)
 ### Fixed
 
 - Fix AWS CLI in deploy script to 2.22.35 to workaround cloudflare issue (See https://developers.cloudflare.com/r2/examples/aws/aws-cli/) (#1158)
@@ -22,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
+- Login to save now logs in and automatically saves (#1162)
 
 ## [0.28.14] - 2025-01-06
 
