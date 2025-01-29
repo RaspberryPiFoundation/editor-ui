@@ -499,6 +499,77 @@ describe("When an allowed external link is rendered", () => {
   });
 });
 
+describe("When media is rendered", () => {
+  const mediaHTML =
+    '<head></head><body><img src="image.jpeg" /><video src="video.mp4" /><audio src="audio.mp3" /></body>';
+  let generatedHtml;
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            { name: "index", extension: "html", content: mediaHTML },
+          ],
+          image_list: [
+            {
+              filename: "image.jpeg",
+              url: "https://example.com/image.jpeg",
+            },
+          ],
+          videos: [
+            {
+              filename: "video.mp4",
+              url: "https://example.com/video.mp4",
+            },
+          ],
+          audio: [
+            {
+              filename: "audio.mp3",
+              url: "https://example.com/audio.mp3",
+            },
+          ],
+        },
+        focussedFileIndices: [0],
+        openFiles: [["index.html"]],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        errorModalShowing: false,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+    [generatedHtml] = Blob.mock.calls[0][0];
+  });
+
+  test("Transforms image sources", () => {
+    expect(generatedHtml).toContain(
+      '<img src="https://example.com/image.jpeg"',
+    );
+  });
+
+  test("Transforms video sources", () => {
+    expect(generatedHtml).toContain(
+      '<video src="https://example.com/video.mp4"',
+    );
+  });
+
+  test("Transforms audio sources", () => {
+    expect(generatedHtml).toContain(
+      '<audio src="https://example.com/audio.mp3"',
+    );
+  });
+});
+
 describe("When on desktop", () => {
   let store;
 
