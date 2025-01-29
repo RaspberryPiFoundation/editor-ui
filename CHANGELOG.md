@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions empty state to show when instructions are editable (#1165, #1168)
 - Allow `instructions` attribute to override instructions attached to the project (#1169)
 - Instructions tabs for edit and viewing (#1167)
+- Add remove instructions button modal (#1176)
 
 ### Changed
 
