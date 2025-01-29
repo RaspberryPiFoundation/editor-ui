@@ -45,6 +45,14 @@ describe("When instructionsEditable is true", () => {
       );
     });
 
+    test("Renders two tab titles", () => {
+      expect(screen.getAllByRole("tab")).toHaveLength(2);
+    });
+
+    test("Renders two tab panels", () => {
+      expect(screen.getAllByRole("tabpanel")).toHaveLength(2);
+    });
+
     test("Renders the edit panel", () => {
       expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
     });
@@ -230,6 +238,14 @@ describe("When instructions are not editable", () => {
           <InstructionsPanel />
         </Provider>,
       );
+    });
+
+    test("Renders no tab titles", () => {
+      expect(screen.queryAllByRole("tab")).toHaveLength(0);
+    });
+
+    test("Renders no tab panels", () => {
+      expect(screen.queryAllByRole("tabpanel")).toHaveLength(0);
     });
 
     test("Renders with correct instruction step content", () => {

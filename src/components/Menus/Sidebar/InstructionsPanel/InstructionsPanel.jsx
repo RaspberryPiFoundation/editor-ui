@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import { Link } from "react-router-dom";
+
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
@@ -13,7 +16,6 @@ import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
-import { Link } from "react-router-dom";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 
 const InstructionsPanel = () => {
@@ -32,6 +34,7 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
+  const [instructionsTab, setInstructionsTab] = useState(0);
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -86,6 +89,7 @@ const InstructionsPanel = () => {
     quiz,
     quizCompleted,
     isQuiz,
+    instructionsTab,
   ]);
 
   useEffect(() => {
@@ -156,14 +160,32 @@ const InstructionsPanel = () => {
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
-            <div>
-              {instructionsEditable && (
-                <textarea
-                  data-testid="instructionTextarea"
-                  value={project.instructions}
-                  onChange={onChange}
-                ></textarea>
-              )}
+            <div className="c-instruction-tabs">
+              <Tabs
+                onSelect={(index) => {
+                  setInstructionsTab(index);
+                }}
+              >
+                <TabList>
+                  <Tab>{t("instructionsPanel.edit")}</Tab>
+                  <Tab>{t("instructionsPanel.view")}</Tab>
+                </TabList>
+                <TabPanel>
+                  <textarea
+                    data-testid="instructionTextarea"
+                    value={project.instructions}
+                    onChange={onChange}
+                  ></textarea>
+                </TabPanel>
+                <TabPanel>
+                  <>
+                    <div
+                      className="project-instructions"
+                      ref={stepContent}
+                    ></div>
+                  </>
+                </TabPanel>
+              </Tabs>
             </div>
           ) : (
             <div className="project-instructions__empty">

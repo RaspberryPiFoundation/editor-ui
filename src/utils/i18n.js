@@ -220,6 +220,8 @@ i18n
             nextStep: "Next step",
             previousStep: "Previous step",
             projectSteps: "Project steps",
+            edit: "Edit",
+            view: "View",
             removeInstructionsModal: {
               removeInstructions: "Remove instructions",
               close: "Close",

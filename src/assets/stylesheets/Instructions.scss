@@ -1,10 +1,14 @@
-@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss" as *;
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss"
+  as *;
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
-@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/font-weight" as *;
 
 .project-instructions {
+  block-size: 100%;
+
   h2 {
     @include font-size-1-25(bold);
     margin: 0;
@@ -72,13 +76,10 @@
     border-block-end: 1px solid $rpf-grey-600;
   }
 
-
-
   .line-numbers {
     padding-inline-start: $space-3;
     padding-inline-end: $space-1;
   }
-
 
   .line-numbers-rows {
     border-color: $rpf-text-secondary-dark;
@@ -97,13 +98,16 @@
   }
 
   .language-python {
-    .number, .boolean, .function {
+    .number,
+    .boolean,
+    .function {
       color: $rpf-syntax-1;
     }
     .keyword {
       color: $rpf-syntax-4;
     }
-    .string, .char {
+    .string,
+    .char {
       color: $rpf-syntax-2;
     }
     .comment {
@@ -129,7 +133,8 @@
       color: $rpf-syntax-4;
     }
 
-    .property, .punctuation {
+    .property,
+    .punctuation {
       color: $rpf-white;
     }
   }
@@ -137,7 +142,8 @@
   .language-html {
     .tag {
       color: $rpf-syntax-4;
-      .punctuation, .attr-name {
+      .punctuation,
+      .attr-name {
         color: $rpf-white;
       }
 
@@ -267,5 +273,46 @@
 
   .project-instructions__empty-text {
     margin: 0;
+  }
+}
+
+#app,
+#wc {
+  .c-instruction-tabs {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+
+    .react-tabs {
+      border: 1px solid var(--editor-color-outline);
+
+      .react-tabs__tab-list {
+        border-block-end: 1px solid var(--editor-color-outline);
+      }
+    }
+
+    .react-tabs__tab {
+      background: var(--rpf-off-white);
+      padding-inline: var(--space-1-5);
+
+      &--selected {
+        background: var(--rpf-white);
+      }
+    }
+
+    .react-tabs__tab-panel {
+      .project-instructions {
+        padding-inline: var(--space-1);
+      }
+    }
+
+    textarea {
+      @include typography.style-1();
+
+      border: none;
+      block-size: 100%;
+      overflow-block: scroll;
+      padding: var(--space-1);
+    }
   }
 }
