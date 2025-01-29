@@ -118,9 +118,9 @@ function HtmlRunner() {
   const cssProjectImgs = (projectFile) => {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
-      projectMedia.forEach((image) => {
-        const find = new RegExp(`['"]${image.filename}['"]`, "g"); // prevent substring matches
-        const replace = `"${image.url}"`;
+      projectMedia.forEach((media_file) => {
+        const find = new RegExp(`['"]${media_file.filename}['"]`, "g"); // prevent substring matches
+        const replace = `"${media_file.url}"`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
           find,
           replace,
@@ -275,20 +275,22 @@ function HtmlRunner() {
     const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
 
     srcNodes.forEach((srcNode) => {
-      const projectImage = projectMedia.find(
+      const projectMediaFile = projectMedia.find(
         (component) => component.filename === srcNode.attrs[attr],
       );
-      const projectFile = projectCode.find(
+      const projectTextFile = projectCode.find(
         (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
       );
 
       let src = "";
-      if (!!projectImage) {
-        src = projectImage.url;
-      } else if (!!projectFile) {
+      if (!!projectMediaFile) {
+        src = projectMediaFile.url;
+      } else if (!!projectTextFile) {
         src = getBlobURL(
-          projectFile.content,
-          mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
+          projectTextFile.content,
+          mimeTypes.lookup(
+            `${projectTextFile.name}.${projectTextFile.extension}`,
+          ),
         );
       } else if (matchingRegexes(allowedExternalLinks, srcNode.attrs[attr])) {
         src = srcNode.attrs[attr];
