@@ -34,6 +34,7 @@ const WebComponentLoader = (props) => {
     authKey,
     code,
     embedded = false,
+    editableInstructions,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -152,7 +153,7 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (instructions) {
-      dispatch(setInstructions(instructions));
+      dispatch(setInstructions({ ...instructions, permitOverride: false }));
     }
   }, [instructions, dispatch]);
 
@@ -189,6 +190,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              editableInstructions={editableInstructions}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -84,6 +84,9 @@ const Sidebar = ({ options = [] }) => {
   const instructionsSteps = useSelector(
     (state) => state.instructions?.project?.steps,
   );
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
@@ -96,11 +99,19 @@ const Sidebar = ({ options = [] }) => {
 
   // Remove panels if dependency arrays are empty
   removeOption("images", projectImages);
-  removeOption("instructions", instructionsSteps);
+  if (!instructionsEditable) {
+    removeOption("instructions", instructionsSteps);
+  }
 
   const [option, setOption] = useState(
-    instructionsSteps ? "instructions" : "file",
+    instructionsEditable || instructionsSteps ? "instructions" : "file",
   );
+
+  useEffect(() => {
+    if (instructionsEditable || instructionsSteps) {
+      setOption("instructions");
+    }
+  }, [instructionsEditable, instructionsSteps]);
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {

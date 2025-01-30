@@ -44,6 +44,10 @@ module.exports = {
         ],
       },
       {
+        test: /\.md$/,
+        use: ["raw-loader"],
+      },
+      {
         test: /\/src\/assets\/icons\/.*\.svg$/,
         use: [
           {

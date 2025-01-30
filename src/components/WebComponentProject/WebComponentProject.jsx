@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { marked } from "marked";
 
 import "../../assets/stylesheets/Project.scss";
 import "../../assets/stylesheets/EmbeddedViewer.scss";
@@ -13,7 +14,9 @@ import {
   setIsSplitView,
   setWebComponent,
   setIsOutputOnly,
+  setInstructionsEditable,
 } from "../../redux/EditorSlice";
+import { setInstructions } from "../../redux/InstructionsSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -26,6 +29,7 @@ import {
 const WebComponentProject = ({
   withProjectbar = false,
   nameEditable = false,
+  editableInstructions = false,
   withSidebar = false,
   sidebarOptions = [],
   outputOnly = false,
@@ -44,8 +48,14 @@ const WebComponentProject = ({
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const projectInstructions = useSelector(
+    (state) => state.editor.project.instructions,
+  );
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
+  );
+  const permitInstructionsOverride = useSelector(
+    (state) => state.instructions.permitOverride,
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
@@ -54,8 +64,9 @@ const WebComponentProject = ({
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
     dispatch(setWebComponent(true));
+    dispatch(setInstructionsEditable(editableInstructions));
     dispatch(setIsOutputOnly(outputOnly));
-  }, [outputSplitView, outputOnly, dispatch]);
+  }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
     setCodeHasRun(false);
@@ -70,6 +81,25 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
+
+  useEffect(() => {
+    if (!projectInstructions || !permitInstructionsOverride) return;
+
+    dispatch(
+      setInstructions({
+        project: {
+          steps: [
+            {
+              quiz: false,
+              title: "",
+              content: marked.parse(projectInstructions),
+            },
+          ],
+        },
+        permitOverride: true,
+      }),
+    );
+  }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
     if (codeRunTriggered) {

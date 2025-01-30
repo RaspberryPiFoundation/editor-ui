@@ -12,14 +12,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Autosave instructions (#1163)
+- Editable instructions (#1161)
 - Ability to write to files in `python` (#1146)
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
 - Downloading project instructions (#1160)
 - Support for audio and video files in HTML projects (#1179)
+- Show instructions option in sidebar if instructions are editable (#1164)
+- Open instructions panel by default if instructions are editable (#1164)
+- Instructions empty state to show when instructions are editable (#1165, #1168)
+- Allow `instructions` attribute to override instructions attached to the project (#1169)
+- Instructions tabs for edit and viewing (#1167)
+
 
 ### Changed
 
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
+- Clear the redux store when the component unmounts (#1169)
 - Login to save now logs in and automatically saves (#1162)
 
 ## [0.28.14] - 2025-01-06

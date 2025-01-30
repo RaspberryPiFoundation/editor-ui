@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import { Link } from "react-router-dom";
+
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
@@ -10,8 +13,15 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { setProjectInstructions } from "../../../../redux/EditorSlice";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 
 const InstructionsPanel = () => {
+  const instructionsEditable = useSelector(
+    (state) => state.editor?.instructionsEditable,
+  );
+  const project = useSelector((state) => state.editor?.project);
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
@@ -22,14 +32,18 @@ const InstructionsPanel = () => {
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
+  const [instructionsTab, setInstructionsTab] = useState(0);
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
   }, [quiz]);
 
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project.steps.length,
+    (state) => state.instructions.project?.steps?.length || 0,
   );
+
+  const hasInstructions = steps && steps.length > 0;
+  const hasMultipleSteps = numberOfSteps > 1;
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -54,17 +68,27 @@ const InstructionsPanel = () => {
 
   useEffect(() => {
     const setStepContent = (content) => {
-      stepContent.current.parentElement.scrollTo({ top: 0 });
-      stepContent.current.innerHTML = content;
-      applySyntaxHighlighting(stepContent.current);
+      if (stepContent.current) {
+        stepContent.current?.parentElement.scrollTo({ top: 0 });
+        stepContent.current.innerHTML = content;
+        applySyntaxHighlighting(stepContent.current);
+      }
     };
     if (isQuiz && !quizCompleted) {
       setStepContent(quiz.questions[quiz.currentQuestion]);
       document.dispatchEvent(quizReadyEvent);
-    } else if (steps[currentStepPosition]) {
+    } else if (hasInstructions && steps[currentStepPosition]) {
       setStepContent(steps[currentStepPosition].content);
     }
-  }, [steps, currentStepPosition, quiz, quizCompleted, isQuiz]);
+  }, [
+    hasInstructions,
+    steps,
+    currentStepPosition,
+    quiz,
+    quizCompleted,
+    isQuiz,
+    instructionsTab,
+  ]);
 
   useEffect(() => {
     if (quizCompleted && isQuiz) {
@@ -76,13 +100,97 @@ const InstructionsPanel = () => {
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
+  const addInstructions = () => {
+    dispatch(setProjectInstructions(demoInstructions));
+  };
+
+  const AddInstructionsButton = () => {
+    return (
+      <DesignSystemButton
+        className="btn--primary"
+        icon="add"
+        text={t("instructionsPanel.emptyState.addInstructions")}
+        onClick={addInstructions}
+        fill
+        textAlways
+        small
+      />
+    );
+  };
+
+  const onChange = (e) => {
+    dispatch(setProjectInstructions(e.target.value));
+  };
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
-      Footer={ProgressBar}
+      Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
+      {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
-      <div className="project-instructions" ref={stepContent}></div>
+      <div className="project-instructions">
+        {instructionsEditable ? (
+          hasInstructions ? (
+            <div className="c-instruction-tabs">
+              <Tabs
+                onSelect={(index) => {
+                  setInstructionsTab(index);
+                }}
+              >
+                <TabList>
+                  <Tab>{t("instructionsPanel.edit")}</Tab>
+                  <Tab>{t("instructionsPanel.view")}</Tab>
+                </TabList>
+                <TabPanel>
+                  <textarea
+                    data-testid="instructionTextarea"
+                    value={project.instructions}
+                    onChange={onChange}
+                  ></textarea>
+                </TabPanel>
+                <TabPanel>
+                  <>
+                    <div
+                      className="project-instructions"
+                      ref={stepContent}
+                    ></div>
+                  </>
+                </TabPanel>
+              </Tabs>
+            </div>
+          ) : (
+            <div className="project-instructions__empty">
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.purpose")}
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.location")}
+              </p>
+              <p className="project-instructions__empty-text">
+                <Trans
+                  i18nKey="instructionsPanel.emptyState.markdown"
+                  components={[
+                    <Link
+                      href="https://commonmark.org/help/"
+                      target="_blank"
+                      rel="noreferrer"
+                    />,
+                  ]}
+                />
+              </p>
+              <p className="project-instructions__empty-text">
+                {t("instructionsPanel.emptyState.edits")}
+              </p>
+            </div>
+          )
+        ) : (
+          <div
+            className="project-instructions__content"
+            ref={stepContent}
+          ></div>
+        )}
+      </div>
     </SidebarPanel>
   );
 };

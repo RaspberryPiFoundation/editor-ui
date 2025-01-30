@@ -93,7 +93,7 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
-const initialState = {
+export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
   readOnly: false,
@@ -144,9 +144,9 @@ const initialState = {
 
 export const EditorSlice = createSlice({
   name: "editor",
-  initialState,
+  initialState: editorInitialState,
   reducers: {
-    resetState: () => initialState,
+    resetState: () => editorInitialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))
@@ -238,11 +238,17 @@ export const EditorSlice = createSlice({
       }
       state.justLoaded = true;
     },
+    setProjectInstructions: (state, action) => {
+      state.project.instructions = action.payload;
+    },
     expireJustLoaded: (state) => {
       state.justLoaded = false;
     },
     setReadOnly: (state, action) => {
       state.readOnly = action.payload;
+    },
+    setInstructionsEditable: (state, action) => {
+      state.instructionsEditable = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -469,7 +475,9 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  setProjectInstructions,
   setReadOnly,
+  setInstructionsEditable,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,
