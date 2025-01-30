@@ -78,13 +78,13 @@ describe("When instructionsEditable is true", () => {
 
     test("Renders the remove instructions button", () => {
       expect(
-        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
+        screen.queryByText("instructionsPanel.removeInstructions"),
       ).toBeInTheDocument();
     });
 
     test("Remove instructions modal is opened", () => {
       const button = screen.queryByText(
-        "instructionsPanel.emptyState.removeInstructions",
+        "instructionsPanel.removeInstructions",
       );
       fireEvent.click(button);
 
@@ -128,7 +128,7 @@ describe("When instructionsEditable is true", () => {
 
     test("Does not render the remove instructions button", () => {
       expect(
-        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
+        screen.queryByText("instructionsPanel.removeInstructions"),
       ).not.toBeInTheDocument();
     });
 
@@ -186,7 +186,7 @@ describe("When instructions are not editable", () => {
 
     test("Does not render the remove instructions button", () => {
       expect(
-        screen.queryByText("instructionsPanel.emptyState.removeInstructions"),
+        screen.queryByText("instructionsPanel.removeInstructions"),
       ).not.toBeInTheDocument();
     });
 

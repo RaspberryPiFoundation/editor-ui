@@ -129,7 +129,7 @@ const InstructionsPanel = () => {
     return (
       <DesignSystemButton
         className="btn--secondary"
-        text={t("instructionsPanel.emptyState.removeInstructions")}
+        text={t("instructionsPanel.removeInstructions")}
         onClick={() => {
           setShowModal(true);
         }}
