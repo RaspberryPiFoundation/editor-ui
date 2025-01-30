@@ -120,7 +120,6 @@ describe("When instructionsEditable is true", () => {
       );
     });
 
-
     test("Renders the add instrucitons button", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
@@ -257,7 +256,6 @@ describe("When instructions are not editable", () => {
       expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
         top: 0,
       });
-
     });
 
     test("Renders the progress bar", () => {
