@@ -83,9 +83,7 @@ describe("When instructionsEditable is true", () => {
     });
 
     test("Remove instructions modal is opened", () => {
-      const button = screen.queryByText(
-        "instructionsPanel.removeInstructions",
-      );
+      const button = screen.queryByText("instructionsPanel.removeInstructions");
       fireEvent.click(button);
 
       expect(
