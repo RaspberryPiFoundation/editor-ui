@@ -6,6 +6,8 @@ import AccessDeniedWithAuthModal from "./AccessDeniedWithAuthModal";
 import { syncProject } from "../../redux/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
+import "../../consoleMock"
+
 jest.mock("../../redux/EditorSlice", () => ({
   ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),

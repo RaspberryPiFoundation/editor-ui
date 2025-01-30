@@ -5,6 +5,8 @@ import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectBar from "./ProjectBar";
 
+import "../../consoleMock";
+
 jest.mock("axios");
 
 jest.mock("react-router-dom", () => ({

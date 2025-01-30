@@ -7,6 +7,8 @@ import FileSaver from "file-saver";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 
+import "../../consoleMock";
+
 jest.mock("file-saver");
 jest.mock("jszip");
 jest.mock("jszip-utils", () => ({

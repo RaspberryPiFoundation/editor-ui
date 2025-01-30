@@ -8,6 +8,7 @@ import {
   setSenseHatAlwaysEnabled,
 } from "../../../../redux/EditorSlice";
 import store from "../../../../app/store";
+import "../../../../consoleMock";
 
 const initialState = {
   editor: {

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
+import "../../consoleMock"
 
 const logInHandler = jest.fn();
 

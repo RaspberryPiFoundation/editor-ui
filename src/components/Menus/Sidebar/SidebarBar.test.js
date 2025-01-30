@@ -4,6 +4,8 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import SidebarBar from "./SidebarBar";
 
+import "../../../consoleMock"
+
 const toggleOption = jest.fn();
 
 const mockStore = configureStore([]);

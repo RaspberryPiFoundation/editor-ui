@@ -7,6 +7,8 @@ import userEvent from "@testing-library/user-event";
 import ProjectName from "./ProjectName";
 import { updateProjectName } from "../../redux/EditorSlice";
 
+import "../../consoleMock";
+
 const project = {
   identifier: "hello-world-project",
   name: "Hello world",

@@ -4,6 +4,8 @@ import Sidebar from "./Sidebar";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 
+import "../../../consoleMock";
+
 let images = [
   {
     url: "path/to/image1",

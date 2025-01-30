@@ -5,6 +5,8 @@ import configureStore from "redux-mock-store";
 import MobileProject from "./MobileProject";
 import { showSidebar } from "../../../redux/EditorSlice";
 
+import "../../../consoleMock";
+
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 const middlewares = [];

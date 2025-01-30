@@ -6,6 +6,8 @@ import NotFoundModal from "./NotFoundModal";
 import { closeNotFoundModal, syncProject } from "../../redux/EditorSlice";
 import { defaultPythonProject } from "../../utils/defaultProjects";
 
+import "../../consoleMock"
+
 jest.mock("../../redux/EditorSlice", () => ({
   ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),

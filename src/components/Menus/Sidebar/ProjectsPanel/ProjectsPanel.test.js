@@ -6,6 +6,8 @@ import { MemoryRouter } from "react-router-dom";
 
 import ProjectsPanel from "./ProjectsPanel";
 
+import "../../../../consoleMock";
+
 document.dispatchEvent = jest.fn();
 
 const initialState = {

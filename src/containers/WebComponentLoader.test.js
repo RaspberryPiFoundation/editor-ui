@@ -16,6 +16,8 @@ import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import localStorageUserMiddleware from "../redux/middlewares/localStorageUserMiddleware";
 import { Cookies, CookiesProvider } from "react-cookie";
 
+import "../consoleMock";
+
 jest.mock("../hooks/useProject", () => ({
   useProject: jest.fn(),
 }));

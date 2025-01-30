@@ -7,6 +7,8 @@ import Project from "./Project";
 import { showSavedMessage } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
 
+import "../../../consoleMock";
+
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 jest.mock("react-router-dom", () => ({

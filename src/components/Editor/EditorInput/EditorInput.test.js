@@ -11,6 +11,8 @@ import {
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
+import "../../../consoleMock";
+
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 let mockMediaQuery = (query) => {

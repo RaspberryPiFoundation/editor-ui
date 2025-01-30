@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import VisualOutputPane from "./VisualOutputPane.jsx";
 import Highcharts from "highcharts";
 
+import "../../../../../consoleMock";
+
 jest.mock("highcharts");
 
 const renderPaneWithVisuals = (visuals) => {

@@ -7,6 +7,7 @@ import { codeRunHandled, triggerCodeRun } from "../../../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
+import "../../../../consoleMock";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;

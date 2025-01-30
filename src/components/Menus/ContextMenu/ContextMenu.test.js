@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import ContextMenu from "./ContextMenu";
 
+import "../../../consoleMock";
+
 expect.extend(toHaveNoViolations);
 const action1 = jest.fn();
 

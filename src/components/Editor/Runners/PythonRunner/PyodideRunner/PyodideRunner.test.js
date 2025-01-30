@@ -9,6 +9,7 @@ import {
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
 import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
+import "../../../../../consoleMock"
 
 import {
   resetState,

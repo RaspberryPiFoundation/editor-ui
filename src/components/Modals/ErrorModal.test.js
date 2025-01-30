@@ -5,6 +5,8 @@ import configureStore from "redux-mock-store";
 import ErrorModal from "./ErrorModal";
 import { closeErrorModal, setError } from "../../redux/EditorSlice";
 
+import "../../consoleMock"
+
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 

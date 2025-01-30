@@ -5,6 +5,8 @@ import { MemoryRouter } from "react-router";
 import configureStore from "redux-mock-store";
 import FileSaver from "file-saver";
 
+import "../../../../consoleMock";
+
 jest.mock("file-saver");
 jest.mock("jszip");
 jest.mock("jszip-utils", () => ({
