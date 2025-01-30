@@ -107,11 +107,13 @@ const Sidebar = ({ options = [] }) => {
     instructionsEditable || instructionsSteps ? "instructions" : "file",
   );
 
+  const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
+
   useEffect(() => {
-    if (instructionsEditable || instructionsSteps) {
+    if (instructionsEditable || hasInstructions) {
       setOption("instructions");
     }
-  }, [instructionsEditable, instructionsSteps]);
+  }, [instructionsEditable, hasInstructions]);
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
