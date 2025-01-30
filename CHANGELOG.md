@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Allow `instructions` attribute to override instructions attached to the project (#1169)
 - Instructions tabs for edit and viewing (#1167)
 - Add remove instructions button modal (#1176)
+- Dark mode colours (#1182)
 
 ### Changed
 

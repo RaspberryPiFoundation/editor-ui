@@ -14,6 +14,10 @@
     margin: 0;
   }
 
+  a {
+    color: var(--editor-color-theme-secondary);
+  }
+
   strong {
     font-weight: $font-weight-bold;
   }
@@ -263,7 +267,7 @@
   }
 
   .project-instructions__empty {
-    background-color: $rpf-teal-100;
+    background-color: var(--editor-color-layer-1);
     border-radius: $space-0-5;
     display: flex;
     flex-direction: column;
@@ -292,11 +296,11 @@
     }
 
     .react-tabs__tab {
-      background: var(--rpf-off-white);
+      background: var(--editor-color-tab-background);
       padding-inline: var(--space-1-5);
 
       &--selected {
-        background: var(--rpf-white);
+        background: var(--editor-color-layer-3);
       }
     }
 
@@ -309,6 +313,8 @@
     textarea {
       @include typography.style-1();
 
+      background: var(--editor-color-layer-3);
+      color: var(--editor-color-text);
       border: none;
       block-size: 100%;
       overflow-block: scroll;
