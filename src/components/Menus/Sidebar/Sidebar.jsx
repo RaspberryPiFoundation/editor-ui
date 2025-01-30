@@ -80,7 +80,7 @@ const Sidebar = ({ options = [] }) => {
   ].filter((option) => options.includes(option.name));
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const projectImages = useSelector((state) => state.editor.project.images);
   const instructionsSteps = useSelector(
     (state) => state.instructions?.project?.steps,
   );

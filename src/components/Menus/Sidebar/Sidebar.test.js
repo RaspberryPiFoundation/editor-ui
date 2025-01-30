@@ -25,7 +25,7 @@ describe("When project has images", () => {
         editor: {
           project: {
             components: [],
-            image_list: images,
+            images: images,
           },
         },
         instructions: {},
@@ -107,7 +107,7 @@ describe("When project has images", () => {
         editor: {
           project: {
             components: [],
-            image_list: images,
+            images: images,
           },
         },
         instructions: {
@@ -188,7 +188,7 @@ describe("When the project has no images", () => {
       editor: {
         project: {
           components: [],
-          image_list: [],
+          images: [],
         },
       },
       instructions: {
@@ -227,7 +227,7 @@ describe("When the project has instructions", () => {
       editor: {
         project: {
           components: [],
-          image_list: [],
+          images: [],
         },
       },
       instructions: {

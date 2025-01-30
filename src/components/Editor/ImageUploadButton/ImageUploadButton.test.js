@@ -22,7 +22,7 @@ describe("When user logged in and owns project", () => {
               extension: "py",
             },
           ],
-          image_list: [],
+          images: [],
           project_type: "python",
           user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
         },

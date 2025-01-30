@@ -186,10 +186,10 @@ export const EditorSlice = createSlice({
         action.payload.fileIndex;
     },
     updateImages: (state, action) => {
-      if (!state.project.image_list) {
-        state.project.image_list = [];
+      if (!state.project.images) {
+        state.project.images = [];
       }
-      state.project.image_list = action.payload;
+      state.project.images = action.payload;
     },
     setWebComponent: (state, action) => {
       state.webComponent = action.payload;
@@ -225,8 +225,8 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
-      if (!state.project.image_list) {
-        state.project.image_list = [];
+      if (!state.project.images) {
+        state.project.images = [];
       }
       state.loading = "success";
       state.openFiles = [[]];
@@ -406,7 +406,7 @@ export const EditorSlice = createSlice({
       } else if (
         state.project.identifier !== action.payload.project.identifier
       ) {
-        state.project.image_list = state.project.image_list || [];
+        state.project.images = state.project.images || [];
         state.project = action.payload.project;
         state.loading = "idle";
       }

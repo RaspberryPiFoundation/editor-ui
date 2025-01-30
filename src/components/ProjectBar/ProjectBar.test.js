@@ -16,7 +16,7 @@ const project = {
   name: "Hello world",
   identifier: "hello-world-project",
   components: [],
-  image_list: [],
+  images: [],
   user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
 };
 const user = {

@@ -30,7 +30,7 @@ describe("When state set", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
-          image_list: [],
+          images: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -86,7 +86,7 @@ describe("When code run finishes", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
-          image_list: [],
+          images: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -135,7 +135,7 @@ describe("When withSidebar is true", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
-          image_list: [],
+          images: [],
         },
         openFiles: [],
         focussedFileIndices: [],
@@ -171,7 +171,7 @@ describe("When withProjectbar is true", () => {
           components: [
             { name: "main", extension: "py", content: "print('hello')" },
           ],
-          image_list: [],
+          images: [],
         },
         openFiles: [],
         focussedFileIndices: [],

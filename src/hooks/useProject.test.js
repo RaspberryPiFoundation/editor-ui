@@ -282,7 +282,7 @@ describe("When not embedded", () => {
 
   describe("when code property is set and loading state is 'success'", () => {
     const projectWithOnlyAssets = {
-      image_list: [
+      images: [
         { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
       ],
     };

@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
 - Login to save now logs in and automatically saves (#1162)
+- Switching project `image_list` to `images` to match latest API version (#1180)
 
 ## [0.28.14] - 2025-01-06
 

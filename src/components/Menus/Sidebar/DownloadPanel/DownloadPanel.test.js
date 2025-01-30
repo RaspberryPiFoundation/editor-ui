@@ -38,7 +38,7 @@ describe("DownloadPanel", () => {
                 content: "print('hello world')",
               },
             ],
-            image_list: [
+            images: [
               {
                 url: "a.com/b",
               },
@@ -142,7 +142,7 @@ describe("DownloadPanel", () => {
                 content: "print('hello world')",
               },
             ],
-            image_list: [
+            images: [
               {
                 url: "a.com/b",
               },
@@ -238,7 +238,7 @@ describe("DownloadPanel", () => {
                 content: "print('hello world')",
               },
             ],
-            image_list: [
+            images: [
               {
                 url: "a.com/b",
               },

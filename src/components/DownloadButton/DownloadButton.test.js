@@ -33,7 +33,7 @@ describe("Downloading project with name set", () => {
               content: "print('hello world')",
             },
           ],
-          image_list: [
+          images: [
             {
               url: "a.com/b",
             },
@@ -113,7 +113,7 @@ describe("Downloading project with no name set", () => {
               content: "",
             },
           ],
-          image_list: [],
+          images: [],
         },
       },
     };
@@ -156,7 +156,7 @@ describe("Downloading project with no instructions set", () => {
               content: "",
             },
           ],
-          image_list: [],
+          images: [],
         },
       },
     };

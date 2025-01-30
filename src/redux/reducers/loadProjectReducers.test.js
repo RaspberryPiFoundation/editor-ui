@@ -125,7 +125,7 @@ describe("When requesting a python project", () => {
         content: "# hello",
       },
     ],
-    image_list: [],
+    images: [],
   };
   requestingAProject(project, "main.py");
 });
@@ -142,7 +142,7 @@ describe("When requesting a HTML project", () => {
         content: "# hello world",
       },
     ],
-    image_list: [],
+    images: [],
   };
   requestingAProject(project, "index.html");
 });

@@ -15,7 +15,7 @@ const VisualOutputPane = () => {
     (state) => state.editor.senseHatAlwaysEnabled,
   );
   const senseHatEnabled = useSelector((state) => state.editor.senseHatEnabled);
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const projectImages = useSelector((state) => state.editor.project.images);
   const error = useSelector((state) => state.editor.error);
 
   const turtleOutput = useRef();

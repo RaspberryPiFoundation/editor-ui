@@ -47,7 +47,7 @@ const DownloadButton = (props) => {
       zip.file(`${file.name}.${file.extension}`, file.content);
     });
 
-    project.image_list.forEach((image) => {
+    project.images.forEach((image) => {
       zip.file(image.filename, urlToPromise(image.url), { binary: true });
     });
 
