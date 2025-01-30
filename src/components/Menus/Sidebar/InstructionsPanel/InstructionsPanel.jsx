@@ -110,7 +110,7 @@ const InstructionsPanel = () => {
     dispatch(setProjectInstructions(null));
     setShowModal(false);
   };
-
+  
   const AddInstructionsButton = () => {
     return (
       <DesignSystemButton
@@ -139,7 +139,6 @@ const InstructionsPanel = () => {
       />
     );
   };
-
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
