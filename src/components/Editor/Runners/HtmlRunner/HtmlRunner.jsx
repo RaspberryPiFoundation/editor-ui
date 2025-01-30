@@ -31,7 +31,11 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
-  const projectImages = project.image_list;
+  const projectMedia = [
+    ...(project.image_list || []),
+    ...(project.audio || []),
+    ...(project.videos || []),
+  ];
 
   const firstPanelIndex = 0;
   const focussedFileIndex = useSelector(
@@ -114,9 +118,9 @@ function HtmlRunner() {
   const cssProjectImgs = (projectFile) => {
     var updatedProjectFile = { ...projectFile };
     if (projectFile.extension === "css") {
-      projectImages.forEach((image) => {
-        const find = new RegExp(`['"]${image.filename}['"]`, "g"); // prevent substring matches
-        const replace = `"${image.url}"`;
+      projectMedia.forEach((media_file) => {
+        const find = new RegExp(`['"]${media_file.filename}['"]`, "g"); // prevent substring matches
+        const replace = `"${media_file.url}"`;
         updatedProjectFile.content = updatedProjectFile.content.replaceAll(
           find,
           replace,
@@ -264,27 +268,29 @@ function HtmlRunner() {
 
   const replaceSrcNodes = (
     indexPage,
-    projectImages,
+    projectMedia,
     projectCode,
     attr = "src",
   ) => {
     const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
 
     srcNodes.forEach((srcNode) => {
-      const projectImage = projectImages.find(
+      const projectMediaFile = projectMedia.find(
         (component) => component.filename === srcNode.attrs[attr],
       );
-      const projectFile = projectCode.find(
+      const projectTextFile = projectCode.find(
         (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
       );
 
       let src = "";
-      if (!!projectImage) {
-        src = projectImage.url;
-      } else if (!!projectFile) {
+      if (!!projectMediaFile) {
+        src = projectMediaFile.url;
+      } else if (!!projectTextFile) {
         src = getBlobURL(
-          projectFile.content,
-          mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
+          projectTextFile.content,
+          mimeTypes.lookup(
+            `${projectTextFile.name}.${projectTextFile.extension}`,
+          ),
         );
       } else if (matchingRegexes(allowedExternalLinks, srcNode.attrs[attr])) {
         src = srcNode.attrs[attr];
@@ -351,8 +357,8 @@ function HtmlRunner() {
       body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
 
       replaceHrefNodes(indexPage, projectCode);
-      replaceSrcNodes(indexPage, projectImages, projectCode);
-      replaceSrcNodes(indexPage, projectImages, projectCode, "data-src");
+      replaceSrcNodes(indexPage, projectMedia, projectCode);
+      replaceSrcNodes(indexPage, projectMedia, projectCode, "data-src");
 
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
