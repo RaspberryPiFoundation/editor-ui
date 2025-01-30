@@ -83,18 +83,20 @@ const WebComponentProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!projectInstructions || !permitInstructionsOverride) return;
+    if (!permitInstructionsOverride) return;
 
     dispatch(
       setInstructions({
         project: {
-          steps: [
-            {
-              quiz: false,
-              title: "",
-              content: marked.parse(projectInstructions),
-            },
-          ],
+          steps: projectInstructions
+            ? [
+                {
+                  quiz: false,
+                  title: "",
+                  content: marked.parse(projectInstructions),
+                },
+              ]
+            : [],
         },
         permitOverride: true,
       }),

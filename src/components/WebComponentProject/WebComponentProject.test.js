@@ -120,11 +120,16 @@ describe("When there are no instructions", () => {
   });
 
   test("Does not dispatch action to set instructions", () => {
-    expect(store.getActions()).not.toEqual(
+    expect(store.getActions()).toEqual(
       expect.arrayContaining([
         {
           type: "instructions/setInstructions",
-          payload: expect.any(Object),
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [],
+            },
+          },
         },
       ]),
     );

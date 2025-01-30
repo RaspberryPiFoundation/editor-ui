@@ -216,11 +216,27 @@ i18n
               purpose:
                 "Instructions can be added to your project to guide students.",
             },
+            removeInstructions: "Remove instructions",
             nextStep: "Next step",
             previousStep: "Previous step",
             projectSteps: "Project steps",
             edit: "Edit",
             view: "View",
+            removeInstructionsModal: {
+              removeInstructions: "Remove instructions",
+              close: "Close",
+              heading: "Remove project instructions?",
+              removeInstuctionsWarning:
+                "You are about to remove the instructions from the project.",
+              resultRemovingInstructions:
+                "As a result of removing these instructions:",
+              instructionsWillBeDeleted:
+                "Instructions content will be deleted.",
+              studentsWorkingProjectNotRecievedInstructions:
+                "Students who start working on this project will not receive instructions.",
+              studentsStartedWillSeeInstructions:
+                "Students who have already started working on this project will still be able to see the instructions as they were when they started.",
+            },
           },
           projectsPanel: {
             projects: "Projects",

@@ -16,8 +16,10 @@ import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
+import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 
 const InstructionsPanel = () => {
+  const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
@@ -104,6 +106,11 @@ const InstructionsPanel = () => {
     dispatch(setProjectInstructions(demoInstructions));
   };
 
+  const removeInstructions = () => {
+    dispatch(setProjectInstructions(null));
+    setShowModal(false);
+  };
+
   const AddInstructionsButton = () => {
     return (
       <DesignSystemButton
@@ -118,6 +125,20 @@ const InstructionsPanel = () => {
     );
   };
 
+  const RemoveInstructionsButton = () => {
+    return (
+      <DesignSystemButton
+        className="btn--secondary"
+        text={t("instructionsPanel.removeInstructions")}
+        onClick={() => {
+          setShowModal(true);
+        }}
+        fill
+        textAlways
+        small
+      />
+    );
+  };
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
@@ -126,7 +147,13 @@ const InstructionsPanel = () => {
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
-      Button={instructionsEditable && !hasInstructions && AddInstructionsButton}
+      Button={
+        instructionsEditable
+          ? hasInstructions
+            ? RemoveInstructionsButton
+            : AddInstructionsButton
+          : null
+      }
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >
       <div className="project-instructions">
@@ -191,6 +218,29 @@ const InstructionsPanel = () => {
           ></div>
         )}
       </div>
+      {showModal && (
+        <RemoveInstructionsModal
+          buttons={[
+            <DesignSystemButton
+              type="primary"
+              key="remove"
+              variant="danger"
+              text={t(
+                "instructionsPanel.removeInstructionsModal.removeInstructions",
+              )}
+              onClick={removeInstructions}
+            />,
+            <DesignSystemButton
+              type="secondary"
+              key="close"
+              text={t("instructionsPanel.removeInstructionsModal.close")}
+              onClick={() => setShowModal(false)}
+            />,
+          ]}
+          isOpen={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </SidebarPanel>
   );
 };
