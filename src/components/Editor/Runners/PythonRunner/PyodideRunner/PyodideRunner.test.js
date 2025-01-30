@@ -32,9 +32,7 @@ const project = {
     { name: "main", extension: "py", content: "print('hello')" },
     { name: "existing_file", extension: "txt", content: "hello" },
   ],
-  images: [
-    { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
-  ],
+  images: [{ filename: "image1.jpg", url: "http://example.com/image1.jpg" }],
 };
 
 window.crossOriginIsolated = true;
