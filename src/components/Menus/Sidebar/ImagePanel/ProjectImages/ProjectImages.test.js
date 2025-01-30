@@ -21,7 +21,7 @@ describe("Project with images", () => {
               extension: "py",
             },
           ],
-          image_list: [
+          images: [
             {
               filename: "image1.jpg",
               url: "image1_url",

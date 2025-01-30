@@ -11,7 +11,7 @@ const createMockStore = () => {
     editor: {
       project: {
         components: [],
-        image_list: [
+        images: [
           {
             url: "path/to/image1",
             filename: "image1.jpg",

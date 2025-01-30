@@ -38,7 +38,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
   );
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const projectImages = useSelector((state) => state.editor.project.images);
   const imageNames = projectImages.map((image) => `${image.filename}`);
   const user = useSelector((state) => state.auth.user);
 
@@ -84,7 +84,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
         user.access_token,
         files,
       );
-      dispatch(updateImages(response.data.image_list));
+      dispatch(updateImages(response.data.images));
       closeModal();
     }
   };

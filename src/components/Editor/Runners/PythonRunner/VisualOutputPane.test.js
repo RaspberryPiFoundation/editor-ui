@@ -21,7 +21,7 @@ describe("When Sense Hat library used", () => {
               content: "import _internal_sense_hat",
             },
           ],
-          image_list: [],
+          images: [],
         },
         codeRunTriggered: true,
       },
@@ -55,7 +55,7 @@ describe("When Sense Hat library not used", () => {
               content: "print('Hello world')",
             },
           ],
-          image_list: [],
+          images: [],
         },
         codeRunTriggered: true,
       },
@@ -85,7 +85,7 @@ describe("When code run is triggered", () => {
       editor: {
         project: {
           components: [],
-          image_list: [],
+          images: [],
         },
         codeRunTriggered: true,
       },

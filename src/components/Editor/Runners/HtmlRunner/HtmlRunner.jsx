@@ -32,7 +32,7 @@ function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
   const projectCode = project.components;
   const projectMedia = [
-    ...(project.image_list || []),
+    ...(project.images || []),
     ...(project.audio || []),
     ...(project.videos || []),
   ];

@@ -50,7 +50,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
-  const projectImages = useSelector((s) => s.editor.project.image_list);
+  const projectImages = useSelector((s) => s.editor.project.images);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const focussedFileIndex = useSelector(

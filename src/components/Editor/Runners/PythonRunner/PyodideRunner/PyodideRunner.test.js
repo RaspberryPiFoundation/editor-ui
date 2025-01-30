@@ -32,7 +32,7 @@ const project = {
     { name: "main", extension: "py", content: "print('hello')" },
     { name: "existing_file", extension: "txt", content: "hello" },
   ],
-  image_list: [
+  images: [
     { filename: "image1.jpg", url: "http://example.com/image1.jpg" },
   ],
 };

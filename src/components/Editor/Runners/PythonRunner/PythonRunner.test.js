@@ -26,7 +26,7 @@ const initialState = {
           content: "",
         },
       ],
-      image_list: [],
+      images: [],
     },
   },
   auth: {},

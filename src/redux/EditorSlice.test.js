@@ -322,7 +322,7 @@ describe("When project has an identifier", () => {
         content: "# hello",
       },
     ],
-    image_list: [],
+    images: [],
   };
   const access_token = "myToken";
   const initialState = {

@@ -512,7 +512,7 @@ describe("When media is rendered", () => {
           components: [
             { name: "index", extension: "html", content: mediaHTML },
           ],
-          image_list: [
+          images: [
             {
               filename: "image.jpeg",
               url: "https://example.com/image.jpeg",

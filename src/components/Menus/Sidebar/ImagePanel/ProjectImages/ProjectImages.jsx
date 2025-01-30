@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import "../../../../../assets/stylesheets/ProjectImages.scss";
 
 const ProjectImages = () => {
-  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const projectImages = useSelector((state) => state.editor.project.images);
 
   return (
     <div className="project-images">
