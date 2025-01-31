@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
 - Clear the redux store when the component unmounts (#1169)
 - Login to save now logs in and automatically saves (#1162)
+- Instructions panel heading (#1183)
 
 ## [0.28.14] - 2025-01-06
 
