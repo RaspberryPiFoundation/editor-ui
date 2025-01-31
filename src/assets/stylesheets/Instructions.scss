@@ -43,7 +43,7 @@
   pre {
     background-color: $rpf-grey-700;
     border-radius: 8px;
-    padding: $space-0-5;
+    padding: $space-0-5 $space-1;
     overflow: auto;
     margin: $space-1 0;
   }
@@ -52,7 +52,7 @@
     color: $rpf-white;
     background-color: $rpf-grey-700;
     border-radius: 8px;
-    padding: calc(0.75 * $space-0-125) $space-0-5;
+    padding-block: calc(0.75 * $space-0-125);
   }
 
   .c-project-code {
