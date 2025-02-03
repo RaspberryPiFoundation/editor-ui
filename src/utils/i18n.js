@@ -219,7 +219,7 @@ i18n
             removeInstructions: "Remove instructions",
             nextStep: "Next step",
             previousStep: "Previous step",
-            projectSteps: "Project steps",
+            projectSteps: "Project instructions",
             edit: "Edit",
             view: "View",
             removeInstructionsModal: {
@@ -387,7 +387,7 @@ i18n
             information: "Information",
             information_text:
               "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
-            instructions: "Project steps",
+            instructions: "Project instructions",
             feedback: "Feedback",
             help: "Help",
             privacy: "Privacy",

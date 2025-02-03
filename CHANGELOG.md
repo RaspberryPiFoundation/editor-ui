@@ -6,10 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-### Fixed
-
-- Fix AWS CLI in deploy script to 2.22.35 to workaround cloudflare issue (See https://developers.cloudflare.com/r2/examples/aws/aws-cli/) (#1178)
-
 ### Added
 
 - Autosave instructions (#1163)
@@ -25,12 +21,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions tabs for edit and viewing (#1167)
 - Add remove instructions button modal (#1176)
 - Dark mode colours (#1182)
+- Dark mode for instuctions code block (#1187)
 
 ### Changed
 
 - Made `INSTRUCTIONS.md` a reserved file name (#1160)
 - Clear the redux store when the component unmounts (#1169)
 - Login to save now logs in and automatically saves (#1162)
+- Instructions panel heading (#1183)
+
+### Fixed
+
+- Fix AWS CLI in deploy script to 2.22.35 to workaround cloudflare issue (See https://developers.cloudflare.com/r2/examples/aws/aws-cli/) (#1178)
+- Padding on instructions code block (#1184)
 
 ## [0.28.14] - 2025-01-06
 

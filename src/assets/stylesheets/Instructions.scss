@@ -42,8 +42,9 @@
 
   pre {
     background-color: $rpf-grey-700;
+    border: 1px solid $rpf-grey-600;
     border-radius: 8px;
-    padding: $space-0-5;
+    padding: $space-0-5 $space-1;
     overflow: auto;
     margin: $space-1 0;
   }
@@ -52,15 +53,16 @@
     color: $rpf-white;
     background-color: $rpf-grey-700;
     border-radius: 8px;
-    padding: calc(0.75 * $space-0-125) $space-0-5;
+    padding-block: calc(0.75 * $space-0-125);
   }
 
   .c-project-code {
-    margin: $space-1 0 $space-1-5 0;
-    border-radius: 8px;
     background-color: $rpf-grey-700;
+    border-radius: 8px;
+    margin: $space-1 0 $space-1-5 0;
 
     pre {
+      border: none;
       margin: 0;
     }
 
@@ -277,6 +279,15 @@
 
   .project-instructions__empty-text {
     margin: 0;
+  }
+}
+
+.--dark .project-instructions {
+  pre {
+    background-color: $rpf-grey-850;
+  }
+  code {
+    background-color: $rpf-grey-850;
   }
 }
 
