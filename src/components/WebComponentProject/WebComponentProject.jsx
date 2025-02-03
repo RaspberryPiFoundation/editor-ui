@@ -60,6 +60,7 @@ const WebComponentProject = ({
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
+  const renderer = new marked.Renderer();
 
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
@@ -81,6 +82,15 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
+
+  renderer.link = function (data) {
+    return `<a href="${data.href}" target="_blank" rel="noreferrer"
+    }">${data.text}</a>`;
+  };
+
+  marked.setOptions({
+    renderer: renderer,
+  });
 
   useEffect(() => {
     if (!permitInstructionsOverride) return;
