@@ -21,7 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Instructions tabs for edit and viewing (#1167)
 - Add remove instructions button modal (#1176)
 - Dark mode colours (#1182)
-- Syntax highlighting for custom instructions in Code Editor for Education
+- Dark mode for instuctions code block (#1187)
+- Syntax highlighting for custom instructions in Code Editor for Education (#1190)
 
 ### Changed
 
