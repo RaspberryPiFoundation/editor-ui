@@ -5,11 +5,13 @@ import configureStore from "redux-mock-store";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { act } from "react";
 import Modal from "react-modal";
+import Prism from "prismjs";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
-window.Prism = {
+jest.mock("prismjs", () => ({
+  ...jest.requireActual("prismjs"),
   highlightElement: jest.fn(),
-};
+}));
 
 describe("When instructionsEditable is true", () => {
   describe("When there are instructions", () => {
@@ -222,6 +224,7 @@ describe("When instructions are not editable", () => {
                   <code class='language-python'>print('hello')</code>
                   <code class='language-html'><p>Hello world</p></code>
                   <code class='language-css'>.hello { color: purple }</code>
+                  <code class='language-javascript'>const element = document.getElementById("my-element")</code>
                   `,
               },
             ],
@@ -262,17 +265,67 @@ describe("When instructions are not editable", () => {
 
     test("Applies syntax highlighting to python code", () => {
       const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
     });
 
     test("Applies syntax highlighting to HTML code", () => {
       const codeElement = document.getElementsByClassName("language-html")[0];
-      expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
     });
 
     test("Applies syntax highlighting to CSS code", () => {
       const codeElement = document.getElementsByClassName("language-css")[0];
-      expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+    });
+
+    test("Applies syntax highlighting to javascript code", () => {
+      const codeElement = document.getElementsByClassName(
+        "language-javascript",
+      )[0];
+      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+    });
+  });
+
+  describe("When window.syntaxHighlight is defined", () => {
+    beforeEach(() => {
+      window.syntaxHighlight = {
+        highlightElement: jest.fn(),
+      };
+      const mockStore = configureStore([]);
+      const initialState = {
+        editor: {
+          project: {},
+          instructionsEditable: false,
+        },
+        instructions: {
+          project: {
+            steps: [
+              {
+                content: "<code class='language-python'>print('hello')</code>",
+              },
+            ],
+          },
+          quiz: {},
+          currentStepPosition: 0,
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+    });
+
+    test("Applies syntax highlighting using window.syntaxHighlight", () => {
+      const codeElement = document.getElementsByClassName("language-python")[0];
+      expect(window.syntaxHighlight.highlightElement).toHaveBeenCalledWith(
+        codeElement,
+      );
+    });
+
+    afterEach(() => {
+      delete window.syntaxHighlight;
     });
   });
 
@@ -354,7 +407,7 @@ describe("When instructions are not editable", () => {
 
     test("Applies syntax highlighting", () => {
       const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(window.Prism.highlightElement).toHaveBeenCalledWith(codeElement);
+      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
     });
 
     test("Fires a quizIsReady event", () => {

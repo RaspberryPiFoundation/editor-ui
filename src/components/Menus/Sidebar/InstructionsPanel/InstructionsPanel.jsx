@@ -18,6 +18,8 @@ import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import Prism from "prismjs";
+import "prismjs/components/prism-python";
 
 const InstructionsPanel = () => {
   const [showModal, setShowModal] = useState(false);
@@ -50,11 +52,15 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css",
+      ".language-python, .language-html, .language-css, .language-javascript",
     );
 
     codeElements.forEach((element) => {
-      window.Prism.highlightElement(element);
+      if (window.syntaxHighlight) {
+        window.syntaxHighlight.highlightElement(element);
+      } else {
+        Prism.highlightElement(element);
+      }
     });
   };
 

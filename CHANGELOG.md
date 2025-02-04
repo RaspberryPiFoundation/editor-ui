@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Dark mode for instuctions code block (#1187)
 - Change markdown links to open in new tab (#1188)
 - Update demo instructions text (#1189)
+- Syntax highlighting for custom instructions in Code Editor for Education (#1190)
 
 ### Changed
 
@@ -35,7 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Fix AWS CLI in deploy script to 2.22.35 to workaround cloudflare issue (See https://developers.cloudflare.com/r2/examples/aws/aws-cli/) (#1178)
-- Padding on instructions code block (#1184)
+- Padding on instructions code block (#1184, 1190)
 
 ## [0.28.14] - 2025-01-06
 
