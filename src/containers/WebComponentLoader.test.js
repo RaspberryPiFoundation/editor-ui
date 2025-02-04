@@ -40,6 +40,7 @@ const user = { access_token: "my_token" };
 describe("When initially rendered", () => {
   beforeEach(() => {
     document.dispatchEvent = jest.fn();
+    window.Prism = jest.fn();
     const middlewares = [localStorageUserMiddleware(setUser)];
     const mockStore = configureStore(middlewares);
     const initialState = {
@@ -83,6 +84,10 @@ describe("When initially rendered", () => {
         detail: { user_name: "Joe Bloggs" },
       }),
     );
+  });
+
+  test("It saves window.Prism to window.syntaxHighlight", () => {
+    expect(window.syntaxHighlight).toEqual(window.Prism);
   });
 
   describe("react app API endpoint", () => {
