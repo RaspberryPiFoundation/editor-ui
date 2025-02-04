@@ -165,7 +165,6 @@ const WebComponentLoader = (props) => {
     // Create a script element to save the existing Prism object if there is one
     const script = document.createElement("script");
     script.textContent = `
-      console.log("saving existing prism");
       if (window.Prism) {
         window.syntaxHighlight = window.Prism;
       }
