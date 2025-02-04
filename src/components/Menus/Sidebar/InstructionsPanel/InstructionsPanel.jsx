@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+// This is disabled because the empty anchor tag is used for translation and will have content when rendered.
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
-import { Link } from "react-router-dom";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
@@ -198,8 +199,8 @@ const InstructionsPanel = () => {
                 <Trans
                   i18nKey="instructionsPanel.emptyState.markdown"
                   components={[
-                    <Link
-                      href="https://commonmark.org/help/"
+                    <a
+                      href="https://www.markdownguide.org/cheat-sheet/"
                       target="_blank"
                       rel="noreferrer"
                     />,
