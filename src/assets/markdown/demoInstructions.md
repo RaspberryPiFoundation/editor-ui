@@ -4,8 +4,6 @@
 
 Any text written here will be visible to students in the sidebar
 
-If you decide you do not want instructions, simply leave this panel blank.
-
 ## Writing instructions
 
 Write your instructions using [Markdown](https://www.markdownguide.org/)
