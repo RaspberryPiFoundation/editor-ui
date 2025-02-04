@@ -107,10 +107,31 @@
     min-inline-size: 100%;
   }
 
-  .language-python, .language-javascript {
+  .language-python {
     .number,
     .boolean,
     .function {
+      color: $rpf-syntax-1;
+    }
+    .keyword {
+      color: $rpf-syntax-4;
+    }
+    .string,
+    .char {
+      color: $rpf-syntax-2;
+    }
+    .comment {
+      color: $rpf-syntax-3;
+    }
+
+    .keyword-print {
+      color: $rpf-white;
+    }
+  }
+
+  .language-javascript {
+    .number,
+    .boolean {
       color: $rpf-syntax-1;
     }
     .keyword {
