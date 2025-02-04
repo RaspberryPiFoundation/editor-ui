@@ -40,19 +40,23 @@
     }
   }
 
+  code {
+    color: $rpf-white;
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    padding: calc(0.75 * $space-0-125) $space-0-5;
+  }
+
   pre {
     background-color: $rpf-grey-700;
     border-radius: 8px;
     padding: $space-0-5 $space-1;
     overflow: auto;
     margin: $space-1 0;
-  }
 
-  code {
-    color: $rpf-white;
-    background-color: $rpf-grey-700;
-    border-radius: 8px;
-    padding-block: calc(0.75 * $space-0-125);
+    code {
+      padding-inline: 0;
+    }
   }
 
   .c-project-code {
@@ -101,7 +105,7 @@
     min-inline-size: 100%;
   }
 
-  .language-python {
+  .language-python, .language-javascript {
     .number,
     .boolean,
     .function {

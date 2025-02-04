@@ -51,7 +51,7 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css",
+      ".language-python, .language-html, .language-css, .language-javascript",
     );
 
     codeElements.forEach((element) => {
