@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Dark mode colours (#1182)
 - Dark mode for instuctions code block (#1187)
 - Change markdown links to open in new tab (#1188)
+- Update demo instructions text (#1189)
 
 ### Changed
 
