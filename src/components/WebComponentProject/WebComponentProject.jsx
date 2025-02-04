@@ -98,15 +98,16 @@ const WebComponentProject = ({
     dispatch(
       setInstructions({
         project: {
-          steps: projectInstructions
-            ? [
-                {
-                  quiz: false,
-                  title: "",
-                  content: marked.parse(projectInstructions),
-                },
-              ]
-            : [],
+          steps:
+            typeof projectInstructions === "string"
+              ? [
+                  {
+                    quiz: false,
+                    title: "",
+                    content: marked.parse(projectInstructions),
+                  },
+                ]
+              : [],
         },
         permitOverride: true,
       }),

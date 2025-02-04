@@ -135,6 +135,37 @@ describe("When there are instructions", () => {
   });
 });
 
+describe("When instructions are an empty string", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: "",
+      codeRunTriggered: true,
+    });
+  });
+
+  test("Dispatches action to set instructions", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
 describe("When there are no instructions", () => {
   beforeEach(() => {
     renderWebComponentProject({});
