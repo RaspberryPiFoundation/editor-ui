@@ -150,15 +150,8 @@ jobs:
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
 
-      - name: Deploy without cache to S3 bucket
-        run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*" --include "*.html" --include "*.js" --include "*.scss" --cache-control "no-cache, no-store, must-revalidate"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-
-      - name: Deploy with cache to S3 bucket
-        run: aws s3 sync  ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*.html" --exclude "*.js" --exclude "*.scss"
+      - name: Deploy site to S3 bucket
+        run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --delete --endpoint ${{ secrets.AWS_ENDPOINT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
