@@ -61,7 +61,9 @@
         "avraammavridis.vsc-react-documentation",
         "ofhumanbondage.react-proptypes-intellisense",
         "syler.sass-indented",
-        "codezombiech.gitignore"
+        "codezombiech.gitignore",
+        "github.vscode-github-actions",
+        "humao.rest-client"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
