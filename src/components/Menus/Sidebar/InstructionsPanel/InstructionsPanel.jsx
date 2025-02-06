@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+// This is disabled because the empty anchor tag is used for translation and will have content when rendered.
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import SidebarPanel from "../SidebarPanel";
 import { Trans, useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
-import { Link } from "react-router-dom";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
@@ -17,6 +18,8 @@ import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import Prism from "prismjs";
+import "prismjs/components/prism-python";
 
 const InstructionsPanel = () => {
   const [showModal, setShowModal] = useState(false);
@@ -49,11 +52,15 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css",
+      ".language-python, .language-html, .language-css, .language-javascript",
     );
 
     codeElements.forEach((element) => {
-      window.Prism.highlightElement(element);
+      if (window.syntaxHighlight) {
+        window.syntaxHighlight.highlightElement(element);
+      } else {
+        Prism.highlightElement(element);
+      }
     });
   };
 
@@ -198,8 +205,8 @@ const InstructionsPanel = () => {
                 <Trans
                   i18nKey="instructionsPanel.emptyState.markdown"
                   components={[
-                    <Link
-                      href="https://commonmark.org/help/"
+                    <a
+                      href="https://www.markdownguide.org/cheat-sheet/"
                       target="_blank"
                       rel="noreferrer"
                     />,

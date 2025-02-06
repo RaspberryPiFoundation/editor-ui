@@ -114,6 +114,58 @@ describe("When state set", () => {
   });
 });
 
+describe("When there are instructions", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: "[Link](https://example.com)",
+      codeRunTriggered: true,
+    });
+  });
+
+  test("Renders a tag with target _blank", () => {
+    const instructions = store
+      .getActions()
+      .find((e) => e.type === "instructions/setInstructions");
+
+    const content = instructions.payload.project.steps[0].content;
+
+    expect(content).toEqual(
+      '<p><a href="https://example.com" target="_blank" rel="noreferrer"\n    }">Link</a></p>\n',
+    );
+  });
+});
+
+describe("When instructions are an empty string", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: "",
+      codeRunTriggered: true,
+    });
+  });
+
+  test("Dispatches action to set instructions", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
 describe("When there are no instructions", () => {
   beforeEach(() => {
     renderWebComponentProject({});
