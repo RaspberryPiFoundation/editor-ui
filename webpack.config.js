@@ -13,6 +13,7 @@ module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
+    playground: path.resolve(__dirname, "./src/playground.js"),
   },
   module: {
     rules: [
@@ -139,6 +140,12 @@ module.exports = {
       inject: "body",
       template: "src/web-component.html",
       filename: "web-component.html",
+      excludeChunks: ["playground"],
+    }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/playground.html",
+      filename: "playground.html",
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: "public", to: "" }],
