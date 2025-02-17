@@ -92,6 +92,13 @@ const WebComponentLoader = (props) => {
   useEmbeddedMode(embedded);
 
   useEffect(() => {
+    if (project.project_type === 'scratch') {
+      const url = `${process.env.EXPERIENCE_CS_URL}/projects/${project.identifier}`
+      window.location.replace(url)
+    }
+  }, [project])
+
+  useEffect(() => {
     if (theme) {
       dispatch(disableTheming());
       setCookie("theme", theme, { path: "/" });
