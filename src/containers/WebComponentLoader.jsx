@@ -93,7 +93,7 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (project.project_type === 'scratch') {
-      const url = `${process.env.EXPERIENCE_CS_URL}/projects/${project.identifier}`
+      const url = `${process.env.EXPERIENCE_CS_URL}/projects/${project.identifier}?login_type=student`
       window.location.replace(url)
     }
   }, [project])
