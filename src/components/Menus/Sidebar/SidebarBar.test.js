@@ -73,7 +73,13 @@ describe("SidebarBar", () => {
           <SidebarBar
             menuOptions={menuOptions(true)}
             toggleOption={toggleOption}
-            instructions
+            instructions={[
+              {
+                title: "My testing title",
+                content: "My testing content",
+                quiz: false,
+              },
+            ]}
           />
         </Provider>,
       );

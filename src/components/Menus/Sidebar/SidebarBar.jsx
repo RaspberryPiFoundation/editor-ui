@@ -25,7 +25,10 @@ const SidebarBar = (props) => {
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   const expandPopOut = () => {
-    const option = instructions ? "instructions" : "file";
+    let option = "file";
+    if (instructions.length > 0) {
+      option = "instructions";
+    }
     toggleOption(option);
     if (window.plausible) {
       // TODO: Make dynamic events for each option or rename this event
