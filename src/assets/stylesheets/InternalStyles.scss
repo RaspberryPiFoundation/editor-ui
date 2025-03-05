@@ -103,6 +103,7 @@ button:focus-visible {
   --editor-color-theme-tertiary: #{$rpf-teal-100};
   --editor-color-text: #{$rpf-text-primary};
   --editor-color-text-secondary: #{$rpf-text-secondary};
+  --editor-color-tab-background: #{$rpf-off-white};
 }
 
 .--dark {
@@ -116,6 +117,7 @@ button:focus-visible {
   --editor-color-text: #{$rpf-white};
   --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
   --rpf-button-secondary-text-color: #{$rpf-white};
+  --editor-color-tab-background: #{$rpf-grey-700};
 
   .rpf-button--secondary {
     border-color: $rpf-navy-800;}

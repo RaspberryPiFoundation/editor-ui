@@ -34,6 +34,7 @@ const WebComponentLoader = (props) => {
     authKey,
     code,
     embedded = false,
+    editableInstructions,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -152,13 +153,31 @@ const WebComponentLoader = (props) => {
 
   useEffect(() => {
     if (instructions) {
-      dispatch(setInstructions(instructions));
+      dispatch(setInstructions({ ...instructions, permitOverride: false }));
     }
   }, [instructions, dispatch]);
 
   useEffect(() => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
+
+  useEffect(() => {
+    // Create a script element to save the existing Prism object if there is one
+    const script = document.createElement("script");
+    script.textContent = `
+      if (window.Prism) {
+        window.syntaxHighlight = window.Prism;
+      }
+    `;
+
+    // Append the script to the document body
+    document.body.appendChild(script);
+
+    // Clean up the script when the component unmounts
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const renderSuccessState = () => (
     <>
@@ -189,6 +208,7 @@ const WebComponentLoader = (props) => {
               outputOnly={outputOnly}
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
+              editableInstructions={editableInstructions}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}

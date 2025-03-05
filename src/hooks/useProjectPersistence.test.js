@@ -342,5 +342,25 @@ describe("When logged in", () => {
         autosave: false,
       });
     });
+
+    test("Saves project to database if awaitingSave is set", async () => {
+      localStorage.setItem("awaitingSave", "true");
+
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: project,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
+      expect(saveProject).toHaveBeenCalledWith({
+        project,
+        accessToken: user1.access_token,
+        autosave: false,
+      });
+
+      localStorage.removeItem("awaitingSave");
+    });
   });
 });

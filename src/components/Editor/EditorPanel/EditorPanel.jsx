@@ -45,7 +45,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       updateProjectComponent({
         extension: extension,
         name: fileName,
-        code: content,
+        content,
         cascadeUpdate: false,
       }),
     );

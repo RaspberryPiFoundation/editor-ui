@@ -1,13 +1,21 @@
-@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss" as *;
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss"
+  as *;
+@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
-@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/font-weight" as *;
 
 .project-instructions {
+  block-size: 100%;
+
   h2 {
     @include font-size-1-25(bold);
     margin: 0;
+  }
+
+  a {
+    color: var(--editor-color-theme-secondary);
   }
 
   strong {
@@ -32,14 +40,6 @@
     }
   }
 
-  pre {
-    background-color: $rpf-grey-700;
-    border-radius: 8px;
-    padding: $space-0-5;
-    overflow: auto;
-    margin: $space-1 0;
-  }
-
   code {
     color: $rpf-white;
     background-color: $rpf-grey-700;
@@ -47,12 +47,26 @@
     padding: calc(0.75 * $space-0-125) $space-0-5;
   }
 
-  .c-project-code {
-    margin: $space-1 0 $space-1-5 0;
-    border-radius: 8px;
+  pre {
     background-color: $rpf-grey-700;
+    border: 1px solid $rpf-grey-600;
+    border-radius: 8px;
+    padding: $space-0-5 $space-1;
+    overflow: auto;
+    margin: $space-1 0;
+
+    code {
+      padding-inline: 0;
+    }
+  }
+
+  .c-project-code {
+    background-color: $rpf-grey-700;
+    border-radius: 8px;
+    margin: $space-1 0 $space-1-5 0;
 
     pre {
+      border: none;
       margin: 0;
     }
 
@@ -72,13 +86,10 @@
     border-block-end: 1px solid $rpf-grey-600;
   }
 
-
-
   .line-numbers {
     padding-inline-start: $space-3;
     padding-inline-end: $space-1;
   }
-
 
   .line-numbers-rows {
     border-color: $rpf-text-secondary-dark;
@@ -97,13 +108,37 @@
   }
 
   .language-python {
-    .number, .boolean, .function {
+    .number,
+    .boolean,
+    .function {
       color: $rpf-syntax-1;
     }
     .keyword {
       color: $rpf-syntax-4;
     }
-    .string, .char {
+    .string,
+    .char {
+      color: $rpf-syntax-2;
+    }
+    .comment {
+      color: $rpf-syntax-3;
+    }
+
+    .keyword-print {
+      color: $rpf-white;
+    }
+  }
+
+  .language-javascript {
+    .number,
+    .boolean {
+      color: $rpf-syntax-1;
+    }
+    .keyword {
+      color: $rpf-syntax-4;
+    }
+    .string,
+    .char {
       color: $rpf-syntax-2;
     }
     .comment {
@@ -129,7 +164,8 @@
       color: $rpf-syntax-4;
     }
 
-    .property, .punctuation {
+    .property,
+    .punctuation {
       color: $rpf-white;
     }
   }
@@ -137,7 +173,8 @@
   .language-html {
     .tag {
       color: $rpf-syntax-4;
-      .punctuation, .attr-name {
+      .punctuation,
+      .attr-name {
         color: $rpf-white;
       }
 
@@ -253,6 +290,71 @@
       color: $rpf-text-primary;
       padding: 0;
       white-space: pre-wrap;
+    }
+  }
+
+  .project-instructions__empty {
+    background-color: var(--editor-color-layer-1);
+    border-radius: $space-0-5;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1-5;
+    padding: $space-1;
+  }
+
+  .project-instructions__empty-text {
+    margin: 0;
+  }
+}
+
+.--dark .project-instructions {
+  pre {
+    background-color: $rpf-grey-850;
+  }
+  code {
+    background-color: $rpf-grey-850;
+  }
+}
+
+#app,
+#wc {
+  .c-instruction-tabs {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+
+    .react-tabs {
+      border: 1px solid var(--editor-color-outline);
+
+      .react-tabs__tab-list {
+        border-block-end: 1px solid var(--editor-color-outline);
+      }
+    }
+
+    .react-tabs__tab {
+      background: var(--editor-color-tab-background);
+      padding-inline: var(--space-1-5);
+
+      &--selected {
+        background: var(--editor-color-layer-3);
+      }
+    }
+
+    .react-tabs__tab-panel {
+      .project-instructions {
+        padding-inline: var(--space-1);
+      }
+    }
+
+    textarea {
+      @include typography.style-1();
+
+      background: var(--editor-color-layer-3);
+      color: var(--editor-color-text);
+      border: none;
+      block-size: 100%;
+      overflow-block: scroll;
+      padding: var(--space-1);
     }
   }
 }

@@ -6,16 +6,16 @@ import { setCurrentStepPosition } from "../../../../../redux/InstructionsSlice";
 
 let store;
 
-const renderProgressBarOnStep = (stepNumber) => {
+const renderProgressBarOnStep = (stepNumber, numberOfSteps = 3) => {
   const mockStore = configureStore([]);
+  const steps = new Array(numberOfSteps).fill(0).map((i) => ({
+    content: `<p>step ${i + 1}</p>`,
+  }));
+
   const initialState = {
     instructions: {
       project: {
-        steps: [
-          { content: "<p>step 0</p>" },
-          { content: "<p>step 1</p>" },
-          { content: "<p>step 2</p>" },
-        ],
+        steps,
       },
       currentStepPosition: stepNumber,
     },

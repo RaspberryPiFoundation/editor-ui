@@ -29,13 +29,18 @@ let cookies;
 const code = "print('This project is amazing')";
 const identifier = "My amazing project";
 const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
-const instructions = { currentStepPosition: 3, project: { steps: steps } };
+const instructions = {
+  currentStepPosition: 3,
+  project: { steps: steps },
+  permitOverride: false,
+};
 const authKey = "my_key";
 const user = { access_token: "my_token" };
 
 describe("When initially rendered", () => {
   beforeEach(() => {
     document.dispatchEvent = jest.fn();
+    window.Prism = jest.fn();
     const middlewares = [localStorageUserMiddleware(setUser)];
     const mockStore = configureStore(middlewares);
     const initialState = {
@@ -79,6 +84,10 @@ describe("When initially rendered", () => {
         detail: { user_name: "Joe Bloggs" },
       }),
     );
+  });
+
+  test("It saves window.Prism to window.syntaxHighlight", () => {
+    expect(window.syntaxHighlight).toEqual(window.Prism);
   });
 
   describe("react app API endpoint", () => {

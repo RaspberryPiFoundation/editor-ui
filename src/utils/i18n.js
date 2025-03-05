@@ -130,6 +130,8 @@ i18n
           },
           filePanel: {
             errors: {
+              reservedFileName:
+                "{{fileName}} is a reserved file name. Please choose a different name.",
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
               notUnique: "File names must be unique.",
@@ -204,9 +206,37 @@ i18n
             info: "Information",
           },
           instructionsPanel: {
+            emptyState: {
+              addInstructions: "Add instructions",
+              edits:
+                "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
+              location:
+                "These instructions will be shown to students in their project sidebar and will be view-only.",
+              markdown: "Instructions are written in <0>markdown</0>.",
+              purpose:
+                "Instructions can be added to your project to guide students.",
+            },
+            removeInstructions: "Remove instructions",
             nextStep: "Next step",
             previousStep: "Previous step",
-            projectSteps: "Project steps",
+            projectSteps: "Project instructions",
+            edit: "Edit",
+            view: "View",
+            removeInstructionsModal: {
+              removeInstructions: "Remove instructions",
+              close: "Close",
+              heading: "Remove project instructions?",
+              removeInstuctionsWarning:
+                "You are about to remove the instructions from the project.",
+              resultRemovingInstructions:
+                "As a result of removing these instructions:",
+              instructionsWillBeDeleted:
+                "Instructions content will be deleted.",
+              studentsWorkingProjectNotRecievedInstructions:
+                "Students who start working on this project will not receive instructions.",
+              studentsStartedWillSeeInstructions:
+                "Students who have already started working on this project will still be able to see the instructions as they were when they started.",
+            },
           },
           projectsPanel: {
             projects: "Projects",
@@ -357,7 +387,7 @@ i18n
             information: "Information",
             information_text:
               "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
-            instructions: "Project steps",
+            instructions: "Project instructions",
             feedback: "Feedback",
             help: "Help",
             privacy: "Privacy",

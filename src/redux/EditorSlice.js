@@ -93,7 +93,7 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
-const initialState = {
+export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
   readOnly: false,
@@ -144,9 +144,9 @@ const initialState = {
 
 export const EditorSlice = createSlice({
   name: "editor",
-  initialState,
+  initialState: editorInitialState,
   reducers: {
-    resetState: () => initialState,
+    resetState: () => editorInitialState,
     closeFile: (state, action) => {
       const panelIndex = state.openFiles
         .map((fileNames) => fileNames.includes(action.payload))
@@ -238,11 +238,17 @@ export const EditorSlice = createSlice({
       }
       state.justLoaded = true;
     },
+    setProjectInstructions: (state, action) => {
+      state.project.instructions = action.payload;
+    },
     expireJustLoaded: (state) => {
       state.justLoaded = false;
     },
     setReadOnly: (state, action) => {
       state.readOnly = action.payload;
+    },
+    setInstructionsEditable: (state, action) => {
+      state.instructionsEditable = action.payload;
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
@@ -263,17 +269,19 @@ export const EditorSlice = createSlice({
       state.saveTriggered = true;
     },
     updateProjectComponent: (state, action) => {
-      const extension = action.payload.extension;
-      const fileName = action.payload.name;
-      const code = action.payload.code;
-      const cascadeUpdate = action.payload.cascadeUpdate;
+      const {
+        extension,
+        name: fileName,
+        content,
+        cascadeUpdate,
+      } = action.payload;
 
       const mapped = state.project.components.map((item) => {
         if (item.extension !== extension || item.name !== fileName) {
           return item;
         }
 
-        return { ...item, ...{ content: code } };
+        return { ...item, ...{ content } };
       });
       state.project.components = mapped;
       state.cascadeUpdate = cascadeUpdate;
@@ -467,7 +475,9 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  setProjectInstructions,
   setReadOnly,
+  setInstructionsEditable,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,

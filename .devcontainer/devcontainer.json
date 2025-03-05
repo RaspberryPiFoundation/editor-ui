@@ -39,8 +39,6 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "ninoseki.vscode-gem-lens",
-        "rebornix.ruby",
         "eamodio.gitlens",
         "github.vscode-pull-request-github",
         "wmaurer.change-case",
@@ -53,7 +51,6 @@
         "pkosta2005.heroku-command",
         "yzhang.markdown-all-in-one",
         "mikestead.dotenv",
-        "wingrunr21.vscode-ruby",
         "ms-vscode.remote-repositories",
         "github.remotehub",
         "circleci.circleci",
@@ -64,14 +61,13 @@
         "avraammavridis.vsc-react-documentation",
         "ofhumanbondage.react-proptypes-intellisense",
         "syler.sass-indented",
-        "codezombiech.gitignore"
+        "codezombiech.gitignore",
+        "github.vscode-github-actions",
+        "humao.rest-client"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
-        "jest.autoRun": {
-          "watch": false,
-          "onSave": "test-src-file"
-        }
+        "jest.jestCommandLine": "yarn test"
       }
     }
   },

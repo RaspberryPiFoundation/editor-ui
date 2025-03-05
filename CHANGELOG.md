@@ -4,12 +4,46 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.29.1] - 2025-02-21
+
+### Fixed
+
+- Fixed sidebar not correctly reopening (#1196)
+
+## [0.29.0] - 2025-02-06
 
 ### Added
 
+- Autosave instructions (#1163)
+- Editable instructions (#1161)
 - Ability to write to files in `python` (#1146)
 - Support for the `outputPanels` attribute in the `PyodideRunner` (#1157)
+- Downloading project instructions (#1160)
+- Support for audio and video files in HTML projects (#1179)
+- Show instructions option in sidebar if instructions are editable (#1164)
+- Open instructions panel by default if instructions are editable (#1164)
+- Instructions empty state to show when instructions are editable (#1165, #1168)
+- Allow `instructions` attribute to override instructions attached to the project (#1169)
+- Instructions tabs for edit and viewing (#1167)
+- Add remove instructions button modal (#1176, #1191)
+- Dark mode colours (#1182)
+- Dark mode for instuctions code block (#1187)
+- Change markdown links to open in new tab (#1188)
+- Update demo instructions text (#1189)
+- Syntax highlighting for custom instructions in Code Editor for Education (#1190)
+
+### Changed
+
+- Made `INSTRUCTIONS.md` a reserved file name (#1160)
+- Clear the redux store when the component unmounts (#1169)
+- Login to save now logs in and automatically saves (#1162)
+- Instructions panel heading (#1183)
+- Added cache purge on deployment (#1186)
+
+### Fixed
+
+- Fix AWS CLI in deploy script to 2.22.35 to workaround cloudflare issue (See https://developers.cloudflare.com/r2/examples/aws/aws-cli/) (#1178)
+- Padding on instructions code block (#1184, 1190)
 
 ## [0.28.14] - 2025-01-06
 
@@ -1032,7 +1066,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.28.14...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.29.1...HEAD
+[0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
+[0.29.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.0
 [0.28.14]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.14
 [0.28.13]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.13
 [0.28.12]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.12
