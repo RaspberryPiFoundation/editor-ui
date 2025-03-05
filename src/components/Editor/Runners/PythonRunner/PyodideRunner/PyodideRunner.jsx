@@ -27,6 +27,7 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import store from "../../../../../redux/stores/WebComponentStore";
 
 const getWorkerURL = (url) => {
   const content = `
@@ -58,6 +59,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const stdinClosed = useRef();
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((s) => s.editor.project.image_list);
+  const projectImageNames = projectImages.map((image) => image.filename);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const focussedFileIndex = useSelector(
@@ -118,6 +120,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               data.content,
               data.mode,
               cascadeUpdate,
+              // projectImages,
             );
             break;
           case "handleVisual":
@@ -131,7 +134,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         }
       };
     }
-  }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
+  }, [pyodideWorker, projectCode, projectImages, openFiles, focussedFileIndex]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -220,67 +223,110 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     disableInput();
   };
 
+  const fileWriteQueue = useRef([]); // Queue to store file write requests
+  const isExecuting = useRef(false);
+
   const handleFileWrite = useCallback(
     async (filename, content, mode, cascadeUpdate) => {
-      const [name, extension] = filename.split(".");
-      const componentToUpdate = projectCode.find(
-        (item) => item.extension === extension && item.name === name,
-      );
+      // Add the file write request to the queue
+      fileWriteQueue.current.push({
+        filename,
+        content,
+        mode,
+        cascadeUpdate,
+        projectImages,
+      });
 
-      if (mode === "wb") {
-        const { uploadImages, updateImage } = ApiCallHandler({
-          reactAppApiEndpoint,
-        });
+      // Process the queue if not already executing
+      if (!isExecuting.current) {
+        processFileWriteQueue();
+      }
+    },
+    [projectImages, projectImageNames],
+  );
 
-        const projectImageNames = projectImages.map((image) => image.filename);
-        console.log("Project Image Names: ", projectImageNames);
-        if (projectImageNames.includes(filename)) {
-          console.log("Image already exists");
-          const response = await updateImage(
-            projectIdentifier,
-            user.access_token,
-            // file object with the correct filename and binary content
-            new File([content], filename, { type: "application/octet-stream" }),
-          );
-          if (response.status === 200) {
-            dispatch(updateImages(response.data.image_list));
-          }
-          return;
-        }
-        const response = await uploadImages(
+  const processFileWriteQueue = useCallback(async () => {
+    if (fileWriteQueue.current.length === 0) {
+      isExecuting.current = false;
+      return;
+    }
+
+    isExecuting.current = true;
+    const { filename, content, mode, cascadeUpdate, projectImages } =
+      fileWriteQueue.current.shift();
+
+    const [name, extension] = filename.split(".");
+    const componentToUpdate = projectCode.find(
+      (item) => item.extension === extension && item.name === name,
+    );
+
+    if (mode === "wb" || mode === "w+b") {
+      const { uploadImages, updateImage } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
+
+      console.log("the state of the store is: ");
+      console.log(store.getState());
+      const projectImageNames = (
+        store.getState().editor.project.image_list || []
+      ).map((image) => image.filename);
+      console.log("Project Image Names: ", projectImageNames);
+      console.log(filename);
+      console.log(filename.split("/").pop());
+      if (projectImageNames.includes(filename.split("/").pop())) {
+        console.log("Image already exists");
+        const response = await updateImage(
           projectIdentifier,
           user.access_token,
           // file object with the correct filename and binary content
-          [new File([content], filename, { type: "application/octet-stream" })],
+          new File([content], filename, { type: "application/octet-stream" }),
         );
-        dispatch(updateImages(response.data.image_list));
+        if (response.status === 200) {
+          dispatch(updateImages(response.data.image_list));
+        }
+        processFileWriteQueue(projectImageNames); // Process the next item in the queue
         return;
       }
-      let updatedContent;
-      if (mode === "w" || mode === "x") {
-        updatedContent = content;
-      } else if (mode === "a") {
-        updatedContent =
-          (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
-      }
+      const response = await uploadImages(
+        projectIdentifier,
+        user.access_token,
+        // file object with the correct filename and binary content
+        [new File([content], filename, { type: "application/octet-stream" })],
+      );
+      dispatch(updateImages(response.data.image_list));
+      processFileWriteQueue(projectImageNames); // Process the next item in the queue
+      return;
+    }
+    let updatedContent;
+    if (mode === "w" || mode === "x") {
+      updatedContent = content;
+    } else if (mode === "a") {
+      updatedContent =
+        (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
+    }
 
-      if (componentToUpdate) {
-        dispatch(
-          updateProjectComponent({
-            extension,
-            name,
-            content: updatedContent,
-            cascadeUpdate,
-          }),
-        );
-      } else {
-        dispatch(
-          addProjectComponent({ name, extension, content: updatedContent }),
-        );
-      }
-    },
-    [projectImages],
-  );
+    if (componentToUpdate) {
+      dispatch(
+        updateProjectComponent({
+          extension,
+          name,
+          content: updatedContent,
+          cascadeUpdate,
+        }),
+      );
+    } else {
+      dispatch(
+        addProjectComponent({ name, extension, content: updatedContent }),
+      );
+    }
+
+    processFileWriteQueue(); // Process the next item in the queue
+  }, [projectImages, projectImageNames]);
+
+  useEffect(() => {
+    const projectImageNames = projectImages.map((image) => image.filename);
+    console.log("Updated Project Image Names: ", projectImageNames);
+  }, [projectImages]);
 
   const handleVisual = (origin, content) => {
     if (showVisualOutputPanel) {

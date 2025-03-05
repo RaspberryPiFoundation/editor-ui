@@ -116,8 +116,6 @@ const PyodideWorker = () => {
                       if "b" in mode:
                           self.content = content
                           write_mode = "wb"
-                          print("writing binary file with content", content)
-                          #return
                       else:
                           self.content += content
                           write_mode = "w"
@@ -126,6 +124,7 @@ const PyodideWorker = () => {
 
                       with _original_open(self.filename, write_mode) as f:
                           f.write(self.content)
+                      print("the mode is", mode)
                       basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
 
                   def close(self):
