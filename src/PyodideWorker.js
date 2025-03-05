@@ -104,7 +104,7 @@ const PyodideWorker = () => {
       def _custom_open(filename, mode="r", *args, **kwargs):
           if "x" in mode and os.path.exists(filename):
               raise FileExistsError(f"File '{filename}' already exists")
-          if ("w" in mode or "a" in mode or "x" in mode) and "b" not in mode:
+          if "w" in mode or "a" in mode or "x" in mode:
               if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
                   raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
               class CustomFile:
@@ -113,11 +113,18 @@ const PyodideWorker = () => {
                       self.content = ""
 
                   def write(self, content):
-                      self.content += content
+                      if "b" in mode:
+                          self.content = content
+                          write_mode = "wb"
+                      else:
+                          self.content += content
+                          write_mode = "w"
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
-                      with _original_open(self.filename, "w") as f:
+
+                      with _original_open(self.filename, write_mode) as f:
                           f.write(self.content)
+                      print("the mode is", mode)
                       basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
 
                   def close(self):
@@ -473,6 +480,8 @@ const PyodideWorker = () => {
   const parsePythonError = (error) => {
     const type = error.type;
     const [trace, info] = error.message.split(`${type}:`).map((s) => s?.trim());
+    console.log(trace);
+    console.log(info);
 
     const lines = trace.split("\n");
 
