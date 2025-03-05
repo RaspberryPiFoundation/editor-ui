@@ -270,7 +270,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             extension,
             name,
             content: updatedContent,
-            cascadeUpdate
+            cascadeUpdate,
           }),
         );
       } else {
