@@ -373,6 +373,35 @@ const PyodideWorker = () => {
         `);
       },
     },
+    imageio: {
+      before: async () => {
+        await pyodide.loadPackage("imageio");
+        await pyodide.loadPackage("requests");
+        pyodide.runPython(`
+          import imageio.v3 as iio
+          import io
+          import requests
+
+          # Store the original imread function to avoid recursion
+          #_original_imread = iio.imread  
+
+          def custom_imread(uri, *args, **kwargs):
+              split_uri = uri.split(":")
+              if split_uri[0] == "imageio":
+                  
+                  print("Redirecting request to an alternative URL")
+                  new_url = f"https://raw.githubusercontent.com/imageio/imageio-binaries/master/images/{split_uri[1]}"
+                  response = requests.get(new_url, stream=True)
+                  response.raise_for_status()
+                  return _original_imread(io.BytesIO(response.content), *args, **kwargs)  # Use the original imread
+              return _original_imread(uri, *args, **kwargs)  # Call the original function for all other cases
+
+          # Override iio.imread
+          iio.imread = custom_imread
+          `);
+      },
+      after: () => {},
+    },
   };
 
   const fakeBasthonPackage = {
@@ -431,6 +460,12 @@ const PyodideWorker = () => {
     import builtins
     # Save the original open function
     _original_open = builtins.open
+    `);
+
+    await pyodide.loadPackage("imageio");
+    await pyodide.runPythonAsync(`
+    import imageio.v3 as iio
+    _original_imread = iio.imread
     `);
 
     await pyodide.loadPackage("pyodide-http");
