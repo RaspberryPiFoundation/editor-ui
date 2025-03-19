@@ -118,16 +118,7 @@ const PyodideWorker = () => {
                           self.content = b''
 
                   def write(self, content):
-                      if "a" in mode and os.path.exists(self.filename):
-                        with _original_open(self.filename, "r") as f:
-                            existing_content = f.read()
-
-                        if len(existing_content) > 0:
-                            self.content += "\\n" + content
-                        else:
-                            self.content += content
-                      else:
-                          self.content += content
+                      self.content += content
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
 
