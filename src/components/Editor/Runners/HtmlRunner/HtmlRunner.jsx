@@ -266,6 +266,13 @@ function HtmlRunner() {
     });
   };
 
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      console.log("something changed!", mutation);
+      console.log("this message is from the actual source code!");
+    });
+  });
+
   const replaceSrcNodes = (
     indexPage,
     projectMedia,
@@ -273,6 +280,7 @@ function HtmlRunner() {
     attr = "src",
   ) => {
     const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
+    const parser = new DOMParser();
 
     srcNodes.forEach((srcNode) => {
       const projectMediaFile = projectMedia.find(
@@ -297,6 +305,18 @@ function HtmlRunner() {
       }
       srcNode.setAttribute(attr, src);
       srcNode.setAttribute("crossorigin", true);
+      console.log("the srcNode is now", srcNode);
+      console.log("the srcnode is a", srcNode.tagName);
+      console.log(typeof srcNode);
+      // if (srcNode instanceof HTMLElement) {
+      console.log("observing :eyes:");
+      observer.observe(srcNode, {
+        attributes: true,
+        // attributeFilter: [attr],
+      });
+      // } else {
+      //   console.error("srcNode is not a valid DOM node:", srcNode);
+      // }
     });
   };
 
