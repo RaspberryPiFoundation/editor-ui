@@ -97,6 +97,7 @@ const PyodideWorker = () => {
       import basthon
       import builtins
       import os
+      import mimetypes
 
       MAX_FILES = 100
       MAX_FILE_SIZE = 8500000
@@ -110,21 +111,28 @@ const PyodideWorker = () => {
               class CustomFile:
                   def __init__(self, filename):
                       self.filename = filename
-                      self.content = ""
+                      type = mimetypes.guess_type(filename)[0]
+                      if type and "text" in type:
+                          self.content = ""
+                      else:
+                          self.content = b''
 
                   def write(self, content):
-                      if "b" in mode:
-                          self.content = content
-                          write_mode = "wb"
+                      if "a" in mode and os.path.exists(self.filename):
+                        with _original_open(self.filename, "r") as f:
+                            existing_content = f.read()
+
+                        if len(existing_content) > 0:
+                            self.content += "\\n" + content
+                        else:
+                            self.content += content
                       else:
                           self.content += content
-                          write_mode = "w"
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
 
-                      with _original_open(self.filename, write_mode) as f:
+                      with _original_open(self.filename, mode) as f:
                           f.write(self.content)
-                      print("the mode is", mode)
                       basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
 
                   def close(self):

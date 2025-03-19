@@ -302,7 +302,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       updatedContent = content;
     } else if (mode === "a") {
       updatedContent =
-        (componentToUpdate ? componentToUpdate.content + "\n" : "") + content;
+        (componentToUpdate ? componentToUpdate.content : "") + content;
     }
 
     if (componentToUpdate) {
