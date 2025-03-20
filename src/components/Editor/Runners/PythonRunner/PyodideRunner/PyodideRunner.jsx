@@ -59,7 +59,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const stdinClosed = useRef();
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((s) => s.editor.project.image_list);
-  const projectImageNames = projectImages.map((image) => image.filename);
+  const projectImageNames = projectImages?.map((image) => image.filename);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const focussedFileIndex = useSelector(
@@ -252,7 +252,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
 
     isExecuting.current = true;
-    const { filename, content, mode, cascadeUpdate, projectImages } =
+    const { filename, content, mode, cascadeUpdate } =
       fileWriteQueue.current.shift();
 
     const [name, extension] = filename.split(".");
@@ -322,11 +322,6 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     processFileWriteQueue(); // Process the next item in the queue
   }, [projectImages, projectImageNames]);
-
-  useEffect(() => {
-    const projectImageNames = projectImages.map((image) => image.filename);
-    console.log("Updated Project Image Names: ", projectImageNames);
-  }, [projectImages]);
 
   const handleVisual = (origin, content) => {
     if (showVisualOutputPanel) {
