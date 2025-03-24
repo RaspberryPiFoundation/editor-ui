@@ -307,7 +307,7 @@ describe("When file write event is received", () => {
     worker.postMessageFromWorker({
       method: "handleFileWrite",
       filename: "existing_file.txt",
-      content: "new content",
+      content: "\nnew content",
       mode: "a",
     });
     expect(dispatchSpy).toHaveBeenCalledWith({
@@ -364,7 +364,7 @@ describe("When file write event is received", () => {
     worker.postMessageFromWorker({
       method: "handleFileWrite",
       filename: "existing_file.txt",
-      content: "new content",
+      content: "\nnew content",
       mode: "a",
     });
     expect(dispatchSpy).toHaveBeenCalledWith({
