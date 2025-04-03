@@ -97,6 +97,7 @@ const PyodideWorker = () => {
       import basthon
       import builtins
       import os
+      import mimetypes
 
       MAX_FILES = 100
       MAX_FILE_SIZE = 8500000
@@ -104,18 +105,23 @@ const PyodideWorker = () => {
       def _custom_open(filename, mode="r", *args, **kwargs):
           if "x" in mode and os.path.exists(filename):
               raise FileExistsError(f"File '{filename}' already exists")
-          if ("w" in mode or "a" in mode or "x" in mode) and "b" not in mode:
+          if "w" in mode or "a" in mode or "x" in mode:
               if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
                   raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
               class CustomFile:
                   def __init__(self, filename):
                       self.filename = filename
-                      self.content = ""
+                      type = mimetypes.guess_type(filename)[0]
+                      if type and "text" in type:
+                          self.content = ""
+                      else:
+                          self.content = b''
 
                   def write(self, content):
                       self.content += content
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
+
                       with _original_open(self.filename, mode) as f:
                           f.write(self.content)
                       basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
@@ -367,6 +373,41 @@ const PyodideWorker = () => {
         `);
       },
     },
+    imageio: {
+      before: async () => {
+        await pyodide.loadPackage("imageio");
+        // if (!pyodide.micropip) {
+        //   await pyodide.loadPackage("micropip");
+        //   pyodide.micropip = pyodide.pyimport("micropip");
+        // }
+        // await pyodide.micropip.install("opencv-python");
+        // // await pyodide.micropip.install("ffmpeg");
+        await pyodide.loadPackage("requests");
+        pyodide.runPython(`
+          import imageio.v3 as iio
+          import io
+          import requests
+
+          # Store the original imread function to avoid recursion
+          #_original_imread = iio.imread  
+
+          def custom_imread(uri, *args, **kwargs):
+              split_uri = uri.split(":")
+              if split_uri[0] == "imageio":
+                  
+                  print("Redirecting request to an alternative URL")
+                  new_url = f"https://raw.githubusercontent.com/imageio/imageio-binaries/master/images/{split_uri[1]}"
+                  response = requests.get(new_url, stream=True)
+                  response.raise_for_status()
+                  return _original_imread(io.BytesIO(response.content), *args, **kwargs)  # Use the original imread
+              return _original_imread(uri, *args, **kwargs)  # Call the original function for all other cases
+
+          # Override iio.imread
+          iio.imread = custom_imread
+          `);
+      },
+      after: () => {},
+    },
   };
 
   const fakeBasthonPackage = {
@@ -427,6 +468,12 @@ const PyodideWorker = () => {
     _original_open = builtins.open
     `);
 
+    await pyodide.loadPackage("imageio");
+    await pyodide.runPythonAsync(`
+    import imageio.v3 as iio
+    _original_imread = iio.imread
+    `);
+
     await pyodide.loadPackage("pyodide-http");
     await pyodide.runPythonAsync(`
         import pyodide_http
@@ -473,6 +520,8 @@ const PyodideWorker = () => {
   const parsePythonError = (error) => {
     const type = error.type;
     const [trace, info] = error.message.split(`${type}:`).map((s) => s?.trim());
+    console.log(trace);
+    console.log(info);
 
     const lines = trace.split("\n");
 
