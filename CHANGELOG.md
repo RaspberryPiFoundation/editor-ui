@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `editor-projectLoadFailed` custom event that fires when the project fails to load (#1201)
+- `editor-projectLoadFailed` custom event that fires when a project completely fails to load (#1201)
 
 ### Fixed
 
