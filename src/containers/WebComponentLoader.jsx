@@ -112,10 +112,14 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
       setProjectIdentifier(project.identifier);
-    } else if (loading === "failed") {
-      document.dispatchEvent(projectLoadFailed);
     }
   }, [loading, project]);
+
+  useEffect(() => {
+    if (loading === "failed" && !remixLoadFailed) {
+      document.dispatchEvent(projectLoadFailed);
+    }
+  }, [loading, remixLoadFailed]);
 
   useEffect(() => {
     if (justLoaded) {
