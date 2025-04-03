@@ -26,7 +26,10 @@ import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import editorStyles from "../assets/stylesheets/index.scss";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
-import { projectOwnerLoadedEvent } from "../events/WebComponentCustomEvents";
+import {
+  projectLoadFailed,
+  projectOwnerLoadedEvent,
+} from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const {
@@ -109,6 +112,8 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
       setProjectIdentifier(project.identifier);
+    } else if (loading === "failed") {
+      document.dispatchEvent(projectLoadFailed);
     }
   }, [loading, project]);
 
