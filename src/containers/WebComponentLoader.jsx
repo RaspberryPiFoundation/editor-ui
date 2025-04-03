@@ -26,7 +26,10 @@ import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import editorStyles from "../assets/stylesheets/index.scss";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
-import { projectOwnerLoadedEvent } from "../events/WebComponentCustomEvents";
+import {
+  projectLoadFailed,
+  projectOwnerLoadedEvent,
+} from "../events/WebComponentCustomEvents";
 
 const WebComponentLoader = (props) => {
   const {
@@ -111,6 +114,12 @@ const WebComponentLoader = (props) => {
       setProjectIdentifier(project.identifier);
     }
   }, [loading, project]);
+
+  useEffect(() => {
+    if (loading === "failed" && !remixLoadFailed) {
+      document.dispatchEvent(projectLoadFailed);
+    }
+  }, [loading, remixLoadFailed]);
 
   useEffect(() => {
     if (justLoaded) {
