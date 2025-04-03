@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- `editor-projectLoadFailed` custom event that fires when the project fails to load (#1201)
+
 ### Fixed
 
 - Bugs in append mode for writing to files in python (#1200)
