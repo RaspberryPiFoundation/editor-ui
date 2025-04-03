@@ -376,6 +376,12 @@ const PyodideWorker = () => {
     imageio: {
       before: async () => {
         await pyodide.loadPackage("imageio");
+        // if (!pyodide.micropip) {
+        //   await pyodide.loadPackage("micropip");
+        //   pyodide.micropip = pyodide.pyimport("micropip");
+        // }
+        // await pyodide.micropip.install("opencv-python");
+        // // await pyodide.micropip.install("ffmpeg");
         await pyodide.loadPackage("requests");
         pyodide.runPython(`
           import imageio.v3 as iio

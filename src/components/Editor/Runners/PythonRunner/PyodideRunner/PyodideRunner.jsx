@@ -229,6 +229,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const handleFileWrite = useCallback(
     async (filename, content, mode, cascadeUpdate) => {
       // Add the file write request to the queue
+      console.log(`Writing ${content} to ${filename}`);
       fileWriteQueue.current.push({
         filename,
         content,

@@ -140,7 +140,7 @@ describe("Running the code with pyodide", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".cm-editor")
-      .should("contain", "Hello again world");
+      .should("contain", "Hello worldHello again world");
   });
 
   it("runs a simple program with a built-in python module", () => {
