@@ -24,6 +24,7 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
+import { getImports } from "../../../../../utils/getImports";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -54,6 +55,15 @@ const externalLibraries = {
     path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
   },
 };
+
+const VISUAL_LIBRARIES = [
+  "pygal",
+  "py5",
+  "py5_imported",
+  "p5",
+  "sense_hat",
+  "turtle",
+];
 
 const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
@@ -86,7 +96,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const [codeHasVisualOutput, setCodeHasVisualOutput] = useState(
     senseHatAlwaysEnabled,
   );
-  const [showVisualOutput, setShowVisualOutput] = useState(true);
+  const [showVisualOutput, setShowVisualOutput] = useState(codeHasVisualOutput);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -95,6 +105,29 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       : null;
     return pageInput || webComponentInput;
   };
+
+  const project = useSelector((state) => state.editor.project);
+
+  useEffect(() => {
+    for (const component of project.components || []) {
+      if (component.extension === "py" && !codeRunTriggered) {
+        try {
+          const imports = getImports(component.content);
+          const hasVisualImports = imports.some((name) =>
+            VISUAL_LIBRARIES.includes(name),
+          );
+          if (hasVisualImports || senseHatAlwaysEnabled) {
+            setCodeHasVisualOutput(true);
+            break;
+          } else {
+            setCodeHasVisualOutput(false);
+          }
+        } catch (error) {
+          console.error("Error occurred while getting imports:", error);
+        }
+      }
+    }
+  }, [project, codeRunTriggered, senseHatAlwaysEnabled, t]);
 
   useEffect(() => {
     if (active && loadedRunner !== "skulpt") {
@@ -111,7 +144,15 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }, [codeRunTriggered, active]);
 
   useEffect(() => {
-    if (codeRunTriggered && !senseHatAlwaysEnabled) {
+    if (
+      codeRunTriggered &&
+      !senseHatAlwaysEnabled
+      // &&
+      // showVisualOutput !== codeHasVisualOutput
+    ) {
+      console.log("codeHasVisualOutput", codeHasVisualOutput);
+      console.log("showVisualOutput", showVisualOutput);
+      console.log("inequality", showVisualOutput !== codeHasVisualOutput);
       setShowVisualOutput(!!codeHasVisualOutput);
     }
   }, [codeRunTriggered, codeHasVisualOutput]);
@@ -136,14 +177,14 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
   }, [drawTriggered, codeRunTriggered]);
 
-  const visualLibraries = [
-    "./pygal/__init__.js",
-    "./py5/__init__.js",
-    "./py5_imported/__init__.js",
-    "./p5/__init__.js",
-    "./_internal_sense_hat/__init__.js",
-    "src/builtin/turtle/__init__.js",
-  ];
+  // const visualLibraries = [
+  //   "./pygal/__init__.js",
+  //   "./py5/__init__.js",
+  //   "./py5_imported/__init__.js",
+  //   "./p5/__init__.js",
+  //   "./_internal_sense_hat/__init__.js",
+  //   "src/builtin/turtle/__init__.js",
+  // ];
 
   const outf = (text) => {
     if (text !== "") {
@@ -169,9 +210,9 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
 
-    if (visualLibraries.includes(library)) {
-      setCodeHasVisualOutput(true);
-    }
+    // if (visualLibraries.includes(library)) {
+    //   setCodeHasVisualOutput(true);
+    // }
 
     let localProjectFiles = projectCode
       .filter((component) => component.name !== "main")
@@ -444,8 +485,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     >
       {isSplitView || singleOutputPanel ? (
         <>
-          {showVisualOutput && showVisualOutputPanel && (
-            <div className={outputPanelClasses("visual")}>
+          {showVisualOutputPanel && (
+            <div
+              className={outputPanelClasses("visual")}
+              style={{ display: showVisualOutput ? "flex" : "none" }}
+            >
               <Tabs forceRenderTabPanel={true}>
                 <div
                   className={classNames("react-tabs__tab-container", {
@@ -506,13 +550,16 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         >
           <div className="react-tabs__tab-container">
             <TabList>
-              {showVisualOutput ? (
-                <Tab key={0}>
-                  <span className="react-tabs__tab-text">
-                    {t("output.visualOutput")}
-                  </span>
-                </Tab>
-              ) : null}
+              {/* {showVisualOutput ? ( */}
+              <Tab
+                key={0}
+                style={{ display: showVisualOutput ? "flex" : "none" }}
+              >
+                <span className="react-tabs__tab-text">
+                  {t("output.visualOutput")}
+                </span>
+              </Tab>
+              {/* ) : null} */}
               <Tab key={1}>
                 <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
@@ -523,11 +570,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           {!isOutputOnly && <ErrorMessage />}
-          {showVisualOutput ? (
-            <TabPanel key={0}>
-              <VisualOutputPane />
-            </TabPanel>
-          ) : null}
+          {/* {showVisualOutput ? ( */}
+          <TabPanel key={0}>
+            <VisualOutputPane />
+          </TabPanel>
+          {/* // ) : null} */}
           <TabPanel key={1}>
             <pre
               className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
