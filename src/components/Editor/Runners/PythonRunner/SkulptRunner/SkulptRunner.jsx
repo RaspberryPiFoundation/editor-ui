@@ -144,15 +144,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }, [codeRunTriggered, active]);
 
   useEffect(() => {
-    if (
-      codeRunTriggered &&
-      !senseHatAlwaysEnabled
-      // &&
-      // showVisualOutput !== codeHasVisualOutput
-    ) {
-      console.log("codeHasVisualOutput", codeHasVisualOutput);
-      console.log("showVisualOutput", showVisualOutput);
-      console.log("inequality", showVisualOutput !== codeHasVisualOutput);
+    if (codeRunTriggered && !senseHatAlwaysEnabled) {
       setShowVisualOutput(!!codeHasVisualOutput);
     }
   }, [codeRunTriggered, codeHasVisualOutput]);
@@ -177,15 +169,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
   }, [drawTriggered, codeRunTriggered]);
 
-  // const visualLibraries = [
-  //   "./pygal/__init__.js",
-  //   "./py5/__init__.js",
-  //   "./py5_imported/__init__.js",
-  //   "./p5/__init__.js",
-  //   "./_internal_sense_hat/__init__.js",
-  //   "src/builtin/turtle/__init__.js",
-  // ];
-
   const outf = (text) => {
     if (text !== "") {
       const node = output.current;
@@ -209,10 +192,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
 
     // TODO: Handle pre-importing py5_imported when refactored py5 shim imported
-
-    // if (visualLibraries.includes(library)) {
-    //   setCodeHasVisualOutput(true);
-    // }
 
     let localProjectFiles = projectCode
       .filter((component) => component.name !== "main")
@@ -550,7 +529,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         >
           <div className="react-tabs__tab-container">
             <TabList>
-              {/* {showVisualOutput ? ( */}
               <Tab
                 key={0}
                 style={{ display: showVisualOutput ? "flex" : "none" }}
@@ -559,7 +537,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                   {t("output.visualOutput")}
                 </span>
               </Tab>
-              {/* ) : null} */}
               <Tab key={1}>
                 <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
@@ -570,11 +547,9 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           {!isOutputOnly && <ErrorMessage />}
-          {/* {showVisualOutput ? ( */}
           <TabPanel key={0}>
             <VisualOutputPane />
           </TabPanel>
-          {/* // ) : null} */}
           <TabPanel key={1}>
             <pre
               className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
