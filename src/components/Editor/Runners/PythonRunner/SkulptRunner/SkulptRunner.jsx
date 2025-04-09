@@ -467,6 +467,18 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     });
   };
 
+  const [tabbedViewSelectedIndex, setTabbedViewSelectedIndex] = useState(
+    showVisualOutput ? 0 : 1,
+  );
+
+  useEffect(() => {
+    if (showVisualOutput) {
+      setTabbedViewSelectedIndex(0);
+    } else {
+      setTabbedViewSelectedIndex(1);
+    }
+  }, [showVisualOutput]);
+
   return (
     <div
       className={classNames("pythonrunner-container", "skulptrunner", {
@@ -537,6 +549,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         <Tabs
           forceRenderTabPanel={true}
           defaultIndex={showVisualOutput ? 0 : 1}
+          selectedIndex={tabbedViewSelectedIndex}
+          onSelect={setTabbedViewSelectedIndex}
         >
           <div className="react-tabs__tab-container">
             <TabList>
