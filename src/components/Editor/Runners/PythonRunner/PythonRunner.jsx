@@ -50,7 +50,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
     for (const component of project.components || []) {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
-          const imports = getImports(component.content);
+          const imports = getImports(component.content, t);
           const hasSkulptOnlyModules = imports.some((name) =>
             SKULPT_ONLY_MODULES.includes(name),
           );

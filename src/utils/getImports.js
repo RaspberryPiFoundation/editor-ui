@@ -1,4 +1,4 @@
-export const getImports = (code) => {
+export const getImports = (code, t) => {
   const codeWithoutMultilineStrings = code.replace(
     /'''[\s\S]*?'''|"""[\s\S]*?"""/gm,
     "",

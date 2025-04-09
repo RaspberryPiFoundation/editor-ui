@@ -93,10 +93,36 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
+  const project = useSelector((state) => state.editor.project);
+
+  const testForVisualImports = (project) => {
+    for (const component of project.components || []) {
+      if (component.extension === "py") {
+        try {
+          const imports = getImports(component.content, t);
+          const hasVisualImports = imports.some((name) =>
+            VISUAL_LIBRARIES.includes(name),
+          );
+          if (hasVisualImports) {
+            return true;
+          }
+        } catch (error) {
+          console.error("Error occurred while getting imports:", error);
+        }
+      }
+    }
+    return false;
+  };
+
   const [codeHasVisualOutput, setCodeHasVisualOutput] = useState(
-    senseHatAlwaysEnabled,
+    !!senseHatAlwaysEnabled || testForVisualImports(project),
   );
   const [showVisualOutput, setShowVisualOutput] = useState(codeHasVisualOutput);
+
+  useEffect(() => {
+    console.log("codeHasVisualOutput", codeHasVisualOutput);
+    console.log("showVisualOutput", showVisualOutput);
+  }, [codeHasVisualOutput]);
 
   const getInput = () => {
     const pageInput = document.getElementById("input");
@@ -106,26 +132,11 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     return pageInput || webComponentInput;
   };
 
-  const project = useSelector((state) => state.editor.project);
-
   useEffect(() => {
-    for (const component of project.components || []) {
-      if (component.extension === "py" && !codeRunTriggered) {
-        try {
-          const imports = getImports(component.content);
-          const hasVisualImports = imports.some((name) =>
-            VISUAL_LIBRARIES.includes(name),
-          );
-          if (hasVisualImports || senseHatAlwaysEnabled) {
-            setCodeHasVisualOutput(true);
-            break;
-          } else {
-            setCodeHasVisualOutput(false);
-          }
-        } catch (error) {
-          console.error("Error occurred while getting imports:", error);
-        }
-      }
+    if (!codeRunTriggered) {
+      setCodeHasVisualOutput(
+        !!senseHatAlwaysEnabled || testForVisualImports(project),
+      );
     }
   }, [project, codeRunTriggered, senseHatAlwaysEnabled, t]);
 
