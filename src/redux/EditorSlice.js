@@ -140,6 +140,7 @@ export const editorInitialState = {
   sidebarShowing: true,
   modals: {},
   errorDetails: {},
+  runnerBeingLoaded: null | "pyodide" | "skulpt",
 };
 
 export const EditorSlice = createSlice({
@@ -323,12 +324,15 @@ export const EditorSlice = createSlice({
       state.drawTriggered = false;
     },
     loadingRunner: (state, action) => {
+      state.runnerBeingLoaded = action.payload;
       state.activeRunner = action.payload;
       state.codeRunLoading = true;
     },
     setLoadedRunner: (state, action) => {
-      state.loadedRunner = action.payload;
-      state.codeRunLoading = false;
+      if (state.runnerBeingLoaded === action.payload) {
+        state.loadedRunner = action.payload;
+        state.codeRunLoading = false;
+      }
     },
     resetRunner: (state) => {
       state.activeRunner = null;
@@ -339,6 +343,7 @@ export const EditorSlice = createSlice({
       state.codeRunLoading = false;
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
+      state.runnerBeingLoaded = null;
     },
     closeAccessDeniedWithAuthModal: (state) => {
       state.accessDeniedWithAuthModalShowing = false;
