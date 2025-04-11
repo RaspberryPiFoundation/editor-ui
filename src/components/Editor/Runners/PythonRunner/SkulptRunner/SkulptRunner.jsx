@@ -119,11 +119,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   );
   const [showVisualOutput, setShowVisualOutput] = useState(codeHasVisualOutput);
 
-  useEffect(() => {
-    console.log("codeHasVisualOutput", codeHasVisualOutput);
-    console.log("showVisualOutput", showVisualOutput);
-  }, [codeHasVisualOutput]);
-
   const getInput = () => {
     const pageInput = document.getElementById("input");
     const webComponentInput = document.querySelector("editor-wc")
@@ -490,7 +485,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           {showVisualOutputPanel && (
             <div
               className={outputPanelClasses("visual")}
-              style={{ display: showVisualOutput ? "flex" : "none" }}
+              style={{ blockSize: showVisualOutput ? "auto" : 0 }}
             >
               <Tabs forceRenderTabPanel={true}>
                 <div
@@ -554,10 +549,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         >
           <div className="react-tabs__tab-container">
             <TabList>
-              <Tab
-                key={0}
-                style={{ display: showVisualOutput ? "flex" : "none" }}
-              >
+              <Tab key={0} style={{ blockSize: showVisualOutput ? "auto" : 0 }}>
                 <span className="react-tabs__tab-text">
                   {t("output.visualOutput")}
                 </span>
