@@ -24,7 +24,7 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
-import { getImports } from "../../../../../utils/getImports";
+import { getPythonImports } from "../../../../../utils/getPythonImports";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -99,7 +99,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     for (const component of project.components || []) {
       if (component.extension === "py") {
         try {
-          const imports = getImports(component.content, t);
+          const imports = getPythonImports(component.content, t);
           const hasVisualImports = imports.some((name) =>
             VISUAL_LIBRARIES.includes(name),
           );

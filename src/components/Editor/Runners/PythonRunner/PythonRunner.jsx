@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import { loadingRunner } from "../../../../redux/EditorSlice";
-import { getImports } from "../../../../utils/getImports";
+import { getPythonImports } from "../../../../utils/getPythonImports";
 
 const SKULPT_ONLY_MODULES = [
   "p5",
@@ -50,7 +50,7 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
     for (const component of project.components || []) {
       if (component.extension === "py" && !codeRunTriggered) {
         try {
-          const imports = getImports(component.content, t);
+          const imports = getPythonImports(component.content, t);
           const hasSkulptOnlyModules = imports.some((name) =>
             SKULPT_ONLY_MODULES.includes(name),
           );
