@@ -428,7 +428,7 @@ describe("When in split view, py5_imported imported and code run", () => {
             {
               name: "main",
               extension: "py",
-              content: "import py5_imported",
+              content: "# input.comment.py5",
             },
           ],
           image_list: [],
@@ -563,7 +563,7 @@ describe("When in split view, sense_hat imported and code run", () => {
             {
               name: "main",
               extension: "py",
-              content: "import _internal_sense_hat",
+              content: "import sense_hat",
             },
           ],
           image_list: [],
@@ -675,7 +675,7 @@ describe("When in tabbed view, py5 imported and code run", () => {
     ));
   });
 
-  test("Output view toggle not shown", () => {
+  test("Output view toggle is shown", () => {
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();
@@ -704,7 +704,7 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
             {
               name: "main",
               extension: "py",
-              content: "import py5_imported",
+              content: "# input.comment.py5",
             },
           ],
           image_list: [],
@@ -724,7 +724,7 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
     ));
   });
 
-  test("Output view toggle not shown", () => {
+  test("Output view toggle is shown", () => {
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();
@@ -769,7 +769,7 @@ describe("When in tabbed view, pygal imported and code run", () => {
     ));
   });
 
-  test("Output view toggle not shown", () => {
+  test("Output view toggle is shown", () => {
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();
@@ -814,7 +814,8 @@ describe("When in tabbed view, turtle imported and code run", () => {
     ));
   });
 
-  test("Output view toggle not shown", () => {
+  test("Output view toggle is shown", () => {
+    screen.debug();
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();
@@ -839,7 +840,7 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
             {
               name: "main",
               extension: "py",
-              content: "import _internal_sense_hat",
+              content: "import sense_hat",
             },
           ],
           image_list: [],
@@ -859,7 +860,7 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
     ));
   });
 
-  test("Output view toggle not shown", () => {
+  test("Output view toggle is shown", () => {
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();

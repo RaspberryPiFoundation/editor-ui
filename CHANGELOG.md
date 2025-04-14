@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Bugs in append mode for writing to files in python (#1200)
+- `turtle` bug that did not display output on first code run (#1203)
 
 ## [0.29.1] - 2025-02-21
 
