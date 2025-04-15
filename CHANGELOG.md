@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.30.0] - 2025-04-15
+
 ### Added
 
 - `editor-projectLoadFailed` custom event that fires when a project completely fails to load (#1201)
@@ -1079,6 +1081,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
 [unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.29.1...HEAD
+[0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
 [0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
 [0.29.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.0
 [0.28.14]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.14
