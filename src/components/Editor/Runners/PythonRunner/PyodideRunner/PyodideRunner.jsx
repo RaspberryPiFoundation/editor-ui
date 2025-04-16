@@ -120,7 +120,6 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               data.content,
               data.mode,
               cascadeUpdate,
-              // projectImages,
             );
             break;
           case "handleVisual":
