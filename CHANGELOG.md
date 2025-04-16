@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Image read and write support (#1171)
+- `imageio` support (#1171)
+
 ### Fixed
 
 - Bugs in append mode for writing to files in python (#1200)
+- Writing binary files to the `pyodide` filesystem (#1171)
 
 ## [0.29.1] - 2025-02-21
 
