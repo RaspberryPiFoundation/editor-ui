@@ -40,7 +40,12 @@ const PyodideWorker = () => {
 
     switch (data.method) {
       case "writeFile":
-        pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
+        if (data.content instanceof ArrayBuffer) {
+          const dataArray = new Uint8Array(data.content);
+          pyodide.FS.writeFile(data.filename, dataArray);
+        } else {
+          pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
+        }
         break;
       case "runPython":
         runPython(data.python);
@@ -376,12 +381,6 @@ const PyodideWorker = () => {
     imageio: {
       before: async () => {
         await pyodide.loadPackage("imageio");
-        // if (!pyodide.micropip) {
-        //   await pyodide.loadPackage("micropip");
-        //   pyodide.micropip = pyodide.pyimport("micropip");
-        // }
-        // await pyodide.micropip.install("opencv-python");
-        // // await pyodide.micropip.install("ffmpeg");
         await pyodide.loadPackage("requests");
         pyodide.runPython(`
           import imageio.v3 as iio
