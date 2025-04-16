@@ -393,8 +393,6 @@ const PyodideWorker = () => {
           def custom_imread(uri, *args, **kwargs):
               split_uri = uri.split(":")
               if split_uri[0] == "imageio":
-                  
-                  print("Redirecting request to an alternative URL")
                   new_url = f"https://raw.githubusercontent.com/imageio/imageio-binaries/master/images/{split_uri[1]}"
                   response = requests.get(new_url, stream=True)
                   response.raise_for_status()
