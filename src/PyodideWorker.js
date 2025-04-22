@@ -116,7 +116,7 @@ const PyodideWorker = () => {
                       self.content += content
                       if len(self.content) > MAX_FILE_SIZE:
                           raise OSError(f"File '{self.filename}' exceeds maximum file size of {MAX_FILE_SIZE} bytes")
-                      with _original_open(self.filename, "w") as f:
+                      with _original_open(self.filename, mode) as f:
                           f.write(self.content)
                       basthon.kernel.write_file({ "filename": self.filename, "content": self.content, "mode": mode })
 
