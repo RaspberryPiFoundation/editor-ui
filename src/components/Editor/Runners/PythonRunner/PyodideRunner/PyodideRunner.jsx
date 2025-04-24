@@ -275,25 +275,42 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       console.log(filename.split("/").pop());
       if (projectImageNames.includes(filename.split("/").pop())) {
         console.log("Image already exists");
-        const response = await updateImage(
-          projectIdentifier,
-          user.access_token,
-          // file object with the correct filename and binary content
-          new File([content], filename, { type: "application/octet-stream" }),
-        );
-        if (response.status === 200) {
-          dispatch(updateImages(response.data.image_list));
+        if (user) {
+          const response = await updateImage(
+            projectIdentifier,
+            user.access_token,
+            // file object with the correct filename and binary content
+            new File([content], filename, { type: "application/octet-stream" }),
+          );
+          if (response.status === 200) {
+            dispatch(updateImages(response.data.image_list));
+          }
+        } else {
+          const updatedImage = {
+            filename: filename.split("/").pop(),
+            content,
+          };
+          const updatedImages = projectImages.map((image) =>
+            image.filename === updatedImage.filename ? updatedImage : image,
+          );
+          dispatch(updateImages(updatedImages));
         }
         processFileWriteQueue(projectImageNames); // Process the next item in the queue
         return;
       }
-      const response = await uploadImages(
-        projectIdentifier,
-        user.access_token,
-        // file object with the correct filename and binary content
-        [new File([content], filename, { type: "application/octet-stream" })],
-      );
-      dispatch(updateImages(response.data.image_list));
+      if (user) {
+        const response = await uploadImages(
+          projectIdentifier,
+          user.access_token,
+          // file object with the correct filename and binary content
+          [new File([content], filename, { type: "application/octet-stream" })],
+        );
+        dispatch(updateImages(response.data.image_list));
+      } else {
+        const newImage = { filename: filename.split("/").pop(), content };
+        const updatedImages = [...projectImages, newImage];
+        dispatch(updateImages(updatedImages));
+      }
       processFileWriteQueue(projectImageNames); // Process the next item in the queue
       return;
     }
