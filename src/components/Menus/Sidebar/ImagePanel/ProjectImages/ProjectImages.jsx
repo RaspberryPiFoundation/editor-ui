@@ -14,7 +14,16 @@ const ProjectImages = () => {
             <img
               crossOrigin="true"
               className="project-images__image"
-              src={image.url}
+              src={
+                image.content
+                  ? `data:image/png;base64,${btoa(
+                      new Uint8Array(Object.values(image.content)).reduce(
+                        (data, byte) => data + String.fromCharCode(byte),
+                        "",
+                      ),
+                    )}`
+                  : image.url
+              }
               alt={image.filename}
             />
           </div>
