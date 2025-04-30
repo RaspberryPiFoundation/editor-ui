@@ -38,7 +38,7 @@ describe("Running the code with skulpt", () => {
       .shadow()
       .find(".skulptrunner")
       .contains(".react-tabs__tab", "Visual output")
-      .should("not.exist");
+      .should("not.be.visible");
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")

@@ -535,7 +535,7 @@ describe("When user is in state", () => {
       const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
-          loading: "idle",
+          loading: "failed",
           project: {
             components: [],
           },
@@ -581,11 +581,69 @@ describe("When user is in state", () => {
           reactAppApiEndpoint: "http://localhost:3009",
         });
       });
+
+      test("Does not trigger project load failed event", () => {
+        expect(document.dispatchEvent).not.toHaveBeenCalledWith(
+          new CustomEvent("editor-projectLoadFailed", {
+            bubbles: true,
+            cancelable: false,
+            composed: true,
+          }),
+        );
+      });
     });
 
     afterEach(async () => {
       localStorage.clear();
       await act(async () => cookies.remove("theme"));
+    });
+  });
+
+  describe("when a project fails to load", () => {
+    beforeEach(() => {
+      localStorage.setItem(authKey, JSON.stringify(user));
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          loading: "failed",
+          project: {
+            components: [],
+          },
+          openFiles: [],
+          focussedFileIndices: [],
+          hasShownSavePrompt: false,
+          remixLoadFailed: false,
+          justLoaded: false,
+          saveTriggered: false,
+        },
+        instructions: {},
+        auth: { user },
+      };
+      store = mockStore(initialState);
+      cookies = new Cookies();
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              identifier={identifier}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("triggers project load failed event", () => {
+      expect(document.dispatchEvent).toHaveBeenCalledWith(
+        new CustomEvent("editor-projectLoadFailed", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        }),
+      );
     });
   });
 });

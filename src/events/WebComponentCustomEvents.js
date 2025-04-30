@@ -15,6 +15,10 @@ export const navigateToProjectsPageEvent = webComponentCustomEvent(
 export const projectIdentifierChangedEvent = (detail) =>
   webComponentCustomEvent("editor-projectIdentifierChanged", detail);
 
+export const projectLoadFailed = webComponentCustomEvent(
+  "editor-projectLoadFailed",
+);
+
 export const projectOwnerLoadedEvent = (detail) =>
   webComponentCustomEvent("editor-projectOwnerLoaded", detail);
 

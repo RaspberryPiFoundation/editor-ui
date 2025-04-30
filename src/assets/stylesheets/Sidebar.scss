@@ -10,8 +10,13 @@
 }
 
 .sidebar--mobile {
+  block-size: 100%;
   inline-size: 100%;
   overflow-y: hidden;
+
+  .react-tabs .react-tabs__tab-list {
+    flex: unset;
+  }
 }
 
 .editor-logo {

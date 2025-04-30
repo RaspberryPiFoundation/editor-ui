@@ -7,14 +7,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 ### Added
-
 - Image read and write support (#1171)
 - `imageio` support (#1171)
+- Fake translation for stress testing (#1206)
+
+### Fixed
+- Styling issue on sidebar on mobile (#1194)
+- Writing binary files to the `pyodide` filesystem (#1171)
+
+## [0.30.0] - 2025-04-15
+
+### Added
+
+- `editor-projectLoadFailed` custom event that fires when a project completely fails to load (#1201)
+- Added runnerBeingLoaded state to prevent race condition overwrites (#1205)
 
 ### Fixed
 
 - Bugs in append mode for writing to files in python (#1200)
-- Writing binary files to the `pyodide` filesystem (#1171)
+- `turtle` bug that did not display output on first code run (#1203)
 
 ## [0.29.1] - 2025-02-21
 
@@ -1079,6 +1090,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
 [unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.29.1...HEAD
+[0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
 [0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
 [0.29.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.0
 [0.28.14]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.28.14
