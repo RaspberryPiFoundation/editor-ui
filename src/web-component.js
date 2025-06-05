@@ -113,7 +113,7 @@ class WebComponent extends HTMLElement {
 
   get editorCode() {
     const state = store.getState();
-    return state.editor.project.components[0].content;
+    return state.editor.project.components[0]?.content;
   }
 
   get menuItems() {
