@@ -10,7 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
  
 - Fake translation for stress testing (#1206)
 
+### Changed
+
+- Prevent the Scratch projects from being displayed (#1210)
+
 ### Fixed
+
 - Styling issue on sidebar on mobile (#1194)
 
 ## [0.30.0] - 2025-04-15
