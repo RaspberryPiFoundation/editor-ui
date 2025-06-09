@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.30.1] - 2025-06-09
+
 ### Added
  
 - Fake translation for stress testing (#1206)
@@ -1092,7 +1094,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.29.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.1...HEAD
+[0.30.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.1
 [0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
 [0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
 [0.29.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.0
