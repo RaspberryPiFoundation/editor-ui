@@ -228,7 +228,6 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const handleFileWrite = useCallback(
     async (filename, content, mode, cascadeUpdate) => {
       // Add the file write request to the queue
-      console.log(`Writing ${content} to ${filename}`);
       fileWriteQueue.current.push({
         filename,
         content,
@@ -265,16 +264,11 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         reactAppApiEndpoint,
       });
 
-      console.log("the state of the store is: ");
-      console.log(store.getState());
+      const projectImages = store.getState().editor.project.image_list || [];
       const projectImageNames = (
         store.getState().editor.project.image_list || []
       ).map((image) => image.filename);
-      console.log("Project Image Names: ", projectImageNames);
-      console.log(filename);
-      console.log(filename.split("/").pop());
       if (projectImageNames.includes(filename.split("/").pop())) {
-        console.log("Image already exists");
         if (user) {
           const response = await updateImage(
             projectIdentifier,
@@ -288,7 +282,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         } else {
           const updatedImage = {
             filename: filename.split("/").pop(),
-            content,
+            content: Array.from(content), // Convert ArrayBuffer to Array for storage in Redux to ensure serializability
           };
           const updatedImages = projectImages.map((image) =>
             image.filename === updatedImage.filename ? updatedImage : image,
@@ -307,7 +301,10 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         );
         dispatch(updateImages(response.data.image_list));
       } else {
-        const newImage = { filename: filename.split("/").pop(), content };
+        const newImage = {
+          filename: filename.split("/").pop(),
+          content: Array.from(content),
+        }; // Convert ArrayBuffer to Array for storage in Redux to ensure serializability
         const updatedImages = [...projectImages, newImage];
         dispatch(updateImages(updatedImages));
       }
@@ -358,11 +355,18 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     stdinClosed.current = false;
 
     await Promise.allSettled(
-      projectImages.map(({ filename, url }) =>
-        fetch(url)
-          .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer)),
-      ),
+      projectImages.map(({ filename, url, content }) => {
+        if (content && content.length) {
+          // If content is present, send it directly (convert to Uint8Array if needed)
+          const buffer = new Uint8Array(content).buffer;
+          return writeFile(filename, buffer);
+        } else {
+          // Otherwise, fetch from the URL
+          return fetch(url)
+            .then((response) => response.arrayBuffer())
+            .then((buffer) => writeFile(filename, buffer));
+        }
+      }),
     );
 
     for (const { name, extension, content } of projectCode) {

@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Image read and write support (#1171)
+- `imageio` support (#1171)
+
+### Fixed
+
+- Writing binary files to the `pyodide` filesystem (#1171)
+
 ## [0.30.1] - 2025-06-09
 
 ### Added
-- Image read and write support (#1171)
-- `imageio` support (#1171)
+
 - Fake translation for stress testing (#1206)
 
 ### Changed
@@ -20,7 +28,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Styling issue on sidebar on mobile (#1194)
-- Writing binary files to the `pyodide` filesystem (#1171)
 
 ## [0.30.0] - 2025-04-15
 
