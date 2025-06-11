@@ -6,12 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.30.1] - 2025-06-09
+
 ### Added
 - Image read and write support (#1171)
 - `imageio` support (#1171)
 - Fake translation for stress testing (#1206)
 
+### Changed
+
+- Prevent the Scratch projects from being displayed (#1210)
+
 ### Fixed
+
 - Styling issue on sidebar on mobile (#1194)
 - Writing binary files to the `pyodide` filesystem (#1171)
 
@@ -1089,7 +1096,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.29.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.1...HEAD
+[0.30.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.1
 [0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
 [0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
 [0.29.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.0

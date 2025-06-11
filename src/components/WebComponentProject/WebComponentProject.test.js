@@ -21,6 +21,7 @@ jest.useFakeTimers();
 let store;
 
 const renderWebComponentProject = ({
+  projectType,
   instructions,
   permitOverride = true,
   loading,
@@ -33,6 +34,7 @@ const renderWebComponentProject = ({
   const initialState = {
     editor: {
       project: {
+        project_type: projectType,
         components: [
           { name: "main", extension: "py", content: "print('hello')" },
         ],
@@ -66,6 +68,10 @@ describe("When state set", () => {
       instructions: "My amazing instructions",
       codeRunTriggered: true,
     });
+  });
+
+  test("Renders", () => {
+    expect(screen.queryAllByText("output.textOutput")[0]).toBeInTheDocument();
   });
 
   test("Triggers codeChanged event", () => {
@@ -111,6 +117,18 @@ describe("When state set", () => {
         },
       ]),
     );
+  });
+});
+
+describe("When project type is scratch", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      projectType: "scratch",
+    });
+  });
+
+  test("Renders a blank screen", () => {
+    expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
   });
 });
 
