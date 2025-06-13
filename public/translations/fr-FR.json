@@ -1,6 +1,6 @@
 {
   "modal": {
-    "close": "",
+    "close": "Close",
     "error": {
       "heading": "An error has occurred",
       "externalLink": {
