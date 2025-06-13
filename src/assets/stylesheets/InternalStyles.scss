@@ -58,9 +58,26 @@
   display: flex;
   flex-flow: column;
   block-size: 100%;
+  hyphens: auto;
 
   .proj {
     min-block-size: 100%;
+  }
+
+  code,
+  var,
+  kbd,
+  samp,
+  tt,
+  dir,
+  listing,
+  plaintext,
+  xmp,
+  abbr,
+  acronym,
+  blockquote,
+  q {
+    hyphens: none;
   }
 }
 
