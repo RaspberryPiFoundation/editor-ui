@@ -91,7 +91,6 @@ button:focus-visible {
   }
 }
 
-
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-white};
@@ -120,5 +119,6 @@ button:focus-visible {
   --editor-color-tab-background: #{$rpf-grey-700};
 
   .rpf-button--secondary {
-    border-color: $rpf-navy-800;}
+    border-color: $rpf-navy-800;
+  }
 }
