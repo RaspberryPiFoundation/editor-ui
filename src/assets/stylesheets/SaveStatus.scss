@@ -8,7 +8,7 @@
   gap: $space-0-25;
   justify-content: flex-end;
   margin-block: 0;
-  padding-inline: $space-1;
+  padding-inline: var(--space-1);
 }
 
 .save-status--mobile {
@@ -17,6 +17,16 @@
 
   .save-status__text {
     @include font-size-0-75(regular);
+  }
+
+  .save-status__icon {
+    inline-size: 16px;
+    block-size: 16px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
