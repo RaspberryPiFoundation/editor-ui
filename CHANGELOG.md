@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.30.1] - 2025-06-09
 
 ### Added
- 
+
 - Fake translation for stress testing (#1206)
 
 ### Changed
@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Styling issue on sidebar on mobile (#1194)
+- Styling issue preventing scrolling on the download section on mobile (#1216)
 
 ## [0.30.0] - 2025-04-15
 
