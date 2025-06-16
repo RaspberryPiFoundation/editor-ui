@@ -13,6 +13,7 @@
 
 .save-status--mobile {
   margin: unset;
+  padding-inline: 0;
 
   .save-status__text {
     @include font-size-0-75(regular);
