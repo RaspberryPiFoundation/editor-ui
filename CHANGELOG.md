@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Styling issue on sidebar on mobile (#1194)
-- Styling issue preventing scrolling on the download section on mobile (#1216)
+- Styling issue preventing scrolling in the sidebar (#1216)
 
 ## [0.30.0] - 2025-04-15
 
