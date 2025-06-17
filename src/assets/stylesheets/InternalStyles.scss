@@ -59,6 +59,7 @@
   flex-flow: column;
   block-size: 100%;
   hyphens: auto;
+  hyphenate-limit-chars: 10;
 
   .proj {
     min-block-size: 100%;
