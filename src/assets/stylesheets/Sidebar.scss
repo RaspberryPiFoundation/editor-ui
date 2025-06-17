@@ -127,7 +127,7 @@
 .sidebar__panel-content {
   flex: 1;
   padding: $space-1 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
 }
 
