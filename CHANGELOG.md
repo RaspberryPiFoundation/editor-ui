@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Fixed
 
 - Styling issue preventing scrolling in the sidebar (#1216)
+- Styling issue on status bar on mobile (#1217)
 - Change tab `block-size` to `min-block-size` to allow for height increase when text wraps (#1219)
 
 ## [0.30.1] - 2025-06-09
