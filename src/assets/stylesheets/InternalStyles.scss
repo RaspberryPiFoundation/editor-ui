@@ -59,7 +59,7 @@
   flex-flow: column;
   block-size: 100%;
   hyphens: auto;
-  hyphenate-limit-chars: 10;
+  hyphenate-limit-chars: 10 4 4; // Minimum of 10 characters before hyphenating, minimum of 4 character before and after the hyphen.
 
   .proj {
     min-block-size: 100%;
