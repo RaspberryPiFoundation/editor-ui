@@ -43,7 +43,7 @@ const SaveStatus = ({ isMobile = false }) => {
             <div className="save-status__icon">
               <CloudUploadIcon />
             </div>
-            <div className="save-status__status">
+            <div className="save-status__text">
               {t("saveStatus.saving")}&hellip;
             </div>
           </>
