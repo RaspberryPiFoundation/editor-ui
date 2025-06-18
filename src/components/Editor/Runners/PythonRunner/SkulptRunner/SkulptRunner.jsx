@@ -551,7 +551,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             <TabList>
               <Tab
                 key={0}
-                style={{ display: showVisualOutput ? undefined : "none" }}>
+                style={{ display: showVisualOutput ? undefined : "none" }}
+              >
                 <span className="react-tabs__tab-text">
                   {t("output.visualOutput")}
                 </span>
