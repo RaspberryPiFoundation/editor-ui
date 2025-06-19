@@ -5,15 +5,16 @@
 .save-status {
   align-items: center;
   display: flex;
-  gap: $space-0-25;
+  gap: var(--space-1);
   justify-content: flex-end;
   margin-block: 0;
-  padding-inline: var(--space-1);
+  padding-inline: var(--space-2);
 }
 
 .save-status--mobile {
   margin: unset;
   padding-inline: 0;
+  gap: var(--space-0-5);
 
   .save-status__text {
     @include font-size-0-75(regular);
