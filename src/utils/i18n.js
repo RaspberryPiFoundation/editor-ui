@@ -116,6 +116,7 @@ i18n
           modal: {
             close: "Close",
             error: {
+              error: "Error",
               heading: "An error has occurred",
               externalLink: {
                 message:
@@ -129,6 +130,7 @@ i18n
             characterLimitExplanation:
               "Files in the editor are limited to {{maxCharacters}} characters",
             viewOnly: "View only",
+            close: "close",
           },
           filePanel: {
             errors: {
@@ -423,6 +425,7 @@ i18n
           modal: {
             close: "Schließen",
             error: {
+              error: "Fehler",
               heading: "Ein Fehler ist aufgetreten",
               externalLink: {
                 message:
@@ -436,6 +439,7 @@ i18n
             characterLimitExplanation:
               "Dateien im Editor sind auf {{maxCharacters}} Zeichen begrenzt",
             viewOnly: "Nur Ansicht",
+            close: "schließen",
           },
           filePanel: {
             errors: {
