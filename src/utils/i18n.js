@@ -432,6 +432,9 @@ i18n
               invalidImageExtension: "Image names must end in {{extensions}}.",
             },
           },
+          newInputPanelButton: {
+            buttonText: "Add another panel",
+          },
         },
       },
       "xx-XX": {
