@@ -139,7 +139,6 @@ i18n
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
               notUnique: "File names must be unique.",
-              or: "or",
               unsupportedExtension:
                 "File names must end in {{allowedExtensions}}.",
             },
@@ -424,6 +423,7 @@ i18n
             info: "Drag and drop images here, or click to select images from file",
             cancel: "Cancel",
             save: "Save",
+            or: "or",
             errors: {
               error: "Error",
               imageNameNotUnique: "Image names must be unique.",
@@ -436,6 +436,9 @@ i18n
           button: {
             yes: "Yes",
             no: "No",
+          },
+          common: {
+            or: "or",
           },
         },
       },
@@ -467,7 +470,6 @@ i18n
               containsSpaces: "Dateinamen dürfen keine Leerzeichen enthalten.",
               generalError: "Fehler",
               notUnique: "Dateinamen müssen eindeutig sein.",
-              or: "oder",
               unsupportedExtension:
                 "Dateinamen müssen mit {{allowedExtensions}} enden.",
             },
@@ -765,6 +767,9 @@ i18n
           button: {
             yes: "Ja",
             no: "Nein",
+          },
+          common: {
+            or: "oder",
           },
         },
       },

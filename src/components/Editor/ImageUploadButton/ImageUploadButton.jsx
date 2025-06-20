@@ -11,24 +11,10 @@ import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 import { useTranslation } from "react-i18next";
+import { allowedExtensionsString } from "../../../utils/allowedExtensionsString";
 
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],
-};
-
-const allowedExtensionsString = (projectType) => {
-  const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length === 1) {
-    return `'.${extensionsList[0]}'`;
-  } else {
-    return (
-      `'.` +
-      extensionsList.slice(0, -1).join(`', '.`) +
-      `' or '.` +
-      extensionsList[extensionsList.length - 1] +
-      `'`
-    );
-  }
 };
 
 const ImageUploadButton = ({ reactAppApiEndpoint }) => {
@@ -74,7 +60,11 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
         dispatch(
           setNameError(
             t("errors.invalidImageExtension", {
-              extensions: allowedExtensionsString(projectType),
+              extensions: allowedExtensionsString(
+                projectType,
+                t,
+                allowedExtensions,
+              ),
             }),
           ),
         );
