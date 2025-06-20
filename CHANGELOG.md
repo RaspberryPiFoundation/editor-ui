@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed `SkulptRunner.jsx` implementation of hiding elements to use `display: none` rather than `block-size: 0` (#1219)
 - Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
+- Added missing translation strings (#1222)
 
 ## Changed
 

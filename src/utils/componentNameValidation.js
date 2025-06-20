@@ -1,4 +1,5 @@
 import { setNameError } from "../redux/EditorSlice";
+import { allowedExtensionsString } from "./allowedExtensionsString";
 
 const allowedExtensions = {
   python: ["py", "csv", "txt"],
@@ -6,17 +7,6 @@ const allowedExtensions = {
 };
 
 const reservedFileNames = ["INSTRUCTIONS.md"];
-
-const allowedExtensionsString = (projectType, t) => {
-  const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length === 1) {
-    return `'.${extensionsList[0]}'`;
-  } else {
-    return `'.${extensionsList.slice(0, -1).join(`', '.`)}' ${t(
-      "filePanel.errors.or",
-    )} '.${extensionsList[extensionsList.length - 1]}'`;
-  }
-};
 
 const isValidFileName = (fileName, projectType, componentNames) => {
   const extension = fileName.split(".").slice(1).join(".");
@@ -59,7 +49,11 @@ export const validateFileName = (
     dispatch(
       setNameError(
         t("filePanel.errors.unsupportedExtension", {
-          allowedExtensions: allowedExtensionsString(projectType, t),
+          allowedExtensions: allowedExtensionsString(
+            projectType,
+            t,
+            allowedExtensions,
+          ),
         }),
       ),
     );

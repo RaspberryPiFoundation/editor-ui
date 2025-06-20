@@ -30,7 +30,7 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
         onRequestClose={closeModal}
         className="modal-content"
         overlayClassName="modal-overlay"
-        contentLabel="Error"
+        contentLabel={t("modal.error.error")}
         parentSelector={() =>
           document.querySelector("#app") ||
           document.querySelector("editor-wc").shadowRoot.querySelector("#wc")

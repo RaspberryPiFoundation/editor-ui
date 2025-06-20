@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import "../../assets/stylesheets/Button.scss";
+import { useTranslation } from "react-i18next";
 
 const Button = (props) => {
   const {
@@ -26,6 +27,8 @@ const Button = (props) => {
     buttonIconPosition = "left",
   } = props;
 
+  const { t } = useTranslation();
+
   const buttonClass = classNames("btn", className, {
     "btn--svg-only": !buttonText,
   });
@@ -40,11 +43,11 @@ const Button = (props) => {
       message: confirmText,
       buttons: [
         {
-          label: "Yes",
+          label: t("button.yes"),
           onClick: () => onClickHandler(e),
         },
         {
-          label: "No",
+          label: t("button.no"),
         },
       ],
     });

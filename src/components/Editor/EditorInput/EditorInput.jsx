@@ -163,7 +163,7 @@ const EditorInput = () => {
                     {!["main.py", "index.html"].includes(fileName) ? (
                       <Button
                         className="btn--tertiary react-tabs__tab-close-btn"
-                        label="close"
+                        label={t("editorPanel.close")}
                         onClickHandler={(e) => closeFileTab(e, fileName)}
                         ButtonIcon={() => <CloseIcon scaleFactor={0.85} />}
                       />
