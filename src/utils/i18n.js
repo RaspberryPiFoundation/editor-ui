@@ -427,8 +427,6 @@ i18n
             errors: {
               error: "Error",
               imageNameNotUnique: "Image names must be unique.",
-              imageNamesMustEndIn:
-                "Image names must end in {{allowedExtensions}}.",
               invalidImageExtension: "Image names must end in {{extensions}}.",
             },
           },
@@ -748,6 +746,25 @@ i18n
           webComponent: {
             loading: "Wird geladen",
             failed: "Laden fehlgeschlagen",
+          },
+          imageUploadButton: {
+            uploadImage: "Bild hochladen",
+            uploadAnImage: "Laden Sie ein Bild hoch",
+            info: "Ziehen Sie Bilder hierher, oder klicken Sie, um Bilder aus der Datei auszuwählen",
+            cancel: "Stornieren",
+            save: "Speichern",
+            errors: {
+              error: "Fehler",
+              imageNameNotUnique: "Bildnamen müssen eindeutig sein.",
+              invalidImageExtension: "Image names must end in {{extensions}}.",
+            },
+          },
+          newInputPanelButton: {
+            buttonText: "Fügen Sie ein weiteres Panel hinzu",
+          },
+          button: {
+            yes: "Ja",
+            no: "Nein",
           },
         },
       },
