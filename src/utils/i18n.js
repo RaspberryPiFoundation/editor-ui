@@ -418,6 +418,20 @@ i18n
             loading: "Loading",
             failed: "Load failed",
           },
+          imageUploadButton: {
+            uploadImage: "Upload Image",
+            uploadAnImage: "Upload an image",
+            info: "Drag and drop images here, or click to select images from file",
+            cancel: "Cancel",
+            save: "Save",
+            errors: {
+              error: "Error",
+              imageNameNotUnique: "Image names must be unique.",
+              imageNamesMustEndIn:
+                "Image names must end in {{allowedExtensions}}.",
+              invalidImageExtension: "Image names must end in {{extensions}}.",
+            },
+          },
         },
       },
       "xx-XX": {
