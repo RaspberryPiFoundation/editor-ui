@@ -435,6 +435,10 @@ i18n
           newInputPanelButton: {
             buttonText: "Add another panel",
           },
+          button: {
+            yes: "Yes",
+            no: "No",
+          },
         },
       },
       "xx-XX": {
