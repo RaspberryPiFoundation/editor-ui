@@ -758,7 +758,8 @@ i18n
             errors: {
               error: "Fehler",
               imageNameNotUnique: "Bildnamen müssen eindeutig sein.",
-              invalidImageExtension: "Image names must end in {{extensions}}.",
+              invalidImageExtension:
+                "Bildnamen müssen enden auf {{extensions}}.",
             },
           },
           newInputPanelButton: {
