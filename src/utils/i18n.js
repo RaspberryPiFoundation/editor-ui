@@ -116,6 +116,7 @@ i18n
           modal: {
             close: "Close",
             error: {
+              error: "Error",
               heading: "An error has occurred",
               externalLink: {
                 message:
@@ -129,6 +130,7 @@ i18n
             characterLimitExplanation:
               "Files in the editor are limited to {{maxCharacters}} characters",
             viewOnly: "View only",
+            close: "close",
           },
           filePanel: {
             errors: {
@@ -137,7 +139,6 @@ i18n
               containsSpaces: "File names must not contain spaces.",
               generalError: "Error",
               notUnique: "File names must be unique.",
-              or: "or",
               unsupportedExtension:
                 "File names must end in {{allowedExtensions}}.",
             },
@@ -416,6 +417,29 @@ i18n
             loading: "Loading",
             failed: "Load failed",
           },
+          imageUploadButton: {
+            uploadImage: "Upload Image",
+            uploadAnImage: "Upload an image",
+            info: "Drag and drop images here, or click to select images from file",
+            cancel: "Cancel",
+            save: "Save",
+            or: "or",
+            errors: {
+              error: "Error",
+              imageNameNotUnique: "Image names must be unique.",
+              invalidImageExtension: "Image names must end in {{extensions}}.",
+            },
+          },
+          newInputPanelButton: {
+            buttonText: "Add another panel",
+          },
+          button: {
+            yes: "Yes",
+            no: "No",
+          },
+          common: {
+            or: "or",
+          },
         },
       },
       "xx-XX": {
@@ -423,6 +447,7 @@ i18n
           modal: {
             close: "Schließen",
             error: {
+              error: "Fehler",
               heading: "Ein Fehler ist aufgetreten",
               externalLink: {
                 message:
@@ -436,6 +461,7 @@ i18n
             characterLimitExplanation:
               "Dateien im Editor sind auf {{maxCharacters}} Zeichen begrenzt",
             viewOnly: "Nur Ansicht",
+            close: "schließen",
           },
           filePanel: {
             errors: {
@@ -444,7 +470,6 @@ i18n
               containsSpaces: "Dateinamen dürfen keine Leerzeichen enthalten.",
               generalError: "Fehler",
               notUnique: "Dateinamen müssen eindeutig sein.",
-              or: "oder",
               unsupportedExtension:
                 "Dateinamen müssen mit {{allowedExtensions}} enden.",
             },
@@ -723,6 +748,29 @@ i18n
           webComponent: {
             loading: "Wird geladen",
             failed: "Laden fehlgeschlagen",
+          },
+          imageUploadButton: {
+            uploadImage: "Bild hochladen",
+            uploadAnImage: "Laden Sie ein Bild hoch",
+            info: "Ziehen Sie Bilder hierher, oder klicken Sie, um Bilder aus der Datei auszuwählen",
+            cancel: "Stornieren",
+            save: "Speichern",
+            errors: {
+              error: "Fehler",
+              imageNameNotUnique: "Bildnamen müssen eindeutig sein.",
+              invalidImageExtension:
+                "Bildnamen müssen enden auf {{extensions}}.",
+            },
+          },
+          newInputPanelButton: {
+            buttonText: "Fügen Sie ein weiteres Panel hinzu",
+          },
+          button: {
+            yes: "Ja",
+            no: "Nein",
+          },
+          common: {
+            or: "oder",
           },
         },
       },
