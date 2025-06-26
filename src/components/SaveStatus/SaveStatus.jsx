@@ -11,7 +11,20 @@ import CloudUploadIcon from "../../assets/icons/cloud_upload.svg";
 import "../../assets/stylesheets/SaveStatus.scss";
 
 const SaveStatus = ({ isMobile = false }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+
+  const localeMap = {
+    "en-US": "en-US",
+    en: "en-GB",
+    "fr-FR": "fr",
+    "es-LA": "es",
+  };
+
+  const getLocales = (languageCode) => {
+    return localeMap[languageCode];
+  };
+
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
   const [time, setTime] = useState(Date.now());
@@ -54,7 +67,10 @@ const SaveStatus = ({ isMobile = false }) => {
             </div>
             <div className="save-status__text">
               {t("saveStatus.saved")}{" "}
-              {intlFormatDistance(lastSavedTime, time, { style: "narrow" })}
+              {intlFormatDistance(lastSavedTime, time, {
+                style: "narrow",
+                locale: getLocales(locale),
+              })}
             </div>
           </>
         )}
