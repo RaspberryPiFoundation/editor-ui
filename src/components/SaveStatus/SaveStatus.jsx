@@ -1,5 +1,3 @@
-import { intlFormatDistance } from "date-fns";
-
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -9,21 +7,11 @@ import CloudTickIcon from "../../assets/icons/cloud_tick.svg";
 import CloudUploadIcon from "../../assets/icons/cloud_upload.svg";
 
 import "../../assets/stylesheets/SaveStatus.scss";
+import { formatRelativeTime } from "../../utils/formatRelativeTime";
 
 const SaveStatus = ({ isMobile = false }) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-
-  const localeMap = {
-    "en-US": "en-US",
-    en: "en-GB",
-    "fr-FR": "fr",
-    "es-LA": "es",
-  };
-
-  const getLocales = (languageCode) => {
-    return localeMap[languageCode];
-  };
 
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
@@ -67,10 +55,7 @@ const SaveStatus = ({ isMobile = false }) => {
             </div>
             <div className="save-status__text">
               {t("saveStatus.saved")}{" "}
-              {intlFormatDistance(lastSavedTime, time, {
-                style: "narrow",
-                locale: getLocales(locale),
-              })}
+              {formatRelativeTime(lastSavedTime, time, locale)}
             </div>
           </>
         )}
