@@ -44,20 +44,20 @@ describe("When user logged in and owns project", () => {
         </div>
       </Provider>,
     ));
-    button = queryByText(/Upload Image/);
+    button = queryByText("imageUploadButton.uploadImage");
   });
 
   test("Modal opens when Image Upload button clicked", () => {
     fireEvent.click(button);
-    const dropzone = queryByText(/Drag and drop/);
+    const dropzone = queryByText("imageUploadButton.info");
     expect(dropzone).not.toBeNull();
   });
 
   test("Modal closes when cancel button clicked", () => {
     fireEvent.click(button);
-    const cancelButton = queryByText(/Cancel/);
+    const cancelButton = queryByText("imageUploadButton.cancel");
     fireEvent.click(cancelButton);
-    const dropzone = queryByText(/Drag and drop/);
+    const dropzone = queryByText("imageUploadButton.info");
     expect(dropzone).toBeNull();
   });
 });
