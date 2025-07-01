@@ -34,12 +34,12 @@ describe("formatRelativeTime", () => {
 
     test("formats relative time in en-US", () => {
       const result = formatRelativeTime(oneMinuteAgo, Date.now(), "en-US");
-      expect(result).toEqual("1m ago");
+      expect(result).toEqual("1 min. ago");
     });
 
     test("formats relative time in fr-FR", () => {
       const result = formatRelativeTime(oneMinuteAgo, Date.now(), "fr-FR");
-      expect(result).toEqual("-1 min");
+      expect(result).toEqual("il y a 1\u00A0min");
     });
 
     test("formats relative time in es-LA", () => {
@@ -58,12 +58,12 @@ describe("formatRelativeTime", () => {
 
     test("formats relative time in en-US", () => {
       const result = formatRelativeTime(oneHourAgo, Date.now(), "en-US");
-      expect(result).toEqual("1h ago");
+      expect(result).toEqual("1 hr. ago");
     });
 
     test("formats relative time in fr-FR", () => {
       const result = formatRelativeTime(oneHourAgo, Date.now(), "fr-FR");
-      expect(result).toEqual("-1 h");
+      expect(result).toEqual("il y a 1\u00A0h");
     });
 
     test("formats relative time in es-LA", () => {
