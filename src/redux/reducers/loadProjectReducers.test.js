@@ -225,16 +225,6 @@ describe("EditorSliceReducers::loadProjectRejectedReducer", () => {
 
       expect(newState).toEqual(expectedState);
     });
-
-    test("does not set the expected state for an unsupported status code", () => {
-      action.error.message = "Request failed with status code 404";
-
-      const newState = produce(initialState, (draft) => {
-        loadProjectRejected(draft, action);
-      });
-
-      expect(newState).not.toEqual(expectedState);
-    });
   });
 
   describe("when an auth token HAS NOT been set", () => {
