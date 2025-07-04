@@ -130,7 +130,6 @@ export const editorInitialState = {
   senseHatAlwaysEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
-  accessDeniedWithAuthModalShowing: false,
   betaModalShowing: false,
   errorModalShowing: false,
   notFoundModalShowing: false,
@@ -345,9 +344,6 @@ export const EditorSlice = createSlice({
       state.codeRunStopped = false;
       state.runnerBeingLoaded = null;
     },
-    closeAccessDeniedWithAuthModal: (state) => {
-      state.accessDeniedWithAuthModalShowing = false;
-    },
     showBetaModal: (state) => {
       state.betaModalShowing = true;
     },
@@ -496,7 +492,6 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
-  closeAccessDeniedWithAuthModal,
   showBetaModal,
   closeBetaModal,
   showErrorModal,

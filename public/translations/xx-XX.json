@@ -168,15 +168,6 @@
     "buttonSplitTitle": "Geteilte Ansicht"
   },
   "project": {
-    "accessDeniedWithAuthModal": {
-      "embedded": {
-        "text": "Besuchen Sie die Projektseite für tolle Projektideen"
-      },
-      "heading": "Sie können auf dieses Projekt nicht zugreifen",
-      "newProject": "Ein neues Code-Projekt erstellen",
-      "projectsSiteLinkText": "Projektseite erkunden",
-      "text": "Besuchen Sie die Projektseite für tolle Projektideen oder beginnen Sie mit dem Programmieren in einem neuen Projekt."
-    },
     "loading": "Wird geladen",
     "notFoundModal": {
       "embedded": {

@@ -41,8 +41,6 @@ const loadProjectRejected = (state, action) => {
 
     if (errorCode === "404") {
       state.notFoundModalShowing = true;
-    } else if (accessDeniedCodes.includes(errorCode) && accessToken) {
-      state.accessDeniedWithAuthModalShowing = true;
     } else if (accessDeniedCodes.includes(errorCode) && !accessToken) {
       state.modals.accessDenied = {
         identifier: action.meta.arg.identifier,

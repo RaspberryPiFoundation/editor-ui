@@ -168,15 +168,6 @@
     "buttonSplitTitle": "Split view"
   },
   "project": {
-    "accessDeniedWithAuthModal": {
-      "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
-      },
-      "heading": "You can't access this project",
-      "newProject": "Create a new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "Visit the Projects site for cool project ideas or start coding in a new project."
-    },
     "loading": "Loading",
     "notFoundModal": {
       "embedded": {
