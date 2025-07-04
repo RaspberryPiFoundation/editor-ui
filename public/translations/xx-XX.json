@@ -58,13 +58,6 @@
     "downloadHint": "Laden Sie Ihre Projektdateien herunter, damit Sie sie offline und in einem anderen Code-Editor verwenden können.",
     "downloadButton": "Projekt herunterladen"
   },
-  "footer": {
-    "accessibility": "Barrierefreiheit",
-    "charityNameAndNumber": "Raspberry Pi Foundation UK eingetragene Wohltätigkeitsorganisation 1129409",
-    "cookies": "Cookies",
-    "privacy": "Datenschutz",
-    "safeguarding": "Kinderschutz"
-  },
   "projectName": {
     "label": "Projektname",
     "newProject": "Neues Projekt"
@@ -73,12 +66,10 @@
     "download": "Herunterladen",
     "downloadFileNameDefault": "mein {{project_type}} Projekt",
     "editorLogoAltText": "Editor-Logo",
-    "projects": "Ihre Projekte",
     "renameProject": "Projektnamen bearbeiten",
     "renameSave": "Projektnamen speichern",
     "save": "Speichern",
-    "loginToSave": "Zum Speichern anmelden",
-    "settings": "Einstellungen"
+    "loginToSave": "Zum Speichern anmelden"
   },
   "imagePanel": {
     "gallery": "Bildergalerie"
@@ -137,7 +128,6 @@
   "notifications": {
     "close": "schließen",
     "loginPrompt": "Um dieses Projekt zu speichern und später darauf zuzugreifen, vergessen Sie nicht, sich anzumelden oder zu registrieren!",
-    "projectRemixed": "Ihr neu gemischtes Projekt wurde gespeichert",
     "projectRenamed": "Sie haben Ihr Projekt umbenannt.",
     "projectSaved": "Ihr Projekt wurde gespeichert",
     "savePrompt": "Speichern Sie dieses Projekt, um später unter „Ihre Projekte“ darauf zuzugreifen."
@@ -178,58 +168,8 @@
     "buttonSplitTitle": "Geteilte Ansicht"
   },
   "project": {
-    "accessDeniedWithAuthModal": {
-      "embedded": {
-        "text": "Besuchen Sie die Projektseite für tolle Projektideen"
-      },
-      "heading": "Sie können auf dieses Projekt nicht zugreifen",
-      "newProject": "Ein neues Code-Projekt erstellen",
-      "projectsSiteLinkText": "Projektseite erkunden",
-      "text": "Besuchen Sie die Projektseite für tolle Projektideen oder beginnen Sie mit dem Programmieren in einem neuen Projekt."
-    },
     "loading": "Wird geladen",
-    "notFoundModal": {
-      "embedded": {
-        "text": "Besuchen Sie die Projektseite für tolle Projektideen"
-      },
-      "heading": "Dieses Projekt existiert nicht",
-      "newProject": "Neues Code-Projekt starten",
-      "projectsSiteLinkText": "Projektseite erkunden",
-      "text": "Sie können mit dem Programmieren in einem neuen Projekt beginnen oder die Projektseite für tolle Projektideen besuchen."
-    },
     "untitled": "Unbenanntes Projekt"
-  },
-  "projectHeader": {
-    "subTitle": "Code-Editor",
-    "title": "Ihre Projekte",
-    "text": "Wählen Sie ein Projekt aus, um mit dem Programmieren fortzufahren, es anzuzeigen oder zu bearbeiten."
-  },
-  "projectList": {
-    "delete": "Löschen",
-    "deleteLabel": "Projekt löschen",
-    "empty": "Noch keine Projekte erstellt",
-    "label": "Projektmenü öffnen",
-    "loading": "Wird geladen",
-    "loadingFailed": "Fehler beim Laden der Projekte",
-    "newProject": "Neues Projekt erstellen",
-    "pagination": {
-      "first": "Erste Seite",
-      "last": "Letzte Seite",
-      "next": "Nächste Seite",
-      "previous": "Vorherige Seite",
-      "more": "Weitere Projekte laden"
-    },
-    "rename": "Umbenennen",
-    "renameLabel": "Projekt umbenennen",
-    "renameProjectModal": {
-      "cancel": "Nicht speichern",
-      "heading": "Projekt umbenennen",
-      "inputLabel": "Ändern Sie den Namen Ihres Projekts",
-      "save": "Speichern"
-    },
-    "updated": "Bearbeitet",
-    "python_type": "Python",
-    "html_type": "HTML"
   },
   "projectTypes": {
     "html": "HTML/CSS",
