@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## Changed
+- Deleting unused strings and components (#1225)
+
 ## Fixed
 
 - Styling issue preventing scrolling in the sidebar (#1216)
