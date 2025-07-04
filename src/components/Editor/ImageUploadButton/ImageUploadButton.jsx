@@ -10,24 +10,11 @@ import Button from "../../Button/Button";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
 import ApiCallHandler from "../../../utils/apiCallHandler";
+import { useTranslation } from "react-i18next";
+import { allowedExtensionsString } from "../../../utils/allowedExtensionsString";
 
 const allowedExtensions = {
   python: ["jpg", "jpeg", "png", "gif"],
-};
-
-const allowedExtensionsString = (projectType) => {
-  const extensionsList = allowedExtensions[projectType];
-  if (extensionsList.length === 1) {
-    return `'.${extensionsList[0]}'`;
-  } else {
-    return (
-      `'.` +
-      extensionsList.slice(0, -1).join(`', '.`) +
-      `' or '.` +
-      extensionsList[extensionsList.length - 1] +
-      `'`
-    );
-  }
 };
 
 const ImageUploadButton = ({ reactAppApiEndpoint }) => {
@@ -41,6 +28,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const imageNames = projectImages.map((image) => `${image.filename}`);
   const user = useSelector((state) => state.auth.user);
+  const { t } = useTranslation();
 
   const closeModal = () => {
     setFiles([]);
@@ -62,19 +50,27 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
         imageNames.includes(fileName) ||
         files.filter((file) => file.name === fileName).length > 1
       ) {
-        dispatch(setNameError("Image names must be unique."));
+        dispatch(
+          setNameError(t("imageUploadButton.errors.imageNameNotUnique")),
+        );
         return false;
       } else if (isValidFileName(fileName, files)) {
         return true;
       } else if (!allowedExtensions[projectType].includes(extension)) {
         dispatch(
           setNameError(
-            `Image names must end in ${allowedExtensionsString(projectType)}.`,
+            t("errors.invalidImageExtension", {
+              extensions: allowedExtensionsString(
+                projectType,
+                t,
+                allowedExtensions,
+              ),
+            }),
           ),
         );
         return false;
       } else {
-        dispatch(setNameError("Error"));
+        dispatch(setNameError("imageUploadButton.error"));
         return false;
       }
     });
@@ -119,7 +115,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   return (
     <>
       <Button
-        buttonText="Upload Image"
+        buttonText={t("imageUploadButton.uploadImage")}
         onClickHandler={showModal}
         className="proj-image-upload-button"
       />
@@ -128,10 +124,10 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Upload Image"
+        contentLabel={t("imageUploadButton.uploadImage")}
         appElement={document.getElementById("root") || undefined}
       >
-        <h2>Upload an image</h2>
+        <h2>{t("imageUploadButton.uploadAnImage")}</h2>
 
         <NameErrorMessage />
         <Dropzone
@@ -143,9 +139,7 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
             <section>
               <div {...getRootProps()} className="dropzone-area">
                 <input {...getInputProps()} />
-                <p className="dropzone-info">
-                  Drag and drop images here, or click to select images from file
-                </p>
+                <p className="dropzone-info">{t("imageUploadButton.info")}</p>
                 {files.map((file, i) => (
                   <p key={i}>{file.name}</p>
                 ))}
@@ -154,8 +148,14 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
           )}
         </Dropzone>
         <div className="modal-footer">
-          <Button buttonText="Cancel" onClickHandler={closeModal} />
-          <Button buttonText="Save" onClickHandler={saveImages} />
+          <Button
+            buttonText={t("imageUploadButton.cancel")}
+            onClickHandler={closeModal}
+          />
+          <Button
+            buttonText={t("imageUploadButton.save")}
+            onClickHandler={saveImages}
+          />
         </div>
       </Modal>
     </>

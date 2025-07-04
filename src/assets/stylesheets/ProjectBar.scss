@@ -6,7 +6,6 @@
   display: flex;
   align-items: center;
   z-index: 1;
-  block-size: $space-4;
   container-type: inline-size;
   background-color: var(--editor-color-layer-3);
   border: 1px solid var(--editor-color-outline);
@@ -39,6 +38,7 @@
   }
 
   .project-bar__btn-wrapper {
+    display: flex;
     block-size:  100%;
   }
 

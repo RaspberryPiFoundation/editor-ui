@@ -58,9 +58,27 @@
   display: flex;
   flex-flow: column;
   block-size: 100%;
+  hyphens: auto;
+  hyphenate-limit-chars: 10 4 4; // Minimum of 10 characters before hyphenating, minimum of 4 character before and after the hyphen.
 
   .proj {
     min-block-size: 100%;
+  }
+
+  code,
+  var,
+  kbd,
+  samp,
+  tt,
+  dir,
+  listing,
+  plaintext,
+  xmp,
+  abbr,
+  acronym,
+  blockquote,
+  q {
+    hyphens: none;
   }
 }
 
@@ -91,7 +109,6 @@ button:focus-visible {
   }
 }
 
-
 .--light {
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-white};
@@ -120,5 +137,6 @@ button:focus-visible {
   --editor-color-tab-background: #{$rpf-grey-700};
 
   .rpf-button--secondary {
-    border-color: $rpf-navy-800;}
+    border-color: $rpf-navy-800;
+  }
 }

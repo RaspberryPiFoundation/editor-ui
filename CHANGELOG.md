@@ -6,10 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## Fixed
+
+- Styling issue preventing scrolling in the sidebar (#1216)
+- Styling issue on status bar on mobile (#1217)
+- Change tab `block-size` to `min-block-size` to allow for height increase when text wraps (#1219)
+- Changed `SkulptRunner.jsx` implementation of hiding elements to use `display: none` rather than `block-size: 0` (#1219)
+- Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
+- Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
+- Added missing translation strings (#1222)
+
+## Changed
+
+- Improved status bar styling (#1221)
+
 ## [0.30.1] - 2025-06-09
 
 ### Added
- 
+
 - Fake translation for stress testing (#1206)
 
 ### Changed

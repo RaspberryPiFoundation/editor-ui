@@ -485,7 +485,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           {showVisualOutputPanel && (
             <div
               className={outputPanelClasses("visual")}
-              style={{ blockSize: showVisualOutput ? "auto" : 0 }}
+              style={{ display: showVisualOutput ? undefined : "none" }}
             >
               <Tabs forceRenderTabPanel={true}>
                 <div
@@ -549,7 +549,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         >
           <div className="react-tabs__tab-container">
             <TabList>
-              <Tab key={0} style={{ blockSize: showVisualOutput ? "auto" : 0 }}>
+              <Tab
+                key={0}
+                style={{ display: showVisualOutput ? undefined : "none" }}
+              >
                 <span className="react-tabs__tab-text">
                   {t("output.visualOutput")}
                 </span>
