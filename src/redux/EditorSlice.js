@@ -135,7 +135,6 @@ export const editorInitialState = {
   notFoundModalShowing: false,
   newFileModalShowing: false,
   renameFileModalShowing: false,
-  renameProjectModalShowing: false,
   sidebarShowing: true,
   modals: {},
   errorDetails: {},
@@ -374,14 +373,6 @@ export const EditorSlice = createSlice({
       state.renameFileModalShowing = false;
       state.nameError = "";
     },
-    showRenameProjectModal: (state, action) => {
-      state.modals.renameProject = action.payload;
-      state.renameProjectModalShowing = true;
-    },
-    closeRenameProjectModal: (state) => {
-      state.modals.renameProject = null;
-      state.renameProjectModalShowing = false;
-    },
     showSidebar: (state) => {
       state.sidebarShowing = true;
     },
@@ -406,13 +397,7 @@ export const EditorSlice = createSlice({
       state.saving = "success";
       state.lastSavedTime = Date.now();
 
-      if (state.renameProjectModalShowing) {
-        state.modals.renameProject = null;
-        state.renameProjectModalShowing = false;
-        state.projectListLoaded = "idle";
-      } else if (
-        state.project.identifier !== action.payload.project.identifier
-      ) {
+      if (state.project.identifier !== action.payload.project.identifier) {
         state.project.image_list = state.project.image_list || [];
         state.project = action.payload.project;
         state.loading = "idle";
@@ -501,8 +486,6 @@ export const {
   closeNewFileModal,
   showRenameFileModal,
   closeRenameFileModal,
-  showRenameProjectModal,
-  closeRenameProjectModal,
   showSidebar,
   hideSidebar,
   disableTheming,

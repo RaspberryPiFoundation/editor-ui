@@ -451,7 +451,6 @@ describe("When renaming a project from the rename project modal", () => {
     editor: {
       project: {},
       modals: { renameProject: project },
-      renameProjectModalShowing: true,
       projectListLoaded: "success",
     },
     auth: { user: { access_token } },
@@ -468,7 +467,6 @@ describe("When renaming a project from the rename project modal", () => {
       project: {},
       saving: "success",
       modals: { renameProject: null },
-      renameProjectModalShowing: false,
       projectListLoaded: "idle",
     };
     expect(

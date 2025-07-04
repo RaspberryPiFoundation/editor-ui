@@ -180,14 +180,6 @@
     },
     "untitled": "Unbenanntes Projekt"
   },
-  "projectList": {
-    "renameProjectModal": {
-      "cancel": "Nicht speichern",
-      "heading": "Projekt umbenennen",
-      "inputLabel": "Ändern Sie den Namen Ihres Projekts",
-      "save": "Speichern"
-    }
-  },
   "projectTypes": {
     "html": "HTML/CSS",
     "python": "Python"

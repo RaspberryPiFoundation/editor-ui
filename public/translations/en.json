@@ -180,14 +180,6 @@
     },
     "untitled": "Untitled project"
   },
-  "projectList": {
-    "renameProjectModal": {
-      "cancel": "Do not save",
-      "heading": "Rename project",
-      "inputLabel": "Change the name of your project",
-      "save": "Save"
-    }
-  },
   "projectTypes": {
     "html": "HTML/CSS",
     "python": "Python"
