@@ -28,6 +28,11 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import store from "../../../../../redux/stores/WebComponentStore";
+import {
+  base64ToUint8Array,
+  uint8ArrayToBase64,
+} from "../../../../../utils/base64Helpers";
+import { isOwner } from "../../../../../utils/projectHelpers";
 
 const getWorkerURL = (url) => {
   const content = `
@@ -264,12 +269,13 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         reactAppApiEndpoint,
       });
 
-      const projectImages = store.getState().editor.project.image_list || [];
-      const projectImageNames = (
-        store.getState().editor.project.image_list || []
-      ).map((image) => image.filename);
+      const project = store.getState().editor.project;
+      const projectImages = project.image_list || [];
+      const projectImageNames = (project.image_list || []).map(
+        (image) => image.filename,
+      );
       if (projectImageNames.includes(filename.split("/").pop())) {
-        if (user) {
+        if (user && isOwner(user, project)) {
           const response = await updateImage(
             projectIdentifier,
             user.access_token,
@@ -282,7 +288,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         } else {
           const updatedImage = {
             filename: filename.split("/").pop(),
-            content: Array.from(content), // Convert ArrayBuffer to Array for storage in Redux to ensure serializability
+            content: await uint8ArrayToBase64(content), // Convert Uint8Array to binary string for storage in Redux to ensure serializability
           };
           const updatedImages = projectImages.map((image) =>
             image.filename === updatedImage.filename ? updatedImage : image,
@@ -292,7 +298,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         processFileWriteQueue(projectImageNames); // Process the next item in the queue
         return;
       }
-      if (user) {
+      if (user && isOwner(user, project)) {
         const response = await uploadImages(
           projectIdentifier,
           user.access_token,
@@ -303,8 +309,8 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       } else {
         const newImage = {
           filename: filename.split("/").pop(),
-          content: Array.from(content),
-        }; // Convert ArrayBuffer to Array for storage in Redux to ensure serializability
+          content: uint8ArrayToBase64(content), // Convert Uint8Array to base64 string for storage in Redux to ensure serializability
+        };
         const updatedImages = [...projectImages, newImage];
         dispatch(updateImages(updatedImages));
       }
@@ -357,8 +363,8 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     await Promise.allSettled(
       projectImages.map(({ filename, url, content }) => {
         if (content && content.length) {
-          // If content is present, send it directly (convert to Uint8Array if needed)
-          const buffer = new Uint8Array(content).buffer;
+          // If content is present, send it directly (convert from base64 string to Uint8Array if needed)
+          const buffer = base64ToUint8Array(content).buffer;
           return writeFile(filename, buffer);
         } else {
           // Otherwise, fetch from the URL

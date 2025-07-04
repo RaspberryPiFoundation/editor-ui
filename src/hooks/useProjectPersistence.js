@@ -7,6 +7,7 @@ import {
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
+import { base64ToUint8Array } from "../utils/base64Helpers";
 
 const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
 
@@ -52,7 +53,15 @@ export const useProjectPersistence = ({
             await dispatch(
               syncProject("remix")({
                 ...params,
-                project,
+                project: {
+                  ...project,
+                  image_list: project.image_list.map((image) => ({
+                    ...image,
+                    content: image.content
+                      ? base64ToUint8Array(image.content)
+                      : null,
+                  })),
+                },
               }),
             );
             if (loadRemix) {
