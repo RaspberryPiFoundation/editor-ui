@@ -132,7 +132,6 @@ export const editorInitialState = {
   loadRemixDisabled: false,
   betaModalShowing: false,
   errorModalShowing: false,
-  notFoundModalShowing: false,
   newFileModalShowing: false,
   renameFileModalShowing: false,
   sidebarShowing: true,
@@ -355,9 +354,6 @@ export const EditorSlice = createSlice({
     closeErrorModal: (state) => {
       state.errorModalShowing = false;
     },
-    closeNotFoundModal: (state) => {
-      state.notFoundModalShowing = false;
-    },
     showNewFileModal: (state) => {
       state.newFileModalShowing = true;
     },
@@ -481,7 +477,6 @@ export const {
   closeBetaModal,
   showErrorModal,
   closeErrorModal,
-  closeNotFoundModal,
   showNewFileModal,
   closeNewFileModal,
   showRenameFileModal,

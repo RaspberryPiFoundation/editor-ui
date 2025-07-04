@@ -169,15 +169,6 @@
   },
   "project": {
     "loading": "Wird geladen",
-    "notFoundModal": {
-      "embedded": {
-        "text": "Besuchen Sie die Projektseite für tolle Projektideen"
-      },
-      "heading": "Dieses Projekt existiert nicht",
-      "newProject": "Neues Code-Projekt starten",
-      "projectsSiteLinkText": "Projektseite erkunden",
-      "text": "Sie können mit dem Programmieren in einem neuen Projekt beginnen oder die Projektseite für tolle Projektideen besuchen."
-    },
     "untitled": "Unbenanntes Projekt"
   },
   "projectTypes": {

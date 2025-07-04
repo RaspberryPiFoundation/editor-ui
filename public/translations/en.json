@@ -169,15 +169,6 @@
   },
   "project": {
     "loading": "Loading",
-    "notFoundModal": {
-      "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
-      },
-      "heading": "This project does not exist",
-      "newProject": "Start new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "You can start coding in a new project, or visit the Projects site for cool project ideas."
-    },
     "untitled": "Untitled project"
   },
   "projectTypes": {

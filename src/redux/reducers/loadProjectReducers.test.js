@@ -175,7 +175,6 @@ describe("EditorSliceReducers::loadProjectRejectedReducer", () => {
     const expectedState = {
       loading: "failed",
       saving: "idle",
-      notFoundModalShowing: true,
       currentLoadingRequestId: undefined,
     };
 
