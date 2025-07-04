@@ -2,6 +2,7 @@
   "modal": {
     "close": "Close",
     "error": {
+      "error": "Error",
       "heading": "An error has occurred",
       "externalLink": {
         "message": "Unfortunately links to external sites are not available in the Editor."
@@ -12,7 +13,8 @@
     "ariaLabel": "editor text input",
     "characterLimitError": "Error: Character limit reached",
     "characterLimitExplanation": "Files in the editor are limited to {{maxCharacters}} characters",
-    "viewOnly": "View only"
+    "viewOnly": "View only",
+    "close": "close"
   },
   "filePanel": {
     "errors": {
@@ -20,7 +22,6 @@
       "containsSpaces": "File names must not contain spaces.",
       "generalError": "Error",
       "notUnique": "File names must be unique.",
-      "or": "or",
       "unsupportedExtension": "File names must end in {{allowedExtensions}}."
     },
     "files": "Project files",
@@ -282,5 +283,28 @@
   "webComponent": {
     "loading": "Loading",
     "failed": "Load failed"
+  },
+  "imageUploadButton": {
+    "uploadImage": "Upload Image",
+    "uploadAnImage": "Upload an image",
+    "info": "Drag and drop images here, or click to select images from file",
+    "cancel": "Cancel",
+    "save": "Save",
+    "or": "or",
+    "errors": {
+      "error": "Error",
+      "imageNameNotUnique": "Image names must be unique.",
+      "invalidImageExtension": "Image names must end in {{extensions}}."
+    }
+  },
+  "newInputPanelButton": {
+    "buttonText": "Add another panel"
+  },
+  "button": {
+    "yes": "Yes",
+    "no": "No"
+  },
+  "common": {
+    "or": "or"
   }
 }

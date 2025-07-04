@@ -2,6 +2,7 @@
   "modal": {
     "close": "Schließen",
     "error": {
+      "error": "Fehler",
       "heading": "Ein Fehler ist aufgetreten",
       "externalLink": {
         "message": "Leider sind Links zu externen Seiten im Editor nicht verfügbar."
@@ -12,7 +13,8 @@
     "ariaLabel": "Texteingabe des Editors",
     "characterLimitError": "Fehler: Zeichenlimit erreicht",
     "characterLimitExplanation": "Dateien im Editor sind auf {{maxCharacters}} Zeichen begrenzt",
-    "viewOnly": "Nur Ansicht"
+    "viewOnly": "Nur Ansicht",
+    "close": "schließen"
   },
   "filePanel": {
     "errors": {
@@ -20,7 +22,6 @@
       "containsSpaces": "Dateinamen dürfen keine Leerzeichen enthalten.",
       "generalError": "Fehler",
       "notUnique": "Dateinamen müssen eindeutig sein.",
-      "or": "oder",
       "unsupportedExtension": "Dateinamen müssen mit {{allowedExtensions}} enden."
     },
     "files": "Projektdateien",
@@ -282,5 +283,27 @@
   "webComponent": {
     "loading": "Wird geladen",
     "failed": "Laden fehlgeschlagen"
+  },
+  "imageUploadButton": {
+    "uploadImage": "Bild hochladen",
+    "uploadAnImage": "Laden Sie ein Bild hoch",
+    "info": "Ziehen Sie Bilder hierher, oder klicken Sie, um Bilder aus der Datei auszuwählen",
+    "cancel": "Stornieren",
+    "save": "Speichern",
+    "errors": {
+      "error": "Fehler",
+      "imageNameNotUnique": "Bildnamen müssen eindeutig sein.",
+      "invalidImageExtension": "Bildnamen müssen enden auf {{extensions}}."
+    }
+  },
+  "newInputPanelButton": {
+    "buttonText": "Fügen Sie ein weiteres Panel hinzu"
+  },
+  "button": {
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "common": {
+    "or": "oder"
   }
 }
