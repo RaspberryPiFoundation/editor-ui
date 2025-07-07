@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Changed
 
 - Improved status bar styling (#1221)
+- Added method to translate last saved time (#1223)
 
 ## [0.30.1] - 2025-06-09
 
