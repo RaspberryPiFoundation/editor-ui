@@ -11,9 +11,9 @@ export const formatRelativeTime = (
   lastSavedTime,
   now,
   languageCode,
-  fallbackLgn,
+  fallbackLng,
 ) => {
-  const locale = localeMap[languageCode] || fallbackLgn;
+  const locale = localeMap[languageCode] || fallbackLng;
   return intlFormatDistance(lastSavedTime, now, {
     style: "short",
     locale,
