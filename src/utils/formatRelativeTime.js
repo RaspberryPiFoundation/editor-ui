@@ -7,8 +7,13 @@ const localeMap = {
   "es-LA": "es",
 };
 
-export const formatRelativeTime = (lastSavedTime, now, languageCode) => {
-  const locale = localeMap[languageCode] || localeMap.en; // Default to English if no match found;
+export const formatRelativeTime = (
+  lastSavedTime,
+  now,
+  languageCode,
+  fallbackLgn,
+) => {
+  const locale = localeMap[languageCode] || fallbackLgn;
   return intlFormatDistance(lastSavedTime, now, {
     style: "short",
     locale,

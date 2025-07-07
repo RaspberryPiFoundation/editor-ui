@@ -12,6 +12,7 @@ import { formatRelativeTime } from "../../utils/formatRelativeTime";
 const SaveStatus = ({ isMobile = false }) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
+  const fallbackLgn = i18n.options.fallbackLng;
 
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const saving = useSelector((state) => state.editor.saving);
@@ -55,7 +56,7 @@ const SaveStatus = ({ isMobile = false }) => {
             </div>
             <div className="save-status__text">
               {t("saveStatus.saved")}{" "}
-              {formatRelativeTime(lastSavedTime, time, locale)}
+              {formatRelativeTime(lastSavedTime, time, locale, fallbackLgn)}
             </div>
           </>
         )}
