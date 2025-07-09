@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../../assets/stylesheets/PythonRunner.scss";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
@@ -10,6 +16,7 @@ import {
   setLoadedRunner,
   updateProjectComponent,
   addProjectComponent,
+  updateImages,
 } from "../../../../../redux/EditorSlice";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
@@ -20,6 +27,12 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import store from "../../../../../redux/stores/WebComponentStore";
+import {
+  base64ToUint8Array,
+  uint8ArrayToBase64,
+} from "../../../../../utils/base64Helpers";
+import { isOwner } from "../../../../../utils/projectHelpers";
 
 const getWorkerURL = (url) => {
   const content = `
@@ -51,6 +64,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const stdinClosed = useRef();
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((s) => s.editor.project.image_list);
+  const projectImageNames = projectImages?.map((image) => image.filename);
   const projectCode = useSelector((s) => s.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const focussedFileIndex = useSelector(
@@ -124,7 +138,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         }
       };
     }
-  }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
+  }, [pyodideWorker, projectCode, projectImages, openFiles, focussedFileIndex]);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -213,11 +227,96 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     disableInput();
   };
 
-  const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
+  const fileWriteQueue = useRef([]); // Queue to store file write requests
+  const isExecuting = useRef(false);
+
+  const handleFileWrite = useCallback(
+    async (filename, content, mode, cascadeUpdate) => {
+      // Add the file write request to the queue
+      fileWriteQueue.current.push({
+        filename,
+        content,
+        mode,
+        cascadeUpdate,
+        projectImages,
+      });
+
+      // Process the queue if not already executing
+      if (!isExecuting.current) {
+        processFileWriteQueue();
+      }
+    },
+    [projectImages, projectImageNames],
+  );
+
+  const processFileWriteQueue = useCallback(async () => {
+    if (fileWriteQueue.current.length === 0) {
+      isExecuting.current = false;
+      return;
+    }
+
+    isExecuting.current = true;
+    const { filename, content, mode, cascadeUpdate } =
+      fileWriteQueue.current.shift();
+
     const [name, extension] = filename.split(".");
     const componentToUpdate = projectCode.find(
       (item) => item.extension === extension && item.name === name,
     );
+
+    if (mode === "wb" || mode === "w+b") {
+      const { uploadImages, updateImage } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
+
+      const project = store.getState().editor.project;
+      const projectImages = project.image_list || [];
+      const projectImageNames = (project.image_list || []).map(
+        (image) => image.filename,
+      );
+      if (projectImageNames.includes(filename.split("/").pop())) {
+        if (user && isOwner(user, project)) {
+          const response = await updateImage(
+            projectIdentifier,
+            user.access_token,
+            // file object with the correct filename and binary content
+            new File([content], filename, { type: "application/octet-stream" }),
+          );
+          if (response.status === 200) {
+            dispatch(updateImages(response.data.image_list));
+          }
+        } else {
+          const updatedImage = {
+            filename: filename.split("/").pop(),
+            content: await uint8ArrayToBase64(content), // Convert Uint8Array to binary string for storage in Redux to ensure serializability
+          };
+          const updatedImages = projectImages.map((image) =>
+            image.filename === updatedImage.filename ? updatedImage : image,
+          );
+          dispatch(updateImages(updatedImages));
+        }
+        processFileWriteQueue(projectImageNames); // Process the next item in the queue
+        return;
+      }
+      if (user && isOwner(user, project)) {
+        const response = await uploadImages(
+          projectIdentifier,
+          user.access_token,
+          // file object with the correct filename and binary content
+          [new File([content], filename, { type: "application/octet-stream" })],
+        );
+        dispatch(updateImages(response.data.image_list));
+      } else {
+        const newImage = {
+          filename: filename.split("/").pop(),
+          content: uint8ArrayToBase64(content), // Convert Uint8Array to base64 string for storage in Redux to ensure serializability
+        };
+        const updatedImages = [...projectImages, newImage];
+        dispatch(updateImages(updatedImages));
+      }
+      processFileWriteQueue(projectImageNames); // Process the next item in the queue
+      return;
+    }
     let updatedContent;
     if (mode === "w" || mode === "x") {
       updatedContent = content;
@@ -240,7 +339,9 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         addProjectComponent({ name, extension, content: updatedContent }),
       );
     }
-  };
+
+    processFileWriteQueue(); // Process the next item in the queue
+  }, [projectImages, projectImageNames]);
 
   const handleVisual = (origin, content) => {
     if (showVisualOutputPanel) {
@@ -260,11 +361,18 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     stdinClosed.current = false;
 
     await Promise.allSettled(
-      projectImages.map(({ filename, url }) =>
-        fetch(url)
-          .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer)),
-      ),
+      projectImages.map(({ filename, url, content }) => {
+        if (content && content.length) {
+          // If content is present, send it directly (convert from base64 string to Uint8Array if needed)
+          const buffer = base64ToUint8Array(content).buffer;
+          return writeFile(filename, buffer);
+        } else {
+          // Otherwise, fetch from the URL
+          return fetch(url)
+            .then((response) => response.arrayBuffer())
+            .then((buffer) => writeFile(filename, buffer));
+        }
+      }),
     );
 
     for (const { name, extension, content } of projectCode) {

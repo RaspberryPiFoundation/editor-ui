@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Image read and write support (#1171)
+- `imageio` support (#1171)
+
 ## Fixed
 
 - Styling issue preventing scrolling in the sidebar (#1216)
@@ -15,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
 - Added missing translation strings (#1222)
+- Writing binary files to the `pyodide` filesystem (#1171)
 
 ## Changed
 

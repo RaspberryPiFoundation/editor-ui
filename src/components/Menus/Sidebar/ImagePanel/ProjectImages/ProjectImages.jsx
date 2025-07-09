@@ -14,7 +14,11 @@ const ProjectImages = () => {
             <img
               crossOrigin="true"
               className="project-images__image"
-              src={image.url}
+              src={
+                image.content
+                  ? `data:image/png;base64,${image.content}`
+                  : image.url
+              }
               alt={image.filename}
             />
           </div>

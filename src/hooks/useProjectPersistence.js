@@ -52,7 +52,13 @@ export const useProjectPersistence = ({
             await dispatch(
               syncProject("remix")({
                 ...params,
-                project,
+                project: {
+                  ...project,
+                  image_list: project.image_list.map((image) => ({
+                    ...image,
+                    content: image.content,
+                  })),
+                },
               }),
             );
             if (loadRemix) {
