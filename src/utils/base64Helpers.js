@@ -12,7 +12,7 @@ export const uint8ArrayToBase64 = (uint8) => {
   });
 };
 
-export const base64ToUint8Array = async (base64) => {
+export const base64ToUint8Array = (base64) => {
   return new Uint8Array(
     window
       .atob(base64)
