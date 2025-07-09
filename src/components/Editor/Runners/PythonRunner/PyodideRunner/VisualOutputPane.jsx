@@ -53,8 +53,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
       case "plotly":
         const plotlyJson = visual.content;
         // Parse the JSON if needed
-        const figure =
-          typeof plotlyJson === "string" ? JSON.parse(plotlyJson) : plotlyJson;
+        const figure = JSON.parse(plotlyJson);
         // Render using Plotly.js
         Plotly.newPlot(output.current, figure.data, figure.layout);
         break;

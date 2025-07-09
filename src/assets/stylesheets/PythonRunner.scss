@@ -113,6 +113,11 @@
   }
 }
 
+.main-svg:nth-of-type(2) {
+  position: relative;
+  bottom: 100%;
+}
+
   .--light .output-panel--single, .--dark .output-panel--single {
     border-block-end: none;
 }
