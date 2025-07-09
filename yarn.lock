@@ -2844,6 +2844,7 @@ __metadata:
     optimize-css-assets-webpack-plugin: 5.0.4
     parse-link-header: ^2.0.0
     path-browserify: ^1.0.1
+    plotly.js-dist: ^3.0.1
     pnp-webpack-plugin: 1.6.4
     postcss-flexbugs-fixes: 4.2.1
     postcss-loader: 3.0.0
@@ -13828,6 +13829,13 @@ __metadata:
   dependencies:
     find-up: ^3.0.0
   checksum: 5bac346b7c7c903613c057ae3ab722f320716199d753f4a7d053d38f2b5955460f3e6ab73b4762c62fd3e947f58e04f1343e92089e7bb6091c90877406fcd8c8
+  languageName: node
+  linkType: hard
+
+"plotly.js-dist@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "plotly.js-dist@npm:3.0.1"
+  checksum: 135876d156de7822361b3bbf806dc35c660598ae1a1713c3810a439826fec5822525b7b45f0cb3f463c71c2e4349c42e553244c4f16d4dd9b25052a4f7efe749
   languageName: node
   linkType: hard
 

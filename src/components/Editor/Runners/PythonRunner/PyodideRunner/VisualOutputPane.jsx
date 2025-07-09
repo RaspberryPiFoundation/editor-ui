@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
+import Plotly from "plotly.js-dist";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
@@ -48,6 +49,14 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
           String.fromCharCode(...new Uint8Array(visual.content)),
         )}`;
         output.current.innerHTML = img.outerHTML;
+        break;
+      case "plotly":
+        const plotlyJson = visual.content;
+        // Parse the JSON if needed
+        const figure =
+          typeof plotlyJson === "string" ? JSON.parse(plotlyJson) : plotlyJson;
+        // Render using Plotly.js
+        Plotly.newPlot(output.current, figure.data, figure.layout);
         break;
       default:
         throw new Error(`Unsupported origin: ${visual.origin}`);

@@ -367,6 +367,35 @@ const PyodideWorker = () => {
         `);
       },
     },
+    plotly: {
+      before: async () => {
+        // await pyodide.loadPackage("plotly");
+        // await pyodide.loadPackage("pandas");
+        if (!pyodide.micropip) {
+          await pyodide.loadPackage("micropip");
+          pyodide.micropip = pyodide.pyimport("micropip");
+        }
+
+        // If the import is for a PyPi package then load it.
+        // Otherwise, don't error now so that we get an error later from Python.
+        await pyodide.micropip.install("plotly").catch(() => {});
+        await pyodide.micropip.install("pandas").catch(() => {});
+        pyodide.registerJsModule("basthon", fakeBasthonPackage);
+        pyodide.runPython(`
+          import plotly.graph_objs as go
+
+          def _hacked_show(self, *args, **kwargs):
+              print(self)
+              basthon.kernel.display_event({
+                  "display_type": "plotly",
+                  "content": self.to_json()
+              })
+
+          go.Figure.show = _hacked_show
+      `);
+      },
+      after: () => {},
+    },
   };
 
   const fakeBasthonPackage = {

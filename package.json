@@ -51,6 +51,7 @@
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
     "parse-link-header": "^2.0.0",
+    "plotly.js-dist": "^3.0.1",
     "prismjs": "^1.29.0",
     "prompts": "2.4.0",
     "prop-types": "^15.8.1",
