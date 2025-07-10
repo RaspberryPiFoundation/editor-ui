@@ -12,7 +12,7 @@
   "editorPanel": {
     "ariaLabel": "Texteingabe des Editors",
     "characterLimitError": "Fehler: Zeichenlimit erreicht",
-    "characterLimitExplanation": "Dateien im Editor sind auf {{maxCharacters}} Zeichen begrenzt",
+    "characterLimitExplanation_other": "Dateien im Editor sind auf {{count}} Zeichen begrenzt",
     "viewOnly": "Nur Ansicht",
     "close": "schließen"
   },
