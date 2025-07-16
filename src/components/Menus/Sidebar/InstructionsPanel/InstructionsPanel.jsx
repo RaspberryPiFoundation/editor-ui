@@ -20,6 +20,7 @@ import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
+import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
 const InstructionsPanel = () => {
   const [showModal, setShowModal] = useState(false);
@@ -110,7 +111,11 @@ const InstructionsPanel = () => {
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
 
   const addInstructions = () => {
-    dispatch(setProjectInstructions(demoInstructions));
+    const translatedInstructions = populateMarkdownTemplate(
+      demoInstructions,
+      t,
+    );
+    dispatch(setProjectInstructions(translatedInstructions));
   };
 
   const removeInstructions = () => {
