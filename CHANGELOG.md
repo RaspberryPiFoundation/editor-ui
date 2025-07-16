@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
 - Added missing translation strings (#1222)
+- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation
 
 ## Changed
 
