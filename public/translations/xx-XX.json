@@ -78,6 +78,17 @@
     "info": "Informationen"
   },
   "instructionsPanel": {
+    "demoInstructions": {
+      "title": "So funktionieren Anweisungen",
+      "enablingInstructions": "Anweisungen aktivieren",
+      "visible": "Jeder hier geschriebene Text ist für die Schüler in der Seitenleiste sichtbar.",
+      "writingInstructions": "Anweisungen schreiben",
+      "markdown": "Schreiben Sie Ihre Anweisungen mit [Markdown](https://www.markdownguide.org/).",
+      "whatYouCanDo": "Was Sie tun können",
+      "lists": "Listen",
+      "bulletPoints": "Aufzählungszeichen",
+      "numberedSteps": "Nummerierte Schritte"
+    },
     "emptyState": {
       "addInstructions": "Anweisungen hinzufügen",
       "edits": "Wie beim Projektcode sehen die Schüler keine Änderungen, die Sie an den Anweisungen vornehmen, nachdem sie ihre Version des Projekts gespeichert haben.",
