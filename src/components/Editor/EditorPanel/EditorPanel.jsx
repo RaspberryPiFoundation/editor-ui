@@ -171,7 +171,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
           title={t("editorPanel.characterLimitError")}
           type="error"
           text={t("editorPanel.characterLimitExplanation", {
-            maxCharacters: MAX_CHARACTERS,
+            count: MAX_CHARACTERS,
           })}
         />
       )}

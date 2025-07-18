@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import {
   showLoginPrompt,
-  showRemixedMessage,
   showSavedMessage,
   showSavePrompt,
 } from "./Notifications";
@@ -10,14 +9,6 @@ jest.mock("./i18n", () => ({
   t: (string) => string,
 }));
 jest.mock("react-toastify");
-
-test("Calling showRemixedMessage calls toast with correct string", () => {
-  showRemixedMessage();
-  expect(toast).toHaveBeenCalledWith(
-    "notifications.projectRemixed",
-    expect.anything(),
-  );
-});
 
 test("Calling showSavedMessage calls toast with correct string", () => {
   showSavedMessage();

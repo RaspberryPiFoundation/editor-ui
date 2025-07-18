@@ -64,10 +64,3 @@ export const showRenamedMessage = () => {
     icon: TickIcon,
   });
 };
-
-export const showRemixedMessage = () => {
-  toast(i18n.t("notifications.projectRemixed"), {
-    ...bottomCenterSettings,
-    icon: TickIcon,
-  });
-};

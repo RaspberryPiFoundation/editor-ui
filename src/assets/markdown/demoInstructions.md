@@ -1,18 +1,19 @@
-# How instructions work
+# {{instructionsPanel.demoInstructions.title}}
 
-## Enabling instructions
+## {{instructionsPanel.demoInstructions.enablingInstructions}}
 
-Any text written here will be visible to students in the sidebar
+{{instructionsPanel.demoInstructions.visible}}
 
-## Writing instructions
+## {{instructionsPanel.demoInstructions.writingInstructions}}
 
-Write your instructions using [Markdown](https://www.markdownguide.org/)
-### What you can do
+{{instructionsPanel.demoInstructions.markdown}}
 
-Lists:
+### {{instructionsPanel.demoInstructions.whatYouCanDo}}
 
-- Bullet points
-- Bullet points
+{{instructionsPanel.demoInstructions.lists}}:
 
-1. numbered steps
-2. numbered steps
+- {{instructionsPanel.demoInstructions.bulletPoints}}
+- {{instructionsPanel.demoInstructions.bulletPoints}}
+
+1. {{instructionsPanel.demoInstructions.numberedSteps}}
+2. {{instructionsPanel.demoInstructions.numberedSteps}}
