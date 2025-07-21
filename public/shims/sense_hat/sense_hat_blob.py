@@ -678,7 +678,7 @@ class ColourSensor(object):
       """
       data = _ish.colourRead()
       if len(data) == 3:
-        data.append(255)  # Append dummy Clear value
+        data.append(256)  # Append dummy Clear value
       return tuple(data)
 
 
