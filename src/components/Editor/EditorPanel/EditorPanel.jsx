@@ -164,7 +164,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   }, [file, cascadeUpdate, editorViewRef]);
 
   return (
-    <div className={isDarkMode ? "dark" : "light"}>
+    <div className="editor-wrapper">
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
       {characterLimitExceeded && (
         <Alert

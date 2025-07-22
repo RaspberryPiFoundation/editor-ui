@@ -1,17 +1,8 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/font-size" as *;
 
-.dark {
-  color-scheme: dark;
-}
-
-.light {
-  color-scheme: light;
-}
-
 // Scrollbar-width is needed from scrollbar to show in Chrome
-.dark,
-.light {
+.editor-wrapper {
   // Needed here for vertical scroll
   overflow: auto;
   scrollbar-width: thin;
