@@ -14,7 +14,7 @@
     "characterLimitError": "Error: Character limit reached",
     "viewOnly": "View only",
     "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} characters",
+    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
     "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
   },
   "filePanel": {
