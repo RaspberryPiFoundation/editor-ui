@@ -673,7 +673,14 @@ class ColourSensor(object):
 
     @property
     def colour_raw(self):
-        return _ish.colourRead()
+      """
+      Ensure a 4 length tuple is returned even if simulation only provides 3 values
+      """
+      data = _ish.colourRead()
+      if len(data) == 3:
+        data.append(256)  # Append dummy Clear value
+      return tuple(data)
+
 
     @property
     def red_raw(self):
@@ -1507,7 +1514,7 @@ class SenseHat(object):
         # but the emulator cannot do fusionPose as we derive everything from the orientation.
         # Therefore, we a shortcut and read directly from our internal module that applies compass tilt compensation algorithm
         # and returns the heading in radians.
-        
+
         deg = math.degrees(_ish.headingRead())
 
         return deg + 360 if deg < 0 else deg
