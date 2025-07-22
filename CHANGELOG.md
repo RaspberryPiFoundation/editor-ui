@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Improved status bar styling (#1221)
 - Added horizontal scrollbar to editor (#1228)
+- Add theme for scrollbars (#1233)
 
 ## [0.30.1] - 2025-06-09
 
