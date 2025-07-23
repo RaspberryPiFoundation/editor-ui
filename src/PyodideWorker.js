@@ -42,6 +42,26 @@ const PyodideWorker = () => {
       case "writeFile":
         pyodide.FS.writeFile(data.filename, encoder.encode(data.content));
         break;
+      case "setCanvas":
+        if (data.canvas) {
+          pyodide._api._skip_unwind_fatal_error = true;
+          // telll pyodide that this is the canvas to use for SDL2
+          // globalThis.canvas = data.canvas; // Store the OffscreenCanvas globally in the worker
+          // Now, register it with Pyodide
+          // pyodide.globals.set("js_canvas", data.canvas);
+          // console.log(data.canvas);
+          // globalThis.screen = { width: 100, height: 100 };
+          pyodide.runPython(`
+            #import js
+            #import sdl2.ext
+            #sdl2.ext.init()
+            #sdl2.ext.window = js.js_canvas
+            globals()['screen'] = {'width': 100, 'height': 100}
+          `);
+          pyodide.canvas.setCanvas2D(data.canvas);
+        }
+        break;
+
       case "runPython":
         runPython(data.python);
         break;
@@ -366,6 +386,22 @@ const PyodideWorker = () => {
         plt.clf()
         `);
       },
+    },
+    pygame: {
+      before: async () => {
+        await pyodide.loadPackage("pygame-ce");
+        pyodide.runPython(`
+          from pygame import display
+          print("pygame is running!")
+
+          def _custom_flip():
+              print("pygame.flip() called")
+
+          display.flip = _custom_flip
+          display.update = _custom_flip
+          `);
+      },
+      after: () => {},
     },
   };
 
