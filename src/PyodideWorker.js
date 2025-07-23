@@ -383,7 +383,6 @@ const PyodideWorker = () => {
           import plotly.graph_objs as go
 
           def _hacked_show(self, *args, **kwargs):
-              print(self)
               basthon.kernel.display_event({
                   "display_type": "plotly",
                   "content": self.to_json()
