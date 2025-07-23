@@ -369,8 +369,6 @@ const PyodideWorker = () => {
     },
     plotly: {
       before: async () => {
-        // await pyodide.loadPackage("plotly");
-        // await pyodide.loadPackage("pandas");
         if (!pyodide.micropip) {
           await pyodide.loadPackage("micropip");
           pyodide.micropip = pyodide.pyimport("micropip");
