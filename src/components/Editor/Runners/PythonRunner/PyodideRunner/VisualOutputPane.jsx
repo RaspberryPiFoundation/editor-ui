@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import AstroPiModel from "../../../../AstroPiModel/AstroPiModel";
 import Highcharts from "highcharts";
-import Plotly from "plotly.js-dist";
+import Plotly from "plotly.js";
 
 const VisualOutputPane = ({ visuals, setVisuals }) => {
   const senseHatEnabled = useSelector((s) => s.editor.senseHatEnabled);
@@ -54,6 +54,8 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
         const plotlyJson = visual.content;
         // Parse the JSON if needed
         const figure = JSON.parse(plotlyJson);
+        console.log("the data is", figure.data);
+        console.log("the layout is", figure.layout);
         // Render using Plotly.js
         Plotly.newPlot(output.current, figure.data, figure.layout);
         break;
