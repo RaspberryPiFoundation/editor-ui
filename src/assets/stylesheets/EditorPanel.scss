@@ -1,5 +1,12 @@
-@use './rpf_design_system/spacing' as *;
-@use './rpf_design_system/font-size' as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-size" as *;
+
+// Scrollbar-width is needed from scrollbar to show in Chrome
+.editor-wrapper {
+  // Needed here for vertical scroll
+  overflow: auto;
+  scrollbar-width: thin;
+}
 
 .editor {
   display: flex;
@@ -16,7 +23,9 @@
     }
 
     .cm-scroller {
+      // Needed here for horizontal scroll
       overflow: auto;
+      scrollbar-width: thin;
       overscroll-behavior-x: none;
 
       .cm-content {
