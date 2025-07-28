@@ -173,10 +173,17 @@ class WebComponent extends HTMLElement {
     }
 
     // Inject Material Symbols to host app as the font needs to be in both the shadow DOM and the host app to work correctly
-    if (!document.head.querySelector('link[href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"]')) {
-      document.head.innerHTML += '<link rel="preconnect" href="https://fonts.googleapis.com">';
-      document.head.innerHTML += '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-      document.head.innerHTML += '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" type="text/css"/>';
+    if (
+      !document.head.querySelector(
+        'link[href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"]',
+      )
+    ) {
+      document.head.innerHTML +=
+        '<link rel="preconnect" href="https://fonts.googleapis.com">';
+      document.head.innerHTML +=
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+      document.head.innerHTML +=
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" type="text/css"/>';
     }
 
     this.root.render(
