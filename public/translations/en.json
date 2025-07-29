@@ -237,7 +237,7 @@
     "failed": "Load failed"
   },
   "imageUploadButton": {
-    "uploadImage": "Upload Image",
+    "uploadImage": "Upload image",
     "uploadAnImage": "Upload an image",
     "info": "Drag and drop images here, or click to select images from file",
     "cancel": "Cancel",
