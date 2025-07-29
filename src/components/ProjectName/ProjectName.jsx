@@ -76,7 +76,7 @@ const ProjectName = ({
 
   const handleOnBlur = (event) => {
     // If the blur event is triggered by clicking the tick button we want to make sure updateName is called
-    if (event.relatedTarget?.className?.includes("project-name__button")) {
+    if (tickButton?.current?.contains(event.relatedTarget)) {
       event.preventDefault();
       return;
     }
