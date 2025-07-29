@@ -26,6 +26,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
 - Added missing translation strings (#1222)
 - CrowdIn issue for pluralised strings with no `one` version (#1234)
+- Update `imagePanel.gallery` string to remove Title Casing for consistency (#1238)
+
+### Removed
+
+- Remove unused translation string `filePanel.images` (#1238)
 
 ## [0.30.1] - 2025-06-09
 
