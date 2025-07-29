@@ -26,7 +26,6 @@
       "unsupportedExtension": "File names must end in {{allowedExtensions}}."
     },
     "files": "Project files",
-    "images": "Image gallery",
     "newFileButton": "Add file",
     "newFileModal": {
       "cancel": "Cancel",

@@ -25,7 +25,6 @@
       "unsupportedExtension": "Dateinamen müssen mit {{allowedExtensions}} enden."
     },
     "files": "Projektdateien",
-    "images": "Bildergalerie",
     "newFileButton": "Datei hinzufügen",
     "newFileModal": {
       "cancel": "Abbrechen",
