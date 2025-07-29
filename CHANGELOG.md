@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added missing translation strings (#1222)
 - CrowdIn issue for pluralised strings with no `one` version (#1234)
 - Update `imagePanel.gallery` string to remove Title Casing for consistency (#1238)
+- Update `imageUploadButton.uploadImage` string to remove Title Casing for consistency (#1238)
 
 ### Removed
 
