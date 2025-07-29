@@ -17,6 +17,12 @@ let store;
 let editButton;
 let inputField;
 
+jest.mock("../../redux/EditorSlice");
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => jest.fn(),
+}));
+
 describe("With a label", () => {
   beforeEach(() => {
     const middlewares = [];
@@ -201,6 +207,23 @@ describe("With no label", () => {
 
     test("Switches to edit button", () => {
       expect(editButton).toBeInTheDocument();
+    });
+
+    test("Edits the project name and saves it by clicking the tick button", async () => {
+      const newName = "Updated Project Name";
+
+      fireEvent.click(editButton);
+
+      const input = screen.getByRole("textbox");
+      fireEvent.change(input, { target: { value: newName } });
+
+      const tickButton = screen.getByLabelText("header.renameSave");
+      fireEvent.click(tickButton);
+
+      await waitFor(() => {
+        expect(updateProjectName).toHaveBeenCalledWith(newName);
+        expect(input).toBeDisabled();
+      });
     });
   });
 

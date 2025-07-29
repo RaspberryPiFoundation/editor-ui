@@ -74,29 +74,20 @@ const ProjectName = ({
     }
   };
 
+  const handleOnBlur = (event) => {
+    // If the blur event is triggered by clicking the tick button we want to make sure updateName is called
+    if (tickButton?.current?.contains(event.relatedTarget)) {
+      event.preventDefault();
+      return;
+    }
+    resetName(event);
+  };
+
   useEffect(() => {
     if (isEditing) {
       nameInput.current.focus();
     }
   });
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isEditing &&
-        nameInput.current &&
-        !nameInput.current.contains(event.target) &&
-        tickButton.current &&
-        !tickButton.current.contains(event.target)
-      ) {
-        resetName(event);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isEditing, nameInput, tickButton, project, resetName]);
 
   return (
     <>
@@ -122,6 +113,7 @@ const ProjectName = ({
             value={name}
             disabled={!isEditing}
             onChange={handleOnChange}
+            onBlur={handleOnBlur}
           />
         ) : (
           <div className="project-name__title">{name}</div>
