@@ -26,7 +26,6 @@
       "unsupportedExtension": "File names must end in {{allowedExtensions}}."
     },
     "files": "Project files",
-    "images": "Image gallery",
     "newFileButton": "Add file",
     "newFileModal": {
       "cancel": "Cancel",
@@ -73,7 +72,7 @@
     "loginToSave": "Log in to save"
   },
   "imagePanel": {
-    "gallery": "Image Gallery"
+    "gallery": "Image gallery"
   },
   "infoPanel": {
     "info": "Information"
@@ -237,7 +236,7 @@
     "failed": "Load failed"
   },
   "imageUploadButton": {
-    "uploadImage": "Upload Image",
+    "uploadImage": "Upload image",
     "uploadAnImage": "Upload an image",
     "info": "Drag and drop images here, or click to select images from file",
     "cancel": "Cancel",
