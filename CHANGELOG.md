@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Issue where clicking the tick icon would not save a filename when editing (#1237)
 
+### Changed
+
+- Set selectionMatch to be transpartent so not all instances of a word are highlighted when selected(#1239)
+
 ## [0.30.2] - 2025-07-22
 
 ### Fixed

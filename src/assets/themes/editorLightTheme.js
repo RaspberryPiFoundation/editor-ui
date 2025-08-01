@@ -22,6 +22,9 @@ export const editorLightTheme = EditorView.theme(
         "border-inline-start": "solid grey",
       },
     },
+    ".cm-selectionMatch": {
+      backgroundColor: "transparent",
+    },
     ".ͼf": { color: "#AA1111" },
   },
   { dark: false },
