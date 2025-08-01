@@ -71,6 +71,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "with_sidebar",
       "load_cache",
+      "id",
     ];
   }
 

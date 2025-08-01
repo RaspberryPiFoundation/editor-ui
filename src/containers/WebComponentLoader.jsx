@@ -30,6 +30,7 @@ import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
+import { v4 as uuidv4 } from "uuid";
 
 const WebComponentLoader = (props) => {
   const {
@@ -56,6 +57,7 @@ const WebComponentLoader = (props) => {
     withProjectbar = false,
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
+    id = uuidv4(), // Unique ID for the web component instance
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -93,6 +95,10 @@ const WebComponentLoader = (props) => {
     : "light";
 
   useEmbeddedMode(embedded);
+
+  useEffect(() => {
+    console.log("ID", id);
+  }, [id]);
 
   useEffect(() => {
     if (theme) {
@@ -136,6 +142,7 @@ const WebComponentLoader = (props) => {
     loadRemix: loadRemix && !loadRemixDisabled,
     loadCache,
     remixLoadFailed,
+    webcomponentId: id,
   });
 
   useProjectPersistence({
@@ -146,6 +153,7 @@ const WebComponentLoader = (props) => {
     hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
     loadRemix: loadRemix && !loadRemixDisabled,
+    webcomponentId: id,
   });
 
   useEffect(() => {
