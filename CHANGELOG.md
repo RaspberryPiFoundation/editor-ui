@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.30.3] - 2025-08-07
 
 ### Fixed
 
@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Set selectionMatch to be transpartent so not all instances of a word are highlighted when selected(#1239)
+- Set selectionMatch to be transpartent so not all instances of a word are highlighted when selected (#1239)
 
 ## [0.30.2] - 2025-07-22
 
@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
 - Added missing translation strings (#1222)
-- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation
+- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation (#1231)
 
 ### Changed
 
@@ -1121,7 +1121,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.2...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.3...HEAD
+[0.30.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.3
 [0.30.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.2
 [0.30.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.1
 [0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
