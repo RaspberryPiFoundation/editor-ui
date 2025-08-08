@@ -21,7 +21,7 @@
     "@react-three/fiber": "^8.0.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@replit/codemirror-indentation-markers": "^6.1.0",
-    "@sentry/browser": "^7.17.3",
+    "@sentry/browser": "^8.33.0",
     "@sentry/react": "7.16.0",
     "@sentry/tracing": "7.16.0",
     "@szhsin/react-menu": "^3.2.0",
