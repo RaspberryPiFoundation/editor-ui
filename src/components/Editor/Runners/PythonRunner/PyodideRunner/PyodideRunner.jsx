@@ -259,6 +259,24 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     setVisuals([]);
     stdinClosed.current = false;
 
+    const canvas = document
+      .querySelector("editor-wc")
+      .shadowRoot.getElementById("sdl2Canvas");
+    if (canvas) {
+      console.log("Setting up canvas for Pyodide");
+      let offScreenCanvas = canvas;
+      if (
+        canvas.transferControlToOffscreen &&
+        !(canvas instanceof OffscreenCanvas)
+      ) {
+        offScreenCanvas = canvas.transferControlToOffscreen();
+      }
+      pyodideWorker.postMessage(
+        { method: "setCanvas", canvas: offScreenCanvas },
+        [offScreenCanvas],
+      );
+    }
+
     await Promise.allSettled(
       projectImages.map(({ filename, url }) =>
         fetch(url)
