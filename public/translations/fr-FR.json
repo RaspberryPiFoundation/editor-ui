@@ -1,87 +1,87 @@
 {
   "modal": {
-    "close": "Close",
+    "close": "Fermer ",
     "error": {
-      "error": "Error",
-      "heading": "An error has occurred",
+      "error": "Erreur",
+      "heading": "Une erreur s'est produite",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "Malheureusement, les liens vers des sites externes ne sont pas disponibles dans le Code Editor."
       }
     }
   },
   "editorPanel": {
-    "ariaLabel": "editor text input",
-    "characterLimitError": "Error: Character limit reached",
-    "viewOnly": "View only",
-    "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
-    "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
+    "ariaLabel": "entrée de texte dans le Code Editor",
+    "characterLimitError": "Erreur : limite de caractères atteinte",
+    "viewOnly": "Voir seulement",
+    "close": "fermer ",
+    "characterLimitExplanation_one": "Les fichiers dans le Code Editor sont limités à {{count}} caractère",
+    "characterLimitExplanation_other": "Les fichiers dans le Code Editor sont limités à {{count}} caractères"
   },
   "filePanel": {
     "errors": {
-      "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
-      "containsSpaces": "File names must not contain spaces.",
-      "generalError": "Error",
-      "notUnique": "File names must be unique.",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}."
+      "reservedFileName": "{{fileName}} est un nom de fichier réservé. Veuillez choisir un autre nom.",
+      "containsSpaces": "Le nom des fichiers ne doit pas contenir d’espaces.",
+      "generalError": "Erreur",
+      "notUnique": "Le nom des fichiers doit être unique.",
+      "unsupportedExtension": "Le nom des fichiers doit se terminer par {{allowedExtensions}}."
     },
-    "files": "Project files",
-    "newFileButton": "Add file",
+    "files": "Fichiers de projet",
+    "newFileButton": "Ajouter un fichier",
     "newFileModal": {
-      "cancel": "Cancel",
-      "heading": "Add a new file to your project",
-      "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+      "cancel": "Annuler",
+      "heading": "Ajouter un nouveau fichier à votre projet",
+      "helpText": "N'oubliez pas d'ajouter l'extension du fichier à la fin du nom de votre fichier, par exemple, {{examples}}",
       "helpTextExample": {
-        "html": "'file.html', 'file.css' or 'file.js'",
-        "python": "'file.py'"
+        "html": "'fichier.html', 'fichier.css' ou 'fichier.js'",
+        "python": "'fichier.py'"
       },
-      "inputLabel": "Name your file",
-      "addFile": "Add file"
+      "inputLabel": "Nommer votre fichier",
+      "addFile": "Ajouter un fichier"
     },
     "renameFileModal": {
-      "cancel": "Cancel",
-      "heading": "Rename file",
-      "inputLabel": "Name your file",
-      "save": "Save"
+      "cancel": "Annuler",
+      "heading": "Renommer le fichier",
+      "inputLabel": "Nommer votre fichier",
+      "save": "Enregistrer"
     },
     "fileMenu": {
-      "label": "Open file menu",
-      "renameItem": "Rename file"
+      "label": "Ouvrir le menu fichier",
+      "renameItem": "Renommer le fichier"
     }
   },
   "downloadPanel": {
-    "heading": "Save & download",
-    "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
-    "logInButton": "Log in to save",
-    "signUpButton": "Sign up",
-    "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project"
+    "heading": "Enregistrer et télécharger",
+    "logInTitle": "Connectez-vous pour enregistrer votre progression",
+    "logInHint": "Avec un compte Raspberry Pi, vous pouvez enregistrer votre code et la progression des étapes du projet.",
+    "logInButton": "Connectez-vous pour enregistrer",
+    "signUpButton": "S'inscrire",
+    "downloadHint": "Téléchargez vos fichiers de projet afin de pouvoir les utiliser hors ligne et dans un autre éditeur de code.",
+    "downloadButton": "Télécharger le projet"
   },
   "projectName": {
-    "label": "Project name",
-    "newProject": "New Project"
+    "label": "Nom du projet",
+    "newProject": "Nouveau projet"
   },
   "header": {
-    "download": "Download",
-    "downloadFileNameDefault": "my {{project_type}} project",
-    "editorLogoAltText": "Editor logo",
-    "renameProject": "Edit project name",
-    "renameSave": "Save project name",
-    "save": "Save",
-    "loginToSave": "Log in to save"
+    "download": "Télécharger",
+    "downloadFileNameDefault": "mon projet {{project_type}}",
+    "editorLogoAltText": "logo du Code Editor",
+    "renameProject": "Modifier le nom du projet",
+    "renameSave": "Enregistrer le nom du projet",
+    "save": "Enregistrer",
+    "loginToSave": "Connectez-vous pour enregistrer"
   },
   "imagePanel": {
-    "gallery": "Image gallery"
+    "gallery": "Galerie d'images"
   },
   "infoPanel": {
-    "info": "Information"
+    "info": "Informations"
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How instructions work",
-      "enablingInstructions": "Enabling instructions",
-      "visible": "Any text written here will be visible to students in the sidebar.",
+      "title": "Comment utiliser les instructions",
+      "enablingInstructions": "Activer les instructions",
+      "visible": "Tout texte écrit ici sera visible par les étudiants dans la barre latérale.",
       "writingInstructions": "Writing instructions",
       "markdown": "Write your instructions using [Markdown](https://www.markdownguide.org/).",
       "whatYouCanDo": "What you can do",
