@@ -10,7 +10,7 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "entrée de texte dans le Code Editor",
+    "ariaLabel": "saisie de texte dans le Code Editor",
     "characterLimitError": "Erreur : limite de caractères atteinte",
     "viewOnly": "Voir seulement",
     "close": "fermer ",
@@ -20,12 +20,12 @@
   "filePanel": {
     "errors": {
       "reservedFileName": "{{fileName}} est un nom de fichier réservé. Veuillez choisir un autre nom.",
-      "containsSpaces": "Le nom des fichiers ne doit pas contenir d’espaces.",
+      "containsSpaces": "Le nom des fichiers ne doit pas contenir d'espaces.",
       "generalError": "Erreur",
       "notUnique": "Le nom des fichiers doit être unique.",
       "unsupportedExtension": "Le nom des fichiers doit se terminer par {{allowedExtensions}}."
     },
-    "files": "Fichiers de projet",
+    "files": "Fichiers du projet",
     "newFileButton": "Ajouter un fichier",
     "newFileModal": {
       "cancel": "Annuler",
@@ -51,7 +51,7 @@
   },
   "downloadPanel": {
     "heading": "Enregistrer et télécharger",
-    "logInTitle": "Connectez-vous pour enregistrer votre progression",
+    "logInTitle": "Connectez-vous pour enregistrer vos progrès",
     "logInHint": "Avec un compte Raspberry Pi, vous pouvez enregistrer votre code et la progression des étapes du projet.",
     "logInButton": "Connectez-vous pour enregistrer",
     "signUpButton": "S'inscrire",
@@ -175,8 +175,8 @@
   "outputViewToggle": {
     "buttonTabLabel": "Vue par onglets",
     "buttonTabTitle": "Vue par onglets",
-    "buttonSplitLabel": "Split view",
-    "buttonSplitTitle": "Split view"
+    "buttonSplitLabel": "Affichage en écran partagé",
+    "buttonSplitTitle": "Affichage en écran partagé"
   },
   "project": {
     "loading": "Chargement",
