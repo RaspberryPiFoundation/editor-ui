@@ -164,17 +164,17 @@
         "timer": "chronomètre"
       },
       "model": {
-        "pitch": "Tangage",
-        "roll": "Roulis",
-        "yaw": "Lacet"
+        "pitch": "tangage",
+        "roll": "roulis",
+        "yaw": "lacet"
       }
     },
     "textOutput": "Sortie de texte",
     "visualOutput": "Sortie visuelle"
   },
   "outputViewToggle": {
-    "buttonTabLabel": "Vue par onglets",
-    "buttonTabTitle": "Vue par onglets",
+    "buttonTabLabel": "Affichage par onglets",
+    "buttonTabTitle": "Affichage par onglets",
     "buttonSplitLabel": "Affichage en écran partagé",
     "buttonSplitTitle": "Affichage en écran partagé"
   },
@@ -202,7 +202,7 @@
     "collapse": "Réduire la barre latérale",
     "download": "Télécharger le projet",
     "expand": "Ouvrir la barre latérale",
-    "file": "Fichiers de projet",
+    "file": "Fichiers du projet",
     "images": "Galerie d'images",
     "settings": "Paramètres",
     "projects": "Projets",
@@ -211,7 +211,7 @@
     "instructions": "Instructions du projet",
     "feedback": "Rétroaction",
     "help": "Aide",
-    "privacy": "Confidentialité",
+    "privacy": "Protection de la vie privée",
     "cookies": "Témoins",
     "accessibility": "Accessibilité",
     "safeguarding": "Protection",
@@ -244,8 +244,8 @@
     "or": "ou",
     "errors": {
       "error": "Erreur",
-      "imageNameNotUnique": "Le nom des fichiers doit être unique.",
-      "invalidImageExtension": "Le nom des fichiers doit se terminer par {{extensions}}."
+      "imageNameNotUnique": "Le nom des images doit être unique.",
+      "invalidImageExtension": "Le nom des images doit se terminer par {{extensions}}."
     }
   },
   "newInputPanelButton": {
