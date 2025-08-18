@@ -110,7 +110,7 @@
       "resultRemovingInstructions": "As a result of removing these instructions:",
       "instructionsWillBeDeleted": "Instructions content will be deleted.",
       "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
+      "studentsStartedWillSeeInstructions": "Students who have already begun this project will still see the instructions in the form they had when the project was started."
     }
   },
   "projectsPanel": {
@@ -141,7 +141,7 @@
     "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
     "projectRenamed": "You have renamed your project.",
     "projectSaved": "Your project has been saved",
-    "savePrompt": "Save this project to access it later under \"Your projects\"."
+    "savePrompt": "Save this project to access it later under \"Your projects.\""
   },
   "output": {
     "errors": {
@@ -151,7 +151,7 @@
     "preview": "preview",
     "senseHat": {
       "controls": {
-        "colour": "colour",
+        "colour": "color",
         "humidity": "humidity",
         "motion": "motion",
         "motionSensorOptions": {
