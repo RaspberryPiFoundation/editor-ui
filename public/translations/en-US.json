@@ -5,7 +5,7 @@
       "error": "Error",
       "heading": "An error has occurred",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "Unfortunately, links to external sites are not available in the Editor."
       }
     }
   },
@@ -14,7 +14,7 @@
     "characterLimitError": "Error: Character limit reached",
     "viewOnly": "View only",
     "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
+    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} characters",
     "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
   },
   "filePanel": {
