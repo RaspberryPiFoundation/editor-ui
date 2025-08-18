@@ -196,7 +196,7 @@
     "saved": "Saved"
   },
   "runners": {
-    "HtmlOutput": "HTML Output Preview"
+    "HtmlOutput": "HTML output preview"
   },
   "sidebar": {
     "collapse": "Collapse sidebar",
@@ -207,7 +207,7 @@
     "settings": "Settings",
     "projects": "Projects",
     "information": "Information",
-    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
+    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why links to other websites are not allowed, for example.",
     "instructions": "Project instructions",
     "feedback": "Feedback",
     "help": "Help",
