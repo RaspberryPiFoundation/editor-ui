@@ -1,88 +1,88 @@
 {
   "modal": {
-    "close": "Close",
+    "close": "Cerrar",
     "error": {
       "error": "Error",
-      "heading": "An error has occurred",
+      "heading": "Se produjo un error",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "Desafortunadamente, no se pueden usar enlaces a sitios externos dentro del Editor."
       }
     }
   },
   "editorPanel": {
-    "ariaLabel": "editor text input",
-    "characterLimitError": "Error: Character limit reached",
-    "viewOnly": "View only",
-    "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
-    "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
+    "ariaLabel": "entrada de texto del editor",
+    "characterLimitError": "Error: Se alcanzó el límite de caracteres",
+    "viewOnly": "Vista solamente",
+    "close": "cerrar",
+    "characterLimitExplanation_one": "Los archivos del editor se limitan a {{count}} carácter",
+    "characterLimitExplanation_other": "Los archivos del editor se limitan a {{count}} caracteres"
   },
   "filePanel": {
     "errors": {
-      "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
-      "containsSpaces": "File names must not contain spaces.",
+      "reservedFileName": "{{fileName}} es un nombre de archivo reservado. Elige otro nombre.",
+      "containsSpaces": "Los nombres de archivo no deben contener espacios.",
       "generalError": "Error",
-      "notUnique": "File names must be unique.",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}."
+      "notUnique": "Los nombres de archivo deben ser únicos.",
+      "unsupportedExtension": "Los nombres de archivo deben terminar en {{allowedExtensions}}."
     },
-    "files": "Project files",
-    "newFileButton": "Add file",
+    "files": "Archivos del proyecto",
+    "newFileButton": "Agregar archivo",
     "newFileModal": {
-      "cancel": "Cancel",
-      "heading": "Add a new file to your project",
-      "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+      "cancel": "Cancelar",
+      "heading": "Agrega un nuevo archivo a tu proyecto",
+      "helpText": "Recuerda agregar la extensión de archivo al final del nombre de archivo, por ejemplo, {{examples}}",
       "helpTextExample": {
-        "html": "'file.html', 'file.css' or 'file.js'",
-        "python": "'file.py'"
+        "html": "\"archivo.html\", \"archivo.css\" o \"archivo.js\"",
+        "python": "\"archivo.py\""
       },
-      "inputLabel": "Name your file",
-      "addFile": "Add file"
+      "inputLabel": "Asigna un nombre a tu archivo",
+      "addFile": "Agregar archivo"
     },
     "renameFileModal": {
-      "cancel": "Cancel",
-      "heading": "Rename file",
-      "inputLabel": "Name your file",
-      "save": "Save"
+      "cancel": "Cancelar",
+      "heading": "Cambia el nombre del archivo",
+      "inputLabel": "Asigna un nombre a tu archivo",
+      "save": "Guardar"
     },
     "fileMenu": {
-      "label": "Open file menu",
-      "renameItem": "Rename file"
+      "label": "Abrir el menú de archivos",
+      "renameItem": "Cambiar el nombre del archivo"
     }
   },
   "downloadPanel": {
-    "heading": "Save & download",
-    "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
-    "logInButton": "Log in to save",
-    "signUpButton": "Sign up",
-    "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project"
+    "heading": "Guardar y descargar",
+    "logInTitle": "Inicia sesión para guardar tu progreso",
+    "logInHint": "Con una cuenta de Raspberry Pi, puedes guardar tu código y el progreso en los pasos de tu proyecto.",
+    "logInButton": "Inicia sesión para guardar",
+    "signUpButton": "Registrarse",
+    "downloadHint": "Descarga los archivos de tu proyecto para que usarlos sin conexión y en un editor de código diferente.",
+    "downloadButton": "Descargar proyecto"
   },
   "projectName": {
-    "label": "Project name",
-    "newProject": "New Project"
+    "label": "Nombre del proyecto",
+    "newProject": "Nuevo proyecto"
   },
   "header": {
-    "download": "Download",
-    "downloadFileNameDefault": "my {{project_type}} project",
-    "editorLogoAltText": "Editor logo",
-    "renameProject": "Edit project name",
-    "renameSave": "Save project name",
-    "save": "Save",
-    "loginToSave": "Log in to save"
+    "download": "Descargar",
+    "downloadFileNameDefault": "mi proyecto {{project_type}}",
+    "editorLogoAltText": "Logotipo del Editor",
+    "renameProject": "Edita el nombre del proyecto",
+    "renameSave": "Guarda el nombre del proyecto",
+    "save": "Guardar",
+    "loginToSave": "Inicia sesión para guardar"
   },
   "imagePanel": {
-    "gallery": "Image gallery"
+    "gallery": "Galería de imágenes"
   },
   "infoPanel": {
-    "info": "Information"
+    "info": "Información"
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How instructions work",
-      "enablingInstructions": "Enabling instructions",
-      "visible": "Any text written here will be visible to students in the sidebar.",
-      "writingInstructions": "Writing instructions",
+      "title": "Funcionamiento de las instrucciones",
+      "enablingInstructions": "Activación de las instrucciones",
+      "visible": "Todo texto escrito aquí será visible para el grupo de estudiantes en la barra lateral.",
+      "writingInstructions": "Redacción de las instrucciones",
       "markdown": "Write your instructions using [Markdown](https://www.markdownguide.org/).",
       "whatYouCanDo": "What you can do",
       "lists": "Lists",
@@ -160,53 +160,53 @@
         },
         "name": "Space Station Control Panel",
         "pressure": "pressure",
-        "temperature": "temperature",
-        "timer": "timer"
+        "temperature": "temperatura",
+        "timer": "temporizador"
       },
       "model": {
-        "pitch": "pitch",
-        "roll": "roll",
-        "yaw": "yaw"
+        "pitch": "cabeceo",
+        "roll": "alabeo",
+        "yaw": "guiñada"
       }
     },
-    "textOutput": "Text output",
-    "visualOutput": "Visual output"
+    "textOutput": "Salida de texto",
+    "visualOutput": "Salida visual"
   },
   "outputViewToggle": {
-    "buttonTabLabel": "Tabbed view",
-    "buttonTabTitle": "Tabbed view",
-    "buttonSplitLabel": "Split view",
-    "buttonSplitTitle": "Split view"
+    "buttonTabLabel": "Vista con pestañas",
+    "buttonTabTitle": "Vista con pestañas",
+    "buttonSplitLabel": "Vista dividida",
+    "buttonSplitTitle": "Vista dividida"
   },
   "project": {
-    "loading": "Loading",
-    "untitled": "Untitled project"
+    "loading": "Cargando",
+    "untitled": "Proyecto sin título"
   },
   "projectTypes": {
     "html": "HTML/CSS",
     "python": "Python"
   },
   "runButton": {
-    "run": "Run",
-    "stop": "Stop",
-    "stopping": "Stopping..."
+    "run": "Ejecutar",
+    "stop": "Detener",
+    "stopping": "Deteniendo…"
   },
   "saveStatus": {
-    "saving": "Saving",
-    "saved": "Saved"
+    "saving": "Guardando",
+    "saved": "Guardado"
   },
   "runners": {
-    "HtmlOutput": "HTML Output Preview"
+    "HtmlOutput": "Vista previa de salida HTML"
   },
   "sidebar": {
-    "collapse": "Collapse sidebar",
-    "download": "Download project",
+    "collapse": "Contraer barra lateral",
+    "download": "Descargar proyecto",
     "expand": "Expand sidebar",
-    "file": "Project files",
-    "images": "Image gallery",
-    "settings": "Settings",
-    "projects": "Projects",
-    "information": "Information",
+    "file": "Archivos del proyecto",
+    "images": "Galería de imágenes",
+    "settings": "Configuración",
+    "projects": "Proyectos",
+    "information": "Información",
     "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
     "instructions": "Project instructions",
     "feedback": "Feedback",
