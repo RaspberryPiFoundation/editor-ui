@@ -18,13 +18,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Styling issue preventing scrolling in the sidebar (#1216)
-- Styling issue on status bar on mobile (#1217)
-- Change tab `block-size` to `min-block-size` to allow for height increase when text wraps (#1219)
-- Changed `SkulptRunner.jsx` implementation of hiding elements to use `display: none` rather than `block-size: 0` (#1219)
-- Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
-- Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
-- Added missing translation strings (#1222)
 - CrowdIn issue for pluralised strings with no `one` version (#1234)
 - Update `imagePanel.gallery` string to remove Title Casing for consistency (#1238)
 - Update `imageUploadButton.uploadImage` string to remove Title Casing for consistency (#1238)
@@ -32,6 +25,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 - Remove unused translation string `filePanel.images` (#1238)
+
+## [0.30.3] - 2025-08-07
+
+### Fixed
+
+- Issue where clicking the tick icon would not save a filename when editing (#1237)
+
+### Changed
+
+- Set selectionMatch to be transpartent so not all instances of a word are highlighted when selected (#1239)
+
+## [0.30.2] - 2025-07-22
+
+### Fixed
+
+- Styling issue preventing scrolling in the sidebar (#1216)
+- Styling issue on status bar on mobile (#1217)
+- Change tab `block-size` to `min-block-size` to allow for height increase when text wraps (#1219)
+- Changed `SkulptRunner.jsx` implementation of hiding elements to use `display: none` rather than `block-size: 0` (#1219)
+- Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
+- Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
+- Added missing translation strings (#1222)
+
+### Removed
+
+- Remove unused translation string `filePanel.images` (#1238)
+
+### Changed
+
+- Improved status bar styling (#1221)
+- Added horizontal scrollbar to editor (#1228)
+- Add theme for scrollbars (#1233)
+- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation (#1231)
 
 ## [0.30.1] - 2025-06-09
 
@@ -1121,7 +1147,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.3...HEAD
+[0.30.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.3
+[0.30.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.2
 [0.30.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.1
 [0.30.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.0
 [0.29.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.29.1
