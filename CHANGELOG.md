@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Ability to translate demo project instructions (#1230)
+- Translations (#1212)
 
 ### Changed
 
