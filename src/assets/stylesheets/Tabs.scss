@@ -19,7 +19,7 @@
       margin: 0;
       inset-block-start: 0;
       inset-block-end: 0;
-      block-size: $space-3;
+      min-block-size: var(--min-target-size);
       box-sizing: border-box;
       display: flex;
       align-items: center;
