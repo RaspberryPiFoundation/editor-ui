@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Ability to translate demo project instructions (#1230)
+
+### Changed
+
+- Improved status bar styling (#1221)
+- Added method to translate last saved time (#1223)
+- Deleting unused strings and components (#1225)
+
+### Fixed
+
+- CrowdIn issue for pluralised strings with no `one` version (#1234)
+- Update `imagePanel.gallery` string to remove Title Casing for consistency (#1238)
+- Update `imageUploadButton.uploadImage` string to remove Title Casing for consistency (#1238)
+
+### Removed
+
+- Remove unused translation string `filePanel.images` (#1238)
+
 ## [0.30.3] - 2025-08-07
 
 ### Fixed
@@ -25,13 +47,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enabled `hyphens: auto` globally (with exceptions) to prevent overflow with longer words (#1215)
 - Removed fixed size from `ProjectBar` to prevent overflow when text wraps (#1221)
 - Added missing translation strings (#1222)
-- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation (#1231)
+
+### Removed
+
+- Remove unused translation string `filePanel.images` (#1238)
 
 ### Changed
 
 - Improved status bar styling (#1221)
 - Added horizontal scrollbar to editor (#1228)
 - Add theme for scrollbars (#1233)
+- Changed `colour_raw` to now correctly return a 4-tuple (R, G, B, Clear) in simulation (#1231)
 
 ## [0.30.1] - 2025-06-09
 

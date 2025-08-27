@@ -130,13 +130,10 @@ export const editorInitialState = {
   senseHatAlwaysEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
-  accessDeniedWithAuthModalShowing: false,
   betaModalShowing: false,
   errorModalShowing: false,
-  notFoundModalShowing: false,
   newFileModalShowing: false,
   renameFileModalShowing: false,
-  renameProjectModalShowing: false,
   sidebarShowing: true,
   modals: {},
   errorDetails: {},
@@ -345,9 +342,6 @@ export const EditorSlice = createSlice({
       state.codeRunStopped = false;
       state.runnerBeingLoaded = null;
     },
-    closeAccessDeniedWithAuthModal: (state) => {
-      state.accessDeniedWithAuthModalShowing = false;
-    },
     showBetaModal: (state) => {
       state.betaModalShowing = true;
     },
@@ -359,9 +353,6 @@ export const EditorSlice = createSlice({
     },
     closeErrorModal: (state) => {
       state.errorModalShowing = false;
-    },
-    closeNotFoundModal: (state) => {
-      state.notFoundModalShowing = false;
     },
     showNewFileModal: (state) => {
       state.newFileModalShowing = true;
@@ -377,14 +368,6 @@ export const EditorSlice = createSlice({
     closeRenameFileModal: (state) => {
       state.renameFileModalShowing = false;
       state.nameError = "";
-    },
-    showRenameProjectModal: (state, action) => {
-      state.modals.renameProject = action.payload;
-      state.renameProjectModalShowing = true;
-    },
-    closeRenameProjectModal: (state) => {
-      state.modals.renameProject = null;
-      state.renameProjectModalShowing = false;
     },
     showSidebar: (state) => {
       state.sidebarShowing = true;
@@ -410,13 +393,7 @@ export const EditorSlice = createSlice({
       state.saving = "success";
       state.lastSavedTime = Date.now();
 
-      if (state.renameProjectModalShowing) {
-        state.modals.renameProject = null;
-        state.renameProjectModalShowing = false;
-        state.projectListLoaded = "idle";
-      } else if (
-        state.project.identifier !== action.payload.project.identifier
-      ) {
+      if (state.project.identifier !== action.payload.project.identifier) {
         state.project.image_list = state.project.image_list || [];
         state.project = action.payload.project;
         state.loading = "idle";
@@ -496,18 +473,14 @@ export const {
   updateImages,
   updateProjectComponent,
   updateProjectName,
-  closeAccessDeniedWithAuthModal,
   showBetaModal,
   closeBetaModal,
   showErrorModal,
   closeErrorModal,
-  closeNotFoundModal,
   showNewFileModal,
   closeNewFileModal,
   showRenameFileModal,
   closeRenameFileModal,
-  showRenameProjectModal,
-  closeRenameProjectModal,
   showSidebar,
   hideSidebar,
   disableTheming,
