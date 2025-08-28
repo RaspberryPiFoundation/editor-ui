@@ -13,7 +13,10 @@ describe("default behaviour", () => {
   });
 
   it("renders the web component", () => {
-    cy.get("editor-wc").shadow().find("button").should("contain", "Run");
+    cy.get("editor-wc")
+      .shadow()
+      .find("button")
+      .should("contain", "runButton.run");
   });
 
   it("defaults to the text output tab", () => {
