@@ -152,10 +152,13 @@ describe("when embedded, output_only & output_split_view are true", () => {
     cy.get("#results").should("contain", '{"errorDetails":{}}');
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
-    cy.get("editor-wc").shadow().contains("Visual output").should("be.visible");
     cy.get("editor-wc")
       .shadow()
-      .contains("Visual output")
+      .contains("output.visualOutput")
+      .should("be.visible");
+    cy.get("editor-wc")
+      .shadow()
+      .contains("output.visualOutput")
       .parents("ul")
       .children()
       .should("have.length", 1);
@@ -168,7 +171,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
     // Important to wait for this before making the negative assertions that follow
     cy.get("editor-wc")
       .shadow()
-      .contains("index.html preview")
+      .contains("index.html output.preview")
       .should("be.visible");
     cy.get("editor-wc")
       .shadow()
