@@ -18,7 +18,11 @@ const getIframeBody = () => {
 };
 
 const makeNewFile = (filename = "new.html") => {
-  cy.get("editor-wc").shadow().find("span").contains("Add file").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find("span")
+    .contains("filePanel.addFileButton")
+    .click();
   cy.get("editor-wc")
     .shadow()
     .find("div[class=modal-content__input]")
@@ -27,7 +31,7 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=modal-content__buttons]")
-    .contains("Add file")
+    .contains("newFileModal.addFile")
     .click();
 };
 
@@ -36,9 +40,9 @@ beforeEach(() => {
   cy.intercept(
     "GET",
     `${Cypress.env(
-      "REACT_APP_API_ENDPOINT",
+      "REACT_APP_API_ENDPOINT"
     )}/api/projects/blank-html-starter?locale=en`,
-    defaultHtmlProject,
+    defaultHtmlProject
   );
 });
 
@@ -55,7 +59,7 @@ it("blocks access to localStorage authKey", () => {
   localStorage.setItem("authKey", "secret")
   const authKey = localStorage.getItem("authKey")
   document.getElementById("authKey").innerHTML = \`\${authKey}\`
-</script>`,
+</script>`
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   getIframeBody().find("p").should("include.text", "authKey: null");
@@ -74,7 +78,7 @@ it("blocks access to localStorage OIDC keys", () => {
   localStorage.setItem("oidc.user:https://auth-v1.raspberrypi.org:editor-api", "token")
   const oidcUser = localStorage.getItem("oidc.user:https://auth-v1.raspberrypi.org:editor-api")
   document.getElementById("oidcUser").innerHTML = \`\${oidcUser}\`
-</script>`,
+</script>`
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   getIframeBody().find("p").should("include.text", "oidcUser: null");
@@ -93,7 +97,7 @@ it("allows access to other localStorage keys", () => {
   localStorage.setItem("foo", "bar")
   const foo = localStorage.getItem("foo")
   document.getElementById("foo").innerHTML = \`\${foo}\`
-</script>`,
+</script>`
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   getIframeBody().find("p").should("include.text", "foo: bar");
@@ -138,7 +142,7 @@ it("blocks non-permitted external links", () => {
     .find("div[class=cm-content]")
     .invoke(
       "text",
-      '<a href="https://raspberrypi.org/en/">some external link</a>',
+      '<a href="https://raspberrypi.org/en/">some external link</a>'
     );
   cy.get("editor-wc").shadow().find(".btn--run").click();
   getIframeBody().find("a").click();
@@ -146,7 +150,7 @@ it("blocks non-permitted external links", () => {
     .shadow()
     .find("div[class=modal-content__header]")
     .find("h2")
-    .should("include.text", "An error has occurred");
+    .should("include.text", "modal.error.heading");
 });
 
 it("allows permitted external links", () => {

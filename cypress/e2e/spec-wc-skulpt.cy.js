@@ -43,7 +43,7 @@ describe("Running the code with skulpt", () => {
       .shadow()
       .find(".skulptrunner")
       .find(".react-tabs__tab--selected")
-      .should("contain", "Text output");
+      .should("contain", "output.textOutput");
     cy.get("editor-wc")
       .shadow()
       .find(".pythonrunner-console-output-line")
@@ -108,7 +108,7 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains("Text output")
+      .contains("output.textOutput")
       .click();
 
     cy.get("editor-wc")

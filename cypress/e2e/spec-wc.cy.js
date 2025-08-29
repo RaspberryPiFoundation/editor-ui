@@ -126,7 +126,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
     cy.get("editor-wc")
       .shadow()
       .find("button")
-      .contains("Run")
+      .contains("runButton.run")
       .should("not.be.disabled")
       .should("be.visible");
 
