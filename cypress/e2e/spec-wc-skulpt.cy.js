@@ -37,7 +37,7 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains(".react-tabs__tab", "Visual output")
+      .contains(".react-tabs__tab", "output.visualOutput")
       .should("not.be.visible");
     cy.get("editor-wc")
       .shadow()
@@ -52,38 +52,38 @@ describe("Running the code with skulpt", () => {
 
   it("runs a simple p5 program", () => {
     runCode(
-      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tfill('cyan')\n\trect(0, 0, 400, 250)\nrun(frame_rate=2)",
+      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tfill('cyan')\n\trect(0, 0, 400, 250)\nrun(frame_rate=2)"
     );
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains(".react-tabs__tab", "Text output")
+      .contains(".react-tabs__tab", "output.textOutput")
       .should("exist");
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
       .find(".react-tabs__tab--selected")
-      .should("contain", "Visual output");
+      .should("contain", "output.visualOutput");
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
 
   it("runs a simple py5 program", () => {
     runCode(
-      "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
+      "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()"
     );
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
 
   it("Interrupts py5 draws when stop button clicked", () => {
     runCode(
-      "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
+      "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()"
     );
     cy.wait(1000);
     cy.get("editor-wc").shadow().find(".btn--stop").click();
     cy.get("editor-wc")
       .shadow()
       .find(".error-message__content")
-      .should("contain", "Execution interrupted");
+      .should("contain", "output.errors.interrupted");
   });
 
   it("Py5 magic comment imports py5", () => {
@@ -93,7 +93,7 @@ describe("Running the code with skulpt", () => {
 
   it("Py5 imported mode runs sketch without explicit run call", () => {
     runCode(
-      "# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint('hello world')",
+      "# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint('hello world')"
     );
     cy.get("editor-wc")
       .shadow()
@@ -103,7 +103,7 @@ describe("Running the code with skulpt", () => {
 
   it("runs a simple sense_hat program", () => {
     runCode(
-      "from sense_hat import SenseHat\nsense = SenseHat()\nprint(sense.get_humidity())",
+      "from sense_hat import SenseHat\nsense = SenseHat()\nprint(sense.get_humidity())"
     );
     cy.get("editor-wc")
       .shadow()
@@ -122,7 +122,7 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .should("contain", "Visual output");
+      .should("contain", "output.visualOutput");
   });
 
   it("does not render astro pi component on page load", () => {
@@ -134,14 +134,14 @@ describe("Running the code with skulpt", () => {
 
   it("renders astro pi component if sense hat imported", () => {
     runCode("import sense_hat");
-    cy.get("editor-wc").shadow().contains("Visual output").click();
+    cy.get("editor-wc").shadow().contains("output.visualOutput").click();
     cy.get("editor-wc").shadow().find(".skulptrunner").should("contain", "yaw");
   });
 
   it("does not render astro pi component if sense hat unimported", () => {
     runCode("import sense_hat");
     runCode("import p5");
-    cy.get("editor-wc").shadow().contains("Visual output").click();
+    cy.get("editor-wc").shadow().contains("output.visualOutput").click();
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
@@ -150,7 +150,7 @@ describe("Running the code with skulpt", () => {
 
   it("runs a simple turtle program", () => {
     runCode(
-      "import turtle\nskk = turtle.Turtle()\nfor i in range(4):\n\tskk.forward(50)\n\tskk.left(90)\nturtle.done()",
+      "import turtle\nskk = turtle.Turtle()\nfor i in range(4):\n\tskk.forward(50)\n\tskk.left(90)\nturtle.done()"
     );
     cy.get("editor-wc")
       .shadow()
@@ -172,7 +172,7 @@ describe("Running the code with skulpt", () => {
       .find(".error-message__content")
       .should(
         "contain.text",
-        "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
+        "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information."
       );
   });
 });
