@@ -21,7 +21,7 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("editor-wc")
     .shadow()
     .find("span")
-    .contains("filePanel.addFileButton")
+    .contains("filePanel.newFileButton")
     .click();
   cy.get("editor-wc")
     .shadow()
