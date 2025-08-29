@@ -88,7 +88,11 @@ describe("Running the code with skulpt", () => {
 
   it("Py5 magic comment imports py5", () => {
     runCode("# Py5: imported mode");
-    cy.get("editor-wc").shadow().find(".p5Canvas").should("be.visible").debug();
+    cy.get("editor-wc")
+      .shadow()
+      .find("input.comment.py5")
+      .should("be.visible")
+      .debug();
   });
 
   it("Py5 imported mode runs sketch without explicit run call", () => {
