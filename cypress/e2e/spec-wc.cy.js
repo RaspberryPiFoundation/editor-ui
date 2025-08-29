@@ -201,7 +201,11 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .should("not.exist");
 
     // Run the code and check it executed without error
-    cy.get("editor-wc").shadow().find("button").contains("Run").click();
+    cy.get("editor-wc")
+      .shadow()
+      .find("button")
+      .contains("runButton.run")
+      .click();
     cy.get("#results").should("contain", '{"errorDetails":{}}');
   });
 });
