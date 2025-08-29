@@ -18,11 +18,7 @@ const getIframeBody = () => {
 };
 
 const makeNewFile = (filename = "new.html") => {
-  cy.get("editor-wc")
-    .shadow()
-    .find("span")
-    .contains("filePanel.newFileButton")
-    .click();
+  cy.get("editor-wc").shadow().find("span").contains("Add file").click();
   cy.get("editor-wc")
     .shadow()
     .find("div[class=modal-content__input]")
@@ -31,7 +27,7 @@ const makeNewFile = (filename = "new.html") => {
   cy.get("editor-wc")
     .shadow()
     .find("div[class=modal-content__buttons]")
-    .contains("newFileModal.addFile")
+    .contains("Add file")
     .click();
 };
 
@@ -150,7 +146,7 @@ it("blocks non-permitted external links", () => {
     .shadow()
     .find("div[class=modal-content__header]")
     .find("h2")
-    .should("include.text", "modal.error.heading");
+    .should("include.text", "An error has occurred");
 });
 
 it("allows permitted external links", () => {

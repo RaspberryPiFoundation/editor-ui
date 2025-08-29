@@ -37,13 +37,13 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains(".react-tabs__tab", "output.visualOutput")
+      .contains(".react-tabs__tab", "Visual output")
       .should("not.be.visible");
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
       .find(".react-tabs__tab--selected")
-      .should("contain", "output.textOutput");
+      .should("contain", "Text output");
     cy.get("editor-wc")
       .shadow()
       .find(".pythonrunner-console-output-line")
@@ -57,13 +57,13 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains(".react-tabs__tab", "output.textOutput")
+      .contains(".react-tabs__tab", "Text output")
       .should("exist");
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
       .find(".react-tabs__tab--selected")
-      .should("contain", "output.visualOutput");
+      .should("contain", "Visual output");
     cy.get("editor-wc").shadow().find(".p5Canvas").should("exist");
   });
 
@@ -83,17 +83,17 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".error-message__content")
-      .should("contain", "output.errors.interrupted");
+      .should("contain", "Execution interrupted");
   });
 
   it("Py5 magic comment imports py5", () => {
-    runCode("# input.comment.py5");
-    cy.get("editor-wc").shadow().find(".p5Canvas").should("be.visible").debug();
+    runCode("# Py5: imported mode");
+    cy.get("editor-wc").shadow().find(".p5Canvas").should("be.visible");
   });
 
   it("Py5 imported mode runs sketch without explicit run call", () => {
     runCode(
-      "# input.comment.py5\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint('hello world')"
+      "# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint('hello world')"
     );
     cy.get("editor-wc")
       .shadow()
@@ -108,7 +108,7 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .contains("output.textOutput")
+      .contains("Text output")
       .click();
 
     cy.get("editor-wc")
@@ -122,7 +122,7 @@ describe("Running the code with skulpt", () => {
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
-      .should("contain", "output.visualOutput");
+      .should("contain", "Visual output");
   });
 
   it("does not render astro pi component on page load", () => {
@@ -134,14 +134,14 @@ describe("Running the code with skulpt", () => {
 
   it("renders astro pi component if sense hat imported", () => {
     runCode("import sense_hat");
-    cy.get("editor-wc").shadow().contains("output.visualOutput").click();
+    cy.get("editor-wc").shadow().contains("Visual output").click();
     cy.get("editor-wc").shadow().find(".skulptrunner").should("contain", "yaw");
   });
 
   it("does not render astro pi component if sense hat unimported", () => {
     runCode("import sense_hat");
     runCode("import p5");
-    cy.get("editor-wc").shadow().contains("output.visualOutput").click();
+    cy.get("editor-wc").shadow().contains("Visual output").click();
     cy.get("editor-wc")
       .shadow()
       .find(".skulptrunner")
