@@ -144,7 +144,11 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .should("not.exist");
 
     // Run the code and check it executed without error
-    cy.get("editor-wc").shadow().find("button").contains("Run").click();
+    cy.get("editor-wc")
+      .shadow()
+      .find("button")
+      .contains("runButton.run")
+      .click();
     cy.get("#results").should("contain", '{"errorDetails":{}}');
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
@@ -164,12 +168,12 @@ describe("when embedded, output_only & output_split_view are true", () => {
     // Important to wait for this before making the negative assertions that follow
     cy.get("editor-wc")
       .shadow()
-      .contains("runners.htmlPreview")
+      .contains("index.html preview")
       .should("be.visible");
     cy.get("editor-wc")
       .shadow()
       .find("button")
-      .contains("Run")
+      .contains("runButton.run")
       .should("not.be.disabled")
       .should("be.visible");
 
