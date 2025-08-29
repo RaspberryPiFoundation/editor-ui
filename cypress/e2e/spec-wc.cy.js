@@ -13,10 +13,7 @@ describe("default behaviour", () => {
   });
 
   it("renders the web component", () => {
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .should("contain", "runButton.run");
+    cy.get("editor-wc").shadow().find("button").should("contain", "Run");
   });
 
   it("defaults to the text output tab", () => {
@@ -26,14 +23,14 @@ describe("default behaviour", () => {
       .find(".proj-runner-container");
     runnerContainer
       .find(".react-tabs__tab--selected")
-      .should("contain", "output.textOutput");
+      .should("contain", "Text output");
   });
 
   it("does not render visual output tab on page load", () => {
     cy.get("editor-wc")
       .shadow()
       .find("#root")
-      .should("not.contain", "output.visualOutput");
+      .should("not.contain", "Visual output");
   });
 });
 
@@ -122,11 +119,11 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .find(".proj-runner-container");
     runnerContainer
       .find(".react-tabs__tab--selected")
-      .should("contain", "output.textOutput");
+      .should("contain", "Text output");
     cy.get("editor-wc")
       .shadow()
       .find("button")
-      .contains("runButton.run")
+      .contains("Run")
       .should("not.be.disabled")
       .should("be.visible");
 
@@ -144,21 +141,14 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .should("not.exist");
 
     // Run the code and check it executed without error
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("runButton.run")
-      .click();
+    cy.get("editor-wc").shadow().find("button").contains("Run").click();
     cy.get("#results").should("contain", '{"errorDetails":{}}');
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
+    cy.get("editor-wc").shadow().contains("Visual output").should("be.visible");
     cy.get("editor-wc")
       .shadow()
-      .contains("output.visualOutput")
-      .should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .contains("output.visualOutput")
+      .contains("Visual output")
       .parents("ul")
       .children()
       .should("have.length", 1);
@@ -171,12 +161,12 @@ describe("when embedded, output_only & output_split_view are true", () => {
     // Important to wait for this before making the negative assertions that follow
     cy.get("editor-wc")
       .shadow()
-      .contains("index.html output.preview")
+      .contains("index.html preview")
       .should("be.visible");
     cy.get("editor-wc")
       .shadow()
       .find("button")
-      .contains("runButton.run")
+      .contains("Run")
       .should("not.be.disabled")
       .should("be.visible");
 
@@ -201,11 +191,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
       .should("not.exist");
 
     // Run the code and check it executed without error
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("runButton.run")
-      .click();
+    cy.get("editor-wc").shadow().find("button").contains("Run").click();
     cy.get("#results").should("contain", '{"errorDetails":{}}');
   });
 });
