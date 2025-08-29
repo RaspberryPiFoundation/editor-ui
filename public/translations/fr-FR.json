@@ -1,0 +1,261 @@
+{
+  "modal": {
+    "close": "Fermer ",
+    "error": {
+      "error": "Erreur",
+      "heading": "Une erreur s'est produite",
+      "externalLink": {
+        "message": "Malheureusement, les liens vers des sites externes ne sont pas disponibles dans le Code Editor."
+      }
+    }
+  },
+  "editorPanel": {
+    "ariaLabel": "saisie de texte dans le Code Editor",
+    "characterLimitError": "Erreur : limite de caractères atteinte",
+    "viewOnly": "Voir seulement",
+    "close": "fermer ",
+    "characterLimitExplanation_one": "Les fichiers dans le Code Editor sont limités à {{count}} caractère",
+    "characterLimitExplanation_other": "Les fichiers dans le Code Editor sont limités à {{count}} caractères"
+  },
+  "filePanel": {
+    "errors": {
+      "reservedFileName": "{{fileName}} est un nom de fichier réservé. Veuillez choisir un autre nom.",
+      "containsSpaces": "Le nom des fichiers ne doit pas contenir d'espaces.",
+      "generalError": "Erreur",
+      "notUnique": "Le nom des fichiers doit être unique.",
+      "unsupportedExtension": "Le nom des fichiers doit se terminer par {{allowedExtensions}}."
+    },
+    "files": "Fichiers du projet",
+    "newFileButton": "Ajouter un fichier",
+    "newFileModal": {
+      "cancel": "Annuler",
+      "heading": "Ajouter un nouveau fichier à votre projet",
+      "helpText": "N'oubliez pas d'ajouter l'extension du fichier à la fin du nom de votre fichier, par exemple, {{examples}}",
+      "helpTextExample": {
+        "html": "'fichier.html', 'fichier.css' ou 'fichier.js'",
+        "python": "'fichier.py'"
+      },
+      "inputLabel": "Nommer votre fichier",
+      "addFile": "Ajouter un fichier"
+    },
+    "renameFileModal": {
+      "cancel": "Annuler",
+      "heading": "Renommer le fichier",
+      "inputLabel": "Nommer votre fichier",
+      "save": "Enregistrer"
+    },
+    "fileMenu": {
+      "label": "Ouvrir le menu fichier",
+      "renameItem": "Renommer le fichier"
+    }
+  },
+  "downloadPanel": {
+    "heading": "Enregistrer et télécharger",
+    "logInTitle": "Connectez-vous pour enregistrer vos progrès",
+    "logInHint": "Avec un compte Raspberry Pi, vous pouvez enregistrer votre code et la progression des étapes du projet.",
+    "logInButton": "Connectez-vous pour enregistrer",
+    "signUpButton": "S'inscrire",
+    "downloadHint": "Téléchargez vos fichiers de projet afin de pouvoir les utiliser hors ligne et dans un autre éditeur de code.",
+    "downloadButton": "Télécharger le projet"
+  },
+  "projectName": {
+    "label": "Nom du projet",
+    "newProject": "Nouveau projet"
+  },
+  "header": {
+    "download": "Télécharger",
+    "downloadFileNameDefault": "mon projet {{project_type}}",
+    "editorLogoAltText": "logo du Code Editor",
+    "renameProject": "Modifier le nom du projet",
+    "renameSave": "Enregistrer le nom du projet",
+    "save": "Enregistrer",
+    "loginToSave": "Connectez-vous pour enregistrer"
+  },
+  "imagePanel": {
+    "gallery": "Galerie d'images"
+  },
+  "infoPanel": {
+    "info": "Informations"
+  },
+  "instructionsPanel": {
+    "demoInstructions": {
+      "title": "Comment utiliser les instructions",
+      "enablingInstructions": "Activer les instructions",
+      "visible": "Tout texte écrit ici sera visible par les étudiants dans la barre latérale.",
+      "writingInstructions": "Écrire des instructions",
+      "markdown": "Écrivez vos instructions en utilisant [Markdown](https://www.markdownguide.org/).",
+      "whatYouCanDo": "Voici ce que vous pouvez faire",
+      "lists": "Listes",
+      "bulletPoints": "Puces",
+      "numberedSteps": "Étapes numérotées"
+    },
+    "emptyState": {
+      "addInstructions": "Ajouter des instructions",
+      "edits": "Comme pour les projets de codage, les élèves ne verront aucune modification que vous apportez aux instructions après avoir enregistré leur version du projet.",
+      "location": "Les élèves pourront voir ces instructions dans la barre latérale de leur projet, mais elles seront en lecture seule.",
+      "markdown": "Les instructions sont écrites en <0>markdown</0>.",
+      "purpose": "Des instructions peuvent être ajoutées à votre projet pour guider les élèves."
+    },
+    "removeInstructions": "Supprimer les instructions",
+    "nextStep": "Prochaine étape",
+    "previousStep": "Étape précédente",
+    "projectSteps": "Instructions du projet",
+    "edit": "Modifier",
+    "view": "Voir",
+    "removeInstructionsModal": {
+      "removeInstructions": "Supprimer les instructions",
+      "close": "Fermer ",
+      "heading": "Supprimer les instructions du projet?",
+      "removeInstuctionsWarning": "Vous êtes sur le point de supprimer les instructions du projet.",
+      "resultRemovingInstructions": "En supprimant les instructions, cela signifie que :",
+      "instructionsWillBeDeleted": "Le contenu des instructions sera supprimé.",
+      "studentsWorkingProjectNotRecievedInstructions": "Les élèves qui commencent à travailler sur ce projet ne recevront pas d’instructions.",
+      "studentsStartedWillSeeInstructions": "Les élèves qui ont déjà commencé à travailler sur ce projet pourront toujours voir les instructions telles qu'elles étaient lorsqu'ils ont commencé."
+    }
+  },
+  "projectsPanel": {
+    "projects": "Projets",
+    "yourProjectsButton": "Aller à vos projets",
+    "projectTypeLabel": "Type de projet"
+  },
+  "settingsPanel": {
+    "info": "Paramètres"
+  },
+  "input": {
+    "comment": {
+      "py5": "Py5 : mode importé"
+    }
+  },
+  "mobile": {
+    "code": "Code",
+    "menu": "Menu",
+    "output": "Sortie",
+    "preview": "Aperçu",
+    "steps": "Étapes"
+  },
+  "modals": {
+    "close": "Fermer "
+  },
+  "notifications": {
+    "close": "fermer ",
+    "loginPrompt": "Pour enregistrer ce projet et y accéder plus tard, n'oubliez pas de vous connecter ou de vous inscrire!",
+    "projectRenamed": "Vous avez renommé votre projet.",
+    "projectSaved": "Votre projet a été enregistré",
+    "savePrompt": "Enregistrez ce projet pour y accéder ultérieurement sous « Vos projets »."
+  },
+  "output": {
+    "errors": {
+      "interrupted": "Exécution interrompue"
+    },
+    "newTab": "Voir un aperçu dans un nouvel onglet",
+    "preview": "aperçu",
+    "senseHat": {
+      "controls": {
+        "colour": "couleur",
+        "humidity": "humidité",
+        "motion": "mouvement",
+        "motionSensorOptions": {
+          "no": "Non",
+          "yes": "Oui"
+        },
+        "name": "Panneau de contrôle de la station spatiale",
+        "pressure": "pression",
+        "temperature": "température",
+        "timer": "chronomètre"
+      },
+      "model": {
+        "pitch": "tangage",
+        "roll": "roulis",
+        "yaw": "lacet"
+      }
+    },
+    "textOutput": "Sortie de texte",
+    "visualOutput": "Sortie visuelle"
+  },
+  "outputViewToggle": {
+    "buttonTabLabel": "Affichage par onglets",
+    "buttonTabTitle": "Affichage par onglets",
+    "buttonSplitLabel": "Affichage en écran partagé",
+    "buttonSplitTitle": "Affichage en écran partagé"
+  },
+  "project": {
+    "loading": "Chargement",
+    "untitled": "Projet sans titre"
+  },
+  "projectTypes": {
+    "html": "HTML/CSS",
+    "python": "Python"
+  },
+  "runButton": {
+    "run": "Exécuter",
+    "stop": "Arrêter",
+    "stopping": "Arrêt en cours..."
+  },
+  "saveStatus": {
+    "saving": "Enregistrement en cours",
+    "saved": "Enregistré"
+  },
+  "runners": {
+    "HtmlOutput": "Aperçu de la sortie HTML"
+  },
+  "sidebar": {
+    "collapse": "Réduire la barre latérale",
+    "download": "Télécharger le projet",
+    "expand": "Ouvrir la barre latérale",
+    "file": "Fichiers du projet",
+    "images": "Galerie d'images",
+    "settings": "Paramètres",
+    "projects": "Projets",
+    "information": "Informations",
+    "information_text": "Notre Code Editor est un outil destiné à aider les jeunes à apprendre à coder. Nous n'avons inclus que des fonctions simples et sûres. C'est pourquoi, par exemple, les liens vers d'autres sites Web ne sont pas autorisés.",
+    "instructions": "Instructions du projet",
+    "feedback": "Rétroaction",
+    "help": "Aide",
+    "privacy": "Protection de la vie privée",
+    "cookies": "Témoins",
+    "accessibility": "Accessibilité",
+    "safeguarding": "Protection",
+    "charity": "The Raspberry Pi Foundation, organisme de charité enregistré au Royaume-Uni sous le numéro 1129409",
+    "settingsMenu": {
+      "heading": "Paramètres",
+      "textSize": "Taille du texte",
+      "theme": "Thème",
+      "textSizeOptions": {
+        "large": "Grand",
+        "medium": "Moyen",
+        "small": "Petit"
+      },
+      "themeOptions": {
+        "dark": "Foncé",
+        "light": "Pâle"
+      }
+    }
+  },
+  "webComponent": {
+    "loading": "Chargement en cours",
+    "failed": "Échec du chargement"
+  },
+  "imageUploadButton": {
+    "uploadImage": "Téléverser une image",
+    "uploadAnImage": "Téléverser une image",
+    "info": "Faire glisser et déposer les images ici, ou cliquer pour sélectionner des images à partir du fichier",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "or": "ou",
+    "errors": {
+      "error": "Erreur",
+      "imageNameNotUnique": "Le nom des images doit être unique.",
+      "invalidImageExtension": "Le nom des images doit se terminer par {{extensions}}."
+    }
+  },
+  "newInputPanelButton": {
+    "buttonText": "Ajouter une autre panneau"
+  },
+  "button": {
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "common": {
+    "or": "ou"
+  }
+}
