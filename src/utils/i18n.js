@@ -111,7 +111,9 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react!!
     },
-    backend: { loadPath: "/translations/{{lng}}.json" },
+    backend: {
+      loadPath: `${process.env.PUBLIC_URL}/translations/{{lng}}.json`,
+    },
   });
 
 export default i18n;

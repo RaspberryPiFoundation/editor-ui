@@ -11,7 +11,7 @@ it("defaults to the visual output tab", () => {
     .find(".proj-runner-container");
   runnerContainer
     .find(".react-tabs__tab--selected")
-    .should("contain", "output.visualOutput");
+    .should("contain", "Visual output");
 });
 
 it("renders the astro pi component on page load", () => {
@@ -95,21 +95,13 @@ it("resets criteria correctly", () => {
       "text",
       "from sense_hat import SenseHat\nsense = SenseHat()\nsense.get_pressure()\nsense.get_humidity()\nsense.get_temperature()"
     );
-  cy.get("editor-wc")
-    .shadow()
-    .find(".btn--run")
-    .contains("runButton.run")
-    .click();
+  cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should("contain", '"readPressure":true');
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
     .invoke("text", "from sense_hat import SenseHat");
-  cy.get("editor-wc")
-    .shadow()
-    .find(".btn--run")
-    .contains("runButton.run")
-    .click();
+  cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
   cy.get("#results").should(
     "contain",
     '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false'
@@ -151,7 +143,7 @@ it("picks up calls to input()", () => {
   cy.get("editor-wc")
     .shadow()
     .find("div.pythonrunner-container.skulptrunner.skulptrunner--active")
-    .contains(".react-tabs__tab-text", "output.textOutput")
+    .contains(".react-tabs__tab-text", "Text output")
     .click();
   cy.get("editor-wc")
     .shadow()
