@@ -150,7 +150,7 @@
   "notifications": {
     "close": "fermer ",
     "loginPrompt": "Pour enregistrer ce projet et y accéder plus tard, n'oubliez pas de vous connecter ou de vous inscrire!",
-    "projectRemixed": "Your remixed project has been saved",
+    "projectRemixed": "Votre projet remixé a été enregistré",
     "projectRenamed": "Vous avez renommé votre projet.",
     "projectSaved": "Votre projet a été enregistré",
     "savePrompt": "Enregistrez ce projet pour y accéder ultérieurement sous « Vos projets »."
