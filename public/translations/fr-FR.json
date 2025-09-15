@@ -92,7 +92,7 @@
     "demoInstructions": {
       "title": "Comment utiliser les instructions",
       "enablingInstructions": "Activer les instructions",
-      "visible": "Tout texte écrit ici sera visible par les étudiants dans la barre latérale.",
+      "visible": "Tout texte écrit ici sera visible par les élèves dans la barre latérale.",
       "writingInstructions": "Écrire des instructions",
       "markdown": "Écrivez vos instructions en utilisant [Markdown](https://www.markdownguide.org/).",
       "whatYouCanDo": "Voici ce que vous pouvez faire",
