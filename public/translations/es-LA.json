@@ -219,7 +219,7 @@
   },
   "projectList": {
     "delete": "Borrar",
-    "deleteLabel": "Borrar proyecto",
+    "deleteLabel": "Borrar el proyecto",
     "empty": "Aún no se crearon proyectos",
     "label": "Abrir el menú de proyectos",
     "loading": "Cargando",
