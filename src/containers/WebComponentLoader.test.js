@@ -104,7 +104,7 @@ describe("When initially rendered", () => {
     expect(window.syntaxHighlight).toEqual(window.Prism);
   });
 
-  test("it sets the lanaguage in i18n", () => {
+  test("it sets the language in i18n", () => {
     expect(mockedChangeLanguage).toHaveBeenCalledWith("es-LA");
   });
 
