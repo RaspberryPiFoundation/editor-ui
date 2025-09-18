@@ -38,7 +38,6 @@
     "highcharts": "^9.3.1",
     "highcharts-react-official": "^3.1.0",
     "i18next": "^22.0.3",
-    "i18next-browser-languagedetector": "^7.0.0",
     "i18next-http-backend": "^3.0.2",
     "identity-obj-proxy": "3.0.0",
     "jest-axe": "^7.0.0",
