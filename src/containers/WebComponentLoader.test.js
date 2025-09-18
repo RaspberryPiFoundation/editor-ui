@@ -24,6 +24,19 @@ jest.mock("../hooks/useProjectPersistence", () => ({
   useProjectPersistence: jest.fn(),
 }));
 
+const mockedChangeLanguage = jest.fn(() => new Promise(() => {}));
+
+jest.mock("react-i18next", () => ({
+  useTranslation: () => {
+    return {
+      i18n: {
+        changeLanguage: mockedChangeLanguage,
+      },
+      t: (str) => str,
+    };
+  },
+}));
+
 let store;
 let cookies;
 const code = "print('This project is amazing')";
@@ -69,6 +82,7 @@ describe("When initially rendered", () => {
             instructions={instructions}
             authKey={authKey}
             theme="light"
+            locale="es-LA"
           />
         </CookiesProvider>
       </Provider>,
@@ -88,6 +102,10 @@ describe("When initially rendered", () => {
 
   test("It saves window.Prism to window.syntaxHighlight", () => {
     expect(window.syntaxHighlight).toEqual(window.Prism);
+  });
+
+  test("it sets the lanaguage in i18n", () => {
+    expect(mockedChangeLanguage).toHaveBeenCalledWith("es-LA");
   });
 
   describe("react app API endpoint", () => {
