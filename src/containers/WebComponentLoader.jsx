@@ -43,6 +43,7 @@ const WebComponentLoader = (props) => {
     instructions,
     theme,
     loadRemixDisabled = false,
+    locale = "en",
     outputOnly = false,
     outputPanels = ["text", "visual"],
     outputSplitView = false,
@@ -87,6 +88,8 @@ const WebComponentLoader = (props) => {
     (state) => state.editor.renameFileModalShowing,
   );
 
+  const { i18n } = useTranslation();
+
   const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
@@ -126,6 +129,12 @@ const WebComponentLoader = (props) => {
       document.dispatchEvent(projectOwnerLoadedEvent(projectOwner));
     }
   }, [projectOwner, justLoaded]);
+
+  useEffect(() => {
+    if (locale) {
+      i18n.changeLanguage(locale);
+    }
+  }, [locale, i18n]);
 
   useProject({
     reactAppApiEndpoint,

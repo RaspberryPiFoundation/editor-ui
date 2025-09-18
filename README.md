@@ -66,6 +66,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
 - `load_cache`: Load latest version of project code from local storage (defaults to `true`)
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
+- `locale`: Locale for UI elements and to determine the language of projects loaded from the API (defaults to `en`)
 - `output_only`: Only display the output panel (defaults to `false`)
 - `output_panels`: Array of output panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
