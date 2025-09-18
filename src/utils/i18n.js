@@ -104,9 +104,9 @@ i18n
     load: "currentOnly", // otherwise for fr-FR it's load ['fr-FR', 'fr']
 
     // nonExplicitSupportedLngs: true, // allows locale variants on supportedLngs
-    detection: {
-      order: ["path"], // only use path to detect local for now
-    },
+    // detection: {
+    //   order: ["path"], // only use path to detect local for now
+    // },
 
     interpolation: {
       escapeValue: false, // not needed for react!!

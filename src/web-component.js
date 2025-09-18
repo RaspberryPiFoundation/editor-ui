@@ -57,6 +57,7 @@ class WebComponent extends HTMLElement {
       "identifier",
       "instructions",
       "load_remix_disabled",
+      "locale",
       "output_only",
       "output_panels",
       "output_split_view",
