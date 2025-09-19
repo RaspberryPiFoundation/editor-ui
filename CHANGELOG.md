@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- New translations (#1242)
+
 ## [0.31.0] - 2025-09-19
 
 ### Added
 
 - Ability to translate demo project instructions (#1230)
-- Translations (#1212, #1242)
+- Translations (#1212)
 
 ### Changed
 
