@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.31.1] - 2025-09-19
+
 ### Added
 
 - New translations (#1242)
@@ -1156,7 +1158,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.31.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.31.1...HEAD
+[0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
 [0.31.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.0
 [0.30.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.3
 [0.30.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.2
