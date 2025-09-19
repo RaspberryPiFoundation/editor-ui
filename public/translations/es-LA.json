@@ -23,9 +23,11 @@
       "containsSpaces": "Los nombres de archivo no deben contener espacios.",
       "generalError": "Error",
       "notUnique": "Los nombres de archivo deben ser únicos.",
+      "or": "o",
       "unsupportedExtension": "Los nombres de archivo deben terminar en {{allowedExtensions}}."
     },
     "files": "Archivos del proyecto",
+    "images": "Galería de imágenes",
     "newFileButton": "Agregar archivo",
     "newFileModal": {
       "cancel": "Cancelar",
@@ -58,6 +60,13 @@
     "downloadHint": "Descarga los archivos de tu proyecto para que usarlos sin conexión y en un editor de código diferente.",
     "downloadButton": "Descargar proyecto"
   },
+  "footer": {
+    "accessibility": "Accesibilidad",
+    "charityNameAndNumber": "Fundación Raspberry Pi, organización benéfica registrada en el Reino Unido 1129409",
+    "cookies": "Cookies",
+    "privacy": "Privacidad",
+    "safeguarding": "Protección"
+  },
   "projectName": {
     "label": "Nombre del proyecto",
     "newProject": "Nuevo proyecto"
@@ -66,10 +75,12 @@
     "download": "Descargar",
     "downloadFileNameDefault": "mi proyecto {{project_type}}",
     "editorLogoAltText": "Logotipo del Editor",
+    "projects": "Tus proyectos",
     "renameProject": "Edita el nombre del proyecto",
     "renameSave": "Guarda el nombre del proyecto",
     "save": "Guardar",
-    "loginToSave": "Inicia sesión para guardar"
+    "loginToSave": "Inicia sesión para guardar",
+    "settings": "Configuración"
   },
   "imagePanel": {
     "gallery": "Galería de imágenes"
@@ -139,6 +150,7 @@
   "notifications": {
     "close": "cerrar",
     "loginPrompt": "Para guardar este proyecto y poder acceder a él más tarde, ¡no olvides iniciar sesión o registrarte!",
+    "projectRemixed": "Tu proyecto remezclado se guardó",
     "projectRenamed": "Cambiaste el nombre de tu proyecto.",
     "projectSaved": "Tu proyecto se guardó",
     "savePrompt": "Guarda este proyecto para volver a acceder a él en \"Tus proyectos\"."
@@ -179,8 +191,58 @@
     "buttonSplitTitle": "Vista dividida"
   },
   "project": {
+    "accessDeniedWithAuthModal": {
+      "embedded": {
+        "text": "Visita el sitio de proyectos para ver ideas de proyectos geniales"
+      },
+      "heading": "No puedes acceder a este proyecto",
+      "newProject": "Crea un nuevo proyecto de programación",
+      "projectsSiteLinkText": "Explora el sitio de proyectos",
+      "text": "Visita el sitio de proyectos para ver ideas de proyectos geniales o para comenzar a programar un proyecto nuevo."
+    },
     "loading": "Cargando",
+    "notFoundModal": {
+      "embedded": {
+        "text": "Visita el sitio de proyectos para ver ideas de proyectos geniales"
+      },
+      "heading": "Este proyecto no existe",
+      "newProject": "Comienza un nuevo proyecto de programación",
+      "projectsSiteLinkText": "Explora el sitio de proyectos",
+      "text": "Puedes comenzar a programar en un nuevo proyecto o visitar el sitio de Proyectos para obtener ideas de proyectos geniales."
+    },
     "untitled": "Proyecto sin título"
+  },
+  "projectHeader": {
+    "subTitle": "Code Editor",
+    "title": "Tus proyectos",
+    "text": "Selecciona un proyecto para seguir programando, verlo o editarlo."
+  },
+  "projectList": {
+    "delete": "Borrar",
+    "deleteLabel": "Borrar el proyecto",
+    "empty": "Aún no se crearon proyectos",
+    "label": "Abrir el menú de proyectos",
+    "loading": "Cargando",
+    "loadingFailed": "No se pudieron cargar los proyectos",
+    "newProject": "Crea un nuevo proyecto",
+    "pagination": {
+      "first": "Primera página",
+      "last": "Última página",
+      "next": "Página siguiente",
+      "previous": "Página anterior",
+      "more": "Cargar más proyectos"
+    },
+    "rename": "Cambiar el nombre",
+    "renameLabel": "Cambiar el nombre del proyecto",
+    "renameProjectModal": {
+      "cancel": "No guardar",
+      "heading": "Cambiar el nombre del proyecto",
+      "inputLabel": "Cambia el nombre de tu proyecto",
+      "save": "Guardar"
+    },
+    "updated": "Editado",
+    "python_type": "Python",
+    "html_type": "HTML"
   },
   "projectTypes": {
     "html": "HTML/CSS",
