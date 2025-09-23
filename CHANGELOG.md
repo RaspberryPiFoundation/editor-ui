@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved status bar styling (#1221)
 - Added method to translate last saved time (#1223)
 - Deleting unused strings and components (#1225)
+- Changed `set_pixel` to quantise the colour before writing (#1247)
 
 ### Fixed
 
