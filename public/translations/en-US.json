@@ -23,9 +23,11 @@
       "containsSpaces": "File names must not contain spaces.",
       "generalError": "Error",
       "notUnique": "File names must be unique.",
+      "or": "or",
       "unsupportedExtension": "File names must end in {{allowedExtensions}}."
     },
     "files": "Project files",
+    "images": "Image gallery",
     "newFileButton": "Add file",
     "newFileModal": {
       "cancel": "Cancel",
@@ -58,6 +60,13 @@
     "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
     "downloadButton": "Download project"
   },
+  "footer": {
+    "accessibility": "Accessibility",
+    "charityNameAndNumber": "Raspberry Pi Foundation UK registered charity 1129409",
+    "cookies": "Cookies",
+    "privacy": "Privacy",
+    "safeguarding": "Safeguarding"
+  },
   "projectName": {
     "label": "Project name",
     "newProject": "New Project"
@@ -66,13 +75,15 @@
     "download": "Download",
     "downloadFileNameDefault": "my {{project_type}} project",
     "editorLogoAltText": "Editor logo",
+    "projects": "Your projects",
     "renameProject": "Edit project name",
     "renameSave": "Save project name",
     "save": "Save",
-    "loginToSave": "Log in to save"
+    "loginToSave": "Log in to save",
+    "settings": "Settings"
   },
   "imagePanel": {
-    "gallery": "Image gallery"
+    "gallery": "Image Gallery"
   },
   "infoPanel": {
     "info": "Information"
@@ -137,8 +148,9 @@
     "close": "Close"
   },
   "notifications": {
-    "close": "close",
+    "close": "Close",
     "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
+    "projectRemixed": "Your remixed project has been saved",
     "projectRenamed": "You have renamed your project.",
     "projectSaved": "Your project has been saved",
     "savePrompt": "Save this project to access it later under \"Your projects.\""
@@ -179,8 +191,58 @@
     "buttonSplitTitle": "Split view"
   },
   "project": {
+    "accessDeniedWithAuthModal": {
+      "embedded": {
+        "text": "Visit the Projects site for cool project ideas"
+      },
+      "heading": "You can't access this project",
+      "newProject": "Create a new code project",
+      "projectsSiteLinkText": "Explore Projects site",
+      "text": "Visit the Projects site for cool project ideas or start coding in a new project."
+    },
     "loading": "Loading",
+    "notFoundModal": {
+      "embedded": {
+        "text": "Visit the Projects site for cool project ideas"
+      },
+      "heading": "This project does not exist",
+      "newProject": "Start new code project",
+      "projectsSiteLinkText": "Explore Projects site",
+      "text": "You can start coding in a new project, or visit the Projects site for cool project ideas."
+    },
     "untitled": "Untitled project"
+  },
+  "projectHeader": {
+    "subTitle": "Code Editor",
+    "title": "Your projects",
+    "text": "Select a project to continue coding, view, or edit it."
+  },
+  "projectList": {
+    "delete": "Delete",
+    "deleteLabel": "Delete project",
+    "empty": "No projects created yet",
+    "label": "Open project menu",
+    "loading": "Loading",
+    "loadingFailed": "Failed to load projects",
+    "newProject": "Create a new project",
+    "pagination": {
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "more": "Load more projects"
+    },
+    "rename": "Rename",
+    "renameLabel": "Rename project",
+    "renameProjectModal": {
+      "cancel": "Do not save",
+      "heading": "Rename project",
+      "inputLabel": "Change the name of your project",
+      "save": "Save"
+    },
+    "updated": "Edited",
+    "python_type": "Python",
+    "html_type": "HTML"
   },
   "projectTypes": {
     "html": "HTML/CSS",

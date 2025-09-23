@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.31.1] - 2025-09-19
+
+### Added
+
+- New translations (#1242)
+
+### Changed
+
+- Changed `set_pixel` to quantise the colour before writing (#1247)
+
+## [0.31.0] - 2025-09-19
+
 ### Added
 
 - Ability to translate demo project instructions (#1230)
@@ -16,7 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved status bar styling (#1221)
 - Added method to translate last saved time (#1223)
 - Deleting unused strings and components (#1225)
-- Changed `set_pixel` to quantise the colour before writing (#1247)
+- Determine locale from web component attribute instead of browser path (#1244)
 
 ### Fixed
 
@@ -1150,7 +1162,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.30.3...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.31.1...HEAD
+[0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
+[0.31.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.0
 [0.30.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.3
 [0.30.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.2
 [0.30.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.1
