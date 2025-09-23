@@ -1095,6 +1095,13 @@ class SenseHat(object):
             if element > 255 or element < 0:
                 raise ValueError('Pixel elements must be between 0 and 255')
 
+        # 🔹 Quantise the colour before writing
+        r, g, b = pixel
+        r = (r >> 3) << 3
+        g = (g >> 2) << 2
+        b = (b >> 3) << 3
+        pixel = (r, g, b)
+
         map = self._pix_map[self._rotation]
         # Two bytes per pixel in fb memory, 16 bit RGB565
         # Our custom module stores the tuples not the 16bit value
