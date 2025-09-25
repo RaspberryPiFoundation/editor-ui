@@ -2,6 +2,16 @@
 
 This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
 
+## Install dependencies
+
+This repository uses Yarn 3 (see `package.json` → `packageManager`). Please install dependencies with Yarn:
+
+```
+yarn install
+```
+
+Using `npm install` can fail due to strict peer-dependency resolution in npm for some legacy packages in this project.
+
 ## Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables. Copy the example file into `.env` and use this file for any other environment variables the web component may require:
