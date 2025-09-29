@@ -98,6 +98,15 @@ describe("When project has images", () => {
       fireEvent.click(imageButton);
       expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
     });
+
+    test("Displays sidebar plugin option and renders its panel", () => {
+      const pluginButton = screen.getByTitle("Example Markdown");
+      expect(pluginButton).toBeInTheDocument();
+      fireEvent.click(pluginButton);
+      expect(
+        screen.queryByText("Plugin example: Markdown notes"),
+      ).toBeInTheDocument();
+    });
   });
 
   describe("and instructions", () => {

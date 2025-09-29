@@ -60,6 +60,7 @@ const SidebarBar = (props) => {
             isActive={option === menuOption.name}
             toggleOption={toggleOption}
             name={menuOption.name}
+            plugin={menuOption.plugin}
           />
         ))}
       </div>
@@ -72,6 +73,7 @@ const SidebarBar = (props) => {
             isActive={option === menuOption.name}
             toggleOption={toggleOption}
             name={menuOption.name}
+            plugin={menuOption.plugin}
           />
         ))}
         {!isMobile &&

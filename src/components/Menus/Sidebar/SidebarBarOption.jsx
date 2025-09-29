@@ -3,7 +3,8 @@ import Button from "../../Button/Button";
 import classNames from "classnames";
 
 const SidebarBarOption = (props) => {
-  const { Icon, isActive, name, title, toggleOption } = props;
+  const { Icon, isActive, name, title, toggleOption, plugin } = props;
+  const pluginId = plugin?.id;
 
   const onClickHandler = () => {
     toggleOption(name);
@@ -16,11 +17,14 @@ const SidebarBarOption = (props) => {
     <div
       className={classNames("sidebar__bar-option-wrapper", {
         "sidebar__bar-option-wrapper--selected": isActive,
+        "sidebar__bar-option-wrapper--plugin": pluginId,
       })}
+      data-plugin-id={pluginId}
     >
       <Button
         className={classNames("sidebar__bar-option", {
           "sidebar__bar-option--selected": isActive,
+          "sidebar__bar-option--plugin": pluginId,
         })}
         ButtonIcon={Icon}
         title={title}

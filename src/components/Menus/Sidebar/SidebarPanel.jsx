@@ -13,6 +13,7 @@ const SidebarPanel = (props) => {
     className,
     Button,
     defaultWidth = "225px",
+    pluginId,
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -36,6 +37,7 @@ const SidebarPanel = (props) => {
         className,
         Footer && "sidebar__panel--with-footer",
       )}
+      data-plugin-id={pluginId}
     >
       {panelContent}
     </div>
@@ -52,6 +54,7 @@ const SidebarPanel = (props) => {
       handleDirection="right"
       minWidth="180px"
       maxWidth="600px"
+      data-plugin-id={pluginId}
     >
       {panelContent}
     </ResizableWithHandle>
@@ -63,6 +66,9 @@ SidebarPanel.propTypes = {
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
   Button: PropTypes.func,
+  Footer: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  defaultWidth: PropTypes.string,
+  pluginId: PropTypes.string,
 };
 
 export default SidebarPanel;
