@@ -23,8 +23,9 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
+import SidebarPanel from "./SidebarPanel";
 
-const Sidebar = ({ options = [] }) => {
+const Sidebar = ({ options = [], plugins = [] }) => {
   const { t } = useTranslation();
 
   let menuOptions = [
@@ -78,6 +79,22 @@ const Sidebar = ({ options = [] }) => {
       panel: InfoPanel,
     },
   ].filter((option) => options.includes(option.name));
+
+  let pluginMenuOptions = plugins.map((plugin) => {
+    return {
+      name: plugin.name,
+      icon: plugin.icon,
+      title: plugin.title,
+      position: plugin.position || "top",
+      panel: () => (
+        <SidebarPanel heading={plugin.title} Button={plugin.button}>
+          {plugin.panel()}
+        </SidebarPanel>
+      ),
+    };
+  });
+
+  menuOptions = [...menuOptions, ...pluginMenuOptions];
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);

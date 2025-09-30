@@ -232,6 +232,7 @@ const WebComponentLoader = (props) => {
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
+              plugins={plugins}
             />
             {plugins.map((plugin) => plugin.slot1())}
             {errorModalShowing && <ErrorModal />}
