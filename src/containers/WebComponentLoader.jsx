@@ -47,6 +47,7 @@ const WebComponentLoader = (props) => {
     outputOnly = false,
     outputPanels = ["text", "visual"],
     outputSplitView = false,
+    plugins = [],
     projectNameEditable = false,
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
@@ -96,6 +97,10 @@ const WebComponentLoader = (props) => {
     : "light";
 
   useEmbeddedMode(embedded);
+
+  useEffect(() => {
+    console.log("the plugins are", plugins);
+  }, [plugins]);
 
   useEffect(() => {
     if (theme) {
@@ -228,6 +233,7 @@ const WebComponentLoader = (props) => {
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
             />
+            {plugins.map((plugin) => plugin.slot1())}
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
             {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
