@@ -52,3 +52,129 @@
 .rpf-alert {
   margin: 0;
 }
+
+
+// tree sitter
+.problem-marker {
+  position: relative;
+  cursor: help;
+
+  &::before {
+    content: attr(data-error-type);
+    position: absolute;
+    display: none;
+    z-index: 9999;
+  }
+
+  &::after {
+    content: attr(data-message);
+    position: fixed; /* Changed from absolute to fixed */
+    display: none;
+    left: auto; /* Reset left positioning */
+    background: #fff;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    white-space: pre-wrap;
+    min-width: 200px;
+    max-width: 400px;
+    font-family: sans-serif;
+    font-size: 13px;
+    color: #333;
+    pointer-events: none;
+    overflow: visible;
+    max-height: none; /* Remove max-height constraint */
+  }
+
+  &:hover::after,
+  &:focus::after {
+    display: block;
+  }
+
+  /* Position tooltip based on line number and available space */
+  &[data-line="0"]::after,
+  &[data-line="1"]::after,
+  &[data-line-position="bottom"]::after {
+    /* For top lines or when explicitly positioned at bottom */
+    margin-top: 5px;
+  }
+
+  &:not([data-line="0"]):not([data-line="1"]):not([data-line-position="bottom"])::after {
+    /* For other lines, default to above */
+    margin-bottom: 5px;
+  }
+
+  /* Error type-specific styling */
+  &[data-error-type^="missing"]::after {
+    border-left: 4px solid #e91e63;
+  }
+
+  &[data-error-type^="indentation"]::after {
+    border-left: 4px solid #2196f3;
+  }
+
+  &[data-error-type^="syntax"]::after,
+  &[data-error-type^="unknown"]::after {
+    border-left: 4px solid #ff4b4b;
+  }
+}
+
+.problem-error {
+  border-bottom: 2px dotted #ff4b4b;
+}
+
+.problem-warning {
+  border-bottom: 2px dotted #ffb74d;
+}
+
+/* Support for touch devices */
+@media (pointer: coarse) {
+  .problem-marker {
+    &::after {
+      display: none;
+    }
+
+    &:active::after {
+      display: block;
+    }
+  }
+}
+
+// Tooltip styling
+.cm-tooltip {
+  max-width: 300px;
+  white-space: pre-wrap;
+  z-index: 1000;
+}
+
+.cm-tooltip .problem-tooltip {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+// Loading indicator
+.parser-loading {
+  padding: 10px;
+  background: #fff3cd;
+  color: #856404;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ffeaa7;
+}
+
+// Python parser loader
+.python-parser-loader {
+  padding: 10px;
+  background: #fff3cd;
+  color: #856404;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}

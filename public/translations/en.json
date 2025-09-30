@@ -15,7 +15,25 @@
     "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
     "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters",
     "viewOnly": "View only",
-    "close": "close"
+    "close": "close",
+    "pythonSyntaxErrors": {
+      "default": "Syntax error: Check your code for missing symbols or incorrect formatting",
+      "unknownFunction": "Unknown function: '{{name}}' is not defined or imported",
+      "missingClosingParenthesis": "Missing closing parenthesis: Add a ) to match your opening (",
+      "missingOpeningParenthesis": "Missing opening parenthesis: Add a ( to match your closing )",
+      "missingClosingBracket": "Missing closing bracket: Add a ] to match your opening [",
+      "missingOpeningBracket": "Missing opening bracket: Add a [ to match your closing ]",
+      "missingClosingBrace": "Missing closing brace: Add a } to match your opening {",
+      "missingOpeningBrace": "Missing opening brace: Add a { to match your closing }",
+      "missingDecorator": "Missing decorator: Add a @ symbol before this function definition",
+      "missingColon": "Missing colon: Add a : at the end of this statement",
+      "indentationIssue": "Indentation issue: Make sure your code is properly indented with 4 spaces for each level",
+      "missingClosingDoubleQuote": "Missing quote: Add a matching \" to complete your string",
+      "missingClosingSingleQuote": "Missing quote: Add a matching ' to complete your string",
+      "functionCallSyntaxError": "Function call syntax error: Check your function arguments and parentheses",
+      "syntaxErrorAfterKeyword": "Syntax error after keyword: Check the syntax following your {{keyword}} keyword",
+      "loadingParser": "Loading Python parser..."
+    }
   },
   "filePanel": {
     "errors": {

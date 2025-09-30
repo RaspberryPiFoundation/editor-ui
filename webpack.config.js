@@ -86,6 +86,8 @@ module.exports = {
     fallback: {
       path: require.resolve("path-browserify"),
       url: require.resolve("url/"),
+      fs: false,
+      module: false,
     },
   },
   output: {
@@ -124,6 +126,13 @@ module.exports = {
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
         }
+
+        // Set MIME type for WASM files
+        if (req.url.endsWith(".wasm")) {
+          res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+          res.setHeader("Content-Type", "application/wasm");
+        }
+
         next();
       });
       return middlewares;

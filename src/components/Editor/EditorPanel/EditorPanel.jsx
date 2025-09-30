@@ -10,7 +10,8 @@ import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
-import { EditorState } from "@codemirror/state";
+import { EditorState, StateField } from "@codemirror/state";
+import { Decoration } from "@codemirror/view";
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 import { indentUnit } from "@codemirror/language";
@@ -25,6 +26,7 @@ import { Alert } from "@raspberrypifoundation/design-system-react";
 import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
+import useTreeSitterParser from "../../../hooks/useTreeSitterParser";
 
 const MAX_CHARACTERS = 8500000;
 
@@ -40,6 +42,34 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const settings = useContext(SettingsContext);
   const [characterLimitExceeded, setCharacterLimitExceeded] = useState(false);
 
+  // Use the new Tree Sitter hook
+  const {
+    treeSitterParser,
+    parserInitialized,
+    analyzePythonCode,
+    createProblemDecorations,
+    problemDecorationsEffect
+  } = useTreeSitterParser(extension, fileName);
+
+  // Create a state field for problem decorations
+  const problemDecorationsField = StateField.define({
+    create() {
+      return Decoration.none;
+    },
+    update(decorations, transaction) {
+      decorations = decorations.map(transaction.changes);
+
+      for (let effect of transaction.effects) {
+        if (effect.is(problemDecorationsEffect)) {
+          decorations = effect.value;
+        }
+      }
+
+      return decorations;
+    },
+    provide: (f) => EditorView.decorations.from(f),
+  });
+
   const updateStoredProject = (content) => {
     dispatch(
       updateProjectComponent({
@@ -54,11 +84,37 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const label = EditorView.contentAttributes.of({
     "aria-label": t("editorPanel.ariaLabel"),
   });
+
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
-      updateStoredProject(viewUpdate.state.doc.toString());
+      const content = viewUpdate.state.doc.toString();
+      updateStoredProject(content);
+
+      // Analyze Python code if applicable
+      if (extension === "py" && treeSitterParser) {
+        analyzePythonCode(content).then((problems) => {
+          // Create decorations for problem areas
+          if (editorViewRef.current && problems.length > 0) {
+            const decorationSet = createProblemDecorations(
+              viewUpdate.state,
+              problems,
+            );
+
+            // Update the editor view with decorations
+            editorViewRef.current.dispatch({
+              effects: [problemDecorationsEffect.of(decorationSet)],
+            });
+          } else if (editorViewRef.current) {
+            // Clear decorations if no problems
+            editorViewRef.current.dispatch({
+              effects: [problemDecorationsEffect.of(Decoration.none)],
+            });
+          }
+        });
+      }
     }
   });
+
 
   const getMode = () => {
     switch (extension) {
@@ -74,6 +130,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         return html();
     }
   };
+
   const isDarkMode =
     cookies.theme === "dark" ||
     (!cookies.theme &&
@@ -83,6 +140,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const file = project.components.find(
     (item) => item.extension === extension && item.name === fileName,
   );
+
 
   useEffect(() => {
     if (!file) {
@@ -120,6 +178,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         indentUnit.of(customIndentUnit),
         EditorView.editable.of(!readOnly),
         limitCharacters,
+        problemDecorationsField,
       ],
     });
 
@@ -141,10 +200,22 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       img.setAttribute("role", "presentation");
     }
 
+    // Initial analysis for Python files when the editor is first created
+    if (extension === "py" && treeSitterParser && parserInitialized) {
+      analyzePythonCode(code).then((problems) => {
+        if (problems.length > 0 && view) {
+          const decorationSet = createProblemDecorations(view.state, problems);
+          view.dispatch({
+            effects: [problemDecorationsEffect.of(decorationSet)],
+          });
+        }
+      });
+    }
+
     return () => {
       view.destroy();
     };
-  }, [cookies]);
+  }, [cookies, treeSitterParser, parserInitialized]);
 
   useEffect(() => {
     if (
@@ -160,12 +231,36 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         },
       });
       dispatch(setCascadeUpdate(false));
+
+      // Re-analyze Python code after cascade update
+      if (extension === "py" && treeSitterParser) {
+        analyzePythonCode(file.content).then((problems) => {
+          if (problems.length > 0) {
+            const decorationSet = createProblemDecorations(
+              editorViewRef.current.state,
+              problems,
+            );
+            editorViewRef.current.dispatch({
+              effects: [problemDecorationsEffect.of(decorationSet)],
+            });
+          } else {
+            editorViewRef.current.dispatch({
+              effects: [problemDecorationsEffect.of(Decoration.none)],
+            });
+          }
+        });
+      }
     }
-  }, [file, cascadeUpdate, editorViewRef]);
+  }, [file, cascadeUpdate, editorViewRef, treeSitterParser, extension]);
 
   return (
     <div className="editor-wrapper">
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
+      {extension === "py" && !parserInitialized && (
+        <div className="python-parser-loader">
+          {t("editorPanel.pythonSyntaxErrors.loadingParser")}
+        </div>
+      )}
       {characterLimitExceeded && (
         <Alert
           title={t("editorPanel.characterLimitError")}

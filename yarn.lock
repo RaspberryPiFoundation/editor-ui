@@ -2898,6 +2898,7 @@ __metadata:
     url: ^0.11.4
     url-loader: 4.1.1
     watch: ^1.0.2
+    web-tree-sitter: 0.25.9
     web-vitals: ^1.0.1
     webgl-mock-threejs: ^0.0.1
     webpack: 5.95.0
@@ -18783,6 +18784,18 @@ __metadata:
   dependencies:
     minimalistic-assert: ^1.0.0
   checksum: 2abc306c96930b757972a1c4650eb6b25b5d99f24088714957f88629e137db569368c5de0e57986c89ea70db2f1df9bba11a87cb6d0c8694b6f53a0159fab3bf
+  languageName: node
+  linkType: hard
+
+"web-tree-sitter@npm:0.25.9":
+  version: 0.25.9
+  resolution: "web-tree-sitter@npm:0.25.9"
+  peerDependencies:
+    "@types/emscripten": ^1.40.0
+  peerDependenciesMeta:
+    "@types/emscripten":
+      optional: true
+  checksum: e07fc82b876ed89286a68c4f2ba8f5308eb10c677f304c2437df0125180690688a5967279e06e1108b3e413d3fc37cf6a3b772bcdb91ef733e354b97f967b319
   languageName: node
   linkType: hard
 
