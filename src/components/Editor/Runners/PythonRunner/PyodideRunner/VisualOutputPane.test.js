@@ -119,6 +119,31 @@ describe("When there is a matplotlib output", () => {
   });
 });
 
+describe("when there is plotly output", () => {
+  beforeEach(() => {
+    const visuals = [
+      {
+        origin: "plotly",
+        content: JSON.stringify({
+          data: [{ x: [1, 2, 3], y: [4, 5, 6], type: "scatter" }],
+          layout: { title: { text: "Test Plot" } },
+        }),
+      },
+    ];
+    renderPaneWithVisuals(visuals);
+  });
+
+  test("it renders without crashing", () => {
+    expect(document.getElementsByClassName("pythonrunner-graphic").length).toBe(
+      1,
+    );
+  });
+
+  test("it renders the plotly chart as an svg", () => {
+    expect(screen.getByText("Test Plot")).toBeInTheDocument();
+  });
+});
+
 describe("When there is an unsupported origin", () => {
   test("it throws an error", () => {
     const visuals = [
