@@ -68,9 +68,10 @@
 
   &::after {
     content: attr(data-message);
-    position: fixed; /* Changed from absolute to fixed */
+    position: absolute; /* Changed from fixed to absolute for proper positioning */
     display: none;
-    left: auto; /* Reset left positioning */
+    top: 100%; /* Position below the marker by default */
+    left: 0;   /* Align with the left of the marker */
     background: #fff;
     padding: 6px 10px;
     border: 1px solid #ccc;
@@ -85,7 +86,9 @@
     color: #333;
     pointer-events: none;
     overflow: visible;
-    max-height: none; /* Remove max-height constraint */
+    max-height: none;
+    border-left: 4px solid #e91e63;
+    transform: translateY(5px); /* Small offset for better visibility */
   }
 
   &:hover::after,
@@ -93,31 +96,11 @@
     display: block;
   }
 
-  /* Position tooltip based on line number and available space */
-  &[data-line="0"]::after,
-  &[data-line="1"]::after,
-  &[data-line-position="bottom"]::after {
-    /* For top lines or when explicitly positioned at bottom */
-    margin-top: 5px;
-  }
-
-  &:not([data-line="0"]):not([data-line="1"]):not([data-line-position="bottom"])::after {
-    /* For other lines, default to above */
-    margin-bottom: 5px;
-  }
-
-  /* Error type-specific styling */
-  &[data-error-type^="missing"]::after {
-    border-left: 4px solid #e91e63;
-  }
-
-  &[data-error-type^="indentation"]::after {
-    border-left: 4px solid #2196f3;
-  }
-
-  &[data-error-type^="syntax"]::after,
-  &[data-error-type^="unknown"]::after {
-    border-left: 4px solid #ff4b4b;
+  /* Position tooltip based on available space */
+  &[data-line-position="top"]::after {
+    top: auto; /* Reset top positioning */
+    bottom: 100%; /* Position above instead of below */
+    transform: translateY(-5px); /* Offset upwards */
   }
 }
 

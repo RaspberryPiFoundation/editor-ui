@@ -68,408 +68,296 @@ const useTreeSitterParser = (extension, fileName) => {
     try {
       const tree = treeSitterParser.parse(code);
       const problems = [];
-      const handledLines = new Set(); // Track lines we've already handled
-      let hasMissingColonError = false; // Track if we've found a missing colon error
 
-      // Look for syntax errors by checking for ERROR nodes
-      const errorQuery = treeSitterParser.language.query(`(ERROR) @error`);
-      const errorMatches = errorQuery.captures(tree.rootNode);
+      // Create a query to find all ERROR and MISSING nodes directly
+      const queryString = `
+        (ERROR) @error
+      `;
 
-      for (const match of errorMatches) {
-        const errorNode = match.node;
-        const startPos = errorNode.startPosition;
-        const endPos = errorNode.endPosition;
-        const errorText = code.slice(errorNode.startIndex, errorNode.endIndex);
+      const query = treeSitterParser.language.query(queryString);
+      const matches = query.matches(tree.rootNode);
 
-        // Get surrounding code for better context
-        const lineContent = code.split("\n")[startPos.row] || "";
+      console.log(`Found ${matches.length} potential syntax errors via query`);
 
-        // Get context - parent and siblings
-        const parent = errorNode.parent;
-        const prevSibling = errorNode.previousSibling;
-        const nextSibling = errorNode.nextSibling;
+      // Process each matched error node
+      for (const match of matches) {
+        const node = match.captures[0].node;
+        const nodeType = node.type;
+        const startPos = node.startPosition;
+        const endPos = node.endPosition;
 
-        // Default error message
-        let message = t("editorPanel.pythonSyntaxErrors.default");
-
-        // Case 1: Check for unrecognized identifiers followed by open parenthesis (undefined function)
-        if (parent && parent.type === "ERROR" && errorText.match(/\w+\s*\(/)) {
-          // First, check if this is a function definition without a colon
-          if (lineContent.trim().startsWith('def ') && !lineContent.includes(':')) {
-            // This is a function definition missing a colon
-            message = t("editorPanel.pythonSyntaxErrors.missingColon");
-            hasMissingColonError = true;
-
-            // Add this directly to problems with the proper highlighting
-            problems.push({
-              message,
-              severity: "error",
-              // Use the entire line for highlighting
-              from: errorNode.startIndex - startPos.column, // Beginning of the line
-              to: errorNode.startIndex - startPos.column + lineContent.length, // End of the line
-              context: {
-                row: startPos.row,
-                column: 0,
-                text: lineContent,
-                isMissingColon: true
-              },
-            });
-
-            // Mark this line as handled
-            handledLines.add(startPos.row);
-
-            // Skip normal error processing
-            continue;
-          }
-
-          const funcName = errorText.match(/(\w+)\s*\(/)?.[1];
-          if (funcName) {
-            message = t("editorPanel.pythonSyntaxErrors.unknownFunction", {
-              name: funcName,
-            });
-          }
-        }
-        // New case: Check for missing commas in lists, tuples, or dictionaries
-        else if (
-          // Check if the parent is a list, tuple, dictionary, set or parenthesized expression (which could be a tuple)
+        // Skip nested errors at the same position
+        const parent = node.parent;
+        if (
           parent &&
-          ["list", "tuple", "dictionary", "set", "parenthesized_expression"].includes(parent.type)
+          (parent.type === "ERROR" || parent.type === "MISSING") &&
+          parent.startPosition.row === startPos.row &&
+          parent.startPosition.column === startPos.column &&
+          parent.endPosition.row === endPos.row &&
+          parent.endPosition.column === endPos.column
         ) {
-          // Check for common missing comma patterns
-          const prevItem = prevSibling;
-          const nextItem = nextSibling;
+          console.log(`Skipping nested ${nodeType} at same position`, startPos);
+          continue;
+        }
 
-          // If we have a literal or identifier directly followed by another without a comma
+        // Clamp large error ranges to just the current line plus one
+        let clampedEndPos = { ...endPos };
+        if (endPos.row > startPos.row) {
+          clampedEndPos = {
+            row: startPos.row + 1,
+            column: 0,
+          };
+          console.log(
+            `Clamping large error range from line ${startPos.row} to ${endPos.row}, now ends at ${clampedEndPos.row}`,
+          );
+        }
+
+        // Calculate character offsets for CodeMirror
+        const lines = code.split("\n");
+        let fromOffset = 0;
+        for (let i = 0; i < startPos.row; i++) {
+          fromOffset += lines[i].length + 1; // +1 for newline
+        }
+        fromOffset += startPos.column;
+
+        let toOffset = fromOffset; // Default if same position
+        if (
+          startPos.row === clampedEndPos.row &&
+          startPos.column === clampedEndPos.column
+        ) {
+          // Zero-width error, extend by one character for visibility
+          toOffset = fromOffset + 1;
+        } else {
+          // Calculate end offset based on clamped position
+          toOffset = 0;
+          for (let i = 0; i < clampedEndPos.row; i++) {
+            toOffset += lines[i].length + 1;
+          }
+          toOffset += clampedEndPos.column;
+        }
+
+        // Create a problem with a more helpful error message based on context
+        const getHelpfulErrorMessage = () => {
+          // Get the error line text
+          const errorLine = lines[startPos.row] || "";
+          const nextLine = lines[startPos.row + 1] || "";
+
+          // Use a much narrower context for error analysis - focus only on the current line and a bit of context
+          // This helps prevent other errors in the file from contaminating the analysis
+          const lineErrorContext = errorLine;
+
+          // More focused context that still allows us to detect multi-line issues
+          // Just a few characters before and after the error position
+          const narrowErrorContext = code.slice(
+            Math.max(0, fromOffset - 10),
+            Math.min(code.length, toOffset + 10),
+          );
+
+          console.log("Error detection context:", {
+            line: startPos.row + 1,
+            errorLine,
+            narrowContext: narrowErrorContext,
+          });
+
+          // Check for common Python syntax errors with more precise contexts
+
+          // 0. Missing operator between values (takes precedence over other checks)
+          // This matches patterns like "x = 5 6" or "y = a b" where an operator is missing
           if (
-            prevItem &&
-            nextItem &&
-            // Check if previous sibling is a value
-            ["string", "integer", "float", "identifier", "true", "false", "none"].includes(prevItem.type) &&
-            // Check if next sibling is a value or closing bracket
-            ["string", "integer", "float", "identifier", "true", "false", "none", "]", ")", "}"].includes(nextItem.type)
+            /=\s*\w+\s+\d+/.test(lineErrorContext) ||
+            /=\s*\d+\s+\w+/.test(lineErrorContext) ||
+            /=\s*\d+\s+\d+/.test(lineErrorContext) ||
+            /=\s*\w+\s+\w+/.test(lineErrorContext) ||
+            /\w+\s+\d+\s*$/.test(lineErrorContext.trim()) ||
+            /\d+\s+\w+\s*$/.test(lineErrorContext.trim()) ||
+            /\d+\s+\d+\s*$/.test(lineErrorContext.trim())
           ) {
-            // We likely have a missing comma
-            let containerType = parent.type;
-
-            // Map parenthesized_expression to tuple when it appears to be a tuple
-            if (containerType === "parenthesized_expression") {
-              // If there are multiple values inside parentheses, it's likely a tuple
-              containerType = "tuple";
-            }
-
-            const containerName = {
-              "list": t("editorPanel.pythonSyntaxErrors.containerTypes.list", { defaultValue: "list" }),
-              "tuple": t("editorPanel.pythonSyntaxErrors.containerTypes.tuple", { defaultValue: "tuple" }),
-              "dictionary": t("editorPanel.pythonSyntaxErrors.containerTypes.dictionary", { defaultValue: "dictionary" }),
-              "set": t("editorPanel.pythonSyntaxErrors.containerTypes.set", { defaultValue: "set" })
-            }[containerType] || t("editorPanel.pythonSyntaxErrors.containerTypes.collection", { defaultValue: "collection" });
-
-            message = t("editorPanel.pythonSyntaxErrors.missingComma", {
-              containerName: containerName,
-              defaultValue: `Missing comma in ${containerName}`
-            });
-
-            // Calculate the exact range to highlight - only include the two items with missing comma between them
-            const newStartIndex = prevItem.startIndex;
-            let newEndIndex = nextItem.endIndex;
-
-            // Add this custom error directly
-            problems.push({
-              message,
-              severity: "error",
-              from: newStartIndex,
-              to: newEndIndex,
-              context: {
-                row: startPos.row,
-                column: startPos.column,
-                text: code.slice(newStartIndex, newEndIndex),
-              },
-            });
-
-            // Mark this line as handled
-            handledLines.add(startPos.row);
-
-            // Skip normal error processing
-            continue;
+            // Check if the error is at the position of the missing operator
+            return "Missing operator between values (did you mean +, -, *, /, etc.?)";
           }
-          // Special handling for dictionaries with missing comma between key-value pairs
-          else if (parent.type === "dictionary") {
-            // Check for missing comma between key-value pairs pattern
-            // For dict {"key": "value" "key2": "value2"}, the key2 would be the sibling after "value"
-            if (prevItem &&
-                ["string", "integer", "float", "identifier", "true", "false", "none"].includes(prevItem.type) &&
-                nextItem &&
-                (nextItem.type === "string" || nextItem.type === "identifier")) {
-              // Missing comma between string value and next key
-              const containerName = t("editorPanel.pythonSyntaxErrors.containerTypes.dictionary",
-                { defaultValue: "dictionary" });
 
-              message = t("editorPanel.pythonSyntaxErrors.missingCommaBetweenPairs", {
-                containerName: containerName,
-                defaultValue: `Missing comma between key-value pairs in ${containerName}`
-              });
-
-              // Extend the highlighting to include the value and the next key, but not beyond
-              const newStartIndex = prevItem.startIndex;
-              const newEndIndex = nextItem.endIndex;
-
-              // Add this custom error directly
-              problems.push({
-                message,
-                severity: "error",
-                from: newStartIndex,
-                to: newEndIndex,
-                context: {
-                  row: startPos.row,
-                  column: startPos.column,
-                  text: code.slice(newStartIndex, newEndIndex),
-                },
-              });
-
-              // Mark this line as handled
-              handledLines.add(startPos.row);
-
-              // Skip normal error processing
-              continue;
-            }
-            // Also check for case when we have a pair followed by another key without comma
-            else if (prevItem &&
-                    prevItem.type === "pair" &&
-                    nextItem &&
-                    (nextItem.type === "string" || nextItem.type === "identifier")) {
-
-              const containerName = t("editorPanel.pythonSyntaxErrors.containerTypes.dictionary",
-                { defaultValue: "dictionary" });
-
-              message = t("editorPanel.pythonSyntaxErrors.missingCommaBetweenPairs", {
-                containerName: containerName,
-                defaultValue: `Missing comma between key-value pairs in ${containerName}`
-              });
-
-              // Calculate the exact highlighting range
-              // Try to get just the value part of the previous pair, and the key of the next pair
-              let newStartIndex = prevItem.startIndex;
-              const newEndIndex = nextItem.endIndex;
-
-              // Add this custom error directly
-              problems.push({
-                message,
-                severity: "error",
-                from: newStartIndex,
-                to: newEndIndex,
-                context: {
-                  row: startPos.row,
-                  column: startPos.column,
-                  text: code.slice(newStartIndex, newEndIndex),
-                },
-              });
-
-              // Mark this line as handled
-              handledLines.add(startPos.row);
-
-              // Skip normal error processing
-              continue;
-            }
-          }
-        }
-        // Case 2: Check for unopened/unclosed parentheses/brackets/braces
-        else if (errorText.includes("(") && !errorText.includes(")")) {
-          const hasOpenParen = lineContent.indexOf("(") !== -1;
-          const hasCloseParen = lineContent.indexOf(")") !== -1;
-
-          if (hasOpenParen && !hasCloseParen) {
-            message = t(
-              "editorPanel.pythonSyntaxErrors.missingClosingParenthesis",
+          // 1. Missing colons - only check the current line and be more specific about patterns
+          if (
+            /^\s*(if|elif|else|for|while|def|class|with|try|except|finally)\b[^:]*$/.test(
+              errorLine.trim(),
+            ) ||
+            /^\s*(if|elif|else|for|while|def|class|with|try|except|finally)\b.*[^:][\s]*$/.test(
+              errorLine.trim(),
+            )
+          ) {
+            // Determine which statement is missing the colon
+            const match = errorLine.match(
+              /^\s*(if|elif|else|for|while|def|class|with|try|except|finally)\b/,
             );
+            const statement = match ? match[1] : "statement";
+            return `Missing colon : after ${statement} statement`;
           }
-        } else if (errorText.includes(")") && !errorText.includes("(")) {
-          message = t(
-            "editorPanel.pythonSyntaxErrors.missingOpeningParenthesis",
-          );
-        } else if (errorText.includes("[") && !errorText.includes("]")) {
-          message = t("editorPanel.pythonSyntaxErrors.missingClosingBracket");
-        } else if (errorText.includes("]") && !errorText.includes("[")) {
-          message = t("editorPanel.pythonSyntaxErrors.missingOpeningBracket");
-        } else if (errorText.includes("{") && !errorText.includes("}")) {
-          message = t("editorPanel.pythonSyntaxErrors.missingClosingBrace");
-        } else if (errorText.includes("}") && !errorText.includes("{")) {
-          message = t("editorPanel.pythonSyntaxErrors.missingOpeningBrace");
-        }
-        // Case 3: Check for missing decorator symbol
-        else if (
-          prevSibling &&
-          prevSibling.type === "identifier" &&
-          (errorText.trim() === "" || errorText.trim() === ":")
-        ) {
-          // Check if this could be a missing decorator symbol
-          const prevLine = code.split("\n")[startPos.row - 1] || "";
-          if (!prevLine.trim().startsWith("@")) {
-            message = t("editorPanel.pythonSyntaxErrors.missingDecorator");
+
+          // 2. Unclosed strings - only check within the current line
+          const doubleQuotes = (lineErrorContext.match(/"/g) || []).length;
+          const singleQuotes = (lineErrorContext.match(/'/g) || []).length;
+
+          if (doubleQuotes % 2 !== 0) {
+            return 'Unclosed string - missing double quote "';
           }
-        }
-        // Case 4: Check for missing colon
-        else if (
-          // Check if this is a control structure missing a colon
-          lineContent.match(/^\s*(if|for|while|else|elif|def|class)(\s+|$)/) &&
-          !lineContent.includes(":")
-        ) {
-          // This is a control structure line without a colon
-          message = t("editorPanel.pythonSyntaxErrors.missingColon");
-          hasMissingColonError = true;
-          // Make sure we add the correct row number
-          handledLines.add(startPos.row);
-
-          // Store this error directly to ensure it gets highlighted
-          problems.push({
-            message,
-            severity: "error",
-            from: errorNode.startIndex,
-            to: errorNode.endIndex,
-            context: {
-              row: startPos.row,
-              column: startPos.column,
-              text: errorText,
-              isMissingColon: true, // Flag to identify this as a colon error
-              lineNumber: startPos.row // Store the line number for highlighting
-            },
-          });
-
-          // Skip the normal error processing for this case
-          continue;
-        }
-        // Original Case 4: Check parent node type for missing colon
-        else if (
-          parent &&
-          [
-            "block",
-            "function_definition",
-            "class_definition",
-            "if_statement",
-            "for_statement",
-            "while_statement",
-          ].includes(parent.type)
-        ) {
-          const nodeText = code.slice(parent.startIndex, parent.endIndex);
-          if (!nodeText.includes(":")) {
-            message = t("editorPanel.pythonSyntaxErrors.missingColon");
-            hasMissingColonError = true;
-            // Get the actual row of the parent statement
-            const parentLines = code.substring(0, parent.startIndex).split("\n");
-            handledLines.add(parentLines.length - 1);
+          if (singleQuotes % 2 !== 0) {
+            return "Unclosed string - missing single quote '";
           }
-        }
-        // Add specific check for function definition with missing colon
-        else if (errorText.match(/def\s+\w+\s*\([^:]*\)\s*$/)) {
-          message = t("editorPanel.pythonSyntaxErrors.missingColon");
-          hasMissingColonError = true;
-          handledLines.add(startPos.row);
 
-          // Store this error directly to ensure it gets highlighted
-          problems.push({
-            message,
-            severity: "error",
-            from: errorNode.startIndex,
-            to: errorNode.endIndex,
-            context: {
-              row: startPos.row,
-              column: startPos.column,
-              text: errorText,
-              isMissingColon: true, // Flag to identify this as a colon error
-              lineNumber: startPos.row // Store the line number for highlighting
-            },
-          });
+          // 3. Unbalanced parentheses/brackets - use narrow context
+          // Focus on immediate context around the error to prevent false positives
+          const openParens = (narrowErrorContext.match(/\(/g) || []).length;
+          const closeParens = (narrowErrorContext.match(/\)/g) || []).length;
+          const openBrackets = (narrowErrorContext.match(/\[/g) || []).length;
+          const closeBrackets = (narrowErrorContext.match(/]/g) || []).length;
+          const openBraces = (narrowErrorContext.match(/\{/g) || []).length;
+          const closeBraces = (narrowErrorContext.match(/}/g) || []).length;
 
-          // Skip the normal error processing for this case
-          continue;
-        }
-        // Case 5: Check for indentation issues (only if none of the above)
-        else if (
-          (startPos.column === 0 ||
-            (prevSibling && prevSibling.endPosition.row !== startPos.row)) &&
-          !errorText.match(/\w+\s*\(/) && // Not a function call
-          !errorText.match(/[()[\]{}]/) // Not related to brackets/braces/parentheses
-        ) {
-          message = t("editorPanel.pythonSyntaxErrors.indentationIssue");
-        }
-        // Case 6: Check for missing quotes
-        else if (
-          errorText.includes('"') &&
-          errorText.split('"').length % 2 === 0
-        ) {
-          message = t(
-            "editorPanel.pythonSyntaxErrors.missingClosingDoubleQuote",
-          );
-        } else if (
-          errorText.includes("'") &&
-          errorText.split("'").length % 2 === 0
-        ) {
-          message = t(
-            "editorPanel.pythonSyntaxErrors.missingClosingSingleQuote",
-          );
-        }
-        // Case 7: Check for potential invalid syntax in function calls
-        else if (
-          parent &&
-          parent.type === "call" &&
-          !message.includes("Missing")
-        ) {
-          message = t("editorPanel.pythonSyntaxErrors.functionCallSyntaxError");
-        }
-        // Case 8: Check for potential keyword issues
-        else if (prevSibling && prevSibling.type === "keyword") {
-          const keyword = code.slice(
-            prevSibling.startIndex,
-            prevSibling.endIndex,
-          );
-          message = t(
-            "editorPanel.pythonSyntaxErrors.syntaxErrorAfterKeyword",
-            { keyword },
-          );
-        }
+          // Check if the error is at the line level with unbalanced brackets
+          const lineOpenParens = (lineErrorContext.match(/\(/g) || []).length;
+          const lineCloseParens = (lineErrorContext.match(/\)/g) || []).length;
+          const lineOpenBrackets = (lineErrorContext.match(/\[/g) || []).length;
+          const lineCloseBrackets = (lineErrorContext.match(/\]/g) || [])
+            .length;
+          const lineOpenBraces = (lineErrorContext.match(/\{/g) || []).length;
+          const lineCloseBraces = (lineErrorContext.match(/\}/g) || []).length;
 
-        // Skip generic syntax errors for lines inside functions with missing colons
-        // This prevents the extra error highlighting on indented lines within a function
-        if (hasMissingColonError &&
-            message === t("editorPanel.pythonSyntaxErrors.default") &&
-            // Check if we're at the end of a block that might be caused by a missing colon
-            errorText.trim().startsWith("\n") &&
-            // Verify if there are any control structures (if, def, etc.) in previous lines
-            code.split('\n').some(line =>
-              line.match(/^\s*(if|for|while|else|elif|def|class)(\s+|$)/) && !line.includes(':')
-            )) {
-          continue;
-        }
+          // Check line level first, then narrow context
+          if (lineOpenParens > lineCloseParens) {
+            return "Missing closing parenthesis ) in this line";
+          } else if (lineOpenParens < lineCloseParens) {
+            return "Unexpected closing parenthesis ) in this line, did you mean to open one with (";
+          } else if (openParens > closeParens) {
+            return "Missing closing parenthesis )'";
+          } else if (openParens < closeParens) {
+            return "Unexpected closing parenthesis ), did you mean to open one with (";
+          }
 
-        // Skip duplicate errors on same line (e.g., when missing colon causes multiple errors)
-        if (handledLines.has(startPos.row)) {
-          continue;
-        }
+          if (lineOpenBrackets > lineCloseBrackets) {
+            return "Missing closing bracket ']' in this line";
+          } else if (lineOpenBrackets < lineCloseBrackets) {
+            return "Unexpected closing bracket ']' in this line";
+          } else if (openBrackets > closeBrackets) {
+            return "Missing closing bracket ']'";
+          } else if (openBrackets < closeBrackets) {
+            return "Unexpected closing bracket ']'";
+          }
 
-        // Log context for debugging
-        console.log("Error context:", {
-          errorText,
-          lineContent,
-          parentType: parent?.type,
-          prevSiblingType: prevSibling?.type,
-          nextSiblingType: nextSibling?.type,
-          position: `${startPos.row}:${startPos.column}-${endPos.row}:${endPos.column}`,
-          message: message,
-        });
+          if (lineOpenBraces > lineCloseBraces) {
+            return "Missing closing brace '}' in this line";
+          } else if (lineOpenBraces < lineCloseBraces) {
+            return "Unexpected closing brace '}' in this line";
+          } else if (openBraces > closeBraces) {
+            return "Missing closing brace '}'";
+          } else if (openBraces < closeBraces) {
+            return "Unexpected closing brace '}'";
+          }
+
+          // 4. Indentation errors - only compare with immediate next line
+          if (
+            errorLine.trimStart() !== errorLine &&
+            nextLine.length > 0 &&
+            errorLine.length - errorLine.trimStart().length !==
+              nextLine.length - nextLine.trimStart().length &&
+            // Only flag if this looks like an actual code block (not just random indentation)
+            (errorLine.trim().endsWith(":") ||
+              nextLine.trim().startsWith("return") ||
+              nextLine.trim().startsWith("if"))
+          ) {
+            return "Inconsistent indentation";
+          }
+
+          // 5. Missing commas in collections - limit to current line
+          if (/\[[^\]]*\w+\s+\w+[^\]]*\]/.test(lineErrorContext)) {
+            return "Missing comma between list items";
+          }
+          if (/\{[^}]*\w+\s+\w+[^}]*\}/.test(lineErrorContext)) {
+            return "Missing comma between dictionary items";
+          }
+
+          // 6. Invalid Python syntax - using = instead of == for comparison
+          if (/\s*if\s+\w+\s*=\s*\w+/.test(lineErrorContext)) {
+            return "Using = for comparison instead of == in condition";
+          }
+
+          // 7. Invalid assignment
+          if (/^\s*\d+\s*=/.test(lineErrorContext)) {
+            return "Cannot assign to a literal (number)";
+          }
+
+          // 8. End with backslash
+          if (errorLine.trim().endsWith("\\")) {
+            return "Line ending with backslash \\ - did you mean to continue the line?";
+          }
+
+          // 9. Check for print statements with errors (like missing parentheses or quotes)
+          if (/^\s*print\s+[^(]/.test(lineErrorContext)) {
+            return "print() function requires parentheses";
+          }
+
+          if (
+            /print\([^'"]*[^'")\s]\)$/.test(lineErrorContext) ||
+            /print\([^"]*"[^"]*\)$/.test(lineErrorContext) ||
+            /print\([^']*'[^']*\)$/.test(lineErrorContext)
+          ) {
+            return "Unclosed string in print statement";
+          }
+
+          // Default to a more specific message when possible
+          if (errorLine.trim().startsWith("def ")) {
+            return "Syntax error in function definition - check for missing colon (:)";
+          }
+
+          if (errorLine.trim().startsWith("class ")) {
+            return "Syntax error in class definition - check for missing colon (:)";
+          }
+
+          if (
+            errorLine.trim().startsWith("if ") ||
+            errorLine.trim().startsWith("elif ") ||
+            errorLine.trim().startsWith("else")
+          ) {
+            return "Syntax error in conditional statement - check for missing colon (:)";
+          }
+
+          if (
+            errorLine.trim().startsWith("for ") ||
+            errorLine.trim().startsWith("while ")
+          ) {
+            return "Syntax error in loop statement - check for missing colon (:)";
+          }
+
+          // Default to a generic error message if we can't identify the specific issue
+          return "Syntax error in Python code";
+        };
+
+        const errorMessage = getHelpfulErrorMessage();
 
         problems.push({
-          message,
+          message: errorMessage,
           severity: "error",
-          from: errorNode.startIndex,
-          to: errorNode.endIndex,
+          from: fromOffset,
+          to: toOffset,
           context: {
             row: startPos.row,
             column: startPos.column,
-            text: errorText,
+            text: code.slice(fromOffset, toOffset),
+            nodeType: nodeType,
           },
         });
 
-        // Mark this line as handled
-        handledLines.add(startPos.row);
+        console.log(
+          `Found ${nodeType} at line ${startPos.row + 1}, column ${
+            startPos.column
+          }`,
+          {
+            nodeType: nodeType,
+            parent: parent?.type,
+            text: code.slice(fromOffset, toOffset),
+            fromOffset,
+            toOffset,
+          },
+        );
       }
 
       // Log problems to console for debugging
@@ -494,205 +382,45 @@ const useTreeSitterParser = (extension, fileName) => {
    */
   const createProblemDecorations = (state, problems) => {
     const decorations = problems.map((problem) => {
+      // Create simple class based on severity
       let className = "problem-marker";
+      console.log("Creating decoration for problem:", problem);
       if (problem.severity === "error") {
         className += " problem-error";
       } else if (problem.severity === "warning") {
         className += " problem-warning";
       }
 
-      // Handle empty error ranges (zero width)
-      let from = problem.from;
-      let to = problem.to;
-
-      // Check if this is a multi-line error
-      const isMultiLineError =
-        state.doc.lineAt(from).number !== state.doc.lineAt(to).number;
-      let targetLine;
-
-      if (isMultiLineError) {
-        // For multi-line errors, try to identify the line with the actual error
-
-        // For missing colons, look for line with def/if/for/while/etc
-        if (problem.message.includes("Missing colon")) {
-          // Search through each line in the error range to find a control structure
-          for (
-            let line = state.doc.lineAt(from);
-            line.number <= state.doc.lineAt(to).number;
-            line = state.doc.line(line.number + 1)
-          ) {
-            const lineContent = line.text;
-            // Check if this line looks like it should have a colon
-            if (
-              lineContent.match(
-                /^\s*(if|for|while|else|elif|def|class)(\s+|\()/,
-              )
-            ) {
-              targetLine = line;
-              break;
-            }
-          }
-        }
-        // For missing quotes, look for a line with an odd number of quote characters
-        else if (
-          problem.message.includes("Missing") &&
-          (problem.message.includes("quote") ||
-            problem.message.includes("quotation"))
-        ) {
-          // Check each line for unbalanced quotes
-          for (
-            let line = state.doc.lineAt(from);
-            line.number <= state.doc.lineAt(to).number;
-            line = state.doc.line(line.number + 1)
-          ) {
-            const lineContent = line.text;
-            // If this line has an odd number of quotes, it's likely the problematic line
-            const singleQuoteCount = (lineContent.match(/'/g) || []).length;
-            const doubleQuoteCount = (lineContent.match(/"/g) || []).length;
-
-            if (singleQuoteCount % 2 !== 0 || doubleQuoteCount % 2 !== 0) {
-              targetLine = line;
-              break;
-            }
-          }
-        }
-        // For function definition errors
-        else if (
-          problem.message.includes("function") ||
-          (problem.context?.text && problem.context.text.includes("def "))
-        ) {
-          // Look for the line with 'def' keyword
-          for (
-            let line = state.doc.lineAt(from);
-            line.number <= state.doc.lineAt(to).number;
-            line = state.doc.line(line.number + 1)
-          ) {
-            if (line.text.match(/^\s*def\s+\w+/)) {
-              targetLine = line;
-              break;
-            }
-          }
-        }
-
-        // If we've identified a specific target line, use it
-        if (targetLine) {
-          from = targetLine.from;
-          to = targetLine.from + targetLine.length;
-        } else {
-          // Default: use the starting line
-          const errorLine = state.doc.lineAt(from);
-          from = errorLine.from;
-          to = errorLine.from + errorLine.length;
-        }
-      } else {
-        // For single-line errors, use the current line
-        const errorLine = state.doc.lineAt(from);
-        targetLine = errorLine;
-      }
-
-      // If the error is an empty string or just whitespace, highlight a reasonable area
-      if (from === to || state.doc.sliceString(from, to).trim() === "") {
-        // For decorator errors, highlight the identifier before
-        if (problem.message.includes("decorator")) {
-          from = targetLine.from;
-          to = targetLine.from + targetLine.length;
-        } else {
-          // For other cases, highlight at least one character
-          to = from + 1;
-        }
-      }
-
-      // For indentation errors, highlight the whole line
-      if (problem.message.includes("Indentation")) {
-        from = targetLine.from;
-        to = targetLine.from + targetLine.length;
-      }
-
-      // For missing colon errors, only highlight the line with the missing colon
-      if (problem.message.includes("Missing colon")) {
-        from = targetLine.from;
-        to = targetLine.from + targetLine.length;
-      }
-
-      // For missing quote errors, only highlight the current line
-      if (
-        problem.message.includes("Missing") &&
-        (problem.message.includes("quote") ||
-          problem.message.includes("quotation"))
-      ) {
-        from = targetLine.from;
-        to = targetLine.from + targetLine.length;
-      }
-
-      // Get the line text and adjust the highlighting to exclude comments
-      const lineText = state.doc.lineAt(from).text;
-
-      // Find comment start position (either # or """) in the line
-      const hashCommentPos = lineText.indexOf("#");
-      const tripleQuotePos = lineText.indexOf('"""');
-
-      // Get the earlier of the two comment types (if either exists)
-      let commentPos = -1;
-      if (hashCommentPos !== -1 && tripleQuotePos !== -1) {
-        commentPos = Math.min(hashCommentPos, tripleQuotePos);
-      } else if (hashCommentPos !== -1) {
-        commentPos = hashCommentPos;
-      } else if (tripleQuotePos !== -1) {
-        commentPos = tripleQuotePos;
-      }
-
-      // If we found a comment in this line, adjust 'to' position to exclude it
-      if (commentPos !== -1) {
-        // First, find the first non-whitespace character before the comment
-        let trimPos = commentPos;
-        while (trimPos > 0 && /\s/.test(lineText[trimPos - 1])) {
-          trimPos--;
-        }
-
-        // Adjust 'to' to exclude comment and preceding whitespace
-        const lineFrom = state.doc.lineAt(from).from;
-        const adjustedTo = lineFrom + trimPos;
-
-        // Only adjust if we're not going to make the highlight empty
-        if (adjustedTo > from) {
-          to = adjustedTo;
-        }
-      }
+      // Use the problem ranges directly
+      const from = problem.from;
+      const to = problem.to;
 
       // Get line number for tooltip positioning
       const lineNumber = state.doc.lineAt(from).number - 1; // Convert to 0-based
 
-      // Create a shorter error type for the data attribute
-      // Only take the first word, which is usually "Missing", "Indentation", "Syntax", etc.
-      const errorType = problem.message.split(":")[0].trim().toLowerCase();
+      // Simplify error type to always get the red border
+      const errorType = "missing-syntax"; // This will always trigger the red left border
 
-      // Extract just the helpful message part
+      // Use the problem message directly
       const friendlyMessage = problem.message;
 
-      // Determine if we need to force tooltip position based on line position
+      // Basic position logic for tooltips
       const totalLines = state.doc.lines;
       let linePosition = "";
-
-      // For errors on the last few lines, force tooltips to appear above
-      if (lineNumber >= totalLines - 3 && lineNumber >= 2) {
+      if (lineNumber >= totalLines - 3) {
         linePosition = "top";
-      }
-      // For errors on the top few lines, force tooltips to appear below
-      else if (lineNumber < 2) {
+      } else if (lineNumber < 2) {
         linePosition = "bottom";
       }
 
-      // Debug logging
-      console.log(
-        `Creating error marker: type=${errorType}, message="${friendlyMessage}", position=${linePosition}`,
-      );
-
+      // Create decoration with consistent format
       return Decoration.mark({
         class: className,
         attributes: {
           "data-message": friendlyMessage,
           "data-error-type": errorType,
           "data-line": lineNumber.toString(),
+          "data-severity": problem.severity || "error",
           ...(linePosition && { "data-line-position": linePosition }),
         },
       }).range(from, to);

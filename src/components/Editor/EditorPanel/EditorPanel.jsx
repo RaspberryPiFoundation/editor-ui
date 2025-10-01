@@ -48,7 +48,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     parserInitialized,
     analyzePythonCode,
     createProblemDecorations,
-    problemDecorationsEffect
+    problemDecorationsEffect,
   } = useTreeSitterParser(extension, fileName);
 
   // Create a state field for problem decorations
@@ -115,7 +115,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     }
   });
 
-
   const getMode = () => {
     switch (extension) {
       case "html":
@@ -140,7 +139,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const file = project.components.find(
     (item) => item.extension === extension && item.name === fileName,
   );
-
 
   useEffect(() => {
     if (!file) {
