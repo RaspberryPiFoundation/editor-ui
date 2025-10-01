@@ -74,6 +74,7 @@ const VisualOutputPane = ({ visuals, setVisuals }) => {
   return (
     <div className="visual-output">
       <div ref={output} className="pythonrunner-graphic" />
+      <canvas id="sdl2Canvas"></canvas>
       {senseHatEnabled || senseHatAlways ? <AstroPiModel /> : null}
     </div>
   );
