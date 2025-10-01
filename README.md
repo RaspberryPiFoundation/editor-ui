@@ -2,6 +2,16 @@
 
 This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
 
+## Install dependencies
+
+This repository uses Yarn 3 (see `package.json` → `packageManager`). Please install dependencies with Yarn:
+
+```
+yarn install
+```
+
+Using `npm install` can fail due to strict peer-dependency resolution in npm for some legacy packages in this project.
+
 ## Environment variables
 
 The app uses the `dotenv` package to provide access to environment variables. Copy the example file into `.env` and use this file for any other environment variables the web component may require:
@@ -66,6 +76,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
 - `load_cache`: Load latest version of project code from local storage (defaults to `true`)
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
+- `locale`: Locale for UI elements and to determine the language of projects loaded from the API (defaults to `en`)
 - `output_only`: Only display the output panel (defaults to `false`)
 - `output_panels`: Array of output panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
