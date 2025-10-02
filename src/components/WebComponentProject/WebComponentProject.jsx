@@ -35,6 +35,7 @@ const WebComponentProject = ({
   outputOnly = false,
   outputPanels = ["text", "visual"],
   outputSplitView = false,
+  plugins = [],
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -152,6 +153,7 @@ const WebComponentProject = ({
                 withProjectbar={withProjectbar}
                 withSidebar={withSidebar}
                 sidebarOptions={sidebarOptions}
+                plugins={plugins}
               />
             ))}
           {outputOnly && (
