@@ -27,6 +27,9 @@ import SidebarPanel from "./SidebarPanel";
 
 const Sidebar = ({ options = [], plugins = [] }) => {
   const { t } = useTranslation();
+  const projectIdentifier = useSelector(
+    (state) => state.editor.project.identifier,
+  );
 
   let menuOptions = [
     {
@@ -88,7 +91,7 @@ const Sidebar = ({ options = [], plugins = [] }) => {
       position: plugin.position || "top",
       panel: () => (
         <SidebarPanel heading={plugin.title} Button={plugin.button}>
-          {plugin.panel()}
+          {plugin.panel({ projectIdentifier })}
         </SidebarPanel>
       ),
     };
