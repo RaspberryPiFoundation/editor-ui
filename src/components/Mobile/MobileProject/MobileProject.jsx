@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
 
-const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
+const MobileProject = ({ withSidebar, sidebarOptions = [], plugins = [] }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
   const sidebarShowing = useSelector((state) => state.editor.sidebarShowing);
   const codeRunTriggered = useSelector(
@@ -48,7 +48,7 @@ const MobileProject = ({ withSidebar, sidebarOptions = [] }) => {
       >
         {withSidebar && (
           <TabPanel>
-            <Sidebar options={sidebarOptions} />
+            <Sidebar options={sidebarOptions} plugins={plugins} />
           </TabPanel>
         )}
         <TabPanel>

@@ -23,8 +23,9 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
+import SidebarPanel from "./SidebarPanel";
 
-const Sidebar = ({ options = [] }) => {
+const Sidebar = ({ options = [], plugins = [] }) => {
   const { t } = useTranslation();
 
   let menuOptions = [
@@ -79,6 +80,22 @@ const Sidebar = ({ options = [] }) => {
     },
   ].filter((option) => options.includes(option.name));
 
+  let pluginMenuOptions = plugins.map((plugin) => {
+    return {
+      name: plugin.name,
+      icon: plugin.icon,
+      title: plugin.title,
+      position: plugin.position || "top",
+      panel: () => (
+        <SidebarPanel heading={plugin.heading} Button={plugin.button}>
+          {plugin.panel()}
+        </SidebarPanel>
+      ),
+    };
+  });
+
+  menuOptions = [...menuOptions, ...pluginMenuOptions];
+
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
@@ -103,17 +120,23 @@ const Sidebar = ({ options = [] }) => {
     removeOption("instructions", instructionsSteps);
   }
 
+  const autoOpenPlugin = plugins?.find((plugin) => plugin.autoOpen);
+
   const [option, setOption] = useState(
-    instructionsEditable || instructionsSteps ? "instructions" : "file",
+    autoOpenPlugin
+      ? autoOpenPlugin.name
+      : instructionsEditable || instructionsSteps
+      ? "instructions"
+      : "file",
   );
 
   const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
 
   useEffect(() => {
-    if (instructionsEditable || hasInstructions) {
+    if (!autoOpenPlugin && (instructionsEditable || hasInstructions)) {
       setOption("instructions");
     }
-  }, [instructionsEditable, hasInstructions]);
+  }, [autoOpenPlugin, instructionsEditable, hasInstructions]);
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {

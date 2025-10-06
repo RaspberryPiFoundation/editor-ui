@@ -27,6 +27,7 @@ class WebComponent extends HTMLElement {
   mountPoint;
   componentAttributes = {};
   componentProperties = {};
+  plugins = [];
 
   connectedCallback() {
     if (!this.shadowRoot) {
@@ -112,6 +113,11 @@ class WebComponent extends HTMLElement {
     this.mountReactApp();
   }
 
+  setPlugins(plugins) {
+    this.plugins = plugins;
+    this.mountReactApp();
+  }
+
   get editorCode() {
     const state = store.getState();
     return state.editor.project.components[0]?.content;
@@ -177,7 +183,7 @@ class WebComponent extends HTMLElement {
       <React.StrictMode>
         <Provider store={store}>
           <BrowserRouter>
-            <WebComponentLoader {...this.reactProps()} />
+            <WebComponentLoader plugins={this.plugins} {...this.reactProps()} />
           </BrowserRouter>
         </Provider>
       </React.StrictMode>,
