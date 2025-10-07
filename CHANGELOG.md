@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+- Sidebar plugin functionality (#1251)
+
 ### Changed
 
 - Changed `set_pixel` to quantise the colour before writing (#1247)
