@@ -27,6 +27,7 @@ class WebComponent extends HTMLElement {
   mountPoint;
   componentAttributes = {};
   componentProperties = {};
+  sidebarPlugins = [];
 
   connectedCallback() {
     if (!this.shadowRoot) {
@@ -112,6 +113,11 @@ class WebComponent extends HTMLElement {
     this.mountReactApp();
   }
 
+  setSidebarPlugins(sidebarPlugins) {
+    this.sidebarPlugins = sidebarPlugins;
+    this.mountReactApp();
+  }
+
   get editorCode() {
     const state = store.getState();
     return state.editor.project.components[0]?.content;
@@ -177,7 +183,10 @@ class WebComponent extends HTMLElement {
       <React.StrictMode>
         <Provider store={store}>
           <BrowserRouter>
-            <WebComponentLoader {...this.reactProps()} />
+            <WebComponentLoader
+              sidebarPlugins={this.sidebarPlugins}
+              {...this.reactProps()}
+            />
           </BrowserRouter>
         </Provider>
       </React.StrictMode>,
