@@ -22,7 +22,7 @@ const Project = (props) => {
     withProjectbar = true,
     withSidebar = true,
     sidebarOptions = [],
-    plugins = [],
+    sidebarPlugins = [],
   } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
@@ -60,7 +60,9 @@ const Project = (props) => {
           "proj-container--wc": webComponent,
         })}
       >
-        {withSidebar && <Sidebar options={sidebarOptions} plugins={plugins} />}
+        {withSidebar && (
+          <Sidebar options={sidebarOptions} plugins={sidebarPlugins} />
+        )}
         <div className="project-wrapper" ref={containerRef}>
           {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
           {!loading && (

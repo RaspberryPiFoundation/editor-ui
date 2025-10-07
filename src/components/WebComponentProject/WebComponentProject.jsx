@@ -35,7 +35,7 @@ const WebComponentProject = ({
   outputOnly = false,
   outputPanels = ["text", "visual"],
   outputSplitView = false,
-  plugins = [],
+  sidebarPlugins = [],
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -146,7 +146,7 @@ const WebComponentProject = ({
               <MobileProject
                 withSidebar={withSidebar}
                 sidebarOptions={sidebarOptions}
-                plugins={plugins}
+                sidebarPlugins={sidebarPlugins}
               />
             ) : (
               <Project
@@ -154,7 +154,7 @@ const WebComponentProject = ({
                 withProjectbar={withProjectbar}
                 withSidebar={withSidebar}
                 sidebarOptions={sidebarOptions}
-                plugins={plugins}
+                sidebarPlugins={sidebarPlugins}
               />
             ))}
           {outputOnly && (

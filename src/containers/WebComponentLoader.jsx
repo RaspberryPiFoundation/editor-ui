@@ -47,7 +47,7 @@ const WebComponentLoader = (props) => {
     outputOnly = false,
     outputPanels = ["text", "visual"],
     outputSplitView = false,
-    plugins = [],
+    sidebarPlugins = [],
     projectNameEditable = false,
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
@@ -228,7 +228,7 @@ const WebComponentLoader = (props) => {
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
-              plugins={plugins}
+              sidebarPlugins={sidebarPlugins}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
