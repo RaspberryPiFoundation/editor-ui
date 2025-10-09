@@ -27,6 +27,7 @@
     "@szhsin/react-menu": "^3.2.0",
     "apollo-link-sentry": "^3.2.3",
     "axios": "^0.24.0",
+    "babel-plugin-prismjs": "^2.1.0",
     "classnames": "^2.3.2",
     "codemirror": "^6.0.1",
     "container-query-polyfill": "^1.0.2",
