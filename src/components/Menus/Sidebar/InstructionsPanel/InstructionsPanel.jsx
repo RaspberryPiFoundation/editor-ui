@@ -20,11 +20,13 @@ import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate
 const InstructionsPanel = () => {
   // prism and prism plugin config
   Prism.manual = true;
-  Prism.plugins.NormalizeWhitespace.setDefaults({
-    "remove-indent": false,
-    "remove-initial-line-feed": true,
-    "left-trim": false,
-  });
+  if (Prism.plugins.NormalizeWhitespace) {
+    Prism.plugins.NormalizeWhitespace.setDefaults({
+      "remove-indent": false,
+      "remove-initial-line-feed": true,
+      "left-trim": false,
+    });
+  }
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
