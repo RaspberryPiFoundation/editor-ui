@@ -5,7 +5,12 @@
       "prismjs",
       {
         "languages": ["javascript", "css", "python", "html"],
-        "plugins": ["line-numbers", "line-highlight", "highlight-keywords"],
+        "plugins": [
+          "line-numbers",
+          "line-highlight",
+          "highlight-keywords",
+          "normalize-whitespace"
+        ],
         "theme": "twilight",
         "css": true
       }
