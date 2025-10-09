@@ -8,10 +8,6 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
-import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
-import "prismjs/plugins/line-highlight/prism-line-highlight";
-import "prismjs/plugins/line-numbers/prism-line-numbers.css";
-import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
@@ -19,20 +15,19 @@ import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import Prism from "prismjs";
-import "prismjs/components/prism-python";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
 const InstructionsPanel = () => {
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
-    (state) => state.editor?.instructionsEditable,
+    (state) => state.editor?.instructionsEditable
   );
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector((state) => state.instructions.project?.steps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
   const currentStepPosition = useSelector(
-    (state) => state.instructions.currentStepPosition,
+    (state) => state.instructions.currentStepPosition
   );
   const { t } = useTranslation();
   const stepContent = useRef();
@@ -45,7 +40,7 @@ const InstructionsPanel = () => {
   }, [quiz]);
 
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project?.steps?.length || 0,
+    (state) => state.instructions.project?.steps?.length || 0
   );
 
   const hasInstructions = steps && steps.length > 0;
@@ -53,7 +48,7 @@ const InstructionsPanel = () => {
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css, .language-javascript",
+      ".language-python, .language-html, .language-css, .language-javascript"
     );
 
     codeElements.forEach((element) => {
@@ -104,8 +99,8 @@ const InstructionsPanel = () => {
     if (quizCompleted && isQuiz) {
       dispatch(
         setCurrentStepPosition(
-          Math.min(currentStepPosition + 1, numberOfSteps - 1),
-        ),
+          Math.min(currentStepPosition + 1, numberOfSteps - 1)
+        )
       );
     }
   }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
@@ -113,7 +108,7 @@ const InstructionsPanel = () => {
   const addInstructions = () => {
     const translatedInstructions = populateMarkdownTemplate(
       demoInstructions,
-      t,
+      t
     );
     dispatch(setProjectInstructions(translatedInstructions));
   };
@@ -238,7 +233,7 @@ const InstructionsPanel = () => {
               key="remove"
               variant="danger"
               text={t(
-                "instructionsPanel.removeInstructionsModal.removeInstructions",
+                "instructionsPanel.removeInstructionsModal.removeInstructions"
               )}
               onClick={removeInstructions}
             />,
