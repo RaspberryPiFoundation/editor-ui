@@ -18,6 +18,7 @@ import Prism from "prismjs";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
 const InstructionsPanel = () => {
+  Prism.manual = true;
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable
