@@ -8,10 +8,6 @@ import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
-import "prismjs/plugins/highlight-keywords/prism-highlight-keywords.js";
-import "prismjs/plugins/line-highlight/prism-line-highlight";
-import "prismjs/plugins/line-numbers/prism-line-numbers.css";
-import "prismjs/plugins/line-highlight/prism-line-highlight.css";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
@@ -19,10 +15,20 @@ import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import Prism from "prismjs";
-import "prismjs/components/prism-python";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
 const InstructionsPanel = () => {
+  useEffect(() => {
+    // prism and prism plugin config
+    Prism.manual = true;
+    if (Prism.plugins.NormalizeWhitespace) {
+      Prism.plugins.NormalizeWhitespace.setDefaults({
+        "remove-indent": false,
+        "remove-initial-line-feed": true,
+        "left-trim": false,
+      });
+    }
+  }, []);
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
