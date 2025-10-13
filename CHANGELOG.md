@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.32.0] - 2025-10-13
 
 ### Added
 
@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Changed `set_pixel` to quantise the colour before writing (#1247)
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
+- Changed Prism config to use babel plugin enabling line highlighting and numbering (#1254)
 
 ## [0.31.1] - 2025-09-19
 
@@ -1167,7 +1168,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.31.1...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.32.0...HEAD
+[0.32.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.32.0
 [0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
 [0.31.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.0
 [0.30.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.30.3

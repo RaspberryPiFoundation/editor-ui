@@ -1,5 +1,19 @@
 {
-  "presets": [
-    "react-app",
+  "presets": ["react-app"],
+  "plugins": [
+    [
+      "prismjs",
+      {
+        "languages": ["javascript", "css", "python", "html"],
+        "plugins": [
+          "line-numbers",
+          "line-highlight",
+          "highlight-keywords",
+          "normalize-whitespace"
+        ],
+        "theme": "twilight",
+        "css": true
+      }
+    ]
   ]
 }
