@@ -26,6 +26,7 @@ const Project = (props) => {
   } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
+  const project = useSelector((state) => state.editor.project);
 
   useEffect(() => {
     if (saving === "success" && autosave === false) {
@@ -53,6 +54,8 @@ const Project = (props) => {
     setLoading(false);
   }, []);
 
+  const iframeSrc = "https://scratch-editor.pages.dev/";
+
   return (
     <div className="proj" data-testid="project">
       <div
@@ -67,18 +70,28 @@ const Project = (props) => {
           {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
           {!loading && (
             <div className="proj-editor-wrapper">
-              <ResizableWithHandle
-                data-testid="proj-editor-container"
-                className="proj-editor-container"
-                defaultWidth={defaultWidth}
-                defaultHeight={defaultHeight}
-                handleDirection={handleDirection}
-                minWidth="25%"
-                maxWidth={maxWidth}
-              >
-                <EditorInput />
-              </ResizableWithHandle>
-              <Output />
+              {project.project_type === "scratch" ? (
+                <iframe
+                  src={iframeSrc}
+                  style={{ width: "100%", border: "0px" }}
+                  title="scratch"
+                ></iframe>
+              ) : (
+                <>
+                  <ResizableWithHandle
+                    data-testid="proj-editor-container"
+                    className="proj-editor-container"
+                    defaultWidth={defaultWidth}
+                    defaultHeight={defaultHeight}
+                    handleDirection={handleDirection}
+                    minWidth="25%"
+                    maxWidth={maxWidth}
+                  >
+                    <EditorInput />
+                  </ResizableWithHandle>
+                  <Output />
+                </>
+              )}
             </div>
           )}
         </div>
