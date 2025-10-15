@@ -56,7 +56,7 @@ describe("Running the code with pyodide", () => {
 
   it("interrupts the code when the stop button is clicked", () => {
     runCode(
-      "from time import sleep\nfor i in range(100):\n\tprint(i)\n\tsleep(1)"
+      "from time import sleep\nfor i in range(100):\n\tprint(i)\n\tsleep(1)",
     );
     cy.get("editor-wc")
       .shadow()
@@ -115,7 +115,7 @@ describe("Running the code with pyodide", () => {
       .find(".error-message__content")
       .should(
         "contain",
-        "FileExistsError: File 'output.txt' already exists on line 1 of main.py"
+        "FileExistsError: File 'output.txt' already exists on line 1 of main.py",
       );
   });
 
@@ -126,7 +126,7 @@ describe("Running the code with pyodide", () => {
       .find("div[class=cm-content]")
       .invoke(
         "text",
-        'with open("output.txt", "a") as f:\n\tf.write("Hello again world")'
+        'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
       );
     cy.get("editor-wc")
       .shadow()
@@ -153,7 +153,7 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple program with a built-in pyodide module", () => {
     runCode(
-      "import simplejson as json\nprint(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))"
+      "import simplejson as json\nprint(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))",
     );
     cy.get("editor-wc")
       .shadow()
@@ -163,7 +163,7 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple pygal program", () => {
     runCode(
-      "import pygal\nbar_chart = pygal.Bar()\nbar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])\nbar_chart.render()"
+      "import pygal\nbar_chart = pygal.Bar()\nbar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])\nbar_chart.render()",
     );
     cy.get("editor-wc")
       .shadow()
@@ -173,7 +173,7 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple matplotlib program", () => {
     runCode(
-      "import matplotlib.pyplot as plt\nx = [1,2,3]\ny = [2,4,1]\nplt.plot(x, y)\nplt.title('My first graph!')\nplt.show()"
+      "import matplotlib.pyplot as plt\nx = [1,2,3]\ny = [2,4,1]\nplt.plot(x, y)\nplt.title('My first graph!')\nplt.show()",
     );
     cy.wait(5000);
     cy.get("editor-wc")
@@ -193,12 +193,23 @@ describe("Running the code with pyodide", () => {
       .should("be.visible");
   });
 
+  it("runs a simple plotly program", () => {
+    runCode(
+      'import plotly.express as px\ndf = px.data.gapminder().query("country==\'Canada\'")\nfig = px.line(df, x="year", y="lifeExp", title=\'Life expectancy in Canada\')\nfig.show()',
+    );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .find("div.js-plotly-plot")
+      .should("be.visible");
+  });
+
   it("runs a simple urllib program", () => {
     cy.intercept("GET", "https://www.my-amazing-website.com", {
       statusCode: 200,
     });
     runCode(
-      "import urllib.request\nresponse = urllib.request.urlopen('https://www.my-amazing-website.com')\nprint(response.getcode())"
+      "import urllib.request\nresponse = urllib.request.urlopen('https://www.my-amazing-website.com')\nprint(response.getcode())",
     );
     cy.get("editor-wc")
       .shadow()
@@ -208,7 +219,7 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple program with a module from PyPI", () => {
     runCode(
-      "from strsimpy.levenshtein import Levenshtein\nlevenshtein = Levenshtein()\nprint(levenshtein.distance('hello', 'world'))"
+      "from strsimpy.levenshtein import Levenshtein\nlevenshtein = Levenshtein()\nprint(levenshtein.distance('hello', 'world'))",
     );
     cy.get("editor-wc")
       .shadow()
@@ -236,7 +247,7 @@ text_in = "This is a test message"
 rotor_start = "FNZ"
 text_out = use_enigma_machine(text_in, rotor_start)
 print(text_out)
-      `
+      `,
     );
     cy.get("editor-wc")
       .shadow()
@@ -251,7 +262,7 @@ print(text_out)
       .find(".error-message__content")
       .should(
         "contain",
-        "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py"
+        "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py",
       );
   });
 
