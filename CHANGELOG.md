@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased
 
 ### Added
+
 - `plotly` support (#1226)
 
 ## [0.32.0] - 2025-10-13
