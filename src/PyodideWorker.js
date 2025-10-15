@@ -32,7 +32,17 @@ const PyodideWorker = () => {
       ].join("\n"),
     );
   }
-  let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
+  let pyodide,
+    pyodidePromise,
+    stdinBuffer,
+    interruptBuffer,
+    stopped,
+    inputStateBuffer,
+    inputEventBuffer;
+
+  let keyboardState = {};
+  // let mouseState = { x: 0, y: 0, buttons: 0 };
+  // let eventQueue = [];
 
   const onmessage = async ({ data }) => {
     pyodide = await pyodidePromise;
@@ -47,6 +57,9 @@ const PyodideWorker = () => {
         break;
       case "stopPython":
         stopped = true;
+        break;
+      case "handleKeyboardInput":
+        handleKeyboardInput(data);
         break;
       default:
         throw new Error(`Unsupported method: ${data.method}`);
@@ -73,6 +86,17 @@ const PyodideWorker = () => {
     }
 
     await clearPyodideData();
+  };
+
+  const handleKeyboardInput = (data) => {
+    const eventIndex = inputEventBuffer[0];
+    // Write event to shared buffer (you'd need proper serialization)
+    // This is a simplified example
+    inputEventBuffer[eventIndex] = data.type === "keydown" ? 1 : 0;
+    inputEventBuffer[0]++; // Increment event count
+
+    // Notify via Atomics
+    Atomics.notify(inputEventBuffer, 0, 1);
   };
 
   const checkIfStopped = () => {
@@ -438,6 +462,87 @@ const PyodideWorker = () => {
 
     pyodide.registerJsModule("basthon", fakeBasthonPackage);
 
+    // Add a key mapping function
+    const getKeyIndex = (key) => {
+      // Map common keys to specific indices in the inputStateBuffer
+      const keyMap = {
+        // Letters (indices 0-25)
+        a: 0,
+        b: 1,
+        c: 2,
+        d: 3,
+        e: 4,
+        f: 5,
+        g: 6,
+        h: 7,
+        i: 8,
+        j: 9,
+        k: 10,
+        l: 11,
+        m: 12,
+        n: 13,
+        o: 14,
+        p: 15,
+        q: 16,
+        r: 17,
+        s: 18,
+        t: 19,
+        u: 20,
+        v: 21,
+        w: 22,
+        x: 23,
+        y: 24,
+        z: 25,
+
+        // Numbers (indices 26-35)
+        0: 26,
+        1: 27,
+        2: 28,
+        3: 29,
+        4: 30,
+        5: 31,
+        6: 32,
+        7: 33,
+        8: 34,
+        9: 35,
+
+        // Special keys (indices 36-99)
+        ArrowUp: 36,
+        ArrowDown: 37,
+        ArrowLeft: 38,
+        ArrowRight: 39,
+        Space: 40,
+        " ": 40, // Both 'Space' and actual space character
+        Enter: 41,
+        Escape: 42,
+        Tab: 43,
+        Shift: 44,
+        Control: 45,
+        Alt: 46,
+        Meta: 47,
+        Backspace: 48,
+        Delete: 49,
+
+        // Function keys (indices 50-61)
+        F1: 50,
+        F2: 51,
+        F3: 52,
+        F4: 53,
+        F5: 54,
+        F6: 55,
+        F7: 56,
+        F8: 57,
+        F9: 58,
+        F10: 59,
+        F11: 60,
+        F12: 61,
+
+        // Mouse position reserved at indices 100-101 (as you already have)
+      };
+
+      return keyMap[key.toLowerCase()] || -1;
+    };
+
     await pyodide.runPythonAsync(`
     __old_input__ = input
     def __patched_input__(prompt=False):
@@ -468,7 +573,71 @@ const PyodideWorker = () => {
       interruptBuffer =
         interruptBuffer || new Uint8Array(new SharedArrayBuffer(1));
       pyodide.setInterruptBuffer(interruptBuffer);
+
+      // Add input state buffer (for real-time key/mouse state)
+      inputStateBuffer =
+        inputStateBuffer || new Int32Array(new SharedArrayBuffer(1024));
+
+      // Add input event buffer (for event queue)
+      inputEventBuffer =
+        inputEventBuffer || new Int32Array(new SharedArrayBuffer(4096));
+      inputEventBuffer[0] = 1; // Event queue length at index 0
     }
+
+    pyodide.registerJsModule("input_system", {
+      getEvents: () => {
+        if (!inputEventBuffer) return [];
+
+        // Calculate number of events (each event uses 3 slots)
+        const totalEvents = Math.floor((inputEventBuffer[0] - 1) / 3);
+        const events = [];
+
+        for (let i = 0; i < totalEvents; i++) {
+          const baseIndex = 1 + i * 3;
+          if (baseIndex + 2 < inputEventBuffer.length) {
+            const eventType = inputEventBuffer[baseIndex];
+            const keyCode = inputEventBuffer[baseIndex + 1];
+            const modifiers = inputEventBuffer[baseIndex + 2];
+
+            events.push({
+              type: eventType === 1 ? "KEYDOWN" : "KEYUP",
+              key:
+                keyCode > 0 && keyCode < 128
+                  ? String.fromCharCode(keyCode)
+                  : "unknown",
+              keyCode: keyCode,
+              ctrlKey: (modifiers & 1) === 1,
+              shiftKey: (modifiers & 2) === 2,
+            });
+          }
+        }
+
+        // Reset event buffer
+        inputEventBuffer[0] = 1;
+        return events;
+      },
+
+      hasEvents: () => inputEventBuffer[0] > 1,
+
+      getKeyState: (key) => {
+        // Read from SharedArrayBuffer
+        const keyIndex = getKeyIndex(key);
+        if (keyIndex === -1) {
+          // Key not in our mapping, fallback to local state
+          return keyboardState[key] || false;
+        }
+
+        return inputStateBuffer[keyIndex] === 1;
+      },
+
+      getMousePos: () => [inputStateBuffer[100], inputStateBuffer[101]],
+
+      // Simple check without unnecessary callback
+      checkForInput: () => {
+        pyodide.checkInterrupt(); // Allow message processing
+        return inputEventBuffer[0] > 1;
+      },
+    });
 
     postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
   };

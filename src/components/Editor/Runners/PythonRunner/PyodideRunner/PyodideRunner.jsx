@@ -127,6 +127,34 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
 
   useEffect(() => {
+    const setupInputCapture = () => {
+      const handleKeyDown = (event) => {
+        pyodideWorker.postMessage({
+          method: "handleKeyboardInput",
+          type: "keydown",
+          key: event.key,
+          code: event.code,
+          ctrlKey: event.ctrlKey,
+          shiftKey: event.shiftKey,
+          altKey: event.altKey,
+          metaKey: event.metaKey,
+        });
+      };
+
+      document.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    };
+
+    if (active && pyodideWorker) {
+      const cleanup = setupInputCapture();
+      return cleanup;
+    }
+  }, [pyodideWorker, active]);
+
+  useEffect(() => {
     if (codeRunTriggered && active && output.current) {
       handleRun();
     }
