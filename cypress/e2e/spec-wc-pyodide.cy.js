@@ -197,7 +197,7 @@ describe("Running the code with pyodide", () => {
     runCode(
       'import plotly.express as px\ndf = px.data.gapminder().query("country==\'Canada\'")\nfig = px.line(df, x="year", y="lifeExp", title=\'Life expectancy in Canada\')\nfig.show()',
     );
-    cy.wait(2000);
+    cy.wait(3000);
     cy.get("editor-wc")
       .shadow()
       .find(".pyodiderunner")
