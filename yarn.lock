@@ -2983,6 +2983,7 @@ __metadata:
     babel-jest: ^29.1.2
     babel-loader: ^8.2.5
     babel-plugin-named-asset-import: ^0.3.7
+    babel-plugin-prismjs: ^2.1.0
     babel-preset-react-app: ^10.0.1
     bfj: ^7.0.2
     camelcase: ^6.1.0
@@ -5775,6 +5776,15 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
   checksum: 150233571072b6b3dfe946242da39cba8587b7f908d1c006f7545fc88b0e3c3018d445739beb61e7a75835f0c2751dbe884a94ff9b245ec42369d9267e0e1b3f
+  languageName: node
+  linkType: hard
+
+"babel-plugin-prismjs@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "babel-plugin-prismjs@npm:2.1.0"
+  peerDependencies:
+    prismjs: ^1.18.0
+  checksum: 8bc59ca46b493cb255ec914e26a0dd39c1aaee881e3701d6726db40152d4a176a96ac1438f80b0d705b188bee4106538de809bc79dff9774400da3d8331affce
   languageName: node
   linkType: hard
 

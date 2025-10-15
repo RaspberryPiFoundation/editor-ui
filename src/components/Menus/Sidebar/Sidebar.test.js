@@ -316,3 +316,93 @@ describe("When the project has no instructions", () => {
     });
   });
 });
+
+describe("When plugins are provided", () => {
+  const initialState = {
+    editor: {
+      project: {
+        components: [],
+        image_list: [],
+      },
+      instructionsEditable: false,
+    },
+    instructions: {},
+  };
+  const mockStore = configureStore([]);
+  const store = mockStore(initialState);
+  const defaultPlugin = {
+    name: "my-amazing-plugin",
+    icon: () => {},
+    heading: "My amazing plugin",
+    title: "my amazing plugin",
+    panel: () => <p>My amazing content</p>,
+  };
+
+  describe("when plugin has autoOpen true", () => {
+    beforeEach(() => {
+      const plugins = [
+        {
+          ...defaultPlugin,
+          autoOpen: true,
+        },
+      ];
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} plugins={plugins} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Shows plugin icon", () => {
+      expect(screen.queryByTitle("my amazing plugin")).toBeInTheDocument();
+    });
+
+    test("Render the plugin panel open by default", () => {
+      expect(screen.queryByText("My amazing plugin")).toBeInTheDocument();
+    });
+
+    test("Renders the plugin content", () => {
+      expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+    });
+  });
+
+  describe("when plugin has autoOpen false", () => {
+    beforeEach(() => {
+      const plugins = [
+        {
+          ...defaultPlugin,
+          autoOpen: false,
+        },
+      ];
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} plugins={plugins} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Shows plugin icon", () => {
+      expect(screen.queryByTitle("my amazing plugin")).toBeInTheDocument();
+    });
+
+    test("Does not render the plugin panel open by default", () => {
+      expect(screen.queryByText("My amazing plugin")).not.toBeInTheDocument();
+    });
+
+    test("Opening the panel shows the plugin heading", () => {
+      const pluginButton = screen.getByTitle("my amazing plugin");
+      fireEvent.click(pluginButton);
+      expect(screen.queryByText("My amazing plugin")).toBeInTheDocument();
+    });
+
+    test("Opening the panel shows the plugin content", () => {
+      const pluginButton = screen.getByTitle("my amazing plugin");
+      fireEvent.click(pluginButton);
+      expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+    });
+  });
+});
