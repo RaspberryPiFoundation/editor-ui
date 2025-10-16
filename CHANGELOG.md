@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
 
+## [0.33.0] - 2025-10-15
+
+### Added
+
+- `plotly` support (#1226)
+
 ## [0.32.0] - 2025-10-13
 
 ### Added
@@ -1173,7 +1179,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.32.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.33.0...HEAD
+[0.33.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.33.0
 [0.32.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.32.0
 [0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
 [0.31.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.0

@@ -84,6 +84,8 @@ module.exports = {
   resolve: {
     extensions: [".*", ".js", ".jsx", ".css"],
     fallback: {
+      stream: require.resolve("stream-browserify"),
+      assert: require.resolve("assert"),
       path: require.resolve("path-browserify"),
       url: require.resolve("url/"),
     },
