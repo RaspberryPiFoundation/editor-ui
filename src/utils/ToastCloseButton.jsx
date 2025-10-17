@@ -1,14 +1,9 @@
 import React from "react";
-import Button from "../components/Button/Button";
-import CloseIcon from "./CloseIcon";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const ToastCloseButton = ({ closeToast }) => {
   return (
-    <Button
-      className="btn btn--tertiary"
-      onClickHandler={closeToast}
-      ButtonIcon={() => <CloseIcon scaleFactor={0.75} />}
-    />
+    <Button type="tertiary" onClick={closeToast} icon="close" size="small" />
   );
 };
 
