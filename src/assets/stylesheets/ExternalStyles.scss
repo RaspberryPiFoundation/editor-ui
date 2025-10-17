@@ -2,6 +2,6 @@
 @use "../../../node_modules/react-toggle/style.css";
 @use "../../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css";
 @use "../../../node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css";
-@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/alert.scss";
 @use "../../../node_modules/material-symbols/sharp.scss";
 @use "../../../node_modules/plotly.js/src/css/style.scss" as plotlyStyle;
+@forward "@raspberrypifoundation/design-system-react/scss/design-system-core";
