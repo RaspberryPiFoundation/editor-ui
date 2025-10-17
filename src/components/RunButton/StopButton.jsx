@@ -1,13 +1,13 @@
-import Button from "../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { stopCodeRun, stopDraw } from "../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
 
-const StopButton = ({ embedded = false, className, ...props }) => {
+const StopButton = ({ embedded = false, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered,
+    (state) => state.editor.codeRunTriggered
   );
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -22,29 +22,17 @@ const StopButton = ({ embedded = false, className, ...props }) => {
     dispatch(stopDraw());
   };
 
-  const stop = (
-    <Button
-      className={`btn--primary btn--stop${className ? ` ${className}` : ""}`}
-      onClickHandler={onClickStop}
-      {...props}
-    />
-  );
+  const stop = <Button onClick={onClickStop} {...props} />;
   const [button, setButton] = useState(stop);
 
   useEffect(() => {
     if (codeRunStopped) {
-      const stopping = (
-        <Button
-          className={`${className ? ` ${className}` : ""}`}
-          buttonText={t("runButton.stopping")}
-          disabled
-        />
-      );
+      const stopping = <Button text={t("runButton.stopping")} disabled />;
       setTimeout(() => {
         setButton(stopping);
       }, 100);
     }
-  }, [className, codeRunStopped, t]);
+  }, [codeRunStopped, t]);
 
   return button;
 };
