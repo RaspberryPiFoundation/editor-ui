@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import classNames from "classnames";
 
 import { logInEvent } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
-import SaveIcon from "../../assets/icons/save.svg";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { triggerSave } from "../../redux/EditorSlice";
 
-const SaveButton = ({ className, type, fill = false }) => {
+const SaveButton = ({ type, fill = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -40,18 +38,12 @@ const SaveButton = ({ className, type, fill = false }) => {
     loading === "success" &&
     !projectOwner &&
     buttonType && (
-      <DesignSystemButton
-        className={classNames(className, {
-          "btn--primary": buttonType === "primary",
-          "btn--secondary": buttonType === "secondary",
-          "btn--tertiary": buttonType === "tertiary",
-        })}
+      <Button
         onClick={onClickSave}
         text={t(user ? "header.save" : "header.loginToSave")}
-        textAlways
-        icon={<SaveIcon />}
+        icon="save"
         type={buttonType}
-        fill={fill}
+        fullWidth={fill}
       />
     )
   );
