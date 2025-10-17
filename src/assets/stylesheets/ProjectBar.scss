@@ -28,18 +28,9 @@
     }
   }
 
-  .btn--save {
-    border-radius: $space-0-5;
-    @container (min-width: 560px) {
-      .icon {
-        display: none;
-      }
-    }
-  }
-
   .project-bar__btn-wrapper {
     display: flex;
-    block-size:  100%;
+    block-size: 100%;
   }
 
   .project-bar__btn-wrapper:not(:last-child) {
@@ -67,29 +58,6 @@
     .save-status {
       flex: 1;
       justify-content: center;
-    }
-  }
-}
-
-.project-bar__btn {
-  border-radius: $space-0-5;
-  justify-content: center;
-
-  margin: $space-0-5;
-  gap: $space-0-5;
-
-  .text {
-    display: none;
-  }
-
-  &:hover & {
-    border-radius: inherit;
-  }
-
-  @container (min-width: 560px) {
-    .text {
-      min-inline-size: auto;
-      display: block;
     }
   }
 }
