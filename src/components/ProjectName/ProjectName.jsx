@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import PencilIcon from "../../assets/icons/pencil.svg";
-import TickIcon from "../../assets/icons/tick.svg";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { updateProjectName } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/ProjectName.scss";
@@ -63,7 +61,7 @@ const ProjectName = ({
       setEditing(false);
       setName(project.name);
     },
-    [project.name],
+    [project.name]
   );
 
   const handleKeyDown = (event) => {
@@ -120,15 +118,15 @@ const ProjectName = ({
         )}
         {editable && (
           <div ref={tickButton}>
-            <DesignSystemButton
+            <Button
               className="project-name__button"
               aria-label={t(
-                isEditing ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject"
               )}
               title={t(
-                isEditing ? "header.renameSave" : "header.renameProject",
+                isEditing ? "header.renameSave" : "header.renameProject"
               )}
-              icon={isEditing ? <TickIcon /> : <PencilIcon />}
+              icon={isEditing ? "check" : "edit"}
               onClick={isEditing ? updateName : onEditNameButtonClick}
               type={isEditing ? "primary" : "tertiary"}
             />
