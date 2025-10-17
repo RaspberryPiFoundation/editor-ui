@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
-import Button from "../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import {
   closeRenameFileModal,
   updateComponentName,
@@ -15,10 +15,10 @@ const RenameFileModal = () => {
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectComponents = useSelector(
-    (state) => state.editor.project.components,
+    (state) => state.editor.project.components
   );
   const isModalOpen = useSelector(
-    (state) => state.editor.renameFileModalShowing,
+    (state) => state.editor.renameFileModalShowing
   );
   const {
     name: currentName,
@@ -26,12 +26,12 @@ const RenameFileModal = () => {
     fileKey,
   } = useSelector((state) => state.editor.modals.renameFile);
   const componentNames = projectComponents.map(
-    (component) => `${component.name}.${component.extension}`,
+    (component) => `${component.name}.${component.extension}`
   );
 
   const closeModal = () => dispatch(closeRenameFileModal());
   const [fileName, setFileName] = useState(
-    `${currentName}.${currentExtension}`,
+    `${currentName}.${currentExtension}`
   );
 
   const renameComponent = () => {
@@ -50,11 +50,11 @@ const RenameFileModal = () => {
             key: fileKey,
             extension: extension,
             name: name,
-          }),
+          })
         );
         closeModal();
       },
-      `${currentName}.${currentExtension}`,
+      `${currentName}.${currentExtension}`
     );
   };
 
@@ -76,15 +76,15 @@ const RenameFileModal = () => {
       buttons={[
         <Button
           key="rename"
-          className="btn--primary"
-          buttonText={t("filePanel.renameFileModal.save")}
-          onClickHandler={renameComponent}
+          type="primary"
+          text={t("filePanel.renameFileModal.save")}
+          onClick={renameComponent}
         />,
         <Button
           key="close"
-          className="btn--secondary"
-          buttonText={t("filePanel.renameFileModal.cancel")}
-          onClickHandler={closeModal}
+          type="tertiary"
+          text={t("filePanel.renameFileModal.cancel")}
+          onClick={closeModal}
         />,
       ]}
     />

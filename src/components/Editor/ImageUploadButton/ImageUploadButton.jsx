@@ -6,7 +6,7 @@ import Dropzone from "react-dropzone";
 import Modal from "react-modal";
 
 import { updateImages, setNameError } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import NameErrorMessage from "../ErrorMessage/NameErrorMessage";
 import store from "../../../app/store";
 import ApiCallHandler from "../../../utils/apiCallHandler";
@@ -115,8 +115,8 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
   return (
     <>
       <Button
-        buttonText={t("imageUploadButton.uploadImage")}
-        onClickHandler={showModal}
+        text={t("imageUploadButton.uploadImage")}
+        onClick={showModal}
         className="proj-image-upload-button"
       />
 
@@ -148,14 +148,8 @@ const ImageUploadButton = ({ reactAppApiEndpoint }) => {
           )}
         </Dropzone>
         <div className="modal-footer">
-          <Button
-            buttonText={t("imageUploadButton.cancel")}
-            onClickHandler={closeModal}
-          />
-          <Button
-            buttonText={t("imageUploadButton.save")}
-            onClickHandler={saveImages}
-          />
+          <Button text={t("imageUploadButton.cancel")} onClick={closeModal} />
+          <Button text={t("imageUploadButton.save")} onClick={saveImages} />
         </div>
       </Modal>
     </>

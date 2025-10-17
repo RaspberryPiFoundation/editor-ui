@@ -6,7 +6,7 @@ import classNames from "classnames";
 
 import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
 import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
-import Button from "../../Button/Button";
+
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
@@ -17,10 +17,10 @@ const SidebarBar = (props) => {
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "top",
+    (menuOption) => menuOption.position === "top"
   );
   const bottomMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "bottom",
+    (menuOption) => menuOption.position === "bottom"
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -77,21 +77,23 @@ const SidebarBar = (props) => {
         {!isMobile &&
           (option ? (
             <div className="sidebar__bar-option-wrapper">
-              <Button
+              <button
                 className="sidebar__bar-option"
-                ButtonIcon={DoubleArrowLeft}
                 title={t("sidebar.collapse")}
-                onClickHandler={collapsePopOut}
-              />
+                onClick={collapsePopOut}
+              >
+                <DoubleArrowLeft />
+              </button>
             </div>
           ) : (
             <div className="sidebar__bar-option-wrapper">
-              <Button
+              <button
                 className="sidebar__bar-option"
-                ButtonIcon={DoubleArrowRight}
                 title={t("sidebar.expand")}
-                onClickHandler={expandPopOut}
-              />
+                onClick={expandPopOut}
+              >
+                <DoubleArrowRight />
+              </button>
             </div>
           ))}
       </div>

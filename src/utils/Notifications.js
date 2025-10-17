@@ -3,16 +3,15 @@ import { toast } from "react-toastify";
 import InfoIcon from "../assets/icons/info.svg";
 import TickIcon from "../assets/icons/tick.svg";
 import i18n from "./i18n";
-import Button from "../components/Button/Button";
-import CloseIcon from "./CloseIcon";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const CloseButton = ({ closeToast }) => {
   return (
     <Button
-      ButtonIcon={CloseIcon}
-      onClickHandler={closeToast}
+      icon="close"
+      onClick={closeToast}
       title={i18n.t("notifications.close")}
-      label={i18n.t("notifications.close")}
+      aria-label={i18n.t("notifications.close")}
     />
   );
 };

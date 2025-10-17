@@ -1,10 +1,9 @@
 import React from "react";
 import Modal from "react-modal";
 
-import Button from "../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../assets/stylesheets/Modal.scss";
 import { useTranslation } from "react-i18next";
-import CloseIcon from "../../utils/CloseIcon";
 
 const GeneralModal = ({
   buttons = [],
@@ -47,10 +46,10 @@ const GeneralModal = ({
           <h2 className="modal-content__heading">{heading}</h2>
           {withCloseButton ? (
             <Button
-              className="btn--tertiary"
-              onClickHandler={closeModal}
-              ButtonIcon={CloseIcon}
-              label={t("modals.close")}
+              type="tertiary"
+              onClick={closeModal}
+              icon="close"
+              aria-label={t("modals.close")}
               title={t("modals.close")}
             />
           ) : null}
@@ -65,7 +64,7 @@ const GeneralModal = ({
               <p className="modal-content__text" key={i}>
                 {textItem.content}
               </p>
-            ),
+            )
           )}
           {children}
         </div>

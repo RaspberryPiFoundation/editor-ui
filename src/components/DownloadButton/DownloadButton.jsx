@@ -7,16 +7,10 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const DownloadButton = (props) => {
-  const {
-    buttonText,
-    className,
-    Icon,
-    type = "secondary",
-    ...otherProps
-  } = props;
+  const { text, className, type = "secondary", ...otherProps } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
 
@@ -58,18 +52,18 @@ const DownloadButton = (props) => {
         project.name ||
           t("header.downloadFileNameDefault", {
             project_type: project.project_type,
-          }),
-      )}`,
+          })
+      )}`
     );
   };
 
   return (
-    <DesignSystemButton
+    <Button
       className={className}
       onClick={onClickDownload}
-      text={buttonText}
-      textAlways
-      icon={Icon ? <Icon /> : null}
+      icon="download"
+      text={text}
+      fullWidth
       type={type}
       {...otherProps}
     />
