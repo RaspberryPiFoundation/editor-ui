@@ -2925,9 +2925,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.0.0"
+"@raspberrypifoundation/design-system-react@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.1.0"
   dependencies:
     "@raspberrypifoundation/design-system-core": ^2.0.0
     classnames: ^2.5.1
@@ -2937,7 +2937,7 @@ __metadata:
     react-router-dom: ^7.0.2
   peerDependencies:
     react-router-dom: ^6.24.0
-  checksum: 912a1076f592f9fa9256401b208f860bf3c18e52341d807b5e4c0273ff15793939729d7e2504316073173fcfb6cbf6c4ba5485fe2695178d7e30df54249acbe8
+  checksum: a45991c08dd6e2d23a028be1bc6b9616496a64c1aa5ba95d821f85aaf120c784d06a8e0c3c6559ad4dd8c3dc734f3a77780e5e340d1b9afb8b49d943dfe75826
   languageName: node
   linkType: hard
 
@@ -2959,7 +2959,7 @@ __metadata:
     "@juggle/resize-observer": ^3.3.1
     "@lezer/highlight": ^1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
-    "@raspberrypifoundation/design-system-react": 2.0.0
+    "@raspberrypifoundation/design-system-react": 2.1.0
     "@react-three/drei": 9.114.3
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": 8.2.1
