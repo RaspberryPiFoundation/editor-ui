@@ -6,6 +6,11 @@ import "@testing-library/jest-dom";
 import "jest-canvas-mock";
 import PyodideWorker from "../components/Editor/Runners/PythonRunner/PyodideRunner/PyodideWorker.mock.js";
 
+// Polyfill TextEncoder/TextDecoder for Jest environment
+// Required by @raspberrypifoundation/design-system-react components
+import { TextEncoder, TextDecoder } from "util";
+Object.assign(global, { TextDecoder, TextEncoder });
+
 /* global globalThis */
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
