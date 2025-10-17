@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { useDispatch } from "react-redux";
 import { addFilePanel } from "../EditorSlice";
 import { useTranslation } from "react-i18next";
@@ -14,8 +14,8 @@ const NewInputPanelButton = () => {
   return (
     <Button
       className={"btn--primary"}
-      buttonText={t("newInputPanelButton.buttonText")}
-      onClickHandler={openNewPanel}
+      text={t("newInputPanelButton.buttonText")}
+      onClick={openNewPanel}
     />
   );
 };
