@@ -2916,7 +2916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.3.0":
+"@raspberrypifoundation/design-system-core@npm:^2.3.1":
   version: 2.4.0
   resolution: "@raspberrypifoundation/design-system-core@npm:2.4.0"
   dependencies:
@@ -2925,19 +2925,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.3.0"
+"@raspberrypifoundation/design-system-react@npm:2.4.1":
+  version: 2.4.1
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.4.1"
   dependencies:
-    "@raspberrypifoundation/design-system-core": ^2.3.0
+    "@raspberrypifoundation/design-system-core": ^2.3.1
     classnames: ^2.5.1
-    material-symbols: ^0.27.2
     react: ^18.3.1
     react-dom: ^18.3.1
     react-router-dom: ^7.0.2
   peerDependencies:
     react-router-dom: ^6.24.0
-  checksum: e1c5a18fa18622f487d716d47e0a08e5b17010d8d70ff7094592f5145c09a08ddc8824b44a33b8d2587a4e901cbf281200a32c9f7d8830550efd12ed92a667e6
+  checksum: 1ced3ade672e811e5ea897204bf8492a0d05701f619164bc79db48194324c694798ffd639a7e155bc41487928c45bf7085187f9fdfdc49c5995bec99ed19d7c1
   languageName: node
   linkType: hard
 
@@ -2959,7 +2958,7 @@ __metadata:
     "@juggle/resize-observer": ^3.3.1
     "@lezer/highlight": ^1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
-    "@raspberrypifoundation/design-system-react": 2.3.0
+    "@raspberrypifoundation/design-system-react": 2.4.1
     "@react-three/drei": 9.114.3
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": 8.2.1
@@ -14036,13 +14035,6 @@ __metadata:
   version: 0.27.0
   resolution: "material-symbols@npm:0.27.0"
   checksum: 6a585863e75c291aab6104e4ebb38e344dd0e3d39e14653bcb529d558f2b55a3f00d2fc58e59b2ee2d08dc0b7e209fb7ac88ed49cf7158c7fbaf9697edd514ff
-  languageName: node
-  linkType: hard
-
-"material-symbols@npm:^0.27.2":
-  version: 0.27.2
-  resolution: "material-symbols@npm:0.27.2"
-  checksum: c1572d86aa69b355dd273ba1a9bea06f09310451a3384e846f6282240097215e8713bc3918a08e0d786be1c0d8405ca15d2bfc0817385fc2ce6f6d747e041344
   languageName: node
   linkType: hard
 
