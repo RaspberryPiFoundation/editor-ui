@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { showNewFileModal } from "../../../redux/EditorSlice";
-import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
-import PlusIcon from "../../../assets/icons/plus.svg";
-import { useTranslation } from "react-i18next";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const NewComponentButton = () => {
   const { t } = useTranslation();
@@ -15,13 +14,12 @@ const NewComponentButton = () => {
   };
 
   return (
-    <DesignSystemButton
-      text={t("filePanel.newFileButton")}
-      textAlways
-      icon={<PlusIcon />}
+    <Button
+      icon="add"
+      linkComponent={null}
       onClick={openNewFileModal}
-      className="btn--primary"
-      fill
+      text={t("filePanel.newFileButton")}
+      fullWidth
     />
   );
 };
