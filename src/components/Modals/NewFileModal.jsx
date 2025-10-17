@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Button from "../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import {
   addProjectComponent,
   closeNewFileModal,
@@ -16,10 +16,10 @@ const NewFileModal = () => {
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectComponents = useSelector(
-    (state) => state.editor.project.components,
+    (state) => state.editor.project.components
   );
   const componentNames = projectComponents.map(
-    (component) => `${component.name}.${component.extension}`,
+    (component) => `${component.name}.${component.extension}`
   );
 
   const isModalOpen = useSelector((state) => state.editor.newFileModalShowing);
@@ -48,7 +48,7 @@ const NewFileModal = () => {
           label: t("filePanel.newFileModal.inputLabel"),
           helpText: t("filePanel.newFileModal.helpText", {
             examples: t(
-              `filePanel.newFileModal.helpTextExample.${projectType}`,
+              `filePanel.newFileModal.helpTextExample.${projectType}`
             ),
           }),
           value: fileName,
@@ -60,15 +60,15 @@ const NewFileModal = () => {
       buttons={[
         <Button
           key="create"
-          className="btn--primary"
-          buttonText={t("filePanel.newFileModal.addFile")}
-          onClickHandler={createComponent}
+          type="primary"
+          text={t("filePanel.newFileModal.addFile")}
+          onClick={createComponent}
         />,
         <Button
           key="close"
-          className="btn--secondary"
-          buttonText={t("filePanel.newFileModal.cancel")}
-          onClickHandler={closeModal}
+          type="tertiary"
+          text={t("filePanel.newFileModal.cancel")}
+          onClick={closeModal}
         />,
       ]}
     />
