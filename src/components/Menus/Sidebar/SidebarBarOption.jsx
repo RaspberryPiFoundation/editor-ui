@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../../Button/Button";
 import classNames from "classnames";
 
 const SidebarBarOption = (props) => {
@@ -18,14 +17,15 @@ const SidebarBarOption = (props) => {
         "sidebar__bar-option-wrapper--selected": isActive,
       })}
     >
-      <Button
+      <button
         className={classNames("sidebar__bar-option", {
           "sidebar__bar-option--selected": isActive,
         })}
-        ButtonIcon={Icon}
         title={title}
-        onClickHandler={onClickHandler}
-      />
+        onClick={onClickHandler}
+      >
+        <Icon />
+      </button>
     </div>
   );
 };
