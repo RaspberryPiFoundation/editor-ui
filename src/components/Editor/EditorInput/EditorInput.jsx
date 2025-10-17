@@ -10,7 +10,7 @@ import {
   setFocussedFileIndex,
   setOpenFiles,
 } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import EditorPanel from "../EditorPanel/EditorPanel";
 import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
@@ -19,21 +19,20 @@ import RunBar from "../../RunButton/RunBar";
 import "../../../assets/stylesheets/EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
-import CloseIcon from "../../../utils/CloseIcon";
 import { useTranslation } from "react-i18next";
 
 const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const focussedFileIndices = useSelector(
-    (state) => state.editor.focussedFileIndices,
+    (state) => state.editor.focussedFileIndices
   );
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
 
   const [numberOfComponents, setNumberOfComponents] = useState(
-    project?.components?.length,
+    project?.components?.length
   );
   const [fileNames, setFileNames] = useState();
 
@@ -45,7 +44,7 @@ const EditorInput = () => {
       setFocussedFileIndex({
         panelIndex: parseInt(source.droppableId),
         fileIndex: source.index,
-      }),
+      })
     );
   };
 
@@ -66,14 +65,14 @@ const EditorInput = () => {
       setFocussedFileIndex({
         panelIndex: parseInt(destination.droppableId),
         fileIndex: destination.index,
-      }),
+      })
     );
     if (destination.droppableId !== source.droppableId) {
       dispatch(
         setFocussedFileIndex({
           panelIndex: parseInt(source.droppableId),
           fileIndex: Math.max(source.index - 1, 0),
-        }),
+        })
       );
     }
   };
@@ -98,7 +97,7 @@ const EditorInput = () => {
 
   useEffect(() => {
     const newFileNames = project.components.map(
-      (file) => `${file.name}.${file.extension}`,
+      (file) => `${file.name}.${file.extension}`
     );
     if (newFileNames.join() !== fileNames?.join()) {
       setFileNames(newFileNames);
@@ -153,7 +152,7 @@ const EditorInput = () => {
                         tabRefs.current[
                           project?.components?.findIndex(
                             (file) =>
-                              `${file.name}.${file.extension}` === fileName,
+                              `${file.name}.${file.extension}` === fileName
                           )
                         ]
                       }
@@ -162,10 +161,12 @@ const EditorInput = () => {
                     </span>
                     {!["main.py", "index.html"].includes(fileName) ? (
                       <Button
-                        className="btn--tertiary react-tabs__tab-close-btn"
                         label={t("editorPanel.close")}
-                        onClickHandler={(e) => closeFileTab(e, fileName)}
-                        ButtonIcon={() => <CloseIcon scaleFactor={0.85} />}
+                        onClick={(e) => closeFileTab(e, fileName)}
+                        icon="close"
+                        iconOnly
+                        size="small"
+                        type="tertiary"
                       />
                     ) : null}
                   </DraggableTab>
