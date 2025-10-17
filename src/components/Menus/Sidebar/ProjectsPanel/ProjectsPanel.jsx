@@ -5,14 +5,13 @@ import { useTranslation } from "react-i18next";
 import "../../../../assets/stylesheets/ProjectsPanel.scss";
 import ProjectName from "../../../ProjectName/ProjectName";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
-import DownloadIcon from "../../../../assets/icons/download.svg";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
 import { useSelector } from "react-redux";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
 
 const ProjectsPanel = () => {
@@ -42,7 +41,7 @@ const ProjectsPanel = () => {
       heading={t("projectsPanel.projects")}
       Button={() =>
         isLoggedIn && (
-          <DesignSystemButton
+          <Button
             className="btn--primary projects-panel__your-projects-button"
             onClick={navigateToProjectsPage}
             text={t("projectsPanel.yourProjectsButton")}
@@ -59,9 +58,8 @@ const ProjectsPanel = () => {
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
         <DownloadButton
-          buttonText={t("header.download")}
+          text={t("header.download")}
           className="projects-panel__download-button"
-          Icon={DownloadIcon}
         />
       </div>
       {isMobile && saveOptions}

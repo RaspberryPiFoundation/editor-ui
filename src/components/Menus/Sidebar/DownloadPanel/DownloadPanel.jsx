@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import SidebarPanel from "../SidebarPanel";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
-import DownloadIcon from "../../../../assets/icons/download.svg";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { isOwner } from "../../../../utils/projectHelpers";
 
 import {
@@ -40,19 +39,19 @@ export const DownloadPanel = () => {
           </div>
           <p className="download-panel__hint">{t("downloadPanel.logInHint")}</p>
           <div className="download-panel__button-container">
-            <DesignSystemButton
+            <Button
               className="btn btn--primary download-panel__button"
               text={t("downloadPanel.logInButton")}
               type="primary"
               onClick={handleLogIn}
-              fill
+              fullWidth
             />
-            <DesignSystemButton
+            <Button
               className="btn btn--secondary download-panel__button"
               text={t("downloadPanel.signUpButton")}
               type="secondary"
               onClick={handleSignUp}
-              fill
+              fullWidth
             />
           </div>
         </div>
@@ -62,10 +61,8 @@ export const DownloadPanel = () => {
           {t("downloadPanel.downloadHint")}
         </p>
         <DownloadButton
-          buttonText={t("downloadPanel.downloadButton")}
+          text={t("downloadPanel.downloadButton")}
           className="btn btn--secondary download-panel__button"
-          Icon={DownloadIcon}
-          fill
         />
       </div>
       {user && !projectOwner && <SaveButton fill />}
