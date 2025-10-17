@@ -2916,7 +2916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.0.0":
+"@raspberrypifoundation/design-system-core@npm:^2.3.0":
   version: 2.4.0
   resolution: "@raspberrypifoundation/design-system-core@npm:2.4.0"
   dependencies:
@@ -2925,11 +2925,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.2.0"
+"@raspberrypifoundation/design-system-react@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.3.0"
   dependencies:
-    "@raspberrypifoundation/design-system-core": ^2.0.0
+    "@raspberrypifoundation/design-system-core": ^2.3.0
     classnames: ^2.5.1
     material-symbols: ^0.27.2
     react: ^18.3.1
@@ -2937,7 +2937,7 @@ __metadata:
     react-router-dom: ^7.0.2
   peerDependencies:
     react-router-dom: ^6.24.0
-  checksum: b3d45d964deeaf6ab297416a1099a62747cbb7ab8ca90b1e900141bf7694f551198d7edf605fc029a6f25350d94db41765c1fd454af5eaeb9ef442bb26c224d3
+  checksum: e1c5a18fa18622f487d716d47e0a08e5b17010d8d70ff7094592f5145c09a08ddc8824b44a33b8d2587a4e901cbf281200a32c9f7d8830550efd12ed92a667e6
   languageName: node
   linkType: hard
 
@@ -2959,7 +2959,7 @@ __metadata:
     "@juggle/resize-observer": ^3.3.1
     "@lezer/highlight": ^1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
-    "@raspberrypifoundation/design-system-react": 2.2.0
+    "@raspberrypifoundation/design-system-react": 2.3.0
     "@react-three/drei": 9.114.3
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": 8.2.1
