@@ -10,7 +10,7 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 import "../../../../assets/stylesheets/Instructions.scss";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
@@ -131,12 +131,12 @@ const InstructionsPanel = () => {
 
   const AddInstructionsButton = () => {
     return (
-      <DesignSystemButton
+      <Button
         className="btn--primary"
         icon="add"
         text={t("instructionsPanel.emptyState.addInstructions")}
         onClick={addInstructions}
-        fill
+        fullWidth
         textAlways
         small
       />
@@ -145,13 +145,13 @@ const InstructionsPanel = () => {
 
   const RemoveInstructionsButton = () => {
     return (
-      <DesignSystemButton
+      <Button
         className="btn--secondary"
         text={t("instructionsPanel.removeInstructions")}
         onClick={() => {
           setShowModal(true);
         }}
-        fill
+        fullWidth
         textAlways
         small
       />
@@ -239,7 +239,7 @@ const InstructionsPanel = () => {
       {showModal && (
         <RemoveInstructionsModal
           buttons={[
-            <DesignSystemButton
+            <Button
               type="primary"
               key="remove"
               variant="danger"
@@ -248,7 +248,7 @@ const InstructionsPanel = () => {
               )}
               onClick={removeInstructions}
             />,
-            <DesignSystemButton
+            <Button
               type="secondary"
               key="close"
               text={t("instructionsPanel.removeInstructionsModal.close")}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
-import Button from "../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import {
   closeRenameFileModal,
   updateComponentName,
@@ -76,15 +76,15 @@ const RenameFileModal = () => {
       buttons={[
         <Button
           key="rename"
-          className="btn--primary"
-          buttonText={t("filePanel.renameFileModal.save")}
-          onClickHandler={renameComponent}
+          type="primary"
+          text={t("filePanel.renameFileModal.save")}
+          onClick={renameComponent}
         />,
         <Button
           key="close"
-          className="btn--secondary"
-          buttonText={t("filePanel.renameFileModal.cancel")}
-          onClickHandler={closeModal}
+          type="tertiary"
+          text={t("filePanel.renameFileModal.cancel")}
+          onClick={closeModal}
         />,
       ]}
     />

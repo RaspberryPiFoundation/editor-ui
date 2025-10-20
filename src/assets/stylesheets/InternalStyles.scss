@@ -36,8 +36,6 @@
 @use "./AstroPiModel" as *;
 @use "./MobileProjectBar" as *;
 @use "./ProjectBar" as *;
-@use "./Button" as *;
-@use "./DesignSystemButton" as *;
 @use "./SaveStatus" as *;
 @use "./ContextMenu" as *;
 @use "./FilePanel" as *; // needs to be below Button
@@ -85,11 +83,6 @@
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-button {
-  all: initial;
-  font-size: inherit;
 }
 
 svg {

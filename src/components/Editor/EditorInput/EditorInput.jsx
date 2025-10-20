@@ -10,7 +10,7 @@ import {
   setFocussedFileIndex,
   setOpenFiles,
 } from "../../../redux/EditorSlice";
-import Button from "../../Button/Button";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import EditorPanel from "../EditorPanel/EditorPanel";
 import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
@@ -19,7 +19,6 @@ import RunBar from "../../RunButton/RunBar";
 import "../../../assets/stylesheets/EditorInput.scss";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
-import CloseIcon from "../../../utils/CloseIcon";
 import { useTranslation } from "react-i18next";
 
 const EditorInput = () => {
@@ -162,10 +161,12 @@ const EditorInput = () => {
                     </span>
                     {!["main.py", "index.html"].includes(fileName) ? (
                       <Button
-                        className="btn--tertiary react-tabs__tab-close-btn"
                         label={t("editorPanel.close")}
-                        onClickHandler={(e) => closeFileTab(e, fileName)}
-                        ButtonIcon={() => <CloseIcon scaleFactor={0.85} />}
+                        onClick={(e) => closeFileTab(e, fileName)}
+                        icon="close"
+                        iconOnly
+                        size="small"
+                        type="tertiary"
                       />
                     ) : null}
                   </DraggableTab>

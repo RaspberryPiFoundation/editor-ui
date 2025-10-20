@@ -71,6 +71,11 @@
   box-sizing: border-box;
   margin: 0;
   border: 2px solid transparent;
+  inline-size: $space-3;
+  block-size: $space-3;
+  border-radius: $space-0-5;
+  background-color: transparent;
+  cursor: pointer;
 
   svg {
     margin: 0;

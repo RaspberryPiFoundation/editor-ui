@@ -1,7 +1,7 @@
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/colours' as *;
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/colours" as *;
 
-@use './Tabs' as *;
+@use "./Tabs" as *;
 
 a {
   border: 3px solid transparent;
@@ -12,17 +12,9 @@ a {
   }
 }
 
-button {
-  all: initial;
-  border: 3px solid transparent;
-  cursor: pointer;
-
-  @extend a;
-}
-
 input {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
 }
 
@@ -31,7 +23,6 @@ input {
   color: $rpf-text-primary;
   caret-color: $rpf-black;
   color-scheme: light;
-
 
   .pythonrunner-input {
     color: rgb(36, 103, 236);
@@ -60,8 +51,8 @@ input {
 #app {
   display: flex;
   flex-flow: column;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   @include font-size-1(regular);
 }
