@@ -61,7 +61,7 @@ const ProjectName = ({
       setEditing(false);
       setName(project.name);
     },
-    [project.name]
+    [project.name],
   );
 
   const handleKeyDown = (event) => {
@@ -121,10 +121,10 @@ const ProjectName = ({
             <Button
               className="project-name__button"
               aria-label={t(
-                isEditing ? "header.renameSave" : "header.renameProject"
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
               title={t(
-                isEditing ? "header.renameSave" : "header.renameProject"
+                isEditing ? "header.renameSave" : "header.renameProject",
               )}
               icon={isEditing ? "check" : "edit"}
               onClick={isEditing ? updateName : onEditNameButtonClick}

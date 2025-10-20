@@ -25,14 +25,14 @@ const EditorInput = () => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const focussedFileIndices = useSelector(
-    (state) => state.editor.focussedFileIndices
+    (state) => state.editor.focussedFileIndices,
   );
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
 
   const [numberOfComponents, setNumberOfComponents] = useState(
-    project?.components?.length
+    project?.components?.length,
   );
   const [fileNames, setFileNames] = useState();
 
@@ -44,7 +44,7 @@ const EditorInput = () => {
       setFocussedFileIndex({
         panelIndex: parseInt(source.droppableId),
         fileIndex: source.index,
-      })
+      }),
     );
   };
 
@@ -65,14 +65,14 @@ const EditorInput = () => {
       setFocussedFileIndex({
         panelIndex: parseInt(destination.droppableId),
         fileIndex: destination.index,
-      })
+      }),
     );
     if (destination.droppableId !== source.droppableId) {
       dispatch(
         setFocussedFileIndex({
           panelIndex: parseInt(source.droppableId),
           fileIndex: Math.max(source.index - 1, 0),
-        })
+        }),
       );
     }
   };
@@ -97,7 +97,7 @@ const EditorInput = () => {
 
   useEffect(() => {
     const newFileNames = project.components.map(
-      (file) => `${file.name}.${file.extension}`
+      (file) => `${file.name}.${file.extension}`,
     );
     if (newFileNames.join() !== fileNames?.join()) {
       setFileNames(newFileNames);
@@ -152,7 +152,7 @@ const EditorInput = () => {
                         tabRefs.current[
                           project?.components?.findIndex(
                             (file) =>
-                              `${file.name}.${file.extension}` === fileName
+                              `${file.name}.${file.extension}` === fileName,
                           )
                         ]
                       }

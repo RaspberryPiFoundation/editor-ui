@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const StopButton = ({ embedded = false, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const dispatch = useDispatch();
   const { t } = useTranslation();

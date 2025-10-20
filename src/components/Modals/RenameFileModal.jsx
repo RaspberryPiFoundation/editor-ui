@@ -15,10 +15,10 @@ const RenameFileModal = () => {
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectComponents = useSelector(
-    (state) => state.editor.project.components
+    (state) => state.editor.project.components,
   );
   const isModalOpen = useSelector(
-    (state) => state.editor.renameFileModalShowing
+    (state) => state.editor.renameFileModalShowing,
   );
   const {
     name: currentName,
@@ -26,12 +26,12 @@ const RenameFileModal = () => {
     fileKey,
   } = useSelector((state) => state.editor.modals.renameFile);
   const componentNames = projectComponents.map(
-    (component) => `${component.name}.${component.extension}`
+    (component) => `${component.name}.${component.extension}`,
   );
 
   const closeModal = () => dispatch(closeRenameFileModal());
   const [fileName, setFileName] = useState(
-    `${currentName}.${currentExtension}`
+    `${currentName}.${currentExtension}`,
   );
 
   const renameComponent = () => {
@@ -50,11 +50,11 @@ const RenameFileModal = () => {
             key: fileKey,
             extension: extension,
             name: name,
-          })
+          }),
         );
         closeModal();
       },
-      `${currentName}.${currentExtension}`
+      `${currentName}.${currentExtension}`,
     );
   };
 

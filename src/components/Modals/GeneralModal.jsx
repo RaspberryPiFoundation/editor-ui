@@ -64,7 +64,7 @@ const GeneralModal = ({
               <p className="modal-content__text" key={i}>
                 {textItem.content}
               </p>
-            )
+            ),
           )}
           {children}
         </div>

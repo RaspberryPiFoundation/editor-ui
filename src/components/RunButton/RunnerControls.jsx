@@ -8,7 +8,7 @@ import "../../assets/stylesheets/RunnerControls.scss";
 
 const RunnerControls = ({ embedded = false, skinny = false }) => {
   const codeRunTriggered = useSelector(
-    (state) => state.editor.codeRunTriggered
+    (state) => state.editor.codeRunTriggered,
   );
   const drawTriggered = useSelector((state) => state.editor.drawTriggered);
   const { t } = useTranslation();

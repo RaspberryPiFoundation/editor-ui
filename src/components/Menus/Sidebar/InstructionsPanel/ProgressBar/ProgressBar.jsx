@@ -8,10 +8,10 @@ import { useTranslation } from "react-i18next";
 
 const ProgressBar = () => {
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project.steps.length
+    (state) => state.instructions.project.steps.length,
   );
   const currentStepPosition = useSelector(
-    (state) => state.instructions.currentStepPosition
+    (state) => state.instructions.currentStepPosition,
   );
 
   const dispatch = useDispatch();
@@ -20,8 +20,8 @@ const ProgressBar = () => {
   const goToNextStep = () => {
     dispatch(
       setCurrentStepPosition(
-        Math.min(currentStepPosition + 1, numberOfSteps - 1)
-      )
+        Math.min(currentStepPosition + 1, numberOfSteps - 1),
+      ),
     );
   };
 

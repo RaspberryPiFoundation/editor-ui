@@ -17,10 +17,10 @@ const SidebarBar = (props) => {
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "top"
+    (menuOption) => menuOption.position === "top",
   );
   const bottomMenuOptions = menuOptions.filter(
-    (menuOption) => menuOption.position === "bottom"
+    (menuOption) => menuOption.position === "bottom",
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 

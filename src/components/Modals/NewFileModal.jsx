@@ -16,10 +16,10 @@ const NewFileModal = () => {
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectComponents = useSelector(
-    (state) => state.editor.project.components
+    (state) => state.editor.project.components,
   );
   const componentNames = projectComponents.map(
-    (component) => `${component.name}.${component.extension}`
+    (component) => `${component.name}.${component.extension}`,
   );
 
   const isModalOpen = useSelector((state) => state.editor.newFileModalShowing);
@@ -48,7 +48,7 @@ const NewFileModal = () => {
           label: t("filePanel.newFileModal.inputLabel"),
           helpText: t("filePanel.newFileModal.helpText", {
             examples: t(
-              `filePanel.newFileModal.helpTextExample.${projectType}`
+              `filePanel.newFileModal.helpTextExample.${projectType}`,
             ),
           }),
           value: fileName,
