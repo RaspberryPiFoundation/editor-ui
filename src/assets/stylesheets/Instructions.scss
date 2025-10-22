@@ -5,6 +5,7 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/font-weight" as *;
+@forward './settings/fonts';
 
 .project-instructions {
   block-size: 100%;
@@ -64,6 +65,7 @@
     background-color: $rpf-grey-700;
     border-radius: 8px;
     margin: $space-1 0 $space-1-5 0;
+    line-height: var(--line-height-1-5);
 
     pre {
       border: none;
@@ -76,7 +78,7 @@
   }
 
   .c-code-filename {
-    font-family: monospace;
+    font-family: var(--font-family-monospace);
     margin: 0;
     padding: $space-0-5 $space-1;
     color: $rpf-white;

@@ -99,8 +99,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-            monospace;
+          font-family: var(--font-family-monospace);
 
           &-timer {
             margin-block-start: 0;
