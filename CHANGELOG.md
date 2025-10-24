@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
+
 ### Changed
 
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
@@ -14,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Styling design system components used in the web component (#1263)
 - Sidebar panel overflow for plugins (#1266)
+- Extra border around code output in the instructions panel (#1253)
+- Line numbering alignment in code blocks in the instructions panel (#1259)
 
 ## [0.33.0] - 2025-10-15
 
