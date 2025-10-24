@@ -53,8 +53,8 @@
   // Allow fonts to be overridden by the host application via
   // --editor-font-family-*, falling back to the default sets in
   // settings/fonts.scss
-  --wc-font-family-sans-serif: var(--editor-font-family-sans-serif), #{fonts.$font-family-sans-serif};
-  --wc-font-family-monospace: var(--editor-font-family-monospace), #{fonts.$font-family-monospace};
+  --wc-font-family-sans-serif: var(--editor-font-family-sans-serif, #{fonts.$font-family-sans-serif});
+  --wc-font-family-monospace: var(--editor-font-family-monospace, #{fonts.$font-family-monospace});
 
   background: var(--editor-secondary-theme, transparent);
   font-family: var(--wc-font-family-sans-serif);
