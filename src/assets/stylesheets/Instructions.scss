@@ -15,6 +15,10 @@
     margin: 0;
   }
 
+  p {
+    @include font-size-1();
+  }
+
   a {
     color: var(--editor-color-theme-secondary);
   }
@@ -49,6 +53,8 @@
   }
 
   pre {
+    @include font-size-1();
+
     background-color: $rpf-grey-700;
     border: 1px solid $rpf-grey-600;
     border-radius: 8px;
@@ -65,7 +71,6 @@
     background-color: $rpf-grey-700;
     border-radius: 8px;
     margin: $space-1 0 $space-1-5 0;
-    line-height: var(--line-height-1-5);
 
     pre {
       border: none;
@@ -78,7 +83,7 @@
   }
 
   .c-code-filename {
-    font-family: var(--font-family-monospace);
+    font-family: var(--wc-font-family-monospace);
     margin: 0;
     padding: $space-0-5 $space-1;
     color: $rpf-white;
@@ -281,10 +286,11 @@
     margin-block-end: $space-1-5;
 
     pre {
-      padding: 0;
-      margin: 0;
-      inline-size: 100%;
       background-color: $rpf-white;
+      border: none;
+      inline-size: 100%;
+      margin: 0;
+      padding: 0;
     }
 
     code {

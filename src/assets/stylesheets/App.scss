@@ -23,7 +23,7 @@ button {
 }
 
 input {
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--wc-font-family-sans-serif);
 }
 
 .--light {
@@ -60,7 +60,7 @@ input {
 #app {
   display: flex;
   flex-flow: column;
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--wc-font-family-sans-serif);
   @include font-size-1(regular);
 }
 
