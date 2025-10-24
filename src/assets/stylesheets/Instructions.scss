@@ -3,19 +3,17 @@
 @use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
 
 .project-instructions {
   block-size: 100%;
 
   h2 {
-    @include font-size-1-25(bold);
+    @include typography.style-1-5(bold);
     margin: 0;
   }
 
   p {
-    @include font-size-1();
+    @include typography.style-1();
   }
 
   a {
@@ -23,7 +21,7 @@
   }
 
   strong {
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
   }
 
   img {
@@ -52,7 +50,7 @@
   }
 
   pre {
-    @include font-size-1();
+    @include typography.style-1();
 
     background-color: $rpf-grey-700;
     border: 1px solid $rpf-grey-600;
@@ -245,9 +243,10 @@
     margin: $space-1-5 0;
 
     h3 {
+      @include typography.style-1(bold);
+
       margin: 0;
       padding-inline-start: $space-2;
-      @include font-size-1(bold);
       background-repeat: no-repeat;
       background-position: inline-start $space-0-5 center;
     }
