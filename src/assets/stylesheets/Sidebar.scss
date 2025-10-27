@@ -120,7 +120,7 @@
   flex-direction: column;
   gap: $space-1;
   padding-block-end: $space-1;
-  padding-inline: $space-1;
+  margin-inline: $space-1;
   border-block-end: 1px solid var(--sidebar-border);
 }
 

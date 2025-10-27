@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - Styling design system components used in the web component (#1263)
-- Sidebar panel overflow for plugins (#1266)
+- Sidebar panel overflow for plugins (#1266, #1269)
 - Extra border around code output in the instructions panel (#1253)
 - Line numbering alignment in code blocks in the instructions panel (#1259)
 
