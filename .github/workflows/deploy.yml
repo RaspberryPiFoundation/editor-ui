@@ -28,7 +28,7 @@ on:
         type: string
       react_app_authentication_url:
         required: false
-        default: "https://staging-auth-v1.raspberrypi.org"
+        default: "https://staging-auth-v2.raspberrypi.org"
         type: string
       react_app_base_url:
         required: false

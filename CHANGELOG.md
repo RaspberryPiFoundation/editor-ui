@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. 
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 
 - Material symbols font to web component preview page since the Design System depends on this (#1261)
+
+### Fixed
+
+- Styling design system components used in the web component (#1263)
+- Sidebar panel overflow for plugins (#1266, #1269)
 
 ## [0.33.0] - 2025-10-15
 

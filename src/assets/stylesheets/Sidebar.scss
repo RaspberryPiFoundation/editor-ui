@@ -100,8 +100,7 @@
 .sidebar__panel {
   display: flex;
   flex-direction: column;
-  padding: $space-1;
-  padding-block-end: 0;
+  padding-block-start: $space-1;
   border-radius: 0 8px 8px 0;
   inline-size: inherit;
   background: var(--sidebar-panel-background);
@@ -121,12 +120,13 @@
   flex-direction: column;
   gap: $space-1;
   padding-block-end: $space-1;
+  margin-inline: $space-1;
   border-block-end: 1px solid var(--sidebar-border);
 }
 
 .sidebar__panel-content {
   flex: 1;
-  padding: $space-1 0;
+  padding: $space-1;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -138,6 +138,7 @@
   inline-size: -moz-available;
   inline-size: -webkit-stretch;
   inline-size: stretch;
+  padding-inline: $space-1;
   background-color: white;
   border-end-end-radius: 8px;
 }
