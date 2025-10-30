@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
 - Updated Design System react to v2.6.2 (#1261)
 
-## Added
+### Added
 
 - Material symbols font to web component preview page since the Design System depends on this (#1261)
 
