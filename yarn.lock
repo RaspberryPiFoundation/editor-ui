@@ -2916,28 +2916,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@raspberrypifoundation/design-system-core@npm:1.6.0"
+"@raspberrypifoundation/design-system-core@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.0"
   dependencies:
     classnames: ^2.3.2
-  checksum: 3eda17c4068e752daf070b6cbce9630b1b51997b911a4753b73f2c3726a40ec6bfba1b751380a4ad6f51e3e2e8e9cac66a7709343a7de9c5c8b074b409742a26
+  checksum: 8db6b71f0675849617ad18e70a35b8faa99a3cb3d4b7dbde15a250de1ca971f09ffeb0d7e4fe6d6cf1645890d6ffe0ca795967e0371e665775de9ff27e5bc4c6
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@raspberrypifoundation/design-system-react@npm:1.6.0"
+"@raspberrypifoundation/design-system-react@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.7.0"
   dependencies:
-    classnames: ^2.3.2
-    material-symbols: ^0.14.5
-    prop-types: ^15.8.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    react-router-dom: ^6.24.0
+    "@raspberrypifoundation/design-system-core": ^2.4.0
+    classnames: ^2.5.1
   peerDependencies:
+    react: ">=18.0.0 <20.0.0"
+    react-dom: ">=18.0.0 <20.0.0"
     react-router-dom: ^6.24.0
-  checksum: 6bb6341f90d3c4fa569817813de7a1a9e69a23c12ca2cf0f20d47b9d0954771e237bda27eedba93b91a0d1d81fca32e155415ddc902947630711b38583f97ac5
+  peerDependenciesMeta:
+    react:
+      optional: false
+    react-dom:
+      optional: false
+  checksum: 992974bfd88e8d470488e62bb67690e3740a85d1c2249b07302f17063791a06f6185048a5fc8f7a07043128d6698015bdc2f27060e581c60872b68816ac2da02
   languageName: node
   linkType: hard
 
@@ -2959,8 +2962,7 @@ __metadata:
     "@juggle/resize-observer": ^3.3.1
     "@lezer/highlight": ^1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
-    "@raspberrypifoundation/design-system-core": ^1.6.0
-    "@raspberrypifoundation/design-system-react": ^1.6.0
+    "@raspberrypifoundation/design-system-react": ^2.7.0
     "@react-three/drei": 9.114.3
     "@react-three/fiber": ^8.0.13
     "@react-three/test-renderer": 8.2.1
@@ -3298,13 +3300,6 @@ __metadata:
   version: 1.20.0
   resolution: "@remix-run/router@npm:1.20.0"
   checksum: 6bff41117eabb867b17c89baa727580f0a431368b309cd9a1f69767aafa68ea9cac95ff0eeb86d37c2c8655f5cd7c6283d37ae5e6d93e94f648c6112ddb24ede
-  languageName: node
-  linkType: hard
-
-"@remix-run/router@npm:1.21.0":
-  version: 1.21.0
-  resolution: "@remix-run/router@npm:1.21.0"
-  checksum: d9477a7772053ad0ffcf03385cfb1a54e56f8a56d1f9f5062de3b1dfcbd019dd73282a00a5a72aa55c120771110982448c165c1405d64540aaef13051a8e45cc
   languageName: node
   linkType: hard
 
@@ -6598,7 +6593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.1, classnames@npm:^2.2.5, classnames@npm:^2.3.2":
+"classnames@npm:^2.2.1, classnames@npm:^2.2.5, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
@@ -14033,13 +14028,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-symbols@npm:^0.14.5":
-  version: 0.14.7
-  resolution: "material-symbols@npm:0.14.7"
-  checksum: 191dea0145eadabd3122b891b965d8568793c3f53a540186a30b459948a8a0c00938642dcca3c4fcca483b08d7480d02722c6de10caeeeae30437306a79f64b6
-  languageName: node
-  linkType: hard
-
 "material-symbols@npm:^0.27.0":
   version: 0.27.0
   resolution: "material-symbols@npm:0.27.0"
@@ -16987,7 +16975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.1.0, react-dom@npm:^18.2.0":
+"react-dom@npm:^18.1.0":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
@@ -17186,19 +17174,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.24.0":
-  version: 6.28.0
-  resolution: "react-router-dom@npm:6.28.0"
-  dependencies:
-    "@remix-run/router": 1.21.0
-    react-router: 6.28.0
-  peerDependencies:
-    react: ">=16.8"
-    react-dom: ">=16.8"
-  checksum: 0cf4658a92bc66f50ec9d8518c36aa5a402bcadce71fb624ed6f900d73a29ea87ff904a4f2c42279107e75e80cc08c6192563fadcc5d4e642e6d476e38e83b21
-  languageName: node
-  linkType: hard
-
 "react-router-dom@npm:^6.7.0":
   version: 6.27.0
   resolution: "react-router-dom@npm:6.27.0"
@@ -17220,17 +17195,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: d22eedc33bcb11891b431655f90eed2d52c2fb3165ad11ca625f62970caf59c4859e6b1a3f92e78902b31ff1a8b2482ebf97ddebb82e9687d1f98730c14e04e6
-  languageName: node
-  linkType: hard
-
-"react-router@npm:6.28.0":
-  version: 6.28.0
-  resolution: "react-router@npm:6.28.0"
-  dependencies:
-    "@remix-run/router": 1.21.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: 23246ca957b5c2bc8d6f9a81fee2df2ce4fc3feca3ec27c2fd85999568fc1299a4e8273e4ab70b6f3acd43a1fb45e0c93cb01ef77e68c9f9e1f7e4f42a1419ea
   languageName: node
   linkType: hard
 
@@ -17316,7 +17280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.1.0, react@npm:^18.2.0":
+"react@npm:^18.1.0":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:
