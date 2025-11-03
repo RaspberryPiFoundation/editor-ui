@@ -6,14 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Added
+
+- Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
+
 ### Changed
 
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
+- Updated Design System react to v2.6.2 (#1261)
+
+### Added
+
+- Material symbols font to web component preview page since the Design System depends on this (#1261)
 
 ### Fixed
 
 - Styling design system components used in the web component (#1263)
-- Sidebar panel overflow for plugins (#1266)
+- Sidebar panel overflow for plugins (#1266, #1269)
+- Extra border around code output in the instructions panel (#1253)
+- Line numbering alignment in code blocks in the instructions panel (#1259)
 - Extra lines added at the start of some code blocks (#1267)
 
 ## [0.33.0] - 2025-10-15

@@ -21,9 +21,7 @@ button {
 }
 
 input {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--wc-font-family-sans-serif);
 }
 
 .--light {
@@ -60,9 +58,7 @@ input {
 #app {
   display: flex;
   flex-flow: column;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--wc-font-family-sans-serif);
   @include font-size-1(regular);
 }
 
