@@ -37,18 +37,21 @@ const ProjectsPanel = () => {
     document.dispatchEvent(navigateToProjectsPageEvent);
   };
 
+  const buttons = isLoggedIn
+    ? [
+        {
+          className: "btn--primary projects-panel__your-projects-button",
+          onClick: navigateToProjectsPage,
+          text: t("projectsPanel.yourProjectsButton"),
+          textAlways: true,
+        },
+      ]
+    : [];
+
   return (
     <SidebarPanel
       heading={t("projectsPanel.projects")}
-      Button={() =>
-        isLoggedIn && (
-          <DesignSystemButton
-            className="btn--primary projects-panel__your-projects-button"
-            onClick={navigateToProjectsPage}
-            text={t("projectsPanel.yourProjectsButton")}
-          />
-        )
-      }
+      buttons={buttons}
       className="projects-panel-wrapper"
     >
       <ProjectName
