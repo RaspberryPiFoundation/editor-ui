@@ -17,13 +17,11 @@ import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import Prism from "prismjs";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
-let prismConfigured = false;
-
 const InstructionsPanel = () => {
   useEffect(() => {
     // prism and prism plugin config
     Prism.manual = true;
-    if (Prism.plugins.NormalizeWhitespace && !prismConfigured) {
+    if (Prism.plugins.NormalizeWhitespace) {
       Prism.plugins.NormalizeWhitespace.setDefaults({
         "remove-indent": false,
         "remove-initial-line-feed": true,
@@ -35,7 +33,6 @@ const InstructionsPanel = () => {
         // Remove multiple leading blank lines (empty or whitespace-only)
         env.code = env.code.replace(/^(?:\s*\n)+/, "");
       });
-      prismConfigured = true;
     }
   }, []);
   const [showModal, setShowModal] = useState(false);
