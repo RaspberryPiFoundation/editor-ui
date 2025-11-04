@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import useNewComponentButton from "../../../../hooks/useNewComponentButton";
 
 import FileMenu from "../../FileMenu/FileMenu";
-import NewComponentButton from "../../../Editor/NewComponentButton/NewComponentButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import {
   openFile,
@@ -22,6 +22,7 @@ const FilePanel = ({ isMobile }) => {
   const readOnly = useSelector((state) => state.editor.readOnly);
 
   const dispatch = useDispatch();
+  const newFileButtons = useNewComponentButton();
 
   const switchToFileTab = (panelIndex, fileIndex) => {
     dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
@@ -44,14 +45,14 @@ const FilePanel = ({ isMobile }) => {
   };
   const { t } = useTranslation();
 
-  const Button = readOnly ? null : NewComponentButton;
+  const buttons = readOnly ? [] : newFileButtons;
 
   if (!project || !project.components) {
     return null;
   }
 
   return (
-    <SidebarPanel heading={t("filePanel.files")} Button={Button}>
+    <SidebarPanel heading={t("filePanel.files")} buttons={buttons}>
       {project.components.map((file, i) => (
         <div className="files-list-item-wrapper" key={i}>
           <DesignSystemButton
