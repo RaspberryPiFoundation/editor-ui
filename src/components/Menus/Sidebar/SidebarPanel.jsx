@@ -4,6 +4,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
+import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 
 const SidebarPanel = (props) => {
   const {
@@ -11,7 +12,7 @@ const SidebarPanel = (props) => {
     heading,
     Footer,
     className,
-    Button,
+    buttons = [],
     defaultWidth = "225px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
@@ -20,9 +21,14 @@ const SidebarPanel = (props) => {
     <>
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
-        {Button ? <Button /> : null}
+        {buttons.length > 0 && (
+          <div>
+            {buttons.map((btn, i) => (
+              <DesignSystemButton key={i} {...btn} />
+            ))}
+          </div>
+        )}
       </div>
-
       <div className="sidebar__panel-content">{children}</div>
       {Footer && <div className="sidebar__panel-footer">{<Footer />}</div>}
     </>
@@ -62,7 +68,7 @@ SidebarPanel.propTypes = {
   children: PropTypes.any.isRequired,
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
-  Button: PropTypes.func,
+  buttons: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default SidebarPanel;
