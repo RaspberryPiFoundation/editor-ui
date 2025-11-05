@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
 
 const ProjectsPanel = () => {
