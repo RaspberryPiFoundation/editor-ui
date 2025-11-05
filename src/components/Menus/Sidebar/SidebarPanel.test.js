@@ -23,3 +23,25 @@ test("Renders content", () => {
 test("Renders footer", () => {
   expect(screen.queryByText("footer")).toBeInTheDocument();
 });
+
+test("Renders a single button", () => {
+  render(
+    <SidebarPanel heading="heading" buttons={[{ text: "button" }]}>
+      some content
+    </SidebarPanel>,
+  );
+  expect(screen.queryByText("button")).toBeInTheDocument();
+});
+
+test("Renders multiple buttons", () => {
+  render(
+    <SidebarPanel
+      heading="heading"
+      buttons={[{ text: "button one" }, { text: "button two" }]}
+    >
+      some content
+    </SidebarPanel>,
+  );
+  expect(screen.queryByText("button one")).toBeInTheDocument();
+  expect(screen.queryByText("button two")).toBeInTheDocument();
+});
