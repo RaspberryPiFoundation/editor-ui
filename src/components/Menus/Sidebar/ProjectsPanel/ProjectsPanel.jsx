@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
 
 const ProjectsPanel = () => {
@@ -37,18 +36,21 @@ const ProjectsPanel = () => {
     document.dispatchEvent(navigateToProjectsPageEvent);
   };
 
+  const buttons = isLoggedIn
+    ? [
+        {
+          className: "btn--primary projects-panel__your-projects-button",
+          onClick: navigateToProjectsPage,
+          text: t("projectsPanel.yourProjectsButton"),
+          textAlways: true,
+        },
+      ]
+    : [];
+
   return (
     <SidebarPanel
       heading={t("projectsPanel.projects")}
-      Button={() =>
-        isLoggedIn && (
-          <DesignSystemButton
-            className="btn--primary projects-panel__your-projects-button"
-            onClick={navigateToProjectsPage}
-            text={t("projectsPanel.yourProjectsButton")}
-          />
-        )
-      }
+      buttons={buttons}
       className="projects-panel-wrapper"
     >
       <ProjectName

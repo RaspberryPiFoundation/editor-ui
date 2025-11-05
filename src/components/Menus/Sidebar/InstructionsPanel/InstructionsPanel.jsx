@@ -135,34 +135,6 @@ const InstructionsPanel = () => {
     setShowModal(false);
   };
 
-  const AddInstructionsButton = () => {
-    return (
-      <DesignSystemButton
-        className="btn--primary"
-        icon="add"
-        text={t("instructionsPanel.emptyState.addInstructions")}
-        onClick={addInstructions}
-        fill
-        textAlways
-        small
-      />
-    );
-  };
-
-  const RemoveInstructionsButton = () => {
-    return (
-      <DesignSystemButton
-        className="btn--secondary"
-        text={t("instructionsPanel.removeInstructions")}
-        onClick={() => {
-          setShowModal(true);
-        }}
-        fill
-        textAlways
-        small
-      />
-    );
-  };
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
@@ -171,11 +143,30 @@ const InstructionsPanel = () => {
     <SidebarPanel
       defaultWidth="30vw"
       heading={t("instructionsPanel.projectSteps")}
-      Button={
+      buttons={
         instructionsEditable
           ? hasInstructions
-            ? RemoveInstructionsButton
-            : AddInstructionsButton
+            ? [
+                {
+                  className: "btn--secondary",
+                  text: t("instructionsPanel.removeInstructions"),
+                  onClick: () => setShowModal(true),
+                  fill: true,
+                  textAlways: true,
+                  small: true,
+                },
+              ]
+            : [
+                {
+                  className: "btn--primary",
+                  icon: "add",
+                  text: t("instructionsPanel.emptyState.addInstructions"),
+                  onClick: addInstructions,
+                  fill: true,
+                  textAlways: true,
+                  small: true,
+                },
+              ]
           : null
       }
       {...{ Footer: hasMultipleSteps && ProgressBar }}
