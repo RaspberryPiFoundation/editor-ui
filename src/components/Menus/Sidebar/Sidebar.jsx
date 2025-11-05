@@ -87,7 +87,7 @@ const Sidebar = ({ options = [], plugins = [] }) => {
       title: plugin.title,
       position: plugin.position || "top",
       panel: () => (
-        <SidebarPanel heading={plugin.heading} buttons={plugin.button || []}>
+        <SidebarPanel heading={plugin.heading} buttons={plugin.buttons || []}>
           {plugin.panel()}
         </SidebarPanel>
       ),
