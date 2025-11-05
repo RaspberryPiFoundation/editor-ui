@@ -27,6 +27,12 @@ const InstructionsPanel = () => {
         "remove-initial-line-feed": true,
         "left-trim": false,
       });
+      Prism.hooks.add("before-sanity-check", function (env) {
+        if (!env.code) return;
+
+        // Remove multiple leading blank lines (empty or whitespace-only)
+        env.code = env.code.replace(/^(?:\s*\n)+/, "");
+      });
     }
   }, []);
   const [showModal, setShowModal] = useState(false);
