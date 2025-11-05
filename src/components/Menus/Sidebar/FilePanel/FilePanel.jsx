@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import useNewComponentButton from "../../../../hooks/useNewComponentButton";
 
 import FileMenu from "../../FileMenu/FileMenu";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
@@ -9,20 +8,21 @@ import {
   openFile,
   setFocussedFileIndex,
   hideSidebar,
+  showNewFileModal,
 } from "../../../../redux/EditorSlice";
 
 import "../../../../assets/stylesheets/FilePanel.scss";
 import "../../../../assets/stylesheets/Sidebar.scss";
 import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
+import PlusIcon from "../../../../assets/icons/plus.svg";
 
 const FilePanel = ({ isMobile }) => {
   const project = useSelector((state) => state.editor.project);
   const openFiles = useSelector((state) => state.editor.openFiles);
   const readOnly = useSelector((state) => state.editor.readOnly);
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const newFileButtons = useNewComponentButton();
 
   const switchToFileTab = (panelIndex, fileIndex) => {
     dispatch(setFocussedFileIndex({ panelIndex, fileIndex }));
@@ -43,9 +43,23 @@ const FilePanel = ({ isMobile }) => {
       dispatch(hideSidebar());
     }
   };
-  const { t } = useTranslation();
 
-  const buttons = readOnly ? [] : newFileButtons;
+  const openNewFileModal = () => {
+    dispatch(showNewFileModal());
+  };
+
+  const buttons = readOnly
+    ? []
+    : [
+        {
+          text: t("filePanel.newFileButton"),
+          textAlways: true,
+          icon: <PlusIcon />,
+          onClick: openNewFileModal,
+          className: "btn--primary",
+          fill: true,
+        },
+      ];
 
   if (!project || !project.components) {
     return null;
