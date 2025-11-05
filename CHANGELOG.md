@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Sidebar panel overflow for plugins (#1266, #1269)
 - Extra border around code output in the instructions panel (#1253)
 - Line numbering alignment in code blocks in the instructions panel (#1259)
+- Extra lines added at the start of some code blocks (#1267)
 
 ## [0.33.0] - 2025-10-15
 
