@@ -22,7 +22,7 @@ const SidebarPanel = (props) => {
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
         {buttons?.length > 0 && (
-          <div>
+          <div className="sidebar__panel-buttons">
             {buttons.map((btn, i) => (
               <DesignSystemButton key={i} {...btn} />
             ))}
