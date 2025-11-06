@@ -8,7 +8,7 @@ beforeEach(() => {
   render(
     <SidebarPanel heading="heading" Footer={Footer}>
       some content
-    </SidebarPanel>
+    </SidebarPanel>,
   );
 });
 
@@ -28,7 +28,7 @@ test("Renders a single button", () => {
   render(
     <SidebarPanel heading="heading" buttons={[<button key="1">button</button>]}>
       some content
-    </SidebarPanel>
+    </SidebarPanel>,
   );
   expect(screen.queryByText("button")).toBeInTheDocument();
 });
@@ -43,7 +43,7 @@ test("Renders multiple buttons", () => {
       ]}
     >
       some content
-    </SidebarPanel>
+    </SidebarPanel>,
   );
   expect(screen.queryByText("button one")).toBeInTheDocument();
   expect(screen.queryByText("button two")).toBeInTheDocument();
