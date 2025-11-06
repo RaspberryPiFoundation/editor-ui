@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
 - Material symbols font to web component preview page since the Design System depends on this (#1261)
+- Ability for host page to force web component into its loading state (#1272)
 
 ### Changed
 
