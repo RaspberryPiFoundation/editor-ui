@@ -41,7 +41,7 @@ const WebComponentLoader = (props) => {
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
-    isLoading,
+    isLoading = false,
     theme,
     loadRemixDisabled = false,
     locale = "en",
@@ -252,7 +252,9 @@ const WebComponentLoader = (props) => {
     </>
   );
 
-  if (!isLoading && loading === "success") {
+  if (isLoading) {
+    return renderLoadingState();
+  } else if (loading === "success") {
     return renderSuccessState();
   } else if (["idle", "failed"].includes(loading)) {
     return renderFailedState();
