@@ -4,7 +4,6 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
-import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 
 const SidebarPanel = (props) => {
   const {
@@ -17,16 +16,14 @@ const SidebarPanel = (props) => {
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
+  const buttonNodes = React.Children.toArray(buttons);
+
   const panelContent = (
     <>
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
-        {buttons?.length > 0 && (
-          <div className="sidebar__panel-buttons">
-            {buttons.map((btn, i) => (
-              <DesignSystemButton key={i} {...btn} />
-            ))}
-          </div>
+        {buttonNodes.length > 0 && (
+          <div className="sidebar__panel-buttons">{buttonNodes}</div>
         )}
       </div>
       <div className="sidebar__panel-content">{children}</div>

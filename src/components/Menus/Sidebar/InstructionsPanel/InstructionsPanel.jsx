@@ -147,25 +147,25 @@ const InstructionsPanel = () => {
         instructionsEditable
           ? hasInstructions
             ? [
-                {
-                  className: "btn--secondary",
-                  text: t("instructionsPanel.removeInstructions"),
-                  onClick: () => setShowModal(true),
-                  fill: true,
-                  textAlways: true,
-                  small: true,
-                },
+                <DesignSystemButton
+                  className="btn--secondary"
+                  text={t("instructionsPanel.removeInstructions")}
+                  onClick={() => setShowModal(true)}
+                  fill={true}
+                  textAlways={true}
+                  small={true}
+                />,
               ]
             : [
-                {
-                  className: "btn--primary",
-                  icon: "add",
-                  text: t("instructionsPanel.emptyState.addInstructions"),
-                  onClick: addInstructions,
-                  fill: true,
-                  textAlways: true,
-                  small: true,
-                },
+                <DesignSystemButton
+                  className="btn--primary"
+                  icon="add"
+                  text={t("instructionsPanel.emptyState.addInstructions")}
+                  onClick={addInstructions}
+                  fill={true}
+                  textAlways={true}
+                  small={true}
+                />,
               ]
           : null
       }

@@ -51,14 +51,14 @@ const FilePanel = ({ isMobile }) => {
   const buttons = readOnly
     ? []
     : [
-        {
-          text: t("filePanel.newFileButton"),
-          textAlways: true,
-          icon: <PlusIcon />,
-          onClick: openNewFileModal,
-          className: "btn--primary",
-          fill: true,
-        },
+        <DesignSystemButton
+          text={t("filePanel.newFileButton")}
+          textAways={true}
+          icon={<PlusIcon />}
+          onClick={openNewFileModal}
+          className="btn--primary"
+          fill={true}
+        />,
       ];
 
   if (!project || !project.components) {
