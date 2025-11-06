@@ -65,10 +65,7 @@ SidebarPanel.propTypes = {
   children: PropTypes.any.isRequired,
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
-  buttons: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
+  buttons: PropTypes.arrayOf(PropTypes.node),
 };
 
 export default SidebarPanel;

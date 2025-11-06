@@ -167,7 +167,7 @@ const InstructionsPanel = () => {
                   small={true}
                 />,
               ]
-          : null
+          : []
       }
       {...{ Footer: hasMultipleSteps && ProgressBar }}
     >

@@ -47,7 +47,7 @@ const ProjectsPanel = () => {
           textAlways
         />,
       ]
-    : null;
+    : [];
 
   return (
     <SidebarPanel
