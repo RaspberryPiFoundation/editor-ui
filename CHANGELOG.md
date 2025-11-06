@@ -14,8 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Changed the horizontal scrollbar to show without needing to scroll to the bottom of the editor window (#1257)
-- Changed SidebarPanel to accept an array of buttons (#1270)
 - Updated Design System react to v2.6.2 (#1261)
+- Changed SidebarPanel to accept an array of buttons (#1270)
+- Changed SidebarPanel to use an array of buttons as elements (#1271)
 
 ### Fixed
 
