@@ -16,14 +16,12 @@ const SidebarPanel = (props) => {
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
-  const buttonNodes = React.Children.toArray(buttons);
-
   const panelContent = (
     <>
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
-        {buttonNodes.length > 0 && (
-          <div className="sidebar__panel-buttons">{buttonNodes}</div>
+        {buttons?.length > 0 && (
+          <div className="sidebar__panel-buttons">{buttons}</div>
         )}
       </div>
       <div className="sidebar__panel-content">{children}</div>
