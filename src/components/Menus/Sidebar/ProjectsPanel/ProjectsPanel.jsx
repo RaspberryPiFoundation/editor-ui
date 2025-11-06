@@ -13,6 +13,7 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
 const ProjectsPanel = () => {
   const { t } = useTranslation();
@@ -38,12 +39,13 @@ const ProjectsPanel = () => {
 
   const buttons = isLoggedIn
     ? [
-        {
-          className: "btn--primary projects-panel__your-projects-button",
-          onClick: navigateToProjectsPage,
-          text: t("projectsPanel.yourProjectsButton"),
-          textAlways: true,
-        },
+        <DesignSystemButton
+          key="your-projects"
+          className="btn--primary projects-panel__your-projects-button"
+          onClick={navigateToProjectsPage}
+          text={t("projectsPanel.yourProjectsButton")}
+          textAlways
+        />,
       ]
     : [];
 

@@ -26,7 +26,7 @@ test("Renders footer", () => {
 
 test("Renders a single button", () => {
   render(
-    <SidebarPanel heading="heading" buttons={[{ text: "button" }]}>
+    <SidebarPanel heading="heading" buttons={[<button key="1">button</button>]}>
       some content
     </SidebarPanel>,
   );
@@ -37,7 +37,10 @@ test("Renders multiple buttons", () => {
   render(
     <SidebarPanel
       heading="heading"
-      buttons={[{ text: "button one" }, { text: "button two" }]}
+      buttons={[
+        <button key="1">button one</button>,
+        <button key="2">button two</button>,
+      ]}
     >
       some content
     </SidebarPanel>,
