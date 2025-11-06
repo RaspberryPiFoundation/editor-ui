@@ -12,7 +12,7 @@ const SidebarPanel = (props) => {
     Footer,
     className,
     buttons = [],
-    defaultWidth = "225px",
+    defaultWidth = "320px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -51,7 +51,7 @@ const SidebarPanel = (props) => {
       defaultWidth={defaultWidth}
       defaultHeight="100%"
       handleDirection="right"
-      minWidth="180px"
+      minWidth="280px"
       maxWidth="600px"
     >
       {panelContent}
