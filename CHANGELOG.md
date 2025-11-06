@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Design System react to v2.6.2 (#1261)
 - Changed SidebarPanel to accept an array of buttons (#1270)
 - Changed SidebarPanel to use an array of buttons as elements (#1271)
+- Changed default-width and min-width on SidebarPanel (#1273)
 
 ### Fixed
 
