@@ -21,7 +21,14 @@ export const defaultHtmlProject = {
   ],
 };
 
+export const defaultScratchProject = {
+  project_type: "scratch",
+  name: i18n.t("project.untitled"),
+  components: [{ extension: "sb3", name: "main", content: "" }],
+};
+
 export const DEFAULT_PROJECTS = {
   python: defaultPythonProject,
   html: defaultHtmlProject,
+  scratch: defaultScratchProject,
 };
