@@ -57,6 +57,7 @@ class WebComponent extends HTMLElement {
       "host_styles",
       "identifier",
       "instructions",
+      "is_loading",
       "load_remix_disabled",
       "locale",
       "output_only",
@@ -83,6 +84,7 @@ class WebComponent extends HTMLElement {
       [
         "embedded",
         "editable_instructions",
+        "is_loading",
         "load_remix_disabled",
         "output_only",
         "output_split_view",
