@@ -11,16 +11,19 @@ const SidebarPanel = (props) => {
     heading,
     Footer,
     className,
-    buttons = [],
+    buttons,
     defaultWidth = "320px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+
+  const buttonsIsEmptyArray =
+    buttons && Array.isArray(buttons) && buttons.length === 0;
 
   const panelContent = (
     <>
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
-        {buttons?.length > 0 && (
+        {buttons && !buttonsIsEmptyArray && (
           <div className="sidebar__panel-buttons">{buttons}</div>
         )}
       </div>
