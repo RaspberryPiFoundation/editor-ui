@@ -386,6 +386,8 @@ function HtmlRunner() {
         </script>
       `;
 
+      // insert scripts to disable access to specific localStorage keys and sessionStorage
+      // entirely, they are both potential security risks when executing untrusted code
       htmlRoot.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
       htmlRoot.insertAdjacentHTML("afterbegin", disableSessionStorageScript);
 
