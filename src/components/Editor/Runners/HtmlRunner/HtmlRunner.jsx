@@ -306,55 +306,86 @@ function HtmlRunner() {
     if (!externalLink) {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
+      const htmlRoot = indexPage.querySelector("html") ?? indexPage;
 
-      // insert script to disable access to specific localStorage keys
-      // localstorage.getItem() is a potential security risk when executing untrusted code
       const disableLocalStorageScript = `
-      <script>
-        (function() {
-          const originalGetItem = window.localStorage.getItem.bind(window.localStorage);
-          const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
-          const originalRemoveItem = window.localStorage.removeItem.bind(window.localStorage);
-          const originalClear = window.localStorage.clear.bind(window.localStorage);
+        <script>
+          (function () {
+            "use strict";
+            const isBlocked = (key) =>
+              typeof key === "string" && (key === "authKey" || key.startsWith("oidc."));
+            const wrapLocal = (storage) =>
+              storage && {
+                getItem(key) {
+                  return isBlocked(key) ? null : storage.getItem(key);
+                },
+                setItem(key, value) {
+                  if (!isBlocked(key)) storage.setItem(key, value);
+                },
+                removeItem(key) {
+                  if (!isBlocked(key)) storage.removeItem(key);
+                },
+                clear() {},
+                key(index) {
+                  const name = storage.key(index);
+                  return isBlocked(name) ? null : name;
+                },
+                get length() {
+                  return storage?.length ?? 0;
+                },
+              };
+            const apply = (host) => {
+              if (!host) return;
+              try {
+                const guarded = wrapLocal(host.localStorage);
+                if (!guarded) return;
+                Object.defineProperty(host, "localStorage", {
+                  configurable: false,
+                  enumerable: false,
+                  get: () => guarded,
+                  set: () => undefined,
+                });
+              } catch (_) {}
+            };
+            [window, window.parent, window.top, document.defaultView].forEach(apply);
+          })();
+        </script>
+      `;
 
-          const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');
+      const disableSessionStorageScript = `
+        <script>
+          (function () {
+            "use strict";
+            const stub = {
+              getItem: () => null,
+              setItem: () => undefined,
+              removeItem: () => undefined,
+              clear: () => undefined,
+              key: () => null,
+              get length() {
+                return 0;
+              },
+            };
+            const apply = (host) => {
+              if (!host) return;
+              try {
+                Object.defineProperty(host, "sessionStorage", {
+                  configurable: false,
+                  enumerable: false,
+                  get: () => stub,
+                  set: () => undefined,
+                });
+              } catch (_) {}
+            };
+            [window, window.parent, window.top, document.defaultView].forEach(apply);
+          })();
+        </script>
+      `;
 
-          Object.defineProperty(window, 'localStorage', {
-            value: {
-              getItem: function(key) {
-                if (isDisallowedKey(key)) {
-                  console.log(\`localStorage.getItem for "\${key}" is disabled\`);
-                  return null;
-                }
-                return originalGetItem(key);
-              },
-              setItem: function(key, value) {
-                if (isDisallowedKey(key)) {
-                  console.log(\`localStorage.setItem for "\${key}" is disabled\`);
-                  return;
-                }
-                return originalSetItem(key, value);
-              },
-              removeItem: function(key) {
-                if (isDisallowedKey(key)) {
-                  console.log(\`localStorage.removeItem for "\${key}" is disabled\`);
-                  return;
-                }
-                return originalRemoveItem(key);
-              },
-              clear: function() {
-                console.log('localStorage.clear is disabled');
-                return;
-              }
-            },
-            writable: false,
-            configurable: false
-          });
-        })();
-      </script>
-    `;
-
-      body.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
+      // insert scripts to disable access to specific localStorage keys and sessionStorage
+      // entirely, they are both potential security risks when executing untrusted code
+      htmlRoot.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
+      htmlRoot.insertAdjacentHTML("afterbegin", disableSessionStorageScript);
 
       replaceHrefNodes(indexPage, projectCode);
       replaceSrcNodes(indexPage, projectMedia, projectCode);

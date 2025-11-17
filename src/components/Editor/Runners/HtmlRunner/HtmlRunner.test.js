@@ -289,19 +289,35 @@ describe("When run is triggered", () => {
     const [generatedHtml] = Blob.mock.calls[0][0];
 
     expect(generatedHtml).toContain("<script>");
+    expect(generatedHtml).toContain("const isBlocked = (key) =>");
     expect(generatedHtml).toContain(
-      "Object.defineProperty(window, 'localStorage'",
+      'typeof key === "string" && (key === "authKey" || key.startsWith("oidc."));',
     );
-    expect(generatedHtml).toContain("getItem: function(key) {");
+    expect(generatedHtml).toContain(
+      'Object.defineProperty(host, "localStorage"',
+    );
+    expect(generatedHtml).toContain("getItem(key) {");
+    expect(generatedHtml).toContain(
+      "return isBlocked(key) ? null : storage.getItem(key);",
+    );
+    expect(generatedHtml).toContain(
+      "[window, window.parent, window.top, document.defaultView].forEach(apply);",
+    );
+    expect(generatedHtml).toContain("</script>");
+  });
 
+  test("Includes localSession disabling script to prevent all access to the session object", () => {
+    const [generatedHtml] = Blob.mock.calls[0][0];
+
+    expect(generatedHtml).toContain("<script>");
     expect(generatedHtml).toContain(
-      "const isDisallowedKey = (key) => key === 'authKey' || key.startsWith('oidc.');",
+      'Object.defineProperty(host, "sessionStorage"',
     );
-    expect(generatedHtml).toContain("if (isDisallowedKey(key))");
+    expect(generatedHtml).toContain("get: () => stub");
+    expect(generatedHtml).toContain("set: () => undefined");
     expect(generatedHtml).toContain(
-      'localStorage.getItem for "${key}" is disabled', // eslint-disable-line no-template-curly-in-string
+      "[window, window.parent, window.top, document.defaultView].forEach(apply);",
     );
-    expect(generatedHtml).toContain("return null;");
     expect(generatedHtml).toContain("</script>");
   });
 });
