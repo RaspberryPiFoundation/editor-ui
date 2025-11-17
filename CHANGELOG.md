@@ -8,9 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Ability for host page to force web component into its loading state (#1272)
+
+## [0.34.0] - 2025-11-17
+
+### Added
+
 - Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
 - Material symbols font to web component preview page since the Design System depends on this (#1261)
-- Ability for host page to force web component into its loading state (#1272)
+- Ability for plugins to add buttons to the SidebarPanel header (#1270, #1271, #1274)
+- Prevent access to the session from within the editor (#1275)
 
 ### Changed
 
@@ -18,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Design System react to v2.6.2 (#1261)
 - Changed SidebarPanel to accept an array of buttons (#1270)
 - Changed SidebarPanel to use an array of buttons as elements (#1271)
+- Changed default-width and min-width on SidebarPanel (#1273)
 
 ### Fixed
 
@@ -1196,7 +1204,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.33.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.34.0...HEAD
+[0.34.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.0
 [0.33.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.33.0
 [0.32.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.32.0
 [0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
