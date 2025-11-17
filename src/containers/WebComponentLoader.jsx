@@ -130,7 +130,7 @@ const WebComponentLoader = (props) => {
     if (justLoaded) {
       document.dispatchEvent(projectOwnerLoadedEvent(projectOwner));
     }
-  }, [projectOwner, projectIdentifier, justLoaded]);
+  }, [projectOwner, justLoaded]);
 
   useEffect(() => {
     if (locale) {
