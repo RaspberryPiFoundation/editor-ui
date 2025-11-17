@@ -345,9 +345,7 @@ function HtmlRunner() {
                   get: () => guarded,
                   set: () => undefined,
                 });
-              } catch (_) {
-                /* ignore if non-configurable */
-              }
+              } catch (_) {}
             };
             [window, window.parent, window.top, document.defaultView].forEach(apply);
           })();
@@ -377,9 +375,7 @@ function HtmlRunner() {
                   get: () => stub,
                   set: () => undefined,
                 });
-              } catch (_) {
-                /* ignore if non-configurable */
-              }
+              } catch (_) {}
             };
             [window, window.parent, window.top, document.defaultView].forEach(apply);
           })();
