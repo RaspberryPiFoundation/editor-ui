@@ -82,6 +82,12 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      "@raspberrypifoundation/python-friendly-error-messages": path.resolve(
+        __dirname,
+        "node_modules/@raspberrypifoundation/python-friendly-error-messages/dist/index.browser.js",
+      ),
+    },
     extensions: [".*", ".js", ".jsx", ".css"],
     fallback: {
       stream: require.resolve("stream-browserify"),
