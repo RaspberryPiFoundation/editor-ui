@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [0.34.0] - 2025-11-17
+
 ### Added
 
 - Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
@@ -1198,7 +1200,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.33.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.34.0...HEAD
+[0.34.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.0
 [0.33.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.33.0
 [0.32.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.32.0
 [0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1
