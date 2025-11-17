@@ -70,10 +70,7 @@ const WebComponentLoader = (props) => {
   const user = useSelector((state) => state.auth.user || localStorageUser);
   const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
-  const projectOwnerId = useSelector((state) => state.editor.project.user_id);
-  const projectOwnerName = useSelector(
-    (state) => state.editor.project.user_name,
-  );
+  const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
@@ -130,16 +127,10 @@ const WebComponentLoader = (props) => {
   }, [loading, remixLoadFailed]);
 
   useEffect(() => {
-    const projectOwner = {
-      id: projectOwnerId,
-      name: projectOwnerName,
-      identifier: projectIdentifier,
-    };
-
     if (justLoaded) {
       document.dispatchEvent(projectOwnerLoadedEvent(projectOwner));
     }
-  }, [projectOwnerId, projectOwnerName, projectIdentifier, justLoaded]);
+  }, [projectOwner, projectIdentifier, justLoaded]);
 
   useEffect(() => {
     if (locale) {
