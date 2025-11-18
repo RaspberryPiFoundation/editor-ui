@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import {
   setError,
+  setErrorLine,
+  setErrorLineNumber,
   codeRunHandled,
   setLoadedRunner,
   updateProjectComponent,
@@ -192,6 +194,8 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   const handleError = (file, line, mistake, type, info) => {
     let errorMessage;
+    let errorLine = "";
+    let errorLineNumber = null;
 
     if (type === "KeyboardInterrupt") {
       errorMessage = t("output.errors.interrupted");
@@ -203,6 +207,25 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         errorMessage += `:\n${mistake}`;
       }
 
+      if (line && file) {
+        errorLineNumber = line;
+        const lastDotIndex = file.lastIndexOf(".");
+        const fileName =
+          lastDotIndex > 0 ? file.substring(0, lastDotIndex) : file;
+        const fileExtension =
+          lastDotIndex > 0 ? file.substring(lastDotIndex + 1) : "";
+        const component = projectCode.find(
+          (item) => item.name === fileName && item.extension === fileExtension,
+        );
+        if (component && component.content) {
+          const lines = component.content.split("\n");
+          // line numbers are 1-indexed, array is 0-indexed
+          if (line > 0 && line <= lines.length) {
+            errorLine = lines[line - 1];
+          }
+        }
+      }
+
       const { createError } = ApiCallHandler({
         reactAppApiEndpoint,
       });
@@ -210,6 +233,8 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
 
     dispatch(setError(errorMessage));
+    dispatch(setErrorLine(errorLine));
+    dispatch(setErrorLineNumber(errorLineNumber));
     disableInput();
   };
 
@@ -256,6 +281,8 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setErrorLine(""));
+    dispatch(setErrorLineNumber(null));
     setVisuals([]);
     stdinClosed.current = false;
 

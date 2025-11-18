@@ -5,7 +5,12 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
-import { closeErrorModal, setError } from "../../redux/EditorSlice";
+import {
+  closeErrorModal,
+  setError,
+  setErrorLine,
+  setErrorLineNumber,
+} from "../../redux/EditorSlice";
 import "../../assets/stylesheets/Modal.scss";
 
 const ErrorModal = ({ errorType, additionalOnClose }) => {
@@ -21,6 +26,8 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
       additionalOnClose();
     }
     dispatch(setError(null));
+    dispatch(setErrorLine(""));
+    dispatch(setErrorLineNumber(null));
   };
 
   return (

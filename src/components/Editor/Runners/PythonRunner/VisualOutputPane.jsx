@@ -4,7 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
-import { codeRunHandled, setError } from "../../../../redux/EditorSlice";
+import {
+  codeRunHandled,
+  setError,
+  setErrorLine,
+  setErrorLineNumber,
+} from "../../../../redux/EditorSlice";
 
 const VisualOutputPane = () => {
   const codeRunTriggered = useSelector(
@@ -68,6 +73,8 @@ const VisualOutputPane = () => {
 
       if (error === "") {
         dispatch(setError(t("output.errors.interrupted")));
+        dispatch(setErrorLine(""));
+        dispatch(setErrorLineNumber(null));
       }
       dispatch(codeRunHandled());
     }

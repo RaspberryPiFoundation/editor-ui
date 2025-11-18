@@ -137,6 +137,8 @@ export const editorInitialState = {
   sidebarShowing: true,
   modals: {},
   errorDetails: {},
+  errorLine: "",
+  errorLineNumber: null,
   runnerBeingLoaded: null | "pyodide" | "skulpt",
 };
 
@@ -310,6 +312,12 @@ export const EditorSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setErrorLine: (state, action) => {
+      state.errorLine = action.payload;
+    },
+    setErrorLineNumber: (state, action) => {
+      state.errorLineNumber = action.payload;
+    },
     triggerCodeRun: (state) => {
       state.codeRunTriggered = true;
       state.codeHasBeenRun = true;
@@ -452,6 +460,8 @@ export const {
   setBrowserPreview,
   setCascadeUpdate,
   setError,
+  setErrorLine,
+  setErrorLineNumber,
   setIsSplitView,
   setNameError,
   setHasShownSavePrompt,

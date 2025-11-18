@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { setError, triggerCodeRun } from "../redux/EditorSlice";
+import {
+  setError,
+  setErrorLine,
+  setErrorLineNumber,
+  triggerCodeRun,
+} from "../redux/EditorSlice";
 
 const domain = "https://rpf.io/";
 const host = process.env.PUBLIC_URL || "http://localhost:3011";
@@ -27,6 +32,8 @@ const useExternalLinkState = (showModal) => {
 
   const handleExternalLinkError = () => {
     dispatch(setError("externalLink"));
+    dispatch(setErrorLine(""));
+    dispatch(setErrorLineNumber(null));
     showModal();
   };
 

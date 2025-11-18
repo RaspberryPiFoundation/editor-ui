@@ -10,6 +10,8 @@ import classNames from "classnames";
 import {
   setError,
   setErrorDetails,
+  setErrorLine,
+  setErrorLineNumber,
   codeRunHandled,
   stopDraw,
   setSenseHatEnabled,
@@ -161,6 +163,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       input.removeAttribute("id");
       input.removeAttribute("contentEditable");
       dispatch(setError(t("output.errors.interrupted")));
+      dispatch(setErrorLine(""));
+      dispatch(setErrorLineNumber(null));
       dispatch(codeRunHandled());
     }
   }, [codeRunStopped]);
@@ -329,6 +333,9 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     let errorDetails = {};
     let errorMessage;
     let explanation;
+    let errorLine = "";
+    let errorLineNumber = null;
+
     if (err.message === t("output.errors.interrupted")) {
       errorMessage = err.message;
       errorDetails = {
@@ -342,6 +349,25 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       const errorType = err.tp$name || err.constructor.name;
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
+
+      if (lineNumber && fileName) {
+        errorLineNumber = lineNumber;
+        const lastDotIndex = fileName.lastIndexOf(".");
+        const name =
+          lastDotIndex > 0 ? fileName.substring(0, lastDotIndex) : fileName;
+        const extension =
+          lastDotIndex > 0 ? fileName.substring(lastDotIndex + 1) : "";
+        const component = projectCode.find(
+          (item) => item.name === name && item.extension === extension,
+        );
+        if (component && component.content) {
+          const lines = component.content.split("\n");
+          // line numbers are 1-indexed, array is 0-indexed
+          if (lineNumber > 0 && lineNumber <= lines.length) {
+            errorLine = lines[lineNumber - 1];
+          }
+        }
+      }
 
       if (errorType === "ImportError" && window.crossOriginIsolated) {
         const articleLink = `https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor`;
@@ -375,6 +401,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
     dispatch(setError(errorMessage));
     dispatch(setErrorDetails(errorDetails));
+    dispatch(setErrorLine(errorLine));
+    dispatch(setErrorLineNumber(errorLineNumber));
     dispatch(stopDraw());
     if (getInput()) {
       const input = getInput();
@@ -387,6 +415,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
+    dispatch(setErrorLine(""));
+    dispatch(setErrorLineNumber(null));
     if (output.current) {
       output.current.innerHTML = "";
     }
