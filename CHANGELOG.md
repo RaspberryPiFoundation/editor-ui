@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+### Fixed
+
+- Plugin sidebar panel rerendering (#1279)
+
 ## [0.34.1] - 2025-11-18
 
 ### Fixed
