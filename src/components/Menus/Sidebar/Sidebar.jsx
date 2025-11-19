@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -80,22 +80,26 @@ const Sidebar = ({ options = [], plugins = [] }) => {
     },
   ].filter((option) => options.includes(option.name));
 
-  let pluginMenuOptions = plugins.map((plugin) => {
-    return {
-      name: plugin.name,
-      icon: plugin.icon,
-      title: plugin.title,
-      position: plugin.position || "top",
-      panel: () => (
-        <SidebarPanel
-          heading={plugin.heading}
-          buttons={plugin.buttons ? plugin.buttons() : []}
-        >
-          {plugin.panel()}
-        </SidebarPanel>
-      ),
-    };
-  });
+  let pluginMenuOptions = useMemo(
+    () =>
+      plugins.map((plugin) => {
+        return {
+          name: plugin.name,
+          icon: plugin.icon,
+          title: plugin.title,
+          position: plugin.position || "top",
+          panel: () => (
+            <SidebarPanel
+              heading={plugin.heading}
+              buttons={plugin.buttons ? plugin.buttons() : []}
+            >
+              {plugin.panel()}
+            </SidebarPanel>
+          ),
+        };
+      }),
+    [plugins],
+  );
 
   menuOptions = [...menuOptions, ...pluginMenuOptions];
 
