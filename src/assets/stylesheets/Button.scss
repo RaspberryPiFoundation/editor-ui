@@ -182,6 +182,10 @@
         fill: var(--rpf-button-tertiary-text-color-hover);
       }
     }
+
+    &.btn--underline {
+      text-decoration: underline;
+    }
   }
 
   &--danger {
@@ -226,6 +230,24 @@
       background-clip: padding-box;
       border: 2px solid transparent;
       outline: 3px solid $rpf-brand-raspberry;
+    }
+
+    &.btn--tertiary {
+      background-color: inherit;
+      color: var(--rpf-button-tertiary-danger-text-color);
+
+      svg {
+        fill: var(--rpf-button-tertiary-danger-text-color);
+      }
+
+      &:hover {
+        background-color: var(--rpf-button-tertiary-danger-background-color-hover);
+        // color: var(--rpf-button-tertiary-danger-text-color-hover);
+
+        // svg {
+        //   fill: var(--rpf-button-tertiary-danger-text-color-hover);
+        // }
+      }
     }
   }
 
