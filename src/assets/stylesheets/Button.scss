@@ -227,6 +227,23 @@
       border: 2px solid transparent;
       outline: 3px solid $rpf-brand-raspberry;
     }
+
+    &.btn--tertiary {
+      background-color: inherit;
+      color: var(--rpf-button-tertiary-danger-text-color);
+
+      svg {
+        fill: var(--rpf-button-tertiary-danger-text-color);
+      }
+
+      &:hover {
+        background-color: var(--rpf-button-tertiary-danger-background-color-hover);
+      }
+
+      &:active {
+        background-color: var(--rpf-button-tertiary-danger-background-color-active);
+      }
+    }
   }
 
   &--small {
