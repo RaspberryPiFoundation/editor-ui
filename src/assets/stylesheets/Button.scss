@@ -242,11 +242,10 @@
 
       &:hover {
         background-color: var(--rpf-button-tertiary-danger-background-color-hover);
-        // color: var(--rpf-button-tertiary-danger-text-color-hover);
+      }
 
-        // svg {
-        //   fill: var(--rpf-button-tertiary-danger-text-color-hover);
-        // }
+      &:active {
+        background-color: var(--rpf-button-tertiary-danger-background-color-active);
       }
     }
   }
