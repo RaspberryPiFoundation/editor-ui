@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
@@ -17,9 +18,68 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        include: [
+          /node_modules\/scratch-gui/,
+          /node_modules\/@scratch/, // Include @scratch packages
+          /node_modules\/scratch-paint/, // Include scratch-paint
+        ],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                "@babel/preset-react",
+                "@babel/preset-typescript",
+              ],
+              plugins: [
+                [
+                  "prismjs",
+                  {
+                    languages: ["javascript", "css", "python", "html"],
+                    plugins: [
+                      "line-numbers",
+                      "line-highlight",
+                      "highlight-keywords",
+                      "normalize-whitespace",
+                    ],
+                    theme: "twilight",
+                    css: true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
+        exclude: /node_modules\/(?!scratch-gui|@scratch|scratch-paint)/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+              plugins: [
+                [
+                  "prismjs",
+                  {
+                    languages: ["javascript", "css", "python", "html"],
+                    plugins: [
+                      "line-numbers",
+                      "line-highlight",
+                      "highlight-keywords",
+                      "normalize-whitespace",
+                    ],
+                    theme: "twilight",
+                    css: true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -79,15 +139,67 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.mp3$/,
+        include: /node_modules\/scratch-gui/,
+        type: "asset/resource",
+        generator: {
+          filename: "static/media/[name].[hash][ext]",
+        },
+      },
+      {
+        test: /\.wav$/,
+        include: /node_modules\/scratch-gui/,
+        type: "asset/resource",
+        generator: {
+          filename: "static/media/[name].[hash][ext]",
+        },
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        include: /node_modules\/scratch-gui/,
+        type: "asset/resource",
+        generator: {
+          filename: "static/media/[name].[hash][ext]",
+        },
+      },
+      // Handle arrayBuffer imports specifically
+      {
+        test: /\.(mp3|wav)$/,
+        include: /node_modules\/scratch-gui/,
+        resourceQuery: /arrayBuffer/,
+        type: "asset/resource",
+        generator: {
+          filename: "static/media/[name].[hash][ext]",
+        },
+      },
+      {
+        test: /\.hex$/,
+        include: /node_modules\/scratch-gui/,
+        type: "asset/resource",
+        generator: {
+          filename: "static/firmware/[name].[hash][ext]",
+        },
+      },
     ],
   },
   resolve: {
-    extensions: [".*", ".js", ".jsx", ".css"],
+    extensions: [".*", ".js", ".jsx", ".css", ".ts", ".tsx"], // Add .ts and .tsx
+    alias: {
+      "scratch-gui": path.resolve(
+        __dirname,
+        "node_modules/scratch-gui/packages/scratch-gui/src/index.ts", // Point to index.ts
+      ),
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
+      "react-redux": path.resolve(__dirname, "node_modules/react-redux"),
+    },
     fallback: {
       stream: require.resolve("stream-browserify"),
       assert: require.resolve("assert"),
       path: require.resolve("path-browserify"),
       url: require.resolve("url/"),
+      buffer: require.resolve("buffer"),
     },
   },
   output: {
@@ -136,6 +248,9 @@ module.exports = {
     new Dotenv({
       path: "./.env",
       systemvars: true,
+    }),
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
     }),
     new HtmlWebpackPlugin({
       inject: "body",

@@ -5,6 +5,8 @@ import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
+import { compose } from "redux";
+import { setAppElement } from "react-modal";
 
 import "../../../assets/stylesheets/Project.scss";
 import Output from "../Output/Output";
@@ -15,8 +17,21 @@ import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
+import GUI, { AppStateHOC } from "scratch-gui";
+// import ScratchIntegrationHOC from "./ScratchIntegrationHOC.jsx";
+// const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
+const WrappedGUI = AppStateHOC(GUI);
+
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    // Set app element to document body to avoid shadow DOM issues
+    setAppElement(document.body);
+    setIsReady(true);
+  }, []);
+
   const {
     nameEditable = true,
     withProjectbar = true,
@@ -53,6 +68,20 @@ const Project = (props) => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    // Set the app element for React Modal to the root of your web component
+    const appRoot =
+      document.querySelector("editor-wc")?.shadowRoot?.querySelector("#root") ||
+      document.getElementById("root");
+    if (appRoot) {
+      setAppElement(appRoot);
+    }
+  }, []);
+
+  if (!isReady) {
+    return <div>Loading Scratch Editor...</div>;
+  }
+
   return (
     <div className="proj" data-testid="project">
       <div
@@ -63,7 +92,27 @@ const Project = (props) => {
         {withSidebar && (
           <Sidebar options={sidebarOptions} plugins={sidebarPlugins} />
         )}
-        <div className="project-wrapper" ref={containerRef}>
+        <WrappedGUI
+          locale="en"
+          menuBarHidden={true}
+          projectHost="/api/projects"
+          assetHost="/api/assets"
+          basePath="/scratch-gui/"
+        />
+        {/* <WrappedGui
+          // projectId={projectId}
+          locale={"en"}
+          menuBarHidden={true}
+          projectHost={"/api/projects"}
+          assetHost={"/api/assets"}
+          basePath={"/scratch-gui/"}
+          onUpdateProjectId={() => {}}
+          onShowCreatingRemixAlert={() => {}}
+          onShowRemixSuccessAlert={() => {}}
+          onShowSavingAlert={() => {}}
+          onShowSaveSuccessAlert={() => {}}
+        /> */}
+        {/* <div className="project-wrapper" ref={containerRef}>
           {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
           {!loading && (
             <div className="proj-editor-wrapper">
@@ -81,7 +130,7 @@ const Project = (props) => {
               <Output />
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
