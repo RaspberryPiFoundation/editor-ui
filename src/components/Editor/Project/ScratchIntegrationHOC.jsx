@@ -2,7 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import bindAll from "lodash.bindall";
-import { remixProject, manualUpdateProject, setStageSize } from "scratch-gui";
+import {
+  remixProject,
+  manualUpdateProject,
+  setStageSize,
+} from "@RaspberryPiFoundation/scratch-gui";
 
 import fileDownload from "js-file-download";
 
@@ -33,6 +37,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
           this.handleDownload(event);
           break;
         case "scratch-gui-upload":
+          console.log("trying to upload...");
           this.handleUpload(event);
           break;
         case "scratch-gui-remix":
@@ -44,16 +49,27 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       }
     }
     handleDownload(event) {
+      if (!this.props.vmReady || !this.props.saveProjectSb3) {
+        console.error("Cannot download: Scratch VM not ready");
+        return;
+      }
+
       const filename = event.data.filename;
       this.props.saveProjectSb3().then((content) => {
         fileDownload(content, filename);
       });
     }
     handleUpload(event) {
+      if (!this.props.vmReady || !this.props.loadProject) {
+        console.error("Cannot upload: Scratch VM not ready");
+        return;
+      }
+
+      console.log("it's uploading...");
       const file = event.data.file;
       file.arrayBuffer().then((blob) => {
         this.props.loadProject(blob).then(() => {
-          console.log("done");
+          console.log("upload complete!");
         });
       });
     }
@@ -64,17 +80,38 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.onClickSave();
     }
     render() {
-      const { ...componentProps } = this.props;
+      const {
+        vmReady,
+        saveProjectSb3,
+        loadProject,
+        onClickRemix,
+        onClickSave,
+        setStageSize,
+        ...componentProps
+      } = this.props;
       return <WrappedComponent {...componentProps} />;
     }
   }
 
-  const mapStateToProps = (state) => ({
-    saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
-      state.scratchGui.vm,
-    ),
-    loadProject: state.scratchGui.vm.loadProject.bind(state.scratchGui.vm),
-  });
+  const mapStateToProps = (state) => {
+    // Check if scratchGui and vm exist before trying to access them
+    const vm = state.scratchGui?.vm;
+
+    if (!vm) {
+      console.warn("Scratch VM not initialized yet");
+      return {
+        saveProjectSb3: null,
+        loadProject: null,
+        vmReady: false,
+      };
+    }
+
+    return {
+      saveProjectSb3: vm.saveProjectSb3?.bind(vm),
+      loadProject: vm.loadProject?.bind(vm),
+      vmReady: true,
+    };
+  };
 
   const mapDispatchToProps = (dispatch) => ({
     onClickRemix: () => dispatch(remixProject()),
@@ -88,6 +125,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,
     setStageSize: PropTypes.func,
+    vmReady: PropTypes.bool,
   };
   return connect(
     mapStateToProps,

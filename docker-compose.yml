@@ -6,6 +6,8 @@ x-app: &x-app
     - node_modules:/app/node_modules
     - /var/run/docker.sock:/var/run/docker.sock
   stdin_open: true
+  environment:
+    - GITHUB_TOKEN=${GITHUB_TOKEN}
 services:
   app:
     <<: *x-app

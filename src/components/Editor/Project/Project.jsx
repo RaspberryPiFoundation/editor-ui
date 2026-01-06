@@ -17,10 +17,12 @@ import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
 
-import GUI, { AppStateHOC } from "scratch-gui";
-// import ScratchIntegrationHOC from "./ScratchIntegrationHOC.jsx";
-// const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
-const WrappedGUI = AppStateHOC(GUI);
+import GUI, { AppStateHOC } from "@RaspberryPiFoundation/scratch-gui";
+import ScratchIntegrationHOC from "./ScratchIntegrationHOC";
+import Button from "../../Button/Button";
+
+const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
+// const WrappedGUI = AppStateHOC(GUI);
 
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
@@ -48,21 +50,22 @@ const Project = (props) => {
     }
   }, [saving, autosave]);
 
-  const [params, containerRef] = useContainerQuery(projContainer);
-  const [defaultWidth, setDefaultWidth] = useState("auto");
-  const [defaultHeight, setDefaultHeight] = useState("auto");
-  const [maxWidth, setMaxWidth] = useState("100%");
-  const [handleDirection, setHandleDirection] = useState("right");
+  // const [params, containerRef] = useContainerQuery(projContainer);
+  // const [defaultWidth, setDefaultWidth] = useState("auto");
+  // const [defaultHeight, setDefaultHeight] = useState("auto");
+  // const [maxWidth, setMaxWidth] = useState("100%");
+  // const [handleDirection, setHandleDirection] = useState("right");
   const [loading, setLoading] = useState(true);
+  const [containerReady, setContainerReady] = useState(false);
 
-  useMemo(() => {
-    const isDesktop = params["width-larger-than-720"];
+  // useMemo(() => {
+  //   const isDesktop = params["width-larger-than-720"];
 
-    setDefaultWidth(isDesktop ? "50%" : "100%");
-    setDefaultHeight(isDesktop ? "100%" : "50%");
-    setMaxWidth(isDesktop ? "75%" : "100%");
-    setHandleDirection(isDesktop ? "right" : "bottom");
-  }, [params["width-larger-than-720"]]);
+  //   setDefaultWidth(isDesktop ? "50%" : "100%");
+  //   setDefaultHeight(isDesktop ? "100%" : "50%");
+  //   setMaxWidth(isDesktop ? "75%" : "100%");
+  //   setHandleDirection(isDesktop ? "right" : "bottom");
+  // }, [params["width-larger-than-720"]]);
 
   useEffect(() => {
     setLoading(false);
@@ -92,12 +95,44 @@ const Project = (props) => {
         {withSidebar && (
           <Sidebar options={sidebarOptions} plugins={sidebarPlugins} />
         )}
-        <WrappedGUI
+        <Button
+          buttonText="Upload Project"
+          onClickHandler={() => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = ".sb3";
+            input.onchange = (e) => {
+              const file = e.target.files[0];
+              if (file) {
+                // const reader = new FileReader();
+                // reader.onload = (event) => {
+                //   const arrayBuffer = event.target.result;
+                //   // Dispatch action to load project using the arrayBuffer
+                //   // e.g., dispatch(loadProject(arrayBuffer));
+
+                // };
+                // reader.readAsArrayBuffer(file);
+                console.log("posting message to upload file...", file);
+                // window.postMessage("scratch-gui-upload", { file: file });
+                window.postMessage(
+                  { type: "scratch-gui-upload", file: file },
+                  window.location.origin,
+                );
+              }
+            };
+            input.click();
+          }}
+          type="primary"
+        />
+        <WrappedGui
           locale="en"
           menuBarHidden={true}
-          projectHost="/api/projects"
-          assetHost="/api/assets"
-          basePath="/scratch-gui/"
+          projectId="blank-scratch-starter"
+          projectHost="http://localhost:3009/api/projects"
+          assetHost="https://editor-scratch.raspberrypi.org/api/assets"
+
+          // assetHost="/api/assets"
+          // basePath="/scratch-gui/"
         />
         {/* <WrappedGui
           // projectId={projectId}

@@ -21,6 +21,7 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         include: [
           /node_modules\/scratch-gui/,
+          /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
           /node_modules\/@scratch/, // Include @scratch packages
           /node_modules\/scratch-paint/, // Include scratch-paint
         ],
@@ -55,7 +56,8 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules\/(?!scratch-gui|@scratch|scratch-paint)/,
+        exclude:
+          /node_modules\/(?!scratch-gui|@RaspberryPiFoundation\/scratch-gui|@scratch|scratch-paint)/,
         use: [
           {
             loader: "babel-loader",
@@ -83,14 +85,31 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["css-loader"],
+        use: [
+          "to-string-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]_[local]_[hash:base64:5]", // This matches the scratch-gui pattern
+                exportLocalsConvention: "camelCase",
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
         exclude: [/node_modules/],
         use: [
           {
+            loader: "to-string-loader",
+          },
+          {
             loader: "css-loader",
+            // options: {
+            //   modules: false, // Add this to disable CSS Modules
+            // },
           },
           {
             loader: "resolve-url-loader",
@@ -141,7 +160,7 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        include: /node_modules\/scratch-gui/,
+        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -149,7 +168,7 @@ module.exports = {
       },
       {
         test: /\.wav$/,
-        include: /node_modules\/scratch-gui/,
+        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -157,7 +176,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        include: /node_modules\/scratch-gui/,
+        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -166,7 +185,7 @@ module.exports = {
       // Handle arrayBuffer imports specifically
       {
         test: /\.(mp3|wav)$/,
-        include: /node_modules\/scratch-gui/,
+        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         resourceQuery: /arrayBuffer/,
         type: "asset/resource",
         generator: {
@@ -175,7 +194,7 @@ module.exports = {
       },
       {
         test: /\.hex$/,
-        include: /node_modules\/scratch-gui/,
+        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/firmware/[name].[hash][ext]",
@@ -185,15 +204,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".*", ".js", ".jsx", ".css", ".ts", ".tsx"], // Add .ts and .tsx
-    alias: {
-      "scratch-gui": path.resolve(
-        __dirname,
-        "node_modules/scratch-gui/packages/scratch-gui/src/index.ts", // Point to index.ts
-      ),
-      react: path.resolve(__dirname, "node_modules/react"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
-      "react-redux": path.resolve(__dirname, "node_modules/react-redux"),
-    },
     fallback: {
       stream: require.resolve("stream-browserify"),
       assert: require.resolve("assert"),
