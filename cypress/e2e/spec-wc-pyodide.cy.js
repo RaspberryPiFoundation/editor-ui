@@ -151,6 +151,45 @@ describe("Running the code with pyodide", () => {
       .should("contain", "3");
   });
 
+  it("runs a program with muiltiple files", () => {
+    cy.get("editor-wc")
+      .shadow()
+      .findByLabelText('editor text input')
+      .invoke("text", `from my_number import NUMBER\nprint(NUMBER)\n`);
+
+    cy.get("editor-wc")
+      .shadow()
+      .findByRole('button', { name: 'Add file' }).click()
+
+    cy.get("editor-wc")
+      .shadow()
+      .children()
+      .findByLabelText(/Name your file/)
+      .type("my_number.py");
+
+    cy.get("editor-wc")
+      .shadow()
+      .findByRole('dialog')
+      .findByRole('button', { name: 'Add file' }).click()
+
+    cy.get("editor-wc")
+      .shadow()
+      .findByLabelText('editor text input')
+      .invoke("text", `NUMBER = 42\n`);
+
+    cy.get("editor-wc")
+      .shadow()
+      .findByRole('button', { name: 'Run' }).click()
+
+    cy.get("editor-wc")
+      .shadow()
+      .children()
+      .find(".pyodiderunner")
+      .findByLabelText('Text output')
+      .should("contain", "42");
+  });
+
+
   it("runs a simple program with a built-in pyodide module", () => {
     runCode(
       "import simplejson as json\nprint(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))",
