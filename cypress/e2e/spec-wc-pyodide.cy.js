@@ -34,6 +34,7 @@ describe("Running the code with pyodide", () => {
         configurable: true,
       });
     });
+    cy.get("editor-wc").shadow().children().as("editor");
   });
 
   it("runs a simple program", () => {
@@ -152,38 +153,28 @@ describe("Running the code with pyodide", () => {
   });
 
   it("runs a program with muiltiple files", () => {
-    cy.get("editor-wc")
-      .shadow()
+    cy.get("@editor")
       .findByLabelText('editor text input')
       .invoke("text", `from my_number import NUMBER\nprint(NUMBER)\n`);
 
-    cy.get("editor-wc")
-      .shadow()
-      .findByRole('button', { name: 'Add file' }).click()
+    cy.get("@editor").findByRole('button', { name: 'Add file' }).click()
 
-    cy.get("editor-wc")
-      .shadow()
-      .children()
+    cy.get("@editor")
       .findByLabelText(/Name your file/)
       .type("my_number.py");
 
-    cy.get("editor-wc")
-      .shadow()
+    cy.get("@editor")
       .findByRole('dialog')
       .findByRole('button', { name: 'Add file' }).click()
 
-    cy.get("editor-wc")
-      .shadow()
+    cy.get("@editor")
       .findByLabelText('editor text input')
       .invoke("text", `NUMBER = 42\n`);
 
-    cy.get("editor-wc")
-      .shadow()
-      .findByRole('button', { name: 'Run' }).click()
+    cy.get("@editor")
+      .findByRole('button', { name: 'Run' }).click();
 
-    cy.get("editor-wc")
-      .shadow()
-      .children()
+    cy.get("@editor")
       .find(".pyodiderunner")
       .findByLabelText('Text output')
       .should("contain", "42");
