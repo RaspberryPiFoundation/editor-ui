@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Update cypress (#1283)
 
+### Fixed
+
+- Fix intermitently failing dropdown test (#1285)
+
 ## [0.34.2] - 2025-12-09
 
 ### Added
