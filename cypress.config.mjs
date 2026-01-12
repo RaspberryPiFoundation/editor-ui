@@ -6,7 +6,6 @@ dotenv.config();
 export default defineConfig({
   e2e: {
     chromeWebSecurity: false,
-    supportFile: false,
     defaultCommandTimeout: 10000,
     video: false,
     defaultBrowser: "chrome",
