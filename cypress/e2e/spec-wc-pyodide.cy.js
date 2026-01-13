@@ -181,6 +181,45 @@ describe("Running the code with pyodide", () => {
   });
 
 
+  it("does not cache class variables in local files", () => {
+    cy.get("@editor")
+      .findByLabelText('editor text input')
+      .invoke("text",
+        `from helper import Widget\nWidget.widget_count += 1\nprint(Widget.widget_count)`
+      );
+
+    cy.get("@editor").findByRole('button', { name: 'Add file' }).click()
+
+    cy.get("@editor")
+      .findByLabelText(/Name your file/)
+      .type("helper.py");
+
+    cy.get("@editor")
+      .findByRole('dialog')
+      .findByRole('button', { name: 'Add file' }).click()
+
+    cy.get("@editor")
+      .findByLabelText('editor text input')
+      .invoke("text", `class Widget:\n  widget_count = 0`);
+
+    cy.get("@editor")
+      .findByRole('button', { name: 'Run' }).click();
+
+    cy.get("@editor")
+      .find(".pyodiderunner")
+      .findByLabelText('Text output')
+      .should("contain", "1");
+
+    cy.get("@editor")
+      .findByRole('button', { name: 'Run' }).click();
+
+    cy.get("@editor")
+      .find(".pyodiderunner")
+      .findByLabelText('Text output')
+      .should("contain", "1");
+  });
+
+
   it("runs a simple program with a built-in pyodide module", () => {
     runCode(
       "import simplejson as json\nprint(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}]))",
