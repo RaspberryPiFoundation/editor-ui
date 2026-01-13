@@ -93,6 +93,17 @@ export const loadProjectList = createAsyncThunk(
   },
 );
 
+// Helper function to extract all Python code from components
+const getAllPythonCode = (components) => {
+  if (!components || !Array.isArray(components)) {
+    return "";
+  }
+  return components
+    .filter((component) => component.extension === "py")
+    .map((component) => component.content || "")
+    .join("\n");
+};
+
 export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
@@ -139,6 +150,7 @@ export const editorInitialState = {
   errorDetails: {},
   errorLine: "",
   errorLineNumber: null,
+  code: "",
   runnerBeingLoaded: null | "pyodide" | "skulpt",
 };
 
@@ -201,6 +213,7 @@ export const EditorSlice = createSlice({
         content: action.payload.content || "",
       });
       state.saving = "idle";
+      state.code = getAllPythonCode(state.project.components);
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -237,6 +250,7 @@ export const EditorSlice = createSlice({
         state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
+      state.code = getAllPythonCode(state.project.components);
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -285,6 +299,7 @@ export const EditorSlice = createSlice({
       });
       state.project.components = mapped;
       state.cascadeUpdate = cascadeUpdate;
+      state.code = getAllPythonCode(state.project.components);
     },
     updateProjectName: (state, action) => {
       state.project.name = action.payload;
@@ -305,6 +320,7 @@ export const EditorSlice = createSlice({
         state.openFiles[panelIndex][fileIndex] = `${name}.${extension}`;
       }
       state.saving = "idle";
+      state.code = getAllPythonCode(state.project.components);
     },
     setCascadeUpdate: (state, action) => {
       state.cascadeUpdate = action.payload;

@@ -18,6 +18,8 @@ const ErrorMessage = () => {
   const errorExplanation = useRef();
   const error = useSelector((state) => state.editor.error);
   const errorLine = useSelector((state) => state.editor.errorLine);
+  const code = useSelector((state) => state.editor.code);
+  console.log("ErrorMessage render", { error: error, code: code });
   // TODO: highlight the error line in the code editor
   // const errorLineNumber = useSelector((state) => state.editor.errorLineNumber);
   const settings = useContext(SettingsContext);
@@ -37,8 +39,8 @@ const ErrorMessage = () => {
     try {
       const explanation = explain({
         error: error,
-        code: errorLine,
-        // TODO: set dynamically (based on what?)
+        code: code || errorLine,
+        // TODO: set dynamically (but based on what? maybe not really needed)
         audience: "beginner",
         verbosity: "guided",
       });
@@ -50,7 +52,7 @@ const ErrorMessage = () => {
     } catch {
       message.current.innerHTML = error;
     }
-  }, [error, errorLine, isReady]);
+  }, [error, code, errorLine, isReady]);
 
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>

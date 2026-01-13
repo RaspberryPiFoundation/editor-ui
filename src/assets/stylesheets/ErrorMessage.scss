@@ -22,14 +22,3 @@
     @include font-size-2(regular);
   }
 }
-
-.error-explanation {
-  margin-block-start: $space-1-25;
-  padding: $space-1-25;
-  background-color: #fff;
-
-  .pfe-summary {
-    margin-block-start: $space-1-25;
-    margin-block-end: $space-1-25;
-  }
-}
