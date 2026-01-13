@@ -30,10 +30,6 @@ class WebComponent extends HTMLElement {
   sidebarPlugins = [];
 
   connectedCallback() {
-    if (!this.shadowRoot) {
-      this.mountPoint = this.shadowRoot;
-    }
-
     console.log("Mounted web-component...");
 
     this.mountReactApp();
@@ -43,7 +39,9 @@ class WebComponent extends HTMLElement {
     if (this.root) {
       console.log("Unmounted web-component...");
       this.root.unmount();
+      this.root = null;
     }
+    this.mountPoint = null;
     store.dispatch(resetStore());
   }
 
@@ -171,11 +169,13 @@ class WebComponent extends HTMLElement {
   }
 
   mountReactApp() {
+    if (!this.isConnected) {
+      return;
+    }
     if (!this.mountPoint) {
       this.mountPoint = document.createElement("div");
-      this.mountPoint.setAttribute("id", "root");
-      this.mountPoint.setAttribute("part", "editor-root");
-      this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
+      this.mountPoint.setAttribute("data-web-component-root", "editor-root");
+      this.appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
 
@@ -191,11 +191,6 @@ class WebComponent extends HTMLElement {
         </Provider>
       </React.StrictMode>,
     );
-
-    // Copy scratch-gui styles after rendering
-    setTimeout(() => {
-      this.copyScratchGuiStyles();
-    }, 100); // Small delay to ensure components are rendered
   }
 
   copyScratchGuiStyles() {

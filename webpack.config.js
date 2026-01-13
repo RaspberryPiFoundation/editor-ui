@@ -4,11 +4,24 @@ const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const postcssImport = require("postcss-import");
+const postcssSimpleVars = require("postcss-simple-vars");
 
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
+
+const scratchGuiInclude = [
+  /node_modules\/scratch-gui/,
+  /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
+  /scratch-editor\/packages\/scratch-gui/,
+];
+const scratchVmInclude = [
+  /node_modules\/@scratch\/scratch-vm/,
+  /node_modules\/scratch-vm/,
+  /scratch-editor\/packages\/scratch-vm/,
+];
 
 module.exports = {
   entry: {
@@ -20,8 +33,7 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         include: [
-          /node_modules\/scratch-gui/,
-          /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
+          ...scratchGuiInclude,
           /node_modules\/@scratch/, // Include @scratch packages
           /node_modules\/scratch-paint/, // Include scratch-paint
         ],
@@ -85,6 +97,45 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        include: scratchGuiInclude,
+        use: [
+          {
+            loader: "style-loader",
+            options: {
+              insert: function insertAtShadowRoot(element) {
+                var root = window.__editorShadowRoot;
+                if (root && root.appendChild) {
+                  root.appendChild(element);
+                } else {
+                  document.head.appendChild(element);
+                }
+              },
+            },
+          },
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: {
+                auto: (resourcePath) => !resourcePath.endsWith(".raw.css"),
+                localIdentName: "[name]_[local]_[hash:base64:5]", // Match scratch-gui module naming
+                exportLocalsConvention: "camelCase",
+              },
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [postcssImport(), postcssSimpleVars()],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        exclude: scratchGuiInclude,
         use: [
           "to-string-loader",
           {
@@ -160,7 +211,6 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -168,7 +218,6 @@ module.exports = {
       },
       {
         test: /\.wav$/,
-        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -176,7 +225,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
+        include: scratchGuiInclude,
         type: "asset/resource",
         generator: {
           filename: "static/media/[name].[hash][ext]",
@@ -185,7 +234,6 @@ module.exports = {
       // Handle arrayBuffer imports specifically
       {
         test: /\.(mp3|wav)$/,
-        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
         resourceQuery: /arrayBuffer/,
         type: "asset/resource",
         generator: {
@@ -194,7 +242,7 @@ module.exports = {
       },
       {
         test: /\.hex$/,
-        include: /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
+        include: scratchGuiInclude,
         type: "asset/resource",
         generator: {
           filename: "static/firmware/[name].[hash][ext]",
@@ -204,6 +252,15 @@ module.exports = {
   },
   resolve: {
     extensions: [".*", ".js", ".jsx", ".css", ".ts", ".tsx"], // Add .ts and .tsx
+    alias: {
+      "@RaspberryPiFoundation/scratch-gui": path.resolve(
+        __dirname,
+        "../scratch-editor/packages/scratch-gui/src",
+      ),
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
+      "react-redux": path.resolve(__dirname, "node_modules/react-redux"),
+    },
     fallback: {
       stream: require.resolve("stream-browserify"),
       assert: require.resolve("assert"),
@@ -224,6 +281,9 @@ module.exports = {
     port: 3011,
     liveReload: true,
     hot: false,
+    client: {
+      overlay: false,
+    },
     static: {
       directory: path.join(__dirname, "public"),
     },
