@@ -6,6 +6,7 @@ const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const postcssImport = require("postcss-import");
 const postcssSimpleVars = require("postcss-simple-vars");
+const postcssScss = require("postcss-scss");
 
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
@@ -126,9 +127,8 @@ module.exports = {
           {
             loader: "postcss-loader",
             options: {
-              postcssOptions: {
-                plugins: [postcssImport(), postcssSimpleVars()],
-              },
+              parser: postcssScss,
+              plugins: [postcssImport(), postcssSimpleVars()],
             },
           },
         ],

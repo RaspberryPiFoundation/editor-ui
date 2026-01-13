@@ -192,40 +192,6 @@ class WebComponent extends HTMLElement {
       </React.StrictMode>,
     );
   }
-
-  copyScratchGuiStyles() {
-    const allStylesText = Array.from(document.styleSheets)
-      .map((sheet) => {
-        try {
-          // Only process stylesheets that contain scratch-gui related styles
-          // or if we can't access the href, include all stylesheets since ExternalStyles.scss contains our scratch-gui imports
-          const includeSheet =
-            !sheet.href ||
-            sheet.href.includes("scratch-gui") ||
-            sheet.href.includes("main") ||
-            sheet.href.includes("bundle");
-
-          if (!includeSheet) return "";
-
-          return Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("\n");
-        } catch (e) {
-          console.warn("Could not access stylesheet:", e);
-          return "";
-        }
-      })
-      .join("\n");
-
-    if (allStylesText && this.shadowRoot) {
-      const styleSheet = new CSSStyleSheet();
-      styleSheet.replaceSync(allStylesText);
-      this.shadowRoot.adoptedStyleSheets = [
-        ...(this.shadowRoot.adoptedStyleSheets || []),
-        styleSheet,
-      ];
-    }
-  }
 }
 
 if (!window.customElements.get("editor-wc")) {

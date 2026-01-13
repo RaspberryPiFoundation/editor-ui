@@ -98,15 +98,9 @@ const Project = (props) => {
     menuBarHidden: true,
     assetHost: "https://editor-scratch.raspberrypi.org/api/assets",
     basePath: scratchBasePath,
-    // projectId: scratchProjectId,
+    projectId: scratchProjectId,
     projectHost: scratchProjectHost,
   };
-
-  // projectId="blank-scratch-starter"
-  // projectHost="http://localhost:3009/api/projects"
-  // assetHost="https://editor-scratch.raspberrypi.org/api/assets"
-  // assetHost="/api/assets"
-  // basePath="https://editor-scratch.raspberrypi.org/scratch-gui/"
 
   return (
     <div className="proj" data-testid="project">
