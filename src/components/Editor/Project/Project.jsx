@@ -26,6 +26,9 @@ const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
 
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
+  const reactAppApiEndpoint = useSelector(
+    (state) => state.editor.reactAppApiEndpoint,
+  );
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -85,6 +88,20 @@ const Project = (props) => {
     return <div>Loading Scratch Editor...</div>;
   }
 
+  const scratchProjectHost = reactAppApiEndpoint
+    ? `${reactAppApiEndpoint}/api/projects`
+    : null;
+  const scratchProjectId = "blank-scratch-starter";
+  const scratchBasePath = process.env.PUBLIC_URL || "/";
+  const scratchGuiProps = {
+    locale: "en",
+    menuBarHidden: true,
+    // assetHost: "https://editor-scratch.raspberrypi.org/api/assets",
+    // basePath: scratchBasePath,
+    // projectId: scratchProjectId,
+    // projectHost: scratchProjectHost,
+  };
+
   return (
     <div className="proj" data-testid="project">
       <div
@@ -125,12 +142,7 @@ const Project = (props) => {
           type="primary"
         />
         <WrappedGui
-          locale="en"
-          menuBarHidden={true}
-          projectId="blank-scratch-starter"
-          projectHost="http://localhost:3009/api/projects"
-          assetHost="https://editor-scratch.raspberrypi.org/api/assets"
-
+          {...scratchGuiProps}
           // assetHost="/api/assets"
           // basePath="/scratch-gui/"
         />

@@ -30,10 +30,6 @@ class WebComponent extends HTMLElement {
   sidebarPlugins = [];
 
   connectedCallback() {
-    if (!this.shadowRoot) {
-      this.mountPoint = this.shadowRoot;
-    }
-
     console.log("Mounted web-component...");
 
     this.mountReactApp();
@@ -43,7 +39,9 @@ class WebComponent extends HTMLElement {
     if (this.root) {
       console.log("Unmounted web-component...");
       this.root.unmount();
+      this.root = null;
     }
+    this.mountPoint = null;
     store.dispatch(resetStore());
   }
 
@@ -171,11 +169,13 @@ class WebComponent extends HTMLElement {
   }
 
   mountReactApp() {
+    if (!this.isConnected) {
+      return;
+    }
     if (!this.mountPoint) {
       this.mountPoint = document.createElement("div");
-      this.mountPoint.setAttribute("id", "root");
-      this.mountPoint.setAttribute("part", "editor-root");
-      this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
+      this.mountPoint.setAttribute("data-web-component-root", "editor-root");
+      this.appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
 
@@ -191,45 +191,6 @@ class WebComponent extends HTMLElement {
         </Provider>
       </React.StrictMode>,
     );
-
-    // Copy scratch-gui styles after rendering
-    setTimeout(() => {
-      this.copyScratchGuiStyles();
-    }, 100); // Small delay to ensure components are rendered
-  }
-
-  copyScratchGuiStyles() {
-    const allStylesText = Array.from(document.styleSheets)
-      .map((sheet) => {
-        try {
-          // Only process stylesheets that contain scratch-gui related styles
-          // or if we can't access the href, include all stylesheets since ExternalStyles.scss contains our scratch-gui imports
-          const includeSheet =
-            !sheet.href ||
-            sheet.href.includes("scratch-gui") ||
-            sheet.href.includes("main") ||
-            sheet.href.includes("bundle");
-
-          if (!includeSheet) return "";
-
-          return Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("\n");
-        } catch (e) {
-          console.warn("Could not access stylesheet:", e);
-          return "";
-        }
-      })
-      .join("\n");
-
-    if (allStylesText && this.shadowRoot) {
-      const styleSheet = new CSSStyleSheet();
-      styleSheet.replaceSync(allStylesText);
-      this.shadowRoot.adoptedStyleSheets = [
-        ...(this.shadowRoot.adoptedStyleSheets || []),
-        styleSheet,
-      ];
-    }
   }
 }
 
