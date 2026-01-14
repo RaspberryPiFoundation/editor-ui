@@ -13,15 +13,11 @@ if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
 
+// scratch-gui uses postcss, so we need to match that here
 const scratchGuiInclude = [
   /node_modules\/scratch-gui/,
   /node_modules\/@RaspberryPiFoundation\/scratch-gui/,
   /scratch-editor\/packages\/scratch-gui/,
-];
-const scratchVmInclude = [
-  /node_modules\/@scratch\/scratch-vm/,
-  /node_modules\/scratch-vm/,
-  /scratch-editor\/packages\/scratch-vm/,
 ];
 
 module.exports = {
@@ -98,54 +94,41 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: scratchGuiInclude,
-        use: [
+        oneOf: [
           {
-            loader: "style-loader",
-            options: {
-              insert: function insertAtShadowRoot(element) {
-                var root = window.__editorShadowRoot;
-                if (root && root.appendChild) {
-                  root.appendChild(element);
-                } else {
-                  document.head.appendChild(element);
-                }
+            include: scratchGuiInclude,
+            use: [
+              "style-loader",
+              {
+                loader: "css-loader",
+                options: {
+                  importLoaders: 1,
+                  modules: {
+                    auto: (resourcePath) => !resourcePath.endsWith(".raw.css"),
+                    localIdentName: "[name]_[local]_[hash:base64:5]", // Match scratch-gui module naming
+                    exportLocalsConvention: "camelCase",
+                  },
+                },
               },
-            },
+              {
+                loader: "postcss-loader",
+                options: {
+                  parser: postcssScss,
+                  plugins: [postcssImport(), postcssSimpleVars()],
+                },
+              },
+            ],
           },
           {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              modules: {
-                auto: (resourcePath) => !resourcePath.endsWith(".raw.css"),
-                localIdentName: "[name]_[local]_[hash:base64:5]", // Match scratch-gui module naming
-                exportLocalsConvention: "camelCase",
+            use: [
+              "to-string-loader",
+              {
+                loader: "css-loader",
+                options: {
+                  modules: false,
+                },
               },
-            },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              parser: postcssScss,
-              plugins: [postcssImport(), postcssSimpleVars()],
-            },
-          },
-        ],
-      },
-      {
-        test: /\.css$/,
-        exclude: scratchGuiInclude,
-        use: [
-          "to-string-loader",
-          {
-            loader: "css-loader",
-            options: {
-              modules: {
-                localIdentName: "[name]_[local]_[hash:base64:5]", // This matches the scratch-gui pattern
-                exportLocalsConvention: "camelCase",
-              },
-            },
+            ],
           },
         ],
       },
