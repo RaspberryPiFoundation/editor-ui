@@ -96,10 +96,10 @@ const Project = (props) => {
   const scratchGuiProps = {
     locale: "en",
     menuBarHidden: true,
-    assetHost: "https://editor-scratch.raspberrypi.org/api/assets",
-    basePath: scratchBasePath,
-    projectId: scratchProjectId,
-    projectHost: scratchProjectHost,
+    // assetHost: "https://editor-scratch.raspberrypi.org/api/assets",
+    // basePath: scratchBasePath,
+    // projectId: scratchProjectId,
+    // projectHost: scratchProjectHost,
   };
 
   return (
