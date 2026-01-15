@@ -31,6 +31,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Font size selection now works in the web component (#1277)
 
+### Added
+
+- Ability for host page to force web component into its loading state (#1272)
+
 ## [0.34.0] - 2025-11-17
 
 ### Added
