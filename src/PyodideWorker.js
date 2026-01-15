@@ -416,7 +416,12 @@ const PyodideWorker = () => {
   const clearPyodideData = async () => {
     postMessage({ method: "handleLoading" });
     await pyodide.runPythonAsync(`
-        # Clear all user-defined variables and modules
+        import sys
+        for name in list(sys.modules):
+            module = sys.modules[name]
+            if hasattr(module, '__file__') and module.__file__ and module.__file__.startswith('/home/pyodide/'):
+                del sys.modules[name]
+
         for name in dir():
             if not name.startswith('_') and not name=='basthon':
                 del globals()[name]

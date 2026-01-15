@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Clear loaded modules to remove state between runs (#1287)
 - Fix intermitently failing dropdown test (#1285)
 
 ## [0.34.2] - 2025-12-09
