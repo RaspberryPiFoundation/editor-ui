@@ -181,11 +181,11 @@ describe("Running the code with pyodide", () => {
   });
 
 
-  it("does not cache class variables in local files", () => {
+  it("reloads imported local files between code runs", () => {
     cy.get("@editor")
       .findByLabelText('editor text input')
       .invoke("text",
-        `from helper import Widget\nWidget.widget_count += 1\nprint(Widget.widget_count)`
+        `from helper import b\nb()`
       );
 
     cy.get("@editor").findByRole('button', { name: 'Add file' }).click()
@@ -200,7 +200,7 @@ describe("Running the code with pyodide", () => {
 
     cy.get("@editor")
       .findByLabelText('editor text input')
-      .invoke("text", `class Widget:\n  widget_count = 0`);
+      .invoke("text", `def b():\n  print('one')`);
 
     cy.get("@editor")
       .findByRole('button', { name: 'Run' }).click();
@@ -208,7 +208,11 @@ describe("Running the code with pyodide", () => {
     cy.get("@editor")
       .find(".pyodiderunner")
       .findByLabelText('Text output')
-      .should("contain", "1");
+      .should("contain", "one");
+    
+    cy.get("@editor")
+      .findByLabelText('editor text input')
+      .invoke("text", `def b():\n  print('two')`);
 
     cy.get("@editor")
       .findByRole('button', { name: 'Run' }).click();
@@ -216,7 +220,7 @@ describe("Running the code with pyodide", () => {
     cy.get("@editor")
       .find(".pyodiderunner")
       .findByLabelText('Text output')
-      .should("contain", "1");
+      .should("contain", "two");
   });
 
 
