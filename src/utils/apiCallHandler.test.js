@@ -15,7 +15,6 @@ const {
   readProject,
   loadAssets,
   createRemix,
-  readProjectList,
   createError,
 } = ApiCallHandler({ reactAppApiEndpoint: host });
 
@@ -165,18 +164,6 @@ describe("Testing project API calls", () => {
       `${host}/api/projects/${projectIdentifier}/images`,
       authHeaders,
     );
-  });
-});
-
-describe("Index page API calls", () => {
-  test("Loading project list", async () => {
-    axios.get.mockImplementationOnce(() => Promise.resolve(200));
-    const page = 3;
-    await readProjectList(page, accessToken);
-    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects`, {
-      ...authHeaders,
-      params: { page },
-    });
   });
 });
 
