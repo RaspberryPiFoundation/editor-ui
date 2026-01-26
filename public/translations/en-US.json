@@ -297,19 +297,6 @@
     "loading": "Loading",
     "failed": "Load failed"
   },
-  "imageUploadButton": {
-    "uploadImage": "Upload image",
-    "uploadAnImage": "Upload an image",
-    "info": "Drag and drop images here, or click to select images from file",
-    "cancel": "Cancel",
-    "save": "Save",
-    "or": "or",
-    "errors": {
-      "error": "Error",
-      "imageNameNotUnique": "Image names must be unique.",
-      "invalidImageExtension": "Image names must end in {{extensions}}."
-    }
-  },
   "newInputPanelButton": {
     "buttonText": "Add another panel"
   },

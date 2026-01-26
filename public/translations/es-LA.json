@@ -297,19 +297,6 @@
     "loading": "Cargando",
     "failed": "Error al cargar"
   },
-  "imageUploadButton": {
-    "uploadImage": "Subir imagen",
-    "uploadAnImage": "Subir una imagen",
-    "info": "Arrastra y suelta imágenes aquí o haz clic para seleccionar imágenes de un archivo",
-    "cancel": "Cancelar",
-    "save": "Guardar",
-    "or": "o",
-    "errors": {
-      "error": "Error",
-      "imageNameNotUnique": "Los nombres de imagen deben ser únicos.",
-      "invalidImageExtension": "Los nombres de imagen deben terminar en {{extensions}}."
-    }
-  },
   "newInputPanelButton": {
     "buttonText": "Agregar otro panel"
   },
