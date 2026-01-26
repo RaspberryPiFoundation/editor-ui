@@ -81,13 +81,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     );
   };
 
-  const readProjectList = async (page, accessToken) => {
-    return await get(`${host}/api/projects`, {
-      params: { page },
-      ...headers(accessToken),
-    });
-  };
-
   const createError = async (
     projectIdentifier,
     userId,
@@ -116,7 +109,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     createRemix,
     readProject,
     loadAssets,
-    readProjectList,
     createError,
   };
 };
