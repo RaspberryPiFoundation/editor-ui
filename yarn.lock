@@ -3977,7 +3977,6 @@ __metadata:
     react-cookie: "npm:^4.1.1"
     react-dev-utils: "npm:^11.0.3"
     react-dom: "npm:^18.1.0"
-    react-dropzone: "npm:^12.0.4"
     react-i18next: "npm:^12.0.0"
     react-modal: "npm:^3.14.4"
     react-redux: "npm:^7.2.5"
@@ -6996,13 +6995,6 @@ __metadata:
   bin:
     atob: bin/atob.js
   checksum: 10/0624406cc0295533b38b60ab2e3b028aa7b8225f37e0cde6be3bc5c13a8015c889b192e874fd7660671179cef055f2e258855f372b0e495bd4096cf0b4785c25
-  languageName: node
-  linkType: hard
-
-"attr-accept@npm:^2.2.2":
-  version: 2.2.4
-  resolution: "attr-accept@npm:2.2.4"
-  checksum: 10/2839a5740c8bf8ea30f84d4da850b8a31d766be787fbaf45efb94b5a2292781abfa93d274f585c6c0e64dad0e9c0b5c53ae9849c7272f0cf1f2d643a75cc166e
   languageName: node
   linkType: hard
 
@@ -12111,15 +12103,6 @@ __metadata:
   version: 2.0.5
   resolution: "file-saver@npm:2.0.5"
   checksum: 10/fbba443d9b682fec0be6676c048a7ac688b9bd33b105c02e8e1a1cb3e354ed441198dc1f15dcbc137fa044bea73f8a7549f2617e3a952fa7d96390356d54a7c3
-  languageName: node
-  linkType: hard
-
-"file-selector@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "file-selector@npm:0.5.0"
-  dependencies:
-    tslib: "npm:^2.0.3"
-  checksum: 10/bbbfc5d9d1602e4bc376d67b62f44576301a8c7ae91dd6d57647b31ea497a37cef4b8a367def31f8a4a4ec6e96db886c2f509a816f8b395c3b6020f1a3dbdb1d
   languageName: node
   linkType: hard
 
@@ -20361,19 +20344,6 @@ __metadata:
     classnames: "npm:^2.2.5"
     prop-types: "npm:^15.6.0"
   checksum: 10/334edf0f3912648bb75ee7af0f25c440a9dec43d601160a4c3282918cde603481c7a67ca24772681d21e1e80c6f3483c3c750b15bdc25bf646f847314da919bb
-  languageName: node
-  linkType: hard
-
-"react-dropzone@npm:^12.0.4":
-  version: 12.1.0
-  resolution: "react-dropzone@npm:12.1.0"
-  dependencies:
-    attr-accept: "npm:^2.2.2"
-    file-selector: "npm:^0.5.0"
-    prop-types: "npm:^15.8.1"
-  peerDependencies:
-    react: ">= 16.8"
-  checksum: 10/cafea162568d6ac5ec5100dec93a994ace8e4870a81aef7eb356ca621394c5bb7c4f536f275ba1d1bc320092fd546f2c58b89d3f1b2b0a7e3dcc0a76839a502b
   languageName: node
   linkType: hard
 
