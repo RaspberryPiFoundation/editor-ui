@@ -50,10 +50,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     );
   };
 
-  const getImage = async (url) => {
-    return await get(url, headers());
-  };
-
   const loadRemix = async (projectIdentifier, accessToken) => {
     return await get(
       `${host}/api/projects/${projectIdentifier}/remix`,
@@ -92,20 +88,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     });
   };
 
-  const uploadImages = async (projectIdentifier, accessToken, images) => {
-    var formData = new FormData();
-
-    images.forEach((image) => {
-      formData.append("images[]", image, image.name);
-    });
-
-    return await post(
-      `${host}/api/projects/${projectIdentifier}/images`,
-      formData,
-      { ...headers(accessToken), "Content-Type": "multipart/form-data" },
-    );
-  };
-
   const createError = async (
     projectIdentifier,
     userId,
@@ -130,13 +112,11 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     put,
     createOrUpdateProject,
     deleteProject,
-    getImage,
     loadRemix,
     createRemix,
     readProject,
     loadAssets,
     readProjectList,
-    uploadImages,
     createError,
   };
 };

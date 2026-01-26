@@ -183,12 +183,6 @@ export const EditorSlice = createSlice({
       state.focussedFileIndices[action.payload.panelIndex] =
         action.payload.fileIndex;
     },
-    updateImages: (state, action) => {
-      if (!state.project.image_list) {
-        state.project.image_list = [];
-      }
-      state.project.image_list = action.payload;
-    },
     setWebComponent: (state, action) => {
       state.webComponent = action.payload;
     },
@@ -470,7 +464,6 @@ export const {
   triggerDraw,
   triggerSave,
   updateComponentName,
-  updateImages,
   updateProjectComponent,
   updateProjectName,
   showBetaModal,
