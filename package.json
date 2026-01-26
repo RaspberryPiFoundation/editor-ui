@@ -50,7 +50,6 @@
     "mime-types": "^2.1.35",
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
-    "parse-link-header": "^2.0.0",
     "plotly.js": "^3.0.2",
     "prismjs": "^1.29.0",
     "prompts": "2.4.0",

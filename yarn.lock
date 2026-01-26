@@ -3048,7 +3048,6 @@ __metadata:
     node-html-parser: ^6.1.5
     oidc-client: ^1.11.5
     optimize-css-assets-webpack-plugin: 5.0.4
-    parse-link-header: ^2.0.0
     path-browserify: ^1.0.1
     plotly.js: ^3.0.2
     pnp-webpack-plugin: 1.6.4
@@ -15354,15 +15353,6 @@ __metadata:
     json-parse-even-better-errors: ^2.3.0
     lines-and-columns: ^1.1.6
   checksum: 62085b17d64da57f40f6afc2ac1f4d95def18c4323577e1eced571db75d9ab59b297d1d10582920f84b15985cbfc6b6d450ccbf317644cfa176f3ed982ad87e2
-  languageName: node
-  linkType: hard
-
-"parse-link-header@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "parse-link-header@npm:2.0.0"
-  dependencies:
-    xtend: ~4.0.1
-  checksum: 0e96c6af9910e8f92084b49b8dc6a10dd58db470847d1499f562576180c1ac5e49d18007697f0d538e5f3efdc8ce1d8777641f3ae225302b74af0dd0578b628e
   languageName: node
   linkType: hard
 
