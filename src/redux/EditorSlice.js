@@ -78,21 +78,6 @@ export const syncProject = (actionName) =>
     },
   );
 
-export const loadProjectList = createAsyncThunk(
-  `editor/loadProjectList`,
-  async ({ reactAppApiEndpoint, page, accessToken }) => {
-    const { readProjectList } = ApiCallHandler({
-      reactAppApiEndpoint,
-    });
-    const response = await readProjectList(page, accessToken);
-    return {
-      projects: response.data,
-      page,
-      links: parseLinkHeader(response.headers.link),
-    };
-  },
-);
-
 export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
