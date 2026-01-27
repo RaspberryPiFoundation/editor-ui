@@ -56,6 +56,7 @@ class WebComponent extends HTMLElement {
       "embedded",
       "host_styles",
       "identifier",
+      "initial_project",
       "instructions",
       "load_remix_disabled",
       "locale",
