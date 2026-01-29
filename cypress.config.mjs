@@ -9,6 +9,7 @@ export default defineConfig({
     defaultCommandTimeout: 10000,
     video: false,
     defaultBrowser: "chrome",
+    testIsolation: true,
     setupNodeEvents(on, config) {
       on("task", {
         log(message) {
