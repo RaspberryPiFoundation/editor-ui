@@ -43,5 +43,14 @@
         "arrowParens": "always"
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["cypress/**/*.js"],
+      "globals": {
+        "cy": "readonly",
+        "Cypress": "readonly"
+      }
+    }
+  ]
 }
