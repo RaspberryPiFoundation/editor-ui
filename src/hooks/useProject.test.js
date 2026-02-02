@@ -58,6 +58,15 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(defaultPythonProject);
   });
 
+  test("sets project to initialProject if provided", () => {
+    const initialProject = { proj: "my-project" };
+    renderHook(
+      () => useProject({ initialProject: JSON.stringify(initialProject) }),
+      { wrapper },
+    );
+    expect(setProject).toHaveBeenCalledWith(initialProject);
+  });
+
   test("If cached project matches identifer uses cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,

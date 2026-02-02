@@ -102,9 +102,15 @@ module.exports = {
     port: 3011,
     liveReload: true,
     hot: false,
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
+    static: [
+      {
+        directory: path.join(__dirname, "public"),
+      },
+      {
+        directory: path.join(__dirname, "src", "projects"),
+        publicPath: `${publicUrl}projects`,
+      },
+    ],
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -143,7 +149,10 @@ module.exports = {
       filename: "web-component.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public", to: "" }],
+      patterns: [
+        { from: "public", to: "" },
+        { from: "src/projects", to: "projects" },
+      ],
     }),
   ],
   stats: "minimal",

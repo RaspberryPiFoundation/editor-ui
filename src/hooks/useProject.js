@@ -9,6 +9,7 @@ export const useProject = ({
   reactAppApiEndpoint = null,
   assetsIdentifier = null,
   projectIdentifier = null,
+  initialProject = null,
   code = null,
   accessToken = null,
   loadRemix = false,
@@ -45,7 +46,8 @@ export const useProject = ({
         projectIdentifier &&
         cachedProject &&
         cachedProject.identifier === projectIdentifier;
-      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
+      const is_cached_unsaved_project =
+        !projectIdentifier && cachedProject && !initialProject;
 
       if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
         loadCachedProject();
@@ -77,6 +79,12 @@ export const useProject = ({
         return;
       }
 
+      if (initialProject) {
+        const project = JSON.parse(initialProject);
+        dispatch(setProject(project));
+        return;
+      }
+
       if (code) {
         const project = {
           name: "Blank project",
@@ -97,6 +105,7 @@ export const useProject = ({
     i18n.language,
     accessToken,
     loadRemix,
+    initialProject,
   ]);
 
   // Try to load the remix, if it fails set `remixLoadFailed` true, and load the project in the next useEffect
