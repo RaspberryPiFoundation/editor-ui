@@ -95,13 +95,13 @@ it("resets criteria correctly", () => {
       "text",
       "from sense_hat import SenseHat\nsense = SenseHat()\nsense.get_pressure()\nsense.get_humidity()\nsense.get_temperature()",
     );
-  cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
+  cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should("contain", '"readPressure":true');
   cy.get("editor-wc")
     .shadow()
     .find("div[class=cm-content]")
     .invoke("text", "from sense_hat import SenseHat");
-  cy.get("editor-wc").shadow().find(".btn--run").contains("Run").click();
+  cy.get("editor-wc").shadow().find(".btn--run").click();
   cy.get("#results").should(
     "contain",
     '"noInputEvents":true,"readColour":false,"readHumidity":false,"readPressure":false,"readTemperature":false,"usedLEDs":false',
