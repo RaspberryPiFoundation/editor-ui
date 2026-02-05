@@ -34,6 +34,7 @@ describe("Running the code with pyodide", () => {
         configurable: true,
       });
     });
+    cy.get("editor-wc").shadow().children().as("editor");
   });
 
   it("runs a simple program", () => {
@@ -149,6 +150,73 @@ describe("Running the code with pyodide", () => {
       .shadow()
       .find(".pythonrunner-console-output-line")
       .should("contain", "3");
+  });
+
+  it("runs a program with muiltiple files", () => {
+    cy.get("@editor")
+      .findByLabelText("editor text input")
+      .invoke("text", `from my_number import NUMBER\nprint(NUMBER)\n`);
+
+    cy.get("@editor").findByRole("button", { name: "Add file" }).click();
+
+    cy.get("@editor")
+      .findByLabelText(/Name your file/)
+      .type("my_number.py");
+
+    cy.get("@editor")
+      .findByRole("dialog")
+      .findByRole("button", { name: "Add file" })
+      .click();
+
+    cy.get("@editor")
+      .findByLabelText("editor text input")
+      .invoke("text", `NUMBER = 42\n`);
+
+    cy.get("@editor").findByRole("button", { name: "Run" }).click();
+
+    cy.get("@editor")
+      .find(".pyodiderunner")
+      .findByLabelText("Text output")
+      .should("contain", "42");
+  });
+
+  it("reloads imported local files between code runs", () => {
+    cy.get("@editor")
+      .findByLabelText("editor text input")
+      .invoke("text", `from helper import b\nb()`);
+
+    cy.get("@editor").findByRole("button", { name: "Add file" }).click();
+
+    cy.get("@editor")
+      .findByLabelText(/Name your file/)
+      .type("helper.py");
+
+    cy.get("@editor")
+      .findByRole("dialog")
+      .findByRole("button", { name: "Add file" })
+      .click();
+
+    cy.get("@editor")
+      .findByLabelText("editor text input")
+      .invoke("text", `def b():\n  print('one')`);
+
+    cy.get("@editor").findByRole("button", { name: "Run" }).click();
+
+    cy.get("@editor")
+      .find(".pyodiderunner")
+      .findByLabelText("Text output")
+      .should("contain", "one");
+
+    cy.get("@editor")
+      .findByLabelText("editor text input")
+      .invoke("text", `def b():\n  print('two')`);
+
+    cy.get("@editor").findByRole("button", { name: "Run" }).click();
+
+    cy.get("@editor")
+      .find(".pyodiderunner")
+      .findByLabelText("Text output")
+      .should("contain", "two");
   });
 
   it("runs a simple program with a built-in pyodide module", () => {

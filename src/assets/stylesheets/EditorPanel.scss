@@ -1,6 +1,5 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
+@forward '@raspberrypifoundation/design-system-core/scss/properties/spacing';
+@use '@raspberrypifoundation/design-system-core/scss/mixins/typography' as typography;
 
 // Scrollbar-width is needed from scrollbar to show in Chrome
 .editor-wrapper {
@@ -26,8 +25,6 @@
     }
 
     .cm-scroller {
-      @include typography.style-1();
-
       // Needed here for horizontal scroll
       overflow: auto;
       scrollbar-width: thin;
@@ -37,22 +34,22 @@
 
       .cm-content {
         flex: 1;
-        padding-block-start: $space-0-5;
-        margin-inline-end: $space-0-5;
+        padding-block-start: var(--space-0-5);
+        margin-inline-end: var(--space-0-5);
       }
     }
   }
 
   &--small {
-    @include font-size-1(regular);
+    @include typography.style-1();
   }
 
   &--medium {
-    @include font-size-1-5(regular);
+    @include typography.style-1-5();
   }
 
   &--large {
-    @include font-size-2(regular);
+    @include typography.style-2();
   }
 }
 

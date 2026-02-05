@@ -4,12 +4,48 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+# [Unreleased]
+
+### Changed
+
+- Add sample projects to code editor test page  (#1294)
+
+## [0.34.3] - 2026-01-19
+
+### Changed
+
+- Introduce @testing-library for cypress
+- Update cypress (#1283)
+
+### Fixed
+
+- Clear loaded modules to remove state between runs (#1287)
+- Fix intermitently failing dropdown test (#1285)
+
+## [0.34.2] - 2025-12-09
+
+### Added
+
+- Tertiary danger button styles (#1280)
+
+### Fixed
+
+- Plugin sidebar panel rerendering (#1279)
+
+## [0.34.1] - 2025-11-18
+
+### Fixed
+
+- Font size selection now works in the web component (#1277)
+
+## [0.34.0] - 2025-11-17
 
 ### Added
 
 - Font-family variables that can be used to customise the sans-serif and monospace fonts used in the editor (#1264)
 - Material symbols font to web component preview page since the Design System depends on this (#1261)
+- Ability for plugins to add buttons to the SidebarPanel header (#1270, #1271, #1274)
+- Prevent access to the session from within the editor (#1275)
 
 ### Changed
 
@@ -17,6 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Design System react to v2.6.2 (#1261)
 - Changed SidebarPanel to accept an array of buttons (#1270)
 - Changed SidebarPanel to use an array of buttons as elements (#1271)
+- Changed default-width and min-width on SidebarPanel (#1273)
 
 ### Fixed
 
@@ -1195,7 +1232,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Events in Web Component indicating whether Mission Zero criteria have been met (#113)
 
-[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.33.0...HEAD
+[unreleased]: https://github.com/RaspberryPiFoundation/editor-ui/compare/v0.34.3...HEAD
+[0.34.3]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.3
+[0.34.2]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.2
+[0.34.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.1
+[0.34.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.34.0
 [0.33.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.33.0
 [0.32.0]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.32.0
 [0.31.1]: https://github.com/RaspberryPiFoundation/editor-ui/releases/tag/v0.31.1

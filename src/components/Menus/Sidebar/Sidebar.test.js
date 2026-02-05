@@ -336,6 +336,7 @@ describe("When plugins are provided", () => {
     heading: "My amazing plugin",
     title: "my amazing plugin",
     panel: () => <p>My amazing content</p>,
+    buttons: () => [<button>My amazing button</button>],
   };
 
   describe("when plugin has autoOpen true", () => {
@@ -365,6 +366,10 @@ describe("When plugins are provided", () => {
 
     test("Renders the plugin content", () => {
       expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+    });
+
+    test("Renders the plugin buttons", () => {
+      expect(screen.queryByText("My amazing button")).toBeInTheDocument();
     });
   });
 

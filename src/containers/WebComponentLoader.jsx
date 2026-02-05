@@ -58,6 +58,7 @@ const WebComponentLoader = (props) => {
     withProjectbar = false,
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
+    initialProject = null,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -146,6 +147,7 @@ const WebComponentLoader = (props) => {
     loadRemix: loadRemix && !loadRemixDisabled,
     loadCache,
     remixLoadFailed,
+    initialProject,
   });
 
   useProjectPersistence({

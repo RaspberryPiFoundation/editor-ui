@@ -96,6 +96,10 @@ code {
     --rpf-button-secondary-text-color: var(--rpf-white);
 
     --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+
+    --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
+    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
   }
 
   .rpf-button--secondary {
@@ -122,6 +126,10 @@ code {
   --rpf-button-secondary-text-color: var(--rpf-black);
 
   --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+
+  --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+  --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+  --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
 
   .rpf-button--secondary {
     border-color: var(--rpf-teal-800);
