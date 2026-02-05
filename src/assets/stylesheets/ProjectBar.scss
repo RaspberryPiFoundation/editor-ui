@@ -29,7 +29,7 @@
   }
 
   .btn--save {
-    border-radius: $space-0-5;
+      border-radius: var(--rpf-button-primary-border-radius);
     @container (min-width: 560px) {
       .icon {
         display: none;
@@ -72,7 +72,7 @@
 }
 
 .project-bar__btn {
-  border-radius: $space-0-5;
+  border-radius: var(--rpf-button-primary-border-radius);
   justify-content: center;
 
   margin: $space-0-5;
