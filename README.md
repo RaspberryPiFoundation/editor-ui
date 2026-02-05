@@ -240,13 +240,9 @@ The build for each PR is deployed to the same S3 bucket as staging, and can be p
 
 A new release of `editor-ui` is created via following process:
 
-1. Create a branch on Github for the release.
-2. Update `CHANGELOG.md` with new version number and date in the list of changes under `Unreleased`.
-3. At the bottom of `CHANGELOG.md`, add a link for the new version and update the `Unreleased` link to point to the latest version`…HEAD`.
-4. Update the version number in `package.json` to the new version number.
-5. Push these changes to the release branch on Github.
-6. Create a PR on Github for the release branch and put the `CHANGELOG` diff for the new release in the description.
-7. Get someone to approve the PR and then merge.
-8. Within the releases tab, create a new tag with the version number of the new release with the target set to `main`.
-9. Give the release the same name as the tag and paste the `CHANGELOG` diff in the description.
-10. Set the release to be the latest release and publish 🚀
+1. Review the changes since the last release and decide the new version number
+2. Update the version number in `package.json` to the new version number and merge in the change
+3. Go to the [Draft new release](https://github.com/RaspberryPiFoundation/editor-ui/releases/new) page
+4. Create new tag for the release number
+5. Click the 'Generate release notes' button.
+6. Set the release to be the latest release and publish 🚀
