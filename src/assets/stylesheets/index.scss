@@ -1,6 +1,5 @@
 @use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/spacing" as *;
-@use "./settings/fonts" as fonts;
+@use './settings/fonts' as fonts;
 
 html,
 body {
@@ -83,7 +82,6 @@ code {
     --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
     --rpf-button-primary-background-color-active: var(--rpf-teal-200);
     --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
-    --rpf-button-primary-border-radius: $space-0-5;
     --rpf-button-primary-color-disabled: var(--rpf-grey-700);
     --rpf-button-primary-color-disabled-focus: var(--rpf-teal-400);
     --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
