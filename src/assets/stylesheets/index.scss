@@ -1,5 +1,6 @@
 @use "./rpf_design_system/colours" as *;
-@use './settings/fonts' as fonts;
+@use "./rpf_design_system/spacing" as *;
+@use "./settings/fonts" as fonts;
 
 html,
 body {
@@ -141,5 +142,13 @@ code {
 }
 
 .modal-overlay {
-  --rpf-input-active-border: var(--editor-color-theme)
+  --rpf-input-active-border: var(--editor-color-theme);
+}
+
+.project-wrapper {
+  --project-wrapper-grid-gap: #{$space-0-5};
+}
+
+.proj-editor-wrapper {
+  --project-editor-wrapper-grid-gap: #{$space-1};
 }
