@@ -1,4 +1,4 @@
-FROM node:18.17.1
+FROM node:20.20.0
 
 ENV TZ='Europe/London'
 RUN apt-get update && apt-get install -y sudo curl wget vim git less zsh nodejs docker.io
