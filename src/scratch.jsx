@@ -68,7 +68,7 @@ root.render(
       locale={locale}
       menuBarHidden={true}
       projectHost={"/api/projects"}
-      assetHost={"/api/assets"}
+      assetHost={`${process.env.ASSETS_URL}/api/assets`}
       basePath={"/scratch-gui/"}
       onUpdateProjectId={handleUpdateProjectId}
       onShowCreatingRemixAlert={handleRemixingStarted}
