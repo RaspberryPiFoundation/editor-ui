@@ -152,3 +152,9 @@ code {
 .proj-editor-wrapper {
   --project-editor-wrapper-grid-gap: #{$space-1};
 }
+
+.project-instructions {
+  pre {
+    --code-block-scrollbar-color: auto;
+  }
+}
