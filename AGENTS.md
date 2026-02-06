@@ -61,7 +61,7 @@ yarn exec cypress open
   using the configured module path.
 
 ## Security & Safety Guardrails
-- Never commit secrets or real credentials; `.env` and `.env.*` are gitignored.
+- Never commit secrets or real credentials; `.env`, `.env.webcomponent`, and their `*.local` variants are gitignored.
 - Never commit generated output: `build/`, `coverage/`, `public/storybook`,
   `cypress/screenshots`, `cypress/videos`.
 - Never edit `yarn.lock` by hand; use Yarn 3 to update deps. If a containerized
