@@ -25,13 +25,11 @@ As this project is in its infancy, we encourage contributors to check this docum
 - Support for translations and self-serve content updates by our internal content authors
 - Extending supported libraries
 
-You can track our progress for feature releases and recent changes by checking the [changelog].
-
 ## 3. How you can help contribute to this project
 
 We’re happy to receive pull requests for upcoming versions to fix bugs, add features and refactor code; your suggestions will help us improve our Code Editor, so we can support more young people to learn how to code. 
 
-**Please note:** We cannot guarantee that there’ll be capacity to review all pull requests and feature suggestions at this time, so we recommend checking the [changelog] and [contacting us](mailto:web@raspberrypi.org) before raising any large-scale PRs or commits.
+**Please note:** We cannot guarantee that there’ll be capacity to review all pull requests and feature suggestions at this time, so we recommend [contacting us](mailto:web@raspberrypi.org) before raising any large-scale PRs or commits.
 
 ## 4. How we use your code and licensing
 
@@ -41,5 +39,4 @@ By submitting a pull request, you are agreeing to your code and contribution to 
 
 [production]: https://editor.raspberrypi.org
 [readme]: /README.md
-[changelog]: /CHANGELOG.md
 [licence]: /COPYRIGHT

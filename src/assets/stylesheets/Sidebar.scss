@@ -23,6 +23,7 @@
   block-size: $space-2-5;
   inline-size: $space-2-5;
   padding: $space-0-75;
+  display: var(--editor-logo-display, inherit);
 }
 
 .sidebar__bar {
