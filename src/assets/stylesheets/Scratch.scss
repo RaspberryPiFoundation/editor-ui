@@ -1,0 +1,67 @@
+/* stylelint-disable selector-class-pattern */
+
+:root {
+  --rpf-black: hsl(0deg 0% 0% / 15%);
+  --rpf-white: hsl(0deg 0% 100% / 100%);
+  --rpf-teal-100: hsl(176deg 55% 94% / 100%);
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  background-color: var(--rpf-teal-100);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  margin-top: -5px;
+  height: calc(100% + 5px);
+}
+
+div[class*="sprite-selector_sprite-selector_"] {
+  border-bottom: 1px solid var(--rpf-black);
+  border-radius: 8px;
+}
+
+div[class^="stage-selector_stage-selector_"] {
+  border-bottom: 1px solid var(--rpf-black);
+  border-radius: 8px;
+}
+
+div[class^="gui_stage-and-target-wrapper_"] {
+  background-color: var(--rpf-teal-100);
+}
+
+div[class^="gui_body-wrapper_"] {
+  background-color: var(--rpf-teal-100);
+}
+
+div[class^="stage-header_stage-header-wrapper-overlay_"] {
+  background-color: var(--rpf-white);
+}
+
+li[class*="gui_tab_"] {
+  border-radius: 8px 8px 0 0;
+}
+
+div[class^="gui_extension-button-container_"] {
+  border-radius: 0 0 0 8px;
+}
+
+div[class^="asset-panel_wrapper_"] {
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
+}
+
+div[class*="modal_modal-overlay_"] {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+div.injectionDiv {
+  border-bottom-left-radius: 8px;
+}
+
+/* stylelint-enable selector-class-pattern */
