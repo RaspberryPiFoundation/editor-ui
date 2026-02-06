@@ -10,7 +10,7 @@ COPY package.json yarn.lock ./
 COPY . /app
 
 RUN corepack enable \
-  && yarn set version 3.4.1 \
+  && yarn set version 4.12.0 \
   && echo "nodeLinker: node-modules\n\n$(cat /app/.yarnrc.yml)" > /app/.yarnrc.yml \
   && cat /app/.yarnrc.yml \
   && printf "Switched to Yarn version: "; yarn --version
