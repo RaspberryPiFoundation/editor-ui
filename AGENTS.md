@@ -20,19 +20,14 @@ yarn start
 ```
 
 ## Development Workflow
-- Yarn 3 is required (`packageManager` in `package.json`); npm install can fail.
+- Yarn 3 is required (`packageManager` in `package.json`); `npm install` can fail - use `yarn install` instead.
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
-- Storybook (separate package, served at `/storybook`):
+- Storybook (separate package, served at `http://localhost:6006/storybook/`):
 ```
 yarn storybook
 ```
 - Build output goes to `build/` (gitignored).
-
-> TODO: confirm supported Node version for local dev (CI uses 16, `.tool-versions`
-> says 18.17.1).
-> TODO: confirm whether local installs require GitHub Packages auth for
-> `@RaspberryPiFoundation/*` dependencies.
 
 ## Testing & CI
 - CI config: `.github/workflows/ci-cd.yml`.
@@ -52,7 +47,7 @@ yarn exec cypress run
 # or
 yarn exec cypress open
 ```
-- `CHANGELOG.md` must be updated for PRs (enforced by workflow).
+- `CHANGELOG.md` must be updated for PRs.
 - Stylelint exists (`yarn stylelint`) but is not enabled in CI.
 
 ## Code Style & Conventions
