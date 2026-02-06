@@ -58,6 +58,7 @@
     padding: $space-0-5 $space-1;
     overflow: auto;
     margin: $space-1 0;
+    scrollbar-color: var(--code-block-scrollbar-color);
 
     code {
       padding-inline: 0;

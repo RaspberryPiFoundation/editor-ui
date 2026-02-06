@@ -58,6 +58,19 @@
     border-radius: $space-0-5 0 0 $space-0-5;
     border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
+    position: relative;
+    z-index: 1;
+
+    ::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      bottom: -1px;
+      right: -11px;
+      width: var(--sidebar-border-obscurer-width);
+      height: 60px;
+      background-color: var(--sidebar-panel-background);
+    }
 
     .sidebar__bar-option {
       border: 2px solid var(--sidebar-option-selected-border);
