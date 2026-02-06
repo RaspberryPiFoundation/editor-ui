@@ -1,14 +1,9 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This file is no longer used. See the release page for changes:
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+https://github.com/RaspberryPiFoundation/editor-ui/releases
 
-# [Unreleased]
-
-### Changed
-
-- Add sample projects to code editor test page  (#1294)
 
 ## [0.34.3] - 2026-01-19
 
