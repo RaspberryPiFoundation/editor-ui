@@ -12,6 +12,7 @@ if (!publicUrl.endsWith("/")) {
 module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
+    scratch: path.resolve(__dirname, "./src/scratch.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
   },
   module: {
@@ -147,6 +148,7 @@ module.exports = {
       inject: "body",
       template: "src/web-component.html",
       filename: "web-component.html",
+      chunks: ["web-component"],
     }),
     new CopyWebpackPlugin({
       patterns: [
