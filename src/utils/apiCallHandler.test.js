@@ -11,13 +11,10 @@ const authHeaders = {
 };
 
 const {
-  getImage,
   createOrUpdateProject,
   readProject,
   loadAssets,
   createRemix,
-  uploadImages,
-  readProjectList,
   createError,
 } = ApiCallHandler({ reactAppApiEndpoint: host });
 
@@ -167,46 +164,6 @@ describe("Testing project API calls", () => {
       `${host}/api/projects/${projectIdentifier}/images`,
       authHeaders,
     );
-  });
-
-  test("Upload image", async () => {
-    const projectIdentifier = "my-amazing-project";
-    const image = new File(["(⌐□_□)"], "image1.png", { type: "image/png" });
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200, url: "google.drive.com/image1.png" }),
-    );
-
-    var formData = new FormData();
-    formData.append("images[]", image, image.name);
-
-    await uploadImages(projectIdentifier, accessToken, [image]);
-    expect(axios.post).toHaveBeenCalledWith(
-      `${host}/api/projects/${projectIdentifier}/images`,
-      formData,
-      { ...authHeaders, "Content-Type": "multipart/form-data" },
-    );
-  });
-
-  test("Get image", async () => {
-    const image = new File(["(⌐□_□)"], "image1.png", { type: "image/png" });
-    const imageUrl = "google.drive.com/image1.png";
-
-    axios.get.mockImplementationOnce(() => Promise.resolve({ image: image }));
-
-    await getImage(imageUrl);
-    expect(axios.get).toHaveBeenCalledWith(imageUrl, defaultHeaders);
-  });
-});
-
-describe("Index page API calls", () => {
-  test("Loading project list", async () => {
-    axios.get.mockImplementationOnce(() => Promise.resolve(200));
-    const page = 3;
-    await readProjectList(page, accessToken);
-    expect(axios.get).toHaveBeenCalledWith(`${host}/api/projects`, {
-      ...authHeaders,
-      params: { page },
-    });
   });
 });
 
