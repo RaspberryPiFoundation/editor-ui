@@ -20,8 +20,12 @@ yarn start
 ```
 
 ## Development Workflow
+<<<<<<< Updated upstream
 - Node.js: use v18.17.1 locally (as pinned in `.tool-versions`). CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 3 is required (`packageManager` in `package.json`); `npm install` can fail - use `yarn install` instead.
+=======
+- Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
+>>>>>>> Stashed changes
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
 - Storybook (separate package, served at `http://localhost:6006/storybook/`):
@@ -65,7 +69,7 @@ yarn exec cypress open
 - Never commit secrets or real credentials; `.env`, `.env.webcomponent`, and their `*.local` variants are gitignored.
 - Never commit generated output: `build/`, `coverage/`, `public/storybook`,
   `cypress/screenshots`, `cypress/videos`.
-- Never edit `yarn.lock` by hand; use Yarn 3 to update deps. If a containerized
+- Never edit `yarn.lock` by hand; use Yarn 4 to update deps. If a containerized
   update is required, use `scripts/with-builder.sh`.
 - Never run deployment steps locally; deploys happen in GitHub Actions with
   AWS/Cloudflare secrets.
