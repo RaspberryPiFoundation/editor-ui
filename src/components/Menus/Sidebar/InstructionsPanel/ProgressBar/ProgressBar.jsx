@@ -32,6 +32,10 @@ const ProgressBar = () => {
   };
 
   return (
+    <>
+      <p className="step-counter">{`${
+        currentStepPosition + 1
+      } of ${numberOfSteps}`}</p>
     <div className="progress-bar">
       <Button
         className={"btn--primary btn--small"}
@@ -51,6 +55,7 @@ const ProgressBar = () => {
         title={t("instructionsPanel.nextStep")}
       />
     </div>
+    </>
   );
 };
 
