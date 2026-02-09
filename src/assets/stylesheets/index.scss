@@ -158,3 +158,10 @@ code {
     --code-block-scrollbar-color: auto;
   }
 }
+
+.btn--tertiary {
+    &:hover,
+    .btn-outer:hover & {
+      --tertiary-btn-hover-color: inherit;
+    }
+}
