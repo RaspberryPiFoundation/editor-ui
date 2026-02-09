@@ -20,12 +20,9 @@ yarn start
 ```
 
 ## Development Workflow
-<<<<<<< Updated upstream
-- Node.js: use v18.17.1 locally (as pinned in `.tool-versions`). CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
-- Yarn 3 is required (`packageManager` in `package.json`); `npm install` can fail - use `yarn install` instead.
-=======
+- Node.js: use v18.17.1 locally (as pinned in `.tool-versions`). 
+- CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
->>>>>>> Stashed changes
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
 - Storybook (separate package, served at `http://localhost:6006/storybook/`):
@@ -77,7 +74,7 @@ yarn exec cypress open
 ## Common Tasks (add feature, add test, refactor, release/deploy if applicable)
 - **Add feature:** update `src/` components/hooks/redux and any affected assets;
   ensure `CHANGELOG.md` reflects user-visible changes.
-- **Add test:** unit tests live under `src/**/__tests__` or `*.test.js`;
+- **Add test:** unit tests live under `src/` as `*.test.js`;
   e2e tests live in `cypress/e2e`; run `yarn test` or `yarn exec cypress run`.
 - **Refactor:** keep Shadow DOM styling constraints in mind; re-run `yarn lint`
   and `yarn test` after moving files or changing imports.
