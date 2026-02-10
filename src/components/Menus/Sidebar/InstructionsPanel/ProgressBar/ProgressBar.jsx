@@ -43,9 +43,12 @@ const ProgressBar = () => {
           title={t("instructionsPanel.previousStep")}
         />
         <div className="progress-container">
-          <p className="step-counter">{`${
-            currentStepPosition + 1
-          } of ${numberOfSteps}`}</p>
+          <p className="step-counter">
+            {t("instructionsPanel.stepCounter", {
+              currentStep: currentStepPosition + 1,
+              totalSteps: numberOfSteps,
+            })}
+          </p>
           <progress max={numberOfSteps - 1} value={currentStepPosition} />
         </div>
 
