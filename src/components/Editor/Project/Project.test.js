@@ -67,6 +67,27 @@ test("Renders sidebar with correct options if withSidebar is true", () => {
   expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
 });
 
+test("Renders container for scratch projects", () => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {
+        components: [],
+        project_type: "code_editor_scratch",
+      },
+    },
+    auth: {},
+  };
+  const store = mockStore(initialState);
+  render(
+    <Provider store={store}>
+      <Project />
+    </Provider>,
+  );
+  expect(screen.queryByTitle("Scratch")).toBeInTheDocument();
+});
+
 test("Renders without sidebar if withSidebar is false", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);

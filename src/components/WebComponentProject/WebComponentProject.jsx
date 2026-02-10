@@ -42,7 +42,7 @@ const WebComponentProject = ({
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
   );
-  const isScratchProject = project.project_type === "scratch";
+  const isExperienceCSScratchProject = project.project_type === "scratch";
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -137,32 +137,32 @@ const WebComponentProject = ({
     document.dispatchEvent(stepChangedEvent(currentStepPosition));
   }, [currentStepPosition]);
 
+  if (isExperienceCSScratchProject) {
+    return;
+  }
+
   return (
     <>
-      {!isScratchProject && (
-        <>
-          {!outputOnly &&
-            (isMobile ? (
-              <MobileProject
-                withSidebar={withSidebar}
-                sidebarOptions={sidebarOptions}
-                sidebarPlugins={sidebarPlugins}
-              />
-            ) : (
-              <Project
-                nameEditable={nameEditable}
-                withProjectbar={withProjectbar}
-                withSidebar={withSidebar}
-                sidebarOptions={sidebarOptions}
-                sidebarPlugins={sidebarPlugins}
-              />
-            ))}
-          {outputOnly && (
-            <div className="embedded-viewer" data-testid="output-only">
-              {loading === "success" && <Output outputPanels={outputPanels} />}
-            </div>
-          )}
-        </>
+      {!outputOnly &&
+        (isMobile ? (
+          <MobileProject
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+            sidebarPlugins={sidebarPlugins}
+          />
+        ) : (
+          <Project
+            nameEditable={nameEditable}
+            withProjectbar={withProjectbar}
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+            sidebarPlugins={sidebarPlugins}
+          />
+        ))}
+      {outputOnly && (
+        <div className="embedded-viewer" data-testid="output-only">
+          {loading === "success" && <Output outputPanels={outputPanels} />}
+        </div>
       )}
     </>
   );
