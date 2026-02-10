@@ -49,6 +49,10 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
+              api: "modern",
+              sassOptions: {
+                loadPaths: [path.resolve(__dirname, "node_modules")],
+              },
               sourceMap: true,
             },
           },
