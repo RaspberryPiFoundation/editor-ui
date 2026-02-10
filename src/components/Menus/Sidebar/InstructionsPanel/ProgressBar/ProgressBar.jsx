@@ -36,25 +36,25 @@ const ProgressBar = () => {
       <p className="step-counter">{`${
         currentStepPosition + 1
       } of ${numberOfSteps}`}</p>
-    <div className="progress-bar">
-      <Button
-        className={"btn--primary btn--small"}
-        buttonOuter
-        onClickHandler={goToPreviousStep}
-        ButtonIcon={ChevronLeft}
-        disabled={currentStepPosition === 0}
-        title={t("instructionsPanel.previousStep")}
-      />
-      <progress max={numberOfSteps - 1} value={currentStepPosition}></progress>
-      <Button
-        className={"btn--primary btn--small"}
-        buttonOuter
-        onClickHandler={goToNextStep}
-        ButtonIcon={ChevronRight}
-        disabled={currentStepPosition === numberOfSteps - 1}
-        title={t("instructionsPanel.nextStep")}
-      />
-    </div>
+      <div className="progress-bar">
+        <Button
+          className={"btn--secondary btn--small"}
+          buttonOuter
+          onClickHandler={goToPreviousStep}
+          ButtonIcon={ChevronLeft}
+          disabled={currentStepPosition === 0}
+          title={t("instructionsPanel.previousStep")}
+        />
+        <progress max={numberOfSteps - 1} value={currentStepPosition} />
+        <Button
+          className={"btn--secondary btn--small"}
+          buttonOuter
+          onClickHandler={goToNextStep}
+          ButtonIcon={ChevronRight}
+          disabled={currentStepPosition === numberOfSteps - 1}
+          title={t("instructionsPanel.nextStep")}
+        />
+      </div>
     </>
   );
 };
