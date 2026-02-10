@@ -16,6 +16,16 @@
   .btn-outer {
     padding: $space-0-5;
   }
+
+  .btn {
+    margin: $space-0-5;
+    border-radius: var(--step-buttons-radius, inherit);
+    &:hover,
+    &:focus,
+    &:active {
+      border-radius: var(--step-buttons-radius, inherit);
+    }
+  }
 }
 
 .step-counter {
