@@ -148,15 +148,6 @@ jobs:
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
 
-      - name: Install AWS CLI v2.22.35
-        if: env.AWS_SECRET_ACCESS_KEY != ''
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-        env:
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       - name: Deploy site to S3 bucket
         if: env.AWS_SECRET_ACCESS_KEY != ''
         run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }}
