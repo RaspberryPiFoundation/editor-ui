@@ -3956,7 +3956,7 @@ __metadata:
     optimize-css-assets-webpack-plugin: "npm:5.0.4"
     parse-link-header: "npm:^2.0.0"
     path-browserify: "npm:^1.0.1"
-    plotly.js: "npm:^3.0.2"
+    plotly.js: "npm:^3.3.1"
     pnp-webpack-plugin: "npm:1.6.4"
     postcss-flexbugs-fixes: "npm:4.2.1"
     postcss-loader: "npm:3.0.0"
@@ -18705,9 +18705,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"plotly.js@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "plotly.js@npm:3.0.2"
+"plotly.js@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "plotly.js@npm:3.3.1"
   dependencies:
     "@plotly/d3": "npm:3.8.2"
     "@plotly/d3-sankey": "npm:0.7.2"
@@ -18759,7 +18759,7 @@ __metadata:
     topojson-client: "npm:^3.1.0"
     webgl-context: "npm:^2.2.0"
     world-calendars: "npm:^1.0.4"
-  checksum: 10/60a1eb628e6d8729da875e6125b0f247ad1903fec85e10046e50cd72ba83ad732a786a4681784ee9a3dae85cb747979555cef2da4a4929b943cd5c99c2fdcb94
+  checksum: 10/0863e4eb1539402f4add29e9d0139881d2be64585c76c61ed35f15e002bc9f5e4e97a878f7ce019cf4991fa38da728afb19993bebb78a5b74f4ec1ba194d86a6
   languageName: node
   linkType: hard
 
