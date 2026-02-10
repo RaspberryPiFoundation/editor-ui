@@ -1,4 +1,4 @@
-@forward "@raspberrypifoundation/design-system-react/scss/design-system-core";
+@forward "../../../node_modules/@raspberrypifoundation/design-system-react/dist/scss/design-system-core.scss";
 @use "../../../node_modules/react-tabs/style/react-tabs.css";
 @use "../../../node_modules/react-toggle/style.css";
 @use "../../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css";
