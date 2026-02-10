@@ -5,12 +5,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  max-inline-size: 300px;
   margin: auto;
 
-  progress {
+  .progress-container {
     flex: 1;
     min-inline-size: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  progress {
+    width: 100%;
   }
 
   .btn-outer {
@@ -32,5 +38,5 @@
   display: var(--display-step-counter, none);
   align-items: center;
   justify-content: center;
-  margin: $space-0-5 0 0 0;
+  margin: 0 0 0 0;
 }
