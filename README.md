@@ -4,7 +4,7 @@ This project provides a web component containing the Raspberry Pi Code Editor fo
 
 ## Install dependencies
 
-This repository uses Yarn 3 (see `package.json` → `packageManager`). Please install dependencies with Yarn:
+This repository uses Yarn (see `package.json` → `packageManager`). Please install dependencies with Yarn:
 
 ```
 yarn install
