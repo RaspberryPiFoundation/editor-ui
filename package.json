@@ -88,13 +88,10 @@
   "scripts": {
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
     "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
-    "build:dev": "yarn install --check-cache && yarn run build-storybook",
-    "build-storybook": "cd ./storybook && yarn install && yarn run build-storybook -- -o ../public/storybook --loglevel warn",
     "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js",
     "stylelint": "stylelint src/**/*.scss",
     "test": "node scripts/test.js --transformIgnorePatterns 'node_modules/(?!three)/'",
-    "storybook": "cd storybook && rm -rf ./node_modules/.cache/storybook && yarn run storybook",
     "watch-css": "sass --load-path=./ -q --watch src:src",
     "heroku-postbuild": "export PUBLIC_URL='' && yarn build"
   },
@@ -180,7 +177,6 @@
     "sass": "^1.51.0",
     "sass-loader": "^10.0.0",
     "semver": "7.3.2",
-    "storybook-addon-react-router-v6": "^0.2.1",
     "style-it": "^2.1.4",
     "style-loader": "1.3.0",
     "stylelint": "^15.11.0",

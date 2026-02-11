@@ -128,12 +128,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build WC bundle
-        run: |
-          # TODO: Reinitialise when storybook build is fixed
-          # if [[ "${{ inputs.environment }}" != "production" ]]; then
-          #   yarn build:dev
-          # fi
-          yarn build
+        run: yarn build
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
           ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}

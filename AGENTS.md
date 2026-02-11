@@ -8,7 +8,6 @@
 - `src/`: application code, redux, web component entrypoints.
 - `public/`: static assets, Python/Skulpt libraries and shims.
 - `cypress/`: end-to-end tests and fixtures.
-- `storybook/`: separate Storybook package with its own deps and config.
 - `config/`: webpack/jest config and build helpers.
 - `.github/workflows/`: CI/CD and deploy pipelines.
 
@@ -25,10 +24,6 @@ yarn start
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
-- Storybook (separate package, served at `http://localhost:6006/storybook/`):
-```
-yarn storybook
-```
 - Build output goes to `build/` (gitignored).
 
 ## Testing & CI
@@ -59,12 +54,10 @@ yarn exec cypress open
 - Web component uses Shadow DOM: new internal styles must be imported in
   `src/assets/stylesheets/InternalStyles.scss` (and external libs in
   `ExternalStyles.scss`); avoid `rem`, prefer `em` and `--scale-factor`.
-- Storybook stories live under `storybook/stories` and can import from `src/`
-  using the configured module path.
 
 ## Security & Safety Guardrails
 - Never commit secrets or real credentials; `.env`, `.env.webcomponent`, and their `*.local` variants are gitignored.
-- Never commit generated output: `build/`, `coverage/`, `public/storybook`,
+- Never commit generated output: `build/`, `coverage/`,
   `cypress/screenshots`, `cypress/videos`.
 - Never edit `yarn.lock` by hand; use Yarn 4 to update deps. If a containerized
   update is required, use `scripts/with-builder.sh`.
@@ -88,5 +81,4 @@ yarn exec cypress open
 - `docs/HTML.md`
 - `docs/PythonDependencies.md`
 - `docs/Deployment.md`
-- `storybook/README.md`
 - `.github/workflows/ci-cd.yml`
