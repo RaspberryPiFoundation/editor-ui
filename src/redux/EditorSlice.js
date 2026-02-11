@@ -135,6 +135,7 @@ export const editorInitialState = {
   newFileModalShowing: false,
   renameFileModalShowing: false,
   sidebarShowing: true,
+  sidebarOption: null,
   modals: {},
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
@@ -375,6 +376,12 @@ export const EditorSlice = createSlice({
     hideSidebar: (state) => {
       state.sidebarShowing = false;
     },
+    setSidebarOption: (state, action) => {
+      state.sidebarOption = action.payload;
+    },
+    clearSidebarOption: (state) => {
+      state.sidebarOption = null;
+    },
     disableTheming: (state) => {
       state.isThemeable = false;
     },
@@ -483,6 +490,8 @@ export const {
   closeRenameFileModal,
   showSidebar,
   hideSidebar,
+  setSidebarOption,
+  clearSidebarOption,
   disableTheming,
   setErrorDetails,
 } = EditorSlice.actions;

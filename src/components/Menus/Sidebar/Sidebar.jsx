@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
 import FilePanel from "./FilePanel/FilePanel";
@@ -23,10 +23,12 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
+import { setSidebarOption } from "../../../redux/EditorSlice";
 import SidebarPanel from "./SidebarPanel";
 
 const Sidebar = ({ options = [], plugins = [] }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   let menuOptions = [
     {
@@ -111,6 +113,9 @@ const Sidebar = ({ options = [], plugins = [] }) => {
   const instructionsEditable = useSelector(
     (state) => state.editor.instructionsEditable,
   );
+  const storedSidebarOption = useSelector(
+    (state) => state.editor.sidebarOption,
+  );
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
@@ -129,28 +134,50 @@ const Sidebar = ({ options = [], plugins = [] }) => {
 
   const autoOpenPlugin = plugins?.find((plugin) => plugin.autoOpen);
 
-  const [option, setOption] = useState(
-    autoOpenPlugin
+  // Use stored option if it exists and is valid, otherwise use default logic
+  const resolveSelectedOption = () => {
+    if (
+      storedSidebarOption &&
+      menuOptions.find((opt) => opt.name === storedSidebarOption)
+    ) {
+      return storedSidebarOption;
+    }
+    // Calculate default
+    const defaultOption = autoOpenPlugin
       ? autoOpenPlugin.name
       : instructionsEditable || instructionsSteps
       ? "instructions"
-      : "file",
-  );
+      : "file";
+    dispatch(setSidebarOption(defaultOption));
+    return defaultOption;
+  };
+
+  const [option, setOption] = useState(resolveSelectedOption);
 
   const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
 
   useEffect(() => {
     if (!autoOpenPlugin && (instructionsEditable || hasInstructions)) {
       setOption("instructions");
+      dispatch(setSidebarOption("instructions"));
     }
-  }, [autoOpenPlugin, instructionsEditable, hasInstructions]);
+  }, [autoOpenPlugin, instructionsEditable, hasInstructions, dispatch]);
 
   const toggleOption = (newOption) => {
+    let nextOption;
     if (option !== newOption) {
-      setOption(newOption);
+      // Switch to different sidebar panel
+      nextOption = newOption;
+      setOption(nextOption);
     } else if (!isMobile) {
-      setOption(null);
+      // Desktop: clicking same option toggles sidebar closed
+      nextOption = null;
+      setOption(nextOption);
+    } else {
+      // Mobile: clicking same option does nothing (no toggle behavior)
+      return;
     }
+    dispatch(setSidebarOption(nextOption));
   };
 
   const optionDict = menuOptions.find((menuOption) => {
