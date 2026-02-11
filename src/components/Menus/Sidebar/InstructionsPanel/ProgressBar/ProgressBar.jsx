@@ -32,25 +32,36 @@ const ProgressBar = () => {
   };
 
   return (
-    <div className="progress-bar">
-      <Button
-        className={"btn--primary btn--small"}
-        buttonOuter
-        onClickHandler={goToPreviousStep}
-        ButtonIcon={ChevronLeft}
-        disabled={currentStepPosition === 0}
-        title={t("instructionsPanel.previousStep")}
-      />
-      <progress max={numberOfSteps - 1} value={currentStepPosition}></progress>
-      <Button
-        className={"btn--primary btn--small"}
-        buttonOuter
-        onClickHandler={goToNextStep}
-        ButtonIcon={ChevronRight}
-        disabled={currentStepPosition === numberOfSteps - 1}
-        title={t("instructionsPanel.nextStep")}
-      />
-    </div>
+    <>
+      <div className="progress-bar">
+        <Button
+          className={"btn--secondary btn--small"}
+          buttonOuter
+          onClickHandler={goToPreviousStep}
+          ButtonIcon={ChevronLeft}
+          disabled={currentStepPosition === 0}
+          title={t("instructionsPanel.previousStep")}
+        />
+        <div className="progress-container">
+          <p className="step-counter">
+            {t("instructionsPanel.stepCounter", {
+              currentStep: currentStepPosition + 1,
+              totalSteps: numberOfSteps,
+            })}
+          </p>
+          <progress max={numberOfSteps - 1} value={currentStepPosition} />
+        </div>
+
+        <Button
+          className={"btn--secondary btn--small"}
+          buttonOuter
+          onClickHandler={goToNextStep}
+          ButtonIcon={ChevronRight}
+          disabled={currentStepPosition === numberOfSteps - 1}
+          title={t("instructionsPanel.nextStep")}
+        />
+      </div>
+    </>
   );
 };
 

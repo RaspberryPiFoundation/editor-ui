@@ -1,19 +1,42 @@
-@use './rpf_design_system/spacing' as *;
+@use "./rpf_design_system/spacing" as *;
 
 .progress-bar {
-  accent-color: var(--editor-color-theme);
+  accent-color: var(--progress-bar-color, var(--editor-color-theme));
   display: flex;
   align-items: center;
   justify-content: center;
-  max-inline-size: 300px;
   margin: auto;
+  gap: $space-1;
 
-  progress {
+  .progress-container {
     flex: 1;
     min-inline-size: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  progress {
+    width: 100%;
   }
 
   .btn-outer {
     padding: $space-0-5;
   }
+
+  .btn {
+    border-radius: var(--step-buttons-radius, inherit);
+    &:hover,
+    &:focus,
+    &:active {
+      border-radius: var(--step-buttons-radius, inherit);
+    }
+  }
+}
+
+.step-counter {
+  display: var(--display-step-counter, none);
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
