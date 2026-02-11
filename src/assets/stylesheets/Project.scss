@@ -44,7 +44,7 @@
     container-type: inline-size;
     display: flex;
     flex-direction: column;
-    grid-gap: $space-0-5;
+    grid-gap: var(--project-wrapper-grid-gap);
     flex: 1 1 auto;
     overflow: hidden;
   }
@@ -53,7 +53,7 @@
     display: flex;
     flex: 0 1 auto;
     flex-flow: column;
-    grid-gap: $space-1;
+    grid-gap: var(--project-editor-wrapper-grid-gap);
     overflow: hidden;
     block-size: 100%;
     inline-size: 100%;

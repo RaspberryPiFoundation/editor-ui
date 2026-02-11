@@ -9,9 +9,20 @@ if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
 
+const scratchStaticAssetDir = path.resolve(
+  __dirname,
+  "node_modules/@scratch/scratch-gui/dist/static",
+)
+
+const scratchChunkDir = path.resolve(
+  __dirname,
+  "node_modules/@scratch/scratch-gui/dist/chunks",
+)
+
 module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
+    scratch: path.resolve(__dirname, "./src/scratch.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
   },
   module: {
@@ -110,6 +121,14 @@ module.exports = {
         directory: path.join(__dirname, "src", "projects"),
         publicPath: `${publicUrl}projects`,
       },
+      {
+        directory: scratchStaticAssetDir,
+        publicPath: `${publicUrl}scratch-gui/static`,
+      },
+      {
+        directory: scratchChunkDir,
+        publicPath: `${publicUrl}scratch-gui/chunks`,
+      }
     ],
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -147,9 +166,12 @@ module.exports = {
       inject: "body",
       template: "src/web-component.html",
       filename: "web-component.html",
+      chunks: ["web-component"],
     }),
     new CopyWebpackPlugin({
       patterns: [
+        { from: scratchStaticAssetDir, to: "scratch-gui/static" },
+        { from: scratchChunkDir, to: "scratch-gui/chunks" },
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
       ],

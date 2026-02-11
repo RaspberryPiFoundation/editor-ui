@@ -14,6 +14,7 @@ import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { projContainer } from "../../../utils/containerQueries";
+import ScratchContainer from "./ScratchContainer";
 
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
@@ -26,6 +27,9 @@ const Project = (props) => {
   } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
+  const project = useSelector((state) => state.editor.project);
+  const isCodeEditorScratchProject =
+    project.project_type === "code_editor_scratch";
 
   useEffect(() => {
     if (saving === "success" && autosave === false) {
@@ -65,7 +69,7 @@ const Project = (props) => {
         )}
         <div className="project-wrapper" ref={containerRef}>
           {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
-          {!loading && (
+          {!loading && !isCodeEditorScratchProject && (
             <div className="proj-editor-wrapper">
               <ResizableWithHandle
                 data-testid="proj-editor-container"
@@ -81,6 +85,7 @@ const Project = (props) => {
               <Output />
             </div>
           )}
+          {!loading && isCodeEditorScratchProject && <ScratchContainer />}
         </div>
       </div>
     </div>
