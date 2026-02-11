@@ -187,7 +187,7 @@
     "terser-webpack-plugin": "4.2.3",
     "url-loader": "4.1.1",
     "webgl-mock-threejs": "^0.0.1",
-    "webpack": "5.95.0",
+    "webpack": "5.104.1",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0",
     "webpack-manifest-plugin": "2.2.0",
