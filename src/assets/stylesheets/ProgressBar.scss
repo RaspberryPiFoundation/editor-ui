@@ -1,4 +1,4 @@
-@use './rpf_design_system/spacing' as *;
+@use "./rpf_design_system/spacing" as *;
 
 .progress-bar {
   accent-color: var(--progress-bar-color, var(--editor-color-theme));
@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   margin: auto;
+  gap: $space-1;
 
   .progress-container {
     flex: 1;
@@ -24,7 +25,6 @@
   }
 
   .btn {
-    margin: $space-0-5;
     border-radius: var(--step-buttons-radius, inherit);
     &:hover,
     &:focus,
