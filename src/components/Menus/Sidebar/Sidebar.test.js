@@ -317,6 +317,126 @@ describe("When the project has no instructions", () => {
   });
 });
 
+describe("Redux sidebar state persistence", () => {
+  const mockStore = configureStore([]);
+
+  describe("When no stored sidebar option exists", () => {
+    let store;
+
+    beforeEach(() => {
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: [],
+          },
+          instructionsEditable: false,
+          sidebarOption: null,
+        },
+        instructions: {},
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Dispatches setSidebarOption with default value", () => {
+      const actions = store.getActions();
+      expect(actions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: "editor/setSidebarOption",
+            payload: "file", // Default when no special conditions are met
+          }),
+        ]),
+      );
+    });
+  });
+
+  describe("When stored sidebar option exists and is valid", () => {
+    let store;
+
+    beforeEach(() => {
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: images,
+          },
+          instructionsEditable: false,
+          sidebarOption: "images",
+        },
+        instructions: {},
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Uses stored option and shows correct panel", () => {
+      expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+    });
+
+    test("Does not dispatch setSidebarOption when using valid stored option", () => {
+      const setSidebarActions = store
+        .getActions()
+        .filter((action) => action.type === "editor/setSidebarOption");
+      expect(setSidebarActions).toHaveLength(0);
+    });
+  });
+
+  describe("When clicking different sidebar options", () => {
+    let store;
+
+    beforeEach(() => {
+      const initialState = {
+        editor: {
+          project: {
+            components: [],
+            image_list: images,
+          },
+          instructionsEditable: false,
+          sidebarOption: "file",
+        },
+        instructions: {},
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Clicking different option updates Redux state", () => {
+      const imageButton = screen.getByTitle("sidebar.images");
+      fireEvent.click(imageButton);
+
+      const actions = store.getActions();
+      expect(actions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: "editor/setSidebarOption",
+            payload: "images",
+          }),
+        ]),
+      );
+    });
+  });
+});
+
 describe("When plugins are provided", () => {
   const initialState = {
     editor: {
@@ -325,6 +445,7 @@ describe("When plugins are provided", () => {
         image_list: [],
       },
       instructionsEditable: false,
+      sidebarOption: null,
     },
     instructions: {},
   };
@@ -338,6 +459,42 @@ describe("When plugins are provided", () => {
     panel: () => <p>My amazing content</p>,
     buttons: () => [<button>My amazing button</button>],
   };
+
+  describe("when plugin has autoOpen true and Redux state persistence", () => {
+    let store;
+
+    beforeEach(() => {
+      const plugins = [
+        {
+          ...defaultPlugin,
+          autoOpen: true,
+        },
+      ];
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} plugins={plugins} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Plugin autoOpen takes priority and updates Redux state", () => {
+      expect(screen.queryByText("My amazing plugin")).toBeInTheDocument();
+      expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+
+      const actions = store.getActions();
+      expect(actions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            type: "editor/setSidebarOption",
+            payload: "my-amazing-plugin",
+          }),
+        ]),
+      );
+    });
+  });
 
   describe("when plugin has autoOpen true", () => {
     beforeEach(() => {

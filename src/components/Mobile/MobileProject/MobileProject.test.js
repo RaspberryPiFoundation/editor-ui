@@ -3,7 +3,6 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import MobileProject from "./MobileProject";
-import { showSidebar } from "../../../redux/EditorSlice";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -131,7 +130,18 @@ describe("When withSidebar is true", () => {
   test("clicking sidebar open button dispatches action to open the sidebar", () => {
     const sidebarOpenButton = screen.getByText("mobile.menu");
     fireEvent.click(sidebarOpenButton);
-    expect(store.getActions()).toEqual([showSidebar()]);
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "editor/setSidebarOption",
+          payload: "settings",
+        }),
+        expect.objectContaining({
+          type: "editor/showSidebar",
+          payload: undefined,
+        }),
+      ]),
+    );
   });
 });
 
