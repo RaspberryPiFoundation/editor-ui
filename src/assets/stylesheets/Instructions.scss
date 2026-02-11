@@ -161,7 +161,7 @@
     color: var(--code-syntax-1, #{$rpf-syntax-1});
 
     .comment {
-      color: $rpf-syntax-3;
+      color: var(--code-syntax-3, #{$rpf-syntax-3});
     }
     .selector {
       color: var(--code-syntax-4, #{$rpf-syntax-4});
