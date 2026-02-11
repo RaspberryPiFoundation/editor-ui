@@ -150,7 +150,7 @@
 
     &:hover,
     .btn-outer:hover & {
-      background-color: inherit;
+      background-color: var(--tertiary-btn-hover-color, inherit);
     }
 
     &:disabled {

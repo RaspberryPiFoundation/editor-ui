@@ -52,16 +52,18 @@
   pre {
     @include typography.style-1();
 
-    background-color: $rpf-grey-700;
+    background-color: var(--code-background-color, #{$rpf-grey-700});
     border: 1px solid $rpf-grey-600;
     border-radius: 8px;
     padding: $space-0-5 $space-1;
     overflow: auto;
     margin: $space-1 0;
-    scrollbar-color: var(--code-block-scrollbar-color);
+    scrollbar-color: var(--code-block-scrollbar-color, auto);
 
     code {
       padding-inline: 0;
+      background-color: var(--code-background-color, #{$rpf-grey-700});
+      color: var(--code-text-color, #{$rpf-white});
     }
   }
 
@@ -107,7 +109,7 @@
 
   .line-highlight {
     margin-block-start: 0.5rem;
-    background-color: $rpf-white;
+    background-color: var(--code-block-line-highlight-color, #{$rpf-white});
     mix-blend-mode: difference;
     min-inline-size: 100%;
   }

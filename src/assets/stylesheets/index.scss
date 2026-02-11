@@ -156,5 +156,18 @@ code {
 .project-instructions {
   pre {
     --code-block-scrollbar-color: auto;
+    --code-background-color: #{$rpf-grey-700};
+    --code-text-color: #{$rpf-white};
+  }
+
+  .line-highlight {
+    --code-block-line-highlight-color: #{$rpf-white};
+  }
+}
+
+.btn--tertiary {
+  &:hover,
+  .btn-outer:hover & {
+    --tertiary-btn-hover-color: inherit;
   }
 }
