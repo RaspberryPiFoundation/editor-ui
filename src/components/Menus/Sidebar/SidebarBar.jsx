@@ -24,9 +24,15 @@ const SidebarBar = (props) => {
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
+  const selectedSidebarTab = useSelector(
+    (state) => state.editor.selectedSidebarTab,
+  );
+
   const expandPopOut = () => {
-    const option = instructions.length > 0 ? "instructions" : "file";
-    toggleOption(option);
+    // Use stored option if available, otherwise fall back to default logic
+    const optionToExpand =
+      selectedSidebarTab || (instructions.length > 0 ? "instructions" : "file");
+    toggleOption(optionToExpand);
     if (window.plausible) {
       // TODO: Make dynamic events for each option or rename this event
       window.plausible("Expand file pane");
@@ -34,6 +40,7 @@ const SidebarBar = (props) => {
   };
 
   const collapsePopOut = () => {
+    // Toggle the currently selected option to close the sidebar
     toggleOption(option);
     if (window.plausible) {
       window.plausible("Collapse file pane");

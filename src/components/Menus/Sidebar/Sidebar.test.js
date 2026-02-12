@@ -345,12 +345,12 @@ describe("Redux sidebar state persistence", () => {
       );
     });
 
-    test("Dispatches setSidebarOption with default value", () => {
+    test("Dispatches setSelectedSidebarTab with default value", () => {
       const actions = store.getActions();
       expect(actions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: "editor/setSidebarOption",
+            type: "editor/setSelectedSidebarTab",
             payload: "file", // Default when no special conditions are met
           }),
         ]),
@@ -369,7 +369,7 @@ describe("Redux sidebar state persistence", () => {
             image_list: images,
           },
           instructionsEditable: false,
-          sidebarOption: "images",
+          selectedSidebarTab: "images",
         },
         instructions: {},
       };
@@ -387,11 +387,11 @@ describe("Redux sidebar state persistence", () => {
       expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
     });
 
-    test("Does not dispatch setSidebarOption when using valid stored option", () => {
-      const setSidebarActions = store
+    test("Does not dispatch setSelectedSidebarTab when using valid stored option", () => {
+      const setSelectedSidebarActions = store
         .getActions()
-        .filter((action) => action.type === "editor/setSidebarOption");
-      expect(setSidebarActions).toHaveLength(0);
+        .filter((action) => action.type === "editor/setSelectedSidebarTab");
+      expect(setSelectedSidebarActions).toHaveLength(0);
     });
   });
 
@@ -406,7 +406,7 @@ describe("Redux sidebar state persistence", () => {
             image_list: images,
           },
           instructionsEditable: false,
-          sidebarOption: "file",
+          selectedSidebarTab: "file",
         },
         instructions: {},
       };
@@ -428,7 +428,7 @@ describe("Redux sidebar state persistence", () => {
       expect(actions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: "editor/setSidebarOption",
+            type: "editor/setSelectedSidebarTab",
             payload: "images",
           }),
         ]),
@@ -445,7 +445,7 @@ describe("When plugins are provided", () => {
         image_list: [],
       },
       instructionsEditable: false,
-      sidebarOption: null,
+      selectedSidebarTab: null,
     },
     instructions: {},
   };
@@ -488,7 +488,7 @@ describe("When plugins are provided", () => {
       expect(actions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: "editor/setSidebarOption",
+            type: "editor/setSelectedSidebarTab",
             payload: "my-amazing-plugin",
           }),
         ]),

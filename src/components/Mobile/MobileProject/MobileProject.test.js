@@ -133,7 +133,7 @@ describe("When withSidebar is true", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          type: "editor/setSidebarOption",
+          type: "editor/setSelectedSidebarTab",
           payload: "settings",
         }),
         expect.objectContaining({

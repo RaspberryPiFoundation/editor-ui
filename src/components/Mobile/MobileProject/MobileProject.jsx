@@ -12,7 +12,7 @@ import StepsIcon from "../../../assets/icons/steps.svg";
 import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
-import { showSidebar } from "../../../redux/EditorSlice";
+import { showSidebar, setSelectedSidebarTab } from "../../../redux/EditorSlice";
 
 const MobileProject = ({
   withSidebar,
@@ -30,7 +30,13 @@ const MobileProject = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const openSidebar = () => dispatch(showSidebar());
+  const openSidebar = () => {
+    // Set the default sidebar option to the first available option
+    const defaultOption =
+      sidebarOptions.length > 0 ? sidebarOptions[0] : "file";
+    dispatch(setSelectedSidebarTab(defaultOption));
+    dispatch(showSidebar());
+  };
 
   useEffect(() => {
     if (codeRunTriggered) {
