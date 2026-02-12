@@ -53,7 +53,7 @@
     @include typography.style-1();
 
     background-color: var(--code-background-color, #{$rpf-grey-700});
-    border: 1px solid $rpf-grey-600;
+    border: 1px solid var(--code-block-border-color, #{$rpf-grey-600});
     border-radius: 8px;
     padding: $space-0-5 $space-1;
     overflow: auto;
@@ -73,7 +73,6 @@
     margin: $space-1 0 $space-1-5 0;
 
     pre {
-      border: none;
       margin: 0;
     }
 
@@ -116,88 +115,90 @@
 
   .language-python {
     .number,
-    .boolean,
+    .boolean {
+      color: var(--code-syntax-1, #{$rpf-syntax-1});
+    }
     .function {
-      color: $rpf-syntax-1;
+      color: var(--code-syntax-5, #{$rpf-syntax-1});
     }
     .keyword {
-      color: $rpf-syntax-4;
+      color: var(--code-syntax-4, #{$rpf-syntax-4});
     }
     .string,
     .char {
-      color: $rpf-syntax-2;
+      color: var(--code-syntax-2, #{$rpf-syntax-2});
     }
     .comment {
-      color: $rpf-syntax-3;
+      color: var(--code-syntax-3, #{$rpf-syntax-3});
     }
 
     .keyword-print {
-      color: $rpf-white;
+      color: var(--code-print-color, #{$rpf-white});
     }
   }
 
   .language-javascript {
     .number,
     .boolean {
-      color: $rpf-syntax-1;
+      color: var(--code-syntax-1, #{$rpf-syntax-1});
     }
     .keyword {
-      color: $rpf-syntax-4;
+      color: var(--code-syntax-4, #{$rpf-syntax-4});
     }
     .string,
     .char {
-      color: $rpf-syntax-2;
+      color: var(--code-syntax-2, #{$rpf-syntax-2});
     }
     .comment {
-      color: $rpf-syntax-3;
+      color: var(--code-syntax-3, #{$rpf-syntax-3});
     }
 
     .keyword-print {
-      color: $rpf-white;
+      color: var(--code-print-color, #{$rpf-white});
     }
   }
 
   .language-css {
-    color: $rpf-syntax-1;
+    color: var(--code-syntax-1, #{$rpf-syntax-1});
 
     .comment {
-      color: $rpf-syntax-3;
+      color: var(--code-syntax-3, #{$rpf-syntax-3});
     }
     .selector {
-      color: $rpf-syntax-4;
+      color: var(--code-syntax-4, #{$rpf-syntax-4});
     }
 
     .function {
-      color: $rpf-syntax-4;
+      color: var(--code-syntax-4, #{$rpf-syntax-4});
     }
 
     .property,
     .punctuation {
-      color: $rpf-white;
+      color: var(--code-print-color, #{$rpf-white});
     }
   }
 
   .language-html {
     .tag {
-      color: $rpf-syntax-4;
+      color: var(--code-syntax-4, #{$rpf-syntax-4});
       .punctuation,
       .attr-name {
-        color: $rpf-white;
+        color: var(--code-print-color, #{$rpf-white});
       }
 
       .attr-value {
-        color: $rpf-syntax-2;
+        color: var(--code-syntax-2, #{$rpf-syntax-2});
         .punctuation {
           color: inherit;
         }
         .attr-equals {
-          color: $rpf-white;
+          color: var(--code-print-color, #{$rpf-white});
         }
       }
     }
 
     .comment {
-      color: $rpf-syntax-3;
+      color: var(--code-syntax-3, #{$rpf-syntax-3});
     }
   }
 
