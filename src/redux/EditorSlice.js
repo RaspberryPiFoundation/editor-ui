@@ -379,9 +379,6 @@ export const EditorSlice = createSlice({
     setSelectedSidebarTab: (state, action) => {
       state.selectedSidebarTab = action.payload;
     },
-    clearSelectedSidebarTab: (state) => {
-      state.selectedSidebarTab = null;
-    },
     disableTheming: (state) => {
       state.isThemeable = false;
     },
@@ -491,7 +488,6 @@ export const {
   showSidebar,
   hideSidebar,
   setSelectedSidebarTab,
-  clearSelectedSidebarTab,
   disableTheming,
   setErrorDetails,
 } = EditorSlice.actions;
