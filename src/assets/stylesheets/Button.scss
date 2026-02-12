@@ -35,7 +35,7 @@
 
   &--primary {
     background-color: var(--rpf-button-primary-background-color);
-    border-radius: $space-0-5;
+    border-radius: var(--rpf-primary-button-radius, $space-0-5);
 
     color: var(--rpf-button-primary-text-color);
 
@@ -56,7 +56,7 @@
     &:hover,
     .btn-outer:hover & {
       background-color: var(--rpf-button-primary-background-color-hover);
-      border-radius: $space-0-5;
+      border-radius: var(--rpf-primary-button-radius, $space-0-5);
     }
 
     &:disabled {
@@ -237,11 +237,15 @@
       }
 
       &:hover {
-        background-color: var(--rpf-button-tertiary-danger-background-color-hover);
+        background-color: var(
+          --rpf-button-tertiary-danger-background-color-hover
+        );
       }
 
       &:active {
-        background-color: var(--rpf-button-tertiary-danger-background-color-active);
+        background-color: var(
+          --rpf-button-tertiary-danger-background-color-active
+        );
       }
     }
   }

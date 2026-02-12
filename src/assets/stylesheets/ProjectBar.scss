@@ -16,6 +16,24 @@
     justify-content: left;
   }
 
+  .btn {
+    border-radius: var(--project-bar-button-radius, $space-0-5);
+    &:hover,
+    &:active,
+    &:focus-visible,
+    &::before {
+      border-radius: var(--project-bar-button-radius, $space-0-5);
+    }
+  }
+
+  .btn--save {
+    @container (min-width: 560px) {
+      .icon {
+        display: none;
+      }
+    }
+  }
+
   .project-name {
     border-inline-end: 1px solid var(--editor-color-outline);
     margin-inline-end: -1px;
@@ -28,18 +46,9 @@
     }
   }
 
-  .btn--save {
-    border-radius: $space-0-5;
-    @container (min-width: 560px) {
-      .icon {
-        display: none;
-      }
-    }
-  }
-
   .project-bar__btn-wrapper {
     display: flex;
-    block-size:  100%;
+    block-size: 100%;
   }
 
   .project-bar__btn-wrapper:not(:last-child) {
