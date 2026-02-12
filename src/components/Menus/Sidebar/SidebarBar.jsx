@@ -29,9 +29,17 @@ const SidebarBar = (props) => {
   );
 
   const expandPopOut = () => {
-    // Use stored option if available, otherwise fall back to default logic
-    const optionToExpand =
-      selectedSidebarTab || (instructions.length > 0 ? "instructions" : "file");
+    // Use stored option if available and valid, otherwise fall back to default logic
+    const validMenuOptionNames = menuOptions.map(
+      (menuOption) => menuOption.name,
+    );
+    const isStoredTabValid =
+      selectedSidebarTab && validMenuOptionNames.includes(selectedSidebarTab);
+    const optionToExpand = isStoredTabValid
+      ? selectedSidebarTab
+      : instructions.length > 0
+      ? "instructions"
+      : "file";
     toggleOption(optionToExpand);
     if (window.plausible) {
       // TODO: Make dynamic events for each option or rename this event
