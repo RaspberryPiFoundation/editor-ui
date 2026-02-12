@@ -32,7 +32,7 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
           ButtonIcon={RunIcon}
           buttonIconPosition="right"
           buttonOuter={skinny}
-          className={skinny ? "btn--small" : "run-btn"}
+          className={skinny ? "btn--small" : ""}
         />
       )}
     </div>

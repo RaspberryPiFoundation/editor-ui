@@ -4,11 +4,4 @@
   display: flex;
   align-items: center;
   padding: 0 $space-0-5;
-
-  .run-btn {
-    border-radius: var(--run-button-radius, $space-0-5);
-    &:hover {
-      border-radius: var(--run-button-radius, $space-0-5);
-    }
-  }
 }
