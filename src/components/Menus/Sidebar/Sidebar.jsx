@@ -152,28 +152,30 @@ const Sidebar = ({ options = [], plugins = [] }) => {
     return defaultOption;
   };
 
-  const [option, setOption] = useState(() => {
-    const selectedTab = resolveSelectedOption();
-    return selectedTab; // Start with sidebar open by default
-  });
+  // Store the initial selected tab to handle first render timing
+  const [initialSelectedTab] = useState(() => resolveSelectedOption());
+  const [isOpen, setIsOpen] = useState(true);
+
+  // Derive option from open state and selected tab
+  const option = isOpen ? selectedSidebarTab || initialSelectedTab : null;
 
   const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
 
   useEffect(() => {
     if (!autoOpenPlugin && (instructionsEditable || hasInstructions)) {
       dispatch(setSelectedSidebarTab("instructions"));
-      setOption("instructions");
+      setIsOpen(true);
     }
   }, [autoOpenPlugin, instructionsEditable, hasInstructions, dispatch]);
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
       // Switch to different sidebar panel
-      setOption(newOption);
       dispatch(setSelectedSidebarTab(newOption));
+      setIsOpen(true);
     } else if (!isMobile) {
       // Desktop: clicking same option toggles sidebar open/closed
-      setOption(option === null ? newOption : null);
+      setIsOpen(!isOpen);
     } else {
       // Mobile: clicking same option does nothing (no toggle behavior)
       return;
