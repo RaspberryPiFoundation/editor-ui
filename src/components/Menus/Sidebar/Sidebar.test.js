@@ -331,7 +331,7 @@ describe("Redux sidebar state persistence", () => {
             image_list: [],
           },
           instructionsEditable: false,
-          sidebarOption: null,
+          selectedSidebarTab: null,
         },
         instructions: {},
       };
