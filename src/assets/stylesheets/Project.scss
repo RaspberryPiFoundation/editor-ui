@@ -35,7 +35,7 @@
   flex-direction: row;
   overflow-y: hidden;
 
-  grid-gap: $space-1;
+  gap: $space-1;
   margin: $space-1;
 
   block-size: 100%;
@@ -44,7 +44,7 @@
     container-type: inline-size;
     display: flex;
     flex-direction: column;
-    grid-gap: var(--project-wrapper-grid-gap, #{$space-0-5});
+    gap: var(--project-wrapper-grid-gap, #{$space-0-5});
     flex: 1 1 auto;
     overflow: hidden;
   }
@@ -53,7 +53,7 @@
     display: flex;
     flex: 0 1 auto;
     flex-flow: column;
-    grid-gap: var(--project-editor-wrapper-grid-gap, #{$space-1});
+    gap: var(--project-editor-wrapper-grid-gap, #{$space-1});
     overflow: hidden;
     block-size: 100%;
     inline-size: 100%;
