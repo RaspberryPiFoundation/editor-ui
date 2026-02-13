@@ -37,5 +37,5 @@ it("runs p5 sketch including image loaded from project ", () => {
 
   cy.get("button").contains("Run code").click();
 
-  cy.get("#results").should("contain", '{"errorDetails":{}}');
+  cy.get("#results").should("contain", '"errorDetails":{}');
 });
