@@ -74,10 +74,10 @@ const WebComponentProject = ({
   useEffect(() => {
     setCodeHasRun(false);
     const timeout = setTimeout(() => {
-      document.dispatchEvent(codeChangedEvent);
+      document.dispatchEvent(codeChangedEvent({ step: currentStepPosition }));
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [project]);
+  }, [project, currentStepPosition]);
 
   useEffect(() => {
     if (projectIdentifier) {
@@ -118,7 +118,7 @@ const WebComponentProject = ({
 
   useEffect(() => {
     if (codeRunTriggered) {
-      document.dispatchEvent(runStartedEvent);
+      document.dispatchEvent(runStartedEvent({ step: currentStepPosition }));
       setCodeHasRun(true);
     } else if (codeHasRun) {
       const mz_criteria = Sk.sense_hat
@@ -126,12 +126,23 @@ const WebComponentProject = ({
         : { ...defaultMZCriteria };
 
       const payload = outputOnly
-        ? { errorDetails }
-        : { isErrorFree: error === "", ...mz_criteria };
+        ? { errorDetails, step: currentStepPosition }
+        : {
+            isErrorFree: error === "",
+            step: currentStepPosition,
+            ...mz_criteria,
+          };
 
       document.dispatchEvent(runCompletedEvent(payload));
     }
-  }, [codeRunTriggered, codeHasRun, outputOnly, error, errorDetails]);
+  }, [
+    codeRunTriggered,
+    codeHasRun,
+    outputOnly,
+    error,
+    errorDetails,
+    currentStepPosition,
+  ]);
 
   useEffect(() => {
     document.dispatchEvent(stepChangedEvent(currentStepPosition));

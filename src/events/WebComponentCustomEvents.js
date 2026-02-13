@@ -6,7 +6,8 @@ const webComponentCustomEvent = (type, detail) =>
     detail: detail,
   });
 
-export const codeChangedEvent = webComponentCustomEvent("editor-codeChanged");
+export const codeChangedEvent = (detail) =>
+  webComponentCustomEvent("editor-codeChanged", detail);
 
 export const navigateToProjectsPageEvent = webComponentCustomEvent(
   "editor-navigateToProjectsPage",
@@ -25,7 +26,8 @@ export const projectOwnerLoadedEvent = (detail) =>
 export const runCompletedEvent = (detail) =>
   webComponentCustomEvent("editor-runCompleted", detail);
 
-export const runStartedEvent = webComponentCustomEvent("editor-runStarted");
+export const runStartedEvent = (detail) =>
+  webComponentCustomEvent("editor-runStarted", detail);
 
 export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
