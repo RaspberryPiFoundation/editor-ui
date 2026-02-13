@@ -44,7 +44,8 @@ yarn exec cypress run
 # or
 yarn exec cypress open
 ```
-- `CHANGELOG.md` must be updated for PRs.
+- Do not update `CHANGELOG.md`; use GitHub Releases as the source of truth for
+  release notes.
 - Stylelint exists (`yarn stylelint`) but is not enabled in CI.
 
 ## Code Style & Conventions
@@ -54,6 +55,11 @@ yarn exec cypress open
 - Web component uses Shadow DOM: new internal styles must be imported in
   `src/assets/stylesheets/InternalStyles.scss` (and external libs in
   `ExternalStyles.scss`); avoid `rem`, prefer `em` and `--scale-factor`.
+
+## Git & Commit Guidance
+- Write descriptive commit messages that explain why a change was made.
+- When applicable, include alternatives considered and why they were not
+  chosen.
 
 ## Security & Safety Guardrails
 - Never commit secrets or real credentials; `.env`, `.env.webcomponent`, and their `*.local` variants are gitignored.
@@ -66,14 +72,14 @@ yarn exec cypress open
 
 ## Common Tasks (add feature, add test, refactor, release/deploy if applicable)
 - **Add feature:** update `src/` components/hooks/redux and any affected assets;
-  ensure `CHANGELOG.md` reflects user-visible changes.
+  do not update `CHANGELOG.md`.
 - **Add test:** unit tests live under `src/` as `*.test.js`;
   e2e tests live in `cypress/e2e`; run `yarn test` or `yarn exec cypress run`.
 - **Refactor:** keep Shadow DOM styling constraints in mind; re-run `yarn lint`
   and `yarn test` after moving files or changing imports.
-- **Release/deploy:** follow the release steps in `README.md` (update
-  `CHANGELOG.md`, bump `package.json` version, PR, tag release); deploys are
-  driven by `.github/workflows/deploy.yml`.
+- **Release/deploy:** follow the release steps in `README.md` (bump
+  `package.json` version, PR, tag release); do not update `CHANGELOG.md`.
+  Deploys are driven by `.github/workflows/deploy.yml`.
 
 ## Further Reading (relative links)
 - `README.md`
