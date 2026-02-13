@@ -79,14 +79,17 @@ describe("When state set", () => {
       jest.runAllTimers();
     });
     expect(codeChangedHandler).toHaveBeenCalled();
+    expect(codeChangedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 
   test("Triggers runStarted event", () => {
     expect(runStartedHandler).toHaveBeenCalled();
+    expect(runStartedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 
   test("Triggers stepChanged event", () => {
     expect(stepChangedHandler).toHaveBeenCalled();
+    expect(stepChangedHandler.mock.lastCall[0].detail).toBe(3);
   });
 
   test("Defaults to not showing the sidebar", () => {
@@ -233,6 +236,7 @@ describe("When code run finishes", () => {
     expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
       "isErrorFree",
     );
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 
   test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
@@ -244,6 +248,7 @@ describe("When code run finishes", () => {
     expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty(
       "errorDetails",
     );
+    expect(runCompletedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 });
 
