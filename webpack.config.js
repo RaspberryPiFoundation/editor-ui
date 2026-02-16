@@ -178,7 +178,7 @@ module.exports = {
       patterns: [
         { from: scratchStaticDir, to: "scratch-gui/static" },
         { from: `${scratchStaticDir}/assets`, to: "static/assets" },
-        { from: scratchChunkDir, to: "scratch-gui/chunks" },
+        { from: scratchChunkDir, to: "chunks" },
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
       ],
