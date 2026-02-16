@@ -10,7 +10,7 @@ if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
 
-const scratchStaticAssetDir = path.resolve(
+const scratchStaticDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/static",
 )
@@ -123,7 +123,7 @@ module.exports = {
         publicPath: `${publicUrl}projects`,
       },
       {
-        directory: scratchStaticAssetDir,
+        directory: scratchStaticDir,
         publicPath: `${publicUrl}scratch-gui/static`,
       },
       {
@@ -172,7 +172,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: scratchStaticAssetDir, to: "scratch-gui/static" },
+        { from: scratchStaticDir, to: "scratch-gui/static" },
         { from: scratchChunkDir, to: "scratch-gui/chunks" },
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
