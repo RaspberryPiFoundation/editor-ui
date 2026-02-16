@@ -146,12 +146,12 @@ module.exports = {
     },
     setupMiddlewares: (middlewares, devServer) => {
       devServer.app.use((req, res, next) => {
-        // PyodideWorker scripts - cross origin required on scripts needed for importScripts
         if (
           [
             "/pyodide/shims/_internal_sense_hat.js",
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
+            "/scratch.html",
           ].includes(req.url)
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
@@ -173,6 +173,12 @@ module.exports = {
       template: "src/web-component.html",
       filename: "web-component.html",
       chunks: ["web-component"],
+    }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/scratch.html",
+      filename: "scratch.html",
+      chunks: ["scratch"],
     }),
     new CopyWebpackPlugin({
       patterns: [
