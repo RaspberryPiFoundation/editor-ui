@@ -15,8 +15,8 @@ jobs:
         with:
           github-access-token: ${{ secrets.GITHUB_TOKEN }}
           github-repos: ${{ github.repository }}
-          include-wip: 'true'
-          include-draft: 'true'
+          include-wip: 'false'
+          include-draft: 'false'
           # mandatory-labels: 'your-label-1,your-label-2'
           # excluded-labels: 'wip,do-not-merge'
           slack-webhook-url: ${{ secrets.PR_REMINDER_SLACK_WEBHOOK_URL }}
