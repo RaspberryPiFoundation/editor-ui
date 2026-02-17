@@ -1,5 +1,6 @@
 name: Pull Request Reminder
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 8,12,16 * * 1-5"
 
