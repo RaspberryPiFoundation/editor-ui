@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production" && typeof window === "object") {
   window.onbeforeunload = () => true;
 }
 
-const defaultProjectId = 0;
+const defaultProjectId = "cool-id.json";
 const projectId = appTarget.dataset.projectId || defaultProjectId;
 
 const defaultLocale = "en";
