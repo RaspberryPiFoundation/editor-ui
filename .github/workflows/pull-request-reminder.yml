@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "0 8,12,16 * * 1-5"
 
+permissions:
+  pull-requests: read
 jobs:
   pull-request-reminder:
     runs-on: ubuntu-latest
