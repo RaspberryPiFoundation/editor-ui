@@ -7,7 +7,7 @@
   justify-content: center;
   margin: auto;
   gap: $space-1;
-  padding-block: var(--progress-bar-padding, inherit);
+  padding-block: $space-0-5;
 
   .progress-container {
     flex: 1;
