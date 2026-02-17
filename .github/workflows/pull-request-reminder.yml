@@ -1,0 +1,22 @@
+name: Pull Request Reminder
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8,12,16 * * 1-5"
+
+permissions:
+  pull-requests: read
+jobs:
+  pull-request-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull request reminder
+        uses: BottlecapDave/GitHub-Pull-Request-Reminder@v1
+        with:
+          github-access-token: ${{ secrets.GITHUB_TOKEN }}
+          github-repos: ${{ github.repository }}
+          include-wip: 'false'
+          include-draft: 'false'
+          # mandatory-labels: 'your-label-1,your-label-2'
+          # excluded-labels: 'wip,do-not-merge'
+          slack-webhook-url: ${{ secrets.PR_REMINDER_SLACK_WEBHOOK_URL }}
