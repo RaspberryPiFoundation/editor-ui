@@ -3947,7 +3947,6 @@ __metadata:
     jszip: "npm:^3.10.1"
     jszip-utils: "npm:^0.1.0"
     marked: "npm:^15.0.6"
-    material-symbols: "npm:^0.27.0"
     mime-types: "npm:^2.1.35"
     mini-css-extract-plugin: "npm:0.11.3"
     mock-match-media: "npm:^0.4.3"
@@ -16903,13 +16902,6 @@ __metadata:
   dependencies:
     css-mediaquery: "npm:^0.1.2"
   checksum: 10/47183f749ecd252f3bad6553ea3d768cb971cdb0c2514e6080c6d9eef4470212eead5050b53604e9700def48ac15829ccf537f17514aa5d801cd7d1b9728ded4
-  languageName: node
-  linkType: hard
-
-"material-symbols@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "material-symbols@npm:0.27.0"
-  checksum: 10/5601c931476f3c69d7df36c9c06c540db5e3019da6990d10b94e112f0001483137383aa9bcd385669930f2dfa602dc63bab96317295f8bb3b9ec58eb16ef31e3
   languageName: node
   linkType: hard
 
