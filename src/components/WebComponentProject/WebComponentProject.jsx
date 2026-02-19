@@ -36,6 +36,8 @@ const WebComponentProject = ({
   outputPanels = ["text", "visual"],
   outputSplitView = false,
   sidebarPlugins = [],
+  landingPageOnly = false,
+  landingContent = null,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
@@ -85,13 +87,13 @@ const WebComponentProject = ({
     }
   }, [projectIdentifier]);
 
-  renderer.link = function (data) {
-    return `<a href="${data.href}" target="_blank" rel="noreferrer"
+  renderer.link = (
+    data,
+  ) => `<a href="${data.href}" target="_blank" rel="noreferrer"
     }">${data.text}</a>`;
-  };
 
   marked.setOptions({
-    renderer: renderer,
+    renderer,
   });
 
   useEffect(() => {
@@ -155,6 +157,7 @@ const WebComponentProject = ({
   return (
     <>
       {!outputOnly &&
+        !landingPageOnly &&
         (isMobile ? (
           <MobileProject
             withSidebar={withSidebar}
@@ -170,6 +173,12 @@ const WebComponentProject = ({
             sidebarPlugins={sidebarPlugins}
           />
         ))}
+      {landingPageOnly && landingContent && (
+        <div
+          data-testid="landing-only"
+          dangerouslySetInnerHTML={{ __html: landingContent }}
+        />
+      )}
       {outputOnly && (
         <div className="embedded-viewer" data-testid="output-only">
           {loading === "success" && <Output outputPanels={outputPanels} />}

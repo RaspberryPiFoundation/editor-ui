@@ -315,10 +315,63 @@ describe("When output_only is true", () => {
       expect(screen.queryByTestId("output")).toBeInTheDocument();
       expect(screen.queryByTestId("project")).not.toBeInTheDocument();
       expect(screen.queryByTestId("mobile-project")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("landing-only")).not.toBeInTheDocument();
     });
 
     test("styles output like embedded viewer", () => {
       expect(screen.getByTestId("output-only")).toHaveClass("embedded-viewer");
+    });
+  });
+});
+
+describe("When landing_page_only is true", () => {
+  describe("when loading is pending", () => {
+    beforeEach(() => {
+      renderWebComponentProject({
+        loading: "pending",
+        props: { landingPageOnly: true },
+      });
+    });
+
+    test("does not render anything", () => {
+      expect(screen.queryByTestId("landing-only")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when landingPageContent is not set", () => {
+    beforeEach(() => {
+      renderWebComponentProject({
+        loading: "success",
+        props: { landingPageOnly: true },
+      });
+    });
+
+    test("does not render anything", () => {
+      expect(screen.queryByTestId("landing-only")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when landing_content is provided", () => {
+    beforeEach(() => {
+      renderWebComponentProject({
+        loading: "success",
+        props: {
+          landingPageOnly: true,
+          landingContent:
+            '<h2 id="what-you-will-make">What you will make</h2>\n',
+        },
+      });
+    });
+
+    test("only renders the landing content", () => {
+      expect(screen.queryByTestId("landing-only")).toBeInTheDocument();
+      expect(screen.queryByTestId("project")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("output-only")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobile-project")).not.toBeInTheDocument();
+
+      expect(
+        screen.queryByRole("heading", { name: /What you will make/ }),
+      ).toBeInTheDocument();
     });
   });
 });

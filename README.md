@@ -74,6 +74,8 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `host_styles`: Styles passed into the web component from the host page
 - `identifier`: Load the project with this identifier from the database
 - `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
+- `landing_content`: String (of HTML content) to display if `landing_page_only` is set to `true`.
+- `landing_page_only`: Only display the contents of `landing.md` (defaults to `false`)
 - `load_cache`: Load latest version of project code from local storage (defaults to `true`)
 - `load_remix_disabled`: Do not load a logged-in user's remixed version of the project specified by `identifier` even if one exists (defaults to `false`)
 - `locale`: Locale for UI elements and to determine the language of projects loaded from the API (defaults to `en`)

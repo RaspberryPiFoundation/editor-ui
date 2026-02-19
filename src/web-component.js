@@ -58,6 +58,8 @@ class WebComponent extends HTMLElement {
       "identifier",
       "initial_project",
       "instructions",
+      "landing_page_only",
+      "landing_content",
       "load_remix_disabled",
       "locale",
       "output_only",
@@ -84,6 +86,7 @@ class WebComponent extends HTMLElement {
       [
         "embedded",
         "editable_instructions",
+        "landing_page_only",
         "load_remix_disabled",
         "output_only",
         "output_split_view",
@@ -104,6 +107,7 @@ class WebComponent extends HTMLElement {
         "sidebar_options",
         "host_styles",
         "output_panels",
+        "landing_content",
       ].includes(name)
     ) {
       value = JSON.parse(newVal);

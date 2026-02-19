@@ -42,6 +42,8 @@ const WebComponentLoader = (props) => {
     identifier,
     instructions,
     theme,
+    landingPageOnly = false,
+    landingContent = null,
     loadRemixDisabled = false,
     locale = "en",
     outputOnly = false,
@@ -231,6 +233,8 @@ const WebComponentLoader = (props) => {
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
               sidebarPlugins={sidebarPlugins}
+              landingPageOnly={landingPageOnly}
+              landingContent={landingContent}
             />
             {errorModalShowing && <ErrorModal />}
             {newFileModalShowing && <NewFileModal />}
