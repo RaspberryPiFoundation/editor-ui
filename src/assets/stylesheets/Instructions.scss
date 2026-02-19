@@ -9,7 +9,6 @@
 
   h2 {
     @include typography.style-1-5(bold);
-    margin: 0;
   }
 
   p {
@@ -202,31 +201,8 @@
     }
   }
 
-  .c-project-heading--task {
-    @extend .rpf-squiggle-heading;
-    --rpf-squiggle-color: var(--rpf-blue-800);
-    background-color: $rpf-blue-100;
-    padding: $space-1;
-    inline-size: 100%;
-    box-sizing: border-box;
-    border-start-start-radius: 8px;
-    border-start-end-radius: 8px;
-
-    &::after {
-      margin-inline: $space-1;
-      margin-block-start: $space-0-25;
-    }
-  }
-
   .c-project-task {
-    background-color: $rpf-blue-100;
-    padding: $space-1;
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-    border-end-start-radius: 8px;
-    border-end-end-radius: 8px;
-    margin-block-end: $space-1-5;
+    margin-block-end: $space-2-5;
 
     p {
       margin: 0;
