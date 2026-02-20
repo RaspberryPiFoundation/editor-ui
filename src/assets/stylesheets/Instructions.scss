@@ -75,16 +75,16 @@
     border-radius: $space-0-5;
     color: #276D32;
     display: inline-block;
-    margin: $space-2-5 0 0 0;
+    margin: $space-2 0 0 0;
     padding: $space-0-25 $space-0-5;
   }
 
-  // "Now run your code" step in CCP style
+  // "Now run your code" in CCP style
   #now-run-your-code {
     @include typography.style-1(bold);
 
     padding-inline-start: $space-2-5;
-    margin-block-start: $space-2-5;
+    margin-block-start: $space-2;
     position: relative;
 
     &::before {
