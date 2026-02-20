@@ -69,6 +69,8 @@
 
   // Steps in CCP style
   [id^="step-"]{
+    @include typography.style-1(bold);
+
     background: #ECF8EE;
     border-radius: $space-0-5;
     color: #276D32;
@@ -77,7 +79,10 @@
     padding: $space-0-25 $space-0-5;
   }
 
+  // "Now run your code" step in CCP style
   #now-run-your-code {
+    @include typography.style-1(bold);
+
     padding-inline-start: $space-2-5;
     margin-block-start: $space-2-5;
     position: relative;
