@@ -76,6 +76,7 @@
 
   &--secondary {
     background-color: inherit;
+    border-radius: var(--rpf-secondary-button-radius, $space-0-5);
 
     color: var(--rpf-button-secondary-text-color);
 

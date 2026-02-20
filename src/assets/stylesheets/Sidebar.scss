@@ -44,7 +44,7 @@
 .sidebar__bar-options--bottom {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: var(--sidebar-options-alignment, center);
   justify-content: center;
   gap: $space-0-5;
 }
@@ -66,7 +66,7 @@
       position: absolute;
       top: -8px;
       bottom: -1px;
-      right: -11px;
+      right: -12px;
       width: var(--sidebar-border-obscurer-width);
       height: 60px;
       background-color: var(--sidebar-panel-background);
@@ -121,7 +121,7 @@
 }
 
 .sidebar__panel--with-footer {
-  padding-block-end: $space-2;
+  padding-block-end: var(--sidebar-footer-padding, $space-2);
 }
 
 .sidebar__panel-heading {
