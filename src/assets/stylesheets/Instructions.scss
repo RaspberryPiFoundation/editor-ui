@@ -28,16 +28,6 @@
     max-inline-size: 100%;
   }
 
-  // Steps in CCP style
-  [id^="step-"]{
-    background: #ECF8EE;
-    border-radius: $space-0-5;
-    color: #276D32;
-    display: inline-block;
-    margin: $space-2-5 0 0 0;
-    padding: $space-0-25 $space-0-5;
-  }
-
   table {
     border-collapse: collapse;
     margin-block-end: $space-1-5;
@@ -74,6 +64,38 @@
       padding-inline: 0;
       background-color: var(--code-background-color, #{$rpf-grey-700});
       color: var(--code-text-color, #{$rpf-white});
+    }
+  }
+
+  // Steps in CCP style
+  [id^="step-"]{
+    background: #ECF8EE;
+    border-radius: $space-0-5;
+    color: #276D32;
+    display: inline-block;
+    margin: $space-2-5 0 0 0;
+    padding: $space-0-25 $space-0-5;
+  }
+
+  #now-run-your-code {
+    padding-inline-start: $space-2-5;
+    margin-block-start: $space-2-5;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      block-size: $space-2;
+      inline-size: $space-2;
+      border-radius: $space-0-5;
+      background-color: #ECF8EE;
+      background-image: url("../play_filled.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 1.5rem 1.5rem;
     }
   }
 
