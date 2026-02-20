@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production" && typeof window === "object") {
   window.onbeforeunload = () => true;
 }
 
-const defaultProjectId = 0;
+const defaultProjectId = "cool-id.json";
 const projectId = appTarget.dataset.projectId || defaultProjectId;
 
 const defaultLocale = "en";
@@ -27,35 +27,35 @@ const locale = appTarget.dataset.locale || defaultLocale;
 const handleUpdateProjectId = (projectId) => {
   window.top.postMessage(
     { type: "scratch-gui-project-id-updated", projectId: projectId },
-    window.location.origin,
+    process.env.ASSETS_URL,
   );
 };
 
 const handleRemixingStarted = () => {
   window.top.postMessage(
     { type: "scratch-gui-remixing-started" },
-    window.location.origin,
+    process.env.ASSETS_URL,
   );
 };
 
 const handleRemixingSucceeded = () => {
   window.top.postMessage(
     { type: "scratch-gui-remixing-succeeded" },
-    window.location.origin,
+    process.env.ASSETS_URL,
   );
 };
 
 const handleSavingStarted = () => {
   window.top.postMessage(
     { type: "scratch-gui-saving-started" },
-    window.location.origin,
+    process.env.ASSETS_URL,
   );
 };
 
 const handleSavingSucceeded = () => {
   window.top.postMessage(
     { type: "scratch-gui-saving-succeeded" },
-    window.location.origin,
+    process.env.ASSETS_URL,
   );
 };
 

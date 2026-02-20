@@ -10,7 +10,7 @@ if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
 
-const scratchStaticAssetDir = path.resolve(
+const scratchStaticDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/static",
 )
@@ -123,7 +123,7 @@ module.exports = {
         publicPath: `${publicUrl}projects`,
       },
       {
-        directory: scratchStaticAssetDir,
+        directory: scratchStaticDir,
         publicPath: `${publicUrl}scratch-gui/static`,
       },
       {
@@ -142,12 +142,12 @@ module.exports = {
     },
     setupMiddlewares: (middlewares, devServer) => {
       devServer.app.use((req, res, next) => {
-        // PyodideWorker scripts - cross origin required on scripts needed for importScripts
         if (
           [
             "/pyodide/shims/_internal_sense_hat.js",
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
+            "/scratch.html",
           ].includes(req.url)
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
@@ -170,10 +170,17 @@ module.exports = {
       filename: "web-component.html",
       chunks: ["web-component"],
     }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/scratch.html",
+      filename: "scratch.html",
+      chunks: ["scratch"],
+    }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: scratchStaticAssetDir, to: "scratch-gui/static" },
-        { from: scratchChunkDir, to: "scratch-gui/chunks" },
+        { from: scratchStaticDir, to: "scratch-gui/static" },
+        { from: `${scratchStaticDir}/assets`, to: "static/assets" },
+        { from: scratchChunkDir, to: "chunks" },
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
       ],
