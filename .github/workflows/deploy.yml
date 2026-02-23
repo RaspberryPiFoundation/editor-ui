@@ -59,7 +59,7 @@ on:
         default: "review"
         type: string
       react_app_allowed_iframe_origins:
-        required: true
+        required: false
         default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org"
         type: string
         

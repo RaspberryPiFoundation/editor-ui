@@ -27,36 +27,24 @@ const locale = appTarget.dataset.locale || defaultLocale;
 const handleUpdateProjectId = (projectId) => {
   window.top.postMessage(
     { type: "scratch-gui-project-id-updated", projectId: projectId },
-    window.location.origin,
+    "*",
   );
 };
 
 const handleRemixingStarted = () => {
-  window.top.postMessage(
-    { type: "scratch-gui-remixing-started" },
-    window.location.origin,
-  );
+  window.top.postMessage({ type: "scratch-gui-remixing-started" }, "*");
 };
 
 const handleRemixingSucceeded = () => {
-  window.top.postMessage(
-    { type: "scratch-gui-remixing-succeeded" },
-    window.location.origin,
-  );
+  window.top.postMessage({ type: "scratch-gui-remixing-succeeded" }, "*");
 };
 
 const handleSavingStarted = () => {
-  window.top.postMessage(
-    { type: "scratch-gui-saving-started" },
-    window.location.origin,
-  );
+  window.top.postMessage({ type: "scratch-gui-saving-started" }, "*");
 };
 
 const handleSavingSucceeded = () => {
-  window.top.postMessage(
-    { type: "scratch-gui-saving-succeeded" },
-    window.location.origin,
-  );
+  window.top.postMessage({ type: "scratch-gui-saving-succeeded" }, "*");
 };
 
 const root = createRoot(appTarget);
