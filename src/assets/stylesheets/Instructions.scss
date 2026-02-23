@@ -7,6 +7,10 @@
 .project-instructions {
   block-size: 100%;
 
+  &__content {
+    padding-block-end: var(--project-instructions-padding, $space-1);
+  }
+
   h2 {
     @include typography.style-1-5(bold);
     margin-block-start: $space-0-5;

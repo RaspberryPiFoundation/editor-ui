@@ -36,7 +36,6 @@ const ProgressBar = () => {
       <div className="progress-bar">
         <Button
           className={"btn--secondary btn--small"}
-          buttonOuter
           onClickHandler={goToPreviousStep}
           ButtonIcon={ChevronLeft}
           disabled={currentStepPosition === 0}
@@ -54,7 +53,6 @@ const ProgressBar = () => {
 
         <Button
           className={"btn--secondary btn--small"}
-          buttonOuter
           onClickHandler={goToNextStep}
           ButtonIcon={ChevronRight}
           disabled={currentStepPosition === numberOfSteps - 1}
