@@ -7,6 +7,7 @@
   justify-content: center;
   margin: auto;
   gap: $space-1;
+  padding-block: $space-0-5;
 
   .progress-container {
     flex: 1;
@@ -14,6 +15,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: $space-0-25;
   }
 
   progress {
