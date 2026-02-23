@@ -58,6 +58,11 @@ on:
         required: false
         default: "review"
         type: string
+      react_app_allowed_iframe_origins:
+        required: true
+        default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org"
+        type: string
+        
     secrets:
       AWS_ACCESS_KEY_ID:
         required: false
@@ -142,6 +147,7 @@ jobs:
           REACT_APP_PLAUSIBLE_SOURCE: ${{ inputs.react_app_plausible_source }}
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
+          REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
 
       - name: Deploy site to S3 bucket
         if: env.AWS_SECRET_ACCESS_KEY != ''

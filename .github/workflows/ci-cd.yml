@@ -127,6 +127,7 @@ jobs:
       react_app_plausible_source: "https://plausible.io/js/script.js"
       react_app_sentry_dsn: https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376
       react_app_sentry_env: production
+      react_app_allowed_iframe_origins: "https://editor.raspberrypi.org,https://editor-static.raspberrypi.org"
     secrets: inherit
 
   deploy-main:
