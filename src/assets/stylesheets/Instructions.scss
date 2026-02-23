@@ -8,7 +8,7 @@
   block-size: 100%;
 
   &__content {
-    padding-block-end: var(--project-instructions-padding);
+    padding-block-end: var(--project-instructions-padding, $space-1);
   }
 
   h2 {
