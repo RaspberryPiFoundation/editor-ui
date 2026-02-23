@@ -411,3 +411,32 @@ describe("When plugins are provided", () => {
     });
   });
 });
+
+describe("When the project type is code_editor_scratch", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+          project_type: "code_editor_scratch",
+        },
+        instructionsEditable: false,
+      },
+      instructions: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={options} />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Does not show file icon", () => {
+    expect(screen.queryByTitle("sidebar.file")).not.toBeInTheDocument();
+  });
+});
