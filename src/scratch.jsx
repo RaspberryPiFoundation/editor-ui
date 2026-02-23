@@ -55,9 +55,9 @@ root.render(
       projectId={projectId}
       locale={locale}
       menuBarHidden={true}
-      projectHost={"/api/projects"}
+      projectHost={`${process.env.ASSETS_URL}/api/projects`}
       assetHost={`${process.env.ASSETS_URL}/api/assets`}
-      basePath={"/scratch-gui/"}
+      basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
       onUpdateProjectId={handleUpdateProjectId}
       onShowCreatingRemixAlert={handleRemixingStarted}
       onShowRemixSuccessAlert={handleRemixingSucceeded}
