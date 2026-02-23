@@ -88,6 +88,7 @@
   "scripts": {
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
     "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
+    "analyze": "ANALYZE_WEBPACK_BUNDLE=true yarn build",
     "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js",
     "stylelint": "stylelint src/**/*.scss",
@@ -188,6 +189,7 @@
     "url-loader": "4.1.1",
     "webgl-mock-threejs": "^0.0.1",
     "webpack": "5.104.1",
+    "webpack-bundle-analyzer": "^5.2.0",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0",
     "webpack-manifest-plugin": "2.2.0",

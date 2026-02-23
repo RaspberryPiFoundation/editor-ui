@@ -131,6 +131,7 @@ jobs:
 
   deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
+    needs: [lint, test, test-cypress]
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging

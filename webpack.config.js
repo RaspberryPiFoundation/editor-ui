@@ -3,6 +3,7 @@ const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
@@ -157,6 +158,7 @@ module.exports = {
     },
   },
   plugins: [
+    process.env.ANALYZE_WEBPACK_BUNDLE && new BundleAnalyzerPlugin(),
     new WorkerPlugin(),
     new Dotenv({
       path: "./.env",
