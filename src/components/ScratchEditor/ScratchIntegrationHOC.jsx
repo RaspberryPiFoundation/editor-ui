@@ -25,8 +25,22 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     componentWillUnmount() {
       window.removeEventListener("message", this.handleMessage);
     }
+
+    allowedIframeHost(origin) {
+      const allowedHosts = process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS
+        ? process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS.split(",")
+        : [];
+      return allowedHosts.includes(origin);
+    }
+
     handleMessage(event) {
-      if (event.origin !== window.location.origin) return;
+      if (!this.allowedIframeHost(event.origin)) {
+        console.warn(
+          "iFrame received message from unknown origin:",
+          event.origin,
+        );
+        return;
+      }
 
       switch (event.data.type) {
         case "scratch-gui-download":
