@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import parseLinkHeader from "parse-link-header";
 import {
   loadProjectPending,
   loadProjectFulfilled,
@@ -77,21 +76,6 @@ export const syncProject = (actionName) =>
       },
     },
   );
-
-export const loadProjectList = createAsyncThunk(
-  `editor/loadProjectList`,
-  async ({ reactAppApiEndpoint, page, accessToken }) => {
-    const { readProjectList } = ApiCallHandler({
-      reactAppApiEndpoint,
-    });
-    const response = await readProjectList(page, accessToken);
-    return {
-      projects: response.data,
-      page,
-      links: parseLinkHeader(response.headers.link),
-    };
-  },
-);
 
 export const editorInitialState = {
   project: {},
@@ -182,12 +166,6 @@ export const EditorSlice = createSlice({
     setFocussedFileIndex: (state, action) => {
       state.focussedFileIndices[action.payload.panelIndex] =
         action.payload.fileIndex;
-    },
-    updateImages: (state, action) => {
-      if (!state.project.image_list) {
-        state.project.image_list = [];
-      }
-      state.project.image_list = action.payload;
     },
     setWebComponent: (state, action) => {
       state.webComponent = action.payload;
@@ -470,7 +448,6 @@ export const {
   triggerDraw,
   triggerSave,
   updateComponentName,
-  updateImages,
   updateProjectComponent,
   updateProjectName,
   showBetaModal,

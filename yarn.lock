@@ -3954,9 +3954,8 @@ __metadata:
     node-html-parser: "npm:^6.1.5"
     oidc-client: "npm:^1.11.5"
     optimize-css-assets-webpack-plugin: "npm:5.0.4"
-    parse-link-header: "npm:^2.0.0"
     path-browserify: "npm:^1.0.1"
-    plotly.js: "npm:^3.0.2"
+    plotly.js: "npm:^3.3.1"
     pnp-webpack-plugin: "npm:1.6.4"
     postcss-flexbugs-fixes: "npm:4.2.1"
     postcss-loader: "npm:3.0.0"
@@ -3977,7 +3976,6 @@ __metadata:
     react-cookie: "npm:^4.1.1"
     react-dev-utils: "npm:^11.0.3"
     react-dom: "npm:^18.1.0"
-    react-dropzone: "npm:^12.0.4"
     react-i18next: "npm:^12.0.0"
     react-modal: "npm:^3.14.4"
     react-redux: "npm:^7.2.5"
@@ -3994,7 +3992,7 @@ __metadata:
     resolve: "npm:1.18.1"
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
-    sass-loader: "npm:^10.0.0"
+    sass-loader: "npm:^13.3.3"
     semver: "npm:7.3.2"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
@@ -6999,13 +6997,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"attr-accept@npm:^2.2.2":
-  version: 2.2.4
-  resolution: "attr-accept@npm:2.2.4"
-  checksum: 10/2839a5740c8bf8ea30f84d4da850b8a31d766be787fbaf45efb94b5a2292781abfa93d274f585c6c0e64dad0e9c0b5c53ae9849c7272f0cf1f2d643a75cc166e
-  languageName: node
-  linkType: hard
-
 "audio-context@npm:^1.0.1":
   version: 1.0.3
   resolution: "audio-context@npm:1.0.3"
@@ -8009,14 +8000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001663":
-  version: 1.0.30001669
-  resolution: "caniuse-lite@npm:1.0.30001669"
-  checksum: 10/cd0b481bb997703cb7651e55666b4aa4e7b4ecf9784796e2393179a15e55c71a6abc6ff865c922bbd3bbfa4a4bf0530d8da13989b97ff8c7850c8a5bd4e00491
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001759":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001663, caniuse-lite@npm:^1.0.30001759":
   version: 1.0.30001769
   resolution: "caniuse-lite@npm:1.0.30001769"
   checksum: 10/4b7d087832d4330a8b1fa02cd9455bdb068ea67f1735f2aa6324d5b64b24f5079cf6349b13d209f268ffa59644b9f4f784266b780bafd877ceb83c9797ca80ba
@@ -12118,15 +12102,6 @@ __metadata:
   version: 2.0.5
   resolution: "file-saver@npm:2.0.5"
   checksum: 10/fbba443d9b682fec0be6676c048a7ac688b9bd33b105c02e8e1a1cb3e354ed441198dc1f15dcbc137fa044bea73f8a7549f2617e3a952fa7d96390356d54a7c3
-  languageName: node
-  linkType: hard
-
-"file-selector@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "file-selector@npm:0.5.0"
-  dependencies:
-    tslib: "npm:^2.0.3"
-  checksum: 10/bbbfc5d9d1602e4bc376d67b62f44576301a8c7ae91dd6d57647b31ea497a37cef4b8a367def31f8a4a4ec6e96db886c2f509a816f8b395c3b6020f1a3dbdb1d
   languageName: node
   linkType: hard
 
@@ -18435,15 +18410,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse-link-header@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "parse-link-header@npm:2.0.0"
-  dependencies:
-    xtend: "npm:~4.0.1"
-  checksum: 10/36d0d44433ec3ee80c001fe54dd29268924f06352ed82a29e4060dbd8bb28a330cf7ea7adf4815f73e0684baaf36440ac010d599094eb24130c07fc87424450c
-  languageName: node
-  linkType: hard
-
 "parse-rect@npm:^1.2.0":
   version: 1.2.0
   resolution: "parse-rect@npm:1.2.0"
@@ -18705,9 +18671,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"plotly.js@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "plotly.js@npm:3.0.2"
+"plotly.js@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "plotly.js@npm:3.3.1"
   dependencies:
     "@plotly/d3": "npm:3.8.2"
     "@plotly/d3-sankey": "npm:0.7.2"
@@ -18759,7 +18725,7 @@ __metadata:
     topojson-client: "npm:^3.1.0"
     webgl-context: "npm:^2.2.0"
     world-calendars: "npm:^1.0.4"
-  checksum: 10/60a1eb628e6d8729da875e6125b0f247ad1903fec85e10046e50cd72ba83ad732a786a4681784ee9a3dae85cb747979555cef2da4a4929b943cd5c99c2fdcb94
+  checksum: 10/0863e4eb1539402f4add29e9d0139881d2be64585c76c61ed35f15e002bc9f5e4e97a878f7ce019cf4991fa38da728afb19993bebb78a5b74f4ec1ba194d86a6
   languageName: node
   linkType: hard
 
@@ -20371,19 +20337,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^12.0.4":
-  version: 12.1.0
-  resolution: "react-dropzone@npm:12.1.0"
-  dependencies:
-    attr-accept: "npm:^2.2.2"
-    file-selector: "npm:^0.5.0"
-    prop-types: "npm:^15.8.1"
-  peerDependencies:
-    react: ">= 16.8"
-  checksum: 10/cafea162568d6ac5ec5100dec93a994ace8e4870a81aef7eb356ca621394c5bb7c4f536f275ba1d1bc320092fd546f2c58b89d3f1b2b0a7e3dcc0a76839a502b
-  languageName: node
-  linkType: hard
-
 "react-error-overlay@npm:^6.0.9":
   version: 6.0.11
   resolution: "react-error-overlay@npm:6.0.11"
@@ -21851,20 +21804,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:^10.0.0":
-  version: 10.5.2
-  resolution: "sass-loader@npm:10.5.2"
+"sass-loader@npm:^13.3.3":
+  version: 13.3.3
+  resolution: "sass-loader@npm:13.3.3"
   dependencies:
-    klona: "npm:^2.0.4"
-    loader-utils: "npm:^2.0.0"
     neo-async: "npm:^2.6.2"
-    schema-utils: "npm:^3.0.0"
-    semver: "npm:^7.3.2"
   peerDependencies:
     fibers: ">= 3.1.0"
     node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
     sass: ^1.3.0
-    webpack: ^4.36.0 || ^5.0.0
+    sass-embedded: "*"
+    webpack: ^5.0.0
   peerDependenciesMeta:
     fibers:
       optional: true
@@ -21872,7 +21822,9 @@ __metadata:
       optional: true
     sass:
       optional: true
-  checksum: 10/27b85f852d270a5c84b95f8ba3fbc84e7cbb77a3481f3ff2b74d4ea87f2ad4cefcba70ba41412b80e62ba433c75994d4d12d323d39a24de5087b60b571a1a3c9
+    sass-embedded:
+      optional: true
+  checksum: 10/a8a8519add9f0bb2d3d1b834dbf30b1b67e22833425755a56640cc20845107850adfc6f243cdab07a5cb26ec964513b950a02dca7b1d5b3cf3659c89bf1988eb
   languageName: node
   linkType: hard
 
