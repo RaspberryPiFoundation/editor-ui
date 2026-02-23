@@ -9,7 +9,7 @@
 
   h2 {
     @include typography.style-1-5(bold);
-    margin: 0;
+    margin-block-start: $space-0-5;
   }
 
   p {
@@ -64,6 +64,43 @@
       padding-inline: 0;
       background-color: var(--code-background-color, #{$rpf-grey-700});
       color: var(--code-text-color, #{$rpf-white});
+    }
+  }
+
+  // Steps in CCP style
+  [id^="step-"]{
+    @include typography.style-1(bold);
+
+    background: #ECF8EE;
+    border-radius: $space-0-5;
+    color: #276D32;
+    display: inline-block;
+    margin: $space-1-5 0 0 0;
+    padding: $space-0-25 $space-0-5;
+  }
+
+  // "Now run your code" in CCP style
+  #now-run-your-code {
+    @include typography.style-1(bold);
+
+    padding-inline-start: $space-2-5;
+    margin-block-start: $space-2;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      block-size: $space-2;
+      inline-size: $space-2;
+      border-radius: $space-0-5;
+      background-color: #ECF8EE;
+      background-image: url("../play_filled.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $space-1-5 $space-1-5;
     }
   }
 
@@ -202,31 +239,8 @@
     }
   }
 
-  .c-project-heading--task {
-    @extend .rpf-squiggle-heading;
-    --rpf-squiggle-color: var(--rpf-blue-800);
-    background-color: $rpf-blue-100;
-    padding: $space-1;
-    inline-size: 100%;
-    box-sizing: border-box;
-    border-start-start-radius: 8px;
-    border-start-end-radius: 8px;
-
-    &::after {
-      margin-inline: $space-1;
-      margin-block-start: $space-0-25;
-    }
-  }
-
   .c-project-task {
-    background-color: $rpf-blue-100;
-    padding: $space-1;
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-    border-end-start-radius: 8px;
-    border-end-end-radius: 8px;
-    margin-block-end: $space-1-5;
+    margin-block-end: $space-2-5;
 
     p {
       margin: 0;
