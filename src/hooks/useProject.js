@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { syncProject, setProject } from "../redux/EditorSlice";
-import { defaultPythonProject } from "../utils/defaultProjects";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { setProject, syncProject } from "../redux/EditorSlice";
+import { defaultPythonProject } from "../utils/defaultProjects";
 
 export const useProject = ({
   reactAppApiEndpoint = null,
@@ -20,14 +20,16 @@ export const useProject = ({
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const project = useSelector((state) => state.editor.project);
+  const justLoaded = useSelector((state) => state.editor.justLoaded);
   const loadDispatched = useRef(false);
+  const projectModified = useRef(false);
 
   const getCachedProject = (id) =>
     isEmbedded && !isBrowserPreview
       ? null
       : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
-    getCachedProject(projectIdentifier),
+    getCachedProject(projectIdentifier)
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
@@ -40,6 +42,15 @@ export const useProject = ({
     setCachedProject(getCachedProject(projectIdentifier));
   }, [projectIdentifier]);
 
+  // Track if project has been modified by user
+  useEffect(() => {
+    if (justLoaded) {
+      projectModified.current = false;
+    } else if (Object.keys(project).length > 0 && !justLoaded) {
+      projectModified.current = true;
+    }
+  }, [project, justLoaded]);
+
   useEffect(() => {
     if (!loadRemix) {
       const is_cached_saved_project =
@@ -49,7 +60,22 @@ export const useProject = ({
       const is_cached_unsaved_project =
         !projectIdentifier && cachedProject && !initialProject;
 
-      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+      // Check if cached locale matches current locale
+      const cachedLocaleMatches =
+        cachedProject?._cachedLocale === i18n.language;
+
+      // Only use cache if:
+      // 1. Cache is enabled AND
+      // 2. Project is cached AND
+      // 3. For saved projects: locale matches OR user has made modifications
+      //    For unsaved projects: always use cache (it's user's work-in-progress)
+      const shouldUseCache =
+        loadCache &&
+        ((is_cached_saved_project &&
+          (cachedLocaleMatches || projectModified.current)) ||
+          is_cached_unsaved_project);
+
+      if (shouldUseCache) {
         loadCachedProject();
         return;
       }
@@ -62,7 +88,7 @@ export const useProject = ({
             locale: i18n.language,
             accessToken,
             assetsOnly: true,
-          }),
+          })
         );
         return;
       }
@@ -74,7 +100,7 @@ export const useProject = ({
             identifier: projectIdentifier,
             locale: i18n.language,
             accessToken: accessToken,
-          }),
+          })
         );
         return;
       }
@@ -118,7 +144,7 @@ export const useProject = ({
           reactAppApiEndpoint,
           identifier: projectIdentifier,
           accessToken: accessToken,
-        }),
+        })
       );
 
       // Prevents a failure on the initial render (using a ref to avoid triggering a render)
@@ -136,7 +162,7 @@ export const useProject = ({
           identifier: projectIdentifier,
           locale: i18n.language,
           accessToken: accessToken,
-        }),
+        })
       );
 
       loadDispatched.current = true;
@@ -151,7 +177,7 @@ export const useProject = ({
       const mainComponent = project.components?.find(
         (component) =>
           component.name === defaultName &&
-          component.extension === defaultExtension,
+          component.extension === defaultExtension
       ) || { name: defaultName, extension: defaultExtension, content: "" };
 
       const otherComponents =
@@ -160,7 +186,7 @@ export const useProject = ({
             !(
               component.name === defaultName &&
               component.extension === defaultExtension
-            ),
+            )
         ) || [];
 
       const updatedProject = {

@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { isOwner } from "../utils/projectHelpers";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
+import { isOwner } from "../utils/projectHelpers";
 
 const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
 
@@ -18,20 +18,26 @@ export const useProjectPersistence = ({
   saveTriggered,
   reactAppApiEndpoint,
   loadRemix = true,
+  locale,
 }) => {
   const dispatch = useDispatch();
 
   const combinedFileSize = project.components?.reduce(
     (sum, component) => sum + component.content.length,
-    0,
+    0
   );
   const autoSaveInterval =
     combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
 
   const saveToLocalStorage = (project) => {
+    const projectWithMeta = {
+      ...project,
+      _cachedLocale: locale,
+      _cachedAt: Date.now(),
+    };
     localStorage.setItem(
       project.identifier || "project",
-      JSON.stringify(project),
+      JSON.stringify(projectWithMeta)
     );
   };
 
@@ -45,7 +51,7 @@ export const useProjectPersistence = ({
         if (saveTriggered || localStorage.getItem("awaitingSave")) {
           if (isOwner(user, project)) {
             await dispatch(
-              syncProject("save")({ ...params, project, autosave: false }),
+              syncProject("save")({ ...params, project, autosave: false })
             );
             localStorage.removeItem("awaitingSave");
           } else if (user && identifier) {
@@ -53,7 +59,7 @@ export const useProjectPersistence = ({
               syncProject("remix")({
                 ...params,
                 project,
-              }),
+              })
             );
             if (loadRemix) {
               // Ensure the remixed project is loaded, otherwise we'll get in a mess
@@ -61,7 +67,7 @@ export const useProjectPersistence = ({
                 syncProject("loadRemix")({
                   ...params,
                   identifier,
-                }),
+                })
               );
             }
           }
@@ -84,7 +90,7 @@ export const useProjectPersistence = ({
               project,
               accessToken: user.access_token,
               autosave: true,
-            }),
+            })
           );
         } else {
           if (justLoaded) {

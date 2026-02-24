@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import ErrorModal from "../components/Modals/ErrorModal";
+import NewFileModal from "../components/Modals/NewFileModal";
+import RenameFileModal from "../components/Modals/RenameFileModal";
+import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
+import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
+import { useProject } from "../hooks/useProject";
+import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import {
   disableTheming,
-  setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setReadOnly,
+  setSenseHatAlwaysEnabled,
 } from "../redux/EditorSlice";
-import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
-import { useTranslation } from "react-i18next";
 import { setInstructions } from "../redux/InstructionsSlice";
-import { useProject } from "../hooks/useProject";
-import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
-import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { SettingsContext } from "../utils/settings";
-import { useCookies } from "react-cookie";
-import NewFileModal from "../components/Modals/NewFileModal";
-import ErrorModal from "../components/Modals/ErrorModal";
-import RenameFileModal from "../components/Modals/RenameFileModal";
-import { ToastContainer } from "react-toastify";
 import ToastCloseButton from "../utils/ToastCloseButton";
 
-import internalStyles from "../assets/stylesheets/InternalStyles.scss";
+import Style from "style-it";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
 import editorStyles from "../assets/stylesheets/index.scss";
+import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import "../assets/stylesheets/Notifications.scss";
-import Style from "style-it";
 import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
@@ -75,19 +75,19 @@ const WebComponentLoader = (props) => {
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const hasShownSavePrompt = useSelector(
-    (state) => state.editor.hasShownSavePrompt,
+    (state) => state.editor.hasShownSavePrompt
   );
   const saveTriggered = useSelector((state) => state.editor.saveTriggered);
 
   const modals = useSelector((state) => state.editor.modals);
   const errorModalShowing = useSelector(
-    (state) => state.editor.errorModalShowing,
+    (state) => state.editor.errorModalShowing
   );
   const newFileModalShowing = useSelector(
-    (state) => state.editor.newFileModalShowing,
+    (state) => state.editor.newFileModalShowing
   );
   const renameFileModalShowing = useSelector(
-    (state) => state.editor.renameFileModalShowing,
+    (state) => state.editor.renameFileModalShowing
   );
 
   const { i18n } = useTranslation();
@@ -158,6 +158,7 @@ const WebComponentLoader = (props) => {
     hasShownSavePrompt: hasShownSavePrompt || !showSavePrompt,
     saveTriggered,
     loadRemix: loadRemix && !loadRemixDisabled,
+    locale: i18n.language,
   });
 
   useEffect(() => {
