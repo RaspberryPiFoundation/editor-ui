@@ -36,7 +36,7 @@ describe("When project has images", () => {
           <div id="app">
             <Sidebar options={options} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -89,7 +89,7 @@ describe("When project has images", () => {
 
     test("Does not show instructions icon", () => {
       expect(
-        screen.queryByTitle("sidebar.instructions")
+        screen.queryByTitle("sidebar.instructions"),
       ).not.toBeInTheDocument();
     });
 
@@ -122,7 +122,7 @@ describe("When project has images", () => {
           <div id="app">
             <Sidebar options={options} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -132,7 +132,7 @@ describe("When project has images", () => {
       const expandButton = screen.getByTitle("sidebar.expand");
       fireEvent.click(expandButton);
       expect(
-        screen.queryByText("instructionsPanel.projectSteps")
+        screen.queryByText("instructionsPanel.projectSteps"),
       ).toBeInTheDocument();
     });
 
@@ -142,7 +142,7 @@ describe("When project has images", () => {
       const fileButton = screen.getByTitle("sidebar.instructions");
       fireEvent.click(fileButton);
       expect(
-        screen.queryByText("instructionsPanel.projectSteps")
+        screen.queryByText("instructionsPanel.projectSteps"),
       ).toBeInTheDocument();
     });
 
@@ -153,7 +153,7 @@ describe("When project has images", () => {
       fireEvent.click(fileButton);
       fireEvent.click(fileButton);
       expect(
-        screen.queryByText("instructionsPanel.projectSteps")
+        screen.queryByText("instructionsPanel.projectSteps"),
       ).not.toBeInTheDocument();
     });
 
@@ -203,7 +203,7 @@ describe("When the project has no images", () => {
         <div id="app">
           <Sidebar options={options} />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -242,7 +242,7 @@ describe("When the project has instructions", () => {
         <div id="app">
           <Sidebar options={options} />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
@@ -271,13 +271,13 @@ describe("When the project has no instructions", () => {
           <div id="app">
             <Sidebar options={options} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
     test("Does not show instructions icon", () => {
       expect(
-        screen.queryByTitle("sidebar.instructions")
+        screen.queryByTitle("sidebar.instructions"),
       ).not.toBeInTheDocument();
     });
   });
@@ -301,7 +301,7 @@ describe("When the project has no instructions", () => {
           <div id="app">
             <Sidebar options={options} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -311,7 +311,7 @@ describe("When the project has no instructions", () => {
 
     test("Renders instructions panel open by default", () => {
       expect(
-        screen.queryByText("instructionsPanel.projectSteps")
+        screen.queryByText("instructionsPanel.projectSteps"),
       ).toBeInTheDocument();
     });
   });
@@ -352,7 +352,7 @@ describe("When plugins are provided", () => {
           <div id="app">
             <Sidebar options={options} plugins={plugins} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -386,7 +386,7 @@ describe("When plugins are provided", () => {
           <div id="app">
             <Sidebar options={options} plugins={plugins} />
           </div>
-        </Provider>
+        </Provider>,
       );
     });
 
@@ -432,7 +432,7 @@ describe("When the project type is code_editor_scratch", () => {
         <div id="app">
           <Sidebar options={options} />
         </div>
-      </Provider>
+      </Provider>,
     );
   });
 
