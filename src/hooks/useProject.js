@@ -49,7 +49,13 @@ export const useProject = ({
       const is_cached_unsaved_project =
         !projectIdentifier && cachedProject && !initialProject;
 
-      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+      const cachedLocaleMatches = cachedProject?.locale === i18n.language;
+
+      if (
+        loadCache &&
+        (is_cached_saved_project || is_cached_unsaved_project) &&
+        cachedLocaleMatches
+      ) {
         loadCachedProject();
         return;
       }
