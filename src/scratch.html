@@ -4,8 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Scratch</title>
+    <style>
+      #scratch-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25em;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: calc(1.5rem * var(--scale-factor, 1));
+        line-height: calc(2.5rem * var(--scale-factor, 1));
+        text-transform: lowercase;
+        transition: opacity 0.2s ease;
+      }
+
+      #scratch-loading::before,
+      #scratch-loading::after {
+        display: inline-block;
+        transform: scale(1.2);
+      }
+
+      #scratch-loading::before {
+        content: "{";
+        animation: scratch-loading-pulse 0.8s alternate infinite ease-in-out;
+      }
+
+      #scratch-loading::after {
+        content: "}";
+        animation: scratch-loading-pulse 0.8s alternate infinite ease-in-out;
+      }
+
+      @keyframes scratch-loading-pulse {
+        to {
+          transform: scale(1);
+          opacity: 0.25;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #scratch-loading::before,
+        #scratch-loading::after {
+          transform: scale(1);
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="scratch-loading">loading</div>
     <div id="app"></div>
   </body>
 </html>
