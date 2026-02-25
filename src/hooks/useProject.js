@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { syncProject, setProject } from "../redux/EditorSlice";
+import { syncProject, setProject, setCodeModified } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
@@ -49,10 +49,20 @@ export const useProject = ({
       const is_cached_unsaved_project =
         !projectIdentifier && cachedProject && !initialProject;
 
-      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+      const cachedLocaleMatches =
+        !cachedProject?.locale || cachedProject.locale === i18n.language;
+
+      const shouldUseCache =
+        loadCache &&
+        ((is_cached_saved_project && cachedLocaleMatches) ||
+          is_cached_unsaved_project);
+
+      if (shouldUseCache) {
         loadCachedProject();
         return;
       }
+
+      dispatch(setCodeModified(false));
 
       if (assetsIdentifier) {
         dispatch(

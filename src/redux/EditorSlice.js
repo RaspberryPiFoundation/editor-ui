@@ -122,6 +122,7 @@ export const editorInitialState = {
   modals: {},
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
+  codeModified: false,
 };
 
 export const EditorSlice = createSlice({
@@ -213,6 +214,7 @@ export const EditorSlice = createSlice({
         state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
+      state.codeModified = false;
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -261,6 +263,7 @@ export const EditorSlice = createSlice({
       });
       state.project.components = mapped;
       state.cascadeUpdate = cascadeUpdate;
+      state.codeModified = true;
     },
     updateProjectName: (state, action) => {
       state.project.name = action.payload;
@@ -358,6 +361,9 @@ export const EditorSlice = createSlice({
     },
     setErrorDetails: (state, action) => {
       state.errorDetails = action.payload;
+    },
+    setCodeModified: (state, action) => {
+      state.codeModified = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -462,6 +468,7 @@ export const {
   hideSidebar,
   disableTheming,
   setErrorDetails,
+  setCodeModified,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
