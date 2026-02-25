@@ -27,6 +27,15 @@ import SidebarPanel from "./SidebarPanel";
 
 const Sidebar = ({ options = [], plugins = [] }) => {
   const { t } = useTranslation();
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const instructionsSteps = useSelector(
+    (state) => state.instructions?.project?.steps,
+  );
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
+  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
   let menuOptions = [
     {
@@ -78,7 +87,12 @@ const Sidebar = ({ options = [], plugins = [] }) => {
       position: "bottom",
       panel: InfoPanel,
     },
-  ].filter((option) => options.includes(option.name));
+  ].filter((option) => {
+    if (!options.includes(option.name)) return false;
+    if (projectType === "code_editor_scratch" && option.name === "file")
+      return false;
+    return true;
+  });
 
   let pluginMenuOptions = useMemo(
     () =>
@@ -102,15 +116,6 @@ const Sidebar = ({ options = [], plugins = [] }) => {
   );
 
   menuOptions = [...menuOptions, ...pluginMenuOptions];
-
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const projectImages = useSelector((state) => state.editor.project.image_list);
-  const instructionsSteps = useSelector(
-    (state) => state.instructions?.project?.steps,
-  );
-  const instructionsEditable = useSelector(
-    (state) => state.editor.instructionsEditable,
-  );
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
