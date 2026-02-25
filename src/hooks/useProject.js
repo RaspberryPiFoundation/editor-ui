@@ -42,13 +42,14 @@ export const useProject = ({
 
   useEffect(() => {
     if (!loadRemix) {
-      // Check if cached locale matches current locale
-      const cachedLocaleMatches =
-        cachedProject?._cachedLocale === i18n.language;
+      const is_cached_saved_project =
+        projectIdentifier &&
+        cachedProject &&
+        cachedProject.identifier === projectIdentifier;
+      const is_cached_unsaved_project =
+        !projectIdentifier && cachedProject && !initialProject;
 
-      const shouldUseCache = loadCache && cachedLocaleMatches;
-
-      if (shouldUseCache) {
+      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
         loadCachedProject();
         return;
       }
