@@ -4,6 +4,15 @@ import Sk from "skulpt";
 
 import FlightCase from "./FlightCase";
 
+// Mock @react-three/drei to return a scene synchronously. This is necessary
+// because the FlightCase component relies on useGLTF to load a 3D model, and
+// useGLTF throws a Promise on first render. Without this mock, the component
+// body never reaches the `Sk.sense_hat_emit = ...` assignment, which means the
+// event handlers are never registered. This would cause the tests to fail with
+// "TypeError: Sk.sense_hat_emit is not a function" when trying to emit events.
+// By mocking @react-three/drei to return a scene synchronously, we ensure that
+// the event handlers are properly registered and the tests can run as
+// expected.
 jest.mock("@react-three/drei", () => ({
   useGLTF: () => ({
     scene: {
