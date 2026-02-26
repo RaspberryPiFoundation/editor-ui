@@ -13,6 +13,7 @@ import PreviewIcon from "../../../assets/icons/preview.svg";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import { showSidebar } from "../../../redux/EditorSlice";
+import ScratchContainer from "../../Editor/Project/ScratchContainer";
 
 const MobileProject = ({
   withSidebar,
@@ -25,6 +26,7 @@ const MobileProject = ({
     (state) => state.editor.codeRunTriggered,
   );
   const includesInstructions = sidebarOptions.includes("instructions");
+  const isCodeEditorScratchProject = projectType === "code_editor_scratch";
 
   const [selectedTab, setSelectedTab] = useState(1);
   const { t } = useTranslation();
@@ -40,7 +42,9 @@ const MobileProject = ({
     }
   }, [codeRunTriggered, sidebarShowing, withSidebar]);
 
-  return (
+  return isCodeEditorScratchProject ? (
+    <ScratchContainer />
+  ) : (
     <div
       className="proj-container proj-editor-container proj-container--mobile"
       data-testid="mobile-project"
