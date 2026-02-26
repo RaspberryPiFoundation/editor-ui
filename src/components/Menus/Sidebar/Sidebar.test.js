@@ -15,7 +15,7 @@ let images = [
   },
 ];
 
-const options = ["file", "images", "instructions"];
+const options = ["file", "images", "instructions", "info"];
 
 describe("When project has images", () => {
   describe("and no instructions", () => {
@@ -409,5 +409,38 @@ describe("When plugins are provided", () => {
       fireEvent.click(pluginButton);
       expect(screen.queryByText("My amazing content")).toBeInTheDocument();
     });
+  });
+});
+
+describe("When the project type is code_editor_scratch", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+          project_type: "code_editor_scratch",
+        },
+        instructionsEditable: false,
+      },
+      instructions: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={options} />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Does not show file icon", () => {
+    expect(screen.queryByTitle("sidebar.file")).not.toBeInTheDocument();
+  });
+
+  test("Shows the info icon", () => {
+    expect(screen.queryByTitle("sidebar.information")).toBeInTheDocument();
   });
 });
