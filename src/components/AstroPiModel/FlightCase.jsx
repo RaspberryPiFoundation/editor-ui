@@ -15,7 +15,7 @@ const FlightCase = () => {
     "0_0_0": blankLED,
   };
 
-  // Convert to RGB565
+  // Quantise RGB components to RGB565 step sizes
   function quantisePixel(pixel) {
     return [pixel[0] & ~7, pixel[1] & ~3, pixel[2] & ~7];
   }

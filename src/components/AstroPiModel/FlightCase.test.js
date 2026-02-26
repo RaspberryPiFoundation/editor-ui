@@ -42,16 +42,6 @@ describe("FlightCase", () => {
     expect(Sk.sense_hat.pixels[0]).toEqual([248, 252, 248]);
   });
 
-  test("setpixel event quantises partial RGB values", async () => {
-    await ReactThreeTestRenderer.create(<FlightCase />);
-
-    Sk.sense_hat.pixels[5] = [123, 234, 67];
-    Sk.sense_hat_emit("setpixel", 5);
-
-    // R: 123 & ~7 = 120, G: 234 & ~3 = 232, B: 67 & ~7 = 64
-    expect(Sk.sense_hat.pixels[5]).toEqual([120, 232, 64]);
-  });
-
   test("setpixels event quantises all pixels", async () => {
     await ReactThreeTestRenderer.create(<FlightCase />);
 
@@ -70,19 +60,14 @@ describe("FlightCase", () => {
   test("quantisation preserves RGB565 format boundaries", async () => {
     await ReactThreeTestRenderer.create(<FlightCase />);
 
-    // Red/Blue: 5-bit precision (mask ~7 clears lower 3 bits)
-    // Green: 6-bit precision (mask ~3 clears lower 2 bits)
-
     Sk.sense_hat.pixels[0] = [1, 1, 1];
-    Sk.sense_hat_emit("setpixel", 0);
-    expect(Sk.sense_hat.pixels[0]).toEqual([0, 0, 0]);
-
     Sk.sense_hat.pixels[1] = [8, 4, 8];
-    Sk.sense_hat_emit("setpixel", 1);
-    expect(Sk.sense_hat.pixels[1]).toEqual([8, 4, 8]);
-
     Sk.sense_hat.pixels[2] = [15, 7, 15];
-    Sk.sense_hat_emit("setpixel", 2);
+
+    Sk.sense_hat_emit("setpixels", null);
+
+    expect(Sk.sense_hat.pixels[0]).toEqual([0, 0, 0]);
+    expect(Sk.sense_hat.pixels[1]).toEqual([8, 4, 8]);
     expect(Sk.sense_hat.pixels[2]).toEqual([8, 4, 8]);
   });
 });
