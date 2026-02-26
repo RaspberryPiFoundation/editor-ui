@@ -227,6 +227,19 @@ describe("When an error occurs", () => {
 describe("When an error originates in the sense_hat shim", () => {
   let store;
 
+  // This initialState sets up a file `sense_hat.py` which contains code that
+  // will raise an error if the set_pixel function is called with an x
+  // value greater than 7 or less than 0. The `main.py` file then calls this
+  // function with an x value of 255, which will cause the error to be raised.
+  //
+  // This file matches the name looked for in the SkulptRunner
+  // (`./sense_hat.py`), so the SkulptRunner should attribute the error to the
+  // user's `main.py` file and not the `sense_hat.py` shim file, and set the
+  // errorDetails accordingly.
+  //
+  // This test has to be run this way because the sense hat libray is loaded
+  // via `fetch()` from a remote URL, which is hard to do in the test
+  // environment.
   beforeEach(() => {
     const middlewares = [];
     const mockStore = configureStore(middlewares);
