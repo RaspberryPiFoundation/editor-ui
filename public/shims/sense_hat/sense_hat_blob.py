@@ -1074,16 +1074,19 @@ class SenseHat(object):
         ap.set_pixel(x, y, pixel)
         """
 
-        pixel_error = 'Pixel arguments must be given as (r, g, b) or r, g, b'
-
         if len(args) == 1:
             pixel = args[0]
-            if len(pixel) != 3:
-                raise ValueError(pixel_error)
         elif len(args) == 3:
             pixel = args
         else:
-            raise ValueError(pixel_error)
+            pixel = None
+
+        # Check if pixel responds to len, and if it has 3 elements (r, g, b)
+        if not hasattr(pixel, '__len__') or len(pixel) != 3:
+            raise ValueError(
+                    'Pixel arguments must be given as (r, g, b) or r, g, b. '
+                    'Did you forget the x, y coordinates?'
+                  )
 
         if x > 7 or x < 0:
             raise ValueError('X position must be between 0 and 7')

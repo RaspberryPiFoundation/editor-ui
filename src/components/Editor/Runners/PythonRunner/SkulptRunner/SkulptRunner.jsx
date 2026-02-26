@@ -340,6 +340,15 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
       const errorType = err.tp$name || err.constructor.name;
+
+      // If this is an error in the sense_hat.py shim, remove the first line of
+      // the traceback as this will be the line in the shim which we don't want
+      // to show to users, so that the error message will instead point to the
+      // line in the user's code which caused the error.
+      if (err.traceback[0].filename === "./sense_hat.py") {
+        err.traceback.shift();
+      }
+
       const lineNumber = err.traceback[0].lineno;
       const fileName = err.traceback[0].filename.replace(/^\.\//, "");
 
