@@ -65,7 +65,7 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     const queryString = locale ? `?locale=${locale}` : "";
     return await get(
       `${host}/api/projects/${projectIdentifier}${queryString}`,
-      { headers: headers(accessToken) },
+      { headers: headers(accessToken), withCredentials: true },
     );
   };
 
