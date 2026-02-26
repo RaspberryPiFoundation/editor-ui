@@ -1029,9 +1029,9 @@ class SenseHat(object):
         for index, pix in enumerate(pixel_list):
             if not hasattr(pix, '__len__') or len(pix) != 3:
                 raise ValueError(
-                        'Pixel at index %d is invalid. '
-                        'Pixels must contain 3 elements: Red, Green and Blue' % index
-                     )
+                        f"Pixel at index {index} is invalid. "
+                        'Pixels must contain 3 elements: Red, Green and Blue'
+                      )
 
             for element in pix:
                 if element > 255 or element < 0:
