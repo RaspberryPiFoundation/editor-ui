@@ -5,6 +5,7 @@ import {
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
+  setScratchApiEndpoint,
   setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
@@ -50,6 +51,7 @@ const WebComponentLoader = (props) => {
     sidebarPlugins = [],
     projectNameEditable = false,
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
     showSavePrompt = false,
@@ -163,6 +165,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setReactAppApiEndpoint(reactAppApiEndpoint));
   }, [reactAppApiEndpoint, dispatch]);
+
+  useEffect(() => {
+    dispatch(setScratchApiEndpoint(scratchApiEndpoint));
+  }, [scratchApiEndpoint, dispatch]);
 
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));

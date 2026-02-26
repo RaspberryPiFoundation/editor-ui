@@ -238,6 +238,9 @@ export const EditorSlice = createSlice({
     setReactAppApiEndpoint: (state, action) => {
       state.reactAppApiEndpoint = action.payload;
     },
+    setScratchApiEndpoint: (state, action) => {
+      state.scratchApiEndpoint = action.payload;
+    },
     triggerDraw: (state) => {
       state.drawTriggered = true;
     },
@@ -442,6 +445,7 @@ export const {
   setSenseHatEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
+  setScratchApiEndpoint,
   stopCodeRun,
   stopDraw,
   triggerCodeRun,

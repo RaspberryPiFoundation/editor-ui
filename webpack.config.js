@@ -151,8 +151,8 @@ module.exports = {
             "/pyodide/shims/_internal_sense_hat.js",
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
-            "/scratch.html",
-          ].includes(req.url)
+          ].includes(req.url) ||
+          req.url.startsWith("/scratch.html")
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
         }
