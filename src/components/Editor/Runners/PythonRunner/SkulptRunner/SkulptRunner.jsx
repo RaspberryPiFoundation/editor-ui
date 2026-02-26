@@ -345,7 +345,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       // the traceback as this will be the line in the shim which we don't want
       // to show to users, so that the error message will instead point to the
       // line in the user's code which caused the error.
-      if (err.traceback[0]?.filename === "./sense_hat.py") {
+      if (err.traceback.length > 1 && err.traceback[0].filename === "./sense_hat.py") {
         err.traceback.shift();
       }
 
