@@ -20,7 +20,7 @@ const ProgressBar = ({ panelRef }) => {
   const { t } = useTranslation();
 
   const goToNextStep = () => {
-    panelRef.current?.scrollTo({
+    panelRef?.current?.scrollTo({
       top: 0,
       behavior: "smooth",
     });
@@ -32,7 +32,7 @@ const ProgressBar = ({ panelRef }) => {
   };
 
   const goToPreviousStep = () => {
-    panelRef.current?.scrollTo({
+    panelRef?.current?.scrollTo({
       top: 0,
       behavior: "smooth",
     });
