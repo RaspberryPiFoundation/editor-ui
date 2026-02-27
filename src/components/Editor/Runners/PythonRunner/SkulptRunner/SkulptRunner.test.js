@@ -224,6 +224,80 @@ describe("When an error occurs", () => {
   });
 });
 
+describe("When an error originates in the sense_hat shim", () => {
+  let store;
+
+  // This initialState sets up a file `sense_hat.py` which contains code that
+  // will raise an error if the set_pixel function is called with an x
+  // value greater than 7 or less than 0. The `main.py` file then calls this
+  // function with an x value of 255, which will cause the error to be raised.
+  //
+  // This file matches the name looked for in the SkulptRunner
+  // (`./sense_hat.py`), so the SkulptRunner should attribute the error to the
+  // user's `main.py` file and not the `sense_hat.py` shim file, and set the
+  // errorDetails accordingly.
+  //
+  // This test has to be run this way because the sense hat library is loaded
+  // via `fetch()` from a remote URL, which is hard to do in the test
+  // environment.
+  beforeEach(() => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content:
+                "from sense_hat import set_pixel\nset_pixel(255, 0, 0, 0, 0)",
+            },
+            {
+              name: "sense_hat",
+              extension: "py",
+              content:
+                "def set_pixel(x, y, r, g, b):\n" +
+                "    if x > 7 or x < 0:\n" +
+                "        raise ValueError('X position must be between 0 and 7')\n",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: { user },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+  });
+
+  test("reports the error at the user's line, not the shim's line", () => {
+    expect(store.getActions()).toContainEqual(
+      setError(
+        "ValueError: X position must be between 0 and 7 on line 2 of main.py",
+      ),
+    );
+  });
+
+  test("sets errorDetails pointing to the user's code, not the shim", () => {
+    expect(store.getActions()).toContainEqual(
+      setErrorDetails({
+        type: "ValueError",
+        line: 2,
+        file: "main.py",
+        description: "X position must be between 0 and 7",
+        message:
+          "ValueError: X position must be between 0 and 7 on line 2 of main.py",
+      }),
+    );
+  });
+});
+
 describe("When an error has occurred", () => {
   let mockStore;
   let store;
