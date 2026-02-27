@@ -12,6 +12,7 @@ const SidebarPanel = (props) => {
     Footer,
     className,
     buttons,
+    panelRef,
     defaultWidth = "320px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
@@ -27,7 +28,9 @@ const SidebarPanel = (props) => {
           <div className="sidebar__panel-buttons">{buttons}</div>
         )}
       </div>
-      <div className="sidebar__panel-content">{children}</div>
+      <div ref={panelRef} className="sidebar__panel-content">
+        {children}
+      </div>
       {Footer && <div className="sidebar__panel-footer">{<Footer />}</div>}
     </>
   );
