@@ -9,7 +9,7 @@ let store;
 const renderProgressBarOnStep = (
   stepNumber,
   numberOfSteps = 3,
-  panelRef = null
+  panelRef = null,
 ) => {
   const mockStore = configureStore([]);
   const steps = new Array(numberOfSteps).fill(0).map((i) => ({
@@ -28,7 +28,7 @@ const renderProgressBarOnStep = (
   render(
     <Provider store={store}>
       <ProgressBar panelRef={panelRef} />
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -55,7 +55,7 @@ describe("When on a middle step", () => {
     renderProgressBarOnStep(1);
 
     const previousStepButton = screen.getByTitle(
-      "instructionsPanel.previousStep"
+      "instructionsPanel.previousStep",
     );
     fireEvent.click(previousStepButton);
     expect(store.getActions()).toEqual([setCurrentStepPosition(0)]);
@@ -76,7 +76,7 @@ describe("When on a middle step", () => {
     renderProgressBarOnStep(1, 3, panelRef);
 
     const previousStepButton = screen.getByTitle(
-      "instructionsPanel.previousStep"
+      "instructionsPanel.previousStep",
     );
     fireEvent.click(previousStepButton);
 
@@ -93,7 +93,7 @@ describe("When on a middle step", () => {
     renderProgressBarOnStep(1, 3, panelRef);
 
     const nextStepButton = screen.getAllByTitle(
-      "instructionsPanel.nextStep"
+      "instructionsPanel.nextStep",
     )[0];
     fireEvent.click(nextStepButton);
 
