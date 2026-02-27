@@ -8,6 +8,7 @@ import {
   setReadOnly,
   setSenseHatAlwaysEnabled,
   setReactAppApiEndpoint,
+  setScratchApiEndpoint,
 } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
@@ -106,6 +107,45 @@ describe("When initially rendered", () => {
 
   test("it sets the language in i18n", () => {
     expect(mockedChangeLanguage).toHaveBeenCalledWith("es-LA");
+  });
+
+  describe("scratch API endpoint", () => {
+    describe("when scratch API endpoint isn't set", () => {
+      beforeEach(() => {
+        render(
+          <Provider store={store}>
+            <WebComponentLoader />
+          </Provider>,
+        );
+      });
+
+      test("it defaults to env", () => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            setScratchApiEndpoint("http://localhost:3009"),
+          ]),
+        );
+      });
+    });
+
+    describe("when scratch API endpoint is set", () => {
+      beforeEach(() => {
+        render(
+          <Provider store={store}>
+            <WebComponentLoader
+              scratchApiEndpoint="http://local.dev"
+              theme="light"
+            />
+          </Provider>,
+        );
+      });
+
+      test("it uses the specified prop", () => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([setScratchApiEndpoint("http://local.dev")]),
+        );
+      });
+    });
   });
 
   describe("react app API endpoint", () => {
