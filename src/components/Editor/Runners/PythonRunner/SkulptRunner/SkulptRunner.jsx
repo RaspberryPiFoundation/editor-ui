@@ -340,20 +340,23 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
       const errorType = err.tp$name || err.constructor.name;
+      let lineNumber = err.traceback[0].lineno;
+      let fileName = err.traceback[0].filename;
 
-      // If this is an error in the sense_hat.py shim, remove the first line of
+      // If this is an error in the sense_hat.py shim, use the next entry in
       // the traceback as this will be the line in the shim which we don't want
       // to show to users, so that the error message will instead point to the
       // line in the user's code which caused the error.
       if (
         err.traceback.length > 1 &&
-        err.traceback[0].filename === "./sense_hat.py"
+        fileName === "./sense_hat.py" &&
+        ["RuntimeError", "ValueError"].includes(errorType)
       ) {
-        err.traceback.shift();
+        lineNumber = err.traceback[1].lineno;
+        fileName = err.traceback[1].filename;
       }
 
-      const lineNumber = err.traceback[0].lineno;
-      const fileName = err.traceback[0].filename.replace(/^\.\//, "");
+      fileName = fileName.replace(/^\.\//, "");
 
       if (errorType === "ImportError" && window.crossOriginIsolated) {
         const articleLink = `https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor`;
