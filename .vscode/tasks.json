@@ -21,6 +21,52 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Test Current File (Cypress Headless)",
+      "type": "shell",
+      "command": "yarn",
+      "args": [
+        "run",
+        "cypress",
+        "run",
+        "--spec",
+        "${file}",
+        "--headless"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test Current File (Cypress Headed)",
+      "type": "shell",
+      "command": "yarn",
+      "args": [
+        "run",
+        "cypress",
+        "run",
+        "--spec",
+        "${file}",
+        "--headed"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ]
 }
