@@ -49,22 +49,28 @@ const handleSavingSucceeded = () => {
   window.top.postMessage({ type: "scratch-gui-saving-succeeded" }, "*");
 };
 
-const root = createRoot(appTarget);
-root.render(
-  <>
-    <style>{ScratchStyles}</style>
-    <WrappedGui
-      projectId={projectId}
-      locale={locale}
-      menuBarHidden={true}
-      projectHost={`${apiUrl}/api/scratch/projects`}
-      assetHost={`${apiUrl}/api/scratch/assets`}
-      basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
-      onUpdateProjectId={handleUpdateProjectId}
-      onShowCreatingRemixAlert={handleRemixingStarted}
-      onShowRemixSuccessAlert={handleRemixingSucceeded}
-      onShowSavingAlert={handleSavingStarted}
-      onShowSaveSuccessAlert={handleSavingSucceeded}
-    />
-  </>,
-);
+if (!projectId) {
+  console.error("project_id is required but not set");
+} else if (!apiUrl) {
+  console.error("api_url is required but not set");
+} else {
+  const root = createRoot(appTarget);
+  root.render(
+    <>
+      <style>{ScratchStyles}</style>
+      <WrappedGui
+        projectId={projectId}
+        locale={locale}
+        menuBarHidden={true}
+        projectHost={`${apiUrl}/api/scratch/projects`}
+        assetHost={`${apiUrl}/api/scratch/assets`}
+        basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
+        onUpdateProjectId={handleUpdateProjectId}
+        onShowCreatingRemixAlert={handleRemixingStarted}
+        onShowRemixSuccessAlert={handleRemixingSucceeded}
+        onShowSavingAlert={handleSavingStarted}
+        onShowSaveSuccessAlert={handleSavingSucceeded}
+      />
+    </>,
+  );
+}
