@@ -237,7 +237,7 @@ describe("When an error originates in the sense_hat shim", () => {
   // user's `main.py` file and not the `sense_hat.py` shim file, and set the
   // errorDetails accordingly.
   //
-  // This test has to be run this way because the sense hat libray is loaded
+  // This test has to be run this way because the sense hat library is loaded
   // via `fetch()` from a remote URL, which is hard to do in the test
   // environment.
   beforeEach(() => {
