@@ -1024,7 +1024,7 @@ class SenseHat(object):
         """
 
         if not hasattr(pixel_list, '__len__') or len(pixel_list) != 64:
-            raise ValueError('Pixel lists must be a list of 64 elements')
+            raise ValueError('Pixel lists must be a sequence of 64 elements')
 
         for index, pix in enumerate(pixel_list):
             if not hasattr(pix, '__len__') or len(pix) != 3:
@@ -1086,10 +1086,7 @@ class SenseHat(object):
 
         # Check if pixel responds to len, and if it has 3 elements (r, g, b)
         if not hasattr(pixel, '__len__') or len(pixel) != 3:
-            raise ValueError(
-                    'Pixel arguments must be given as (r, g, b) or r, g, b. '
-                    'Did you forget the x, y coordinates?'
-                  )
+            raise ValueError('Pixel arguments must be given as (r, g, b) or r, g, b.')
 
         if x > 7 or x < 0:
             raise ValueError('X position must be between 0 and 7')
