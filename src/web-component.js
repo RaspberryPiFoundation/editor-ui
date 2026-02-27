@@ -77,39 +77,37 @@ class WebComponent extends HTMLElement {
     ];
   }
 
-  attributeChangedCallback(name, _oldVal, newVal) {
-    let value;
+  parseAttribute(name, rawValue) {
+    if (rawValue == null || rawValue === "") return rawValue;
+    const boolAttrs = [
+      "embedded",
+      "editable_instructions",
+      "load_remix_disabled",
+      "output_only",
+      "output_split_view",
+      "project_name_editable",
+      "read_only",
+      "sense_hat_always_enabled",
+      "show_save_prompt",
+      "use_editor_styles",
+      "with_projectbar",
+      "with_sidebar",
+      "load_cache",
+    ];
+    const jsonAttrs = [
+      "instructions",
+      "sidebar_options",
+      "host_styles",
+      "output_panels",
+    ];
+    if (boolAttrs.includes(name)) return rawValue !== "false";
+    if (jsonAttrs.includes(name))
+      return rawValue ? JSON.parse(rawValue) : undefined;
+    return rawValue;
+  }
 
-    if (
-      [
-        "embedded",
-        "editable_instructions",
-        "load_remix_disabled",
-        "output_only",
-        "output_split_view",
-        "project_name_editable",
-        "read_only",
-        "sense_hat_always_enabled",
-        "show_save_prompt",
-        "use_editor_styles",
-        "with_projectbar",
-        "with_sidebar",
-        "load_cache",
-      ].includes(name)
-    ) {
-      value = newVal !== "false";
-    } else if (
-      [
-        "instructions",
-        "sidebar_options",
-        "host_styles",
-        "output_panels",
-      ].includes(name)
-    ) {
-      value = JSON.parse(newVal);
-    } else {
-      value = newVal;
-    }
+  attributeChangedCallback(name, _oldVal, newVal) {
+    const value = this.parseAttribute(name, newVal);
     this.componentAttributes[camelCase(name)] = value;
     this.mountReactApp();
   }
@@ -165,7 +163,15 @@ class WebComponent extends HTMLElement {
   }
 
   reactProps() {
+    const observed = this.constructor.observedAttributes || [];
+    const fromDom = {};
+    for (const name of observed) {
+      const raw = this.getAttribute(name);
+      if (raw != null)
+        fromDom[camelCase(name)] = this.parseAttribute(name, raw);
+    }
     return {
+      ...fromDom,
       ...this.componentAttributes,
       ...this.componentProperties,
     };
