@@ -9,6 +9,7 @@ import ScratchIntegrationHOC from "./components/ScratchEditor/ScratchIntegration
 import ScratchStyles from "./assets/stylesheets/Scratch.scss";
 
 const appTarget = document.getElementById("app");
+document.getElementById("scratch-loading")?.remove();
 GUI.setAppElement(appTarget);
 
 const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
