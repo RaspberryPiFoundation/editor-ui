@@ -88,3 +88,30 @@ yarn exec cypress open
 - `docs/PythonDependencies.md`
 - `docs/Deployment.md`
 - `.github/workflows/ci-cd.yml`
+
+## Cursor Cloud specific instructions
+
+### Service overview
+This is a single-service frontend application (no backend, database, or Docker required).
+The only service is the webpack dev server on port 3011, started with `yarn start`.
+
+### Node.js version
+`.tool-versions` pins Node 20.20.0 (despite AGENTS.md mentioning v18.x above).
+Use `nvm use 20.20.0` before running any commands. The update script handles
+installation via nvm automatically.
+
+### Running tests
+- Unit tests: `CI=true yarn test` (without `CI=true`, Jest enters interactive watch mode which hangs).
+- Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
+- Cypress e2e requires the dev server to be running first (`yarn start`).
+
+### Python execution caveat
+The editor's Python runtime (Pyodide) requires external CDN access
+(`cdn.jsdelivr.net`). In network-restricted cloud environments, Python code
+execution will silently fail (no output). HTML/CSS/JS projects work fully
+offline. This does not affect unit tests or linting.
+
+### Dev server startup
+`yarn start` takes ~15 seconds to compile. Wait for the
+`webpack compiled successfully` message before curling or browsing port 3011.
+The test page is served at port 3011 under path `/web-component.html`.
