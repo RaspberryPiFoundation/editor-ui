@@ -13,7 +13,13 @@ import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
-  const { menuOptions, option, toggleOption, instructions = false } = props;
+  const {
+    menuOptions,
+    option,
+    toggleOption,
+    instructions = false,
+    isMobileOverride,
+  } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
@@ -22,7 +28,9 @@ const SidebarBar = (props) => {
   const bottomMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "bottom",
   );
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const isMobile =
+    typeof isMobileOverride === "boolean" ? isMobileOverride : viewportIsMobile;
 
   const expandPopOut = () => {
     const option = instructions.length > 0 ? "instructions" : "file";

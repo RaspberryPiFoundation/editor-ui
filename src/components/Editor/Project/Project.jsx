@@ -65,7 +65,11 @@ const Project = (props) => {
         })}
       >
         {withSidebar && (
-          <Sidebar options={sidebarOptions} plugins={sidebarPlugins} />
+          <Sidebar
+            options={sidebarOptions}
+            plugins={sidebarPlugins}
+            isMobileOverride={isCodeEditorScratchProject ? false : undefined}
+          />
         )}
         <div className="project-wrapper" ref={containerRef}>
           {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
