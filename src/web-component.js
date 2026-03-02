@@ -78,7 +78,6 @@ class WebComponent extends HTMLElement {
   }
 
   parseAttribute(name, rawValue) {
-    if (rawValue == null || rawValue === "") return rawValue;
     const boolAttrs = [
       "embedded",
       "editable_instructions",
@@ -107,8 +106,13 @@ class WebComponent extends HTMLElement {
   }
 
   attributeChangedCallback(name, _oldVal, newVal) {
-    const value = this.parseAttribute(name, newVal);
-    this.componentAttributes[camelCase(name)] = value;
+    const key = camelCase(name);
+    if (newVal === null) {
+      delete this.componentAttributes[key];
+    } else {
+      const value = this.parseAttribute(name, newVal);
+      this.componentAttributes[key] = value;
+    }
     this.mountReactApp();
   }
 
@@ -166,10 +170,12 @@ class WebComponent extends HTMLElement {
     const observed = this.constructor.observedAttributes || [];
     const fromDom = {};
     for (const name of observed) {
-      const raw = this.getAttribute(name);
-      if (raw != null)
+      if (this.hasAttribute(name)) {
+        const raw = this.getAttribute(name);
         fromDom[camelCase(name)] = this.parseAttribute(name, raw);
+      }
     }
+
     return {
       ...fromDom,
       ...this.componentAttributes,
