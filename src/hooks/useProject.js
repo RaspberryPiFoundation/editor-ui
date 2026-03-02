@@ -15,7 +15,7 @@ export const useProject = ({
   loadRemix = false,
   loadCache = true,
   remixLoadFailed = false,
-  locale: localeProp = null,
+  locale = null,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -32,7 +32,7 @@ export const useProject = ({
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
-  const effectiveLocale = localeProp ?? i18n.language;
+  const effectiveLocale = locale ?? i18n.language;
 
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject));

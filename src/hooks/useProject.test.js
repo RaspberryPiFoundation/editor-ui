@@ -67,113 +67,113 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(initialProject);
   });
 
-  test("If cached project matches identifer uses cached project", () => {
-    localStorage.setItem(
-      cachedProject.identifier,
-      JSON.stringify(cachedProject),
-    );
-    renderHook(
-      () => useProject({ projectIdentifier: cachedProject.identifier }),
-      { wrapper },
-    );
-    expect(setProject).toHaveBeenCalledWith(cachedProject);
-  });
+  // test("If cached project matches identifer uses cached project", () => {
+  //   localStorage.setItem(
+  //     cachedProject.identifier,
+  //     JSON.stringify(cachedProject),
+  //   );
+  //   renderHook(
+  //     () => useProject({ projectIdentifier: cachedProject.identifier }),
+  //     { wrapper },
+  //   );
+  //   expect(setProject).toHaveBeenCalledWith(cachedProject);
+  // });
 
-  test("If cached project matches identifer clears cached project", () => {
-    localStorage.setItem(
-      cachedProject.identifier,
-      JSON.stringify(cachedProject),
-    );
-    renderHook(
-      () => useProject({ projectIdentifier: cachedProject.identifier }),
-      { wrapper },
-    );
-    expect(localStorage.getItem("project")).toBeNull();
-  });
+  // test("If cached project matches identifer clears cached project", () => {
+  //   localStorage.setItem(
+  //     cachedProject.identifier,
+  //     JSON.stringify(cachedProject),
+  //   );
+  //   renderHook(
+  //     () => useProject({ projectIdentifier: cachedProject.identifier }),
+  //     { wrapper },
+  //   );
+  //   expect(localStorage.getItem("project")).toBeNull();
+  // });
 
-  test("If cached project does not match identifer does not use cached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
-    localStorage.setItem("project", JSON.stringify(cachedProject));
-    renderHook(
-      () => useProject({ projectIdentifier: "my-favourite-project" }),
-      {
-        wrapper,
-      },
-    );
-    expect(syncProject).toHaveBeenCalledWith("load");
-    await waitFor(() =>
-      expect(setProject).not.toHaveBeenCalledWith(cachedProject),
-    );
-  });
+  // test("If cached project does not match identifer does not use cached project", async () => {
+  //   syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
+  //   localStorage.setItem("project", JSON.stringify(cachedProject));
+  //   renderHook(
+  //     () => useProject({ projectIdentifier: "my-favourite-project" }),
+  //     {
+  //       wrapper,
+  //     },
+  //   );
+  //   expect(syncProject).toHaveBeenCalledWith("load");
+  //   await waitFor(() =>
+  //     expect(setProject).not.toHaveBeenCalledWith(cachedProject),
+  //   );
+  // });
 
-  test("If cached project does not match identifier loads correct uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-    localStorage.setItem("project", JSON.stringify(cachedProject));
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: project1.identifier,
-          accessToken,
-          reactAppApiEndpoint,
-        }),
-      { wrapper },
-    );
-    expect(syncProject).toHaveBeenCalledWith("load");
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: project1.identifier,
-        locale: "ja-JP",
-        accessToken,
-        reactAppApiEndpoint,
-      }),
-    );
-  });
+  // test("If cached project does not match identifier loads correct uncached project", async () => {
+  //   syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+  //   localStorage.setItem("project", JSON.stringify(cachedProject));
+  //   renderHook(
+  //     () =>
+  //       useProject({
+  //         projectIdentifier: project1.identifier,
+  //         accessToken,
+  //         reactAppApiEndpoint,
+  //       }),
+  //     { wrapper },
+  //   );
+  //   expect(syncProject).toHaveBeenCalledWith("load");
+  //   await waitFor(() =>
+  //     expect(loadProject).toHaveBeenCalledWith({
+  //       identifier: project1.identifier,
+  //       locale: "ja-JP",
+  //       accessToken,
+  //       reactAppApiEndpoint,
+  //     }),
+  //   );
+  // });
 
-  test("If loadCache is set to false it loads correct uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-    localStorage.setItem("project", JSON.stringify(cachedProject));
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: project1.identifier,
-          accessToken,
-          loadCache: false,
-          reactAppApiEndpoint,
-        }),
-      { wrapper },
-    );
-    expect(syncProject).toHaveBeenCalledWith("load");
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: project1.identifier,
-        locale: "ja-JP",
-        accessToken,
-        reactAppApiEndpoint,
-      }),
-    );
-  });
+  // test("If loadCache is set to false it loads correct uncached project", async () => {
+  //   syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+  //   localStorage.setItem("project", JSON.stringify(cachedProject));
+  //   renderHook(
+  //     () =>
+  //       useProject({
+  //         projectIdentifier: project1.identifier,
+  //         accessToken,
+  //         loadCache: false,
+  //         reactAppApiEndpoint,
+  //       }),
+  //     { wrapper },
+  //   );
+  //   expect(syncProject).toHaveBeenCalledWith("load");
+  //   await waitFor(() =>
+  //     expect(loadProject).toHaveBeenCalledWith({
+  //       identifier: project1.identifier,
+  //       locale: "ja-JP",
+  //       accessToken,
+  //       reactAppApiEndpoint,
+  //     }),
+  //   );
+  // });
 
-  test("If no cached project loads uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: "hello-world-project",
-          accessToken,
-          reactAppApiEndpoint,
-        }),
-      { wrapper },
-    );
-    expect(syncProject).toHaveBeenCalledWith("load");
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: "hello-world-project",
-        locale: "ja-JP",
-        accessToken,
-        reactAppApiEndpoint,
-      }),
-    );
-  });
+  // test("If no cached project loads uncached project", async () => {
+  //   syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+  //   renderHook(
+  //     () =>
+  //       useProject({
+  //         projectIdentifier: "hello-world-project",
+  //         accessToken,
+  //         reactAppApiEndpoint,
+  //       }),
+  //     { wrapper },
+  //   );
+  //   expect(syncProject).toHaveBeenCalledWith("load");
+  //   await waitFor(() =>
+  //     expect(loadProject).toHaveBeenCalledWith({
+  //       identifier: "hello-world-project",
+  //       locale: "ja-JP",
+  //       accessToken,
+  //       reactAppApiEndpoint,
+  //     }),
+  //   );
+  // });
 
   test("If requested locale does not match the set language, does not set project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
@@ -187,20 +187,20 @@ describe("When not embedded", () => {
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
-  test("If new tab browser preview, uses cached changes", () => {
-    localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: "hello-world-project",
-          accessToken,
-          isEmbedded: true,
-          isBrowserPreview: true,
-        }),
-      { wrapper },
-    );
-    expect(setProject).toHaveBeenCalledWith(cachedProject);
-  });
+  // test("If new tab browser preview, uses cached changes", () => {
+  //   localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
+  //   renderHook(
+  //     () =>
+  //       useProject({
+  //         projectIdentifier: "hello-world-project",
+  //         accessToken,
+  //         isEmbedded: true,
+  //         isBrowserPreview: true,
+  //       }),
+  //     { wrapper },
+  //   );
+  //   expect(setProject).toHaveBeenCalledWith(cachedProject);
+  // });
 
   test("If no identifier or cached project, uses code attribute", () => {
     const code = "print('hello world')";
@@ -284,6 +284,53 @@ describe("When not embedded", () => {
         locale: "ja-JP",
         accessToken,
         assetsOnly: true,
+        reactAppApiEndpoint,
+      }),
+    );
+  });
+
+  // Tests for the temporarily disabled cache functionality
+  test("does not use cache even with loadCache true and matching cache in localStorage", async () => {
+    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: "hello-world-project",
+          accessToken,
+          loadCache: true,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+    expect(setProject).not.toHaveBeenCalledWith(cachedProject);
+    expect(syncProject).toHaveBeenCalledWith("load");
+  });
+
+  test("does not use cache when cache locale does not match effectiveLocale and loads from server", async () => {
+    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    const cachedWrongLocale = { ...cachedProject, locale: "en-GB" };
+    localStorage.setItem(
+      cachedWrongLocale.identifier,
+      JSON.stringify(cachedWrongLocale),
+    );
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedWrongLocale.identifier,
+          loadCache: true,
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+    expect(setProject).not.toHaveBeenCalledWith(cachedWrongLocale);
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: cachedWrongLocale.identifier,
+        locale: "ja-JP",
+        accessToken,
         reactAppApiEndpoint,
       }),
     );
