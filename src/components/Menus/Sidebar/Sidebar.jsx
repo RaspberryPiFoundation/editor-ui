@@ -166,7 +166,12 @@ const Sidebar = ({ options = [], plugins = [] }) => {
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div className={classNames("sidebar", { "sidebar--mobile": isMobile })}>
+    <div
+      className={classNames("sidebar", {
+        "sidebar--mobile": isMobile,
+        "sidebar--scratch": projectType === "code_editor_scratch",
+      })}
+    >
       <SidebarBar
         menuOptions={menuOptions}
         option={option}

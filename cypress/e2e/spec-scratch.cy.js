@@ -27,4 +27,14 @@ describe("Scratch", () => {
   it("loads Scratch in an iframe", () => {
     getIframeBody().find("button [title='Go']").should("be.visible");
   });
+
+  it("hides text size in settings for Scratch", () => {
+    getIframeBody().find("button [title='Go']").should("be.visible");
+    cy.get("editor-wc").shadow().find("[title='Settings']").first().click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".settings-panel__text-size")
+      .should("exist")
+      .and("not.be.visible");
+  });
 });
