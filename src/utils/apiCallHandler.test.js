@@ -105,7 +105,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}`,
-      defaultHeaders,
+      { ...defaultHeaders, withCredentials: true },
     );
   });
 
@@ -117,7 +117,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier, locale);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}?locale=${locale}`,
-      defaultHeaders,
+      { ...defaultHeaders, withCredentials: true },
     );
   });
 
@@ -128,7 +128,7 @@ describe("Testing project API calls", () => {
     await readProject(projectIdentifier, null, accessToken);
     expect(axios.get).toHaveBeenCalledWith(
       `${host}/api/projects/${projectIdentifier}`,
-      authHeaders,
+      { ...authHeaders, withCredentials: true },
     );
   });
 

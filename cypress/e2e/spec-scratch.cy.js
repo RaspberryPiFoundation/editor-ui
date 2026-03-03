@@ -21,10 +21,20 @@ const getIframeBody = () => {
 describe("Scratch", () => {
   beforeEach(() => {
     cy.visit(origin);
-    cy.findByText("blank-scratch").click();
+    cy.findByText("cool-scratch").click();
   });
 
   it("loads Scratch in an iframe", () => {
     getIframeBody().find("button [title='Go']").should("be.visible");
+  });
+
+  it("hides text size in settings for Scratch", () => {
+    getIframeBody().find("button [title='Go']").should("be.visible");
+    cy.get("editor-wc").shadow().find("[title='Settings']").first().click();
+    cy.get("editor-wc")
+      .shadow()
+      .find(".settings-panel__text-size")
+      .should("exist")
+      .and("not.be.visible");
   });
 });
