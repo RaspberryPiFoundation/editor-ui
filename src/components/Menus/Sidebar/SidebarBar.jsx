@@ -18,7 +18,7 @@ const SidebarBar = (props) => {
     option,
     toggleOption,
     instructions = false,
-    isMobileOverride,
+    allowMobileView = true,
   } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
@@ -29,8 +29,7 @@ const SidebarBar = (props) => {
     (menuOption) => menuOption.position === "bottom",
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const isMobile =
-    typeof isMobileOverride === "boolean" ? isMobileOverride : viewportIsMobile;
+  const isMobile = allowMobileView && viewportIsMobile;
 
   const expandPopOut = () => {
     const option = instructions.length > 0 ? "instructions" : "file";

@@ -68,7 +68,7 @@ const Project = (props) => {
           <Sidebar
             options={sidebarOptions}
             plugins={sidebarPlugins}
-            isMobileOverride={isCodeEditorScratchProject ? false : undefined}
+            allowMobileView={!isCodeEditorScratchProject}
           />
         )}
         <div className="project-wrapper" ref={containerRef}>

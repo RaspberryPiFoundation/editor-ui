@@ -25,7 +25,7 @@ import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
 
-const Sidebar = ({ options = [], plugins = [], isMobileOverride }) => {
+const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectImages = useSelector((state) => state.editor.project.image_list);
@@ -36,8 +36,7 @@ const Sidebar = ({ options = [], plugins = [], isMobileOverride }) => {
     (state) => state.editor.instructionsEditable,
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const isMobile =
-    typeof isMobileOverride === "boolean" ? isMobileOverride : viewportIsMobile;
+  const isMobile = allowMobileView && viewportIsMobile;
 
   let menuOptions = [
     {
@@ -174,7 +173,7 @@ const Sidebar = ({ options = [], plugins = [], isMobileOverride }) => {
         option={option}
         toggleOption={toggleOption}
         instructions={instructionsSteps}
-        isMobileOverride={isMobileOverride}
+        allowMobileView={allowMobileView}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>
