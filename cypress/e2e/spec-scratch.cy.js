@@ -21,7 +21,7 @@ const getIframeBody = () => {
 describe("Scratch", () => {
   beforeEach(() => {
     cy.visit(origin);
-    cy.findByText("blank-scratch").click();
+    cy.findByText("cool-scratch").click();
   });
 
   it("loads Scratch in an iframe", () => {
