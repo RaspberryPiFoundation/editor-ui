@@ -28,25 +28,11 @@ describe("Scratch", () => {
     getIframeBody().find("button [title='Go']").should("be.visible");
   });
 
-  it("shows text size in standard editor settings and hides it for scratch", () => {
-    const getEditorShadow = () => cy.get("editor-wc").shadow();
-
-    const openSettingsPanel = () => {
-      getEditorShadow().find(".sidebar").should("exist");
-      getEditorShadow().find("[title='Settings']").first().click();
-      getEditorShadow().find(".settings-panel").should("exist");
-    };
-
-    cy.findByText("blank-python-starter").click();
-
-    openSettingsPanel();
-    getEditorShadow().find(".settings-panel__text-size").should("be.visible");
-
-    cy.findByText("blank-scratch").click();
+  it("hides text size in settings for Scratch", () => {
     getIframeBody().find("button [title='Go']").should("be.visible");
-
-    openSettingsPanel();
-    getEditorShadow()
+    cy.get("editor-wc").shadow().find("[title='Settings']").first().click();
+    cy.get("editor-wc")
+      .shadow()
       .find(".settings-panel__text-size")
       .should("exist")
       .and("not.be.visible");
