@@ -51,6 +51,8 @@ export const useProject = ({
       const is_cached_unsaved_project =
         !projectIdentifier && cachedProject && !initialProject;
 
+      // At the moment this will never match because the cachedProject doesn't have a locale attribute (yet),
+      // so this will always be false, which effectively disables the whole caching mechanism
       const cachedLocaleMatches = cachedProject?.locale === effectiveLocale;
 
       if (
