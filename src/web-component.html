@@ -60,7 +60,7 @@
       <a href="#" data-project="blank-python-starter">blank-python-starter</a>
       <a href="#" data-project="cool-python">cool-python</a>
       <a href="#" data-project="python-plotly">python-plotly</a>
-      <a href="#" data-project="blank-scratch">blank-scratch</a>
+      <a href="#" data-project="cool-scratch">cool-scratch</a>
     </div>
     <div id="editor-component"></div>
     <p id="results"></p>
@@ -114,6 +114,10 @@
         newWebComp.setAttribute("code", "");
         newWebComp.setAttribute("class", "editor-wc");
         newWebComp.setAttribute("host_styles", JSON.stringify([]));
+        const scratchApiEndpoint = new URL(".", window.location.href)
+          .href
+          .replace(/\/$/, "");
+        newWebComp.setAttribute("scratch_api_endpoint", scratchApiEndpoint);
         
         queryParams.forEach((value, key) => {
           newWebComp.setAttribute(key, value);
