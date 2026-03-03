@@ -19,7 +19,7 @@ yarn start
 ```
 
 ## Development Workflow
-- Node.js: use v18.x locally (as pinned in `.tool-versions`). 
+- Node.js: use the version pinned in `.tool-versions`.
 - CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
@@ -81,6 +81,11 @@ yarn exec cypress open
   `package.json` version, PR, tag release); do not update `CHANGELOG.md`.
   Deploys are driven by `.github/workflows/deploy.yml`.
 
+### Running tests
+- Unit tests: `CI=true yarn test` (without `CI=true`, Jest enters interactive watch mode which hangs).
+- Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
+- Cypress e2e requires the dev server to be running first (`yarn start`).
+
 ## Further Reading (relative links)
 - `README.md`
 - `docs/WebComponent.md`
@@ -94,16 +99,6 @@ yarn exec cypress open
 ### Service overview
 This is a single-service frontend application (no backend, database, or Docker required).
 The only service is the webpack dev server on port 3011, started with `yarn start`.
-
-### Node.js version
-`.tool-versions` pins Node 20.20.0 (despite AGENTS.md mentioning v18.x above).
-Use `nvm use 20.20.0` before running any commands. The update script handles
-installation via nvm automatically.
-
-### Running tests
-- Unit tests: `CI=true yarn test` (without `CI=true`, Jest enters interactive watch mode which hangs).
-- Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
-- Cypress e2e requires the dev server to be running first (`yarn start`).
 
 ### Python execution caveat
 The editor's Python runtime (Pyodide) requires external CDN access
