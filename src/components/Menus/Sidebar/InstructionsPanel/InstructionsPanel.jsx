@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 // This is disabled because the empty anchor tag is used for translation and will have content when rendered.
-import React, { useEffect, useRef, useMemo, useState } from "react";
-import SidebarPanel from "../SidebarPanel";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useSelector, useDispatch } from "react-redux";
-import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import { useDispatch, useSelector } from "react-redux";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import SidebarPanel from "../SidebarPanel";
 
-import ProgressBar from "./ProgressBar/ProgressBar";
+import Prism from "prismjs";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import "../../../../assets/stylesheets/Instructions.scss";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
-import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
-import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
-import Prism from "prismjs";
+import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 const InstructionsPanel = () => {
   useEffect(() => {
@@ -139,9 +139,12 @@ const InstructionsPanel = () => {
     dispatch(setProjectInstructions(e.target.value));
   };
 
+  const panelRef = useRef(null);
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
+      panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
       buttons={
         instructionsEditable
@@ -169,7 +172,9 @@ const InstructionsPanel = () => {
               ]
           : []
       }
-      {...{ Footer: hasMultipleSteps && ProgressBar }}
+      Footer={
+        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+      }
     >
       <div className="project-instructions">
         {instructionsEditable ? (
@@ -189,15 +194,10 @@ const InstructionsPanel = () => {
                     data-testid="instructionTextarea"
                     value={project.instructions}
                     onChange={onChange}
-                  ></textarea>
+                  />
                 </TabPanel>
                 <TabPanel>
-                  <>
-                    <div
-                      className="project-instructions"
-                      ref={stepContent}
-                    ></div>
-                  </>
+                  <div className="project-instructions" ref={stepContent} />
                 </TabPanel>
               </Tabs>
             </div>
@@ -227,10 +227,7 @@ const InstructionsPanel = () => {
             </div>
           )
         ) : (
-          <div
-            className="project-instructions__content"
-            ref={stepContent}
-          ></div>
+          <div className="project-instructions__content" ref={stepContent} />
         )}
       </div>
       {showModal && (
