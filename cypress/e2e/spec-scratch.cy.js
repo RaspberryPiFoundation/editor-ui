@@ -27,4 +27,28 @@ describe("Scratch", () => {
   it("loads Scratch in an iframe", () => {
     getIframeBody().find("button [title='Go']").should("be.visible");
   });
+
+  it("shows text size in standard editor settings and hides it for scratch", () => {
+    const getEditorShadow = () => cy.get("editor-wc").shadow();
+
+    const openSettingsPanel = () => {
+      getEditorShadow().find(".sidebar").should("exist");
+      getEditorShadow().find("[title='Settings']").first().click();
+      getEditorShadow().find(".settings-panel").should("exist");
+    };
+
+    cy.findByText("blank-python-starter").click();
+
+    openSettingsPanel();
+    getEditorShadow().find(".settings-panel__text-size").should("be.visible");
+
+    cy.findByText("blank-scratch").click();
+    getIframeBody().find("button [title='Go']").should("be.visible");
+
+    openSettingsPanel();
+    getEditorShadow()
+      .find(".settings-panel__text-size")
+      .should("exist")
+      .and("not.be.visible");
+  });
 });
