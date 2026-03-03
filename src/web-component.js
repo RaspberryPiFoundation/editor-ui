@@ -65,6 +65,7 @@ class WebComponent extends HTMLElement {
       "output_split_view",
       "project_name_editable",
       "react_app_api_endpoint",
+      "scratch_api_endpoint",
       "read_only",
       "sense_hat_always_enabled",
       "show_save_prompt",

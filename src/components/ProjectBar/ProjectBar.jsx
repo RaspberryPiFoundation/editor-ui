@@ -21,6 +21,16 @@ const ProjectBar = ({ nameEditable = true }) => {
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
 
+  const saveScratchProject = () => {
+    const webComponent = document.querySelector("editor-wc");
+    webComponent.shadowRoot
+      .querySelector("iframe[title='Scratch']")
+      .contentWindow.postMessage(
+        { type: "scratch-gui-save" },
+        process.env.ASSETS_URL,
+      );
+  };
+
   return (
     loading === "success" && (
       <div className="project-bar">
@@ -42,6 +52,14 @@ const ProjectBar = ({ nameEditable = true }) => {
             <div className="project-bar__btn-wrapper">
               <SaveButton className="project-bar__btn btn--save" />
             </div>
+          )}
+          {project.project_type === "code_editor_scratch" && (
+            <button
+              className="project-bar__btn btn--save"
+              onClick={saveScratchProject}
+            >
+              Save
+            </button>
           )}
           {lastSavedTime && user && !readOnly && (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
