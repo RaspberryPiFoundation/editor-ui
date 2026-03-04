@@ -1828,6 +1828,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codemirror/legacy-modes@npm:^6.5.2":
+  version: 6.5.2
+  resolution: "@codemirror/legacy-modes@npm:6.5.2"
+  dependencies:
+    "@codemirror/language": "npm:^6.0.0"
+  checksum: 10/b10c6e876f9cac4946c3a4ab0a49a637a08fc2c39a06392261a652c6a68f654e4525d472b649bf171426e916920ef68ec0e5fb81c2bc244ce5143a915fce0338
+  languageName: node
+  linkType: hard
+
 "@codemirror/lint@npm:^6.0.0":
   version: 6.8.2
   resolution: "@codemirror/lint@npm:6.8.2"
@@ -3862,6 +3871,7 @@ __metadata:
     "@codemirror/lang-javascript": "npm:^6.2.1"
     "@codemirror/lang-python": "npm:6.1.2"
     "@codemirror/language": "npm:^6.2.1"
+    "@codemirror/legacy-modes": "npm:^6.5.2"
     "@codemirror/view": "npm:^6.3.0"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"

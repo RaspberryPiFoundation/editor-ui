@@ -60,6 +60,9 @@ const findEntryFile = ({ projectCode, openFiles, focussedFileIndex }) => {
 const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
   const [rubyWorker, setRubyWorker] = useState(null);
   const workerRef = useRef(null);
+  const debugRubyRunner =
+    new URLSearchParams(window.location.search).get("debug_ruby_runner") ===
+    "true";
 
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectImages = useSelector((state) => state.editor.project.image_list);
@@ -98,6 +101,18 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
     node.scrollTop = node.scrollHeight;
   };
 
+  const appendDebug = (message) => {
+    if (!message) {
+      return;
+    }
+
+    console.debug(`[RubyRunner] ${message}`);
+
+    if (debugRubyRunner) {
+      appendOutput("stderr", `[ruby-debug] ${message}\n`);
+    }
+  };
+
   const handleWorkerError = (errorMessage) => {
     const message = errorMessage || "Ruby runtime error";
 
@@ -116,27 +131,36 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
   const initialiseWorker = () => {
     dispatch(loadingRunner("ruby"));
 
-    const worker = new Worker(`${process.env.PUBLIC_URL}/RubyWorker.js`, {
-      type: "module",
-    });
+    const worker = new window.Worker(
+      `${process.env.PUBLIC_URL}/RubyWorker.js`,
+      {
+        type: "module",
+      },
+    );
     workerRef.current = worker;
     setRubyWorker(worker);
 
     worker.onmessage = ({ data }) => {
       switch (data.method) {
         case "handleLoaded":
+          appendDebug("Worker loaded");
           if (loadedRunner !== "ruby") {
             dispatch(setLoadedRunner("ruby"));
           }
           dispatch(codeRunHandled());
           break;
+        case "handleDebug":
+          appendDebug(data.message);
+          break;
         case "handleOutput":
           appendOutput(data.stream, data.content);
           break;
         case "handleError":
+          appendDebug(`Worker error: ${data.message}`);
           handleWorkerError(data.message);
           break;
         case "handleDone":
+          appendDebug("Worker done");
           dispatch(codeRunHandled());
           break;
         default:
@@ -145,6 +169,7 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
     };
 
     worker.onerror = (event) => {
+      appendDebug(`Worker crashed: ${event?.message || "unknown error"}`);
       handleWorkerError(event?.message || "Ruby worker crashed");
     };
   };
@@ -175,6 +200,8 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+
+    appendDebug("Preparing files for Ruby run");
 
     const files = {};
     for (const { name, extension, content } of projectCode) {
@@ -210,6 +237,8 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
         focussedFileIndex,
       }),
     });
+
+    appendDebug("Posted runRuby message to worker");
   };
 
   const handleStop = () => {
@@ -231,7 +260,13 @@ const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
   }
 
   return (
-    <div className={classNames("pythonrunner-container", "pyodiderunner")}>
+    <div
+      className={classNames(
+        "pythonrunner-container",
+        "pyodiderunner",
+        "pyodiderunner--active",
+      )}
+    >
       <div className="output-panel output-panel--text">
         <Tabs forceRenderTabPanel={true}>
           <div

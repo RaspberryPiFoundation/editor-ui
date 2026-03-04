@@ -209,6 +209,8 @@ export const EditorSlice = createSlice({
       const firstPanelIndex = 0;
       if (state.project.project_type === "html") {
         state.openFiles[firstPanelIndex].push("index.html");
+      } else if (state.project.project_type === "ruby") {
+        state.openFiles[firstPanelIndex].push("main.rb");
       } else {
         state.openFiles[firstPanelIndex].push("main.py");
       }

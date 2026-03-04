@@ -1,8 +1,5 @@
 /* global globalThis */
 
-const RUBY_WASM_HELPER_URL =
-  "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@latest/dist/browser/+esm";
-
 const RUBY_WASM_URL_CANDIDATES = [
   "https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@latest/dist/ruby+stdlib.wasm",
   "https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@latest/dist/ruby+stdlib.wasm",
@@ -11,6 +8,7 @@ const RUBY_WASM_URL_CANDIDATES = [
 
 let runtimePromise = null;
 let runInProgress = false;
+let runStage = "idle";
 
 globalThis.__rubyWasmOut = (stream, chunk) => {
   postMessage({
@@ -44,15 +42,46 @@ async function runRuby({ files = {}, activeFile = "main.rb" } = {}) {
   runInProgress = true;
 
   try {
+    const fileCount = Object.keys(files || {}).length;
+    setRunStage("run:start", `activeFile=${activeFile}, files=${fileCount}`);
+
+    setRunStage("runtime:init");
     const vm = await initRubyRuntime();
+
+    setRunStage("filesystem:sync");
     await syncProjectToApp(vm, files);
+
+    setRunStage("ruby:eval");
     await rubyEval(vm, buildRunScript(activeFile));
+
+    setRunStage("run:done");
     postMessage({ method: "handleDone" });
   } catch (error) {
-    postError(String(error?.message || error));
+    postDebug(`Run failed at stage '${runStage}'`);
+    if (error?.stack) {
+      postDebug(error.stack);
+    }
+    postError(
+      `Run failed at '${runStage}': ${String(error?.message || error)}`,
+    );
   } finally {
     runInProgress = false;
+    runStage = "idle";
   }
+}
+
+function setRunStage(stage, details = "") {
+  runStage = stage;
+  const suffix = details ? ` (${details})` : "";
+  postDebug(`Stage: ${stage}${suffix}`);
+}
+
+function postDebug(message) {
+  postMessage({
+    method: "handleDebug",
+    stage: runStage,
+    message: String(message || ""),
+  });
 }
 
 function postError(message) {
@@ -64,13 +93,22 @@ function postError(message) {
 
 async function initRubyRuntime() {
   if (runtimePromise) {
+    postDebug("Using cached Ruby runtime");
     return runtimePromise;
   }
 
   runtimePromise = (async () => {
-    const { DefaultRubyVM } = await import(RUBY_WASM_HELPER_URL);
+    postDebug("Importing @ruby/wasm-wasi helper module from jsDelivr");
+    const { DefaultRubyVM } = await import(
+      /* webpackIgnore: true */ "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@latest/dist/browser/+esm"
+    );
+
+    postDebug("Loading Ruby WASM module");
     const wasmModule = await loadRubyWasmModule();
+
+    postDebug("Creating Ruby VM");
     const runtime = await DefaultRubyVM(wasmModule, { consolePrint: false });
+    postDebug("Ruby VM initialised");
     return runtime?.vm ?? runtime;
   })().catch((error) => {
     runtimePromise = null;
@@ -85,20 +123,25 @@ async function loadRubyWasmModule() {
 
   for (const url of RUBY_WASM_URL_CANDIDATES) {
     try {
+      postDebug(`Trying WASM candidate: ${url}`);
       const response = await fetch(url);
       if (!response.ok) {
         errors.push(`${url} -> HTTP ${response.status}`);
+        postDebug(`WASM candidate failed with HTTP ${response.status}`);
         continue;
       }
 
       if (typeof WebAssembly.compileStreaming === "function") {
+        postDebug("Compiling WASM via compileStreaming");
         return await WebAssembly.compileStreaming(response);
       }
 
       const bytes = await response.arrayBuffer();
+      postDebug("Compiling WASM from ArrayBuffer fallback");
       return await WebAssembly.compile(bytes);
     } catch (error) {
       errors.push(`${url} -> ${String(error?.message || error)}`);
+      postDebug(`WASM candidate threw: ${String(error?.message || error)}`);
     }
   }
 
@@ -152,7 +195,7 @@ class RPFJsStreamWriter
   def write(str)
     text = str.to_s
     sink = JS.global[:__rubyWasmOut]
-    sink.call(@name, text) if sink.typeof == "function"
+    sink.apply(@name, text) if sink.typeof == "function"
     text.bytesize
   end
 
@@ -184,7 +227,6 @@ begin
 
   entry = '/app/${rubyFile}'
   value = TOPLEVEL_BINDING.eval(File.binread(entry), entry)
-  $stdout.write("=> #{value.inspect}\\n")
 rescue Exception => e
   $stderr.write("#{e.class}: #{e.message}\\n")
   bt = e.backtrace

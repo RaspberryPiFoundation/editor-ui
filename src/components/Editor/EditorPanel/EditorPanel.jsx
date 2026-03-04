@@ -8,12 +8,14 @@ import {
 } from "../../../redux/EditorSlice";
 import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
-import { basicSetup } from "codemirror";
-import { EditorView, keymap } from "@codemirror/view";
+import { EditorView, basicSetup } from "codemirror";
+import { keymap } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { indentationMarkers } from "@replit/codemirror-indentation-markers";
-import { indentUnit } from "@codemirror/language";
+import { indentUnit, StreamLanguage } from "@codemirror/language";
+
+import { ruby } from "@codemirror/legacy-modes/mode/ruby";
 
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
@@ -69,6 +71,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         return python();
       case "js":
         return javascript();
+      case "rb":
+        return StreamLanguage.define(ruby);
       default:
         return html();
     }

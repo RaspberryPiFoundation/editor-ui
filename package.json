@@ -11,6 +11,7 @@
     "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/lang-python": "6.1.2",
     "@codemirror/language": "^6.2.1",
+    "@codemirror/legacy-modes": "^6.5.2",
     "@codemirror/view": "^6.3.0",
     "@hello-pangea/dnd": "^16.2.0",
     "@juggle/resize-observer": "^3.3.1",
