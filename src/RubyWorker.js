@@ -3,7 +3,8 @@
 const RUBY_WASM_URL =
   "https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@latest/dist/ruby+stdlib.wasm";
 
-let runtimePromise = null;
+let helperModulePromise = null;
+let wasmModulePromise = null;
 let runInProgress = false;
 let runStage = "idle";
 
@@ -89,30 +90,42 @@ function postError(message) {
 }
 
 async function initRubyRuntime() {
-  if (runtimePromise) {
-    postDebug("Using cached Ruby runtime");
-    return runtimePromise;
+  if (!helperModulePromise) {
+    helperModulePromise = import(
+      /* webpackIgnore: true */ "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@latest/dist/browser/+esm"
+    )
+      .then((module) => module.DefaultRubyVM)
+      .catch((error) => {
+        helperModulePromise = null;
+        throw error;
+      });
+
+    postDebug("Importing @ruby/wasm-wasi helper module from jsDelivr");
+  } else {
+    postDebug("Using cached @ruby/wasm-wasi helper module");
   }
 
-  runtimePromise = (async () => {
-    postDebug("Importing @ruby/wasm-wasi helper module from jsDelivr");
-    const { DefaultRubyVM } = await import(
-      /* webpackIgnore: true */ "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@latest/dist/browser/+esm"
-    );
+  const DefaultRubyVM = await helperModulePromise;
+  const wasmModule = await getRubyWasmModule();
 
+  postDebug("Creating fresh Ruby VM");
+  const runtime = await DefaultRubyVM(wasmModule, { consolePrint: false });
+  postDebug("Ruby VM initialised (fresh)");
+  return runtime?.vm ?? runtime;
+}
+
+async function getRubyWasmModule() {
+  if (!wasmModulePromise) {
     postDebug("Loading Ruby WASM module");
-    const wasmModule = await loadRubyWasmModule();
+    wasmModulePromise = loadRubyWasmModule().catch((error) => {
+      wasmModulePromise = null;
+      throw error;
+    });
+  } else {
+    postDebug("Using cached compiled Ruby WASM module");
+  }
 
-    postDebug("Creating Ruby VM");
-    const runtime = await DefaultRubyVM(wasmModule, { consolePrint: false });
-    postDebug("Ruby VM initialised");
-    return runtime?.vm ?? runtime;
-  })().catch((error) => {
-    runtimePromise = null;
-    throw error;
-  });
-
-  return runtimePromise;
+  return wasmModulePromise;
 }
 
 async function loadRubyWasmModule() {
