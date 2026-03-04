@@ -1,0 +1,28 @@
+{
+  "identifier": "cool-ruby",
+  "project_type": "ruby",
+  "locale": "en",
+  "name": "Cool Ruby",
+  "user_id": null,
+  "instructions": {
+    "content": "## Cool ruby\n",
+    "permitOverride": false
+  },
+  "components": [
+    {
+      "id": "9b5a24a8-7d15-4a34-8a59-7b0a1f1b195",
+      "name": "main",
+      "extension": "rb",
+      "content": "require 'greeter'\n greeter = Greeter.new\nputs greeter.greet('World')"
+    },
+    {
+      "id": "5e0a8f3d-3c54-44f9-9fd9-75d41c1bb445",
+      "name": "greeter",
+      "extension": "rb",
+      "content": "class Greeter\n  def greet(name)\n    \"Hello, #{name}!\"\n  end\nend"
+    }
+  ],
+  "image_list": [],
+  "videos": [],
+  "audio": []
+}
