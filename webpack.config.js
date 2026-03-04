@@ -13,18 +13,19 @@ if (!publicUrl.endsWith("/")) {
 const scratchStaticDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/static",
-)
+);
 
 const scratchChunkDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/chunks",
-)
+);
 
 module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
     scratch: path.resolve(__dirname, "./src/scratch.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
+    RubyWorker: path.resolve(__dirname, "./src/RubyWorker.js"),
   },
   module: {
     rules: [
@@ -133,7 +134,7 @@ module.exports = {
       {
         directory: scratchChunkDir,
         publicPath: `${publicUrl}scratch-gui/chunks`,
-      }
+      },
     ],
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -151,6 +152,7 @@ module.exports = {
             "/pyodide/shims/_internal_sense_hat.js",
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
+            "/RubyWorker.js",
           ].includes(req.url) ||
           req.url.startsWith("/scratch.html")
         ) {

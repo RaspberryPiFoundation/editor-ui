@@ -1,57 +1,69 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../../../../../assets/stylesheets/PythonRunner.scss";
+import "../../../../assets/stylesheets/PythonRunner.scss";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import {
-  setError,
   codeRunHandled,
+  loadingRunner,
+  setError,
   setLoadedRunner,
-  updateProjectComponent,
-  addProjectComponent,
-} from "../../../../../redux/EditorSlice";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+} from "../../../../redux/EditorSlice";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
-import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
-import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
-import ApiCallHandler from "../../../../../utils/apiCallHandler";
-import VisualOutputPane from "./VisualOutputPane";
-import OutputViewToggle from "../OutputViewToggle";
-import { SettingsContext } from "../../../../../utils/settings";
-import RunnerControls from "../../../../RunButton/RunnerControls";
+import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import ApiCallHandler from "../../../../utils/apiCallHandler";
+import { SettingsContext } from "../../../../utils/settings";
+import RunnerControls from "../../../RunButton/RunnerControls";
 
-const getWorkerURL = (url) => {
-  const content = `
-    /* global PyodideWorker */
-    console.log("Worker loading");
-    importScripts("${url}");
-    const pyodide = PyodideWorker();
-    console.log("Worker loaded");
-  `;
-  const blob = new Blob([content], { type: "application/javascript" });
-  return URL.createObjectURL(blob);
+const toBase64ArrayBuffer = (buffer) => {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 1) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
 };
 
-const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
-  const [pyodideWorker, setPyodideWorker] = useState(null);
+const findEntryFile = ({ projectCode, openFiles, focussedFileIndex }) => {
+  const focusedOpenFile = openFiles?.[focussedFileIndex];
+  if (focusedOpenFile && focusedOpenFile.endsWith(".rb")) {
+    return focusedOpenFile;
+  }
 
-  useEffect(() => {
-    if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
-      const worker = new Worker(workerUrl);
-      setPyodideWorker(worker);
-    }
-  }, [active]);
+  const mainRuby = projectCode.find(
+    (component) =>
+      component?.name === "main" &&
+      component?.extension?.toLowerCase() === "rb",
+  );
+  if (mainRuby) {
+    return "main.rb";
+  }
 
-  const interruptBuffer = useRef();
-  const stdinBuffer = useRef();
-  const stdinClosed = useRef();
+  const firstRuby = projectCode.find(
+    (component) => component?.extension?.toLowerCase() === "rb",
+  );
+  if (firstRuby) {
+    return `${firstRuby.name}.${firstRuby.extension}`;
+  }
+
+  const firstFile = projectCode[0];
+  if (firstFile) {
+    return `${firstFile.name}.${firstFile.extension}`;
+  }
+
+  return "main.rb";
+};
+
+const RubyRunner = ({ outputPanels = ["text", "visual"] }) => {
+  const [rubyWorker, setRubyWorker] = useState(null);
+  const workerRef = useRef(null);
+
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
-  const projectImages = useSelector((s) => s.editor.project.image_list);
-  const projectCode = useSelector((s) => s.editor.project.components);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const projectCode = useSelector((state) => state.editor.project.components);
   const projectIdentifier = useSelector((s) => s.editor.project.identifier);
   const focussedFileIndex = useSelector(
     (state) => state.editor.focussedFileIndices,
@@ -59,7 +71,6 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const openFiles = useSelector((state) => state.editor.openFiles)[0];
   const user = useSelector((s) => s.auth.user);
   const userId = user?.profile?.user;
-  const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
@@ -69,407 +80,185 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
-  const queryParams = new URLSearchParams(window.location.search);
   const singleOutputPanel = outputPanels.length === 1;
-  const showVisualOutputPanel = outputPanels.includes("visual");
-  const showTextOutputPanel = outputPanels.includes("text");
-  const showVisualTab = queryParams.get("show_visual_tab") === "true";
-  const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
-  const [visuals, setVisuals] = useState([]);
+  const showTextOutputPanel =
+    outputPanels.includes("text") || outputPanels.length === 0;
 
-  useEffect(() => {
-    if (pyodideWorker) {
-      pyodideWorker.onmessage = ({ data }) => {
-        switch (data.method) {
-          case "handleLoading":
-            handleLoading();
-            break;
-          case "handleLoaded":
-            handleLoaded(data.stdinBuffer, data.interruptBuffer);
-            break;
-          case "handleInput":
-            handleInput();
-            break;
-          case "handleOutput":
-            handleOutput(data.stream, data.content);
-            break;
-          case "handleError":
-            handleError(
-              data.file,
-              data.line,
-              data.mistake,
-              data.type,
-              data.info,
-            );
-            break;
-          case "handleFileWrite":
-            const cascadeUpdate =
-              openFiles[focussedFileIndex] === data.filename;
-            handleFileWrite(
-              data.filename,
-              data.content,
-              data.mode,
-              cascadeUpdate,
-            );
-            break;
-          case "handleVisual":
-            handleVisual(data.origin, data.content);
-            break;
-          case "handleSenseHatEvent":
-            handleSenseHatEvent(data.type);
-            break;
-          default:
-            throw new Error(`Unsupported method: ${data.method}`);
-        }
-      };
-    }
-  }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
-
-  useEffect(() => {
-    if (codeRunTriggered && active && output.current) {
-      handleRun();
-    }
-  }, [codeRunTriggered, output.current]);
-
-  useEffect(() => {
-    if (codeRunStopped && active) {
-      handleStop();
-    }
-  }, [codeRunStopped]);
-
-  const handleLoading = () => {
-    return;
-  };
-
-  const handleLoaded = (stdin, interrupt) => {
-    stdinBuffer.current = stdin;
-    interruptBuffer.current = interrupt;
-    if (loadedRunner !== "pyodide") {
-      dispatch(setLoadedRunner("pyodide"));
-    }
-    dispatch(codeRunHandled());
-    disableInput();
-  };
-
-  const handleInput = async () => {
-    // TODO: Sk.sense_hat.mz_criteria.noInputEvents = false;
-
-    if (stdinClosed.current) {
-      stdinBuffer.current[0] = -1;
+  const appendOutput = (stream, content) => {
+    const node = output.current;
+    if (!node) {
       return;
     }
 
-    const outputPane = output.current;
-    outputPane.appendChild(inputSpan());
-
-    const element = getInputElement();
-    const { content, ctrlD } = await getInputContent(element);
-
-    const encoder = new TextEncoder();
-    const bytes = encoder.encode(content + "\n");
-
-    const previousLength = stdinBuffer.current[0];
-    stdinBuffer.current.set(bytes, previousLength);
-
-    const currentLength = previousLength + bytes.length;
-    stdinBuffer.current[0] = currentLength;
-
-    if (ctrlD) {
-      stdinClosed.current = true; // Don't accept any more stdin this run.
-    }
-  };
-
-  const handleOutput = (stream, content) => {
-    const node = output.current;
-    const div = document.createElement("span");
-    div.classList.add("pythonrunner-console-output-line");
-    div.classList.add(stream);
-    div.innerHTML = new Option(content || " ").innerHTML + "\n";
-    node.appendChild(div);
+    const span = document.createElement("span");
+    span.classList.add("pythonrunner-console-output-line");
+    span.classList.add(stream || "stdout");
+    span.textContent = content || "";
+    node.appendChild(span);
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
-    let errorMessage;
+  const handleWorkerError = (errorMessage) => {
+    const message = errorMessage || "Ruby runtime error";
 
-    if (type === "KeyboardInterrupt") {
-      errorMessage = t("output.errors.interrupted");
-    } else {
-      const message = [type, info].filter((s) => s).join(": ");
-      errorMessage = [message, `on line ${line} of ${file}`].join(" ");
+    const { createError } = ApiCallHandler({
+      reactAppApiEndpoint,
+    });
+    createError(projectIdentifier, userId, {
+      errorType: "RubyError",
+      errorMessage: message,
+    });
 
-      if (mistake) {
-        errorMessage += `:\n${mistake}`;
+    dispatch(setError(message));
+    dispatch(codeRunHandled());
+  };
+
+  const initialiseWorker = () => {
+    dispatch(loadingRunner("ruby"));
+
+    const worker = new Worker(`${process.env.PUBLIC_URL}/RubyWorker.js`, {
+      type: "module",
+    });
+    workerRef.current = worker;
+    setRubyWorker(worker);
+
+    worker.onmessage = ({ data }) => {
+      switch (data.method) {
+        case "handleLoaded":
+          if (loadedRunner !== "ruby") {
+            dispatch(setLoadedRunner("ruby"));
+          }
+          dispatch(codeRunHandled());
+          break;
+        case "handleOutput":
+          appendOutput(data.stream, data.content);
+          break;
+        case "handleError":
+          handleWorkerError(data.message);
+          break;
+        case "handleDone":
+          dispatch(codeRunHandled());
+          break;
+        default:
+          throw new Error(`Unsupported method: ${data.method}`);
       }
+    };
 
-      const { createError } = ApiCallHandler({
-        reactAppApiEndpoint,
-      });
-      createError(projectIdentifier, userId, { errorType: type, errorMessage });
-    }
-
-    dispatch(setError(errorMessage));
-    disableInput();
+    worker.onerror = (event) => {
+      handleWorkerError(event?.message || "Ruby worker crashed");
+    };
   };
 
-  const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
-    const [name, extension] = filename.split(".");
-    const componentToUpdate = projectCode.find(
-      (item) => item.extension === extension && item.name === name,
-    );
-    let updatedContent;
-    if (mode === "w" || mode === "x") {
-      updatedContent = content;
-    } else if (mode === "a") {
-      updatedContent =
-        (componentToUpdate ? componentToUpdate.content : "") + content;
-    }
+  useEffect(() => {
+    initialiseWorker();
 
-    if (componentToUpdate) {
-      dispatch(
-        updateProjectComponent({
-          extension,
-          name,
-          content: updatedContent,
-          cascadeUpdate,
-        }),
-      );
-    } else {
-      dispatch(
-        addProjectComponent({ name, extension, content: updatedContent }),
-      );
-    }
-  };
+    return () => {
+      if (typeof workerRef.current?.terminate === "function") {
+        workerRef.current.terminate();
+        workerRef.current = null;
+      }
+    };
+  }, []);
 
-  const handleVisual = (origin, content) => {
-    if (showVisualOutputPanel) {
-      setHasVisual(true);
-      setVisuals((array) => [...array, { origin, content }]);
+  useEffect(() => {
+    if (codeRunTriggered && rubyWorker && output.current) {
+      handleRun();
     }
-  };
+  }, [codeRunTriggered, rubyWorker]);
 
-  const handleSenseHatEvent = (type) => {
-    console.log("handleSenseHatEvent");
-  };
+  useEffect(() => {
+    if (codeRunStopped && rubyWorker) {
+      handleStop();
+    }
+  }, [codeRunStopped, rubyWorker]);
 
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
-    setVisuals([]);
-    stdinClosed.current = false;
 
-    await Promise.allSettled(
-      projectImages.map(({ filename, url }) =>
-        fetch(url)
-          .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer)),
-      ),
+    const files = {};
+    for (const { name, extension, content } of projectCode) {
+      files[`${name}.${extension}`] = content;
+    }
+
+    const imageWrites = await Promise.allSettled(
+      (projectImages || []).map(async ({ filename, url }) => {
+        const response = await fetch(url);
+        const buffer = await response.arrayBuffer();
+        return {
+          filename,
+          content: {
+            encoding: "base64",
+            content: toBase64ArrayBuffer(buffer),
+          },
+        };
+      }),
     );
 
-    for (const { name, extension, content } of projectCode) {
-      writeFile([name, extension].join("."), content);
+    for (const write of imageWrites) {
+      if (write.status === "fulfilled") {
+        files[write.value.filename] = write.value.content;
+      }
     }
 
-    // program is the content of the component with name main and extension py
-    const program = projectCode.find(
-      (component) => component.name === "main" && component.extension === "py",
-    ).content;
-
-    if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 0; // Clear previous signals.
-    }
-    pyodideWorker.postMessage({ method: "runPython", python: program });
-  };
-
-  const handleStop = () => {
-    if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 2; // Send a SIGINT signal.
-    }
-    pyodideWorker.postMessage({ method: "stopPython" });
-    disableInput();
-  };
-
-  const writeFile = (filename, content) => {
-    pyodideWorker.postMessage({ method: "writeFile", filename, content });
-  };
-
-  const inputSpan = () => {
-    const span = document.createElement("span");
-    span.setAttribute("id", "input");
-    span.setAttribute("spellCheck", "false");
-    span.setAttribute("class", "pythonrunner-input");
-    span.setAttribute("contentEditable", "true");
-    return span;
-  };
-
-  const getInputElement = () => {
-    return document.querySelector("editor-wc")
-      ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
-      : document.getElementById("input");
-  };
-
-  const getInputContent = async (element) => {
-    element.focus();
-
-    return new Promise(function (resolve, reject) {
-      element.addEventListener("keydown", function removeInput(e) {
-        const ctrlD = e.ctrlKey && e.key.toLowerCase() === "d";
-        const lineEnded = e.key === "Enter" || ctrlD;
-
-        if (lineEnded) {
-          element.removeEventListener(e.type, removeInput);
-          const content = element.innerText;
-          element.removeAttribute("id");
-          element.removeAttribute("contentEditable");
-          element.innerText = content + "\n";
-
-          document.addEventListener("keyup", function storeInput(e) {
-            if (lineEnded) {
-              document.removeEventListener(e.type, storeInput);
-              resolve({ content, ctrlD });
-            }
-          });
-        }
-      });
+    rubyWorker.postMessage({
+      method: "runRuby",
+      files,
+      activeFile: findEntryFile({
+        projectCode,
+        openFiles,
+        focussedFileIndex,
+      }),
     });
   };
 
-  const shiftFocusToInput = (event) => {
-    if (document.getSelection().toString().length > 0) {
+  const handleStop = () => {
+    if (typeof workerRef.current?.terminate !== "function") {
       return;
     }
 
-    const inputBox = getInputElement();
-    if (inputBox && event.target !== inputBox) {
-      const input = getInputElement();
-      const selection = window.getSelection();
-      selection.removeAllRanges();
+    workerRef.current.terminate();
+    workerRef.current = null;
+    setRubyWorker(null);
 
-      if (input.innerText && input.innerText.length > 0) {
-        const range = document.createRange();
-        range.setStart(input, 1);
-        range.collapse(true);
-        selection.addRange(range);
-      }
-      input.focus();
-    }
+    dispatch(setError(t("output.errors.interrupted")));
+    dispatch(codeRunHandled());
+    initialiseWorker();
   };
 
-  const disableInput = () => {
-    const element = getInputElement();
-
-    if (element) {
-      element.removeAttribute("id");
-      element.removeAttribute("contentEditable");
-    }
-  };
-
-  if (!pyodideWorker && active) {
-    console.warn("PyodideWorker is not initialized");
-    return;
+  if (!showTextOutputPanel) {
+    return null;
   }
 
   return (
-    <div
-      className={classNames("pythonrunner-container", "pyodiderunner", {
-        "pyodiderunner--active": active,
-      })}
-    >
-      {isSplitView || singleOutputPanel ? (
-        <>
-          {hasVisual && showVisualOutputPanel && (
-            <div className="output-panel output-panel--visual">
-              <Tabs forceRenderTabPanel={true}>
-                <div
-                  className={classNames("react-tabs__tab-container", {
-                    "react-tabs__tab-container--hidden": singleOutputPanel,
-                  })}
-                >
-                  <TabList>
-                    <Tab key={0}>
-                      <span className="react-tabs__tab-text">
-                        {t("output.visualOutput")}
-                      </span>
-                    </Tab>
-                  </TabList>
-                  {!isEmbedded && hasVisual && <OutputViewToggle />}
-                  {!isEmbedded && isMobile && <RunnerControls skinny />}
-                </div>
-                <TabPanel key={0}>
-                  <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
-                </TabPanel>
-              </Tabs>
-            </div>
-          )}
-          {showTextOutputPanel && (
-            <div className="output-panel output-panel--text">
-              <Tabs forceRenderTabPanel={true}>
-                <div
-                  className={classNames("react-tabs__tab-container", {
-                    "react-tabs__tab-container--hidden": singleOutputPanel,
-                  })}
-                >
-                  <TabList>
-                    <Tab key={0}>
-                      <span className="react-tabs__tab-text">
-                        {t("output.textOutput")}
-                      </span>
-                    </Tab>
-                  </TabList>
-                  {!hasVisual && !isEmbedded && isMobile && (
-                    <RunnerControls skinny />
-                  )}
-                </div>
-                <ErrorMessage />
-                <TabPanel key={0}>
-                  <pre
-                    className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
-                    onClick={shiftFocusToInput}
-                    ref={output}
-                  ></pre>
-                </TabPanel>
-              </Tabs>
-            </div>
-          )}
-        </>
-      ) : (
-        <Tabs forceRenderTabPanel={true} defaultIndex={hasVisual ? 0 : 1}>
-          <div className="react-tabs__tab-container">
+    <div className={classNames("pythonrunner-container", "pyodiderunner")}>
+      <div className="output-panel output-panel--text">
+        <Tabs forceRenderTabPanel={true}>
+          <div
+            className={classNames("react-tabs__tab-container", {
+              "react-tabs__tab-container--hidden": singleOutputPanel,
+            })}
+          >
             <TabList>
-              {hasVisual && (
-                <Tab key={0}>
-                  <span className="react-tabs__tab-text">
-                    {t("output.visualOutput")}
-                  </span>
-                </Tab>
-              )}
-              <Tab key={1}>
+              <Tab key={0}>
                 <span className="react-tabs__tab-text">
                   {t("output.textOutput")}
                 </span>
               </Tab>
             </TabList>
-            {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
           <ErrorMessage />
-          {hasVisual && (
-            <TabPanel key={0}>
-              <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
-            </TabPanel>
-          )}
-          <TabPanel key={1}>
+          <TabPanel key={0}>
             <pre
               className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
-              onClick={shiftFocusToInput}
               ref={output}
             ></pre>
           </TabPanel>
         </Tabs>
-      )}
+      </div>
     </div>
   );
 };
 
-export default PyodideRunner;
+export default RubyRunner;

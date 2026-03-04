@@ -5,6 +5,7 @@ export const postMessage = jest.fn((...args) => {
 class PyodideWorker {
   constructor() {
     this.postMessage = postMessage;
+    this.terminate = jest.fn();
     this.onmessage = null;
     PyodideWorker.lastInstance = this;
   }
