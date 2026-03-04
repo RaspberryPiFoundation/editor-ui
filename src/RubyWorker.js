@@ -1,10 +1,7 @@
 /* global globalThis */
 
-const RUBY_WASM_URL_CANDIDATES = [
-  "https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@latest/dist/ruby+stdlib.wasm",
-  "https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@latest/dist/ruby+stdlib.wasm",
-  "https://cdn.jsdelivr.net/npm/@ruby/3.3-wasm-wasi@latest/dist/ruby+stdlib.wasm",
-];
+const RUBY_WASM_URL =
+  "https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@latest/dist/ruby+stdlib.wasm";
 
 let runtimePromise = null;
 let runInProgress = false;
@@ -119,35 +116,23 @@ async function initRubyRuntime() {
 }
 
 async function loadRubyWasmModule() {
-  const errors = [];
+  postDebug(`Loading WASM: ${RUBY_WASM_URL}`);
+  const response = await fetch(RUBY_WASM_URL);
 
-  for (const url of RUBY_WASM_URL_CANDIDATES) {
-    try {
-      postDebug(`Trying WASM candidate: ${url}`);
-      const response = await fetch(url);
-      if (!response.ok) {
-        errors.push(`${url} -> HTTP ${response.status}`);
-        postDebug(`WASM candidate failed with HTTP ${response.status}`);
-        continue;
-      }
-
-      if (typeof WebAssembly.compileStreaming === "function") {
-        postDebug("Compiling WASM via compileStreaming");
-        return await WebAssembly.compileStreaming(response);
-      }
-
-      const bytes = await response.arrayBuffer();
-      postDebug("Compiling WASM from ArrayBuffer fallback");
-      return await WebAssembly.compile(bytes);
-    } catch (error) {
-      errors.push(`${url} -> ${String(error?.message || error)}`);
-      postDebug(`WASM candidate threw: ${String(error?.message || error)}`);
-    }
+  if (!response.ok) {
+    throw new Error(
+      `Could not load ruby.wasm from jsDelivr (${RUBY_WASM_URL}) -> HTTP ${response.status}`,
+    );
   }
 
-  throw new Error(
-    `Could not load ruby.wasm from jsDelivr.\n${errors.join("\n")}`,
-  );
+  if (typeof WebAssembly.compileStreaming === "function") {
+    postDebug("Compiling WASM via compileStreaming");
+    return await WebAssembly.compileStreaming(response);
+  }
+
+  const bytes = await response.arrayBuffer();
+  postDebug("Compiling WASM from ArrayBuffer fallback");
+  return await WebAssembly.compile(bytes);
 }
 
 async function rubyEval(vm, code) {
