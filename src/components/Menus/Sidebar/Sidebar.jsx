@@ -25,7 +25,7 @@ import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
 
-const Sidebar = ({ options = [], plugins = [] }) => {
+const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   const { t } = useTranslation();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectImages = useSelector((state) => state.editor.project.image_list);
@@ -35,7 +35,8 @@ const Sidebar = ({ options = [], plugins = [] }) => {
   const instructionsEditable = useSelector(
     (state) => state.editor.instructionsEditable,
   );
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const isMobile = allowMobileView && viewportIsMobile;
 
   let menuOptions = [
     {
@@ -166,12 +167,18 @@ const Sidebar = ({ options = [], plugins = [] }) => {
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div className={classNames("sidebar", { "sidebar--mobile": isMobile })}>
+    <div
+      className={classNames("sidebar", {
+        "sidebar--mobile": isMobile,
+        "sidebar--scratch": projectType === "code_editor_scratch",
+      })}
+    >
       <SidebarBar
         menuOptions={menuOptions}
         option={option}
         toggleOption={toggleOption}
         instructions={instructionsSteps}
+        allowMobileView={allowMobileView}
       />
       {option && <CustomSidebarPanel isMobile={isMobile} />}
     </div>

@@ -32,6 +32,17 @@ describe("default behaviour", () => {
       .find("#root")
       .should("not.contain", "Visual output");
   });
+
+  it("shows text size in settings for standard editor projects", () => {
+    const getEditorShadow = () => cy.get("editor-wc").shadow();
+
+    cy.findByText("blank-python-starter").click();
+
+    getEditorShadow().find(".sidebar").should("exist");
+    getEditorShadow().find("[title='Settings']").first().click();
+    getEditorShadow().find(".settings-panel").should("exist");
+    getEditorShadow().find(".settings-panel__text-size").should("be.visible");
+  });
 });
 
 describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
