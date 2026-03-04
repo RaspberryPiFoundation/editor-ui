@@ -1,7 +1,8 @@
 import React from "react";
 import FileSaver from "file-saver";
-import { toSnakeCase } from "js-convert-case";
+import { toKebabCase, toSnakeCase } from "js-convert-case";
 import JSZip from "jszip";
+import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 import JSZipUtils from "jszip-utils";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -35,6 +36,14 @@ const DownloadButton = (props) => {
   const onClickDownload = async () => {
     if (window.plausible) {
       window.plausible("Download");
+    }
+
+    if (project.project_type === "code_editor_scratch") {
+      postMessageToScratchIframe({
+        type: "scratch-gui-download",
+        filename: `${toKebabCase(project?.name) || "project"}.sb3`,
+      });
+      return;
     }
 
     const zip = new JSZip();

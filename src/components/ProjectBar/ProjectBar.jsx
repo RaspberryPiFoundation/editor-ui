@@ -9,6 +9,7 @@ import SaveButton from "../SaveButton/SaveButton";
 
 import "../../assets/stylesheets/ProjectBar.scss";
 import { isOwner } from "../../utils/projectHelpers";
+import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 const ProjectBar = ({ nameEditable = true }) => {
   const { t } = useTranslation();
@@ -22,13 +23,7 @@ const ProjectBar = ({ nameEditable = true }) => {
   const readOnly = useSelector((state) => state.editor.readOnly);
 
   const saveScratchProject = () => {
-    const webComponent = document.querySelector("editor-wc");
-    webComponent.shadowRoot
-      .querySelector("iframe[title='Scratch']")
-      .contentWindow.postMessage(
-        { type: "scratch-gui-save" },
-        process.env.ASSETS_URL,
-      );
+    postMessageToScratchIframe({ type: "scratch-gui-save" });
   };
 
   return (

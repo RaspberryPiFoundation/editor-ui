@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { saveAs } from "file-saver";
 import {
   remixProject,
   manualUpdateProject,
@@ -63,7 +64,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     handleDownload(event) {
       const filename = event.data.filename;
       this.props.saveProjectSb3().then((content) => {
-        console.log("Downloading project as", content, filename);
+        saveAs(content, filename);
       });
     }
     handleUpload(event) {
