@@ -16,6 +16,7 @@ let images = [
 ];
 
 const options = ["file", "images", "instructions", "info"];
+const optionsWithDownload = ["file", "images", "instructions", "download", "info"];
 
 describe("When project has images", () => {
   describe("and no instructions", () => {
@@ -416,6 +417,9 @@ describe("When the project type is code_editor_scratch", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);
     const initialState = {
+      auth: {
+        user: null,
+      },
       editor: {
         project: {
           components: [],
@@ -430,7 +434,7 @@ describe("When the project type is code_editor_scratch", () => {
     render(
       <Provider store={store}>
         <div id="app">
-          <Sidebar options={options} />
+          <Sidebar options={optionsWithDownload} />
         </div>
       </Provider>,
     );
@@ -442,5 +446,13 @@ describe("When the project type is code_editor_scratch", () => {
 
   test("Shows the info icon", () => {
     expect(screen.queryByTitle("sidebar.information")).toBeInTheDocument();
+  });
+
+  test("Clicking expand opens the first available top panel when file is hidden", () => {
+    const collapseButton = screen.getByTitle("sidebar.collapse");
+    fireEvent.click(collapseButton);
+    const expandButton = screen.getByTitle("sidebar.expand");
+    fireEvent.click(expandButton);
+    expect(screen.queryByText("downloadPanel.heading")).toBeInTheDocument();
   });
 });

@@ -43,6 +43,23 @@ const menuOptions = (instructions = false) => {
   ];
 };
 
+const menuOptionsWithoutFile = () => {
+  return [
+    {
+      name: "home",
+      position: "top",
+      title: "home_button",
+      panel: () => {},
+    },
+    {
+      name: "download",
+      position: "top",
+      title: "download_button",
+      panel: () => {},
+    },
+  ];
+};
+
 describe("SidebarBar", () => {
   describe("Without instructions", () => {
     beforeEach(() => {
@@ -89,6 +106,25 @@ describe("SidebarBar", () => {
       const expandButton = screen.getByTitle("sidebar.expand");
       fireEvent.click(expandButton);
       expect(toggleOption).toHaveBeenCalledWith("instructions");
+    });
+  });
+
+  describe("Without file option", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <SidebarBar
+            menuOptions={menuOptionsWithoutFile()}
+            toggleOption={toggleOption}
+          />
+        </Provider>,
+      );
+    });
+
+    test("Clicking expand button falls back to the first top panel", () => {
+      const expandButton = screen.getByTitle("sidebar.expand");
+      fireEvent.click(expandButton);
+      expect(toggleOption).toHaveBeenCalledWith("home");
     });
   });
 });
