@@ -46,6 +46,7 @@ const UploadButton = (props) => {
         hidden
         accept=".sb3"
         onChange={onFileSelected}
+        data-testid="upload-file-input"
       />
     </>
   );
