@@ -6,6 +6,7 @@ import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
+import UploadIcon from "../../../../assets/icons/upload.svg";
 import { isOwner } from "../../../../utils/projectHelpers";
 
 import {
@@ -13,6 +14,7 @@ import {
   signUpEvent,
 } from "../../../../events/WebComponentCustomEvents";
 import "../../../../assets/stylesheets/DownloadPanel.scss";
+import UploadButton from "../../../UploadButton/UploadButton";
 
 export const DownloadPanel = () => {
   const { t } = useTranslation();
@@ -61,12 +63,23 @@ export const DownloadPanel = () => {
         <p className="download-panel__hint">
           {t("downloadPanel.downloadHint")}
         </p>
-        <DownloadButton
-          buttonText={t("downloadPanel.downloadButton")}
-          className="btn btn--secondary download-panel__button"
-          Icon={DownloadIcon}
-          fill
-        />
+        <div className="download-panel__button-container">
+          <DownloadButton
+            buttonText={t("downloadPanel.downloadButton")}
+            className="btn btn--secondary download-panel__button"
+            Icon={DownloadIcon}
+            fill
+          />
+          {/* Upload currently only applies to Scratch; hidden for other project types. */}
+          {project.project_type === "code_editor_scratch" && (
+            <UploadButton
+              buttonText={t("downloadPanel.uploadButton")}
+              className="btn btn--secondary download-panel__button"
+              Icon={UploadIcon}
+              fill
+            />
+          )}
+        </div>
       </div>
       {user && !projectOwner && <SaveButton fill />}
     </SidebarPanel>
