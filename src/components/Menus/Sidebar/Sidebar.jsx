@@ -162,6 +162,7 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   const optionDict = menuOptions.find((menuOption) => {
     return menuOption.name === option;
   });
+  const activeOption = optionDict ? option : null;
 
   const CustomSidebarPanel =
     optionDict && optionDict.panel ? optionDict.panel : () => {};
@@ -175,12 +176,12 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
     >
       <SidebarBar
         menuOptions={menuOptions}
-        option={option}
+        option={activeOption}
         toggleOption={toggleOption}
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
       />
-      {option && <CustomSidebarPanel isMobile={isMobile} />}
+      {activeOption && <CustomSidebarPanel isMobile={isMobile} />}
     </div>
   );
 };

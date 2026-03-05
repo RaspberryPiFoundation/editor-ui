@@ -25,9 +25,9 @@ const menuOptions = (instructions = false) => {
       panel: () => {},
     },
     {
-      name: "home",
+      name: "projects",
       position: "top",
-      title: "home_button",
+      title: "projects_button",
       panel: () => {},
     },
     ...(instructions
@@ -46,9 +46,9 @@ const menuOptions = (instructions = false) => {
 const menuOptionsWithoutFile = () => {
   return [
     {
-      name: "home",
+      name: "projects",
       position: "top",
-      title: "home_button",
+      title: "projects_button",
       panel: () => {},
     },
     {
@@ -76,10 +76,10 @@ describe("SidebarBar", () => {
       expect(toggleOption).toHaveBeenCalledWith("file");
     });
 
-    test("Clicking home button opens home panel", () => {
-      const homeButton = screen.getByTitle("home_button");
-      fireEvent.click(homeButton);
-      expect(toggleOption).toHaveBeenCalledWith("home");
+    test("Clicking projects button opens projects panel", () => {
+      const projectsButton = screen.getByTitle("projects_button");
+      fireEvent.click(projectsButton);
+      expect(toggleOption).toHaveBeenCalledWith("projects");
     });
   });
 
@@ -124,7 +124,7 @@ describe("SidebarBar", () => {
     test("Clicking expand button falls back to the first top panel", () => {
       const expandButton = screen.getByTitle("sidebar.expand");
       fireEvent.click(expandButton);
-      expect(toggleOption).toHaveBeenCalledWith("home");
+      expect(toggleOption).toHaveBeenCalledWith("projects");
     });
   });
 });

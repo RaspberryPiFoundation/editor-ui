@@ -39,7 +39,8 @@ const SidebarBar = (props) => {
   };
 
   const expandPopOut = () => {
-    const hasInstructions = Array.isArray(instructions) && instructions.length > 0;
+    const hasInstructions =
+      Array.isArray(instructions) && instructions.length > 0;
     const expandOption = findFirstExistingOption([
       hasInstructions ? "instructions" : null,
       "file",

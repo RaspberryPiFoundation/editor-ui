@@ -16,7 +16,13 @@ let images = [
 ];
 
 const options = ["file", "images", "instructions", "info"];
-const optionsWithDownload = ["file", "images", "instructions", "download", "info"];
+const optionsWithDownload = [
+  "file",
+  "images",
+  "instructions",
+  "download",
+  "info",
+];
 
 describe("When project has images", () => {
   describe("and no instructions", () => {
@@ -448,9 +454,11 @@ describe("When the project type is code_editor_scratch", () => {
     expect(screen.queryByTitle("sidebar.information")).toBeInTheDocument();
   });
 
+  test("Starts in closed chevron state for scratch", () => {
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+  });
+
   test("Clicking expand opens the first available top panel when file is hidden", () => {
-    const collapseButton = screen.getByTitle("sidebar.collapse");
-    fireEvent.click(collapseButton);
     const expandButton = screen.getByTitle("sidebar.expand");
     fireEvent.click(expandButton);
     expect(screen.queryByText("downloadPanel.heading")).toBeInTheDocument();
