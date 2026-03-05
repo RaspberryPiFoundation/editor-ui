@@ -58,7 +58,8 @@
     "logInButton": "Inicia sesión para guardar",
     "signUpButton": "Registrarse",
     "downloadHint": "Descarga los archivos de tu proyecto para que usarlos sin conexión y en un editor de código diferente.",
-    "downloadButton": "Descargar proyecto"
+    "downloadButton": "Descargar proyecto",
+    "uploadButton": "Cargar proyecto"
   },
   "footer": {
     "accessibility": "Accesibilidad",
