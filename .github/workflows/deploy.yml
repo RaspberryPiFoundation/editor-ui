@@ -164,10 +164,16 @@ jobs:
           [ -n "${CLOUDFLARE_ZONE_ID}" ] || { echo "Missing CLOUDFLARE_ZONE_ID secret"; exit 1; }
           [ -n "${CLOUDFLARE_API_TOKEN}" ] || { echo "Missing CLOUDFLARE_API_TOKEN secret"; exit 1; }
 
-          response=$(curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
-            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js"]}')
+          response="$(
+            curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+              -H "Content-Type: application/json" \
+              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js"]}'
+          )" || {
+            echo "Cloudflare purge request failed:"
+            echo "$response"
+            exit 1
+          }
 
           jq -e '.success == true' >/dev/null <<<"$response" || {
             echo "Cloudflare purge failed:"
