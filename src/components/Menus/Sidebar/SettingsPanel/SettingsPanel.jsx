@@ -14,8 +14,14 @@ const SettingsPanel = () => {
   return (
     <SidebarPanel heading={t("settingsPanel.info")}>
       <div className="settings-panel">
-        {isThemeable && <ThemeToggle />}
-        <FontSizeSelector />
+        {isThemeable && (
+          <div className="settings-panel__theme">
+            <ThemeToggle />
+          </div>
+        )}
+        <div className="settings-panel__text-size">
+          <FontSizeSelector />
+        </div>
       </div>
     </SidebarPanel>
   );

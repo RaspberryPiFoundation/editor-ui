@@ -19,7 +19,7 @@ yarn start
 ```
 
 ## Development Workflow
-- Node.js: use v18.x locally (as pinned in `.tool-versions`). 
+- Node.js: use the version pinned in `.tool-versions`.
 - CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
@@ -81,6 +81,11 @@ yarn exec cypress open
   `package.json` version, PR, tag release); do not update `CHANGELOG.md`.
   Deploys are driven by `.github/workflows/deploy.yml`.
 
+### Running tests
+- Unit tests: `CI=true yarn test` (without `CI=true`, Jest enters interactive watch mode which hangs).
+- Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
+- Cypress e2e requires the dev server to be running first (`yarn start`).
+
 ## Further Reading (relative links)
 - `README.md`
 - `docs/WebComponent.md`
@@ -88,3 +93,20 @@ yarn exec cypress open
 - `docs/PythonDependencies.md`
 - `docs/Deployment.md`
 - `.github/workflows/ci-cd.yml`
+
+## Cursor Cloud specific instructions
+
+### Service overview
+This is a single-service frontend application (no backend, database, or Docker required).
+The only service is the webpack dev server on port 3011, started with `yarn start`.
+
+### Python execution caveat
+The editor's Python runtime (Pyodide) requires external CDN access
+(`cdn.jsdelivr.net`). In network-restricted cloud environments, Python code
+execution will silently fail (no output). HTML/CSS/JS projects work fully
+offline. This does not affect unit tests or linting.
+
+### Dev server startup
+`yarn start` takes ~15 seconds to compile. Wait for the
+`webpack compiled successfully` message before curling or browsing port 3011.
+The test page is served at port 3011 under path `/web-component.html`.

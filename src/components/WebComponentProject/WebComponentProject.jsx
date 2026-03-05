@@ -42,6 +42,8 @@ const WebComponentProject = ({
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
   );
+  const projectType = useSelector((state) => state.editor.project.project_type);
+
   const isExperienceCSScratchProject = project.project_type === "scratch";
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
@@ -155,7 +157,7 @@ const WebComponentProject = ({
   return (
     <>
       {!outputOnly &&
-        (isMobile ? (
+        (isMobile && projectType !== "code_editor_scratch" ? (
           <MobileProject
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
