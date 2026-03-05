@@ -27,11 +27,13 @@ const cachedProject = {
   project_type: "python",
   identifier: "hello-world-project",
   components: [],
+  locale: "fr-FR",
 };
 
 const project1 = {
   project_type: "python",
   identifier: "my-favourite-project",
+  locale: "es-ES",
 };
 
 const accessToken = "my_access_token";
@@ -67,31 +69,39 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(initialProject);
   });
 
-  test.skip("If cached project matches identifer uses cached project", () => {
+  test("If cached project matches identifer and locale, uses cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
       JSON.stringify(cachedProject),
     );
     renderHook(
-      () => useProject({ projectIdentifier: cachedProject.identifier }),
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: cachedProject.locale,
+        }),
       { wrapper },
     );
     expect(setProject).toHaveBeenCalledWith(cachedProject);
   });
 
-  test.skip("If cached project matches identifer clears cached project", () => {
+  test("If cached project matches identifer and locale, clears cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
       JSON.stringify(cachedProject),
     );
     renderHook(
-      () => useProject({ projectIdentifier: cachedProject.identifier }),
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: cachedProject.locale,
+        }),
       { wrapper },
     );
     expect(localStorage.getItem("project")).toBeNull();
   });
 
-  test.skip("If cached project does not match identifer does not use cached project", async () => {
+  test("If cached project does not match identifer, does not use cached project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
@@ -106,13 +116,31 @@ describe("When not embedded", () => {
     );
   });
 
-  test.skip("If cached project does not match identifier loads correct uncached project", async () => {
+  test("If cached project does not match locale, does not use cached project", async () => {
+    syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
+    localStorage.setItem("project", JSON.stringify(cachedProject));
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "ja-JP",
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    await waitFor(() =>
+      expect(setProject).not.toHaveBeenCalledWith(cachedProject),
+    );
+  });
+
+  test("If cached project does not match identifier and locale, loads correct uncached project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
       () =>
         useProject({
           projectIdentifier: project1.identifier,
+          locale: project1.locale,
           accessToken,
           reactAppApiEndpoint,
         }),
@@ -122,14 +150,14 @@ describe("When not embedded", () => {
     await waitFor(() =>
       expect(loadProject).toHaveBeenCalledWith({
         identifier: project1.identifier,
-        locale: "ja-JP",
+        locale: project1.locale,
         accessToken,
         reactAppApiEndpoint,
       }),
     );
   });
 
-  test.skip("If loadCache is set to false it loads correct uncached project", async () => {
+  test("If loadCache is set to false, loads correct uncached project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
@@ -153,7 +181,7 @@ describe("When not embedded", () => {
     );
   });
 
-  test.skip("If no cached project loads uncached project", async () => {
+  test("If no cached project, loads uncached project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
       () =>
@@ -187,7 +215,7 @@ describe("When not embedded", () => {
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
-  test.skip("If new tab browser preview, uses cached changes", () => {
+  test("If new tab browser preview and cached locale matches, uses cached changes", () => {
     localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
     renderHook(
       () =>
@@ -196,6 +224,7 @@ describe("When not embedded", () => {
           accessToken,
           isEmbedded: true,
           isBrowserPreview: true,
+          locale: "fr-FR",
         }),
       { wrapper },
     );
@@ -284,54 +313,6 @@ describe("When not embedded", () => {
         locale: "ja-JP",
         accessToken,
         assetsOnly: true,
-        reactAppApiEndpoint,
-      }),
-    );
-  });
-
-  // Tests for the temporarily disabled cache functionality
-  test("does not use cache even with loadCache true and matching cache in localStorage", async () => {
-    syncProject.mockImplementation(jest.fn((_) => loadProject));
-    localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: "hello-world-project",
-          accessToken,
-          loadCache: true,
-          reactAppApiEndpoint,
-        }),
-      { wrapper },
-    );
-    expect(setProject).not.toHaveBeenCalledWith(cachedProject);
-    expect(syncProject).toHaveBeenCalledWith("load");
-  });
-
-  // Tests for the temporarily disabled cache functionality
-  test("does not use cache when cache locale does not match effectiveLocale and loads from server", async () => {
-    syncProject.mockImplementation(jest.fn((_) => loadProject));
-    const cachedWrongLocale = { ...cachedProject, locale: "en-GB" };
-    localStorage.setItem(
-      cachedWrongLocale.identifier,
-      JSON.stringify(cachedWrongLocale),
-    );
-    renderHook(
-      () =>
-        useProject({
-          projectIdentifier: cachedWrongLocale.identifier,
-          loadCache: true,
-          accessToken,
-          reactAppApiEndpoint,
-        }),
-      { wrapper },
-    );
-    expect(setProject).not.toHaveBeenCalledWith(cachedWrongLocale);
-    expect(syncProject).toHaveBeenCalledWith("load");
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: cachedWrongLocale.identifier,
-        locale: "ja-JP",
-        accessToken,
         reactAppApiEndpoint,
       }),
     );
