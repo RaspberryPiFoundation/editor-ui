@@ -1,0 +1,51 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      level:
+        description: Version bump level
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@RaspberryPiFoundation"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        run: yarn version ${{ inputs.level }}
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 1
+          fi
+
+          git add -A
+          git commit -m "Bump version (${{ inputs.level }}) for release"
+          git push origin HEAD:${{ github.ref_name }}

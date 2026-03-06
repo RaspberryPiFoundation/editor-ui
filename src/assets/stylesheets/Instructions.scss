@@ -72,12 +72,12 @@
   }
 
   // Steps in CCP style
-  [id^="step-"]{
+  [id^="step-"] {
     @include typography.style-1(bold);
 
-    background: #ECF8EE;
+    background: #ecf8ee;
     border-radius: $space-0-5;
-    color: #276D32;
+    color: #276d32;
     display: inline-block;
     margin: $space-1-5 0 0 0;
     padding: $space-0-25 $space-0-5;
@@ -100,7 +100,7 @@
       block-size: $space-2;
       inline-size: $space-2;
       border-radius: $space-0-5;
-      background-color: #ECF8EE;
+      background-color: #ecf8ee;
       background-image: url("../play_filled.svg");
       background-repeat: no-repeat;
       background-position: center;
@@ -149,9 +149,11 @@
 
   .line-highlight {
     margin-block-start: 0.5rem;
-    background-color: var(--code-block-line-highlight-color, #{$rpf-white});
-    mix-blend-mode: difference;
+    background: var(--code-block-line-highlight-color, #{$rpf-white});
+    mix-blend-mode: var(--code-block-blend-mode, difference);
     min-inline-size: 100%;
+    border-inline-start: var(--code-block-line-highlight-border, none);
+    border-color: var(--code-block-line-highlight-border-color, none);
   }
 
   .language-python {
