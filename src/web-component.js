@@ -133,8 +133,13 @@ class WebComponent extends HTMLElement {
 
     if (!current || !initialComponentContents) return false;
 
-    // TODO: to update this to handle multiple components
-    return current[0]?.content !== initialComponentContents[0];
+    // if the number of components is different, consider it changed
+    if (current.length !== initialComponentContents.length) return true;
+
+    // match current contents with initial contents, if any of them is different, return true
+    return current.some(
+      (component, i) => component.content !== initialComponentContents[i],
+    );
   }
 
   get menuItems() {

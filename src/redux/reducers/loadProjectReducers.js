@@ -12,10 +12,9 @@ const loadProjectFulfilled = (state, action) => {
     state.currentLoadingRequestId === action.meta.requestId
   ) {
     state.project = action.payload.project;
-    const firstComponentContent =
-      action.payload.project.components?.[0]?.content;
-    state.initialComponentContents =
-      firstComponentContent === undefined ? [] : [firstComponentContent];
+    state.initialComponentContents = (
+      action.payload.project.components || []
+    ).map((component) => component.content);
     state.loading = "success";
     state.justLoaded = true;
     state.saving = "idle";
