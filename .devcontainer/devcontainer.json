@@ -20,7 +20,7 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
       "omzPlugins": "git docker-compose macos zsh-autosuggestions yarn fzf-zsh-plugin asdf zsh-nvm"
     }
   },
