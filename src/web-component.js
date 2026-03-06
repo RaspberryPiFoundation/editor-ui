@@ -127,6 +127,16 @@ class WebComponent extends HTMLElement {
     return state.editor.project.components[0]?.content;
   }
 
+  get codeHasChanged() {
+    const { project, initialComponentContents } = store.getState().editor;
+    const current = project?.components;
+
+    if (!current || !initialComponentContents) return false;
+
+    // TODO: to update this to handle multiple components
+    return current[0]?.content !== initialComponentContents[0];
+  }
+
   get menuItems() {
     return this.componentProperties.menuItems;
   }

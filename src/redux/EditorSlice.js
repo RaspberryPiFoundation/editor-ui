@@ -122,6 +122,7 @@ export const editorInitialState = {
   modals: {},
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
+  initialComponentContents: [],
 };
 
 export const EditorSlice = createSlice({
@@ -201,6 +202,9 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
+      const firstComponentContent = action.payload.components?.[0]?.content;
+      state.initialComponentContents =
+        firstComponentContent === undefined ? [] : [firstComponentContent];
       if (!state.project.image_list) {
         state.project.image_list = [];
       }
