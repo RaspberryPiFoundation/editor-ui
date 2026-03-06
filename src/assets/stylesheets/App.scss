@@ -3,7 +3,7 @@
 
 @use './Tabs' as *;
 
-a {
+%focusable-element {
   border: 3px solid transparent;
 
   &:focus-visible {
@@ -12,12 +12,14 @@ a {
   }
 }
 
+a {
+  @extend %focusable-element;
+}
+
 button {
   all: initial;
-  border: 3px solid transparent;
   cursor: pointer;
-
-  @extend a;
+  @extend %focusable-element;
 }
 
 input {

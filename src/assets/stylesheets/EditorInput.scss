@@ -11,7 +11,7 @@
 .editor-input__view-only-banner {
   font-weight: $font-weight-bold;
   padding: var(--space-0-5) var(--space-1);
-  border-bottom: 1px solid var(--editor-color-outline);
+  border-block-end: 1px solid var(--editor-color-outline);
 }
 
 .--light .editor-input__view-only-banner {

@@ -6,7 +6,7 @@
   // Needed here for vertical scroll
   overflow: auto;
   scrollbar-width: thin;
-  height: 100%;
+  block-size: 100%;
 }
 
 .editor {
@@ -14,7 +14,7 @@
   flex-flow: column;
   flex: 1;
   overflow: hidden;
-  height: 100%;
+  block-size: 100%;
 
   .cm-editor {
     flex: 1;

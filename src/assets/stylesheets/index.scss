@@ -8,8 +8,8 @@ body {
 }
 
 :root {
-  --editor-font-family-sans-serif: fonts.$font-family-sans-serif;
-  --editor-font-family-monospace: fonts.$font-family-monospace;
+  --editor-font-family-sans-serif: #{fonts.$font-family-sans-serif};
+  --editor-font-family-monospace: #{fonts.$font-family-monospace};
 }
 
 body {
@@ -119,7 +119,7 @@ code {
   --rpf-button-primary-text-color: var(--rpf-black);
 
   --rpf-button-secondary-background-color: var(--rpf-teal-800);
-  --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
+  --rpf-button-secondary-background-color-focus: #{$rpf-brand-raspberry}; // scss var?
   --rpf-button-secondary-background-color-hover: var(--rpf-teal-100);
   --rpf-button-secondary-border-color-hover: var(--rpf-teal-900);
   --rpf-button-secondary-background-color-active: var(--rpf-teal-900);

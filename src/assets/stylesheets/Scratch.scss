@@ -9,24 +9,24 @@
 html,
 body,
 #app {
-  height: 100%;
+  block-size: 100%;
   background-color: var(--rpf-teal-100);
 }
 
 body {
   margin: 0;
   padding: 0;
-  margin-top: -5px;
-  height: calc(100% + 5px);
+  margin-block-start: -5px;
+  block-size: calc(100% + 5px);
 }
 
 div[class*="sprite-selector_sprite-selector_"] {
-  border-bottom: 1px solid var(--rpf-black);
+  border-block-end: 1px solid var(--rpf-black);
   border-radius: 8px;
 }
 
 div[class^="stage-selector_stage-selector_"] {
-  border-bottom: 1px solid var(--rpf-black);
+  border-block-end: 1px solid var(--rpf-black);
   border-radius: 8px;
 }
 
@@ -51,7 +51,7 @@ div[class^="gui_extension-button-container_"] {
 }
 
 div[class^="asset-panel_wrapper_"] {
-  border-bottom-left-radius: 8px;
+  border-end-start-radius: 8px;
   overflow: hidden;
 }
 
@@ -61,7 +61,7 @@ div[class*="modal_modal-overlay_"] {
 }
 
 div.injectionDiv {
-  border-bottom-left-radius: 8px;
+  border-end-start-radius: 8px;
 }
 
 /* stylelint-enable selector-class-pattern */
