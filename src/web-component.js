@@ -131,7 +131,7 @@ class WebComponent extends HTMLElement {
     const { project, initialComponentContents } = store.getState().editor;
     const current = project?.components;
 
-    if (!current || !initialComponentContents) return false;
+    if (!current || initialComponentContents.length === 0) return false;
 
     // if the number of components is different, consider it changed
     if (current.length !== initialComponentContents.length) return true;

@@ -54,6 +54,7 @@ const requestingAProject = function (project, projectFile) {
       openFiles: [[]],
       loading: "pending",
       currentLoadingRequestId: "my_request_id",
+      initialComponentContents: [],
     };
     const expectedState = {
       openFiles: [[projectFile]],
@@ -63,6 +64,9 @@ const requestingAProject = function (project, projectFile) {
       saving: "idle",
       project: project,
       currentLoadingRequestId: undefined,
+      initialComponentContents: project.components.map(
+        (component) => component.content,
+      ),
     };
     expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState);
   });
@@ -122,7 +126,7 @@ describe("When requesting a python project", () => {
       {
         name: "main",
         extension: "py",
-        content: "# hello",
+        content: "# hello world",
       },
     ],
     image_list: [],
@@ -145,6 +149,28 @@ describe("When requesting a HTML project", () => {
     image_list: [],
   };
   requestingAProject(project, "index.html");
+});
+
+describe("When requesting a project with multiple components", () => {
+  const project = {
+    name: "hello world with multiple components",
+    project_type: "python",
+    identifier: "my-project-identifier",
+    components: [
+      {
+        name: "main",
+        extension: "py",
+        content: "# hello world",
+      },
+      {
+        name: "utils",
+        extension: "py",
+        content: "# some utils",
+      },
+    ],
+    image_list: [],
+  };
+  requestingAProject(project, "main.py");
 });
 
 describe("EditorSliceReducers::loadProjectRejectedReducer", () => {
