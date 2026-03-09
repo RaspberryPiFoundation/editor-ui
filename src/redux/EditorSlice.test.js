@@ -297,7 +297,13 @@ describe("When project has no identifier", () => {
       saving: "success",
       lastSavedTime: 1669808953,
       loading: "idle",
-      initialComponentContents: ["# hello"],
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -388,7 +394,13 @@ describe("When project has an identifier", () => {
     const expectedState = {
       project: project,
       saving: "success",
-      initialComponentContents: ["# hello"],
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -425,7 +437,13 @@ describe("When project has an identifier", () => {
       saving: "success",
       loading: "idle",
       lastSaveAutosave: false,
-      initialComponentContents: ["# hello"],
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -697,18 +715,24 @@ describe("Loading a project", () => {
   });
 });
 
-describe("initialComponentContents snapshot", () => {
+describe("initialComponents snapshot", () => {
   const project = {
     project_type: "python",
     components: [{ name: "main", extension: "py", content: "print('hello')" }],
   };
 
-  test("setProject captures component contents", () => {
+  test("setProject captures the snapshot", () => {
     const state = reducer(undefined, setProject(project));
-    expect(state.initialComponentContents).toEqual(["print('hello')"]);
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
   });
 
-  test("setProject captures multiple component contents", () => {
+  test("setProject captures multiple components", () => {
     const multiComponentProject = {
       project_type: "python",
       components: [
@@ -717,7 +741,18 @@ describe("initialComponentContents snapshot", () => {
       ],
     };
     const state = reducer(undefined, setProject(multiComponentProject));
-    expect(state.initialComponentContents).toEqual(["# first", "# second"]);
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "# first",
+      },
+      {
+        name: "utils",
+        extension: "py",
+        content: "# second",
+      },
+    ]);
   });
 
   test("updateProjectComponent does not change the initial snapshot", () => {
@@ -731,7 +766,13 @@ describe("initialComponentContents snapshot", () => {
         cascadeUpdate: false,
       }),
     );
-    expect(edited.initialComponentContents).toEqual(["print('hello')"]);
+    expect(edited.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
     expect(edited.project.components[0].content).toBe("print('edited')");
   });
 
@@ -754,10 +795,16 @@ describe("initialComponentContents snapshot", () => {
       ],
     };
     state = reducer(state, setProject(newProject));
-    expect(state.initialComponentContents).toEqual(["print('new project')"]);
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('new project')",
+      },
+    ]);
   });
 
-  test("loadProject/fulfilled captures component contents", () => {
+  test("loadProject/fulfilled captures initial components", () => {
     const loadThunk = syncProject("load");
     const pendingState = reducer(
       undefined,
@@ -768,20 +815,32 @@ describe("initialComponentContents snapshot", () => {
       { ...pendingState, loading: "pending", currentLoadingRequestId: "req1" },
       fulfilledAction,
     );
-    expect(fulfilledState.initialComponentContents).toEqual(["print('hello')"]);
+    expect(fulfilledState.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
   });
 
-  test("saveProject/fulfilled updates initialComponentContents", () => {
+  test("saveProject/fulfilled updates initialComponents", () => {
     const saveThunk = syncProject("save");
     const stateWithProject = reducer(undefined, setProject(project));
     const stateAfterSave = reducer(
       stateWithProject,
       saveThunk.fulfilled({ project }),
     );
-    expect(stateAfterSave.initialComponentContents).toEqual(["print('hello')"]);
+    expect(stateAfterSave.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
   });
 
-  test("remixProject/fulfilled updates initialComponentContents", () => {
+  test("remixProject/fulfilled updates initialComponents", () => {
     const remixThunk = syncProject("remix");
     const remixedProject = {
       ...project,
@@ -795,8 +854,12 @@ describe("initialComponentContents snapshot", () => {
       stateWithProject,
       remixThunk.fulfilled({ project: remixedProject }),
     );
-    expect(stateAfterRemix.initialComponentContents).toEqual([
-      "print('remixed')",
+    expect(stateAfterRemix.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('remixed')",
+      },
     ]);
   });
 });

@@ -54,7 +54,7 @@ const requestingAProject = function (project, projectFile) {
       openFiles: [[]],
       loading: "pending",
       currentLoadingRequestId: "my_request_id",
-      initialComponentContents: [],
+      initialComponents: [],
     };
     const expectedState = {
       openFiles: [[projectFile]],
@@ -64,9 +64,7 @@ const requestingAProject = function (project, projectFile) {
       saving: "idle",
       project: project,
       currentLoadingRequestId: undefined,
-      initialComponentContents: project.components.map(
-        (component) => component.content,
-      ),
+      initialComponents: project.components,
     };
     expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState);
   });

@@ -127,18 +127,21 @@ class WebComponent extends HTMLElement {
     return state.editor.project.components[0]?.content;
   }
 
-  get codeHasChanged() {
-    const { project, initialComponentContents } = store.getState().editor;
+  get codeChangedSinceInitialLoad() {
+    const { project, initialComponents } = store.getState().editor;
     const current = project?.components;
 
-    if (!current || initialComponentContents.length === 0) return false;
+    if (!current || initialComponents.length === 0) return false;
 
-    // if the number of components is different, consider it changed
-    if (current.length !== initialComponentContents.length) return true;
+    // If the number of components is different, consider it changed
+    if (current.length !== initialComponents.length) return true;
 
-    // match current contents with initial contents, if any of them is different, return true
+    // If component file contents, names or extensions are different, consider it changed
     return current.some(
-      (component, i) => component.content !== initialComponentContents[i],
+      (component, i) =>
+        component.content !== initialComponents[i].content ||
+        component.name !== initialComponents[i].name ||
+        component.extension !== initialComponents[i].extension,
     );
   }
 
