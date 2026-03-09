@@ -297,6 +297,7 @@ describe("When project has no identifier", () => {
       saving: "success",
       lastSavedTime: 1669808953,
       loading: "idle",
+      initialComponentContents: ["# hello"],
     };
 
     expect(
@@ -387,6 +388,7 @@ describe("When project has an identifier", () => {
     const expectedState = {
       project: project,
       saving: "success",
+      initialComponentContents: ["# hello"],
     };
 
     expect(
@@ -423,6 +425,7 @@ describe("When project has an identifier", () => {
       saving: "success",
       loading: "idle",
       lastSaveAutosave: false,
+      initialComponentContents: ["# hello"],
     };
 
     expect(
@@ -766,5 +769,34 @@ describe("initialComponentContents snapshot", () => {
       fulfilledAction,
     );
     expect(fulfilledState.initialComponentContents).toEqual(["print('hello')"]);
+  });
+
+  test("saveProject/fulfilled updates initialComponentContents", () => {
+    const saveThunk = syncProject("save");
+    const stateWithProject = reducer(undefined, setProject(project));
+    const stateAfterSave = reducer(
+      stateWithProject,
+      saveThunk.fulfilled({ project }),
+    );
+    expect(stateAfterSave.initialComponentContents).toEqual(["print('hello')"]);
+  });
+
+  test("remixProject/fulfilled updates initialComponentContents", () => {
+    const remixThunk = syncProject("remix");
+    const remixedProject = {
+      ...project,
+      identifier: "remixed-id",
+      components: [
+        { name: "main", extension: "py", content: "print('remixed')" },
+      ],
+    };
+    const stateWithProject = reducer(undefined, setProject(project));
+    const stateAfterRemix = reducer(
+      stateWithProject,
+      remixThunk.fulfilled({ project: remixedProject }),
+    );
+    expect(stateAfterRemix.initialComponentContents).toEqual([
+      "print('remixed')",
+    ]);
   });
 });

@@ -383,6 +383,9 @@ export const EditorSlice = createSlice({
         state.project = action.payload.project;
         state.loading = "idle";
       }
+      state.initialComponentContents = (state.project.components || []).map(
+        (c) => c.content,
+      );
     });
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
@@ -397,6 +400,9 @@ export const EditorSlice = createSlice({
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+      state.initialComponentContents = (state.project.components || []).map(
+        (c) => c.content,
+      );
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
     builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
