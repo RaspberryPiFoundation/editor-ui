@@ -256,7 +256,7 @@
       display: none;
     }
     &__body {
-      background-color: $rpf-white;
+      background-color: var(--sidebar-panel-background);
     }
   }
 
