@@ -334,6 +334,15 @@
 
   .project-instructions__empty-text {
     margin: 0;
+
+    a {
+      border: 0;
+
+      &:focus-visible {
+        border: 3px solid $rpf-brand-raspberry;
+        outline: none;
+      }
+    }
   }
 }
 

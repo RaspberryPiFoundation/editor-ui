@@ -16,6 +16,7 @@ import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import ProgressBar from "./ProgressBar/ProgressBar";
+import PlusIcon from "../../../../assets/icons/plus.svg";
 
 const InstructionsPanel = () => {
   useEffect(() => {
@@ -162,7 +163,7 @@ const InstructionsPanel = () => {
             : [
                 <DesignSystemButton
                   className="btn--primary"
-                  icon="add"
+                  icon={<PlusIcon />}
                   text={t("instructionsPanel.emptyState.addInstructions")}
                   onClick={addInstructions}
                   fill={true}
