@@ -1,313 +1,313 @@
 {
   "modal": {
-    "close": "Close",
+    "close": "Закрити",
     "error": {
-      "error": "Error",
-      "heading": "An error has occurred",
+      "error": "Помилка",
+      "heading": "Сталася помилка",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "На жаль, посилання на зовнішні сайти недоступні в Редакторі."
       }
     }
   },
   "editorPanel": {
-    "ariaLabel": "editor text input",
-    "characterLimitError": "Error: Character limit reached",
-    "viewOnly": "View only",
-    "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
-    "characterLimitExplanation_few": "Files in the editor are limited to {{count}} characters",
-    "characterLimitExplanation_many": "Files in the editor are limited to {{count}} characters",
-    "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
+    "ariaLabel": "поле для введення тексту",
+    "characterLimitError": "Помилка: досягнуто ліміту символів",
+    "viewOnly": "Лише перегляд",
+    "close": "закрити",
+    "characterLimitExplanation_one": "Файли в редакторі обмежені до {{count}} символа",
+    "characterLimitExplanation_few": "Файли в редакторі обмежені до {{count}} символи",
+    "characterLimitExplanation_many": "Файли в редакторі обмежені до {{count}} символів",
+    "characterLimitExplanation_other": "Файли в редакторі обмежені до {{count}} символів"
   },
   "filePanel": {
     "errors": {
-      "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
-      "containsSpaces": "File names must not contain spaces.",
-      "generalError": "Error",
-      "notUnique": "File names must be unique.",
-      "or": "or",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}."
+      "reservedFileName": "{{fileName}} є зарезервованою назвою файлу. Будь ласка, виберіть іншу назву.",
+      "containsSpaces": "Імена файлів не повинні містити пробілів.",
+      "generalError": "Помилка",
+      "notUnique": "Імена файлів мають бути унікальними.",
+      "or": "або",
+      "unsupportedExtension": "Імена файлів мають закінчуватися на {{allowedExtensions}}."
     },
-    "files": "Project files",
-    "images": "Image gallery",
-    "newFileButton": "Add file",
+    "files": "Файли проєкту",
+    "images": "Галерея зображень",
+    "newFileButton": "Додати файл",
     "newFileModal": {
-      "cancel": "Cancel",
-      "heading": "Add a new file to your project",
-      "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+      "cancel": "Скасувати",
+      "heading": "Додайте новий файл до свого проєкту",
+      "helpText": "Не забудьте додати розширення файлу наприкінці назви, наприклад, {{examples}}",
       "helpTextExample": {
-        "html": "'file.html', 'file.css' or 'file.js'",
+        "html": "'file.html', 'file.css' або 'file.js'",
         "python": "'file.py'"
       },
-      "inputLabel": "Name your file",
-      "addFile": "Add file"
+      "inputLabel": "Назвіть свій файл",
+      "addFile": "Додати файл"
     },
     "renameFileModal": {
-      "cancel": "Cancel",
-      "heading": "Rename file",
-      "inputLabel": "Name your file",
-      "save": "Save"
+      "cancel": "Скасувати",
+      "heading": "Перейменування файлу",
+      "inputLabel": "Назвіть свій файл",
+      "save": "Зберегти"
     },
     "fileMenu": {
-      "label": "Open file menu",
-      "renameItem": "Rename file"
+      "label": "Відкрити меню файлу",
+      "renameItem": "Перейменувати файл"
     }
   },
   "downloadPanel": {
-    "heading": "Save & download",
-    "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
-    "logInButton": "Log in to save",
-    "signUpButton": "Sign up",
-    "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project"
+    "heading": "Зберегти й завантажити",
+    "logInTitle": "Увійдіть, щоб зберегти свій прогрес",
+    "logInHint": "З обліковим записом Raspberry Pi ви можете зберігати свій код і етапи виконання проєкту.",
+    "logInButton": "Увійдіть, щоб зберегти",
+    "signUpButton": "Зареєструватися",
+    "downloadHint": "Завантажте свої файли проєкту, щоб їх можна було використовувати офлайн або в іншому редакторі коду.",
+    "downloadButton": "Завантажити проєкт"
   },
   "footer": {
-    "accessibility": "Accessibility",
-    "charityNameAndNumber": "Raspberry Pi Foundation UK registered charity 1129409",
-    "cookies": "Cookies",
-    "privacy": "Privacy",
-    "safeguarding": "Safeguarding"
+    "accessibility": "Доступність",
+    "charityNameAndNumber": "Raspberry Pi Foundation — благодійна організація, зареєстрована у Великій Британії за номером 1129409",
+    "cookies": "Файли cookie",
+    "privacy": "Конфіденційність",
+    "safeguarding": "Заходи безпеки"
   },
   "projectName": {
-    "label": "Project name",
-    "newProject": "New Project"
+    "label": "Назва проєкту",
+    "newProject": "Новий проєкт"
   },
   "header": {
-    "download": "Download",
-    "downloadFileNameDefault": "my {{project_type}} project",
-    "editorLogoAltText": "Editor logo",
-    "projects": "Your projects",
-    "renameProject": "Edit project name",
-    "renameSave": "Save project name",
-    "save": "Save",
-    "loginToSave": "Log in to save",
-    "settings": "Settings"
+    "download": "Завантажити",
+    "downloadFileNameDefault": "мій проєкт {{project_type}}",
+    "editorLogoAltText": "Логотип Редактора",
+    "projects": "Ваші проєкти",
+    "renameProject": "Редагувати назву проєкту",
+    "renameSave": "Зберегти назву проєкту",
+    "save": "Зберегти",
+    "loginToSave": "Увійдіть, щоб зберегти",
+    "settings": "Налаштування"
   },
   "imagePanel": {
-    "gallery": "Image Gallery"
+    "gallery": "Галерея зображень"
   },
   "infoPanel": {
-    "info": "Information"
+    "info": "Інформація"
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How instructions work",
-      "enablingInstructions": "Enabling instructions",
-      "visible": "Any text written here will be visible to students in the sidebar.",
-      "writingInstructions": "Writing instructions",
-      "markdown": "Write your instructions using [Markdown](https://www.markdownguide.org/).",
-      "whatYouCanDo": "What you can do",
-      "lists": "Lists",
-      "bulletPoints": "Bullet points",
-      "numberedSteps": "Numbered steps"
+      "title": "Як працюють інструкції",
+      "enablingInstructions": "Увімкнення інструкцій",
+      "visible": "Учнівство бачитиме у бічній панелі будь-який написаний тут текст.",
+      "writingInstructions": "Написання інструкцій",
+      "markdown": "Використовуйте [Markdown](https://www.markdownguide.org/) для інструкцій.",
+      "whatYouCanDo": "Що ви можете робити",
+      "lists": "Списки",
+      "bulletPoints": "Марковані списки",
+      "numberedSteps": "Нумеровані кроки"
     },
     "emptyState": {
-      "addInstructions": "Add instructions",
-      "edits": "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
-      "location": "These instructions will be shown to students in their project sidebar and will be view-only.",
-      "markdown": "Instructions are written in <0>markdown</0>.",
-      "purpose": "Instructions can be added to your project to guide students."
+      "addInstructions": "Додати інструкції",
+      "edits": "Як і код проєкту, учні не побачать ніяких змін, які ти внесеш до інструкцій після того, як вони збережуть свою версію проєкту.",
+      "location": "Ці інструкції буде показано учням у бічній панелі їхнього проєкту лише для перегляду.",
+      "markdown": "Інструкції пишуться у <0>markdown</0>.",
+      "purpose": "Інструкції можна додати до свого проєкту, щоб допомогти студентам."
     },
-    "removeInstructions": "Remove instructions",
-    "nextStep": "Next step",
-    "previousStep": "Previous step",
+    "removeInstructions": "Видалити інструкції",
+    "nextStep": "Наступний крок",
+    "previousStep": "Попередній крок",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
-    "projectSteps": "Project instructions",
-    "edit": "Edit",
-    "view": "View",
+    "projectSteps": "Інструкції до проєкту",
+    "edit": "Редагувати",
+    "view": "Переглянути",
     "removeInstructionsModal": {
-      "removeInstructions": "Remove instructions",
-      "close": "Close",
-      "heading": "Remove project instructions?",
-      "removeInstuctionsWarning": "You are about to remove the instructions from the project.",
-      "resultRemovingInstructions": "As a result of removing these instructions:",
-      "instructionsWillBeDeleted": "Instructions content will be deleted.",
-      "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
+      "removeInstructions": "Видалити інструкції",
+      "close": "Закрити",
+      "heading": "Видалити інструкції до проєкту?",
+      "removeInstuctionsWarning": "Ви збираєтеся видалити інструкції з проєкту.",
+      "resultRemovingInstructions": "Якщо ви видалите інструкції:",
+      "instructionsWillBeDeleted": "Зміст інструкцій буде видалено.",
+      "studentsWorkingProjectNotRecievedInstructions": "Учні та учениці, що почнуть працювати з цим проєктом, не отримають інструкцій.",
+      "studentsStartedWillSeeInstructions": "Учні й учениці, що вже почали працювати з цим проєктом, все одно зможуть бачити початкові інструкції."
     }
   },
   "projectsPanel": {
-    "projects": "Projects",
-    "yourProjectsButton": "Go to your projects",
-    "projectTypeLabel": "Project type"
+    "projects": "Проєкти",
+    "yourProjectsButton": "Перейти до твоїх проєктів",
+    "projectTypeLabel": "Тип проєкту"
   },
   "settingsPanel": {
-    "info": "Settings"
+    "info": "Налаштування"
   },
   "input": {
     "comment": {
-      "py5": "Py5: imported mode"
+      "py5": "Py5: імпортований режим"
     }
   },
   "mobile": {
-    "code": "Code",
-    "menu": "Menu",
-    "output": "Output",
-    "preview": "Preview",
-    "steps": "Steps"
+    "code": "Код",
+    "menu": "Меню",
+    "output": "Вивід",
+    "preview": "Попередній перегляд",
+    "steps": "Кроки"
   },
   "modals": {
-    "close": "Close"
+    "close": "Закрити"
   },
   "notifications": {
-    "close": "close",
-    "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
-    "projectRemixed": "Your remixed project has been saved",
-    "projectRenamed": "You have renamed your project.",
-    "projectSaved": "Your project has been saved",
-    "savePrompt": "Save this project to access it later under \"Your projects\"."
+    "close": "закрити",
+    "loginPrompt": "Щоб зберегти цей проєкт і мати доступ до нього пізніше, не забудь увійти або зареєструватися!",
+    "projectRemixed": "Ваш реміксований проєкт збережено",
+    "projectRenamed": "Ви перейменували свій проєкт.",
+    "projectSaved": "Ваш проєкт збережено",
+    "savePrompt": "Збережіть цей проєкт, і він буде доступний у «Ваших проєктах»."
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Виконання перервано"
     },
-    "newTab": "Preview in new tab",
-    "preview": "preview",
+    "newTab": "Попередньо переглянути в новій вкладці",
+    "preview": "перегляд",
     "senseHat": {
       "controls": {
-        "colour": "colour",
-        "humidity": "humidity",
-        "motion": "motion",
+        "colour": "колір",
+        "humidity": "вологість",
+        "motion": "рух",
         "motionSensorOptions": {
-          "no": "No",
-          "yes": "Yes"
+          "no": "Ні",
+          "yes": "Так"
         },
-        "name": "Space Station Control Panel",
-        "pressure": "pressure",
-        "temperature": "temperature",
-        "timer": "timer"
+        "name": "Панель керування космічною станцією",
+        "pressure": "тиск",
+        "temperature": "температура",
+        "timer": "таймер"
       },
       "model": {
-        "pitch": "pitch",
-        "roll": "roll",
-        "yaw": "yaw"
+        "pitch": "тангаж",
+        "roll": "крен",
+        "yaw": "рискання"
       }
     },
-    "textOutput": "Text output",
-    "visualOutput": "Visual output"
+    "textOutput": "Вивід тексту",
+    "visualOutput": "Вивід зображення"
   },
   "outputViewToggle": {
-    "buttonTabLabel": "Tabbed view",
-    "buttonTabTitle": "Tabbed view",
-    "buttonSplitLabel": "Split view",
-    "buttonSplitTitle": "Split view"
+    "buttonTabLabel": "Перегляд в окремих вкладках",
+    "buttonTabTitle": "Перегляд в окремих вкладках",
+    "buttonSplitLabel": "Перегляд в одній вкладці",
+    "buttonSplitTitle": "Перегляд в одній вкладці"
   },
   "project": {
     "accessDeniedWithAuthModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Відвідайте наш сайт із проєктами для натхнення"
       },
-      "heading": "You can't access this project",
-      "newProject": "Create a new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "Visit the Projects site for cool project ideas or start coding in a new project."
+      "heading": "Ви не маєте доступу до цього проєкту",
+      "newProject": "Створити новий проєкт з кодування",
+      "projectsSiteLinkText": "Переглянути сайт із проєктами",
+      "text": "Відвідайте наш сайт із проєктами для натхнення або ж почніть кодувати у новому проєкті."
     },
-    "loading": "Loading",
+    "loading": "Завантажуємо",
     "notFoundModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Відвідайте наш сайт із проєктами для натхнення"
       },
-      "heading": "This project does not exist",
-      "newProject": "Start new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "You can start coding in a new project, or visit the Projects site for cool project ideas."
+      "heading": "Цього проєкту не існує",
+      "newProject": "Почати новий проєкт із кодування",
+      "projectsSiteLinkText": "Переглянути сайт із проєктами",
+      "text": "Ви можете почати кодувати у новому проєкті або ж відвідати сайт із проєктами для натхнення."
     },
-    "untitled": "Untitled project"
+    "untitled": "Проєкт без назви"
   },
   "projectHeader": {
     "subTitle": "Code Editor",
-    "title": "Your projects",
-    "text": "Select a project to continue coding, view, or edit it."
+    "title": "Ваші проєкти",
+    "text": "Виберіть проєкт, щоби кодувати далі, переглянути або редагувати його."
   },
   "projectList": {
-    "delete": "Delete",
-    "deleteLabel": "Delete project",
-    "empty": "No projects created yet",
-    "label": "Open project menu",
-    "loading": "Loading",
-    "loadingFailed": "Failed to load projects",
-    "newProject": "Create a new project",
+    "delete": "Видалити",
+    "deleteLabel": "Видалити проєкт",
+    "empty": "Ще не створено жодного проєкту",
+    "label": "Відкрити меню проєкту",
+    "loading": "Завантажуємо",
+    "loadingFailed": "Не вдалося завантажити проєкти",
+    "newProject": "Створити новий проєкт",
     "pagination": {
-      "first": "First page",
-      "last": "Last page",
-      "next": "Next page",
-      "previous": "Previous page",
-      "more": "Load more projects"
+      "first": "Перша сторінка",
+      "last": "Остання сторінка",
+      "next": "Наступна сторінка",
+      "previous": "Попередня сторінка",
+      "more": "Завантажити більше проєктів"
     },
-    "rename": "Rename",
-    "renameLabel": "Rename project",
+    "rename": "Перейменувати",
+    "renameLabel": "Перейменувати проєкт",
     "renameProjectModal": {
-      "cancel": "Do not save",
-      "heading": "Rename project",
-      "inputLabel": "Change the name of your project",
-      "save": "Save"
+      "cancel": "Не зберігати",
+      "heading": "Перейменування проєкту",
+      "inputLabel": "Змініть назву свого проєкту",
+      "save": "Зберегти"
     },
-    "updated": "Edited",
+    "updated": "Редаговано",
     "python_type": "Python",
     "html_type": "HTML"
   },
   "projectTypes": {
-    "html": "HTML/CSS",
+    "html": "HTML / CSS",
     "python": "Python"
   },
   "runButton": {
-    "run": "Run",
-    "stop": "Stop",
-    "stopping": "Stopping..."
+    "run": "Запустити",
+    "stop": "Зупинити",
+    "stopping": "Зупиняємо..."
   },
   "saveStatus": {
-    "saving": "Saving",
-    "saved": "Saved"
+    "saving": "Зберігаємо",
+    "saved": "Збережено"
   },
   "runners": {
-    "HtmlOutput": "HTML Output Preview"
+    "HtmlOutput": "Попередній перегляд виводу HTML"
   },
   "sidebar": {
-    "collapse": "Collapse sidebar",
-    "download": "Download project",
-    "expand": "Expand sidebar",
-    "file": "Project files",
-    "images": "Image gallery",
-    "settings": "Settings",
-    "projects": "Projects",
-    "information": "Information",
-    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
-    "instructions": "Project instructions",
-    "feedback": "Feedback",
-    "help": "Help",
-    "privacy": "Privacy",
-    "cookies": "Cookies",
-    "accessibility": "Accessibility",
-    "safeguarding": "Safeguarding",
-    "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
+    "collapse": "Згорнути бічну панель",
+    "download": "Завантажити проєкт",
+    "expand": "Розгорнути бічну панель",
+    "file": "Файли проєкту",
+    "images": "Галерея зображень",
+    "settings": "Налаштування",
+    "projects": "Проєкти",
+    "information": "Інформація",
+    "information_text": "Наш Code Editor — це інструмент, який допомагає молоді навчитися програмуванню. Ми додали лише ті функції, які прості та безпечні для використання. Тому, наприклад, посилання на інші сайти не дозволені.",
+    "instructions": "Інструкції до проєкту",
+    "feedback": "Зворотний зв’язок",
+    "help": "Довідка",
+    "privacy": "Конфіденційність",
+    "cookies": "Файли cookie",
+    "accessibility": "Доступність",
+    "safeguarding": "Заходи безпеки",
+    "charity": "Raspberry Pi Foundation — благодійна організація, зареєстрована у Великій Британії за номером 1129409",
     "settingsMenu": {
-      "heading": "Settings",
-      "textSize": "Text size",
-      "theme": "Theme",
+      "heading": "Налаштування",
+      "textSize": "Розмір тексту",
+      "theme": "Тема",
       "textSizeOptions": {
-        "large": "Large",
-        "medium": "Medium",
-        "small": "Small"
+        "large": "Великий",
+        "medium": "Середній",
+        "small": "Малий"
       },
       "themeOptions": {
-        "dark": "Dark",
-        "light": "Light"
+        "dark": "Темна",
+        "light": "Світла"
       }
     }
   },
   "webComponent": {
-    "loading": "Loading",
-    "failed": "Load failed"
+    "loading": "Завантажуємо",
+    "failed": "Не вдалося завантажити"
   },
   "newInputPanelButton": {
-    "buttonText": "Add another panel"
+    "buttonText": "Додати ще одну панель"
   },
   "button": {
-    "yes": "Yes",
-    "no": "No"
+    "yes": "Так",
+    "no": "Ні"
   },
   "common": {
-    "or": "or"
+    "or": "або"
   }
 }
