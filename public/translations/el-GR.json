@@ -1,247 +1,247 @@
 {
   "modal": {
-    "close": "Close",
+    "close": "Κλείσιμο",
     "error": {
-      "error": "Error",
-      "heading": "An error has occurred",
+      "error": "Σφάλμα",
+      "heading": "Παρουσιάστηκε σφάλμα",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "Δυστυχώς, οι σύνδεσμοι προς εξωτερικές ιστοσελίδες δεν είναι διαθέσιμοι στον Επεξεργαστή."
       }
     }
   },
   "editorPanel": {
-    "ariaLabel": "editor text input",
-    "characterLimitError": "Error: Character limit reached",
-    "viewOnly": "View only",
-    "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
-    "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
+    "ariaLabel": "πεδίο εισαγωγής κειμένου στον επεξεργαστή",
+    "characterLimitError": "Σφάλμα: Έχεις συμπληρώσει το όριο χαρακτήρων",
+    "viewOnly": "Μόνο προβολή",
+    "close": "κλείσιμο",
+    "characterLimitExplanation_one": "Τα αρχεία στον επεξεργαστή περιορίζονται σε {{count}} χαρακτήρα",
+    "characterLimitExplanation_other": "Τα αρχεία στον επεξεργαστή περιορίζονται σε {{count}} χαρακτήρες"
   },
   "filePanel": {
     "errors": {
-      "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
-      "containsSpaces": "File names must not contain spaces.",
-      "generalError": "Error",
-      "notUnique": "File names must be unique.",
-      "or": "or",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}."
+      "reservedFileName": "Το όνομα αρχείου {{fileName}} είναι δεσμευμένο. Επίλεξε ένα διαφορετικό όνομα.",
+      "containsSpaces": "Τα ονόματα των αρχείων δεν πρέπει να περιέχουν κενά.",
+      "generalError": "Σφάλμα",
+      "notUnique": "Τα ονόματα αρχείων πρέπει να είναι μοναδικά.",
+      "or": "ή",
+      "unsupportedExtension": "Τα ονόματα αρχείων πρέπει να τελειώνουν σε {{allowedExtensions}}."
     },
-    "files": "Project files",
-    "images": "Image gallery",
-    "newFileButton": "Add file",
+    "files": "Αρχεία έργου",
+    "images": "Συλλογή εικόνων",
+    "newFileButton": "Προσθήκη αρχείου",
     "newFileModal": {
-      "cancel": "Cancel",
-      "heading": "Add a new file to your project",
-      "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+      "cancel": "Ακύρωση",
+      "heading": "Πρόσθεσε ένα νέο αρχείο στο έργο σου",
+      "helpText": "Να θυμάσαι να προσθέτεις την επέκταση του αρχείου στο τέλος του ονόματος του αρχείου σου, για παράδειγμα, {{examples}}",
       "helpTextExample": {
-        "html": "'file.html', 'file.css' or 'file.js'",
+        "html": "file.html', 'file.css' ή 'file.js'",
         "python": "'file.py'"
       },
-      "inputLabel": "Name your file",
-      "addFile": "Add file"
+      "inputLabel": "Ονόμασε το αρχείο σου",
+      "addFile": "Προσθήκη αρχείου"
     },
     "renameFileModal": {
-      "cancel": "Cancel",
-      "heading": "Rename file",
-      "inputLabel": "Name your file",
-      "save": "Save"
+      "cancel": "Ακύρωση",
+      "heading": "Μετονομασία αρχείου",
+      "inputLabel": "Ονόμασε το αρχείο σου",
+      "save": "Αποθήκευση"
     },
     "fileMenu": {
-      "label": "Open file menu",
-      "renameItem": "Rename file"
+      "label": "Άνοιγμα μενού αρχείων",
+      "renameItem": "Μετονομασία αρχείου"
     }
   },
   "downloadPanel": {
-    "heading": "Save & download",
-    "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
-    "logInButton": "Log in to save",
-    "signUpButton": "Sign up",
-    "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project"
+    "heading": "Αποθήκευση και λήψη",
+    "logInTitle": "Συνδέσου για να αποθηκεύσεις την πρόοδό σου",
+    "logInHint": "Με έναν λογαριασμό Raspberry Pi μπορείς να αποθηκεύσεις τον κώδικά σου και την πρόοδο των βημάτων του έργου σου.",
+    "logInButton": "Συνδέσου για αποθήκευση",
+    "signUpButton": "Εγγραφή",
+    "downloadHint": "Κατεβάστε τα αρχεία του έργου σας, ώστε να μπορείτε να τα χρησιμοποιήσετε εκτός σύνδεσης και σε διαφορετικό πρόγραμμα επεξεργασίας κώδικα.",
+    "downloadButton": "Λήψη έργου"
   },
   "footer": {
-    "accessibility": "Accessibility",
-    "charityNameAndNumber": "Raspberry Pi Foundation UK registered charity 1129409",
+    "accessibility": "Προσβασιμότητα",
+    "charityNameAndNumber": "Raspberry Pi Foundation - καταχωρημένο φιλανθρωπικό ίδρυμα στο ΗΒ με Αρ. 1129409",
     "cookies": "Cookies",
-    "privacy": "Privacy",
-    "safeguarding": "Safeguarding"
+    "privacy": "Προστασία προσωπικών δεδομένων",
+    "safeguarding": "Προστασία"
   },
   "projectName": {
-    "label": "Project name",
-    "newProject": "New Project"
+    "label": "Όνομα έργου",
+    "newProject": "Νέο Έργο"
   },
   "header": {
-    "download": "Download",
-    "downloadFileNameDefault": "my {{project_type}} project",
-    "editorLogoAltText": "Editor logo",
-    "projects": "Your projects",
-    "renameProject": "Edit project name",
-    "renameSave": "Save project name",
-    "save": "Save",
-    "loginToSave": "Log in to save",
-    "settings": "Settings"
+    "download": "Λήψη",
+    "downloadFileNameDefault": "το {{project_type}} έργο μου",
+    "editorLogoAltText": "Λογότυπο του επεξεργαστή",
+    "projects": "Τα έργα σου",
+    "renameProject": "Επεξεργασία ονόματος έργου",
+    "renameSave": "Αποθήκευση ονόματος έργου",
+    "save": "Αποθήκευση",
+    "loginToSave": "Συνδέσου για αποθήκευση",
+    "settings": "Ρυθμίσεις"
   },
   "imagePanel": {
-    "gallery": "Image Gallery"
+    "gallery": "Συλλογή εικόνων"
   },
   "infoPanel": {
-    "info": "Information"
+    "info": "Πληροφορίες"
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How instructions work",
-      "enablingInstructions": "Enabling instructions",
-      "visible": "Any text written here will be visible to students in the sidebar.",
-      "writingInstructions": "Writing instructions",
-      "markdown": "Write your instructions using [Markdown](https://www.markdownguide.org/).",
-      "whatYouCanDo": "What you can do",
-      "lists": "Lists",
-      "bulletPoints": "Bullet points",
-      "numberedSteps": "Numbered steps"
+      "title": "Πώς λειτουργούν οι οδηγίες",
+      "enablingInstructions": "Ενεργοποίηση οδηγιών",
+      "visible": "Οποιοδήποτε κείμενο γραφτεί εδώ θα είναι ορατό στους μαθητές στην πλαϊνή μπάρα.",
+      "writingInstructions": "Οδηγίες γραφής",
+      "markdown": "Γράψτε τις οδηγίες σας χρησιμοποιώντας [Markdown](https://www.markdownguide.org/).",
+      "whatYouCanDo": "Τι μπορείς να κάνεις",
+      "lists": "Λίστες",
+      "bulletPoints": "Κουκκίδες",
+      "numberedSteps": "Αριθμημένα βήματα"
     },
     "emptyState": {
-      "addInstructions": "Add instructions",
-      "edits": "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
-      "location": "These instructions will be shown to students in their project sidebar and will be view-only.",
-      "markdown": "Instructions are written in <0>markdown</0>.",
-      "purpose": "Instructions can be added to your project to guide students."
+      "addInstructions": "Προσθήκη οδηγιών",
+      "edits": "Όπως και ο κώδικας του έργου, οι μαθητές δε θα βλέπουν τυχόν αλλαγές που κάνετε στις οδηγίες αφού έχουν αποθηκεύσει τη δική τους έκδοση του έργου.",
+      "location": "Αυτές οι οδηγίες θα εμφανίζονται στους μαθητές στην πλαϊνή μπάρα του έργου τους και θα είναι διαθέσιμες μόνο για προβολή.",
+      "markdown": "Οι οδηγίες είναι γραμμένες σε <0>Markdown</0>.",
+      "purpose": "Μπορείτε να προσθέσετε οδηγίες στο έργο σας για να καθοδηγήσετε τους μαθητές."
     },
-    "removeInstructions": "Remove instructions",
-    "nextStep": "Next step",
-    "previousStep": "Previous step",
+    "removeInstructions": "Αφαίρεση οδηγιών",
+    "nextStep": "Επόμενο βήμα",
+    "previousStep": "Προηγούμενο βήμα",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
-    "projectSteps": "Project instructions",
-    "edit": "Edit",
-    "view": "View",
+    "projectSteps": "Οδηγίες έργου",
+    "edit": "Επεξεργασία",
+    "view": "Προβολή",
     "removeInstructionsModal": {
-      "removeInstructions": "Remove instructions",
-      "close": "Close",
-      "heading": "Remove project instructions?",
-      "removeInstuctionsWarning": "You are about to remove the instructions from the project.",
-      "resultRemovingInstructions": "As a result of removing these instructions:",
-      "instructionsWillBeDeleted": "Instructions content will be deleted.",
-      "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
+      "removeInstructions": "Αφαίρεση οδηγιών",
+      "close": "Κλείσιμο",
+      "heading": "Να αφαιρεθούν οι οδηγίες του έργου;",
+      "removeInstuctionsWarning": "Πρόκειται να αφαιρεθούν οι οδηγίες από το έργο.",
+      "resultRemovingInstructions": "Ως αποτέλεσμα της κατάργησης αυτών των οδηγιών:",
+      "instructionsWillBeDeleted": "Το περιεχόμενο των οδηγιών θα διαγραφεί.",
+      "studentsWorkingProjectNotRecievedInstructions": "Οι μαθητές που θα ξεκινήσουν να δουλεύουν σε αυτό το έργο δε θα λάβουν οδηγίες.",
+      "studentsStartedWillSeeInstructions": "Οι μαθητές που έχουν ήδη ξεκινήσει να δουλεύουν σε αυτό το έργο θα μπορούν να βλέπουν τις οδηγίες όπως ήταν όταν ξεκίνησαν."
     }
   },
   "projectsPanel": {
-    "projects": "Projects",
-    "yourProjectsButton": "Go to your projects",
-    "projectTypeLabel": "Project type"
+    "projects": "Έργα",
+    "yourProjectsButton": "Μετάβαση στα έργα σου",
+    "projectTypeLabel": "Τύπος έργου"
   },
   "settingsPanel": {
-    "info": "Settings"
+    "info": "Ρυθμίσεις"
   },
   "input": {
     "comment": {
-      "py5": "Py5: imported mode"
+      "py5": "Py5: λειτουργία ως εισαγόμενο αρχείο"
     }
   },
   "mobile": {
-    "code": "Code",
-    "menu": "Menu",
-    "output": "Output",
-    "preview": "Preview",
-    "steps": "Steps"
+    "code": "Κώδικας",
+    "menu": "Μενού",
+    "output": "Έξοδος",
+    "preview": "Προεπισκόπηση",
+    "steps": "Βήματα"
   },
   "modals": {
-    "close": "Close"
+    "close": "Κλείσιμο"
   },
   "notifications": {
-    "close": "close",
-    "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
-    "projectRemixed": "Your remixed project has been saved",
-    "projectRenamed": "You have renamed your project.",
-    "projectSaved": "Your project has been saved",
-    "savePrompt": "Save this project to access it later under \"Your projects\"."
+    "close": "κλείσιμο",
+    "loginPrompt": "Για να αποθηκεύσεις αυτό το έργο και να έχεις πρόσβαση σε αυτό αργότερα, μην ξεχάσεις να συνδεθείς ή να εγγραφείς!",
+    "projectRemixed": "Το τροποποιημένο έργο σου έχει αποθηκευτεί.",
+    "projectRenamed": "Μετονόμασες το έργο σου.",
+    "projectSaved": "Το έργο σου έχει αποθηκευτεί",
+    "savePrompt": "Αποθήκευσε αυτό το έργο για να έχεις πρόσβαση σε αυτό αργότερα στην ενότητα \"Τα έργα σου\"."
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Η εκτέλεση διακόπηκε"
     },
-    "newTab": "Preview in new tab",
-    "preview": "preview",
+    "newTab": "Προεπισκόπηση σε νέα καρτέλα",
+    "preview": "προεπισκόπηση",
     "senseHat": {
       "controls": {
-        "colour": "colour",
-        "humidity": "humidity",
-        "motion": "motion",
+        "colour": "χρώμα",
+        "humidity": "υγρασία",
+        "motion": "κίνηση",
         "motionSensorOptions": {
-          "no": "No",
-          "yes": "Yes"
+          "no": "Όχι",
+          "yes": "Ναι"
         },
-        "name": "Space Station Control Panel",
-        "pressure": "pressure",
-        "temperature": "temperature",
-        "timer": "timer"
+        "name": "Πίνακας Ελέγχου Διαστημικού Σταθμού",
+        "pressure": "πίεση",
+        "temperature": "θερμοκρασία",
+        "timer": "χρονοδιακόπτης"
       },
       "model": {
-        "pitch": "pitch",
-        "roll": "roll",
-        "yaw": "yaw"
+        "pitch": "κλίση (γέρνει μπρος-πίσω)",
+        "roll": "κύλιση (γέρνει αριστερά-δεξιά)",
+        "yaw": "εκτροπή (στρίβει αριστερά-δεξιά)"
       }
     },
-    "textOutput": "Text output",
-    "visualOutput": "Visual output"
+    "textOutput": "Έξοδος κειμένου",
+    "visualOutput": "Οπτική έξοδος"
   },
   "outputViewToggle": {
-    "buttonTabLabel": "Tabbed view",
-    "buttonTabTitle": "Tabbed view",
-    "buttonSplitLabel": "Split view",
-    "buttonSplitTitle": "Split view"
+    "buttonTabLabel": "Προβολή με καρτέλες",
+    "buttonTabTitle": "Προβολή με καρτέλες",
+    "buttonSplitLabel": "Διαιρεμένη προβολή",
+    "buttonSplitTitle": "Διαιρεμένη προβολή"
   },
   "project": {
     "accessDeniedWithAuthModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Επισκέψου την ιστοσελίδα Έργα για ενδιαφέρουσες ιδέες."
       },
-      "heading": "You can't access this project",
-      "newProject": "Create a new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "Visit the Projects site for cool project ideas or start coding in a new project."
+      "heading": "Δεν έχεις πρόσβαση σε αυτό το έργο",
+      "newProject": "Δημιουργία νέου έργου",
+      "projectsSiteLinkText": "Εξερεύνηση ιστοσελίδας Έργων",
+      "text": "Επισκέψου την ιστοσελίδα Έργα για ενδιαφέρουσες ιδέες ή ξεκίνα να γράφεις κώδικα σε ένα νέο έργο."
     },
-    "loading": "Loading",
+    "loading": "Φόρτωση",
     "notFoundModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Επισκέψου την ιστοσελίδα Έργα για ενδιαφέρουσες ιδέες"
       },
-      "heading": "This project does not exist",
-      "newProject": "Start new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "You can start coding in a new project, or visit the Projects site for cool project ideas."
+      "heading": "Αυτό το έργο δεν υπάρχει",
+      "newProject": "Δημιουργία νέου έργου",
+      "projectsSiteLinkText": "Εξερεύνηση ιστοσελίδας Έργων",
+      "text": "Ξεκίνα να γράφεις κώδικα σε ένα νέο έργο ή επισκέψου την ιστοσελίδα Έργα για ενδιαφέρουσες ιδέες."
     },
-    "untitled": "Untitled project"
+    "untitled": "Έργο χωρίς τίτλο"
   },
   "projectHeader": {
-    "subTitle": "Code Editor",
-    "title": "Your projects",
-    "text": "Select a project to continue coding, view, or edit it."
+    "subTitle": "Πρόγραμμα Επεξεργασίας Κώδικα",
+    "title": "Τα έργα σου",
+    "text": "Επίλεξε ένα έργο για να συνεχίσεις να γράφεις τον κώδικα, να το δεις, ή να το επεξεργαστείς."
   },
   "projectList": {
-    "delete": "Delete",
-    "deleteLabel": "Delete project",
-    "empty": "No projects created yet",
-    "label": "Open project menu",
-    "loading": "Loading",
-    "loadingFailed": "Failed to load projects",
-    "newProject": "Create a new project",
+    "delete": "Διαγραφή",
+    "deleteLabel": "Διαγραφή έργου",
+    "empty": "Δεν έχουν δημιουργηθεί έργα ακόμη",
+    "label": "Άνοιγμα μενού έργων",
+    "loading": "Φόρτωση",
+    "loadingFailed": "Αποτυχία φόρτωσης έργων",
+    "newProject": "Δημιουργία νέου έργου",
     "pagination": {
-      "first": "First page",
-      "last": "Last page",
-      "next": "Next page",
-      "previous": "Previous page",
-      "more": "Load more projects"
+      "first": "Πρώτη σελίδα",
+      "last": "Τελευταία σελίδα",
+      "next": "Επόμενη σελίδα",
+      "previous": "Προηγούμενη Σελίδα",
+      "more": "Εμφάνιση περισσότερων έργων"
     },
-    "rename": "Rename",
-    "renameLabel": "Rename project",
+    "rename": "Μετονομασία",
+    "renameLabel": "Μετονομασία έργου",
     "renameProjectModal": {
-      "cancel": "Do not save",
-      "heading": "Rename project",
-      "inputLabel": "Change the name of your project",
-      "save": "Save"
+      "cancel": "Χωρίς αποθήκευση",
+      "heading": "Μετονομασία έργου",
+      "inputLabel": "Άλλαξε το όνομα του έργου σου",
+      "save": "Αποθήκευση"
     },
-    "updated": "Edited",
+    "updated": "Επεξεργάστηκε",
     "python_type": "Python",
     "html_type": "HTML"
   },
@@ -251,61 +251,61 @@
   },
   "runButton": {
     "run": "Run",
-    "stop": "Stop",
-    "stopping": "Stopping..."
+    "stop": "Λήξη",
+    "stopping": "Διακοπή..."
   },
   "saveStatus": {
-    "saving": "Saving",
-    "saved": "Saved"
+    "saving": "Αποθήκευση",
+    "saved": "Αποθηκεύτηκε"
   },
   "runners": {
-    "HtmlOutput": "HTML Output Preview"
+    "HtmlOutput": "Προεπισκόπηση εξόδου HTML"
   },
   "sidebar": {
-    "collapse": "Collapse sidebar",
-    "download": "Download project",
-    "expand": "Expand sidebar",
-    "file": "Project files",
-    "images": "Image gallery",
-    "settings": "Settings",
-    "projects": "Projects",
-    "information": "Information",
-    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
-    "instructions": "Project instructions",
-    "feedback": "Feedback",
-    "help": "Help",
-    "privacy": "Privacy",
+    "collapse": "Σύμπτυξη πλαϊνής μπάρας",
+    "download": "Λήψη έργου",
+    "expand": "Ανάπτυξη πλαϊνής μπάρας",
+    "file": "Αρχεία έργου",
+    "images": "Συλλογή εικόνων",
+    "settings": "Ρυθμίσεις",
+    "projects": "Έργα",
+    "information": "Πληροφορίες",
+    "information_text": "Το Code Editor είναι ένα εργαλείο που βοηθά τους νέους να μάθουν να γράφουν κώδικα. Έχουμε συμπεριλάβει μόνο συναρτήσεις που είναι απλές και ασφαλείς στη χρήση. Για αυτόν τον λόγο, παραδείγματος χάριν, δεν επιτρέπονται σύνδεσμοι προς άλλες ιστοσελίδες.",
+    "instructions": "Οδηγίες έργου",
+    "feedback": "Ανατροφοδότηση",
+    "help": "Βοήθεια",
+    "privacy": "Προστασία προσωπικών δεδομένων",
     "cookies": "Cookies",
-    "accessibility": "Accessibility",
-    "safeguarding": "Safeguarding",
-    "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
+    "accessibility": "Προσβασιμότητα",
+    "safeguarding": "Προστασία",
+    "charity": "Raspberry Pi Foundation - καταχωρημένο φιλανθρωπικό ίδρυμα στο ΗΒ με Αρ. 1129409",
     "settingsMenu": {
-      "heading": "Settings",
-      "textSize": "Text size",
-      "theme": "Theme",
+      "heading": "Ρυθμίσεις",
+      "textSize": "Μέγεθος κειμένου",
+      "theme": "Θέμα",
       "textSizeOptions": {
-        "large": "Large",
-        "medium": "Medium",
-        "small": "Small"
+        "large": "Μεγάλο",
+        "medium": "Μεσαίο",
+        "small": "Μικρό"
       },
       "themeOptions": {
-        "dark": "Dark",
-        "light": "Light"
+        "dark": "Σκοτεινό",
+        "light": "Ανοιχτό"
       }
     }
   },
   "webComponent": {
-    "loading": "Loading",
-    "failed": "Load failed"
+    "loading": "Φόρτωση",
+    "failed": "Η φόρτωση απέτυχε"
   },
   "newInputPanelButton": {
-    "buttonText": "Add another panel"
+    "buttonText": "Προσθήκη επιπλέον πίνακα"
   },
   "button": {
-    "yes": "Yes",
-    "no": "No"
+    "yes": "Ναι",
+    "no": "Όχι"
   },
   "common": {
-    "or": "or"
+    "or": "ή"
   }
 }
