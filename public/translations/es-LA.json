@@ -110,6 +110,7 @@
     "removeInstructions": "Eliminar las instrucciones",
     "nextStep": "Siguiente paso",
     "previousStep": "Paso anterior",
+    "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Instrucciones del proyecto",
     "edit": "Editar",
     "view": "Ver",
