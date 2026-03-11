@@ -24,6 +24,9 @@ jobs:
           filters: |
             scss:
               - 'src/**/*.scss'
+              - '.stylelintrc*'
+              - 'stylelint.config.*'
+              - 'package.json'
 
       - name: Cache dependencies
         uses: actions/setup-node@v4
