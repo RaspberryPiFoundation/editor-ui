@@ -100,7 +100,7 @@ svg {
 }
 
 button:focus-visible {
-  outline: 2px solid $rpf-black;
+  outline: 2px solid var(--rpf-black);
 }
 
 //override for a pesky teal icon
@@ -113,33 +113,126 @@ button:focus-visible {
 }
 
 .--light {
-  --editor-color-layer-1: #{$rpf-teal-100};
-  --editor-color-layer-2: #{$rpf-white};
-  --editor-color-layer-3: #{$rpf-white};
-  --editor-color-outline: #{$rpf-grey-150};
+  --editor-color-layer-1: var(--rpf-teal-100);
+  --editor-color-layer-2: var(--rpf-white);
+  --editor-color-layer-3: var(--rpf-white);
+  --editor-color-outline: var(--rpf-grey-150);
+
   //theme change to match WC navy colors
-  --editor-color-theme: #{$rpf-navy-800};
-  --editor-color-theme-secondary: #{$rpf-teal-900};
-  --editor-color-theme-tertiary: #{$rpf-teal-100};
-  --editor-color-text: #{$rpf-text-primary};
-  --editor-color-text-secondary: #{$rpf-text-secondary};
-  --editor-color-tab-background: #{$rpf-off-white};
+  --editor-color-theme: var(--rpf-navy-800);
+  --editor-color-theme-secondary: var(--rpf-teal-900);
+  --editor-color-theme-tertiary: var(--rpf-teal-100);
+  --editor-color-text: var(--rpf-text-primary);
+  --editor-color-text-secondary: var(--rpf-text-secondary);
+  --editor-color-tab-background: var(--rpf-off-white);
+
+  --rpf-files-list-item-active: var(--rpf-teal-secondary-tertiary-active);
+  --rpf-files-list-item-hover: var(--rpf-teal-secondary-tertiary-hover);
+  --rpf-tab-button-hover: var(--rpf-grey-100);
+  --rpf-tab-button-background: inherit;
+  --rpf-tab-border-bottom-selected: var(--rpf-teal-900);
+
+  // Sidebar  
+  --sidebar-border: var(--rpf-grey-150);
+  --sidebar-background: var(--rpf-white);
+  --sidebar-background-selected: var(--rpf-off-white);
+  --sidebar-panel-background: var(--rpf-white);
+  --sidebar-option-hover: var(--rpf-grey-100);
+  --sidebar-option-selected-icon: var(--rpf-black);
+  --sidebar-option-selected-border: var(--editor-color-theme);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-200);
+
+  .btn,
+  .rpf-button {
+    --rpf-button-primary-background-color: var(--rpf-teal-800);
+    --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-600);
+    --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-600);
+    --rpf-button-primary-text-color: var(--rpf-black);
+
+    --rpf-button-secondary-background-color: var(--rpf-teal-800);
+    --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+    --rpf-button-secondary-background-color-hover: var(--rpf-teal-100);
+    --rpf-button-secondary-border-color-hover: var(--rpf-teal-900);
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
+    --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50);
+    --rpf-button-secondary-text-color: var(--rpf-black);
+
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+
+    --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+    --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
+
+    .rpf-button--secondary {
+      border-color: var(--rpf-teal-800);
+    }
+  }
 }
 
 .--dark {
-  --editor-color-layer-1: #{$rpf-grey-850};
-  --editor-color-layer-2: #{$rpf-white};
-  --editor-color-layer-3: #{$rpf-grey-700};
-  --editor-color-outline: #{$rpf-grey-600};
-  --editor-color-theme: #{$rpf-navy-800};
-  --editor-color-theme-secondary: #{$rpf-teal-400};
-  --editor-color-theme-tertiary: #{$rpf-teal-900};
-  --editor-color-text: #{$rpf-white};
-  --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
-  --rpf-button-secondary-text-color: #{$rpf-white};
-  --editor-color-tab-background: #{$rpf-grey-700};
+  --editor-color-layer-1: var(--rpf-grey-850);
+  --editor-color-layer-2: var(--rpf-grey-800);
+  --editor-color-layer-3: var(--rpf-grey-700);
+  --editor-color-outline: var(--rpf-grey-600);
+
+  --editor-color-theme: var(--rpf-navy-800);
+  --editor-color-theme-secondary: var(--rpf-teal-400);
+  --editor-color-theme-tertiary: var(--rpf-teal-900);
+  --editor-color-text: var(--rpf-white);
+  --editor-color-text-secondary: var(--rpf-text-secondary-darkmode);
+
+  --rpf-files-list-item-active: var(--rpf-grey-secondary-tertiary-active);
+  --rpf-files-list-item-hover: var(--rpf-grey-secondary-tertiary-hover);
+  --rpf-tab-button-hover: var(--rpf-grey-900);
+  --rpf-tab-button-background: var(--rpf-grey-800);
+  --rpf-tab-border-bottom-selected: var(--rpf-teal-800);
+
+  // Sidebar
+  --sidebar-border: var(--rpf-grey-600);
+  --sidebar-background: var(--rpf-grey-800);
+  --sidebar-background-selected: var(--rpf-grey-800);
+  --sidebar-panel-background: var(--rpf-grey-700);
+  --sidebar-option-hover: var(--rpf-grey-600);
+  --sidebar-option-selected-icon: var(--rpf-white);
+  --sidebar-option-selected-border: var(--editor-color-theme);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-800);
+
+  --rpf-button-secondary-text-color: var(--rpf-white);
+  --editor-color-tab-background: var(--rpf-grey-700);
+
+  .btn,
+  .rpf-button {
+    --rpf-button-primary-background-color: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-700);
+    --rpf-button-primary-color-disabled-focus: var(--rpf-teal-400);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
+
+    --rpf-button-secondary-background-color: var(--rpf-grey-800);
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-secondary-color-disabled-background: var(--rpf-grey-700);
+    --rpf-button-secondary-background-color-hover: var(--rpf-grey-600);
+    --rpf-button-secondary-border-color-hover: var(--rpf-teal-400);
+    --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
+    --rpf-button-secondary-color: var(--rpf-white);
+    --rpf-button-secondary-text-color: var(--rpf-white);
+
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+
+    --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
+    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
+  }
 
   .rpf-button--secondary {
-    border-color: $rpf-navy-800;
+    border-color: var(--rpf-teal-400);
   }
 }
+
