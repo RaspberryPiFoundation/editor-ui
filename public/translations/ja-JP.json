@@ -5,7 +5,7 @@
       "error": "Error",
       "heading": "An error has occurred",
       "externalLink": {
-        "message": "Unfortunately, links to external sites are not available in the Editor."
+        "message": "Unfortunately links to external sites are not available in the Editor."
       }
     }
   },
@@ -14,7 +14,6 @@
     "characterLimitError": "Error: Character limit reached",
     "viewOnly": "View only",
     "close": "close",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
     "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
   },
   "filePanel": {
@@ -54,7 +53,7 @@
   "downloadPanel": {
     "heading": "Save & download",
     "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account, you can save your code and project steps progress.",
+    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
     "logInButton": "Log in to save",
     "signUpButton": "Sign up",
     "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
@@ -122,7 +121,7 @@
       "resultRemovingInstructions": "As a result of removing these instructions:",
       "instructionsWillBeDeleted": "Instructions content will be deleted.",
       "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already begun this project will still see the instructions in the form they had when the project was started."
+      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
     }
   },
   "projectsPanel": {
@@ -149,12 +148,12 @@
     "close": "Close"
   },
   "notifications": {
-    "close": "Close",
+    "close": "close",
     "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
     "projectRemixed": "Your remixed project has been saved",
     "projectRenamed": "You have renamed your project.",
     "projectSaved": "Your project has been saved",
-    "savePrompt": "Save this project to access it later under \"Your projects.\""
+    "savePrompt": "Save this project to access it later under \"Your projects\"."
   },
   "output": {
     "errors": {
@@ -164,7 +163,7 @@
     "preview": "preview",
     "senseHat": {
       "controls": {
-        "colour": "color",
+        "colour": "colour",
         "humidity": "humidity",
         "motion": "motion",
         "motionSensorOptions": {
@@ -259,7 +258,7 @@
     "saved": "Saved"
   },
   "runners": {
-    "HtmlOutput": "HTML output preview"
+    "HtmlOutput": "HTML Output Preview"
   },
   "sidebar": {
     "collapse": "Collapse sidebar",
@@ -270,7 +269,7 @@
     "settings": "Settings",
     "projects": "Projects",
     "information": "Information",
-    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why links to other websites are not allowed, for example.",
+    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
     "instructions": "Project instructions",
     "feedback": "Feedback",
     "help": "Help",
