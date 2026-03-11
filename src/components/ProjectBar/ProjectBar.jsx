@@ -63,7 +63,7 @@ const ProjectBar = ({ nameEditable = true }) => {
               text={scratchSaveLabel}
               textAlways
               icon={<SaveIcon />}
-              type="secondary"
+              type="primary"
               disabled={isScratchSaving}
             />
           </div>
