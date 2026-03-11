@@ -49,12 +49,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Linting
 
-Both eslint and stylelint are run as part of the CI pipeline. Lint warnings & errors will be highlighted in the devcontainer by standard.
+Lint warnings & errors will be highlighted in the dev-container by default. To run them manually:
 
-To run both manually:
+`yarn lint` (eslint)
+`yarn stylelint`
 
-`npm run lint`
-`npm run stylelint`
+Note: Both eslint and stylelint are run as part of the CI pipeline.
 
 ## Testing
 
