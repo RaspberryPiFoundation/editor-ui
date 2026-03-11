@@ -68,6 +68,8 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
         "jest.jestCommandLine": "yarn test",
+        "eslint.enable": true,
+        "eslint.validate": ["javascript", "javascriptreact"],
         "stylelint.enable": true,
         "stylelint.validate": ["css", "scss"],
         "stylelint.snippet": ["css", "scss"],
