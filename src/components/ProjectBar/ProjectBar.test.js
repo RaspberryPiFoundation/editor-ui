@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
@@ -7,7 +7,9 @@ import ProjectBar from "./ProjectBar";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 jest.mock("axios");
-jest.mock("../../utils/scratchIframe");
+jest.mock("../../utils/scratchIframe", () => ({
+  postMessageToScratchIframe: jest.fn(),
+}));
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -21,6 +23,7 @@ const project = {
   image_list: [],
   user_id: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
 };
+
 const user = {
   access_token: "39a09671-be55-4847-baf5-8919a0c24a25",
   profile: {
@@ -28,10 +31,26 @@ const user = {
   },
 };
 
+const scratchProject = {
+  ...project,
+  project_type: "code_editor_scratch",
+};
+
 const renderProjectBar = (state) => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
-  const store = mockStore({ ...state });
+  const store = mockStore({
+    editor: {
+      loading: "success",
+      project: {},
+      ...state.editor,
+    },
+    auth: {
+      user: null,
+      ...state.auth,
+    },
+  });
+
   render(
     <Provider store={store}>
       <MemoryRouter>
@@ -41,16 +60,32 @@ const renderProjectBar = (state) => {
   );
 };
 
+const getScratchOrigin = () => process.env.ASSETS_URL || window.location.origin;
+
+const dispatchScratchMessage = (type, origin = getScratchOrigin()) => {
+  act(() => {
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin,
+        data: { type },
+      }),
+    );
+  });
+};
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe("When logged in and user owns project", () => {
   beforeEach(() => {
     renderProjectBar({
       editor: {
-        project: project,
-        loading: "success",
+        project,
         lastSavedTime: new Date().getTime(),
       },
       auth: {
-        user: user,
+        user,
       },
     });
   });
@@ -77,16 +112,15 @@ describe("When logged in and user owns project", () => {
 });
 
 describe("When logged in and no project identifier", () => {
-  const project_without_id = { ...project, identifier: null };
+  const projectWithoutId = { ...project, identifier: null };
 
   beforeEach(() => {
     renderProjectBar({
       editor: {
-        project: project_without_id,
-        loading: "success",
+        project: projectWithoutId,
       },
       auth: {
-        user: user,
+        user,
       },
     });
   });
@@ -112,11 +146,7 @@ describe("When not logged in", () => {
   beforeEach(() => {
     renderProjectBar({
       editor: {
-        project: project,
-        loading: "success",
-      },
-      auth: {
-        user: null,
+        project,
       },
     });
   });
@@ -146,7 +176,7 @@ describe("When no project loaded", () => {
         loading: "idle",
       },
       auth: {
-        user: user,
+        user,
       },
     });
   });
@@ -168,13 +198,12 @@ describe("When read only", () => {
   beforeEach(() => {
     renderProjectBar({
       editor: {
-        project: project,
-        loading: "success",
+        project,
         readOnly: true,
         lastSavedTime: new Date().getTime(),
       },
       auth: {
-        user: user,
+        user,
       },
     });
   });
@@ -193,29 +222,107 @@ describe("When read only", () => {
 });
 
 describe("When project is Scratch", () => {
-  const scratchProject = {
-    ...project,
-    project_type: "code_editor_scratch",
-  };
-
   beforeEach(() => {
     postMessageToScratchIframe.mockClear();
     renderProjectBar({
       editor: {
         project: scratchProject,
-        loading: "success",
       },
       auth: {
-        user: user,
+        user,
       },
     });
   });
 
   test("clicking Save sends scratch-gui-save message", () => {
-    fireEvent.click(screen.getByRole("button", { name: "Save" }));
+    fireEvent.click(screen.getByRole("button", { name: "header.save" }));
+
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
       type: "scratch-gui-save",
     });
+  });
+});
+
+describe("Additional Scratch manual save states", () => {
+  test("shows the saving state from the scratch save hook", () => {
+    renderProjectBar({
+      editor: {
+        project: scratchProject,
+      },
+      auth: {
+        user,
+      },
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+
+    expect(
+      screen.getByRole("button", { name: "saveStatus.saving" }),
+    ).toBeDisabled();
+  });
+
+  test("shows the saved state from the scratch save hook", () => {
+    renderProjectBar({
+      editor: {
+        project: scratchProject,
+      },
+      auth: {
+        user,
+      },
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    expect(
+      screen.getByRole("button", { name: "saveStatus.saved" }),
+    ).toBeInTheDocument();
+  });
+
+  test("does not show save for logged-out Scratch users", () => {
+    renderProjectBar({
+      editor: {
+        project: scratchProject,
+      },
+    });
+
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+    expect(screen.queryByText("header.loginToSave")).not.toBeInTheDocument();
+  });
+
+  test("shows save for logged-in non-owners", () => {
+    renderProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          user_id: "teacher-id",
+        },
+      },
+      auth: {
+        user,
+      },
+    });
+
+    expect(
+      screen.getByRole("button", { name: "header.save" }),
+    ).toBeInTheDocument();
+  });
+
+  test("shows save for logged-in users without a Scratch project identifier", () => {
+    renderProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          identifier: null,
+        },
+      },
+      auth: {
+        user,
+      },
+    });
+
+    expect(
+      screen.getByRole("button", { name: "header.save" }),
+    ).toBeInTheDocument();
   });
 });
