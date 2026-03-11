@@ -1,0 +1,311 @@
+{
+  "modal": {
+    "close": "Afsluiten",
+    "error": {
+      "error": "Fout",
+      "heading": "Er is een fout opgetreden",
+      "externalLink": {
+        "message": "Helaas zijn links naar externe websites niet beschikbaar in de editor."
+      }
+    }
+  },
+  "editorPanel": {
+    "ariaLabel": "tekstinvoer in de editor",
+    "characterLimitError": "Fout: Tekenlimiet bereikt",
+    "viewOnly": "Alleen bekijken",
+    "close": "afsluiten",
+    "characterLimitExplanation_one": "Bestanden in de editor zijn beperkt tot {{count}} teken",
+    "characterLimitExplanation_other": "Bestanden in de editor zijn beperkt tot {{count}} tekens"
+  },
+  "filePanel": {
+    "errors": {
+      "reservedFileName": "{{fileName}} is een gereserveerde bestandsnaam. Kies een andere naam.",
+      "containsSpaces": "Bestandsnamen mogen geen spaties bevatten.",
+      "generalError": "Fout",
+      "notUnique": "Bestandsnamen moeten uniek zijn.",
+      "or": "of",
+      "unsupportedExtension": "Bestandsnamen moeten eindigen op {{allowedExtensions}}."
+    },
+    "files": "Projectbestanden",
+    "images": "Afbeeldingengalerij",
+    "newFileButton": "Bestand toevoegen",
+    "newFileModal": {
+      "cancel": "Annuleren",
+      "heading": "Voeg een nieuw bestand toe aan je project",
+      "helpText": "Vergeet niet de bestandsextensie aan het einde van je bestandsnaam toe te voegen, bijvoorbeeld {{examples}}",
+      "helpTextExample": {
+        "html": "'bestand.html', 'bestand.css' of 'bestand.js'",
+        "python": "'bestand.py'"
+      },
+      "inputLabel": "Geef je bestand een naam",
+      "addFile": "Bestand toevoegen"
+    },
+    "renameFileModal": {
+      "cancel": "Annuleren",
+      "heading": "Bestand hernoemen",
+      "inputLabel": "Geef je bestand een naam",
+      "save": "Opslaan"
+    },
+    "fileMenu": {
+      "label": "Open het bestandsmenu",
+      "renameItem": "Bestand hernoemen"
+    }
+  },
+  "downloadPanel": {
+    "heading": "Opslaan en downloaden",
+    "logInTitle": "Log in om je voortgang op te slaan",
+    "logInHint": "Met een Raspberry Pi-account kun je je code en de voortgang van je projectstappen opslaan.",
+    "logInButton": "Log in om op te slaan",
+    "signUpButton": "Aanmelden",
+    "downloadHint": "Download je projectbestanden zodat je ze offline en in een andere code-editor kunt gebruiken.",
+    "downloadButton": "Project downloaden"
+  },
+  "footer": {
+    "accessibility": "Toegankelijkheid",
+    "charityNameAndNumber": "Raspberry Pi Foundation UK geregistreerde liefdadigheidsinstelling 1129409",
+    "cookies": "Cookies",
+    "privacy": "Privacy",
+    "safeguarding": "Veiligheidsbeleid"
+  },
+  "projectName": {
+    "label": "Projectnaam",
+    "newProject": "Nieuw project"
+  },
+  "header": {
+    "download": "Downloaden",
+    "downloadFileNameDefault": "mijn {{project_type}} project",
+    "editorLogoAltText": "Editor-logo",
+    "projects": "Jouw projecten",
+    "renameProject": "Projectnaam bewerken",
+    "renameSave": "Projectnaam opslaan",
+    "save": "Opslaan",
+    "loginToSave": "Log in om op te slaan",
+    "settings": "Instellingen"
+  },
+  "imagePanel": {
+    "gallery": "Afbeeldingengalerij"
+  },
+  "infoPanel": {
+    "info": "Informatie"
+  },
+  "instructionsPanel": {
+    "demoInstructions": {
+      "title": "Hoe instructies werken",
+      "enablingInstructions": "Instructies inschakelen",
+      "visible": "Alle tekst die hier wordt ingevoerd, is voor studenten zichtbaar in de zijbalk.",
+      "writingInstructions": "Instructies schrijven",
+      "markdown": "Schrijf je instructies met behulp van [Markdown](https://www.markdownguide.org/).",
+      "whatYouCanDo": "Wat je kunt doen",
+      "lists": "Lijsten",
+      "bulletPoints": "Opsommingstekens",
+      "numberedSteps": "Genummerde stappen"
+    },
+    "emptyState": {
+      "addInstructions": "Voeg instructies toe",
+      "edits": "Net als bij projectcode zien studenten geen wijzigingen die je aan de instructies aanbrengt nadat ze hun versie van het project hebben opgeslagen.",
+      "location": "Deze instructies worden aan studenten getoond in de zijbalk van hun project en zijn alleen-lezen.",
+      "markdown": "Instructies zijn geschreven in <0>markdown</0>.",
+      "purpose": "Je kunt instructies aan je project toevoegen om studenten te begeleiden."
+    },
+    "removeInstructions": "Instructies verwijderen",
+    "nextStep": "Volgende stap",
+    "previousStep": "Vorige stap",
+    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "projectSteps": "Projectinstructies",
+    "edit": "Bewerken",
+    "view": "Weergave",
+    "removeInstructionsModal": {
+      "removeInstructions": "Instructies verwijderen",
+      "close": "Afsluiten",
+      "heading": "Projectinstructies verwijderen?",
+      "removeInstuctionsWarning": "Je staat op het punt de instructies uit het project te verwijderen.",
+      "resultRemovingInstructions": "Als gevolg van het verwijderen van deze instructies:",
+      "instructionsWillBeDeleted": "Wordt de inhoud van de instructies verwijderd.",
+      "studentsWorkingProjectNotRecievedInstructions": "Ontvangen studenten die aan dit project beginnen, geen instructies.",
+      "studentsStartedWillSeeInstructions": "Kunnen studenten die al aan dit project zijn begonnen, de instructies nog steeds zien zoals ze waren toen ze begonnen."
+    }
+  },
+  "projectsPanel": {
+    "projects": "Projecten",
+    "yourProjectsButton": "Ga naar je projecten",
+    "projectTypeLabel": "Projecttype"
+  },
+  "settingsPanel": {
+    "info": "Instellingen"
+  },
+  "input": {
+    "comment": {
+      "py5": "Py5: geïmporteerde modus"
+    }
+  },
+  "mobile": {
+    "code": "Code",
+    "menu": "Menu",
+    "output": "Uitvoer",
+    "preview": "Voorbeeld",
+    "steps": "Stappen"
+  },
+  "modals": {
+    "close": "Afsluiten"
+  },
+  "notifications": {
+    "close": "afsluiten",
+    "loginPrompt": "Om dit project op te slaan en er later weer toegang toe te krijgen, vergeet niet in te loggen of je aan te melden!",
+    "projectRemixed": "Je geremixte project is opgeslagen",
+    "projectRenamed": "Je hebt je project een andere naam gegeven.",
+    "projectSaved": "Je project is opgeslagen",
+    "savePrompt": "Sla dit project op om het later te kunnen terugvinden onder \"Jouw projecten\"."
+  },
+  "output": {
+    "errors": {
+      "interrupted": "Uitvoering onderbroken"
+    },
+    "newTab": "Voorbeeldweergave in een nieuw tabblad",
+    "preview": "voorbeeld",
+    "senseHat": {
+      "controls": {
+        "colour": "kleur",
+        "humidity": "vochtigheid",
+        "motion": "beweging",
+        "motionSensorOptions": {
+          "no": "Nee",
+          "yes": "Ja"
+        },
+        "name": "Bedieningspaneel van het ruimtestation",
+        "pressure": "druk",
+        "temperature": "temperatuur",
+        "timer": "timer"
+      },
+      "model": {
+        "pitch": "richting",
+        "roll": "rollen",
+        "yaw": "koers"
+      }
+    },
+    "textOutput": "Tekstuitvoer",
+    "visualOutput": "Visuele uitvoer"
+  },
+  "outputViewToggle": {
+    "buttonTabLabel": "Tabbladweergave",
+    "buttonTabTitle": "Tabbladweergave",
+    "buttonSplitLabel": "Gesplitste weergave",
+    "buttonSplitTitle": "Gesplitste weergave"
+  },
+  "project": {
+    "accessDeniedWithAuthModal": {
+      "embedded": {
+        "text": "Bezoek de projectenpagina voor leuke projectideeën"
+      },
+      "heading": "Je hebt geen toegang tot dit project",
+      "newProject": "Maak een nieuw codeerproject",
+      "projectsSiteLinkText": "Verken de projectenwebsite",
+      "text": "Bezoek de projectenwebsiye voor leuke projectideeën of begin direct met programmeren in een nieuw project."
+    },
+    "loading": "Aan het laden",
+    "notFoundModal": {
+      "embedded": {
+        "text": "Bezoek de projectenwebsite voor leuke projectideeën"
+      },
+      "heading": "Dit project bestaat niet",
+      "newProject": "Start een nieuw codeerproject",
+      "projectsSiteLinkText": "Verken de projectenwebsite",
+      "text": "Je kunt beginnen met programmeren in een nieuw project, of de projectenwebsite bezoeken voor leuke projectideeën."
+    },
+    "untitled": "Naamloos project"
+  },
+  "projectHeader": {
+    "subTitle": "Code Editor",
+    "title": "Jouw projecten",
+    "text": "Selecteer een project om verder te coderen, te bekijken of te bewerken."
+  },
+  "projectList": {
+    "delete": "Verwijderen",
+    "deleteLabel": "Project verwijderen",
+    "empty": "Er zijn nog geen projecten aangemaakt",
+    "label": "Projectmenu openen",
+    "loading": "Aan het laden",
+    "loadingFailed": "Projecten laden mislukt",
+    "newProject": "Maak een nieuw project",
+    "pagination": {
+      "first": "Eerste pagina",
+      "last": "Laatste pagina",
+      "next": "Volgende pagina",
+      "previous": "Vorige pagina",
+      "more": "Meer projecten laden"
+    },
+    "rename": "Hernoemen",
+    "renameLabel": "Project hernoemen",
+    "renameProjectModal": {
+      "cancel": "Niet opslaan",
+      "heading": "Project hernoemen",
+      "inputLabel": "Wijzig de naam van jouw project",
+      "save": "Opslaan"
+    },
+    "updated": "Bewerkt",
+    "python_type": "Python",
+    "html_type": "HTML"
+  },
+  "projectTypes": {
+    "html": "HTML/CSS",
+    "python": "Python"
+  },
+  "runButton": {
+    "run": "Uitvoeren",
+    "stop": "Stop",
+    "stopping": "Aan het stoppen..."
+  },
+  "saveStatus": {
+    "saving": "Aan het opslaan",
+    "saved": "Opgeslagen"
+  },
+  "runners": {
+    "HtmlOutput": "HTML-uitvoervoorbeeld"
+  },
+  "sidebar": {
+    "collapse": "Zijbalk inklappen",
+    "download": "Project downloaden",
+    "expand": "Zijbalk uitklappen",
+    "file": "Projectbestanden",
+    "images": "Afbeeldingengalerij",
+    "settings": "Instellingen",
+    "projects": "Projecten",
+    "information": "Informatie",
+    "information_text": "Onze code-editor is een hulpmiddel om jongeren te helpen leren programmeren. We hebben alleen functies opgenomen die eenvoudig en veilig te gebruiken zijn. Daarom zijn links naar andere websites bijvoorbeeld niet toegestaan.",
+    "instructions": "Projectinstructies",
+    "feedback": "Terugkoppeling",
+    "help": "Hulp",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "accessibility": "Toegankelijkheid",
+    "safeguarding": "Veiligheidsbeleid",
+    "charity": "Raspberry Pi Foundation UK geregistreerde liefdadigheidsinstelling 1129409",
+    "settingsMenu": {
+      "heading": "Instellingen",
+      "textSize": "Tekstgrootte",
+      "theme": "Thema",
+      "textSizeOptions": {
+        "large": "Groot",
+        "medium": "Medium",
+        "small": "Klein"
+      },
+      "themeOptions": {
+        "dark": "Donker",
+        "light": "Licht"
+      }
+    }
+  },
+  "webComponent": {
+    "loading": "Aan het laden",
+    "failed": "Laden mislukt"
+  },
+  "newInputPanelButton": {
+    "buttonText": "Voeg nog een paneel toe"
+  },
+  "button": {
+    "yes": "Ja",
+    "no": "Nee"
+  },
+  "common": {
+    "or": "of"
+  }
+}

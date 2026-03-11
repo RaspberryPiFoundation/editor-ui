@@ -14,6 +14,7 @@ import reducer, {
   addProjectComponent,
   updateProjectComponent,
   setCascadeUpdate,
+  setProject,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -296,6 +297,13 @@ describe("When project has no identifier", () => {
       saving: "success",
       lastSavedTime: 1669808953,
       loading: "idle",
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -386,6 +394,13 @@ describe("When project has an identifier", () => {
     const expectedState = {
       project: project,
       saving: "success",
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -422,6 +437,13 @@ describe("When project has an identifier", () => {
       saving: "success",
       loading: "idle",
       lastSaveAutosave: false,
+      initialComponents: [
+        {
+          name: "main",
+          extension: "py",
+          content: "# hello",
+        },
+      ],
     };
 
     expect(
@@ -690,5 +712,154 @@ describe("Loading a project", () => {
         accessToken,
       );
     });
+  });
+});
+
+describe("initialComponents snapshot", () => {
+  const project = {
+    project_type: "python",
+    components: [{ name: "main", extension: "py", content: "print('hello')" }],
+  };
+
+  test("setProject captures the snapshot", () => {
+    const state = reducer(undefined, setProject(project));
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
+  });
+
+  test("setProject captures multiple components", () => {
+    const multiComponentProject = {
+      project_type: "python",
+      components: [
+        { name: "main", extension: "py", content: "# first" },
+        { name: "utils", extension: "py", content: "# second" },
+      ],
+    };
+    const state = reducer(undefined, setProject(multiComponentProject));
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "# first",
+      },
+      {
+        name: "utils",
+        extension: "py",
+        content: "# second",
+      },
+    ]);
+  });
+
+  test("updateProjectComponent does not change the initial snapshot", () => {
+    const state = reducer(undefined, setProject(project));
+    const edited = reducer(
+      state,
+      updateProjectComponent({
+        name: "main",
+        extension: "py",
+        content: "print('edited')",
+        cascadeUpdate: false,
+      }),
+    );
+    expect(edited.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
+    expect(edited.project.components[0].content).toBe("print('edited')");
+  });
+
+  test("setProject resets snapshot when loading a new project", () => {
+    let state = reducer(undefined, setProject(project));
+    state = reducer(
+      state,
+      updateProjectComponent({
+        name: "main",
+        extension: "py",
+        content: "print('edited')",
+        cascadeUpdate: false,
+      }),
+    );
+
+    const newProject = {
+      project_type: "python",
+      components: [
+        { name: "main", extension: "py", content: "print('new project')" },
+      ],
+    };
+    state = reducer(state, setProject(newProject));
+    expect(state.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('new project')",
+      },
+    ]);
+  });
+
+  test("loadProject/fulfilled captures initial components", () => {
+    const loadThunk = syncProject("load");
+    const pendingState = reducer(
+      undefined,
+      loadThunk.pending("req1", {}, undefined, { requestId: "req1" }),
+    );
+    const fulfilledAction = loadThunk.fulfilled({ project }, "req1");
+    const fulfilledState = reducer(
+      { ...pendingState, loading: "pending", currentLoadingRequestId: "req1" },
+      fulfilledAction,
+    );
+    expect(fulfilledState.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
+  });
+
+  test("saveProject/fulfilled updates initialComponents", () => {
+    const saveThunk = syncProject("save");
+    const stateWithProject = reducer(undefined, setProject(project));
+    const stateAfterSave = reducer(
+      stateWithProject,
+      saveThunk.fulfilled({ project }),
+    );
+    expect(stateAfterSave.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hello')",
+      },
+    ]);
+  });
+
+  test("remixProject/fulfilled updates initialComponents", () => {
+    const remixThunk = syncProject("remix");
+    const remixedProject = {
+      ...project,
+      identifier: "remixed-id",
+      components: [
+        { name: "main", extension: "py", content: "print('remixed')" },
+      ],
+    };
+    const stateWithProject = reducer(undefined, setProject(project));
+    const stateAfterRemix = reducer(
+      stateWithProject,
+      remixThunk.fulfilled({ project: remixedProject }),
+    );
+    expect(stateAfterRemix.initialComponents).toEqual([
+      {
+        name: "main",
+        extension: "py",
+        content: "print('remixed')",
+      },
+    ]);
   });
 });

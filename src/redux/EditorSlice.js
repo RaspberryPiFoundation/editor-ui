@@ -122,6 +122,7 @@ export const editorInitialState = {
   modals: {},
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
+  initialComponents: [],
 };
 
 export const EditorSlice = createSlice({
@@ -201,6 +202,11 @@ export const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
+      state.initialComponents = (action.payload.components || []).map((c) => ({
+        name: c.name,
+        extension: c.extension,
+        content: c.content,
+      }));
       if (!state.project.image_list) {
         state.project.image_list = [];
       }
@@ -379,6 +385,11 @@ export const EditorSlice = createSlice({
         state.project = action.payload.project;
         state.loading = "idle";
       }
+      state.initialComponents = (state.project.components || []).map((c) => ({
+        name: c.name,
+        extension: c.extension,
+        content: c.content,
+      }));
     });
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
@@ -393,6 +404,13 @@ export const EditorSlice = createSlice({
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
+      state.initialComponents = (action.payload.project.components || []).map(
+        (c) => ({
+          name: c.name,
+          extension: c.extension,
+          content: c.content,
+        }),
+      );
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
     builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {
