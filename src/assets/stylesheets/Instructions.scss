@@ -255,6 +255,9 @@
     &__checkbox {
       display: none;
     }
+    &__body {
+      background-color: var(--sidebar-panel-background);
+    }
   }
 
   .c-project-callout {
