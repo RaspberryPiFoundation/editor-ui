@@ -26,7 +26,8 @@ code {
   min-block-size: 100dvh;
 }
 
-.--light, #wc.--light {
+.--light,
+#wc.--light {
   --editor-color-layer-1: #{$rpf-teal-100};
   --editor-color-layer-2: #{$rpf-black};
   --editor-color-layer-3: #{$rpf-white};
@@ -50,9 +51,43 @@ code {
   --sidebar-option-selected-border: var(--editor-color-theme);
   --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
   --sidebar-option-selected-background-hover: var(--rpf-teal-200);
+
+  .btn,
+  .rpf-button {
+    font-family: var(--wc-font-family-sans-serif);
+    --rpf-button-primary-background-color: var(--rpf-teal-800);
+    --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-600);
+    --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-600);
+    --rpf-button-primary-text-color: var(--rpf-black);
+
+    --rpf-button-secondary-background-color: var(--rpf-teal-800);
+    --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
+    --rpf-button-secondary-background-color-hover: var(--rpf-teal-100);
+    --rpf-button-secondary-border-color-hover: var(--rpf-teal-900);
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
+    --rpf-button-secondary-background-color-disabled: var(
+      --rpf-grey-50
+    ); // might not exist
+    --rpf-button-secondary-text-color: var(--rpf-black);
+
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+
+    --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+    --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
+
+    .rpf-button--secondary {
+      border-color: var(--rpf-teal-800);
+    }
+  }
 }
 
-.--dark, #wc.--dark {
+.--dark,
+#wc.--dark {
+  font-family: var(--wc-font-family-sans-serif);
   --editor-color-layer-1: #{$rpf-grey-850};
   --editor-color-layer-2: #{$rpf-grey-800};
   --editor-color-layer-3: #{$rpf-grey-700};
@@ -99,41 +134,22 @@ code {
     --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
 
     --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
-    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
-    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+    --rpf-button-tertiary-danger-background-color-active: rgba(
+      255,
+      255,
+      255,
+      0.15
+    );
   }
 
   .rpf-button--secondary {
     border-color: var(--rpf-teal-400);
-  }
-}
-
-.btn,
-.rpf-button {
-  --rpf-button-primary-background-color: var(--rpf-teal-800);
-  --rpf-button-primary-background-color-focus: var(--rpf-teal-800);
-  --rpf-button-primary-background-color-hover: var(--rpf-teal-900);
-  --rpf-button-primary-background-color-active: var(--rpf-teal-600);
-  --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
-  --rpf-button-primary-color-disabled: var(--rpf-grey-600);
-  --rpf-button-primary-text-color: var(--rpf-black);
-
-  --rpf-button-secondary-background-color: var(--rpf-teal-800);
-  --rpf-button-secondary-background-color-focus: $rpf-brand-raspberry; // scss var?
-  --rpf-button-secondary-background-color-hover: var(--rpf-teal-100);
-  --rpf-button-secondary-border-color-hover: var(--rpf-teal-900);
-  --rpf-button-secondary-background-color-active: var(--rpf-teal-900);
-  --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50); // might not exist
-  --rpf-button-secondary-text-color: var(--rpf-black);
-
-  --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
-
-  --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
-  --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
-  --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
-
-  .rpf-button--secondary {
-    border-color: var(--rpf-teal-800);
   }
 }
 
