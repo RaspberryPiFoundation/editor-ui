@@ -12,6 +12,13 @@ const loadProjectFulfilled = (state, action) => {
     state.currentLoadingRequestId === action.meta.requestId
   ) {
     state.project = action.payload.project;
+    state.initialComponents = (action.payload.project.components || []).map(
+      (c) => ({
+        name: c.name,
+        extension: c.extension,
+        content: c.content,
+      }),
+    );
     state.loading = "success";
     state.justLoaded = true;
     state.saving = "idle";
