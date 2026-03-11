@@ -117,6 +117,7 @@ The host page is able to communicate with the web component via custom methods p
 - `runCode`: triggers a code run in the editor
 - `rerunCode`: stops the current code run and starts another code run in the editor
 - `stopCode`: stops the current code run
+- `codeChangedSinceInitialLoad`: getter that returns whether the current project files differ from the initial load by file count, name, extension, or content.
 
 This allows the host page to query the current code in the editor and to control code runs from outside the web component, for example.
 

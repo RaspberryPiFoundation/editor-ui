@@ -127,6 +127,24 @@ class WebComponent extends HTMLElement {
     return state.editor.project.components[0]?.content;
   }
 
+  get codeChangedSinceInitialLoad() {
+    const { project, initialComponents } = store.getState().editor;
+    const current = project?.components;
+
+    if (!current || initialComponents.length === 0) return false;
+
+    // If the number of components is different, consider it changed
+    if (current.length !== initialComponents.length) return true;
+
+    // If component file contents, names or extensions are different, consider it changed
+    return current.some(
+      (component, i) =>
+        component.content !== initialComponents[i].content ||
+        component.name !== initialComponents[i].name ||
+        component.extension !== initialComponents[i].extension,
+    );
+  }
+
   get menuItems() {
     return this.componentProperties.menuItems;
   }
