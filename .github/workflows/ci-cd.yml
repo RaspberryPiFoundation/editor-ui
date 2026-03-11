@@ -20,7 +20,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: "yarn"
           registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
@@ -46,7 +46,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: "yarn"
           registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
@@ -76,7 +76,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: "yarn"
           registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
@@ -88,7 +88,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           install: false
           start: |
@@ -127,10 +127,12 @@ jobs:
       react_app_plausible_source: "https://plausible.io/js/script.js"
       react_app_sentry_dsn: https://a6d7b79c7a474a6499ace73acf792a83@o17504.ingest.sentry.io/4504055099621376
       react_app_sentry_env: production
+      react_app_allowed_iframe_origins: "https://editor.raspberrypi.org,https://editor-static.raspberrypi.org"
     secrets: inherit
 
   deploy-main:
     if: github.ref_type == 'branch' && github.ref_name == 'main'
+    needs: [lint, test, test-cypress]
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging

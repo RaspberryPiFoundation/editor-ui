@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Dropdown from "./Dropdown";
@@ -46,9 +46,11 @@ test("Clicking button makes menu content appear", () => {
   expect(queryByRole("heading", { level: 1, name: "Menu" })).not.toBeNull();
 });
 
-test("Clicking outside menu makes it close", () => {
+test("Clicking outside menu makes it close", async () => {
   const button = getByText("my button").parentElement;
-  fireEvent.click(button);
-  userEvent.click(document.body);
+  await act(() => {
+    fireEvent.click(button);
+    userEvent.click(document.body);
+  });
   expect(queryByRole("heading", { level: 1, name: "Menu" })).toBeNull();
 });

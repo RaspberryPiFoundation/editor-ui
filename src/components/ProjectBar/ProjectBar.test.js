@@ -1,11 +1,13 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectBar from "./ProjectBar";
+import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 jest.mock("axios");
+jest.mock("../../utils/scratchIframe");
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -187,5 +189,33 @@ describe("When read only", () => {
 
   test("Save status is not shown", () => {
     expect(screen.queryByText(/saveStatus.saved/)).not.toBeInTheDocument();
+  });
+});
+
+describe("When project is Scratch", () => {
+  const scratchProject = {
+    ...project,
+    project_type: "code_editor_scratch",
+  };
+
+  beforeEach(() => {
+    postMessageToScratchIframe.mockClear();
+    renderProjectBar({
+      editor: {
+        project: scratchProject,
+        loading: "success",
+      },
+      auth: {
+        user: user,
+      },
+    });
+  });
+
+  test("clicking Save sends scratch-gui-save message", () => {
+    fireEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
   });
 });

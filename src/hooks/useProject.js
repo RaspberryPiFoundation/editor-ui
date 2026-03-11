@@ -9,11 +9,13 @@ export const useProject = ({
   reactAppApiEndpoint = null,
   assetsIdentifier = null,
   projectIdentifier = null,
+  initialProject = null,
   code = null,
   accessToken = null,
   loadRemix = false,
   loadCache = true,
   remixLoadFailed = false,
+  locale = null,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -30,6 +32,7 @@ export const useProject = ({
   );
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
+  const effectiveLocale = locale ?? i18n.language;
 
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject));
@@ -45,9 +48,18 @@ export const useProject = ({
         projectIdentifier &&
         cachedProject &&
         cachedProject.identifier === projectIdentifier;
-      const is_cached_unsaved_project = !projectIdentifier && cachedProject;
+      const is_cached_unsaved_project =
+        !projectIdentifier && cachedProject && !initialProject;
 
-      if (loadCache && (is_cached_saved_project || is_cached_unsaved_project)) {
+      // At the moment this will never match because the cachedProject doesn't have a locale attribute (yet),
+      // so this will always be false, which effectively disables the whole caching mechanism
+      const cachedLocaleMatches = cachedProject?.locale === effectiveLocale;
+
+      if (
+        loadCache &&
+        (is_cached_saved_project || is_cached_unsaved_project) &&
+        cachedLocaleMatches
+      ) {
         loadCachedProject();
         return;
       }
@@ -57,7 +69,7 @@ export const useProject = ({
           syncProject("load")({
             reactAppApiEndpoint,
             identifier: assetsIdentifier,
-            locale: i18n.language,
+            locale: effectiveLocale,
             accessToken,
             assetsOnly: true,
           }),
@@ -70,10 +82,16 @@ export const useProject = ({
           syncProject("load")({
             reactAppApiEndpoint,
             identifier: projectIdentifier,
-            locale: i18n.language,
+            locale: effectiveLocale,
             accessToken: accessToken,
           }),
         );
+        return;
+      }
+
+      if (initialProject) {
+        const project = JSON.parse(initialProject);
+        dispatch(setProject(project));
         return;
       }
 
@@ -94,9 +112,10 @@ export const useProject = ({
     code,
     projectIdentifier,
     cachedProject,
-    i18n.language,
+    effectiveLocale,
     accessToken,
     loadRemix,
+    initialProject,
   ]);
 
   // Try to load the remix, if it fails set `remixLoadFailed` true, and load the project in the next useEffect
@@ -125,14 +144,14 @@ export const useProject = ({
         syncProject("load")({
           reactAppApiEndpoint,
           identifier: projectIdentifier,
-          locale: i18n.language,
+          locale: effectiveLocale,
           accessToken: accessToken,
         }),
       );
 
       loadDispatched.current = true;
     }
-  }, [projectIdentifier, i18n.language, accessToken, remixLoadFailed]);
+  }, [projectIdentifier, effectiveLocale, accessToken, remixLoadFailed]);
 
   useEffect(() => {
     if (code && loading === "success") {

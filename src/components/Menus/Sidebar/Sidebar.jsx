@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
@@ -25,8 +25,18 @@ import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
 
-const Sidebar = ({ options = [], plugins = [] }) => {
+const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   const { t } = useTranslation();
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const projectImages = useSelector((state) => state.editor.project.image_list);
+  const instructionsSteps = useSelector(
+    (state) => state.instructions?.project?.steps,
+  );
+  const instructionsEditable = useSelector(
+    (state) => state.editor.instructionsEditable,
+  );
+  const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const isMobile = allowMobileView && viewportIsMobile;
 
   let menuOptions = [
     {
@@ -78,32 +88,35 @@ const Sidebar = ({ options = [], plugins = [] }) => {
       position: "bottom",
       panel: InfoPanel,
     },
-  ].filter((option) => options.includes(option.name));
-
-  let pluginMenuOptions = plugins.map((plugin) => {
-    return {
-      name: plugin.name,
-      icon: plugin.icon,
-      title: plugin.title,
-      position: plugin.position || "top",
-      panel: () => (
-        <SidebarPanel heading={plugin.heading} Button={plugin.button}>
-          {plugin.panel()}
-        </SidebarPanel>
-      ),
-    };
+  ].filter((option) => {
+    if (!options.includes(option.name)) return false;
+    if (projectType === "code_editor_scratch" && option.name === "file")
+      return false;
+    return true;
   });
 
-  menuOptions = [...menuOptions, ...pluginMenuOptions];
+  let pluginMenuOptions = useMemo(
+    () =>
+      plugins.map((plugin) => {
+        return {
+          name: plugin.name,
+          icon: plugin.icon,
+          title: plugin.title,
+          position: plugin.position || "top",
+          panel: () => (
+            <SidebarPanel
+              heading={plugin.heading}
+              buttons={plugin.buttons ? plugin.buttons() : []}
+            >
+              {plugin.panel()}
+            </SidebarPanel>
+          ),
+        };
+      }),
+    [plugins],
+  );
 
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const projectImages = useSelector((state) => state.editor.project.image_list);
-  const instructionsSteps = useSelector(
-    (state) => state.instructions?.project?.steps,
-  );
-  const instructionsEditable = useSelector(
-    (state) => state.editor.instructionsEditable,
-  );
+  menuOptions = [...menuOptions, ...pluginMenuOptions];
 
   const removeOption = (optionName, depArray = []) => {
     if ((!depArray || depArray.length === 0) && options.includes(optionName)) {
@@ -149,19 +162,26 @@ const Sidebar = ({ options = [], plugins = [] }) => {
   const optionDict = menuOptions.find((menuOption) => {
     return menuOption.name === option;
   });
+  const activeOption = optionDict ? option : null;
 
   const CustomSidebarPanel =
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div className={classNames("sidebar", { "sidebar--mobile": isMobile })}>
+    <div
+      className={classNames("sidebar", {
+        "sidebar--mobile": isMobile,
+        "sidebar--scratch": projectType === "code_editor_scratch",
+      })}
+    >
       <SidebarBar
         menuOptions={menuOptions}
-        option={option}
+        option={activeOption}
         toggleOption={toggleOption}
         instructions={instructionsSteps}
+        allowMobileView={allowMobileView}
       />
-      {option && <CustomSidebarPanel isMobile={isMobile} />}
+      {activeOption && <CustomSidebarPanel isMobile={isMobile} />}
     </div>
   );
 };

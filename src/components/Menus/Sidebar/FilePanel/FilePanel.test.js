@@ -4,7 +4,11 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 import FilePanel from "./FilePanel";
-import { openFile, setFocussedFileIndex } from "../../../../redux/EditorSlice";
+import {
+  openFile,
+  setFocussedFileIndex,
+  showNewFileModal,
+} from "../../../../redux/EditorSlice";
 
 const createMockStore = function ({ components, openFiles = [[]], readOnly }) {
   const mockStore = configureStore([]);
@@ -166,8 +170,10 @@ describe("it renders the expected icon for individual files", () => {
 });
 
 describe("When not read only", () => {
+  let store;
+
   beforeEach(() => {
-    const store = createMockStore({
+    store = createMockStore({
       components: [{ name: "a", extension: "py" }],
       readOnly: false,
     });
@@ -186,6 +192,13 @@ describe("When not read only", () => {
 
   test("it renders the file menu button", () => {
     expect(screen.queryByTitle("filePanel.fileMenu.label")).toBeInTheDocument();
+  });
+
+  test("Clicking button opens new file modal", () => {
+    const button = screen.queryByText("filePanel.newFileButton");
+    fireEvent.click(button);
+    const expectedActions = [showNewFileModal()];
+    expect(store.getActions()).toEqual(expectedActions);
   });
 });
 

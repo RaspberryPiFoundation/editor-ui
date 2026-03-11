@@ -1,21 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 // This is disabled because the empty anchor tag is used for translation and will have content when rendered.
-import React, { useEffect, useRef, useMemo, useState } from "react";
-import SidebarPanel from "../SidebarPanel";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useSelector, useDispatch } from "react-redux";
-import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import { useDispatch, useSelector } from "react-redux";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import SidebarPanel from "../SidebarPanel";
 
-import ProgressBar from "./ProgressBar/ProgressBar";
+import Prism from "prismjs";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import "../../../../assets/stylesheets/Instructions.scss";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
-import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
-import Prism from "prismjs";
+import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import ProgressBar from "./ProgressBar/ProgressBar";
+import PlusIcon from "../../../../assets/icons/plus.svg";
 
 const InstructionsPanel = () => {
   useEffect(() => {
@@ -26,6 +29,12 @@ const InstructionsPanel = () => {
         "remove-indent": false,
         "remove-initial-line-feed": true,
         "left-trim": false,
+      });
+      Prism.hooks.add("before-sanity-check", function (env) {
+        if (!env.code) return;
+
+        // Remove multiple leading blank lines (empty or whitespace-only)
+        env.code = env.code.replace(/^(?:\s*\n)+/, "");
       });
     }
   }, []);
@@ -157,22 +166,47 @@ const InstructionsPanel = () => {
       />
     );
   };
+
   const onChange = (e) => {
     dispatch(setProjectInstructions(e.target.value));
   };
 
+  const panelRef = useRef(null);
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
+      panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
-      Button={
+      buttons={
         instructionsEditable
           ? hasInstructions
-            ? RemoveInstructionsButton
-            : AddInstructionsButton
-          : null
+            ? [
+                <DesignSystemButton
+                  className="btn--secondary"
+                  text={t("instructionsPanel.removeInstructions")}
+                  onClick={() => setShowModal(true)}
+                  fill={true}
+                  textAlways={true}
+                  small={true}
+                />,
+              ]
+            : [
+                <DesignSystemButton
+                  className="btn--primary"
+                  icon={<PlusIcon />}
+                  text={t("instructionsPanel.emptyState.addInstructions")}
+                  onClick={addInstructions}
+                  fill={true}
+                  textAlways={true}
+                  small={true}
+                />,
+              ]
+          : []
       }
-      {...{ Footer: hasMultipleSteps && ProgressBar }}
+      Footer={
+        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+      }
     >
       <div className="project-instructions">
         {instructionsEditable ? (
@@ -192,15 +226,10 @@ const InstructionsPanel = () => {
                     data-testid="instructionTextarea"
                     value={project.instructions}
                     onChange={onChange}
-                  ></textarea>
+                  />
                 </TabPanel>
                 <TabPanel>
-                  <>
-                    <div
-                      className="project-instructions"
-                      ref={stepContent}
-                    ></div>
-                  </>
+                  <div className="project-instructions" ref={stepContent} />
                 </TabPanel>
               </Tabs>
             </div>
@@ -230,10 +259,7 @@ const InstructionsPanel = () => {
             </div>
           )
         ) : (
-          <div
-            className="project-instructions__content"
-            ref={stepContent}
-          ></div>
+          <div className="project-instructions__content" ref={stepContent} />
         )}
       </div>
       {showModal && (

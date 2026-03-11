@@ -5,6 +5,7 @@ import {
   setSenseHatAlwaysEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
+  setScratchApiEndpoint,
   setReadOnly,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
@@ -50,6 +51,7 @@ const WebComponentLoader = (props) => {
     sidebarPlugins = [],
     projectNameEditable = false,
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
     showSavePrompt = false,
@@ -58,6 +60,7 @@ const WebComponentLoader = (props) => {
     withProjectbar = false,
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
+    initialProject = null,
   } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -146,6 +149,8 @@ const WebComponentLoader = (props) => {
     loadRemix: loadRemix && !loadRemixDisabled,
     loadCache,
     remixLoadFailed,
+    initialProject,
+    locale,
   });
 
   useProjectPersistence({
@@ -161,6 +166,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setReactAppApiEndpoint(reactAppApiEndpoint));
   }, [reactAppApiEndpoint, dispatch]);
+
+  useEffect(() => {
+    dispatch(setScratchApiEndpoint(scratchApiEndpoint));
+  }, [scratchApiEndpoint, dispatch]);
 
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));

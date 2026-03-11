@@ -11,19 +11,26 @@ const SidebarPanel = (props) => {
     heading,
     Footer,
     className,
-    Button,
-    defaultWidth = "225px",
+    buttons,
+    panelRef,
+    defaultWidth = "320px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+
+  const buttonsIsEmptyArray =
+    buttons && Array.isArray(buttons) && buttons.length === 0;
 
   const panelContent = (
     <>
       <div className="sidebar__panel-header">
         <h2 className="sidebar__panel-heading">{heading}</h2>
-        {Button ? <Button /> : null}
+        {buttons && !buttonsIsEmptyArray && (
+          <div className="sidebar__panel-buttons">{buttons}</div>
+        )}
       </div>
-
-      <div className="sidebar__panel-content">{children}</div>
+      <div ref={panelRef} className="sidebar__panel-content">
+        {children}
+      </div>
       {Footer && <div className="sidebar__panel-footer">{<Footer />}</div>}
     </>
   );
@@ -50,7 +57,7 @@ const SidebarPanel = (props) => {
       defaultWidth={defaultWidth}
       defaultHeight="100%"
       handleDirection="right"
-      minWidth="180px"
+      minWidth="280px"
       maxWidth="600px"
     >
       {panelContent}
@@ -62,7 +69,7 @@ SidebarPanel.propTypes = {
   children: PropTypes.any.isRequired,
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
-  Button: PropTypes.func,
+  buttons: PropTypes.arrayOf(PropTypes.node),
 };
 
 export default SidebarPanel;

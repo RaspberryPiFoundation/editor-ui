@@ -296,18 +296,6 @@
     "loading": "Wird geladen",
     "failed": "Laden fehlgeschlagen"
   },
-  "imageUploadButton": {
-    "uploadImage": "Bild hochladen",
-    "uploadAnImage": "Laden Sie ein Bild hoch",
-    "info": "Ziehen Sie Bilder hierher, oder klicken Sie, um Bilder aus der Datei auszuwählen",
-    "cancel": "Stornieren",
-    "save": "Speichern",
-    "errors": {
-      "error": "Fehler",
-      "imageNameNotUnique": "Bildnamen müssen eindeutig sein.",
-      "invalidImageExtension": "Bildnamen müssen enden auf {{extensions}}."
-    }
-  },
   "newInputPanelButton": {
     "buttonText": "Fügen Sie ein weiteres Panel hinzu"
   },

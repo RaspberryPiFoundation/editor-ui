@@ -1,0 +1,28 @@
+{
+  "identifier": "cool-python",
+  "project_type": "python",
+  "locale": "en",
+  "name": "Cool Python: ASCII Orb",
+  "user_id": null,
+  "instructions": {
+    "content": "## Cool Python: ASCII Orb\n\nA minimal project that prints a single shaded **ASCII orb** (a circle with simple lighting).\n\n### Try this\n- Change `WIDTH` / `HEIGHT` in `main.py`\n- Change the `light_dx` / `light_dy` values to move the highlight\n- Swap the `SHADES` string in `ascii_orb.py` to change the look\n\nFiles:\n- `main.py` (entry point)\n- `ascii_orb.py` (helper that renders the orb)\n",
+    "permitOverride": false
+  },
+  "components": [
+    {
+      "id": "9b5a24a8-7d15-4a34-8a59-7b0a1f1b19b2",
+      "name": "main",
+      "extension": "py",
+      "content": "from ascii_orb import render_orb\n\n\ndef main():\n    # Keep this reasonably small so it fits nicely in the output panel\n    WIDTH = 48\n    HEIGHT = 24\n\n    art = render_orb(width=WIDTH, height=HEIGHT, light_dx=-0.35, light_dy=-0.25)\n    print(art)\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    {
+      "id": "5e0a8f3d-3c54-44f9-9fd9-75d41c1bb447",
+      "name": "ascii_orb",
+      "extension": "py",
+      "content": "import math\n\n\n# Dark -> light. Try: \" .:-=+*#%@\"\nSHADES = \" .:-=+*#%@\"\n\n\ndef render_orb(width=48, height=24, light_dx=-0.35, light_dy=-0.25):\n    \"\"\"Render a shaded ASCII circle (an \"orb\") as a multiline string.\n\n    light_dx/light_dy shift the highlight direction (-1..1 range feels good).\n    \"\"\"\n\n    w = int(width)\n    h = int(height)\n    cx = (w - 1) / 2.0\n    cy = (h - 1) / 2.0\n\n    # Keep the circle round-ish in terminal characters\n    aspect = 2.0\n    r = min(cx, cy) * 0.95\n\n    lines = []\n    for y in range(h):\n        row = []\n        for x in range(w):\n            nx = (x - cx) / r\n            ny = ((y - cy) / r) * aspect\n            d2 = nx * nx + ny * ny\n\n            if d2 > 1.0:\n                row.append(' ')\n                continue\n\n            # Simple fake lighting: brighter near the light direction\n            # and darker toward the edges (a bit of \"rim\" shading).\n            edge = math.sqrt(max(0.0, 1.0 - d2))\n            light = 0.6 + 0.4 * (-(nx * light_dx + ny * light_dy))\n            value = (0.65 * edge + 0.35 * light)\n\n            idx = int(value * (len(SHADES) - 1))\n            idx = max(0, min(len(SHADES) - 1, idx))\n            row.append(SHADES[idx])\n\n        lines.append(''.join(row).rstrip())\n\n    return '\\n'.join(lines)\n"
+    }
+  ],
+  "image_list": [],
+  "videos": [],
+  "audio": []
+}

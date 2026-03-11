@@ -1,0 +1,19 @@
+{
+  "identifier": "blank-python-starter",
+  "project_type": "python",
+  "locale": "en",
+  "name": "Blank Python Starter",
+  "user_id": null,
+  "instructions": null,
+  "components": [
+    {
+      "id": "42b4cdc9-d935-4a3d-b39a-32eb44c5ebfe",
+      "name": "main",
+      "extension": "py",
+      "content": ""
+    }
+  ],
+  "image_list": [],
+  "videos": [],
+  "audio": []
+}

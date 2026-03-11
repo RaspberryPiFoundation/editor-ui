@@ -8,6 +8,7 @@ import SaveButton from "../SaveButton/SaveButton";
 
 import "../../assets/stylesheets/ProjectBar.scss";
 import { isOwner } from "../../utils/projectHelpers";
+import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 const ProjectBar = ({ nameEditable = true }) => {
   const { t } = useTranslation();
@@ -19,6 +20,10 @@ const ProjectBar = ({ nameEditable = true }) => {
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+
+  const saveScratchProject = () => {
+    postMessageToScratchIframe({ type: "scratch-gui-save" });
+  };
 
   return (
     loading === "success" && (
@@ -40,6 +45,14 @@ const ProjectBar = ({ nameEditable = true }) => {
             <div className="project-bar__btn-wrapper">
               <SaveButton className="project-bar__btn btn--save" />
             </div>
+          )}
+          {project.project_type === "code_editor_scratch" && (
+            <button
+              className="project-bar__btn btn--save"
+              onClick={saveScratchProject}
+            >
+              Save
+            </button>
           )}
           {lastSavedTime && user && !readOnly && (
             <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />

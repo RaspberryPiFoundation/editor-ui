@@ -15,7 +15,14 @@ let images = [
   },
 ];
 
-const options = ["file", "images", "instructions"];
+const options = ["file", "images", "instructions", "info"];
+const optionsWithDownload = [
+  "file",
+  "images",
+  "instructions",
+  "download",
+  "info",
+];
 
 describe("When project has images", () => {
   describe("and no instructions", () => {
@@ -336,6 +343,7 @@ describe("When plugins are provided", () => {
     heading: "My amazing plugin",
     title: "my amazing plugin",
     panel: () => <p>My amazing content</p>,
+    buttons: () => [<button>My amazing button</button>],
   };
 
   describe("when plugin has autoOpen true", () => {
@@ -365,6 +373,10 @@ describe("When plugins are provided", () => {
 
     test("Renders the plugin content", () => {
       expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+    });
+
+    test("Renders the plugin buttons", () => {
+      expect(screen.queryByText("My amazing button")).toBeInTheDocument();
     });
   });
 
@@ -404,5 +416,51 @@ describe("When plugins are provided", () => {
       fireEvent.click(pluginButton);
       expect(screen.queryByText("My amazing content")).toBeInTheDocument();
     });
+  });
+});
+
+describe("When the project type is code_editor_scratch", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      auth: {
+        user: null,
+      },
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+          project_type: "code_editor_scratch",
+        },
+        instructionsEditable: false,
+      },
+      instructions: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={optionsWithDownload} />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Does not show file icon", () => {
+    expect(screen.queryByTitle("sidebar.file")).not.toBeInTheDocument();
+  });
+
+  test("Shows the info icon", () => {
+    expect(screen.queryByTitle("sidebar.information")).toBeInTheDocument();
+  });
+
+  test("Starts in closed chevron state for scratch", () => {
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+  });
+
+  test("Clicking expand opens the first available top panel when file is hidden", () => {
+    const expandButton = screen.getByTitle("sidebar.expand");
+    fireEvent.click(expandButton);
+    expect(screen.queryByText("downloadPanel.heading")).toBeInTheDocument();
   });
 });

@@ -4,26 +4,24 @@ import omit from "lodash/omit";
 const ApiCallHandler = ({ reactAppApiEndpoint }) => {
   const host = reactAppApiEndpoint;
 
-  const get = async (url, headers) => {
-    return await axios.get(url, headers);
+  const get = async (url, config) => {
+    return await axios.get(url, config);
   };
 
-  const post = async (url, body, headers) => {
-    return await axios.post(url, body, headers);
+  const post = async (url, body, config) => {
+    return await axios.post(url, body, config);
   };
 
-  const put = async (url, body, headers) => {
-    return await axios.put(url, body, headers);
+  const put = async (url, body, config) => {
+    return await axios.put(url, body, config);
   };
 
   const headers = (accessToken) => {
-    let headersHash;
     if (accessToken) {
-      headersHash = { Accept: "application/json", Authorization: accessToken };
+      return { Accept: "application/json", Authorization: accessToken };
     } else {
-      headersHash = { Accept: "application/json" };
+      return { Accept: "application/json" };
     }
-    return { headers: headersHash };
   };
 
   const createOrUpdateProject = async (projectWithUserId, accessToken) => {
@@ -32,40 +30,34 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
       return await post(
         `${host}/api/projects`,
         { project },
-        headers(accessToken),
+        { headers: headers(accessToken) },
       );
     } else {
       return await put(
         `${host}/api/projects/${project.identifier}`,
         { project },
-        headers(accessToken),
+        { headers: headers(accessToken) },
       );
     }
   };
 
   const deleteProject = async (identifier, accessToken) => {
-    return await axios.delete(
-      `${host}/api/projects/${identifier}`,
-      headers(accessToken),
-    );
-  };
-
-  const getImage = async (url) => {
-    return await get(url, headers());
+    return await axios.delete(`${host}/api/projects/${identifier}`, {
+      headers: headers(accessToken),
+    });
   };
 
   const loadRemix = async (projectIdentifier, accessToken) => {
-    return await get(
-      `${host}/api/projects/${projectIdentifier}/remix`,
-      headers(accessToken),
-    );
+    return await get(`${host}/api/projects/${projectIdentifier}/remix`, {
+      headers: headers(accessToken),
+    });
   };
 
   const createRemix = async (project, accessToken) => {
     return await post(
       `${host}/api/projects/${project.identifier}/remix`,
       { project },
-      headers(accessToken),
+      { headers: headers(accessToken) },
     );
   };
 
@@ -73,7 +65,7 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     const queryString = locale ? `?locale=${locale}` : "";
     return await get(
       `${host}/api/projects/${projectIdentifier}${queryString}`,
-      headers(accessToken),
+      { headers: headers(accessToken), withCredentials: true },
     );
   };
 
@@ -81,28 +73,7 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     const queryString = locale ? `?locale=${locale}` : "";
     return await get(
       `${host}/api/projects/${assetsIdentifier}/images${queryString}`,
-      headers(accessToken),
-    );
-  };
-
-  const readProjectList = async (page, accessToken) => {
-    return await get(`${host}/api/projects`, {
-      params: { page },
-      ...headers(accessToken),
-    });
-  };
-
-  const uploadImages = async (projectIdentifier, accessToken, images) => {
-    var formData = new FormData();
-
-    images.forEach((image) => {
-      formData.append("images[]", image, image.name);
-    });
-
-    return await post(
-      `${host}/api/projects/${projectIdentifier}/images`,
-      formData,
-      { ...headers(accessToken), "Content-Type": "multipart/form-data" },
+      { headers: headers(accessToken) },
     );
   };
 
@@ -130,13 +101,10 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     put,
     createOrUpdateProject,
     deleteProject,
-    getImage,
     loadRemix,
     createRemix,
     readProject,
     loadAssets,
-    readProjectList,
-    uploadImages,
     createError,
   };
 };

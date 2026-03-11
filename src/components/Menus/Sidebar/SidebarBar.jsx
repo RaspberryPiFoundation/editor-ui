@@ -13,7 +13,13 @@ import pythonLogo from "../../../assets/python_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
-  const { menuOptions, option, toggleOption, instructions = false } = props;
+  const {
+    menuOptions,
+    option,
+    toggleOption,
+    instructions = false,
+    allowMobileView = true,
+  } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
   const topMenuOptions = menuOptions.filter(
@@ -22,11 +28,29 @@ const SidebarBar = (props) => {
   const bottomMenuOptions = menuOptions.filter(
     (menuOption) => menuOption.position === "bottom",
   );
-  const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const menuOptionNames = menuOptions.map((menuOption) => menuOption.name);
+  const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const isMobile = allowMobileView && viewportIsMobile;
+
+  const findFirstExistingOption = (candidateOptions = []) => {
+    return candidateOptions.find(
+      (optionName) => optionName && menuOptionNames.includes(optionName),
+    );
+  };
 
   const expandPopOut = () => {
-    const option = instructions.length > 0 ? "instructions" : "file";
-    toggleOption(option);
+    const hasInstructions =
+      Array.isArray(instructions) && instructions.length > 0;
+    const expandOption = findFirstExistingOption([
+      hasInstructions ? "instructions" : null,
+      "file",
+      topMenuOptions[0]?.name, // top part
+      menuOptions[0]?.name, // bottom part
+    ]);
+
+    if (expandOption) {
+      toggleOption(expandOption);
+    }
     if (window.plausible) {
       // TODO: Make dynamic events for each option or rename this event
       window.plausible("Expand file pane");

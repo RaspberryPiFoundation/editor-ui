@@ -6,9 +6,10 @@ dotenv.config();
 export default defineConfig({
   e2e: {
     chromeWebSecurity: false,
-    supportFile: false,
     defaultCommandTimeout: 10000,
     video: false,
+    defaultBrowser: "chrome",
+    testIsolation: true,
     setupNodeEvents(on, config) {
       on("task", {
         log(message) {
@@ -22,6 +23,7 @@ export default defineConfig({
           console.log("Applying Chrome launch options");
           launchOptions.args.push("--enable-features=SharedArrayBuffer");
           launchOptions.args.push("--disable-site-isolation-trials");
+          launchOptions.args.push("--enable-unsafe-swiftshader");
         }
         return launchOptions;
       });

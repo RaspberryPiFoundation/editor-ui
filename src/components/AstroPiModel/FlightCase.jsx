@@ -15,9 +15,15 @@ const FlightCase = () => {
     "0_0_0": blankLED,
   };
 
+  // Quantise RGB components to RGB565 step sizes
+  function quantisePixel(pixel) {
+    return [pixel[0] & ~7, pixel[1] & ~3, pixel[2] & ~7];
+  }
+
   function setPixel(ledIndex, r, g, b) {
     var x = ledIndex % 8;
     var y = Math.floor(ledIndex / 8);
+
     let ledMaterial;
     if (`${r}_${g}_${b}` in leds) {
       ledMaterial = leds[`${r}_${g}_${b}`];
@@ -50,22 +56,17 @@ const FlightCase = () => {
     if (event && event === "setpixel") {
       // change the led
       const ledIndex = data;
-      const ledData = Sk.sense_hat.pixels[ledIndex];
+      const ledData = quantisePixel(Sk.sense_hat.pixels[ledIndex]);
+      // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+      Sk.sense_hat.pixels[ledIndex] = ledData;
 
-      // Convert LED-RGB to RGB565 // and then to RGB555
-      Sk.sense_hat.pixels[ledIndex] = [
-        ledData[0] & ~7,
-        ledData[1] & ~3,
-        ledData[2] & ~7,
-      ];
-
-      setPixel(
-        ledIndex,
-        parseInt(ledData[0] * 255),
-        parseInt(ledData[1] * 255),
-        parseInt(ledData[2] * 255),
-      );
+      setPixel(ledIndex, ledData[0], ledData[1], ledData[2]);
     } else if (event && event === "setpixels") {
+      // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+      Sk.sense_hat.pixels.forEach((pixel, i) => {
+        Sk.sense_hat.pixels[i] = quantisePixel(pixel);
+      });
+
       setPixels(data, Sk.sense_hat.pixels);
     }
     invalidate();

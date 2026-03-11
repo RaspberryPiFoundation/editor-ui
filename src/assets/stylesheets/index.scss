@@ -1,25 +1,25 @@
 @use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./settings/fonts" as fonts;
 
 html,
 body {
   margin: 0;
 }
 
-:host {
-  font-size: 16px;
+:root {
+  --editor-font-family-sans-serif: fonts.$font-family-sans-serif;
+  --editor-font-family-monospace: fonts.$font-family-monospace;
 }
 
 body {
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: var(--editor-font-family-sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: var(--editor-font-family-monospace);
 }
 
 #app {
@@ -97,6 +97,10 @@ code {
     --rpf-button-secondary-text-color: var(--rpf-white);
 
     --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+
+    --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
+    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
   }
 
   .rpf-button--secondary {
@@ -124,6 +128,10 @@ code {
 
   --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
 
+  --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+  --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+  --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
+
   .rpf-button--secondary {
     border-color: var(--rpf-teal-800);
   }
@@ -134,5 +142,32 @@ code {
 }
 
 .modal-overlay {
-  --rpf-input-active-border: var(--editor-color-theme)
+  --rpf-input-active-border: var(--editor-color-theme);
+}
+
+.project-wrapper {
+  --project-wrapper-grid-gap: #{$space-0-5};
+}
+
+.proj-editor-wrapper {
+  --project-editor-wrapper-grid-gap: #{$space-1};
+}
+
+.project-instructions {
+  pre {
+    --code-block-scrollbar-color: auto;
+    --code-background-color: #{$rpf-grey-700};
+    --code-text-color: #{$rpf-white};
+  }
+
+  .line-highlight {
+    --code-block-line-highlight-color: #{$rpf-white};
+  }
+}
+
+.btn--tertiary {
+  &:hover,
+  .btn-outer:hover & {
+    --tertiary-btn-hover-color: inherit;
+  }
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
@@ -36,18 +35,21 @@ const ProjectsPanel = () => {
     document.dispatchEvent(navigateToProjectsPageEvent);
   };
 
-  return (
-    <SidebarPanel
-      heading={t("projectsPanel.projects")}
-      Button={() =>
-        isLoggedIn && (
-          <Button
+  const buttons = isLoggedIn
+    ? [
+        <Button
+            key="your-projects"
             className="btn--primary projects-panel__your-projects-button"
             onClick={navigateToProjectsPage}
             text={t("projectsPanel.yourProjectsButton")}
-          />
-        )
-      }
+          />,
+      ]
+    : [];
+
+  return (
+    <SidebarPanel
+      heading={t("projectsPanel.projects")}
+      buttons={buttons}
       className="projects-panel-wrapper"
     >
       <ProjectName
