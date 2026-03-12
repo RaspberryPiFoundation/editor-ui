@@ -95,7 +95,7 @@
       content: "";
       position: absolute;
       inset-inline-start: 0;
-      top: 50%;
+      inset-block-start: 50%;
       transform: translateY(-50%);
       block-size: $space-2;
       inline-size: $space-2;

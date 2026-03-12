@@ -20,7 +20,7 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
       "omzPlugins": "git docker-compose macos zsh-autosuggestions yarn fzf-zsh-plugin asdf zsh-nvm"
     }
   },
@@ -67,7 +67,14 @@
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
-        "jest.jestCommandLine": "yarn test"
+        "jest.jestCommandLine": "yarn test",
+        "eslint.enable": true,
+        "eslint.validate": ["javascript", "javascriptreact"],
+        "stylelint.enable": true,
+        "stylelint.validate": ["css", "scss"],
+        "stylelint.snippet": ["css", "scss"],
+        "css.validate": false,
+        "scss.validate": false
       }
     }
   },

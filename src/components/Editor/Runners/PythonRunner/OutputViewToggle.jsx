@@ -38,8 +38,8 @@ const OutputViewToggle = () => {
           isMobile
             ? null
             : isSplitView
-            ? t("outputViewToggle.buttonTabLabel")
-            : t("outputViewToggle.buttonSplitLabel")
+              ? t("outputViewToggle.buttonTabLabel")
+              : t("outputViewToggle.buttonSplitLabel")
         }
         disabled={codeRunTriggered || drawTriggered}
         label={

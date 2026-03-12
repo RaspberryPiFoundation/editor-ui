@@ -17,6 +17,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check for SCSS changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            scss:
+              - 'src/**/*.scss'
+              - '.stylelintrc*'
+              - 'stylelint.config.*'
+              - 'package.json'
+
       - name: Cache dependencies
         uses: actions/setup-node@v4
         with:
@@ -34,8 +45,9 @@ jobs:
       - name: eslint
         run: yarn lint
 
-    # - name: stylelint
-    #   run: yarn stylelint
+      - name: stylelint
+        if: steps.changes.outputs.scss == 'true'
+        run: yarn stylelint
 
   test:
     runs-on: ubuntu-latest
