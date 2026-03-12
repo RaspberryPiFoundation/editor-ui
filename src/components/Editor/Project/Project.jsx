@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,13 +29,17 @@ const Project = (props) => {
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
   const project = useSelector((state) => state.editor.project);
   const isCodeEditorScratchProject =
-    project.project_type === "code_editor_scratch";
+    project?.project_type === "code_editor_scratch";
 
   useEffect(() => {
-    if (saving === "success" && autosave === false) {
+    if (
+      !isCodeEditorScratchProject &&
+      saving === "success" &&
+      autosave === false
+    ) {
       showSavedMessage();
     }
-  }, [saving, autosave]);
+  }, [autosave, isCodeEditorScratchProject, saving]);
 
   const [params, containerRef] = useContainerQuery(projContainer);
   const [defaultWidth, setDefaultWidth] = useState("auto");
