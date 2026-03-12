@@ -47,6 +47,15 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Linting
+
+Lint warnings & errors will be highlighted in the dev-container by default. To run them manually:
+
+`yarn lint` (eslint)
+`yarn stylelint`
+
+Note: Both eslint and stylelint are run as part of the CI pipeline.
+
 ## Testing
 
 Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework `Jest` and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
@@ -60,7 +69,7 @@ Currently, there are `cypress` tests for various aspects of the web component, s
 
 ## Usage
 
-The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`). 
+The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`).
 
 ### Attributes
 

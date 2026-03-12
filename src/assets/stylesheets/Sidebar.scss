@@ -64,11 +64,10 @@
     ::after {
       content: "";
       position: absolute;
-      top: -8px;
-      bottom: -1px;
-      right: -12px;
-      width: var(--sidebar-border-obscurer-width);
-      height: 60px;
+      inset-block: -8px -1px;
+      inset-inline-end: -12px;
+      inline-size: var(--sidebar-border-obscurer-width);
+      block-size: 60px;
       background-color: var(--sidebar-panel-background);
     }
 

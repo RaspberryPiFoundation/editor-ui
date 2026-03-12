@@ -11,11 +11,14 @@ https://github.com/RaspberryPiFoundation/editor-ui/releases
 
 - Introduce @testing-library for cypress
 - Update cypress (#1283)
+- Dev container highlights eslint & stylelint detections (#1367)
+- CI runs stylelint (#1367)
 
 ### Fixed
 
 - Clear loaded modules to remove state between runs (#1287)
 - Fix intermitently failing dropdown test (#1285)
+- Fix a handful of linting issues across both eslint and stylelint (#1367)
 
 ## [0.34.2] - 2025-12-09
 

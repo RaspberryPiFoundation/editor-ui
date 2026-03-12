@@ -139,8 +139,8 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
     autoOpenPlugin
       ? autoOpenPlugin.name
       : instructionsEditable || instructionsSteps
-      ? "instructions"
-      : "file",
+        ? "instructions"
+        : "file",
   );
 
   const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
