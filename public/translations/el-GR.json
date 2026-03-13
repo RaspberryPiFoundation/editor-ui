@@ -58,7 +58,8 @@
     "logInButton": "Συνδέσου για αποθήκευση",
     "signUpButton": "Εγγραφή",
     "downloadHint": "Κατεβάστε τα αρχεία του έργου σας, ώστε να μπορείτε να τα χρησιμοποιήσετε εκτός σύνδεσης και σε διαφορετικό πρόγραμμα επεξεργασίας κώδικα.",
-    "downloadButton": "Λήψη έργου"
+    "downloadButton": "Λήψη έργου",
+    "uploadButton": "Upload project"
   },
   "footer": {
     "accessibility": "Προσβασιμότητα",
