@@ -62,8 +62,6 @@ describe("Scratch", () => {
 
     saveAndDownloadPanel.downloadProject();
 
-    cy.wait(1000);
-
     // assert on the file
     cy.task("getNewestSb3").then((filePath) => {
       expect(filePath).to.be.a("string");

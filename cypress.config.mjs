@@ -6,8 +6,6 @@ import JSZip from "jszip";
 
 dotenv.config();
 
-const downloadsFolder = path.join(process.cwd(), "cypress", "downloads");
-
 export default defineConfig({
   e2e: {
     chromeWebSecurity: false,
@@ -17,6 +15,11 @@ export default defineConfig({
     testIsolation: true,
     downloadsFolder: "cypress/downloads",
     setupNodeEvents(on, config) {
+      const projectRoot = config.projectRoot ?? process.cwd();
+      const downloadsFolder = path.resolve(
+        projectRoot,
+        config.downloadsFolder || "cypress/downloads",
+      );
       on("task", {
         log(message) {
           console.log(message);
@@ -35,33 +38,48 @@ export default defineConfig({
 
           return null;
         },
-        getNewestSb3() {
+        async getNewestSb3() {
+          const pollMs = 100;
+          const timeoutMs = 1500;
+          const deadline = Date.now() + timeoutMs;
+
+          while (Date.now() < deadline) {
+            if (!fs.existsSync(downloadsFolder)) {
+              await new Promise((r) => setTimeout(r, pollMs));
+              continue;
+            }
+            const files = fs.readdirSync(downloadsFolder);
+            const sb3Files = files
+              .filter((f) => f.endsWith(".sb3"))
+              .map((f) => ({
+                name: f,
+                path: path.join(downloadsFolder, f),
+                mtime: fs.statSync(path.join(downloadsFolder, f)).mtimeMs,
+              }))
+              .sort((a, b) => b.mtime - a.mtime);
+
+            if (sb3Files.length > 0) {
+              return sb3Files[0].path;
+            }
+            await new Promise((r) => setTimeout(r, pollMs));
+          }
+
           if (!fs.existsSync(downloadsFolder)) {
             throw new Error("Downloads folder not found");
           }
-          const files = fs.readdirSync(downloadsFolder);
-          const sb3Files = files
-            .filter((f) => f.endsWith(".sb3"))
-            .map((f) => ({
-              name: f,
-              path: path.join(downloadsFolder, f),
-              mtime: fs.statSync(path.join(downloadsFolder, f)).mtimeMs,
-            }))
-            .sort((a, b) => b.mtime - a.mtime);
-
-          if (sb3Files.length === 0) {
-            throw new Error("No .sb3 file found in downloads folder");
-          }
-          return sb3Files[0].path;
+          throw new Error("No .sb3 file found in downloads folder");
         },
         async readSb3(filePath) {
           const buf = fs.readFileSync(filePath);
           const zip = await JSZip.loadAsync(buf);
           const fileNames = Object.keys(zip.files);
           const projectJsonFile = zip.file("project.json");
-          const projectJson = projectJsonFile
-            ? JSON.parse(await projectJsonFile.async("string"))
-            : null;
+
+          if (!projectJsonFile) {
+            throw new Error("Invalid .sb3 file: missing project.json");
+          }
+
+          const projectJson = JSON.parse(await projectJsonFile.async("string"));
 
           return { fileNames, projectJson };
         },
