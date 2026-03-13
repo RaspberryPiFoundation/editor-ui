@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
 import FilePanel from "./FilePanel/FilePanel";
@@ -24,9 +24,11 @@ import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
+import { setSidebarOption } from "../../../redux/EditorSlice";
 
 const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectImages = useSelector((state) => state.editor.project.image_list);
   const instructionsSteps = useSelector(
@@ -34,6 +36,9 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   );
   const instructionsEditable = useSelector(
     (state) => state.editor.instructionsEditable,
+  );
+  const selectedSidebarOption = useSelector(
+    (state) => state.editor.selectedSidebarOption,
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
@@ -134,28 +139,41 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
   }
 
   const autoOpenPlugin = plugins?.find((plugin) => plugin.autoOpen);
-
+  const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
+  let defaultOption = "file";
+  if (autoOpenPlugin) {
+    defaultOption = autoOpenPlugin.name;
+  } else if (instructionsEditable || hasInstructions) {
+    defaultOption = "instructions";
+  }
+  const defaultOptionIsAvailable = menuOptions.some(
+    (menuOption) => menuOption.name === defaultOption,
+  );
+  const nextDefaultOption = defaultOptionIsAvailable ? defaultOption : null;
   const [option, setOption] = useState(
-    autoOpenPlugin
-      ? autoOpenPlugin.name
-      : instructionsEditable || instructionsSteps
-        ? "instructions"
-        : "file",
+    selectedSidebarOption ?? nextDefaultOption,
   );
 
-  const hasInstructions = instructionsSteps && instructionsSteps.length > 0;
-
   useEffect(() => {
-    if (!autoOpenPlugin && (instructionsEditable || hasInstructions)) {
-      setOption("instructions");
+    if (
+      option !== null &&
+      !menuOptions.some((menuOption) => menuOption.name === option)
+    ) {
+      setOption(nextDefaultOption);
+      dispatch(setSidebarOption(nextDefaultOption));
     }
-  }, [autoOpenPlugin, instructionsEditable, hasInstructions]);
+  }, [dispatch, menuOptions, nextDefaultOption, option]);
+
+  const updateOption = (nextOption) => {
+    setOption(nextOption);
+    dispatch(setSidebarOption(nextOption));
+  };
 
   const toggleOption = (newOption) => {
     if (option !== newOption) {
-      setOption(newOption);
+      updateOption(newOption);
     } else if (!isMobile) {
-      setOption(null);
+      updateOption(null);
     }
   };
 
