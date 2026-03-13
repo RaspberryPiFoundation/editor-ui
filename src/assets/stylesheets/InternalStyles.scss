@@ -133,7 +133,7 @@ button:focus-visible {
   --rpf-tab-button-background: inherit;
   --rpf-tab-border-bottom-selected: var(--editor-color-theme-secondary);
 
-  // Sidebar  
+  // Sidebar
   --sidebar-border: var(--editor-color-outline);
   --sidebar-background: var(--rpf-white);
   --sidebar-background-selected: var(--rpf-off-white);
@@ -158,7 +158,7 @@ button:focus-visible {
     // Secondary button
     --rpf-button-secondary-background-color: var(--editor-color-theme);
     --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
-    --rpf-button-secondary-background-color-hover: var( --editor-color-theme-tertiary);
+    --rpf-button-secondary-background-color-hover: var(--editor-color-theme-tertiary);
     --rpf-button-secondary-border-color: var(--editor-color-theme);
     --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
     --rpf-button-secondary-background-color-active: var(--editor-color-theme-secondary);
@@ -203,7 +203,7 @@ button:focus-visible {
   --sidebar-option-selected-background-hover: var(--rpf-navy-800);
 
   --editor-color-tab-background: var(--editor-color-layer-3);
-  
+
   // Buttons
   .btn,
   .rpf-button {
@@ -216,7 +216,7 @@ button:focus-visible {
     --rpf-button-primary-color-disabled: var(--editor-color-layer-3);
     --rpf-button-primary-color-disabled-focus: var(--editor-color-theme);
     --rpf-button-primary-background-color-hover: var(--rpf-navy-600);
-    
+
     // Secondary button
     --rpf-button-secondary-text-color: var(--rpf-white);
     --rpf-button-secondary-background-color: var(--editor-color-layer-2);
