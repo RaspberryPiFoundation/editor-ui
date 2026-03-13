@@ -1,3 +1,12 @@
+import {
+  getEditorShadow,
+  openSaveAndDownloadPanel,
+} from "../helpers/editor.js";
+import {
+  assertScratchIsRendered,
+  getScratchIframeBody,
+} from "../helpers/scratch.js";
+
 const origin = "http://localhost:3011/web-component.html";
 
 beforeEach(() => {
@@ -8,16 +17,6 @@ beforeEach(() => {
   cy.viewport(1400, 800);
 });
 
-const getIframeBody = () => {
-  return cy
-    .get("editor-wc")
-    .shadow()
-    .findByTitle("Scratch")
-    .its("0.contentDocument.body")
-    .should("not.be.empty")
-    .then(cy.wrap);
-};
-
 describe("Scratch", () => {
   beforeEach(() => {
     cy.visit(origin);
@@ -25,16 +24,66 @@ describe("Scratch", () => {
   });
 
   it("loads Scratch in an iframe", () => {
-    getIframeBody().find("button [title='Go']").should("be.visible");
+    assertScratchIsRendered();
   });
 
   it("hides text size in settings for Scratch", () => {
-    getIframeBody().find("button [title='Go']").should("be.visible");
-    cy.get("editor-wc").shadow().find("[title='Settings']").first().click();
-    cy.get("editor-wc")
-      .shadow()
+    assertScratchIsRendered();
+
+    getEditorShadow()
+      .findByRole("button", { name: "Settings" })
+      .first()
+      .click();
+    getEditorShadow()
       .find(".settings-panel__text-size")
       .should("exist")
       .and("not.be.visible");
+  });
+
+  it("can perform uploads and downloads of Scratch projects via the save and download panel", () => {
+    assertScratchIsRendered();
+
+    // confirm set up is different to loaded project and does not contain a sprite with this name
+    getScratchIframeBody()
+      .findByRole("button", { name: "test sprite" })
+      .should("not.exist");
+
+    const saveAndDownloadPanel = openSaveAndDownloadPanel();
+
+    cy.readFile("cypress/fixtures/upload-test-project.sb3", {
+      encoding: null,
+    }).then((contents) => {
+      expect(contents).to.be.instanceOf(ArrayBuffer);
+    });
+
+    // upload project
+    saveAndDownloadPanel.uploadProject(
+      "cypress/fixtures/upload-test-project.sb3",
+    );
+
+    // confirm project has been uploaded
+    getScratchIframeBody()
+      .findByRole("button", { name: "test sprite" }, { timeout: 30000 })
+      .should("be.visible");
+
+    cy.task("resetDownloads");
+
+    saveAndDownloadPanel.downloadProject();
+
+    // assert on the file
+    cy.task("getNewestSb3").then((filePath) => {
+      expect(filePath).to.be.a("string");
+      expect(filePath).to.match(/\.sb3$/);
+
+      cy.task("readSb3", filePath).then(({ fileNames, projectJson }) => {
+        expect(fileNames).to.include("project.json");
+
+        const spriteNames = projectJson.targets
+          .filter((t) => t.isStage === false)
+          .map((t) => t.name);
+
+        expect(spriteNames).to.include("test sprite");
+      });
+    });
   });
 });
