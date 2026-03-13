@@ -1,62 +1,57 @@
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/spacing" as *;
-@use "./settings/fonts" as fonts;
+#wc.--use-editor-styles.--light {
+  --editor-color-theme: var(--rpf-teal-800);
+  --editor-color-theme-secondary: var(--rpf-teal-900);
+  --editor-color-theme-tertiary: var(--rpf-teal-100);
 
-html,
-body {
-  margin: 0;
-}
+  --rpf-files-list-item-active: var(--rpf-teal-secondary-tertiary-active);
+  --rpf-files-list-item-hover: var(--rpf-teal-secondary-tertiary-hover);
+  --rpf-tab-border-bottom-selected: var(--editor-color-theme-secondary);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-200);
 
-:root {
-  --editor-font-family-sans-serif: fonts.$font-family-sans-serif;
-  --editor-font-family-monospace: fonts.$font-family-monospace;
-}
+  .btn,
+  .rpf-button {
+    --rpf-button-primary-background-color: var(--editor-color-theme);
+    --rpf-button-primary-background-color-focus: var(--editor-color-theme);
+    --rpf-button-primary-background-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-600);
+    --rpf-button-primary-background-color-disabled: var(--rpf-teal-200);
+    --rpf-button-primary-text-color: var(--rpf-black);
 
-body {
-  font-family: var(--editor-font-family-sans-serif);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: var(--editor-font-family-monospace);
-}
-
-#app {
-  min-block-size: 100dvh;
-}
-
-.select-buttons__tick--selected {
-  --rpf-select-buttons-tick-color: var(--rpf-black);
-}
-
-.modal-overlay {
-  --rpf-input-active-border: var(--editor-color-theme);
-}
-
-.project-wrapper {
-  --project-wrapper-grid-gap: #{$space-0-5};
-}
-
-.proj-editor-wrapper {
-  --project-editor-wrapper-grid-gap: #{$space-1};
-}
-
-.project-instructions {
-  pre {
-    --code-block-scrollbar-color: auto;
-    --code-background-color: #{$rpf-grey-700};
-    --code-text-color: #{$rpf-white};
+    --rpf-button-secondary-background-color: var(--editor-color-theme);
+    --rpf-button-secondary-background-color-hover: var(--editor-color-theme-tertiary);
+    --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-secondary-background-color-active: var(--editor-color-theme-secondary);
+    --rpf-button-secondary-text-color: var(--rpf-black);
   }
 
-  .line-highlight {
-    --code-block-line-highlight-color: #{$rpf-white};
+  .rpf-button--secondary {
+    border-color: var(--editor-color-theme);
   }
 }
 
-.btn--tertiary {
-  &:hover,
-  .btn-outer:hover & {
-    --tertiary-btn-hover-color: inherit;
+#wc.--use-editor-styles.--dark {
+  --editor-color-theme: var(--rpf-teal-800);
+  --editor-color-theme-secondary: var(--rpf-teal-400);
+  --editor-color-theme-tertiary: var(--rpf-teal-900);
+
+  --rpf-tab-border-bottom-selected: var(--editor-color-theme);
+  --sidebar-option-selected-background-hover: var(--rpf-teal-950);
+
+  .btn,
+  .rpf-button {
+    --rpf-button-primary-background-color: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-focus: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-primary-color-disabled-focus: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
+    --rpf-button-primary-text-color: var(--rpf-black);
+    
+    --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
+    --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-primary-text-color: var(--rpf-black);
+  }
+
+  .rpf-button--secondary {
+    border-color: var(--editor-color-theme-secondary);
   }
 }
