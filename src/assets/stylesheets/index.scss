@@ -19,13 +19,10 @@
 
     --rpf-button-secondary-background-color: var(--editor-color-theme);
     --rpf-button-secondary-background-color-hover: var(--editor-color-theme-tertiary);
+    --rpf-button-secondary-border-color: var(--editor-color-theme);
     --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
     --rpf-button-secondary-background-color-active: var(--editor-color-theme-secondary);
     --rpf-button-secondary-text-color: var(--rpf-black);
-  }
-
-  .rpf-button--secondary {
-    border-color: var(--editor-color-theme);
   }
 }
 
@@ -43,14 +40,11 @@
     --rpf-button-primary-background-color-focus: var(--editor-color-theme-secondary);
     --rpf-button-primary-background-color-active: var(--rpf-teal-200);
     --rpf-button-primary-color-disabled-focus: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color: var(--editor-color-theme-secondary);
     --rpf-button-primary-background-color-hover: var(--rpf-teal-600);
     --rpf-button-primary-text-color: var(--rpf-black);
 
     --rpf-button-secondary-background-color-active: var(--rpf-teal-200);
     --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
-  }
-
-  .rpf-button--secondary {
-    border-color: var(--editor-color-theme-secondary);
   }
 }
