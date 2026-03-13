@@ -9,6 +9,10 @@ export const openSaveAndDownloadPanel = () => {
   return {
     uploadProject: (fixturePath) => {
       getEditorShadow()
+        .find(".download-panel__download-section")
+        .findByRole("button", { name: "Upload project" })
+        .should("be.visible");
+      getEditorShadow()
         .findByTestId("upload-file-input")
         .selectFile(fixturePath, { force: true });
     },

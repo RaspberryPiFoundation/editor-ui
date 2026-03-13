@@ -2,7 +2,10 @@ import {
   getEditorShadow,
   openSaveAndDownloadPanel,
 } from "../helpers/editor.js";
-import { getScratchIframeBody } from "../helpers/scratch.js";
+import {
+  assertScratchIsRendered,
+  getScratchIframeBody,
+} from "../helpers/scratch.js";
 
 const origin = "http://localhost:3011/web-component.html";
 
@@ -21,11 +24,12 @@ describe("Scratch", () => {
   });
 
   it("loads Scratch in an iframe", () => {
-    getScratchIframeBody().findByTitle("Go").should("be.visible");
+    assertScratchIsRendered();
   });
 
   it("hides text size in settings for Scratch", () => {
-    getScratchIframeBody().findByTitle("Go").should("be.visible");
+    assertScratchIsRendered();
+
     getEditorShadow()
       .findByRole("button", { name: "Settings" })
       .first()
@@ -36,17 +40,17 @@ describe("Scratch", () => {
       .and("not.be.visible");
   });
 
-  it("uploads project and shows upload in Scratch iframe", () => {
-    getScratchIframeBody().findByTitle("Go").should("be.visible");
+  it("can perform uploads and downloads of Scratch projects via the save and download panel", () => {
+    assertScratchIsRendered();
 
-    // confirm set up is different to loaded project
+    // confirm set up is different to loaded project and does not contain a sprite with this name
     getScratchIframeBody()
       .findByRole("button", { name: "test sprite" })
       .should("not.exist");
 
     const saveAndDownloadPanel = openSaveAndDownloadPanel();
     saveAndDownloadPanel.uploadProject(
-      "cypress/fixtures/upload-test-project.sb3"
+      "cypress/fixtures/upload-test-project.sb3",
     );
 
     // confirm project has been uploaded
@@ -54,9 +58,8 @@ describe("Scratch", () => {
       .findByRole("button", { name: "test sprite" })
       .should("be.visible");
 
-    cy.task("clearDownloads");
+    cy.task("resetDownloads");
 
-    // download project
     saveAndDownloadPanel.downloadProject();
 
     cy.wait(1000);
@@ -65,13 +68,14 @@ describe("Scratch", () => {
     cy.task("getNewestSb3").then((filePath) => {
       expect(filePath).to.be.a("string");
       expect(filePath).to.match(/\.sb3$/);
+
       cy.task("readSb3", filePath).then(({ fileNames, projectJson }) => {
         expect(fileNames).to.include("project.json");
-        expect(projectJson).to.be.an("object");
-        expect(projectJson.targets).to.be.an("array");
+
         const spriteNames = projectJson.targets
           .filter((t) => t.isStage === false)
           .map((t) => t.name);
+
         expect(spriteNames).to.include("test sprite");
       });
     });

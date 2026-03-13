@@ -23,7 +23,7 @@ export default defineConfig({
 
           return null;
         },
-        clearDownloads() {
+        resetDownloads() {
           if (fs.existsSync(downloadsFolder)) {
             const files = fs.readdirSync(downloadsFolder);
             for (const file of files) {
@@ -37,7 +37,7 @@ export default defineConfig({
         },
         getNewestSb3() {
           if (!fs.existsSync(downloadsFolder)) {
-            return null;
+            throw new Error("Downloads folder not found");
           }
           const files = fs.readdirSync(downloadsFolder);
           const sb3Files = files
@@ -49,7 +49,10 @@ export default defineConfig({
             }))
             .sort((a, b) => b.mtime - a.mtime);
 
-          return sb3Files.length > 0 ? sb3Files[0].path : null;
+          if (sb3Files.length === 0) {
+            throw new Error("No .sb3 file found in downloads folder");
+          }
+          return sb3Files[0].path;
         },
         async readSb3(filePath) {
           const buf = fs.readFileSync(filePath);

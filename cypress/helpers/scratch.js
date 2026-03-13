@@ -7,3 +7,10 @@ export const getScratchIframeBody = () => {
     .should("not.be.empty")
     .then(cy.wrap);
 };
+
+export const getScratchGoButton = () =>
+  getScratchIframeBody().find("button [title='Go']");
+
+export const assertScratchIsRendered = () => {
+  getScratchGoButton().should("be.visible");
+};
