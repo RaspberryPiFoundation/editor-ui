@@ -18,6 +18,25 @@ const getIframeBody = () => {
     .then(cy.wrap);
 };
 
+// Consider
+const openSaveAndDownloadPanel = () => {
+  cy.get("editor-wc").shadow().find("[title='Download project']").click();
+  cy.get("editor-wc")
+    .shadow()
+    .find(".sidebar__panel-heading")
+    .contains("Save & download")
+    .should("be.visible");
+
+  return {
+    uploadProject: (fixturePath) => {
+      cy.get("editor-wc")
+        .shadow()
+        .find("[data-testid='upload-file-input']")
+        .selectFile(fixturePath, { force: true });
+    },
+  };
+};
+
 describe("Scratch", () => {
   beforeEach(() => {
     cy.visit(origin);
@@ -36,5 +55,36 @@ describe("Scratch", () => {
       .find(".settings-panel__text-size")
       .should("exist")
       .and("not.be.visible");
+  });
+
+  it("uploads project and shows upload in Scratch iframe", () => {
+    getIframeBody().find("button [title='Go']").should("be.visible");
+
+    // confirm set up is different to loaded project
+    getIframeBody()
+      .find("[role='button']")
+      .contains("teapot")
+      .should("be.visible");
+
+    getIframeBody()
+      .find("[role='button']")
+      .contains("test sprite")
+      .should("not.exist");
+
+    const saveAndDownloadPanel = openSaveAndDownloadPanel();
+    saveAndDownloadPanel.uploadProject(
+      "cypress/fixtures/upload-test-project.sb3"
+    );
+
+    // confirm project has been uploaded
+    getIframeBody()
+      .find("[role='button']")
+      .contains("test sprite")
+      .should("be.visible");
+
+    getIframeBody()
+      .find("[role='button']")
+      .contains("teapot")
+      .should("not.exist");
   });
 });
