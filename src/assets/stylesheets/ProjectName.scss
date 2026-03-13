@@ -17,9 +17,9 @@
 .project-name__title {
   @include font-size-1-25(bold);
   font-weight: $font-weight-bold;
-  margin-block: $space-1;
+  margin-block: $space-0-5;
   margin-inline-start: $space-0-5;
-  margin-inline-end: $space-1;
+  margin-inline-end: $space-0-5;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
@@ -45,7 +45,7 @@
 }
 
 .project-name__button {
-  margin: $space-0-5;
+  margin: $space-0-25;
   inline-size: 48px;
   block-size: 48px;
 
