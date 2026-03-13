@@ -57,7 +57,8 @@
     "logInButton": "Zum Speichern anmelden",
     "signUpButton": "Registrieren",
     "downloadHint": "Laden Sie Ihre Projektdateien herunter, damit Sie sie offline und in einem anderen Code-Editor verwenden können.",
-    "downloadButton": "Projekt herunterladen"
+    "downloadButton": "Projekt herunterladen",
+    "uploadButton": "Projekt hochladen"
   },
   "footer": {
     "accessibility": "Barrierefreiheit",

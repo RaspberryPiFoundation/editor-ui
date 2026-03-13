@@ -26,6 +26,7 @@ describe("ScratchIntegrationHOC", () => {
       saveAs.mockClear();
     }
     mockSaveProjectSb3.mockClear();
+    mockLoadProject.mockClear();
     process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS = allowedOrigin;
     const mockStore = configureStore([]);
     store = mockStore({
@@ -70,6 +71,34 @@ describe("ScratchIntegrationHOC", () => {
         expect(saveAs).toHaveBeenCalledWith(mockBlob, "my-project.sb3");
       });
       expect(mockSaveProjectSb3).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("scratch-gui-upload message", () => {
+    it("calls loadProject with arrayBuffer from event.data.file", async () => {
+      const arrayBuffer = new ArrayBuffer(8);
+      const file = {
+        arrayBuffer: jest.fn().mockResolvedValue(arrayBuffer),
+      };
+
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: allowedOrigin,
+          data: {
+            type: "scratch-gui-upload",
+            file,
+          },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(file.arrayBuffer).toHaveBeenCalledTimes(1);
+        expect(mockLoadProject).toHaveBeenCalledWith(arrayBuffer);
+      });
     });
   });
 });
