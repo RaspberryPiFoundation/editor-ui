@@ -60,7 +60,8 @@
     "logInButton": "Увійдіть, щоб зберегти",
     "signUpButton": "Зареєструватися",
     "downloadHint": "Завантажте свої файли проєкту, щоб їх можна було використовувати офлайн або в іншому редакторі коду.",
-    "downloadButton": "Завантажити проєкт"
+    "downloadButton": "Завантажити проєкт",
+    "uploadButton": "Upload project"
   },
   "footer": {
     "accessibility": "Доступність",
