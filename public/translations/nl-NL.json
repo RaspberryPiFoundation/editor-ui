@@ -58,7 +58,8 @@
     "logInButton": "Log in om op te slaan",
     "signUpButton": "Aanmelden",
     "downloadHint": "Download je projectbestanden zodat je ze offline en in een andere code-editor kunt gebruiken.",
-    "downloadButton": "Project downloaden"
+    "downloadButton": "Project downloaden",
+    "uploadButton": "Upload project"
   },
   "footer": {
     "accessibility": "Toegankelijkheid",
