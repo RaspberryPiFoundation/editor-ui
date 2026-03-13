@@ -46,12 +46,34 @@ describe("Scratch", () => {
 
     const saveAndDownloadPanel = openSaveAndDownloadPanel();
     saveAndDownloadPanel.uploadProject(
-      "cypress/fixtures/upload-test-project.sb3",
+      "cypress/fixtures/upload-test-project.sb3"
     );
 
     // confirm project has been uploaded
     getScratchIframeBody()
       .findByRole("button", { name: "test sprite" })
       .should("be.visible");
+
+    cy.task("clearDownloads");
+
+    // download project
+    saveAndDownloadPanel.downloadProject();
+
+    cy.wait(1000);
+
+    // assert on the file
+    cy.task("getNewestSb3").then((filePath) => {
+      expect(filePath).to.be.a("string");
+      expect(filePath).to.match(/\.sb3$/);
+      cy.task("readSb3", filePath).then(({ fileNames, projectJson }) => {
+        expect(fileNames).to.include("project.json");
+        expect(projectJson).to.be.an("object");
+        expect(projectJson.targets).to.be.an("array");
+        const spriteNames = projectJson.targets
+          .filter((t) => t.isStage === false)
+          .map((t) => t.name);
+        expect(spriteNames).to.include("test sprite");
+      });
+    });
   });
 });

@@ -12,5 +12,11 @@ export const openSaveAndDownloadPanel = () => {
         .findByTestId("upload-file-input")
         .selectFile(fixturePath, { force: true });
     },
+    downloadProject: () => {
+      getEditorShadow()
+        .find(".download-panel__download-section")
+        .findByRole("button", { name: "Download project" })
+        .click();
+    },
   };
 };
