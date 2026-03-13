@@ -69,10 +69,8 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     handleUpload(event) {
       const file = event.data.file;
-      file.arrayBuffer().then((blob) => {
-        this.props.loadProject(blob).then(() => {
-          console.log("done uploading");
-        });
+      file?.arrayBuffer()?.then((arrayBuffer) => {
+        this.props.loadProject(arrayBuffer);
       });
     }
     handleRemix() {

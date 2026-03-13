@@ -58,7 +58,8 @@
     "logInButton": "Connectez-vous pour enregistrer",
     "signUpButton": "S'inscrire",
     "downloadHint": "Téléchargez vos fichiers de projet afin de pouvoir les utiliser hors ligne et dans un autre éditeur de code.",
-    "downloadButton": "Télécharger le projet"
+    "downloadButton": "Télécharger le projet",
+    "uploadButton": "Importer le projet"
   },
   "footer": {
     "accessibility": "Accessibilité",
