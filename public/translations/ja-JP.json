@@ -57,7 +57,8 @@
     "logInButton": "Log in to save",
     "signUpButton": "Sign up",
     "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project"
+    "downloadButton": "Download project",
+    "uploadButton": "Upload project"
   },
   "footer": {
     "accessibility": "Accessibility",
