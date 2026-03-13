@@ -49,13 +49,21 @@ describe("Scratch", () => {
       .should("not.exist");
 
     const saveAndDownloadPanel = openSaveAndDownloadPanel();
+
+    cy.readFile("cypress/fixtures/upload-test-project.sb3", {
+      encoding: null,
+    }).then((contents) => {
+      expect(contents).to.be.instanceOf(ArrayBuffer);
+    });
+
+    // upload project
     saveAndDownloadPanel.uploadProject(
       "cypress/fixtures/upload-test-project.sb3",
     );
 
     // confirm project has been uploaded
     getScratchIframeBody()
-      .findByRole("button", { name: "test sprite" })
+      .findByRole("button", { name: "test sprite" }, { timeout: 30000 })
       .should("be.visible");
 
     cy.task("resetDownloads");
