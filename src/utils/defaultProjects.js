@@ -1,14 +1,12 @@
-import i18n from "./i18n";
-
-export const defaultPythonProject = {
+export const defaultPythonProject = (i18n) => ({
   project_type: "python",
   name: i18n.t("project.untitled"),
   locale: null,
   components: [{ extension: "py", name: "main", content: "", default: true }],
   image_list: [],
-};
+});
 
-export const defaultHtmlProject = {
+export const defaultHtmlProject = (i18n) => ({
   project_type: "html",
   name: i18n.t("project.untitled"),
   components: [
@@ -19,7 +17,7 @@ export const defaultHtmlProject = {
     },
     { extension: "css", name: "style", content: "" },
   ],
-};
+});
 
 export const DEFAULT_PROJECTS = {
   python: defaultPythonProject,

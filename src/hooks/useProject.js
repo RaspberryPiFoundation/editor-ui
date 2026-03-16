@@ -105,7 +105,7 @@ export const useProject = ({
         return;
       }
 
-      const data = defaultPythonProject;
+      const data = defaultPythonProject(i18n);
       dispatch(setProject(data));
     }
   }, [
