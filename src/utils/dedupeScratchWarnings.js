@@ -1,96 +1,79 @@
-const scratchConsoleBrokerKey = "__scratchConsoleBrokerInstalled";
+const scratchWarningsKey = "__scratchWarningsDeduped";
 
-const scratchWarningMatchers = [
-  {
-    method: "error",
-    needle: "Support for defaultProps will be removed",
-    id: "react-default-props",
-    summary:
+const scratchWarningMatchers = {
+  error: [
+    [
+      "Support for defaultProps will be removed",
       "React 18 compatibility warnings about function-component defaultProps",
-  },
-  {
-    method: "error",
-    needle: "React does not recognize the `%s` prop on a DOM element",
-    id: "react-dom-props",
-    summary: "React warnings about scratch-editor props leaking onto DOM nodes",
-  },
-  {
-    method: "error",
-    needle: "Unknown event handler property `%s`",
-    id: "react-event-props",
-    summary: "React warnings about unsupported event handler props",
-  },
-  {
-    method: "warn",
-    needle: "componentWillMount has been renamed",
-    id: "react-component-will-mount",
-    summary: "React warnings about legacy componentWillMount usage",
-  },
-  {
-    method: "warn",
-    needle: "componentWillReceiveProps has been renamed",
-    id: "react-component-will-receive-props",
-    summary: "React warnings about legacy componentWillReceiveProps usage",
-  },
-  {
-    method: "error",
-    needle: "findDOMNode is deprecated",
-    id: "react-find-dom-node",
-    summary: "React warnings about deprecated findDOMNode usage",
-  },
-];
-
-const getScratchConsoleCategory = (method, args) => {
-  const message = typeof args[0] === "string" ? args[0] : "";
-  const matcher = scratchWarningMatchers.find(
-    (candidate) =>
-      candidate.method === method && message.includes(candidate.needle),
-  );
-
-  return matcher || null;
+    ],
+    [
+      "React does not recognize the `%s` prop on a DOM element",
+      "React warnings about scratch-editor props leaking onto DOM nodes",
+    ],
+    [
+      "Unknown event handler property `%s`",
+      "React warnings about unsupported event handler props",
+    ],
+    [
+      "findDOMNode is deprecated",
+      "React warnings about deprecated findDOMNode usage",
+    ],
+  ],
+  warn: [
+    [
+      "componentWillMount has been renamed",
+      "React warnings about legacy componentWillMount usage",
+    ],
+    [
+      "componentWillReceiveProps has been renamed",
+      "React warnings about legacy componentWillReceiveProps usage",
+    ],
+  ],
 };
 
 const dedupeScratchWarnings = () => {
-  if (process.env.NODE_ENV === "production" || typeof window !== "object") {
+  if (
+    process.env.NODE_ENV === "production" ||
+    typeof window !== "object" ||
+    window[scratchWarningsKey]
+  ) {
     return;
   }
 
-  if (window[scratchConsoleBrokerKey]) {
-    return;
-  }
+  window[scratchWarningsKey] = true;
 
-  window[scratchConsoleBrokerKey] = true;
-
-  const seenCategories = new Set();
-  const originalError = console.error.bind(console);
+  const seenSummaries = new Set();
   const originalWarn = console.warn.bind(console);
 
-  const emitCategorySummary = (category) => {
-    if (seenCategories.has(category.id)) {
-      return;
-    }
+  const wrapConsoleMethod = (method) => {
+    const originalMethod = console[method].bind(console);
 
-    seenCategories.add(category.id);
-    originalWarn(
-      `[scratch-editor] emitted ${category.summary}. Further duplicates suppressed.`,
-    );
-  };
-
-  const wrapConsoleMethod = (method, originalMethod) => {
     return (...args) => {
-      const category = getScratchConsoleCategory(method, args);
+      const message = typeof args[0] === "string" ? args[0] : "";
+      const summary = scratchWarningMatchers[method]?.find(([needle]) =>
+        message.includes(needle),
+      );
 
-      if (category) {
-        emitCategorySummary(category);
+      if (!summary) {
+        originalMethod(...args);
         return;
       }
 
-      originalMethod(...args);
+      const [, text] = summary;
+
+      if (seenSummaries.has(text)) {
+        return;
+      }
+
+      seenSummaries.add(text);
+      originalWarn(
+        `[scratch-editor] emitted ${text}. Further duplicates suppressed.`,
+      );
     };
   };
 
-  console.error = wrapConsoleMethod("error", originalError);
-  console.warn = wrapConsoleMethod("warn", originalWarn);
+  console.error = wrapConsoleMethod("error");
+  console.warn = wrapConsoleMethod("warn");
 };
 
 export default dedupeScratchWarnings;
