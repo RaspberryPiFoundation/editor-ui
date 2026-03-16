@@ -38,7 +38,13 @@ export default defineConfig({
 
           return null;
         },
-        async getNewestSb3() {
+        async getNewestDownload(extension) {
+          if (!extension || !extension.startsWith(".")) {
+            throw new Error(
+              "getNewestDownload requires a file extension starting with . (e.g. .sb3)",
+            );
+          }
+          const ext = extension;
           const pollMs = 100;
           const timeoutMs = 1500;
           const deadline = Date.now() + timeoutMs;
@@ -49,8 +55,8 @@ export default defineConfig({
               continue;
             }
             const files = fs.readdirSync(downloadsFolder);
-            const sb3Files = files
-              .filter((f) => f.endsWith(".sb3"))
+            const matching = files
+              .filter((f) => f.endsWith(ext))
               .map((f) => ({
                 name: f,
                 path: path.join(downloadsFolder, f),
@@ -58,8 +64,8 @@ export default defineConfig({
               }))
               .sort((a, b) => b.mtime - a.mtime);
 
-            if (sb3Files.length > 0) {
-              return sb3Files[0].path;
+            if (matching.length > 0) {
+              return matching[0].path;
             }
             await new Promise((r) => setTimeout(r, pollMs));
           }
@@ -67,7 +73,7 @@ export default defineConfig({
           if (!fs.existsSync(downloadsFolder)) {
             throw new Error("Downloads folder not found");
           }
-          throw new Error("No .sb3 file found in downloads folder");
+          throw new Error(`No ${ext} file found in downloads folder`);
         },
         async readSb3(filePath) {
           const buf = fs.readFileSync(filePath);

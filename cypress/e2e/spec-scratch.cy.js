@@ -63,7 +63,7 @@ describe("Scratch", () => {
     saveAndDownloadPanel.downloadProject();
 
     // assert on the file
-    cy.task("getNewestSb3").then((filePath) => {
+    cy.task("getNewestDownload", ".sb3").then((filePath) => {
       expect(filePath).to.be.a("string");
       expect(filePath).to.match(/\.sb3$/);
 
