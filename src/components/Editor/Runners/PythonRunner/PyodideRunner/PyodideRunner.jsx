@@ -366,8 +366,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   };
 
   if (!pyodideWorker && active) {
-    console.warn("PyodideWorker is not initialized");
-    return;
+    return null;
   }
 
   return (
