@@ -105,7 +105,13 @@ export const useProject = ({
         return;
       }
 
-      const data = defaultPythonProject;
+      const data = {
+        ...defaultPythonProject,
+        name: i18n.t("project.untitled", {
+          lng: effectiveLocale,
+          defaultValue: defaultPythonProject.name,
+        }),
+      };
       dispatch(setProject(data));
     }
   }, [
