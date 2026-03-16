@@ -10,21 +10,9 @@ import camelCase from "camelcase";
 import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
+import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 
-const originalWarn = console.warn.bind(console);
-let hasShownDesignSystemIconWarning = false;
-const warningText = "DEPRECATED: icons as React elements will not be supported in future releases";
-// This should be addressed by applying the fix, in @raspberrypifoundation/design-system-react
-// This shows the warning once instead of N times
-console.warn = (...args) => {
-  if (args[0] === warningText) {
-    if (hasShownDesignSystemIconWarning) {
-      return;
-    }
-    hasShownDesignSystemIconWarning = true;
-  }
-  originalWarn(...args);
-};
+dedupeDesignSystemWarnings();
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
