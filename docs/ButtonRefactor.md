@@ -202,7 +202,7 @@ The design system Button provides these custom properties:
 - Danger button variant colors
 - Button sizing and spacing
 - Border radius and width customisation
-- Layout options are overed by props
+- Layout options are covered by props
 
 **⚠️ Potential gaps requiring additional custom properties:**
 
