@@ -58,6 +58,7 @@ const FilePanel = ({ isMobile }) => {
           onClick={openNewFileModal}
           className="btn--primary"
           fill={true}
+          key={"newFileButton"}
         />,
       ];
 
