@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
-import { defaultPythonProject } from "../utils/defaultProjects";
+import { createDefaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
@@ -30,7 +30,7 @@ export const useProject = ({
   const [cachedProject, setCachedProject] = useState(
     getCachedProject(projectIdentifier),
   );
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const effectiveLocale = locale ?? i18n.language;
 
@@ -43,7 +43,13 @@ export const useProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!loadRemix) {
+    let didUnmount = false;
+
+    const loadProjectData = async () => {
+      if (loadRemix) {
+        return;
+      }
+
       const is_cached_saved_project =
         projectIdentifier &&
         cachedProject &&
@@ -105,15 +111,20 @@ export const useProject = ({
         return;
       }
 
-      const data = {
-        ...defaultPythonProject,
-        name: t("project.untitled", {
-          lng: effectiveLocale,
-          defaultValue: defaultPythonProject.name,
-        }),
-      };
+      const data = await createDefaultPythonProject(effectiveLocale);
+
+      if (didUnmount) {
+        return;
+      }
+
       dispatch(setProject(data));
-    }
+    };
+
+    void loadProjectData();
+
+    return () => {
+      didUnmount = true;
+    };
   }, [
     code,
     projectIdentifier,
