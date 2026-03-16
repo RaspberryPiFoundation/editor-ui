@@ -150,19 +150,21 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
     (menuOption) => menuOption.name === defaultOption,
   );
   const nextDefaultOption = defaultOptionIsAvailable ? defaultOption : null;
-  const [option, setOption] = useState(
-    selectedSidebarOption ?? nextDefaultOption,
-  );
+  const initialOption =
+    selectedSidebarOption === undefined
+      ? nextDefaultOption
+      : selectedSidebarOption;
+  const [option, setOption] = useState(initialOption);
+  const optionIsAvailable =
+    option === null ||
+    menuOptions.some((menuOption) => menuOption.name === option);
 
   useEffect(() => {
-    if (
-      option !== null &&
-      !menuOptions.some((menuOption) => menuOption.name === option)
-    ) {
+    if (!optionIsAvailable) {
       setOption(nextDefaultOption);
       dispatch(setSidebarOption(nextDefaultOption));
     }
-  }, [dispatch, menuOptions, nextDefaultOption, option]);
+  }, [dispatch, nextDefaultOption, optionIsAvailable]);
 
   const updateOption = (nextOption) => {
     setOption(nextOption);

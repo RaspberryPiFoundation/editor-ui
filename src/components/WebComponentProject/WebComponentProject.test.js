@@ -9,9 +9,13 @@ import {
 import { matchMedia, setMedia } from "mock-match-media";
 import WebComponentProject from "./WebComponentProject";
 import { MOBILE_BREAKPOINT } from "../../utils/mediaQueryBreakpoints";
-import EditorReducer from "../../redux/EditorSlice";
-import InstructionsReducer from "../../redux/InstructionsSlice";
-import AuthReducer from "../../redux/WebComponentAuthSlice";
+import EditorReducer, { editorInitialState } from "../../redux/EditorSlice";
+import InstructionsReducer, {
+  instructionsInitialState,
+} from "../../redux/InstructionsSlice";
+import AuthReducer, {
+  authInitialState,
+} from "../../redux/WebComponentAuthSlice";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -88,6 +92,7 @@ const renderWebComponentProjectWithRealStore = ({
   permitOverride = true,
   loading,
   props = {},
+  editorOverrides = {},
 }) => {
   const rootReducer = combineReducers({
     editor: EditorReducer,
@@ -96,7 +101,10 @@ const renderWebComponentProjectWithRealStore = ({
   });
   const preloadedState = {
     editor: {
+      ...editorInitialState,
+      ...editorOverrides,
       project: {
+        ...editorInitialState.project,
         project_type: projectType,
         components: [
           { name: "main", extension: "py", content: "print('hello')" },
@@ -109,10 +117,11 @@ const renderWebComponentProjectWithRealStore = ({
       focussedFileIndices: [],
     },
     instructions: {
+      ...instructionsInitialState,
       currentStepPosition: 3,
       permitOverride,
     },
-    auth: {},
+    auth: authInitialState,
   };
 
   store = configureRealStore({ reducer: rootReducer, preloadedState });
@@ -381,6 +390,20 @@ describe("When resizing across the mobile breakpoint", () => {
     );
 
     expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+  });
+
+  test("Keeps the sidebar collapsed when persisted as null", () => {
+    setMedia({
+      width: "1000px",
+    });
+
+    renderWebComponentProjectWithRealStore({
+      props: { withSidebar: true, sidebarOptions: ["file", "images"] },
+      editorOverrides: { selectedSidebarOption: null },
+    });
+
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
   });
 });
 

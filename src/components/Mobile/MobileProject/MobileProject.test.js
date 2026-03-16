@@ -124,10 +124,48 @@ describe("When withSidebar is true", () => {
     );
   });
 
+  test("renders the sidebar open button", () => {
+    expect(screen.getByText("mobile.menu")).toBeInTheDocument();
+  });
+
   test("clicking sidebar open button dispatches action to open the sidebar", () => {
     const sidebarOpenButton = screen.getByText("mobile.menu");
     fireEvent.click(sidebarOpenButton);
     expect(store.getActions()).toEqual([showSidebar()]);
+  });
+});
+
+describe("When sidebar is open", () => {
+  beforeEach(() => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [],
+        },
+        openFiles: [],
+        focussedFileIndices: [],
+        sidebarShowing: true,
+      },
+      auth: {},
+      instructions: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+  });
+
+  test("Sidebar renders with the correct options", () => {
+    expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
   });
 });
 
