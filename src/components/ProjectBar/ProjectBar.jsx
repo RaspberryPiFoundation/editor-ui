@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
 import DownloadIcon from "../../assets/icons/download.svg";
+import UploadIcon from "../../assets/icons/upload.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
+import UploadButton from "../UploadButton/UploadButton";
 import SaveButton from "../SaveButton/SaveButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
@@ -42,6 +44,16 @@ const ProjectBar = ({ nameEditable = true }) => {
     <div className="project-bar">
       <ProjectName editable={!readOnly && nameEditable} isHeading={true} />
       <div className="project-bar__right">
+        {isScratchProject && (
+          <div className="project-bar__btn-wrapper">
+            <UploadButton
+              buttonText={t("header.upload")}
+              className="btn btn--tertiary project-bar__btn"
+              Icon={UploadIcon}
+              type="tertiary"
+            />
+          </div>
+        )}
         <div className="project-bar__btn-wrapper">
           <DownloadButton
             buttonText={t("header.download")}

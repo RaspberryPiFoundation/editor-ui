@@ -102,6 +102,10 @@ describe("When logged in and user owns project", () => {
     expect(screen.queryByText("header.download")).toBeInTheDocument();
   });
 
+  test("Upload button is not shown", () => {
+    expect(screen.queryByText("header.upload")).not.toBeInTheDocument();
+  });
+
   test("Save button is not shown", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
@@ -129,6 +133,10 @@ describe("When logged in and no project identifier", () => {
     expect(screen.queryByText("header.download")).toBeInTheDocument();
   });
 
+  test("Upload button is not shown", () => {
+    expect(screen.queryByText("header.upload")).not.toBeInTheDocument();
+  });
+
   test("Project name is shown", () => {
     expect(screen.queryByText(project.name)).toBeInTheDocument();
   });
@@ -153,6 +161,10 @@ describe("When not logged in", () => {
 
   test("Download button shown", () => {
     expect(screen.queryByText("header.download")).toBeInTheDocument();
+  });
+
+  test("Upload button is not shown", () => {
+    expect(screen.queryByText("header.upload")).not.toBeInTheDocument();
   });
 
   test("Project name is shown", () => {
@@ -189,6 +201,10 @@ describe("When no project loaded", () => {
     expect(screen.queryByText("header.download")).not.toBeInTheDocument();
   });
 
+  test("No upload button", () => {
+    expect(screen.queryByText("header.upload")).not.toBeInTheDocument();
+  });
+
   test("No save button", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
@@ -212,6 +228,10 @@ describe("When read only", () => {
     expect(screen.queryByTitle("header.renameProject")).not.toBeInTheDocument();
   });
 
+  test("Upload button is not shown", () => {
+    expect(screen.queryByText("header.upload")).not.toBeInTheDocument();
+  });
+
   test("Save button is not shown", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
   });
@@ -232,6 +252,14 @@ describe("When project is Scratch", () => {
         user,
       },
     });
+  });
+
+  test("Upload button shown", () => {
+    expect(screen.queryByText("header.upload")).toBeInTheDocument();
+  });
+
+  test("Download button shown", () => {
+    expect(screen.queryByText("header.download")).toBeInTheDocument();
   });
 
   test("clicking Save sends scratch-gui-save message", () => {
