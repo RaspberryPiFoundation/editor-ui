@@ -56,8 +56,8 @@ const ResizableWithHandle = (props) => {
   let handleComponent = ["right", "left"].includes(handleDirection)
     ? { [handleDirection]: <VerticalHandle /> }
     : ["top", "bottom"].includes(handleDirection)
-      ? { [handleDirection]: <HorizontalHandle /> }
-      : {};
+    ? { [handleDirection]: <HorizontalHandle /> }
+    : {};
 
   let handleWrapperClass = `resizable-with-handle__handle resizable-with-handle__handle--${handleDirection}`;
 

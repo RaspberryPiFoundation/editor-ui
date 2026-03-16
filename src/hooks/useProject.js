@@ -30,7 +30,7 @@ export const useProject = ({
   const [cachedProject, setCachedProject] = useState(
     getCachedProject(projectIdentifier),
   );
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const dispatch = useDispatch();
   const effectiveLocale = locale ?? i18n.language;
 
@@ -107,7 +107,7 @@ export const useProject = ({
 
       const data = {
         ...defaultPythonProject,
-        name: i18n.t("project.untitled", {
+        name: t("project.untitled", {
           lng: effectiveLocale,
           defaultValue: defaultPythonProject.name,
         }),
