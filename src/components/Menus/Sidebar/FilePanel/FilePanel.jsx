@@ -52,6 +52,7 @@ const FilePanel = ({ isMobile }) => {
     ? []
     : [
         <DesignSystemButton
+          key="new-file"
           text={t("filePanel.newFileButton")}
           textAways={true}
           icon={<PlusIcon />}
