@@ -4,7 +4,7 @@ const designSystemIconWarning =
 
 const dedupeDesignSystemWarnings = () => {
   if (
-    process.env.NODE_ENV === "production" ||
+    process.env.NODE_ENV !== "development" ||
     typeof window !== "object" ||
     window[designSystemWarningsKey]
   ) {

@@ -39,7 +39,9 @@ const TOAST_CONTAINER_DEFAULTS = {
 // react-toastify v8 uses defaultProps on a function component, which React
 // warns about in development. We pass the same defaults explicitly instead.
 // We should upgrade to version 10 in a different commit, this removes the warning
-ToastContainer.defaultProps = undefined;
+if (process.env.NODE_ENV === "development") {
+  ToastContainer.defaultProps = undefined;
+}
 
 const WebComponentLoader = (props) => {
   const {
