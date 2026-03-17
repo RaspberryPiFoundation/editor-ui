@@ -43,10 +43,6 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         return;
       }
 
-      if (event.data?.type === "webpackOk") {
-        return;
-      }
-
       switch (event.data.type) {
         case "scratch-gui-download":
           this.handleDownload(event);
