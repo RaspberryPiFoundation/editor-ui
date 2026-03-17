@@ -59,6 +59,7 @@ function HtmlRunner() {
 
   const dispatch = useDispatch();
   const output = useRef(null);
+  const reloadAfterPreviewChange = useRef(false);
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -141,6 +142,7 @@ function HtmlRunner() {
         } else if (event.data?.msg === "Allowed external link") {
           handleAllowedExternalLink(event.data.payload.linkTo);
         } else {
+          reloadAfterPreviewChange.current = true;
           handleRegularExternalLink(event.data.payload.linkTo, setPreviewFile);
         }
       }
@@ -204,6 +206,13 @@ function HtmlRunner() {
       setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
+
+  useEffect(() => {
+    if (reloadAfterPreviewChange.current) {
+      reloadAfterPreviewChange.current = false;
+      dispatch(triggerCodeRun());
+    }
+  }, [previewFile]);
 
   useEffect(() => {
     if (isEmbedded && browserPreview) {

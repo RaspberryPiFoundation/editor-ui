@@ -22,7 +22,6 @@ const useExternalLinkState = (showModal) => {
   const handleRegularExternalLink = (linkTo, setPreviewFile) => {
     setExternalLink(null);
     setPreviewFile(`${linkTo}.html`);
-    dispatch(triggerCodeRun());
   };
 
   const handleExternalLinkError = () => {

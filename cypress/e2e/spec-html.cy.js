@@ -13,8 +13,7 @@ const getIframeDocument = () => {
 };
 
 const getIframeBody = () => {
-  const iframeDocument = getIframeDocument();
-  return iframeDocument.its("body").should("not.be.null").then(cy.wrap);
+  return getIframeDocument().its("body").should("not.be.null");
 };
 
 const makeNewFile = (filename = "new.html") => {
@@ -183,6 +182,5 @@ it("allows internal links", () => {
 
   const internalLink = getIframeBody().find("a");
   internalLink.click();
-  const content = getIframeBody().find("p");
-  content.should("include.text", "hello world");
+  getIframeBody().should("contain.text", "hello world");
 });
