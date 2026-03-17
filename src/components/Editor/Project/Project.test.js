@@ -75,6 +75,8 @@ describe("Project bar selection", () => {
       editor: {
         project: { components: [], project_type: "python" },
         loading: "success",
+        openFiles: [[]],
+        focussedFileIndices: [0],
       },
       auth: {},
     };
@@ -97,6 +99,8 @@ describe("Project bar selection", () => {
       editor: {
         project: { components: [], project_type: "code_editor_scratch" },
         loading: "success",
+        openFiles: [[]],
+        focussedFileIndices: [0],
       },
       auth: {},
     };
