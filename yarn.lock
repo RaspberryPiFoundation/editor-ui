@@ -1664,7 +1664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.24.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.24.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.25.7
   resolution: "@babel/runtime@npm:7.25.7"
   dependencies:
@@ -4301,7 +4301,7 @@ __metadata:
     react-dom: "npm:^18.1.0"
     react-i18next: "npm:^12.0.0"
     react-modal: "npm:^3.14.4"
-    react-redux: "npm:^7.2.5"
+    react-redux: "npm:^8.1.3"
     react-refresh: "npm:^0.8.3"
     react-responsive: "npm:^9.0.2"
     react-router-dom: "npm:^6.7.0"
@@ -4310,6 +4310,7 @@ __metadata:
     react-timer-hook: "npm:^3.0.5"
     react-toastify: "npm:^8.1.0"
     react-toggle: "npm:^4.1.3"
+    redux: "npm:^4.2.1"
     redux-mock-store: "npm:^1.5.4"
     redux-oidc: "npm:^4.0.0-beta1"
     resolve: "npm:1.18.1"
@@ -5633,7 +5634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.0.1, @types/hoist-non-react-statics@npm:^3.3.0, @types/hoist-non-react-statics@npm:^3.3.1":
+"@types/hoist-non-react-statics@npm:^3.0.1, @types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
   dependencies:
@@ -5875,18 +5876,6 @@ __metadata:
   dependencies:
     "@types/react": "npm:*"
   checksum: 10/6d44e0f0d492c0748179be8bc69a10c7499c2b0299c6c45c415b101f9e875bb7fb8d5bb0f43cc198351b94c31b15fcb15bb3c988ea578605329eb8834d5ff3fa
-  languageName: node
-  linkType: hard
-
-"@types/react-redux@npm:^7.1.20":
-  version: 7.1.34
-  resolution: "@types/react-redux@npm:7.1.34"
-  dependencies:
-    "@types/hoist-non-react-statics": "npm:^3.3.0"
-    "@types/react": "npm:*"
-    hoist-non-react-statics: "npm:^3.3.0"
-    redux: "npm:^4.0.0"
-  checksum: 10/febcd1db0c83c5002c6bee0fdda9e70da0653454ffbb72d6c37cbf2f5c005e06fb5271cff344d7164c385c944526565282de9a95ff379e040476b71d27fc2512
   languageName: node
   linkType: hard
 
@@ -20320,27 +20309,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.5":
-  version: 7.2.9
-  resolution: "react-redux@npm:7.2.9"
-  dependencies:
-    "@babel/runtime": "npm:^7.15.4"
-    "@types/react-redux": "npm:^7.1.20"
-    hoist-non-react-statics: "npm:^3.3.2"
-    loose-envify: "npm:^1.4.0"
-    prop-types: "npm:^15.7.2"
-    react-is: "npm:^17.0.2"
-  peerDependencies:
-    react: ^16.8.3 || ^17 || ^18
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: 10/1c3018bd2601e6d18339281867910b583dcbb3d8856403086e08c00abf0dfe467a94c0d1356bafa8cdf107bf1e2c9899a28486e4778e85c8bc4dfed2076b116f
-  languageName: node
-  linkType: hard
-
 "react-refresh@npm:^0.8.3":
   version: 0.8.3
   resolution: "react-refresh@npm:0.8.3"
@@ -20732,7 +20700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.0.0, redux@npm:^4.2.1":
+"redux@npm:^4.2.1":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
