@@ -44,7 +44,7 @@ const ProjectBar = ({ nameEditable = true }) => {
     <div className="project-bar">
       <ProjectName editable={!readOnly && nameEditable} isHeading={true} />
       <div className="project-bar__right">
-        {isScratchProject && (
+        {isScratchProject && !readOnly && (
           <div className="project-bar__btn-wrapper">
             <UploadButton
               buttonText={t("header.upload")}
