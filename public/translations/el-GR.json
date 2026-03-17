@@ -59,7 +59,7 @@
     "signUpButton": "Εγγραφή",
     "downloadHint": "Κατεβάστε τα αρχεία του έργου σας, ώστε να μπορείτε να τα χρησιμοποιήσετε εκτός σύνδεσης και σε διαφορετικό πρόγραμμα επεξεργασίας κώδικα.",
     "downloadButton": "Λήψη έργου",
-    "uploadButton": "Upload project"
+    "uploadButton": "Μεταφόρτωση έργου"
   },
   "footer": {
     "accessibility": "Προσβασιμότητα",
@@ -111,7 +111,7 @@
     "removeInstructions": "Αφαίρεση οδηγιών",
     "nextStep": "Επόμενο βήμα",
     "previousStep": "Προηγούμενο βήμα",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} από {{totalSteps}}",
     "projectSteps": "Οδηγίες έργου",
     "edit": "Επεξεργασία",
     "view": "Προβολή",
