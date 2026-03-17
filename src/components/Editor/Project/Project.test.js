@@ -67,6 +67,52 @@ test("Renders sidebar with correct options if withSidebar is true", () => {
   expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
 });
 
+describe("Project bar selection", () => {
+  test("renders default project bar for non-scratch projects", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: { components: [], project_type: "python" },
+        loading: "success",
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Project />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.getByTestId("default-project-bar")).toBeInTheDocument();
+    expect(screen.queryByTestId("scratch-project-bar")).not.toBeInTheDocument();
+  });
+
+  test("renders scratch project bar for code_editor_scratch projects", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: { components: [], project_type: "code_editor_scratch" },
+        loading: "success",
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Project />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(screen.getByTestId("scratch-project-bar")).toBeInTheDocument();
+    expect(screen.queryByTestId("default-project-bar")).not.toBeInTheDocument();
+  });
+});
+
 test("Renders container for scratch projects", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
