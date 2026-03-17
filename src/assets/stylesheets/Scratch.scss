@@ -64,4 +64,17 @@ div.injectionDiv {
   border-end-start-radius: 8px;
 }
 
+/*
+ * Hide extensions we do not currently support reliably in this deployment.
+ */
+#text2speech,
+#translate,
+#microbit,
+#gdxfor,
+#ev3,
+#boost,
+#wedo2 {
+  display: none;
+}
+
 /* stylelint-enable selector-class-pattern */
