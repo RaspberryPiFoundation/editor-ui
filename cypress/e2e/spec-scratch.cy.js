@@ -23,10 +23,6 @@ describe("Scratch", () => {
     cy.findByText("cool-scratch").click();
   });
 
-  it("loads Scratch in an iframe", () => {
-    assertScratchIsRendered();
-  });
-
   it("hides text size in settings for Scratch", () => {
     assertScratchIsRendered();
 
