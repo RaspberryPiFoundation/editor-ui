@@ -61,7 +61,7 @@
     "signUpButton": "Зареєструватися",
     "downloadHint": "Завантажте свої файли проєкту, щоб їх можна було використовувати офлайн або в іншому редакторі коду.",
     "downloadButton": "Завантажити проєкт",
-    "uploadButton": "Upload project"
+    "uploadButton": "Імпортувати проєкт"
   },
   "footer": {
     "accessibility": "Доступність",
@@ -113,7 +113,7 @@
     "removeInstructions": "Видалити інструкції",
     "nextStep": "Наступний крок",
     "previousStep": "Попередній крок",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} з {{totalSteps}}",
     "projectSteps": "Інструкції до проєкту",
     "edit": "Редагувати",
     "view": "Переглянути",
