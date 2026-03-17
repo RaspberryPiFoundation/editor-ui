@@ -59,7 +59,7 @@
     "signUpButton": "Registrarse",
     "downloadHint": "Descarga los archivos de tu proyecto para que usarlos sin conexión y en un editor de código diferente.",
     "downloadButton": "Descargar proyecto",
-    "uploadButton": "Cargar proyecto"
+    "uploadButton": "Subir proyecto"
   },
   "footer": {
     "accessibility": "Accesibilidad",
@@ -111,7 +111,7 @@
     "removeInstructions": "Eliminar las instrucciones",
     "nextStep": "Siguiente paso",
     "previousStep": "Paso anterior",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} de {{totalSteps}}",
     "projectSteps": "Instrucciones del proyecto",
     "edit": "Editar",
     "view": "Ver",
