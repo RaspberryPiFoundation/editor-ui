@@ -6,6 +6,19 @@ import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
 
 const logInHandler = jest.fn();
+const mockStore = configureStore([]);
+
+const renderSaveButton = (initialState) => {
+  const store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <SaveButton />
+    </Provider>,
+  );
+
+  return store;
+};
 
 describe("When project is loaded", () => {
   beforeAll(() => {
@@ -17,8 +30,6 @@ describe("When project is loaded", () => {
 
     describe("who doesn't own the project", () => {
       beforeEach(() => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
         const initialState = {
           editor: {
             loading: "success",
@@ -36,12 +47,7 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = mockStore(initialState);
-        render(
-          <Provider store={store}>
-            <SaveButton />
-          </Provider>,
-        );
+        store = renderSaveButton(initialState);
       });
 
       test("Save button renders", () => {
@@ -69,8 +75,6 @@ describe("When project is loaded", () => {
 
     describe("who does own the project", () => {
       beforeEach(() => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
         const initialState = {
           editor: {
             loading: "success",
@@ -88,12 +92,7 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = mockStore(initialState);
-        render(
-          <Provider store={store}>
-            <SaveButton />
-          </Provider>,
-        );
+        store = renderSaveButton(initialState);
       });
 
       test("Does not render save button", () => {
@@ -112,8 +111,6 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
           loading: "success",
@@ -121,12 +118,7 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      store = renderSaveButton(initialState);
     });
 
     test("Login to save button renders", () => {
@@ -154,8 +146,6 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
           loading: "success",
@@ -163,12 +153,7 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      store = renderSaveButton(initialState);
     });
 
     test("Renders a secondary button", () => {
@@ -181,8 +166,6 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
           loading: "success",
@@ -190,12 +173,7 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      store = renderSaveButton(initialState);
     });
 
     test("Renders a primary button", () => {
@@ -211,17 +189,10 @@ describe("When project is loaded", () => {
 
 describe("When project is not loaded", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const store = mockStore({
+    renderSaveButton({
       editor: {},
       auth: {},
     });
-    render(
-      <Provider store={store}>
-        <SaveButton />
-      </Provider>,
-    );
   });
 
   test("Does not render a login to save button", () => {
