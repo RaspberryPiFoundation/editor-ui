@@ -1,15 +1,14 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { triggerSave } from "../../redux/EditorSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "../../redux/RootSlice";
 import SaveButton from "./SaveButton";
 
 const logInHandler = jest.fn();
-const mockStore = configureStore([]);
 
-const renderSaveButton = (initialState) => {
-  const store = mockStore(initialState);
+const renderSaveButton = (preloadedState) => {
+  const store = configureStore({ reducer: rootReducer, preloadedState });
 
   render(
     <Provider store={store}>
@@ -60,10 +59,10 @@ describe("When project is loaded", () => {
         ).not.toBeInTheDocument();
       });
 
-      test("Clicking save dispatches trigger save action", () => {
+      test("Clicking save updates the save-triggered state", () => {
         const saveButton = screen.queryByText("header.save");
         fireEvent.click(saveButton);
-        expect(store.getActions()).toEqual([triggerSave()]);
+        expect(store.getState().editor.saveTriggered).toBe(true);
       });
 
       test("Clicking save triggers a logInHandler event", () => {
@@ -129,10 +128,10 @@ describe("When project is loaded", () => {
       expect(screen.queryByText("header.save")).not.toBeInTheDocument();
     });
 
-    test("Clicking save dispatches trigger save action", () => {
+    test("Clicking save updates the save-triggered state", () => {
       const saveButton = screen.queryByText("header.loginToSave");
       fireEvent.click(saveButton);
-      expect(store.getActions()).toEqual([triggerSave()]);
+      expect(store.getState().editor.saveTriggered).toBe(true);
     });
 
     test("Clicking save triggers a logInHandler event", () => {
