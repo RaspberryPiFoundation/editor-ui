@@ -134,8 +134,6 @@ describe("When project is loaded", () => {
   });
 
   describe("with webComponent=false", () => {
-    let store;
-
     beforeEach(() => {
       const preloadedState = {
         editor: {
@@ -144,9 +142,9 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      ({ store } = renderWithProviders(<SaveButton />, {
+      renderWithProviders(<SaveButton />, {
         preloadedState,
-      }));
+      });
     });
 
     test("Renders a secondary button", () => {
@@ -156,8 +154,6 @@ describe("When project is loaded", () => {
   });
 
   describe("with webComponent=true", () => {
-    let store;
-
     beforeEach(() => {
       const preloadedState = {
         editor: {
@@ -166,9 +162,9 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      ({ store } = renderWithProviders(<SaveButton />, {
+      renderWithProviders(<SaveButton />, {
         preloadedState,
-      }));
+      });
     });
 
     test("Renders a primary button", () => {
