@@ -15,7 +15,7 @@ describe("When project is loaded", () => {
 
     describe("who doesn't own the project", () => {
       beforeEach(() => {
-        const initialState = {
+        const preloadedState = {
           editor: {
             loading: "success",
             webComponent: true,
@@ -33,7 +33,7 @@ describe("When project is loaded", () => {
           },
         };
         ({ store } = renderWithProviders(<SaveButton />, {
-          preloadedState: initialState,
+          preloadedState,
         }));
       });
 
@@ -62,7 +62,7 @@ describe("When project is loaded", () => {
 
     describe("who does own the project", () => {
       beforeEach(() => {
-        const initialState = {
+        const preloadedState = {
           editor: {
             loading: "success",
             webComponent: true,
@@ -80,7 +80,7 @@ describe("When project is loaded", () => {
           },
         };
         ({ store } = renderWithProviders(<SaveButton />, {
-          preloadedState: initialState,
+          preloadedState,
         }));
       });
 
@@ -100,7 +100,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: false,
@@ -108,7 +108,7 @@ describe("When project is loaded", () => {
         auth: {},
       };
       ({ store } = renderWithProviders(<SaveButton />, {
-        preloadedState: initialState,
+        preloadedState,
       }));
     });
 
@@ -137,7 +137,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: false,
@@ -145,7 +145,7 @@ describe("When project is loaded", () => {
         auth: {},
       };
       ({ store } = renderWithProviders(<SaveButton />, {
-        preloadedState: initialState,
+        preloadedState,
       }));
     });
 
@@ -159,7 +159,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: true,
@@ -167,7 +167,7 @@ describe("When project is loaded", () => {
         auth: {},
       };
       ({ store } = renderWithProviders(<SaveButton />, {
-        preloadedState: initialState,
+        preloadedState,
       }));
     });
 
