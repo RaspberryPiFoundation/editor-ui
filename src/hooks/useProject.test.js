@@ -57,7 +57,14 @@ describe("When not embedded", () => {
 
   test("If no identifier uses default python project", () => {
     renderHook(() => useProject({}), { wrapper });
-    expect(setProject).toHaveBeenCalledWith(defaultPythonProject);
+    return waitFor(() =>
+      expect(setProject).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...defaultPythonProject,
+          name: "project.untitled",
+        }),
+      ),
+    );
   });
 
   test("sets project to initialProject if provided", () => {

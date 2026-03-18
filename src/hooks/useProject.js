@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
-import { defaultPythonProject } from "../utils/defaultProjects";
+import { createDefaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
 
 export const useProject = ({
@@ -43,7 +43,13 @@ export const useProject = ({
   }, [projectIdentifier]);
 
   useEffect(() => {
-    if (!loadRemix) {
+    let didUnmount = false;
+
+    const loadProjectData = async () => {
+      if (loadRemix) {
+        return;
+      }
+
       const is_cached_saved_project =
         projectIdentifier &&
         cachedProject &&
@@ -105,9 +111,20 @@ export const useProject = ({
         return;
       }
 
-      const data = defaultPythonProject;
+      const data = await createDefaultPythonProject(effectiveLocale);
+
+      if (didUnmount) {
+        return;
+      }
+
       dispatch(setProject(data));
-    }
+    };
+
+    void loadProjectData();
+
+    return () => {
+      didUnmount = true;
+    };
   }, [
     code,
     projectIdentifier,

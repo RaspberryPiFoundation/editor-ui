@@ -32,6 +32,17 @@ import {
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
 
+const TOAST_CONTAINER_DEFAULTS = {
+  ...(ToastContainer.defaultProps || {}),
+};
+
+// react-toastify v8 uses defaultProps on a function component, which React
+// warns about in development. We pass the same defaults explicitly instead.
+// We should upgrade to version 10 in a different commit, this removes the warning
+if (process.env.NODE_ENV === "development") {
+  ToastContainer.defaultProps = undefined;
+}
+
 const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
@@ -222,6 +233,7 @@ const WebComponentLoader = (props) => {
           {internalStyles.toString()}
           <div id="wc" className={`--${cookies.theme || themeDefault}`}>
             <ToastContainer
+              {...TOAST_CONTAINER_DEFAULTS}
               enableMultiContainer
               containerId="top-center"
               position="top-center"

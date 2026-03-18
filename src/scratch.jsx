@@ -5,8 +5,11 @@ import { compose } from "redux";
 
 import GUI, { AppStateHOC } from "@scratch/scratch-gui";
 import ScratchIntegrationHOC from "./components/ScratchEditor/ScratchIntegrationHOC.jsx";
+import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 
 import ScratchStyles from "./assets/stylesheets/Scratch.scss";
+
+dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
 document.getElementById("scratch-loading")?.remove();
