@@ -85,6 +85,7 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
+  const previewFileRef = useRef(previewFile);
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -95,7 +96,6 @@ function HtmlRunner() {
     externalLink,
     setExternalLink,
     handleAllowedExternalLink,
-    handleRegularExternalLink,
     handleExternalLinkError,
   } = useExternalLinkState(showModal);
 
@@ -141,9 +141,17 @@ function HtmlRunner() {
           handleExternalLinkError(showModal);
         } else if (event.data?.msg === "Allowed external link") {
           handleAllowedExternalLink(event.data.payload.linkTo);
-        } else {
-          reloadAfterPreviewChange.current = true;
-          handleRegularExternalLink(event.data.payload.linkTo, setPreviewFile);
+        } else if (event.data?.msg === "RELOAD") {
+          const nextPreviewFile = `${event.data.payload.linkTo}.html`;
+          setExternalLink(null);
+
+          if (nextPreviewFile === previewFileRef.current) {
+            reloadAfterPreviewChange.current = false;
+            dispatch(triggerCodeRun());
+          } else {
+            reloadAfterPreviewChange.current = true;
+            setPreviewFile(nextPreviewFile);
+          }
         }
       }
     });
@@ -208,6 +216,7 @@ function HtmlRunner() {
   }, [focussedFileIndex, openFiles]);
 
   useEffect(() => {
+    previewFileRef.current = previewFile;
     if (reloadAfterPreviewChange.current) {
       reloadAfterPreviewChange.current = false;
       dispatch(triggerCodeRun());
