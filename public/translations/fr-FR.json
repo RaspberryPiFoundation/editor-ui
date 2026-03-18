@@ -74,6 +74,7 @@
   },
   "header": {
     "download": "Télécharger",
+    "upload": "Upload",
     "downloadFileNameDefault": "mon projet {{project_type}}",
     "editorLogoAltText": "Logo du Editor",
     "projects": "Tes projets",
