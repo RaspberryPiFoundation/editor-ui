@@ -74,6 +74,7 @@
   },
   "header": {
     "download": "Λήψη",
+    "upload": "Upload",
     "downloadFileNameDefault": "το {{project_type}} έργο μου",
     "editorLogoAltText": "Λογότυπο του επεξεργαστή",
     "projects": "Τα έργα σου",
