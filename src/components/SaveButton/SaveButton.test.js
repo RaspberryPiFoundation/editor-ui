@@ -1,21 +1,12 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "../../redux/RootSlice";
+import { fireEvent, screen } from "@testing-library/react";
+import renderWithProviders from "../../utils/renderWithProviders";
 import SaveButton from "./SaveButton";
 
 const logInHandler = jest.fn();
 
 const renderSaveButton = (preloadedState) => {
-  const store = configureStore({ reducer: rootReducer, preloadedState });
-
-  render(
-    <Provider store={store}>
-      <SaveButton />
-    </Provider>,
-  );
-
+  const { store } = renderWithProviders(<SaveButton />, { preloadedState });
   return store;
 };
 
