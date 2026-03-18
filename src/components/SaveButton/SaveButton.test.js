@@ -5,11 +5,6 @@ import SaveButton from "./SaveButton";
 
 const logInHandler = jest.fn();
 
-const renderSaveButton = (preloadedState) => {
-  const { store } = renderWithProviders(<SaveButton />, { preloadedState });
-  return store;
-};
-
 describe("When project is loaded", () => {
   beforeAll(() => {
     document.addEventListener("editor-logIn", logInHandler);
@@ -37,7 +32,9 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = renderSaveButton(initialState);
+        ({ store } = renderWithProviders(<SaveButton />, {
+          preloadedState: initialState,
+        }));
       });
 
       test("Save button renders", () => {
@@ -82,7 +79,9 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = renderSaveButton(initialState);
+        ({ store } = renderWithProviders(<SaveButton />, {
+          preloadedState: initialState,
+        }));
       });
 
       test("Does not render save button", () => {
@@ -108,7 +107,9 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = renderSaveButton(initialState);
+      ({ store } = renderWithProviders(<SaveButton />, {
+        preloadedState: initialState,
+      }));
     });
 
     test("Login to save button renders", () => {
@@ -143,7 +144,9 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = renderSaveButton(initialState);
+      ({ store } = renderWithProviders(<SaveButton />, {
+        preloadedState: initialState,
+      }));
     });
 
     test("Renders a secondary button", () => {
@@ -163,7 +166,9 @@ describe("When project is loaded", () => {
         },
         auth: {},
       };
-      store = renderSaveButton(initialState);
+      ({ store } = renderWithProviders(<SaveButton />, {
+        preloadedState: initialState,
+      }));
     });
 
     test("Renders a primary button", () => {
@@ -179,9 +184,11 @@ describe("When project is loaded", () => {
 
 describe("When project is not loaded", () => {
   beforeEach(() => {
-    renderSaveButton({
-      editor: {},
-      auth: {},
+    renderWithProviders(<SaveButton />, {
+      preloadedState: {
+        editor: {},
+        auth: {},
+      },
     });
   });
 
