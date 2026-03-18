@@ -56,6 +56,11 @@ yarn exec cypress open
   `src/assets/stylesheets/InternalStyles.scss` (and external libs in
   `ExternalStyles.scss`); avoid `rem`, prefer `em` and `--scale-factor`.
 
+## Translations / locale files
+- Only update `public/translations/en.json` when adding or changing translation keys.
+- Do not add or edit keys in other locale files under `public/translations/`; Crowdin sync overwrites them.
+- Missing keys in non-en locales are intentional until Crowdin syncs; the app falls back to `en`. Do not suggest adding a new key to other locale files when it appears only in `en.json`.
+
 ## Git & Commit Guidance
 - Write descriptive commit messages that explain why a change was made.
 - When applicable, include alternatives considered and why they were not
