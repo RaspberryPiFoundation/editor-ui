@@ -59,6 +59,7 @@ function HtmlRunner() {
 
   const dispatch = useDispatch();
   const output = useRef(null);
+  const reloadAfterPreviewChange = useRef(false);
 
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
 
@@ -84,6 +85,7 @@ function HtmlRunner() {
 
   const [previewFile, setPreviewFile] = useState(defaultPreviewFile);
   const [runningFile, setRunningFile] = useState(previewFile);
+  const previewFileRef = useRef(previewFile);
 
   const showModal = () => {
     dispatch(showErrorModal());
@@ -94,7 +96,6 @@ function HtmlRunner() {
     externalLink,
     setExternalLink,
     handleAllowedExternalLink,
-    handleRegularExternalLink,
     handleExternalLinkError,
   } = useExternalLinkState(showModal);
 
@@ -140,8 +141,17 @@ function HtmlRunner() {
           handleExternalLinkError(showModal);
         } else if (event.data?.msg === "Allowed external link") {
           handleAllowedExternalLink(event.data.payload.linkTo);
-        } else {
-          handleRegularExternalLink(event.data.payload.linkTo, setPreviewFile);
+        } else if (event.data?.msg === "RELOAD") {
+          const nextPreviewFile = `${event.data.payload.linkTo}.html`;
+          setExternalLink(null);
+
+          if (nextPreviewFile === previewFileRef.current) {
+            reloadAfterPreviewChange.current = false;
+            dispatch(triggerCodeRun());
+          } else {
+            reloadAfterPreviewChange.current = true;
+            setPreviewFile(nextPreviewFile);
+          }
         }
       }
     });
@@ -204,6 +214,14 @@ function HtmlRunner() {
       setPreviewFile(openFiles[focussedFileIndex]);
     }
   }, [focussedFileIndex, openFiles]);
+
+  useEffect(() => {
+    previewFileRef.current = previewFile;
+    if (reloadAfterPreviewChange.current) {
+      reloadAfterPreviewChange.current = false;
+      dispatch(triggerCodeRun());
+    }
+  }, [previewFile]);
 
   useEffect(() => {
     if (isEmbedded && browserPreview) {

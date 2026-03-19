@@ -25,7 +25,7 @@ jest.mock("../hooks/useProjectPersistence", () => ({
   useProjectPersistence: jest.fn(),
 }));
 
-const mockedChangeLanguage = jest.fn(() => new Promise(() => {}));
+const mockedChangeLanguage = jest.fn(() => Promise.resolve());
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
