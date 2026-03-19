@@ -35,7 +35,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              url: {
+                filter: (url) => !/^(https?:)?\/\//.test(url),
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
