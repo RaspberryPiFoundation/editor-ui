@@ -1,8 +1,30 @@
 import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import {
+  combineReducers,
+  configureStore as configureRealStore,
+} from "@reduxjs/toolkit";
+import { matchMedia, setMedia } from "mock-match-media";
 import WebComponentProject from "./WebComponentProject";
+import { MOBILE_BREAKPOINT } from "../../utils/mediaQueryBreakpoints";
+import EditorReducer, { editorInitialState } from "../../redux/EditorSlice";
+import InstructionsReducer, {
+  instructionsInitialState,
+} from "../../redux/InstructionsSlice";
+import AuthReducer, {
+  authInitialState,
+} from "../../redux/WebComponentAuthSlice";
+
+let mockMediaQuery = (query) => {
+  return matchMedia(query).matches;
+};
+
+jest.mock("react-responsive", () => ({
+  ...jest.requireActual("react-responsive"),
+  useMediaQuery: ({ query }) => mockMediaQuery(query),
+}));
 
 const codeChangedHandler = jest.fn();
 const runStartedHandler = jest.fn();
@@ -23,6 +45,7 @@ let store;
 const renderWebComponentProject = ({
   projectType,
   instructions,
+  imageList = [],
   permitOverride = true,
   loading,
   codeRunTriggered = false,
@@ -38,7 +61,7 @@ const renderWebComponentProject = ({
         components: [
           { name: "main", extension: "py", content: "print('hello')" },
         ],
-        image_list: [],
+        image_list: imageList,
         instructions,
       },
       loading,
@@ -55,7 +78,55 @@ const renderWebComponentProject = ({
   };
   store = mockStore(initialState);
 
-  render(
+  return render(
+    <Provider store={store}>
+      <WebComponentProject {...props} />
+    </Provider>,
+  );
+};
+
+const renderWebComponentProjectWithRealStore = ({
+  projectType,
+  instructions,
+  imageList = [],
+  permitOverride = true,
+  loading,
+  props = {},
+  editorOverrides = {},
+}) => {
+  const rootReducer = combineReducers({
+    editor: EditorReducer,
+    auth: AuthReducer,
+    instructions: InstructionsReducer,
+  });
+  const preloadedState = {
+    editor: {
+      ...editorInitialState,
+      ...editorOverrides,
+      project: {
+        ...editorInitialState.project,
+        project_type: projectType,
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: imageList,
+        instructions,
+      },
+      loading,
+      openFiles: [],
+      focussedFileIndices: [],
+    },
+    instructions: {
+      ...instructionsInitialState,
+      currentStepPosition: 3,
+      permitOverride,
+    },
+    auth: authInitialState,
+  };
+
+  store = configureRealStore({ reducer: rootReducer, preloadedState });
+
+  return render(
     <Provider store={store}>
       <WebComponentProject {...props} />
     </Provider>,
@@ -254,6 +325,9 @@ describe("When code run finishes", () => {
 
 describe("When withSidebar is true", () => {
   beforeEach(() => {
+    setMedia({
+      width: "1000px",
+    });
     renderWebComponentProject({
       props: { withSidebar: true, sidebarOptions: ["settings"] },
     });
@@ -265,6 +339,71 @@ describe("When withSidebar is true", () => {
 
   test("Renders the correct sidebar options", () => {
     expect(screen.queryByTitle("sidebar.settings")).toBeInTheDocument();
+  });
+});
+
+describe("When resizing across the mobile breakpoint", () => {
+  test("Keeps the selected sidebar panel after switching to mobile and back", () => {
+    setMedia({
+      width: "1000px",
+    });
+
+    const view = renderWebComponentProjectWithRealStore({
+      imageList: [{ filename: "earth.png", url: "/earth.png" }],
+      props: { withSidebar: true, sidebarOptions: ["file", "images"] },
+    });
+
+    fireEvent.click(screen.getByTitle("sidebar.images"));
+    expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+
+    act(() => {
+      setMedia({
+        width: MOBILE_BREAKPOINT,
+      });
+    });
+
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject
+          withSidebar={true}
+          sidebarOptions={["file", "images"]}
+        />
+      </Provider>,
+    );
+
+    fireEvent.click(screen.getByText("mobile.menu"));
+    expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+
+    act(() => {
+      setMedia({
+        width: "1000px",
+      });
+    });
+
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject
+          withSidebar={true}
+          sidebarOptions={["file", "images"]}
+        />
+      </Provider>,
+    );
+
+    expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+  });
+
+  test("Keeps the sidebar collapsed when persisted as null", () => {
+    setMedia({
+      width: "1000px",
+    });
+
+    renderWebComponentProjectWithRealStore({
+      props: { withSidebar: true, sidebarOptions: ["file", "images"] },
+      editorOverrides: { selectedSidebarOption: null },
+    });
+
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
   });
 });
 
