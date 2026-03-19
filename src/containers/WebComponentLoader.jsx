@@ -81,12 +81,12 @@ const WebComponentLoader = (props) => {
     ? JSON.parse(localStorage.getItem(authKey))
     : null;
   const user = useSelector((state) => state.auth.user || localStorageUser);
-  const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
+  const loadRemix = !remixLoadFailed && !!user;
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
@@ -118,14 +118,6 @@ const WebComponentLoader = (props) => {
       setCookie("theme", theme, { path: "/" });
     }
   }, [theme, setCookie, dispatch]);
-
-  useEffect(() => {
-    if (remixLoadFailed) {
-      setLoadRemix(false);
-    } else {
-      setLoadRemix(!!user);
-    }
-  }, [user, project, remixLoadFailed]);
 
   useEffect(() => {
     if (loading === "idle" && project.identifier) {
