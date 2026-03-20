@@ -35,10 +35,12 @@ const user = {
 const renderScratchProjectBar = (state) => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
+  const project = state.editor?.project || {};
   const store = mockStore({
     editor: {
       loading: "success",
-      project: {},
+      project,
+      scratchIframeProjectIdentifier: project.identifier || null,
       ...state.editor,
     },
     auth: {
@@ -102,6 +104,48 @@ describe("When project is Scratch", () => {
       type: "scratch-gui-save",
     });
   });
+
+  test("clicking Save remixes a non-owner Scratch project on the first save", () => {
+    renderScratchProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          user_id: "teacher-id",
+        },
+      },
+      auth: {
+        user,
+      },
+    });
+
+    fireEvent.click(screen.getAllByRole("button", { name: "header.save" })[1]);
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-remix",
+    });
+  });
+
+  test("clicking Save sends scratch-gui-save after the project identifier updates", () => {
+    renderScratchProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          identifier: "student-remix",
+          user_id: "teacher-id",
+        },
+        scratchIframeProjectIdentifier: "teacher-project",
+      },
+      auth: {
+        user,
+      },
+    });
+
+    fireEvent.click(screen.getAllByRole("button", { name: "header.save" })[1]);
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
 });
 
 describe("Additional Scratch manual save states", () => {
@@ -137,6 +181,26 @@ describe("Additional Scratch manual save states", () => {
     expect(
       screen.getByRole("button", { name: "saveStatus.saved" }),
     ).toBeInTheDocument();
+  });
+
+  test("shows the saving state during a Scratch remix", () => {
+    renderScratchProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          user_id: "teacher-id",
+        },
+      },
+      auth: {
+        user,
+      },
+    });
+
+    dispatchScratchMessage("scratch-gui-remixing-started");
+
+    expect(
+      screen.getByRole("button", { name: "saveStatus.saving" }),
+    ).toBeDisabled();
   });
 
   test("does not show save for logged-out Scratch users", () => {

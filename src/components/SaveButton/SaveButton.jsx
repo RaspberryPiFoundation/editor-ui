@@ -9,6 +9,7 @@ import { isOwner } from "../../utils/projectHelpers";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
+import { useScratchSaveState } from "../../hooks/useScratchSaveState";
 
 const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,23 @@ const SaveButton = ({ className, type, fill = false }) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
+  const scratchIframeProjectIdentifier = useSelector(
+    (state) => state.editor.scratchIframeProjectIdentifier,
+  );
+  const isScratchProject = project?.project_type === "code_editor_scratch";
+  const enableScratchSaveState = Boolean(
+    loading === "success" && user && isScratchProject,
+  );
+  const shouldRemixOnSave = Boolean(
+    enableScratchSaveState &&
+      isOwner(user, project) === false &&
+      project.identifier &&
+      project.identifier === scratchIframeProjectIdentifier,
+  );
+  const { isScratchSaving, saveScratchProject, scratchSaveLabelKey } =
+    useScratchSaveState({
+      enabled: enableScratchSaveState,
+    });
 
   useEffect(() => {
     if (!type) {
@@ -31,10 +49,26 @@ const SaveButton = ({ className, type, fill = false }) => {
       window.plausible("Save button");
     }
     document.dispatchEvent(logInEvent);
+    if (enableScratchSaveState) {
+      saveScratchProject({ shouldRemixOnSave });
+      return;
+    }
     dispatch(triggerSave());
-  }, [dispatch]);
+  }, [
+    dispatch,
+    enableScratchSaveState,
+    saveScratchProject,
+    shouldRemixOnSave,
+  ]);
 
   const projectOwner = isOwner(user, project);
+  const buttonText = t(
+    enableScratchSaveState
+      ? scratchSaveLabelKey
+      : user
+        ? "header.save"
+        : "header.loginToSave",
+  );
 
   return (
     loading === "success" &&
@@ -47,11 +81,12 @@ const SaveButton = ({ className, type, fill = false }) => {
           "btn--tertiary": buttonType === "tertiary",
         })}
         onClick={onClickSave}
-        text={t(user ? "header.save" : "header.loginToSave")}
+        text={buttonText}
         textAlways
         icon={<SaveIcon />}
         type={buttonType}
         fill={fill}
+        disabled={isScratchSaving}
       />
     )
   );

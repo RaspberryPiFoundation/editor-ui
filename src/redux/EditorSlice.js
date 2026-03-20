@@ -123,6 +123,7 @@ export const editorInitialState = {
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
+  scratchIframeProjectIdentifier: null,
 };
 
 export const EditorSlice = createSlice({
@@ -207,6 +208,10 @@ export const EditorSlice = createSlice({
         extension: c.extension,
         content: c.content,
       }));
+      state.scratchIframeProjectIdentifier =
+        action.payload.project_type === "code_editor_scratch"
+          ? action.payload.identifier || null
+          : null;
       if (!state.project.image_list) {
         state.project.image_list = [];
       }
@@ -219,6 +224,13 @@ export const EditorSlice = createSlice({
         state.openFiles[firstPanelIndex].push("main.py");
       }
       state.justLoaded = true;
+    },
+    applyScratchProjectIdentifierUpdate: (state, action) => {
+      if (state.project?.project_type !== "code_editor_scratch") {
+        return;
+      }
+
+      state.project.identifier = action.payload.projectIdentifier;
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -456,6 +468,7 @@ export const {
   setHasShownSavePrompt,
   setWebComponent,
   setProject,
+  applyScratchProjectIdentifierUpdate,
   setProjectInstructions,
   setReadOnly,
   setInstructionsEditable,
