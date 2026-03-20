@@ -4,21 +4,28 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
 import { logInEvent } from "../../events/WebComponentCustomEvents";
-import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
+import { useScratchSave } from "../../hooks/useScratchSave";
 
 const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [buttonType, setButtonType] = useState(type);
-  const loading = useSelector((state) => state.editor.loading);
   const webComponent = useSelector((state) => state.editor.webComponent);
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
+  const {
+    enableScratchSaveState,
+    isScratchSaving,
+    loading,
+    projectOwner,
+    saveScratchProject,
+    scratchSaveLabelKey,
+    shouldRemixOnSave,
+    user,
+  } = useScratchSave();
 
   useEffect(() => {
     if (!type) {
@@ -31,10 +38,20 @@ const SaveButton = ({ className, type, fill = false }) => {
       window.plausible("Save button");
     }
     document.dispatchEvent(logInEvent);
+    if (enableScratchSaveState) {
+      saveScratchProject({ shouldRemixOnSave });
+      return;
+    }
     dispatch(triggerSave());
-  }, [dispatch]);
+  }, [dispatch, enableScratchSaveState, saveScratchProject, shouldRemixOnSave]);
 
-  const projectOwner = isOwner(user, project);
+  const buttonText = t(
+    enableScratchSaveState
+      ? scratchSaveLabelKey
+      : user
+        ? "header.save"
+        : "header.loginToSave",
+  );
 
   return (
     loading === "success" &&
@@ -47,11 +64,12 @@ const SaveButton = ({ className, type, fill = false }) => {
           "btn--tertiary": buttonType === "tertiary",
         })}
         onClick={onClickSave}
-        text={t(user ? "header.save" : "header.loginToSave")}
+        text={buttonText}
         textAlways
         icon={<SaveIcon />}
         type={buttonType}
         fill={fill}
+        disabled={isScratchSaving}
       />
     )
   );

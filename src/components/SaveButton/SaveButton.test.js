@@ -4,6 +4,14 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
+import { postMessageToScratchIframe } from "../../utils/scratchIframe";
+
+jest.mock("../../utils/scratchIframe", () => ({
+  postMessageToScratchIframe: jest.fn(),
+  shouldRemixScratchProjectOnSave: jest.requireActual(
+    "../../utils/scratchIframe",
+  ).shouldRemixScratchProjectOnSave,
+}));
 
 const logInHandler = jest.fn();
 
@@ -14,6 +22,10 @@ describe("When project is loaded", () => {
 
   describe("With logged in user", () => {
     let store;
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
 
     describe("who doesn't own the project", () => {
       beforeEach(() => {
@@ -65,6 +77,43 @@ describe("When project is loaded", () => {
         fireEvent.click(saveButton);
         expect(logInHandler).toHaveBeenCalled();
       });
+
+      test("clicking save remixes the first save of a Scratch project", () => {
+        const middlewares = [];
+        const mockStore = configureStore(middlewares);
+        const scratchStore = mockStore({
+          editor: {
+            loading: "success",
+            webComponent: true,
+            scratchIframeProjectIdentifier: "teacher-project",
+            project: {
+              identifier: "teacher-project",
+              user_id: "teacher-id",
+              project_type: "code_editor_scratch",
+            },
+          },
+          auth: {
+            user: {
+              profile: {
+                user: "student-id",
+              },
+            },
+          },
+        });
+
+        render(
+          <Provider store={scratchStore}>
+            <SaveButton />
+          </Provider>,
+        );
+
+        fireEvent.click(screen.getAllByText("header.save")[1]);
+
+        expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+          type: "scratch-gui-remix",
+        });
+        expect(scratchStore.getActions()).toEqual([]);
+      });
     });
 
     describe("who does own the project", () => {
@@ -112,6 +161,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
+      jest.clearAllMocks();
       const middlewares = [];
       const mockStore = configureStore(middlewares);
       const initialState = {
@@ -154,6 +204,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
+      jest.clearAllMocks();
       const middlewares = [];
       const mockStore = configureStore(middlewares);
       const initialState = {
@@ -181,6 +232,7 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
+      jest.clearAllMocks();
       const middlewares = [];
       const mockStore = configureStore(middlewares);
       const initialState = {

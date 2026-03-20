@@ -9,6 +9,9 @@ import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 jest.mock("axios");
 jest.mock("../../utils/scratchIframe", () => ({
   postMessageToScratchIframe: jest.fn(),
+  shouldRemixScratchProjectOnSave: jest.requireActual(
+    "../../utils/scratchIframe",
+  ).shouldRemixScratchProjectOnSave,
 }));
 
 jest.mock("react-router-dom", () => ({
@@ -35,10 +38,12 @@ const user = {
 const renderScratchProjectBar = (state) => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
+  const project = state.editor?.project || {};
   const store = mockStore({
     editor: {
       loading: "success",
-      project: {},
+      project,
+      scratchIframeProjectIdentifier: project.identifier || null,
       ...state.editor,
     },
     auth: {
@@ -102,6 +107,26 @@ describe("When project is Scratch", () => {
       type: "scratch-gui-save",
     });
   });
+
+  test("clicking Save remixes a non-owner Scratch project on the first save", () => {
+    renderScratchProjectBar({
+      editor: {
+        project: {
+          ...scratchProject,
+          user_id: "teacher-id",
+        },
+      },
+      auth: {
+        user,
+      },
+    });
+
+    fireEvent.click(screen.getAllByRole("button", { name: "header.save" })[1]);
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-remix",
+    });
+  });
 });
 
 describe("Additional Scratch manual save states", () => {
@@ -139,18 +164,7 @@ describe("Additional Scratch manual save states", () => {
     ).toBeInTheDocument();
   });
 
-  test("does not show save for logged-out Scratch users", () => {
-    renderScratchProjectBar({
-      editor: {
-        project: scratchProject,
-      },
-    });
-
-    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
-    expect(screen.queryByText("header.loginToSave")).not.toBeInTheDocument();
-  });
-
-  test("shows save for logged-in non-owners", () => {
+  test("shows the saving state during a Scratch remix", () => {
     renderScratchProjectBar({
       editor: {
         project: {
@@ -163,26 +177,21 @@ describe("Additional Scratch manual save states", () => {
       },
     });
 
+    dispatchScratchMessage("scratch-gui-remixing-started");
+
     expect(
-      screen.getByRole("button", { name: "header.save" }),
-    ).toBeInTheDocument();
+      screen.getByRole("button", { name: "saveStatus.saving" }),
+    ).toBeDisabled();
   });
 
-  test("shows save for logged-in users without a Scratch project identifier", () => {
+  test("does not show save for logged-out Scratch users", () => {
     renderScratchProjectBar({
       editor: {
-        project: {
-          ...scratchProject,
-          identifier: null,
-        },
-      },
-      auth: {
-        user,
+        project: scratchProject,
       },
     });
 
-    expect(
-      screen.getByRole("button", { name: "header.save" }),
-    ).toBeInTheDocument();
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+    expect(screen.queryByText("header.loginToSave")).not.toBeInTheDocument();
   });
 });

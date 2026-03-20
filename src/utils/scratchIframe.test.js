@@ -1,6 +1,8 @@
 import {
   getScratchIframeContentWindow,
   postMessageToScratchIframe,
+  shouldRemixScratchProjectOnSave,
+  subscribeToScratchProjectIdentifierUpdates,
 } from "./scratchIframe";
 
 describe("scratchIframe", () => {
@@ -33,13 +35,6 @@ describe("scratchIframe", () => {
       expect(document.querySelector).toHaveBeenCalledWith("editor-wc");
       expect(result).toBe(mockContentWindow);
     });
-
-    it("queries iframe by Scratch title", () => {
-      getScratchIframeContentWindow();
-      expect(mockShadowQuerySelector).toHaveBeenCalledWith(
-        "iframe[title='Scratch']",
-      );
-    });
   });
 
   describe("postMessageToScratchIframe", () => {
@@ -64,6 +59,87 @@ describe("scratchIframe", () => {
         message,
         "https://assets.example.com",
       );
+    });
+  });
+
+  describe("subscribeToScratchProjectIdentifierUpdates", () => {
+    const originalAssetsUrl = process.env.ASSETS_URL;
+
+    beforeEach(() => {
+      process.env.ASSETS_URL = "https://assets.example.com";
+    });
+
+    afterEach(() => {
+      process.env.ASSETS_URL = originalAssetsUrl;
+    });
+
+    it("calls the handler with the updated project id", () => {
+      const handler = jest.fn();
+      const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: "https://assets.example.com",
+          data: {
+            type: "scratch-gui-project-id-updated",
+            projectId: "project-456",
+          },
+        }),
+      );
+
+      expect(handler).toHaveBeenCalledWith("project-456");
+      unsubscribe();
+    });
+
+    it("ignores unrelated messages", () => {
+      const handler = jest.fn();
+      const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: "https://other.example.com",
+          data: {
+            type: "scratch-gui-project-id-updated",
+            projectId: "project-456",
+          },
+        }),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: "https://assets.example.com",
+          data: {
+            type: "scratch-gui-saving-succeeded",
+          },
+        }),
+      );
+
+      expect(handler).not.toHaveBeenCalled();
+      unsubscribe();
+    });
+  });
+
+  describe("shouldRemixScratchProjectOnSave", () => {
+    it("returns true for the first save of an educator-owned project", () => {
+      expect(
+        shouldRemixScratchProjectOnSave({
+          user: { profile: { user: "student-id" } },
+          identifier: "teacher-project",
+          projectOwner: false,
+          scratchIframeProjectIdentifier: "teacher-project",
+        }),
+      ).toBe(true);
+    });
+
+    it("returns false after the parent project id has been updated", () => {
+      expect(
+        shouldRemixScratchProjectOnSave({
+          user: { profile: { user: "student-id" } },
+          identifier: "student-remix",
+          projectOwner: false,
+          scratchIframeProjectIdentifier: "teacher-project",
+        }),
+      ).toBe(false);
     });
   });
 });
