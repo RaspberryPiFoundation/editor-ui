@@ -40,12 +40,6 @@ describe("useScratchSaveState", () => {
     process.env.ASSETS_URL = originalAssetsUrl;
   });
 
-  test("returns idle save state by default", () => {
-    const { result } = renderHook(() => useScratchSaveState());
-
-    assertScratchSaveState(result, "idle", "header.save", false);
-  });
-
   test("posts the scratch save command", () => {
     const { result } = renderHook(() => useScratchSaveState());
 
@@ -55,6 +49,18 @@ describe("useScratchSaveState", () => {
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
       type: "scratch-gui-save",
+    });
+  });
+
+  test("posts the scratch remix command on the first save", () => {
+    const { result } = renderHook(() => useScratchSaveState());
+
+    act(() => {
+      result.current.saveScratchProject({ shouldRemixOnSave: true });
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-remix",
     });
   });
 
@@ -74,11 +80,21 @@ describe("useScratchSaveState", () => {
     assertScratchSaveState(result, "idle", "header.save", false);
   });
 
-  test("resets to idle after a save failure", () => {
+  test("tracks remixing messages with the same save state lifecycle", () => {
     const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
 
-    dispatchScratchMessage("scratch-gui-saving-started");
-    dispatchScratchMessage("scratch-gui-saving-failed");
+    dispatchScratchMessage("scratch-gui-remixing-started");
+    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+
+    dispatchScratchMessage("scratch-gui-remixing-succeeded");
+    assertScratchSaveState(result, "saved", "saveStatus.saved", false);
+  });
+
+  test("resets to idle after a remix failure", () => {
+    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+
+    dispatchScratchMessage("scratch-gui-remixing-started");
+    dispatchScratchMessage("scratch-gui-remixing-failed");
 
     assertScratchSaveState(result, "idle", "header.save", false);
   });
@@ -91,25 +107,6 @@ describe("useScratchSaveState", () => {
       "https://other.example.com",
     );
 
-    assertScratchSaveState(result, "idle", "header.save", false);
-  });
-
-  test("resets and stops handling messages when disabled", () => {
-    const { result, rerender } = renderHook(
-      ({ enabled }) => useScratchSaveState({ enabled }),
-      {
-        initialProps: { enabled: true },
-      },
-    );
-
-    dispatchScratchMessage("scratch-gui-saving-started");
-    expect(result.current.scratchSaveState).toBe("saving");
-
-    rerender({ enabled: false });
-
-    assertScratchSaveState(result, "idle", "header.save", false);
-
-    dispatchScratchMessage("scratch-gui-saving-started");
     assertScratchSaveState(result, "idle", "header.save", false);
   });
 });

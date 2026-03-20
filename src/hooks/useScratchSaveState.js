@@ -31,6 +31,7 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
     }
 
     const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+
     const handleScratchMessage = (event) => {
       if (event.origin !== allowedOrigin) {
         return;
@@ -38,10 +39,12 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
 
       switch (event.data?.type) {
         case "scratch-gui-saving-started":
+        case "scratch-gui-remixing-started":
           clearScratchSaveResetTimeout();
           setScratchSaveState("saving");
           break;
         case "scratch-gui-saving-succeeded":
+        case "scratch-gui-remixing-succeeded":
           clearScratchSaveResetTimeout();
           setScratchSaveState("saved");
           scratchSaveResetTimeoutRef.current = setTimeout(() => {
@@ -50,6 +53,7 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
           }, SCRATCH_SAVE_RESET_DELAY_MS);
           break;
         case "scratch-gui-saving-failed":
+        case "scratch-gui-remixing-failed":
           resetScratchSaveState();
           break;
         default:
@@ -65,9 +69,9 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
     };
   }, [enabled]);
 
-  const saveScratchProject = () => {
+  const saveScratchProject = ({ shouldRemixOnSave = false } = {}) => {
     postMessageToScratchIframe({
-      type: "scratch-gui-save",
+      type: shouldRemixOnSave ? "scratch-gui-remix" : "scratch-gui-save",
     });
   };
 

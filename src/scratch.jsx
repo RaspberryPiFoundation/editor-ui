@@ -53,6 +53,8 @@ const handleSavingSucceeded = () =>
 const handleScratchGuiAlert = (alertType) => {
   if (alertType === "savingError") {
     postScratchGuiEvent("scratch-gui-saving-failed");
+  } else if (alertType === "creatingError") {
+    postScratchGuiEvent("scratch-gui-remixing-failed");
   }
 };
 
