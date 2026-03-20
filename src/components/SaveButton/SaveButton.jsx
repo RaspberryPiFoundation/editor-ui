@@ -4,39 +4,28 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 
 import { logInEvent } from "../../events/WebComponentCustomEvents";
-import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
-import { useScratchSaveState } from "../../hooks/useScratchSaveState";
+import { useScratchSave } from "../../hooks/useScratchSave";
 
 const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [buttonType, setButtonType] = useState(type);
-  const loading = useSelector((state) => state.editor.loading);
   const webComponent = useSelector((state) => state.editor.webComponent);
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
-  const scratchIframeProjectIdentifier = useSelector(
-    (state) => state.editor.scratchIframeProjectIdentifier,
-  );
-  const isScratchProject = project?.project_type === "code_editor_scratch";
-  const enableScratchSaveState = Boolean(
-    loading === "success" && user && isScratchProject,
-  );
-  const shouldRemixOnSave = Boolean(
-    enableScratchSaveState &&
-      isOwner(user, project) === false &&
-      project.identifier &&
-      project.identifier === scratchIframeProjectIdentifier,
-  );
-  const { isScratchSaving, saveScratchProject, scratchSaveLabelKey } =
-    useScratchSaveState({
-      enabled: enableScratchSaveState,
-    });
+  const {
+    enableScratchSaveState,
+    isScratchSaving,
+    loading,
+    projectOwner,
+    saveScratchProject,
+    scratchSaveLabelKey,
+    shouldRemixOnSave,
+    user,
+  } = useScratchSave();
 
   useEffect(() => {
     if (!type) {
@@ -54,14 +43,8 @@ const SaveButton = ({ className, type, fill = false }) => {
       return;
     }
     dispatch(triggerSave());
-  }, [
-    dispatch,
-    enableScratchSaveState,
-    saveScratchProject,
-    shouldRemixOnSave,
-  ]);
+  }, [dispatch, enableScratchSaveState, saveScratchProject, shouldRemixOnSave]);
 
-  const projectOwner = isOwner(user, project);
   const buttonText = t(
     enableScratchSaveState
       ? scratchSaveLabelKey

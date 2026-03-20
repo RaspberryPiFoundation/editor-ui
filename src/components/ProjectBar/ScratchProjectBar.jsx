@@ -10,8 +10,7 @@ import UploadButton from "../UploadButton/UploadButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 
 import "../../assets/stylesheets/ProjectBar.scss";
-import { useScratchSaveState } from "../../hooks/useScratchSaveState";
-import { isOwner } from "../../utils/projectHelpers";
+import { useScratchSave } from "../../hooks/useScratchSave";
 
 const ScratchProjectBar = ({ nameEditable = true }) => {
   const { t } = useTranslation();
@@ -19,24 +18,15 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.editor.loading);
   const readOnly = useSelector((state) => state.editor.readOnly);
-  const project = useSelector((state) => state.editor.project);
-  const scratchIframeProjectIdentifier = useSelector(
-    (state) => state.editor.scratchIframeProjectIdentifier,
-  );
   const showScratchSaveButton = Boolean(user && !readOnly);
-  const enableScratchSaveState = Boolean(
-    loading === "success" && showScratchSaveButton,
-  );
-  const shouldRemixOnSave = Boolean(
-    user &&
-      isOwner(user, project) === false &&
-      project.identifier &&
-      project.identifier === scratchIframeProjectIdentifier,
-  );
-  const { isScratchSaving, saveScratchProject, scratchSaveLabelKey } =
-    useScratchSaveState({
-      enabled: enableScratchSaveState,
-    });
+  const {
+    isScratchSaving,
+    saveScratchProject,
+    scratchSaveLabelKey,
+    shouldRemixOnSave,
+  } = useScratchSave({
+    enabled: showScratchSaveButton,
+  });
   const scratchSaveLabel = t(scratchSaveLabelKey);
 
   if (loading !== "success") {

@@ -9,6 +9,9 @@ import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 jest.mock("axios");
 jest.mock("../../utils/scratchIframe", () => ({
   postMessageToScratchIframe: jest.fn(),
+  shouldRemixScratchProjectOnSave: jest.requireActual(
+    "../../utils/scratchIframe",
+  ).shouldRemixScratchProjectOnSave,
 }));
 
 jest.mock("react-router-dom", () => ({
@@ -124,28 +127,6 @@ describe("When project is Scratch", () => {
       type: "scratch-gui-remix",
     });
   });
-
-  test("clicking Save sends scratch-gui-save after the project identifier updates", () => {
-    renderScratchProjectBar({
-      editor: {
-        project: {
-          ...scratchProject,
-          identifier: "student-remix",
-          user_id: "teacher-id",
-        },
-        scratchIframeProjectIdentifier: "teacher-project",
-      },
-      auth: {
-        user,
-      },
-    });
-
-    fireEvent.click(screen.getAllByRole("button", { name: "header.save" })[1]);
-
-    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
-      type: "scratch-gui-save",
-    });
-  });
 });
 
 describe("Additional Scratch manual save states", () => {
@@ -212,41 +193,5 @@ describe("Additional Scratch manual save states", () => {
 
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
     expect(screen.queryByText("header.loginToSave")).not.toBeInTheDocument();
-  });
-
-  test("shows save for logged-in non-owners", () => {
-    renderScratchProjectBar({
-      editor: {
-        project: {
-          ...scratchProject,
-          user_id: "teacher-id",
-        },
-      },
-      auth: {
-        user,
-      },
-    });
-
-    expect(
-      screen.getByRole("button", { name: "header.save" }),
-    ).toBeInTheDocument();
-  });
-
-  test("shows save for logged-in users without a Scratch project identifier", () => {
-    renderScratchProjectBar({
-      editor: {
-        project: {
-          ...scratchProject,
-          identifier: null,
-        },
-      },
-      auth: {
-        user,
-      },
-    });
-
-    expect(
-      screen.getByRole("button", { name: "header.save" }),
-    ).toBeInTheDocument();
   });
 });

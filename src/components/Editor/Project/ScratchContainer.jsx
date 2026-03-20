@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
+import { subscribeToScratchProjectIdentifierUpdates } from "../../../utils/scratchIframe";
 
 export default function ScratchContainer() {
   const dispatch = useDispatch();
@@ -17,21 +18,15 @@ export default function ScratchContainer() {
     scratchIframeProjectIdentifier || projectIdentifier;
 
   useEffect(() => {
-    const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
-    const handleScratchMessage = ({ origin, data }) => {
-      if (origin !== allowedOrigin) return;
-      if (data?.type !== "scratch-gui-project-id-updated") return;
-      if (!data.projectId) return;
-
-      dispatch(
-        applyScratchProjectIdentifierUpdate({
-          projectIdentifier: data.projectId,
-        }),
-      );
-    };
-
-    window.addEventListener("message", handleScratchMessage);
-    return () => window.removeEventListener("message", handleScratchMessage);
+    return subscribeToScratchProjectIdentifierUpdates(
+      (nextProjectIdentifier) => {
+        dispatch(
+          applyScratchProjectIdentifierUpdate({
+            projectIdentifier: nextProjectIdentifier,
+          }),
+        );
+      },
+    );
   }, [dispatch]);
 
   const queryParams = new URLSearchParams();

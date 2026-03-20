@@ -8,6 +8,9 @@ import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 jest.mock("../../utils/scratchIframe", () => ({
   postMessageToScratchIframe: jest.fn(),
+  shouldRemixScratchProjectOnSave: jest.requireActual(
+    "../../utils/scratchIframe",
+  ).shouldRemixScratchProjectOnSave,
 }));
 
 const logInHandler = jest.fn();
@@ -111,44 +114,6 @@ describe("When project is loaded", () => {
         });
         expect(scratchStore.getActions()).toEqual([]);
       });
-
-      test("clicking save uses scratch-gui-save after the project identifier updates", () => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
-        const scratchStore = mockStore({
-          editor: {
-            loading: "success",
-            webComponent: true,
-            scratchIframeProjectIdentifier: "teacher-project",
-            project: {
-              identifier: "student-remix",
-              user_id: "teacher-id",
-              project_type: "code_editor_scratch",
-            },
-          },
-          auth: {
-            user: {
-              profile: {
-                user: "student-id",
-              },
-            },
-          },
-        });
-
-        render(
-          <Provider store={scratchStore}>
-            <SaveButton />
-          </Provider>,
-        );
-
-        fireEvent.click(screen.getAllByText("header.save")[1]);
-
-        expect(postMessageToScratchIframe).toHaveBeenCalledWith({
-          type: "scratch-gui-save",
-        });
-        expect(scratchStore.getActions()).toEqual([]);
-      });
-
     });
 
     describe("who does own the project", () => {

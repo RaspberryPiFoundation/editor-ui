@@ -31,7 +31,6 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
     }
 
     const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
-
     const handleScratchMessage = (event) => {
       if (event.origin !== allowedOrigin) {
         return;
