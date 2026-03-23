@@ -229,7 +229,7 @@ describe("Running the code with pyodide", () => {
       .should("contain", '["foo", {"bar": ["baz", null, 1.0, 2]}]');
   });
 
-  it("runs a simple pygal program", () => {
+  it("runs a simple bar chart pygal program", () => {
     runCode(
       "import pygal\nbar_chart = pygal.Bar()\nbar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])\nbar_chart.render()",
     );
@@ -237,6 +237,16 @@ describe("Running the code with pyodide", () => {
       .shadow()
       .find(".pyodiderunner")
       .should("contain", "Fibonacci");
+  });
+
+  it("runs a simple pygal pie chart program", () => {
+    runCode(
+      "from pygal import Pie\nchart = Pie()\nchart.add('Cats', 5)\nchart.add('Dogs', 10)\nchart.add('Rabbits', 10)\nchart.render()",
+    );
+    cy.get("editor-wc")
+      .shadow()
+      .find(".pyodiderunner")
+      .should("contain", "Cats");
   });
 
   it("runs a simple matplotlib program", () => {
