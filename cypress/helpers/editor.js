@@ -1,5 +1,13 @@
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
 
+export const getPythonConsoleOutput = () =>
+  getEditorShadow().find(".pythonrunner-console-output-line");
+
+export const getPyodideOutput = () => getEditorShadow().find(".pyodiderunner");
+
+export const getErrorMessage = () =>
+  getEditorShadow().find(".error-message__content");
+
 export const getSidebarPanel = () =>
   getEditorShadow().findByTestId("sidebar__panel");
 
