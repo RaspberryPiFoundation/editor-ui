@@ -4,11 +4,11 @@ import { shouldRemixScratchProjectOnSave } from "../utils/scratchIframe";
 import { useScratchSaveState } from "./useScratchSaveState";
 
 export const useScratchSave = ({ enabled = true } = {}) => {
-  const loading = useSelector((state) => state.editor.loading);
-  const user = useSelector((state) => state.auth.user);
-  const project = useSelector((state) => state.editor.project);
+  const loading = useSelector((state) => state.editor?.loading);
+  const user = useSelector((state) => state.auth?.user);
+  const project = useSelector((state) => state.editor?.project);
   const scratchIframeProjectIdentifier = useSelector(
-    (state) => state.editor.scratchIframeProjectIdentifier,
+    (state) => state.editor?.scratchIframeProjectIdentifier,
   );
 
   const projectOwner = isOwner(user, project);
