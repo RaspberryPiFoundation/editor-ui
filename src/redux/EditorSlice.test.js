@@ -877,7 +877,7 @@ describe("initialComponents snapshot", () => {
     expect(state.scratchIframeProjectIdentifier).toBe("scratch-project");
   });
 
-  test("applyScratchProjectIdentifierUpdate updates the current Scratch project identifier only", () => {
+  test("applyScratchProjectIdentifierUpdate updates the parent Scratch project identifier without reloading the iframe", () => {
     const initialState = reducer(
       undefined,
       setProject({

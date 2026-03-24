@@ -120,10 +120,15 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    if (loading === "idle" && project.identifier) {
+    if (
+      loading === "idle" &&
+      project.project_type !== "code_editor_scratch" &&
+      project.identifier &&
+      project.identifier !== projectIdentifier
+    ) {
       setProjectIdentifier(project.identifier);
     }
-  }, [loading, project]);
+  }, [loading, project.project_type, project.identifier, projectIdentifier]);
 
   useEffect(() => {
     if (loading === "failed" && !remixLoadFailed) {

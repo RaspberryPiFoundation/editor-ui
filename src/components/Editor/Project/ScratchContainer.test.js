@@ -49,7 +49,7 @@ describe("ScratchContainer", () => {
     expect(url.searchParams.get("api_url")).toBe("https://api.example.com/v1");
   });
 
-  test("updates the parent project identifier without changing the iframe project_id", () => {
+  test("updates the parent project identifier without reloading the iframe project_id", () => {
     const store = configureStore({
       reducer: {
         editor: EditorReducer,
@@ -85,6 +85,9 @@ describe("ScratchContainer", () => {
     });
 
     expect(store.getState().editor.project.identifier).toBe("project-456");
+    expect(store.getState().editor.scratchIframeProjectIdentifier).toBe(
+      "project-123",
+    );
 
     const url = new URL(screen.getByTitle("Scratch").getAttribute("src"));
     expect(url.searchParams.get("project_id")).toBe("project-123");
