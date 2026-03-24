@@ -15,7 +15,9 @@ beforeEach(() => {
 
 const runCode = (code) => {
   // Add extra newline to ensure any tooltips are dismissed so they don't get in the way of the run button
-  getEditorShadow().find("div[class=cm-content]").invoke("text", `${code}\n`);
+  getEditorShadow()
+    .findByLabelText("editor text input")
+    .invoke("text", `${code}\n`);
   getEditorShadow().find(".btn--run").should("not.be.disabled").click();
 };
 
@@ -80,10 +82,10 @@ describe("Running the code with pyodide", () => {
     );
   });
 
-  it("updates the file in the editor when the content is updated programatically", () => {
+  it("updates the file in the editor when the content is updated programmatically", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
     getEditorShadow()
-      .find("div[class=cm-content]")
+      .findByLabelText("editor text input")
       .invoke(
         "text",
         'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
@@ -98,7 +100,7 @@ describe("Running the code with pyodide", () => {
     getPythonConsoleOutput().should("contain", "3");
   });
 
-  it("runs a program with muiltiple files", () => {
+  it("runs a program with multiple files", () => {
     getEditorShadow()
       .findByLabelText("editor text input")
       .invoke("text", `from my_number import NUMBER\nprint(NUMBER)\n`);
@@ -177,6 +179,7 @@ describe("Running the code with pyodide", () => {
     runCode(
       "from pygal import Pie\nchart = Pie()\nchart.add('Cats', 5)\nchart.add('Dogs', 10)\nchart.add('Rabbits', 10)\nchart.render()",
     );
+    getErrorMessage().should("not.exist");
     getPyodideOutput().should("contain", "Cats");
   });
 
