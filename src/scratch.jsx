@@ -12,7 +12,7 @@ import ScratchStyles from "./assets/stylesheets/Scratch.scss";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
-document.getElementById("scratch-loading")?.remove();
+const scratchLoading = document.getElementById("scratch-loading");
 GUI.setAppElement(appTarget);
 const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
 
@@ -58,29 +58,60 @@ const handleScratchGuiAlert = (alertType) => {
   }
 };
 
+const generateNonce = () =>
+  `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+
 if (!projectId) {
   console.error("project_id is required but not set");
 } else if (!apiUrl) {
   console.error("api_url is required but not set");
 } else {
-  const root = createRoot(appTarget);
-  root.render(
-    <>
-      <style>{ScratchStyles}</style>
-      <WrappedGui
-        projectId={projectId}
-        locale={locale}
-        menuBarHidden={true}
-        projectHost={`${apiUrl}/api/scratch/projects`}
-        assetHost={`${apiUrl}/api/scratch/assets`}
-        basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
-        onUpdateProjectId={handleUpdateProjectId}
-        onShowCreatingRemixAlert={handleRemixingStarted}
-        onShowRemixSuccessAlert={handleRemixingSucceeded}
-        onShowSavingAlert={handleSavingStarted}
-        onShowSaveSuccessAlert={handleSavingSucceeded}
-        onShowAlert={handleScratchGuiAlert}
-      />
-    </>,
-  );
+  const nonce = generateNonce();
+  let isMounted = false;
+  let root;
+
+  const mountGui = (accessToken) => {
+    if (isMounted) return;
+    isMounted = true;
+    root = root || createRoot(appTarget);
+
+    root.render(
+      <>
+        <style>{ScratchStyles}</style>
+        <WrappedGui
+          projectId={projectId}
+          locale={locale}
+          menuBarHidden={true}
+          projectHost={`${apiUrl}/api/scratch/projects`}
+          assetHost={`${apiUrl}/api/scratch/assets`}
+          basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
+          onStorageInit={(storage) => {
+            if (accessToken) {
+              storage.scratchFetch.setMetadata("Authorization", accessToken);
+            }
+          }}
+          onUpdateProjectId={handleUpdateProjectId}
+          onShowCreatingRemixAlert={handleRemixingStarted}
+          onShowRemixSuccessAlert={handleRemixingSucceeded}
+          onShowSavingAlert={handleSavingStarted}
+          onShowSaveSuccessAlert={handleSavingSucceeded}
+          onShowAlert={handleScratchGuiAlert}
+        />
+      </>,
+    );
+
+    scratchLoading?.remove();
+  };
+
+  const handleMessage = (event) => {
+    if (event.source !== window.parent) return;
+    if (event.data?.type !== "scratch-gui-set-token") return;
+    if (event.data?.nonce !== nonce) return;
+
+    mountGui(event.data?.accessToken || null);
+    window.removeEventListener("message", handleMessage);
+  };
+
+  window.addEventListener("message", handleMessage);
+  postScratchGuiEvent("scratch-gui-ready", { nonce });
 }

@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
-import { subscribeToScratchProjectIdentifierUpdates } from "../../../utils/scratchIframe";
+import {
+  subscribeToScratchProjectIdentifierUpdates,
+  postMessageToScratchIframe,
+} from "../../../utils/scratchIframe";
 
 export default function ScratchContainer() {
   const dispatch = useDispatch();
@@ -14,8 +17,11 @@ export default function ScratchContainer() {
   const scratchApiEndpoint = useSelector(
     (state) => state.editor.scratchApiEndpoint,
   );
+  const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const iframeProjectIdentifier =
     scratchIframeProjectIdentifier || projectIdentifier;
+
+  const hasSentScratchTokenRef = useRef(false);
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -29,9 +35,31 @@ export default function ScratchContainer() {
     );
   }, [dispatch]);
 
+  useEffect(() => {
+    const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+
+    const handleScratchMessage = (event) => {
+      if (event.origin !== allowedOrigin) return;
+      if (event.data?.type !== "scratch-gui-ready") return;
+      if (!event.data?.nonce) return;
+      if (hasSentScratchTokenRef.current) return;
+
+      hasSentScratchTokenRef.current = true;
+      postMessageToScratchIframe({
+        type: "scratch-gui-set-token",
+        nonce: event.data.nonce,
+        accessToken: accessToken || null,
+      });
+    };
+
+    window.addEventListener("message", handleScratchMessage);
+    return () => window.removeEventListener("message", handleScratchMessage);
+  }, [accessToken]);
+
   const queryParams = new URLSearchParams();
   queryParams.set("project_id", iframeProjectIdentifier);
   queryParams.set("api_url", scratchApiEndpoint);
+  queryParams.set("scratchMetadata", "1");
 
   const iframeSrcUrl = `${
     process.env.ASSETS_URL
