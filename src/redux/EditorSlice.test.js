@@ -15,6 +15,7 @@ import reducer, {
   updateProjectComponent,
   setCascadeUpdate,
   setProject,
+  applyScratchProjectIdentifierUpdate,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -861,5 +862,39 @@ describe("initialComponents snapshot", () => {
         content: "print('remixed')",
       },
     ]);
+  });
+
+  test("setProject stores the original Scratch iframe identifier", () => {
+    const state = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    expect(state.scratchIframeProjectIdentifier).toBe("scratch-project");
+  });
+
+  test("applyScratchProjectIdentifierUpdate updates the parent Scratch project identifier without reloading the iframe", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const updatedState = reducer(
+      initialState,
+      applyScratchProjectIdentifierUpdate({
+        projectIdentifier: "student-remix",
+      }),
+    );
+
+    expect(updatedState.project.identifier).toBe("student-remix");
+    expect(updatedState.scratchIframeProjectIdentifier).toBe("scratch-project");
   });
 });

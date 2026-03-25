@@ -4,6 +4,7 @@ const loadProjectPending = (state, action) => {
   state.modals = {};
   state.currentLoadingRequestId = action.meta.requestId;
   state.lastSavedTime = null;
+  state.scratchIframeProjectIdentifier = null;
 };
 
 const loadProjectFulfilled = (state, action) => {
@@ -23,6 +24,10 @@ const loadProjectFulfilled = (state, action) => {
     state.justLoaded = true;
     state.saving = "idle";
     state.currentLoadingRequestId = undefined;
+    state.scratchIframeProjectIdentifier =
+      action.payload.project.project_type === "code_editor_scratch"
+        ? action.payload.project.identifier || null
+        : null;
     state.openFiles = [[]];
     const firstPanelIndex = 0;
     if (state.project.project_type === "html") {
