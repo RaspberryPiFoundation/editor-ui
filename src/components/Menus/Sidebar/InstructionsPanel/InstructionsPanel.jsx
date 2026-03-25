@@ -9,7 +9,10 @@ import SidebarPanel from "../SidebarPanel";
 import Prism from "prismjs";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import "../../../../assets/stylesheets/Instructions.scss";
-import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
+import {
+  logInEvent,
+  quizReadyEvent,
+} from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
@@ -35,6 +38,17 @@ const InstructionsPanel = () => {
         env.code = env.code.replace(/^(?:\s*\n)+/, "");
       });
     }
+  }, []);
+
+  useEffect(() => {
+    const container = stepContent.current;
+    const handleLoginClick = (e) => {
+      if (e.target.id === "badge-login") {
+        document.dispatchEvent(logInEvent);
+      }
+    };
+    container?.addEventListener("click", handleLoginClick);
+    return () => container?.removeEventListener("click", handleLoginClick);
   }, []);
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
