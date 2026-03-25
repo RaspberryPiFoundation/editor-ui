@@ -13,12 +13,12 @@ if (!publicUrl.endsWith("/")) {
 const scratchStaticDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/static",
-)
+);
 
 const scratchChunkDir = path.resolve(
   __dirname,
   "node_modules/@scratch/scratch-gui/dist/chunks",
-)
+);
 
 module.exports = {
   entry: {
@@ -82,7 +82,7 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
-              limit: 10000,
+              limit: 100000,
             },
           },
         ],
@@ -133,7 +133,7 @@ module.exports = {
       {
         directory: scratchChunkDir,
         publicPath: `${publicUrl}scratch-gui/chunks`,
-      }
+      },
     ],
     headers: {
       "Access-Control-Allow-Origin": "*",
