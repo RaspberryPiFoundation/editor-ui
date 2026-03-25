@@ -8,6 +8,13 @@ import {
 } from "../helpers/scratch.js";
 
 const origin = "http://localhost:3011/web-component.html";
+const authKey = "oidc.user:https://auth-v1.raspberrypi.org:editor-api";
+const user = {
+  access_token: "dummy-access-token",
+  profile: {
+    user: "student-id",
+  },
+};
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
@@ -73,5 +80,76 @@ describe("Scratch", () => {
         expect(spriteNames).to.include("test sprite");
       });
     });
+  });
+});
+
+describe("Scratch save integration", () => {
+  beforeEach(() => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("load_remix_disabled", "true");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.findByText("cool-scratch").click();
+  });
+
+  it("remixes on the first save, keeps the iframe project loaded, and saves after the identifier update", () => {
+    getEditorShadow()
+      .find("iframe[title='Scratch']")
+      .its("0.contentDocument.body")
+      .should("not.be.empty");
+
+    getEditorShadow()
+      .find("iframe[title='Scratch']")
+      .should(($iframe) => {
+        const url = new URL($iframe.attr("src"));
+        expect(url.searchParams.get("project_id")).to.eq("cool-scratch.json");
+      })
+      .then(($iframe) => {
+        cy.stub($iframe[0].contentWindow, "postMessage").as(
+          "scratchPostMessage",
+        );
+      });
+
+    getEditorShadow().findByRole("button", { name: "Save" }).click();
+
+    cy.get("@scratchPostMessage")
+      .its("firstCall.args.0")
+      .should("deep.include", { type: "scratch-gui-remix" });
+
+    cy.window().then((win) => {
+      win.dispatchEvent(
+        new win.MessageEvent("message", {
+          origin: win.location.origin,
+          data: {
+            type: "scratch-gui-project-id-updated",
+            projectId: "student-remix",
+          },
+        }),
+      );
+    });
+
+    cy.get("#project-identifier").should("have.text", "student-remix");
+
+    getEditorShadow()
+      .find("iframe[title='Scratch']")
+      .should(($iframe) => {
+        const url = new URL($iframe.attr("src"));
+        expect(url.searchParams.get("project_id")).to.eq("cool-scratch.json");
+      });
+
+    cy.get("@scratchPostMessage").then((postMessage) => {
+      postMessage.resetHistory();
+    });
+
+    getEditorShadow().findByRole("button", { name: "Save" }).click();
+
+    cy.get("@scratchPostMessage")
+      .its("firstCall.args.0")
+      .should("deep.include", { type: "scratch-gui-save" });
   });
 });
