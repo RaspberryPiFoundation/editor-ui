@@ -12,6 +12,65 @@ jest.mock("../../../utils/scratchIframe", () => ({
 }));
 
 describe("ScratchContainer", () => {
+  const defaultEditorState = {
+    project: {
+      identifier: "project-123",
+      project_type: "code_editor_scratch",
+    },
+    scratchIframeProjectIdentifier: "project-123",
+    scratchApiEndpoint: "https://api.example.com/v1",
+  };
+
+  const buildStore = ({ authReducer } = {}) =>
+    configureStore({
+      reducer: {
+        editor: EditorReducer,
+        ...(authReducer ? { auth: authReducer } : {}),
+      },
+      preloadedState: {
+        editor: defaultEditorState,
+      },
+    });
+
+  const renderScratchContainer = (store) =>
+    render(
+      <Provider store={store}>
+        <ScratchContainer />
+      </Provider>,
+    );
+
+  const dispatchMessage = (data, origin = "https://example.com") => {
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin,
+        data,
+      }),
+    );
+  };
+
+  const dispatchScratchGuiReady = ({ nonce }) => {
+    dispatchMessage({
+      type: "scratch-gui-ready",
+      nonce,
+    });
+  };
+
+  const expectScratchSetTokenCall = ({
+    callIndex,
+    nonce,
+    accessToken,
+    requiresAuth,
+  }) => {
+    expect(
+      scratchIframeUtils.postMessageToScratchIframe,
+    ).toHaveBeenNthCalledWith(callIndex, {
+      type: "scratch-gui-set-token",
+      nonce,
+      accessToken,
+      requiresAuth,
+    });
+  };
+
   let originalAssetsUrl;
 
   beforeEach(() => {
@@ -26,27 +85,8 @@ describe("ScratchContainer", () => {
   });
 
   test("renders iframe with src built from project_id and api_url", () => {
-    const store = configureStore({
-      reducer: {
-        editor: EditorReducer,
-      },
-      preloadedState: {
-        editor: {
-          project: {
-            identifier: "project-123",
-            project_type: "code_editor_scratch",
-          },
-          scratchIframeProjectIdentifier: "project-123",
-          scratchApiEndpoint: "https://api.example.com/v1",
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <ScratchContainer />
-      </Provider>,
-    );
+    const store = buildStore();
+    renderScratchContainer(store);
 
     const iframe = screen.getByTitle("Scratch");
     expect(iframe).toBeInTheDocument();
@@ -58,38 +98,14 @@ describe("ScratchContainer", () => {
   });
 
   test("updates the parent project identifier without reloading the iframe project_id", async () => {
-    const store = configureStore({
-      reducer: {
-        editor: EditorReducer,
-      },
-      preloadedState: {
-        editor: {
-          project: {
-            identifier: "project-123",
-            project_type: "code_editor_scratch",
-          },
-          scratchIframeProjectIdentifier: "project-123",
-          scratchApiEndpoint: "https://api.example.com/v1",
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <ScratchContainer />
-      </Provider>,
-    );
+    const store = buildStore();
+    renderScratchContainer(store);
 
     await act(async () => {
-      window.dispatchEvent(
-        new MessageEvent("message", {
-          origin: "https://example.com",
-          data: {
-            type: "scratch-gui-project-id-updated",
-            projectId: "project-456",
-          },
-        }),
-      );
+      dispatchMessage({
+        type: "scratch-gui-project-id-updated",
+        projectId: "project-456",
+      });
     });
 
     expect(store.getState().editor.project.identifier).toBe("project-456");
@@ -102,41 +118,15 @@ describe("ScratchContainer", () => {
   });
 
   test("sends scratch-gui-set-token when scratch-gui-ready message is received", () => {
-    const store = configureStore({
-      reducer: {
-        editor: EditorReducer,
-        auth: (state = { user: { access_token: "token-123" } }) => state,
-      },
-      preloadedState: {
-        editor: {
-          project: {
-            identifier: "project-123",
-            project_type: "code_editor_scratch",
-          },
-          scratchIframeProjectIdentifier: "project-123",
-          scratchApiEndpoint: "https://api.example.com/v1",
-        },
-      },
+    const store = buildStore({
+      authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });
+    renderScratchContainer(store);
 
-    render(
-      <Provider store={store}>
-        <ScratchContainer />
-      </Provider>,
-    );
+    dispatchScratchGuiReady({ nonce: "nonce-abc" });
 
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-abc",
-        },
-      }),
-    );
-
-    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledWith({
-      type: "scratch-gui-set-token",
+    expectScratchSetTokenCall({
+      callIndex: 1,
       nonce: "nonce-abc",
       accessToken: "token-123",
       requiresAuth: false,
@@ -144,72 +134,26 @@ describe("ScratchContainer", () => {
   });
 
   test("does not resend token for duplicate nonce but sends for a new nonce", () => {
-    const store = configureStore({
-      reducer: {
-        editor: EditorReducer,
-        auth: (state = { user: { access_token: "token-123" } }) => state,
-      },
-      preloadedState: {
-        editor: {
-          project: {
-            identifier: "project-123",
-            project_type: "code_editor_scratch",
-          },
-          scratchIframeProjectIdentifier: "project-123",
-          scratchApiEndpoint: "https://api.example.com/v1",
-        },
-      },
+    const store = buildStore({
+      authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });
+    renderScratchContainer(store);
 
-    render(
-      <Provider store={store}>
-        <ScratchContainer />
-      </Provider>,
-    );
-
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-1",
-        },
-      }),
-    );
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-1",
-        },
-      }),
-    );
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-2",
-        },
-      }),
-    );
+    dispatchScratchGuiReady({ nonce: "nonce-1" });
+    dispatchScratchGuiReady({ nonce: "nonce-1" });
+    dispatchScratchGuiReady({ nonce: "nonce-2" });
 
     expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
       2,
     );
-    expect(
-      scratchIframeUtils.postMessageToScratchIframe,
-    ).toHaveBeenNthCalledWith(1, {
-      type: "scratch-gui-set-token",
+    expectScratchSetTokenCall({
+      callIndex: 1,
       nonce: "nonce-1",
       accessToken: "token-123",
       requiresAuth: false,
     });
-    expect(
-      scratchIframeUtils.postMessageToScratchIframe,
-    ).toHaveBeenNthCalledWith(2, {
-      type: "scratch-gui-set-token",
+    expectScratchSetTokenCall({
+      callIndex: 2,
       nonce: "nonce-2",
       accessToken: "token-123",
       requiresAuth: false,
@@ -218,53 +162,25 @@ describe("ScratchContainer", () => {
 
   test("resends the same nonce once access token becomes available when auth is expected", async () => {
     localStorage.setItem("authKey", "oidc.user:test");
-    const store = configureStore({
-      reducer: {
-        editor: EditorReducer,
-        auth: (state = { user: null }, action) => {
-          if (action.type === "test/setAuthToken") {
-            return {
-              user: { access_token: action.payload },
-            };
-          }
-          return state;
-        },
-      },
-      preloadedState: {
-        editor: {
-          project: {
-            identifier: "project-123",
-            project_type: "code_editor_scratch",
-          },
-          scratchIframeProjectIdentifier: "project-123",
-          scratchApiEndpoint: "https://api.example.com/v1",
-        },
+    const store = buildStore({
+      authReducer: (state = { user: null }, action) => {
+        if (action.type === "test/setAuthToken") {
+          return {
+            user: { access_token: action.payload },
+          };
+        }
+        return state;
       },
     });
 
-    render(
-      <Provider store={store}>
-        <ScratchContainer />
-      </Provider>,
-    );
-
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-1",
-        },
-      }),
-    );
+    renderScratchContainer(store);
+    dispatchScratchGuiReady({ nonce: "nonce-1" });
 
     expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
       1,
     );
-    expect(
-      scratchIframeUtils.postMessageToScratchIframe,
-    ).toHaveBeenNthCalledWith(1, {
-      type: "scratch-gui-set-token",
+    expectScratchSetTokenCall({
+      callIndex: 1,
       nonce: "nonce-1",
       accessToken: null,
       requiresAuth: true,
@@ -277,23 +193,13 @@ describe("ScratchContainer", () => {
       });
     });
 
-    window.dispatchEvent(
-      new MessageEvent("message", {
-        origin: "https://example.com",
-        data: {
-          type: "scratch-gui-ready",
-          nonce: "nonce-1",
-        },
-      }),
-    );
+    dispatchScratchGuiReady({ nonce: "nonce-1" });
 
     expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
       2,
     );
-    expect(
-      scratchIframeUtils.postMessageToScratchIframe,
-    ).toHaveBeenNthCalledWith(2, {
-      type: "scratch-gui-set-token",
+    expectScratchSetTokenCall({
+      callIndex: 2,
       nonce: "nonce-1",
       accessToken: "token-123",
       requiresAuth: true,

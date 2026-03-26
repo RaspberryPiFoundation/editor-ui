@@ -23,14 +23,47 @@ describe("scratch handshake retries", () => {
   const originalEnv = process.env;
   let postMessageSpy;
   let consoleErrorSpy;
-  let addEventListenerSpy;
   let removeEventListenerSpy;
-  let messageHandler;
 
   const loadScratchModule = () => {
     jest.isolateModules(() => {
       require("./scratch.jsx");
     });
+  };
+
+  const getHandshakeNonce = () => postMessageSpy.mock.calls[0][0].nonce;
+
+  const dispatchSetTokenMessage = ({
+    nonce,
+    accessToken,
+    requiresAuth = true,
+  }) => {
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        source: window.parent,
+        origin: window.location.origin,
+        data: {
+          type: "scratch-gui-set-token",
+          nonce,
+          accessToken,
+          requiresAuth,
+        },
+      }),
+    );
+  };
+
+  const advanceToTimeout = () => {
+    jest.advanceTimersByTime(15000);
+  };
+
+  const expectRetriesStopped = (callsAfterHandshake) => {
+    jest.advanceTimersByTime(20000);
+    expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterHandshake);
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "message",
+      expect.any(Function),
+    );
   };
 
   beforeEach(() => {
@@ -52,17 +85,7 @@ describe("scratch handshake retries", () => {
     postMessageSpy = jest.spyOn(window.parent, "postMessage");
     consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    messageHandler = null;
-    addEventListenerSpy = jest
-      .spyOn(window, "addEventListener")
-      .mockImplementation((eventType, handler) => {
-        if (eventType === "message") {
-          messageHandler = handler;
-        }
-      });
-    removeEventListenerSpy = jest
-      .spyOn(window, "removeEventListener")
-      .mockImplementation(() => {});
+    removeEventListenerSpy = jest.spyOn(window, "removeEventListener");
   });
 
   afterEach(() => {
@@ -71,7 +94,6 @@ describe("scratch handshake retries", () => {
     process.env = originalEnv;
     postMessageSpy.mockRestore();
     consoleErrorSpy.mockRestore();
-    addEventListenerSpy.mockRestore();
     removeEventListenerSpy.mockRestore();
   });
 
@@ -80,7 +102,7 @@ describe("scratch handshake retries", () => {
 
     expect(postMessageSpy).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(15000);
+    advanceToTimeout();
 
     expect(postMessageSpy).toHaveBeenCalledTimes(15);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
@@ -95,46 +117,18 @@ describe("scratch handshake retries", () => {
   test("stops retries and mounts after valid token message", () => {
     loadScratchModule();
 
-    const firstReadyPayload = postMessageSpy.mock.calls[0][0];
-    const nonce = firstReadyPayload.nonce;
-
-    messageHandler({
-      source: window.parent,
-      origin: window.location.origin,
-      data: {
-        type: "scratch-gui-set-token",
-        nonce,
-        accessToken: "token-123",
-        requiresAuth: true,
-      },
-    });
+    const nonce = getHandshakeNonce();
+    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
 
     const callsAfterHandshake = postMessageSpy.mock.calls.length;
-    jest.advanceTimersByTime(20000);
-    expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterHandshake);
-    expect(consoleErrorSpy).not.toHaveBeenCalled();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      "message",
-      expect.any(Function),
-    );
+    expectRetriesStopped(callsAfterHandshake);
   });
 
   test("keeps retrying when auth is required but token is missing", () => {
     loadScratchModule();
 
-    const firstReadyPayload = postMessageSpy.mock.calls[0][0];
-    const nonce = firstReadyPayload.nonce;
-
-    messageHandler({
-      source: window.parent,
-      origin: window.location.origin,
-      data: {
-        type: "scratch-gui-set-token",
-        nonce,
-        accessToken: null,
-        requiresAuth: true,
-      },
-    });
+    const nonce = getHandshakeNonce();
+    dispatchSetTokenMessage({ nonce, accessToken: null });
 
     const callsAfterNullToken = postMessageSpy.mock.calls.length;
     jest.advanceTimersByTime(1000);
@@ -143,44 +137,17 @@ describe("scratch handshake retries", () => {
     );
 
     const callsAfterOneRetry = postMessageSpy.mock.calls.length;
-    messageHandler({
-      source: window.parent,
-      origin: window.location.origin,
-      data: {
-        type: "scratch-gui-set-token",
-        nonce,
-        accessToken: "token-123",
-        requiresAuth: true,
-      },
-    });
+    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
 
-    jest.advanceTimersByTime(10000);
-    expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterOneRetry);
-    expect(consoleErrorSpy).not.toHaveBeenCalled();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      "message",
-      expect.any(Function),
-    );
+    expectRetriesStopped(callsAfterOneRetry);
   });
 
   test("logs auth-specific timeout error when auth is required but token never arrives", () => {
     loadScratchModule();
 
-    const firstReadyPayload = postMessageSpy.mock.calls[0][0];
-    const nonce = firstReadyPayload.nonce;
-
-    messageHandler({
-      source: window.parent,
-      origin: window.location.origin,
-      data: {
-        type: "scratch-gui-set-token",
-        nonce,
-        accessToken: null,
-        requiresAuth: true,
-      },
-    });
-
-    jest.advanceTimersByTime(15000);
+    const nonce = getHandshakeNonce();
+    dispatchSetTokenMessage({ nonce, accessToken: null });
+    advanceToTimeout();
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "[scratch iframe] auth required but access token missing before timeout",
