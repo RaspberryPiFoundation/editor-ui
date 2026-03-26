@@ -17,6 +17,7 @@ describe("ScratchContainer", () => {
   beforeEach(() => {
     originalAssetsUrl = process.env.ASSETS_URL;
     process.env.ASSETS_URL = "https://example.com";
+    localStorage.clear();
   });
 
   afterEach(() => {
@@ -138,6 +139,7 @@ describe("ScratchContainer", () => {
       type: "scratch-gui-set-token",
       nonce: "nonce-abc",
       accessToken: "token-123",
+      requiresAuth: false,
     });
   });
 
@@ -202,6 +204,7 @@ describe("ScratchContainer", () => {
       type: "scratch-gui-set-token",
       nonce: "nonce-1",
       accessToken: "token-123",
+      requiresAuth: false,
     });
     expect(
       scratchIframeUtils.postMessageToScratchIframe,
@@ -209,6 +212,91 @@ describe("ScratchContainer", () => {
       type: "scratch-gui-set-token",
       nonce: "nonce-2",
       accessToken: "token-123",
+      requiresAuth: false,
+    });
+  });
+
+  test("resends the same nonce once access token becomes available when auth is expected", async () => {
+    localStorage.setItem("authKey", "oidc.user:test");
+    const store = configureStore({
+      reducer: {
+        editor: EditorReducer,
+        auth: (state = { user: null }, action) => {
+          if (action.type === "test/setAuthToken") {
+            return {
+              user: { access_token: action.payload },
+            };
+          }
+          return state;
+        },
+      },
+      preloadedState: {
+        editor: {
+          project: {
+            identifier: "project-123",
+            project_type: "code_editor_scratch",
+          },
+          scratchIframeProjectIdentifier: "project-123",
+          scratchApiEndpoint: "https://api.example.com/v1",
+        },
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <ScratchContainer />
+      </Provider>,
+    );
+
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin: "https://example.com",
+        data: {
+          type: "scratch-gui-ready",
+          nonce: "nonce-1",
+        },
+      }),
+    );
+
+    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
+      1,
+    );
+    expect(
+      scratchIframeUtils.postMessageToScratchIframe,
+    ).toHaveBeenNthCalledWith(1, {
+      type: "scratch-gui-set-token",
+      nonce: "nonce-1",
+      accessToken: null,
+      requiresAuth: true,
+    });
+
+    await act(async () => {
+      store.dispatch({
+        type: "test/setAuthToken",
+        payload: "token-123",
+      });
+    });
+
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin: "https://example.com",
+        data: {
+          type: "scratch-gui-ready",
+          nonce: "nonce-1",
+        },
+      }),
+    );
+
+    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
+      2,
+    );
+    expect(
+      scratchIframeUtils.postMessageToScratchIframe,
+    ).toHaveBeenNthCalledWith(2, {
+      type: "scratch-gui-set-token",
+      nonce: "nonce-1",
+      accessToken: "token-123",
+      requiresAuth: true,
     });
   });
 });

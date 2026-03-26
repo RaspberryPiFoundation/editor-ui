@@ -21,7 +21,10 @@ export default function ScratchContainer() {
   const iframeProjectIdentifier =
     scratchIframeProjectIdentifier || projectIdentifier;
 
-  const lastScratchTokenNonceRef = useRef(null);
+  const lastScratchTokenStateRef = useRef({
+    nonce: null,
+    hadAccessToken: false,
+  });
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -37,18 +40,32 @@ export default function ScratchContainer() {
 
   useEffect(() => {
     const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+    const authKey = localStorage.getItem("authKey");
+    const requiresAuth = Boolean(
+      authKey && authKey !== "undefined" && authKey !== "null",
+    );
 
     const handleScratchMessage = (event) => {
       if (event.origin !== allowedOrigin) return;
       if (event.data?.type !== "scratch-gui-ready") return;
       if (!event.data?.nonce) return;
-      if (lastScratchTokenNonceRef.current === event.data.nonce) return;
+      const hasAccessToken = Boolean(accessToken);
+      const previousHandshake = lastScratchTokenStateRef.current;
+      const isSameNonce = previousHandshake.nonce === event.data.nonce;
+      const shouldSkipDuplicateNonce =
+        isSameNonce && (previousHandshake.hadAccessToken || !hasAccessToken);
 
-      lastScratchTokenNonceRef.current = event.data.nonce;
+      if (shouldSkipDuplicateNonce) return;
+
+      lastScratchTokenStateRef.current = {
+        nonce: event.data.nonce,
+        hadAccessToken: hasAccessToken,
+      };
       postMessageToScratchIframe({
         type: "scratch-gui-set-token",
         nonce: event.data.nonce,
         accessToken: accessToken || null,
+        requiresAuth,
       });
     };
 

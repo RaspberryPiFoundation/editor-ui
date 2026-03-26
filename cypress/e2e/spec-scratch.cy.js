@@ -186,7 +186,6 @@ describe("Scratch Authorization header", () => {
     });
 
     const params = new URLSearchParams();
-    params.set("auth_key", authKey);
     params.set("load_remix_disabled", "true");
 
     cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");

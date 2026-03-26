@@ -109,12 +109,55 @@ describe("scratch handshake retries", () => {
         type: "scratch-gui-set-token",
         nonce,
         accessToken: "token-123",
+        requiresAuth: true,
       },
     });
 
     const callsAfterHandshake = postMessageSpy.mock.calls.length;
     jest.advanceTimersByTime(20000);
     expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterHandshake);
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "message",
+      expect.any(Function),
+    );
+  });
+
+  test("keeps retrying when auth is required but token is missing", () => {
+    loadScratchModule();
+
+    const firstReadyPayload = postMessageSpy.mock.calls[0][0];
+    const nonce = firstReadyPayload.nonce;
+
+    messageHandler({
+      source: window.parent,
+      data: {
+        type: "scratch-gui-set-token",
+        nonce,
+        accessToken: null,
+        requiresAuth: true,
+      },
+    });
+
+    const callsAfterNullToken = postMessageSpy.mock.calls.length;
+    jest.advanceTimersByTime(1000);
+    expect(postMessageSpy.mock.calls.length).toBeGreaterThan(
+      callsAfterNullToken,
+    );
+
+    const callsAfterOneRetry = postMessageSpy.mock.calls.length;
+    messageHandler({
+      source: window.parent,
+      data: {
+        type: "scratch-gui-set-token",
+        nonce,
+        accessToken: "token-123",
+        requiresAuth: true,
+      },
+    });
+
+    jest.advanceTimersByTime(10000);
+    expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterOneRetry);
     expect(consoleErrorSpy).not.toHaveBeenCalled();
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
       "message",

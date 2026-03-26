@@ -73,6 +73,8 @@ if (!projectId) {
   let root;
   let readyRetryIntervalId = null;
   const readyHandshakeStartedAt = Date.now();
+  let requiresAuth = false;
+  let latestAccessToken = null;
 
   const mountGui = (accessToken) => {
     if (isMounted) return;
@@ -112,11 +114,18 @@ if (!projectId) {
     if (event.data?.type !== "scratch-gui-set-token") return;
     if (event.data?.nonce !== nonce) return;
 
+    requiresAuth = Boolean(event.data?.requiresAuth);
+    latestAccessToken = event.data?.accessToken || null;
+
+    if (requiresAuth && !latestAccessToken) {
+      return;
+    }
+
     if (readyRetryIntervalId) {
       clearInterval(readyRetryIntervalId);
       readyRetryIntervalId = null;
     }
-    mountGui(event.data?.accessToken || null);
+    mountGui(latestAccessToken);
     window.removeEventListener("message", handleMessage);
   };
 
