@@ -29,7 +29,7 @@ const defaultLocale = "en";
 const locale = appTarget.dataset.locale || defaultLocale;
 
 const postScratchGuiEvent = (type, payload = {}) => {
-  window.top.postMessage({ type, ...payload }, "*");
+  window.parent.postMessage({ type, ...payload }, "*");
 };
 
 const handleUpdateProjectId = (updatedProjectId) => {
@@ -66,9 +66,13 @@ if (!projectId) {
 } else if (!apiUrl) {
   console.error("api_url is required but not set");
 } else {
+  const READY_RETRY_TIMEOUT_MS = 15000;
+  const READY_RETRY_INTERVAL_MS = 1000;
   const nonce = generateNonce();
   let isMounted = false;
   let root;
+  let readyRetryIntervalId = null;
+  const readyHandshakeStartedAt = Date.now();
 
   const mountGui = (accessToken) => {
     if (isMounted) return;
@@ -108,10 +112,37 @@ if (!projectId) {
     if (event.data?.type !== "scratch-gui-set-token") return;
     if (event.data?.nonce !== nonce) return;
 
+    if (readyRetryIntervalId) {
+      clearInterval(readyRetryIntervalId);
+      readyRetryIntervalId = null;
+    }
     mountGui(event.data?.accessToken || null);
     window.removeEventListener("message", handleMessage);
   };
 
   window.addEventListener("message", handleMessage);
   postScratchGuiEvent("scratch-gui-ready", { nonce });
+
+  readyRetryIntervalId = window.setInterval(() => {
+    if (!isMounted) {
+      const retryElapsedMs = Date.now() - readyHandshakeStartedAt;
+      if (retryElapsedMs >= READY_RETRY_TIMEOUT_MS) {
+        clearInterval(readyRetryIntervalId);
+        readyRetryIntervalId = null;
+        console.error(
+          "[scratch iframe] no scratch-gui-set-token received before timeout",
+          {
+            nonce,
+            timeoutMs: READY_RETRY_TIMEOUT_MS,
+            retryElapsedMs,
+          },
+        );
+        return;
+      }
+      postScratchGuiEvent("scratch-gui-ready", { nonce });
+      return;
+    }
+    clearInterval(readyRetryIntervalId);
+    readyRetryIntervalId = null;
+  }, READY_RETRY_INTERVAL_MS);
 }

@@ -21,7 +21,7 @@ export default function ScratchContainer() {
   const iframeProjectIdentifier =
     scratchIframeProjectIdentifier || projectIdentifier;
 
-  const hasSentScratchTokenRef = useRef(false);
+  const lastScratchTokenNonceRef = useRef(null);
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -42,9 +42,9 @@ export default function ScratchContainer() {
       if (event.origin !== allowedOrigin) return;
       if (event.data?.type !== "scratch-gui-ready") return;
       if (!event.data?.nonce) return;
-      if (hasSentScratchTokenRef.current) return;
+      if (lastScratchTokenNonceRef.current === event.data.nonce) return;
 
-      hasSentScratchTokenRef.current = true;
+      lastScratchTokenNonceRef.current = event.data.nonce;
       postMessageToScratchIframe({
         type: "scratch-gui-set-token",
         nonce: event.data.nonce,
@@ -53,7 +53,9 @@ export default function ScratchContainer() {
     };
 
     window.addEventListener("message", handleScratchMessage);
-    return () => window.removeEventListener("message", handleScratchMessage);
+    return () => {
+      window.removeEventListener("message", handleScratchMessage);
+    };
   }, [accessToken]);
 
   const queryParams = new URLSearchParams();
