@@ -153,3 +153,50 @@ describe("Scratch save integration", () => {
       .should("deep.include", { type: "scratch-gui-save" });
   });
 });
+
+describe("Scratch Authorization header", () => {
+  const scratchProjectsApiMatcher = "**/api/scratch/projects/**";
+
+  it("includes Authorization header when authKey and access token are present in localStorage", () => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("load_remix_disabled", "true");
+
+    cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.findByText("cool-scratch").click();
+
+    cy.wait("@scratchProjectRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers.authorization).to.equal(user.access_token);
+      });
+  });
+
+  it("does not include Authorization header when authKey is not present in localStorage", () => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.removeItem(authKey);
+      win.localStorage.removeItem("authKey");
+    });
+
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("load_remix_disabled", "true");
+
+    cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.findByText("cool-scratch").click();
+
+    cy.wait("@scratchProjectRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers).to.not.have.property("authorization");
+      });
+  });
+});
