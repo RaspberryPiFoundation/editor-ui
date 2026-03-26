@@ -79,6 +79,7 @@ export default function ScratchContainer() {
   queryParams.set("project_id", iframeProjectIdentifier);
   queryParams.set("api_url", scratchApiEndpoint);
   queryParams.set("scratchMetadata", "1");
+  queryParams.set("parent_origin", window.location.origin);
 
   const iframeSrcUrl = `${
     process.env.ASSETS_URL

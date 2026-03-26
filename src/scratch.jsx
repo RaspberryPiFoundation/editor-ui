@@ -24,12 +24,14 @@ if (process.env.NODE_ENV === "production" && typeof window === "object") {
 const searchParams = new URLSearchParams(window.location.search);
 const projectId = searchParams.get("project_id");
 const apiUrl = searchParams.get("api_url");
+const parentOriginFromQuery = searchParams.get("parent_origin");
+const allowedParentOrigin = parentOriginFromQuery || window.location.origin;
 
 const defaultLocale = "en";
 const locale = appTarget.dataset.locale || defaultLocale;
 
 const postScratchGuiEvent = (type, payload = {}) => {
-  window.parent.postMessage({ type, ...payload }, "*");
+  window.parent.postMessage({ type, ...payload }, allowedParentOrigin);
 };
 
 const handleUpdateProjectId = (updatedProjectId) => {
@@ -111,6 +113,7 @@ if (!projectId) {
 
   const handleMessage = (event) => {
     if (event.source !== window.parent) return;
+    if (event.origin !== allowedParentOrigin) return;
     if (event.data?.type !== "scratch-gui-set-token") return;
     if (event.data?.nonce !== nonce) return;
 
@@ -138,14 +141,11 @@ if (!projectId) {
       if (retryElapsedMs >= READY_RETRY_TIMEOUT_MS) {
         clearInterval(readyRetryIntervalId);
         readyRetryIntervalId = null;
-        console.error(
-          "[scratch iframe] no scratch-gui-set-token received before timeout",
-          {
-            nonce,
-            timeoutMs: READY_RETRY_TIMEOUT_MS,
-            retryElapsedMs,
-          },
-        );
+        const timeoutMessage =
+          requiresAuth && !latestAccessToken
+            ? "[scratch iframe] auth required but access token missing before timeout"
+            : "[scratch iframe] no scratch-gui-set-token message received before timeout";
+        console.error(timeoutMessage);
         return;
       }
       postScratchGuiEvent("scratch-gui-ready", { nonce });

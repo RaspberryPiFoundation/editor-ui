@@ -84,10 +84,7 @@ describe("scratch handshake retries", () => {
 
     expect(postMessageSpy).toHaveBeenCalledTimes(15);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "[scratch iframe] no scratch-gui-set-token received before timeout",
-      expect.objectContaining({
-        timeoutMs: 15000,
-      }),
+      "[scratch iframe] no scratch-gui-set-token message received before timeout",
     );
 
     const callsAtTimeout = postMessageSpy.mock.calls.length;
@@ -101,10 +98,9 @@ describe("scratch handshake retries", () => {
     const firstReadyPayload = postMessageSpy.mock.calls[0][0];
     const nonce = firstReadyPayload.nonce;
 
-    expect(messageHandler).toBeInstanceOf(Function);
-
     messageHandler({
       source: window.parent,
+      origin: window.location.origin,
       data: {
         type: "scratch-gui-set-token",
         nonce,
@@ -131,6 +127,7 @@ describe("scratch handshake retries", () => {
 
     messageHandler({
       source: window.parent,
+      origin: window.location.origin,
       data: {
         type: "scratch-gui-set-token",
         nonce,
@@ -148,6 +145,7 @@ describe("scratch handshake retries", () => {
     const callsAfterOneRetry = postMessageSpy.mock.calls.length;
     messageHandler({
       source: window.parent,
+      origin: window.location.origin,
       data: {
         type: "scratch-gui-set-token",
         nonce,
@@ -162,6 +160,30 @@ describe("scratch handshake retries", () => {
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
       "message",
       expect.any(Function),
+    );
+  });
+
+  test("logs auth-specific timeout error when auth is required but token never arrives", () => {
+    loadScratchModule();
+
+    const firstReadyPayload = postMessageSpy.mock.calls[0][0];
+    const nonce = firstReadyPayload.nonce;
+
+    messageHandler({
+      source: window.parent,
+      origin: window.location.origin,
+      data: {
+        type: "scratch-gui-set-token",
+        nonce,
+        accessToken: null,
+        requiresAuth: true,
+      },
+    });
+
+    jest.advanceTimersByTime(15000);
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "[scratch iframe] auth required but access token missing before timeout",
     );
   });
 });
