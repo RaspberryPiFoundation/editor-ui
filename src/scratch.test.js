@@ -153,4 +153,26 @@ describe("scratch handshake retries", () => {
       "[scratch iframe] auth required but access token missing before timeout",
     );
   });
+
+  test("removes message listener when handshake times out", () => {
+    loadScratchModule();
+    advanceToTimeout();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "message",
+      expect.any(Function),
+    );
+  });
+
+  test("ignores late token messages after timeout", () => {
+    loadScratchModule();
+
+    const { createRoot } = require("react-dom/client");
+    const nonce = getHandshakeNonce();
+
+    advanceToTimeout();
+    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
+
+    expect(createRoot).not.toHaveBeenCalled();
+  });
 });

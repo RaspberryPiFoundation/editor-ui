@@ -74,6 +74,7 @@ if (!projectId) {
   let isMounted = false;
   let root;
   let readyRetryIntervalId = null;
+  let hasTimedOut = false;
   const readyHandshakeStartedAt = Date.now();
   const authHandshake = {
     requiresAuth: false,
@@ -125,6 +126,7 @@ if (!projectId) {
   };
 
   const handleMessage = (event) => {
+    if (hasTimedOut) return;
     if (!isValidScratchSetTokenMessage(event)) return;
 
     const { requiresAuth, accessToken } = event.data || {};
@@ -151,8 +153,10 @@ if (!projectId) {
     if (!isMounted) {
       const retryElapsedMs = Date.now() - readyHandshakeStartedAt;
       if (retryElapsedMs >= READY_RETRY_TIMEOUT_MS) {
+        hasTimedOut = true;
         clearInterval(readyRetryIntervalId);
         readyRetryIntervalId = null;
+        window.removeEventListener("message", handleMessage);
         console.error(getTimeoutMessage(authHandshake));
         return;
       }
