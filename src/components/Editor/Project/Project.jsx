@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import "overlayscrollbars/styles/overlayscrollbars.css";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useContainerQuery } from "react-container-query";

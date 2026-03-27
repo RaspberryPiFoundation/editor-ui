@@ -50,6 +50,8 @@
     "mime-types": "^2.1.35",
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
+    "overlayscrollbars": "^2.14.0",
+    "overlayscrollbars-react": "^0.5.6",
     "plotly.js": "^3.3.1",
     "prismjs": "^1.29.0",
     "prompts": "2.4.0",
