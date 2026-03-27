@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import React, { act } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import ScratchContainer from "./ScratchContainer";
 import EditorReducer from "../../../redux/EditorSlice";
 import * as scratchIframeUtils from "../../../utils/scratchIframe";
 
@@ -10,6 +9,34 @@ jest.mock("../../../utils/scratchIframe", () => ({
   ...jest.requireActual("../../../utils/scratchIframe"),
   postMessageToScratchIframe: jest.fn(),
 }));
+
+const renderMockOverlayScrollbarsComponent = ({
+  children,
+  className,
+  "data-testid": dataTestId,
+}) => (
+  <div className={className} data-testid={dataTestId}>
+    {children}
+  </div>
+);
+
+const mockOverlayScrollbarsComponent = jest.fn(
+  renderMockOverlayScrollbarsComponent,
+);
+const mockPlugin = jest.fn();
+
+jest.mock("overlayscrollbars-react", () => ({
+  OverlayScrollbarsComponent: (props) => mockOverlayScrollbarsComponent(props),
+}));
+
+jest.mock("overlayscrollbars", () => ({
+  ClickScrollPlugin: { name: "ClickScrollPlugin" },
+  OverlayScrollbars: {
+    plugin: (...args) => mockPlugin(...args),
+  },
+}));
+
+const ScratchContainer = require("./ScratchContainer").default;
 
 describe("ScratchContainer", () => {
   const defaultEditorState = {
@@ -32,12 +59,19 @@ describe("ScratchContainer", () => {
       },
     });
 
-  const renderScratchContainer = (store) =>
+  const renderScratchContainer = (store = buildStore()) => {
     render(
       <Provider store={store}>
         <ScratchContainer />
       </Provider>,
     );
+
+    return {
+      iframe: screen.getByTitle("Scratch"),
+      store,
+      viewport: screen.getByTestId("scratch-container-viewport"),
+    };
+  };
 
   const dispatchMessage = (data, origin = "https://example.com") => {
     window.dispatchEvent(
@@ -77,6 +111,9 @@ describe("ScratchContainer", () => {
     originalAssetsUrl = process.env.ASSETS_URL;
     process.env.ASSETS_URL = "https://example.com";
     localStorage.clear();
+    mockOverlayScrollbarsComponent.mockImplementation(
+      renderMockOverlayScrollbarsComponent,
+    );
   });
 
   afterEach(() => {
@@ -85,11 +122,16 @@ describe("ScratchContainer", () => {
   });
 
   test("renders iframe with src built from project_id and api_url", () => {
-    const store = buildStore();
-    renderScratchContainer(store);
+    const { iframe, viewport } = renderScratchContainer();
 
-    const iframe = screen.getByTitle("Scratch");
+    expect(screen.getByTestId("scratch-container")).toHaveClass(
+      "scratch-container",
+    );
+    expect(viewport).toHaveClass("scratch-container__viewport");
     expect(iframe).toBeInTheDocument();
+    expect(iframe).toHaveStyle({
+      minWidth: "1024px",
+    });
 
     const url = new URL(iframe.getAttribute("src"));
     expect(url.pathname).toBe("/scratch.html");
@@ -97,11 +139,30 @@ describe("ScratchContainer", () => {
     expect(url.searchParams.get("api_url")).toBe("https://api.example.com/v1");
   });
 
-  test("updates the parent project identifier without reloading the iframe project_id", async () => {
-    const store = buildStore();
-    renderScratchContainer(store);
+  test("configures OverlayScrollbars for an overflow-aware horizontal Scratch scrollbar", () => {
+    renderScratchContainer();
 
-    await act(async () => {
+    expect(mockOverlayScrollbarsComponent).toHaveBeenCalled();
+
+    const props = mockOverlayScrollbarsComponent.mock.calls[0][0];
+
+    expect(props.options).toEqual({
+      overflow: {
+        x: "scroll",
+        y: "hidden",
+      },
+      scrollbars: {
+        theme: "os-theme-scratch",
+        visibility: "auto",
+        clickScroll: "instant",
+      },
+    });
+  });
+
+  test("updates the parent project identifier without reloading the iframe project_id", () => {
+    const { store } = renderScratchContainer();
+
+    act(() => {
       dispatchMessage({
         type: "scratch-gui-project-id-updated",
         projectId: "project-456",
@@ -121,8 +182,8 @@ describe("ScratchContainer", () => {
     const store = buildStore({
       authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });
-    renderScratchContainer(store);
 
+    renderScratchContainer(store);
     dispatchScratchGuiReady({ nonce: "nonce-abc" });
 
     expectScratchSetTokenCall({
@@ -137,8 +198,8 @@ describe("ScratchContainer", () => {
     const store = buildStore({
       authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });
-    renderScratchContainer(store);
 
+    renderScratchContainer(store);
     dispatchScratchGuiReady({ nonce: "nonce-1" });
     dispatchScratchGuiReady({ nonce: "nonce-1" });
     dispatchScratchGuiReady({ nonce: "nonce-2" });
@@ -169,6 +230,7 @@ describe("ScratchContainer", () => {
             user: { access_token: action.payload },
           };
         }
+
         return state;
       },
     });
