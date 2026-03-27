@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../assets/stylesheets/HtmlRunner.scss";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 import { useMediaQuery } from "react-responsive";
@@ -47,6 +47,8 @@ function HtmlRunner() {
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const browserPreview = useSelector((state) => state.editor.browserPreview);
   const page = useSelector((state) => state.editor.page);
+
+  const [rendererReady, setRendererReady] = useState(false);
 
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -171,10 +173,10 @@ function HtmlRunner() {
   }, [previewFile]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && rendererReady) {
       runCode();
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, rendererReady]);
 
   useEffect(() => {
     if (
@@ -199,6 +201,22 @@ function HtmlRunner() {
       dispatch(setPage(runningFile));
     }
   }, [runningFile]);
+
+  useEffect(() => {
+    window.addEventListener("message", listener);
+    return () => window.removeEventListener("message", listener);
+  });
+
+  const listener = useCallback(
+    (event) => {
+      const message = event.data;
+      // todo: validate message source
+      if (message.ready === true) {
+        setRendererReady(true);
+      }
+    },
+    [setRendererReady],
+  );
 
   const runCode = () => {
     setRunningFile(previewFile);
