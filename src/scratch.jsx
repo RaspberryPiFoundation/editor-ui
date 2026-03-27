@@ -75,8 +75,21 @@ if (!projectId) {
   let root;
   let readyRetryIntervalId = null;
   const readyHandshakeStartedAt = Date.now();
-  let requiresAuth = false;
-  let latestAccessToken = null;
+  const authHandshake = {
+    requiresAuth: false,
+    latestAccessToken: null,
+  };
+
+  const getTimeoutMessage = (handshake) =>
+    handshake.requiresAuth && !handshake.latestAccessToken
+      ? "[scratch iframe] auth required but access token missing before timeout"
+      : "[scratch iframe] no scratch-gui-set-token message received before timeout";
+
+  const isValidScratchSetTokenMessage = (event) =>
+    event.source === window.parent &&
+    event.origin === allowedParentOrigin &&
+    event.data?.type === "scratch-gui-set-token" &&
+    event.data?.nonce === nonce;
 
   const mountGui = (accessToken) => {
     if (isMounted) return;
@@ -112,15 +125,13 @@ if (!projectId) {
   };
 
   const handleMessage = (event) => {
-    if (event.source !== window.parent) return;
-    if (event.origin !== allowedParentOrigin) return;
-    if (event.data?.type !== "scratch-gui-set-token") return;
-    if (event.data?.nonce !== nonce) return;
+    if (!isValidScratchSetTokenMessage(event)) return;
 
-    requiresAuth = Boolean(event.data?.requiresAuth);
-    latestAccessToken = event.data?.accessToken || null;
+    const { requiresAuth, accessToken } = event.data || {};
+    authHandshake.requiresAuth = Boolean(requiresAuth);
+    authHandshake.latestAccessToken = accessToken || null;
 
-    if (requiresAuth && !latestAccessToken) {
+    if (authHandshake.requiresAuth && !authHandshake.latestAccessToken) {
       return;
     }
 
@@ -128,7 +139,8 @@ if (!projectId) {
       clearInterval(readyRetryIntervalId);
       readyRetryIntervalId = null;
     }
-    mountGui(latestAccessToken);
+    mountGui(authHandshake.latestAccessToken);
+    authHandshake.latestAccessToken = null;
     window.removeEventListener("message", handleMessage);
   };
 
@@ -141,11 +153,7 @@ if (!projectId) {
       if (retryElapsedMs >= READY_RETRY_TIMEOUT_MS) {
         clearInterval(readyRetryIntervalId);
         readyRetryIntervalId = null;
-        const timeoutMessage =
-          requiresAuth && !latestAccessToken
-            ? "[scratch iframe] auth required but access token missing before timeout"
-            : "[scratch iframe] no scratch-gui-set-token message received before timeout";
-        console.error(timeoutMessage);
+        console.error(getTimeoutMessage(authHandshake));
         return;
       }
       postScratchGuiEvent("scratch-gui-ready", { nonce });
