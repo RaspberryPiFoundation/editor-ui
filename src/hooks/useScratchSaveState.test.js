@@ -37,6 +37,7 @@ describe("useScratchSaveState", () => {
   });
 
   afterEach(() => {
+    jest.clearAllTimers();
     process.env.ASSETS_URL = originalAssetsUrl;
   });
 
@@ -64,17 +65,34 @@ describe("useScratchSaveState", () => {
     });
   });
 
-  test("updates from saving to saved and resets after 5 seconds", () => {
+  test("keeps saving visible for at least 1 second before resetting 5 seconds after saved", () => {
     const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
 
     dispatchScratchMessage("scratch-gui-saving-started");
     assertScratchSaveState(result, "saving", "saveStatus.saving", true);
 
     dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    act(() => {
+      jest.advanceTimersByTime(999);
+    });
+
+    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
     assertScratchSaveState(result, "saved", "saveStatus.saved", false);
 
     act(() => {
-      jest.advanceTimersByTime(5000);
+      jest.advanceTimersByTime(4999);
+    });
+
+    assertScratchSaveState(result, "saved", "saveStatus.saved", false);
+
+    act(() => {
+      jest.advanceTimersByTime(1);
     });
 
     assertScratchSaveState(result, "idle", "header.save", false);
@@ -87,6 +105,11 @@ describe("useScratchSaveState", () => {
     assertScratchSaveState(result, "saving", "saveStatus.saving", true);
 
     dispatchScratchMessage("scratch-gui-remixing-succeeded");
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
     assertScratchSaveState(result, "saved", "saveStatus.saved", false);
   });
 
