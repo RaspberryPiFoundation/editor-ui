@@ -40,16 +40,6 @@ const InstructionsPanel = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const container = stepContent.current;
-    const handleLoginClick = (e) => {
-      if (e.target.id === "badge-login") {
-        document.dispatchEvent(logInEvent);
-      }
-    };
-    container?.addEventListener("click", handleLoginClick);
-    return () => container?.removeEventListener("click", handleLoginClick);
-  }, []);
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
