@@ -9,10 +9,7 @@ import SidebarPanel from "../SidebarPanel";
 import Prism from "prismjs";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import "../../../../assets/stylesheets/Instructions.scss";
-import {
-  logInEvent,
-  quizReadyEvent,
-} from "../../../../events/WebComponentCustomEvents";
+import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
