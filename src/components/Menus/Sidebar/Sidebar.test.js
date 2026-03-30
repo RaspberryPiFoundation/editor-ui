@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Sidebar from "./Sidebar";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
+import { setSidebarOption } from "../../../redux/EditorSlice";
 
 let images = [
   {
@@ -24,10 +25,27 @@ const optionsWithDownload = [
   "info",
 ];
 
+const renderSidebarWithState = (initialState, props = {}) => {
+  const mockStore = configureStore([]);
+  const store = mockStore(initialState);
+
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={options} {...props} />
+        </div>
+      </Provider>,
+    ),
+  };
+};
+
 describe("When project has images", () => {
   describe("and no instructions", () => {
+    let store;
+
     beforeEach(() => {
-      const mockStore = configureStore([]);
       const initialState = {
         editor: {
           project: {
@@ -37,14 +55,7 @@ describe("When project has images", () => {
         },
         instructions: {},
       };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <div id="app">
-            <Sidebar options={options} />
-          </div>
-        </Provider>,
-      );
+      ({ store } = renderSidebarWithState(initialState));
     });
 
     test("Clicking expand opens the file pane", () => {
@@ -104,6 +115,7 @@ describe("When project has images", () => {
       const imageButton = screen.getByTitle("sidebar.images");
       fireEvent.click(imageButton);
       expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+      expect(store.getActions()).toEqual([setSidebarOption("images")]);
     });
   });
 
@@ -321,6 +333,86 @@ describe("When the project has no instructions", () => {
         screen.queryByText("instructionsPanel.projectSteps"),
       ).toBeInTheDocument();
     });
+  });
+});
+
+describe("When sidebar state is persisted", () => {
+  test("Renders the stored sidebar state", () => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: images,
+        },
+        selectedSidebarOption: "images",
+      },
+      instructions: {},
+    };
+    const { unmount } = renderSidebarWithState(initialState);
+
+    expect(screen.queryByText("imagePanel.gallery")).toBeInTheDocument();
+
+    unmount();
+
+    renderSidebarWithState({
+      editor: {
+        project: {
+          components: [],
+          image_list: images,
+        },
+        selectedSidebarOption: null,
+      },
+      instructions: {},
+    });
+
+    expect(screen.queryByTitle("sidebar.expand")).toBeInTheDocument();
+    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
+  });
+});
+
+describe("When no sidebar option is stored", () => {
+  const mockStore = configureStore([]);
+
+  test("Switches to a new default option after mount", () => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+        },
+        instructionsEditable: false,
+      },
+      instructions: {},
+    };
+    const nextState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+        },
+        instructionsEditable: true,
+      },
+      instructions: {},
+    };
+
+    const { rerender } = renderSidebarWithState(initialState, {
+      options: ["file", "instructions"],
+    });
+
+    expect(screen.queryByText("filePanel.files")).toBeInTheDocument();
+
+    rerender(
+      <Provider store={mockStore(nextState)}>
+        <div id="app">
+          <Sidebar options={["file", "instructions"]} />
+        </div>
+      </Provider>,
+    );
+
+    expect(
+      screen.queryByText("instructionsPanel.projectSteps"),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
   });
 });
 
