@@ -157,12 +157,6 @@ export function HtmlRenderer() {
   return previewHtml ? (
     <iframe
       className={"htmlrunner-iframe"}
-      // style={{
-      //   border: "none",
-      //   backgroundColor: "white",
-      //   blockSize: "100%",
-      //   inlineSize: "100%",
-      // }}
       title={"preview-sandbox"}
       srcDoc={previewHtml}
     />
