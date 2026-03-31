@@ -4276,6 +4276,8 @@ __metadata:
     node-html-parser: "npm:^6.1.5"
     oidc-client: "npm:^1.11.5"
     optimize-css-assets-webpack-plugin: "npm:5.0.4"
+    overlayscrollbars: "npm:^2.14.0"
+    overlayscrollbars-react: "npm:^0.5.6"
     path-browserify: "npm:^1.0.1"
     plotly.js: "npm:^3.3.1"
     pnp-webpack-plugin: "npm:1.6.4"
@@ -18062,6 +18064,23 @@ __metadata:
   version: 1.2.2
   resolution: "ospath@npm:1.2.2"
   checksum: 10/505f48a4f4f1c557d6c656ec985707726e3714721680139be037613e903aa8c8fa4ddd8d1342006f9b2dc0065e6e20f8b7bea2ee05354f31257044790367b347
+  languageName: node
+  linkType: hard
+
+"overlayscrollbars-react@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "overlayscrollbars-react@npm:0.5.6"
+  peerDependencies:
+    overlayscrollbars: ^2.0.0
+    react: ">=16.8.0"
+  checksum: 10/473f5af860feab4b5418f9adc8e356fb201e9de61286443ff64002b9c997bc19bf17cf60e314c502c14ca41fa213c12f18111e6fe913be86ad68a15c32e66789
+  languageName: node
+  linkType: hard
+
+"overlayscrollbars@npm:^2.14.0":
+  version: 2.14.0
+  resolution: "overlayscrollbars@npm:2.14.0"
+  checksum: 10/6e0b91554d98bfefc876a4dde9cf09db537d86f88afa069b520910fa5727ae9ac60f595b5e85cc1d13e6da4e9b41b377e3a19185a726aea53a8fe3c1c19e1ea0
   languageName: node
   linkType: hard
 
