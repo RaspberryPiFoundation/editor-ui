@@ -4,6 +4,7 @@ import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice"
 import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
+  getScratchAllowedOrigin,
 } from "../../../utils/scratchIframe";
 
 export default function ScratchContainer() {
@@ -39,7 +40,7 @@ export default function ScratchContainer() {
   }, [dispatch]);
 
   useEffect(() => {
-    const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+    const allowedOrigin = getScratchAllowedOrigin();
     const authKey = localStorage.getItem("authKey");
     const requiresAuth = Boolean(
       authKey && authKey !== "undefined" && authKey !== "null",
