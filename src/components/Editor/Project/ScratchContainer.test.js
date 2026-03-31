@@ -133,6 +133,29 @@ describe("ScratchContainer", () => {
     });
   });
 
+  test("accepts scratch-gui-ready from origin when ASSETS_URL includes path", () => {
+    process.env.ASSETS_URL = "https://example.com/branches/main";
+    const store = buildStore({
+      authReducer: (state = { user: { access_token: "token-123" } }) => state,
+    });
+    renderScratchContainer(store);
+
+    dispatchMessage(
+      {
+        type: "scratch-gui-ready",
+        nonce: "nonce-path",
+      },
+      "https://example.com",
+    );
+
+    expectScratchSetTokenCall({
+      callIndex: 1,
+      nonce: "nonce-path",
+      accessToken: "token-123",
+      requiresAuth: false,
+    });
+  });
+
   test("does not resend token for duplicate nonce but sends for a new nonce", () => {
     const store = buildStore({
       authReducer: (state = { user: { access_token: "token-123" } }) => state,
