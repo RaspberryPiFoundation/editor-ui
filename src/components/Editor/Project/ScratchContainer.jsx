@@ -1,10 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
 import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
+  getScratchAllowedOrigin,
 } from "../../../utils/scratchIframe";
+
+const SCRATCH_MIN_WIDTH = 1024;
+const SCRATCH_SCROLLBAR_OPTIONS = {
+  overflow: {
+    x: "scroll",
+    y: "hidden",
+  },
+  scrollbars: {
+    theme: "os-theme-scratch",
+    visibility: "auto",
+    clickScroll: "instant",
+  },
+};
+
+OverlayScrollbars.plugin(ClickScrollPlugin);
 
 export default function ScratchContainer() {
   const dispatch = useDispatch();
@@ -39,7 +57,7 @@ export default function ScratchContainer() {
   }, [dispatch]);
 
   useEffect(() => {
-    const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+    const allowedOrigin = getScratchAllowedOrigin();
     const authKey = localStorage.getItem("authKey");
     const requiresAuth = Boolean(
       authKey && authKey !== "undefined" && authKey !== "null",
@@ -86,15 +104,24 @@ export default function ScratchContainer() {
   }/scratch.html?${queryParams.toString()}`;
 
   return (
-    <iframe
-      src={iframeSrcUrl}
-      title={"Scratch"}
-      style={{
-        width: "100%",
-        height: "100%",
-        border: 0,
-        display: "block",
-      }}
-    />
+    <div className="scratch-container" data-testid="scratch-container">
+      <OverlayScrollbarsComponent
+        className="scratch-container__viewport"
+        data-testid="scratch-container-viewport"
+        options={SCRATCH_SCROLLBAR_OPTIONS}
+      >
+        <iframe
+          className="scratch-container__iframe"
+          src={iframeSrcUrl}
+          title={"Scratch"}
+          style={{
+            width: "100%",
+            minWidth: `${SCRATCH_MIN_WIDTH}px`,
+            border: 0,
+            display: "block",
+          }}
+        />
+      </OverlayScrollbarsComponent>
+    </div>
   );
 }
