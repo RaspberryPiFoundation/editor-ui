@@ -123,9 +123,10 @@ const replaceSrcNodes = (
 export function HtmlRenderer() {
   const [previewHtml, setPreviewHtml] = useState();
 
-  const listener = useCallback(
+  const handlePreviewUpdateFromHost = useCallback(
     (event) => {
       // todo: validate message origin
+      // todo: use "type" to check what kind of message this is
       const message = event.data;
       if (message?.current) {
         const transformedHtml = parse(message.current);
@@ -145,14 +146,31 @@ export function HtmlRenderer() {
     [setPreviewHtml],
   );
 
+  const handleEventFromPreview = (event) => {
+    // todo: validate message origin
+    const message = event.data;
+    // todo: use "type" to check what kind of message this is
+    if (typeof event.data?.msg === "string") {
+      // Forward events originating from the previewed code back to the host
+      // todo: set appropriate target origin
+      window.parent.postMessage(message, "*");
+    }
+  };
+
   useEffect(() => {
-    window.addEventListener("message", listener);
+    window.addEventListener("message", handlePreviewUpdateFromHost);
+    window.addEventListener("message", handleEventFromPreview);
+
     const source = window.opener || window.parent;
     if (source) {
+      // todo: set appropriate target origin
       source.postMessage({ ready: true }, "*");
     }
-    return () => window.removeEventListener("message", listener);
-  }, [listener]);
+    return () => {
+      window.removeEventListener("message", handlePreviewUpdateFromHost);
+      window.removeEventListener("message", handleEventFromPreview);
+    };
+  }, [handlePreviewUpdateFromHost]);
 
   return previewHtml ? (
     <iframe
@@ -164,3 +182,5 @@ export function HtmlRenderer() {
     <></>
   );
 }
+
+export default HtmlRenderer;

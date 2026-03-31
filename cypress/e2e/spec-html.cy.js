@@ -9,6 +9,8 @@ const getIframeDocument = () => {
     .shadow()
     .find("iframe[class=htmlrunner-iframe]")
     .its("0.contentDocument")
+    .find("iframe[title=preview-sandbox]")
+    .its("0.contentDocument")
     .should("exist");
 };
 
@@ -30,6 +32,14 @@ const makeNewFile = (filename = "new.html") => {
     .click();
 };
 
+const getEditorInput = () => {
+  return cy.get("editor-wc").shadow().find("div[class=cm-content]");
+};
+
+const getRunButton = () => {
+  return cy.get("editor-wc").shadow().find(".btn--run");
+};
+
 beforeEach(() => {
   // intercept request to editor api
   cy.intercept(
@@ -41,60 +51,51 @@ beforeEach(() => {
   );
 });
 
-it("blocks access to localStorage authKey", () => {
+it("blocks access to parent localStorage", () => {
+  // Arrange
   localStorage.clear();
+  localStorage.setItem("parentKey", "secretValue");
+
   cy.visit(baseUrl);
-  cy.get("editor-wc")
-    .shadow()
-    .find("div[class=cm-content]")
-    .invoke(
-      "text",
-      `<p>authKey: <span id="authKey"></span></p>
+
+  // Act
+  const input = getEditorInput();
+
+  input.invoke(
+    "text",
+    `<p>parentKey: <span id="s"></span></p>
 <script>
-  localStorage.setItem("authKey", "secret")
-  const authKey = localStorage.getItem("authKey")
-  document.getElementById("authKey").innerHTML = \`\${authKey}\`
+  const authKey = localStorage.getItem("parentKey")
+  document.getElementById("s").innerHTML = \`\${authKey}\`
 </script>`,
-    );
-  cy.get("editor-wc").shadow().find(".btn--run").click();
-  getIframeBody().find("p").should("include.text", "authKey: null");
+  );
+  getRunButton().click();
+
+  // Assert
+  getIframeBody().find("p").should("include.text", "parentKey: null");
 });
 
-it("blocks access to localStorage OIDC keys", () => {
+it("allows access to localStorage", () => {
+  // Arrange
   localStorage.clear();
   cy.visit(baseUrl);
-  cy.get("editor-wc")
-    .shadow()
-    .find("div[class=cm-content]")
-    .invoke(
-      "text",
-      `<p>oidcUser: <span id="oidcUser"></span></p>
-<script>
-  localStorage.setItem("oidc.user:https://auth-v1.raspberrypi.org:editor-api", "token")
-  const oidcUser = localStorage.getItem("oidc.user:https://auth-v1.raspberrypi.org:editor-api")
-  document.getElementById("oidcUser").innerHTML = \`\${oidcUser}\`
-</script>`,
-    );
-  cy.get("editor-wc").shadow().find(".btn--run").click();
-  getIframeBody().find("p").should("include.text", "oidcUser: null");
-});
 
-it("allows access to other localStorage keys", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-  cy.get("editor-wc")
-    .shadow()
-    .find("div[class=cm-content]")
-    .invoke(
-      "text",
-      `<p>foo: <span id="foo"></span></p>
+  // Act
+  const input = getEditorInput();
+
+  input.invoke(
+    "text",
+    `<p>foo: <span id="foo"></span></p>
 <script>
   localStorage.setItem("foo", "bar")
   const foo = localStorage.getItem("foo")
   document.getElementById("foo").innerHTML = \`\${foo}\`
 </script>`,
-    );
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+  );
+
+  getRunButton().click();
+
+  // Assert
   getIframeBody().find("p").should("include.text", "foo: bar");
 });
 
@@ -130,17 +131,19 @@ it("updates the preview after a change when you click run", () => {
 });
 
 it("blocks non-permitted external links", () => {
+  // Arrange
   localStorage.clear();
   cy.visit(baseUrl);
-  cy.get("editor-wc")
-    .shadow()
-    .find("div[class=cm-content]")
-    .invoke(
-      "text",
-      '<a href="https://raspberrypi.org/en/">some external link</a>',
-    );
-  cy.get("editor-wc").shadow().find(".btn--run").click();
+
+  // Act
+  getEditorInput().invoke(
+    "text",
+    '<a href="https://raspberrypi.org/en/">some external link</a>',
+  );
+  getRunButton().click();
   getIframeBody().find("a").click();
+
+  // Assert
   cy.get("editor-wc")
     .shadow()
     .find("div[class=modal-content__header]")
