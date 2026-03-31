@@ -9,7 +9,7 @@
 }
 
 a.htmlrunner-link {
-  display: var(--editor-htmlrunner-link-display, inherit);
+  display: var(--editor-htmlrunner-link-display, inline-flex);
   margin-inline-start: auto;
 }
 
