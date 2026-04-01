@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { postMessageToScratchIframe } from "../utils/scratchIframe";
+import {
+  getScratchAllowedOrigin,
+  postMessageToScratchIframe,
+} from "../utils/scratchIframe";
 
 const SCRATCH_SAVE_LABEL_KEYS = {
   idle: "header.save",
@@ -67,7 +70,7 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
       return undefined;
     }
 
-    const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+    const allowedOrigin = getScratchAllowedOrigin();
     const handleScratchMessage = (event) => {
       if (event.origin !== allowedOrigin) {
         return;

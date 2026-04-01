@@ -8,10 +8,8 @@ import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 jest.mock("axios");
 jest.mock("../../utils/scratchIframe", () => ({
+  ...jest.requireActual("../../utils/scratchIframe"),
   postMessageToScratchIframe: jest.fn(),
-  shouldRemixScratchProjectOnSave: jest.requireActual(
-    "../../utils/scratchIframe",
-  ).shouldRemixScratchProjectOnSave,
 }));
 
 jest.mock("react-router-dom", () => ({
