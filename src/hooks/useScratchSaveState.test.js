@@ -1,9 +1,13 @@
 import { act, renderHook } from "@testing-library/react";
 
 import { useScratchSaveState } from "./useScratchSaveState";
-import { postMessageToScratchIframe } from "../utils/scratchIframe";
+import {
+  getScratchAllowedOrigin,
+  postMessageToScratchIframe,
+} from "../utils/scratchIframe";
 
 jest.mock("../utils/scratchIframe", () => ({
+  getScratchAllowedOrigin: jest.fn(),
   postMessageToScratchIframe: jest.fn(),
 }));
 
@@ -34,6 +38,7 @@ describe("useScratchSaveState", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.ASSETS_URL = scratchOrigin;
+    getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
   });
 
   afterEach(() => {
@@ -131,5 +136,16 @@ describe("useScratchSaveState", () => {
     );
 
     assertScratchSaveState(result, "idle", "header.save", false);
+  });
+
+  test("accepts messages when ASSETS_URL contains a path", () => {
+    process.env.ASSETS_URL = `${scratchOrigin}/branches/main`;
+    getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
+
+    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+
+    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
   });
 });
