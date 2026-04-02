@@ -87,6 +87,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
+    "start-html-renderer": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.html-renderer.config.js",
     "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
     "analyze": "ANALYZE_WEBPACK_BUNDLE=true yarn build",
     "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js",

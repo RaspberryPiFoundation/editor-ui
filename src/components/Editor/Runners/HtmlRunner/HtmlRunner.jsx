@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../../../../assets/stylesheets/HtmlRunner.scss";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 import { useMediaQuery } from "react-responsive";
-import mimeTypes from "mime-types";
 
 import {
   setPage,
@@ -15,12 +14,7 @@ import {
   setLoadedRunner,
 } from "../../../../redux/EditorSlice";
 
-import {
-  useExternalLinkState,
-  matchingRegexes,
-  allowedExternalLinks,
-  allowedInternalLinks,
-} from "../../../../utils/externalLinkHelper";
+import { useExternalLinkState } from "../../../../utils/externalLinkHelper";
 
 import { useTranslation } from "react-i18next";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
@@ -53,6 +47,8 @@ function HtmlRunner() {
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const browserPreview = useSelector((state) => state.editor.browserPreview);
   const page = useSelector((state) => state.editor.page);
+
+  const [rendererReady, setRendererReady] = useState(false);
 
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -99,11 +95,6 @@ function HtmlRunner() {
     handleExternalLinkError,
   } = useExternalLinkState(showModal);
 
-  const getBlobURL = (code, type) => {
-    const blob = new Blob([code], { type });
-    return URL.createObjectURL(blob);
-  };
-
   const getFilename = (iframe) => {
     let filename;
     if (iframe) {
@@ -115,24 +106,6 @@ function HtmlRunner() {
     }
     return filename;
   };
-
-  const cssProjectImgs = (projectFile) => {
-    var updatedProjectFile = { ...projectFile };
-    if (projectFile.extension === "css") {
-      projectMedia.forEach((media_file) => {
-        const find = new RegExp(`['"]${media_file.filename}['"]`, "g"); // prevent substring matches
-        const replace = `"${media_file.url}"`;
-        updatedProjectFile.content = updatedProjectFile.content.replaceAll(
-          find,
-          replace,
-        );
-      });
-    }
-    return updatedProjectFile;
-  };
-
-  const parentTag = (node, tag) =>
-    node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
 
   const eventListener = () => {
     window.addEventListener("message", (event) => {
@@ -200,10 +173,10 @@ function HtmlRunner() {
   }, [previewFile]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && rendererReady) {
       runCode();
     }
-  }, [codeRunTriggered]);
+  }, [codeRunTriggered, rendererReady]);
 
   useEffect(() => {
     if (
@@ -229,94 +202,21 @@ function HtmlRunner() {
     }
   }, [runningFile]);
 
-  const replaceHrefNodes = (indexPage, projectCode) => {
-    const hrefNodes = indexPage.querySelectorAll("[href]");
+  useEffect(() => {
+    window.addEventListener("message", listener);
+    return () => window.removeEventListener("message", listener);
+  });
 
-    hrefNodes.forEach((hrefNode) => {
-      const projectFile = projectCode.find(
-        (file) => `${file.name}.${file.extension}` === hrefNode.attrs.href,
-      );
-
-      if (hrefNode.attrs?.target === "_blank") {
-        hrefNode.removeAttribute("target");
+  const listener = useCallback(
+    (event) => {
+      const message = event.data;
+      // todo: validate message source
+      if (message.ready === true) {
+        setRendererReady(true);
       }
-
-      let onClick;
-
-      if (!!projectFile) {
-        if (parentTag(hrefNode, "head")) {
-          const projectFileBlob = getBlobURL(
-            cssProjectImgs(projectFile).content,
-            mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
-          );
-          hrefNode.setAttribute("href", projectFileBlob);
-        } else {
-          // eslint-disable-next-line no-script-url
-          hrefNode.setAttribute("href", "javascript:void(0)");
-          onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
-        }
-      } else {
-        const matchingExternalHref = matchingRegexes(
-          allowedExternalLinks,
-          hrefNode.attrs.href,
-        );
-        const matchingInternalHref = matchingRegexes(
-          allowedInternalLinks,
-          hrefNode.attrs.href,
-        );
-        if (
-          !matchingInternalHref &&
-          !matchingExternalHref &&
-          !parentTag(hrefNode, "head")
-        ) {
-          // eslint-disable-next-line no-script-url
-          hrefNode.setAttribute("href", "javascript:void(0)");
-          onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
-        } else if (matchingExternalHref) {
-          onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
-        }
-      }
-
-      if (onClick) {
-        hrefNode.removeAttribute("target");
-        hrefNode.setAttribute("onclick", onClick);
-      }
-    });
-  };
-
-  const replaceSrcNodes = (
-    indexPage,
-    projectMedia,
-    projectCode,
-    attr = "src",
-  ) => {
-    const srcNodes = indexPage.querySelectorAll(`[${attr}]`);
-
-    srcNodes.forEach((srcNode) => {
-      const projectMediaFile = projectMedia.find(
-        (component) => component.filename === srcNode.attrs[attr],
-      );
-      const projectTextFile = projectCode.find(
-        (file) => `${file.name}.${file.extension}` === srcNode.attrs[attr],
-      );
-
-      let src = "";
-      if (!!projectMediaFile) {
-        src = projectMediaFile.url;
-      } else if (!!projectTextFile) {
-        src = getBlobURL(
-          projectTextFile.content,
-          mimeTypes.lookup(
-            `${projectTextFile.name}.${projectTextFile.extension}`,
-          ),
-        );
-      } else if (matchingRegexes(allowedExternalLinks, srcNode.attrs[attr])) {
-        src = srcNode.attrs[attr];
-      }
-      srcNode.setAttribute(attr, src);
-      srcNode.setAttribute("crossorigin", true);
-    });
-  };
+    },
+    [setRendererReady],
+  );
 
   const runCode = () => {
     setRunningFile(previewFile);
@@ -324,95 +224,18 @@ function HtmlRunner() {
     if (!externalLink) {
       const indexPage = parse(focussedComponent(previewFile).content);
       const body = indexPage.querySelector("body") || indexPage;
-      const htmlRoot = indexPage.querySelector("html") ?? indexPage;
-
-      const disableLocalStorageScript = `
-        <script>
-          (function () {
-            "use strict";
-            const isBlocked = (key) =>
-              typeof key === "string" && (key === "authKey" || key.startsWith("oidc."));
-            const wrapLocal = (storage) =>
-              storage && {
-                getItem(key) {
-                  return isBlocked(key) ? null : storage.getItem(key);
-                },
-                setItem(key, value) {
-                  if (!isBlocked(key)) storage.setItem(key, value);
-                },
-                removeItem(key) {
-                  if (!isBlocked(key)) storage.removeItem(key);
-                },
-                clear() {},
-                key(index) {
-                  const name = storage.key(index);
-                  return isBlocked(name) ? null : name;
-                },
-                get length() {
-                  return storage?.length ?? 0;
-                },
-              };
-            const apply = (host) => {
-              if (!host) return;
-              try {
-                const guarded = wrapLocal(host.localStorage);
-                if (!guarded) return;
-                Object.defineProperty(host, "localStorage", {
-                  configurable: false,
-                  enumerable: false,
-                  get: () => guarded,
-                  set: () => undefined,
-                });
-              } catch (_) {}
-            };
-            [window, window.parent, window.top, document.defaultView].forEach(apply);
-          })();
-        </script>
-      `;
-
-      const disableSessionStorageScript = `
-        <script>
-          (function () {
-            "use strict";
-            const stub = {
-              getItem: () => null,
-              setItem: () => undefined,
-              removeItem: () => undefined,
-              clear: () => undefined,
-              key: () => null,
-              get length() {
-                return 0;
-              },
-            };
-            const apply = (host) => {
-              if (!host) return;
-              try {
-                Object.defineProperty(host, "sessionStorage", {
-                  configurable: false,
-                  enumerable: false,
-                  get: () => stub,
-                  set: () => undefined,
-                });
-              } catch (_) {}
-            };
-            [window, window.parent, window.top, document.defaultView].forEach(apply);
-          })();
-        </script>
-      `;
-
-      // insert scripts to disable access to specific localStorage keys and sessionStorage
-      // entirely, they are both potential security risks when executing untrusted code
-      htmlRoot.insertAdjacentHTML("afterbegin", disableLocalStorageScript);
-      htmlRoot.insertAdjacentHTML("afterbegin", disableSessionStorageScript);
-
-      replaceHrefNodes(indexPage, projectCode);
-      replaceSrcNodes(indexPage, projectMedia, projectCode);
-      replaceSrcNodes(indexPage, projectMedia, projectCode, "data-src");
-
       body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
-      const blob = getBlobURL(indexPage.toString(), "text/html");
-      output.current.src = blob;
+      output.current.contentWindow.postMessage(
+        {
+          type: "editor-html-preview",
+          code: projectCode,
+          media: projectMedia,
+          current: indexPage.toString(),
+        },
+        // todo: set correct targetOrigin value
+        "*",
+      );
 
       if (codeRunTriggered) {
         dispatch(codeRunHandled());
@@ -458,6 +281,7 @@ function HtmlRunner() {
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}
+              src={process.env.HTML_RENDERER_URL}
               onLoad={iframeReload}
             />
           </TabPanel>
