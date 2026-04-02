@@ -101,10 +101,9 @@ const moduleRules = [
   },
 ];
 
-module.exports = {
+const mainConfig = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
-    scratch: path.resolve(__dirname, "./src/scratch.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
   },
   module: { rules: moduleRules },
@@ -185,17 +184,8 @@ module.exports = {
       filename: "web-component.html",
       chunks: ["web-component"],
     }),
-    new HtmlWebpackPlugin({
-      inject: "body",
-      template: "src/scratch.html",
-      filename: "scratch.html",
-      chunks: ["scratch"],
-    }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: scratchStaticDir, to: "scratch-gui/static" },
-        { from: `${scratchStaticDir}/assets`, to: "static/assets" },
-        { from: scratchChunkDir, to: "chunks" },
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
       ],
@@ -203,3 +193,78 @@ module.exports = {
   ],
   stats: "minimal",
 };
+
+const scratchConfig = {
+  entry: {
+    scratch: path.resolve(__dirname, "./src/scratch.jsx"),
+  },
+  module: { rules: moduleRules },
+  resolve: {
+    extensions: [".*", ".js", ".jsx", ".css"],
+  },
+  output: {
+    path: path.resolve(__dirname, "./build"),
+    filename: "[name].js",
+    publicPath: publicUrl,
+  },
+  externals: [
+    function ({ request }, callback) {
+      if (request === "@scratch/scratch-gui") return callback(null, "GUI");
+      if (request === "react") return callback(null, "React");
+      if (request === "react-dom" || request.startsWith("react-dom/"))
+        return callback(null, "ReactDOM");
+      if (request === "redux") return callback(null, "Redux");
+      if (request === "react-redux") return callback(null, "ReactRedux");
+      callback();
+    },
+  ],
+  plugins: [
+    new Dotenv({
+      path: "./.env",
+      systemvars: true,
+    }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/scratch.html",
+      filename: "scratch.html",
+      chunks: ["scratch"],
+      templateParameters: {
+        publicUrl: publicUrl,
+      },
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: scratchStaticDir, to: "scratch-gui/static" },
+        { from: `${scratchStaticDir}/assets`, to: "vendor/static/assets" },
+        { from: scratchChunkDir, to: "chunks" },
+        {
+          from: "node_modules/react/umd/react.production.min.js",
+          to: "vendor/react.production.min.js",
+        },
+        {
+          from: "node_modules/react-dom/umd/react-dom.production.min.js",
+          to: "vendor/react-dom.production.min.js",
+        },
+        {
+          from: "node_modules/redux/dist/redux.min.js",
+          to: "vendor/redux.min.js",
+        },
+        {
+          from: "node_modules/react-redux/dist/react-redux.min.js",
+          to: "vendor/react-redux.min.js",
+        },
+        {
+          from: "node_modules/@scratch/scratch-gui/dist/scratch-gui.js",
+          to: "vendor/scratch-gui.js",
+        },
+        {
+          from: "node_modules/@scratch/scratch-gui/dist/scratch-gui.js.LICENSE.txt",
+          to: "vendor/scratch-gui.js.LICENSE.txt",
+        },
+      ],
+    }),
+  ],
+  stats: "minimal",
+};
+
+module.exports = [mainConfig, scratchConfig];
