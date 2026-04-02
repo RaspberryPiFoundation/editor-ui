@@ -43,6 +43,8 @@
 
 @use "./settings/fonts" as fonts;
 
+// Default styles
+
 :host {
   font-size: 1.6rem;
 }
@@ -100,10 +102,10 @@ svg {
 }
 
 button:focus-visible {
-  outline: 2px solid $rpf-black;
+  outline: 2px solid var(--rpf-black);
 }
 
-//override for a pesky teal icon
+//override for a pesky navy icon
 .select-buttons__tick--selected {
   svg {
     path {
@@ -113,33 +115,125 @@ button:focus-visible {
 }
 
 .--light {
-  --editor-color-layer-1: #{$rpf-teal-100};
-  --editor-color-layer-2: #{$rpf-white};
-  --editor-color-layer-3: #{$rpf-white};
-  --editor-color-outline: #{$rpf-grey-150};
-  //theme change to match WC navy colors
-  --editor-color-theme: #{$rpf-navy-800};
-  --editor-color-theme-secondary: #{$rpf-teal-900};
-  --editor-color-theme-tertiary: #{$rpf-teal-100};
-  --editor-color-text: #{$rpf-text-primary};
-  --editor-color-text-secondary: #{$rpf-text-secondary};
-  --editor-color-tab-background: #{$rpf-off-white};
+  // Theme colours
+  --editor-color-layer-1: var(--rpf-teal-100);
+  --editor-color-layer-2: var(--rpf-white);
+  --editor-color-layer-3: var(--rpf-white);
+  --editor-color-outline: var(--rpf-grey-150);
+  --editor-color-theme: var(--rpf-navy-800);
+  --editor-color-theme-secondary: var(--rpf-navy-900);
+  --editor-color-theme-tertiary: var(--rpf-navy-100);
+  --editor-color-text: var(--rpf-text-primary);
+  --editor-color-text-secondary: var(--rpf-text-secondary);
+  --editor-color-tab-background: var(--rpf-off-white);
+
+  --rpf-files-list-item-active: var(--rpf-navy-secondary-tertiary-active);
+  --rpf-files-list-item-hover: var(--rpf-navy-secondary-tertiary-hover);
+  --rpf-tab-button-hover: var(--rpf-grey-100);
+  --rpf-tab-button-background: inherit;
+  --rpf-tab-border-bottom-selected: var(--editor-color-theme-secondary);
+
+  // Sidebar
+  --sidebar-border: var(--editor-color-outline);
+  --sidebar-background: var(--rpf-white);
+  --sidebar-background-selected: var(--rpf-off-white);
+  --sidebar-panel-background: var(--rpf-white);
+  --sidebar-option-hover: var(--rpf-grey-100);
+  --sidebar-option-selected-icon: var(--rpf-black);
+  --sidebar-option-selected-border: var(--editor-color-theme-secondary);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-navy-200);
+
+  .btn,
+  .rpf-button {
+    // Primary button
+    --rpf-button-primary-background-color: var(--editor-color-theme);
+    --rpf-button-primary-background-color-focus: var(--editor-color-theme);
+    --rpf-button-primary-background-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-active: var(--rpf-navy-600);
+    --rpf-button-primary-background-color-disabled: var(--rpf-navy-200);
+    --rpf-button-primary-color-disabled: var(--rpf-grey-600);
+    --rpf-button-primary-text-color: var(--rpf-white);
+
+    // Secondary button
+    --rpf-button-secondary-background-color: var(--editor-color-theme);
+    --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+    --rpf-button-secondary-background-color-hover: var(--editor-color-theme-tertiary);
+    --rpf-button-secondary-border-color: var(--editor-color-theme);
+    --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-secondary-background-color-active: var(--editor-color-theme-secondary);
+    --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50);
+    --rpf-button-secondary-text-color: var(--editor-color-theme);
+
+    // Tertiary button
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+    --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+    --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .--dark {
-  --editor-color-layer-1: #{$rpf-grey-850};
-  --editor-color-layer-2: #{$rpf-white};
-  --editor-color-layer-3: #{$rpf-grey-700};
-  --editor-color-outline: #{$rpf-grey-600};
-  --editor-color-theme: #{$rpf-navy-800};
-  --editor-color-theme-secondary: #{$rpf-teal-400};
-  --editor-color-theme-tertiary: #{$rpf-teal-900};
-  --editor-color-text: #{$rpf-white};
-  --editor-color-text-secondary: #{$rpf-text-secondary-darkmode};
-  --rpf-button-secondary-text-color: #{$rpf-white};
-  --editor-color-tab-background: #{$rpf-grey-700};
+  // Theme colours
+  --editor-color-layer-1: var(--rpf-grey-850);
+  --editor-color-layer-2: var(--rpf-grey-800);
+  --editor-color-layer-3: var(--rpf-grey-700);
+  --editor-color-outline: var(--rpf-grey-600);
+  --editor-color-theme: var(--rpf-navy-400);
+  --editor-color-theme-secondary: var(--rpf-navy-400);
+  --editor-color-theme-tertiary: var(--rpf-navy-900);
+  --editor-color-text: var(--rpf-white);
+  --editor-color-text-secondary: var(--rpf-text-secondary-darkmode);
 
-  .rpf-button--secondary {
-    border-color: $rpf-navy-800;
+  --rpf-files-list-item-active: var(--rpf-grey-secondary-tertiary-active);
+  --rpf-files-list-item-hover: var(--rpf-grey-secondary-tertiary-hover);
+  --rpf-tab-button-hover: var(--rpf-grey-900);
+  --rpf-tab-button-background: var(--editor-color-layer-2);
+  --rpf-tab-border-bottom-selected: var(--editor-color-theme);
+
+  // Sidebar
+  --sidebar-border: var(--editor-color-outline);
+  --sidebar-background: var(--editor-color-layer-2);
+  --sidebar-background-selected: var(--editor-color-layer-2);
+  --sidebar-panel-background: var(--editor-color-layer-3);
+  --sidebar-option-hover: var(--editor-color-outline);
+  --sidebar-option-selected-icon: var(--rpf-white);
+  --sidebar-option-selected-border: var(--editor-color-theme);
+  --sidebar-option-selected-background: var(--editor-color-theme-tertiary);
+  --sidebar-option-selected-background-hover: var(--rpf-navy-800);
+
+  --editor-color-tab-background: var(--editor-color-layer-3);
+
+  // Buttons
+  .btn,
+  .rpf-button {
+    // Primary button
+    --rpf-button-primary-text-color: var(--rpf-black);
+    --rpf-button-primary-background-color: var(--editor-color-theme);
+    --rpf-button-primary-background-color-focus: var(--editor-color-theme);
+    --rpf-button-primary-background-color-active: var(--rpf-navy-200);
+    --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
+    --rpf-button-primary-color-disabled: var(--editor-color-layer-3);
+    --rpf-button-primary-color-disabled-focus: var(--editor-color-theme);
+    --rpf-button-primary-background-color-hover: var(--rpf-navy-600);
+
+    // Secondary button
+    --rpf-button-secondary-text-color: var(--rpf-white);
+    --rpf-button-secondary-background-color: var(--editor-color-layer-2);
+    --rpf-button-secondary-background-color-active: var(--rpf-navy-200);
+    --rpf-button-secondary-color-disabled-background: var(--editor-color-layer-3);
+    --rpf-button-secondary-background-color-hover: var(--editor-color-outline);
+    --rpf-button-secondary-border-color: var(--editor-color-theme);
+    --rpf-button-secondary-border-color-hover: var(--editor-color-theme);
+    --rpf-button-secondary-color-disabled: var(--rpf-grey-100);
+    --rpf-button-secondary-color: var(--rpf-white);
+
+    // Tertiary button
+    --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+    --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
+    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
   }
 }
+
+
