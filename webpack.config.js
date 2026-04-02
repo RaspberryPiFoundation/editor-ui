@@ -76,13 +76,24 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
-        exclude: /\/src\/assets\/icons\/.*\.svg$/,
+        test: /cc-wallpaper\.svg$/,
         use: [
           {
             loader: "url-loader",
             options: {
               limit: 100000,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        exclude: [/\/src\/assets\/icons\/.*\.svg$/, /cc-wallpaper\.svg$/],
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
             },
           },
         ],
