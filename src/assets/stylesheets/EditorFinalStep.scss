@@ -1,0 +1,65 @@
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
+@use "./rpf_design_system/spacing" as *;
+.project-instructions {
+  .whats-next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .c-badge-achievement-card {
+    p {
+      margin: 0;
+    }
+    align-items: center;
+    background-color: var(--cc-light-cyan);
+    background-image: url("../cc-wallpaper.svg");
+    background-position: center;
+    background-size: cover;
+    border-radius: $space-1-5;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1-5;
+    overflow: hidden;
+    padding-block: $space-2-5;
+    padding-inline: $space-2;
+    position: relative;
+
+    &::before {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--cc-light-cyan) 90%, transparent) 20%,
+        color-mix(in srgb, var(--cc-light-cyan) 100%, transparent) 50%,
+        color-mix(in srgb, var(--cc-light-cyan) 90%, transparent) 80%,
+        transparent 100%
+      );
+      border-radius: $space-1-5;
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    img {
+      inline-size: 100px;
+    }
+
+    &__text-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+
+    &__title {
+      @include typography.style-2(bold);
+    }
+  }
+}

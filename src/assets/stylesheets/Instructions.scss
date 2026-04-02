@@ -122,6 +122,25 @@
     }
   }
 
+  .rpf-button {
+    &--primary {
+      background-color: var(--rpf-button-primary-background-color);
+      color: var(--rpf-button-primary-text-color);
+      border-radius: var(--project-bar-button-radius, 8px);
+      &::before {
+        background-color: var(--rpf-button-primary-background-color);
+        border-color: var(--rpf-button-primary-background-color);
+        border-radius: var(--project-bar-button-radius, 8px);
+      }
+      &:hover::before,
+      &:active::before,
+      &:focus-visible::before {
+        background-color: var(--rpf-button-primary-background-color-hover);
+        border-color: var(--rpf-button-primary-background-color-hover);
+      }
+    }
+  }
+
   .c-code-filename {
     font-family: var(--wc-font-family-monospace);
     margin: 0;
