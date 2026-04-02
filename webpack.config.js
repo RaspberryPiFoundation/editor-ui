@@ -20,94 +20,94 @@ const scratchChunkDir = path.resolve(
   "node_modules/@scratch/scratch-gui/dist/chunks",
 );
 
+const moduleRules = [
+  {
+    test: /\.(js|jsx)$/,
+    exclude: /node_modules/,
+    use: ["babel-loader"],
+  },
+  {
+    test: /\.css$/,
+    use: ["css-loader"],
+  },
+  {
+    test: /\.s[ac]ss$/i,
+    exclude: [/node_modules/],
+    use: [
+      {
+        loader: "css-loader",
+      },
+      {
+        loader: "resolve-url-loader",
+      },
+      {
+        loader: "sass-loader",
+        options: {
+          api: "modern",
+          sassOptions: {
+            loadPaths: [path.resolve(__dirname, "node_modules")],
+          },
+          sourceMap: true,
+        },
+      },
+    ],
+  },
+  {
+    test: /\.md$/,
+    use: ["raw-loader"],
+  },
+  {
+    test: /\/src\/assets\/icons\/.*\.svg$/,
+    use: [
+      {
+        loader: "@svgr/webpack",
+        options: {
+          esModule: false,
+          limit: 10000,
+        },
+      },
+    ],
+  },
+  {
+    test: /cc-wallpaper\.svg$/,
+    use: [
+      {
+        loader: "url-loader",
+        options: {
+          limit: 100000,
+        },
+      },
+    ],
+  },
+  {
+    test: /\.svg$/,
+    exclude: [/\/src\/assets\/icons\/.*\.svg$/, /cc-wallpaper\.svg$/],
+    use: [
+      {
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+        },
+      },
+    ],
+  },
+  {
+    test: /\.(woff|woff2|eot|ttf|otf)$/,
+    use: [
+      {
+        loader: "url-loader",
+      },
+    ],
+  },
+];
+
 module.exports = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
     scratch: path.resolve(__dirname, "./src/scratch.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
   },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
-      {
-        test: /\.css$/,
-        use: ["css-loader"],
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: "css-loader",
-          },
-          {
-            loader: "resolve-url-loader",
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              api: "modern",
-              sassOptions: {
-                loadPaths: [path.resolve(__dirname, "node_modules")],
-              },
-              sourceMap: true,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.md$/,
-        use: ["raw-loader"],
-      },
-      {
-        test: /\/src\/assets\/icons\/.*\.svg$/,
-        use: [
-          {
-            loader: "@svgr/webpack",
-            options: {
-              esModule: false,
-              limit: 10000,
-            },
-          },
-        ],
-      },
-      {
-        test: /cc-wallpaper\.svg$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 100000,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        exclude: [/\/src\/assets\/icons\/.*\.svg$/, /cc-wallpaper\.svg$/],
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 10000,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          {
-            loader: "url-loader",
-          },
-        ],
-      },
-    ],
-  },
+  module: { rules: moduleRules },
   resolve: {
     extensions: [".*", ".js", ".jsx", ".css"],
     fallback: {
