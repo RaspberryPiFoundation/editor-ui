@@ -1,8 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { triggerSave } from "../../redux/EditorSlice";
+import { fireEvent, screen } from "@testing-library/react";
+import renderWithProviders from "../../utils/renderWithProviders";
 import SaveButton from "./SaveButton";
 
 const logInHandler = jest.fn();
@@ -17,9 +15,7 @@ describe("When project is loaded", () => {
 
     describe("who doesn't own the project", () => {
       beforeEach(() => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
-        const initialState = {
+        const preloadedState = {
           editor: {
             loading: "success",
             webComponent: true,
@@ -36,12 +32,9 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = mockStore(initialState);
-        render(
-          <Provider store={store}>
-            <SaveButton />
-          </Provider>,
-        );
+        ({ store } = renderWithProviders(<SaveButton />, {
+          preloadedState,
+        }));
       });
 
       test("Save button renders", () => {
@@ -54,10 +47,10 @@ describe("When project is loaded", () => {
         ).not.toBeInTheDocument();
       });
 
-      test("Clicking save dispatches trigger save action", () => {
+      test("Clicking save updates the save-triggered state", () => {
         const saveButton = screen.queryByText("header.save");
         fireEvent.click(saveButton);
-        expect(store.getActions()).toEqual([triggerSave()]);
+        expect(store.getState().editor.saveTriggered).toBe(true);
       });
 
       test("Clicking save triggers a logInHandler event", () => {
@@ -69,9 +62,7 @@ describe("When project is loaded", () => {
 
     describe("who does own the project", () => {
       beforeEach(() => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
-        const initialState = {
+        const preloadedState = {
           editor: {
             loading: "success",
             webComponent: true,
@@ -88,12 +79,9 @@ describe("When project is loaded", () => {
             },
           },
         };
-        store = mockStore(initialState);
-        render(
-          <Provider store={store}>
-            <SaveButton />
-          </Provider>,
-        );
+        ({ store } = renderWithProviders(<SaveButton />, {
+          preloadedState,
+        }));
       });
 
       test("Does not render save button", () => {
@@ -112,21 +100,16 @@ describe("When project is loaded", () => {
     let store;
 
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: false,
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      ({ store } = renderWithProviders(<SaveButton />, {
+        preloadedState,
+      }));
     });
 
     test("Login to save button renders", () => {
@@ -137,10 +120,10 @@ describe("When project is loaded", () => {
       expect(screen.queryByText("header.save")).not.toBeInTheDocument();
     });
 
-    test("Clicking save dispatches trigger save action", () => {
+    test("Clicking save updates the save-triggered state", () => {
       const saveButton = screen.queryByText("header.loginToSave");
       fireEvent.click(saveButton);
-      expect(store.getActions()).toEqual([triggerSave()]);
+      expect(store.getState().editor.saveTriggered).toBe(true);
     });
 
     test("Clicking save triggers a logInHandler event", () => {
@@ -151,24 +134,17 @@ describe("When project is loaded", () => {
   });
 
   describe("with webComponent=false", () => {
-    let store;
-
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: false,
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      renderWithProviders(<SaveButton />, {
+        preloadedState,
+      });
     });
 
     test("Renders a secondary button", () => {
@@ -178,24 +154,17 @@ describe("When project is loaded", () => {
   });
 
   describe("with webComponent=true", () => {
-    let store;
-
     beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
+      const preloadedState = {
         editor: {
           loading: "success",
           webComponent: true,
         },
         auth: {},
       };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
+      renderWithProviders(<SaveButton />, {
+        preloadedState,
+      });
     });
 
     test("Renders a primary button", () => {
@@ -211,17 +180,12 @@ describe("When project is loaded", () => {
 
 describe("When project is not loaded", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const store = mockStore({
-      editor: {},
-      auth: {},
+    renderWithProviders(<SaveButton />, {
+      preloadedState: {
+        editor: {},
+        auth: {},
+      },
     });
-    render(
-      <Provider store={store}>
-        <SaveButton />
-      </Provider>,
-    );
   });
 
   test("Does not render a login to save button", () => {
