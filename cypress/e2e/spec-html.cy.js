@@ -10,12 +10,11 @@ const getIframeDocument = () => {
     .find("iframe[class=htmlrunner-iframe]")
     .its("0.contentDocument")
     .find("iframe[title=preview-sandbox]")
-    .its("0.contentDocument")
-    .should("exist");
+    .its("0.contentDocument");
 };
 
 const getIframeBody = () => {
-  return getIframeDocument().its("body").should("not.be.null");
+  return getIframeDocument().its("body");
 };
 
 const makeNewFile = (filename = "new.html") => {
@@ -36,8 +35,8 @@ const getEditorInput = () => {
   return cy.get("editor-wc").shadow().find("div[class=cm-content]");
 };
 
-const getRunButton = () => {
-  return cy.get("editor-wc").shadow().find(".btn--run");
+const clickRunButton = () => {
+  return cy.get("editor-wc").shadow().find(".btn--run").click();
 };
 
 beforeEach(() => {
@@ -69,7 +68,7 @@ it("blocks access to parent localStorage", () => {
   document.getElementById("s").innerHTML = \`\${authKey}\`
 </script>`,
   );
-  getRunButton().click();
+  clickRunButton();
 
   // Assert
   getIframeBody().find("p").should("include.text", "parentKey: null");
@@ -93,7 +92,7 @@ it("allows access to localStorage", () => {
 </script>`,
   );
 
-  getRunButton().click();
+  clickRunButton();
 
   // Assert
   getIframeBody().find("p").should("include.text", "foo: bar");
@@ -140,7 +139,8 @@ it("blocks non-permitted external links", () => {
     "text",
     '<a href="https://raspberrypi.org/en/">some external link</a>',
   );
-  getRunButton().click();
+  clickRunButton();
+
   getIframeBody().find("a").click();
 
   // Assert
