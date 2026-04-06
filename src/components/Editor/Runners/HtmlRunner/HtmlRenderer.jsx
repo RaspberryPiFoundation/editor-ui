@@ -7,6 +7,12 @@ import {
   matchingRegexes,
 } from "../../../../utils/externalLinkHelper";
 import "../../../../assets/stylesheets/HtmlRunner.scss";
+import {
+  allowedIframeHost,
+  MSG_HTML_PREVIEW_EVENT,
+  MSG_HTML_PREVIEW_READY,
+  MSG_HTML_PROJECT_UPDATE,
+} from "../../../../utils/iframeUtils";
 
 const parentTag = (node, tag) =>
   node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
@@ -55,7 +61,7 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       } else {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = `window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
       }
     } else {
       const matchingExternalHref = matchingRegexes(
@@ -73,9 +79,9 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       ) {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = "window.parent.postMessage({msg: 'ERROR: External link'})";
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'ERROR: External link'})`;
       } else if (matchingExternalHref) {
-        onClick = `window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
       }
     }
 
@@ -125,10 +131,15 @@ export function HtmlRenderer() {
 
   const handlePreviewUpdateFromHost = useCallback(
     (event) => {
-      // todo: validate message origin
-      // todo: use "type" to check what kind of message this is
+      if (!allowedIframeHost(event.origin)) {
+        console.warn(
+          "iFrame received message from unknown origin:",
+          event.origin,
+        );
+        return;
+      }
       const message = event.data;
-      if (message?.current) {
+      if (message?.type === MSG_HTML_PROJECT_UPDATE && message?.current) {
         const transformedHtml = parse(message.current);
 
         replaceHrefNodes(transformedHtml, message.media, message.code);
@@ -149,8 +160,7 @@ export function HtmlRenderer() {
   const handleEventFromPreview = (event) => {
     // todo: validate message origin
     const message = event.data;
-    // todo: use "type" to check what kind of message this is
-    if (typeof event.data?.msg === "string") {
+    if (message?.type === MSG_HTML_PREVIEW_EVENT) {
       // Forward events originating from the previewed code back to the host
       // todo: set appropriate target origin
       window.parent.postMessage(message, "*");
@@ -164,7 +174,7 @@ export function HtmlRenderer() {
     const source = window.opener || window.parent;
     if (source) {
       // todo: set appropriate target origin
-      source.postMessage({ ready: true }, "*");
+      source.postMessage({ type: MSG_HTML_PREVIEW_READY }, "*");
     }
     return () => {
       window.removeEventListener("message", handlePreviewUpdateFromHost);

@@ -21,6 +21,11 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import OpenInNewTabIcon from "../../../../assets/icons/open_in_new_tab.svg";
 import RunnerControls from "../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
+import {
+  MSG_HTML_PREVIEW_EVENT,
+  MSG_HTML_PREVIEW_READY,
+  MSG_HTML_PROJECT_UPDATE,
+} from "../../../../utils/iframeUtils";
 
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
@@ -109,7 +114,7 @@ function HtmlRunner() {
 
   const eventListener = () => {
     window.addEventListener("message", (event) => {
-      if (typeof event.data?.msg === "string") {
+      if (event.data?.type === MSG_HTML_PREVIEW_EVENT) {
         if (event.data?.msg === "ERROR: External link") {
           handleExternalLinkError(showModal);
         } else if (event.data?.msg === "Allowed external link") {
@@ -211,7 +216,7 @@ function HtmlRunner() {
     (event) => {
       const message = event.data;
       // todo: validate message source
-      if (message.ready === true) {
+      if (message?.type === MSG_HTML_PREVIEW_READY) {
         setRendererReady(true);
       }
     },
@@ -228,7 +233,7 @@ function HtmlRunner() {
 
       output.current.contentWindow.postMessage(
         {
-          type: "editor-html-preview",
+          type: MSG_HTML_PROJECT_UPDATE,
           code: projectCode,
           media: projectMedia,
           current: indexPage.toString(),
