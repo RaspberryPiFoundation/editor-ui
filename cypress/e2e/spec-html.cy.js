@@ -1,9 +1,11 @@
 import {
-  getFilesListItems,
+  clickPreviewLink,
+  expectErrorModalToNotExist,
+  expectPreviewToContainText,
+  expectPreviewToNotContainText,
+  getErrorModalTitle,
+  getFileByName,
   getHtmlRunnerContainer,
-  getIframeBody,
-  getModalHeader,
-  getModalHeaderTitle,
   makeNewFile,
   runProject,
   setCodeEditorContent,
@@ -14,9 +16,6 @@ const baseUrl =
   "http://localhost:3011/web-component.html?identifier=blank-html-starter";
 
 beforeEach(() => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   cy.intercept(
     "GET",
     `${Cypress.env(
@@ -24,6 +23,9 @@ beforeEach(() => {
     )}/api/projects/blank-html-starter?locale=en`,
     defaultHtmlProject,
   );
+
+  localStorage.clear();
+  cy.visit(baseUrl);
 });
 
 it("blocks access to localStorage authKey", () => {
@@ -36,7 +38,7 @@ it("blocks access to localStorage authKey", () => {
 
   runProject();
 
-  getIframeBody().find("p").should("include.text", "authKey: null");
+  expectPreviewToContainText("authKey: null");
 });
 
 it("blocks access to localStorage OIDC keys", () => {
@@ -49,7 +51,7 @@ it("blocks access to localStorage OIDC keys", () => {
 
   runProject();
 
-  getIframeBody().find("p").should("include.text", "oidcUser: null");
+  expectPreviewToContainText("oidcUser: null");
 });
 
 it("allows access to other localStorage keys", () => {
@@ -62,29 +64,27 @@ it("allows access to other localStorage keys", () => {
 
   runProject();
 
-  getIframeBody().find("p").should("include.text", "foo: bar");
+  expectPreviewToContainText("foo: bar");
 });
 
 it("renders the html runner", () => {
-  cy.visit(baseUrl);
   runProject();
   getHtmlRunnerContainer().should("be.visible");
 });
 
-it("can make a new file", () => {
-  cy.visit(baseUrl);
+it.only("can make a new file", () => {
   makeNewFile("amazing.html");
-  getFilesListItems().should("include.text", "amazing.html");
+  getFileByName("amazing.html").should("be.visible");
 });
 
 it("updates the preview after a change when you click run", () => {
   runProject();
-  getIframeBody().should("not.include.text", "hello world");
+  expectPreviewToNotContainText("hello world");
 
   setCodeEditorContent("<p>hello world</p>");
   runProject();
 
-  getIframeBody().find("p").should("include.text", "hello world");
+  expectPreviewToContainText("hello world");
 });
 
 it("blocks non-permitted external links", () => {
@@ -94,8 +94,8 @@ it("blocks non-permitted external links", () => {
 
   runProject();
 
-  getIframeBody().find("a").click();
-  getModalHeaderTitle().should("include.text", "An error has occurred");
+  clickPreviewLink("some external link");
+  getErrorModalTitle().should("be.visible");
 });
 
 it("allows permitted external links", () => {
@@ -105,9 +105,9 @@ it("allows permitted external links", () => {
 
   runProject();
 
-  getIframeBody().find("a").click();
-  cy.url().should("be.equals", baseUrl);
-  getModalHeader().should("not.exist");
+  clickPreviewLink("some external link");
+  cy.url().should("eq", baseUrl);
+  expectErrorModalToNotExist();
 });
 
 it("allows internal links", () => {
@@ -119,6 +119,6 @@ it("allows internal links", () => {
   setCodeEditorContent('<a href="index.html">some internal link</a>');
   runProject();
 
-  getIframeBody().find("a").click();
-  getIframeBody().should("contain.text", "hello world");
+  clickPreviewLink("some internal link");
+  expectPreviewToContainText("hello world");
 });

@@ -43,39 +43,55 @@ export const getCodeEditorContent = () =>
 export const setCodeEditorContent = (content) =>
   getCodeEditorContent().invoke("text", content);
 
-export const runProject = () => getEditorShadow().find(".btn--run").click();
+export const runProject = () =>
+  getEditorShadow().findByRole("button", { name: /run/i }).click();
+
+export const getHtmlRunnerContainer = () =>
+  getEditorShadow().findByTestId("html-runner-container");
 
 export const getHtmlRunnerIframe = () =>
-  getEditorShadow().find("iframe.htmlrunner-iframe");
+  getEditorShadow().findByTestId("html-runner-iframe");
 
 export const getIframeDocument = () =>
   getHtmlRunnerIframe().its("0.contentDocument").should("exist");
 
 export const getIframeBody = () =>
-  getIframeDocument().its("body").should("not.be.null");
+  getIframeDocument().its("body").should("not.be.null").then(cy.wrap);
 
-export const clickAddFile = () =>
-  getEditorShadow().find("span").contains("Add file").click();
+export const expectPreviewToContainText = (text) =>
+  getIframeBody().should("contain.text", text);
 
-export const getAddFileModalInput = () =>
-  getEditorShadow().find("div.modal-content__input").find("input");
+export const expectPreviewToNotContainText = (text) =>
+  getIframeBody().should("not.contain.text", text);
 
-export const getAddFileModalButtons = () =>
-  getEditorShadow().find("div.modal-content__buttons");
+export const clickPreviewLink = (name) =>
+  getIframeBody().then((body) => {
+    cy.wrap(body).findByRole("link", { name }).click();
+  });
+
+export const clickAddFileButton = () =>
+  getEditorShadow().findByRole("button", { name: "Add file" }).click();
+
+export const getAddFileNameInput = () =>
+  getEditorShadow().findByRole("textbox");
+
+export const confirmAddFile = () =>
+  getEditorShadow()
+    .findAllByRole("button", { name: "Add file" })
+    .last()
+    .click();
 
 export const makeNewFile = (filename = "new.html") => {
-  clickAddFile();
-  getAddFileModalInput().type(filename);
-  getAddFileModalButtons().contains("Add file").click();
+  clickAddFileButton();
+  getAddFileNameInput().clear().type(filename);
+  confirmAddFile();
 };
 
-export const getFilesListItems = () =>
-  getEditorShadow().find(".files-list-item");
+export const getFileByName = (filename) =>
+  getEditorShadow().findByTestId(`file-item-${filename}`);
 
-export const getHtmlRunnerContainer = () =>
-  getEditorShadow().find(".htmlrunner-container");
+export const getErrorModalTitle = () =>
+  getEditorShadow().findByRole("heading", { name: "An error has occurred" });
 
-export const getModalHeader = () =>
-  getEditorShadow().find("div.modal-content__header");
-
-export const getModalHeaderTitle = () => getModalHeader().find("h2");
+export const expectErrorModalToNotExist = () =>
+  getEditorShadow().contains("An error has occurred").should("not.exist");
