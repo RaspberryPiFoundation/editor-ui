@@ -36,3 +36,46 @@ export const openSaveAndDownloadPanel = () => {
     },
   };
 };
+
+export const getCodeEditorContent = () =>
+  getEditorShadow().find("div.cm-content");
+
+export const setCodeEditorContent = (content) =>
+  getCodeEditorContent().invoke("text", content);
+
+export const runProject = () => getEditorShadow().find(".btn--run").click();
+
+export const getHtmlRunnerIframe = () =>
+  getEditorShadow().find("iframe.htmlrunner-iframe");
+
+export const getIframeDocument = () =>
+  getHtmlRunnerIframe().its("0.contentDocument").should("exist");
+
+export const getIframeBody = () =>
+  getIframeDocument().its("body").should("not.be.null");
+
+export const clickAddFile = () =>
+  getEditorShadow().find("span").contains("Add file").click();
+
+export const getAddFileModalInput = () =>
+  getEditorShadow().find("div.modal-content__input").find("input");
+
+export const getAddFileModalButtons = () =>
+  getEditorShadow().find("div.modal-content__buttons");
+
+export const makeNewFile = (filename = "new.html") => {
+  clickAddFile();
+  getAddFileModalInput().type(filename);
+  getAddFileModalButtons().contains("Add file").click();
+};
+
+export const getFilesListItems = () =>
+  getEditorShadow().find(".files-list-item");
+
+export const getHtmlRunnerContainer = () =>
+  getEditorShadow().find(".htmlrunner-container");
+
+export const getModalHeader = () =>
+  getEditorShadow().find("div.modal-content__header");
+
+export const getModalHeaderTitle = () => getModalHeader().find("h2");
