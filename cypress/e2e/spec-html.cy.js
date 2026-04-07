@@ -72,7 +72,7 @@ it("renders the html runner", () => {
   getHtmlRunnerContainer().should("be.visible");
 });
 
-it.only("can make a new file", () => {
+it("can make a new file", () => {
   makeNewFile("amazing.html");
   getFileByName("amazing.html").should("be.visible");
 });
