@@ -14,6 +14,9 @@ const baseUrl =
   "http://localhost:3011/web-component.html?identifier=blank-html-starter";
 
 beforeEach(() => {
+  localStorage.clear();
+  cy.visit(baseUrl);
+
   cy.intercept(
     "GET",
     `${Cypress.env(
@@ -24,9 +27,6 @@ beforeEach(() => {
 });
 
 it("blocks access to localStorage authKey", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent(`<p>authKey: <span id="authKey"></span></p>
   <script>
     localStorage.setItem("authKey", "secret")
@@ -40,9 +40,6 @@ it("blocks access to localStorage authKey", () => {
 });
 
 it("blocks access to localStorage OIDC keys", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent(`<p>oidcUser: <span id="oidcUser"></span></p>
 <script>
   localStorage.setItem("oidc.user:https://auth-v1.raspberrypi.org:editor-api", "token")
@@ -56,9 +53,6 @@ it("blocks access to localStorage OIDC keys", () => {
 });
 
 it("allows access to other localStorage keys", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent(`<p>foo: <span id="foo"></span></p>
 <script>
   localStorage.setItem("foo", "bar")
@@ -84,9 +78,6 @@ it("can make a new file", () => {
 });
 
 it("updates the preview after a change when you click run", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   runProject();
   getIframeBody().should("not.include.text", "hello world");
 
@@ -97,9 +88,6 @@ it("updates the preview after a change when you click run", () => {
 });
 
 it("blocks non-permitted external links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent(
     '<a href="https://raspberrypi.org/en/">some external link</a>',
   );
@@ -111,9 +99,6 @@ it("blocks non-permitted external links", () => {
 });
 
 it("allows permitted external links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent(
     '<a href="https://rpf.io/seefood">some external link</a>',
   );
@@ -126,9 +111,6 @@ it("allows permitted external links", () => {
 });
 
 it("allows internal links", () => {
-  localStorage.clear();
-  cy.visit(baseUrl);
-
   setCodeEditorContent("<p>hello world</p>");
   runProject();
 
