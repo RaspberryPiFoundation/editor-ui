@@ -3,8 +3,8 @@ import {
   expectErrorModalToNotExist,
   expectPreviewToContainText,
   expectPreviewToNotContainText,
+  getEditorShadow,
   getErrorModalTitle,
-  getFileByName,
   getHtmlRunnerContainer,
   makeNewFile,
   runProject,
@@ -74,7 +74,9 @@ it("renders the html runner", () => {
 
 it("can make a new file", () => {
   makeNewFile("amazing.html");
-  getFileByName("amazing.html").should("be.visible");
+  getEditorShadow()
+    .findByRole("button", { name: "amazing.html" })
+    .should("be.visible");
 });
 
 it("updates the preview after a change when you click run", () => {

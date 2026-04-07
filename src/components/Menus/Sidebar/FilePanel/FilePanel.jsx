@@ -69,11 +69,7 @@ const FilePanel = ({ isMobile }) => {
   return (
     <SidebarPanel heading={t("filePanel.files")} buttons={buttons}>
       {project.components.map((file, i) => (
-        <div
-          className="files-list-item-wrapper"
-          key={i}
-          data-testid={`file-item-${file.name}.${file.extension}`}
-        >
+        <div className="files-list-item-wrapper" key={i}>
           <DesignSystemButton
             className="files-list-item"
             onClick={() => openFileTab(`${file.name}.${file.extension}`)}

@@ -87,9 +87,6 @@ export const makeNewFile = (filename = "new.html") => {
   confirmAddFile();
 };
 
-export const getFileByName = (filename) =>
-  getEditorShadow().findByTestId(`file-item-${filename}`);
-
 export const getErrorModalTitle = () =>
   getEditorShadow().findByRole("heading", { name: "An error has occurred" });
 
