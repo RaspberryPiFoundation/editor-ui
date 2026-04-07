@@ -23,6 +23,7 @@ let store;
 const renderWebComponentProject = ({
   projectType,
   instructions,
+  imageList = [],
   permitOverride = true,
   loading,
   codeRunTriggered = false,
@@ -38,7 +39,7 @@ const renderWebComponentProject = ({
         components: [
           { name: "main", extension: "py", content: "print('hello')" },
         ],
-        image_list: [],
+        image_list: imageList,
         instructions,
       },
       loading,
@@ -55,7 +56,7 @@ const renderWebComponentProject = ({
   };
   store = mockStore(initialState);
 
-  render(
+  return render(
     <Provider store={store}>
       <WebComponentProject {...props} />
     </Provider>,

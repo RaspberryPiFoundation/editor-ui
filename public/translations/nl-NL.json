@@ -58,7 +58,8 @@
     "logInButton": "Log in om op te slaan",
     "signUpButton": "Aanmelden",
     "downloadHint": "Download je projectbestanden zodat je ze offline en in een andere code-editor kunt gebruiken.",
-    "downloadButton": "Project downloaden"
+    "downloadButton": "Project downloaden",
+    "uploadButton": "Project uploaden"
   },
   "footer": {
     "accessibility": "Toegankelijkheid",
@@ -73,6 +74,7 @@
   },
   "header": {
     "download": "Downloaden",
+    "upload": "Uploaden",
     "downloadFileNameDefault": "mijn {{project_type}} project",
     "editorLogoAltText": "Editor-logo",
     "projects": "Jouw projecten",
@@ -110,7 +112,7 @@
     "removeInstructions": "Instructies verwijderen",
     "nextStep": "Volgende stap",
     "previousStep": "Vorige stap",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} van {{totalSteps}}",
     "projectSteps": "Projectinstructies",
     "edit": "Bewerken",
     "view": "Weergave",

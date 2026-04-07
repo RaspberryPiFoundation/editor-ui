@@ -1,14 +1,18 @@
-import { render, act } from "@testing-library/react";
+import { render, act, waitFor } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import { configureStore as configureRealStore } from "@reduxjs/toolkit";
 import WebComponentLoader from "./WebComponentLoader";
 import {
+  applyScratchProjectIdentifierUpdate,
   disableTheming,
+  editorInitialState,
   setReadOnly,
   setSenseHatAlwaysEnabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
+  default as EditorReducer,
 } from "../redux/EditorSlice";
 import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
@@ -25,7 +29,7 @@ jest.mock("../hooks/useProjectPersistence", () => ({
   useProjectPersistence: jest.fn(),
 }));
 
-const mockedChangeLanguage = jest.fn(() => new Promise(() => {}));
+const mockedChangeLanguage = jest.fn(() => Promise.resolve());
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
@@ -760,6 +764,61 @@ describe("When user is in state", () => {
           composed: true,
         }),
       );
+    });
+  });
+});
+
+describe("when a Scratch remix updates the project identifier", () => {
+  test("keeps the existing project load state instead of reloading the iframe project", async () => {
+    const store = configureRealStore({
+      reducer: {
+        editor: EditorReducer,
+        instructions: (state = {}) => state,
+        auth: (state = { user }) => state,
+      },
+      preloadedState: {
+        editor: {
+          ...editorInitialState,
+          loading: "success",
+          project: {
+            identifier: "teacher-project",
+            project_type: "code_editor_scratch",
+            components: [],
+          },
+        },
+      },
+      auth: { user },
+    });
+
+    render(
+      <Provider store={store}>
+        <CookiesProvider cookies={new Cookies()}>
+          <WebComponentLoader identifier="teacher-project" />
+        </CookiesProvider>
+      </Provider>,
+    );
+
+    act(() => {
+      store.dispatch(
+        applyScratchProjectIdentifierUpdate({
+          projectIdentifier: "student-remix",
+        }),
+      );
+    });
+
+    await waitFor(() => {
+      expect(useProject).toHaveBeenLastCalledWith({
+        assetsIdentifier: undefined,
+        projectIdentifier: "teacher-project",
+        code: undefined,
+        initialProject: null,
+        accessToken: "my_token",
+        loadRemix: true,
+        locale: "en",
+        loadCache: true,
+        remixLoadFailed: false,
+        reactAppApiEndpoint: "http://localhost:3009",
+      });
     });
   });
 });

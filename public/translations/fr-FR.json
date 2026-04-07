@@ -59,7 +59,7 @@
     "signUpButton": "S'inscrire",
     "downloadHint": "Téléchargez vos fichiers de projet afin de pouvoir les utiliser hors ligne et dans un autre éditeur de code.",
     "downloadButton": "Télécharger le projet",
-    "uploadButton": "Importer le projet"
+    "uploadButton": "Téléverser le projet"
   },
   "footer": {
     "accessibility": "Accessibilité",
@@ -74,6 +74,7 @@
   },
   "header": {
     "download": "Télécharger",
+    "upload": "Téléverser",
     "downloadFileNameDefault": "mon projet {{project_type}}",
     "editorLogoAltText": "Logo du Editor",
     "projects": "Tes projets",
@@ -111,7 +112,7 @@
     "removeInstructions": "Supprimer les instructions",
     "nextStep": "Prochaine étape",
     "previousStep": "Étape précédente",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} sur {{totalSteps}}",
     "projectSteps": "Instructions du projet",
     "edit": "Modifier",
     "view": "Voir",

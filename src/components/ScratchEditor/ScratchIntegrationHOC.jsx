@@ -42,6 +42,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         );
         return;
       }
+      if (event.data?.type === "webpackOk") {
+        return;
+      }
 
       switch (event.data.type) {
         case "scratch-gui-download":
@@ -80,7 +83,16 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.onClickSave();
     }
     render() {
-      const { ...componentProps } = this.props;
+      const {
+        loadProject,
+        localesOnly,
+        onClickRemix,
+        onClickSave,
+        saveProjectSb3,
+        setStageSize,
+        ...componentProps
+      } = this.props;
+
       return <WrappedComponent {...componentProps} />;
     }
   }

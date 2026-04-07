@@ -32,6 +32,17 @@ import {
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
 
+const TOAST_CONTAINER_DEFAULTS = {
+  ...(ToastContainer.defaultProps || {}),
+};
+
+// react-toastify v8 uses defaultProps on a function component, which React
+// warns about in development. We pass the same defaults explicitly instead.
+// We should upgrade to version 10 in a different commit, this removes the warning
+if (process.env.NODE_ENV === "development") {
+  ToastContainer.defaultProps = undefined;
+}
+
 const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
@@ -70,12 +81,12 @@ const WebComponentLoader = (props) => {
     ? JSON.parse(localStorage.getItem(authKey))
     : null;
   const user = useSelector((state) => state.auth.user || localStorageUser);
-  const [loadRemix, setLoadRemix] = useState(!!user);
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
+  const loadRemix = !remixLoadFailed && !!user;
   const hasShownSavePrompt = useSelector(
     (state) => state.editor.hasShownSavePrompt,
   );
@@ -109,18 +120,15 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
-    if (remixLoadFailed) {
-      setLoadRemix(false);
-    } else {
-      setLoadRemix(!!user);
-    }
-  }, [user, project, remixLoadFailed]);
-
-  useEffect(() => {
-    if (loading === "idle" && project.identifier) {
+    if (
+      loading === "idle" &&
+      project.project_type !== "code_editor_scratch" &&
+      project.identifier &&
+      project.identifier !== projectIdentifier
+    ) {
       setProjectIdentifier(project.identifier);
     }
-  }, [loading, project]);
+  }, [loading, project.project_type, project.identifier, projectIdentifier]);
 
   useEffect(() => {
     if (loading === "failed" && !remixLoadFailed) {
@@ -227,6 +235,7 @@ const WebComponentLoader = (props) => {
             }`}
           >
             <ToastContainer
+              {...TOAST_CONTAINER_DEFAULTS}
               enableMultiContainer
               containerId="top-center"
               position="top-center"

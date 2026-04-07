@@ -558,7 +558,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       ) : (
         <Tabs
           forceRenderTabPanel={true}
-          defaultIndex={showVisualOutput ? 0 : 1}
           selectedIndex={tabbedViewSelectedIndex}
           onSelect={setTabbedViewSelectedIndex}
         >

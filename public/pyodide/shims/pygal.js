@@ -147,8 +147,8 @@ class Chart {
         min: options.include_x_axis
           ? 0
           : options.range
-          ? options.range.min
-          : null,
+            ? options.range.min
+            : null,
         max: options.range ? options.range.max : null,
         gridLineDashStyle: "ShortDash",
         gridLineColor: "#DDD",
@@ -439,11 +439,7 @@ class _Pie extends Chart {
           });
         }
       }
-      chart.tooltip = {
-        formatter: function () {
-          return this.key + ": " + this.y;
-        },
-      };
+      chart.tooltip = {};
       chart.plotOptions = {
         pie: {
           allowPointSelect: !useBreakdown,

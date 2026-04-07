@@ -114,6 +114,7 @@ jobs:
           PUBLIC_URL: "http://localhost:3011"
           ASSETS_URL: "http://localhost:3011"
           REACT_APP_PLAUSIBLE_SOURCE: ""
+          REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v4.6.0

@@ -65,6 +65,7 @@ const requestingAProject = function (project, projectFile) {
       project: project,
       currentLoadingRequestId: undefined,
       initialComponents: project.components,
+      scratchIframeProjectIdentifier: null,
     };
     expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState);
   });

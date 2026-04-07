@@ -17,12 +17,20 @@ const UploadButton = (props) => {
   const fileInputRef = useRef(null);
 
   const onClickUpload = () => {
+    if (window.plausible) {
+      window.plausible("Upload project");
+    }
     fileInputRef.current?.click();
   };
 
   const onFileSelected = (event) => {
     const file = event.target.files?.[0];
     if (!file || project.project_type !== "code_editor_scratch") return;
+
+    if (window.plausible) {
+      window.plausible("Upload project - file selected");
+    }
+
     postMessageToScratchIframe({ type: "scratch-gui-upload", file });
 
     // Reset so the same file can be selected again (change will fire next time).

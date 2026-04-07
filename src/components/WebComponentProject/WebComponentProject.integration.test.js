@@ -6,7 +6,10 @@ import WebComponentProject from "./WebComponentProject";
 import EditorReducer from "../../redux/EditorSlice";
 import WebComponentAuthSlice from "../../redux/WebComponentAuthSlice";
 import InstructionsSlice from "../../redux/InstructionsSlice";
-import { setProject } from "../../redux/EditorSlice";
+import {
+  applyScratchProjectIdentifierUpdate,
+  setProject,
+} from "../../redux/EditorSlice";
 import { projectIdentifierChangedEvent } from "../../events/WebComponentCustomEvents";
 
 const projectIdentifierChangedHandler = jest.fn();
@@ -22,6 +25,7 @@ let store;
 
 describe("WebComponentProject", () => {
   beforeEach(() => {
+    projectIdentifierChangedHandler.mockClear();
     const rootReducer = combineReducers({
       editor: EditorReducer,
       auth: WebComponentAuthSlice,
@@ -80,6 +84,34 @@ describe("WebComponentProject", () => {
     test("triggers projectIdentifierChanged event with new identifier", () => {
       expect(projectIdentifierChangedHandler).toHaveBeenCalledWith(
         projectIdentifierChangedEvent("new-identifier"),
+      );
+    });
+  });
+
+  describe("when a Scratch remix updates the project identifier", () => {
+    beforeEach(() => {
+      act(() => {
+        store.dispatch(
+          setProject({
+            identifier: "teacher-project",
+            project_type: "code_editor_scratch",
+            components: [],
+          }),
+        );
+      });
+      projectIdentifierChangedHandler.mockClear();
+      act(() => {
+        store.dispatch(
+          applyScratchProjectIdentifierUpdate({
+            projectIdentifier: "student-remix",
+          }),
+        );
+      });
+    });
+
+    test("triggers projectIdentifierChanged event with the remixed identifier", () => {
+      expect(projectIdentifierChangedHandler).toHaveBeenCalledWith(
+        projectIdentifierChangedEvent("student-remix"),
       );
     });
   });

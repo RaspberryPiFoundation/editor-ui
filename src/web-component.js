@@ -10,6 +10,9 @@ import camelCase from "camelcase";
 import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
+import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
+
+dedupeDesignSystemWarnings();
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,

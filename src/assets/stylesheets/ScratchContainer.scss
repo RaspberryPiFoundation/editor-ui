@@ -1,0 +1,59 @@
+@use "./rpf_design_system/colours" as *;
+
+.proj-container {
+  .scratch-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-block-size: 0;
+    min-inline-size: 0;
+  }
+
+  .scratch-container__viewport {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    min-inline-size: 0;
+    --scratch-scrollbar-size: 12px;
+    --scratch-scrollbar-gap: 4px;
+  }
+
+  .scratch-container__viewport > [data-overlayscrollbars-contents],
+  .scratch-container__viewport [data-overlayscrollbars-viewport] {
+    block-size: 100%;
+  }
+
+  .scratch-container__viewport:has(> .os-scrollbar-horizontal.os-scrollbar-visible)
+    > [data-overlayscrollbars-contents] {
+    padding-block-end: calc(
+      var(--scratch-scrollbar-size) + var(--scratch-scrollbar-gap)
+    ) !important;
+  }
+
+  .scratch-container__iframe {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 0;
+  }
+
+  .scratch-container__viewport:has(> .os-scrollbar-horizontal.os-scrollbar-visible)
+    .scratch-container__iframe {
+    block-size: calc(
+      100% - var(--scratch-scrollbar-size) - var(--scratch-scrollbar-gap)
+    );
+  }
+
+  .os-theme-scratch {
+    --os-size: var(--scratch-scrollbar-size);
+    --os-padding-perpendicular: 0;
+    --os-padding-axis: 0;
+    --os-track-border-radius: 999px;
+    --os-handle-border-radius: 999px;
+    --os-track-bg: #{$rpf-grey-200};
+    --os-track-bg-hover: #{$rpf-grey-200};
+    --os-track-bg-active: #{$rpf-grey-200};
+    --os-handle-bg: #{$rpf-grey-500};
+    --os-handle-bg-hover: #{$rpf-grey-500};
+    --os-handle-bg-active: #{$rpf-grey-500};
+  }
+}
