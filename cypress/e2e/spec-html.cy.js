@@ -1,8 +1,8 @@
 import {
-  clickPreviewLink,
+  clickHtmlRunnerPreviewLink,
   expectErrorModalToNotExist,
-  expectPreviewToContainText,
-  expectPreviewToNotContainText,
+  expectHtmlRunnerPreviewToContainText,
+  expectHtmlRunnerPreviewToNotContainText,
   getEditorShadow,
   getErrorModalTitle,
   getHtmlRunnerContainer,
@@ -38,7 +38,7 @@ it("blocks access to localStorage authKey", () => {
 
   runProject();
 
-  expectPreviewToContainText("authKey: null");
+  expectHtmlRunnerPreviewToContainText("authKey: null");
 });
 
 it("blocks access to localStorage OIDC keys", () => {
@@ -51,7 +51,7 @@ it("blocks access to localStorage OIDC keys", () => {
 
   runProject();
 
-  expectPreviewToContainText("oidcUser: null");
+  expectHtmlRunnerPreviewToContainText("oidcUser: null");
 });
 
 it("allows access to other localStorage keys", () => {
@@ -64,7 +64,7 @@ it("allows access to other localStorage keys", () => {
 
   runProject();
 
-  expectPreviewToContainText("foo: bar");
+  expectHtmlRunnerPreviewToContainText("foo: bar");
 });
 
 it("renders the html runner", () => {
@@ -81,12 +81,12 @@ it("can make a new file", () => {
 
 it("updates the preview after a change when you click run", () => {
   runProject();
-  expectPreviewToNotContainText("hello world");
+  expectHtmlRunnerPreviewToNotContainText("hello world");
 
   setCodeEditorContent("<p>hello world</p>");
   runProject();
 
-  expectPreviewToContainText("hello world");
+  expectHtmlRunnerPreviewToContainText("hello world");
 });
 
 it("blocks non-permitted external links", () => {
@@ -96,7 +96,7 @@ it("blocks non-permitted external links", () => {
 
   runProject();
 
-  clickPreviewLink("some external link");
+  clickHtmlRunnerPreviewLink("some external link");
   getErrorModalTitle().should("be.visible");
 });
 
@@ -107,7 +107,7 @@ it("allows permitted external links", () => {
 
   runProject();
 
-  clickPreviewLink("some external link");
+  clickHtmlRunnerPreviewLink("some external link");
   cy.url().should("eq", baseUrl);
   expectErrorModalToNotExist();
 });
@@ -121,6 +121,6 @@ it("allows internal links", () => {
   setCodeEditorContent('<a href="index.html">some internal link</a>');
   runProject();
 
-  clickPreviewLink("some internal link");
-  expectPreviewToContainText("hello world");
+  clickHtmlRunnerPreviewLink("some internal link");
+  expectHtmlRunnerPreviewToContainText("hello world");
 });

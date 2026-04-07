@@ -52,20 +52,20 @@ export const getHtmlRunnerContainer = () =>
 export const getHtmlRunnerIframe = () =>
   getEditorShadow().findByTestId("html-runner-iframe");
 
-export const getIframeDocument = () =>
+export const getHtmlRunnerDocument = () =>
   getHtmlRunnerIframe().its("0.contentDocument").should("exist");
 
-export const getIframeBody = () =>
-  getIframeDocument().its("body").should("not.be.null").then(cy.wrap);
+export const getHtmlRunnerBody = () =>
+  getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
 
-export const expectPreviewToContainText = (text) =>
-  getIframeBody().should("contain.text", text);
+export const expectHtmlRunnerPreviewToContainText = (text) =>
+  getHtmlRunnerBody().should("contain.text", text);
 
-export const expectPreviewToNotContainText = (text) =>
-  getIframeBody().should("not.contain.text", text);
+export const expectHtmlRunnerPreviewToNotContainText = (text) =>
+  getHtmlRunnerBody().should("not.contain.text", text);
 
-export const clickPreviewLink = (name) =>
-  getIframeBody().then((body) => {
+export const clickHtmlRunnerPreviewLink = (name) =>
+  getHtmlRunnerBody().then((body) => {
     cy.wrap(body).findByRole("link", { name }).click();
   });
 
