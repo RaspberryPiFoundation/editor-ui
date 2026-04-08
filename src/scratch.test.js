@@ -4,6 +4,11 @@ jest.mock("./components/ScratchEditor/ScratchIntegrationHOC.jsx", () => ({
   __esModule: true,
   default: (WrappedComponent) => WrappedComponent,
 }));
+const mockScratchProjectSave = jest.fn();
+jest.mock("./utils/scratchProjectSave.js", () => ({
+  __esModule: true,
+  default: (params) => mockScratchProjectSave(params),
+}));
 jest.mock("@scratch/scratch-gui", () => {
   const MockGui = () => null;
   MockGui.setAppElement = jest.fn();
@@ -13,9 +18,11 @@ jest.mock("@scratch/scratch-gui", () => {
     AppStateHOC: (WrappedComponent) => WrappedComponent,
   };
 });
+
+const mockRenderRoot = jest.fn();
 jest.mock("react-dom/client", () => ({
   createRoot: jest.fn(() => ({
-    render: jest.fn(),
+    render: mockRenderRoot,
   })),
 }));
 
@@ -69,6 +76,8 @@ describe("scratch handshake retries", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.resetModules();
+    mockRenderRoot.mockClear();
+    mockScratchProjectSave.mockClear();
     process.env = {
       ...originalEnv,
       ASSETS_URL: "https://assets.example.com",
@@ -122,6 +131,42 @@ describe("scratch handshake retries", () => {
 
     const callsAfterHandshake = postMessageSpy.mock.calls.length;
     expectRetriesStopped(callsAfterHandshake);
+  });
+
+  test("routes project saves through scratchFetch metadata after storage init", async () => {
+    loadScratchModule();
+
+    const nonce = getHandshakeNonce();
+    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
+
+    const renderedTree = mockRenderRoot.mock.calls[0][0];
+    const scratchGuiElement = renderedTree.props.children[1];
+    const scratchStorage = {
+      scratchFetch: {
+        setMetadata: jest.fn(),
+      },
+    };
+
+    scratchGuiElement.props.onStorageInit(scratchStorage);
+    await scratchGuiElement.props.onUpdateProjectData(
+      "project-123",
+      '{"targets":[]}',
+      { title: "Saved from test" },
+    );
+
+    expect(scratchStorage.scratchFetch.setMetadata).toHaveBeenCalledWith(
+      "Authorization",
+      "token-123",
+    );
+    expect(mockScratchProjectSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        scratchFetchApi: scratchStorage.scratchFetch,
+        apiUrl: "https://api.example.com",
+        currentProjectId: "project-123",
+        vmState: '{"targets":[]}',
+        params: { title: "Saved from test" },
+      }),
+    );
   });
 
   test("keeps retrying when auth is required but token is missing", () => {
