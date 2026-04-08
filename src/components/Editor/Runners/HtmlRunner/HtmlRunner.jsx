@@ -286,7 +286,7 @@ function HtmlRunner() {
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}
-              src={process.env.HTML_RENDERER_URL}
+              src={`${process.env.HTML_RENDERER_URL}/index.html`}
               onLoad={iframeReload}
             />
           </TabPanel>
