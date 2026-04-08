@@ -1,4 +1,38 @@
+// Root
+
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
+export const getSidebarPanel = () =>
+  getEditorShadow().findByTestId("sidebar__panel");
+
+// Buttons / controls
+
+export const getRunButton = () =>
+  getEditorShadow().findByRole("button", { name: /run/i });
+
+export const getStopButton = () =>
+  getEditorShadow().findByRole("button", { name: /stop/i });
+
+export const getDownloadProjectButton = () =>
+  getEditorShadow().findByRole("button", { name: "Download project" });
+
+export const getAddFileButton = () =>
+  getEditorShadow().findByRole("button", { name: "Add file" });
+
+export const getConfirmAddFileButton = () =>
+  getEditorShadow().findAllByRole("button", { name: "Add file" }).last();
+
+export const getAddFileNameInput = () =>
+  getEditorShadow().findByRole("textbox");
+
+export const getFileButtonByName = (filename) =>
+  getEditorShadow().findByRole("button", { name: filename });
+
+export const getProgramInput = () => getEditorShadow().find("#input");
+
+// Editor / output queries
+
+export const getCodeEditorContent = () =>
+  getEditorShadow().find("div.cm-content");
 
 export const getPythonConsoleOutput = () =>
   getEditorShadow().find(".pythonrunner-console-output-line");
@@ -8,11 +42,77 @@ export const getPyodideOutput = () => getEditorShadow().find(".pyodiderunner");
 export const getErrorMessage = () =>
   getEditorShadow().find(".error-message__content");
 
-export const getSidebarPanel = () =>
-  getEditorShadow().findByTestId("sidebar__panel");
+export const getTextOutputTab = () =>
+  getPyodideOutput().findByLabelText("Text output");
+
+export const getVisualOutputTab = () =>
+  getPyodideOutput().contains(".react-tabs__tab", "Visual output");
+
+// HTML runner
+
+export const getHtmlRunnerContainer = () =>
+  getEditorShadow().findByTestId("html-runner-container");
+
+export const getHtmlRunnerIframe = () =>
+  getEditorShadow().findByTestId("html-runner-iframe");
+
+export const getHtmlRunnerDocument = () =>
+  getHtmlRunnerIframe().its("0.contentDocument").should("exist");
+
+export const getHtmlRunnerBody = () =>
+  getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
+
+// Modal queries
+
+export const getErrorModalTitle = () =>
+  getEditorShadow().findByRole("heading", { name: "An error has occurred" });
+
+// Actions
+
+export const setCodeEditorContent = (content) =>
+  getCodeEditorContent().invoke("text", content);
+
+export const runProject = () => getRunButton().click();
+
+export const stopProject = () => getStopButton().click();
+
+export const clickAddFileButton = () => getAddFileButton().click();
+
+export const confirmAddFile = () => getConfirmAddFileButton().click();
+
+export const clickHtmlRunnerPreviewLink = (name) =>
+  getHtmlRunnerBody().then((body) => {
+    cy.wrap(body).findByRole("link", { name }).click();
+  });
+
+// Assertions
+
+export const expectHtmlRunnerPreviewToContainText = (text) =>
+  getHtmlRunnerBody().should("contain.text", text);
+
+export const expectHtmlRunnerPreviewToNotContainText = (text) =>
+  getHtmlRunnerBody().should("not.contain.text", text);
+
+export const expectErrorModalToNotExist = () =>
+  getEditorShadow().contains("An error has occurred").should("not.exist");
+
+// Flows
+
+export const makeNewFile = (filename = "new.html") => {
+  clickAddFileButton();
+  getAddFileNameInput().clear().type(filename);
+  confirmAddFile();
+};
+
+export const runCode = (code) => {
+  // Add extra newline to ensure any tooltips are dismissed
+  setCodeEditorContent(`${code}\n`);
+  getRunButton().should("not.be.disabled");
+  runProject();
+};
 
 export const openSaveAndDownloadPanel = () => {
-  getEditorShadow().findByRole("button", { name: "Download project" }).click();
+  getDownloadProjectButton().click();
 
   getSidebarPanel()
     .findByRole("heading", { name: "Save & download" })
@@ -36,59 +136,3 @@ export const openSaveAndDownloadPanel = () => {
     },
   };
 };
-
-export const getCodeEditorContent = () =>
-  getEditorShadow().find("div.cm-content");
-
-export const setCodeEditorContent = (content) =>
-  getCodeEditorContent().invoke("text", content);
-
-export const runProject = () =>
-  getEditorShadow().findByRole("button", { name: /run/i }).click();
-
-export const getHtmlRunnerContainer = () =>
-  getEditorShadow().findByTestId("html-runner-container");
-
-export const getHtmlRunnerIframe = () =>
-  getEditorShadow().findByTestId("html-runner-iframe");
-
-export const getHtmlRunnerDocument = () =>
-  getHtmlRunnerIframe().its("0.contentDocument").should("exist");
-
-export const getHtmlRunnerBody = () =>
-  getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
-
-export const expectHtmlRunnerPreviewToContainText = (text) =>
-  getHtmlRunnerBody().should("contain.text", text);
-
-export const expectHtmlRunnerPreviewToNotContainText = (text) =>
-  getHtmlRunnerBody().should("not.contain.text", text);
-
-export const clickHtmlRunnerPreviewLink = (name) =>
-  getHtmlRunnerBody().then((body) => {
-    cy.wrap(body).findByRole("link", { name }).click();
-  });
-
-export const clickAddFileButton = () =>
-  getEditorShadow().findByRole("button", { name: "Add file" }).click();
-
-export const getAddFileNameInput = () =>
-  getEditorShadow().findByRole("textbox");
-
-export const confirmAddFile = () =>
-  getEditorShadow()
-    .findAllByRole("button", { name: "Add file" })
-    .last()
-    .click();
-
-export const makeNewFile = (filename = "new.html") => {
-  clickAddFileButton();
-  getAddFileNameInput().clear().type(filename);
-  confirmAddFile();
-};
-
-export const getErrorModalTitle = () =>
-  getEditorShadow().findByRole("heading", { name: "An error has occurred" });
-
-export const expectErrorModalToNotExist = () =>
-  getEditorShadow().contains("An error has occurred").should("not.exist");
