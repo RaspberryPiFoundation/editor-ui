@@ -8,7 +8,8 @@
   inline-size: 100%;
 }
 
-.htmlrunner-link {
+a.htmlrunner-link {
+  display: var(--editor-htmlrunner-link-display, inline-flex);
   margin-inline-start: auto;
 }
 

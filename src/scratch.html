@@ -54,5 +54,17 @@
   <body>
     <div id="scratch-loading">loading</div>
     <div id="app"></div>
+
+    <script src="<%= publicUrl %>vendor/react.production.min.js"></script>
+    <script src="<%= publicUrl %>vendor/react-dom.production.min.js"></script>
+    <script src="<%= publicUrl %>vendor/redux.min.js"></script>
+    <script src="<%= publicUrl %>vendor/react-redux.min.js"></script>
+    <script>
+      window.react = window.React;
+      window["react-dom"] = window.ReactDOM;
+      window.redux = window.Redux;
+      window["react-redux"] = window.ReactRedux;
+    </script>
+    <script src="<%= publicUrl %>vendor/scratch-gui.js"></script>
   </body>
 </html>

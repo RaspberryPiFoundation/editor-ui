@@ -113,11 +113,7 @@
 
 .--light * {
   .rpf-button--secondary {
-    span {
-      color: $rpf-text-primary;
-    }
-
-    &::before {
+     &::before {
       background-color: rgba($rpf-white, 1);
     }
 

@@ -4,8 +4,23 @@ export const getScratchIframeContentWindow = () => {
     .contentWindow;
 };
 
+export const getScratchAllowedOrigin = () => {
+  const fallbackOrigin = window.location.origin;
+  const configuredAssetsUrl = process.env.ASSETS_URL;
+
+  if (!configuredAssetsUrl) {
+    return fallbackOrigin;
+  }
+
+  try {
+    return new URL(configuredAssetsUrl).origin;
+  } catch (error) {
+    return fallbackOrigin;
+  }
+};
+
 export const postMessageToScratchIframe = (message) => {
-  const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+  const allowedOrigin = getScratchAllowedOrigin();
   getScratchIframeContentWindow().postMessage(message, allowedOrigin);
 };
 
@@ -24,7 +39,7 @@ export const shouldRemixScratchProjectOnSave = ({
 };
 
 export const subscribeToScratchProjectIdentifierUpdates = (handler) => {
-  const allowedOrigin = process.env.ASSETS_URL || window.location.origin;
+  const allowedOrigin = getScratchAllowedOrigin();
 
   const handleScratchMessage = ({ origin, data }) => {
     if (origin !== allowedOrigin) return;
