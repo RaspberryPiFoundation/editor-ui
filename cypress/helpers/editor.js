@@ -107,6 +107,10 @@ export const getHtmlRunnerBody = () =>
 export const getErrorModalTitle = () =>
   getEditorShadow().findByRole("heading", { name: "An error has occurred" });
 
+// Test output
+
+export const getResults = () => cy.get("#results");
+
 // Actions
 
 export const setCodeEditorContent = (content) =>
