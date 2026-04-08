@@ -38,9 +38,11 @@ export const getCodeEditorContent = () =>
 export const getPythonConsoleOutput = () =>
   getEditorShadow().find(".pythonrunner-console-output-line");
 
-export const getPyodideOutput = () => getEditorShadow().find(".pyodiderunner");
+export const getPyodideOutput = () =>
+  getEditorShadow().findByTestId("pyodide-runner");
 
-export const getSkulptRunner = () => getEditorShadow().find(".skulptrunner");
+export const getSkulptRunner = () =>
+  getEditorShadow().findByTestId("skulpt-runner");
 
 export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
 

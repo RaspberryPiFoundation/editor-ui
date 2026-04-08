@@ -371,6 +371,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   return (
     <div
+      data-testid="pyodide-runner"
       className={classNames("pythonrunner-container", "pyodiderunner", {
         "pyodiderunner--active": active,
       })}

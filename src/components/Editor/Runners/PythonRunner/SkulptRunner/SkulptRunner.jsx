@@ -491,6 +491,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
 
   return (
     <div
+      data-testid="skulpt-runner"
       className={classNames("pythonrunner-container", "skulptrunner", {
         "skulptrunner--active": active,
       })}
