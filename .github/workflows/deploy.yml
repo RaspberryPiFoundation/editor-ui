@@ -161,6 +161,20 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
+      - name: Update latest version file
+        if: env.AWS_SECRET_ACCESS_KEY != '' && github.ref_type == 'tag'
+        run: |
+          if [ "v$(jq -r .version package.json)" != "${GITHUB_REF_NAME}" ]; then
+            echo "v$(jq -r .version package.json) != ${GITHUB_REF_NAME}, skipping latest_version update."
+            exit 0
+          fi
+
+          echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
       - name: Purge Cloudflare cache
         if: env.HAS_CLOUDFLARE_SECRETS == 'true'
         run: |
@@ -168,7 +182,7 @@ jobs:
             curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               -H "Content-Type: application/json" \
-              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js"]}'
+              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version"]}'
           )" || {
             echo "Cloudflare purge request failed:"
             echo "$response"
