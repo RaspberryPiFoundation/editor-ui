@@ -238,8 +238,7 @@ function HtmlRunner() {
           media: projectMedia,
           current: indexPage.toString(),
         },
-        // todo: set correct targetOrigin value
-        "*",
+        process.env.HTML_RENDERER_URL,
       );
 
       if (codeRunTriggered) {

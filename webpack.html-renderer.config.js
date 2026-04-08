@@ -2,7 +2,7 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-let publicUrl = process.env.PUBLIC_URL || "/";
+let publicUrl = process.env.HTML_RENDERER_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }

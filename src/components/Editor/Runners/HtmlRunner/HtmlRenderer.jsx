@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { parse } from "node-html-parser";
 import mimeTypes from "mime-types";
 import {
@@ -61,7 +61,7 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       } else {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }})`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }}, '${process.env.HTML_RENDERER_URL}')`;
       }
     } else {
       const matchingExternalHref = matchingRegexes(
@@ -79,9 +79,9 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       ) {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'ERROR: External link'})`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'ERROR: External link'}, '${process.env.HTML_RENDERER_URL}')`;
       } else if (matchingExternalHref) {
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }})`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }}, '${process.env.HTML_RENDERER_URL}')`;
       }
     }
 
@@ -128,18 +128,22 @@ const replaceSrcNodes = (
 
 export function HtmlRenderer() {
   const [previewHtml, setPreviewHtml] = useState();
+  const iframeHostOrigin = useRef();
 
   const handlePreviewUpdateFromHost = useCallback(
     (event) => {
-      if (!allowedIframeHost(event.origin)) {
-        console.warn(
-          "iFrame received message from unknown origin:",
-          event.origin,
-        );
-        return;
-      }
       const message = event.data;
-      if (message?.type === MSG_HTML_PROJECT_UPDATE && message?.current) {
+      if (
+        allowedIframeHost(event.origin) &&
+        message?.type === MSG_HTML_PROJECT_UPDATE &&
+        message?.current
+      ) {
+        if (!iframeHostOrigin.current) {
+          // Record the host's origin, so we can use it as a target for future messages.
+          iframeHostOrigin.current = event.origin;
+          console.log("iframeHostOrigin: " + iframeHostOrigin.current);
+        }
+
         const transformedHtml = parse(message.current);
 
         replaceHrefNodes(transformedHtml, message.media, message.code);
@@ -158,12 +162,13 @@ export function HtmlRenderer() {
   );
 
   const handleEventFromPreview = (event) => {
-    // todo: validate message origin
     const message = event.data;
-    if (message?.type === MSG_HTML_PREVIEW_EVENT) {
+    if (
+      message?.type === MSG_HTML_PREVIEW_EVENT &&
+      !!iframeHostOrigin.current
+    ) {
       // Forward events originating from the previewed code back to the host
-      // todo: set appropriate target origin
-      window.parent.postMessage(message, "*");
+      window.parent.postMessage(message, iframeHostOrigin.current);
     }
   };
 
@@ -173,7 +178,6 @@ export function HtmlRenderer() {
 
     const source = window.opener || window.parent;
     if (source) {
-      // todo: set appropriate target origin
       source.postMessage({ type: MSG_HTML_PREVIEW_READY }, "*");
     }
     return () => {

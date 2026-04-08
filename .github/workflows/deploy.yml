@@ -162,7 +162,7 @@ jobs:
       - name: Build HTML renderer bundle
         run: yarn build-html-renderer
         env:
-          PUBLIC_URL: ${{ needs.setup-environment.outputs.html_renderer_url}}
+          HTML_RENDERER_URL: ${{ needs.setup-environment.outputs.html_renderer_url }}
           REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
 
       - name: Deploy site to S3 bucket
