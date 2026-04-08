@@ -1,5 +1,6 @@
 import {
   getScratchIframeContentWindow,
+  getScratchAllowedOrigin,
   postMessageToScratchIframe,
   shouldRemixScratchProjectOnSave,
   subscribeToScratchProjectIdentifierUpdates,
@@ -60,6 +61,20 @@ describe("scratchIframe", () => {
         "https://assets.example.com",
       );
     });
+
+    it("uses only the origin when ASSETS_URL includes a path", () => {
+      process.env = {
+        ...originalEnv,
+        ASSETS_URL: "https://assets.example.com/branches/main",
+      };
+      const message = { type: "scratch-gui-download", filename: "cool.sb3" };
+      postMessageToScratchIframe(message);
+      expect(mockPostMessage).toHaveBeenCalledTimes(1);
+      expect(mockPostMessage).toHaveBeenCalledWith(
+        message,
+        "https://assets.example.com",
+      );
+    });
   });
 
   describe("subscribeToScratchProjectIdentifierUpdates", () => {
@@ -91,6 +106,25 @@ describe("scratchIframe", () => {
       unsubscribe();
     });
 
+    it("accepts updates when ASSETS_URL contains a path", () => {
+      process.env.ASSETS_URL = "https://assets.example.com/branches/main";
+      const handler = jest.fn();
+      const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: "https://assets.example.com",
+          data: {
+            type: "scratch-gui-project-id-updated",
+            projectId: "project-789",
+          },
+        }),
+      );
+
+      expect(handler).toHaveBeenCalledWith("project-789");
+      unsubscribe();
+    });
+
     it("ignores unrelated messages", () => {
       const handler = jest.fn();
       const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
@@ -116,6 +150,22 @@ describe("scratchIframe", () => {
 
       expect(handler).not.toHaveBeenCalled();
       unsubscribe();
+    });
+  });
+
+  describe("getScratchAllowedOrigin", () => {
+    const originalEnv = process.env;
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("returns origin when ASSETS_URL contains a path", () => {
+      process.env = {
+        ...originalEnv,
+        ASSETS_URL: "https://assets.example.com/branches/main",
+      };
+      expect(getScratchAllowedOrigin()).toBe("https://assets.example.com");
     });
   });
 

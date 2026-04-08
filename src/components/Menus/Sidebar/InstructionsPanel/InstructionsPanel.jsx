@@ -36,6 +36,7 @@ const InstructionsPanel = () => {
       });
     }
   }, []);
+
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,

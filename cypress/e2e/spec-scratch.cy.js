@@ -153,3 +153,81 @@ describe("Scratch save integration", () => {
       .should("deep.include", { type: "scratch-gui-save" });
   });
 });
+
+describe("Scratch Authorization header", () => {
+  const scratchProjectsApiMatcher = "**/api/scratch/projects/**";
+  const remixApiMatcher = "**/api/projects/*/remix";
+
+  it("includes Authorization header when authKey and access token are present in localStorage", () => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("load_remix_disabled", "true");
+
+    cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.findByText("cool-scratch").click();
+
+    cy.wait("@scratchProjectRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers.authorization).to.equal(user.access_token);
+      });
+  });
+
+  it("does not include Authorization header when authKey is not present in localStorage", () => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.removeItem(authKey);
+      win.localStorage.removeItem("authKey");
+    });
+
+    const params = new URLSearchParams();
+    params.set("load_remix_disabled", "true");
+
+    cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.findByText("cool-scratch").click();
+
+    cy.wait("@scratchProjectRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers).to.not.have.property("authorization");
+      });
+  });
+
+  it("includes Authorization header on load remix request when remix is enabled", () => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+
+    const params = new URLSearchParams();
+    params.set("auth_key", authKey);
+    params.set("identifier", "cool-scratch.json");
+
+    cy.intercept("GET", remixApiMatcher, (req) => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          identifier: "student-remix",
+          project_type: "code_editor_scratch",
+          name: "Student Remix",
+          components: [],
+          image_list: [],
+        },
+      });
+    }).as("loadRemixRequest");
+
+    cy.visit(`${origin}?${params.toString()}`);
+
+    cy.wait("@loadRemixRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers.authorization).to.equal(user.access_token);
+      });
+  });
+});

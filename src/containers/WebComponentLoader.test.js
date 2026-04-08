@@ -339,6 +339,52 @@ describe("When no user is in state", () => {
       );
       expect(editorStyles).not.toBeNull();
     });
+
+    test("Adds editor override marker class when useEditorStyles is true", () => {
+      const { container } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="light"
+              useEditorStyles={true}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      expect(container.querySelector("#wc")).toHaveClass(
+        "--light",
+        "--use-editor-styles",
+      );
+    });
+
+    test("Does not add editor override marker class when useEditorStyles is false", () => {
+      const { container } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              senseHatAlwaysEnabled={true}
+              instructions={instructions}
+              authKey={authKey}
+              theme="dark"
+              useEditorStyles={false}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      expect(container.querySelector("#wc")).toHaveClass("--dark");
+      expect(container.querySelector("#wc")).not.toHaveClass(
+        "--use-editor-styles",
+      );
+    });
   });
 
   describe("with assetsIdentifier set", () => {
