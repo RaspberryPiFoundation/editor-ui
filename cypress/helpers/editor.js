@@ -1,6 +1,7 @@
 // Root
 
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
+
 export const getSidebarPanel = () =>
   getEditorShadow().findByTestId("sidebar__panel");
 
@@ -39,6 +40,12 @@ export const getPythonConsoleOutput = () =>
 
 export const getPyodideOutput = () => getEditorShadow().find(".pyodiderunner");
 
+export const getSkulptRunner = () => getEditorShadow().find(".skulptrunner");
+
+export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
+
+export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
+
 export const getErrorMessage = () =>
   getEditorShadow().find(".error-message__content");
 
@@ -47,6 +54,11 @@ export const getTextOutputTab = () =>
 
 export const getVisualOutputTab = () =>
   getPyodideOutput().contains(".react-tabs__tab", "Visual output");
+
+export const getSkulptSelectedTab = () =>
+  getSkulptRunner().find(".react-tabs__tab--selected");
+
+export const getSkulptTabByName = (name) => getSkulptRunner().contains(name);
 
 // HTML runner
 
