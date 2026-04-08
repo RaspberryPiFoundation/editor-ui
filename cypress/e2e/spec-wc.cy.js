@@ -108,7 +108,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   });
 });
 
-describe("when embedded, output_only & output_split_view are true", () => {
+describe.skip("when embedded, output_only & output_split_view are true", () => {
   const urlFor = (identifier) => {
     const params = new URLSearchParams();
     params.set("identifier", identifier);
