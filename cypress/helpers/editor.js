@@ -13,6 +13,9 @@ export const getRunButton = () =>
 export const getStopButton = () =>
   getEditorShadow().findByRole("button", { name: /stop/i });
 
+export const getSaveButton = () =>
+  getEditorShadow().findByRole("button", { name: "Save" });
+
 export const getDownloadProjectButton = () =>
   getEditorShadow().findByRole("button", { name: "Download project" });
 
@@ -28,12 +31,18 @@ export const getAddFileNameInput = () =>
 export const getFileButtonByName = (filename) =>
   getEditorShadow().findByRole("button", { name: filename });
 
+export const getSettingsButton = () =>
+  getEditorShadow().find("[title='Settings']").first();
+
 export const getProgramInput = () => getEditorShadow().find("#input");
 
 // Editor / output queries
 
 export const getCodeEditorContent = () =>
   getEditorShadow().find("div.cm-content");
+
+export const getCodeEditorInput = () =>
+  getEditorShadow().find("[contenteditable]");
 
 export const getPythonConsoleOutput = () =>
   getEditorShadow().find(".pythonrunner-console-output-line");
@@ -43,6 +52,8 @@ export const getPyodideOutput = () =>
 
 export const getSkulptRunner = () =>
   getEditorShadow().findByTestId("skulpt-runner");
+
+export const getSkulptTabs = () => getSkulptRunner().findAllByRole("tab");
 
 export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
 
@@ -61,6 +72,21 @@ export const getSkulptSelectedTab = () =>
   getSkulptRunner().find(".react-tabs__tab--selected");
 
 export const getSkulptTabByName = (name) => getSkulptRunner().contains(name);
+
+export const getSkulptTabListByTabName = (name) =>
+  getSkulptTabByName(name).parents("ul");
+
+export const getSkulptTabListItemsByTabName = (name) =>
+  getSkulptTabListByTabName(name).children();
+
+// Layout / panels
+
+export const getSidebar = () => getEditorShadow().find(".sidebar");
+
+export const getSettingsPanel = () => getEditorShadow().find(".settings-panel");
+
+export const getTextSizeSetting = () =>
+  getEditorShadow().find(".settings-panel__text-size");
 
 // HTML runner
 
@@ -90,9 +116,13 @@ export const runProject = () => getRunButton().click();
 
 export const stopProject = () => getStopButton().click();
 
+export const saveProject = () => getSaveButton().click();
+
 export const clickAddFileButton = () => getAddFileButton().click();
 
 export const confirmAddFile = () => getConfirmAddFileButton().click();
+
+export const openSettingsPanel = () => getSettingsButton().click();
 
 export const clickHtmlRunnerPreviewLink = (name) =>
   getHtmlRunnerBody().then((body) => {
@@ -102,7 +132,12 @@ export const clickHtmlRunnerPreviewLink = (name) =>
 // Assertions
 
 export const expectHtmlRunnerPreviewToContainText = (text) =>
-  getHtmlRunnerBody().should("contain.text", text);
+  getHtmlRunnerIframe()
+    .its("0.contentDocument.body")
+    .should("not.be.null")
+    .should(($body) => {
+      expect($body.textContent || "").to.contain(text);
+    });
 
 export const expectHtmlRunnerPreviewToNotContainText = (text) =>
   getHtmlRunnerBody().should("not.contain.text", text);
