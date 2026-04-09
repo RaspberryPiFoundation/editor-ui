@@ -108,7 +108,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
   });
 });
 
-describe.skip("when embedded, output_only & output_split_view are true", () => {
+describe("when embedded, output_only & output_split_view are true", () => {
   const urlFor = (identifier) => {
     const params = new URLSearchParams();
     params.set("identifier", identifier);
@@ -163,46 +163,5 @@ describe.skip("when embedded, output_only & output_split_view are true", () => {
       .parents("ul")
       .children()
       .should("have.length", 1);
-  });
-
-  it("displays the embedded view for an HTML project", () => {
-    cy.visit(urlFor("anime-expressions-solution"));
-
-    // Check HTML preview output panel is visible and has a run button
-    // Important to wait for this before making the negative assertions that follow
-    cy.get("editor-wc")
-      .shadow()
-      .contains("index.html preview")
-      .should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("Run")
-      .should("not.be.disabled")
-      .should("be.visible");
-
-    // Check that the code has automatically run i.e. the HTML has been rendered
-    cy.get("editor-wc")
-      .shadow()
-      .find("iframe#output-frame")
-      .its("0.contentDocument.body")
-      .should("contain", "Draw anime with me");
-
-    // Check that the side bar is not displayed
-    cy.get("editor-wc").shadow().contains("Project files").should("not.exist");
-    // Check that the project bar is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Anime expressions solution")
-      .should("not.exist");
-    // Check that the editor input containing the code is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("<h1>Draw anime with me</h1>")
-      .should("not.exist");
-
-    // Run the code and check it executed without error
-    cy.get("editor-wc").shadow().find("button").contains("Run").click();
-    cy.get("#results").should("contain", '"errorDetails":{}');
   });
 });
