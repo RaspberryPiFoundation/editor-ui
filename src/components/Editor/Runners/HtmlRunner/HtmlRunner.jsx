@@ -213,19 +213,23 @@ function HtmlRunner() {
   };
 
   return (
-    <div className="htmlrunner-container">
+    <div className="htmlrunner-container" data-testid="html-runner-container">
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
         <Tabs>
           <div className="react-tabs__tab-container">
             <TabList>
               <Tab>
-                <span className="react-tabs__tab-text">{`${runningFile} ${t(
-                  "output.preview",
-                )}`}</span>
+                <span
+                  className="react-tabs__tab-text"
+                  data-testid="html-runner-preview-tab"
+                >
+                  {`${runningFile} ${t("output.preview")}`}
+                </span>
               </Tab>
               {!!!isEmbedded && (
                 <a
                   className="btn btn--tertiary htmlrunner-link"
+                  data-testid="html-runner-open-in-new-tab"
                   target="_blank"
                   href={`/${locale}/embed/viewer/${
                     project.identifier
@@ -244,6 +248,7 @@ function HtmlRunner() {
           <TabPanel>
             <iframe
               className="htmlrunner-iframe"
+              data-testid="html-runner-iframe"
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}

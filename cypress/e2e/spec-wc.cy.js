@@ -1,8 +1,22 @@
+import {
+  expectHtmlRunnerPreviewToContainText,
+  getCodeEditorInput,
+  getEditorShadow,
+  getRunButton,
+  getSettingsPanel,
+  getSidebar,
+  getSkulptTabByName,
+  getTextSizeSetting,
+  openSettingsPanel,
+  runProject,
+  saveProject,
+} from "../helpers/editor.js";
+
 const origin = "http://localhost:3011/web-component.html";
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
-    req.headers["Origin"] = origin;
+    req.headers.Origin = origin;
     req.continue();
   });
 });
@@ -13,40 +27,33 @@ describe("default behaviour", () => {
   });
 
   it("renders the web component", () => {
-    cy.get("editor-wc").shadow().find("button").should("contain", "Run");
+    getRunButton().should("contain", "Run");
   });
 
   it("defaults to the text output tab", () => {
-    const runnerContainer = cy
-      .get("editor-wc")
-      .shadow()
-      .find(".proj-runner-container");
-    runnerContainer
-      .find(".react-tabs__tab--selected")
-      .should("contain", "Text output");
+    getSkulptTabByName("Text output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
   });
 
   it("does not render visual output tab on page load", () => {
-    cy.get("editor-wc")
-      .shadow()
-      .find("#root")
-      .should("not.contain", "Visual output");
+    getEditorShadow().should("not.contain.text", "Visual output");
   });
 
   it("shows text size in settings for standard editor projects", () => {
-    const getEditorShadow = () => cy.get("editor-wc").shadow();
-
     cy.findByText("blank-python-starter").click();
 
-    getEditorShadow().find(".sidebar").should("exist");
-    getEditorShadow().find("[title='Settings']").first().click();
-    getEditorShadow().find(".settings-panel").should("exist");
-    getEditorShadow().find(".settings-panel__text-size").should("be.visible");
+    getSidebar().should("exist");
+    openSettingsPanel();
+    getSettingsPanel().should("exist");
+    getTextSizeSetting().should("be.visible");
   });
 });
 
 describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
-  const authKey = `oidc.user:https://auth-v1.raspberrypi.org:editor-api`;
+  const authKey = "oidc.user:https://auth-v1.raspberrypi.org:editor-api";
 
   const user = { access_token: "dummy-access-token" };
   const originalIdentifier = "blank-python-starter";
@@ -71,10 +78,10 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
     cy.get("#project-identifier").should("have.text", originalIdentifier);
 
     // Edit code
-    cy.get("editor-wc").shadow().find("[contenteditable]").type("# remixed!");
+    getCodeEditorInput().type("# remixed!");
 
     // Save project
-    cy.get("editor-wc").shadow().contains("Save").click();
+    saveProject();
 
     // Check receipt of an event to trigger a redirect to the remixed project URL
     cy.get("#project-identifier").should("not.have.text", originalIdentifier);
@@ -82,28 +89,19 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
       .invoke("text")
       .then((remixIdentifier) => {
         // Check we're still seeing the changed code
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("have.text", "# remixed!");
+        getCodeEditorInput().should("have.text", "# remixed!");
 
         // Visit the original project again
         cy.visit(urlFor(originalIdentifier));
 
         // Check we no longer see the changed code, i.e. `load_remix_disabled=true` is respected
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("not.have.text", "# remixed!");
+        getCodeEditorInput().should("not.have.text", "# remixed!");
 
         // View the remixed project
         cy.visit(urlFor(remixIdentifier));
 
         // Check we're still seeing the changed code
-        cy.get("editor-wc")
-          .shadow()
-          .find("[contenteditable]")
-          .should("have.text", "# remixed!");
+        getCodeEditorInput().should("have.text", "# remixed!");
       });
   });
 });
@@ -124,44 +122,30 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check text output panel is visible and has a run button
     // Important to wait for this before making the negative assertions that follow
-    const runnerContainer = cy
-      .get("editor-wc")
-      .shadow()
-      .find(".proj-runner-container");
-    runnerContainer
-      .find(".react-tabs__tab--selected")
-      .should("contain", "Text output");
-    cy.get("editor-wc")
-      .shadow()
-      .find("button")
-      .contains("Run")
-      .should("not.be.disabled")
-      .should("be.visible");
+    getSkulptTabByName("Text output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
+    getRunButton().should("not.be.disabled");
+    getRunButton().should("be.visible");
 
     // Check that the side bar is not displayed
-    cy.get("editor-wc").shadow().contains("Project files").should("not.exist");
+    getEditorShadow().should("not.contain.text", "Project files");
     // Check that the project bar is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Don't Collide: Clean Car")
-      .should("not.exist");
+    getEditorShadow().should("not.contain.text", "Don't Collide: Clean Car");
     // Check that the editor input containing the code is not displayed
-    cy.get("editor-wc")
-      .shadow()
-      .contains("# The draw_obstacle function goes here")
-      .should("not.exist");
+    getEditorShadow().should(
+      "not.contain.text",
+      "# The draw_obstacle function goes here",
+    );
 
     // Run the code and check it executed without error
-    cy.get("editor-wc").shadow().find("button").contains("Run").click();
+    runProject();
     cy.get("#results").should("contain", '"errorDetails":{}');
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
-    cy.get("editor-wc").shadow().contains("Visual output").should("be.visible");
-    cy.get("editor-wc")
-      .shadow()
-      .contains("Visual output")
-      .parents("ul")
-      .children()
-      .should("have.length", 1);
+    getSkulptTabByName("Visual output").should("be.visible");
+    getSkulptTabByName("Visual output").should("have.length", 1);
   });
 });

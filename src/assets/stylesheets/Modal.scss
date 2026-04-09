@@ -86,7 +86,8 @@
 }
 
 .modal-content__help-text {
-  margin: $space-0-25 0;
+  margin-block-start: $space-0-25;
+  margin-block-end: $space-1;
   font-weight: $font-weight-regular;
 }
 
@@ -99,7 +100,6 @@
 .modal-content__input-section {
   display: flex;
   flex-direction: column;
-  gap: $space-0-5;
 }
 
 .modal-content__buttons {

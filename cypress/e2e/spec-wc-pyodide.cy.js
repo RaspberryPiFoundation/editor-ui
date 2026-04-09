@@ -1,8 +1,16 @@
 import {
-  getErrorMessage,
   getEditorShadow,
+  getErrorMessage,
+  getFileButtonByName,
+  getProgramInput,
   getPyodideOutput,
   getPythonConsoleOutput,
+  getTextOutputTab,
+  makeNewFile,
+  runCode,
+  runProject,
+  setCodeEditorContent,
+  stopProject,
 } from "../helpers/editor.js";
 
 const origin = "http://localhost:3011/web-component.html";
@@ -12,14 +20,6 @@ beforeEach(() => {
     req.headers["Origin"] = origin;
   });
 });
-
-const runCode = (code) => {
-  // Add extra newline to ensure any tooltips are dismissed so they don't get in the way of the run button
-  getEditorShadow()
-    .findByLabelText("editor text input")
-    .invoke("text", `${code}\n`);
-  getEditorShadow().find(".btn--run").should("not.be.disabled").click();
-};
 
 describe("Running the code with pyodide", () => {
   beforeEach(() => {
@@ -40,12 +40,9 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple program", () => {
     runCode('print("Hello world")');
-    getPyodideOutput()
-      .contains(".react-tabs__tab", "Visual output")
-      .should("not.exist");
-    getPyodideOutput()
-      .find(".react-tabs__tab--selected")
-      .should("contain", "Text output");
+    getPyodideOutput().should("not.contain.text", "Visual output");
+    getPyodideOutput().should("contain", "Text output");
+
     getPythonConsoleOutput().should("contain", "Hello world");
   });
 
@@ -54,27 +51,29 @@ describe("Running the code with pyodide", () => {
       "from time import sleep\nfor i in range(100):\n\tprint(i)\n\tsleep(1)",
     );
     getPythonConsoleOutput().should("contain", "3");
-    getEditorShadow().find(".btn--stop").should("be.visible").click();
+    stopProject();
     getErrorMessage().should("contain", "Execution interrupted");
   });
 
   it("runs a simple program with an input", () => {
     runCode('name = input("What is your name?")\nprint("Hello", name)');
-    getEditorShadow().find(".btn--stop").should("be.visible");
+    getEditorShadow()
+      .findByRole("button", { name: /stop/i })
+      .should("be.visible");
     getPythonConsoleOutput().should("contain", "What is your name?");
-    getEditorShadow().find("#input").should("be.visible").type("Lois{enter}");
+    getProgramInput().should("be.visible").type("Lois{enter}");
     getPythonConsoleOutput().should("contain", "Hello Lois");
   });
 
   it("runs a simple program to write to a file", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
-    getEditorShadow().contains(".files-list-item", "output.txt").click();
+    getFileButtonByName("output.txt").click();
     getEditorShadow().find(".cm-editor").should("contain", "Hello world");
   });
 
   it("errors when trying to write to an existing file in 'x' mode", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
-    getEditorShadow().find(".files-list-item").should("contain", "output.txt");
+    getFileButtonByName("output.txt").should("be.visible");
     runCode('with open("output.txt", "x") as f:\n\tf.write("Something else")');
     getErrorMessage().should(
       "contain",
@@ -84,14 +83,14 @@ describe("Running the code with pyodide", () => {
 
   it("updates the file in the editor when the content is updated programmatically", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
+    setCodeEditorContent(
+      'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
+    );
+    getFileButtonByName("output.txt").click();
     getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke(
-        "text",
-        'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
-      );
-    getEditorShadow().contains(".files-list-item", "output.txt").click();
-    getEditorShadow().find(".btn--run").should("not.be.disabled").click();
+      .findByRole("button", { name: /run/i })
+      .should("not.be.disabled");
+    runProject();
     getEditorShadow().find(".cm-editor").should("contain", "Hello again world");
   });
 
@@ -101,61 +100,33 @@ describe("Running the code with pyodide", () => {
   });
 
   it("runs a program with multiple files", () => {
-    getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke("text", `from my_number import NUMBER\nprint(NUMBER)\n`);
+    setCodeEditorContent(`from my_number import NUMBER\nprint(NUMBER)\n`);
 
-    getEditorShadow().findByRole("button", { name: "Add file" }).click();
+    makeNewFile("my_number.py");
 
-    getEditorShadow()
-      .findByLabelText(/Name your file/)
-      .type("my_number.py");
+    setCodeEditorContent(`NUMBER = 42\n`);
 
-    getEditorShadow()
-      .findByRole("dialog")
-      .findByRole("button", { name: "Add file" })
-      .click();
+    runProject();
 
-    getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke("text", `NUMBER = 42\n`);
-
-    getEditorShadow().findByRole("button", { name: "Run" }).click();
-
-    getPyodideOutput().findByLabelText("Text output").should("contain", "42");
+    getTextOutputTab().should("contain", "42");
   });
 
   it("reloads imported local files between code runs", () => {
-    getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke("text", `from helper import b\nb()`);
+    setCodeEditorContent(`from helper import b\nb()`);
 
-    getEditorShadow().findByRole("button", { name: "Add file" }).click();
+    makeNewFile("helper.py");
 
-    getEditorShadow()
-      .findByLabelText(/Name your file/)
-      .type("helper.py");
+    setCodeEditorContent(`def b():\n  print('one')`);
 
-    getEditorShadow()
-      .findByRole("dialog")
-      .findByRole("button", { name: "Add file" })
-      .click();
+    runProject();
 
-    getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke("text", `def b():\n  print('one')`);
+    getTextOutputTab().should("contain", "one");
 
-    getEditorShadow().findByRole("button", { name: "Run" }).click();
+    setCodeEditorContent(`def b():\n  print('two')`);
 
-    getPyodideOutput().findByLabelText("Text output").should("contain", "one");
+    runProject();
 
-    getEditorShadow()
-      .findByLabelText("editor text input")
-      .invoke("text", `def b():\n  print('two')`);
-
-    getEditorShadow().findByRole("button", { name: "Run" }).click();
-
-    getPyodideOutput().findByLabelText("Text output").should("contain", "two");
+    getTextOutputTab().should("contain", "two");
   });
 
   it("runs a simple program with a built-in pyodide module", () => {
