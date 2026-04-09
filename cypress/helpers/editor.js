@@ -65,9 +65,6 @@ export const getErrorMessage = () =>
 export const getTextOutputTab = () =>
   getPyodideOutput().findByLabelText("Text output");
 
-export const getSkulptSelectedTab = () =>
-  getSkulptRunner().find(".react-tabs__tab--selected");
-
 export const getSkulptTabByName = (name) =>
   getSkulptRunner().findByRole("tab", { name });
 

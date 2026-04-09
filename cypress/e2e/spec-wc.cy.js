@@ -5,7 +5,6 @@ import {
   getRunButton,
   getSettingsPanel,
   getSidebar,
-  getSkulptSelectedTab,
   getSkulptTabByName,
   getTextSizeSetting,
   openSettingsPanel,
@@ -32,7 +31,11 @@ describe("default behaviour", () => {
   });
 
   it("defaults to the text output tab", () => {
-    getSkulptSelectedTab().should("contain", "Text output");
+    getSkulptTabByName("Text output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
   });
 
   it("does not render visual output tab on page load", () => {
@@ -119,7 +122,11 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check text output panel is visible and has a run button
     // Important to wait for this before making the negative assertions that follow
-    getSkulptSelectedTab().should("contain", "Text output");
+    getSkulptTabByName("Text output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
     getRunButton().should("not.be.disabled");
     getRunButton().should("be.visible");
 

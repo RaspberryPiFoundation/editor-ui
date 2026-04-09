@@ -4,7 +4,6 @@ import {
   getResults,
   getRunButton,
   getSkulptRunner,
-  getSkulptSelectedTab,
   getSkulptTabByName,
   getStopButton,
   runCode,
@@ -19,7 +18,11 @@ beforeEach(() => {
 });
 
 it("defaults to the visual output tab", () => {
-  getSkulptSelectedTab().should("contain", "Visual output");
+  getSkulptTabByName("Visual output").should(
+    "have.attr",
+    "aria-selected",
+    "true",
+  );
 });
 
 it("renders the astro pi component on page load", () => {

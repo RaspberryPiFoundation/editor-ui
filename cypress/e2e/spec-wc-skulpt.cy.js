@@ -3,7 +3,6 @@ import {
   getP5Canvas,
   getPythonConsoleOutput,
   getSkulptRunner,
-  getSkulptSelectedTab,
   getSkulptTabByName,
   getTurtleOutput,
   runCode,
@@ -33,8 +32,16 @@ describe("Running the code with skulpt", () => {
   it("runs a simple program", () => {
     runCode("print('Hello world')");
 
-    getSkulptTabByName("Visual output").should("not.be.visible");
-    getSkulptSelectedTab().should("contain", "Text output");
+    getSkulptRunner()
+      .find('[role="tab"]:visible')
+      .should("have.length", 1)
+      .and("not.contain", "Visual output");
+
+    getSkulptTabByName("Text output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
     getPythonConsoleOutput().should("contain", "Hello world");
   });
 
@@ -44,7 +51,11 @@ describe("Running the code with skulpt", () => {
     );
 
     getSkulptTabByName("Text output").should("exist");
-    getSkulptSelectedTab().should("contain", "Visual output");
+    getSkulptTabByName("Visual output").should(
+      "have.attr",
+      "aria-selected",
+      "true",
+    );
     getP5Canvas().should("exist");
   });
 
