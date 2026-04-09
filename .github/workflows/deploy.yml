@@ -183,7 +183,7 @@ jobs:
             curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               -H "Content-Type: application/json" \
-              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ needs.setup-environment.outputs.html_renderer_url}}/index.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html_renderer.js"]}'
+              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ needs.setup-environment.outputs.html_renderer_url}}/index.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.js"]}'
           )" || {
             echo "Cloudflare purge request failed:"
             echo "$response"
