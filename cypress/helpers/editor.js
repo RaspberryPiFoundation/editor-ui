@@ -34,7 +34,8 @@ export const getFileButtonByName = (filename) =>
 export const getSettingsButton = () =>
   getEditorShadow().find("[title='Settings']").first();
 
-export const getProgramInput = () => getEditorShadow().find("#input");
+export const getProgramInput = () =>
+  getEditorShadow().findByRole("textbox", { name: "Text input" });
 
 // Editor / output queries
 

@@ -291,6 +291,8 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     span.setAttribute("spellCheck", "false");
     span.setAttribute("class", "pythonrunner-input");
     span.setAttribute("contentEditable", "true");
+    span.setAttribute("role", "textbox");
+    span.setAttribute("aria-label", "Text input");
     return span;
   };
 
