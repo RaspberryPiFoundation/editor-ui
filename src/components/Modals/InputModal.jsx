@@ -24,10 +24,8 @@ const InputModal = ({ inputs, ...otherProps }) => {
               />
             ) : (
               <div className="modal-content__input-section">
-                <label htmlFor={i}>
-                  {input.label}
-                  <p className="modal-content__help-text">{input.helpText}</p>
-                </label>
+                <label htmlFor={i}>{input.label}</label>
+                <p className="modal-content__help-text">{input.helpText}</p>
                 <div className="modal-content__input">
                   {input.validateName ? <NameErrorMessage /> : null}
                   <input

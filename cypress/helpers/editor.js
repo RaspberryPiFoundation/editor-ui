@@ -26,7 +26,7 @@ export const getConfirmAddFileButton = () =>
   getEditorShadow().findAllByRole("button", { name: "Add file" }).last();
 
 export const getAddFileNameInput = () =>
-  getEditorShadow().findByRole("textbox");
+  getEditorShadow().findByRole("textbox", { name: "Name your file" });
 
 export const getFileButtonByName = (filename) =>
   getEditorShadow().findByRole("button", { name: filename });
