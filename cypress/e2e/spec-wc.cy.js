@@ -7,7 +7,6 @@ import {
   getSidebar,
   getSkulptSelectedTab,
   getSkulptTabByName,
-  getSkulptTabListItemsByTabName,
   getTextSizeSetting,
   openSettingsPanel,
   runProject,
@@ -140,7 +139,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
 
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
     getSkulptTabByName("Visual output").should("be.visible");
-    getSkulptTabListItemsByTabName("Visual output").should("have.length", 1);
+    getSkulptTabByName("Visual output").should("have.length", 1);
   });
 
   it("displays the embedded view for an HTML project", () => {

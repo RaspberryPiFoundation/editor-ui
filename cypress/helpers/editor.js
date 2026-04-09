@@ -68,13 +68,8 @@ export const getTextOutputTab = () =>
 export const getSkulptSelectedTab = () =>
   getSkulptRunner().find(".react-tabs__tab--selected");
 
-export const getSkulptTabByName = (name) => getSkulptRunner().contains(name);
-
-export const getSkulptTabListByTabName = (name) =>
-  getSkulptTabByName(name).parents("ul");
-
-export const getSkulptTabListItemsByTabName = (name) =>
-  getSkulptTabListByTabName(name).children();
+export const getSkulptTabByName = (name) =>
+  getSkulptRunner().findByRole("tab", { name });
 
 // Layout / panels
 
