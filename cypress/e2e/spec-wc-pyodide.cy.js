@@ -5,6 +5,7 @@ import {
   getProgramInput,
   getPyodideOutput,
   getPythonConsoleOutput,
+  getSkulptRunner,
   getTextOutputTab,
   makeNewFile,
   runCode,
@@ -41,9 +42,8 @@ describe("Running the code with pyodide", () => {
   it("runs a simple program", () => {
     runCode('print("Hello world")');
     getPyodideOutput().should("not.contain.text", "Visual output");
-    getPyodideOutput()
-      .find(".react-tabs__tab--selected")
-      .should("contain", "Text output");
+    getSkulptRunner().should("contain", "Text output");
+
     getPythonConsoleOutput().should("contain", "Hello world");
   });
 
