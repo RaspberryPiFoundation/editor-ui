@@ -1,5 +1,4 @@
 import {
-  expectHtmlRunnerPreviewToContainText,
   getCodeEditorInput,
   getEditorShadow,
   getRunButton,
