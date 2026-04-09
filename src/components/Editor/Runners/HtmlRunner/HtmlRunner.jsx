@@ -180,7 +180,6 @@ function HtmlRunner() {
   const listener = useCallback(
     (event) => {
       const message = event.data;
-      // todo: validate message source
       if (message?.type === MSG_HTML_PREVIEW_READY) {
         setRendererReady(true);
       }
