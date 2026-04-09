@@ -187,11 +187,13 @@ export function HtmlRenderer() {
   }, [handlePreviewUpdateFromHost]);
 
   return (
-    <iframe
-      className={"htmlrunner-iframe"}
-      title={"preview-sandbox"}
-      srcDoc={previewHtml ?? ""}
-    />
+    <div className="htmlrenderer-root">
+      <iframe
+        className="htmlrunner-iframe"
+        title="preview-sandbox"
+        srcDoc={previewHtml ?? ""}
+      />
+    </div>
   );
 }
 
