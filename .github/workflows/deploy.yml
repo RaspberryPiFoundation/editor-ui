@@ -64,7 +64,7 @@ on:
         type: string
       react_app_allowed_iframe_origins:
         required: false
-        default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org"
+        default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org,https://test-editor.raspberrypi.org"
         type: string
 
     secrets:
