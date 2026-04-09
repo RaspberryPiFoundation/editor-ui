@@ -167,7 +167,7 @@ export function HtmlRenderer() {
       message?.type === MSG_HTML_PREVIEW_EVENT &&
       !!iframeHostOrigin.current
     ) {
-      // Forward events originating from the previewed code back to the host
+      // Forward events originating from the previewed code back to the host.
       window.parent.postMessage(message, iframeHostOrigin.current);
     }
   };
@@ -186,14 +186,12 @@ export function HtmlRenderer() {
     };
   }, [handlePreviewUpdateFromHost]);
 
-  return previewHtml ? (
+  return (
     <iframe
       className={"htmlrunner-iframe"}
       title={"preview-sandbox"}
-      srcDoc={previewHtml}
+      srcDoc={previewHtml ?? ""}
     />
-  ) : (
-    <></>
   );
 }
 

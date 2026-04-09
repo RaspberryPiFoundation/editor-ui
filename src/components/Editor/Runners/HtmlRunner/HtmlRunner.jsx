@@ -100,18 +100,6 @@ function HtmlRunner() {
     handleExternalLinkError,
   } = useExternalLinkState(showModal);
 
-  const getFilename = (iframe) => {
-    let filename;
-    if (iframe) {
-      filename = iframe.querySelectorAll("meta[filename]")[0]
-        ? iframe.querySelectorAll("meta[filename]")[0].getAttribute("filename")
-        : externalLink;
-    } else {
-      filename = externalLink;
-    }
-    return filename;
-  };
-
   const eventListener = () => {
     window.addEventListener("message", (event) => {
       if (event.data?.type === MSG_HTML_PREVIEW_EVENT) {
@@ -133,29 +121,6 @@ function HtmlRunner() {
         }
       }
     });
-  };
-
-  const iframeReload = () => {
-    const iframe = output.current.contentDocument;
-    let filename = getFilename(iframe);
-
-    if (runningFile !== filename) {
-      setRunningFile(filename);
-    }
-
-    if (iframe) {
-      const linkElement = iframe.querySelector("a");
-
-      if (linkElement) {
-        linkElement.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          output.current.contentDocument.href =
-            linkElement.getAttribute("href");
-        });
-      }
-    }
-    setExternalLink(null);
   };
 
   useEffect(() => {
@@ -228,8 +193,6 @@ function HtmlRunner() {
 
     if (!externalLink) {
       const indexPage = parse(focussedComponent(previewFile).content);
-      const body = indexPage.querySelector("body") || indexPage;
-      body.appendChild(parse(`<meta filename="${previewFile}" />`));
 
       output.current.contentWindow.postMessage(
         {
@@ -286,7 +249,9 @@ function HtmlRunner() {
               title={t("runners.HtmlOutput")}
               ref={output}
               src={`${process.env.HTML_RENDERER_URL}/index.html`}
-              onLoad={iframeReload}
+              onLoad={() => {
+                setExternalLink(null);
+              }}
             />
           </TabPanel>
         </Tabs>
