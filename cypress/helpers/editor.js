@@ -65,9 +65,6 @@ export const getErrorMessage = () =>
 export const getTextOutputTab = () =>
   getPyodideOutput().findByLabelText("Text output");
 
-export const getVisualOutputTab = () =>
-  getPyodideOutput().contains(".react-tabs__tab", "Visual output");
-
 export const getSkulptSelectedTab = () =>
   getSkulptRunner().find(".react-tabs__tab--selected");
 
@@ -147,7 +144,7 @@ export const expectHtmlRunnerPreviewToNotContainText = (text) =>
   getHtmlRunnerBody().should("not.contain.text", text);
 
 export const expectErrorModalToNotExist = () =>
-  getEditorShadow().contains("An error has occurred").should("not.exist");
+  getEditorShadow().find("An error has occurred").should("not.exist");
 
 // Flows
 

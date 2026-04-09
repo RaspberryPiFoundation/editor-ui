@@ -37,7 +37,7 @@ describe("default behaviour", () => {
   });
 
   it("does not render visual output tab on page load", () => {
-    getEditorShadow().contains("Visual output").should("not.exist");
+    getEditorShadow().should("not.contain.text", "Visual output");
   });
 
   it("shows text size in settings for standard editor projects", () => {
@@ -125,13 +125,14 @@ describe("when embedded, output_only & output_split_view are true", () => {
     getRunButton().should("be.visible");
 
     // Check that the side bar is not displayed
-    getEditorShadow().contains("Project files").should("not.exist");
+    getEditorShadow().should("not.contain.text", "Project files");
     // Check that the project bar is not displayed
-    getEditorShadow().contains("Don't Collide: Clean Car").should("not.exist");
+    getEditorShadow().should("not.contain.text", "Don't Collide: Clean Car");
     // Check that the editor input containing the code is not displayed
-    getEditorShadow()
-      .contains("# The draw_obstacle function goes here")
-      .should("not.exist");
+    getEditorShadow().should(
+      "not.contain.text",
+      "# The draw_obstacle function goes here",
+    );
 
     // Run the code and check it executed without error
     runProject();
@@ -155,15 +156,11 @@ describe("when embedded, output_only & output_split_view are true", () => {
     expectHtmlRunnerPreviewToContainText("Draw anime with me");
 
     // Check that the side bar is not displayed
-    getEditorShadow().contains("Project files").should("not.exist");
+    getEditorShadow().should("not.contain.text", "Project files");
     // Check that the project bar is not displayed
-    getEditorShadow()
-      .contains("Anime expressions solution")
-      .should("not.exist");
+    getEditorShadow().should("not.contain.text", "Anime expressions solution");
     // Check that the editor input containing the code is not displayed
-    getEditorShadow()
-      .contains("<h1>Draw anime with me</h1>")
-      .should("not.exist");
+    getEditorShadow().should("not.contain.text", "<h1>Draw anime with me</h1>");
 
     // Run the code and check it executed without error
     runProject();
