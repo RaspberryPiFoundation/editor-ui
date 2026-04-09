@@ -228,7 +228,12 @@ const WebComponentLoader = (props) => {
         {hostStyles && <style>{hostStyles}</style>}
         <Style>
           {internalStyles.toString()}
-          <div id="wc" className={`--${cookies.theme || themeDefault}`}>
+          <div
+            id="wc"
+            className={`--${cookies.theme || themeDefault}${
+              useEditorStyles ? " --use-editor-styles" : ""
+            }`}
+          >
             <ToastContainer
               {...TOAST_CONTAINER_DEFAULTS}
               enableMultiContainer
