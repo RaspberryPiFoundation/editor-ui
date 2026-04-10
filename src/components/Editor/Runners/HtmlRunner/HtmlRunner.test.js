@@ -2,6 +2,7 @@ import configureStore from "redux-mock-store";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
+import { parse as parseHtml } from "node-html-parser";
 import HtmlRunner from "./HtmlRunner";
 import { triggerCodeRun } from "../../../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
@@ -16,6 +17,14 @@ jest.mock("react-responsive", () => ({
   ...jest.requireActual("react-responsive"),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
+
+jest.mock("node-html-parser", () => {
+  const actual = jest.requireActual("node-html-parser");
+  return {
+    ...actual,
+    parse: jest.fn((...args) => actual.parse(...args)),
+  };
+});
 
 const indexPage = {
   name: "index",
@@ -95,7 +104,7 @@ describe("When focussed on another HTML file", () => {
   });
 
   test("Does not show page related to focussed file", () => {
-    // expect(Blob).not.toHaveBeenCalled();
+    expect(parseHtml).not.toHaveBeenCalled();
   });
 });
 
