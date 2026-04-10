@@ -141,7 +141,6 @@ export function HtmlRenderer() {
         if (!iframeHostOrigin.current) {
           // Record the host's origin, so we can use it as a target for future messages.
           iframeHostOrigin.current = event.origin;
-          console.log("iframeHostOrigin: " + iframeHostOrigin.current);
         }
 
         const transformedHtml = parse(message.current);
