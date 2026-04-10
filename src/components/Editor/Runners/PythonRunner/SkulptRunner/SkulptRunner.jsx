@@ -25,6 +25,7 @@ import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import { getPythonImports } from "../../../../../utils/getPythonImports";
+import { configureTurtleGraphics } from "../../../../../utils/configureTurtleGraphics";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -416,17 +417,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       host?.shadowRoot?.getElementById("turtleOutput") ||
       document.getElementById("turtleOutput");
 
-    if (turtleOutputElement) {
-      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
-        turtleOutputElement;
-      const projectImages = project.image_list || [];
-      Sk.TurtleGraphics.assets = Object.assign(
-        {},
-        ...projectImages.map((image) => ({
-          [`${image.name}.${image.extension}`]: image.url,
-        })),
-      );
-    }
+    configureTurtleGraphics({
+      targetEl: turtleOutputElement,
+      projectImages: project.image_list || [],
+    });
 
     var prog = mainComponent?.content || "";
 
