@@ -1,13 +1,17 @@
 import configureStore from "redux-mock-store";
-import { render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { parse as parseHtml } from "node-html-parser";
 import HtmlRunner from "./HtmlRunner";
-import { triggerCodeRun } from "../../../../redux/EditorSlice";
+import { codeRunHandled, triggerCodeRun } from "../../../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
+import {
+  MSG_HTML_PREVIEW_READY,
+  MSG_HTML_PROJECT_UPDATE,
+} from "../../../../utils/iframeUtils";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -239,13 +243,11 @@ describe("When page does not exist", () => {
   });
 });
 
-describe("When on desktop", () => {
+describe("When run is triggered", () => {
   let store;
+  let mockPostMessageFn;
 
   beforeEach(() => {
-    setMedia({
-      width: "1000px",
-    });
     const middlewares = [];
     const mockStore = configureStore(middlewares);
     const initialState = {
@@ -261,6 +263,11 @@ describe("When on desktop", () => {
       },
     };
     store = mockStore(initialState);
+
+    parseHtml.mockImplementation((...args) =>
+      jest.requireActual("node-html-parser").parse(...args),
+    );
+
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -270,84 +277,153 @@ describe("When on desktop", () => {
         </MemoryRouter>
       </Provider>,
     );
+
+    const iframe = screen.getByTitle("runners.HtmlOutput");
+    mockPostMessageFn = jest
+      .spyOn(iframe.contentWindow, "postMessage")
+      .mockImplementation(() => {});
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          data: { type: MSG_HTML_PREVIEW_READY },
+        }),
+      );
+    });
   });
 
-  test("There is no run button", () => {
-    expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+  afterEach(() => {
+    mockPostMessageFn.mockRestore();
   });
-});
 
-describe("When not embedded", () => {
-  let store;
+  test("Sends HTML code for current file to renderer", async () => {
+    await waitFor(() => {
+      expect(mockPostMessageFn).toHaveBeenCalled();
+    });
+    const payload = mockPostMessageFn.mock.calls[0][0];
+    expect(payload.type).toEqual(MSG_HTML_PROJECT_UPDATE);
+    expect(payload.current).toContain("<p>hello world</p>");
+  });
 
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage],
+  test("Dispatches action to end code run", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([codeRunHandled()]),
+    );
+  });
+
+  describe("When on desktop", () => {
+    let store;
+
+    beforeEach(() => {
+      cleanup();
+      setMedia({
+        width: "1000px",
+      });
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeRunTriggered: true,
+          codeHasBeenRun: true,
+          errorModalShowing: false,
         },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeHasBeenRun: true,
-        isEmbedded: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("displays link to open preview in another browser tab", () => {
-    expect(screen.queryByText("output.newTab")).toBeInTheDocument();
-  });
-});
-
-describe("When on mobile but not embedded", () => {
-  let store;
-
-  beforeEach(() => {
-    setMedia({
-      width: MOBILE_BREAKPOINT,
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
     });
 
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeHasBeenRun: true,
-        isEmbedded: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
+    test("There is no run button", () => {
+      expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+    });
   });
 
-  test("Has run button in tab bar", () => {
-    const runButton =
-      screen.getByText("runButton.run").parentElement.parentElement;
-    const runButtonContainer = runButton.parentElement.parentElement;
-    expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+  describe("When not embedded", () => {
+    let store;
+
+    beforeEach(() => {
+      cleanup();
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeHasBeenRun: true,
+          isEmbedded: false,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
+
+    test("displays link to open preview in another browser tab", () => {
+      expect(screen.queryByText("output.newTab")).toBeInTheDocument();
+    });
+  });
+
+  describe("When on mobile but not embedded", () => {
+    let store;
+
+    beforeEach(() => {
+      cleanup();
+      setMedia({
+        width: MOBILE_BREAKPOINT,
+      });
+
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeHasBeenRun: true,
+          isEmbedded: false,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
+
+    test("Has run button in tab bar", () => {
+      const runButton =
+        screen.getByText("runButton.run").parentElement.parentElement;
+      const runButtonContainer = runButton.parentElement.parentElement;
+      expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+    });
   });
 });
