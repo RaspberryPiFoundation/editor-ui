@@ -35,9 +35,10 @@ export const validateFileName = (
   callback,
   currentFileName = null,
 ) => {
-  const extension = fileName.split(".").slice(1).join(".");
   const parts = fileName.split(".");
+  const extension = parts.slice(1).join(".");
   const baseName = parts[0];
+
   if (
     isValidFileName(fileName, projectType, componentNames) ||
     (currentFileName && fileName === currentFileName)
