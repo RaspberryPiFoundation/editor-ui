@@ -80,4 +80,5 @@ jobs:
             --base "$BASE_BRANCH" \
             --head "$HEAD_BRANCH" \
             --title "$PR_TITLE" \
-            --body "$PR_BODY"
+            --body "$PR_BODY" \
+            --draft
