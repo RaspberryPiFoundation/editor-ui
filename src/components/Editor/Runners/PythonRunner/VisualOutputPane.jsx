@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import { codeRunHandled, setError } from "../../../../redux/EditorSlice";
+import { configureTurtleGraphics } from "../../../../utils/configureTurtleGraphics";
 
 const VisualOutputPane = () => {
   const codeRunTriggered = useSelector(
@@ -43,14 +44,10 @@ const VisualOutputPane = () => {
 
       (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;
 
-      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
-        turtleOutput.current;
-      Sk.TurtleGraphics.assets = Object.assign(
-        {},
-        ...projectImages.map((image) => ({
-          [`${image.name}.${image.extension}`]: image.url,
-        })),
-      );
+      configureTurtleGraphics({
+        targetEl: turtleOutput.current,
+        projectImages,
+      });
     }
   }, [codeRunTriggered, projectImages]);
 
