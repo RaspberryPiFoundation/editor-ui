@@ -9,8 +9,12 @@ const allowedExtensions = {
 const reservedFileNames = ["INSTRUCTIONS.md"];
 
 const isValidFileName = (fileName, projectType, componentNames) => {
-  const extension = fileName.split(".").slice(1).join(".");
+  const parts = fileName.split(".");
+  const extension = parts.slice(1).join(".");
+  const baseName = parts[0];
+
   if (
+    baseName.length > 0 &&
     !reservedFileNames.includes(fileName) &&
     allowedExtensions[projectType].includes(extension) &&
     !componentNames.includes(fileName) &&
@@ -31,7 +35,10 @@ export const validateFileName = (
   callback,
   currentFileName = null,
 ) => {
-  const extension = fileName.split(".").slice(1).join(".");
+  const parts = fileName.split(".");
+  const extension = parts.slice(1).join(".");
+  const baseName = parts[0];
+
   if (
     isValidFileName(fileName, projectType, componentNames) ||
     (currentFileName && fileName === currentFileName)
@@ -57,6 +64,8 @@ export const validateFileName = (
         }),
       ),
     );
+  } else if (baseName.length === 0) {
+    dispatch(setNameError(t("filePanel.errors.emptyFileName")));
   } else {
     dispatch(setNameError(t("filePanel.errors.generalError")));
   }
