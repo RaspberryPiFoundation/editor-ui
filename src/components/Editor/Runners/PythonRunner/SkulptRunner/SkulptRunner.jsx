@@ -409,6 +409,25 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
     dispatch(setSenseHatEnabled(false));
 
+    // runCode runs from the current runner's useEffect before VisualOutputPane’s useEffect
+    // so Sk.TurtleGraphics.target / assets are set here so they exist before import
+    const host = document.querySelector("editor-wc");
+    const turtleOutputElement =
+      host?.shadowRoot?.getElementById("turtleOutput") ||
+      document.getElementById("turtleOutput");
+
+    if (turtleOutputElement) {
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target =
+        turtleOutputElement;
+      const projectImages = project.image_list || [];
+      Sk.TurtleGraphics.assets = Object.assign(
+        {},
+        ...projectImages.map((image) => ({
+          [`${image.name}.${image.extension}`]: image.url,
+        })),
+      );
+    }
+
     var prog = mainComponent?.content || "";
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
