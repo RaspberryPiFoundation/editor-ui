@@ -38,7 +38,7 @@ module.exports = function (proxy, _allowedHost) {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization, Baggage, sentry-trace",
+        "X-Requested-With, content-type, Authorization, X-Project-ID, Baggage, sentry-trace",
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
     },

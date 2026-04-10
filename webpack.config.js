@@ -149,7 +149,7 @@ const mainConfig = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
+        "X-Requested-With, content-type, Authorization, X-Project-ID",
       // Pyodide - required for input and code interruption - needed on the host app
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
