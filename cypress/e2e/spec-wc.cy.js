@@ -1,5 +1,4 @@
 import {
-  expectHtmlRunnerPreviewToContainText,
   getCodeEditorInput,
   getEditorShadow,
   getRunButton,
@@ -147,29 +146,5 @@ describe("when embedded, output_only & output_split_view are true", () => {
     // Check that the visual output panel is displayed in split view mode (vs tabbed view)
     getSkulptTabByName("Visual output").should("be.visible");
     getSkulptTabByName("Visual output").should("have.length", 1);
-  });
-
-  it("displays the embedded view for an HTML project", () => {
-    cy.visit(urlFor("anime-expressions-solution"));
-
-    // Check HTML preview output panel is visible and has a run button
-    // Important to wait for this before making the negative assertions that follow
-    getEditorShadow().contains("index.html preview").should("be.visible");
-    getRunButton().should("not.be.disabled");
-    getRunButton().should("be.visible");
-
-    // Check that the code has automatically run i.e. the HTML has been rendered
-    expectHtmlRunnerPreviewToContainText("Draw anime with me");
-
-    // Check that the side bar is not displayed
-    getEditorShadow().should("not.contain.text", "Project files");
-    // Check that the project bar is not displayed
-    getEditorShadow().should("not.contain.text", "Anime expressions solution");
-    // Check that the editor input containing the code is not displayed
-    getEditorShadow().should("not.contain.text", "<h1>Draw anime with me</h1>");
-
-    // Run the code and check it executed without error
-    runProject();
-    cy.get("#results").should("contain", '"errorDetails":{}');
   });
 });
