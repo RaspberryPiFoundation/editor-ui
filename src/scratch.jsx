@@ -6,6 +6,7 @@ import { compose } from "redux";
 import GUI, { AppStateHOC } from "@scratch/scratch-gui";
 import ScratchIntegrationHOC from "./components/ScratchEditor/ScratchIntegrationHOC.jsx";
 import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
+import scratchProjectSave from "./utils/scratchProjectSave.js";
 
 import ScratchStyles from "./assets/stylesheets/Scratch.scss";
 
@@ -80,6 +81,7 @@ if (!projectId) {
     requiresAuth: false,
     latestAccessToken: null,
   };
+  let scratchFetchApi = null;
 
   const getTimeoutMessage = (handshake) =>
     handshake.requiresAuth && !handshake.latestAccessToken
@@ -91,6 +93,16 @@ if (!projectId) {
     event.origin === allowedParentOrigin &&
     event.data?.type === "scratch-gui-set-token" &&
     event.data?.nonce === nonce;
+
+  const handleUpdateProjectData = async (currentProjectId, vmState, params) => {
+    return scratchProjectSave({
+      scratchFetchApi,
+      apiUrl,
+      currentProjectId,
+      vmState,
+      params,
+    });
+  };
 
   const mountGui = (accessToken) => {
     if (isMounted) return;
@@ -108,10 +120,12 @@ if (!projectId) {
           assetHost={`${apiUrl}/api/scratch/assets`}
           basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
           onStorageInit={(storage) => {
+            scratchFetchApi = storage.scratchFetch;
             if (accessToken) {
-              storage.scratchFetch.setMetadata("Authorization", accessToken);
+              scratchFetchApi.setMetadata("Authorization", accessToken);
             }
           }}
+          onUpdateProjectData={handleUpdateProjectData}
           onUpdateProjectId={handleUpdateProjectId}
           onShowCreatingRemixAlert={handleRemixingStarted}
           onShowRemixSuccessAlert={handleRemixingSucceeded}
