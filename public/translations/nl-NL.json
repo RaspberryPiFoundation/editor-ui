@@ -24,7 +24,8 @@
       "generalError": "Fout",
       "notUnique": "Bestandsnamen moeten uniek zijn.",
       "or": "of",
-      "unsupportedExtension": "Bestandsnamen moeten eindigen op {{allowedExtensions}}."
+      "unsupportedExtension": "Bestandsnamen moeten eindigen op {{allowedExtensions}}.",
+      "emptyFileName": "File name cannot be empty."
     },
     "files": "Projectbestanden",
     "images": "Afbeeldingengalerij",
