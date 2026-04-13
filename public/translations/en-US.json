@@ -24,7 +24,8 @@
       "generalError": "Error",
       "notUnique": "File names must be unique.",
       "or": "or",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}."
+      "unsupportedExtension": "File names must end in {{allowedExtensions}}.",
+      "emptyFileName": "File name cannot be empty."
     },
     "files": "Project files",
     "images": "Image gallery",
