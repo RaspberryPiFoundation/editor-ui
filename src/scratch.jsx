@@ -35,7 +35,12 @@ const postScratchGuiEvent = (type, payload = {}) => {
   window.parent.postMessage({ type, ...payload }, allowedParentOrigin);
 };
 
+let scratchProjectId = projectId;
+let setScratchProjectMetadata = () => {};
+
 const handleUpdateProjectId = (updatedProjectId) => {
+  scratchProjectId = updatedProjectId;
+  setScratchProjectMetadata();
   postScratchGuiEvent("scratch-gui-project-id-updated", {
     projectId: updatedProjectId,
   });
@@ -88,6 +93,15 @@ if (!projectId) {
       ? "[scratch iframe] auth required but access token missing before timeout"
       : "[scratch iframe] no scratch-gui-set-token message received before timeout";
 
+  setScratchProjectMetadata = () => {
+    if (!scratchFetchApi?.setMetadata) return;
+
+    const projectIdHeader =
+      scratchFetchApi.RequestMetadata?.ProjectId || "X-Project-ID";
+
+    scratchFetchApi.setMetadata(projectIdHeader, scratchProjectId);
+  };
+
   const isValidScratchSetTokenMessage = (event) =>
     event.source === window.parent &&
     event.origin === allowedParentOrigin &&
@@ -121,6 +135,7 @@ if (!projectId) {
           basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
           onStorageInit={(storage) => {
             scratchFetchApi = storage.scratchFetch;
+            setScratchProjectMetadata();
             if (accessToken) {
               scratchFetchApi.setMetadata("Authorization", accessToken);
             }
