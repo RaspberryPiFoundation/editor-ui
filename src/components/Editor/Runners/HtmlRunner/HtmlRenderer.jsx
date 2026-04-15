@@ -6,7 +6,7 @@ import {
   allowedInternalLinks,
   matchingRegexes,
 } from "../../../../utils/externalLinkHelper";
-import "../../../../assets/stylesheets/HtmlRunner.scss";
+import htmlRunnerStyles from "../../../../assets/stylesheets/HtmlRunner.scss";
 import {
   allowedIframeHost,
   MSG_HTML_PREVIEW_EVENT,
@@ -186,13 +186,16 @@ export function HtmlRenderer() {
   }, [handlePreviewUpdateFromHost]);
 
   return (
-    <div className="htmlrenderer-root">
-      <iframe
-        className="htmlrunner-iframe"
-        title="preview-sandbox"
-        srcDoc={previewHtml ?? ""}
-      />
-    </div>
+    <>
+      <style>{htmlRunnerStyles.toString()}</style>
+      <div className="htmlrenderer-root">
+        <iframe
+          className="htmlrunner-iframe"
+          title="preview-sandbox"
+          srcDoc={previewHtml ?? ""}
+        />
+      </div>
+    </>
   );
 }
 

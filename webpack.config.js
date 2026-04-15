@@ -105,6 +105,7 @@ const mainConfig = {
   entry: {
     "web-component": path.resolve(__dirname, "./src/web-component.js"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
+    "html-renderer": path.resolve(__dirname, "./src/html-renderer.jsx"),
   },
   module: { rules: moduleRules },
   resolve: {
@@ -183,6 +184,12 @@ const mainConfig = {
       template: "src/web-component.html",
       filename: "web-component.html",
       chunks: ["web-component"],
+    }),
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/index-html-renderer.html",
+      filename: "html-renderer.html",
+      chunks: ["html-renderer"],
     }),
     new CopyWebpackPlugin({
       patterns: [

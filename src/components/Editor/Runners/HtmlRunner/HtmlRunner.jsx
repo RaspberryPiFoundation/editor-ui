@@ -252,7 +252,7 @@ function HtmlRunner() {
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}
-              src={`${process.env.HTML_RENDERER_URL}/index.html`}
+              src={`${process.env.HTML_RENDERER_URL}/html-renderer.html`}
               onLoad={() => {
                 setExternalLink(null);
               }}
