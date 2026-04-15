@@ -99,7 +99,7 @@ jobs:
           deploy_dir=${{inputs.prefix}}/$safe_ref_name
           public_url=${{inputs.base_url}}/$deploy_dir
           assets_url=${{inputs.assets_url}}/$deploy_dir
-          html_renderer_url=${{inputs.html_renderer_url}}/$deploy_dir/html-renderer
+          html_renderer_url=${{inputs.html_renderer_url}}/$deploy_dir
           echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
           echo "public_url=$public_url" >> $GITHUB_OUTPUT
           echo "assets_url=$assets_url" >> $GITHUB_OUTPUT
@@ -141,7 +141,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build WC bundle
+      - name: Build WC and HTML renderer bundles
         run: yarn build
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
@@ -159,18 +159,11 @@ jobs:
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
           REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
 
-      - name: Build HTML renderer bundle
-        run: yarn build-html-renderer
-        env:
-          HTML_RENDERER_URL: ${{ needs.setup-environment.outputs.html_renderer_url }}
-          REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
-
       - name: Deploy site to S3 bucket
         if: env.AWS_SECRET_ACCESS_KEY != ''
         run: |
           aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }} --progress-frequency 5
           aws s3 sync ./build/chunks/ s3://${{ secrets.AWS_S3_BUCKET }}/chunks/ --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*" --include "fetch-worker*" --progress-frequency 5
-          aws s3 sync ./build-html-renderer/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }}/html-renderer/ --endpoint ${{ secrets.AWS_ENDPOINT }} --progress-frequency 5
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -193,7 +186,7 @@ jobs:
             curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               -H "Content-Type: application/json" \
-              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version", "${{ needs.setup-environment.outputs.html_renderer_url}}/index.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.js"]}'
+              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.js"]}'
           )" || {
             echo "Cloudflare purge request failed:"
             echo "$response"
