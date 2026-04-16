@@ -1,14 +1,41 @@
 const path = require("path");
+const dotenv = require("dotenv");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
+const isDev = process.env.NODE_ENV !== "production";
+
+const toOrigin = (value) => {
+  if (!value) return "";
+  try {
+    const normalizedValue = String(value)
+      .trim()
+      .replace(/^['"]|['"]$/g, "");
+    return new URL(normalizedValue).origin;
+  } catch (_) {
+    return "";
+  }
+};
+
+const cspApiOrigin = toOrigin(process.env.REACT_APP_API_ENDPOINT);
+const cspAssetOrigin = toOrigin(process.env.ASSETS_URL);
+
+// When present these will override the use of cspApiOrigin
+// This exists to support the use of https://staging-editor-static.raspberrypi.org by the test environment
+const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
+  .split(/\s+/)
+  .map(toOrigin)
+  .filter(Boolean)
+  .join(" ");
 
 const scratchStaticDir = path.resolve(
   __dirname,
@@ -237,6 +264,10 @@ const scratchConfig = {
       chunks: ["scratch"],
       templateParameters: {
         publicUrl: publicUrl,
+        cspApiOrigin,
+        cspApiMultipleOrigins,
+        cspAssetOrigin,
+        isDev,
       },
     }),
     new CopyWebpackPlugin({
