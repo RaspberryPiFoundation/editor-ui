@@ -26,7 +26,8 @@
       "generalError": "Помилка",
       "notUnique": "Імена файлів мають бути унікальними.",
       "or": "або",
-      "unsupportedExtension": "Імена файлів мають закінчуватися на {{allowedExtensions}}."
+      "unsupportedExtension": "Імена файлів мають закінчуватися на {{allowedExtensions}}.",
+      "emptyFileName": "File name cannot be empty."
     },
     "files": "Файли проєкту",
     "images": "Галерея зображень",
