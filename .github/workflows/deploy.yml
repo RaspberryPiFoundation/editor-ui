@@ -178,6 +178,10 @@ jobs:
           fi
 
           echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: Purge Cloudflare cache
         if: env.HAS_CLOUDFLARE_SECRETS == 'true'
