@@ -13,7 +13,7 @@
         style-src 'self' 'unsafe-inline';
         worker-src 'self' blob:;
         child-src 'self' blob:;
-        connect-src 'self' <%= cspApiMultipleOrigins || cspApiOrigin %> <%= cspAssetOrigin %>;
+        connect-src 'self' <%= cspApiMultipleOrigins || cspApiOrigin %> <%= cspAssetOrigin %> <%= isDev ? "ws: wss:" : "" %>;
         img-src 'self' data: blob: <%= cspAssetOrigin %>;
         media-src 'self' blob: <%= cspAssetOrigin %>;
         font-src 'self' data: <%= cspAssetOrigin %>;

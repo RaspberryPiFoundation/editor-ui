@@ -14,26 +14,37 @@ if (!publicUrl.endsWith("/")) {
 }
 const isDev = process.env.NODE_ENV !== "production";
 
-const toOrigin = (value) => {
-  if (!value) return "";
+const toOrigin = (envVarName, value) => {
+  const normalizedValue = String(value || "")
+    .trim()
+    .replace(/^['"]|['"]$/g, "");
+
+  if (!normalizedValue) return "";
+
   try {
-    const normalizedValue = String(value)
-      .trim()
-      .replace(/^['"]|['"]$/g, "");
     return new URL(normalizedValue).origin;
   } catch (_) {
-    return "";
+    throw new Error(
+      `Invalid URL in ${envVarName}: "${value}". ` +
+        `Expected an absolute URL, for example "https://example.com".`,
+    );
   }
 };
 
-const cspApiOrigin = toOrigin(process.env.REACT_APP_API_ENDPOINT);
-const cspAssetOrigin = toOrigin(process.env.ASSETS_URL);
+const cspApiOrigin = toOrigin(
+  "REACT_APP_API_ENDPOINT",
+  process.env.REACT_APP_API_ENDPOINT,
+);
+const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
 
-// When present these will override the use of cspApiOrigin
-// This exists to support the use of https://staging-editor-static.raspberrypi.org by the test environment
+// When present these override cspApiOrigin for CSP API/connect-src origins.
+// This supports staging setups that need to allow multiple API origins,
+// such as also reaching the test API.
 const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
-  .split(/\s+/)
-  .map(toOrigin)
+  .split(/[\s,]+/)
+  .map((originValue, index) =>
+    toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
+  )
   .filter(Boolean)
   .join(" ");
 
