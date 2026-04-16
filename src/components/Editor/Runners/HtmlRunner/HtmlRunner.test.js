@@ -1,12 +1,17 @@
 import configureStore from "redux-mock-store";
-import { render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
+import { parse as parseHtml } from "node-html-parser";
 import HtmlRunner from "./HtmlRunner";
 import { codeRunHandled, triggerCodeRun } from "../../../../redux/EditorSlice";
 import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
+import {
+  MSG_HTML_PREVIEW_READY,
+  MSG_HTML_PROJECT_UPDATE,
+} from "../../../../utils/iframeUtils";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -17,6 +22,14 @@ jest.mock("react-responsive", () => ({
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 
+jest.mock("node-html-parser", () => {
+  const actual = jest.requireActual("node-html-parser");
+  return {
+    ...actual,
+    parse: jest.fn((...args) => actual.parse(...args)),
+  };
+});
+
 const indexPage = {
   name: "index",
   extension: "html",
@@ -26,18 +39,6 @@ const anotherHTMLPage = {
   name: "amazing",
   extension: "html",
   content: "<head></head><body><p>My amazing page</p></body>",
-};
-const internalLinkHTMLPage = {
-  name: "internal_link",
-  extension: "html",
-  content: '<head></head><body><a href="test.html">ANCHOR LINK!</a></body>',
-};
-
-const allowedExternalLink = {
-  name: "allowed_external_link",
-  extension: "html",
-  content:
-    '<head></head><body><a href="https://rpf.io/seefood">RPF link</a></body>',
 };
 
 describe("When page first loaded", () => {
@@ -107,7 +108,7 @@ describe("When focussed on another HTML file", () => {
   });
 
   test("Does not show page related to focussed file", () => {
-    expect(Blob).not.toHaveBeenCalled();
+    expect(parseHtml).not.toHaveBeenCalled();
   });
 });
 
@@ -244,6 +245,7 @@ describe("When page does not exist", () => {
 
 describe("When run is triggered", () => {
   let store;
+  let mockPostMessageFn;
 
   beforeEach(() => {
     const middlewares = [];
@@ -261,6 +263,11 @@ describe("When run is triggered", () => {
       },
     };
     store = mockStore(initialState);
+
+    parseHtml.mockImplementation((...args) =>
+      jest.requireActual("node-html-parser").parse(...args),
+    );
+
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -270,13 +277,32 @@ describe("When run is triggered", () => {
         </MemoryRouter>
       </Provider>,
     );
+
+    const iframe = screen.getByTitle("runners.HtmlOutput");
+    mockPostMessageFn = jest
+      .spyOn(iframe.contentWindow, "postMessage")
+      .mockImplementation(() => {});
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          data: { type: MSG_HTML_PREVIEW_READY },
+        }),
+      );
+    });
   });
 
-  test("Runs HTML code and adds meta tag", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
+  afterEach(() => {
+    mockPostMessageFn.mockRestore();
+  });
 
-    expect(generatedHtml).toContain("<p>hello world</p>");
-    expect(generatedHtml).toContain('<meta filename="index.html"');
+  test("Sends HTML code for current file to renderer", async () => {
+    await waitFor(() => {
+      expect(mockPostMessageFn).toHaveBeenCalled();
+    });
+    const payload = mockPostMessageFn.mock.calls[0][0];
+    expect(payload.type).toEqual(MSG_HTML_PROJECT_UPDATE);
+    expect(payload.current).toContain("<p>hello world</p>");
   });
 
   test("Dispatches action to end code run", () => {
@@ -285,416 +311,119 @@ describe("When run is triggered", () => {
     );
   });
 
-  test("Includes localStorage disabling script for disallowed keys in the iframe", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
+  describe("When on desktop", () => {
+    let store;
 
-    expect(generatedHtml).toContain("<script>");
-    expect(generatedHtml).toContain("const isBlocked = (key) =>");
-    expect(generatedHtml).toContain(
-      'typeof key === "string" && (key === "authKey" || key.startsWith("oidc."));',
-    );
-    expect(generatedHtml).toContain(
-      'Object.defineProperty(host, "localStorage"',
-    );
-    expect(generatedHtml).toContain("getItem(key) {");
-    expect(generatedHtml).toContain(
-      "return isBlocked(key) ? null : storage.getItem(key);",
-    );
-    expect(generatedHtml).toContain(
-      "[window, window.parent, window.top, document.defaultView].forEach(apply);",
-    );
-    expect(generatedHtml).toContain("</script>");
-  });
-
-  test("Includes localSession disabling script to prevent all access to the session object", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
-
-    expect(generatedHtml).toContain("<script>");
-    expect(generatedHtml).toContain(
-      'Object.defineProperty(host, "sessionStorage"',
-    );
-    expect(generatedHtml).toContain("get: () => stub");
-    expect(generatedHtml).toContain("set: () => undefined");
-    expect(generatedHtml).toContain(
-      "[window, window.parent, window.top, document.defaultView].forEach(apply);",
-    );
-    expect(generatedHtml).toContain("</script>");
-  });
-});
-
-describe("When a non-permitted external link is rendered", () => {
-  let store;
-  const input =
-    '<head></head><body><a href="https://google.test/">EXTERNAL LINK!</a></body>';
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              name: "index",
-              extension: "html",
-              content: input,
-            },
-          ],
+    beforeEach(() => {
+      cleanup();
+      setMedia({
+        width: "1000px",
+      });
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeRunTriggered: true,
+          codeHasBeenRun: true,
+          errorModalShowing: false,
         },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("Transforms the external link and includes the meta tag", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
-
-    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
-    expect(generatedHtml).toContain(
-      "onclick=\"window.parent.postMessage({msg: 'ERROR: External link'})\"",
-    );
-    expect(generatedHtml).toContain("EXTERNAL LINK!");
-    expect(generatedHtml).toContain('<meta filename="index.html"');
-  });
-});
-
-describe("When a new tab link is rendered", () => {
-  let store;
-  const input =
-    '<head></head><body><a href="index.html" target="_blank">NEW TAB LINK!</a></body>';
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            indexPage,
-            {
-              name: "some_file",
-              extension: "html",
-              content: input,
-            },
-          ],
-        },
-        focussedFileIndices: [1],
-        openFiles: [["index.html", "some_file.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("Removes target attribute and adds onclick event", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
-
-    expect(generatedHtml).not.toContain('target="_blank"');
-    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
-    expect(generatedHtml).toContain(
-      "onclick=\"window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'index' }})\"",
-    );
-    expect(generatedHtml).toContain("NEW TAB LINK!");
-    expect(generatedHtml).toContain('<meta filename="some_file.html"');
-  });
-});
-
-describe("When an internal link is rendered", () => {
-  let store;
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            internalLinkHTMLPage,
-            {
-              name: "test",
-              extension: "html",
-              content: "<p>test file</p>",
-            },
-          ],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["internal_link.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("Transforms internal link and includes meta tag", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
-
-    expect(generatedHtml).toContain('<a href="javascript:void(0)"');
-    expect(generatedHtml).toContain(
-      "onclick=\"window.parent.postMessage({msg: 'RELOAD', payload: { linkTo: 'test' }})\"",
-    );
-    expect(generatedHtml).toContain("ANCHOR LINK!");
-    expect(generatedHtml).toContain('<meta filename="internal_link.html"');
-  });
-});
-
-describe("When an allowed external link is rendered", () => {
-  let store;
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [allowedExternalLink],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["allowed_external_link.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("Transforms allowed external link and includes meta tag", () => {
-    const [generatedHtml] = Blob.mock.calls[0][0];
-
-    expect(generatedHtml).toContain('<a href="https://rpf.io/seefood"');
-    expect(generatedHtml).toContain(
-      "onclick=\"window.parent.postMessage({msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }})\"",
-    );
-    expect(generatedHtml).toContain("RPF link");
-    expect(generatedHtml).toContain(
-      '<meta filename="allowed_external_link.html"',
-    );
-  });
-});
-
-describe("When media is rendered", () => {
-  const mediaHTML =
-    '<head></head><body><img src="image.jpeg" /><video src="video.mp4" /><audio src="audio.mp3" /></body>';
-  let generatedHtml;
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            { name: "index", extension: "html", content: mediaHTML },
-          ],
-          image_list: [
-            {
-              filename: "image.jpeg",
-              url: "https://example.com/image.jpeg",
-            },
-          ],
-          videos: [
-            {
-              filename: "video.mp4",
-              url: "https://example.com/video.mp4",
-            },
-          ],
-          audio: [
-            {
-              filename: "audio.mp3",
-              url: "https://example.com/audio.mp3",
-            },
-          ],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    const store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-    [generatedHtml] = Blob.mock.calls[0][0];
-  });
-
-  test("Transforms image sources", () => {
-    expect(generatedHtml).toContain(
-      '<img src="https://example.com/image.jpeg"',
-    );
-  });
-
-  test("Transforms video sources", () => {
-    expect(generatedHtml).toContain(
-      '<video src="https://example.com/video.mp4"',
-    );
-  });
-
-  test("Transforms audio sources", () => {
-    expect(generatedHtml).toContain(
-      '<audio src="https://example.com/audio.mp3"',
-    );
-  });
-});
-
-describe("When on desktop", () => {
-  let store;
-
-  beforeEach(() => {
-    setMedia({
-      width: "1000px",
-    });
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeRunTriggered: true,
-        codeHasBeenRun: true,
-        errorModalShowing: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("There is no run button", () => {
-    expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
-  });
-});
-
-describe("When not embedded", () => {
-  let store;
-
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeHasBeenRun: true,
-        isEmbedded: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
-
-  test("displays link to open preview in another browser tab", () => {
-    expect(screen.queryByText("output.newTab")).toBeInTheDocument();
-  });
-});
-
-describe("When on mobile but not embedded", () => {
-  let store;
-
-  beforeEach(() => {
-    setMedia({
-      width: MOBILE_BREAKPOINT,
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
     });
 
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [indexPage],
-        },
-        focussedFileIndices: [0],
-        openFiles: [["index.html"]],
-        codeHasBeenRun: true,
-        isEmbedded: false,
-      },
-    };
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <div id="app">
-            <HtmlRunner />
-          </div>
-        </MemoryRouter>
-      </Provider>,
-    );
+    test("There is no run button", () => {
+      expect(screen.queryByText("runButton.run")).not.toBeInTheDocument();
+    });
   });
 
-  test("Has run button in tab bar", () => {
-    const runButton =
-      screen.getByText("runButton.run").parentElement.parentElement;
-    const runButtonContainer = runButton.parentElement.parentElement;
-    expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+  describe("When not embedded", () => {
+    let store;
+
+    beforeEach(() => {
+      cleanup();
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeHasBeenRun: true,
+          isEmbedded: false,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
+
+    test("displays link to open preview in another browser tab", () => {
+      expect(screen.queryByText("output.newTab")).toBeInTheDocument();
+    });
+  });
+
+  describe("When on mobile but not embedded", () => {
+    let store;
+
+    beforeEach(() => {
+      cleanup();
+      setMedia({
+        width: MOBILE_BREAKPOINT,
+      });
+
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          project: {
+            components: [indexPage],
+          },
+          focussedFileIndices: [0],
+          openFiles: [["index.html"]],
+          codeHasBeenRun: true,
+          isEmbedded: false,
+        },
+      };
+      store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <div id="app">
+              <HtmlRunner />
+            </div>
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
+
+    test("Has run button in tab bar", () => {
+      const runButton =
+        screen.getByText("runButton.run").parentElement.parentElement;
+      const runButtonContainer = runButton.parentElement.parentElement;
+      expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
+    });
   });
 });

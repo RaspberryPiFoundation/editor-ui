@@ -100,4 +100,11 @@ describe("Testing the new file modal", () => {
     ];
     expect(store.getActions()).toEqual(expectedActions);
   });
+
+  test("Empty file name throws error", () => {
+    fireEvent.change(inputBox, { target: { value: ".py" } });
+    fireEvent.click(saveButton);
+    const expectedActions = [setNameError("filePanel.errors.emptyFileName")];
+    expect(store.getActions()).toEqual(expectedActions);
+  });
 });

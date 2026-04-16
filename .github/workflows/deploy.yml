@@ -18,6 +18,10 @@ on:
         required: false
         default: "https://staging-editor-static.raspberrypi.org"
         type: string
+      html_renderer_url:
+        required: false
+        default: "https://staging-editor-static.raspberrypi.org"
+        type: string
       react_app_api_endpoint:
         required: false
         default: "https://staging-editor-api.raspberrypi.org"
@@ -62,7 +66,7 @@ on:
         required: false
         default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org,https://test-editor.raspberrypi.org"
         type: string
-        
+
     secrets:
       AWS_ACCESS_KEY_ID:
         required: false
@@ -86,6 +90,7 @@ jobs:
       deploy_dir: ${{ steps.setup-environment.outputs.deploy_dir }}
       public_url: ${{ steps.setup-environment.outputs.public_url }}
       assets_url: ${{ steps.setup-environment.outputs.assets_url }}
+      html_renderer_url: ${{ steps.setup-environment.outputs.html_renderer_url }}
       react_app_base_url: ${{ steps.setup-environment.outputs.react_app_base_url }}
     steps:
       - id: setup-environment
@@ -94,9 +99,11 @@ jobs:
           deploy_dir=${{inputs.prefix}}/$safe_ref_name
           public_url=${{inputs.base_url}}/$deploy_dir
           assets_url=${{inputs.assets_url}}/$deploy_dir
+          html_renderer_url=${{inputs.html_renderer_url}}/$deploy_dir
           echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
           echo "public_url=$public_url" >> $GITHUB_OUTPUT
           echo "assets_url=$assets_url" >> $GITHUB_OUTPUT
+          echo "html_renderer_url=$html_renderer_url" >> $GITHUB_OUTPUT
           if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
             echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
           else
@@ -134,11 +141,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build WC bundle
+      - name: Build WC and HTML renderer bundles
         run: yarn build
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
           ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}
+          HTML_RENDERER_URL: ${{ needs.setup-environment.outputs.html_renderer_url }}
           REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
           REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}
           REACT_APP_AUTHENTICATION_URL: ${{ inputs.react_app_authentication_url }}
@@ -170,10 +178,6 @@ jobs:
           fi
 
           echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: Purge Cloudflare cache
         if: env.HAS_CLOUDFLARE_SECRETS == 'true'
@@ -182,7 +186,7 @@ jobs:
             curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               -H "Content-Type: application/json" \
-              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version"]}'
+              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.js"]}'
           )" || {
             echo "Cloudflare purge request failed:"
             echo "$response"
