@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 import FileMenu from "../../FileMenu/FileMenu";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import {
   openFile,
   setFocussedFileIndex,
@@ -51,14 +51,14 @@ const FilePanel = ({ isMobile }) => {
   const buttons = readOnly
     ? []
     : [
-        <DesignSystemButton
+        <Button
           key="new-file"
+          className="btn btn--primary"
           text={t("filePanel.newFileButton")}
-          textAways={true}
+          textAlways={true}
           icon={<PlusIcon />}
           onClick={openNewFileModal}
-          className="btn--primary"
-          fill={true}
+          fullWidth={true}
         />,
       ];
 
@@ -70,14 +70,13 @@ const FilePanel = ({ isMobile }) => {
     <SidebarPanel heading={t("filePanel.files")} buttons={buttons}>
       {project.components.map((file, i) => (
         <div className="files-list-item-wrapper" key={i}>
-          <DesignSystemButton
+          <Button
             className="files-list-item"
             onClick={() => openFileTab(`${file.name}.${file.extension}`)}
             text={`${file.name}.${file.extension}`}
             icon={<FileIcon ext={file.extension} />}
             type="tertiary"
-            textAlways
-            small
+            size="small"
           />
           {readOnly ||
           (file.name === "main" && file.extension === "py") ||
