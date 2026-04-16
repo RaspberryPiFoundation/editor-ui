@@ -130,6 +130,7 @@ jobs:
     with:
       base_url: https://editor-static.raspberrypi.org
       assets_url: https://editor-static.raspberrypi.org
+      html_renderer_url: https://editor-static.raspberrypi.org
       environment: production
       prefix: releases
       react_app_api_endpoint: https://editor-api.raspberrypi.org
