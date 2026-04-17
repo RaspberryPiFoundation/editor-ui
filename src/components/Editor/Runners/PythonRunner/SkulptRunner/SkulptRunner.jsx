@@ -65,6 +65,7 @@ const VISUAL_LIBRARIES = [
   "sense_hat",
   "turtle",
 ];
+let turtleGraphicsTargetRef = null;
 
 const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
@@ -87,6 +88,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const senseHatAlwaysEnabled = useSelector(
     (state) => state.editor.senseHatAlwaysEnabled,
   );
+  const projectImages = useSelector((state) => state.editor.project.image_list);
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const output = useRef();
   const dispatch = useDispatch();
@@ -126,6 +128,82 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
       : null;
     return pageInput || webComponentInput;
+  };
+
+  const getTurtleOutputTarget = () => {
+    const connectedEditors = [...document.querySelectorAll("editor-wc")]
+      .reverse()
+      .filter((element) => element.isConnected);
+
+    for (const editor of connectedEditors) {
+      const target = editor.shadowRoot?.getElementById("turtleOutput");
+      if (target) {
+        return target;
+      }
+    }
+
+    return null;
+  };
+
+  const setTurtleGraphicsTarget = () => {
+    const target = getTurtleOutputTarget();
+    if (!target) {
+      return false;
+    }
+
+    turtleGraphicsTargetRef = target;
+    window.__editorTurtleTarget = target;
+    const turtleGraphics = Sk.TurtleGraphics || (Sk.TurtleGraphics = {});
+
+    Object.defineProperty(turtleGraphics, "target", {
+      configurable: true,
+      get() {
+        return turtleGraphicsTargetRef;
+      },
+      set(value) {
+        if (value && typeof value !== "string") {
+          turtleGraphicsTargetRef = value;
+          return;
+        }
+        // Skulpt sometimes switches this back to the string "turtle".
+        // In Shadow DOM that lookup fails, so we ignore it and keep our existing node.
+        return;
+      },
+    });
+    turtleGraphics.assets = Object.assign(
+      {},
+      ...projectImages.map((image) => ({
+        [`${image.name}.${image.extension}`]: image.url,
+      })),
+    );
+    return true;
+  };
+
+  const withTurtleDomTargetShim = (execute) => {
+    const originalGetElementById = document.getElementById.bind(document);
+
+    document.getElementById = (id) => {
+      if (id === "turtle" && window.__editorTurtleTarget) {
+        return window.__editorTurtleTarget;
+      }
+      return originalGetElementById(id);
+    };
+
+    const restore = () => {
+      document.getElementById = originalGetElementById;
+    };
+
+    try {
+      const result = execute();
+      if (result && typeof result.finally === "function") {
+        return result.finally(restore);
+      }
+      restore();
+      return result;
+    } catch (error) {
+      restore();
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -190,6 +268,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   };
 
   const builtinRead = (library) => {
+    if (library.includes("turtle")) {
+      setTurtleGraphicsTarget();
+    }
+
     if (library === "./_internal_sense_hat/__init__.js") {
       dispatch(setSenseHatEnabled(true));
     }
@@ -435,6 +517,28 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       }
     }
 
+    const executeProgram = () => {
+      var myPromise = withTurtleDomTargetShim(() =>
+        Sk.misceval.asyncToPromise(
+          () => Sk.importMainWithBody("main", false, prog, true),
+          {
+            "*": () => {
+              if (store.getState().editor.codeRunStopped) {
+                throw new Error(t("output.errors.interrupted"));
+              }
+            },
+          },
+        ),
+      )
+        .catch((err) => {
+          handleError(err);
+        })
+        .finally(() => {
+          dispatch(codeRunHandled());
+        });
+      myPromise.then(function (_mod) {});
+    };
+
     Sk.configure({
       inputfun: inf,
       output: outf,
@@ -444,21 +548,20 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       uncaughtException: handleError,
     });
 
-    var myPromise = Sk.misceval
-      .asyncToPromise(() => Sk.importMainWithBody("main", false, prog, true), {
-        "*": () => {
-          if (store.getState().editor.codeRunStopped) {
-            throw new Error(t("output.errors.interrupted"));
-          }
-        },
-      })
-      .catch((err) => {
-        handleError(err);
-      })
-      .finally(() => {
-        dispatch(codeRunHandled());
+    const usesTurtle = /\b(?:from\s+turtle\s+import|import\s+turtle\b)/.test(
+      prog,
+    );
+    const targetReady = setTurtleGraphicsTarget();
+
+    if (usesTurtle && !targetReady) {
+      requestAnimationFrame(() => {
+        setTurtleGraphicsTarget();
+        executeProgram();
       });
-    myPromise.then(function (_mod) {});
+      return;
+    }
+
+    executeProgram();
   };
 
   function shiftFocusToInput(e) {
