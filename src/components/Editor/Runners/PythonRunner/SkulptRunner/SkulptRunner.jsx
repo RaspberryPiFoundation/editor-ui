@@ -25,6 +25,7 @@ import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import { getPythonImports } from "../../../../../utils/getPythonImports";
+import { configureTurtleGraphics } from "../../../../../utils/configureTurtleGraphics";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -408,6 +409,18 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       output.current.innerHTML = "";
     }
     dispatch(setSenseHatEnabled(false));
+
+    // runCode runs from the current runner's useEffect before VisualOutputPane’s useEffect
+    // so Sk.TurtleGraphics.target / assets are set here so they exist before import
+    const host = document.querySelector("editor-wc");
+    const turtleOutputElement =
+      host?.shadowRoot?.getElementById("turtleOutput") ||
+      document.getElementById("turtleOutput");
+
+    configureTurtleGraphics({
+      targetEl: turtleOutputElement,
+      projectImages: project.image_list || [],
+    });
 
     var prog = mainComponent?.content || "";
 

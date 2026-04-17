@@ -1329,3 +1329,59 @@ describe("When not active and a code run has been triggered", () => {
     expect(Sk.misceval.asyncToPromise).not.toHaveBeenCalled();
   });
 });
+
+describe("Turtle graphics is wired before Skulpt import", () => {
+  const asyncToPromise = Sk.misceval.asyncToPromise;
+
+  afterEach(() => {
+    Sk.misceval.asyncToPromise = asyncToPromise;
+  });
+
+  test("sets Sk.TurtleGraphics.target and assets before asyncToPromise runs", () => {
+    Sk.misceval.asyncToPromise = jest.fn((_computeFn) => {
+      const turtleElement = document.getElementById("turtleOutput");
+      expect(turtleElement).not.toBeNull();
+      expect(Sk.TurtleGraphics.target).toBe(turtleElement);
+      expect(Sk.TurtleGraphics.assets["pic.png"]).toBe(
+        "https://example.com/img.png",
+      );
+      return Promise.resolve();
+    });
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [
+            {
+              name: "pic",
+              extension: "png",
+              url: "https://example.com/img.png",
+            },
+          ],
+        },
+        codeRunTriggered: true,
+        isEmbedded: false,
+      },
+      auth: {
+        user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+
+    expect(Sk.misceval.asyncToPromise).toHaveBeenCalled();
+  });
+});
