@@ -466,8 +466,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       Sk.TurtleGraphics.stop();
     }
 
-    // Start from a fresh container to avoid stale turtle module internals
-    // surviving SPA remounts.
     Sk.TurtleGraphics = {};
 
     Sk.configure({
