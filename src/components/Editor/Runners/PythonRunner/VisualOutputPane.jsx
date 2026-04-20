@@ -27,15 +27,9 @@ const VisualOutputPane = () => {
 
   useEffect(() => {
     if (codeRunTriggered) {
-      if (turtleOutput.current) {
-        turtleOutput.current.innerHTML = "";
-      }
-      if (pygalOutput.current) {
-        pygalOutput.current.innerHTML = "";
-      }
-      if (p5Output.current) {
-        p5Output.current.innerHTML = "";
-      }
+      turtleOutput.current.innerHTML = "";
+      pygalOutput.current.innerHTML = "";
+      p5Output.current.innerHTML = "";
 
       if (!window.py5) {
         window.py5 = {};
