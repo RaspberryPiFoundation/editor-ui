@@ -1,14 +1,52 @@
 const path = require("path");
+const dotenv = require("dotenv");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+
 let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
+const isDev = process.env.NODE_ENV !== "production";
+
+const toOrigin = (envVarName, value) => {
+  const normalizedValue = String(value || "")
+    .trim()
+    .replace(/^['"]|['"]$/g, "");
+
+  if (!normalizedValue) return "";
+
+  try {
+    return new URL(normalizedValue).origin;
+  } catch (_) {
+    throw new Error(
+      `Invalid URL in ${envVarName}: "${value}". ` +
+        `Expected an absolute URL, for example "https://example.com".`,
+    );
+  }
+};
+
+const cspApiOrigin = toOrigin(
+  "REACT_APP_API_ENDPOINT",
+  process.env.REACT_APP_API_ENDPOINT,
+);
+const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
+
+// When present these override cspApiOrigin for CSP API/connect-src origins.
+// This supports staging setups that need to allow multiple API origins,
+// such as also reaching the test API.
+const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
+  .split(/[\s,]+/)
+  .map((originValue, index) =>
+    toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
+  )
+  .filter(Boolean)
+  .join(" ");
 
 const scratchStaticDir = path.resolve(
   __dirname,
@@ -237,6 +275,10 @@ const scratchConfig = {
       chunks: ["scratch"],
       templateParameters: {
         publicUrl: publicUrl,
+        cspApiOrigin,
+        cspApiMultipleOrigins,
+        cspAssetOrigin,
+        isDev,
       },
     }),
     new CopyWebpackPlugin({

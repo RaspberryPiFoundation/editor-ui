@@ -66,6 +66,10 @@ on:
         required: false
         default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org,https://test-editor.raspberrypi.org"
         type: string
+      csp_api_multiple_origins:
+        required: false
+        default: ""
+        type: string
 
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -158,12 +162,13 @@ jobs:
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
           REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
+          CSP_API_MULTIPLE_ORIGINS: ${{ inputs.csp_api_multiple_origins }}
 
       - name: Deploy site to S3 bucket
         if: env.AWS_SECRET_ACCESS_KEY != ''
         run: |
           aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }} --progress-frequency 5
-          aws s3 sync ./build/chunks/ s3://${{ secrets.AWS_S3_BUCKET }}/chunks/ --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*" --include "fetch-worker*" --progress-frequency 5
+          aws s3 sync ./build/chunks/ s3://${{ secrets.AWS_S3_BUCKET }}/chunks/ --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*" --include "fetch-worker*" --include "mediapipe/**" --progress-frequency 5
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
