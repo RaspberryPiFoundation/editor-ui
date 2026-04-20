@@ -75,6 +75,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
   );
+  const projectImages = useSelector((state) => state.editor.project.image_list);
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
@@ -89,6 +90,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   );
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const output = useRef();
+  const visualOutputPaneRef = useRef(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
@@ -126,6 +128,41 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
       : null;
     return pageInput || webComponentInput;
+  };
+
+  const getTurtleOutputTarget = () => {
+    return visualOutputPaneRef.current?.getTurtleTarget?.() || null;
+  };
+
+  const bindTurtleGraphics = () => {
+    const target = getTurtleOutputTarget();
+    if (!target) {
+      return false;
+    }
+
+    configureTurtleGraphics({
+      targetEl: target,
+      projectImages,
+    });
+
+    return true;
+  };
+
+  const installTurtleDomTargetFallback = () => {
+    const originalGetElementById = document.getElementById.bind(document);
+
+    document.getElementById = (id) => {
+      if (id === "turtle") {
+        const turtleTarget = getTurtleOutputTarget();
+        if (turtleTarget) {
+          return turtleTarget;
+        }
+      }
+      return originalGetElementById(id);
+    };
+    return () => {
+      document.getElementById = originalGetElementById;
+    };
   };
 
   useEffect(() => {
@@ -410,18 +447,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     }
     dispatch(setSenseHatEnabled(false));
 
-    // runCode runs from the current runner's useEffect before VisualOutputPane’s useEffect
-    // so Sk.TurtleGraphics.target / assets are set here so they exist before import
-    const host = document.querySelector("editor-wc");
-    const turtleOutputElement =
-      host?.shadowRoot?.getElementById("turtleOutput") ||
-      document.getElementById("turtleOutput");
-
-    configureTurtleGraphics({
-      targetEl: turtleOutputElement,
-      projectImages: project.image_list || [],
-    });
-
     var prog = mainComponent?.content || "";
 
     if (prog.includes(`# ${t("input.comment.py5")}`)) {
@@ -435,6 +460,16 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       }
     }
 
+    if (Sk.TurtleGraphics?.reset) {
+      Sk.TurtleGraphics.reset();
+    } else if (Sk.TurtleGraphics?.stop) {
+      Sk.TurtleGraphics.stop();
+    }
+
+    // Start from a fresh container to avoid stale turtle module internals
+    // surviving SPA remounts.
+    Sk.TurtleGraphics = {};
+
     Sk.configure({
       inputfun: inf,
       output: outf,
@@ -443,6 +478,10 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       inputTakesPrompt: true,
       uncaughtException: handleError,
     });
+
+    bindTurtleGraphics();
+
+    const uninstallTurtleDomTargetFallback = installTurtleDomTargetFallback();
 
     var myPromise = Sk.misceval
       .asyncToPromise(() => Sk.importMainWithBody("main", false, prog, true), {
@@ -456,6 +495,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         handleError(err);
       })
       .finally(() => {
+        uninstallTurtleDomTargetFallback();
         dispatch(codeRunHandled());
       });
     myPromise.then(function (_mod) {});
@@ -535,7 +575,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                   {!isEmbedded && isMobile && <RunnerControls skinny />}
                 </div>
                 <TabPanel key={0}>
-                  <VisualOutputPane />
+                  <VisualOutputPane ref={visualOutputPaneRef} />
                 </TabPanel>
               </Tabs>
             </div>
@@ -598,7 +638,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           </div>
           {!isOutputOnly && <ErrorMessage />}
           <TabPanel key={0}>
-            <VisualOutputPane />
+            <VisualOutputPane ref={visualOutputPaneRef} />
           </TabPanel>
           <TabPanel key={1}>
             <pre
