@@ -1,21 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import process from "process";
-import { compose } from "redux";
-
-import GUI, { AppStateHOC } from "@scratch/scratch-gui";
-import ScratchIntegrationHOC from "./components/ScratchEditor/ScratchIntegrationHOC.jsx";
 import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
-import scratchProjectSave from "./utils/scratchProjectSave.js";
 
 import ScratchStyles from "./assets/stylesheets/Scratch.scss";
-
+import ScratchEditor from "./components/ScratchEditor/ScratchEditor.jsx";
+import { postScratchGuiEvent } from "./components/ScratchEditor/events.js";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
 const scratchLoading = document.getElementById("scratch-loading");
-GUI.setAppElement(appTarget);
-const WrappedGui = compose(AppStateHOC, ScratchIntegrationHOC)(GUI);
 
 if (process.env.NODE_ENV === "production" && typeof window === "object") {
   // Warn before navigating away
@@ -30,36 +24,6 @@ const allowedParentOrigin = parentOriginFromQuery || window.location.origin;
 
 const defaultLocale = "en";
 const locale = appTarget.dataset.locale || defaultLocale;
-
-const postScratchGuiEvent = (type, payload = {}) => {
-  window.parent.postMessage({ type, ...payload }, allowedParentOrigin);
-};
-
-const handleUpdateProjectId = (updatedProjectId) => {
-  postScratchGuiEvent("scratch-gui-project-id-updated", {
-    projectId: updatedProjectId,
-  });
-};
-
-const handleRemixingStarted = () =>
-  postScratchGuiEvent("scratch-gui-remixing-started");
-
-const handleRemixingSucceeded = () =>
-  postScratchGuiEvent("scratch-gui-remixing-succeeded");
-
-const handleSavingStarted = () =>
-  postScratchGuiEvent("scratch-gui-saving-started");
-
-const handleSavingSucceeded = () =>
-  postScratchGuiEvent("scratch-gui-saving-succeeded");
-
-const handleScratchGuiAlert = (alertType) => {
-  if (alertType === "savingError") {
-    postScratchGuiEvent("scratch-gui-saving-failed");
-  } else if (alertType === "creatingError") {
-    postScratchGuiEvent("scratch-gui-remixing-failed");
-  }
-};
 
 const generateNonce = () =>
   `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
@@ -81,8 +45,6 @@ if (!projectId) {
     requiresAuth: false,
     latestAccessToken: null,
   };
-  let scratchFetchApi = null;
-
   const getTimeoutMessage = (handshake) =>
     handshake.requiresAuth && !handshake.latestAccessToken
       ? "[scratch iframe] auth required but access token missing before timeout"
@@ -94,16 +56,6 @@ if (!projectId) {
     event.data?.type === "scratch-gui-set-token" &&
     event.data?.nonce === nonce;
 
-  const handleUpdateProjectData = async (currentProjectId, vmState, params) => {
-    return scratchProjectSave({
-      scratchFetchApi,
-      apiUrl,
-      currentProjectId,
-      vmState,
-      params,
-    });
-  };
-
   const mountGui = (accessToken) => {
     if (isMounted) return;
     isMounted = true;
@@ -112,26 +64,11 @@ if (!projectId) {
     root.render(
       <>
         <style>{ScratchStyles}</style>
-        <WrappedGui
+        <ScratchEditor
           projectId={projectId}
           locale={locale}
-          menuBarHidden={true}
-          projectHost={`${apiUrl}/api/scratch/projects`}
-          assetHost={`${apiUrl}/api/scratch/assets`}
-          basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
-          onStorageInit={(storage) => {
-            scratchFetchApi = storage.scratchFetch;
-            if (accessToken) {
-              scratchFetchApi.setMetadata("Authorization", accessToken);
-            }
-          }}
-          onUpdateProjectData={handleUpdateProjectData}
-          onUpdateProjectId={handleUpdateProjectId}
-          onShowCreatingRemixAlert={handleRemixingStarted}
-          onShowRemixSuccessAlert={handleRemixingSucceeded}
-          onShowSavingAlert={handleSavingStarted}
-          onShowSaveSuccessAlert={handleSavingSucceeded}
-          onShowAlert={handleScratchGuiAlert}
+          apiUrl={apiUrl}
+          accessToken={accessToken}
         />
       </>,
     );
