@@ -302,6 +302,54 @@ describe("When not embedded", () => {
     );
   });
 
+  test("it calls loadProject when access token becomes available", async () => {
+    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    const { rerender } = renderHook((props) => useProject(props), {
+      initialProps: {
+        projectIdentifier: project1.identifier,
+        accessToken: null,
+        loadRemix: false,
+        reactAppApiEndpoint,
+      },
+      wrapper,
+    });
+
+    expect(loadProject).toHaveBeenCalledTimes(1);
+
+    rerender({
+      projectIdentifier: project1.identifier,
+      accessToken: "example_token",
+      loadRemix: false,
+      reactAppApiEndpoint,
+    });
+
+    expect(loadProject).toHaveBeenCalledTimes(2);
+  });
+
+  test("it does not call loadProject when access token changes", async () => {
+    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    const { rerender } = renderHook((props) => useProject(props), {
+      initialProps: {
+        projectIdentifier: project1.identifier,
+        accessToken: "token-a",
+        loadRemix: false,
+        reactAppApiEndpoint,
+      },
+      wrapper,
+    });
+
+    expect(loadProject).toHaveBeenCalledTimes(1);
+
+    rerender({
+      projectIdentifier: project1.identifier,
+      accessToken: "token-b",
+      loadRemix: false,
+      reactAppApiEndpoint,
+    });
+
+    expect(loadProject).toHaveBeenCalledTimes(1);
+  });
+
   test("If assetsIdentifer is set then set assetsOnly to true when loading project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
     renderHook(
