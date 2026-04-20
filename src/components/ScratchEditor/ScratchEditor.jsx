@@ -1,5 +1,5 @@
 import scratchProjectSave from "../../utils/scratchProjectSave.js";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent } from "./events.js";
@@ -30,13 +30,13 @@ const handleScratchGuiAlert = (alertType) => {
   }
 };
 
-let scratchFetchApi = null;
-
 const ScratchEditor = ({ projectId, locale, apiUrl, accessToken }) => {
+  const scratchFetchApiRef = useRef(null);
+
   const handleUpdateProjectData = useCallback(
     async (currentProjectId, vmState, params) => {
       return scratchProjectSave({
-        scratchFetchApi,
+        scratchFetchApi: scratchFetchApiRef.current,
         apiUrl,
         currentProjectId,
         vmState,
@@ -55,9 +55,9 @@ const ScratchEditor = ({ projectId, locale, apiUrl, accessToken }) => {
       assetHost={`${apiUrl}/api/scratch/assets`}
       basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
-        scratchFetchApi = storage.scratchFetch;
+        scratchFetchApiRef.current = storage.scratchFetch;
         if (accessToken) {
-          scratchFetchApi.setMetadata("Authorization", accessToken);
+          scratchFetchApiRef.current.setMetadata("Authorization", accessToken);
         }
       }}
       onUpdateProjectData={handleUpdateProjectData}
