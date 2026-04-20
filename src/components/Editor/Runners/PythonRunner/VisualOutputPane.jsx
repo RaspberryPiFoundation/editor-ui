@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,17 +25,11 @@ const VisualOutputPane = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (codeRunTriggered) {
-      if (turtleOutput.current) {
-        turtleOutput.current.innerHTML = "";
-      }
-      if (pygalOutput.current) {
-        pygalOutput.current.innerHTML = "";
-      }
-      if (p5Output.current) {
-        p5Output.current.innerHTML = "";
-      }
+      turtleOutput.current.innerHTML = "";
+      pygalOutput.current.innerHTML = "";
+      p5Output.current.innerHTML = "";
 
       if (!window.py5) {
         window.py5 = {};
