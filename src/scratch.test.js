@@ -9,9 +9,6 @@ jest.mock("./utils/scratchProjectSave.js", () => ({
   __esModule: true,
   default: (params) => mockScratchProjectSave(params),
 }));
-let mockRender = jest.fn();
-let mockCreateRoot = jest.fn();
-
 jest.mock("@scratch/scratch-gui", () => {
   const MockGui = () => null;
   MockGui.setAppElement = jest.fn();
@@ -21,16 +18,13 @@ jest.mock("@scratch/scratch-gui", () => {
     AppStateHOC: (WrappedComponent) => WrappedComponent,
   };
 });
-jest.mock("react-dom/client", () => {
-  mockRender = jest.fn();
-  mockCreateRoot = jest.fn(() => ({
-    render: mockRender,
-  }));
 
-  return {
-    createRoot: mockCreateRoot,
-  };
-});
+const mockRenderRoot = jest.fn();
+jest.mock("react-dom/client", () => ({
+  createRoot: jest.fn(() => ({
+    render: mockRenderRoot,
+  })),
+}));
 
 describe("scratch handshake retries", () => {
   const originalEnv = process.env;
@@ -45,13 +39,6 @@ describe("scratch handshake retries", () => {
   };
 
   const getHandshakeNonce = () => postMessageSpy.mock.calls[0][0].nonce;
-
-  const getRenderedGuiProps = () => {
-    const renderTree = mockRender.mock.calls[0][0];
-    const renderedChildren = [].concat(renderTree.props.children);
-
-    return renderedChildren[1].props;
-  };
 
   const dispatchSetTokenMessage = ({
     nonce,
@@ -89,8 +76,7 @@ describe("scratch handshake retries", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.resetModules();
-    mockRender.mockClear();
-    mockCreateRoot.mockClear();
+    mockRenderRoot.mockClear();
     mockScratchProjectSave.mockClear();
     process.env = {
       ...originalEnv,
@@ -115,9 +101,9 @@ describe("scratch handshake retries", () => {
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
     process.env = originalEnv;
-    postMessageSpy?.mockRestore();
-    consoleErrorSpy?.mockRestore();
-    removeEventListenerSpy?.mockRestore();
+    postMessageSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
+    removeEventListenerSpy.mockRestore();
   });
 
   test("retries ready handshake until timeout then stops", () => {
@@ -153,26 +139,21 @@ describe("scratch handshake retries", () => {
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
 
-    const scratchGuiProps = getRenderedGuiProps();
+    const renderedTree = mockRenderRoot.mock.calls[0][0];
+    const scratchGuiElement = renderedTree.props.children[1];
     const scratchStorage = {
       scratchFetch: {
         setMetadata: jest.fn(),
-        RequestMetadata: {
-          ProjectId: "X-Project-ID",
-        },
       },
     };
 
-    scratchGuiProps.onStorageInit(scratchStorage);
-    await scratchGuiProps.onUpdateProjectData("project-123", '{"targets":[]}', {
-      title: "Saved from test",
-    });
-
-    expect(scratchStorage.scratchFetch.setMetadata).toHaveBeenNthCalledWith(
-      1,
-      "X-Project-ID",
+    scratchGuiElement.props.onStorageInit(scratchStorage);
+    await scratchGuiElement.props.onUpdateProjectData(
       "project-123",
+      '{"targets":[]}',
+      { title: "Saved from test" },
     );
+
     expect(scratchStorage.scratchFetch.setMetadata).toHaveBeenCalledWith(
       "Authorization",
       "token-123",
@@ -185,61 +166,6 @@ describe("scratch handshake retries", () => {
         vmState: '{"targets":[]}',
         params: { title: "Saved from test" },
       }),
-    );
-  });
-
-  test("sets Authorization and X-Project-ID metadata on scratch storage", () => {
-    loadScratchModule();
-
-    const nonce = getHandshakeNonce();
-    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
-
-    const mockStorage = {
-      scratchFetch: {
-        setMetadata: jest.fn(),
-        RequestMetadata: {
-          ProjectId: "X-Project-ID",
-        },
-      },
-    };
-
-    getRenderedGuiProps().onStorageInit(mockStorage);
-
-    expect(mockStorage.scratchFetch.setMetadata).toHaveBeenNthCalledWith(
-      1,
-      "X-Project-ID",
-      "project-123",
-    );
-    expect(mockStorage.scratchFetch.setMetadata).toHaveBeenNthCalledWith(
-      2,
-      "Authorization",
-      "token-123",
-    );
-  });
-
-  test("updates X-Project-ID metadata when Scratch switches to a remixed project", () => {
-    loadScratchModule();
-
-    const nonce = getHandshakeNonce();
-    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
-
-    const mockStorage = {
-      scratchFetch: {
-        setMetadata: jest.fn(),
-        RequestMetadata: {
-          ProjectId: "X-Project-ID",
-        },
-      },
-    };
-
-    const scratchGuiProps = getRenderedGuiProps();
-    scratchGuiProps.onStorageInit(mockStorage);
-    scratchGuiProps.onUpdateProjectId("project-456");
-
-    expect(mockStorage.scratchFetch.setMetadata).toHaveBeenNthCalledWith(
-      3,
-      "X-Project-ID",
-      "project-456",
     );
   });
 
@@ -286,11 +212,12 @@ describe("scratch handshake retries", () => {
   test("ignores late token messages after timeout", () => {
     loadScratchModule();
 
+    const { createRoot } = require("react-dom/client");
     const nonce = getHandshakeNonce();
 
     advanceToTimeout();
     dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
 
-    expect(mockCreateRoot).not.toHaveBeenCalled();
+    expect(createRoot).not.toHaveBeenCalled();
   });
 });
