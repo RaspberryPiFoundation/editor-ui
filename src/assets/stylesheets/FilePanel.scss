@@ -23,6 +23,7 @@
   min-block-size: 44px;
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
+  gap: var(--space-1);
   span {
     font-weight: $font-weight-bold;
     overflow-x: hidden;
