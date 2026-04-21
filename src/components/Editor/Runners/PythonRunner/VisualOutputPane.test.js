@@ -77,6 +77,7 @@ describe("When Sense Hat library not used", () => {
 describe("When code run is triggered", () => {
   let store;
   let container;
+  let turtleOutputRef;
 
   beforeEach(() => {
     const middlewares = [];
@@ -91,9 +92,10 @@ describe("When code run is triggered", () => {
       },
     };
     store = mockStore(initialState);
+    turtleOutputRef = React.createRef();
     const renderResult = render(
       <Provider store={store}>
-        <VisualOutputPane />
+        <VisualOutputPane ref={turtleOutputRef} />
       </Provider>,
     );
     container = renderResult.container;
@@ -108,7 +110,7 @@ describe("When code run is triggered", () => {
     expect(Sk.pygal.outputCanvas).not.toBeNull();
   });
 
-  test("Sets up turtle canvas", () => {
-    expect(Sk.TurtleGraphics.target).not.toBeNull();
+  test("Exposes turtle target via ref", () => {
+    expect(turtleOutputRef.current.getTurtleTarget()).not.toBeNull();
   });
 });
