@@ -137,19 +137,17 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const bindTurtleGraphics = () => {
     const target = getTurtleOutputTarget();
     if (!target) {
-      return false;
+      return;
     }
 
     configureTurtleGraphics({
       targetEl: target,
       projectImages,
     });
-
-    return true;
   };
 
   const installTurtleDomTargetFallback = () => {
-    const originalGetElementById = document.getElementById.bind(document);
+    const originalGetElementById = document.getElementById;
 
     document.getElementById = (id) => {
       if (id === "turtle") {
@@ -158,7 +156,7 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
           return turtleTarget;
         }
       }
-      return originalGetElementById(id);
+      return originalGetElementById.call(document, id);
     };
     return () => {
       document.getElementById = originalGetElementById;
