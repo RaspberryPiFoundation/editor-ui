@@ -18,7 +18,6 @@ import { setInstructions } from "../redux/InstructionsSlice";
 import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
-import localStorageUserMiddleware from "../redux/middlewares/localStorageUserMiddleware";
 import { Cookies, CookiesProvider } from "react-cookie";
 
 jest.mock("../hooks/useProject", () => ({
@@ -59,8 +58,7 @@ describe("When initially rendered", () => {
   beforeEach(() => {
     document.dispatchEvent = jest.fn();
     window.Prism = jest.fn();
-    const middlewares = [localStorageUserMiddleware(setUser)];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureStore([]);
     const initialState = {
       editor: {
         loading: "success",
@@ -212,8 +210,7 @@ describe("When initially rendered", () => {
 
 describe("When no user is in state", () => {
   beforeEach(() => {
-    const middlewares = [localStorageUserMiddleware(setUser)];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureStore([]);
     const initialState = {
       editor: {
         loading: "success",
@@ -276,7 +273,7 @@ describe("When no user is in state", () => {
         loadRemix: false,
         hasShownSavePrompt: true,
         justLoaded: false,
-        user: null,
+        user: undefined,
         saveTriggered: false,
         reactAppApiEndpoint: "http://localhost:3009",
       });
@@ -308,12 +305,6 @@ describe("When no user is in state", () => {
 
     test("Sets theme correctly", () => {
       expect(cookies.cookies.theme).toEqual("light");
-    });
-
-    test("Sets the user in state", () => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setUser(null)]),
-      );
     });
 
     test("Renders editor styles when useEditorStyles is true", () => {
@@ -422,67 +413,6 @@ describe("When no user is in state", () => {
     });
   });
 
-  describe("with user set in local storage", () => {
-    beforeEach(() => {
-      localStorage.setItem(authKey, JSON.stringify(user));
-      localStorage.setItem("authKey", authKey);
-      render(
-        <Provider store={store}>
-          <CookiesProvider cookies={cookies}>
-            <WebComponentLoader
-              code={code}
-              identifier={identifier}
-              senseHatAlwaysEnabled={true}
-              instructions={instructions}
-              authKey={authKey}
-              theme="light"
-              loadCache={true}
-            />
-          </CookiesProvider>
-        </Provider>,
-      );
-    });
-
-    test("Calls useProject hook with correct attributes", () => {
-      expect(useProject).toHaveBeenCalledWith({
-        assetsIdentifier: undefined,
-        projectIdentifier: identifier,
-        code,
-        initialProject: null,
-        accessToken: "my_token",
-        loadRemix: true,
-        locale: "en",
-        loadCache: true,
-        remixLoadFailed: false,
-        reactAppApiEndpoint: "http://localhost:3009",
-      });
-    });
-
-    test("Calls useProjectPersistence hook with correct attributes", () => {
-      expect(useProjectPersistence).toHaveBeenCalledWith({
-        user,
-        project: { components: [] },
-        loadRemix: true,
-        hasShownSavePrompt: true,
-        justLoaded: false,
-        saveTriggered: false,
-        reactAppApiEndpoint: "http://localhost:3009",
-      });
-    });
-
-    test("Sets the instructions", () => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setInstructions(instructions)]),
-      );
-    });
-
-    test("Sets the user", () => {
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setUser(user)]),
-      );
-    });
-  });
-
   describe("When theme is not set", () => {
     beforeEach(() => {
       render(
@@ -515,8 +445,7 @@ describe("When user is in state", () => {
   describe("before a remix load attempt", () => {
     beforeEach(() => {
       localStorage.setItem(authKey, JSON.stringify(user));
-      const middlewares = [localStorageUserMiddleware(setUser)];
-      const mockStore = configureStore(middlewares);
+      const mockStore = configureStore([]);
       const initialState = {
         editor: {
           loading: "idle",
@@ -537,9 +466,9 @@ describe("When user is in state", () => {
       cookies = new Cookies();
     });
 
-    describe("when user in local storage is removed", () => {
+    describe("when user data is set", () => {
       beforeEach(() => {
-        localStorage.removeItem(authKey);
+        jest.useFakeTimers();
         render(
           <Provider store={store}>
             <CookiesProvider cookies={cookies}>
@@ -549,9 +478,31 @@ describe("When user is in state", () => {
         );
       });
 
-      test("Removes the user from state", () => {
+      afterEach(() => {
+        jest.useRealTimers();
+      });
+
+      test("removes if user data is removed from local storage", () => {
+        localStorage.removeItem(authKey);
+        jest.advanceTimersByTime(50000);
         expect(store.getActions()).toEqual(
           expect.arrayContaining([setUser(null)]),
+        );
+      });
+
+      test("updates user if data is updated in local storage", () => {
+        localStorage.setItem(
+          authKey,
+          JSON.stringify({
+            access_token: "new_token",
+            other_user_data: "data",
+          }),
+        );
+        jest.advanceTimersByTime(50000);
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            setUser({ access_token: "new_token", other_user_data: "data" }),
+          ]),
         );
       });
     });
