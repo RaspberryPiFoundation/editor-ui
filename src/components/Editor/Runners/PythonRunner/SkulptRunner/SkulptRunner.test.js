@@ -1330,58 +1330,108 @@ describe("When not active and a code run has been triggered", () => {
   });
 });
 
-describe("Turtle graphics is wired before Skulpt import", () => {
-  const asyncToPromise = Sk.misceval.asyncToPromise;
+describe("When turtle run setup is applied", () => {
+  let originalAsyncToPromise;
+  let originalImportMainWithBody;
+  let originalConfigure;
+  let originalGetElementById;
 
-  afterEach(() => {
-    Sk.misceval.asyncToPromise = asyncToPromise;
+  beforeEach(() => {
+    originalAsyncToPromise = Sk.misceval.asyncToPromise;
+    originalImportMainWithBody = Sk.importMainWithBody;
+    originalConfigure = Sk.configure;
+    originalGetElementById = document.getElementById;
+
+    Sk.configure = jest.fn();
   });
 
-  test("sets Sk.TurtleGraphics.target and assets before asyncToPromise runs", () => {
-    Sk.misceval.asyncToPromise = jest.fn((_computeFn) => {
-      const turtleElement = document.getElementById("turtleOutput");
-      expect(turtleElement).not.toBeNull();
-      expect(Sk.TurtleGraphics.target).toBe(turtleElement);
-      expect(Sk.TurtleGraphics.assets["pic.png"]).toBe(
-        "https://example.com/img.png",
-      );
-      return Promise.resolve();
-    });
+  afterEach(() => {
+    Sk.misceval.asyncToPromise = originalAsyncToPromise;
+    Sk.importMainWithBody = originalImportMainWithBody;
+    Sk.configure = originalConfigure;
+    document.getElementById = originalGetElementById;
+  });
+
+  test("binds turtle target from VisualOutputPane ref before execution", () => {
+    Sk.importMainWithBody = jest.fn();
+    Sk.misceval.asyncToPromise = jest.fn(() => Promise.resolve());
 
     const middlewares = [];
     const mockStore = configureStore(middlewares);
-    const initialState = {
+    const store = mockStore({
       editor: {
         project: {
           components: [
             {
               name: "main",
               extension: "py",
-              content: "print('hello')",
+              content: "from turtle import *",
             },
           ],
-          image_list: [
-            {
-              name: "pic",
-              extension: "png",
-              url: "https://example.com/img.png",
-            },
-          ],
+          image_list: [],
         },
         codeRunTriggered: true,
-        isEmbedded: false,
       },
-      auth: {
-        user,
-      },
-    };
-    const store = mockStore(initialState);
+      auth: { user },
+    });
+
     render(
       <Provider store={store}>
         <SkulptRunner active={true} />
       </Provider>,
     );
 
-    expect(Sk.misceval.asyncToPromise).toHaveBeenCalled();
+    expect(Sk.TurtleGraphics.target).not.toBeNull();
+    expect(Sk.TurtleGraphics.target.id).toBe("turtleOutput");
+  });
+
+  test("temporarily maps getElementById('turtle') during execution", async () => {
+    let turtleLookupTarget;
+    let resolveRun;
+    const runPromise = new Promise((resolve) => {
+      resolveRun = resolve;
+    });
+
+    Sk.importMainWithBody = jest.fn(() => {
+      turtleLookupTarget = document.getElementById("turtle");
+      return {};
+    });
+    Sk.misceval.asyncToPromise = jest.fn((runner) => {
+      runner();
+      return runPromise;
+    });
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const store = mockStore({
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "from turtle import *",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: { user },
+    });
+
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+
+    expect(turtleLookupTarget).not.toBeNull();
+    expect(turtleLookupTarget.id).toBe("turtleOutput");
+
+    resolveRun();
+    await runPromise;
+    await Promise.resolve();
+    expect(document.getElementById("turtle")).toBeNull();
   });
 });

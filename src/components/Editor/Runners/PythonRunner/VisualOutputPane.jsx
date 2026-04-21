@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import Sk from "skulpt";
 import AstroPiModel from "../../../AstroPiModel/AstroPiModel";
 import { codeRunHandled, setError } from "../../../../redux/EditorSlice";
-import { configureTurtleGraphics } from "../../../../utils/configureTurtleGraphics";
 
-const VisualOutputPane = () => {
+const VisualOutputPane = forwardRef((_props, ref) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -25,11 +24,25 @@ const VisualOutputPane = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      getTurtleTarget: () => turtleOutput.current || null,
+    }),
+    [],
+  );
+
   useEffect(() => {
     if (codeRunTriggered) {
-      turtleOutput.current.innerHTML = "";
-      pygalOutput.current.innerHTML = "";
-      p5Output.current.innerHTML = "";
+      if (turtleOutput.current) {
+        turtleOutput.current.innerHTML = "";
+      }
+      if (pygalOutput.current) {
+        pygalOutput.current.innerHTML = "";
+      }
+      if (p5Output.current) {
+        p5Output.current.innerHTML = "";
+      }
 
       if (!window.py5) {
         window.py5 = {};
@@ -43,11 +56,6 @@ const VisualOutputPane = () => {
       window.assets = projectImages;
 
       (Sk.pygal || (Sk.pygal = {})).outputCanvas = pygalOutput.current;
-
-      configureTurtleGraphics({
-        targetEl: turtleOutput.current,
-        projectImages,
-      });
     }
   }, [codeRunTriggered, projectImages]);
 
@@ -84,6 +92,6 @@ const VisualOutputPane = () => {
       {senseHatEnabled || senseHatAlwaysEnabled ? <AstroPiModel /> : null}
     </div>
   );
-};
+});
 
 export default VisualOutputPane;

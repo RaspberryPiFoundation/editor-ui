@@ -1,22 +1,7 @@
 jest.mock("./utils/dedupeScratchWarnings.js", () => jest.fn());
 jest.mock("./assets/stylesheets/Scratch.scss", () => "");
-jest.mock("./components/ScratchEditor/ScratchIntegrationHOC.jsx", () => ({
-  __esModule: true,
-  default: (WrappedComponent) => WrappedComponent,
-}));
-const mockScratchProjectSave = jest.fn();
-jest.mock("./utils/scratchProjectSave.js", () => ({
-  __esModule: true,
-  default: (params) => mockScratchProjectSave(params),
-}));
-jest.mock("@scratch/scratch-gui", () => {
-  const MockGui = () => null;
-  MockGui.setAppElement = jest.fn();
-  return {
-    __esModule: true,
-    default: MockGui,
-    AppStateHOC: (WrappedComponent) => WrappedComponent,
-  };
+jest.mock("./components/ScratchEditor/WrappedScratchGui.jsx", () => (props) => {
+  return null;
 });
 
 const mockRenderRoot = jest.fn();
@@ -77,7 +62,6 @@ describe("scratch handshake retries", () => {
     jest.useFakeTimers();
     jest.resetModules();
     mockRenderRoot.mockClear();
-    mockScratchProjectSave.mockClear();
     process.env = {
       ...originalEnv,
       ASSETS_URL: "https://assets.example.com",
@@ -133,40 +117,16 @@ describe("scratch handshake retries", () => {
     expectRetriesStopped(callsAfterHandshake);
   });
 
-  test("routes project saves through scratchFetch metadata after storage init", async () => {
+  test("passes accessToken as a prop", async () => {
     loadScratchModule();
 
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
 
     const renderedTree = mockRenderRoot.mock.calls[0][0];
-    const scratchGuiElement = renderedTree.props.children[1];
-    const scratchStorage = {
-      scratchFetch: {
-        setMetadata: jest.fn(),
-      },
-    };
+    const scratchEditorComponent = renderedTree.props.children[1];
 
-    scratchGuiElement.props.onStorageInit(scratchStorage);
-    await scratchGuiElement.props.onUpdateProjectData(
-      "project-123",
-      '{"targets":[]}',
-      { title: "Saved from test" },
-    );
-
-    expect(scratchStorage.scratchFetch.setMetadata).toHaveBeenCalledWith(
-      "Authorization",
-      "token-123",
-    );
-    expect(mockScratchProjectSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        scratchFetchApi: scratchStorage.scratchFetch,
-        apiUrl: "https://api.example.com",
-        currentProjectId: "project-123",
-        vmState: '{"targets":[]}',
-        params: { title: "Saved from test" },
-      }),
-    );
+    expect(scratchEditorComponent.props.accessToken).toBe("token-123");
   });
 
   test("keeps retrying when auth is required but token is missing", () => {
