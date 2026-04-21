@@ -25,3 +25,18 @@ a.htmlrunner-link {
   block-size: 100%;
   inline-size: 100%;
 }
+
+.htmlrenderer-root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  block-size: 100%;
+  inline-size: 100%;
+
+  .htmlrunner-iframe {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    block-size: auto;
+  }
+}

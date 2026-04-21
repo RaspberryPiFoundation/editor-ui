@@ -130,6 +130,7 @@ jobs:
     with:
       base_url: https://editor-static.raspberrypi.org
       assets_url: https://editor-static.raspberrypi.org
+      html_renderer_url: https://editor-static.raspberrypi.org
       environment: production
       prefix: releases
       react_app_api_endpoint: https://editor-api.raspberrypi.org
@@ -151,6 +152,7 @@ jobs:
       environment: staging
       react_app_base_url: ""
       react_app_sentry_env: staging
+      csp_api_multiple_origins: "https://staging-editor-api.raspberrypi.org https://test-editor-api.raspberrypi.org"
     secrets: inherit
 
   deploy-branch:

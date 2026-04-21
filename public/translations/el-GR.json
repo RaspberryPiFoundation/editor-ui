@@ -24,7 +24,8 @@
       "generalError": "Σφάλμα",
       "notUnique": "Τα ονόματα αρχείων πρέπει να είναι μοναδικά.",
       "or": "ή",
-      "unsupportedExtension": "Τα ονόματα αρχείων πρέπει να τελειώνουν σε {{allowedExtensions}}."
+      "unsupportedExtension": "Τα ονόματα αρχείων πρέπει να τελειώνουν σε {{allowedExtensions}}.",
+      "emptyFileName": "File name cannot be empty."
     },
     "files": "Αρχεία έργου",
     "images": "Συλλογή εικόνων",
