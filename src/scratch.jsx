@@ -5,7 +5,10 @@ import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 
 import ScratchStyles from "./assets/stylesheets/Scratch.scss";
 import ScratchEditor from "./components/ScratchEditor/ScratchEditor.jsx";
-import { postScratchGuiEvent } from "./components/ScratchEditor/events.js";
+import {
+  postScratchGuiEvent,
+  allowedParentOrigin,
+} from "./components/ScratchEditor/events.js";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
@@ -19,8 +22,6 @@ if (process.env.NODE_ENV === "production" && typeof window === "object") {
 const searchParams = new URLSearchParams(window.location.search);
 const projectId = searchParams.get("project_id");
 const apiUrl = searchParams.get("api_url");
-const parentOriginFromQuery = searchParams.get("parent_origin");
-const allowedParentOrigin = parentOriginFromQuery || window.location.origin;
 
 const defaultLocale = "en";
 const locale = appTarget.dataset.locale || defaultLocale;
@@ -52,7 +53,7 @@ if (!projectId) {
 
   const isValidScratchSetTokenMessage = (event) =>
     event.source === window.parent &&
-    event.origin === allowedParentOrigin &&
+    event.origin === allowedParentOrigin() &&
     event.data?.type === "scratch-gui-set-token" &&
     event.data?.nonce === nonce;
 
