@@ -4,6 +4,9 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import EditorReducer from "../../../redux/EditorSlice";
 import * as scratchIframeUtils from "../../../utils/scratchIframe";
+import webComponentStore from "../../../redux/stores/WebComponentStore";
+import { setUser } from "../../../redux/WebComponentAuthSlice";
+import { resetStore } from "../../../redux/RootSlice";
 
 jest.mock("../../../utils/scratchIframe", () => ({
   ...jest.requireActual("../../../utils/scratchIframe"),
@@ -244,6 +247,27 @@ describe("ScratchContainer", () => {
       nonce: "nonce-2",
       accessToken: "token-123",
       requiresAuth: false,
+    });
+  });
+
+  test("sends scratch-gui-update-token when auth access token changes", () => {
+    webComponentStore.dispatch(resetStore());
+    renderScratchContainer(webComponentStore);
+
+    expect(getScratchIframeMessages("scratch-gui-update-token")).toHaveLength(
+      0,
+    );
+
+    act(() => {
+      webComponentStore.dispatch(setUser({ access_token: "token-123" }));
+    });
+
+    expect(getScratchIframeMessages("scratch-gui-update-token")).toHaveLength(
+      1,
+    );
+    expect(getScratchIframeMessages("scratch-gui-update-token")[0]).toEqual({
+      type: "scratch-gui-update-token",
+      accessToken: "token-123",
     });
   });
 
