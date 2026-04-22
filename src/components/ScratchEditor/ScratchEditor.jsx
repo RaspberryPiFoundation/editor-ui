@@ -1,8 +1,8 @@
 import scratchProjectSave from "../../utils/scratchProjectSave.js";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
-import { postScratchGuiEvent } from "./events.js";
+import { postScratchGuiEvent, allowedParentOrigin } from "./events.js";
 
 const handleUpdateProjectId = (updatedProjectId) => {
   postScratchGuiEvent("scratch-gui-project-id-updated", {
@@ -30,8 +30,34 @@ const handleScratchGuiAlert = (alertType) => {
   }
 };
 
-const ScratchEditor = ({ projectId, locale, apiUrl, accessToken }) => {
+const ScratchEditor = ({
+  projectId,
+  locale,
+  apiUrl,
+  accessToken: initialAccessToken,
+}) => {
+  const [accessToken, setAccessToken] = useState(initialAccessToken);
+
   const scratchFetchApiRef = useRef(null);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.source !== window.parent) return;
+      if (event.origin !== allowedParentOrigin()) return;
+      if (event.data?.type === "scratch-gui-update-token") {
+        setAccessToken(event.data?.accessToken);
+        scratchFetchApiRef.current?.setMetadata(
+          "Authorization",
+          event.data?.accessToken,
+        );
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   const handleUpdateProjectData = useCallback(
     async (currentProjectId, vmState, params) => {

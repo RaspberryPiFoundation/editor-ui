@@ -53,6 +53,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         case "scratch-gui-save":
           this.handleSave(event);
           break;
+        case "scratch-gui-update-token":
+          // handled elsewhere
+          break;
         default:
           console.warn("Unknown message type:", event.data.type);
           break;
