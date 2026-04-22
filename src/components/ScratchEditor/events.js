@@ -1,7 +1,9 @@
-export const postScratchGuiEvent = (type, payload = {}) => {
+export const allowedParentOrigin = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const parentOriginFromQuery = searchParams.get("parent_origin");
-  const allowedParentOrigin = parentOriginFromQuery || window.location.origin;
+  return parentOriginFromQuery || window.location.origin;
+};
 
-  window.parent.postMessage({ type, ...payload }, allowedParentOrigin);
+export const postScratchGuiEvent = (type, payload = {}) => {
+  window.parent.postMessage({ type, ...payload }, allowedParentOrigin());
 };
