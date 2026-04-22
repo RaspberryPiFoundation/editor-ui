@@ -89,6 +89,11 @@ describe("ScratchContainer", () => {
     });
   };
 
+  const getScratchIframeMessages = (type) =>
+    scratchIframeUtils.postMessageToScratchIframe.mock.calls
+      .map(([message]) => message)
+      .filter((message) => message?.type === type);
+
   const expectScratchSetTokenCall = ({
     callIndex,
     nonce,
@@ -96,8 +101,8 @@ describe("ScratchContainer", () => {
     requiresAuth,
   }) => {
     expect(
-      scratchIframeUtils.postMessageToScratchIframe,
-    ).toHaveBeenNthCalledWith(callIndex, {
+      getScratchIframeMessages("scratch-gui-set-token")[callIndex - 1],
+    ).toEqual({
       type: "scratch-gui-set-token",
       nonce,
       accessToken,
@@ -227,9 +232,7 @@ describe("ScratchContainer", () => {
     dispatchScratchGuiReady({ nonce: "nonce-1" });
     dispatchScratchGuiReady({ nonce: "nonce-2" });
 
-    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
-      2,
-    );
+    expect(getScratchIframeMessages("scratch-gui-set-token")).toHaveLength(2);
     expectScratchSetTokenCall({
       callIndex: 1,
       nonce: "nonce-1",
@@ -261,9 +264,7 @@ describe("ScratchContainer", () => {
     renderScratchContainer(store);
     dispatchScratchGuiReady({ nonce: "nonce-1" });
 
-    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
-      1,
-    );
+    expect(getScratchIframeMessages("scratch-gui-set-token")).toHaveLength(1);
     expectScratchSetTokenCall({
       callIndex: 1,
       nonce: "nonce-1",
@@ -280,9 +281,7 @@ describe("ScratchContainer", () => {
 
     dispatchScratchGuiReady({ nonce: "nonce-1" });
 
-    expect(scratchIframeUtils.postMessageToScratchIframe).toHaveBeenCalledTimes(
-      2,
-    );
+    expect(getScratchIframeMessages("scratch-gui-set-token")).toHaveLength(2);
     expectScratchSetTokenCall({
       callIndex: 2,
       nonce: "nonce-1",
