@@ -76,7 +76,7 @@ const WebComponentLoader = (props) => {
     initialProject = null,
   } = props;
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
   const localStorageUser = authKey
