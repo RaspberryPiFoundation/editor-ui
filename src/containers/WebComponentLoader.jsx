@@ -267,7 +267,7 @@ const WebComponentLoader = (props) => {
   const renderFailedState = () => (
     <>
       <style>{internalStyles.toString()}</style>
-      <LoadFailed />
+      <LoadFailed onRetry={() => window.location.reload()} />
     </>
   );
 

@@ -8,9 +8,13 @@
   inline-size: 100%;
   transform: translateY(-50%);
 
-  font-family: monospace;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-1-5);
-  color: var(--rpf-alert-error);
-  text-transform: lowercase;
+  & > span, & > button {
+    font-family: monospace;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-1-5);
+  }
+
+  & > button {
+    text-decoration-line: underline;
+  }
 }

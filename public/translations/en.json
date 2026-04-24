@@ -299,7 +299,8 @@
   },
   "webComponent": {
     "loading": "Loading...",
-    "failed": "Load failed"
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Add another panel"
