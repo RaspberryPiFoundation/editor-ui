@@ -18,13 +18,6 @@
   text-transform: lowercase;
 }
 
-.--dark {
-  .loader {
-    --loader-color-primary: var(--rpf-teal-400);
-    --loader-text-color: var(--rpf-white);
-  }
-}
-
 .loader:before,
 .loader:after {
   display: inline-block;
