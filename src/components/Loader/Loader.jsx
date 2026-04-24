@@ -5,22 +5,34 @@ import { useTranslation } from "react-i18next";
 const DEFAULT_LOADER_DELAY = 250;
 
 const Loader = ({ display = true, delay = DEFAULT_LOADER_DELAY }) => {
-  const [waiting, setWaiting] = useState(true);
+  const [ready, setReady] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!display) {
+      setReady(false);
+      return;
+    }
+
+    setReady(false);
     const timer = setTimeout(() => {
-      setWaiting(true);
+      setReady(true);
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [delay]);
+  }, [display, delay]);
 
   return (
     <>
-      {display && waiting ? (
-        <div className="loader" data-testid="loader">
-          <span>{t("loadingStates.loading")}</span>
+      {display && ready ? (
+        <div
+          className="loader"
+          data-testid="loader"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span>{t("webComponent.loading")}</span>
         </div>
       ) : null}
     </>

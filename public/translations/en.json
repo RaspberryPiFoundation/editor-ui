@@ -1,7 +1,4 @@
 {
-  "loadingStates": {
-    "loading": "Loading..."
-  },
   "modal": {
     "close": "Close",
     "error": {
@@ -301,7 +298,7 @@
     }
   },
   "webComponent": {
-    "loading": "Loading",
+    "loading": "Loading...",
     "failed": "Load failed"
   },
   "newInputPanelButton": {
