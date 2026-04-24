@@ -41,6 +41,8 @@
 @use "./FilePanel" as *; // needs to be below Button
 @use "./EmbeddedViewer" as *;
 @use "./EditorFinalStep.scss" as *;
+@use "./Loader.scss" as *;
+@use "./LoadFailed.scss" as *;
 
 @use "./settings/fonts" as fonts;
 

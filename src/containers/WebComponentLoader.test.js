@@ -1,4 +1,4 @@
-import { render, act, waitFor } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -764,6 +764,50 @@ describe("When user is in state", () => {
           composed: true,
         }),
       );
+    });
+
+    test("renders the load failed component", () => {
+      expect(screen.getByTestId("load-failed")).toBeInTheDocument();
+    });
+  });
+
+  describe("when a project is loading", () => {
+    beforeEach(() => {
+      const middlewares = [];
+      const mockStore = configureStore(middlewares);
+      const initialState = {
+        editor: {
+          loading: "pending",
+          project: {
+            components: [],
+          },
+          openFiles: [],
+          focussedFileIndices: [],
+          hasShownSavePrompt: false,
+          remixLoadFailed: false,
+          justLoaded: false,
+          saveTriggered: false,
+        },
+        instructions: {},
+        auth: { user },
+      };
+      store = mockStore(initialState);
+      cookies = new Cookies();
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              identifier={identifier}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+    });
+
+    test("renders the loader component", async () => {
+      expect(await screen.findByTestId("loader")).toBeInTheDocument();
     });
   });
 });

@@ -21,6 +21,8 @@ import ErrorModal from "../components/Modals/ErrorModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
 import { ToastContainer } from "react-toastify";
 import ToastCloseButton from "../utils/ToastCloseButton";
+import Loader from "../components/Loader/Loader";
+import LoadFailed from "../components/LoadFailed/LoadFailed";
 
 import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
@@ -74,7 +76,7 @@ const WebComponentLoader = (props) => {
     initialProject = null,
   } = props;
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
   const localStorageUser = authKey
@@ -264,13 +266,15 @@ const WebComponentLoader = (props) => {
 
   const renderFailedState = () => (
     <>
-      <p>{t("webComponent.failed")}</p>
+      <style>{internalStyles.toString()}</style>
+      <LoadFailed onRetry={() => window.location.reload()} />
     </>
   );
 
   const renderLoadingState = () => (
     <>
-      <p>{t("webComponent.loading")}</p>
+      <style>{internalStyles.toString()}</style>
+      <Loader delay={0} />
     </>
   );
 
