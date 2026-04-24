@@ -25,13 +25,7 @@ const Loader = ({ display = true, delay = DEFAULT_LOADER_DELAY }) => {
   return (
     <>
       {display && ready ? (
-        <div
-          className="loader"
-          data-testid="loader"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
+        <div className="loader" data-testid="loader" role="status">
           <span>{t("webComponent.loading")}</span>
         </div>
       ) : null}
