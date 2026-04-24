@@ -1,4 +1,7 @@
 {
+  "loadingStates": {
+    "loading": "Loading..."
+  },
   "modal": {
     "close": "Close",
     "error": {
