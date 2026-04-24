@@ -22,7 +22,7 @@ import RenameFileModal from "../components/Modals/RenameFileModal";
 import { ToastContainer } from "react-toastify";
 import ToastCloseButton from "../utils/ToastCloseButton";
 import Loader from "../components/Loader/Loader";
-import LoadFailed from "../components/Loader/LoadFailed";
+import LoadFailed from "../components/LoadFailed/LoadFailed";
 
 import internalStyles from "../assets/stylesheets/InternalStyles.scss";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
