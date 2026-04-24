@@ -11,6 +11,7 @@ import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
+import { setUser } from "./redux/WebComponentAuthSlice";
 
 dedupeDesignSystemWarnings();
 
@@ -205,6 +206,14 @@ class WebComponent extends HTMLElement {
     };
   }
 
+  loadInitialUser() {
+    if (this.getAttribute("auth_key")) {
+      const authKey = this.getAttribute("auth_key");
+      const localStorageUser = JSON.parse(localStorage.getItem(authKey));
+      store.dispatch(setUser(localStorageUser));
+    }
+  }
+
   mountReactApp() {
     if (!this.mountPoint) {
       this.mountPoint = document.createElement("div");
@@ -213,6 +222,8 @@ class WebComponent extends HTMLElement {
       this.attachShadow({ mode: "open" }).appendChild(this.mountPoint);
       this.root = ReactDOMClient.createRoot(this.mountPoint);
     }
+
+    this.loadInitialUser();
 
     this.root.render(
       <React.StrictMode>

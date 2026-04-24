@@ -33,6 +33,7 @@ export const useProject = ({
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const effectiveLocale = locale ?? i18n.language;
+  const hasAccessToken = Boolean(accessToken);
 
   const loadCachedProject = () => {
     dispatch(setProject(cachedProject));
@@ -130,7 +131,7 @@ export const useProject = ({
     projectIdentifier,
     cachedProject,
     effectiveLocale,
-    accessToken,
+    hasAccessToken,
     loadRemix,
     initialProject,
   ]);
