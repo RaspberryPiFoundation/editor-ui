@@ -298,8 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Chargement en cours",
-    "failed": "Échec du chargement"
+    "loading": "Loading...",
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Ajouter une autre panneau"
