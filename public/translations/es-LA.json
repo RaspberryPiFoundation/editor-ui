@@ -298,8 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Cargando",
-    "failed": "Error al cargar"
+    "loading": "Loading...",
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Agregar otro panel"
