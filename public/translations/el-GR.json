@@ -298,8 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Φόρτωση",
-    "failed": "Η φόρτωση απέτυχε"
+    "loading": "Loading...",
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Προσθήκη επιπλέον πίνακα"
