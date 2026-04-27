@@ -18,9 +18,18 @@
   text-transform: lowercase;
 }
 
+.--dark {
+  .loader {
+    --loader-color-primary: var(--rpf-teal-400);
+    --loader-text-color: var(--rpf-white);
+  }
+}
+
 .loader:before,
 .loader:after {
   display: inline-block;
+  vertical-align: middle;
+  margin-inline: 0.25rem;
 
   color: var(--loader-color-primary);
   font-size: var(--font-size-3);

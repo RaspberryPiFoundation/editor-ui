@@ -266,14 +266,18 @@ const WebComponentLoader = (props) => {
   const renderFailedState = () => (
     <>
       <style>{internalStyles.toString()}</style>
-      <LoadFailed onRetry={() => window.location.reload()} />
+      <div className={`--${cookies.theme || themeDefault}`}>
+        <LoadFailed onRetry={() => window.location.reload()} />
+      </div>
     </>
   );
 
   const renderLoadingState = () => (
     <>
       <style>{internalStyles.toString()}</style>
-      <Loader delay={0} />
+      <div className={`--${cookies.theme || themeDefault}`}>
+        <Loader delay={0} />
+      </div>
     </>
   );
 
