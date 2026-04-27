@@ -300,8 +300,9 @@
     }
   },
   "webComponent": {
-    "loading": "Завантажуємо",
-    "failed": "Не вдалося завантажити"
+    "loading": "Loading...",
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Додати ще одну панель"
