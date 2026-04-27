@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -36,6 +36,7 @@ export default function ScratchContainer() {
     (state) => state.editor.scratchApiEndpoint,
   );
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
+  const [initialAccessToken] = useState(accessToken);
   const iframeProjectIdentifier =
     scratchIframeProjectIdentifier || projectIdentifier;
 
@@ -55,6 +56,15 @@ export default function ScratchContainer() {
       },
     );
   }, [dispatch]);
+
+  useEffect(() => {
+    if (accessToken === initialAccessToken) return;
+
+    postMessageToScratchIframe({
+      type: "scratch-gui-update-token",
+      accessToken: accessToken,
+    });
+  }, [accessToken, initialAccessToken]);
 
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();

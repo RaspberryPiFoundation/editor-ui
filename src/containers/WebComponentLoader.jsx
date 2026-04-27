@@ -14,6 +14,7 @@ import { setInstructions } from "../redux/InstructionsSlice";
 import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
+import { useSyncUserFromLocalStorage } from "../hooks/useSyncUserFromLocalStorage";
 import { SettingsContext } from "../utils/settings";
 import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
@@ -79,10 +80,7 @@ const WebComponentLoader = (props) => {
 
   const [projectIdentifier, setProjectIdentifier] = useState(identifier);
   localStorage.setItem("authKey", authKey);
-  const localStorageUser = authKey
-    ? JSON.parse(localStorage.getItem(authKey))
-    : null;
-  const user = useSelector((state) => state.auth.user || localStorageUser);
+  const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
@@ -113,6 +111,7 @@ const WebComponentLoader = (props) => {
     : "light";
 
   useEmbeddedMode(embedded);
+  useSyncUserFromLocalStorage({ authKey, user });
 
   useEffect(() => {
     if (theme) {
