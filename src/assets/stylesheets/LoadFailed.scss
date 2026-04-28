@@ -1,0 +1,31 @@
+
+.load-failed {
+  --load-failed-text-color: var(--rpf-black);
+  --load-failed-link-color: var(--rpf-teal-900);
+
+  display: block;
+  text-align: center;
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  transform: translateY(-50%);
+
+  & > span, & > button {
+    font-family: monospace;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-1-5);
+  }
+
+  & > button {
+    color: var(--load-failed-link-color);
+    text-decoration-line: underline;
+  }
+}
+
+.--dark {
+  .load-failed {
+    --load-failed-text-color: var(--rpf-white);
+    --load-failed-link-color: var(--rpf-teal-400);
+  }
+}

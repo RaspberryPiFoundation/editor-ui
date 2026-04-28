@@ -298,8 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Aan het laden",
-    "failed": "Laden mislukt"
+    "loading": "Loading...",
+    "failed": "Load failed.",
+    "retry": "Try again"
   },
   "newInputPanelButton": {
     "buttonText": "Voeg nog een paneel toe"
