@@ -39,11 +39,11 @@
 }
 
 .loader:before {
-  content: "\7B";
+  content: "";
   animation: loader-pulse var(--loader-speed) alternate infinite ease-in-out;
 }
 .loader:after {
-  content: "\7D";
+  content: "";
   animation: loader-pulse var(--loader-speed) var(--loader-speed) alternate
     infinite ease-in-out;
 }
