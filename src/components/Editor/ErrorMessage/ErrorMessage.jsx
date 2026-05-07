@@ -10,7 +10,7 @@ import {
   loadCopydeckFor,
   registerAdapter,
   pyodideAdapter,
-  explain,
+  friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
 
 const ErrorMessage = () => {
@@ -37,12 +37,10 @@ const ErrorMessage = () => {
   useEffect(() => {
     if (!message.current || !error || !isReady) return;
     try {
-      const explanation = explain({
+      const explanation = friendlyExplain({
         error: error,
         code: code || errorLine,
-        // TODO: set dynamically (but based on what? maybe not really needed)
-        audience: "beginner",
-        verbosity: "guided",
+        runtime: "pyodide",
       });
       const explained = explanation.html || explanation.summary;
       message.current.innerHTML = error;
