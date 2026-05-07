@@ -50,7 +50,7 @@ const ErrorMessage = () => {
     } catch {
       message.current.innerHTML = error;
     }
-  }, [error, code, errorLine, isReady]);
+  }, [error, errorLine, isReady]);
 
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>
