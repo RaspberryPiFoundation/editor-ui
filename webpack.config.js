@@ -201,7 +201,8 @@ const mainConfig = {
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
           ].includes(req.url) ||
-          req.url.startsWith("/scratch.html")
+          req.url.startsWith("/scratch.html") ||
+          req.url.startsWith("/html-renderer.html")
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
         }
