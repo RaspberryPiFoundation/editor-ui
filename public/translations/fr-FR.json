@@ -25,7 +25,7 @@
       "notUnique": "Le nom des fichiers doit être unique.",
       "or": "ou",
       "unsupportedExtension": "Le nom des fichiers doit se terminer par {{allowedExtensions}}.",
-      "emptyFileName": "File name cannot be empty."
+      "emptyFileName": "Le nom du fichier ne peut pas être vide."
     },
     "files": "Fichiers du projet",
     "images": "Galerie d'images",
@@ -298,9 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Loading...",
-    "failed": "Load failed.",
-    "retry": "Try again"
+    "loading": "Chargement en cours...",
+    "failed": "Échec du chargement.",
+    "retry": "Essayer de nouveau"
   },
   "newInputPanelButton": {
     "buttonText": "Ajouter une autre panneau"
