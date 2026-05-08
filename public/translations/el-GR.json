@@ -25,7 +25,7 @@
       "notUnique": "Τα ονόματα αρχείων πρέπει να είναι μοναδικά.",
       "or": "ή",
       "unsupportedExtension": "Τα ονόματα αρχείων πρέπει να τελειώνουν σε {{allowedExtensions}}.",
-      "emptyFileName": "File name cannot be empty."
+      "emptyFileName": "Το όνομα αρχείου δεν μπορεί να είναι κενό."
     },
     "files": "Αρχεία έργου",
     "images": "Συλλογή εικόνων",
@@ -298,9 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Loading...",
-    "failed": "Load failed.",
-    "retry": "Try again"
+    "loading": "Φορτώνει...",
+    "failed": "Η φόρτωση απέτυχε.",
+    "retry": "Δοκίμασε ξανά"
   },
   "newInputPanelButton": {
     "buttonText": "Προσθήκη επιπλέον πίνακα"
