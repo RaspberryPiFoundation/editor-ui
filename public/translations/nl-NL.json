@@ -25,7 +25,7 @@
       "notUnique": "Bestandsnamen moeten uniek zijn.",
       "or": "of",
       "unsupportedExtension": "Bestandsnamen moeten eindigen op {{allowedExtensions}}.",
-      "emptyFileName": "File name cannot be empty."
+      "emptyFileName": "Bestandsnaam mag niet leeg zijn."
     },
     "files": "Projectbestanden",
     "images": "Afbeeldingengalerij",
@@ -298,9 +298,9 @@
     }
   },
   "webComponent": {
-    "loading": "Loading...",
-    "failed": "Load failed.",
-    "retry": "Try again"
+    "loading": "Aan het laden...",
+    "failed": "Laden mislukt.",
+    "retry": "Opnieuw proberen"
   },
   "newInputPanelButton": {
     "buttonText": "Voeg nog een paneel toe"
