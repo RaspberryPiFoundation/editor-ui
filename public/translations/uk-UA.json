@@ -27,7 +27,7 @@
       "notUnique": "Імена файлів мають бути унікальними.",
       "or": "або",
       "unsupportedExtension": "Імена файлів мають закінчуватися на {{allowedExtensions}}.",
-      "emptyFileName": "File name cannot be empty."
+      "emptyFileName": "Ім’я файлу не може бути порожнім."
     },
     "files": "Файли проєкту",
     "images": "Галерея зображень",
@@ -300,9 +300,9 @@
     }
   },
   "webComponent": {
-    "loading": "Loading...",
-    "failed": "Load failed.",
-    "retry": "Try again"
+    "loading": "Завантажуємо...",
+    "failed": "Не вдалося завантажити.",
+    "retry": "Спробуйте ще раз"
   },
   "newInputPanelButton": {
     "buttonText": "Додати ще одну панель"
