@@ -16,17 +16,23 @@ export const useProject = ({
   loadCache = true,
   remixLoadFailed = false,
   locale = null,
+  embedded = false,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
+  const browserPreviewFromQuery =
+    new URLSearchParams(window.location.search).get("browserPreview") ===
+    "true";
+  const isEmbeddedMode = embedded || isEmbedded;
+  const canUseBrowserPreviewCache =
+    isBrowserPreview || (embedded && browserPreviewFromQuery);
+  const shouldSkipCache = isEmbeddedMode && !canUseBrowserPreviewCache;
   const project = useSelector((state) => state.editor.project);
   const loadDispatched = useRef(false);
 
   const getCachedProject = (id) =>
-    isEmbedded && !isBrowserPreview
-      ? null
-      : JSON.parse(localStorage.getItem(id || "project"));
+    shouldSkipCache ? null : JSON.parse(localStorage.getItem(id || "project"));
   const [cachedProject, setCachedProject] = useState(
     getCachedProject(projectIdentifier),
   );
@@ -51,21 +57,23 @@ export const useProject = ({
         return;
       }
 
-      const is_cached_saved_project =
+      const isCachedSavedProject =
         projectIdentifier &&
         cachedProject &&
         cachedProject.identifier === projectIdentifier;
-      const is_cached_unsaved_project =
+      const isCachedUnsavedProject =
         !projectIdentifier && cachedProject && !initialProject;
+      const cachedProjectMatchesRequest =
+        isCachedSavedProject || isCachedUnsavedProject;
 
-      // At the moment this will never match because the cachedProject doesn't have a locale attribute (yet),
-      // so this will always be false, which effectively disables the whole caching mechanism
+      // Browser previews need the current local edits. Starter projects can be
+      // served from a fallback locale, so the cached locale may not match the URL.
       const cachedLocaleMatches = cachedProject?.locale === effectiveLocale;
 
       if (
         loadCache &&
-        (is_cached_saved_project || is_cached_unsaved_project) &&
-        cachedLocaleMatches
+        cachedProjectMatchesRequest &&
+        (cachedLocaleMatches || canUseBrowserPreviewCache)
       ) {
         loadCachedProject();
         return;

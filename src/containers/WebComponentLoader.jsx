@@ -160,6 +160,7 @@ const WebComponentLoader = (props) => {
     remixLoadFailed,
     initialProject,
     locale,
+    embedded,
   });
 
   useProjectPersistence({

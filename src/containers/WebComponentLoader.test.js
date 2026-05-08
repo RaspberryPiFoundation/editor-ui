@@ -262,7 +262,26 @@ describe("When no user is in state", () => {
         loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",
+        embedded: false,
       });
+    });
+
+    test("Passes embedded prop to useProject hook", () => {
+      render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              embedded={true}
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      expect(useProject).toHaveBeenLastCalledWith(
+        expect.objectContaining({ embedded: true }),
+      );
     });
 
     test("Calls useProjectPersistence hook with correct attributes", () => {
@@ -409,6 +428,7 @@ describe("When no user is in state", () => {
         loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",
+        embedded: false,
       });
     });
   });
@@ -536,6 +556,7 @@ describe("When user is in state", () => {
           loadCache: true,
           remixLoadFailed: false,
           reactAppApiEndpoint: "http://localhost:3009",
+          embedded: false,
         });
       });
 
@@ -568,6 +589,7 @@ describe("When user is in state", () => {
             loadCache: true,
             remixLoadFailed: false,
             reactAppApiEndpoint: "http://localhost:3009",
+            embedded: false,
           });
         });
       });
@@ -650,6 +672,7 @@ describe("When user is in state", () => {
           loadCache: true,
           remixLoadFailed: true,
           reactAppApiEndpoint: "http://localhost:3009",
+          embedded: false,
         });
       });
 
@@ -813,6 +836,7 @@ describe("when a Scratch remix updates the project identifier", () => {
         loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",
+        embedded: false,
       });
     });
   });

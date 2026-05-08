@@ -76,7 +76,7 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(initialProject);
   });
 
-  test("If cached project matches identifer and locale, uses cached project", () => {
+  test("If cached project matches identifier and locale, uses cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
       JSON.stringify(cachedProject),
@@ -92,7 +92,7 @@ describe("When not embedded", () => {
     expect(setProject).toHaveBeenCalledWith(cachedProject);
   });
 
-  test("If cached project matches identifer and locale, clears cached project", () => {
+  test("If cached project matches identifier and locale, keeps cached project", () => {
     localStorage.setItem(
       cachedProject.identifier,
       JSON.stringify(cachedProject),
@@ -105,10 +105,33 @@ describe("When not embedded", () => {
         }),
       { wrapper },
     );
-    expect(localStorage.getItem("project")).toBeNull();
+    expect(JSON.parse(localStorage.getItem(cachedProject.identifier))).toEqual(
+      cachedProject,
+    );
   });
 
-  test("If cached project does not match identifer, does not use cached project", async () => {
+  test("If embedded prop is true before embedded state is set, loads from server instead of cache", () => {
+    syncProject.mockImplementation(jest.fn((_) => jest.fn()));
+    localStorage.setItem(
+      cachedProject.identifier,
+      JSON.stringify(cachedProject),
+    );
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: cachedProject.locale,
+          embedded: true,
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    expect(setProject).not.toHaveBeenCalledWith(cachedProject);
+  });
+
+  test("If cached project does not match identifier, does not use cached project", async () => {
     syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
@@ -138,6 +161,31 @@ describe("When not embedded", () => {
     await waitFor(() =>
       expect(setProject).not.toHaveBeenCalledWith(cachedProject),
     );
+  });
+
+  test("If cached project does not match locale and browserPreview query is used outside embedded viewer, does not use cached project", () => {
+    syncProject.mockImplementation(jest.fn((_) => jest.fn()));
+    window.history.pushState(
+      {},
+      "",
+      "/en-US/projects/hello-world-project?browserPreview=true&page=index.html",
+    );
+    localStorage.setItem(
+      cachedProject.identifier,
+      JSON.stringify(cachedProject),
+    );
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "en-US",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+    expect(syncProject).toHaveBeenCalledWith("load");
+    expect(setProject).not.toHaveBeenCalledWith(cachedProject);
   });
 
   test("If cached project does not match identifier and locale, loads correct uncached project", async () => {
@@ -559,6 +607,7 @@ describe("When not embedded", () => {
 
   afterEach(() => {
     localStorage.clear();
+    window.history.pushState({}, "", "/");
   });
 });
 
@@ -573,6 +622,35 @@ describe("When embedded", () => {
     const mockStore = configureStore([]);
     store = mockStore(initialState);
     wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
+  });
+
+  test("If embedded browser preview and cached project locale does not match, uses cached project", () => {
+    const browserPreviewCachedProject = {
+      ...cachedProject,
+      identifier: "blank-html-starter",
+      locale: "en",
+    };
+    window.history.pushState(
+      {},
+      "",
+      "/en-US/embed/viewer/blank-html-starter?browserPreview=true&page=index.html",
+    );
+    localStorage.setItem(
+      browserPreviewCachedProject.identifier,
+      JSON.stringify(browserPreviewCachedProject),
+    );
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: browserPreviewCachedProject.identifier,
+          locale: "en-US",
+          embedded: true,
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+    expect(setProject).toHaveBeenCalledWith(browserPreviewCachedProject);
   });
 
   test("If embedded and cached project, loads from server", async () => {
@@ -601,5 +679,6 @@ describe("When embedded", () => {
 
   afterEach(() => {
     localStorage.clear();
+    window.history.pushState({}, "", "/");
   });
 });
