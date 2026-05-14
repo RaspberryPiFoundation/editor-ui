@@ -40,13 +40,13 @@
     &::before {
       content: "";
       position: absolute;
-      top: -8px;
-      right: 20px;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid #1d1d1d;
+      inset-block-start: -8px;
+      inset-inline-end: 20px;
+      inline-size: 0;
+      block-size: 0;
+      border-inline-start: 8px solid transparent;
+      border-inline-end: 8px solid transparent;
+      border-block-end: 8px solid #1d1d1d;
     }
 
     p {
