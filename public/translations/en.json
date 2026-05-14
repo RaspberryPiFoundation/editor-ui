@@ -84,6 +84,8 @@
     "save": "Save",
     "loginToSave": "Log in to save",
     "offline": "Offline",
+    "offlineTooltipDevice": "Code changes are being saved to your device.",
+    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
     "settings": "Settings"
   },
   "imagePanel": {

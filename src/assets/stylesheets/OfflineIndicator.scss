@@ -1,0 +1,67 @@
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/spacing" as *;
+
+.offline-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-0-5;
+  padding-inline: $space-0-5;
+  padding-block: $space-0-5;
+  border-radius: 100vw;
+  border: 3px solid $rpf-red-400;
+  color: $rpf-red-900;
+  white-space: nowrap;
+  cursor: default;
+  background-color: $rpf-red-100;
+  font-weight: bold;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &__tooltip {
+    position: absolute;
+    inset-block-start: calc(100% + $space-1);
+    inset-inline-end: 0;
+    inline-size: 20rem;
+    padding: $space-1;
+    border-radius: $space-0-5;
+    background: #1d1d1d;
+    color: #fff;
+    font-size: 1rem;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid #1d1d1d;
+    }
+
+    p {
+      margin: 0;
+
+      & + p {
+        margin-block-start: $space-1-5;
+      }
+    }
+  }
+
+  &:hover &__tooltip,
+  &:focus-within &__tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}

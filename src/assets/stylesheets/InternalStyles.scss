@@ -37,6 +37,7 @@
 @use "./Button" as *;
 @use "./DesignSystemButton" as *;
 @use "./SaveStatus" as *;
+@use "./OfflineIndicator" as *;
 @use "./ContextMenu" as *;
 @use "./FilePanel" as *; // needs to be below Button
 @use "./EmbeddedViewer" as *;

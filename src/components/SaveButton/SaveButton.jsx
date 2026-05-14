@@ -8,6 +8,7 @@ import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveIcon from "../../assets/icons/save.svg";
+import OfflineIcon from "../../assets/icons/offline.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
 
@@ -42,9 +43,14 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   if (!isOnline && !user) {
     return (
-      <span className={classNames(className, "save-button--offline")}>
-        {t("header.offline")}
-      </span>
+      <div className={classNames(className, "offline-badge")}>
+        <OfflineIcon />
+        <span>{t("header.offline")}</span>
+        <div className="offline-badge__tooltip">
+          <p>{t("header.offlineTooltipDevice")}</p>
+          <p>{t("header.offlineTooltipContinue")}</p>
+        </div>
+      </div>
     );
   }
 
