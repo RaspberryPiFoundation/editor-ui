@@ -9,10 +9,10 @@ const useIsOnline = () => {
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
 
-    // The service worker broadcasts OFFLINE whenever a network-first fetch falls back to cache, which reliably catches the case where navigator.onLine hasn't settled yet after a page reload when offline
-    // This ensures that we can show "offline" state / UI immediately on page load when offline
+    // The service worker broadcasts OFFLINE when a network-first fetch falls back to cache (catching cases where navigator.onLine hasn't settled on page reload), and ONLINE when the network becomes reachable again after a cache fallback period
     const handleSWMessage = ({ data }) => {
       if (data?.type === "OFFLINE") setIsOnline(false);
+      if (data?.type === "ONLINE") setIsOnline(true);
     };
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.addEventListener("message", handleSWMessage);
@@ -26,6 +26,16 @@ const useIsOnline = () => {
       }
     };
   }, []);
+
+  // While offline, poll the SW every 3s to check if the network has returned, broadcast ONLINE if successful
+  useEffect(() => {
+    if (isOnline || !("serviceWorker" in navigator)) return;
+    const interval = setInterval(async () => {
+      const reg = await navigator.serviceWorker.ready;
+      reg.active?.postMessage({ type: "CHECK_ONLINE" });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isOnline]);
 
   return isOnline;
 };

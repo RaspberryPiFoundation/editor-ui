@@ -77,25 +77,49 @@ function addSecurityHeaders(response) {
   });
 }
 
-function broadcastOffline() {
+// Tracks whether any network-first request has fallen back to cache, so that we can broadcast ONLINE when the network becomes reachable again
+let servingFromCache = false;
+
+self.addEventListener("online", () => {
+  servingFromCache = false;
+  broadcast("ONLINE");
+});
+
+// Send CHECK_ONLINE when offline. We probe the network directly here because SW-initiated fetches bypass the SW's own fetch handler, hitting the network without being served from cache
+self.addEventListener("message", (event) => {
+  if (event.data?.type !== "CHECK_ONLINE") return;
+  fetch("./manifest.json", { cache: "no-store" })
+    .then(() => {
+      servingFromCache = false;
+      broadcast("ONLINE");
+    })
+    .catch(() => {});
+});
+
+function broadcast(type) {
   self.clients
     .matchAll()
-    .then((clients) => clients.forEach((c) => c.postMessage({ type: "OFFLINE" })));
+    .then((clients) => clients.forEach((c) => c.postMessage({ type })));
 }
 
-// Network-first: try the network, update the cache, fall back to cache
+// Network-first try the network, update the cache, fall back to cache
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       cache.put(request, addSecurityHeaders(networkResponse.clone()));
+      if (servingFromCache) {
+        servingFromCache = false;
+        broadcast("ONLINE");
+      }
     }
     return addSecurityHeaders(networkResponse);
   } catch {
     const cached = await cache.match(request);
     if (cached) {
-      broadcastOffline();
+      servingFromCache = true;
+      broadcast("OFFLINE");
       return addSecurityHeaders(cached);
     }
     return Response.error();
@@ -139,7 +163,10 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Translation files get their own cache so they can be evicted independently of the app shell
-  if (url.origin === self.location.origin && url.pathname.includes("/translations/")) {
+  if (
+    url.origin === self.location.origin &&
+    url.pathname.includes("/translations/")
+  ) {
     event.respondWith(networkFirst(event.request, TRANSLATIONS_CACHE));
     return;
   }
