@@ -17,18 +17,32 @@ const APP_SHELL = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(APP_CACHE)
-      .then((cache) =>
-        cache
-          .addAll(APP_SHELL)
-          .catch((err) =>
-            console.warn(
-              "[SW] Pre-cache failed, will rely on dynamic caching:",
-              err,
+    Promise.all([
+      caches
+        .open(APP_CACHE)
+        .then((cache) =>
+          cache
+            .addAll(APP_SHELL)
+            .catch((err) =>
+              console.warn(
+                "[SW] Pre-cache failed, will rely on dynamic caching:",
+                err,
+              ),
             ),
-          ),
-      ),
+        ),
+      caches
+        .open(TRANSLATIONS_CACHE)
+        .then((cache) =>
+          cache
+            .addAll(["./translations/en.json"])
+            .catch((err) =>
+              console.warn(
+                "[SW] Translation pre-cache failed, will rely on dynamic caching:",
+                err,
+              ),
+            ),
+        ),
+    ]),
   );
   self.skipWaiting();
 });
