@@ -11,6 +11,7 @@ import reducer, {
   setIsOutputOnly,
   setErrorDetails,
   setReadOnly,
+  setOfflineEnabled,
   addProjectComponent,
   updateProjectComponent,
   setCascadeUpdate,
@@ -111,6 +112,12 @@ test("Action setReadOnly correctly sets readOnly", () => {
   const previousState = { readOnly: false };
   const expectedState = { readOnly: true };
   expect(reducer(previousState, setReadOnly(true))).toEqual(expectedState);
+});
+
+test("Action setOfflineEnabled correctly sets offlineEnabled", () => {
+  const previousState = { offlineEnabled: false };
+  const expectedState = { offlineEnabled: true };
+  expect(reducer(previousState, setOfflineEnabled(true))).toEqual(expectedState);
 });
 
 test("Action addProjectComponent adds component to project with correct content", () => {

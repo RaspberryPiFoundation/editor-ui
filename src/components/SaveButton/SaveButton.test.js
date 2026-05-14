@@ -5,11 +5,19 @@ import configureStore from "redux-mock-store";
 import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
 
+jest.mock("../../hooks/useIsOnline");
+
+import useIsOnline from "../../hooks/useIsOnline";
+
 const logInHandler = jest.fn();
 
 describe("When project is loaded", () => {
   beforeAll(() => {
     document.addEventListener("editor-logIn", logInHandler);
+  });
+
+  beforeEach(() => {
+    useIsOnline.mockReturnValue(true);
   });
 
   describe("With logged in user", () => {
@@ -201,6 +209,69 @@ describe("When project is loaded", () => {
     test("Renders a primary button", () => {
       const saveButton = screen.queryByText("header.loginToSave").parentElement;
       expect(saveButton).toHaveClass("btn--primary");
+    });
+  });
+
+  describe("offline badge", () => {
+    const offlineState = {
+      editor: {
+        loading: "success",
+        webComponent: true,
+        offlineEnabled: true,
+        project: {},
+      },
+      auth: {},
+    };
+
+    beforeEach(() => {
+      useIsOnline.mockReturnValue(false);
+    });
+
+    test("shows offline badge when offline and offlineEnabled is true", () => {
+      const store = configureStore([])(offlineState);
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+      expect(screen.queryByText("header.offline")).toBeInTheDocument();
+    });
+
+    test("does not show offline badge when offlineEnabled is false", () => {
+      const store = configureStore([])({
+        ...offlineState,
+        editor: { ...offlineState.editor, offlineEnabled: false },
+      });
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+      expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
+    });
+
+    test("does not show offline badge when online, even if offlineEnabled is true", () => {
+      useIsOnline.mockReturnValue(true);
+      const store = configureStore([])(offlineState);
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+      expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
+    });
+
+    test("does not show offline badge when user is logged in", () => {
+      const store = configureStore([])({
+        ...offlineState,
+        auth: { user: { profile: { user: "some-user" } } },
+      });
+      render(
+        <Provider store={store}>
+          <SaveButton />
+        </Provider>,
+      );
+      expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
     });
   });
 
