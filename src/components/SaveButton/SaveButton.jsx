@@ -21,6 +21,7 @@ const SaveButton = ({ className, type, fill = false }) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
+  const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
   const isOnline = useIsOnline();
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   if (loading !== "success" || projectOwner || !buttonType) return null;
 
-  if (!isOnline && !user) {
+  if (offlineEnabled && !isOnline && !user) {
     return (
       <div className={classNames(className, "offline-badge")}>
         <OfflineIcon />

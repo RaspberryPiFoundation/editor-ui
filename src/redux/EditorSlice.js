@@ -112,6 +112,7 @@ export const editorInitialState = {
   lastSaveAutosave: false,
   lastSavedTime: null,
   senseHatAlwaysEnabled: false,
+  offlineEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
   betaModalShowing: false,
@@ -281,6 +282,9 @@ export const EditorSlice = createSlice({
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
+    },
+    setOfflineEnabled: (state, action) => {
+      state.offlineEnabled = action.payload;
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
@@ -515,6 +519,7 @@ export const {
   setReadOnly,
   setInstructionsEditable,
   setSenseHatAlwaysEnabled,
+  setOfflineEnabled,
   setSenseHatEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
