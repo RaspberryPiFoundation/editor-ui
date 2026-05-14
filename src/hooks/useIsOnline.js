@@ -9,9 +9,8 @@ const useIsOnline = () => {
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
 
-    // The service worker is authoritative: it broadcasts OFFLINE whenever a
-    // network-first fetch falls back to cache, which reliably catches the case
-    // where navigator.onLine hasn't settled yet after a page reload offline.
+    // The service worker broadcasts OFFLINE whenever a network-first fetch falls back to cache, which reliably catches the case where navigator.onLine hasn't settled yet after a page reload when offline
+    // This ensures that we can show "offline" state / UI immediately on page load when offline
     const handleSWMessage = ({ data }) => {
       if (data?.type === "OFFLINE") setIsOnline(false);
     };
