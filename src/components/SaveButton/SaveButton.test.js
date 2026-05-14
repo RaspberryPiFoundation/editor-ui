@@ -4,10 +4,9 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
+import useIsOnline from "../../hooks/useIsOnline";
 
 jest.mock("../../hooks/useIsOnline");
-
-import useIsOnline from "../../hooks/useIsOnline";
 
 const logInHandler = jest.fn();
 

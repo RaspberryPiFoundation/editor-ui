@@ -117,7 +117,9 @@ test("Action setReadOnly correctly sets readOnly", () => {
 test("Action setOfflineEnabled correctly sets offlineEnabled", () => {
   const previousState = { offlineEnabled: false };
   const expectedState = { offlineEnabled: true };
-  expect(reducer(previousState, setOfflineEnabled(true))).toEqual(expectedState);
+  expect(reducer(previousState, setOfflineEnabled(true))).toEqual(
+    expectedState,
+  );
 });
 
 test("Action addProjectComponent adds component to project with correct content", () => {
