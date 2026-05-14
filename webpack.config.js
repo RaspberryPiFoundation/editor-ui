@@ -243,7 +243,8 @@ const mainConfig = {
             const version = process.env.npm_package_version;
             return content
               .toString()
-              .replace("editor-app-v1", `editor-app-v${version}`);
+              .replace("editor-app-v1", `editor-app-v${version}`)
+              .replace("editor-translations-v1", `editor-translations-v${version}`);
           },
         },
         { from: "src/projects", to: "projects" },

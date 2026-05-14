@@ -1,8 +1,9 @@
 /* eslint-env serviceworker */
 /* eslint-disable no-restricted-globals */
 
-// "editor-app-v1" is replaced with the package version at build time (see webpack.config.js)
+// "editor-app-v1" and "editor-translations-v1" are replaced with the package version at build time (see webpack.config.js)
 const APP_CACHE = "editor-app-v1";
+const TRANSLATIONS_CACHE = "editor-translations-v1";
 const PYODIDE_CACHE = "pyodide-v0.26.2";
 
 // Minimal set of assets to pre-cache on install
@@ -37,7 +38,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== APP_CACHE && key !== PYODIDE_CACHE)
+          .filter((key) => key !== APP_CACHE && key !== TRANSLATIONS_CACHE && key !== PYODIDE_CACHE)
           .map((key) => {
             console.log("[SW] Deleting old cache:", key);
             return caches.delete(key);
@@ -120,6 +121,12 @@ self.addEventListener("fetch", (event) => {
     url.pathname.includes("/pyodide/")
   ) {
     event.respondWith(cacheFirst(event.request, PYODIDE_CACHE));
+    return;
+  }
+
+  // Translation files get their own cache so they can be evicted independently of the app shell
+  if (url.origin === self.location.origin && url.pathname.includes("/translations/")) {
+    event.respondWith(networkFirst(event.request, TRANSLATIONS_CACHE));
     return;
   }
 
