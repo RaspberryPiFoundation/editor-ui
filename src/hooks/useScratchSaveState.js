@@ -19,6 +19,7 @@ export const useScratchSaveState = ({
   const dispatch = useDispatch();
   const autoSaveTimeoutRef = useRef(null);
   const saveInFlightRef = useRef(false);
+  const currentSaveIsAutosaveRef = useRef(false);
   const autoSaveEnabledRef = useRef(false);
   const autoSaveQueuedAfterSaveRef = useRef(false);
   const projectChangedAtRef = useRef(null);
@@ -30,7 +31,8 @@ export const useScratchSaveState = ({
     }
   }, []);
 
-  const postSaveRequest = useCallback(() => {
+  const postSaveRequest = useCallback(({ autosave }) => {
+    currentSaveIsAutosaveRef.current = autosave;
     postMessageToScratchIframe({
       type: "scratch-gui-save",
     });
@@ -53,7 +55,7 @@ export const useScratchSaveState = ({
         }
 
         autoSaveQueuedAfterSaveRef.current = false;
-        postSaveRequest();
+        postSaveRequest({ autosave: true });
       }, delay);
     },
     [clearAutoSaveTimeout, postSaveRequest],
@@ -91,6 +93,7 @@ export const useScratchSaveState = ({
   useEffect(() => {
     const resetScratchSaveTracking = () => {
       saveInFlightRef.current = false;
+      currentSaveIsAutosaveRef.current = false;
     };
 
     if (!enabled) {
@@ -124,20 +127,26 @@ export const useScratchSaveState = ({
           break;
         case "scratch-gui-saving-succeeded":
           saveInFlightRef.current = false;
-          dispatch(scratchSaveSucceeded({ autosave: true }));
+          dispatch(
+            scratchSaveSucceeded({
+              autosave: currentSaveIsAutosaveRef.current,
+            }),
+          );
+          currentSaveIsAutosaveRef.current = false;
           scheduleQueuedAutoSave();
           break;
         case "scratch-gui-remixing-succeeded":
           saveInFlightRef.current = false;
           dispatch(scratchSaveSucceeded({ autosave: false }));
+          currentSaveIsAutosaveRef.current = false;
           scheduleQueuedAutoSave();
           break;
         case "scratch-gui-saving-failed":
         case "scratch-gui-remixing-failed":
-          autoSaveQueuedAfterSaveRef.current = false;
           clearAutoSaveTimeout();
           resetScratchSaveTracking();
           dispatch(scratchSaveFailed());
+          scheduleQueuedAutoSave();
           break;
         default:
           break;
@@ -162,11 +171,17 @@ export const useScratchSaveState = ({
     ({ shouldRemixOnSave = false } = {}) => {
       clearAutoSaveTimeout();
       autoSaveQueuedAfterSaveRef.current = false;
-      postMessageToScratchIframe({
-        type: shouldRemixOnSave ? "scratch-gui-remix" : "scratch-gui-save",
-      });
+      currentSaveIsAutosaveRef.current = false;
+      if (shouldRemixOnSave) {
+        postMessageToScratchIframe({
+          type: "scratch-gui-remix",
+        });
+        return;
+      }
+
+      postSaveRequest({ autosave: false });
     },
-    [clearAutoSaveTimeout],
+    [clearAutoSaveTimeout, postSaveRequest],
   );
 
   return {

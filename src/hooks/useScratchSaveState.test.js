@@ -183,8 +183,17 @@ describe("useScratchSaveState", () => {
     });
   });
 
-  test("tracks saving messages in editor save state", () => {
-    const { store } = renderScratchSaveState({ enabled: true });
+  test("tracks auto-saving messages in editor save state", () => {
+    const { store } = renderScratchSaveState({
+      enabled: true,
+      autoSaveEnabled: true,
+    });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
 
     dispatchScratchMessage("scratch-gui-saving-started");
     expect(store.getState().editor.saving).toBe("pending");
@@ -193,6 +202,23 @@ describe("useScratchSaveState", () => {
 
     expect(store.getState().editor.saving).toBe("success");
     expect(store.getState().editor.lastSaveAutosave).toBe(true);
+    expect(store.getState().editor.lastSavedTime).toEqual(expect.any(Number));
+  });
+
+  test("tracks manual saving messages in editor save state", () => {
+    const { result, store } = renderScratchSaveState({ enabled: true });
+
+    act(() => {
+      result.current.saveScratchProject();
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    expect(store.getState().editor.saving).toBe("pending");
+
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    expect(store.getState().editor.saving).toBe("success");
+    expect(store.getState().editor.lastSaveAutosave).toBe(false);
     expect(store.getState().editor.lastSavedTime).toEqual(expect.any(Number));
   });
 
@@ -216,6 +242,33 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-remixing-failed");
 
     expect(store.getState().editor.saving).toBe("failed");
+  });
+
+  test("retries a queued auto-save after an in-flight save fails", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-failed");
+
+    act(() => {
+      jest.advanceTimersByTime(999);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
   });
 
   test("ignores messages from the wrong origin", () => {
