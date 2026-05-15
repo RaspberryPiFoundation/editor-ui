@@ -2,5 +2,10 @@ build/
 dist/
 .git/
 node_modules/
-.yarn/
-.yarnrc.yml
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
