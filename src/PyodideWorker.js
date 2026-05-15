@@ -7,7 +7,7 @@ const PyodideWorker = () => {
     `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
   );
   importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
-  importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+  importScripts("https://cdn.jsdelivr.net/pyodide/v0.29.3/full/pyodide.js");
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
