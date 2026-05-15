@@ -8,6 +8,10 @@ import {
   setStageSize,
 } from "@scratch/scratch-gui";
 import { allowedIframeHost } from "../../utils/iframeUtils";
+import { postScratchGuiEvent } from "./events.js";
+
+const targetIdsFor = (targets = []) =>
+  targets.map((target) => target.id).join("|");
 
 const ScratchIntegrationHOC = function (WrappedComponent) {
   class ScratchIntegrationComponent extends React.Component {
@@ -19,13 +23,26 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleUpload = this.handleUpload.bind(this);
       this.handleRemix = this.handleRemix.bind(this);
       this.handleSave = this.handleSave.bind(this);
+      this.handleProjectChanged = this.handleProjectChanged.bind(this);
+      this.handleTargetsUpdate = this.handleTargetsUpdate.bind(this);
     }
     componentDidMount() {
       window.addEventListener("message", this.handleMessage);
+      this.props.vm?.on?.("PROJECT_CHANGED", this.handleProjectChanged);
+      this.props.vm?.on?.("targetsUpdate", this.handleTargetsUpdate);
+      this.previousTargetIds = targetIdsFor(this.props.vm?.runtime?.targets);
       this.props.setStageSize();
     }
     componentWillUnmount() {
       window.removeEventListener("message", this.handleMessage);
+      this.props.vm?.removeListener?.(
+        "PROJECT_CHANGED",
+        this.handleProjectChanged,
+      );
+      this.props.vm?.removeListener?.(
+        "targetsUpdate",
+        this.handleTargetsUpdate,
+      );
     }
 
     handleMessage(event) {
@@ -40,7 +57,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         return;
       }
 
-      switch (event.data.type) {
+      switch (event.data?.type) {
         case "scratch-gui-download":
           this.handleDownload(event);
           break;
@@ -69,15 +86,30 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     handleUpload(event) {
       const file = event.data.file;
-      file?.arrayBuffer()?.then((arrayBuffer) => {
-        this.props.loadProject(arrayBuffer);
-      });
+      file
+        ?.arrayBuffer()
+        ?.then((arrayBuffer) => this.props.loadProject(arrayBuffer))
+        ?.then(this.handleProjectChanged);
     }
     handleRemix() {
       this.props.onClickRemix();
     }
     handleSave() {
       this.props.onClickSave();
+    }
+    handleProjectChanged() {
+      postScratchGuiEvent("scratch-gui-project-changed");
+    }
+    handleTargetsUpdate({ targetList } = {}) {
+      const targetIds = targetIdsFor(targetList);
+      if (!targetIds) {
+        return;
+      }
+
+      if (this.previousTargetIds && this.previousTargetIds !== targetIds) {
+        this.handleProjectChanged();
+      }
+      this.previousTargetIds = targetIds;
     }
     render() {
       const {
@@ -99,6 +131,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       state.scratchGui.vm,
     ),
     loadProject: state.scratchGui.vm.loadProject.bind(state.scratchGui.vm),
+    vm: state.scratchGui.vm,
   });
 
   const mapDispatchToProps = (dispatch) => ({
@@ -113,6 +146,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,
     setStageSize: PropTypes.func,
+    vm: PropTypes.object,
   };
   return connect(
     mapStateToProps,

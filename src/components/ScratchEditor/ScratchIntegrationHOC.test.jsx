@@ -2,18 +2,27 @@ const React = require("react");
 const { render, waitFor } = require("@testing-library/react");
 const { Provider } = require("react-redux");
 const configureStore = require("redux-mock-store").default;
-const ScratchIntegrationHOC = require("./ScratchIntegrationHOC").default;
 
 jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
+jest.mock("./events.js", () => ({ postScratchGuiEvent: jest.fn() }));
 jest.mock("@scratch/scratch-gui", () => ({
   remixProject: () => ({ type: "remix" }),
   manualUpdateProject: () => ({ type: "manualUpdate" }),
   setStageSize: () => ({ type: "setStageSize" }),
 }));
 
+const ScratchIntegrationHOC = require("./ScratchIntegrationHOC").default;
+const { postScratchGuiEvent } = require("./events.js");
+
 describe("ScratchIntegrationHOC", () => {
   const mockSaveProjectSb3 = jest.fn();
   const mockLoadProject = jest.fn();
+  const mockVm = {
+    saveProjectSb3: mockSaveProjectSb3,
+    loadProject: mockLoadProject,
+    on: jest.fn(),
+    removeListener: jest.fn(),
+  };
   const allowedOrigin = "https://editor.example.com";
   let store;
   let Wrapped;
@@ -27,14 +36,17 @@ describe("ScratchIntegrationHOC", () => {
     }
     mockSaveProjectSb3.mockClear();
     mockLoadProject.mockClear();
+    mockVm.on.mockClear();
+    mockVm.removeListener.mockClear();
+    mockVm.runtime = {
+      targets: [{ id: "stage" }, { id: "sprite-1" }],
+    };
+    postScratchGuiEvent.mockClear();
     process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS = allowedOrigin;
     const mockStore = configureStore([]);
     store = mockStore({
       scratchGui: {
-        vm: {
-          saveProjectSb3: mockSaveProjectSb3,
-          loadProject: mockLoadProject,
-        },
+        vm: mockVm,
       },
     });
     const Dummy = () =>
@@ -45,6 +57,11 @@ describe("ScratchIntegrationHOC", () => {
   afterEach(() => {
     delete process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS;
   });
+
+  const getVmHandler = (eventName) =>
+    mockVm.on.mock.calls.find(
+      ([registeredEventName]) => registeredEventName === eventName,
+    )?.[1];
 
   describe("scratch-gui-download message", () => {
     it("calls saveProjectSb3 and saveAs with blob and filename", async () => {
@@ -80,6 +97,7 @@ describe("ScratchIntegrationHOC", () => {
       const file = {
         arrayBuffer: jest.fn().mockResolvedValue(arrayBuffer),
       };
+      mockLoadProject.mockResolvedValue();
 
       render(
         React.createElement(Provider, { store }, React.createElement(Wrapped)),
@@ -98,6 +116,53 @@ describe("ScratchIntegrationHOC", () => {
       await waitFor(() => {
         expect(file.arrayBuffer).toHaveBeenCalledTimes(1);
         expect(mockLoadProject).toHaveBeenCalledWith(arrayBuffer);
+        expect(postScratchGuiEvent).toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+    });
+
+    describe("Scratch VM project changes", () => {
+      it("posts a project-changed event to the parent window", () => {
+        render(
+          React.createElement(
+            Provider,
+            { store },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        getVmHandler("PROJECT_CHANGED")();
+
+        expect(postScratchGuiEvent).toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+
+      it("posts a project-changed event when the target list changes", () => {
+        render(
+          React.createElement(
+            Provider,
+            { store },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        const targetsUpdateHandler = getVmHandler("targetsUpdate");
+        const targetList = [
+          { id: "stage" },
+          { id: "sprite-1" },
+          { id: "sprite-2" },
+        ];
+
+        targetsUpdateHandler({ targetList });
+        expect(postScratchGuiEvent).toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+
+        postScratchGuiEvent.mockClear();
+        targetsUpdateHandler({ targetList });
+        expect(postScratchGuiEvent).not.toHaveBeenCalled();
       });
     });
   });
