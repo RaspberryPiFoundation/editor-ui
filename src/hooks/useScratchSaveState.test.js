@@ -1,6 +1,10 @@
+import React from "react";
 import { act, renderHook } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 import { useScratchSaveState } from "./useScratchSaveState";
+import editorReducer, { editorInitialState } from "../redux/EditorSlice";
 import {
   getScratchAllowedOrigin,
   postMessageToScratchIframe,
@@ -14,11 +18,34 @@ jest.mock("../utils/scratchIframe", () => ({
 jest.useFakeTimers();
 
 const scratchOrigin = "https://assets.example.com";
+const scratchProject = {
+  identifier: "scratch-project",
+  project_type: "code_editor_scratch",
+  components: [],
+};
 
-const assertScratchSaveState = (result, state, labelKey, isSaving) => {
-  expect(result.current.scratchSaveState).toBe(state);
-  expect(result.current.scratchSaveLabelKey).toBe(labelKey);
-  expect(result.current.isScratchSaving).toBe(isSaving);
+const createScratchStore = () =>
+  configureStore({
+    reducer: {
+      editor: editorReducer,
+    },
+    preloadedState: {
+      editor: {
+        ...editorInitialState,
+        loading: "success",
+        project: scratchProject,
+      },
+    },
+  });
+
+const renderScratchSaveState = (options) => {
+  const store = createScratchStore();
+  const wrapper = ({ children }) => (
+    <Provider store={store}>{children}</Provider>
+  );
+  const hook = renderHook(() => useScratchSaveState(options), { wrapper });
+
+  return { ...hook, store };
 };
 
 const dispatchScratchMessage = (type, origin = scratchOrigin) => {
@@ -47,7 +74,7 @@ describe("useScratchSaveState", () => {
   });
 
   test("posts the scratch save command", () => {
-    const { result } = renderHook(() => useScratchSaveState());
+    const { result } = renderScratchSaveState();
 
     act(() => {
       result.current.saveScratchProject();
@@ -59,7 +86,7 @@ describe("useScratchSaveState", () => {
   });
 
   test("posts the scratch remix command on the first save", () => {
-    const { result } = renderHook(() => useScratchSaveState());
+    const { result } = renderScratchSaveState();
 
     act(() => {
       result.current.saveScratchProject({ shouldRemixOnSave: true });
@@ -70,11 +97,74 @@ describe("useScratchSaveState", () => {
     });
   });
 
-  test("keeps saving visible for at least 1 second before resetting 5 seconds after saved", () => {
-    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+  test("does not auto-save project changes until auto-save is enabled", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: false });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+  });
+
+  test("auto-saves 2 seconds after a Scratch project change", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1999);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
+
+  test("debounces repeated Scratch project changes", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1999);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
+
+  test("queues auto-save when a Scratch project change happens during an in-flight save", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
-    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
 
     dispatchScratchMessage("scratch-gui-saving-succeeded");
 
@@ -82,70 +172,71 @@ describe("useScratchSaveState", () => {
       jest.advanceTimersByTime(999);
     });
 
-    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
 
     act(() => {
       jest.advanceTimersByTime(1);
     });
 
-    assertScratchSaveState(result, "saved", "saveStatus.saved", false);
-
-    act(() => {
-      jest.advanceTimersByTime(4999);
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
     });
-
-    assertScratchSaveState(result, "saved", "saveStatus.saved", false);
-
-    act(() => {
-      jest.advanceTimersByTime(1);
-    });
-
-    assertScratchSaveState(result, "idle", "header.save", false);
   });
 
-  test("tracks remixing messages with the same save state lifecycle", () => {
-    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+  test("tracks saving messages in editor save state", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    expect(store.getState().editor.saving).toBe("pending");
+
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    expect(store.getState().editor.saving).toBe("success");
+    expect(store.getState().editor.lastSaveAutosave).toBe(true);
+    expect(store.getState().editor.lastSavedTime).toEqual(expect.any(Number));
+  });
+
+  test("tracks remixing messages in editor save state", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
 
     dispatchScratchMessage("scratch-gui-remixing-started");
-    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+    expect(store.getState().editor.saving).toBe("pending");
 
     dispatchScratchMessage("scratch-gui-remixing-succeeded");
 
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-
-    assertScratchSaveState(result, "saved", "saveStatus.saved", false);
+    expect(store.getState().editor.saving).toBe("success");
+    expect(store.getState().editor.lastSaveAutosave).toBe(false);
+    expect(store.getState().editor.lastSavedTime).toEqual(expect.any(Number));
   });
 
-  test("resets to idle after a remix failure", () => {
-    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+  test("sets failed save state after a remix failure", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
 
     dispatchScratchMessage("scratch-gui-remixing-started");
     dispatchScratchMessage("scratch-gui-remixing-failed");
 
-    assertScratchSaveState(result, "idle", "header.save", false);
+    expect(store.getState().editor.saving).toBe("failed");
   });
 
   test("ignores messages from the wrong origin", () => {
-    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+    const { store } = renderScratchSaveState({ enabled: true });
 
     dispatchScratchMessage(
       "scratch-gui-saving-started",
       "https://other.example.com",
     );
 
-    assertScratchSaveState(result, "idle", "header.save", false);
+    expect(store.getState().editor.saving).toBe("idle");
   });
 
   test("accepts messages when ASSETS_URL contains a path", () => {
     process.env.ASSETS_URL = `${scratchOrigin}/branches/main`;
     getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
 
-    const { result } = renderHook(() => useScratchSaveState({ enabled: true }));
+    const { store } = renderScratchSaveState({ enabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
 
-    assertScratchSaveState(result, "saving", "saveStatus.saving", true);
+    expect(store.getState().editor.saving).toBe("pending");
   });
 });

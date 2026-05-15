@@ -1,72 +1,101 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import {
   getScratchAllowedOrigin,
   postMessageToScratchIframe,
 } from "../utils/scratchIframe";
+import {
+  scratchSaveFailed,
+  scratchSaveStarted,
+  scratchSaveSucceeded,
+} from "../redux/EditorSlice";
 
-const SCRATCH_SAVE_LABEL_KEYS = {
-  idle: "header.save",
-  saving: "saveStatus.saving",
-  saved: "saveStatus.saved",
-};
-const SCRATCH_SAVE_MINIMUM_SAVING_DURATION_MS = 1000;
-const SCRATCH_SAVE_RESET_DELAY_MS = 5000;
+const SCRATCH_AUTOSAVE_DELAY_MS = 2000;
 
-export const useScratchSaveState = ({ enabled = false } = {}) => {
-  const scratchSaveTimeoutRef = useRef(null);
-  const scratchSavingStartedAtRef = useRef(null);
-  const [scratchSaveState, setScratchSaveState] = useState("idle");
+export const useScratchSaveState = ({
+  enabled = false,
+  autoSaveEnabled = false,
+} = {}) => {
+  const dispatch = useDispatch();
+  const autoSaveTimeoutRef = useRef(null);
+  const saveInFlightRef = useRef(false);
+  const autoSaveEnabledRef = useRef(false);
+  const autoSaveQueuedAfterSaveRef = useRef(false);
+  const projectChangedAtRef = useRef(null);
+
+  const clearAutoSaveTimeout = useCallback(() => {
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+      autoSaveTimeoutRef.current = null;
+    }
+  }, []);
+
+  const postSaveRequest = useCallback(() => {
+    postMessageToScratchIframe({
+      type: "scratch-gui-save",
+    });
+  }, []);
+
+  const scheduleAutoSave = useCallback(
+    (delay = SCRATCH_AUTOSAVE_DELAY_MS) => {
+      clearAutoSaveTimeout();
+
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        autoSaveTimeoutRef.current = null;
+
+        if (!autoSaveEnabledRef.current) {
+          return;
+        }
+
+        if (saveInFlightRef.current) {
+          autoSaveQueuedAfterSaveRef.current = true;
+          return;
+        }
+
+        autoSaveQueuedAfterSaveRef.current = false;
+        postSaveRequest();
+      }, delay);
+    },
+    [clearAutoSaveTimeout, postSaveRequest],
+  );
+
+  const scheduleQueuedAutoSave = useCallback(() => {
+    if (!autoSaveQueuedAfterSaveRef.current) {
+      return;
+    }
+
+    autoSaveQueuedAfterSaveRef.current = false;
+
+    if (!autoSaveEnabledRef.current) {
+      return;
+    }
+
+    const lastChangedAt = projectChangedAtRef.current;
+    const remainingDebounceTime =
+      lastChangedAt == null
+        ? 0
+        : Math.max(0, lastChangedAt + SCRATCH_AUTOSAVE_DELAY_MS - Date.now());
+
+    scheduleAutoSave(remainingDebounceTime);
+  }, [scheduleAutoSave]);
 
   useEffect(() => {
-    const clearScratchSaveTimeout = () => {
-      if (scratchSaveTimeoutRef.current) {
-        clearTimeout(scratchSaveTimeoutRef.current);
-        scratchSaveTimeoutRef.current = null;
-      }
-    };
+    autoSaveEnabledRef.current = Boolean(enabled && autoSaveEnabled);
 
-    const resetScratchSaveState = () => {
-      clearScratchSaveTimeout();
-      scratchSavingStartedAtRef.current = null;
-      setScratchSaveState("idle");
-    };
+    if (!autoSaveEnabledRef.current) {
+      clearAutoSaveTimeout();
+      autoSaveQueuedAfterSaveRef.current = false;
+    }
+  }, [autoSaveEnabled, clearAutoSaveTimeout, enabled]);
 
-    const transitionScratchSaveStateToSaved = () => {
-      scratchSaveTimeoutRef.current = null;
-      scratchSavingStartedAtRef.current = null;
-      setScratchSaveState("saved");
-      scratchSaveTimeoutRef.current = setTimeout(() => {
-        scratchSaveTimeoutRef.current = null;
-        setScratchSaveState("idle");
-      }, SCRATCH_SAVE_RESET_DELAY_MS);
-    };
-
-    const scheduleScratchSaveStateToSaved = () => {
-      clearScratchSaveTimeout();
-
-      const savingStartedAt = scratchSavingStartedAtRef.current;
-      if (savingStartedAt == null) {
-        transitionScratchSaveStateToSaved();
-        return;
-      }
-
-      const savingCanFinishAt =
-        savingStartedAt + SCRATCH_SAVE_MINIMUM_SAVING_DURATION_MS;
-      const remainingSavingTime = savingCanFinishAt - Date.now();
-
-      if (remainingSavingTime <= 0) {
-        transitionScratchSaveStateToSaved();
-        return;
-      }
-
-      scratchSaveTimeoutRef.current = setTimeout(
-        transitionScratchSaveStateToSaved,
-        remainingSavingTime,
-      );
+  useEffect(() => {
+    const resetScratchSaveTracking = () => {
+      saveInFlightRef.current = false;
     };
 
     if (!enabled) {
-      resetScratchSaveState();
+      resetScratchSaveTracking();
+      clearAutoSaveTimeout();
       return undefined;
     }
 
@@ -77,19 +106,38 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
       }
 
       switch (event.data?.type) {
+        case "scratch-gui-project-changed":
+          if (!autoSaveEnabledRef.current) {
+            break;
+          }
+          projectChangedAtRef.current = Date.now();
+          if (saveInFlightRef.current) {
+            autoSaveQueuedAfterSaveRef.current = true;
+            break;
+          }
+          scheduleAutoSave();
+          break;
         case "scratch-gui-saving-started":
         case "scratch-gui-remixing-started":
-          clearScratchSaveTimeout();
-          scratchSavingStartedAtRef.current = Date.now();
-          setScratchSaveState("saving");
+          saveInFlightRef.current = true;
+          dispatch(scratchSaveStarted());
           break;
         case "scratch-gui-saving-succeeded":
+          saveInFlightRef.current = false;
+          dispatch(scratchSaveSucceeded({ autosave: true }));
+          scheduleQueuedAutoSave();
+          break;
         case "scratch-gui-remixing-succeeded":
-          scheduleScratchSaveStateToSaved();
+          saveInFlightRef.current = false;
+          dispatch(scratchSaveSucceeded({ autosave: false }));
+          scheduleQueuedAutoSave();
           break;
         case "scratch-gui-saving-failed":
         case "scratch-gui-remixing-failed":
-          resetScratchSaveState();
+          autoSaveQueuedAfterSaveRef.current = false;
+          clearAutoSaveTimeout();
+          resetScratchSaveTracking();
+          dispatch(scratchSaveFailed());
           break;
         default:
           break;
@@ -100,21 +148,28 @@ export const useScratchSaveState = ({ enabled = false } = {}) => {
 
     return () => {
       window.removeEventListener("message", handleScratchMessage);
-      clearScratchSaveTimeout();
+      clearAutoSaveTimeout();
     };
-  }, [enabled]);
+  }, [
+    clearAutoSaveTimeout,
+    dispatch,
+    enabled,
+    scheduleAutoSave,
+    scheduleQueuedAutoSave,
+  ]);
 
-  const saveScratchProject = ({ shouldRemixOnSave = false } = {}) => {
-    postMessageToScratchIframe({
-      type: shouldRemixOnSave ? "scratch-gui-remix" : "scratch-gui-save",
-    });
-  };
+  const saveScratchProject = useCallback(
+    ({ shouldRemixOnSave = false } = {}) => {
+      clearAutoSaveTimeout();
+      autoSaveQueuedAfterSaveRef.current = false;
+      postMessageToScratchIframe({
+        type: shouldRemixOnSave ? "scratch-gui-remix" : "scratch-gui-save",
+      });
+    },
+    [clearAutoSaveTimeout],
+  );
 
   return {
-    scratchSaveState,
-    scratchSaveLabelKey:
-      SCRATCH_SAVE_LABEL_KEYS[scratchSaveState] || SCRATCH_SAVE_LABEL_KEYS.idle,
-    isScratchSaving: scratchSaveState === "saving",
     saveScratchProject,
   };
 };
