@@ -239,6 +239,19 @@ describe("Additional Scratch manual save states", () => {
     expect(screen.getByText("saveStatus.saved now")).toBeInTheDocument();
   });
 
+  test("does not show a saved status after a Scratch save failure", () => {
+    renderSignedInScratchProjectBar({
+      project: {
+        ...scratchProject,
+        updated_at: new Date(Date.now()).toISOString(),
+      },
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-failed");
+
+    expect(screen.queryByText(/saveStatus.saved/)).not.toBeInTheDocument();
+  });
+
   test("shows the saving state during a Scratch remix", () => {
     renderSignedInScratchProjectBar({
       project: {

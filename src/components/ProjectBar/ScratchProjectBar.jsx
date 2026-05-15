@@ -36,10 +36,12 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
 
   const projectIdentifier = project?.identifier;
   const isScratchSaving = saving === "pending";
+  const isScratchSaveFailed = saving === "failed";
   const isNewProject = !projectIdentifier;
   const canAutoSave = Boolean(projectIdentifier && !shouldRemixOnSave);
   const showSaveButton = canSave && (isNewProject || shouldRemixOnSave);
-  const showSaveStatus = canSave && canAutoSave && Boolean(lastSavedTime);
+  const showSaveStatus =
+    canSave && canAutoSave && Boolean(lastSavedTime) && !isScratchSaveFailed;
   const projectLastSavedTime = getProjectLastSavedTime(project?.updated_at);
 
   useEffect(() => {
