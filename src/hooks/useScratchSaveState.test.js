@@ -129,7 +129,7 @@ describe("useScratchSaveState", () => {
     });
   });
 
-  test("debounces repeated Scratch project changes", () => {
+  test("does not reset a scheduled auto-save after repeated Scratch project changes", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-project-changed");
@@ -141,7 +141,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(1999);
+      jest.advanceTimersByTime(999);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();

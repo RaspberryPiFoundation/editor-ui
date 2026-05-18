@@ -40,7 +40,9 @@ export const useScratchSaveState = ({
 
   const scheduleAutoSave = useCallback(
     (delay = SCRATCH_AUTOSAVE_DELAY_MS) => {
-      clearAutoSaveTimeout();
+      if (autoSaveTimeoutRef.current) {
+        return;
+      }
 
       autoSaveTimeoutRef.current = setTimeout(() => {
         autoSaveTimeoutRef.current = null;
@@ -58,7 +60,7 @@ export const useScratchSaveState = ({
         postSaveRequest({ autosave: true });
       }, delay);
     },
-    [clearAutoSaveTimeout, postSaveRequest],
+    [postSaveRequest],
   );
 
   const scheduleQueuedAutoSave = useCallback(() => {
