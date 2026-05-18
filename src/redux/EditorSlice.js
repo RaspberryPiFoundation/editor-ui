@@ -127,6 +127,9 @@ export const editorInitialState = {
   scratchIframeProjectIdentifier: null,
 };
 
+const isScratchProject = (state) =>
+  state.project?.project_type === "code_editor_scratch";
+
 export const EditorSlice = createSlice({
   name: "editor",
   initialState: editorInitialState,
@@ -227,11 +230,42 @@ export const EditorSlice = createSlice({
       state.justLoaded = true;
     },
     applyScratchProjectIdentifierUpdate: (state, action) => {
-      if (state.project?.project_type !== "code_editor_scratch") {
+      if (!isScratchProject(state)) {
         return;
       }
 
       state.project.identifier = action.payload.projectIdentifier;
+    },
+    setScratchLastSavedTime: (state, action) => {
+      if (!isScratchProject(state)) {
+        return;
+      }
+
+      state.lastSavedTime = action.payload.lastSavedTime;
+    },
+    scratchSaveStarted: (state) => {
+      if (!isScratchProject(state)) {
+        return;
+      }
+
+      state.saving = "pending";
+      state.saveTriggered = false;
+    },
+    scratchSaveSucceeded: (state, action) => {
+      if (!isScratchProject(state)) {
+        return;
+      }
+
+      state.lastSaveAutosave = action.payload?.autosave ?? true;
+      state.saving = "success";
+      state.lastSavedTime = Date.now();
+    },
+    scratchSaveFailed: (state) => {
+      if (!isScratchProject(state)) {
+        return;
+      }
+
+      state.saving = "failed";
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -410,7 +444,7 @@ export const EditorSlice = createSlice({
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
     });
-    builder.addCase("editor/remixProject/pending", (state, action) => {
+    builder.addCase("editor/remixProject/pending", (state) => {
       state.saving = "pending";
       state.saveTriggered = false;
     });
@@ -473,6 +507,10 @@ export const {
   setWebComponent,
   setProject,
   applyScratchProjectIdentifierUpdate,
+  setScratchLastSavedTime,
+  scratchSaveStarted,
+  scratchSaveSucceeded,
+  scratchSaveFailed,
   setProjectInstructions,
   setReadOnly,
   setInstructionsEditable,

@@ -16,6 +16,10 @@ import reducer, {
   setCascadeUpdate,
   setProject,
   applyScratchProjectIdentifierUpdate,
+  setScratchLastSavedTime,
+  scratchSaveStarted,
+  scratchSaveSucceeded,
+  scratchSaveFailed,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -896,5 +900,49 @@ describe("initialComponents snapshot", () => {
 
     expect(updatedState.project.identifier).toBe("student-remix");
     expect(updatedState.scratchIframeProjectIdentifier).toBe("scratch-project");
+  });
+
+  test("setScratchLastSavedTime updates the saved timestamp for Scratch projects", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const updatedState = reducer(
+      initialState,
+      setScratchLastSavedTime({ lastSavedTime: 1669808953 }),
+    );
+
+    expect(updatedState.lastSavedTime).toBe(1669808953);
+  });
+
+  test("Scratch save lifecycle actions update editor save state", () => {
+    Date.now = jest.fn(() => 1669808953);
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const savingState = reducer(initialState, scratchSaveStarted());
+    expect(savingState.saving).toBe("pending");
+
+    const savedState = reducer(
+      savingState,
+      scratchSaveSucceeded({ autosave: true }),
+    );
+    expect(savedState.saving).toBe("success");
+    expect(savedState.lastSavedTime).toBe(1669808953);
+    expect(savedState.lastSaveAutosave).toBe(true);
+
+    const failedState = reducer(savedState, scratchSaveFailed());
+    expect(failedState.saving).toBe("failed");
   });
 });

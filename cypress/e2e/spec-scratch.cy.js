@@ -97,7 +97,7 @@ describe("Scratch save integration", () => {
     cy.findByText("cool-scratch").click();
   });
 
-  it("remixes on the first save, keeps the iframe project loaded, and saves after the identifier update", () => {
+  it("remixes on the first save, keeps the iframe project loaded, and auto-saves after the identifier update", () => {
     getEditorShadow()
       .find("iframe[title='Scratch']")
       .its("0.contentDocument.body")
@@ -131,6 +131,14 @@ describe("Scratch save integration", () => {
           },
         }),
       );
+      win.dispatchEvent(
+        new win.MessageEvent("message", {
+          origin: win.location.origin,
+          data: {
+            type: "scratch-gui-remixing-succeeded",
+          },
+        }),
+      );
     });
 
     cy.get("#project-identifier").should("have.text", "student-remix");
@@ -146,11 +154,35 @@ describe("Scratch save integration", () => {
       postMessage.resetHistory();
     });
 
-    getEditorShadow().findByRole("button", { name: "Save" }).click();
+    getEditorShadow()
+      .find("button")
+      .should(($buttons) => {
+        const buttonText = [...$buttons].map((button) =>
+          button.textContent.trim(),
+        );
+        expect(buttonText).not.to.include("Save");
+      });
 
-    cy.get("@scratchPostMessage")
-      .its("firstCall.args.0")
-      .should("deep.include", { type: "scratch-gui-save" });
+    cy.window().then((win) => {
+      win.dispatchEvent(
+        new win.MessageEvent("message", {
+          origin: win.location.origin,
+          data: {
+            type: "scratch-gui-project-changed",
+          },
+        }),
+      );
+    });
+
+    cy.wait(2100);
+
+    cy.get("@scratchPostMessage").should((postMessage) => {
+      const saveMessage = postMessage
+        .getCalls()
+        .some((call) => call.args[0]?.type === "scratch-gui-save");
+
+      expect(saveMessage).to.eq(true);
+    });
   });
 });
 

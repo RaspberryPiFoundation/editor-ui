@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "../../assets/icons/download.svg";
 import UploadIcon from "../../assets/icons/upload.svg";
@@ -8,26 +8,53 @@ import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import UploadButton from "../UploadButton/UploadButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import SaveStatus from "../SaveStatus/SaveStatus";
 
 import "../../assets/stylesheets/ProjectBar.scss";
+import { setScratchLastSavedTime } from "../../redux/EditorSlice";
 import { useScratchSave } from "../../hooks/useScratchSave";
+
+const getProjectLastSavedTime = (updatedAt) => {
+  const timestamp = Date.parse(updatedAt || "");
+  return Number.isNaN(timestamp) ? null : timestamp;
+};
 
 const ScratchProjectBar = ({ nameEditable = true }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.editor.loading);
+  const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
-  const showScratchSaveButton = Boolean(user && !readOnly);
-  const {
-    isScratchSaving,
-    saveScratchProject,
-    scratchSaveLabelKey,
-    shouldRemixOnSave,
-  } = useScratchSave({
-    enabled: showScratchSaveButton,
+  const saving = useSelector((state) => state.editor.saving);
+  const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
+  const canSave = Boolean(user && !readOnly);
+  const { saveScratchProject, shouldRemixOnSave } = useScratchSave({
+    enabled: canSave,
   });
-  const scratchSaveLabel = t(scratchSaveLabelKey);
+
+  const projectIdentifier = project?.identifier;
+  const isScratchSaving = saving === "pending";
+  const isScratchSaveFailed = saving === "failed";
+  const isNewProject = !projectIdentifier;
+  const canAutoSave = Boolean(projectIdentifier && !shouldRemixOnSave);
+  const showSaveButton = canSave && (isNewProject || shouldRemixOnSave);
+  const showSaveStatus =
+    canSave && canAutoSave && Boolean(lastSavedTime) && !isScratchSaveFailed;
+  const projectLastSavedTime = getProjectLastSavedTime(project?.updated_at);
+
+  useEffect(() => {
+    if (!canSave || !canAutoSave || lastSavedTime || !projectLastSavedTime) {
+      return;
+    }
+
+    dispatch(
+      setScratchLastSavedTime({
+        lastSavedTime: projectLastSavedTime,
+      }),
+    );
+  }, [dispatch, canAutoSave, canSave, lastSavedTime, projectLastSavedTime]);
 
   if (loading !== "success") {
     return null;
@@ -55,12 +82,12 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
             type="tertiary"
           />
         </div>
-        {showScratchSaveButton && (
+        {showSaveButton && (
           <div className="project-bar__btn-wrapper">
             <DesignSystemButton
               className="project-bar__btn btn--save btn--primary"
               onClick={() => saveScratchProject({ shouldRemixOnSave })}
-              text={scratchSaveLabel}
+              text={t("header.save")}
               textAlways
               icon={<SaveIcon />}
               type="primary"
@@ -68,6 +95,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
             />
           </div>
         )}
+        {showSaveStatus && <SaveStatus />}
       </div>
     </div>
   );

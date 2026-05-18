@@ -22,18 +22,17 @@ export const useScratchSave = ({ enabled = true } = {}) => {
     projectOwner,
     scratchIframeProjectIdentifier,
   });
-  const { isScratchSaving, saveScratchProject, scratchSaveLabelKey } =
-    useScratchSaveState({
-      enabled: enableScratchSaveState,
-    });
+  const autoSaveEnabled = Boolean(project?.identifier && !shouldRemixOnSave);
+  const { saveScratchProject } = useScratchSaveState({
+    enabled: enableScratchSaveState,
+    autoSaveEnabled,
+  });
 
   return {
     enableScratchSaveState,
-    isScratchSaving,
     loading,
     projectOwner,
     saveScratchProject,
-    scratchSaveLabelKey,
     shouldRemixOnSave,
     user,
   };
