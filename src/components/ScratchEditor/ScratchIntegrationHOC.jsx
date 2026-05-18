@@ -10,9 +10,6 @@ import {
 import { allowedIframeHost } from "../../utils/iframeUtils";
 import { postScratchGuiEvent } from "./events.js";
 
-const targetIdsFor = (targets = []) =>
-  targets.map((target) => target.id).join("|");
-
 const ScratchIntegrationHOC = function (WrappedComponent) {
   class ScratchIntegrationComponent extends React.Component {
     constructor(props) {
@@ -24,24 +21,17 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleRemix = this.handleRemix.bind(this);
       this.handleSave = this.handleSave.bind(this);
       this.handleProjectChanged = this.handleProjectChanged.bind(this);
-      this.handleTargetsUpdate = this.handleTargetsUpdate.bind(this);
     }
     componentDidMount() {
       window.addEventListener("message", this.handleMessage);
-      this.props.vm?.on?.("PROJECT_CHANGED", this.handleProjectChanged);
-      this.props.vm?.on?.("targetsUpdate", this.handleTargetsUpdate);
-      this.previousTargetIds = targetIdsFor(this.props.vm?.runtime?.targets);
+      this.props.vm.on("PROJECT_CHANGED", this.handleProjectChanged);
       this.props.setStageSize();
     }
     componentWillUnmount() {
       window.removeEventListener("message", this.handleMessage);
-      this.props.vm?.removeListener?.(
+      this.props.vm.removeListener(
         "PROJECT_CHANGED",
         this.handleProjectChanged,
-      );
-      this.props.vm?.removeListener?.(
-        "targetsUpdate",
-        this.handleTargetsUpdate,
       );
     }
 
@@ -99,17 +89,6 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     handleProjectChanged() {
       postScratchGuiEvent("scratch-gui-project-changed");
-    }
-    handleTargetsUpdate({ targetList } = {}) {
-      const targetIds = targetIdsFor(targetList);
-      if (!targetIds) {
-        return;
-      }
-
-      if (this.previousTargetIds && this.previousTargetIds !== targetIds) {
-        this.handleProjectChanged();
-      }
-      this.previousTargetIds = targetIds;
     }
     render() {
       const {

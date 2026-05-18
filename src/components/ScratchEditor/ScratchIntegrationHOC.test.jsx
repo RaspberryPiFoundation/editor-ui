@@ -38,9 +38,6 @@ describe("ScratchIntegrationHOC", () => {
     mockLoadProject.mockClear();
     mockVm.on.mockClear();
     mockVm.removeListener.mockClear();
-    mockVm.runtime = {
-      targets: [{ id: "stage" }, { id: "sprite-1" }],
-    };
     postScratchGuiEvent.mockClear();
     process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS = allowedOrigin;
     const mockStore = configureStore([]);
@@ -137,32 +134,6 @@ describe("ScratchIntegrationHOC", () => {
         expect(postScratchGuiEvent).toHaveBeenCalledWith(
           "scratch-gui-project-changed",
         );
-      });
-
-      it("posts a project-changed event when the target list changes", () => {
-        render(
-          React.createElement(
-            Provider,
-            { store },
-            React.createElement(Wrapped),
-          ),
-        );
-
-        const targetsUpdateHandler = getVmHandler("targetsUpdate");
-        const targetList = [
-          { id: "stage" },
-          { id: "sprite-1" },
-          { id: "sprite-2" },
-        ];
-
-        targetsUpdateHandler({ targetList });
-        expect(postScratchGuiEvent).toHaveBeenCalledWith(
-          "scratch-gui-project-changed",
-        );
-
-        postScratchGuiEvent.mockClear();
-        targetsUpdateHandler({ targetList });
-        expect(postScratchGuiEvent).not.toHaveBeenCalled();
       });
     });
   });
