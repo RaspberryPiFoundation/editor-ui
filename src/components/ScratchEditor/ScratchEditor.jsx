@@ -79,6 +79,8 @@ const ScratchEditor = ({
       menuBarHidden={true}
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
+      libraryAssetHost={`${apiUrl}/api/scratch/assets`}
+      libraryAssetsFetchWithHeaders
       basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;
