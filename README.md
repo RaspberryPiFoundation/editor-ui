@@ -227,6 +227,93 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 <code class="language-python">print('hello world')</code>
 ```
 
+### Linking a local scratch-editor (Scratch GUI)
+
+When you are working on the [Raspberry Pi Foundation scratch-editor](https://github.com/RaspberryPiFoundation/scratch-editor) fork (for example changes to `scratch-gui`), you may want editor-ui to load that build instead of the `@scratch/scratch-gui` version from the npm registry.
+
+editor-ui does not bundle Scratch GUI into the main webpack app. It copies a prebuilt `dist/scratch-gui.js` (and static assets) from `node_modules` into the dev server output. Pointing the dependency at your local clone is enough to test GUI changes in the Scratch iframe.
+
+**Do not commit these linking changes.** They are temporary for local development only. These changes to `package.json`, `yarn.lock`, and `docker-compose.yml` are for local development only.
+
+#### Repository layout
+
+Clone both repositories as siblings:
+
+```text
+Development/
+  editor-ui/
+  scratch-editor/    ← github.com/RaspberryPiFoundation/scratch-editor
+```
+
+#### Temporary changes in editor-ui
+
+**1. `package.json`** — replace the registry dependency with a file link:
+
+```json
+"@scratch/scratch-gui": "file:../scratch-editor/packages/scratch-gui"
+```
+
+**2. `docker-compose.yml`** — mount the scratch-editor repo into the container (read-only):
+
+```yaml
+volumes:
+  - .:/app
+  - ../scratch-editor:/scratch-editor:ro
+  - node_modules:/app/node_modules
+```
+
+From `/app` in the container, `file:../scratch-editor/packages/scratch-gui` resolves to `/scratch-editor/packages/scratch-gui` on the mounted volume.
+
+**3. `yarn.lock`** — run `yarn install` inside Docker (see below) and commit nothing; the lockfile will change while the link is active. Revert it when you restore the registry version in `package.json`.
+
+The fork’s package name is `@RaspberryPiFoundation/scratch-gui`; editor-ui still imports `@scratch/scratch-gui`. The file link installs under `@scratch/scratch-gui` in `node_modules` — no rename required in scratch-editor for local linking.
+
+#### Build scratch-gui
+
+Build on your machine (the `scratch-editor` mount is read-only inside the editor-ui container):
+
+```bash
+cd ../scratch-editor
+npm ci
+npm run build -w @RaspberryPiFoundation/scratch-gui
+```
+
+After every scratch-gui code change, run the build again, then restart the editor-ui container so webpack copies the new `dist/scratch-gui.js`.
+
+#### Run with Docker
+
+**editor-api** (Scratch projects and assets API):
+
+```bash
+cd ../editor-api
+docker compose up
+```
+
+**editor-ui**:
+
+```bash
+cd ../editor-ui
+docker compose up
+```
+
+The container runs `yarn install` then `yarn start` on each start. The first start after switching to the file link may take longer while dependencies are linked.
+
+#### Verify in the browser
+
+Scratch runs in an iframe served from editor-ui (port **3011**), not from the main web-component bundle alone.
+
+- Web component test page: open a **Scratch** sample, e.g.  
+  `http://localhost:3011/web-component.html`  
+  then choose **cool-scratch**.
+- **editor-standalone** (port **3012**): also loads the web component from `http://localhost:3011`; open a Scratch project under `/en-US/projects/…` with editor-ui and editor-api running.
+
+#### Revert when finished
+
+1. Restore `"@scratch/scratch-gui": "^13.0.0"` (or the version your branch pins) in `package.json`.
+2. Remove the `../scratch-editor:/scratch-editor:ro` volume from `docker-compose.yml`.
+3. Revert `yarn.lock` (e.g. `git checkout -- yarn.lock`) or run `yarn install` again after restoring `package.json`.
+4. Restart `docker compose up` in editor-ui.
+
 ## Deployment
 
 Deployment is managed through Github actions. The UI is deployed to staging and production environments through an S3 bucket, managed via Cloudflare. This requires the following environment variables to be set
