@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const DownloadButton = (props) => {
   const {
@@ -73,11 +73,10 @@ const DownloadButton = (props) => {
   };
 
   return (
-    <DesignSystemButton
+    <Button
       className={className}
       onClick={onClickDownload}
       text={buttonText}
-      textAlways
       icon={Icon ? <Icon /> : null}
       type={type}
       {...otherProps}
