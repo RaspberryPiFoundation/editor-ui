@@ -39,8 +39,6 @@
 
 .--dark * {
   .rpf-button--secondary {
-    border-color: $rpf-teal-400;
-
     span {
       color: $rpf-white;
     }
@@ -57,8 +55,6 @@
       &::before {
         background-color: rgba($rpf-white, 0.1);
       }
-
-      border-color: $rpf-teal-400;
     }
 
     &:active {
@@ -113,7 +109,7 @@
 
 .--light * {
   .rpf-button--secondary {
-     &::before {
+    &::before {
       background-color: rgba($rpf-white, 1);
     }
 
@@ -121,8 +117,6 @@
       &::before {
         background-color: rgba(231, 248, 247, 1);
       }
-
-      border-color: $rpf-teal-400;
     }
 
     &:active {
