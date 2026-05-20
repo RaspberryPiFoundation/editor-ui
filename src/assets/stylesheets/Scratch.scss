@@ -39,7 +39,11 @@ div[class^="gui_body-wrapper_"] {
 }
 
 div[class^="stage-header_stage-header-wrapper-overlay_"] {
-  background-color: var(--rpf-white);
+  /* Fallback value for the CSS variable as background-color
+    can silently fall back to transparent (the initial background-color value)
+    if the custom property isn't resolved at the time the element is painted
+    which allows the underlying panels to bleed through. */
+  background-color: var(--rpf-white, #ffffff);
 }
 
 li[class*="gui_tab_"] {
