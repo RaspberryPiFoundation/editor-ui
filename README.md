@@ -2,15 +2,42 @@
 
 This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
 
+## GitHub Packages authentication
+
+Some dependencies are published to [GitHub Packages](https://github.com/orgs/RaspberryPiFoundation/packages), including:
+
+- [`@RaspberryPiFoundation/scratch-gui`](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui) (Scratch editor UI)
+- [`@raspberrypifoundation/design-system-react`](https://github.com/RaspberryPiFoundation/design-system-react)
+
+1. Create a GitHub personal access token with the `read:packages` scope.
+2. Export it for Yarn (the committed `.npmrc` reads this variable):
+
+   ```bash
+   export NPM_AUTH_TOKEN=<your-token>
+   ```
+
+3. Install dependencies with Yarn 4:
+
+   ```bash
+   yarn install
+   ```
+
+CI uses `GITHUB_TOKEN` automatically; you only need `NPM_AUTH_TOKEN` for local development (and Docker — see below).
+
+**Scratch GUI version:** `package.json` pins `@RaspberryPiFoundation/scratch-gui` to a GitHub Packages release (e.g. `13.7.3-experience-cs.<timestamp>`). Until that package is published:
+
+- Do **not** run `yarn install` expecting the pin to resolve — `yarn.lock` is unchanged and CI `yarn install --immutable` will fail until you replace `PLACEHOLDER` with the real version from [scratch-gui packages](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui), run `yarn install`, and commit `yarn.lock`.
+- To work on scratch-gui **before** publish, use the [local scratch-editor file link](#linking-a-local-scratch-editor-scratch-gui) below instead of the registry pin.
+
 ## Install dependencies
 
-This repository uses Yarn (see `package.json` → `packageManager`). Please install dependencies with Yarn:
+This repository uses Yarn 4 (see `package.json` → `packageManager` and `.yarnrc.yml`). Install dependencies with:
 
 ```
 yarn install
 ```
 
-Using `npm install` can fail due to strict peer-dependency resolution in npm for some legacy packages in this project.
+Do not use `npm install` — it can fail due to strict peer-dependency resolution for some legacy packages in this project.
 
 ## Environment variables
 
@@ -229,7 +256,7 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 
 ### Linking a local scratch-editor (Scratch GUI)
 
-When you are working on the [Raspberry Pi Foundation scratch-editor](https://github.com/RaspberryPiFoundation/scratch-editor) fork (for example changes to `scratch-gui`), you may want editor-ui to load that build instead of the `@scratch/scratch-gui` version from the npm registry.
+When you are working on the [Raspberry Pi Foundation scratch-editor](https://github.com/RaspberryPiFoundation/scratch-editor) fork (for example changes to `scratch-gui`), you may want editor-ui to load that build instead of the published `@RaspberryPiFoundation/scratch-gui` package from GitHub Packages.
 
 editor-ui does not bundle Scratch GUI into the main webpack app. It copies a prebuilt `dist/scratch-gui.js` (and static assets) from `node_modules` into the dev server output. Pointing the dependency at your local clone is enough to test GUI changes in the Scratch iframe.
 
@@ -250,7 +277,7 @@ Development/
 **1. `package.json`** — replace the registry dependency with a file link:
 
 ```json
-"@scratch/scratch-gui": "file:../scratch-editor/packages/scratch-gui"
+"@RaspberryPiFoundation/scratch-gui": "file:../scratch-editor/packages/scratch-gui"
 ```
 
 **2. `docker-compose.yml`** — mount the scratch-editor repo into the container (read-only):
@@ -266,7 +293,7 @@ From `/app` in the container, `file:../scratch-editor/packages/scratch-gui` reso
 
 **3. `yarn.lock`** — run `yarn install` inside Docker (see below) and commit nothing; the lockfile will change while the link is active. Revert it when you restore the registry version in `package.json`.
 
-The fork’s package name is `@RaspberryPiFoundation/scratch-gui`; editor-ui still imports `@scratch/scratch-gui`. The file link installs under `@scratch/scratch-gui` in `node_modules` — no rename required in scratch-editor for local linking.
+The file link uses the same package name as the published dependency (`@RaspberryPiFoundation/scratch-gui`). GitHub Packages authentication is not required for scratch-gui while the file link is active (you may still need `NPM_AUTH_TOKEN` for other dependencies).
 
 #### Build scratch-gui
 
@@ -296,7 +323,7 @@ cd ../editor-ui
 docker compose up
 ```
 
-The container runs `yarn install` then `yarn start` on each start. The first start after switching to the file link may take longer while dependencies are linked.
+The container runs `yarn install` then `yarn start` on each start. Pass `NPM_AUTH_TOKEN` on the host (see [GitHub Packages authentication](#github-packages-authentication)) so the container can install dependencies from GitHub Packages. The first start after switching to the file link may take longer while dependencies are linked.
 
 #### Verify in the browser
 
@@ -309,7 +336,7 @@ Scratch runs in an iframe served from editor-ui (port **3011**), not from the ma
 
 #### Revert when finished
 
-1. Restore `"@scratch/scratch-gui": "^13.0.0"` (or the version your branch pins) in `package.json`.
+1. Restore the published `@RaspberryPiFoundation/scratch-gui` version pin in `package.json` (see [GitHub Packages authentication](#github-packages-authentication)).
 2. Remove the `../scratch-editor:/scratch-editor:ro` volume from `docker-compose.yml`.
 3. Revert `yarn.lock` (e.g. `git checkout -- yarn.lock`) or run `yarn install` again after restoring `package.json`.
 4. Restart `docker compose up` in editor-ui.

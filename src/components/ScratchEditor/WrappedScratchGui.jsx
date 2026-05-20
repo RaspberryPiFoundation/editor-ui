@@ -1,4 +1,4 @@
-import GUI, { AppStateHOC } from "@scratch/scratch-gui";
+import GUI, { AppStateHOC } from "@RaspberryPiFoundation/scratch-gui";
 import ScratchIntegrationHOC from "./ScratchIntegrationHOC.jsx";
 import { compose } from "redux";
 

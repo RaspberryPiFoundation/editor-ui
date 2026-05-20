@@ -50,12 +50,12 @@ const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
 
 const scratchStaticDir = path.resolve(
   __dirname,
-  "node_modules/@scratch/scratch-gui/dist/static",
+  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/static",
 );
 
 const scratchChunkDir = path.resolve(
   __dirname,
-  "node_modules/@scratch/scratch-gui/dist/chunks",
+  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/chunks",
 );
 
 const moduleRules = [
@@ -255,7 +255,8 @@ const scratchConfig = {
   },
   externals: [
     function ({ request }, callback) {
-      if (request === "@scratch/scratch-gui") return callback(null, "GUI");
+      if (request === "@RaspberryPiFoundation/scratch-gui")
+        return callback(null, "GUI");
       if (request === "react") return callback(null, "React");
       if (request === "react-dom" || request.startsWith("react-dom/"))
         return callback(null, "ReactDOM");
@@ -304,11 +305,11 @@ const scratchConfig = {
           to: "vendor/react-redux.min.js",
         },
         {
-          from: "node_modules/@scratch/scratch-gui/dist/scratch-gui.js",
+          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js",
           to: "vendor/scratch-gui.js",
         },
         {
-          from: "node_modules/@scratch/scratch-gui/dist/scratch-gui.js.LICENSE.txt",
+          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js.LICENSE.txt",
           to: "vendor/scratch-gui.js.LICENSE.txt",
         },
       ],
