@@ -19,9 +19,7 @@ describe("useIsOnline", () => {
 
     mockPostMessage = jest.fn();
     swEventTarget = new EventTarget();
-    swEventTarget.ready = Promise.resolve({
-      active: { postMessage: mockPostMessage },
-    });
+    swEventTarget.controller = { postMessage: mockPostMessage };
 
     // jsdom doesn't implement navigator.serviceWorker so provide a minimal stub
     Object.defineProperty(navigator, "serviceWorker", {

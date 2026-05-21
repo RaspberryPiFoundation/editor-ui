@@ -30,9 +30,8 @@ const useIsOnline = () => {
   // While offline, poll the SW every 3s to check if the network has returned, broadcast ONLINE if successful
   useEffect(() => {
     if (isOnline || !("serviceWorker" in navigator)) return;
-    const interval = setInterval(async () => {
-      const reg = await navigator.serviceWorker.ready;
-      reg.active?.postMessage({ type: "CHECK_ONLINE" });
+    const interval = setInterval(() => {
+      navigator.serviceWorker.controller?.postMessage({ type: "CHECK_ONLINE" });
     }, 3000);
     return () => clearInterval(interval);
   }, [isOnline]);
