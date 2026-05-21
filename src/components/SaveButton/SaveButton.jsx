@@ -44,10 +44,18 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   if (offlineEnabled && !isOnline && !user) {
     return (
-      <div className={classNames(className, "offline-badge")}>
+      <div
+        className={classNames(className, "offline-badge")}
+        tabIndex={0}
+        aria-describedby="offline-badge-tooltip"
+      >
         <OfflineIcon />
         <span>{t("header.offline")}</span>
-        <div className="offline-badge__tooltip">
+        <div
+          id="offline-badge-tooltip"
+          className="offline-badge__tooltip"
+          role="tooltip"
+        >
           <p>{t("header.offlineTooltipDevice")}</p>
           <p>{t("header.offlineTooltipContinue")}</p>
         </div>

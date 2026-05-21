@@ -272,6 +272,28 @@ describe("When project is loaded", () => {
       );
       expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
     });
+
+    describe("accessibility", () => {
+      beforeEach(() => {
+        const store = configureStore([])(offlineState);
+        render(
+          <Provider store={store}>
+            <SaveButton />
+          </Provider>,
+        );
+      });
+
+      test("badge is keyboard focusable", () => {
+        const badge = screen.getByText("header.offline").parentElement;
+        expect(badge).toHaveAttribute("tabIndex", "0");
+      });
+
+      test("badge tooltip is associated via aria-describedby", () => {
+        const tooltip = screen.getByRole("tooltip");
+        const badge = screen.getByText("header.offline").parentElement;
+        expect(badge).toHaveAttribute("aria-describedby", tooltip.id);
+      });
+    });
   });
 
   afterAll(() => {
