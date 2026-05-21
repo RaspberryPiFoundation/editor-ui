@@ -240,11 +240,16 @@ const mainConfig = {
           to: "",
           transform: (content, filePath) => {
             if (!filePath.endsWith("service-worker.js")) return content;
-            const version = process.env.npm_package_version;
+            const version =
+              process.env.npm_package_version ??
+              require("./package.json").version;
             return content
               .toString()
               .replace("editor-app-v1", `editor-app-v${version}`)
-              .replace("editor-translations-v1", `editor-translations-v${version}`);
+              .replace(
+                "editor-translations-v1",
+                `editor-translations-v${version}`,
+              );
           },
         },
         { from: "src/projects", to: "projects" },

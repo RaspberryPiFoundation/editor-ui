@@ -63,7 +63,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Pyodide needs SharedArrayBuffer which requires the page to be cross-origin isolated. That means serving COOP + COEP on the HTML response, and CORP on every cross-origin resource the page loads
+// Pyodide needs SharedArrayBuffer which requires the page to be cross-origin isolated. That means serving COOP + COEP on the HTML response, and CORP on every cross-origin resource the page loads. We already set these headers on editor-static.raspberrypi.org, but worth being explicit here for other hosts eg. cdn.jsdelivr.net
 function addSecurityHeaders(response) {
   if (response.type === "opaque") return response;
   const headers = new Headers(response.headers);
