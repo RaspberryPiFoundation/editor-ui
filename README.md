@@ -284,8 +284,10 @@ Build on your machine (the `scratch-editor` mount is read-only inside the editor
 
 ```bash
 cd ../scratch-editor
-npm ci
-npm run build -w @RaspberryPiFoundation/scratch-gui
+nvm install
+nvm use
+NODE_ENV=development npm ci
+npm run build
 ```
 
 After every scratch-gui code change, run the build again, then restart the editor-ui container so webpack copies the new `dist/scratch-gui.js`.
