@@ -3,6 +3,7 @@ import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./events.js";
+import { resolveScratchLibraryAssetUrlTemplate } from "../../utils/scratchLibraryAssetUrl.js";
 
 const handleUpdateProjectId = (updatedProjectId) => {
   postScratchGuiEvent("scratch-gui-project-id-updated", {
@@ -72,7 +73,7 @@ const ScratchEditor = ({
     [apiUrl],
   );
 
-  const libraryCdnHost = process.env.REACT_APP_SCRATCH_LIBRARY_ASSET_HOST;
+  const libraryAssetUrlTemplate = resolveScratchLibraryAssetUrlTemplate();
 
   return (
     <WrapperdScratchGui
@@ -81,7 +82,7 @@ const ScratchEditor = ({
       menuBarHidden={true}
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
-      libraryAssetHost={libraryCdnHost}
+      libraryAssetUrlTemplate={libraryAssetUrlTemplate}
       basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;

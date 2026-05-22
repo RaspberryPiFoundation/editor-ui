@@ -38,7 +38,9 @@ describe("ScratchEditor", () => {
         projectHost: "https://api.example.com/api/scratch/projects",
       }),
     );
-    expect(mockWrappedScratchGui.mock.calls[0][0].libraryAssetHost).toBeUndefined();
+    expect(
+      mockWrappedScratchGui.mock.calls[0][0].libraryAssetUrlTemplate,
+    ).toBeUndefined();
   });
 
   test("routes project saves through scratchFetch metadata after storage init", async () => {
