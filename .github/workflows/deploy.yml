@@ -118,6 +118,8 @@ jobs:
       url: ${{ needs.setup-environment.outputs.public_url }}
     env:
       HAS_CLOUDFLARE_SECRETS: ${{ secrets.CLOUDFLARE_ZONE_ID != '' && secrets.CLOUDFLARE_API_TOKEN != '' }}
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check deployment path
         run: |
@@ -140,6 +142,7 @@ jobs:
         run: yarn install --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build WC and HTML renderer bundles
         run: yarn build
