@@ -4,7 +4,7 @@ This project provides a web component containing the Raspberry Pi Code Editor fo
 
 ## Install dependencies
 
-This repository uses Yarn (see `package.json` → `packageManager`). Using `npm install` can fail due to strict peer-dependency resolution in npm for some legacy packages in this project.
+This repository uses Yarn (see `package.json` → `packageManager`).
 
 `@RaspberryPiFoundation/scratch-gui` is installed from [GitHub Packages](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui). Complete the steps below, then run `yarn install`.
 
@@ -12,7 +12,7 @@ This repository uses Yarn (see `package.json` → `packageManager`). Using `npm 
 
 If you don't already have this set up you will need it to access deps in the RPF private registry
 
-1. On GitHub, create a **classic** personal access token: [Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens). Enable the **`read:packages`** scopes.
+1. On GitHub, create a **classic** personal access token: [Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens). Enable **`read:packages`** and **`repo`**. For packages tied to private repositories, `read:packages` alone can cause `yarn install` to fail with `401`/`403`.
 2. If your organisation uses SAML SSO, open the token on GitHub and **Authorize** it for **RaspberryPiFoundation** (Configure SSO).
 3. Add the token to your shell profile (for example `~/.zshrc` on macOS):
 
