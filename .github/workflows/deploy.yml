@@ -140,9 +140,6 @@ jobs:
 
       - name: Install code
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build WC and HTML renderer bundles
         run: yarn build
