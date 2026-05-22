@@ -74,6 +74,7 @@ jobs:
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
           REACT_APP_API_ENDPOINT: http://localhost:3009
+          REACT_APP_SCRATCH_LIBRARY_ASSET_URL_TEMPLATE: https://editor-assets.raspberrypi.org/internalapi/asset/{assetPath}/get/
       - name: Record coverage
         run: ./.github/workflows/record_coverage
         env:
@@ -114,6 +115,7 @@ jobs:
           PUBLIC_URL: "http://localhost:3011"
           ASSETS_URL: "http://localhost:3011"
           REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
+          REACT_APP_SCRATCH_LIBRARY_ASSET_URL_TEMPLATE: https://editor-assets.raspberrypi.org/internalapi/asset/{assetPath}/get/
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v4.6.0

@@ -58,6 +58,10 @@ on:
         required: false
         default: "https://staging-editor.raspberrypi.org,https://staging-editor-static.raspberrypi.org,https://test-editor.raspberrypi.org,https://staging-classroom.raspberrypi.org,https://test-classroom.raspberrypi.org"
         type: string
+      react_app_scratch_library_asset_url_template:
+        required: false
+        default: "https://editor-assets.raspberrypi.org/internalapi/asset/{assetPath}/get/"
+        type: string
       csp_api_multiple_origins:
         required: false
         default: ""
@@ -152,6 +156,7 @@ jobs:
           REACT_APP_SENTRY_DSN: ${{ inputs.react_app_sentry_dsn }}
           REACT_APP_SENTRY_ENV: ${{ inputs.react_app_sentry_env }}
           REACT_APP_ALLOWED_IFRAME_ORIGINS: ${{ inputs.react_app_allowed_iframe_origins }}
+          REACT_APP_SCRATCH_LIBRARY_ASSET_URL_TEMPLATE: ${{ inputs.react_app_scratch_library_asset_url_template }}
           CSP_API_MULTIPLE_ORIGINS: ${{ inputs.csp_api_multiple_origins }}
 
       - name: Deploy site to S3 bucket
