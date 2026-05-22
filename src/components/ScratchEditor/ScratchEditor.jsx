@@ -72,6 +72,8 @@ const ScratchEditor = ({
     [apiUrl],
   );
 
+  const libraryCdnHost = process.env.REACT_APP_SCRATCH_LIBRARY_ASSET_HOST;
+
   return (
     <WrapperdScratchGui
       projectId={projectId}
@@ -79,6 +81,7 @@ const ScratchEditor = ({
       menuBarHidden={true}
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
+      libraryAssetHost={libraryCdnHost}
       basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;

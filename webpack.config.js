@@ -36,6 +36,10 @@ const cspApiOrigin = toOrigin(
   process.env.REACT_APP_API_ENDPOINT,
 );
 const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
+const cspScratchLibraryAssetOrigin = toOrigin(
+  "REACT_APP_SCRATCH_LIBRARY_ASSET_HOST",
+  process.env.REACT_APP_SCRATCH_LIBRARY_ASSET_HOST,
+);
 
 // When present these override cspApiOrigin for CSP API/connect-src origins.
 // This supports staging setups that need to allow multiple API origins,
@@ -279,6 +283,7 @@ const scratchConfig = {
         cspApiOrigin,
         cspApiMultipleOrigins,
         cspAssetOrigin,
+        cspScratchLibraryAssetOrigin,
         isDev,
       },
     }),

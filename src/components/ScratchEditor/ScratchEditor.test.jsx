@@ -32,6 +32,13 @@ describe("ScratchEditor", () => {
     );
 
     expect(getByTestId("wrapped-scratch-gui")).toBeTruthy();
+    expect(mockWrappedScratchGui).toHaveBeenCalledWith(
+      expect.objectContaining({
+        assetHost: "https://api.example.com/api/scratch/assets",
+        projectHost: "https://api.example.com/api/scratch/projects",
+      }),
+    );
+    expect(mockWrappedScratchGui.mock.calls[0][0].libraryAssetHost).toBeUndefined();
   });
 
   test("routes project saves through scratchFetch metadata after storage init", async () => {
