@@ -3,6 +3,7 @@
   "version": "0.34.20",
   "private": true,
   "dependencies": {
+    "@RaspberryPiFoundation/scratch-gui": "13.7.3-code-classroom.20260522151700",
     "@apollo/client": "^3.7.8",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
@@ -20,7 +21,6 @@
     "@react-three/fiber": "^8.0.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@replit/codemirror-indentation-markers": "^6.1.0",
-    "@scratch/scratch-gui": "^13.0.0",
     "@sentry/browser": "^7.17.3",
     "@sentry/react": "7.16.0",
     "@sentry/tracing": "7.16.0",

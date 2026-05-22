@@ -5,6 +5,88 @@ __metadata:
   version: 8
   cacheKey: 10
 
+"@RaspberryPiFoundation/scratch-gui@npm:13.7.3-code-classroom.20260522151700":
+  version: 13.7.3-code-classroom.20260522151700
+  resolution: "@RaspberryPiFoundation/scratch-gui@npm:13.7.3-code-classroom.20260522151700::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40RaspberryPiFoundation%2Fscratch-gui%2F13.7.3-code-classroom.20260522151700%2F5f120e5fec0d31f861149f72bdf120ff148f9349"
+  dependencies:
+    "@mediapipe/face_detection": "npm:0.4.1646425229"
+    "@microbit/microbit-universal-hex": "npm:0.2.2"
+    "@radix-ui/react-context-menu": "npm:2.2.16"
+    "@scratch/scratch-render": "npm:13.7.3"
+    "@scratch/scratch-svg-renderer": "npm:13.7.3"
+    "@scratch/scratch-vm": "npm:13.7.3"
+    "@tensorflow-models/face-detection": "npm:1.0.3"
+    "@tensorflow/tfjs": "npm:4.22.0"
+    "@testing-library/user-event": "npm:14.6.1"
+    arraybuffer-loader: "npm:1.0.8"
+    autoprefixer: "npm:9.8.8"
+    balance-text: "npm:3.3.1"
+    base64-loader: "npm:1.0.0"
+    bowser: "npm:1.9.4"
+    classnames: "npm:2.5.1"
+    computed-style-to-inline-style: "npm:3.0.0"
+    cookie: "npm:0.6.0"
+    copy-webpack-plugin: "npm:6.4.1"
+    core-js: "npm:2.6.12"
+    css-loader: "npm:5.2.7"
+    dapjs: "npm:2.3.0"
+    driver.js: "npm:1.4.0"
+    es6-object-assign: "npm:1.1.0"
+    fastestsmallesttextencoderdecoder: "npm:1.0.22"
+    get-float-time-domain-data: "npm:0.1.0"
+    get-user-media-promise: "npm:1.1.4"
+    immutable: "npm:3.8.3"
+    intl: "npm:1.2.5"
+    js-base64: "npm:2.6.4"
+    keymirror: "npm:0.1.1"
+    lodash.bindall: "npm:4.4.0"
+    lodash.debounce: "npm:4.0.8"
+    lodash.defaultsdeep: "npm:4.6.1"
+    lodash.omit: "npm:4.18.0"
+    lodash.throttle: "npm:4.1.1"
+    omggif: "npm:1.0.10"
+    papaparse: "npm:5.5.3"
+    postcss-import: "npm:12.0.1"
+    postcss-loader: "npm:4.3.0"
+    postcss-simple-vars: "npm:5.0.2"
+    prop-types: "npm:15.8.1"
+    query-string: "npm:5.1.1"
+    raw-loader: "npm:4.0.2"
+    react-draggable: "npm:3.3.2"
+    react-ga: "npm:3.3.1"
+    react-intl: "npm:6.8.9"
+    react-modal: "npm:3.16.3"
+    react-popover: "npm:0.5.10"
+    react-redux: "npm:8.1.3"
+    react-responsive: "npm:9.0.2"
+    react-style-proptype: "npm:3.2.2"
+    react-tabs: "npm:5.2.0"
+    react-tooltip: "npm:4.5.1"
+    react-virtualized: "npm:9.22.6"
+    react-visibility-sensor: "npm:5.1.1"
+    redux-throttle: "npm:0.1.1"
+    scratch-audio: "npm:2.0.268"
+    scratch-blocks: "npm:2.1.19"
+    scratch-l10n: "npm:6.1.72"
+    scratch-paint: "npm:4.1.50"
+    scratch-render-fonts: "npm:1.0.252"
+    scratch-storage: "npm:6.2.1"
+    startaudiocontext: "npm:1.2.1"
+    style-loader: "npm:4.0.0"
+    text-encoding: "npm:0.7.0"
+    to-style: "npm:1.3.3"
+    tslog: "npm:4.10.2"
+    wav-encoder: "npm:1.3.0"
+    xhr: "npm:2.6.0"
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+    react-redux: ^8.0.0
+    redux: ^4.0.0
+  checksum: 10/d0015fa26618267d53036723516c9393e15312b6a54785e7f1341f91a86c40369c44774c35889235efde4b44c65046ce42673ed452bbd2df9a7f650daadaa40c
+  languageName: node
+  linkType: hard
+
 "@acemir/cssom@npm:^0.9.31":
   version: 0.9.31
   resolution: "@acemir/cssom@npm:0.9.31"
@@ -4176,6 +4258,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@raspberrypifoundation/editor-ui@workspace:."
   dependencies:
+    "@RaspberryPiFoundation/scratch-gui": "npm:13.7.3-code-classroom.20260522151700"
     "@apollo/client": "npm:^3.7.8"
     "@babel/core": "npm:^7.17.10"
     "@babel/preset-env": "npm:^7.17.10"
@@ -4196,7 +4279,6 @@ __metadata:
     "@react-three/test-renderer": "npm:8.2.1"
     "@reduxjs/toolkit": "npm:^1.6.2"
     "@replit/codemirror-indentation-markers": "npm:^6.1.0"
-    "@scratch/scratch-gui": "npm:^13.0.0"
     "@sentry/browser": "npm:^7.17.3"
     "@sentry/react": "npm:7.16.0"
     "@sentry/tracing": "npm:7.16.0"
@@ -4598,93 +4680,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scratch/scratch-gui@npm:^13.0.0":
-  version: 13.1.1
-  resolution: "@scratch/scratch-gui@npm:13.1.1"
+"@scratch/scratch-render@npm:13.7.3":
+  version: 13.7.3
+  resolution: "@scratch/scratch-render@npm:13.7.3"
   dependencies:
-    "@mediapipe/face_detection": "npm:0.4.1646425229"
-    "@microbit/microbit-universal-hex": "npm:0.2.2"
-    "@radix-ui/react-context-menu": "npm:2.2.16"
-    "@scratch/scratch-render": "npm:13.1.1"
-    "@scratch/scratch-svg-renderer": "npm:13.1.1"
-    "@scratch/scratch-vm": "npm:13.1.1"
-    "@tensorflow-models/face-detection": "npm:1.0.3"
-    "@tensorflow/tfjs": "npm:4.22.0"
-    "@testing-library/user-event": "npm:14.6.1"
-    arraybuffer-loader: "npm:1.0.8"
-    autoprefixer: "npm:9.8.8"
-    balance-text: "npm:3.3.1"
-    base64-loader: "npm:1.0.0"
-    bowser: "npm:1.9.4"
-    classnames: "npm:2.5.1"
-    computed-style-to-inline-style: "npm:3.0.0"
-    cookie: "npm:0.6.0"
-    copy-webpack-plugin: "npm:6.4.1"
-    core-js: "npm:2.6.12"
-    css-loader: "npm:5.2.7"
-    dapjs: "npm:2.3.0"
-    driver.js: "npm:1.4.0"
-    es6-object-assign: "npm:1.1.0"
-    fastestsmallesttextencoderdecoder: "npm:1.0.22"
-    get-float-time-domain-data: "npm:0.1.0"
-    get-user-media-promise: "npm:1.1.4"
-    immutable: "npm:3.8.3"
-    intl: "npm:1.2.5"
-    js-base64: "npm:2.6.4"
-    keymirror: "npm:0.1.1"
-    lodash.bindall: "npm:4.4.0"
-    lodash.debounce: "npm:4.0.8"
-    lodash.defaultsdeep: "npm:4.6.1"
-    lodash.omit: "npm:4.5.0"
-    lodash.throttle: "npm:4.1.1"
-    omggif: "npm:1.0.10"
-    papaparse: "npm:5.5.3"
-    postcss-import: "npm:12.0.1"
-    postcss-loader: "npm:4.3.0"
-    postcss-simple-vars: "npm:5.0.2"
-    prop-types: "npm:15.8.1"
-    query-string: "npm:5.1.1"
-    raw-loader: "npm:4.0.2"
-    react-draggable: "npm:3.3.2"
-    react-ga: "npm:3.3.1"
-    react-intl: "npm:6.8.9"
-    react-modal: "npm:3.16.3"
-    react-popover: "npm:0.5.10"
-    react-redux: "npm:8.1.3"
-    react-responsive: "npm:9.0.2"
-    react-style-proptype: "npm:3.2.2"
-    react-tabs: "npm:5.2.0"
-    react-tooltip: "npm:4.5.1"
-    react-virtualized: "npm:9.22.6"
-    react-visibility-sensor: "npm:5.1.1"
-    redux-throttle: "npm:0.1.1"
-    scratch-audio: "npm:2.0.268"
-    scratch-blocks: "npm:2.1.1"
-    scratch-l10n: "npm:6.1.60"
-    scratch-paint: "npm:4.1.50"
-    scratch-render-fonts: "npm:1.0.252"
-    scratch-storage: "npm:6.1.11"
-    startaudiocontext: "npm:1.2.1"
-    style-loader: "npm:4.0.0"
-    text-encoding: "npm:0.7.0"
-    to-style: "npm:1.3.3"
-    tslog: "npm:4.10.2"
-    wav-encoder: "npm:1.3.0"
-    xhr: "npm:2.6.0"
-  peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-    react-redux: ^8.0.0
-    redux: ^4.0.0
-  checksum: 10/a69704dfb54018e2972d68cf6fbff09e4bc872b62efe501ae358ad0e262eb4a58c534feaab4a52b4a02a3e7603e88313928e65ec96c849a6a81b5417bf764a68
-  languageName: node
-  linkType: hard
-
-"@scratch/scratch-render@npm:13.1.1":
-  version: 13.1.1
-  resolution: "@scratch/scratch-render@npm:13.1.1"
-  dependencies:
-    "@scratch/scratch-svg-renderer": "npm:13.1.1"
+    "@scratch/scratch-svg-renderer": "npm:13.7.3"
     grapheme-breaker: "npm:0.3.2"
     hull.js: "npm:0.2.10"
     ify-loader: "npm:1.1.0"
@@ -4693,34 +4693,34 @@ __metadata:
     tslog: "npm:4.10.2"
     twgl.js: "npm:4.24.0"
   peerDependencies:
-    scratch-render-fonts: ^1.0.0
-  checksum: 10/6c733a5114c1504a59e2c491c1af14a4d41872a891315290f4f04877acf9b75c759f0cd64dfca80ed60318a8bab0738d88ded613577103fd12a53ceda636dac8
+    scratch-render-fonts: 1.0.252
+  checksum: 10/9ea0ef35121fdb42d8bdb3da36fbc4a90c0e6e05dd1d5cb4f1da0371f958d7d35bf228c82efbbfbd3fa71499e453f5e04e8da942707c7430fcba7ceda43f516b
   languageName: node
   linkType: hard
 
-"@scratch/scratch-svg-renderer@npm:13.1.1":
-  version: 13.1.1
-  resolution: "@scratch/scratch-svg-renderer@npm:13.1.1"
+"@scratch/scratch-svg-renderer@npm:13.7.3":
+  version: 13.7.3
+  resolution: "@scratch/scratch-svg-renderer@npm:13.7.3"
   dependencies:
     base64-js: "npm:1.5.1"
     base64-loader: "npm:1.0.0"
-    css-tree: "npm:1.1.3"
+    css-tree: "npm:3.2.1"
     fastestsmallesttextencoderdecoder: "npm:1.0.22"
     isomorphic-dompurify: "npm:2.36.0"
     transformation-matrix: "npm:1.15.3"
     tslog: "npm:4.10.2"
   peerDependencies:
-    scratch-render-fonts: ^1.0.0
-  checksum: 10/edd5e9a92f9e275f93cd93997ffde1f7c9739810f466a902d6245f6e3e4559e3b0dfb6733c22c683562d420d4035bdcaac978eb72b1085a1fe70eebd6ca8738d
+    scratch-render-fonts: 1.0.252
+  checksum: 10/ef24e688355acf4c1dc9139c72d02cdebd061dc2350244a0753d55d3796606b00dcf8bb70d1517376ec55eead58168a40aa0d23d5f0873deb69b3571c6328fcc
   languageName: node
   linkType: hard
 
-"@scratch/scratch-vm@npm:13.1.1":
-  version: 13.1.1
-  resolution: "@scratch/scratch-vm@npm:13.1.1"
+"@scratch/scratch-vm@npm:13.7.3":
+  version: 13.7.3
+  resolution: "@scratch/scratch-vm@npm:13.7.3"
   dependencies:
-    "@scratch/scratch-render": "npm:13.1.1"
-    "@scratch/scratch-svg-renderer": "npm:13.1.1"
+    "@scratch/scratch-render": "npm:13.7.3"
+    "@scratch/scratch-svg-renderer": "npm:13.7.3"
     "@vernier/godirect": "npm:1.8.3"
     arraybuffer-loader: "npm:1.0.8"
     atob: "npm:2.1.2"
@@ -4735,19 +4735,19 @@ __metadata:
     scratch-audio: "npm:2.0.268"
     scratch-parser: "npm:6.0.0"
     scratch-sb1-converter: "npm:2.0.279"
-    scratch-storage: "npm:6.1.11"
+    scratch-storage: "npm:6.2.1"
     scratch-translate-extension-languages: "npm:1.0.7"
     text-encoding: "npm:0.7.0"
     tslog: "npm:4.10.2"
     uuid: "npm:8.3.2"
-  checksum: 10/ccabda23bf209cd7172009d45598f0092318d4188c2b4921670462367d3c3b817ad3a8e80a9b1efd6071299aa7128eab396e1fe2475919c92f09551380c116ec
+  checksum: 10/5cb96bb9b92687f3971cad47812be3ac442ed6366607754081269a76cb77c50095ec2abaf3c6714da14d72c123afa684219b88fdc9dd3687fec9aab34954ecd5
   languageName: node
   linkType: hard
 
-"@scratch/task-herder@npm:12.7.0":
-  version: 12.7.0
-  resolution: "@scratch/task-herder@npm:12.7.0"
-  checksum: 10/cc8e41dedc9fb8e4c7eeeef1719365b5526879ef0c961434a734a180920c8beeeb0f9b31033b997937537f5f1429d325b4cb60982f7cc35397643647a8f31617
+"@scratch/task-herder@npm:12.7.1":
+  version: 12.7.1
+  resolution: "@scratch/task-herder@npm:12.7.1"
+  checksum: 10/e4175fa8b7ee313360bad08d5ffa8bd4ecdf69eb98a924f9d675e4fe5e3098ac4467704a83476415fb32addab2e49f9678a1e1523510d273c532ffd23b520d40
   languageName: node
   linkType: hard
 
@@ -5322,12 +5322,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@transifex/api@npm:7.1.5":
-  version: 7.1.5
-  resolution: "@transifex/api@npm:7.1.5"
+"@transifex/api@npm:7.1.6":
+  version: 7.1.6
+  resolution: "@transifex/api@npm:7.1.6"
   dependencies:
     core-js: "npm:^3.35.0"
-  checksum: 10/322ee29b049d46ad59cc00faf02a2192c488e765a59e7580e9200fcd9b4f45de7d5586698210755221df7ec02c7439a5788bdbbc9a8cdaed2b4af02a79d0367f
+  checksum: 10/ceca0298ab3521d5778a656bb87f931cf2aabbae5d329c934a26dad743cd83dd3180fc0782c864d2f65764e1c917ba273d593d954a70fdb4b88a94571ef3ac10
   languageName: node
   linkType: hard
 
@@ -9464,23 +9464,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-tree@npm:1.1.3, css-tree@npm:^1.1.2":
-  version: 1.1.3
-  resolution: "css-tree@npm:1.1.3"
-  dependencies:
-    mdn-data: "npm:2.0.14"
-    source-map: "npm:^0.6.1"
-  checksum: 10/29710728cc4b136f1e9b23ee1228ec403ec9f3d487bc94a9c5dbec563c1e08c59bc917dd6f82521a35e869ff655c298270f43ca673265005b0cd05b292eb05ab
-  languageName: node
-  linkType: hard
-
-"css-tree@npm:^3.0.0, css-tree@npm:^3.0.1":
+"css-tree@npm:3.2.1, css-tree@npm:^3.0.0, css-tree@npm:^3.0.1":
   version: 3.2.1
   resolution: "css-tree@npm:3.2.1"
   dependencies:
     mdn-data: "npm:2.27.1"
     source-map-js: "npm:^1.2.1"
   checksum: 10/9945b387bdec756738c34d64b8287f05ca6645f51d1c8abaaa5822ec3e74533604103aaad164b8100afd8495e92120be7c1c6afbe5be89f867acc5b456ddd79c
+  languageName: node
+  linkType: hard
+
+"css-tree@npm:^1.1.2":
+  version: 1.1.3
+  resolution: "css-tree@npm:1.1.3"
+  dependencies:
+    mdn-data: "npm:2.0.14"
+    source-map: "npm:^0.6.1"
+  checksum: 10/29710728cc4b136f1e9b23ee1228ec403ec9f3d487bc94a9c5dbec563c1e08c59bc917dd6f82521a35e869ff655c298270f43ca673265005b0cd05b292eb05ab
   languageName: node
   linkType: hard
 
@@ -16480,7 +16480,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.omit@npm:4.5.0, lodash.omit@npm:^4.5.0":
+"lodash.omit@npm:4.18.0":
+  version: 4.18.0
+  resolution: "lodash.omit@npm:4.18.0"
+  checksum: 10/dc406ff88b793fe28ce9e615d40128bb8075b23cec8d81e91dfc37a63485f7d5a2a0986cf3c61b598ea0a9759a254bb13cf346a427ea81b7a3b8f037edf53a48
+  languageName: node
+  linkType: hard
+
+"lodash.omit@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.omit@npm:4.5.0"
   checksum: 10/f5c67cd1df11f1275662060febb629a4d4e7b547c4bea66454508b5e6096162c2af882aab1ff8cb5dcf2b328f22252416de6ca9c1334588f6310edfac525e511
@@ -21710,22 +21717,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scratch-blocks@npm:2.1.1":
-  version: 2.1.1
-  resolution: "scratch-blocks@npm:2.1.1"
+"scratch-blocks@npm:2.1.19":
+  version: 2.1.19
+  resolution: "scratch-blocks@npm:2.1.19"
   dependencies:
     "@blockly/continuous-toolbox": "npm:^7.0.8"
     "@blockly/field-colour": "npm:^6.0.11"
     blockly: "npm:^12.4.1"
-  checksum: 10/89fe748c420780a2e93ed32ef2bdf08989273c5af5de80e2e5f6939a6cbb8cb5ca7e19b67fea2ceff428754c07628f564875d02a2af5c18b3b8537eafcea8946
+  checksum: 10/b3b1199e26ab451c5011880e9db1ac8044d4f2ef0194432274b37ee9c152ecd93de57589405a6191822c9adf52baad30a7f3d9041090d7113fa3870bf1ee230f
   languageName: node
   linkType: hard
 
-"scratch-l10n@npm:6.1.60":
-  version: 6.1.60
-  resolution: "scratch-l10n@npm:6.1.60"
+"scratch-l10n@npm:6.1.72":
+  version: 6.1.72
+  resolution: "scratch-l10n@npm:6.1.72"
   dependencies:
-    "@transifex/api": "npm:7.1.5"
+    "@transifex/api": "npm:7.1.6"
     async: "npm:3.2.6"
     format-message-parse: "npm:6.2.4"
     glob: "npm:7.2.3"
@@ -21736,7 +21743,7 @@ __metadata:
   bin:
     build-i18n-src: scripts/build-i18n-src.mts
     tx-push-src: scripts/tx-push-src.mts
-  checksum: 10/ca873eac57dece8fe1f1eef18807cfe27b886762837832e99028885adb664a16b2d43278f8fa99e5b7ec16bc8b66c621a82440a6ac0118087e488b8dbfe94246
+  checksum: 10/80ee5bf41a6899a455efe4b5ac53d12d9c2f99284515dde289f19e54e184e163c25c9093e9dcf7e9d4a55cd6bd5d22aeec8c48e17ade876ff4ef45af72127524
   languageName: node
   linkType: hard
 
@@ -21799,19 +21806,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scratch-storage@npm:6.1.11":
-  version: 6.1.11
-  resolution: "scratch-storage@npm:6.1.11"
+"scratch-storage@npm:6.2.1":
+  version: 6.2.1
+  resolution: "scratch-storage@npm:6.2.1"
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
-    "@scratch/task-herder": "npm:12.7.0"
+    "@scratch/task-herder": "npm:12.7.1"
     arraybuffer-loader: "npm:^1.0.3"
     base64-js: "npm:^1.3.0"
     buffer: "npm:6.0.3"
     fastestsmallesttextencoderdecoder: "npm:^1.0.7"
     js-md5: "npm:^0.7.3"
     minilog: "npm:^3.1.0"
-  checksum: 10/066ad9839d09f1bdc85dd972a0464465afaeb76d069bba3df26693b2106b19f4ffd6566ea5b26c77f54038cdcc228b59eafec543597edd2f316dc03daf6001b5
+  checksum: 10/a5cc07d98e8c3d3ef728049050c180816f097a9f5e2ae182980f287498ebe71c579d2062d7bd95b6edd3d553803472dfcb56094e6fe05756ed3d9003a31a8b07
   languageName: node
   linkType: hard
 

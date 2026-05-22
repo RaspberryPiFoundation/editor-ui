@@ -1,6 +1,8 @@
 x-app: &x-app
   build:
     context: .
+  environment:
+    NPM_AUTH_TOKEN: ${NPM_AUTH_TOKEN}
   volumes:
     - .:/app
     - node_modules:/app/node_modules

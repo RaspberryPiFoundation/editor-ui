@@ -6,7 +6,7 @@ import {
   remixProject,
   manualUpdateProject,
   setStageSize,
-} from "@scratch/scratch-gui";
+} from "@RaspberryPiFoundation/scratch-gui";
 import { allowedIframeHost } from "../../utils/iframeUtils";
 import { postScratchGuiEvent } from "./events.js";
 
