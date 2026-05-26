@@ -4,8 +4,10 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectBar from "./ProjectBar";
+import useIsOnline from "../../hooks/useIsOnline";
 
 jest.mock("axios");
+jest.mock("../../hooks/useIsOnline");
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -26,6 +28,10 @@ const user = {
     user: "b48e70e2-d9ed-4a59-aee5-fc7cf09dbfaf",
   },
 };
+
+beforeEach(() => {
+  useIsOnline.mockReturnValue(true);
+});
 
 const renderProjectBar = (state) => {
   const middlewares = [];
@@ -181,6 +187,45 @@ describe("When no project loaded", () => {
 
   test("No save button", () => {
     expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+  });
+});
+
+describe("offline badge", () => {
+  beforeEach(() => {
+    useIsOnline.mockReturnValue(false);
+  });
+
+  test("shows offline badge for project owner when offline", () => {
+    renderProjectBar({
+      editor: { project, offlineEnabled: true, lastSavedTime: Date.now() },
+      auth: { user },
+    });
+    expect(screen.queryByText("header.offline")).toBeInTheDocument();
+  });
+
+  test("shows offline badge for project owner on fresh load with no save history", () => {
+    renderProjectBar({
+      editor: { project, offlineEnabled: true },
+      auth: { user },
+    });
+    expect(screen.queryByText("header.offline")).toBeInTheDocument();
+  });
+
+  test("does not show a second offline badge for non-owners (SaveButton handles it)", () => {
+    const nonOwner = { ...user, profile: { user: "someone-else" } };
+    renderProjectBar({
+      editor: { project, offlineEnabled: true, lastSavedTime: Date.now() },
+      auth: { user: nonOwner },
+    });
+    expect(screen.queryAllByText("header.offline")).toHaveLength(1);
+  });
+
+  test("does not show offline badge when offlineEnabled is false", () => {
+    renderProjectBar({
+      editor: { project, offlineEnabled: false },
+      auth: { user },
+    });
+    expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
   });
 });
 

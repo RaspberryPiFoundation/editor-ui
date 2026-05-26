@@ -7,8 +7,8 @@ import { logInEvent } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import SaveIcon from "../../assets/icons/save.svg";
-import OfflineIcon from "../../assets/icons/offline.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
 
@@ -43,24 +43,7 @@ const SaveButton = ({ className, type, fill = false }) => {
   if (loading !== "success" || projectOwner || !buttonType) return null;
 
   if (offlineEnabled && !isOnline) {
-    return (
-      <div
-        className={classNames(className, "offline-badge")}
-        tabIndex={0}
-        aria-describedby="offline-badge-tooltip"
-      >
-        <OfflineIcon />
-        <span>{t("header.offline")}</span>
-        <div
-          id="offline-badge-tooltip"
-          className="offline-badge__tooltip"
-          role="tooltip"
-        >
-          <p>{t("header.offlineTooltipDevice")}</p>
-          <p>{t("header.offlineTooltipContinue")}</p>
-        </div>
-      </div>
-    );
+    return <OfflineBadge className={className} />;
   }
 
   return (
