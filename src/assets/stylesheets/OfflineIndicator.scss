@@ -24,7 +24,7 @@
     position: absolute;
     inset-block-start: calc(100% + $space-1);
     inset-inline-end: 0;
-    inline-size: 20rem;
+    inline-size: 12rem;
     padding: $space-1;
     border-radius: $space-0-5;
     background: #1d1d1d;
@@ -41,7 +41,7 @@
       content: "";
       position: absolute;
       inset-block-start: -8px;
-      inset-inline-end: 20px;
+      inset-inline-end: 40px;
       inline-size: 0;
       block-size: 0;
       border-inline-start: 8px solid transparent;
