@@ -42,7 +42,7 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   if (loading !== "success" || projectOwner || !buttonType) return null;
 
-  if (offlineEnabled && !isOnline && !user) {
+  if (offlineEnabled && !isOnline) {
     return (
       <div
         className={classNames(className, "offline-badge")}

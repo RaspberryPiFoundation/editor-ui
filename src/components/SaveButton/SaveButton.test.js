@@ -260,9 +260,13 @@ describe("When project is loaded", () => {
       expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
     });
 
-    test("does not show offline badge when user is logged in", () => {
+    test("shows offline badge when user is logged in and offline", () => {
       const store = configureStore([])({
         ...offlineState,
+        editor: {
+          ...offlineState.editor,
+          project: { identifier: "some-project", user_id: "some-other-user" },
+        },
         auth: { user: { profile: { user: "some-user" } } },
       });
       render(
@@ -270,7 +274,7 @@ describe("When project is loaded", () => {
           <SaveButton />
         </Provider>,
       );
-      expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
+      expect(screen.queryByText("header.offline")).toBeInTheDocument();
     });
 
     describe("accessibility", () => {
