@@ -1,6 +1,7 @@
 import { render, cleanup, act } from "@testing-library/react";
-import ScratchEditor from "./ScratchEditor.jsx";
-import { resolveScratchLibraryAssetUrlTemplate } from "../../utils/scratchLibraryAssetUrl.js";
+import ScratchEditor, {
+  SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
+} from "./ScratchEditor.jsx";
 
 const mockWrappedScratchGui = jest.fn();
 const mockScratchProjectSave = jest.fn();
@@ -10,25 +11,16 @@ jest.mock("../../utils/scratchProjectSave.js", () => ({
   default: (params) => mockScratchProjectSave(params),
 }));
 
-jest.mock("../../utils/scratchLibraryAssetUrl.js", () => ({
-  resolveScratchLibraryAssetUrlTemplate: jest.fn(),
-}));
-
 jest.mock("./WrappedScratchGui.jsx", () => (props) => {
   mockWrappedScratchGui(props);
   return <div data-testid="wrapped-scratch-gui" />;
 });
 
 describe("ScratchEditor", () => {
-  beforeEach(() => {
-    resolveScratchLibraryAssetUrlTemplate.mockReturnValue(undefined);
-  });
-
   afterEach(() => {
     cleanup();
     mockWrappedScratchGui.mockClear();
     mockScratchProjectSave.mockClear();
-    resolveScratchLibraryAssetUrlTemplate.mockClear();
   });
 
   test("renders WrappedScratchGui when editor is rendered", () => {
@@ -46,29 +38,8 @@ describe("ScratchEditor", () => {
       expect.objectContaining({
         assetHost: "https://api.example.com/api/scratch/assets",
         projectHost: "https://api.example.com/api/scratch/projects",
+        libraryAssetUrlTemplate: SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
       }),
-    );
-    expect(
-      mockWrappedScratchGui.mock.calls[0][0].libraryAssetUrlTemplate,
-    ).toBeUndefined();
-  });
-
-  test("passes libraryAssetUrlTemplate to WrappedScratchGui when configured", () => {
-    const template =
-      "https://editor-assets.raspberrypi.org/internalapi/asset/{assetPath}/get/";
-    resolveScratchLibraryAssetUrlTemplate.mockReturnValue(template);
-
-    render(
-      <ScratchEditor
-        projectId="project-123"
-        locale="en"
-        apiUrl="https://api.example.com"
-        accessToken="token-123"
-      />,
-    );
-
-    expect(mockWrappedScratchGui.mock.calls[0][0].libraryAssetUrlTemplate).toBe(
-      template,
     );
   });
 

@@ -37,15 +37,8 @@ const cspApiOrigin = toOrigin(
 );
 const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
 
-const scratchLibraryAssetUrlTemplate = String(
-  process.env.REACT_APP_SCRATCH_LIBRARY_ASSET_URL_TEMPLATE || "",
-).trim();
-const cspScratchLibraryAssetOrigin = scratchLibraryAssetUrlTemplate
-  ? toOrigin(
-      "REACT_APP_SCRATCH_LIBRARY_ASSET_URL_TEMPLATE",
-      scratchLibraryAssetUrlTemplate.replace(/\{[a-zA-Z]+\}/g, "x"),
-    )
-  : "";
+// Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
+const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
 
 // When present these override cspApiOrigin for CSP API/connect-src origins.
 // This supports staging setups that need to allow multiple API origins,
