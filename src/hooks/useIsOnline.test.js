@@ -80,7 +80,7 @@ describe("useIsOnline", () => {
     expect(result.current).toBe(true);
   });
 
-  describe("connectivity polling", () => {
+  describe("CHECK_ONLINE polling", () => {
     beforeEach(() => {
       jest.useFakeTimers();
     });

@@ -1,7 +1,28 @@
+# Offline service worker example
+
+The editor-ui web component supports an offline indicator via the `offline_enabled` attribute. The offline UI is driven by `OFFLINE` / `ONLINE` messages broadcast from the host page's (ie. editor-standalone) service worker to all controlled clients - see the [Offline support section of the README](../README.md#offline-support) for the full integration contract.
+
+This document describes a service worker that could be bundled with editor-ui itself (rather than relying on the host app / editor-standalone). It is a working reference for any host wanting to implement the required messaging contract from scratch.
+
+## What the service worker must do
+
+For the editor-ui offline indicator to work, the controlling service worker must:
+
+1. Broadcast `{ type: "OFFLINE" }` to all clients when a network-first fetch falls back to cache (ie. the network is unreachable)
+2. Broadcast `{ type: "ONLINE" }` to all clients when a network-first fetch succeeds after a period of serving from cache (i.e. the network has recovered)
+3. Handle a `{ type: "CHECK_ONLINE" }` message from the client by probing the network and broadcasting `ONLINE` if the probe succeeds. This is used by `useIsOnline` to poll for recovery while offline, since no fetch may happen naturally
+
+## Example service worker
+
+The implementation below could be shipped as `public/service-worker.js` in editor-ui. It caches the editor shell and Pyodide assets and implements the messaging contract above.
+
+> **Note:** Cache version strings (`editor-app-v1`, `editor-translations-v1`) would usually be replaced, by the host app, with the package version at build time via a webpack `CopyWebpackPlugin` transform. If you adopt this SW you will need to wire up equivalent versioning, or replace them with a fixed string and manage cache invalidation another way.
+
+```js
 /* eslint-env serviceworker */
 /* eslint-disable no-restricted-globals */
 
-// "editor-app-v1" and "editor-translations-v1" are replaced with the package version at build time (see webpack.config.js)
+// "editor-app-v1" and "editor-translations-v1" are replaced with the package version at build time
 const APP_CACHE = "editor-app-v1";
 const TRANSLATIONS_CACHE = "editor-translations-v1";
 const PYODIDE_CACHE = "pyodide-v0.26.2";
@@ -52,7 +73,12 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== APP_CACHE && key !== TRANSLATIONS_CACHE && key !== PYODIDE_CACHE)
+          .filter(
+            (key) =>
+              key !== APP_CACHE &&
+              key !== TRANSLATIONS_CACHE &&
+              key !== PYODIDE_CACHE,
+          )
           .map((key) => {
             console.log("[SW] Deleting old cache:", key);
             return caches.delete(key);
@@ -63,7 +89,8 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Pyodide needs SharedArrayBuffer which requires the page to be cross-origin isolated. That means serving COOP + COEP on the HTML response, and CORP on every cross-origin resource the page loads. We already set these headers on editor-static.raspberrypi.org, but worth being explicit here for other hosts eg. cdn.jsdelivr.net
+// Pyodide needs SharedArrayBuffer, which requires cross-origin isolation (COOP + COEP on the HTML response, CORP on every cross-origin resource)
+// We re-apply those headers when caching responses so they are preserved when served from cache offline.
 function addSecurityHeaders(response) {
   if (response.type === "opaque") return response;
   const headers = new Headers(response.headers);
@@ -77,7 +104,7 @@ function addSecurityHeaders(response) {
   });
 }
 
-// Tracks whether any network-first request has fallen back to cache, so that we can broadcast ONLINE when the network becomes reachable again
+// Tracks whether any network-first request has fallen back to cache, so we know to broadcast ONLINE when the network becomes reachable again.
 let servingFromCache = false;
 
 self.addEventListener("online", () => {
@@ -85,7 +112,8 @@ self.addEventListener("online", () => {
   broadcast("ONLINE");
 });
 
-// Send CHECK_ONLINE when offline. We probe the network directly here because SW-initiated fetches bypass the SW's own fetch handler, hitting the network without being served from cache
+// Handle CHECK_ONLINE from the client (sent by useIsOnline while offline).
+// SW-initiated fetches bypass the SW's own fetch handler, so this hits the network directly without being served from cache
 self.addEventListener("message", (event) => {
   if (event.data?.type !== "CHECK_ONLINE") return;
   fetch("./manifest.json", { cache: "no-store" })
@@ -102,7 +130,7 @@ function broadcast(type) {
     .then((clients) => clients.forEach((c) => c.postMessage({ type })));
 }
 
-// Network-first try the network, update the cache, fall back to cache
+// Network-first: try the network, update the cache, fall back to cache.
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
@@ -126,8 +154,8 @@ async function networkFirst(request, cacheName) {
   }
 }
 
-// Cache-first: serve from cache when available, populate cache on first fetch
-// importScripts produces opaque responses we can't modify, so we re-fetch as cors
+// Cache-first: serve from cache when available, populate on first fetch.
+// importScripts produces opaque responses we can't modify, so we re-fetch as cors to get a modifiable response we can store with security headers
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request.url);
@@ -153,7 +181,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(event.request.url);
 
-  // Pyodide CDN assets are cache-first since URLs are version-pinned
+  // Pyodide CDN assets are cache-first since their URLs are version-pinned
   if (
     url.hostname === "cdn.jsdelivr.net" &&
     url.pathname.includes("/pyodide/")
@@ -176,3 +204,4 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(networkFirst(event.request, APP_CACHE));
   }
 });
+```

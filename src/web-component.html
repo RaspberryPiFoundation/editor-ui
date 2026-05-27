@@ -52,18 +52,6 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" href="data:," />
     <title>Editor Web component</title>
-    <% if (htmlWebpackPlugin.options.enableSW) { %>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("./service-worker.js")
-            .then((r) => console.log("[SW] Registered, scope:", r.scope))
-            .catch((err) => console.error("[SW] Registration failed:", err));
-        });
-      }
-    </script>
-    <% } %>
   </head>
   <body>
     <div class="sample-projects-bar" id="sample-projects-bar">

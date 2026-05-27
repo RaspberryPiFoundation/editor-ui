@@ -91,7 +91,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
 - `react_app_api_endpoint`: API endpoint to send project-related requests to
-- `offline_enabled`: Show an offline indicator when the user's device loses connectivity (defaults to `false`). Requires the service worker to be registered on the host page — see [Offline support](#offline-support).
+- `offline_enabled`: Show an offline indicator when the user's device loses connectivity (defaults to `false`). Requires the host page's service worker to broadcast `{ type: "OFFLINE" }` / `{ type: "ONLINE" }` messages - see [Offline support](#offline-support).
 - `read_only`: Display the editor in read only mode (defaults to `false`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load (defaults to `false`)
 - `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
@@ -133,30 +133,27 @@ This allows the host page to query the current code in the editor and to control
 
 ### Offline support
 
-The web component ships a service worker (`service-worker.js`) that caches the editor shell and Pyodide assets so the component remains usable after a network loss.
+The web component displays an offline indicator when the host page's service worker broadcasts connectivity changes. The web component itself does not register a service worker - caching and offline detection are the host app's responsibility.
 
-To enable offline support on your host page:
+To enable the offline indicator:
 
-1. Register the service worker from your host page (or let the bundled `web-component.html` do it automatically):
+1. Have your host page's service worker broadcast `{ type: "OFFLINE" }` when a network request falls back to cache, and `{ type: "ONLINE" }` when the network recovers:
    ```js
-   if ("serviceWorker" in navigator) {
-     navigator.serviceWorker.register("./service-worker.js");
-   }
+   // In your service worker
+   self.clients.matchAll().then(clients =>
+     clients.forEach(c => c.postMessage({ type: "OFFLINE" }))
+   );
    ```
-2. Pass the `offline_enabled` attribute to the web component so the offline indicator is shown when connectivity is lost:
+2. Pass the `offline_enabled` attribute to the web component:
    ```html
    <editor-wc offline_enabled="true"></editor-wc>
    ```
 
-Offline mode is opt-in — neither the service worker registration nor the offline badge will appear unless these steps are taken.
+Offline mode is opt-in - the offline badge will not appear unless both steps are taken.
 
 #### Developing with offline support
 
-The service worker is not registered in development by default. To enable it locally, set the environment variable before starting the dev server:
-
-```sh
-REACT_APP_ENABLE_SERVICE_WORKER=true yarn start
-```
+Set `offline_enabled="true"` on the web component (already the default in the dev HTML), then use the **Network** tab in browser DevTools to toggle offline mode. The browser's `offline` event fires immediately and the offline indicator will appear.
 
 ## Development
 

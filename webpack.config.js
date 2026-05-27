@@ -13,8 +13,6 @@ if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
 const isDev = process.env.NODE_ENV !== "production";
-const enableSW =
-  !isDev || process.env.REACT_APP_ENABLE_SERVICE_WORKER === "true";
 
 const toOrigin = (envVarName, value) => {
   const normalizedValue = String(value || "")
@@ -225,7 +223,6 @@ const mainConfig = {
       template: "src/web-component.html",
       filename: "web-component.html",
       chunks: ["web-component"],
-      enableSW,
     }),
     new HtmlWebpackPlugin({
       inject: "body",
@@ -235,23 +232,7 @@ const mainConfig = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        {
-          from: "public",
-          to: "",
-          transform: (content, filePath) => {
-            if (!filePath.endsWith("service-worker.js")) return content;
-            const version =
-              process.env.npm_package_version ??
-              require("./package.json").version;
-            return content
-              .toString()
-              .replace("editor-app-v1", `editor-app-v${version}`)
-              .replace(
-                "editor-translations-v1",
-                `editor-translations-v${version}`,
-              );
-          },
-        },
+        { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
       ],
     }),
