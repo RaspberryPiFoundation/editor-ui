@@ -5,7 +5,7 @@ const configureStore = require("redux-mock-store").default;
 
 jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
 jest.mock("./events.js", () => ({ postScratchGuiEvent: jest.fn() }));
-jest.mock("@scratch/scratch-gui", () => ({
+jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
   remixProject: () => ({ type: "remix" }),
   manualUpdateProject: () => ({ type: "manualUpdate" }),
   setStageSize: () => ({ type: "setStageSize" }),

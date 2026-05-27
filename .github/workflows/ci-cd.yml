@@ -10,9 +10,16 @@ on:
     branches:
       - "**"
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,8 +46,6 @@ jobs:
 
       - name: Install code
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: eslint
         run: yarn lint
@@ -51,6 +56,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -66,8 +74,6 @@ jobs:
 
       - name: Install code
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
@@ -81,6 +87,9 @@ jobs:
 
   test-cypress:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -96,8 +105,6 @@ jobs:
 
       - name: Install code
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v7

@@ -4,13 +4,46 @@ This project provides a web component containing the Raspberry Pi Code Editor fo
 
 ## Install dependencies
 
-This repository uses Yarn (see `package.json` → `packageManager`). Please install dependencies with Yarn:
+This repository uses Yarn (see `package.json` → `packageManager`).
+
+`@RaspberryPiFoundation/scratch-gui` is installed from [GitHub Packages](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui). Complete the steps below, then run `yarn install`.
+
+### Set a personal access token
+
+If you don't already have this set up you will need it to access deps in the RPF private registry
+
+1. On GitHub, create a **classic** personal access token: [Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens). Enable **`read:packages`** and **`repo`**. For packages tied to private repositories, `read:packages` alone can cause `yarn install` to fail with `401`/`403`.
+2. If your organisation uses SAML SSO, open the token on GitHub and **Authorize** it for **RaspberryPiFoundation** (Configure SSO).
+3. Add the token to your shell profile (for example `~/.zshrc` on macOS):
+
+   ```bash
+   export GITHUB_TOKEN=ghp_your_token_here
+   export NPM_AUTH_TOKEN=$GITHUB_TOKEN
+   ```
+
+   Replace `ghp_your_token_here` with your token.
+
+4. Load the profile in any terminal you are currently using for this project:
+
+   ```bash
+   source ~/.zshrc
+   ```
+
+5. Confirm GitHub Packages is reachable from this directory:
+
+   ```bash
+   yarn npm info @RaspberryPiFoundation/scratch-gui version
+   ```
+
+   You should see the version pinned in `package.json` (for example `13.7.3-code-classroom.20260522151700`), not an authentication error. If you see `unauthenticated` or `401`, run `source ~/.zshrc` again or check the token scopes and SSO authorisation.
+
+6. When you use Docker, run `docker compose up` from a shell where `NPM_AUTH_TOKEN` is set. Compose passes it from the host into the container so `yarn install` can run there too.
+
+Then install dependencies:
 
 ```
 yarn install
 ```
-
-Using `npm install` can fail due to strict peer-dependency resolution in npm for some legacy packages in this project.
 
 ## Environment variables
 
@@ -226,6 +259,10 @@ Python code snippets are styled and syntax-highlighted using the `language-pytho
 ```html
 <code class="language-python">print('hello world')</code>
 ```
+
+### Linking a local scratch-editor (Scratch GUI)
+
+See [docs/linking-scratch-editor.md](./docs/linking-scratch-editor.md) for local scratch-editor linking instructions.
 
 ## Deployment
 
