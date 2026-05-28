@@ -16,6 +16,12 @@ import {
   triggerDraw,
   setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  skulptAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
@@ -162,6 +168,13 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       document.getElementById = originalGetElementById;
     };
   };
+
+  useEffect(() => {
+    loadCopydeckFor(navigator.language, {
+      base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+    });
+    registerAdapter("skulpt", skulptAdapter);
+  }, []);
 
   useEffect(() => {
     if (!codeRunTriggered) {
@@ -424,6 +437,18 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         description: errorDescription,
         message: errorMessage,
       };
+
+      const inputCode =
+        projectCode?.find((c) => c.name === "main" && c.extension === "py")
+          ?.content ?? "";
+      const friendlyError = friendlyExplain({
+        error: errorMessage,
+        code: inputCode,
+        runtime: "skulpt",
+      });
+      if (friendlyError?.html) {
+        errorMessage = friendlyError.html;
+      }
     }
 
     dispatch(setError(errorMessage));
