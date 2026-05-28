@@ -68,6 +68,12 @@ const moduleRules = [
     use: ["babel-loader"],
   },
   {
+    test: /\.js$/,
+    include:
+      /node_modules\/@raspberrypifoundation\/python-friendly-error-messages/,
+    resolve: { fullySpecified: false },
+  },
+  {
     test: /\.css$/,
     use: ["css-loader"],
   },
@@ -237,6 +243,10 @@ const mainConfig = {
       patterns: [
         { from: "public", to: "" },
         { from: "src/projects", to: "projects" },
+        {
+          from: "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks",
+          to: "python-error-copydecks",
+        },
       ],
     }),
   ],
