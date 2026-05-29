@@ -1,5 +1,12 @@
 import configureStore from "redux-mock-store";
-import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { parse as parseHtml } from "node-html-parser";
@@ -360,6 +367,7 @@ describe("When run is triggered", () => {
       const initialState = {
         editor: {
           project: {
+            identifier: "hello-world-project",
             components: [indexPage],
           },
           focussedFileIndices: [0],
@@ -382,6 +390,15 @@ describe("When run is triggered", () => {
 
     test("displays link to open preview in another browser tab", () => {
       expect(screen.queryByText("output.newTab")).toBeInTheDocument();
+    });
+
+    test("caches current project before opening preview in another browser tab", () => {
+      fireEvent.click(screen.getByTestId("html-runner-open-in-new-tab"));
+
+      expect(JSON.parse(localStorage.getItem("hello-world-project"))).toEqual({
+        identifier: "hello-world-project",
+        components: [indexPage],
+      });
     });
   });
 

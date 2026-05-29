@@ -234,6 +234,12 @@ function HtmlRunner() {
                   href={`/${locale}/embed/viewer/${
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                  onClick={() =>
+                    localStorage.setItem(
+                      project.identifier || "project",
+                      JSON.stringify(project),
+                    )
+                  }
                   rel="noreferrer"
                 >
                   <span className="htmlrunner-link__text">
