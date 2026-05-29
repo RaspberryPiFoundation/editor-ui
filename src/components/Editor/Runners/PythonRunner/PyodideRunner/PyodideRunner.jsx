@@ -21,7 +21,6 @@ import {
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
-import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
@@ -460,7 +459,6 @@ const PyodideRunner = ({
                     <RunnerControls skinny />
                   )}
                 </div>
-                <ErrorMessage />
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -492,7 +490,6 @@ const PyodideRunner = ({
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>
               <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />

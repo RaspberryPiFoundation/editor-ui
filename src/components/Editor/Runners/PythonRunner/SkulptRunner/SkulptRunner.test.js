@@ -374,7 +374,7 @@ describe("When an error has occurred", () => {
     };
   });
 
-  test("Displays error message", () => {
+  test("Does not display error message inside the runner", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>
@@ -382,19 +382,6 @@ describe("When an error has occurred", () => {
       </Provider>,
     );
 
-    expect(
-      screen.getByText("SyntaxError: bad token T_OP on line 1 of main.py"),
-    ).toBeVisible();
-  });
-
-  test("Does not display error message when isOutputOnly state is true", () => {
-    initialState.editor.isOutputOnly = true;
-    store = mockStore(initialState);
-    render(
-      <Provider store={store}>
-        <SkulptRunner active={true} />
-      </Provider>,
-    );
     expect(
       screen.queryByText("SyntaxError: bad token T_OP on line 1 of main.py"),
     ).not.toBeInTheDocument();
