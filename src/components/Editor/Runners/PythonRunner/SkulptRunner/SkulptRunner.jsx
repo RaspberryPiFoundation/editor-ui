@@ -16,7 +16,6 @@ import {
   triggerDraw,
   setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
-import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
 import VisualOutputPane from "../VisualOutputPane";
@@ -79,7 +78,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
-  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -595,7 +593,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
                     <RunnerControls skinny />
                   )}
                 </div>
-                <ErrorMessage />
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -632,7 +629,6 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
             {!isEmbedded && showVisualOutput && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          {!isOutputOnly && <ErrorMessage />}
           <TabPanel key={0}>
             <VisualOutputPane ref={visualOutputPaneRef} />
           </TabPanel>

@@ -14,6 +14,7 @@ import Button from "../../Button/Button";
 import EditorPanel from "../EditorPanel/EditorPanel";
 import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import RunBar from "../../RunButton/RunBar";
 
 import "../../../assets/stylesheets/EditorInput.scss";
@@ -186,6 +187,7 @@ const EditorInput = () => {
                 />
               </TabPanel>
             ))}
+            <ErrorMessage />
             {isMobile ? null : <RunBar />}
           </Tabs>
         ))}
