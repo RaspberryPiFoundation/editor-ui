@@ -1,0 +1,16 @@
+.friendly-error-message {
+  background-color: var(--rpf-white);
+  padding: var(--space-2);
+  color: var(--rpf-text-primary);
+  border-radius: var(--space-1);
+
+  &__title {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  &__summary {
+    display: block;
+  }
+}
