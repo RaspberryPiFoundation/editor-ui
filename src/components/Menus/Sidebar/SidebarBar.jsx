@@ -64,6 +64,19 @@ const SidebarBar = (props) => {
     }
   };
 
+  const getProjectTypeLogo = (projectType) => {
+    switch (projectType) {
+      case "python":
+        return pythonLogo;
+      case "code_editor_scratch":
+        return htmlLogo; // TODO - Replace this with scratch logo when available
+      case "html":
+        return htmlLogo;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div
       className={classNames("sidebar__bar", {
@@ -73,7 +86,7 @@ const SidebarBar = (props) => {
       <div className={`sidebar__bar-options--top`}>
         <img
           className="editor-logo"
-          src={project.project_type === "python" ? pythonLogo : htmlLogo}
+          src={getProjectTypeLogo(project.project_type)}
           alt={t("header.editorLogoAltText")}
         />
         {topMenuOptions.map((menuOption, i) => (
