@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <style>
     #root {
@@ -69,7 +69,6 @@
     <button id="run-button">Run code</button>
   </body>
 
-
   <script>
     document.addEventListener("DOMContentLoaded", (e) => {
       const queryParams = new URLSearchParams(window.location.search);
@@ -93,10 +92,10 @@
 
       const createWebComponent = (initialProject = null) => {
         const newWebComp = document.createElement("editor-wc");
-        
+
         newWebComp.setAttribute("with_projectbar", "true");
         newWebComp.setAttribute("with_sidebar", "true");
-        newWebComp.setAttribute("use_editor_styles", "true");
+        // newWebComp.setAttribute("use_editor_styles", "true");
         newWebComp.setAttribute(
           "sidebar_options",
           JSON.stringify([
@@ -106,17 +105,18 @@
             "download",
             "settings",
             "info",
-          ])
+          ]),
         );
 
         newWebComp.setAttribute("code", "");
         newWebComp.setAttribute("class", "editor-wc");
         newWebComp.setAttribute("host_styles", JSON.stringify([]));
-        const scratchApiEndpoint = new URL(".", window.location.href)
-          .href
-          .replace(/\/$/, "");
+        const scratchApiEndpoint = new URL(
+          ".",
+          window.location.href,
+        ).href.replace(/\/$/, "");
         newWebComp.setAttribute("scratch_api_endpoint", scratchApiEndpoint);
-        
+
         queryParams.forEach((value, key) => {
           newWebComp.setAttribute(key, value);
         });
@@ -132,15 +132,18 @@
       editorContainer.prepend(webComp);
 
       const loadSampleProjectByName = async (projectName) => {
-        const url = new URL(`projects/${projectName}.json`, window.location.href);
+        const url = new URL(
+          `projects/${projectName}.json`,
+          window.location.href,
+        );
         const res = await fetch(url, { cache: "no-store" });
         const project = await res.text();
-        
+
         webComp.parentNode.removeChild(webComp);
         webComp = createWebComponent(project);
         editorContainer.prepend(webComp);
       };
-    
+
       sampleBar.addEventListener("click", (event) => {
         const link = event.target.closest("a[data-project]");
         if (!link || !sampleBar.contains(link)) return;
@@ -148,7 +151,7 @@
         loadSampleProjectByName(link.dataset.project);
       });
 
-      document.getElementById('run-button').onclick = (event) => {
+      document.getElementById("run-button").onclick = (event) => {
         webComp.rerunCode();
       };
     });
