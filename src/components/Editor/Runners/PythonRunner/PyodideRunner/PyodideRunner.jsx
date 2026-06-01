@@ -11,6 +11,12 @@ import {
   updateProjectComponent,
   addProjectComponent,
 } from "../../../../../redux/EditorSlice";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  pyodideAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
@@ -35,6 +41,13 @@ const getWorkerURL = (url) => {
 
 const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
+
+  useEffect(() => {
+    loadCopydeckFor(navigator.language, {
+      base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+    });
+    registerAdapter("pyodide", pyodideAdapter);
+  }, []);
 
   useEffect(() => {
     if (active) {
@@ -207,6 +220,19 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         reactAppApiEndpoint,
       });
       createError(projectIdentifier, userId, { errorType: type, errorMessage });
+
+      const inputCode =
+        projectCode?.find((c) => c.name === "main" && c.extension === "py")
+          ?.content ?? "";
+
+      const friendlyError = friendlyExplain({
+        error: errorMessage,
+        code: inputCode,
+        runtime: "pyodide",
+      });
+      if (friendlyError?.html) {
+        errorMessage = friendlyError.html;
+      }
     }
 
     dispatch(setError(errorMessage));
