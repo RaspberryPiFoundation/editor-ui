@@ -12,6 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
+import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
 
 dedupeDesignSystemWarnings();
 
@@ -133,20 +134,7 @@ class WebComponent extends HTMLElement {
 
   get codeChangedSinceInitialLoad() {
     const { project, initialComponents } = store.getState().editor;
-    const current = project?.components;
-
-    if (!current || initialComponents.length === 0) return false;
-
-    // If the number of components is different, consider it changed
-    if (current.length !== initialComponents.length) return true;
-
-    // If component file contents, names or extensions are different, consider it changed
-    return current.some(
-      (component, i) =>
-        component.content !== initialComponents[i].content ||
-        component.name !== initialComponents[i].name ||
-        component.extension !== initialComponents[i].extension,
-    );
+    return projectHasChangedSinceInitialLoad(project, initialComponents);
   }
 
   get menuItems() {
