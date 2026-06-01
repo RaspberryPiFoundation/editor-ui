@@ -39,14 +39,20 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+const PyodideRunner = ({
+  active,
+  outputPanels = ["text", "visual"],
+  friendlyErrorsEnabled = false,
+}) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
 
   useEffect(() => {
-    loadCopydeckFor(navigator.language, {
-      base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-    });
-    registerAdapter("pyodide", pyodideAdapter);
+    if (friendlyErrorsEnabled) {
+      loadCopydeckFor(navigator.language, {
+        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+      });
+      registerAdapter("pyodide", pyodideAdapter);
+    }
   }, []);
 
   useEffect(() => {
@@ -221,17 +227,19 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       });
       createError(projectIdentifier, userId, { errorType: type, errorMessage });
 
-      const inputCode =
-        projectCode?.find((c) => c.name === "main" && c.extension === "py")
-          ?.content ?? "";
+      if (friendlyErrorsEnabled) {
+        const inputCode =
+          projectCode?.find((c) => c.name === "main" && c.extension === "py")
+            ?.content ?? "";
 
-      const friendlyError = friendlyExplain({
-        error: errorMessage,
-        code: inputCode,
-        runtime: "pyodide",
-      });
-      if (friendlyError?.html) {
-        errorMessage = friendlyError.html;
+        const friendlyError = friendlyExplain({
+          error: errorMessage,
+          code: inputCode,
+          runtime: "pyodide",
+        });
+        if (friendlyError?.html) {
+          errorMessage = friendlyError.html;
+        }
       }
     }
 

@@ -72,7 +72,11 @@ const VISUAL_LIBRARIES = [
   "turtle",
 ];
 
-const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+const SkulptRunner = ({
+  active,
+  outputPanels = ["text", "visual"],
+  friendlyErrorsEnabled = false,
+}) => {
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectCode = useSelector((state) => state.editor.project.components);
   const mainComponent = projectCode?.find(
@@ -170,10 +174,12 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   };
 
   useEffect(() => {
-    loadCopydeckFor(navigator.language, {
-      base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-    });
-    registerAdapter("skulpt", skulptAdapter);
+    if (friendlyErrorsEnabled) {
+      loadCopydeckFor(navigator.language, {
+        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+      });
+      registerAdapter("skulpt", skulptAdapter);
+    }
   }, []);
 
   useEffect(() => {
@@ -438,16 +444,18 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         message: errorMessage,
       };
 
-      const inputCode =
-        projectCode?.find((c) => c.name === "main" && c.extension === "py")
-          ?.content ?? "";
-      const friendlyError = friendlyExplain({
-        error: errorMessage,
-        code: inputCode,
-        runtime: "skulpt",
-      });
-      if (friendlyError?.html) {
-        errorMessage = friendlyError.html;
+      if (friendlyErrorsEnabled) {
+        const inputCode =
+          projectCode?.find((c) => c.name === "main" && c.extension === "py")
+            ?.content ?? "";
+        const friendlyError = friendlyExplain({
+          error: errorMessage,
+          code: inputCode,
+          runtime: "skulpt",
+        });
+        if (friendlyError?.html) {
+          errorMessage = friendlyError.html;
+        }
       }
     }
 
