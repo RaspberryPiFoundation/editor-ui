@@ -1,4 +1,4 @@
-import { isOwner } from "./projectHelpers";
+import { isOwner, projectHasChangedSinceInitialLoad } from "./projectHelpers";
 
 describe("With logged in user", () => {
   const user = {
@@ -73,5 +73,85 @@ describe("With no active user", () => {
     test("isOwner returns false", () => {
       expect(isOwner(user, project)).toBeFalsy();
     });
+  });
+});
+
+describe("projectHasChangedSinceInitialLoad", () => {
+  const initialComponents = [
+    {
+      name: "main",
+      extension: "py",
+      content: "print('hello')",
+    },
+  ];
+
+  test("returns false when components match the initial snapshot", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        { components: initialComponents },
+        initialComponents,
+      ),
+    ).toBe(false);
+  });
+
+  test("returns false when the initial snapshot is missing", () => {
+    expect(
+      projectHasChangedSinceInitialLoad({ components: initialComponents }),
+    ).toBe(false);
+  });
+
+  test("returns false when the initial snapshot is not an array", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        { components: initialComponents },
+        "not components",
+      ),
+    ).toBe(false);
+  });
+
+  test("returns false when the project started with no components and still has none", () => {
+    expect(projectHasChangedSinceInitialLoad({ components: [] }, [])).toBe(
+      false,
+    );
+  });
+
+  test("returns true when a component has been added to an empty project", () => {
+    expect(
+      projectHasChangedSinceInitialLoad({ components: initialComponents }, []),
+    ).toBe(true);
+  });
+
+  test("returns true when component content has changed", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        {
+          components: [
+            {
+              ...initialComponents[0],
+              content: "print('hello!')",
+            },
+          ],
+        },
+        initialComponents,
+      ),
+    ).toBe(true);
+  });
+
+  test("returns true when a component has been added", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        {
+          components: [
+            ...initialComponents,
+            {
+              name: "extra",
+              extension: "py",
+              content: "",
+            },
+          ],
+        },
+        initialComponents,
+      ),
+    ).toBe(true);
   });
 });
