@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { createDefaultPythonProject } from "../utils/defaultProjects";
 import { useTranslation } from "react-i18next";
+import { projectHasChangedSinceInitialLoad } from "../utils/projectHelpers";
 
 export const useProject = ({
   reactAppApiEndpoint = null,
@@ -29,6 +30,9 @@ export const useProject = ({
     isBrowserPreview || (embedded && browserPreviewFromQuery);
   const shouldSkipCache = isEmbeddedMode && !canUseBrowserPreviewCache;
   const project = useSelector((state) => state.editor.project);
+  const initialComponents = useSelector(
+    (state) => state.editor.initialComponents,
+  );
   const loadDispatched = useRef(false);
 
   const getCachedProject = (id) =>
@@ -65,6 +69,19 @@ export const useProject = ({
         !projectIdentifier && cachedProject && !initialProject;
       const cachedProjectMatchesRequest =
         isCachedSavedProject || isCachedUnsavedProject;
+      const currentProjectMatchesRequest = projectIdentifier
+        ? project?.identifier === projectIdentifier
+        : !project?.identifier;
+      const currentProjectChanged = projectHasChangedSinceInitialLoad(
+        project,
+        initialComponents,
+      );
+
+      // If this same project has local edits, keep them across rerenders such
+      // as locale, access-token, or cache changes until the user saves or remixes.
+      if (currentProjectMatchesRequest && currentProjectChanged) {
+        return;
+      }
 
       // Browser previews need the current local edits. Starter projects can be
       // served from a fallback locale, so the cached locale may not match the URL.
