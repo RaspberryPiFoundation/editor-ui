@@ -126,6 +126,7 @@ export const editorInitialState = {
   initialComponents: [],
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
+  friendlyError: null,
 };
 
 const isScratchProject = (state) =>
@@ -288,6 +289,9 @@ export const EditorSlice = createSlice({
     },
     setFriendlyErrorsEnabled: (state, action) => {
       state.friendlyErrorsEnabled = action.payload;
+    },
+    setFriendlyError: (state, action) => {
+      state.friendlyError = action.payload;
     },
     setLoadRemixDisabled: (state, action) => {
       state.loadRemixDisabled = action.payload;
@@ -545,6 +549,7 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  setFriendlyError,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

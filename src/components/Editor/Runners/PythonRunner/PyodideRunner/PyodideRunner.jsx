@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import {
   setError,
+  setFriendlyError,
   codeRunHandled,
   setLoadedRunner,
   updateProjectComponent,
@@ -237,9 +238,13 @@ const PyodideRunner = ({
           code: inputCode,
           runtime: "pyodide",
         });
-        if (friendlyError?.html) {
-          errorMessage = friendlyError.html;
-        }
+
+        dispatch(
+          setFriendlyError({
+            title: friendlyError?.title ?? null,
+            summary: friendlyError?.summary ?? null,
+          }),
+        );
       }
     }
 
@@ -290,6 +295,7 @@ const PyodideRunner = ({
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setFriendlyError(null));
     setVisuals([]);
     stdinClosed.current = false;
 

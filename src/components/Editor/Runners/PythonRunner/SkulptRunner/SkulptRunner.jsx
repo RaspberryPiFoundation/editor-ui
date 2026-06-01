@@ -10,6 +10,7 @@ import classNames from "classnames";
 import {
   setError,
   setErrorDetails,
+  setFriendlyError,
   codeRunHandled,
   stopDraw,
   setSenseHatEnabled,
@@ -453,9 +454,13 @@ const SkulptRunner = ({
           code: inputCode,
           runtime: "skulpt",
         });
-        if (friendlyError?.html) {
-          errorMessage = friendlyError.html;
-        }
+
+        dispatch(
+          setFriendlyError({
+            title: friendlyError?.title ?? null,
+            summary: friendlyError?.summary ?? null,
+          }),
+        );
       }
     }
 

@@ -6,6 +6,7 @@ import { SettingsContext } from "../../../utils/settings";
 const ErrorMessage = () => {
   const message = useRef();
   const error = useSelector((state) => state.editor.error);
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
 
   useEffect(() => {
@@ -16,6 +17,22 @@ const ErrorMessage = () => {
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>
       <pre ref={message} className="error-message__content"></pre>
+      {friendlyError && (
+        <div className="error-message__friendly">
+          {friendlyError.title && (
+            <p
+              className="error-message__friendly-title"
+              dangerouslySetInnerHTML={{ __html: friendlyError.title }}
+            />
+          )}
+          {friendlyError.summary && (
+            <p
+              className="error-message__friendly-summary"
+              dangerouslySetInnerHTML={{ __html: friendlyError.summary }}
+            />
+          )}
+        </div>
+      )}
     </div>
   ) : null;
 };
