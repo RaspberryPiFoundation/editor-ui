@@ -289,6 +289,9 @@ export const EditorSlice = createSlice({
     },
     setFriendlyErrorsEnabled: (state, action) => {
       state.friendlyErrorsEnabled = action.payload;
+      if (!action.payload) {
+        state.friendlyError = null;
+      }
     },
     setFriendlyError: (state, action) => {
       state.friendlyError = action.payload;

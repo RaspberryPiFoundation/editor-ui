@@ -54,7 +54,7 @@ const PyodideRunner = ({
       });
       registerAdapter("pyodide", pyodideAdapter);
     }
-  }, []);
+  }, [friendlyErrorsEnabled]);
 
   useEffect(() => {
     if (active) {
@@ -240,10 +240,14 @@ const PyodideRunner = ({
         });
 
         dispatch(
-          setFriendlyError({
-            title: friendlyError?.title ?? null,
-            summary: friendlyError?.summary ?? null,
-          }),
+          setFriendlyError(
+            friendlyError?.title || friendlyError?.summary
+              ? {
+                  title: friendlyError?.title ?? null,
+                  summary: friendlyError?.summary ?? null,
+                }
+              : null,
+          ),
         );
       }
     }

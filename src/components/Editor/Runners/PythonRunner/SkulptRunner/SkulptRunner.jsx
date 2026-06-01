@@ -181,7 +181,7 @@ const SkulptRunner = ({
       });
       registerAdapter("skulpt", skulptAdapter);
     }
-  }, []);
+  }, [friendlyErrorsEnabled]);
 
   useEffect(() => {
     if (!codeRunTriggered) {
@@ -456,10 +456,14 @@ const SkulptRunner = ({
         });
 
         dispatch(
-          setFriendlyError({
-            title: friendlyError?.title ?? null,
-            summary: friendlyError?.summary ?? null,
-          }),
+          setFriendlyError(
+            friendlyError?.title || friendlyError?.summary
+              ? {
+                  title: friendlyError?.title ?? null,
+                  summary: friendlyError?.summary ?? null,
+                }
+              : null,
+          ),
         );
       }
     }
