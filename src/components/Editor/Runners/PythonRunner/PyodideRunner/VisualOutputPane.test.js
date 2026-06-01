@@ -7,7 +7,6 @@ import Highcharts from "highcharts";
 import Plotly from "plotly.js";
 
 jest.mock("highcharts");
-jest.mock("plotly.js");
 
 const renderPaneWithVisuals = (visuals) => {
   const middlewares = [];
