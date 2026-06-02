@@ -255,7 +255,9 @@ test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to true", () =>
 test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to false and clears friendlyError", () => {
   const previousState = {
     friendlyErrorsEnabled: true,
-    friendlyError: { title: "Error title", summary: "Error summary" },
+    friendlyError: {
+      html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+    },
   };
   const expectedState = {
     friendlyErrorsEnabled: false,
@@ -271,12 +273,16 @@ test("Action setFriendlyError sets friendlyError", () => {
     friendlyError: null,
   };
   const expectedState = {
-    friendlyError: { title: "Error title", summary: "Error summary" },
+    friendlyError: {
+      html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+    },
   };
   expect(
     reducer(
       previousState,
-      setFriendlyError({ title: "Error title", summary: "Error summary" }),
+      setFriendlyError({
+        html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+      }),
     ),
   ).toEqual(expectedState);
 });
