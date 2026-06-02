@@ -7,6 +7,21 @@ import "../../../../assets/stylesheets/InfoPanel.scss";
 const CODE_EDITOR_FEEDBACK_URL =
   "https://form.raspberrypi.org/f/code-editor-feedback";
 
+const feedbackUrl = (url) => {
+  if (typeof url !== "string" || url.trim() === "") {
+    return CODE_EDITOR_FEEDBACK_URL;
+  }
+
+  try {
+    const parsedUrl = new URL(url.trim());
+    return parsedUrl.protocol === "https:"
+      ? parsedUrl.href
+      : CODE_EDITOR_FEEDBACK_URL;
+  } catch {
+    return CODE_EDITOR_FEEDBACK_URL;
+  }
+};
+
 const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
   const { t } = useTranslation();
   const links = [
@@ -18,7 +33,7 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
     {
       id: "feedback",
       text: t("sidebar.feedback"),
-      href: feedbackFormUrl,
+      href: feedbackUrl(feedbackFormUrl),
     },
     {
       id: "privacy",

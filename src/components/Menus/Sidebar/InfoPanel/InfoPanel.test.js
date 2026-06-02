@@ -64,4 +64,22 @@ describe("Info panel", () => {
       "https://form.raspberrypi.org/4873801",
     );
   });
+
+  test.each([
+    `java${"script"}:alert(1)`,
+    "http://example.com",
+    "ftp://example.com",
+    "not-a-url",
+    "",
+  ])(
+    "Falls back to the default feedback form for invalid feedback form source %p",
+    (feedbackFormUrl) => {
+      renderInfoPanel({ feedbackFormUrl });
+
+      expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
+        "href",
+        "https://form.raspberrypi.org/f/code-editor-feedback",
+      );
+    },
+  );
 });

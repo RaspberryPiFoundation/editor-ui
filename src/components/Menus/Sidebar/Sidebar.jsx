@@ -96,7 +96,8 @@ const Sidebar = ({
       icon: InfoIcon,
       title: t("sidebar.information"),
       position: "bottom",
-      panel: () => <InfoPanel feedbackFormUrl={feedbackFormUrl} />,
+      panel: InfoPanel,
+      panelProps: { feedbackFormUrl },
     },
   ].filter((option) => {
     if (!options.includes(option.name)) return false;
@@ -208,7 +209,12 @@ const Sidebar = ({
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
       />
-      {activeOption && <CustomSidebarPanel isMobile={isMobile} />}
+      {activeOption && (
+        <CustomSidebarPanel
+          isMobile={isMobile}
+          {...(optionDict.panelProps || {})}
+        />
+      )}
     </div>
   );
 };
