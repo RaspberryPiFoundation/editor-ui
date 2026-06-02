@@ -4,7 +4,10 @@ import SidebarPanel from "../SidebarPanel";
 
 import "../../../../assets/stylesheets/InfoPanel.scss";
 
-const InfoPanel = () => {
+const CODE_EDITOR_FEEDBACK_URL =
+  "https://form.raspberrypi.org/f/code-editor-feedback";
+
+const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
   const { t } = useTranslation();
   const links = [
     {
@@ -15,7 +18,7 @@ const InfoPanel = () => {
     {
       id: "feedback",
       text: t("sidebar.feedback"),
-      href: "https://form.raspberrypi.org/f/code-editor-feedback",
+      href: feedbackFormUrl,
     },
     {
       id: "privacy",

@@ -6,40 +6,44 @@ import { MemoryRouter } from "react-router-dom";
 
 import InfoPanel from "./InfoPanel";
 
-describe("Info panel", () => {
-  beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          components: [
-            {
-              name: "main",
-              extension: "py",
-            },
-          ],
-        },
+const renderInfoPanel = (props = {}) => {
+  const middlewares = [];
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    editor: {
+      project: {
+        components: [
+          {
+            name: "main",
+            extension: "py",
+          },
+        ],
       },
-    };
-    const store = mockStore(initialState);
+    },
+  };
+  const store = mockStore(initialState);
 
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <InfoPanel t={() => {}} />
-        </MemoryRouter>
-      </Provider>,
-    );
-  });
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <InfoPanel {...props} />
+      </MemoryRouter>
+    </Provider>,
+  );
+};
 
+describe("Info panel", () => {
   test("Links are rendered", () => {
+    renderInfoPanel();
+
     expect(screen.queryByText("sidebar.help")).toBeInTheDocument();
     expect(screen.queryByText("sidebar.feedback")).toBeInTheDocument();
     expect(screen.queryByText("sidebar.privacy")).toBeInTheDocument();
   });
 
-  test("Links have the expected source", () => {
+  test("Links have the expected default source", () => {
+    renderInfoPanel();
+
     expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
       "href",
       "https://form.raspberrypi.org/f/code-editor-feedback",
@@ -47,6 +51,17 @@ describe("Info panel", () => {
     expect(screen.queryByText("sidebar.help")).toHaveAttribute(
       "href",
       "https://help.editor.raspberrypi.org/hc/en-us",
+    );
+  });
+
+  test("Uses the supplied feedback form source", () => {
+    renderInfoPanel({
+      feedbackFormUrl: "https://form.raspberrypi.org/4873801",
+    });
+
+    expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
+      "href",
+      "https://form.raspberrypi.org/4873801",
     );
   });
 });
