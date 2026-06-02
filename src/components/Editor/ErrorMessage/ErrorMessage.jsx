@@ -20,16 +20,14 @@ const ErrorMessage = () => {
       {friendlyError && (
         <div className="error-message__friendly">
           {friendlyError.title && (
-            <p
-              className="error-message__friendly-title"
-              dangerouslySetInnerHTML={{ __html: friendlyError.title }}
-            />
+            <p className="error-message__friendly-title">
+              {friendlyError.title}
+            </p>
           )}
           {friendlyError.summary && (
-            <p
-              className="error-message__friendly-summary"
-              dangerouslySetInnerHTML={{ __html: friendlyError.summary }}
-            />
+            <p className="error-message__friendly-summary">
+              {friendlyError.summary}
+            </p>
           )}
         </div>
       )}
