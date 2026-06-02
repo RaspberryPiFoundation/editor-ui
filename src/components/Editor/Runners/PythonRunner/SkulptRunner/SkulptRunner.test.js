@@ -10,6 +10,7 @@ import {
   setError,
   setErrorDetails,
   triggerDraw,
+  setFriendlyError,
 } from "../../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../../utils/settings";
 import { matchMedia, setMedia } from "mock-match-media";
@@ -221,6 +222,51 @@ describe("When an error occurs", () => {
         }),
       ]),
     );
+  });
+
+  describe("When friendly errors are enabled", () => {
+    let loadCopydeckFor;
+    let registerAdapter;
+    let friendlyExplain;
+
+    beforeEach(() => {
+      ({
+        // Using the global mock in setupTests.js to track calls to these functions
+        loadCopydeckFor,
+        registerAdapter,
+        friendlyExplain,
+      } = require("@raspberrypifoundation/python-friendly-error-messages"));
+
+      friendlyExplain.mockReturnValue({
+        title: "Friendly error title",
+        summary: "A friendly summary of the error",
+      });
+
+      render(
+        <Provider store={store}>
+          <SkulptRunner active={true} friendlyErrorsEnabled={true} />
+        </Provider>,
+      );
+    });
+
+    test("loadCopydeckFor is called", () => {
+      expect(loadCopydeckFor).toHaveBeenCalled();
+    });
+
+    test("registerAdapter is called for skulpt", () => {
+      expect(registerAdapter).toHaveBeenCalledWith("skulpt", {});
+    });
+
+    test("dispatches setFriendlyError with title and summary", () => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setFriendlyError({
+            title: "Friendly error title",
+            summary: "A friendly summary of the error",
+          }),
+        ]),
+      );
+    });
   });
 });
 

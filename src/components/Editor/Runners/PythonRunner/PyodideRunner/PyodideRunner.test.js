@@ -20,6 +20,7 @@ import {
   setSenseHatAlwaysEnabled,
   openFile,
   setFocussedFileIndex,
+  setFriendlyError,
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
@@ -433,6 +434,58 @@ describe("When an error is received", () => {
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: "editor/setError",
       payload: "SyntaxError: something's wrong on line 2 of main.py",
+    });
+  });
+
+  describe("When friendly errors are enabled", () => {
+    let loadCopydeckFor;
+    let registerAdapter;
+    let friendlyExplain;
+
+    beforeEach(() => {
+      ({
+        // Using the global mock in setupTests.js to track calls to these functions
+        loadCopydeckFor,
+        registerAdapter,
+        friendlyExplain,
+      } = require("@raspberrypifoundation/python-friendly-error-messages"));
+
+      friendlyExplain.mockReturnValue({
+        title: "Friendly error title",
+        summary: "A friendly summaryof the error",
+      });
+
+      render(
+        <Provider store={store}>
+          <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+        </Provider>,
+      );
+
+      const worker = PyodideWorker.getLastInstance();
+      worker.postMessageFromWorker({
+        method: "handleError",
+        line: 2,
+        file: "main.py",
+        type: "SyntaxError",
+        info: "something's wrong",
+      });
+    });
+
+    test("loadCopydeckFor is called", () => {
+      expect(loadCopydeckFor).toHaveBeenCalled();
+    });
+
+    test("registerAdapter is called for pyodide", () => {
+      expect(registerAdapter).toHaveBeenCalledWith("pyodide", {});
+    });
+
+    test("dispatches setFriendlyError with title and summary", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        setFriendlyError({
+          title: "Friendly error title",
+          summary: "A friendly summaryof the error",
+        }),
+      );
     });
   });
 });
