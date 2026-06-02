@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import "../../../assets/stylesheets/ErrorMessage.scss";
 import { useSelector } from "react-redux";
+import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 
 const ErrorMessage = () => {
@@ -14,22 +15,19 @@ const ErrorMessage = () => {
       message.current.innerHTML = error;
     }
   }, [error]);
+
+  const friendlyErrorHtml = friendlyError?.html
+    ? DOMPurify.sanitize(friendlyError.html)
+    : null;
+
   return error ? (
     <div className={`error-message error-message--${settings.fontSize}`}>
-      <pre ref={message} className="error-message__content"></pre>
-      {friendlyError && (
-        <div className="error-message__friendly">
-          {friendlyError.title && (
-            <p className="error-message__friendly-title">
-              {friendlyError.title}
-            </p>
-          )}
-          {friendlyError.summary && (
-            <p className="error-message__friendly-summary">
-              {friendlyError.summary}
-            </p>
-          )}
-        </div>
+      <pre ref={message} className="error-message__content" />
+      {friendlyErrorHtml && (
+        <div
+          className="error-message__friendly"
+          dangerouslySetInnerHTML={{ __html: friendlyErrorHtml }}
+        />
       )}
     </div>
   ) : null;

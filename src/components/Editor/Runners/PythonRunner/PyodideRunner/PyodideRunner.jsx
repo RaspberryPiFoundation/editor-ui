@@ -239,16 +239,9 @@ const PyodideRunner = ({
           runtime: "pyodide",
         });
 
-        dispatch(
-          setFriendlyError(
-            friendlyError?.title || friendlyError?.summary
-              ? {
-                  title: friendlyError?.title ?? null,
-                  summary: friendlyError?.summary ?? null,
-                }
-              : null,
-          ),
-        );
+        if (friendlyError?.html) {
+          dispatch(setFriendlyError({ html: friendlyError.html }));
+        }
       }
     }
 
