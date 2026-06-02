@@ -20,6 +20,8 @@ import reducer, {
   scratchSaveStarted,
   scratchSaveSucceeded,
   scratchSaveFailed,
+  setFriendlyErrorsEnabled,
+  setFriendlyError,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -236,6 +238,47 @@ test("closing rename modal updates showing status", () => {
     },
   };
   expect(reducer(previousState, closeRenameFileModal())).toEqual(expectedState);
+});
+
+test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to true", () => {
+  const previousState = {
+    friendlyErrorsEnabled: false,
+  };
+  const expectedState = {
+    friendlyErrorsEnabled: true,
+  };
+  expect(reducer(previousState, setFriendlyErrorsEnabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to false and clears friendlyError", () => {
+  const previousState = {
+    friendlyErrorsEnabled: true,
+    friendlyError: { title: "Error title", summary: "Error summary" },
+  };
+  const expectedState = {
+    friendlyErrorsEnabled: false,
+    friendlyError: null,
+  };
+  expect(reducer(previousState, setFriendlyErrorsEnabled(false))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setFriendlyError sets friendlyError", () => {
+  const previousState = {
+    friendlyError: null,
+  };
+  const expectedState = {
+    friendlyError: { title: "Error title", summary: "Error summary" },
+  };
+  expect(
+    reducer(
+      previousState,
+      setFriendlyError({ title: "Error title", summary: "Error summary" }),
+    ),
+  ).toEqual(expectedState);
 });
 
 describe("When project has no identifier", () => {

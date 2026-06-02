@@ -8,7 +8,7 @@ describe("When error is set", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
 
-  describe("When error is set", () => {
+  describe("When error is set and friendlyError is not set", () => {
     beforeEach(() => {
       const initialState = {
         editor: {
@@ -34,6 +34,49 @@ describe("When error is set", () => {
     test("Font size class is set correctly", () => {
       const errorMessage = screen.queryByText("Oops").parentElement;
       expect(errorMessage).toHaveClass("error-message--myFontSize");
+    });
+
+    test("Does not display friendly error elements", () => {
+      expect(
+        document.querySelector(".error-message__friendly"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe("When friendlyError is set", () => {
+    beforeEach(() => {
+      const initialState = {
+        editor: {
+          error: "An error occurred",
+          friendlyError: {
+            title: "Friendly Error Title",
+            summary: "This is a more user-friendly explanation of the error.",
+          },
+        },
+      };
+      const store = mockStore(initialState);
+      render(
+        <Provider store={store}>
+          <SettingsContext.Provider
+            value={{ theme: "dark", fontSize: "myFontSize" }}
+          >
+            <ErrorMessage />
+          </SettingsContext.Provider>
+        </Provider>,
+      );
+    });
+
+    test("Friendly error title and summary display", () => {
+      expect(screen.getByText("Friendly Error Title")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "This is a more user-friendly explanation of the error.",
+        ),
+      ).toBeInTheDocument();
+    });
+
+    test("original error message also displays", () => {
+      expect(screen.queryByText("An error occurred")).toBeInTheDocument();
     });
   });
 
