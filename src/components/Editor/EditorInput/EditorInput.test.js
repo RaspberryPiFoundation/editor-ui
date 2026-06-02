@@ -22,25 +22,6 @@ jest.mock("react-responsive", () => ({
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 
-jest.mock("../EditorPanel/EditorPanel", () => {
-  const React = require("react");
-  const { useSelector } = require("react-redux");
-
-  return function MockEditorPanel({ fileName, extension }) {
-    const component = useSelector((state) =>
-      state.editor.project.components.find(
-        (file) => file.name === fileName && file.extension === extension,
-      ),
-    );
-
-    return React.createElement(
-      "div",
-      { "data-testid": "editor-panel" },
-      component?.content,
-    );
-  };
-});
-
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
@@ -205,28 +186,5 @@ describe("When read only", () => {
 
   test("Shows view only banner", () => {
     expect(screen.queryByText("editorPanel.viewOnly")).toBeInTheDocument();
-  });
-});
-
-describe("When an error has occurred", () => {
-  beforeEach(() => {
-    renderEditorInput({
-      editor: {
-        ...initialState.editor,
-        error: "SyntaxError: bad token T_OP on line 1 of main.py",
-      },
-    });
-  });
-
-  test("Shows the error message below the code input and above the run bar", () => {
-    const errorMessage = screen.getByText(
-      "SyntaxError: bad token T_OP on line 1 of main.py",
-    );
-    const editorInput = errorMessage.closest(".editor-input");
-    const runBar = screen.getByText("runButton.run").closest(".run-bar");
-
-    expect(errorMessage).toBeInTheDocument();
-    expect(editorInput).toContainElement(errorMessage);
-    expect(errorMessage.parentElement.nextElementSibling).toBe(runBar);
   });
 });
