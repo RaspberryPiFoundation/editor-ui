@@ -24,6 +24,7 @@ const Project = (props) => {
     withProjectbar = true,
     withSidebar = true,
     sidebarOptions = [],
+    feedbackFormUrl,
     sidebarPlugins = [],
   } = props;
   const saving = useSelector((state) => state.editor.saving);
@@ -73,6 +74,7 @@ const Project = (props) => {
           <Sidebar
             options={sidebarOptions}
             plugins={sidebarPlugins}
+            feedbackFormUrl={feedbackFormUrl}
             allowMobileView={!isCodeEditorScratchProject}
           />
         )}

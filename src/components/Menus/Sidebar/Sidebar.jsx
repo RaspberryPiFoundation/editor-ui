@@ -26,7 +26,12 @@ import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
 import { setSidebarOption } from "../../../redux/EditorSlice";
 
-const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
+const Sidebar = ({
+  options = [],
+  plugins = [],
+  feedbackFormUrl,
+  allowMobileView = true,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -91,7 +96,7 @@ const Sidebar = ({ options = [], plugins = [], allowMobileView = true }) => {
       icon: InfoIcon,
       title: t("sidebar.information"),
       position: "bottom",
-      panel: InfoPanel,
+      panel: () => <InfoPanel feedbackFormUrl={feedbackFormUrl} />,
     },
   ].filter((option) => {
     if (!options.includes(option.name)) return false;
