@@ -238,8 +238,7 @@ describe("When an error occurs", () => {
       } = require("@raspberrypifoundation/python-friendly-error-messages"));
 
       friendlyExplain.mockReturnValue({
-        title: "Friendly error title",
-        summary: "A friendly summary of the error",
+        html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
       });
 
       render(
@@ -257,12 +256,11 @@ describe("When an error occurs", () => {
       expect(registerAdapter).toHaveBeenCalledWith("skulpt", {});
     });
 
-    test("dispatches setFriendlyError with title and summary", () => {
+    test("dispatches setFriendlyError", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           setFriendlyError({
-            title: "Friendly error title",
-            summary: "A friendly summary of the error",
+            html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
           }),
         ]),
       );
