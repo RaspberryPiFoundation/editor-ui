@@ -4460,6 +4460,7 @@ __metadata:
     curl: "npm:^0.1.4"
     cypress: "npm:14.5.4"
     date-fns: "npm:^4.1.0"
+    dompurify: "npm:^3.4.6"
     dotenv: "npm:8.2.0"
     dotenv-expand: "npm:5.1.0"
     dotenv-webpack: "npm:8.1.0"
@@ -10680,6 +10681,18 @@ __metadata:
     "@types/trusted-types":
       optional: true
   checksum: 10/dcaf945376eff2a61841b205501b163b2c8ae9afe7251e68276b561d9fcf943cefc67e2631fdeae080b52a8b37c96e6beb7e6ae80ad8a83692ff67965dd6b4db
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^3.4.6":
+  version: 3.4.6
+  resolution: "dompurify@npm:3.4.6"
+  dependencies:
+    "@types/trusted-types": "npm:^2.0.7"
+  dependenciesMeta:
+    "@types/trusted-types":
+      optional: true
+  checksum: 10/950bfadc9ad6ee5706ccdfde09313c9c8f6a299206f77ccb621b1355947443753163031770cbb46236f1b6910e57e6710c34970b13c8a9e0fd7c93fac77c4815
   languageName: node
   linkType: hard
 
