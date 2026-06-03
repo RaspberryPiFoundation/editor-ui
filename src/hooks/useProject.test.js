@@ -55,6 +55,31 @@ describe("When not embedded", () => {
     wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
   });
 
+  const setCurrentProjectWithEdits = (locale = "es-LA") => {
+    const initialComponents = [
+      {
+        name: "main",
+        extension: "py",
+        content: "print('hola')",
+      },
+    ];
+    initialState.editor.project = {
+      project_type: "python",
+      identifier: cachedProject.identifier,
+      locale,
+      components: [
+        {
+          ...initialComponents[0],
+          content: "print('edited')",
+        },
+      ],
+    };
+    initialState.editor.initialComponents = initialComponents;
+    const updatedMockStore = configureStore([]);
+    store = updatedMockStore(initialState);
+    wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
+  };
+
   test("If no identifier uses default python project", () => {
     renderHook(() => useProject({}), { wrapper });
     return waitFor(() =>
@@ -161,6 +186,50 @@ describe("When not embedded", () => {
     await waitFor(() =>
       expect(setProject).not.toHaveBeenCalledWith(cachedProject),
     );
+  });
+
+  test("If current project has changed and locale changes, keeps current project", async () => {
+    setCurrentProjectWithEdits();
+    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "en",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+
+    expect(syncProject).not.toHaveBeenCalled();
+    await waitFor(() => expect(setProject).not.toHaveBeenCalled());
+  });
+
+  test("If current project has changed and locale changes back, keeps current project", async () => {
+    setCurrentProjectWithEdits();
+    localStorage.setItem(
+      cachedProject.identifier,
+      JSON.stringify({
+        ...cachedProject,
+        locale: "es-LA",
+      }),
+    );
+
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "es-LA",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+
+    expect(syncProject).not.toHaveBeenCalled();
+    await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
   test("If cached project does not match locale and browserPreview query is used outside embedded viewer, does not use cached project", () => {

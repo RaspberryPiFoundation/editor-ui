@@ -1,6 +1,9 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { isOwner } from "../utils/projectHelpers";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  isOwner,
+  projectHasChangedSinceInitialLoad,
+} from "../utils/projectHelpers";
 import {
   expireJustLoaded,
   setHasShownSavePrompt,
@@ -20,6 +23,9 @@ export const useProjectPersistence = ({
   loadRemix = true,
 }) => {
   const dispatch = useDispatch();
+  const initialComponents = useSelector(
+    (state) => state.editor.initialComponents,
+  );
 
   const combinedFileSize = project.components?.reduce(
     (sum, component) => sum + component.content.length,
@@ -87,13 +93,18 @@ export const useProjectPersistence = ({
             }),
           );
         } else {
+          const projectChangedSinceInitialLoad =
+            projectHasChangedSinceInitialLoad(project, initialComponents);
+
           if (justLoaded) {
             dispatch(expireJustLoaded());
-          } else {
-            if (!hasShownSavePrompt) {
-              user ? showSavePrompt() : showLoginPrompt();
-              dispatch(setHasShownSavePrompt());
+            if (!projectChangedSinceInitialLoad) {
+              return;
             }
+          }
+          if (!hasShownSavePrompt) {
+            user ? showSavePrompt() : showLoginPrompt();
+            dispatch(setHasShownSavePrompt());
           }
           saveToLocalStorage(project);
         }

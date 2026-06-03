@@ -7,9 +7,13 @@ import {
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
+let mockInitialComponents = [];
+
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => jest.fn(),
+  useSelector: (selector) =>
+    selector({ editor: { initialComponents: mockInitialComponents } }),
 }));
 
 jest.mock("../redux/EditorSlice", () => ({
@@ -56,20 +60,49 @@ const project = {
   ],
   user_id: user1.profile.user,
 };
+const initialComponents = project.components.map((component) => ({
+  name: component.name,
+  extension: component.extension,
+  content: component.content,
+}));
+const editedProject = {
+  ...project,
+  components: [
+    {
+      ...project.components[0],
+      content: "# hello edited",
+    },
+  ],
+};
+
+beforeEach(() => {
+  mockInitialComponents = initialComponents;
+});
 
 afterEach(() => {
+  mockInitialComponents = [];
   localStorage.clear();
 });
 
 describe("When not logged in", () => {
   describe("When just loaded", () => {
     beforeEach(() => {
-      renderHook(() => useProjectPersistence({ user: null, justLoaded: true }));
+      renderHook(() =>
+        useProjectPersistence({
+          user: null,
+          project,
+          justLoaded: true,
+        }),
+      );
       jest.runAllTimers();
     });
 
     test("Expires justLoaded", () => {
       expect(expireJustLoaded).toHaveBeenCalled();
+    });
+
+    test("Project not saved in localStorage", () => {
+      expect(localStorage.getItem("hello-world-project")).toBeNull();
     });
   });
 
@@ -141,6 +174,33 @@ describe("When logged in", () => {
 
       test("Expires justLoaded", () => {
         expect(expireJustLoaded).toHaveBeenCalled();
+      });
+
+      test("Project not saved in localStorage", () => {
+        expect(localStorage.getItem("hello-world-project")).toBeNull();
+      });
+    });
+
+    describe("When just loaded and project has changed", () => {
+      beforeEach(() => {
+        renderHook(() =>
+          useProjectPersistence({
+            user: user2,
+            project: editedProject,
+            justLoaded: true,
+          }),
+        );
+        jest.runAllTimers();
+      });
+
+      test("Expires justLoaded", () => {
+        expect(expireJustLoaded).toHaveBeenCalled();
+      });
+
+      test("Project saved in localStorage", () => {
+        expect(localStorage.getItem("hello-world-project")).toEqual(
+          JSON.stringify(editedProject),
+        );
       });
     });
 
