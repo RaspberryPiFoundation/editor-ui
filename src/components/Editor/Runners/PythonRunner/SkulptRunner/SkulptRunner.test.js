@@ -32,6 +32,10 @@ const user = {
   },
 };
 
+const friendlyErrorHtml =
+  '<div class="pfem__title">Friendly error title</div>' +
+  '<div class="pfem__summary">A friendly summary of the error</div>';
+
 describe("Testing basic input span functionality", () => {
   let input;
   let store;
@@ -238,7 +242,7 @@ describe("When an error occurs", () => {
       } = require("@raspberrypifoundation/python-friendly-error-messages"));
 
       friendlyExplain.mockReturnValue({
-        html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+        html: friendlyErrorHtml,
       });
 
       render(
@@ -260,7 +264,7 @@ describe("When an error occurs", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           setFriendlyError({
-            html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+            html: friendlyErrorHtml,
           }),
         ]),
       );

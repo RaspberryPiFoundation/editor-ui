@@ -38,6 +38,10 @@ jest.mock("../utils/apiCallHandler", () => () => ({
   createOrUpdateProject: jest.fn(mockCreateOrUpdateProject),
 }));
 
+const friendlyErrorHtml =
+  '<div class="pfem__title">Friendly error title</div>' +
+  '<div class="pfem__summary">A friendly summary of the error</div>';
+
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
     codeRunTriggered: true,
@@ -256,7 +260,7 @@ test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to false and cl
   const previousState = {
     friendlyErrorsEnabled: true,
     friendlyError: {
-      html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+      html: friendlyErrorHtml,
     },
   };
   const expectedState = {
@@ -274,14 +278,14 @@ test("Action setFriendlyError sets friendlyError", () => {
   };
   const expectedState = {
     friendlyError: {
-      html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+      html: friendlyErrorHtml,
     },
   };
   expect(
     reducer(
       previousState,
       setFriendlyError({
-        html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+        html: friendlyErrorHtml,
       }),
     ),
   ).toEqual(expectedState);

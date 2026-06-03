@@ -41,6 +41,10 @@ const project = {
 window.crossOriginIsolated = true;
 process.env.PUBLIC_URL = ".";
 
+const friendlyErrorHtml =
+  '<div class="pfem__title">Friendly error title</div>' +
+  '<div class="pfem__summary">A friendly summary of the error</div>';
+
 const updateRunner = ({ project = {}, codeRunTriggered = false }) => {
   act(() => {
     if (project) {
@@ -451,7 +455,7 @@ describe("When an error is received", () => {
       } = require("@raspberrypifoundation/python-friendly-error-messages"));
 
       friendlyExplain.mockReturnValue({
-        html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+        html: friendlyErrorHtml,
       });
 
       render(
@@ -481,7 +485,7 @@ describe("When an error is received", () => {
     test("dispatches setFriendlyError", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         setFriendlyError({
-          html: '<div class="pfem__title">Friendly error title</div><div class="pfem__summary">A friendly summary of the error</div>',
+          html: friendlyErrorHtml,
         }),
       );
     });
