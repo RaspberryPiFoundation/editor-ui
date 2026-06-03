@@ -161,13 +161,18 @@ describe("When friendly errors enabled with skulpt", () => {
         configurable: true,
       });
     });
+    cy.wait("@copydeck");
   });
 
   it("shows a friendly error message when an error occurs", () => {
-    runCode(
-      "# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint(hello world)",
+    runCode("import turtle\nprint(kitten)");
+    getErrorMessage().should(
+      "contain",
+      "NameError: name 'kitten' is not defined on line 2 of main.py",
     );
-    getErrorMessage().should("exist");
-    getFriendlyErrorMessage().should("be.visible");
+    getFriendlyErrorMessage().should(
+      "contain",
+      "This variable doesn't exist here",
+    );
   });
 });

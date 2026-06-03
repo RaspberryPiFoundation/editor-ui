@@ -271,11 +271,18 @@ describe("When friendly errors enabled with pyodide", () => {
         configurable: true,
       });
     });
+    cy.wait("@copydeck");
   });
 
   it("shows a friendly error message when an error occurs", () => {
     runCode("print(kitten)");
-    getErrorMessage().should("exist");
-    getFriendlyErrorMessage().should("be.visible");
+    getErrorMessage().should(
+      "contain",
+      "NameError: name 'kitten' is not defined on line 2 of main.py",
+    );
+    getFriendlyErrorMessage().should(
+      "contain",
+      "This variable doesn't exist here",
+    );
   });
 });
