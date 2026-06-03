@@ -3,14 +3,25 @@
   padding: var(--space-2);
   color: var(--rpf-text-primary);
   border-radius: var(--space-1);
+  margin-block-start: var(--space-1);
 
-  &__title {
-    display: block;
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-  }
+  .pfem {
+    &__title {
+      display: block;
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
 
-  &__summary {
-    display: block;
+    &__summary {
+      display: block;
+   }
+
+   // Only displaying title and summary of friendlyError
+   &__why,
+   &__steps,
+   &__patch,
+   &__details {
+    display: none;
+   }
   }
 }

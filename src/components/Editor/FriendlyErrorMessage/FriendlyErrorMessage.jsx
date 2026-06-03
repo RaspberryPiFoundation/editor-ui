@@ -1,34 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "../../../assets/stylesheets/FriendlyErrorMessage.scss";
-import { getFriendlyErrorMessage } from "./friendlyErrorMessageApi.stub";
+import DOMPurify from "dompurify";
 
 const FriendlyErrorMessage = () => {
-  const [message, setMessage] = useState({ title: "", summary: "" });
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
 
-  useEffect(() => {
-    let isMounted = true;
+  const friendlyErrorHtml = friendlyError?.html
+    ? DOMPurify.sanitize(friendlyError.html)
+    : null;
 
-    const loadFriendlyErrorMessage = async () => {
-      const response = await getFriendlyErrorMessage();
-
-      if (isMounted) {
-        setMessage(response);
-      }
-    };
-
-    loadFriendlyErrorMessage();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  return (
+  return friendlyErrorHtml ? (
     <div className="friendly-error-message">
-      <div className="friendly-error-message__title">{message.title}</div>
-      <div className="friendly-error-message__summary">{message.summary}</div>
+      <div
+        className="friendly-error-message__content"
+        dangerouslySetInnerHTML={{ __html: friendlyErrorHtml }}
+      />
     </div>
-  );
+  ) : null;
 };
 
 export default FriendlyErrorMessage;
