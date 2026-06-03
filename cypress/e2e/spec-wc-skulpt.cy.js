@@ -1,5 +1,6 @@
 import {
   getErrorMessage,
+  getFriendlyErrorMessage,
   getP5Canvas,
   getPythonConsoleOutput,
   getSkulptRunner,
@@ -147,5 +148,25 @@ describe("Running the code with skulpt", () => {
       "contain.text",
       "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
     );
+  });
+});
+
+describe("When friendly errors enabled with skulpt", () => {
+  beforeEach(() => {
+    cy.visit(`${origin}?friendly_errors_enabled=true`);
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: false,
+        configurable: true,
+      });
+    });
+  });
+
+  it("shows a friendly error message when an error occurs", () => {
+    runCode(
+      "# Py5: imported mode\ndef setup():\n\tsize(400,400)\n\ndef draw():\n\tprint(hello world)",
+    );
+    getErrorMessage().should("exist");
+    getFriendlyErrorMessage().should("be.visible");
   });
 });

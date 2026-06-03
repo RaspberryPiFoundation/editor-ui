@@ -1,6 +1,7 @@
 import {
   getEditorShadow,
   getErrorMessage,
+  getFriendlyErrorMessage,
   getFileButtonByName,
   getProgramInput,
   getPyodideOutput,
@@ -251,5 +252,29 @@ print(text_out)
       "contain",
       "NameError: name 'math' is not defined",
     );
+  });
+});
+
+describe("When friendly errors enabled with pyodide", () => {
+  beforeEach(() => {
+    cy.visit({
+      url: `${origin}?friendly_errors_enabled=true`,
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+      },
+    });
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: true,
+        configurable: true,
+      });
+    });
+  });
+
+  it("shows a friendly error message when an error occurs", () => {
+    runCode("print(kitten)");
+    getErrorMessage().should("exist");
+    getFriendlyErrorMessage().should("be.visible");
   });
 });
