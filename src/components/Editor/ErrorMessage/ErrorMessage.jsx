@@ -17,8 +17,10 @@ const ErrorMessage = () => {
   }, [error]);
 
   return error ? (
-    <div className={`error-message error-message--${settings.fontSize}`}>
-      <div className="error-message__python">
+    <div className="error-message">
+      <div
+        className={`error-message__python error-message__python--${settings.fontSize}`}
+      >
         <CancelFillIcon />
         <pre ref={message} className="error-message__error" />
       </div>

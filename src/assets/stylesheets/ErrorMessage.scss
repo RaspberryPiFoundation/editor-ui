@@ -7,7 +7,7 @@
   border-block-start: 1px solid var(--editor-color-outline);
   padding: var(--space-1);
   overflow-y: auto;
-  max-height: 50%;
+  max-block-size: 50%;
 
   &__error {
     padding: 0;
@@ -21,13 +21,13 @@
     display: flex;
     gap: var(--space-1);
     @include typography.style-1;
-  }
 
-  &--medium {
-    @include typography.style-1;
-  }
-
-  &--large {
-    @include typography.style-2;
+    &--medium {
+      @include typography.style-1;
+    }
+  
+    &--large {
+      @include typography.style-2;
+    }
   }
 }
