@@ -257,6 +257,7 @@ print(text_out)
 
 describe("When friendly errors enabled with pyodide", () => {
   beforeEach(() => {
+    cy.intercept("GET", "**/python-error-copydecks/**").as("copydeck");
     cy.visit({
       url: `${origin}?friendly_errors_enabled=true`,
       headers: {

@@ -153,6 +153,7 @@ describe("Running the code with skulpt", () => {
 
 describe("When friendly errors enabled with skulpt", () => {
   beforeEach(() => {
+    cy.intercept("GET", "**/python-error-copydecks/**").as("copydeck");
     cy.visit(`${origin}?friendly_errors_enabled=true`);
     cy.window().then((win) => {
       Object.defineProperty(win, "crossOriginIsolated", {
