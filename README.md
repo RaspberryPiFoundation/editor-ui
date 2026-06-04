@@ -113,6 +113,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)
 - `editable_instructions`: Boolean whether to show edit panel for instructions
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
+- `feedback_form_url`: URL used by the Feedback link in the info panel (defaults to the Code Editor feedback form)
 - `host_styles`: Styles passed into the web component from the host page
 - `identifier`: Load the project with this identifier from the database
 - `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar

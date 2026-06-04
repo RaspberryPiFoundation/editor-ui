@@ -35,6 +35,7 @@ const WebComponentProject = ({
   outputOnly = false,
   outputPanels = ["text", "visual"],
   outputSplitView = false,
+  feedbackFormUrl,
   sidebarPlugins = [],
 }) => {
   const loading = useSelector((state) => state.editor.loading);
@@ -161,6 +162,7 @@ const WebComponentProject = ({
           <MobileProject
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
+            feedbackFormUrl={feedbackFormUrl}
             sidebarPlugins={sidebarPlugins}
           />
         ) : (
@@ -169,6 +171,7 @@ const WebComponentProject = ({
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
             sidebarOptions={sidebarOptions}
+            feedbackFormUrl={feedbackFormUrl}
             sidebarPlugins={sidebarPlugins}
           />
         ))}

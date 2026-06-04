@@ -59,6 +59,7 @@ class WebComponent extends HTMLElement {
       "code",
       "editable_instructions",
       "embedded",
+      "feedback_form_url",
       "host_styles",
       "identifier",
       "initial_project",
