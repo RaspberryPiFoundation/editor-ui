@@ -30,4 +30,14 @@
       @include typography.style-2;
     }
   }
+
+  // Only displaying title and summary of friendlyError
+  &__friendly {
+    .pfem__why,
+    .pfem__steps,
+    .pfem__patch,
+    .pfem__details {
+      display: none;
+    }
+  }
 }
