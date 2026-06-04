@@ -4,6 +4,7 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import VisualOutputPane from "./VisualOutputPane.jsx";
 import Highcharts from "highcharts";
+import Plotly from "plotly.js";
 
 jest.mock("highcharts");
 
@@ -140,7 +141,11 @@ describe("when there is plotly output", () => {
   });
 
   test("it renders the plotly chart as an svg", () => {
-    expect(screen.getByText("Test Plot")).toBeInTheDocument();
+    expect(Plotly.newPlot).toHaveBeenCalledWith(
+      expect.any(Object),
+      [{ x: [1, 2, 3], y: [4, 5, 6], type: "scatter" }],
+      { title: { text: "Test Plot" } },
+    );
   });
 });
 

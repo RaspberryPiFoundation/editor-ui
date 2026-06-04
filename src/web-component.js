@@ -81,6 +81,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "with_sidebar",
       "load_cache",
+      "friendly_errors_enabled",
     ];
   }
 
@@ -99,6 +100,7 @@ class WebComponent extends HTMLElement {
       "with_projectbar",
       "with_sidebar",
       "load_cache",
+      "friendly_errors_enabled",
     ];
     const jsonAttrs = [
       "instructions",

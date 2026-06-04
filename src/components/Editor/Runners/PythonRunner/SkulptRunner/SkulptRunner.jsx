@@ -10,12 +10,19 @@ import classNames from "classnames";
 import {
   setError,
   setErrorDetails,
+  setFriendlyError,
   codeRunHandled,
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
   setLoadedRunner,
 } from "../../../../../redux/EditorSlice";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  skulptAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
@@ -66,7 +73,11 @@ const VISUAL_LIBRARIES = [
   "turtle",
 ];
 
-const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+const SkulptRunner = ({
+  active,
+  outputPanels = ["text", "visual"],
+  friendlyErrorsEnabled = false,
+}) => {
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
   const projectCode = useSelector((state) => state.editor.project.components);
   const mainComponent = projectCode?.find(
@@ -162,6 +173,15 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
       document.getElementById = originalGetElementById;
     };
   };
+
+  useEffect(() => {
+    if (friendlyErrorsEnabled) {
+      loadCopydeckFor(navigator.language, {
+        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+      });
+      registerAdapter("skulpt", skulptAdapter);
+    }
+  }, [friendlyErrorsEnabled]);
 
   useEffect(() => {
     if (!codeRunTriggered) {
@@ -424,6 +444,21 @@ const SkulptRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         description: errorDescription,
         message: errorMessage,
       };
+
+      if (friendlyErrorsEnabled) {
+        const inputCode =
+          projectCode?.find((c) => c.name === "main" && c.extension === "py")
+            ?.content ?? "";
+        const friendlyError = friendlyExplain({
+          error: errorMessage,
+          code: inputCode,
+          runtime: "skulpt",
+        });
+
+        if (friendlyError?.html) {
+          dispatch(setFriendlyError({ html: friendlyError.html }));
+        }
+      }
     }
 
     dispatch(setError(errorMessage));

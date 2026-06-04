@@ -125,6 +125,8 @@ export const editorInitialState = {
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
   scratchIframeProjectIdentifier: null,
+  friendlyErrorsEnabled: false,
+  friendlyError: null,
 };
 
 const isScratchProject = (state) =>
@@ -284,6 +286,15 @@ export const EditorSlice = createSlice({
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
+    },
+    setFriendlyErrorsEnabled: (state, action) => {
+      state.friendlyErrorsEnabled = action.payload;
+      if (!action.payload) {
+        state.friendlyError = null;
+      }
+    },
+    setFriendlyError: (state, action) => {
+      state.friendlyError = action.payload;
     },
     setLoadRemixDisabled: (state, action) => {
       state.loadRemixDisabled = action.payload;
@@ -516,6 +527,7 @@ export const {
   setInstructionsEditable,
   setSenseHatAlwaysEnabled,
   setSenseHatEnabled,
+  setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -540,6 +552,7 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  setFriendlyError,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;
