@@ -60,6 +60,12 @@ jest.mock("@raspberrypifoundation/python-friendly-error-messages", () => ({
   friendlyExplain: jest.fn(),
 }));
 
+jest.mock("plotly.js", () => ({
+  newPlot: jest.fn(),
+  react: jest.fn(),
+  purge: jest.fn(),
+}));
+
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
 window.Worker = PyodideWorker;
