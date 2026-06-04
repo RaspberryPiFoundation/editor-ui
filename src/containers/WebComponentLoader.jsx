@@ -36,6 +36,9 @@ import {
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
 
+const CODE_EDITOR_FEEDBACK_URL =
+  "https://form.raspberrypi.org/f/code-editor-feedback";
+
 const TOAST_CONTAINER_DEFAULTS = {
   ...(ToastContainer.defaultProps || {}),
 };
@@ -54,6 +57,7 @@ const WebComponentLoader = (props) => {
     code,
     embedded = false,
     editableInstructions,
+    feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -259,6 +263,7 @@ const WebComponentLoader = (props) => {
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
+              feedbackFormUrl={feedbackFormUrl}
               sidebarPlugins={sidebarPlugins}
             />
             {errorModalShowing && <ErrorModal />}
