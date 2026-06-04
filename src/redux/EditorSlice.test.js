@@ -20,6 +20,8 @@ import reducer, {
   scratchSaveStarted,
   scratchSaveSucceeded,
   scratchSaveFailed,
+  setFriendlyErrorsEnabled,
+  setFriendlyError,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -35,6 +37,10 @@ jest.mock("../utils/apiCallHandler", () => () => ({
   readProject: jest.fn(mockReadProject),
   createOrUpdateProject: jest.fn(mockCreateOrUpdateProject),
 }));
+
+const friendlyErrorHtml =
+  '<div class="pfem__title">Friendly error title</div>' +
+  '<div class="pfem__summary">A friendly summary of the error</div>';
 
 test("Action stopCodeRun sets codeRunStopped to true", () => {
   const previousState = {
@@ -236,6 +242,53 @@ test("closing rename modal updates showing status", () => {
     },
   };
   expect(reducer(previousState, closeRenameFileModal())).toEqual(expectedState);
+});
+
+test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to true", () => {
+  const previousState = {
+    friendlyErrorsEnabled: false,
+  };
+  const expectedState = {
+    friendlyErrorsEnabled: true,
+  };
+  expect(reducer(previousState, setFriendlyErrorsEnabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setFriendlyErrorsEnabled sets friendlyErrorsEnabled to false and clears friendlyError", () => {
+  const previousState = {
+    friendlyErrorsEnabled: true,
+    friendlyError: {
+      html: friendlyErrorHtml,
+    },
+  };
+  const expectedState = {
+    friendlyErrorsEnabled: false,
+    friendlyError: null,
+  };
+  expect(reducer(previousState, setFriendlyErrorsEnabled(false))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setFriendlyError sets friendlyError", () => {
+  const previousState = {
+    friendlyError: null,
+  };
+  const expectedState = {
+    friendlyError: {
+      html: friendlyErrorHtml,
+    },
+  };
+  expect(
+    reducer(
+      previousState,
+      setFriendlyError({
+        html: friendlyErrorHtml,
+      }),
+    ),
+  ).toEqual(expectedState);
 });
 
 describe("When project has no identifier", () => {

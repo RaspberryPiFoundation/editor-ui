@@ -4423,6 +4423,7 @@ __metadata:
     "@lezer/highlight": "npm:^1.0.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:0.4.3"
     "@raspberrypifoundation/design-system-react": "npm:^2.7.0"
+    "@raspberrypifoundation/python-friendly-error-messages": "npm:0.1.6"
     "@react-three/drei": "npm:9.114.3"
     "@react-three/fiber": "npm:^8.0.13"
     "@react-three/test-renderer": "npm:8.2.1"
@@ -4459,6 +4460,7 @@ __metadata:
     curl: "npm:^0.1.4"
     cypress: "npm:14.5.4"
     date-fns: "npm:^4.1.0"
+    dompurify: "npm:^3.4.6"
     dotenv: "npm:8.2.0"
     dotenv-expand: "npm:5.1.0"
     dotenv-webpack: "npm:8.1.0"
@@ -4576,6 +4578,13 @@ __metadata:
     worker-plugin: "npm:5.0.1"
   languageName: unknown
   linkType: soft
+
+"@raspberrypifoundation/python-friendly-error-messages@npm:0.1.6":
+  version: 0.1.6
+  resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.1.6"
+  checksum: 10/d453c0328a38b9f284009892d10f0c12b344fbd676b17cdfe3f832514d88d293600a648ae960fa38bfb6de1b303d177d2c20d704733ad34b02e16a2dac293b25
+  languageName: node
+  linkType: hard
 
 "@react-spring/animated@npm:~9.6.1":
   version: 9.6.1
@@ -10672,6 +10681,18 @@ __metadata:
     "@types/trusted-types":
       optional: true
   checksum: 10/dcaf945376eff2a61841b205501b163b2c8ae9afe7251e68276b561d9fcf943cefc67e2631fdeae080b52a8b37c96e6beb7e6ae80ad8a83692ff67965dd6b4db
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^3.4.6":
+  version: 3.4.6
+  resolution: "dompurify@npm:3.4.6"
+  dependencies:
+    "@types/trusted-types": "npm:^2.0.7"
+  dependenciesMeta:
+    "@types/trusted-types":
+      optional: true
+  checksum: 10/950bfadc9ad6ee5706ccdfde09313c9c8f6a299206f77ccb621b1355947443753163031770cbb46236f1b6910e57e6710c34970b13c8a9e0fd7c93fac77c4815
   languageName: node
   linkType: hard
 

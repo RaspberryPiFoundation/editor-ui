@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
   setSenseHatAlwaysEnabled,
+  setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -68,6 +69,7 @@ const WebComponentLoader = (props) => {
     scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
+    friendlyErrorsEnabled = false,
     showSavePrompt = false,
     sidebarOptions = [],
     useEditorStyles = false, // If true use the standard editor styling for the web component
@@ -184,6 +186,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setSenseHatAlwaysEnabled(senseHatAlwaysEnabled));
   }, [senseHatAlwaysEnabled, dispatch]);
+
+  useEffect(() => {
+    dispatch(setFriendlyErrorsEnabled(friendlyErrorsEnabled));
+  }, [friendlyErrorsEnabled, dispatch]);
 
   useEffect(() => {
     dispatch(setLoadRemixDisabled(loadRemixDisabled));
