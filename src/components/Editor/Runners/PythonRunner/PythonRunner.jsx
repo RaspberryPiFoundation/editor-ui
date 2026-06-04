@@ -27,6 +27,9 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
   const senseHatAlwaysEnabled = useSelector(
     (state) => state.editor.senseHatAlwaysEnabled,
   );
+  const friendlyErrorsEnabled = useSelector(
+    (state) => state.editor.friendlyErrorsEnabled,
+  );
   const [usePyodide, setUsePyodide] = useState(null);
   const [skulptFallback, setSkulptFallback] = useState(false);
   const { t } = useTranslation();
@@ -74,10 +77,12 @@ const PythonRunner = ({ outputPanels = ["text", "visual"] }) => {
       <PyodideRunner
         active={activeRunner === "pyodide"}
         outputPanels={outputPanels}
+        friendlyErrorsEnabled={friendlyErrorsEnabled}
       />
       <SkulptRunner
         active={activeRunner === "skulpt"}
         outputPanels={outputPanels}
+        friendlyErrorsEnabled={friendlyErrorsEnabled}
       />
     </>
   );
