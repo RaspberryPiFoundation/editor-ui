@@ -19,11 +19,39 @@
       }
     }
 
-    .pfem__var {
+    .pfem__var, .pfem__code, .pfem__file, .pfem__line {
       font-family: var(--wc-font-family-monospace);
-      background-color: var(--rpf-grey-50);
       border-radius: 0.25rem;
-      padding:0 var(--space-0-5);
+      padding: 0 var(--space-0-5);
+    }
+    
+    .pfem__var {
+      background-color: var(--rpf-grey-50);
+    }
+
+    .pfem__code {
+      background-color: var(--rpf-red-100);
+    }
+
+    .pfem__file {
+      display: inline-block;
+      white-space: nowrap; 
+      background-color: var(--rpf-yellow-100);
+
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background: url("../../assets/error_file.svg") no-repeat center;
+        background-size: contain;
+        margin-inline-end: 0.12rem;
+        vertical-align: middle;
+      }
+    }
+
+    .pfem__line {
+      background-color: var(--rpf-blue-100);
     }
   }
 }

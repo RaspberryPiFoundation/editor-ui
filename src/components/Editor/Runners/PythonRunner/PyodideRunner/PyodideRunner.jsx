@@ -233,7 +233,14 @@ const PyodideRunner = ({
             ?.content ?? "";
 
         const friendlyError = friendlyExplain({
-          error: errorMessage,
+          error: {
+            raw: errorMessage,
+            type: type,
+            message: info,
+            line: parseInt(line) || undefined,
+            file: file || undefined,
+            codeLine: mistake || undefined,
+          },
           code: inputCode,
           runtime: "pyodide",
           sections: ["title", "summary"],
