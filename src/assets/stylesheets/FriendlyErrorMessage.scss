@@ -41,8 +41,8 @@
       &::before {
         content: "";
         display: inline-block;
-        width: 1em;
-        height: 1em;
+        inline-size: 1em;
+        block-size: 1em;
         background: url("../../assets/error_file.svg") no-repeat center;
         background-size: contain;
         margin-inline-end: 0.12rem;
