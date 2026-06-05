@@ -8,7 +8,7 @@
   padding: var(--space-1);
   overflow-y: auto;
   scrollbar-width: thin;
-  max-block-size: 50%;
+  max-block-size: 25%;
 
   &__error {
     padding: 0;
@@ -29,16 +29,6 @@
   
     &--large {
       @include typography.style-2;
-    }
-  }
-
-  // Only displaying title and summary of friendlyError
-  &__friendly {
-    .pfem__why,
-    .pfem__steps,
-    .pfem__patch,
-    .pfem__details {
-      display: none;
     }
   }
 }

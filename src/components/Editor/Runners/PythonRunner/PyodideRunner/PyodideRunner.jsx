@@ -236,6 +236,7 @@ const PyodideRunner = ({
           error: errorMessage,
           code: inputCode,
           runtime: "pyodide",
+          sections: ["title", "summary"],
         });
 
         if (friendlyError?.html) {
