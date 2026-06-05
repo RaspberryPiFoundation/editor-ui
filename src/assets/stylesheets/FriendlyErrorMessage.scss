@@ -5,23 +5,25 @@
   border-radius: var(--space-1);
   margin-block-start: var(--space-1);
 
-  .pfem {
-    &__title {
-      display: block;
+  &__content {
+    .pfem__title {
       font-weight: 600;
-      margin-block-end: var(--space-1);
+      display: inline;
     }
 
-    &__summary {
-      display: block;
-   }
+    .pfem__summary {
+      display: inline;
 
-   // Only displaying title and summary of friendlyError
-   &__why,
-   &__steps,
-   &__patch,
-   &__details {
-    display: none;
-   }
+      &::before {
+        content: " - ";
+      }
+    }
+
+    .pfem__var {
+      font-family: var(--wc-font-family-monospace);
+      background-color: var(--rpf-grey-50);
+      border-radius: 0.25rem;
+      padding:0 var(--space-0-5);
+    }
   }
 }

@@ -46,7 +46,7 @@ const MobileProject = ({
     if (!codeRunTriggered && error && projectType === "python") {
       setSelectedTab(withSidebar ? 1 : 0);
     }
-  }, [error, codeRunTriggered, projectType]);
+  }, [error, codeRunTriggered, projectType, withSidebar]);
 
   return (
     <div

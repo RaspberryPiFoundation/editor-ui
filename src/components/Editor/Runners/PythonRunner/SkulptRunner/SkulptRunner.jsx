@@ -23,7 +23,6 @@ import {
   skulptAdapter,
   friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
-import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
 import VisualOutputPane from "../VisualOutputPane";
@@ -90,7 +89,6 @@ const SkulptRunner = ({
   const user = useSelector((state) => state.auth.user);
   const isSplitView = useSelector((state) => state.editor.isSplitView);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
-  const isOutputOnly = useSelector((state) => state.editor.isOutputOnly);
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );

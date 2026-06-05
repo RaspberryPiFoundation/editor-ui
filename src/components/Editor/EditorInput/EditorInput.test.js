@@ -191,7 +191,9 @@ describe("When read only", () => {
 
 describe("When there is an error", () => {
   beforeEach(() => {
-    renderEditorInput({ editor: { ...initialState.editor, error: "An error occurred" } });
+    renderEditorInput({
+      editor: { ...initialState.editor, error: "An error occurred" },
+    });
   });
 
   test("The error message is displayed", () => {
