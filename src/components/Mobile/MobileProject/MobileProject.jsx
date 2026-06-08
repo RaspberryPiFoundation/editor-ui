@@ -17,6 +17,7 @@ import { showSidebar } from "../../../redux/EditorSlice";
 const MobileProject = ({
   withSidebar,
   sidebarOptions = [],
+  feedbackFormUrl,
   sidebarPlugins = [],
 }) => {
   const projectType = useSelector((state) => state.editor.project.project_type);
@@ -52,7 +53,11 @@ const MobileProject = ({
       >
         {withSidebar && (
           <TabPanel>
-            <Sidebar options={sidebarOptions} plugins={sidebarPlugins} />
+            <Sidebar
+              options={sidebarOptions}
+              plugins={sidebarPlugins}
+              feedbackFormUrl={feedbackFormUrl}
+            />
           </TabPanel>
         )}
         <TabPanel>
