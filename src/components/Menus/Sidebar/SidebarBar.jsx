@@ -10,6 +10,7 @@ import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
 import htmlLogo from "../../../assets/html_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
+import scratchLogo from "../../../assets/scratch_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
@@ -69,7 +70,7 @@ const SidebarBar = (props) => {
       case "python":
         return pythonLogo;
       case "code_editor_scratch":
-        return htmlLogo; // TODO - Replace this with scratch logo when available
+        return scratchLogo;
       case "html":
         return htmlLogo;
       default:
