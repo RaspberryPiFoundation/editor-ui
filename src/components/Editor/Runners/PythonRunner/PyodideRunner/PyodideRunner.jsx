@@ -232,14 +232,16 @@ const PyodideRunner = ({
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
 
+        const nameMatch = info?.match(/["']([^"']+)["']/);
         const friendlyError = friendlyExplain({
           error: {
             raw: errorMessage,
             type: type,
+            name: nameMatch?.[1],
             message: info,
             line: parseInt(line) || undefined,
             file: file || undefined,
-            codeLine: mistake || undefined,
+            codeLine: mistake.split("\n")[0] || undefined,
           },
           code: inputCode,
           runtime: "pyodide",
