@@ -434,7 +434,8 @@ describe("When an error is received", () => {
   test("it dispatches action to set the error with correct message", () => {
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: "editor/setError",
-      payload: "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
+      payload:
+        "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
     });
   });
 
@@ -444,8 +445,8 @@ describe("When an error is received", () => {
     let friendlyExplain;
 
     const friendlyErrorHtml =
-    '<div class="pfem__title">Friendly error title</div>' +
-    '<div class="pfem__summary">A friendly summary of the error</div>';
+      '<div class="pfem__title">Friendly error title</div>' +
+      '<div class="pfem__summary">A friendly summary of the error</div>';
 
     beforeEach(() => {
       ({
@@ -490,7 +491,7 @@ describe("When an error is received", () => {
           error: expect.objectContaining({
             codeLine: "if score = 10:",
           }),
-        })
+        }),
       );
     });
 
