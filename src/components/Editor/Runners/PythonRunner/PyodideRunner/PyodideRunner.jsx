@@ -241,7 +241,7 @@ const PyodideRunner = ({
             message: info,
             line: parseInt(line) || undefined,
             file: file || undefined,
-            codeLine: mistake.split("\n")[0] || undefined,
+            codeLine: mistake ? mistake.split("\n")[0] : undefined,
           },
           code: inputCode,
           runtime: "pyodide",
