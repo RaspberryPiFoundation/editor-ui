@@ -1673,7 +1673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.12.1, @babel/preset-env@npm:^7.16.4, @babel/preset-env@npm:^7.17.10, @babel/preset-env@npm:^7.8.4":
+"@babel/preset-env@npm:^7.12.1, @babel/preset-env@npm:^7.16.4, @babel/preset-env@npm:^7.8.4":
   version: 7.25.8
   resolution: "@babel/preset-env@npm:7.25.8"
   dependencies:
@@ -4691,7 +4691,6 @@ __metadata:
   dependencies:
     "@RaspberryPiFoundation/scratch-gui": "npm:13.7.3-code-classroom.20260522151700"
     "@babel/core": "npm:^7.17.10"
-    "@babel/preset-env": "npm:^7.17.10"
     "@codemirror/commands": "npm:^6.1.1"
     "@codemirror/lang-css": "npm:^6.0.0"
     "@codemirror/lang-html": "npm:^6.1.2"
