@@ -4842,7 +4842,6 @@ __metadata:
     url: "npm:^0.11.4"
     url-loader: "npm:4.1.1"
     watch: "npm:^1.0.2"
-    web-vitals: "npm:^1.0.1"
     webgl-mock-threejs: "npm:^0.0.1"
     webpack: "npm:5.104.1"
     webpack-bundle-analyzer: "npm:^5.2.0"
@@ -25305,13 +25304,6 @@ __metadata:
   version: 1.0.8
   resolution: "weak-map@npm:1.0.8"
   checksum: 10/562041d8b8691b88bed0455e964712efdfc1a8b1db6c06da0adb2d1461e0568e11192bbceb7bd7bc7e1936ea4303d8e71cada9047c611ba3a350f11b49fdb662
-  languageName: node
-  linkType: hard
-
-"web-vitals@npm:^1.0.1":
-  version: 1.1.2
-  resolution: "web-vitals@npm:1.1.2"
-  checksum: 10/eece8382065416797756e01cc21ddf03bc3bdc37c1e43eea2704090fc0f3ce261d2b2df53b926c2f33e286d60f11369e827ca8533556d706ed8ee1925fb1d7a0
   languageName: node
   linkType: hard
 

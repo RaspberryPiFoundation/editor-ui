@@ -74,8 +74,7 @@
     "stream-browserify": "^3.0.0",
     "three": "0.169.0",
     "url": "^0.11.4",
-    "watch": "^1.0.2",
-    "web-vitals": "^1.0.1"
+    "watch": "^1.0.2"
   },
   "scripts": {
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
