@@ -498,7 +498,6 @@ export const {
   addProjectComponent,
   loadingRunner,
   setLoadedRunner,
-  resetRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,
