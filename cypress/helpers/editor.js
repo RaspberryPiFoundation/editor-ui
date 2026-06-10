@@ -22,7 +22,7 @@ const getDownloadProjectButton = () =>
 const getAddFileButton = () =>
   getEditorShadow().findByRole("button", { name: "Add file" });
 
-export const getConfirmAddFileButton = () =>
+const getConfirmAddFileButton = () =>
   getEditorShadow().findAllByRole("button", { name: "Add file" }).last();
 
 export const getAddFileNameInput = () =>
