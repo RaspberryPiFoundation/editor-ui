@@ -237,6 +237,7 @@ const PyodideRunner = ({
 
         const friendlyError = friendlyExplain({
           error: rawTraceback,
+          file: file,
           code: inputCode,
           runtime: "pyodide",
           sections: ["title", "summary"],
