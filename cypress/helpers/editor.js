@@ -104,7 +104,7 @@ export const saveProject = () => getSaveButton().click();
 
 const clickAddFileButton = () => getAddFileButton().click();
 
-export const confirmAddFile = () => getConfirmAddFileButton().click();
+const confirmAddFile = () => getConfirmAddFileButton().click();
 
 export const openSettingsPanel = () => getSettingsButton().click();
 
