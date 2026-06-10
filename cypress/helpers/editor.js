@@ -110,14 +110,6 @@ export const openSettingsPanel = () => getSettingsButton().click();
 
 // Assertions
 
-export const expectHtmlRunnerPreviewToContainText = (text) =>
-  getHtmlRunnerIframe()
-    .its("0.contentDocument.body")
-    .should("not.be.null")
-    .should(($body) => {
-      expect($body.textContent || "").to.contain(text);
-    });
-
 export const expectHtmlRunnerPreviewToNotContainText = (text) =>
   getHtmlRunnerBody().should("not.contain.text", text);
 
