@@ -4839,7 +4839,6 @@ __metadata:
     typescript: "npm:^6.0.3"
     url: "npm:^0.11.4"
     url-loader: "npm:4.1.1"
-    watch: "npm:^1.0.2"
     webgl-mock-threejs: "npm:^0.0.1"
     webpack: "npm:5.104.1"
     webpack-bundle-analyzer: "npm:^5.2.0"
@@ -12098,15 +12097,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exec-sh@npm:^0.2.0":
-  version: 0.2.2
-  resolution: "exec-sh@npm:0.2.2"
-  dependencies:
-    merge: "npm:^1.2.0"
-  checksum: 10/f0e2bdc9fded34f33a6473293cf06dd89f09da1dd7850369001e56b055bb00dae449dbf2e1dd0a1bce2083f13e30e0a0e1b9ab9e42efb1954a538349340c5562
-  languageName: node
-  linkType: hard
-
 "execa@npm:4.1.0":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
@@ -17245,13 +17235,6 @@ __metadata:
   version: 1.4.1
   resolution: "merge2@npm:1.4.1"
   checksum: 10/7268db63ed5169466540b6fb947aec313200bcf6d40c5ab722c22e242f651994619bcd85601602972d3c85bd2cc45a358a4c61937e9f11a061919a1da569b0c2
-  languageName: node
-  linkType: hard
-
-"merge@npm:^1.2.0":
-  version: 1.2.1
-  resolution: "merge@npm:1.2.1"
-  checksum: 10/2298c4fdcf64561f320b92338681f7ffcafafb579a6e294066ae3e7bd10ae25df363903d2f028072733b9f79a1f75d2b999aef98ad5d73de13641da39cda0913
   languageName: node
   linkType: hard
 
@@ -25250,18 +25233,6 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.0.0"
   checksum: 10/e7842aff036e2e07ce7a6cc3225e707775b969fe3d0577ad64bd24660e3a9ce3017f0b8c22a136566dcd3a151f37b8ed1ccee103b3bd82bd8a571bf80b247bc4
-  languageName: node
-  linkType: hard
-
-"watch@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "watch@npm:1.0.2"
-  dependencies:
-    exec-sh: "npm:^0.2.0"
-    minimist: "npm:^1.2.0"
-  bin:
-    watch: ./cli.js
-  checksum: 10/796441860f548ade132bb5f43c40677e1249b7e766058c91df6581ac53401295690fc6311a1603878c89de5e7b480c2bf00c6cb2d7532fe24b9d4ac7df25f1c7
   languageName: node
   linkType: hard
 
