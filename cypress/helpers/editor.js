@@ -16,7 +16,7 @@ export const getStopButton = () =>
 const getSaveButton = () =>
   getEditorShadow().findByRole("button", { name: "Save" });
 
-export const getDownloadProjectButton = () =>
+const getDownloadProjectButton = () =>
   getEditorShadow().findByRole("button", { name: "Download project" });
 
 export const getAddFileButton = () =>
