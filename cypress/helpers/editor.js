@@ -84,7 +84,7 @@ const getHtmlRunnerIframe = () =>
 const getHtmlRunnerDocument = () =>
   getHtmlRunnerIframe().its("0.contentDocument").should("exist");
 
-export const getHtmlRunnerBody = () =>
+const getHtmlRunnerBody = () =>
   getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
 
 // Modal queries
