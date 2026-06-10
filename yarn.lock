@@ -4595,7 +4595,6 @@ __metadata:
     redux: "npm:^4.2.1"
     redux-mock-store: "npm:^1.5.4"
     redux-oidc: "npm:^4.0.0-beta1"
-    resolve: "npm:1.18.1"
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
     sass-loader: "npm:^13.3.3"
@@ -14043,7 +14042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.0.0, is-core-module@npm:^2.13.0, is-core-module@npm:^2.15.1":
+"is-core-module@npm:^2.13.0, is-core-module@npm:^2.15.1":
   version: 2.15.1
   resolution: "is-core-module@npm:2.15.1"
   dependencies:
@@ -17943,7 +17942,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-parse@npm:^1.0.6, path-parse@npm:^1.0.7":
+"path-parse@npm:^1.0.7":
   version: 1.0.7
   resolution: "path-parse@npm:1.0.7"
   checksum: 10/49abf3d81115642938a8700ec580da6e830dde670be21893c62f4e10bd7dd4c3742ddc603fe24f898cba7eb0c6bc1777f8d9ac14185d34540c6d4d80cd9cae8a
@@ -19914,16 +19913,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:1.18.1":
-  version: 1.18.1
-  resolution: "resolve@npm:1.18.1"
-  dependencies:
-    is-core-module: "npm:^2.0.0"
-    path-parse: "npm:^1.0.6"
-  checksum: 10/2e2a4fae92c19bd30378acc5b89a3c0446538fde9dde8ef8d63983308dae1815d2f5dddd14ed033aa12142ca2bb29543741816f201fc206de581bde167cb0dd9
-  languageName: node
-  linkType: hard
-
 "resolve@npm:^0.6.1":
   version: 0.6.3
   resolution: "resolve@npm:0.6.3"
@@ -19980,16 +19969,6 @@ __metadata:
   bin:
     resolve: bin/resolve
   checksum: 10/2d6fd28699f901744368e6f2032b4268b4c7b9185fd8beb64f68c93ac6b22e52ae13560ceefc96241a665b985edf9ffd393ae26d2946a7d3a07b7007b7d51e79
-  languageName: node
-  linkType: hard
-
-"resolve@patch:resolve@npm%3A1.18.1#optional!builtin<compat/resolve>":
-  version: 1.18.1
-  resolution: "resolve@patch:resolve@npm%3A1.18.1#optional!builtin<compat/resolve>::version=1.18.1&hash=c3c19d"
-  dependencies:
-    is-core-module: "npm:^2.0.0"
-    path-parse: "npm:^1.0.6"
-  checksum: 10/402d45f5aa7b0ede0937a7bba2a1e1dd1b3a8567c2a427d350f81c2ec527c8e07973b88cb69dd31d5c5dd0848110b846e881f5c098fa7d66eb4aca56fb5f25d6
   languageName: node
   linkType: hard
 
