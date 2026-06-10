@@ -9,5 +9,5 @@ const WebComponentAuthSlice = createSlice({
   reducers,
 });
 
-export const { setUser, removeUser } = WebComponentAuthSlice.actions;
+export const { setUser } = WebComponentAuthSlice.actions;
 export default WebComponentAuthSlice.reducer;
