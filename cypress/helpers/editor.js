@@ -39,7 +39,7 @@ export const getProgramInput = () =>
 
 // Editor / output queries
 
-export const getCodeEditorContent = () =>
+const getCodeEditorContent = () =>
   getEditorShadow().find("div.cm-content");
 
 export const getCodeEditorInput = () =>
