@@ -4687,7 +4687,6 @@ __metadata:
     babel-eslint: "npm:^10.1.0"
     babel-jest: "npm:^29.1.2"
     babel-loader: "npm:^8.2.5"
-    babel-plugin-named-asset-import: "npm:^0.3.7"
     babel-plugin-prismjs: "npm:^2.1.0"
     babel-preset-react-app: "npm:^10.0.1"
     bfj: "npm:^7.0.2"
@@ -7685,15 +7684,6 @@ __metadata:
     cosmiconfig: "npm:^7.0.0"
     resolve: "npm:^1.19.0"
   checksum: 10/30be6ca45e9a124c58ca00af9a0753e5410ec0b79a737714fc4722bbbeb693e55d9258f05c437145ef4a867c2d1603e06a1c292d66c243ce1227458c8ea2ca8c
-  languageName: node
-  linkType: hard
-
-"babel-plugin-named-asset-import@npm:^0.3.7":
-  version: 0.3.8
-  resolution: "babel-plugin-named-asset-import@npm:0.3.8"
-  peerDependencies:
-    "@babel/core": ^7.1.0
-  checksum: 10/d1e58df8cb75d91d070feea31087bc989906d3465144bde7e9f3c3690b514a90a55d3aebf3e65e76c5d4c743ecedde5f640f09f43a21fa60f1a5d413cb3f7a67
   languageName: node
   linkType: hard
 
