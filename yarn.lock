@@ -4601,7 +4601,6 @@ __metadata:
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
     style-it: "npm:^2.1.4"
-    style-loader: "npm:1.3.0"
     stylelint: "npm:^17.4.0"
     stylelint-config-recommended-scss: "npm:17.0.0"
     stylelint-scss: "npm:7.0.0"
@@ -20342,7 +20341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^2.6.5, schema-utils@npm:^2.7.0, schema-utils@npm:^2.7.1":
+"schema-utils@npm:^2.6.5, schema-utils@npm:^2.7.1":
   version: 2.7.1
   resolution: "schema-utils@npm:2.7.1"
   dependencies:
@@ -21670,18 +21669,6 @@ __metadata:
   dependencies:
     react-lib-adler32: "npm:^1.0.3"
   checksum: 10/26a4d870b5741b6d5252c0b0980187535db0be0655c38e2dab6412978a192fe04c575b9400ffe846ffa4e6df88354212cf31c732b7765f81da6ff4a9a56a2243
-  languageName: node
-  linkType: hard
-
-"style-loader@npm:1.3.0":
-  version: 1.3.0
-  resolution: "style-loader@npm:1.3.0"
-  dependencies:
-    loader-utils: "npm:^2.0.0"
-    schema-utils: "npm:^2.7.0"
-  peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 10/04a2742a9b9608419b16e4e4f002c6859a60601c35d13f28483cb85a8ae10b4622fe255c59cf955aaf9297dc1e19e48bbba8f2ab5b02934ce3e93c0479b49325
   languageName: node
   linkType: hard
 
