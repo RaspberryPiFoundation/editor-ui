@@ -4726,7 +4726,6 @@ __metadata:
     jest-environment-jsdom: "npm:^29.1.2"
     jest-github-actions-reporter: "npm:^1.0.3"
     jest-junit: "npm:^14.0.1"
-    jest-resolve: "npm:^29.1.2"
     jest-scss-transform: "npm:^1.0.3"
     jest-transform-stub: "npm:^2.0.0"
     jest-transformer-svg: "npm:^2.0.0"
@@ -15627,7 +15626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-resolve@npm:^29.1.2, jest-resolve@npm:^29.7.0":
+"jest-resolve@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-resolve@npm:29.7.0"
   dependencies:
