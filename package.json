@@ -144,7 +144,6 @@
     "knip": "^6.15.0",
     "mock-match-media": "^0.4.3",
     "path-browserify": "^1.0.1",
-    "pnp-webpack-plugin": "1.6.4",
     "postcss": "^8.5.10",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-loader": "4.3.0",

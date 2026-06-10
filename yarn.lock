@@ -4743,7 +4743,6 @@ __metadata:
     overlayscrollbars-react: "npm:^0.5.6"
     path-browserify: "npm:^1.0.1"
     plotly.js: "npm:^3.3.1"
-    pnp-webpack-plugin: "npm:1.6.4"
     postcss: "npm:^8.5.10"
     postcss-flexbugs-fixes: "npm:5.0.2"
     postcss-loader: "npm:4.3.0"
@@ -18394,15 +18393,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pnp-webpack-plugin@npm:1.6.4":
-  version: 1.6.4
-  resolution: "pnp-webpack-plugin@npm:1.6.4"
-  dependencies:
-    ts-pnp: "npm:^1.1.6"
-  checksum: 10/e5949e7cf879a517e9d978b45cd35a9362d5393b1d5ae6b74223c4a58a6d08d3cf0e93cbf6c76e70e4f0e53a9d16cb77f243087cbd61d0871fa79c87c4e69849
-  languageName: node
-  linkType: hard
-
 "point-in-polygon@npm:^1.1.0":
   version: 1.1.0
   resolution: "point-in-polygon@npm:1.1.0"
@@ -23334,16 +23324,6 @@ __metadata:
   version: 0.49.0
   resolution: "troika-worker-utils@npm:0.49.0"
   checksum: 10/d812060df83d78a0744cb32ca521ecc407be9ab26b8489dc2f8a4a7dffb07182f0aeb326701c15002e24fbbeab2e365eae422cd4e9b17ea058d1db982bcfa375
-  languageName: node
-  linkType: hard
-
-"ts-pnp@npm:^1.1.6":
-  version: 1.2.0
-  resolution: "ts-pnp@npm:1.2.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10/a987a6bc4bf2f692046f14267b2e2fc1ead96e55b570ee417d2b75956a2cd0429e5b724d319be154e56fef4b5cb78b1e5cfb0ce192ead3795b1a637974ed4d74
   languageName: node
   linkType: hard
 
