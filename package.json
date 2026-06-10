@@ -14,7 +14,6 @@
     "@codemirror/view": "^6.3.0",
     "@hello-pangea/dnd": "^16.2.0",
     "@juggle/resize-observer": "^3.3.1",
-    "@lezer/highlight": "^1.0.0",
     "@raspberrypifoundation/design-system-react": "^2.7.0",
     "@raspberrypifoundation/python-friendly-error-messages": "0.1.6",
     "@react-three/drei": "9.114.3",
