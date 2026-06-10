@@ -4756,7 +4756,6 @@ __metadata:
     eslint-webpack-plugin: "npm:^2.5.2"
     file-loader: "npm:6.1.1"
     file-saver: "npm:^2.0.5"
-    fs-extra: "npm:^9.0.1"
     highcharts: "npm:^9.3.1"
     html-webpack-plugin: "npm:5.6.0"
     i18next: "npm:^22.0.3"
@@ -12903,7 +12902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^9.0.1, fs-extra@npm:^9.1.0":
+"fs-extra@npm:^9.1.0":
   version: 9.1.0
   resolution: "fs-extra@npm:9.1.0"
   dependencies:
