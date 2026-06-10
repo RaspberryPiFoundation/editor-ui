@@ -87,11 +87,6 @@ const getHtmlRunnerDocument = () =>
 const getHtmlRunnerBody = () =>
   getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
 
-// Modal queries
-
-export const getErrorModalTitle = () =>
-  getEditorShadow().findByRole("heading", { name: "An error has occurred" });
-
 // Test output
 
 export const getResults = () => cy.get("#results");
