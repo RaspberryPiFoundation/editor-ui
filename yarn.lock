@@ -4694,7 +4694,6 @@ __metadata:
     codemirror: "npm:^6.0.1"
     copy-webpack-plugin: "npm:12.0.2"
     css-loader: "npm:4.3.0"
-    curl: "npm:^0.1.4"
     cypress: "npm:14.5.4"
     date-fns: "npm:^4.1.0"
     dompurify: "npm:^3.4.6"
@@ -7222,13 +7221,6 @@ __metadata:
   version: 1.1.1
   resolution: "array-flatten@npm:1.1.1"
   checksum: 10/e13c9d247241be82f8b4ec71d035ed7204baa82fae820d4db6948d30d3c4a9f2b3905eb2eec2b937d4aa3565200bd3a1c500480114cff649fa748747d2a50feb
-  languageName: node
-  linkType: hard
-
-"array-flatten@npm:3.0.0":
-  version: 3.0.0
-  resolution: "array-flatten@npm:3.0.0"
-  checksum: 10/e1b11b51c0e0f0b1315ddab1d8e1760bbc76b4387290f73232d71195aa93e3f55179c434cac48f2c1446c614758b073b059bb0b2b545b8f0ec4af0cae9dc4371
   languageName: node
   linkType: hard
 
@@ -9904,16 +9896,6 @@ __metadata:
   version: 3.2.3
   resolution: "csstype@npm:3.2.3"
   checksum: 10/ad41baf7e2ffac65ab544d79107bf7cd1a4bb9bab9ac3302f59ab4ba655d5e30942a8ae46e10ba160c6f4ecea464cc95b975ca2fefbdeeacd6ac63f12f99fe1f
-  languageName: node
-  linkType: hard
-
-"curl@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "curl@npm:0.1.4"
-  dependencies:
-    request: "npm:>=0.1.0"
-    router: "npm:>=0.3.0"
-  checksum: 10/92b58379e1f21d469c566e9a6fd275f44b4cfe964bd90033687f9bf49caed22974fbf255c0fef7a3d28cd6c6d52eaf16af514fe4e3af05356e211709a547d73e
   languageName: node
   linkType: hard
 
@@ -14975,13 +14957,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-promise@npm:4.0.0":
-  version: 4.0.0
-  resolution: "is-promise@npm:4.0.0"
-  checksum: 10/0b46517ad47b00b6358fd6553c83ec1f6ba9acd7ffb3d30a0bf519c5c69e7147c132430452351b8a9fc198f8dd6c4f76f8e6f5a7f100f8c77d57d9e0f4261a8a
-  languageName: node
-  linkType: hard
-
 "is-promise@npm:^2.1.0":
   version: 2.2.2
   resolution: "is-promise@npm:2.2.2"
@@ -18649,13 +18624,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-to-regexp@npm:^8.0.0":
-  version: 8.2.0
-  resolution: "path-to-regexp@npm:8.2.0"
-  checksum: 10/23378276a172b8ba5f5fb824475d1818ca5ccee7bbdb4674701616470f23a14e536c1db11da9c9e6d82b82c556a817bbf4eee6e41b9ed20090ef9427cbb38e13
-  languageName: node
-  linkType: hard
-
 "path-type@npm:^4.0.0":
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
@@ -21226,7 +21194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"request@npm:>=0.1.0, request@npm:^2.34.0":
+"request@npm:^2.34.0":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
   dependencies:
@@ -21648,21 +21616,6 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: 10/c9b726580995b976cc69e2050bc55828f69522e925ad59cd0f8888e5d4d51ed22a432b534fe9f337893b699c314804b4a77a350df61a5c8913d0427db818fde9
-  languageName: node
-  linkType: hard
-
-"router@npm:>=0.3.0":
-  version: 2.0.0
-  resolution: "router@npm:2.0.0"
-  dependencies:
-    array-flatten: "npm:3.0.0"
-    is-promise: "npm:4.0.0"
-    methods: "npm:~1.1.2"
-    parseurl: "npm:~1.3.3"
-    path-to-regexp: "npm:^8.0.0"
-    setprototypeof: "npm:1.2.0"
-    utils-merge: "npm:1.0.1"
-  checksum: 10/cb0b044f0672eca104239680ac16d2629809df41a886a07a5ec319c683ef3c09c4ac0c88a91de2cea3da7d314ea6054d9c35840851ab55a3c2230e9ba690a885
   languageName: node
   linkType: hard
 
