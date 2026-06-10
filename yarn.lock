@@ -4598,7 +4598,6 @@ __metadata:
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
     sass-loader: "npm:^13.3.3"
-    semver: "npm:7.3.2"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
     style-it: "npm:^2.1.4"
@@ -20542,15 +20541,6 @@ __metadata:
   bin:
     semver: bin/semver
   checksum: 10/fca14418a174d4b4ef1fecb32c5941e3412d52a4d3d85165924ce3a47fbc7073372c26faf7484ceb4bbc2bde25880c6b97e492473dc7e9708fdfb1c6a02d546e
-  languageName: node
-  linkType: hard
-
-"semver@npm:7.3.2":
-  version: 7.3.2
-  resolution: "semver@npm:7.3.2"
-  bin:
-    semver: bin/semver.js
-  checksum: 10/52f87756b6f0d5de0fc896a3367cfe8dbf7c1947d846d021c9c621095579e62d2aa7ca0d5c5a6dcf1a123a63e1ac7cbd5ae0d5238f2a8de581bd6892f547f41f
   languageName: node
   linkType: hard
 
