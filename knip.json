@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "tags": [
+    "-lintignore"
+  ],
+  "entry": [
+    "src/web-component.js",
+    "src/PyodideWorker.js",
+    "src/html-renderer.jsx"
+  ],
+  "ignore": [ "public/shims/**", "public/pyodide/**", "public/libraries/**" ]
+}
