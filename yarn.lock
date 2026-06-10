@@ -2231,13 +2231,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/normalize.css@npm:*":
-  version: 12.1.1
-  resolution: "@csstools/normalize.css@npm:12.1.1"
-  checksum: 10/aa4d1b9a77c1ecba0a60e11371d944615c64b465abfb6fe7aea237d8bebd34dc47036f2570d7038a8633755ebd3ed09ec02326fbb7570b5bf7b80aa142c0ef4b
-  languageName: node
-  linkType: hard
-
 "@csstools/postcss-cascade-layers@npm:^1.1.1":
   version: 1.1.1
   resolution: "@csstools/postcss-cascade-layers@npm:1.1.1"
@@ -4744,7 +4737,6 @@ __metadata:
     path-browserify: "npm:^1.0.1"
     plotly.js: "npm:^3.3.1"
     postcss: "npm:^8.5.10"
-    postcss-normalize: "npm:10.0.1"
     postcss-preset-env: "npm:7.8.3"
     postcss-safe-parser: "npm:6.0.0"
     prettier: "npm:^3.8.1"
@@ -18430,16 +18422,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-browser-comments@npm:^4":
-  version: 4.0.0
-  resolution: "postcss-browser-comments@npm:4.0.0"
-  peerDependencies:
-    browserslist: ">=4"
-    postcss: ">=8"
-  checksum: 10/41850023901eada80e41f7328874e458b4b1e38fcf8aea277ae02128d3585d6652063544f34b575561a8d4f53e154e8082cc82ac73e09118bbad41dc749f7a54
-  languageName: node
-  linkType: hard
-
 "postcss-clamp@npm:^4.1.0":
   version: 4.1.0
   resolution: "postcss-clamp@npm:4.1.0"
@@ -18781,20 +18763,6 @@ __metadata:
   peerDependencies:
     postcss: ^8.2
   checksum: 10/eb3531612243379ce43aeb864acc146b77fb61a3b34e8679b61226c3078f318a06def50c9468650e6eb904022d4de325e2555d09866ba893f413e4b0416059d8
-  languageName: node
-  linkType: hard
-
-"postcss-normalize@npm:10.0.1":
-  version: 10.0.1
-  resolution: "postcss-normalize@npm:10.0.1"
-  dependencies:
-    "@csstools/normalize.css": "npm:*"
-    postcss-browser-comments: "npm:^4"
-    sanitize.css: "npm:*"
-  peerDependencies:
-    browserslist: ">= 4"
-    postcss: ">= 8"
-  checksum: 10/f2562ae30a75531436542cfd8ee5aec6c46f044cd410fed51d38dbecfc053f822ff5589687eeb1c0a1c5db3a16b25f6cebe0188c75be2cf4352d526212b760dc
   languageName: node
   linkType: hard
 
@@ -20947,13 +20915,6 @@ __metadata:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 10/7eaf7a0cf37cc27b42fb3ef6a9b1df6e93a1c6d98c6c6702b02fe262d5fcbd89db63320793b99b21cb5348097d0a53de81bd5f4e8b86e20cc9412e3f1cfb4e83
-  languageName: node
-  linkType: hard
-
-"sanitize.css@npm:*":
-  version: 13.0.0
-  resolution: "sanitize.css@npm:13.0.0"
-  checksum: 10/508cde59d1c99a885806387ca8350c594c4211cab16804fe66ed75cd7e1ba7ebd4079224128b1aea4d4227f0d1add3e83a85a51a6a7e4419c083f4cce70d010f
   languageName: node
   linkType: hard
 
