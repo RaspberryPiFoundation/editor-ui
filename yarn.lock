@@ -4690,7 +4690,6 @@ __metadata:
     babel-plugin-prismjs: "npm:^2.1.0"
     babel-preset-react-app: "npm:^10.0.1"
     camelcase: "npm:^6.1.0"
-    case-sensitive-paths-webpack-plugin: "npm:2.3.0"
     classnames: "npm:^2.3.2"
     codemirror: "npm:^6.0.1"
     copy-webpack-plugin: "npm:12.0.2"
@@ -8486,13 +8485,6 @@ __metadata:
   version: 1.0.0
   resolution: "canvas-toBlob@npm:1.0.0"
   checksum: 10/4107329bdeb62ad9513df6cca4d8c2d3429fff7a69577741ec605dbc04c0737127f91f2904105cf39351951a097300c22fb4e91b74a338631c31ad971af33ee6
-  languageName: node
-  linkType: hard
-
-"case-sensitive-paths-webpack-plugin@npm:2.3.0":
-  version: 2.3.0
-  resolution: "case-sensitive-paths-webpack-plugin@npm:2.3.0"
-  checksum: 10/f85ee72c0998b99bdbcbda896a164172aa4aeecd5f7c20b8b3270d08c004c864ae7b00a5ae0a4b5bde5c1b49fb67b7ebfe599ec28e55a468c9e5c8df1ee9b24b
   languageName: node
   linkType: hard
 
