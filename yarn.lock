@@ -4571,7 +4571,6 @@ __metadata:
     path-browserify: "npm:^1.0.1"
     plotly.js: "npm:^3.3.1"
     postcss: "npm:^8.5.10"
-    postcss-safe-parser: "npm:6.0.0"
     prettier: "npm:^3.8.1"
     prismjs: "npm:^1.29.0"
     prop-types: "npm:^15.8.1"
@@ -18304,15 +18303,6 @@ __metadata:
   version: 0.1.6
   resolution: "postcss-resolve-nested-selector@npm:0.1.6"
   checksum: 10/85453901afe2a4db497b4e0d2c9cf2a097a08fa5d45bc646547025176217050334e423475519a1e6c74a1f31ade819d16bb37a39914e5321e250695ee3feea14
-  languageName: node
-  linkType: hard
-
-"postcss-safe-parser@npm:6.0.0":
-  version: 6.0.0
-  resolution: "postcss-safe-parser@npm:6.0.0"
-  peerDependencies:
-    postcss: ^8.3.3
-  checksum: 10/06c733eaad83a3954367e7ee02ddfe3796e7a44d4299ccf9239f40964a4daac153c7d77613f32964b5a86c0c6c2f6167738f31d578b73b17cb69d0c4446f0ebe
   languageName: node
   linkType: hard
 
