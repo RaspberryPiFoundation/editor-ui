@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@RaspberryPiFoundation/scratch-gui": "13.7.3-code-classroom.20260522151700",
-    "@apollo/client": "^3.7.8",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
     "@codemirror/lang-css": "^6.0.0",
@@ -26,7 +25,6 @@
     "@sentry/react": "7.16.0",
     "@sentry/tracing": "7.16.0",
     "@szhsin/react-menu": "^3.2.0",
-    "apollo-link-sentry": "^3.2.3",
     "assert": "^2.1.0",
     "axios": "^1.15.2",
     "classnames": "^2.3.2",
