@@ -41,20 +41,3 @@ export const createDefaultPythonProject = async (locale = i18n.language) => {
   };
 };
 
-export const createDefaultHtmlProject = async (locale = i18n.language) => {
-  try {
-    if (locale && i18n.resolvedLanguage !== locale) {
-      await i18n.changeLanguage?.(locale);
-    }
-  } catch {
-    // Fall back to the default untitled name if locale files fail.
-  }
-
-  return {
-    ...defaultHtmlProject,
-    name: i18n.t("project.untitled", {
-      lng: locale,
-      defaultValue: UNTITLED_PROJECT_NAME,
-    }),
-  };
-};
