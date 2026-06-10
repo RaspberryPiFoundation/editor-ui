@@ -19,7 +19,7 @@ const getSaveButton = () =>
 const getDownloadProjectButton = () =>
   getEditorShadow().findByRole("button", { name: "Download project" });
 
-export const getAddFileButton = () =>
+const getAddFileButton = () =>
   getEditorShadow().findByRole("button", { name: "Add file" });
 
 export const getConfirmAddFileButton = () =>
