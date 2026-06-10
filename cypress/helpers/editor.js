@@ -13,7 +13,7 @@ export const getRunButton = () =>
 export const getStopButton = () =>
   getEditorShadow().findByRole("button", { name: /stop/i });
 
-export const getSaveButton = () =>
+const getSaveButton = () =>
   getEditorShadow().findByRole("button", { name: "Save" });
 
 export const getDownloadProjectButton = () =>
