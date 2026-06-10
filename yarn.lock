@@ -4734,7 +4734,6 @@ __metadata:
     case-sensitive-paths-webpack-plugin: "npm:2.3.0"
     classnames: "npm:^2.3.2"
     codemirror: "npm:^6.0.1"
-    container-query-polyfill: "npm:^1.0.2"
     copy-webpack-plugin: "npm:12.0.2"
     css-loader: "npm:4.3.0"
     curl: "npm:^0.1.4"
@@ -9322,13 +9321,6 @@ __metadata:
   version: 2.0.0
   resolution: "connect-history-api-fallback@npm:2.0.0"
   checksum: 10/3b26bf4041fdb33deacdcb3af9ae11e9a0b413fb14c95844d74a460b55e407625b364955dcf965c654605cde9d24ad5dad423c489aa430825aab2035859aba0c
-  languageName: node
-  linkType: hard
-
-"container-query-polyfill@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "container-query-polyfill@npm:1.0.2"
-  checksum: 10/1f8891c6301bc4954bfe952535a5afc1661ef1702f7ff70a661f2ffc07b8dac3c65685fe53683c1f3af923abd1f9fc6bad85663c91056ebab9fb5b98576dec85
   languageName: node
   linkType: hard
 
