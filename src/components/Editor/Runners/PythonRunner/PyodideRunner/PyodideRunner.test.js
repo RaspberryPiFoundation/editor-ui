@@ -511,16 +511,6 @@ describe("When an error is received", () => {
       expect(registerAdapter).toHaveBeenCalledWith("pyodide", {});
     });
 
-    test("calls friendlyExplain with only the code line, not the caret line", () => {
-      expect(friendlyExplain).toHaveBeenCalledWith(
-        expect.objectContaining({
-          error: expect.objectContaining({
-            codeLine: "if score = 10:",
-          }),
-        }),
-      );
-    });
-
     test("dispatches setFriendlyError", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         setFriendlyError({

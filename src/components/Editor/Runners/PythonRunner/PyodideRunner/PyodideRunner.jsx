@@ -122,6 +122,7 @@ const PyodideRunner = ({
               data.mistake,
               data.type,
               data.info,
+              data.rawTraceback,
             );
             break;
           case "handleFileWrite":
@@ -211,7 +212,7 @@ const PyodideRunner = ({
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
+  const handleError = (file, line, mistake, type, info, rawTraceback) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
@@ -233,8 +234,6 @@ const PyodideRunner = ({
         const inputCode =
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
-
-        const nameMatch = info?.match(/["']([^"']+)["']/);
 
         const friendlyError = friendlyExplain({
           error: rawTraceback,
