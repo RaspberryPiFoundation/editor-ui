@@ -4744,7 +4744,6 @@ __metadata:
     path-browserify: "npm:^1.0.1"
     plotly.js: "npm:^3.3.1"
     postcss: "npm:^8.5.10"
-    postcss-flexbugs-fixes: "npm:5.0.2"
     postcss-loader: "npm:4.3.0"
     postcss-normalize: "npm:10.0.1"
     postcss-preset-env: "npm:7.8.3"
@@ -18550,15 +18549,6 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: 10/76e0c9de458a8938da92be7755f0a8a25fd2d1790e509b7b3c7975c1c121b3786095dcab19a884759ff2c701b5eeefac5f3c7e8d1a7394a4ffc5ad97d2e3c1fe
-  languageName: node
-  linkType: hard
-
-"postcss-flexbugs-fixes@npm:5.0.2":
-  version: 5.0.2
-  resolution: "postcss-flexbugs-fixes@npm:5.0.2"
-  peerDependencies:
-    postcss: ^8.1.4
-  checksum: 10/022ddbcca8987303b9be75ff259e9de81b98643adac87a5fc6b52a0fcbbf95e1ac9fd508c4ed67cad76ac5d039b7123de8a0832329481b3c626f5d63f7a28f47
   languageName: node
   linkType: hard
 
