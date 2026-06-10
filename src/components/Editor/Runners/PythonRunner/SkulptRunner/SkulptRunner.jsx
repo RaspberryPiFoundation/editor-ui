@@ -20,7 +20,7 @@ import {
 import {
   loadCopydeckFor,
   registerAdapter,
-  skulptAdapter,
+  cpythonAdapter,
   friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
@@ -177,7 +177,7 @@ const SkulptRunner = ({
       loadCopydeckFor(navigator.language, {
         base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
       });
-      registerAdapter("skulpt", skulptAdapter);
+      registerAdapter("skulpt", cpythonAdapter);
     }
   }, [friendlyErrorsEnabled]);
 

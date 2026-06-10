@@ -15,7 +15,7 @@ import {
 import {
   loadCopydeckFor,
   registerAdapter,
-  pyodideAdapter,
+  cpythonAdapter,
   friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -52,7 +52,7 @@ const PyodideRunner = ({
       loadCopydeckFor(navigator.language, {
         base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
       });
-      registerAdapter("pyodide", pyodideAdapter);
+      registerAdapter("pyodide", cpythonAdapter);
     }
   }, [friendlyErrorsEnabled]);
 
@@ -122,6 +122,7 @@ const PyodideRunner = ({
               data.mistake,
               data.type,
               data.info,
+              data.rawTraceback,
             );
             break;
           case "handleFileWrite":
@@ -211,7 +212,7 @@ const PyodideRunner = ({
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
+  const handleError = (file, line, mistake, type, info, rawTraceback) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
@@ -234,17 +235,8 @@ const PyodideRunner = ({
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
 
-        const nameMatch = info?.match(/["']([^"']+)["']/);
         const friendlyError = friendlyExplain({
-          error: {
-            raw: errorMessage,
-            type: type,
-            name: nameMatch?.[1],
-            message: info,
-            line: parseInt(line) || undefined,
-            file: file || undefined,
-            codeLine: mistake ? mistake.split("\n")[0] : undefined,
-          },
+          error: rawTraceback,
           code: inputCode,
           runtime: "pyodide",
           sections: ["title", "summary"],
