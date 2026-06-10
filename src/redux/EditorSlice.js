@@ -503,7 +503,6 @@ export const {
   closeFile,
   openFile,
   setOpenFiles,
-  addFilePanel,
   setFocussedFileIndex,
   setPage,
   setEmbedded,
