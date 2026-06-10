@@ -4701,7 +4701,6 @@ __metadata:
     "@codemirror/view": "npm:^6.3.0"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
-    "@lezer/highlight": "npm:^1.0.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:0.4.3"
     "@raspberrypifoundation/design-system-react": "npm:^2.7.0"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.1.6"
