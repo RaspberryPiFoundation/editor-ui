@@ -110,9 +110,6 @@ export const openSettingsPanel = () => getSettingsButton().click();
 
 // Assertions
 
-export const expectHtmlRunnerPreviewToNotContainText = (text) =>
-  getHtmlRunnerBody().should("not.contain.text", text);
-
 export const expectErrorModalToNotExist = () =>
   getEditorShadow().find("An error has occurred").should("not.exist");
 
