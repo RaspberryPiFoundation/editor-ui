@@ -81,7 +81,7 @@ export const getTextSizeSetting = () =>
 const getHtmlRunnerIframe = () =>
   getEditorShadow().findByTestId("html-runner-iframe");
 
-export const getHtmlRunnerDocument = () =>
+const getHtmlRunnerDocument = () =>
   getHtmlRunnerIframe().its("0.contentDocument").should("exist");
 
 export const getHtmlRunnerBody = () =>
