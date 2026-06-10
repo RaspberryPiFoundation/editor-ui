@@ -10,19 +10,6 @@ export const defaultPythonProject = {
   image_list: [],
 };
 
-export const defaultHtmlProject = {
-  project_type: "html",
-  name: UNTITLED_PROJECT_NAME,
-  components: [
-    {
-      extension: "html",
-      name: "index",
-      content: "",
-    },
-    { extension: "css", name: "style", content: "" },
-  ],
-};
-
 export const createDefaultPythonProject = async (locale = i18n.language) => {
   try {
     if (locale && i18n.resolvedLanguage !== locale) {
