@@ -2,7 +2,7 @@
 
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
 
-export const getSidebarPanel = () =>
+const getSidebarPanel = () =>
   getEditorShadow().findByTestId("sidebar__panel");
 
 // Buttons / controls
