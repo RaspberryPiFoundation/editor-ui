@@ -4609,7 +4609,6 @@ __metadata:
     typescript: "npm:^6.0.3"
     url: "npm:^0.11.4"
     url-loader: "npm:4.1.1"
-    webgl-mock-threejs: "npm:^0.0.1"
     webpack: "npm:5.104.1"
     webpack-bundle-analyzer: "npm:^5.2.0"
     webpack-cli: "npm:5.1.4"
@@ -23461,13 +23460,6 @@ __metadata:
   dependencies:
     get-canvas-context: "npm:^1.0.1"
   checksum: 10/b42ed96c348fc1afdd48cec9057bde3031a1a89ead932144e7e5866e3b541672afba2a2f8b241b9f7558b6da78b8e5292212eb77211c17720d6e173bb639b194
-  languageName: node
-  linkType: hard
-
-"webgl-mock-threejs@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "webgl-mock-threejs@npm:0.0.1"
-  checksum: 10/bfb4605d29d30dc42997fbfaf44b8a46746038ea5b663bf9bf355b60b26881ca44321474cbdb49b04ecbd4716de2dfbfadb40f5d601cbd994f50849f76ae3f01
   languageName: node
   linkType: hard
 
