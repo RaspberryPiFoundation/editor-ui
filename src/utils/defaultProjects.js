@@ -23,11 +23,6 @@ export const defaultHtmlProject = {
   ],
 };
 
-export const DEFAULT_PROJECTS = {
-  python: defaultPythonProject,
-  html: defaultHtmlProject,
-};
-
 export const createDefaultPythonProject = async (locale = i18n.language) => {
   try {
     if (locale && i18n.resolvedLanguage !== locale) {
