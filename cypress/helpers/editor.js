@@ -102,7 +102,7 @@ export const stopProject = () => getStopButton().click();
 
 export const saveProject = () => getSaveButton().click();
 
-export const clickAddFileButton = () => getAddFileButton().click();
+const clickAddFileButton = () => getAddFileButton().click();
 
 export const confirmAddFile = () => getConfirmAddFileButton().click();
 
