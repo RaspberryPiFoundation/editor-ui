@@ -27,4 +27,3 @@ export const createDefaultPythonProject = async (locale = i18n.language) => {
     }),
   };
 };
-

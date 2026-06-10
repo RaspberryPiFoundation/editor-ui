@@ -2,8 +2,7 @@
 
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
 
-const getSidebarPanel = () =>
-  getEditorShadow().findByTestId("sidebar__panel");
+const getSidebarPanel = () => getEditorShadow().findByTestId("sidebar__panel");
 
 // Buttons / controls
 
@@ -39,8 +38,7 @@ export const getProgramInput = () =>
 
 // Editor / output queries
 
-const getCodeEditorContent = () =>
-  getEditorShadow().find("div.cm-content");
+const getCodeEditorContent = () => getEditorShadow().find("div.cm-content");
 
 export const getCodeEditorInput = () =>
   getEditorShadow().find("[contenteditable]");
@@ -75,17 +73,6 @@ export const getSettingsPanel = () => getEditorShadow().find(".settings-panel");
 
 export const getTextSizeSetting = () =>
   getEditorShadow().find(".settings-panel__text-size");
-
-// HTML runner
-
-const getHtmlRunnerIframe = () =>
-  getEditorShadow().findByTestId("html-runner-iframe");
-
-const getHtmlRunnerDocument = () =>
-  getHtmlRunnerIframe().its("0.contentDocument").should("exist");
-
-const getHtmlRunnerBody = () =>
-  getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
 
 // Test output
 
