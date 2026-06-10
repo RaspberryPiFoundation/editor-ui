@@ -132,7 +132,7 @@ export const editorInitialState = {
 const isScratchProject = (state) =>
   state.project?.project_type === "code_editor_scratch";
 
-export const EditorSlice = createSlice({
+const EditorSlice = createSlice({
   name: "editor",
   initialState: editorInitialState,
   reducers: {
