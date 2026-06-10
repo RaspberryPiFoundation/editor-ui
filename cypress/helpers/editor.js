@@ -54,8 +54,6 @@ export const getPyodideOutput = () =>
 export const getSkulptRunner = () =>
   getEditorShadow().findByTestId("skulpt-runner");
 
-export const getSkulptTabs = () => getSkulptRunner().findAllByRole("tab");
-
 export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
 
 export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
