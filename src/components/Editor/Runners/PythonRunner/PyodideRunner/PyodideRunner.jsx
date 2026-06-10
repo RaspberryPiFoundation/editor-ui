@@ -237,15 +237,8 @@ const PyodideRunner = ({
         const nameMatch = info?.match(/["']([^"']+)["']/);
 
         const friendlyError = friendlyExplain({
-          error: {
-            raw: errorMessage,
-            type: type,
-            name: nameMatch?.[1],
-            message: info,
-            line: parseInt(line) || undefined,
-            file: file || undefined,
-            codeLine: mistake ? mistake.split("\n")[0] : undefined,
-          },
+          error: rawTraceback,
+          file: file,
           code: inputCode,
           runtime: "pyodide",
           sections: ["title", "summary"],
