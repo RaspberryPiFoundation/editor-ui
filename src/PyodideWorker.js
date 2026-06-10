@@ -534,7 +534,7 @@ const PyodideWorker = () => {
 
     const line = match ? parseInt(match[2], 10) : "";
 
-    return { file, line, mistake, type, info, rawTraceback: error.message };
+    return { file, line, mistake, type, info };
   };
 
   initialisePyodide();

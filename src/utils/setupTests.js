@@ -55,8 +55,7 @@ jest.mock("../assets/markdown/demoInstructions.md", () => {
 jest.mock("@raspberrypifoundation/python-friendly-error-messages", () => ({
   loadCopydeckFor: jest.fn(),
   registerAdapter: jest.fn(),
-  pyodideAdapter: {},
-  skulptAdapter: {},
+  cpythonAdapter: {},
   friendlyExplain: jest.fn(),
 }));
 
