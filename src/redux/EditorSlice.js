@@ -507,7 +507,6 @@ export const {
   setPage,
   setEmbedded,
   setIsOutputOnly,
-  setBrowserPreview,
   setCascadeUpdate,
   setError,
   setIsSplitView,
