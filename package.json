@@ -96,7 +96,8 @@
     "stylelint": "stylelint src/**/*.scss",
     "test": "node scripts/test.js",
     "watch-css": "sass --load-path=./ -q --watch src:src",
-    "heroku-postbuild": "export PUBLIC_URL='' && yarn build"
+    "heroku-postbuild": "export PUBLIC_URL='' && yarn build",
+    "knip": "knip"
   },
   "browserslist": {
     "production": [
@@ -119,6 +120,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "14.3.1",
     "@testing-library/user-event": "^12.1.10",
+    "@types/node": "^25.9.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "babel-eslint": "^10.1.0",
@@ -161,6 +163,7 @@
     "jest-transform-stub": "^2.0.0",
     "jest-transformer-svg": "^2.0.0",
     "jest-watch-typeahead": "^2.2.0",
+    "knip": "^6.15.0",
     "mini-css-extract-plugin": "0.11.3",
     "mock-match-media": "^0.4.3",
     "optimize-css-assets-webpack-plugin": "5.0.4",
@@ -188,6 +191,7 @@
     "stylelint-scss": "7.0.0",
     "stylelint-use-logical": "^2.1.3",
     "terser-webpack-plugin": "4.2.3",
+    "typescript": "^6.0.3",
     "url-loader": "4.1.1",
     "webgl-mock-threejs": "^0.0.1",
     "webpack": "5.104.1",
