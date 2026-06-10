@@ -108,11 +108,6 @@ const confirmAddFile = () => getConfirmAddFileButton().click();
 
 export const openSettingsPanel = () => getSettingsButton().click();
 
-export const clickHtmlRunnerPreviewLink = (name) =>
-  getHtmlRunnerBody().then((body) => {
-    cy.wrap(body).findByRole("link", { name }).click();
-  });
-
 // Assertions
 
 export const expectHtmlRunnerPreviewToContainText = (text) =>
