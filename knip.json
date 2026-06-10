@@ -8,5 +8,12 @@
     "src/PyodideWorker.js",
     "src/html-renderer.jsx"
   ],
+  "ignoreDependencies": [
+    "assert",
+    "jest-circus",
+    "jest-github-actions-reporter",
+    "jest-junit",
+    "url"
+  ],
   "ignore": [ "public/shims/**", "public/pyodide/**", "public/libraries/**" ]
 }
