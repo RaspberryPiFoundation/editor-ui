@@ -536,7 +536,6 @@ export const {
   updateComponentName,
   updateProjectComponent,
   updateProjectName,
-  closeBetaModal,
   showErrorModal,
   closeErrorModal,
   showNewFileModal,
