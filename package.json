@@ -71,8 +71,7 @@
     "skulpt": "^1.2.0",
     "stream-browserify": "^3.0.0",
     "three": "0.169.0",
-    "url": "^0.11.4",
-    "watch": "^1.0.2"
+    "url": "^0.11.4"
   },
   "scripts": {
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
