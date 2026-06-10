@@ -108,11 +108,6 @@ const confirmAddFile = () => getConfirmAddFileButton().click();
 
 export const openSettingsPanel = () => getSettingsButton().click();
 
-// Assertions
-
-export const expectErrorModalToNotExist = () =>
-  getEditorShadow().find("An error has occurred").should("not.exist");
-
 // Flows
 
 export const makeNewFile = (filename = "new.html") => {
