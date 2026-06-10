@@ -439,6 +439,29 @@ describe("When an error is received", () => {
     });
   });
 
+  describe("When output-only is enabled", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <PyodideRunner active={true} isOutputOnly={true} />
+        </Provider>,
+      );
+
+      const worker = PyodideWorker.getLastInstance();
+      worker.postMessageFromWorker({
+        method: "handleError",
+        line: 2,
+        file: "main.py",
+        type: "SyntaxError",
+        info: "something's wrong",
+      });
+    });
+
+    test("it displays the error message", () => {
+      expect(screen.queryByText("SyntaxError: something's wrong on line 2 of main.py")).toBeInTheDocument();
+    });
+  });
+
   describe("When friendly errors are enabled", () => {
     let loadCopydeckFor;
     let registerAdapter;
