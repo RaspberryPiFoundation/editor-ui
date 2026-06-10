@@ -4613,7 +4613,6 @@ __metadata:
     webpack-bundle-analyzer: "npm:^5.2.0"
     webpack-cli: "npm:5.1.4"
     webpack-dev-server: "npm:5.1.0"
-    webpack-manifest-plugin: "npm:2.2.0"
     workbox-webpack-plugin: "npm:5.1.4"
     worker-plugin: "npm:5.0.1"
   languageName: unknown
@@ -12257,17 +12256,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^7.0.0":
-  version: 7.0.1
-  resolution: "fs-extra@npm:7.0.1"
-  dependencies:
-    graceful-fs: "npm:^4.1.2"
-    jsonfile: "npm:^4.0.0"
-    universalify: "npm:^0.1.0"
-  checksum: 10/3fc6e56ba2f07c00d452163f27f21a7076b72ef7da8a50fef004336d59ef4c34deda11d10ecd73fd8fbcf20e4f575f52857293090b3c9f8741d4e0598be30fea
-  languageName: node
-  linkType: hard
-
 "fs-extra@npm:^8.1.0":
   version: 8.1.0
   resolution: "fs-extra@npm:8.1.0"
@@ -16088,7 +16076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:>=3.5 <5, lodash@npm:^4.17.1, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.1, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.18.1
   resolution: "lodash@npm:4.18.1"
   checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
@@ -17315,7 +17303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.entries@npm:^1.1.0, object.entries@npm:^1.1.8":
+"object.entries@npm:^1.1.8":
   version: 1.1.8
   resolution: "object.entries@npm:1.1.8"
   dependencies:
@@ -23605,20 +23593,6 @@ __metadata:
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
   checksum: 10/f23255681cc5e2c2709b23ca7b2185aeed83b1c9912657d4512eda8685625a46d7a103a92446494a55fe2afdfab936f9bd4f037d20b52f7fdfff303e7e7199c7
-  languageName: node
-  linkType: hard
-
-"webpack-manifest-plugin@npm:2.2.0":
-  version: 2.2.0
-  resolution: "webpack-manifest-plugin@npm:2.2.0"
-  dependencies:
-    fs-extra: "npm:^7.0.0"
-    lodash: "npm:>=3.5 <5"
-    object.entries: "npm:^1.1.0"
-    tapable: "npm:^1.0.0"
-  peerDependencies:
-    webpack: 2 || 3 || 4
-  checksum: 10/2df727cdaf96f87030511718424b8dcf9427e6237a840019750d51384d9f41156e386df0e22bce17431ef82d92f5730a36e000cbd3f0a3bfc16f2a85989a016e
   languageName: node
   linkType: hard
 
