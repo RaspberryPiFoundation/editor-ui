@@ -4759,7 +4759,6 @@ __metadata:
     file-loader: "npm:6.1.1"
     file-saver: "npm:^2.0.5"
     fs-extra: "npm:^9.0.1"
-    graphql: "npm:^16.6.0"
     highcharts: "npm:^9.3.1"
     highcharts-react-official: "npm:^3.1.0"
     html-webpack-plugin: "npm:5.6.0"
@@ -13781,13 +13780,6 @@ __metadata:
     brfs: "npm:^1.2.0"
     unicode-trie: "npm:^0.3.1"
   checksum: 10/5f18a003fed0baeb6996210a0f09db365ba4bfc27ced3213fd4b55691e249229e4912dff8cc48d38a006d7fbb52c975ab83a01913e1945918168be4c9ef71611
-  languageName: node
-  linkType: hard
-
-"graphql@npm:^16.6.0":
-  version: 16.9.0
-  resolution: "graphql@npm:16.9.0"
-  checksum: 10/5833f82bb6c31bec120bbf9cd400eda873e1bb7ef5c17974fa262cd82dc68728fda5d4cb859dc8aaa4c4fe4f6fe1103a9c47efc01a12c02ae5cb581d8e4029e2
   languageName: node
   linkType: hard
 
