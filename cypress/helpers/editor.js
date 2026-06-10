@@ -31,7 +31,7 @@ const getAddFileNameInput = () =>
 export const getFileButtonByName = (filename) =>
   getEditorShadow().findByRole("button", { name: filename });
 
-export const getSettingsButton = () =>
+const getSettingsButton = () =>
   getEditorShadow().find("[title='Settings']").first();
 
 export const getProgramInput = () =>
