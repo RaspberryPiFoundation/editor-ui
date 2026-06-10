@@ -137,7 +137,6 @@
     "jest-environment-jsdom": "^29.1.2",
     "jest-github-actions-reporter": "^1.0.3",
     "jest-junit": "^14.0.1",
-    "jest-resolve": "^29.1.2",
     "jest-scss-transform": "^1.0.3",
     "jest-transform-stub": "^2.0.0",
     "jest-transformer-svg": "^2.0.0",
