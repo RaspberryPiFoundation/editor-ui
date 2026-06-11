@@ -174,7 +174,7 @@ const SkulptRunner = ({
 
   useEffect(() => {
     if (friendlyErrorsEnabled) {
-      loadCopydeckFor(navigator.language, {
+      loadCopydeckFor(navigator.language || "en", {
         base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
       });
       registerAdapter("skulpt", cpythonAdapter);

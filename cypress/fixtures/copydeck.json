@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "language": "en",
+    "version": 1
+  },
+
   "errors": {
     "NameError": {
       "variants": [
