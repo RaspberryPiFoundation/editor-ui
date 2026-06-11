@@ -49,10 +49,15 @@ const PyodideRunner = ({
 
   useEffect(() => {
     if (friendlyErrorsEnabled) {
-      loadCopydeckFor(navigator.language || "en", {
-        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-      });
-      registerAdapter("pyodide", cpythonAdapter);
+      try {
+        loadCopydeckFor(navigator.language || "en", {
+          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+        });
+        registerAdapter("pyodide", cpythonAdapter);
+      } catch {
+        console.error("Could not load friendly error copydeck");
+        dispatch(setFriendlyError(null));
+      }
     }
   }, [friendlyErrorsEnabled]);
 
@@ -235,16 +240,20 @@ const PyodideRunner = ({
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
 
-        const friendlyError = friendlyExplain({
-          error: rawTraceback,
-          file: file,
-          code: inputCode,
-          runtime: "pyodide",
-          sections: ["title", "summary"],
-        });
+        try {
+          const friendlyError = friendlyExplain({
+            error: rawTraceback,
+            file: file,
+            code: inputCode,
+            runtime: "pyodide",
+            sections: ["title", "summary"],
+          });
 
-        if (friendlyError?.html) {
-          dispatch(setFriendlyError({ html: friendlyError.html }));
+          if (friendlyError?.html) {
+            dispatch(setFriendlyError({ html: friendlyError.html }));
+          }
+        } catch {
+          console.error("Could not parse friendly error");
         }
       }
     }
