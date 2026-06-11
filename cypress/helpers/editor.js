@@ -2,8 +2,7 @@
 
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
 
-export const getSidebarPanel = () =>
-  getEditorShadow().findByTestId("sidebar__panel");
+const getSidebarPanel = () => getEditorShadow().findByTestId("sidebar__panel");
 
 // Buttons / controls
 
@@ -13,25 +12,25 @@ export const getRunButton = () =>
 export const getStopButton = () =>
   getEditorShadow().findByRole("button", { name: /stop/i });
 
-export const getSaveButton = () =>
+const getSaveButton = () =>
   getEditorShadow().findByRole("button", { name: "Save" });
 
-export const getDownloadProjectButton = () =>
+const getDownloadProjectButton = () =>
   getEditorShadow().findByRole("button", { name: "Download project" });
 
-export const getAddFileButton = () =>
+const getAddFileButton = () =>
   getEditorShadow().findByRole("button", { name: "Add file" });
 
-export const getConfirmAddFileButton = () =>
+const getConfirmAddFileButton = () =>
   getEditorShadow().findAllByRole("button", { name: "Add file" }).last();
 
-export const getAddFileNameInput = () =>
+const getAddFileNameInput = () =>
   getEditorShadow().findByRole("textbox", { name: "Name your file" });
 
 export const getFileButtonByName = (filename) =>
   getEditorShadow().findByRole("button", { name: filename });
 
-export const getSettingsButton = () =>
+const getSettingsButton = () =>
   getEditorShadow().find("[title='Settings']").first();
 
 export const getProgramInput = () =>
@@ -39,8 +38,7 @@ export const getProgramInput = () =>
 
 // Editor / output queries
 
-export const getCodeEditorContent = () =>
-  getEditorShadow().find("div.cm-content");
+const getCodeEditorContent = () => getEditorShadow().find("div.cm-content");
 
 export const getCodeEditorInput = () =>
   getEditorShadow().find("[contenteditable]");
@@ -53,8 +51,6 @@ export const getPyodideOutput = () =>
 
 export const getSkulptRunner = () =>
   getEditorShadow().findByTestId("skulpt-runner");
-
-export const getSkulptTabs = () => getSkulptRunner().findAllByRole("tab");
 
 export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
 
@@ -78,25 +74,6 @@ export const getSettingsPanel = () => getEditorShadow().find(".settings-panel");
 export const getTextSizeSetting = () =>
   getEditorShadow().find(".settings-panel__text-size");
 
-// HTML runner
-
-export const getHtmlRunnerContainer = () =>
-  getEditorShadow().findByTestId("html-runner-container");
-
-export const getHtmlRunnerIframe = () =>
-  getEditorShadow().findByTestId("html-runner-iframe");
-
-export const getHtmlRunnerDocument = () =>
-  getHtmlRunnerIframe().its("0.contentDocument").should("exist");
-
-export const getHtmlRunnerBody = () =>
-  getHtmlRunnerDocument().its("body").should("not.be.null").then(cy.wrap);
-
-// Modal queries
-
-export const getErrorModalTitle = () =>
-  getEditorShadow().findByRole("heading", { name: "An error has occurred" });
-
 // Test output
 
 export const getResults = () => cy.get("#results");
@@ -112,32 +89,11 @@ export const stopProject = () => getStopButton().click();
 
 export const saveProject = () => getSaveButton().click();
 
-export const clickAddFileButton = () => getAddFileButton().click();
+const clickAddFileButton = () => getAddFileButton().click();
 
-export const confirmAddFile = () => getConfirmAddFileButton().click();
+const confirmAddFile = () => getConfirmAddFileButton().click();
 
 export const openSettingsPanel = () => getSettingsButton().click();
-
-export const clickHtmlRunnerPreviewLink = (name) =>
-  getHtmlRunnerBody().then((body) => {
-    cy.wrap(body).findByRole("link", { name }).click();
-  });
-
-// Assertions
-
-export const expectHtmlRunnerPreviewToContainText = (text) =>
-  getHtmlRunnerIframe()
-    .its("0.contentDocument.body")
-    .should("not.be.null")
-    .should(($body) => {
-      expect($body.textContent || "").to.contain(text);
-    });
-
-export const expectHtmlRunnerPreviewToNotContainText = (text) =>
-  getHtmlRunnerBody().should("not.contain.text", text);
-
-export const expectErrorModalToNotExist = () =>
-  getEditorShadow().find("An error has occurred").should("not.exist");
 
 // Flows
 
