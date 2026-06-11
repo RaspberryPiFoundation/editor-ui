@@ -4423,7 +4423,7 @@ __metadata:
     "@lezer/highlight": "npm:^1.0.0"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:0.4.3"
     "@raspberrypifoundation/design-system-react": "npm:^2.7.0"
-    "@raspberrypifoundation/python-friendly-error-messages": "npm:0.6.0"
+    "@raspberrypifoundation/python-friendly-error-messages": "npm:0.7.0"
     "@react-three/drei": "npm:9.114.3"
     "@react-three/fiber": "npm:^8.0.13"
     "@react-three/test-renderer": "npm:8.2.1"
@@ -4579,10 +4579,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@raspberrypifoundation/python-friendly-error-messages@npm:0.6.0":
-  version: 0.6.0
-  resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.6.0"
-  checksum: 10/23abc60adc9d4fd077963145262778a4aa408b448477e073c9f581762e72f252fd753a13579953e760c8c3f69f57d84a6c5ed51494140ba15962bdca91aa87db
+"@raspberrypifoundation/python-friendly-error-messages@npm:0.7.0":
+  version: 0.7.0
+  resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.7.0"
+  checksum: 10/c6474c15f137ab96f751cb0c97523c448fe088e0cd857413bad23cbc208a6902ac4245e1af06ab150df636605ba8be1b94e3b02a2df9cea5a568d0fb2731f3f1
   languageName: node
   linkType: hard
 
