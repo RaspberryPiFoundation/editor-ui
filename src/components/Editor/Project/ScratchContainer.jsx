@@ -124,6 +124,7 @@ export default function ScratchContainer() {
           className="scratch-container__iframe"
           src={iframeSrcUrl}
           title={"Scratch"}
+          allow="camera; microphone"
           style={{
             width: "100%",
             minWidth: `${SCRATCH_MIN_WIDTH}px`,
