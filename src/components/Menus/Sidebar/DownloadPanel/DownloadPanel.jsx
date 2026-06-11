@@ -16,7 +16,7 @@ import {
 import "../../../../assets/stylesheets/DownloadPanel.scss";
 import UploadButton from "../../../UploadButton/UploadButton";
 
-export const DownloadPanel = () => {
+const DownloadPanel = () => {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
