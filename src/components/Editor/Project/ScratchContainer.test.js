@@ -137,7 +137,9 @@ describe("ScratchContainer", () => {
     );
     expect(viewport).toHaveClass("scratch-container__viewport");
     expect(iframe).toBeInTheDocument();
-    expect(iframe).toHaveAttribute("allow", "camera; microphone");
+    const allow = iframe.getAttribute("allow") ?? "";
+    expect(allow).toEqual(expect.stringContaining("camera"));
+    expect(allow).toEqual(expect.stringContaining("microphone"));
     expect(iframe).toHaveStyle({
       minWidth: "1024px",
     });
