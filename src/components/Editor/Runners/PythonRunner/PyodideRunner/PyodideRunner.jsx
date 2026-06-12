@@ -114,6 +114,9 @@ const PyodideRunner = ({
           case "handleOutput":
             handleOutput(data.stream, data.content);
             break;
+          case "handleClear":
+            clearConsole();
+            break;
           case "handleError":
             handleError(
               data.file,
@@ -210,6 +213,10 @@ const PyodideRunner = ({
     node.scrollTop = node.scrollHeight;
   };
 
+  const clearConsole = () => {
+    output.current.innerHTML = "";
+  };
+
   const handleError = (file, line, mistake, type, info) => {
     let errorMessage;
 
@@ -290,7 +297,7 @@ const PyodideRunner = ({
   };
 
   const handleRun = async () => {
-    output.current.innerHTML = "";
+    clearConsole();
     dispatch(setError(""));
     dispatch(setFriendlyError(null));
     setVisuals([]);

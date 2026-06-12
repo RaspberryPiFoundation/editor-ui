@@ -96,6 +96,29 @@ describe("PyodideWorker", () => {
     );
   });
 
+  test("it patches os.system to handle clear/cls", async () => {
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/os\.system/),
+    );
+  });
+
+  test("it forces batched output to flush before clearing", async () => {
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/_sys\.stdout\.write\("\\n"\)/),
+    );
+    expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/_sys\.stderr\.write\("\\n"\)/),
+    );
+  });
+
+  test("the basthon clear_console bridge posts handleClear", () => {
+    const basthonCall = pyodide.registerJsModule.mock.calls.find(
+      ([name]) => name === "basthon",
+    );
+    basthonCall[1].kernel.clear_console();
+    expect(global.postMessage).toHaveBeenCalledWith({ method: "handleClear" });
+  });
+
   test("it patches urllib and requests modules", async () => {
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
       expect.stringMatching(/pyodide_http.patch_all()/),

@@ -410,6 +410,7 @@ const PyodideWorker = () => {
         postMessage({ method: "handleFileWrite", filename, content, mode });
       },
       locals: () => pyodide.runPython("globals()"),
+      clear_console: () => postMessage({ method: "handleClear" }),
     },
   };
 
@@ -442,6 +443,21 @@ const PyodideWorker = () => {
     pyodide = await pyodidePromise;
 
     pyodide.registerJsModule("basthon", fakeBasthonPackage);
+
+    await pyodide.runPythonAsync(`
+    import os as _os, sys as _sys, basthon as _basthon
+    _real_system = _os.system
+    def _patched_system(command):
+        if isinstance(command, str) and command.strip().lower() in ("clear", "cls"):
+            _sys.stdout.write("\\n")
+            _sys.stderr.write("\\n")
+            _sys.stdout.flush()
+            _sys.stderr.flush()
+            _basthon.kernel.clear_console()
+            return 0
+        return _real_system(command)
+    _os.system = _patched_system
+    `);
 
     await pyodide.runPythonAsync(`
     __old_input__ = input
