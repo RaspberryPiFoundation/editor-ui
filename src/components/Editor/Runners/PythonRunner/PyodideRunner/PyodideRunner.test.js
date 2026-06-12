@@ -260,6 +260,28 @@ describe("When output is received", () => {
   });
 });
 
+describe("When a clear console message is received", () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({
+      method: "handleOutput",
+      stream: "stdout",
+      content: "hello",
+    });
+    worker.postMessageFromWorker({ method: "handleClear" });
+  });
+
+  test("it clears previously printed output", () => {
+    expect(screen.queryByText("hello")).not.toBeInTheDocument();
+  });
+});
+
 describe("When file write event is received", () => {
   let worker;
   beforeEach(() => {

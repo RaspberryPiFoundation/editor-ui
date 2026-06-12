@@ -13,7 +13,8 @@ import {
   stopProject,
 } from "../helpers/editor.js";
 
-const origin = "http://localhost:3011/web-component.html";
+const origin =
+  Cypress.env("EDITOR_ORIGIN") || "http://localhost:3011/web-component.html";
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
@@ -224,6 +225,20 @@ print(text_out)
       "contain",
       "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py",
     );
+  });
+
+  it("clears the console when os.system('clear') is called", () => {
+    runCode('print("before")\nimport os\nos.system("clear")\nprint("after")');
+    getPythonConsoleOutput().should("contain", "after");
+    getPythonConsoleOutput().should("not.contain.text", "before");
+  });
+
+  it("clears buffered output written without a newline before clearing", () => {
+    runCode(
+      'import os\nprint("partial", end="")\nos.system("clear")\nprint("after")',
+    );
+    getPythonConsoleOutput().should("contain", "after");
+    getPythonConsoleOutput().should("not.contain.text", "partial");
   });
 
   it("clears user-defined variables between code runs", () => {
