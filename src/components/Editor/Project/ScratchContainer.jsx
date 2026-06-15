@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
+import { runStartedEvent } from "../../../events/WebComponentCustomEvents";
 import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
@@ -65,6 +66,22 @@ export default function ScratchContainer() {
       accessToken: accessToken,
     });
   }, [accessToken, initialAccessToken]);
+
+  useEffect(() => {
+    const allowedOrigin = getScratchAllowedOrigin();
+
+    const handleScratchRunStarted = (event) => {
+      if (event.origin !== allowedOrigin) return;
+      if (event.data?.type !== "scratch-gui-project-run-started") return;
+
+      document.dispatchEvent(runStartedEvent({}));
+    };
+
+    window.addEventListener("message", handleScratchRunStarted);
+    return () => {
+      window.removeEventListener("message", handleScratchRunStarted);
+    };
+  }, []);
 
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();
