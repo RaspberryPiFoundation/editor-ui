@@ -46,31 +46,6 @@ const PyodideRunner = ({
   friendlyErrorsEnabled = false,
 }) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
-
-  useEffect(() => {
-    if (friendlyErrorsEnabled) {
-      try {
-        loadCopydeckFor(navigator.language || "en", {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-        });
-        registerAdapter("pyodide", cpythonAdapter);
-      } catch {
-        console.error("Could not load friendly error copydeck");
-        dispatch(setFriendlyError(null));
-      }
-    }
-  }, [friendlyErrorsEnabled]);
-
-  useEffect(() => {
-    if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
-      const worker = new Worker(workerUrl);
-      setPyodideWorker(worker);
-    }
-  }, [active]);
-
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -92,7 +67,7 @@ const PyodideRunner = ({
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
@@ -103,6 +78,30 @@ const PyodideRunner = ({
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+
+  useEffect(() => {
+    if (active) {
+      const workerUrl = getWorkerURL(
+        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+      );
+      const worker = new Worker(workerUrl);
+      setPyodideWorker(worker);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    if (friendlyErrorsEnabled) {
+      try {
+        loadCopydeckFor(i18n.language, {
+          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+        });
+        registerAdapter("pyodide", cpythonAdapter);
+      } catch {
+        console.error("Could not load friendly error copydeck");
+        dispatch(setFriendlyError(null));
+      }
+    }
+  }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {
     if (pyodideWorker) {

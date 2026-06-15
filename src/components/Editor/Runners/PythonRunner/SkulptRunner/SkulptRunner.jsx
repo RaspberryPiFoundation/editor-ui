@@ -101,10 +101,9 @@ const SkulptRunner = ({
   const output = useRef();
   const visualOutputPaneRef = useRef(null);
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-
   const project = useSelector((state) => state.editor.project);
 
   const testForVisualImports = (project) => {
@@ -175,7 +174,7 @@ const SkulptRunner = ({
   useEffect(() => {
     if (friendlyErrorsEnabled) {
       try {
-        loadCopydeckFor(navigator.language || "en", {
+        loadCopydeckFor(i18n.language, {
           base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
         });
         registerAdapter("skulpt", cpythonAdapter);
@@ -184,7 +183,7 @@ const SkulptRunner = ({
         dispatch(setFriendlyError(null));
       }
     }
-  }, [friendlyErrorsEnabled]);
+  }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {
     if (!codeRunTriggered) {
