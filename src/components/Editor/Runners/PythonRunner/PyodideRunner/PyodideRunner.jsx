@@ -15,7 +15,7 @@ import {
 import {
   loadCopydeckFor,
   registerAdapter,
-  pyodideAdapter,
+  cpythonAdapter,
   friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -46,26 +46,6 @@ const PyodideRunner = ({
   friendlyErrorsEnabled = false,
 }) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
-
-  useEffect(() => {
-    if (friendlyErrorsEnabled) {
-      loadCopydeckFor(navigator.language, {
-        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-      });
-      registerAdapter("pyodide", pyodideAdapter);
-    }
-  }, [friendlyErrorsEnabled]);
-
-  useEffect(() => {
-    if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
-      const worker = new Worker(workerUrl);
-      setPyodideWorker(worker);
-    }
-  }, [active]);
-
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -81,12 +61,13 @@ const PyodideRunner = ({
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
+  const isOutputOnly = useSelector((s) => s.editor.isOutputOnly);
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
@@ -97,6 +78,30 @@ const PyodideRunner = ({
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+
+  useEffect(() => {
+    if (active) {
+      const workerUrl = getWorkerURL(
+        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+      );
+      const worker = new Worker(workerUrl);
+      setPyodideWorker(worker);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    if (friendlyErrorsEnabled) {
+      try {
+        loadCopydeckFor(i18n.language, {
+          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+        });
+        registerAdapter("pyodide", cpythonAdapter);
+      } catch {
+        console.error("Could not load friendly error copydeck");
+        dispatch(setFriendlyError(null));
+      }
+    }
+  }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -121,6 +126,7 @@ const PyodideRunner = ({
               data.mistake,
               data.type,
               data.info,
+              data.rawTraceback,
             );
             break;
           case "handleFileWrite":
@@ -210,7 +216,7 @@ const PyodideRunner = ({
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
+  const handleError = (file, line, mistake, type, info, rawTraceback) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
@@ -233,14 +239,20 @@ const PyodideRunner = ({
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
 
-        const friendlyError = friendlyExplain({
-          error: errorMessage,
-          code: inputCode,
-          runtime: "pyodide",
-        });
+        try {
+          const friendlyError = friendlyExplain({
+            error: rawTraceback,
+            file: file,
+            code: inputCode,
+            runtime: "pyodide",
+            sections: ["title", "summary"],
+          });
 
-        if (friendlyError?.html) {
-          dispatch(setFriendlyError({ html: friendlyError.html }));
+          if (friendlyError?.html) {
+            dispatch(setFriendlyError({ html: friendlyError.html }));
+          }
+        } catch {
+          console.error("Could not parse friendly error");
         }
       }
     }
@@ -460,7 +472,7 @@ const PyodideRunner = ({
                     <RunnerControls skinny />
                   )}
                 </div>
-                <ErrorMessage />
+                {isOutputOnly && <ErrorMessage />}
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -492,7 +504,7 @@ const PyodideRunner = ({
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          <ErrorMessage />
+          {isOutputOnly && <ErrorMessage />}
           {hasVisual && (
             <TabPanel key={0}>
               <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />

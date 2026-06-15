@@ -25,6 +25,7 @@ const MobileProject = ({
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+  const error = useSelector((state) => state.editor.error);
   const includesInstructions = sidebarOptions.includes("instructions");
 
   const [selectedTab, setSelectedTab] = useState(1);
@@ -40,6 +41,12 @@ const MobileProject = ({
       setSelectedTab(withSidebar ? 1 : 0);
     }
   }, [codeRunTriggered, sidebarShowing, withSidebar]);
+
+  useEffect(() => {
+    if (!codeRunTriggered && error && projectType === "python") {
+      setSelectedTab(withSidebar ? 1 : 0);
+    }
+  }, [error, codeRunTriggered, projectType, withSidebar]);
 
   return (
     <div

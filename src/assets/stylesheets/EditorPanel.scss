@@ -1,5 +1,6 @@
-@forward '@raspberrypifoundation/design-system-core/scss/properties/spacing';
-@use '@raspberrypifoundation/design-system-core/scss/mixins/typography' as typography;
+@forward "@raspberrypifoundation/design-system-core/scss/properties/spacing";
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
 
 // Scrollbar-width is needed from scrollbar to show in Chrome
 .editor-wrapper {
@@ -31,7 +32,6 @@
       overscroll-behavior-x: none;
       font-family: var(--wc-font-family-monospace);
 
-
       .cm-content {
         flex: 1;
         padding-block-start: var(--space-0-5);
@@ -60,5 +60,3 @@
     display: none;
   }
 }
-
-

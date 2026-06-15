@@ -57,7 +57,10 @@ export const getP5Canvas = () => getEditorShadow().find(".p5Canvas");
 export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
 
 export const getErrorMessage = () =>
-  getEditorShadow().find(".error-message__content");
+  getEditorShadow().find(".error-message__python");
+
+export const getFriendlyErrorMessage = () =>
+  getEditorShadow().find(".friendly-error-message");
 
 export const getTextOutputTab = () =>
   getPyodideOutput().findByLabelText("Text output");
