@@ -200,3 +200,46 @@ describe("When withSidebar is false", () => {
     expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
   });
 });
+
+describe("When there is an error after code has been run", () => {
+  beforeEach(() => {
+    const initialState = {
+      editor: {
+        project: {
+          project_type: "python",
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello')",
+            },
+          ],
+          image_list: [],
+          user_id: user.profile.user,
+        },
+        codeRunTriggered: false,
+        openFiles: [["main.py"]],
+        focussedFileIndices: [0],
+        error: "An error occurred",
+      },
+      auth: {
+        user: user,
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+  });
+
+  test("The input tab is selected", () => {
+    const inputTab = screen.getByText("mobile.code").parentElement;
+    expect(inputTab).toHaveClass("react-tabs__tab--selected");
+  });
+
+  test("The error message is displayed", () => {
+    expect(screen.getByText("An error occurred")).toBeInTheDocument();
+  });
+});

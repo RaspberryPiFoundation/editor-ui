@@ -188,3 +188,15 @@ describe("When read only", () => {
     expect(screen.queryByText("editorPanel.viewOnly")).toBeInTheDocument();
   });
 });
+
+describe("When there is an error", () => {
+  beforeEach(() => {
+    renderEditorInput({
+      editor: { ...initialState.editor, error: "An error occurred" },
+    });
+  });
+
+  test("The error message is displayed", () => {
+    expect(screen.getByText("An error occurred")).toBeInTheDocument();
+  });
+});
