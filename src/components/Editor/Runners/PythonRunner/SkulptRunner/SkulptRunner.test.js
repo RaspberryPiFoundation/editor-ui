@@ -346,6 +346,61 @@ describe("When an error originates in the sense_hat shim", () => {
   });
 });
 
+describe("When an error has occurred", () => {
+  let mockStore;
+  let store;
+  let initialState;
+
+  beforeEach(() => {
+    const middlewares = [];
+    mockStore = configureStore(middlewares);
+    initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "boom!",
+            },
+          ],
+          image_list: [],
+        },
+        error: "SyntaxError: bad token T_OP on line 1 of main.py",
+      },
+      auth: {
+        user,
+      },
+    };
+  });
+
+  test("Displays error message", () => {
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+
+    expect(
+      screen.getByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).toBeVisible();
+  });
+
+  test("Does not display error message when isOutputOnly state is true", () => {
+    initialState.editor.isOutputOnly = true;
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+    expect(
+      screen.queryByText("SyntaxError: bad token T_OP on line 1 of main.py"),
+    ).not.toBeInTheDocument();
+  });
+});
+
 describe("When there is an import error and the site is cross-origin isolated", () => {
   let store;
   beforeEach(() => {

@@ -61,7 +61,6 @@ const PyodideRunner = ({
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
-  const isOutputOnly = useSelector((s) => s.editor.isOutputOnly);
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
@@ -472,7 +471,7 @@ const PyodideRunner = ({
                     <RunnerControls skinny />
                   )}
                 </div>
-                {isOutputOnly && <ErrorMessage />}
+                <ErrorMessage />
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -504,7 +503,7 @@ const PyodideRunner = ({
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          {isOutputOnly && <ErrorMessage />}
+          <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>
               <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
