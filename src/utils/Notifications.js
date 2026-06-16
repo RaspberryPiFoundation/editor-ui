@@ -18,7 +18,7 @@ const CloseButton = ({ closeToast }) => {
 };
 
 const bottomCenterSettings = {
-  position: toast.POSITION.BOTTOM_CENTER,
+  position: "bottom-center",
   autoClose: 3000,
   className: "toast--bottom-center__message",
   closeButton: false,
@@ -27,7 +27,7 @@ const bottomCenterSettings = {
 };
 
 const topCenterSettings = {
-  position: toast.POSITION.TOP_CENTER,
+  position: "top-center",
   autoClose: 6000,
   className: "toast--top-center__message",
   closeButton: CloseButton,
@@ -39,7 +39,7 @@ export const showSavePrompt = () => {
   toast(i18n.t("notifications.savePrompt"), {
     ...topCenterSettings,
     className: `${topCenterSettings.className} toast--info`,
-    icon: InfoIcon,
+    icon: <InfoIcon />,
   });
 };
 
@@ -47,20 +47,20 @@ export const showLoginPrompt = () => {
   toast(i18n.t("notifications.loginPrompt"), {
     ...topCenterSettings,
     className: `${topCenterSettings.className} toast--info`,
-    icon: InfoIcon,
+    icon: <InfoIcon />,
   });
 };
 
 export const showSavedMessage = () => {
   toast(i18n.t("notifications.projectSaved"), {
     ...bottomCenterSettings,
-    icon: TickIcon,
+    icon: <TickIcon />,
   });
 };
 
 export const showRenamedMessage = () => {
   toast(i18n.t("notifications.projectRenamed"), {
     ...bottomCenterSettings,
-    icon: TickIcon,
+    icon: <TickIcon />,
   });
 };
