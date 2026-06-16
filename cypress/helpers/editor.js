@@ -2,7 +2,8 @@
 
 export const getEditorShadow = () => cy.get("editor-wc").shadow();
 
-const getSidebarPanel = () => getEditorShadow().findByTestId("sidebar__panel");
+export const getSidebarPanel = () =>
+  getEditorShadow().findByTestId("sidebar__panel");
 
 // Buttons / controls
 
@@ -76,6 +77,52 @@ export const getSettingsPanel = () => getEditorShadow().find(".settings-panel");
 
 export const getTextSizeSetting = () =>
   getEditorShadow().find(".settings-panel__text-size");
+
+export const getProjEditorContainer = () =>
+  getEditorShadow().findByTestId("proj-editor-container");
+
+export const getEditorResizeHandle = (handleTestId) =>
+  getProjEditorContainer().findByTestId(handleTestId).parent("div");
+
+export const getSidebarResizeHandle = () =>
+  getSidebarPanel().findByTestId("verticalHandle").parent("div");
+
+const dragHandle = ($handle, { deltaX = 0, deltaY = 0 }) => {
+  cy.wrap($handle)
+    .realMouseDown({
+      button: "left",
+      position: "center",
+      scrollBehavior: false,
+    })
+    .realMouseMove(deltaX, deltaY, {
+      position: "center",
+      scrollBehavior: false,
+    })
+    .realMouseUp({ position: "center", scrollBehavior: false });
+};
+
+export const dragEditorResizeHandle = (
+  handleTestId,
+  { deltaX = 0, deltaY = 0 } = {},
+) => {
+  getEditorResizeHandle(handleTestId).then(($handle) => {
+    dragHandle($handle, { deltaX, deltaY });
+  });
+};
+
+export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) => {
+  getSidebarResizeHandle().then(($handle) => {
+    dragHandle($handle, { deltaX, deltaY: 0 });
+  });
+};
+
+export const openFilePanel = () =>
+  getEditorShadow().find("[title='Project files']").click();
+
+export const loadPythonStarterProject = () => {
+  cy.findByText("blank-python-starter").click();
+  getEditorShadow().findByRole("button", { name: /run/i }).should("be.visible");
+};
 
 // Test output
 
