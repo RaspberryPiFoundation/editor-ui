@@ -50,7 +50,7 @@
     "prismjs": "^1.29.0",
     "prop-types": "^15.8.1",
     "raw-loader": "^4.0.2",
-    "re-resizable": "6.9.9",
+    "re-resizable": "6.11.2",
     "react": "^19.2.7",
     "react-app-polyfill": "^2.0.0",
     "react-confirm-alert": "^2.8.0",
