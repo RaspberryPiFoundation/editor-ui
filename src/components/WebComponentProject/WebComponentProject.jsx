@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -64,6 +64,7 @@ const WebComponentProject = ({
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
+  const prevCodeRunTriggeredRef = useRef(false);
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
 
@@ -120,10 +121,15 @@ const WebComponentProject = ({
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
+    if (codeRunTriggered && !prevCodeRunTriggeredRef.current) {
       document.dispatchEvent(runStartedEvent({ step: currentStepPosition }));
       setCodeHasRun(true);
-    } else if (codeHasRun) {
+    }
+    prevCodeRunTriggeredRef.current = codeRunTriggered;
+  }, [codeRunTriggered, currentStepPosition]);
+
+  useEffect(() => {
+    if (!codeRunTriggered && codeHasRun) {
       const mz_criteria = Sk.sense_hat
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };

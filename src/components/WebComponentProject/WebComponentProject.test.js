@@ -65,6 +65,7 @@ const renderWebComponentProject = ({
 
 describe("When state set", () => {
   beforeEach(() => {
+    runStartedHandler.mockClear();
     renderWebComponentProject({
       instructions: "My amazing instructions",
       codeRunTriggered: true,
@@ -83,8 +84,8 @@ describe("When state set", () => {
     expect(codeChangedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 
-  test("Triggers runStarted event", () => {
-    expect(runStartedHandler).toHaveBeenCalled();
+  test("Triggers runStarted event once", () => {
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
     expect(runStartedHandler.mock.lastCall[0].detail).toHaveProperty("step");
   });
 
