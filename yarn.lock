@@ -4234,7 +4234,6 @@ __metadata:
     react-tabs: "npm:^3.2.3"
     react-timer-hook: "npm:^3.0.5"
     react-toastify: "npm:^11.1.0"
-    react-toggle: "npm:^4.1.3"
     redux: "npm:^4.2.1"
     redux-mock-store: "npm:^1.5.4"
     redux-oidc: "npm:^4.0.0-beta1"
@@ -18355,19 +18354,6 @@ __metadata:
     react: ^18 || ^19
     react-dom: ^18 || ^19
   checksum: 10/56cdc448a189503580f3bdb2b102c2a150323844844558563cb73503438ce787598a61fdc2a2444be10d6fecabb4b4cc9b04a852ea7274388a53d20ed30818f1
-  languageName: node
-  linkType: hard
-
-"react-toggle@npm:^4.1.3":
-  version: 4.1.3
-  resolution: "react-toggle@npm:4.1.3"
-  dependencies:
-    classnames: "npm:^2.2.5"
-  peerDependencies:
-    prop-types: ">= 15.3.0 < 19"
-    react: ">= 15.3.0 < 19"
-    react-dom: ">= 15.3.0 < 19"
-  checksum: 10/b63b7c3bd37431c4dc3cce741143a490239ba4981302a1af0f5aeb83635bf580bc1b142097eb28a4f52fef8dee40913085aa30d52579f355992689002d2602ca
   languageName: node
   linkType: hard
 
