@@ -4091,20 +4091,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.4.5":
-  version: 2.4.5
-  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.5"
+"@raspberrypifoundation/design-system-core@npm:^2.4.7":
+  version: 2.4.7
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.7"
   dependencies:
     classnames: "npm:^2.3.2"
-  checksum: 10/fcc9a17221599b1b812b4fa6427b49fc9dd3c1b7a5315608760fdf0e7a0db7ef5ffbbef34f315917d00279d7880fc7a464b8a58e147eaa77451982cf6b6eb4d1
+  checksum: 10/3692700108f69bb41df4d0e5c512e87efbd5b1c5d929f86bfb62bc80b2a24a71f48f9b232be748aea6c937331324677c58e5f90ce54eab32ae4f8752dd614fd5
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^2.9.1":
-  version: 2.9.1
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.9.1"
+"@raspberrypifoundation/design-system-react@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.9.2"
   dependencies:
-    "@raspberrypifoundation/design-system-core": "npm:^2.4.5"
+    "@raspberrypifoundation/design-system-core": "npm:^2.4.7"
     classnames: "npm:^2.5.1"
     lucide-react: "npm:^0.553.0"
   peerDependencies:
@@ -4116,7 +4116,7 @@ __metadata:
       optional: false
     react-dom:
       optional: false
-  checksum: 10/cbe29aedfc6629527e254c682cd733121d2632450073006d8897dc8dc3e44add9156d10f11534dca2ceb5e05ddeb6c418950ee4a443fbc0f0a99028b3d1c9feb
+  checksum: 10/36ec7dc3ade7da08b0b2d7fbec6e7114cc84ab14c7fec566969ad5d30c8dbd694643295fbb97ed51f7a85b643fa9e06146e852860a68f563e81aea9941bb91f9
   languageName: node
   linkType: hard
 
@@ -4135,7 +4135,7 @@ __metadata:
     "@codemirror/view": "npm:^6.3.0"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
-    "@raspberrypifoundation/design-system-react": "npm:^2.9.1"
+    "@raspberrypifoundation/design-system-react": "npm:^2.9.2"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.7.0"
     "@react-three/drei": "npm:^10.0.0"
     "@react-three/fiber": "npm:^9.6.1"
