@@ -4222,7 +4222,6 @@ __metadata:
     react: "npm:^19.2.7"
     react-app-polyfill: "npm:^2.0.0"
     react-confirm-alert: "npm:^2.8.0"
-    react-container-query: "npm:^0.13.0"
     react-cookie: "npm:^4.1.1"
     react-dev-utils: "npm:^11.0.3"
     react-dom: "npm:^19.2.7"
@@ -7085,13 +7084,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"batch-processor@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "batch-processor@npm:1.0.0"
-  checksum: 10/59452655203eeb94101770a4c31a3aa81a60f6403ef4e66870f2970f0873ebc795c442610aa420be34535f1e51d644a12f0c5a37fb3bde08bf5c00109ee67d97
-  languageName: node
-  linkType: hard
-
 "batch@npm:0.6.1":
   version: 0.6.1
   resolution: "batch@npm:0.6.1"
@@ -8247,13 +8239,6 @@ __metadata:
   version: 2.0.0
   resolution: "connect-history-api-fallback@npm:2.0.0"
   checksum: 10/3b26bf4041fdb33deacdcb3af9ae11e9a0b413fb14c95844d74a460b55e407625b364955dcf965c654605cde9d24ad5dad423c489aa430825aab2035859aba0c
-  languageName: node
-  linkType: hard
-
-"container-query-toolkit@npm:0.1.3":
-  version: 0.1.3
-  resolution: "container-query-toolkit@npm:0.1.3"
-  checksum: 10/ac9931c73fa66d80eb25a61b374c8b90b6424d0205b7d5b81d8b208ab03c34d1c69e10561250ca142e1a9f2194e07876c290c06110d58a681bdb613faff150bb
   languageName: node
   linkType: hard
 
@@ -9900,15 +9885,6 @@ __metadata:
   version: 1.5.286
   resolution: "electron-to-chromium@npm:1.5.286"
   checksum: 10/530ae36571f3f737431dc1f97ab176d9ec38d78e7a14a78fff78540769ef139e9011200a886864111ee26d64e647136531ff004f368f5df8cdd755c45ad97649
-  languageName: node
-  linkType: hard
-
-"element-resize-detector@npm:1.1.13":
-  version: 1.1.13
-  resolution: "element-resize-detector@npm:1.1.13"
-  dependencies:
-    batch-processor: "npm:^1.0.0"
-  checksum: 10/206f82f91f2fde29bb9f484f38012b184beb55d9abaaa25372b9e76930d0d917e446ac4302da161824d1ba4d7dc1a620bc8f50fe9a35fefb39274546b9293e10
   languageName: node
   linkType: hard
 
@@ -17967,19 +17943,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-container-query@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "react-container-query@npm:0.13.0"
-  dependencies:
-    container-query-toolkit: "npm:0.1.3"
-    resize-observer-lite: "npm:0.2.3"
-  peerDependencies:
-    react: ^0.14.0 || ^15.0.0-0 || ^16.0.0-0 || ^17 || ^18
-    react-dom: ^0.14.0 || ^15.0.0-0 || ^16.0.0-0 || ^17 || ^18
-  checksum: 10/2c310dd6f232c2ed9d5fbd6b9fd72e5a7892a4bcbba667db07046388206a5a4928f5b4c61342528c2761d29cb228a1e2ee09fd541d30fd4a0a8875de03ab4573
-  languageName: node
-  linkType: hard
-
 "react-cookie@npm:^4.1.1":
   version: 4.1.1
   resolution: "react-cookie@npm:4.1.1"
@@ -18877,15 +18840,6 @@ __metadata:
   version: 4.1.8
   resolution: "reselect@npm:4.1.8"
   checksum: 10/199984d9872f71cd207f4aa6e6fd2bd48d95154f7aa9b3aee3398335f39f5491059e732f28c12e9031d5d434adab2c458dc8af5afb6564d0ad37e1644445e09c
-  languageName: node
-  linkType: hard
-
-"resize-observer-lite@npm:0.2.3":
-  version: 0.2.3
-  resolution: "resize-observer-lite@npm:0.2.3"
-  dependencies:
-    element-resize-detector: "npm:1.1.13"
-  checksum: 10/4e947e2df787b39e3608ef779b5af31aafe16138b82322cedb8249106d607299f0d58fee4c375ca97dd689f63685b46ae00a02a8e5a08b1ff9d72308e0638e94
   languageName: node
   linkType: hard
 
