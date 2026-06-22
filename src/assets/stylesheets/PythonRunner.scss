@@ -97,11 +97,15 @@
   overflow: hidden;
 
   &--text {
-    flex: 3;
+    flex: 4;
+
+    .react-tabs__tab-panel--selected {
+      min-block-size: var(--space-8);
+    }
   }
 
   &--visual {
-    flex: 7;
+    flex: 6;
 
     .--light & {
       border-block-end: 5px solid $rpf-grey-100;
