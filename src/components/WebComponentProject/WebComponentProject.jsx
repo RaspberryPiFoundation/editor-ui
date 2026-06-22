@@ -52,6 +52,7 @@ const WebComponentProject = ({
 
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const projectInstructions = useSelector(
     (state) => state.editor.project.instructions,
@@ -122,11 +123,17 @@ const WebComponentProject = ({
 
   useEffect(() => {
     if (codeRunTriggered && !prevCodeRunTriggeredRef.current) {
-      document.dispatchEvent(runStartedEvent({ step: currentStepPosition }));
+      document.dispatchEvent(
+        runStartedEvent({
+          step: currentStepPosition,
+          projectIdentifier,
+          projectType,
+        }),
+      );
       setCodeHasRun(true);
     }
     prevCodeRunTriggeredRef.current = codeRunTriggered;
-  }, [codeRunTriggered, currentStepPosition]);
+  }, [codeRunTriggered, currentStepPosition, projectIdentifier, projectType]);
 
   useEffect(() => {
     if (!codeRunTriggered && codeHasRun) {
@@ -135,10 +142,19 @@ const WebComponentProject = ({
         : { ...defaultMZCriteria };
 
       const payload = outputOnly
-        ? { errorDetails, step: currentStepPosition }
+        ? {
+            errorDetails,
+            step: currentStepPosition,
+            projectIdentifier,
+            projectType,
+          }
         : {
             isErrorFree: error === "",
             step: currentStepPosition,
+            errorDetails,
+            friendlyErrorShown: Boolean(friendlyError?.html),
+            projectIdentifier,
+            projectType,
             ...mz_criteria,
           };
 
@@ -150,7 +166,10 @@ const WebComponentProject = ({
     outputOnly,
     error,
     errorDetails,
+    friendlyError,
     currentStepPosition,
+    projectIdentifier,
+    projectType,
   ]);
 
   useEffect(() => {
