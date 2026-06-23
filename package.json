@@ -29,7 +29,7 @@
     "codemirror": "^6.0.1",
     "date-fns": "^4.1.0",
     "dompurify": "^3.4.6",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^10.1.8",
     "file-saver": "^2.0.5",
     "highcharts": "^9.3.1",
     "i18next": "^22.0.3",
