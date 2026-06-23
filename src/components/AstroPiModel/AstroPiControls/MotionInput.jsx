@@ -47,6 +47,7 @@ const MotionInput = (props) => {
         <Switch
           id="sense_hat_motion"
           name="senseHatMotionToggle"
+          icon
           checked={value}
           onChange={(e) => setValue(e.target.checked)}
         />

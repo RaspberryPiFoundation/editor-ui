@@ -127,7 +127,6 @@
           }
 
           .rpf-switch {
-            --rpf-switch-on-color: var(--rpf-green-800);
             gap: 0;
           }
         }
@@ -218,6 +217,14 @@
           &-toggle {
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
+
+            .rpf-switch {
+              --rpf-switch-on-color: var(--rpf-green-400);
+              --rpf-switch-handle-on-color: var(--rpf-grey-600);
+              --rpf-switch-off-color: var(--rpf-grey-150);
+              --rpf-switch-icon-off-color: var(--rpf-text-primary);
+              --rpf-switch-track-color: var(--rpf-grey-500);
+            }
           }
         }
       }
@@ -265,6 +272,10 @@
           &-toggle {
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
+
+            .rpf-switch {
+              --rpf-switch-on-color: var(--rpf-green-800);
+            }
           }
         }
       }
