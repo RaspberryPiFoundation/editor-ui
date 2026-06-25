@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
   setSenseHatAlwaysEnabled,
+  setOfflineEnabled,
   setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
@@ -70,6 +71,7 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
     initialProject = null,
+    offlineEnabled = false,
   } = props;
   const dispatch = useDispatch();
 
@@ -197,6 +199,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
+
+  useEffect(() => {
+    dispatch(setOfflineEnabled(offlineEnabled));
+  }, [offlineEnabled, dispatch]);
 
   useEffect(() => {
     // Create a script element to save the existing Prism object if there is one
