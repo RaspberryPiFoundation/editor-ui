@@ -8,7 +8,7 @@ export const getScratchIframeBody = () => {
     .then(cy.wrap);
 };
 
-export const getScratchGoButton = () =>
+const getScratchGoButton = () =>
   getScratchIframeBody().find("button [title='Go']");
 
 export const assertScratchIsRendered = () => {

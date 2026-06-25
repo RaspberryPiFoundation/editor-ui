@@ -1,9 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-tabs/style/react-tabs.css";
 import "react-toastify/dist/ReactToastify.css";
-import { useContainerQuery } from "react-container-query";
 import classnames from "classnames";
 
 import "../../../assets/stylesheets/Project.scss";
@@ -14,7 +12,7 @@ import ScratchProjectBar from "../../ProjectBar/ScratchProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
-import { projContainer } from "../../../utils/containerQueries";
+import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
 import ScratchContainer from "./ScratchContainer";
 
 const Project = (props) => {
@@ -24,6 +22,7 @@ const Project = (props) => {
     withProjectbar = true,
     withSidebar = true,
     sidebarOptions = [],
+    feedbackFormUrl,
     sidebarPlugins = [],
   } = props;
   const saving = useSelector((state) => state.editor.saving);
@@ -42,21 +41,12 @@ const Project = (props) => {
     }
   }, [autosave, isCodeEditorScratchProject, saving]);
 
-  const [params, containerRef] = useContainerQuery(projContainer);
-  const [defaultWidth, setDefaultWidth] = useState("auto");
-  const [defaultHeight, setDefaultHeight] = useState("auto");
-  const [maxWidth, setMaxWidth] = useState("100%");
-  const [handleDirection, setHandleDirection] = useState("right");
+  const [isDesktop, containerRef] = useContainerMinWidth(720);
   const [loading, setLoading] = useState(true);
-
-  useMemo(() => {
-    const isDesktop = params["width-larger-than-720"];
-
-    setDefaultWidth(isDesktop ? "50%" : "100%");
-    setDefaultHeight(isDesktop ? "100%" : "50%");
-    setMaxWidth(isDesktop ? "75%" : "100%");
-    setHandleDirection(isDesktop ? "right" : "bottom");
-  }, [params["width-larger-than-720"]]);
+  const defaultWidth = isDesktop ? "50%" : "100%";
+  const defaultHeight = isDesktop ? "100%" : "50%";
+  const maxWidth = isDesktop ? "75%" : "100%";
+  const handleDirection = isDesktop ? "right" : "bottom";
 
   useEffect(() => {
     setLoading(false);
@@ -73,6 +63,7 @@ const Project = (props) => {
           <Sidebar
             options={sidebarOptions}
             plugins={sidebarPlugins}
+            feedbackFormUrl={feedbackFormUrl}
             allowMobileView={!isCodeEditorScratchProject}
           />
         )}

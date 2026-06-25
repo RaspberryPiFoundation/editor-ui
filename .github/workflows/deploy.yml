@@ -114,6 +114,8 @@ jobs:
       url: ${{ needs.setup-environment.outputs.public_url }}
     env:
       HAS_CLOUDFLARE_SECRETS: ${{ secrets.CLOUDFLARE_ZONE_ID != '' && secrets.CLOUDFLARE_API_TOKEN != '' }}
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check deployment path
         run: |
@@ -134,8 +136,6 @@ jobs:
 
       - name: Install code
         run: yarn install --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build WC and HTML renderer bundles
         run: yarn build
@@ -172,7 +172,8 @@ jobs:
             exit 0
           fi
 
-          echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain"
+          # Use no-cache so latest_version is revalidated after tag deploys.
+          echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain" --cache-control "no-cache"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -181,11 +182,52 @@ jobs:
       - name: Purge Cloudflare cache
         if: env.HAS_CLOUDFLARE_SECRETS == 'true'
         run: |
+          # Cloudflare expects purge prefixes without the URL scheme.
+          # For example, "https://editor-static.raspberrypi.org/releases/v1.2.3"
+          # becomes "editor-static.raspberrypi.org/releases/v1.2.3".
+          cloudflare_prefix() {
+            local url="$1"
+
+            url="${url#https://}"
+            url="${url#http://}"
+            url="${url%/}"
+
+            printf "%s" "$url"
+          }
+
+          # Purge the deployed web component and HTML renderer directories.
+          # The trailing slash makes these directory prefixes, so Cloudflare
+          # removes cached files under each deployed path.
+          purge_prefixes=(
+            "$(cloudflare_prefix "$PUBLIC_URL")/"
+            "$(cloudflare_prefix "$HTML_RENDERER_URL")/"
+          )
+
+          # Tagged releases update /latest_version, which is cached separately
+          # from the release directory. Branch deploys do not touch this file.
+          if [ "$REF_TYPE" = "tag" ]; then
+            purge_prefixes+=("$(cloudflare_prefix "$BASE_URL")/latest_version")
+          fi
+
+          # Build the API payload and de-duplicate prefixes. PUBLIC_URL and
+          # HTML_RENDERER_URL are often the same, so unique avoids purging the
+          # same prefix twice.
+          purge_payload="$(
+            jq -cn --args '
+              $ARGS.positional
+              | unique
+              | {prefixes: .}
+            ' "${purge_prefixes[@]}"
+          )"
+
+          echo "Purging Cloudflare cache prefixes:"
+          jq -r '.prefixes[] | " - \(.)"' <<<"$purge_payload"
+
           response="$(
             curl -sS --fail-with-body -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
               -H "Content-Type: application/json" \
-              --data '{"files":["${{ needs.setup-environment.outputs.public_url }}/web-component.html", "${{ needs.setup-environment.outputs.public_url }}/web-component.js", "${{ needs.setup-environment.outputs.public_url }}/scratch.html", "${{ needs.setup-environment.outputs.public_url }}/scratch.js", "${{ inputs.base_url }}/latest_version", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.html", "${{ needs.setup-environment.outputs.html_renderer_url}}/html-renderer.js"]}'
+              --data "$purge_payload"
           )" || {
             echo "Cloudflare purge request failed:"
             echo "$response"
@@ -198,7 +240,11 @@ jobs:
             exit 1
           }
 
-          echo "Cloudflare purge succeeded for ${{ needs.setup-environment.outputs.public_url }}"
+          echo "Cloudflare purge succeeded for $PUBLIC_URL"
         env:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
+          HTML_RENDERER_URL: ${{ needs.setup-environment.outputs.html_renderer_url }}
+          BASE_URL: ${{ inputs.base_url }}
+          REF_TYPE: ${{ github.ref_type }}

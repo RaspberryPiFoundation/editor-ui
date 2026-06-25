@@ -12,6 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
+import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
 
 dedupeDesignSystemWarnings();
 
@@ -19,11 +20,7 @@ Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
   environment: process.env.REACT_APP_SENTRY_ENV,
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.1,
 });
 
 class WebComponent extends HTMLElement {
@@ -58,6 +55,7 @@ class WebComponent extends HTMLElement {
       "code",
       "editable_instructions",
       "embedded",
+      "feedback_form_url",
       "host_styles",
       "identifier",
       "initial_project",
@@ -80,6 +78,7 @@ class WebComponent extends HTMLElement {
       "with_sidebar",
       "load_cache",
       "offline_enabled",
+      "friendly_errors_enabled",
     ];
   }
 
@@ -99,6 +98,7 @@ class WebComponent extends HTMLElement {
       "with_sidebar",
       "load_cache",
       "offline_enabled",
+      "friendly_errors_enabled",
     ];
     const jsonAttrs = [
       "instructions",
@@ -135,20 +135,7 @@ class WebComponent extends HTMLElement {
 
   get codeChangedSinceInitialLoad() {
     const { project, initialComponents } = store.getState().editor;
-    const current = project?.components;
-
-    if (!current || initialComponents.length === 0) return false;
-
-    // If the number of components is different, consider it changed
-    if (current.length !== initialComponents.length) return true;
-
-    // If component file contents, names or extensions are different, consider it changed
-    return current.some(
-      (component, i) =>
-        component.content !== initialComponents[i].content ||
-        component.name !== initialComponents[i].name ||
-        component.extension !== initialComponents[i].extension,
-    );
+    return projectHasChangedSinceInitialLoad(project, initialComponents);
   }
 
   get menuItems() {

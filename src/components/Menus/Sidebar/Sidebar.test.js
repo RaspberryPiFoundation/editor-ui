@@ -511,6 +511,30 @@ describe("When plugins are provided", () => {
   });
 });
 
+describe("When a feedback form URL is provided", () => {
+  test("Passes the feedback form URL to the info panel", () => {
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+        },
+      },
+      instructions: {},
+    };
+    renderSidebarWithState(initialState, {
+      feedbackFormUrl: "https://form.raspberrypi.org/4873801",
+    });
+
+    fireEvent.click(screen.getByTitle("sidebar.information"));
+
+    expect(screen.queryByText("sidebar.feedback")).toHaveAttribute(
+      "href",
+      "https://form.raspberrypi.org/4873801",
+    );
+  });
+});
+
 describe("When the project type is code_editor_scratch", () => {
   beforeEach(() => {
     const mockStore = configureStore([]);

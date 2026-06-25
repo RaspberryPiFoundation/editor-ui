@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "language": "en",
+    "version": 1
+  },
+
+  "errors": {
+    "NameError": {
+      "variants": [
+        {
+          "if": {
+            "not_message": ["is not defined"]
+          },
+          "title": "This variable doesn't exist yet",
+          "summary": "Your code uses the variable {{name}}, but it hasn't been created yet. Check {{loc}}. If you meant to print the text {{name}}, put it in double quotes.",
+          "why": "Without speech marks Python treats {{name}} as a variable, and this variable does not exist yet.",
+          "steps": [
+            "If it is meant to be text, put speech marks around {{name}}.",
+            "If it is meant to be a variable, make it first (for example: {{name}} = 0).",
+            "Check spelling and capital letters."
+          ],
+          "_placeholders": {
+            "name": "The undefined variable name, e.g. kittens",
+            "loc": "Where it was used, e.g. line 2 in main.py"
+          }
+        },
+        {
+          "if": {
+            "match_message": ["is not defined"]
+          },
+          "title": "This variable doesn't exist here",
+          "summary": "{{name}} might be created somewhere else, but you're using it at {{loc}}. If you meant the text {{name}}, put it in double quotes.",
+          "why": "A variable created in another place might not be available here.",
+          "steps": [
+            "Move the line that makes it to above where you use it.",
+            "Or set it here just before you use it."
+          ],
+          "_placeholders": {
+            "name": "The variable name used out of scope, e.g. total",
+            "loc": "Where it was referenced, e.g. line 8 in main.py"
+          }
+        }
+      ]
+    }
+  }
+}

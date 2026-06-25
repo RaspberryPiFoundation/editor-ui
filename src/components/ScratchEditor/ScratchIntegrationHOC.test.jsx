@@ -5,7 +5,7 @@ const configureStore = require("redux-mock-store").default;
 
 jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
 jest.mock("./events.js", () => ({ postScratchGuiEvent: jest.fn() }));
-jest.mock("@scratch/scratch-gui", () => ({
+jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
   remixProject: () => ({ type: "remix" }),
   manualUpdateProject: () => ({ type: "manualUpdate" }),
   setStageSize: () => ({ type: "setStageSize" }),
@@ -135,6 +135,45 @@ describe("ScratchIntegrationHOC", () => {
           "scratch-gui-project-changed",
         );
       });
+    });
+  });
+
+  describe("Scratch VM run events", () => {
+    it("registers a PROJECT_RUN_START listener on mount", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      expect(mockVm.on).toHaveBeenCalledWith(
+        "PROJECT_RUN_START",
+        expect.any(Function),
+      );
+    });
+
+    it("removes the PROJECT_RUN_START listener on unmount", () => {
+      const { unmount } = render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+      const handler = getVmHandler("PROJECT_RUN_START");
+
+      unmount();
+
+      expect(mockVm.removeListener).toHaveBeenCalledWith(
+        "PROJECT_RUN_START",
+        handler,
+      );
+    });
+
+    it("posts a project-run-started event when PROJECT_RUN_START fires", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      getVmHandler("PROJECT_RUN_START")();
+
+      expect(postScratchGuiEvent).toHaveBeenCalledWith(
+        "scratch-gui-project-run-started",
+      );
     });
   });
 });

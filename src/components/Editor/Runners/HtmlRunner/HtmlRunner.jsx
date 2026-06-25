@@ -212,6 +212,13 @@ function HtmlRunner() {
     }
   };
 
+  const cacheProjectForBrowserPreview = () => {
+    localStorage.setItem(
+      project.identifier || "project",
+      JSON.stringify(project),
+    );
+  };
+
   return (
     <div className="htmlrunner-container" data-testid="html-runner-container">
       {isEmbedded || autorunEnabled || codeHasBeenRun ? (
@@ -234,6 +241,7 @@ function HtmlRunner() {
                   href={`/${locale}/embed/viewer/${
                     project.identifier
                   }?browserPreview=true&page=${encodeURI(runningFile)}`}
+                  onClick={cacheProjectForBrowserPreview}
                   rel="noreferrer"
                 >
                   <span className="htmlrunner-link__text">

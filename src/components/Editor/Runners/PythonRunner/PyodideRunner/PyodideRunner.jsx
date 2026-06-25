@@ -6,11 +6,18 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import {
   setError,
+  setFriendlyError,
   codeRunHandled,
   setLoadedRunner,
   updateProjectComponent,
   addProjectComponent,
 } from "../../../../../redux/EditorSlice";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  cpythonAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
@@ -33,19 +40,12 @@ const getWorkerURL = (url) => {
   return URL.createObjectURL(blob);
 };
 
-const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
+const PyodideRunner = ({
+  active,
+  outputPanels = ["text", "visual"],
+  friendlyErrorsEnabled = false,
+}) => {
   const [pyodideWorker, setPyodideWorker] = useState(null);
-
-  useEffect(() => {
-    if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
-      const worker = new Worker(workerUrl);
-      setPyodideWorker(worker);
-    }
-  }, [active]);
-
   const interruptBuffer = useRef();
   const stdinBuffer = useRef();
   const stdinClosed = useRef();
@@ -66,7 +66,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const senseHatAlways = useSelector((s) => s.editor.senseHatAlwaysEnabled);
@@ -77,6 +77,30 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const showVisualTab = queryParams.get("show_visual_tab") === "true";
   const [hasVisual, setHasVisual] = useState(showVisualTab || senseHatAlways);
   const [visuals, setVisuals] = useState([]);
+
+  useEffect(() => {
+    if (active) {
+      const workerUrl = getWorkerURL(
+        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+      );
+      const worker = new Worker(workerUrl);
+      setPyodideWorker(worker);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    if (friendlyErrorsEnabled) {
+      try {
+        loadCopydeckFor(i18n.language, {
+          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+        });
+        registerAdapter("pyodide", cpythonAdapter);
+      } catch {
+        console.error("Could not load friendly error copydeck");
+        dispatch(setFriendlyError(null));
+      }
+    }
+  }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {
     if (pyodideWorker) {
@@ -101,6 +125,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
               data.mistake,
               data.type,
               data.info,
+              data.rawTraceback,
             );
             break;
           case "handleFileWrite":
@@ -190,7 +215,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
     node.scrollTop = node.scrollHeight;
   };
 
-  const handleError = (file, line, mistake, type, info) => {
+  const handleError = (file, line, mistake, type, info, rawTraceback) => {
     let errorMessage;
 
     if (type === "KeyboardInterrupt") {
@@ -207,6 +232,28 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
         reactAppApiEndpoint,
       });
       createError(projectIdentifier, userId, { errorType: type, errorMessage });
+
+      if (friendlyErrorsEnabled) {
+        const inputCode =
+          projectCode?.find((c) => c.name === "main" && c.extension === "py")
+            ?.content ?? "";
+
+        try {
+          const friendlyError = friendlyExplain({
+            error: rawTraceback,
+            file: file,
+            code: inputCode,
+            runtime: "pyodide",
+            sections: ["title", "summary"],
+          });
+
+          if (friendlyError?.html) {
+            dispatch(setFriendlyError({ html: friendlyError.html }));
+          }
+        } catch {
+          console.error("Could not parse friendly error");
+        }
+      }
     }
 
     dispatch(setError(errorMessage));
@@ -256,6 +303,7 @@ const PyodideRunner = ({ active, outputPanels = ["text", "visual"] }) => {
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setFriendlyError(null));
     setVisuals([]);
     stdinClosed.current = false;
 

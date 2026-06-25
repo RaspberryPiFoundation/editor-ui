@@ -52,6 +52,19 @@ jest.mock("../assets/markdown/demoInstructions.md", () => {
   return "demoInstructions.md";
 });
 
+jest.mock("@raspberrypifoundation/python-friendly-error-messages", () => ({
+  loadCopydeckFor: jest.fn(),
+  registerAdapter: jest.fn(),
+  cpythonAdapter: {},
+  friendlyExplain: jest.fn(),
+}));
+
+jest.mock("plotly.js", () => ({
+  newPlot: jest.fn(),
+  react: jest.fn(),
+  purge: jest.fn(),
+}));
+
 global.Blob = jest.fn();
 window.URL.createObjectURL = jest.fn();
 window.Worker = PyodideWorker;

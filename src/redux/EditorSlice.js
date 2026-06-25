@@ -126,12 +126,14 @@ export const editorInitialState = {
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
   scratchIframeProjectIdentifier: null,
+  friendlyErrorsEnabled: false,
+  friendlyError: null,
 };
 
 const isScratchProject = (state) =>
   state.project?.project_type === "code_editor_scratch";
 
-export const EditorSlice = createSlice({
+const EditorSlice = createSlice({
   name: "editor",
   initialState: editorInitialState,
   reducers: {
@@ -288,6 +290,15 @@ export const EditorSlice = createSlice({
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
+    },
+    setFriendlyErrorsEnabled: (state, action) => {
+      state.friendlyErrorsEnabled = action.payload;
+      if (!action.payload) {
+        state.friendlyError = null;
+      }
+    },
+    setFriendlyError: (state, action) => {
+      state.friendlyError = action.payload;
     },
     setLoadRemixDisabled: (state, action) => {
       state.loadRemixDisabled = action.payload;
@@ -491,18 +502,15 @@ export const {
   addProjectComponent,
   loadingRunner,
   setLoadedRunner,
-  resetRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,
   openFile,
   setOpenFiles,
-  addFilePanel,
   setFocussedFileIndex,
   setPage,
   setEmbedded,
   setIsOutputOnly,
-  setBrowserPreview,
   setCascadeUpdate,
   setError,
   setIsSplitView,
@@ -521,6 +529,7 @@ export const {
   setSenseHatAlwaysEnabled,
   setOfflineEnabled,
   setSenseHatEnabled,
+  setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -532,8 +541,6 @@ export const {
   updateComponentName,
   updateProjectComponent,
   updateProjectName,
-  showBetaModal,
-  closeBetaModal,
   showErrorModal,
   closeErrorModal,
   showNewFileModal,
@@ -545,6 +552,7 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  setFriendlyError,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

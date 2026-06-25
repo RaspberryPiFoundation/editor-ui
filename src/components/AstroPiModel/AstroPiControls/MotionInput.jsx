@@ -1,10 +1,9 @@
 import React from "react";
 import { useEffect, useState, startTransition } from "react";
 import { useSelector } from "react-redux";
-import Toggle from "react-toggle";
+import { Switch } from "@raspberrypifoundation/design-system-react";
 import Sk from "skulpt";
 import "../../../assets/stylesheets/AstroPiModel.scss";
-import "react-toggle/style.css";
 import { useTranslation } from "react-i18next";
 
 const MotionInput = (props) => {
@@ -45,9 +44,10 @@ const MotionInput = (props) => {
         <label htmlFor={`sense_hat_motion`}>
           {t("output.senseHat.controls.motionSensorOptions.no")}
         </label>
-        <Toggle
+        <Switch
           id="sense_hat_motion"
-          icons={false}
+          name="senseHatMotionToggle"
+          icon
           checked={value}
           onChange={(e) => setValue(e.target.checked)}
         />

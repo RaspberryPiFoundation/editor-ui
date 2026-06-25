@@ -6,6 +6,7 @@ import configureStore from "redux-mock-store";
 import Project from "./Project";
 import { showSavedMessage } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
+import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
@@ -15,8 +16,15 @@ jest.mock("react-router-dom", () => ({
 }));
 
 jest.mock("../../../utils/Notifications");
+jest.mock("../../../hooks/useContainerMinWidth", () => ({
+  useContainerMinWidth: jest.fn(),
+}));
 
 jest.useFakeTimers();
+
+beforeEach(() => {
+  useContainerMinWidth.mockReturnValue([false, jest.fn()]);
+});
 
 const user1 = {
   access_token: "myAccessToken",
@@ -201,6 +209,46 @@ describe("When not logged in and falling on default container width", () => {
 
     expect(
       container.getElementsByClassName("resizable-with-handle__handle--bottom")
+        .length,
+    ).toBe(1);
+  });
+
+  test("Shows right drag bar with expected params on desktop containers", () => {
+    useContainerMinWidth.mockReturnValue([true, jest.fn()]);
+
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: project,
+        openFiles: [["main.py"]],
+        focussedFileIndices: [0],
+        webComponent: false,
+      },
+      auth: {},
+      instructions: {},
+    };
+    const mockedStore = mockStore(initialState);
+    const { getByTestId } = render(
+      <Provider store={mockedStore}>
+        <MemoryRouter>
+          <div id="app">
+            <Project />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    const container = getByTestId("proj-editor-container");
+    expect(container).toHaveStyle({
+      "min-width": "25%",
+      "max-width": "75%",
+      width: "50%",
+      height: "100%",
+    });
+
+    expect(
+      container.getElementsByClassName("resizable-with-handle__handle--right")
         .length,
     ).toBe(1);
   });

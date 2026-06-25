@@ -1,5 +1,7 @@
 import { render, cleanup, act } from "@testing-library/react";
-import ScratchEditor from "./ScratchEditor.jsx";
+import ScratchEditor, {
+  SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
+} from "./ScratchEditor.jsx";
 
 const mockWrappedScratchGui = jest.fn();
 const mockScratchProjectSave = jest.fn();
@@ -32,6 +34,13 @@ describe("ScratchEditor", () => {
     );
 
     expect(getByTestId("wrapped-scratch-gui")).toBeTruthy();
+    expect(mockWrappedScratchGui).toHaveBeenCalledWith(
+      expect.objectContaining({
+        assetHost: "https://api.example.com/api/scratch/assets",
+        projectHost: "https://api.example.com/api/scratch/projects",
+        libraryAssetUrlTemplate: SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
+      }),
+    );
   });
 
   test("routes project saves through scratchFetch metadata after storage init", async () => {

@@ -4,6 +4,7 @@ import {
   disableTheming,
   setSenseHatAlwaysEnabled,
   setOfflineEnabled,
+  setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -36,16 +37,8 @@ import {
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
 
-const TOAST_CONTAINER_DEFAULTS = {
-  ...(ToastContainer.defaultProps || {}),
-};
-
-// react-toastify v8 uses defaultProps on a function component, which React
-// warns about in development. We pass the same defaults explicitly instead.
-// We should upgrade to version 10 in a different commit, this removes the warning
-if (process.env.NODE_ENV === "development") {
-  ToastContainer.defaultProps = undefined;
-}
+const CODE_EDITOR_FEEDBACK_URL =
+  "https://form.raspberrypi.org/f/code-editor-feedback";
 
 const WebComponentLoader = (props) => {
   const {
@@ -54,6 +47,7 @@ const WebComponentLoader = (props) => {
     code,
     embedded = false,
     editableInstructions,
+    feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL,
     hostStyles, // Pass in styles from the host
     identifier,
     instructions,
@@ -69,6 +63,7 @@ const WebComponentLoader = (props) => {
     scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     readOnly = false,
     senseHatAlwaysEnabled = false,
+    friendlyErrorsEnabled = false,
     showSavePrompt = false,
     sidebarOptions = [],
     useEditorStyles = false, // If true use the standard editor styling for the web component
@@ -188,6 +183,10 @@ const WebComponentLoader = (props) => {
   }, [senseHatAlwaysEnabled, dispatch]);
 
   useEffect(() => {
+    dispatch(setFriendlyErrorsEnabled(friendlyErrorsEnabled));
+  }, [friendlyErrorsEnabled, dispatch]);
+
+  useEffect(() => {
     dispatch(setLoadRemixDisabled(loadRemixDisabled));
   }, [loadRemixDisabled, dispatch]);
 
@@ -243,7 +242,6 @@ const WebComponentLoader = (props) => {
             }`}
           >
             <ToastContainer
-              {...TOAST_CONTAINER_DEFAULTS}
               enableMultiContainer
               containerId="top-center"
               position="top-center"
@@ -259,6 +257,7 @@ const WebComponentLoader = (props) => {
               outputPanels={outputPanels}
               outputSplitView={outputSplitView}
               editableInstructions={editableInstructions}
+              feedbackFormUrl={feedbackFormUrl}
               sidebarPlugins={sidebarPlugins}
             />
             {errorModalShowing && <ErrorModal />}

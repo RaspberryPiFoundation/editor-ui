@@ -137,6 +137,9 @@ describe("ScratchContainer", () => {
     );
     expect(viewport).toHaveClass("scratch-container__viewport");
     expect(iframe).toBeInTheDocument();
+    const allow = iframe.getAttribute("allow") ?? "";
+    expect(allow).toEqual(expect.stringContaining("camera"));
+    expect(allow).toEqual(expect.stringContaining("microphone"));
     expect(iframe).toHaveStyle({
       minWidth: "1024px",
     });
@@ -164,6 +167,49 @@ describe("ScratchContainer", () => {
         visibility: "auto",
         clickScroll: "instant",
       },
+    });
+  });
+
+  describe("scratch-gui-project-run-started message", () => {
+    let runStartedHandler;
+
+    beforeEach(() => {
+      runStartedHandler = jest.fn();
+      document.addEventListener("editor-runStarted", runStartedHandler);
+    });
+
+    afterEach(() => {
+      document.removeEventListener("editor-runStarted", runStartedHandler);
+    });
+
+    test("dispatches editor-runStarted when scratch-gui-project-run-started is received", () => {
+      renderScratchContainer();
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+      expect(runStartedHandler.mock.calls[0][0].detail).toEqual({});
+    });
+
+    test("does not dispatch editor-runStarted after unmount", () => {
+      const store = buildStore();
+      const { unmount } = render(
+        <Provider store={store}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      unmount();
+
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-run-started" });
+      });
+
+      expect(runStartedHandler).not.toHaveBeenCalled();
     });
   });
 
