@@ -485,6 +485,7 @@ const SkulptRunner = ({
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
+    dispatch(setFriendlyError(null));
     if (output.current) {
       output.current.innerHTML = "";
     }
