@@ -4091,20 +4091,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.0"
+"@raspberrypifoundation/design-system-core@npm:^2.4.7":
+  version: 2.4.7
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.7"
   dependencies:
     classnames: "npm:^2.3.2"
-  checksum: 10/4f989c48c9e93f57f65a6979c37c6b0cda69fb8e06c6dffb91dc5c407783775422b527907a081258aa16dab06977af9e74e053456b3d98680fc1f1c86218a417
+  checksum: 10/3692700108f69bb41df4d0e5c512e87efbd5b1c5d929f86bfb62bc80b2a24a71f48f9b232be748aea6c937331324677c58e5f90ce54eab32ae4f8752dd614fd5
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^2.7.0":
-  version: 2.7.3
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.7.3"
+"@raspberrypifoundation/design-system-react@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.9.2"
   dependencies:
-    "@raspberrypifoundation/design-system-core": "npm:^2.4.0"
+    "@raspberrypifoundation/design-system-core": "npm:^2.4.7"
     classnames: "npm:^2.5.1"
     lucide-react: "npm:^0.553.0"
   peerDependencies:
@@ -4116,7 +4116,7 @@ __metadata:
       optional: false
     react-dom:
       optional: false
-  checksum: 10/28db4405bbb59c612308411f12201ec5b6437116078187286e76022822a6e41be54cb78a82b00857218f07f6e6aeb3efdebcfa7e87425ce0e9302f0043d1ed6c
+  checksum: 10/36ec7dc3ade7da08b0b2d7fbec6e7114cc84ab14c7fec566969ad5d30c8dbd694643295fbb97ed51f7a85b643fa9e06146e852860a68f563e81aea9941bb91f9
   languageName: node
   linkType: hard
 
@@ -4135,7 +4135,7 @@ __metadata:
     "@codemirror/view": "npm:^6.3.0"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
-    "@raspberrypifoundation/design-system-react": "npm:^2.7.0"
+    "@raspberrypifoundation/design-system-react": "npm:^2.9.2"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.7.0"
     "@react-three/drei": "npm:^10.0.0"
     "@react-three/fiber": "npm:^9.6.1"
@@ -4233,7 +4233,6 @@ __metadata:
     react-tabs: "npm:^3.2.3"
     react-timer-hook: "npm:^3.0.5"
     react-toastify: "npm:^11.1.0"
-    react-toggle: "npm:^4.1.3"
     redux: "npm:^4.2.1"
     redux-mock-store: "npm:^1.5.4"
     redux-oidc: "npm:^4.0.0-beta1"
@@ -18318,19 +18317,6 @@ __metadata:
     react: ^18 || ^19
     react-dom: ^18 || ^19
   checksum: 10/56cdc448a189503580f3bdb2b102c2a150323844844558563cb73503438ce787598a61fdc2a2444be10d6fecabb4b4cc9b04a852ea7274388a53d20ed30818f1
-  languageName: node
-  linkType: hard
-
-"react-toggle@npm:^4.1.3":
-  version: 4.1.3
-  resolution: "react-toggle@npm:4.1.3"
-  dependencies:
-    classnames: "npm:^2.2.5"
-  peerDependencies:
-    prop-types: ">= 15.3.0 < 19"
-    react: ">= 15.3.0 < 19"
-    react-dom: ">= 15.3.0 < 19"
-  checksum: 10/b63b7c3bd37431c4dc3cce741143a490239ba4981302a1af0f5aeb83635bf580bc1b142097eb28a4f52fef8dee40913085aa30d52579f355992689002d2602ca
   languageName: node
   linkType: hard
 

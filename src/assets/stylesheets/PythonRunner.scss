@@ -97,11 +97,26 @@
   overflow: hidden;
 
   &--text {
-    flex: 3;
+    flex: 1;
+
+    .react-tabs__tab-panel--selected {
+      min-block-size: var(--space-6);
+    }
+
+    @container (min-width: 720px) {
+      flex: 2;
+      .react-tabs__tab-panel--selected {
+        min-block-size: var(--space-8);
+      }
+    }
   }
 
   &--visual {
-    flex: 7;
+    flex: 1;
+
+    @container (min-width: 720px) {
+      flex: 3;
+    }
 
     .--light & {
       border-block-end: 5px solid $rpf-grey-100;

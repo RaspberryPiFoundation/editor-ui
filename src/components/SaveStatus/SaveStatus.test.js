@@ -11,29 +11,24 @@ const project = {
 };
 
 let store;
-let saveStatus;
 
 describe("With a save button", () => {
   beforeEach(() => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
+    store = configureStore([])({
       editor: {
         project: project,
         loading: "success",
         lastSavedTime: Date.now(),
       },
-    };
-    store = mockStore(initialState);
+    });
     render(
       <Provider store={store}>
         <SaveStatus />
       </Provider>,
     );
-    saveStatus = screen.queryByText("saveStatus.saved now");
   });
 
-  test("Renders save button", () => {
-    expect(saveStatus).toBeInTheDocument();
+  test("Renders save status", () => {
+    expect(screen.queryByText("saveStatus.saved now")).toBeInTheDocument();
   });
 });

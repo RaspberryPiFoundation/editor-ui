@@ -4,7 +4,7 @@
 .error-message {
   color: var(--rpf-red-900);
   background-color: var(--rpf-red-100);
-  border-block-start: 1px solid var(--editor-color-outline);
+  border-block: 1px solid var(--editor-color-outline);
   padding: var(--space-1);
   overflow-y: auto;
   scrollbar-width: thin;
