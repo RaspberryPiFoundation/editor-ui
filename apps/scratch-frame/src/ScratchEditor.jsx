@@ -1,8 +1,8 @@
-import scratchProjectSave from "../../utils/scratchProjectSave.js";
+import scratchProjectSave from "./utils/scratchProjectSave.js";
 import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
-import { postScratchGuiEvent, allowedParentOrigin } from "./events.js";
+import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
 
 /** Scratch library picker assets (not project save/load — those use editor-api). */
 export const SCRATCH_LIBRARY_ASSET_URL_TEMPLATE =

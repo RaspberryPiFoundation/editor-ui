@@ -7,8 +7,8 @@ import {
   manualUpdateProject,
   setStageSize,
 } from "@RaspberryPiFoundation/scratch-gui";
-import { allowedIframeHost } from "../../utils/iframeUtils";
-import { postScratchGuiEvent } from "./events.js";
+import { allowedIframeHost } from "./utils/iframeUtils";
+import { postScratchGuiEvent } from "./utils/events.js";
 
 const ScratchIntegrationHOC = function (WrappedComponent) {
   class ScratchIntegrationComponent extends React.Component {
