@@ -15,6 +15,9 @@ const {
   crossOriginHeaders,
   setCrossOriginResourcePolicy,
 } = require("./config/devServerSecurity");
+const {
+  getScratchTemplateParameters,
+} = require("./src/utils/scratchTemplateConfig.cjs");
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -22,47 +25,15 @@ let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
-const isDev = process.env.NODE_ENV !== "production";
-
-const toOrigin = (envVarName, value) => {
-  const normalizedValue = String(value || "")
-    .trim()
-    .replace(/^['"]|['"]$/g, "");
-
-  if (!normalizedValue) return "";
-
-  try {
-    return new URL(normalizedValue).origin;
-  } catch (_) {
-    throw new Error(
-      `Invalid URL in ${envVarName}: "${value}". ` +
-        `Expected an absolute URL, for example "https://example.com".`,
-    );
-  }
-};
-
-const cspApiOrigin = toOrigin(
-  "REACT_APP_API_ENDPOINT",
-  process.env.REACT_APP_API_ENDPOINT,
-);
-const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
-
-// Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
-const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
-
-// When present these override cspApiOrigin for CSP API/connect-src origins.
-// This supports staging setups that need to allow multiple API origins,
-// such as also reaching the test API.
-const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
-  .split(/[\s,]+/)
-  .map((originValue, index) =>
-    toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
-  )
-  .filter(Boolean)
-  .join(" ");
-
 const scratchStaticDir = getScratchStaticDir(__dirname);
 const scratchChunkDir = getScratchChunkDir(__dirname);
+const scratchTemplateParameters = getScratchTemplateParameters({
+  assetsUrl: process.env.ASSETS_URL,
+  cspApiMultipleOrigins: process.env.CSP_API_MULTIPLE_ORIGINS,
+  nodeEnv: process.env.NODE_ENV,
+  publicUrl,
+  reactAppApiEndpoint: process.env.REACT_APP_API_ENDPOINT,
+});
 
 const moduleRules = [
   {
@@ -261,14 +232,7 @@ const scratchConfig = {
       template: "src/scratch.html",
       filename: "scratch.html",
       chunks: ["scratch"],
-      templateParameters: {
-        publicUrl: publicUrl,
-        cspApiOrigin,
-        cspApiMultipleOrigins,
-        cspAssetOrigin,
-        cspScratchLibraryAssetOrigin,
-        isDev,
-      },
+      templateParameters: scratchTemplateParameters,
     }),
     new CopyWebpackPlugin({
       patterns: getScratchCopyPatterns({ scratchStaticDir, scratchChunkDir }),
