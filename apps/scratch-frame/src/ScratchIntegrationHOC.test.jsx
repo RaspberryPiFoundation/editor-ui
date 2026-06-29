@@ -4,7 +4,7 @@ const { Provider } = require("react-redux");
 const configureStore = require("redux-mock-store").default;
 
 jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
-jest.mock("./events.js", () => ({ postScratchGuiEvent: jest.fn() }));
+jest.mock("./utils/events.js", () => ({ postScratchGuiEvent: jest.fn() }));
 jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
   remixProject: () => ({ type: "remix" }),
   manualUpdateProject: () => ({ type: "manualUpdate" }),
@@ -12,7 +12,7 @@ jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
 }));
 
 const ScratchIntegrationHOC = require("./ScratchIntegrationHOC").default;
-const { postScratchGuiEvent } = require("./events.js");
+const { postScratchGuiEvent } = require("./utils/events.js");
 
 describe("ScratchIntegrationHOC", () => {
   const mockSaveProjectSb3 = jest.fn();

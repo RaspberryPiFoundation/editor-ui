@@ -6,7 +6,7 @@ import ScratchEditor, {
 const mockWrappedScratchGui = jest.fn();
 const mockScratchProjectSave = jest.fn();
 
-jest.mock("../../utils/scratchProjectSave.js", () => ({
+jest.mock("./utils/scratchProjectSave.js", () => ({
   __esModule: true,
   default: (params) => mockScratchProjectSave(params),
 }));
