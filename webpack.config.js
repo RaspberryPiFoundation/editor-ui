@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const dotenv = require("dotenv");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -33,6 +34,22 @@ const scratchTemplateParameters = getScratchTemplateParameters({
   nodeEnv: process.env.NODE_ENV,
   publicUrl,
   reactAppApiEndpoint: process.env.REACT_APP_API_ENDPOINT,
+});
+const runtimeEnvValues = Object.keys(process.env)
+  .filter(
+    (key) =>
+      key.startsWith("REACT_APP_") ||
+      ["ASSETS_URL", "HTML_RENDERER_URL", "PUBLIC_URL"].includes(key),
+  )
+  .reduce(
+    (values, key) => ({
+      ...values,
+      [key]: process.env[key],
+    }),
+    { NODE_ENV: process.env.NODE_ENV || "development" },
+  );
+const runtimeEnvPlugin = new webpack.DefinePlugin({
+  __RUNTIME_ENV__: JSON.stringify(runtimeEnvValues),
 });
 
 const moduleRules = [
@@ -180,6 +197,7 @@ const mainConfig = {
       path: "./.env",
       systemvars: true,
     }),
+    runtimeEnvPlugin,
     new HtmlWebpackPlugin({
       inject: "body",
       template: "src/web-component.html",
@@ -227,6 +245,7 @@ const scratchConfig = {
       path: "./.env",
       systemvars: true,
     }),
+    runtimeEnvPlugin,
     new HtmlWebpackPlugin({
       inject: "body",
       template: "src/scratch.html",

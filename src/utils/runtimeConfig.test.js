@@ -3,6 +3,7 @@ import {
   getAssetsUrl,
   getHtmlRendererUrl,
   getPublicOriginUrl,
+  getRuntimeOrigin,
   getRuntimeEnv,
   htmlRendererPath,
   publicOriginPath,
@@ -11,6 +12,7 @@ import {
 
 describe("runtimeConfig", () => {
   const originalEnv = process.env;
+  const originalBundledEnv = global.__RUNTIME_ENV__;
 
   beforeEach(() => {
     process.env = { ...originalEnv };
@@ -18,6 +20,7 @@ describe("runtimeConfig", () => {
 
   afterEach(() => {
     process.env = originalEnv;
+    global.__RUNTIME_ENV__ = originalBundledEnv;
   });
 
   it("reads environment values dynamically", () => {
@@ -25,6 +28,17 @@ describe("runtimeConfig", () => {
 
     expect(getRuntimeEnv("REACT_APP_API_ENDPOINT")).toBe(
       "https://api.example.com",
+    );
+  });
+
+  it("prefers bundled environment values when present", () => {
+    process.env.REACT_APP_API_ENDPOINT = "https://process.example.com";
+    global.__RUNTIME_ENV__ = {
+      REACT_APP_API_ENDPOINT: "https://bundle.example.com",
+    };
+
+    expect(getRuntimeEnv("REACT_APP_API_ENDPOINT")).toBe(
+      "https://bundle.example.com",
     );
   });
 
@@ -44,6 +58,10 @@ describe("runtimeConfig", () => {
 
     expect(getAssetsUrl()).toBe(window.location.origin);
     expect(getHtmlRendererUrl()).toBe(window.location.origin);
+  });
+
+  it("uses globalThis.location as the runtime origin", () => {
+    expect(getRuntimeOrigin()).toBe(window.location.origin);
   });
 
   it("joins paths without duplicating slashes", () => {
