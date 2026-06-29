@@ -2,10 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
+import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import DownloadIcon from "../../assets/icons/download.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
+import useIsOnline from "../../hooks/useIsOnline";
 
 import "../../assets/stylesheets/ProjectBar.scss";
 import { isOwner } from "../../utils/projectHelpers";
@@ -15,10 +17,11 @@ const ProjectBar = ({ nameEditable = true }) => {
   const project = useSelector((state) => state.editor.project);
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.editor.loading);
-  const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
+  const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const isOnline = useIsOnline();
 
   if (loading !== "success") {
     return null;
@@ -41,9 +44,15 @@ const ProjectBar = ({ nameEditable = true }) => {
             <SaveButton className="project-bar__btn btn--save" />
           </div>
         )}
-        {lastSavedTime && user && !readOnly && (
-          <SaveStatus saving={saving} lastSavedTime={lastSavedTime} />
-        )}
+        {user &&
+          !readOnly &&
+          (offlineEnabled && !isOnline
+            ? projectOwner && (
+                <div className="project-bar__btn-wrapper">
+                  <OfflineBadge className="project-bar__btn" />
+                </div>
+              )
+            : lastSavedTime && <SaveStatus />)}
       </div>
     </div>
   );
