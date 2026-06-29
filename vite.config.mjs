@@ -201,15 +201,12 @@ const viteMigrationArtifactsPlugin = ({ copyPatterns }) => ({
       setCrossOriginResourcePolicy(req, res, next);
     });
     server.middlewares.use(
-      "/projects",
       serveDirectory("/projects", path.resolve(__dirname, "src/projects")),
     );
     server.middlewares.use(
-      "/scratch-gui/static",
       serveDirectory("/scratch-gui/static", scratchStaticDir),
     );
     server.middlewares.use(
-      "/scratch-gui/chunks",
       serveDirectory("/scratch-gui/chunks", scratchChunkDir),
     );
   },
