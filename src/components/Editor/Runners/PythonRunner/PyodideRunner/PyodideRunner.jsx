@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import {
   setError,
+  setErrorDetails,
   setFriendlyError,
   codeRunHandled,
   setLoadedRunner,
@@ -217,9 +218,14 @@ const PyodideRunner = ({
 
   const handleError = (file, line, mistake, type, info, rawTraceback) => {
     let errorMessage;
+    let errorDetails = {};
 
     if (type === "KeyboardInterrupt") {
       errorMessage = t("output.errors.interrupted");
+      errorDetails = {
+        type: "Interrupted",
+        message: errorMessage,
+      };
     } else {
       const message = [type, info].filter((s) => s).join(": ");
       errorMessage = [message, `on line ${line} of ${file}`].join(" ");
@@ -227,6 +233,14 @@ const PyodideRunner = ({
       if (mistake) {
         errorMessage += `:\n${mistake}`;
       }
+
+      errorDetails = {
+        type,
+        line,
+        file,
+        description: info || mistake || "",
+        message: errorMessage,
+      };
 
       const { createError } = ApiCallHandler({
         reactAppApiEndpoint,
@@ -257,6 +271,7 @@ const PyodideRunner = ({
     }
 
     dispatch(setError(errorMessage));
+    dispatch(setErrorDetails(errorDetails));
     disableInput();
   };
 
@@ -303,6 +318,7 @@ const PyodideRunner = ({
   const handleRun = async () => {
     output.current.innerHTML = "";
     dispatch(setError(""));
+    dispatch(setErrorDetails({}));
     dispatch(setFriendlyError(null));
     setVisuals([]);
     stdinClosed.current = false;
