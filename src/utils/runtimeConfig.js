@@ -17,10 +17,14 @@ export const isTest = () => getNodeEnv() === "test";
 
 export const getPublicUrl = () => getRuntimeEnv("PUBLIC_URL", "");
 
-export const getAssetsUrl = () => getRuntimeEnv("ASSETS_URL", getPublicUrl());
+const getBrowserOrigin = () =>
+  typeof window === "undefined" ? "" : window.location.origin;
+
+export const getAssetsUrl = () =>
+  getRuntimeEnv("ASSETS_URL") || getPublicUrl() || getBrowserOrigin();
 
 export const getHtmlRendererUrl = () =>
-  getRuntimeEnv("HTML_RENDERER_URL", getPublicUrl());
+  getRuntimeEnv("HTML_RENDERER_URL") || getPublicUrl() || getBrowserOrigin();
 
 export const runtimeUrl = (baseUrl, path) => {
   const normalizedPath = trimLeadingSlash(path);

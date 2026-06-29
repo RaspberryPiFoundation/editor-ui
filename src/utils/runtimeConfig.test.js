@@ -35,6 +35,15 @@ describe("runtimeConfig", () => {
     expect(getHtmlRendererUrl()).toBe("https://static.example.com/branch");
   });
 
+  it("falls back to the browser origin for empty asset origins", () => {
+    process.env.PUBLIC_URL = "";
+    process.env.ASSETS_URL = "";
+    process.env.HTML_RENDERER_URL = "";
+
+    expect(getAssetsUrl()).toBe(window.location.origin);
+    expect(getHtmlRendererUrl()).toBe(window.location.origin);
+  });
+
   it("joins paths without duplicating slashes", () => {
     process.env.PUBLIC_URL = "https://static.example.com/branch/";
     process.env.ASSETS_URL = "https://assets.example.com/branch";
