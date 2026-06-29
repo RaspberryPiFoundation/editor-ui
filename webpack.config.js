@@ -5,6 +5,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const {
+  getScratchChunkDir,
+  getScratchCopyPatterns,
+  getScratchStaticDir,
+  mainCopyPatterns,
+} = require("./config/buildArtifacts");
+const {
+  crossOriginHeaders,
+  setCrossOriginResourcePolicy,
+} = require("./config/devServerSecurity");
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -51,15 +61,8 @@ const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
   .filter(Boolean)
   .join(" ");
 
-const scratchStaticDir = path.resolve(
-  __dirname,
-  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/static",
-);
-
-const scratchChunkDir = path.resolve(
-  __dirname,
-  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/chunks",
-);
+const scratchStaticDir = getScratchStaticDir(__dirname);
+const scratchChunkDir = getScratchChunkDir(__dirname);
 
 const moduleRules = [
   {
@@ -193,30 +196,9 @@ const mainConfig = {
         publicPath: `${publicUrl}scratch-gui/chunks`,
       },
     ],
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
-      // Pyodide - required for input and code interruption - needed on the host app
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp",
-    },
+    headers: crossOriginHeaders,
     setupMiddlewares: (middlewares, devServer) => {
-      devServer.app.use((req, res, next) => {
-        if (
-          [
-            "/pyodide/shims/_internal_sense_hat.js",
-            "/pyodide/shims/pygal.js",
-            "/PyodideWorker.js",
-          ].includes(req.url) ||
-          req.url.startsWith("/scratch.html") ||
-          req.url.startsWith("/html-renderer.html")
-        ) {
-          res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-        }
-        next();
-      });
+      devServer.app.use(setCrossOriginResourcePolicy);
       return middlewares;
     },
   },
@@ -239,16 +221,7 @@ const mainConfig = {
       filename: "html-renderer.html",
       chunks: ["html-renderer"],
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: "public", to: "" },
-        { from: "src/projects", to: "projects" },
-        {
-          from: "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks",
-          to: "python-error-copydecks",
-        },
-      ],
-    }),
+    new CopyWebpackPlugin({ patterns: mainCopyPatterns }),
   ],
   stats: "minimal",
 };
@@ -298,35 +271,7 @@ const scratchConfig = {
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: scratchStaticDir, to: "scratch-gui/static" },
-        { from: `${scratchStaticDir}/assets`, to: "vendor/static/assets" },
-        { from: scratchChunkDir, to: "chunks" },
-        {
-          from: "node_modules/scratchReactVendor/umd/react.production.min.js",
-          to: "vendor/react.production.min.js",
-        },
-        {
-          from: "node_modules/scratchReactDomVendor/umd/react-dom.production.min.js",
-          to: "vendor/react-dom.production.min.js",
-        },
-        {
-          from: "node_modules/redux/dist/redux.min.js",
-          to: "vendor/redux.min.js",
-        },
-        {
-          from: "node_modules/react-redux/dist/react-redux.min.js",
-          to: "vendor/react-redux.min.js",
-        },
-        {
-          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js",
-          to: "vendor/scratch-gui.js",
-        },
-        {
-          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js.LICENSE.txt",
-          to: "vendor/scratch-gui.js.LICENSE.txt",
-        },
-      ],
+      patterns: getScratchCopyPatterns({ scratchStaticDir, scratchChunkDir }),
     }),
   ],
   stats: "minimal",
