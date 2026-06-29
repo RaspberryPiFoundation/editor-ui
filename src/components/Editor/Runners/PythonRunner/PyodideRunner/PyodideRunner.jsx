@@ -28,18 +28,7 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 import { publicPath } from "../../../../../utils/runtimeConfig";
-
-const getWorkerURL = (url) => {
-  const content = `
-    /* global PyodideWorker */
-    console.log("Worker loading");
-    importScripts("${url}");
-    const pyodide = PyodideWorker();
-    console.log("Worker loaded");
-  `;
-  const blob = new Blob([content], { type: "application/javascript" });
-  return URL.createObjectURL(blob);
-};
+import { createPyodideWorkerUrl } from "../../../../../utils/pyodideWorkerUrl";
 
 const PyodideRunner = ({
   active,
@@ -81,7 +70,7 @@ const PyodideRunner = ({
 
   useEffect(() => {
     if (active) {
-      const workerUrl = getWorkerURL(publicPath("PyodideWorker.js"));
+      const workerUrl = createPyodideWorkerUrl();
       const worker = new Worker(workerUrl);
       setPyodideWorker(worker);
     }
