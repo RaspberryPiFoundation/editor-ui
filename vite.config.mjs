@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
-import { defineConfig, loadEnv, transformWithEsbuild } from "vite";
+import { defineConfig, loadEnv, transformWithOxc } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
@@ -267,8 +267,8 @@ const jsAsJsxPlugin = () => ({
   enforce: "pre",
   async transform(code, id) {
     if (!id.includes("/src/") || !id.endsWith(".js")) return null;
-    return transformWithEsbuild(code, id, {
-      loader: "jsx",
+    return transformWithOxc(code, id, {
+      lang: "jsx",
     });
   },
 });
@@ -349,6 +349,7 @@ export default defineConfig(({ mode }) => {
       headers: crossOriginHeaders,
       host: "0.0.0.0",
       port: 3011,
+      strictPort: true,
     },
     preview: {
       headers: crossOriginHeaders,
@@ -370,6 +371,13 @@ export default defineConfig(({ mode }) => {
           assetFileNames: "assets/[name][extname]",
           chunkFileNames: "assets/[name]-[hash].js",
           entryFileNames: "[name].js",
+        },
+      },
+    },
+    optimizeDeps: {
+      rolldownOptions: {
+        moduleTypes: {
+          ".js": "jsx",
         },
       },
     },
