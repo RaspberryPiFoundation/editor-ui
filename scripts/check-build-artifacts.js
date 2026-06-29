@@ -21,7 +21,6 @@ const requiredFiles = [
   "shims/sense_hat/sense_hat_blob.py",
   "python-error-copydecks/en/copydeck.json",
   "scratch-gui/static/assets",
-  "scratch-gui/chunks",
   "chunks",
   "vendor/react.production.min.js",
   "vendor/react-dom.production.min.js",
