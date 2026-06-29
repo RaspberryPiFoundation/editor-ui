@@ -48,14 +48,10 @@ const externalLibraries = {
     dependencies: [assetPath("libraries/processing/p5/p5.js")],
   },
   "./py5_imported/__init__.js": {
-    path: assetPath(
-      "shims/processing/py5_imported_mode/py5_imported.js",
-    ),
+    path: assetPath("shims/processing/py5_imported_mode/py5_imported.js"),
   },
   "./py5_imported_mode.py": {
-    path: assetPath(
-      "shims/processing/py5_imported_mode/py5_imported_mode.py",
-    ),
+    path: assetPath("shims/processing/py5_imported_mode/py5_imported_mode.py"),
   },
   "./p5/__init__.js": {
     path: assetPath("shims/processing/p5/p5-shim.js"),
