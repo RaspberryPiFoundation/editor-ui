@@ -10,8 +10,30 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-// Ensure environment variables are read.
-require("../config/env");
+const fs = require("fs");
+const path = require("path");
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
+
+[
+  `${resolveApp(".env")}.${process.env.NODE_ENV}.local`,
+  process.env.NODE_ENV !== "test" && `${resolveApp(".env")}.local`,
+  `${resolveApp(".env")}.${process.env.NODE_ENV}`,
+  resolveApp(".env"),
+]
+  .filter(Boolean)
+  .forEach((dotenvFile) => {
+    if (fs.existsSync(dotenvFile)) {
+      dotenvExpand(
+        dotenv.config({
+          path: dotenvFile,
+        }),
+      );
+    }
+  });
 
 const jest = require("jest");
 const execSync = require("child_process").execSync;

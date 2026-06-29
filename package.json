@@ -134,7 +134,6 @@
     "mock-match-media": "^0.4.3",
     "postcss": "^8.5.10",
     "prettier": "^3.8.1",
-    "react-dev-utils": "^11.0.3",
     "redux-mock-store": "^1.5.4",
     "rollup-plugin-visualizer": "^7.0.1",
     "sass": "^1.51.0",
