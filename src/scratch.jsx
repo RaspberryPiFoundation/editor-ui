@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 import { isProduction } from "./utils/runtimeConfig.js";
 
-import ScratchStyles from "./assets/stylesheets/Scratch.scss";
+import ScratchStyles from "./assets/stylesheets/Scratch.scss?inline";
 import ScratchEditor from "./components/ScratchEditor/ScratchEditor.jsx";
 import {
   postScratchGuiEvent,

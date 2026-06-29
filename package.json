@@ -199,6 +199,8 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
+      "^(.+\\.md)\\?raw$": "$1",
+      "^(.+\\.(css|sass|scss))\\?inline$": "$1",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
