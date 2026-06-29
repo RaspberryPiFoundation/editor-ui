@@ -20,6 +20,8 @@ export const getPublicUrl = () => getRuntimeEnv("PUBLIC_URL", "");
 const getBrowserOrigin = () =>
   typeof window === "undefined" ? "" : window.location.origin;
 
+export const getPublicOriginUrl = () => getPublicUrl() || getBrowserOrigin();
+
 export const getAssetsUrl = () =>
   getRuntimeEnv("ASSETS_URL") || getPublicUrl() || getBrowserOrigin();
 
@@ -34,6 +36,9 @@ export const runtimeUrl = (baseUrl, path) => {
 };
 
 export const publicPath = (path) => runtimeUrl(getPublicUrl(), path);
+
+export const publicOriginPath = (path) =>
+  runtimeUrl(getPublicOriginUrl(), path);
 
 export const assetPath = (path) => runtimeUrl(getAssetsUrl(), path);
 

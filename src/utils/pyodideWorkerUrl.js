@@ -1,9 +1,9 @@
-import { publicPath } from "./runtimeConfig";
+import { publicOriginPath } from "./runtimeConfig";
 
 export const PYODIDE_WORKER_ARTIFACT = "PyodideWorker.js";
 
 export const getPyodideWorkerScriptUrl = () =>
-  publicPath(PYODIDE_WORKER_ARTIFACT);
+  publicOriginPath(PYODIDE_WORKER_ARTIFACT);
 
 export const getPyodideWorkerBootstrap = (workerScriptUrl) => `
     /* global PyodideWorker */

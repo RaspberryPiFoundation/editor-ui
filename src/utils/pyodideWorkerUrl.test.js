@@ -21,6 +21,14 @@ describe("pyodideWorkerUrl", () => {
     expect(getPyodideWorkerScriptUrl()).toBe("./PyodideWorker.js");
   });
 
+  it("uses the browser origin for blob worker imports when PUBLIC_URL is blank", () => {
+    process.env.PUBLIC_URL = "";
+
+    expect(getPyodideWorkerScriptUrl()).toBe(
+      `${window.location.origin}/PyodideWorker.js`,
+    );
+  });
+
   it("creates the worker bootstrap that imports the emitted artifact", () => {
     expect(getPyodideWorkerBootstrap("/PyodideWorker.js")).toContain(
       'importScripts("/PyodideWorker.js");',

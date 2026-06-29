@@ -2,8 +2,10 @@ import {
   assetPath,
   getAssetsUrl,
   getHtmlRendererUrl,
+  getPublicOriginUrl,
   getRuntimeEnv,
   htmlRendererPath,
+  publicOriginPath,
   publicPath,
 } from "./runtimeConfig";
 
@@ -64,5 +66,14 @@ describe("runtimeConfig", () => {
     process.env.PUBLIC_URL = "";
 
     expect(publicPath("translations/en.json")).toBe("/translations/en.json");
+  });
+
+  it("can force browser-origin public paths for blob workers", () => {
+    process.env.PUBLIC_URL = "";
+
+    expect(getPublicOriginUrl()).toBe(window.location.origin);
+    expect(publicOriginPath("PyodideWorker.js")).toBe(
+      `${window.location.origin}/PyodideWorker.js`,
+    );
   });
 });
