@@ -8,9 +8,9 @@ import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
 import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
-import htmlLogo from "../../../assets/html_icon.svg";
+import webLogo from "../../../assets/web_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
-import scratchLogo from "../../../assets/scratch_icon.svg";
+import blocksLogo from "../../../assets/blocks_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
@@ -70,9 +70,9 @@ const SidebarBar = (props) => {
       case "python":
         return pythonLogo;
       case "code_editor_scratch":
-        return scratchLogo;
+        return blocksLogo;
       case "html":
-        return htmlLogo;
+        return webLogo;
       default:
         return null;
     }
