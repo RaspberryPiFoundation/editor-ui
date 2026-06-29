@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        base-uri 'none';
+        object-src 'none';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com;
+        style-src 'self' 'unsafe-inline';
+        worker-src 'self' blob:;
+        child-src 'self' blob:;
+        connect-src 'self' %SCRATCH_CSP_API_ORIGINS% %SCRATCH_CSP_ASSET_ORIGIN% %SCRATCH_CSP_LIBRARY_ASSET_ORIGIN% %SCRATCH_CSP_DEV_CONNECT_ORIGINS%;
+        img-src 'self' data: blob: %SCRATCH_CSP_ASSET_ORIGIN% %SCRATCH_CSP_LIBRARY_ASSET_ORIGIN%;
+        media-src 'self' blob: %SCRATCH_CSP_ASSET_ORIGIN% %SCRATCH_CSP_LIBRARY_ASSET_ORIGIN%;
+        font-src 'self' data: %SCRATCH_CSP_ASSET_ORIGIN%;
+        form-action 'self';
+        upgrade-insecure-requests;
+      "
+    />
+    <title>Scratch</title>
+    <style>
+      #scratch-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25em;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: calc(1.5rem * var(--scale-factor, 1));
+        line-height: calc(2.5rem * var(--scale-factor, 1));
+        text-transform: lowercase;
+      }
+
+      #scratch-loading::before,
+      #scratch-loading::after {
+        display: inline-block;
+        transform: scale(1.2);
+      }
+
+      #scratch-loading::before {
+        content: "{";
+        animation: scratch-loading-pulse 0.8s alternate infinite ease-in-out;
+      }
+
+      #scratch-loading::after {
+        content: "}";
+        animation: scratch-loading-pulse 0.8s alternate infinite ease-in-out;
+      }
+
+      @keyframes scratch-loading-pulse {
+        to {
+          transform: scale(1);
+          opacity: 0.25;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #scratch-loading::before,
+        #scratch-loading::after {
+          transform: scale(1);
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scratch-loading">loading</div>
+    <div id="app"></div>
+
+    <script vite-ignore src="%SCRATCH_PUBLIC_URL%vendor/react.production.min.js"></script>
+    <script vite-ignore src="%SCRATCH_PUBLIC_URL%vendor/react-dom.production.min.js"></script>
+    <script vite-ignore src="%SCRATCH_PUBLIC_URL%vendor/redux.min.js"></script>
+    <script vite-ignore src="%SCRATCH_PUBLIC_URL%vendor/react-redux.min.js"></script>
+    <script>
+      window.react = window.React;
+      window["react-dom"] = window.ReactDOM;
+      window.redux = window.Redux;
+      window["react-redux"] = window.ReactRedux;
+    </script>
+    <script vite-ignore src="%SCRATCH_PUBLIC_URL%vendor/scratch-gui.js"></script>
+    <script type="module" src="/src/scratch.jsx"></script>
+  </body>
+</html>

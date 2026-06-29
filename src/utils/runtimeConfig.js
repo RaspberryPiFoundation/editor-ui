@@ -1,7 +1,13 @@
+/* global __RUNTIME_ENV__ */
+
 const trimLeadingSlash = (value) => value.replace(/^\/+/, "");
 
+const getBundledEnv = () =>
+  typeof __RUNTIME_ENV__ === "undefined" ? {} : __RUNTIME_ENV__;
+
 export const getRuntimeEnv = (name, fallback = "") => {
-  const env = typeof process === "undefined" ? {} : process.env || {};
+  const env =
+    typeof process === "undefined" ? getBundledEnv() : process.env || {};
   const value = env[name];
 
   return value === undefined ? fallback : value;

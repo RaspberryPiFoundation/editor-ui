@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="data:," />
+    <title>Editor Web component</title>
+    <style>
+      #root {
+        min-block-size: 100dvh;
+        -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
+        scrollbar-width: none; /* Remove scroll bar for Firefox */
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        block-size: 100dvh;
+        margin: 0;
+      }
+      #editor-component {
+        flex: 1 1 auto;
+        display: flex;
+        min-block-size: 0;
+      }
+      .sample-projects-bar {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+        color: #111;
+        font-size: 14px;
+        font-family: sans-serif;
+        line-height: 1.4;
+      }
+      .sample-projects-bar a {
+        color: #005fb8;
+        text-decoration: underline;
+      }
+      .editor-wc {
+        flex: 1 1 auto;
+        display: flex;
+      }
+      ::part(editor-root) {
+        display: block;
+        flex: 1 1 auto;
+        max-block-size: 100dvh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sample-projects-bar" id="sample-projects-bar">
+      <span>Load Sample Projects:</span>
+      <a href="#" data-project="blank-html-starter">blank-html-starter</a>
+      <a href="#" data-project="cool-html">cool-html</a>
+      <a href="#" data-project="blank-python-starter">blank-python-starter</a>
+      <a href="#" data-project="cool-python">cool-python</a>
+      <a href="#" data-project="python-plotly">python-plotly</a>
+      <a href="#" data-project="cool-scratch">cool-scratch</a>
+    </div>
+    <div id="editor-component"></div>
+    <p id="results"></p>
+    <p id="project-identifier"></p>
+    <button id="run-button">Run code</button>
+  </body>
+
+  <script type="module" src="/src/web-component.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", (e) => {
+      const queryParams = new URLSearchParams(window.location.search);
+      let webComp;
+
+      // subscribe to the 'codeChanged' custom event which is pushed by the project react component
+      document.addEventListener("editor-codeChanged", function (e) {
+        const code = webComp.editorCode;
+      });
+
+      document.addEventListener("editor-runCompleted", (e) => {
+        document.getElementById("results").innerText = JSON.stringify(e.detail);
+      });
+
+      document.addEventListener("editor-projectIdentifierChanged", (e) => {
+        document.getElementById("project-identifier").innerText = e.detail;
+      });
+
+      const sampleBar = document.getElementById("sample-projects-bar");
+      const editorContainer = document.getElementById("editor-component");
+
+      const createWebComponent = (initialProject = null) => {
+        const newWebComp = document.createElement("editor-wc");
+
+        newWebComp.setAttribute("with_projectbar", "true");
+        newWebComp.setAttribute("with_sidebar", "true");
+        newWebComp.setAttribute("use_editor_styles", "true");
+        // see "Offline support" section in README for more details
+        newWebComp.setAttribute("offline_enabled", "true");
+        newWebComp.setAttribute(
+          "sidebar_options",
+          JSON.stringify([
+            "instructions",
+            "file",
+            "images",
+            "download",
+            "settings",
+            "info",
+          ]),
+        );
+
+        newWebComp.setAttribute("code", "");
+        newWebComp.setAttribute("class", "editor-wc");
+        newWebComp.setAttribute("host_styles", JSON.stringify([]));
+        const scratchApiEndpoint = new URL(".", window.location.href)
+          .href
+          .replace(/\/$/, "");
+        newWebComp.setAttribute("scratch_api_endpoint", scratchApiEndpoint);
+
+        queryParams.forEach((value, key) => {
+          newWebComp.setAttribute(key, value);
+        });
+
+        if (initialProject) {
+          newWebComp.setAttribute("initial_project", initialProject);
+        }
+
+        return newWebComp;
+      };
+
+      webComp = createWebComponent();
+      editorContainer.prepend(webComp);
+
+      const loadSampleProjectByName = async (projectName) => {
+        const url = new URL(`projects/${projectName}.json`, window.location.href);
+        const res = await fetch(url, { cache: "no-store" });
+        const project = await res.text();
+
+        webComp.parentNode.removeChild(webComp);
+        webComp = createWebComponent(project);
+        editorContainer.prepend(webComp);
+      };
+
+      sampleBar.addEventListener("click", (event) => {
+        const link = event.target.closest("a[data-project]");
+        if (!link || !sampleBar.contains(link)) return;
+        event.preventDefault();
+        loadSampleProjectByName(link.dataset.project);
+      });
+
+      document.getElementById("run-button").onclick = (event) => {
+        webComp.rerunCode();
+      };
+    });
+  </script>
+</html>
