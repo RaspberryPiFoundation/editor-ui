@@ -3,12 +3,9 @@ import { createRoot } from "react-dom/client";
 import process from "process";
 import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 
-import ScratchStyles from "./assets/stylesheets/Scratch.scss";
-import ScratchEditor from "./components/ScratchEditor/ScratchEditor.jsx";
-import {
-  postScratchGuiEvent,
-  allowedParentOrigin,
-} from "./components/ScratchEditor/events.js";
+import ScratchStyles from "./stylesheets/Scratch.scss";
+import ScratchEditor from "./ScratchEditor.jsx";
+import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");

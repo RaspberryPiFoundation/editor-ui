@@ -1,6 +1,6 @@
 jest.mock("./utils/dedupeScratchWarnings.js", () => jest.fn());
-jest.mock("./assets/stylesheets/Scratch.scss", () => "");
-jest.mock("./components/ScratchEditor/WrappedScratchGui.jsx", () => (props) => {
+jest.mock("./stylesheets/Scratch.scss", () => "");
+jest.mock("./WrappedScratchGui.jsx", () => (props) => {
   return null;
 });
 
