@@ -1,6 +1,5 @@
 # Project Overview
-- Web component version of Raspberry Pi Code Editor, built with React and a
-  custom (ejected CRA) webpack setup.
+- Web component version of Raspberry Pi Code Editor, built with React and Vite.
 - Primary entry is the web component bundle served by the dev server at
   `http://localhost:3011`.
 
@@ -8,7 +7,7 @@
 - `src/`: application code, redux, web component entrypoints.
 - `public/`: static assets, Python/Skulpt libraries and shims.
 - `cypress/`: end-to-end tests and fixtures.
-- `config/`: webpack/jest config and build helpers.
+- `config/`: Vite/Jest shared build helpers.
 - `.github/workflows/`: CI/CD and deploy pipelines.
 
 ## Quickstart Commands
@@ -19,10 +18,10 @@ yarn start
 ```
 
 ## Development Workflow
-- Node.js: use the version pinned in `.tool-versions`.
-- CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
+- Node.js: CI and Vite require Node 20.19+; use the version pinned in
+  `.tool-versions`.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
-- Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
+- Dev server: `yarn start` (Vite dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
 - Build output goes to `build/` (gitignored).
 
@@ -103,7 +102,7 @@ yarn exec cypress open
 
 ### Service overview
 This is a single-service frontend application (no backend, database, or Docker required).
-The only service is the webpack dev server on port 3011, started with `yarn start`.
+The only service is the Vite dev server on port 3011, started with `yarn start`.
 
 ### Python execution caveat
 The editor's Python runtime (Pyodide) requires external CDN access
@@ -112,6 +111,6 @@ execution will silently fail (no output). HTML/CSS/JS projects work fully
 offline. This does not affect unit tests or linting.
 
 ### Dev server startup
-`yarn start` takes ~15 seconds to compile. Wait for the
-`webpack compiled successfully` message before curling or browsing port 3011.
+`yarn start` normally becomes ready quickly. Wait for the Vite ready message
+before curling or browsing port 3011.
 The test page is served at port 3011 under path `/web-component.html`.

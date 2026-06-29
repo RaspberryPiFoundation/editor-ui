@@ -1,6 +1,7 @@
 # Getting Started
 
-This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
+This project provides a web component containing the Raspberry Pi Code Editor
+for use on other sites. The application is built and served with Vite.
 
 ## Install dependencies
 
@@ -60,25 +61,24 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3011](http://localhost:3011) to view the web component test page in the browser.
+Open [http://localhost:3011/web-component.html](http://localhost:3011/web-component.html) to view the web component test page in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 ### `yarn test`
 
-Launches the test runner in interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the Jest test runner in interactive watch mode.
 
 ### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified. Vite chunks include hashes, while the public entrypoint
+files keep stable names such as `web-component.js`, `html-renderer.js`,
+`scratch.js`, and `PyodideWorker.js`.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ## Linting
 

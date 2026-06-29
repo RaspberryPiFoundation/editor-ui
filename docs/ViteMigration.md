@@ -1,5 +1,19 @@
 # Vite migration notes
 
+## Build shape
+
+Vite owns the dev server and production build. The migration preserves the
+stable deployment entrypoints expected by host applications:
+
+- `web-component.html` / `web-component.js`
+- `html-renderer.html` / `html-renderer.js`
+- `scratch.html` / `scratch.js`
+- `PyodideWorker.js`
+
+Scratch still uses the prebuilt Scratch GUI UMD bundle and React 18 vendor
+globals inside its iframe. The Vite config bridges Scratch-only imports to
+those globals so the main web component can keep its normal React bundle.
+
 ## Test runner scope
 
 Keep Jest as the test runner for the initial Vite bundler migration.

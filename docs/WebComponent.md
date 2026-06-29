@@ -1,10 +1,12 @@
 # Editor Web Component
 
-To have the web component be able to use the same React components as the site application there needed to be a separate start script for the component. This required being able to customise how build was done and meant the `create-react-app` needed to be ejected. This copies configuration files into the project instead of running it all in create-react-app scripts.
+The web component uses the same React components as the site application and is
+built by Vite from the root `web-component.html` entrypoint.
 
-There is a custom webpack config file for the component `webpack.config.js` and a script in the `package.json`: `start` which will start serving the web component.
+The `package.json` `start` script runs the Vite dev server on port 3011.
 
-In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011` will load the page with the web component mounted.
+Viewing `http://localhost:3011/web-component.html` loads the test page with the
+web component mounted.
 
 ## WebComponent Class
 

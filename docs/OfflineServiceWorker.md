@@ -16,7 +16,7 @@ For the editor-ui offline indicator to work, the controlling service worker must
 
 The implementation below could be shipped as `public/service-worker.js` in editor-ui. It caches the editor shell and Pyodide assets and implements the messaging contract above.
 
-> **Note:** Cache version strings (`editor-app-v1`, `editor-translations-v1`) would usually be replaced, by the host app, with the package version at build time via a webpack `CopyWebpackPlugin` transform. If you adopt this SW you will need to wire up equivalent versioning, or replace them with a fixed string and manage cache invalidation another way.
+> **Note:** Cache version strings (`editor-app-v1`, `editor-translations-v1`) would usually be replaced, by the host app, with the package version at build time. If you adopt this SW you will need to wire up equivalent Vite-time versioning, or replace them with a fixed string and manage cache invalidation another way.
 
 ```js
 /* eslint-env serviceworker */
