@@ -1,10 +1,12 @@
+import { isDevelopment } from "./runtimeConfig";
+
 const designSystemWarningsKey = "__designSystemWarningsDeduped";
 const designSystemIconWarning =
   "DEPRECATED: icons as React elements will not be supported in future releases";
 
 const dedupeDesignSystemWarnings = () => {
   if (
-    process.env.NODE_ENV !== "development" ||
+    !isDevelopment() ||
     typeof window !== "object" ||
     window[designSystemWarningsKey]
   ) {

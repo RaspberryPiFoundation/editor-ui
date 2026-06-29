@@ -3,11 +3,10 @@ import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import Sk from "skulpt";
 import { invalidate } from "@react-three/fiber";
+import { assetPath } from "../../utils/runtimeConfig";
 
 const FlightCase = () => {
-  const { scene } = useGLTF(
-    `${process.env.ASSETS_URL}/models/raspi-compressed.glb`,
-  );
+  const { scene } = useGLTF(assetPath("models/raspi-compressed.glb"));
   window.mod = scene;
 
   const blankLED = new THREE.MeshStandardMaterial({ color: `rgb(0,0,0)` });

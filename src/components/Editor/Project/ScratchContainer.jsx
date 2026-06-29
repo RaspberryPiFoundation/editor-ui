@@ -9,6 +9,7 @@ import {
   postMessageToScratchIframe,
   getScratchAllowedOrigin,
 } from "../../../utils/scratchIframe";
+import { assetPath } from "../../../utils/runtimeConfig";
 
 const SCRATCH_MIN_WIDTH = 1024;
 const SCRATCH_SCROLLBAR_OPTIONS = {
@@ -126,9 +127,7 @@ export default function ScratchContainer() {
   queryParams.set("scratchMetadata", "1");
   queryParams.set("parent_origin", window.location.origin);
 
-  const iframeSrcUrl = `${
-    process.env.ASSETS_URL
-  }/scratch.html?${queryParams.toString()}`;
+  const iframeSrcUrl = assetPath(`scratch.html?${queryParams.toString()}`);
 
   return (
     <div className="scratch-container" data-testid="scratch-container">

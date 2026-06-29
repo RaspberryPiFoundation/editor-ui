@@ -36,6 +36,7 @@ import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
+import { getRuntimeEnv } from "../utils/runtimeConfig";
 
 const CODE_EDITOR_FEEDBACK_URL =
   "https://form.raspberrypi.org/f/code-editor-feedback";
@@ -59,8 +60,8 @@ const WebComponentLoader = (props) => {
     outputSplitView = false,
     sidebarPlugins = [],
     projectNameEditable = false,
-    reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
-    scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    reactAppApiEndpoint = getRuntimeEnv("REACT_APP_API_ENDPOINT"),
+    scratchApiEndpoint = getRuntimeEnv("REACT_APP_API_ENDPOINT"),
     readOnly = false,
     senseHatAlwaysEnabled = false,
     friendlyErrorsEnabled = false,

@@ -27,6 +27,7 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import { publicPath } from "../../../../../utils/runtimeConfig";
 
 const getWorkerURL = (url) => {
   const content = `
@@ -80,9 +81,7 @@ const PyodideRunner = ({
 
   useEffect(() => {
     if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
+      const workerUrl = getWorkerURL(publicPath("PyodideWorker.js"));
       const worker = new Worker(workerUrl);
       setPyodideWorker(worker);
     }
@@ -92,7 +91,7 @@ const PyodideRunner = ({
     if (friendlyErrorsEnabled) {
       try {
         loadCopydeckFor(i18n.language, {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+          base: publicPath("python-error-copydecks/"),
         });
         registerAdapter("pyodide", cpythonAdapter);
       } catch {

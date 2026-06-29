@@ -6,6 +6,7 @@ import {
   MSG_HTML_PREVIEW_READY,
   MSG_HTML_PROJECT_UPDATE,
 } from "../../../../utils/iframeUtils";
+import { getHtmlRendererUrl } from "../../../../utils/runtimeConfig";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
@@ -85,7 +86,10 @@ const forbiddenExternalLinkHTMLPage = {
 };
 
 describe("When run is triggered", () => {
+  const originalHtmlRendererUrl = process.env.HTML_RENDERER_URL;
+
   beforeEach(async () => {
+    process.env.HTML_RENDERER_URL = "https://renderer.example.com";
     let ready = false;
 
     const onMessage = (event) => {
@@ -102,6 +106,10 @@ describe("When run is triggered", () => {
     });
 
     window.removeEventListener("message", onMessage);
+  });
+
+  afterEach(() => {
+    process.env.HTML_RENDERER_URL = originalHtmlRendererUrl;
   });
 
   describe("When basic HTML is rendered", () => {
@@ -147,7 +155,7 @@ describe("When run is triggered", () => {
           '<a href="javascript:void(0)"',
         );
         expect(iframe.getAttribute("srcdoc")).toContain(
-          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'ERROR: External link'}, '${process.env.HTML_RENDERER_URL}')"`,
+          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'ERROR: External link'}, '${getHtmlRendererUrl()}')"`,
         );
         expect(iframe.getAttribute("srcdoc")).toContain("EXTERNAL LINK!");
       });
@@ -176,7 +184,7 @@ describe("When run is triggered", () => {
           '<a href="javascript:void(0)"',
         );
         expect(iframe.getAttribute("srcdoc")).toContain(
-          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'RELOAD', payload: { linkTo: 'index' }}, '${process.env.HTML_RENDERER_URL}')"`,
+          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'RELOAD', payload: { linkTo: 'index' }}, '${getHtmlRendererUrl()}')"`,
         );
         expect(iframe.getAttribute("srcdoc")).toContain("NEW TAB LINK!");
       });
@@ -204,7 +212,7 @@ describe("When run is triggered", () => {
           '<a href="javascript:void(0)"',
         );
         expect(iframe.getAttribute("srcdoc")).toContain(
-          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'RELOAD', payload: { linkTo: 'test' }}, '${process.env.HTML_RENDERER_URL}')`,
+          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'RELOAD', payload: { linkTo: 'test' }}, '${getHtmlRendererUrl()}')`,
         );
         expect(iframe.getAttribute("srcdoc")).toContain("ANCHOR LINK!");
       });
@@ -232,7 +240,7 @@ describe("When run is triggered", () => {
           '<a href="https://rpf.io/seefood"',
         );
         expect(iframe.getAttribute("srcdoc")).toContain(
-          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }}, '${process.env.HTML_RENDERER_URL}')`,
+          `onclick="window.parent.postMessage({type: 'editor-html-event', msg: 'Allowed external link', payload: { linkTo: 'https://rpf.io/seefood' }}, '${getHtmlRendererUrl()}')`,
         );
         expect(iframe.getAttribute("srcdoc")).toContain("RPF link");
       });

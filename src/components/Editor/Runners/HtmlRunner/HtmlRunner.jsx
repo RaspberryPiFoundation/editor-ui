@@ -26,6 +26,10 @@ import {
   MSG_HTML_PREVIEW_READY,
   MSG_HTML_PROJECT_UPDATE,
 } from "../../../../utils/iframeUtils";
+import {
+  getHtmlRendererUrl,
+  htmlRendererPath,
+} from "../../../../utils/runtimeConfig";
 
 function HtmlRunner() {
   const project = useSelector((state) => state.editor.project);
@@ -200,7 +204,7 @@ function HtmlRunner() {
           media: projectMedia,
           current: indexPage.toString(),
         },
-        process.env.HTML_RENDERER_URL,
+        getHtmlRendererUrl(),
       );
 
       if (codeRunTriggered) {
@@ -260,7 +264,7 @@ function HtmlRunner() {
               id="output-frame"
               title={t("runners.HtmlOutput")}
               ref={output}
-              src={`${process.env.HTML_RENDERER_URL}/html-renderer.html`}
+              src={htmlRendererPath("html-renderer.html")}
               onLoad={() => {
                 setExternalLink(null);
               }}

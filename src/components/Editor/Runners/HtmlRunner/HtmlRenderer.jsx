@@ -13,6 +13,7 @@ import {
   MSG_HTML_PREVIEW_READY,
   MSG_HTML_PROJECT_UPDATE,
 } from "../../../../utils/iframeUtils";
+import { getHtmlRendererUrl } from "../../../../utils/runtimeConfig";
 
 const parentTag = (node, tag) =>
   node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
@@ -39,6 +40,7 @@ const getBlobURL = (code, type) => {
 
 const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
   const hrefNodes = indexPage.querySelectorAll("[href]");
+  const htmlRendererUrl = getHtmlRendererUrl();
 
   hrefNodes.forEach((hrefNode) => {
     const projectFile = projectCode.find(
@@ -61,7 +63,7 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       } else {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }}, '${process.env.HTML_RENDERER_URL}')`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'RELOAD', payload: { linkTo: '${projectFile.name}' }}, '${htmlRendererUrl}')`;
       }
     } else {
       const matchingExternalHref = matchingRegexes(
@@ -79,9 +81,9 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
       ) {
         // eslint-disable-next-line no-script-url
         hrefNode.setAttribute("href", "javascript:void(0)");
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'ERROR: External link'}, '${process.env.HTML_RENDERER_URL}')`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'ERROR: External link'}, '${htmlRendererUrl}')`;
       } else if (matchingExternalHref) {
-        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }}, '${process.env.HTML_RENDERER_URL}')`;
+        onClick = `window.parent.postMessage({type: '${MSG_HTML_PREVIEW_EVENT}', msg: 'Allowed external link', payload: { linkTo: '${hrefNode.attrs.href}' }}, '${htmlRendererUrl}')`;
       }
     }
 

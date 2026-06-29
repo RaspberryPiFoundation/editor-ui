@@ -3,6 +3,7 @@ import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./events.js";
+import { assetPath } from "../../utils/runtimeConfig";
 
 /** Scratch library picker assets (not project save/load — those use editor-api). */
 export const SCRATCH_LIBRARY_ASSET_URL_TEMPLATE =
@@ -84,7 +85,7 @@ const ScratchEditor = ({
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
       libraryAssetUrlTemplate={SCRATCH_LIBRARY_ASSET_URL_TEMPLATE}
-      basePath={`${process.env.ASSETS_URL}/scratch-gui/`}
+      basePath={assetPath("scratch-gui/")}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;
         if (accessToken) {

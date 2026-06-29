@@ -1,12 +1,11 @@
 /* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
+import { assetPath } from "./utils/runtimeConfig";
 
 // Nest the PyodideWorker function inside a globalThis object so we control when its initialised.
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
-  importScripts(
-    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
-  );
-  importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
+  importScripts(assetPath("pyodide/shims/_internal_sense_hat.js"));
+  importScripts(assetPath("pyodide/shims/pygal.js"));
   importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
@@ -202,7 +201,7 @@ const PyodideWorker = () => {
     enigma: {
       before: async () => {
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
+          assetPath("pyodide/packages/py_enigma-0.1-py3-none-any.whl"),
         );
       },
       after: () => {},
@@ -211,7 +210,7 @@ const PyodideWorker = () => {
       before: async () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage(
-          `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`,
+          assetPath("pyodide/packages/turtle-0.0.1-py3-none-any.whl"),
         );
       },
       after: () =>
@@ -229,7 +228,7 @@ const PyodideWorker = () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage([
           "setuptools",
-          `${process.env.ASSETS_URL}/pyodide/packages/p5-0.0.1-py3-none-any.whl`,
+          assetPath("pyodide/packages/p5-0.0.1-py3-none-any.whl"),
         ]);
       },
       after: () => {},
@@ -250,7 +249,7 @@ const PyodideWorker = () => {
         });
         await pyodide.loadPackage([
           "pillow",
-          `${process.env.ASSETS_URL}/pyodide/packages/sense_hat-0.0.1-py3-none-any.whl`,
+          assetPath("pyodide/packages/sense_hat-0.0.1-py3-none-any.whl"),
         ]);
 
         _internal_sense_hat.config.pyodide = pyodide;

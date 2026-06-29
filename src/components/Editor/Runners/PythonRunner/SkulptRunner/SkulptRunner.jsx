@@ -33,34 +33,39 @@ import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import { getPythonImports } from "../../../../../utils/getPythonImports";
 import { configureTurtleGraphics } from "../../../../../utils/configureTurtleGraphics";
+import { assetPath, publicPath } from "../../../../../utils/runtimeConfig";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/pygal/pygal.js`,
+    path: assetPath("shims/pygal/pygal.js"),
     dependencies: [
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/highcharts.js",
       "https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.2/js/highcharts-more.js",
     ],
   },
   "./py5/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5/py5-shim.js`,
-    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
+    path: assetPath("shims/processing/py5/py5-shim.js"),
+    dependencies: [assetPath("libraries/processing/p5/p5.js")],
   },
   "./py5_imported/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported.js`,
+    path: assetPath(
+      "shims/processing/py5_imported_mode/py5_imported.js",
+    ),
   },
   "./py5_imported_mode.py": {
-    path: `${process.env.ASSETS_URL}/shims/processing/py5_imported_mode/py5_imported_mode.py`,
+    path: assetPath(
+      "shims/processing/py5_imported_mode/py5_imported_mode.py",
+    ),
   },
   "./p5/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/processing/p5/p5-shim.js`,
-    dependencies: [`${process.env.ASSETS_URL}/libraries/processing/p5/p5.js`],
+    path: assetPath("shims/processing/p5/p5-shim.js"),
+    dependencies: [assetPath("libraries/processing/p5/p5.js")],
   },
   "./_internal_sense_hat/__init__.js": {
-    path: `${process.env.ASSETS_URL}/shims/sense_hat/_internal_sense_hat.js`,
+    path: assetPath("shims/sense_hat/_internal_sense_hat.js"),
   },
   "./sense_hat.py": {
-    path: `${process.env.ASSETS_URL}/shims/sense_hat/sense_hat_blob.py`,
+    path: assetPath("shims/sense_hat/sense_hat_blob.py"),
   },
 };
 
@@ -177,7 +182,7 @@ const SkulptRunner = ({
     if (friendlyErrorsEnabled) {
       try {
         loadCopydeckFor(i18n.language, {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+          base: publicPath("python-error-copydecks/"),
         });
         registerAdapter("skulpt", cpythonAdapter);
       } catch {

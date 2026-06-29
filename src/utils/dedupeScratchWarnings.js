@@ -1,3 +1,5 @@
+import { isDevelopment } from "./runtimeConfig";
+
 const scratchWarningsKey = "__scratchWarningsDeduped";
 
 const scratchWarningMatchers = {
@@ -33,7 +35,7 @@ const scratchWarningMatchers = {
 
 const dedupeScratchWarnings = () => {
   if (
-    process.env.NODE_ENV !== "development" ||
+    !isDevelopment() ||
     typeof window !== "object" ||
     window[scratchWarningsKey]
   ) {
