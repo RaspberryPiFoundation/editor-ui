@@ -4136,7 +4136,7 @@ __metadata:
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
     "@raspberrypifoundation/design-system-react": "npm:^2.9.2"
-    "@raspberrypifoundation/python-friendly-error-messages": "npm:0.7.0"
+    "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
     "@react-three/drei": "npm:^10.0.0"
     "@react-three/fiber": "npm:^9.6.1"
     "@react-three/test-renderer": "npm:^9.0.0"
@@ -4259,10 +4259,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@raspberrypifoundation/python-friendly-error-messages@npm:0.7.0":
-  version: 0.7.0
-  resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.7.0"
-  checksum: 10/c6474c15f137ab96f751cb0c97523c448fe088e0cd857413bad23cbc208a6902ac4245e1af06ab150df636605ba8be1b94e3b02a2df9cea5a568d0fb2731f3f1
+"@raspberrypifoundation/python-friendly-error-messages@npm:0.8.0":
+  version: 0.8.0
+  resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.8.0"
+  checksum: 10/87b5a2d576cb2127a9d1882a0b5ff91c0d3cb528fee29859c034b859d3de64179e9163769a78a29e6f29da43c7fd2f2f4de1b4ec9dd6fa83372ae10e4b7de319
   languageName: node
   linkType: hard
 
