@@ -53,7 +53,7 @@ const localeMap = {
   "ro-RO": "ro",
   "ru-RU": "ru",
   "sk-SK": "sk",
-  "sl-SL": "sl",
+  "sl-SI": "sl",
   "sr-SP": "sr",
   "sv-SE": "sv",
   "th-TH": "th",
