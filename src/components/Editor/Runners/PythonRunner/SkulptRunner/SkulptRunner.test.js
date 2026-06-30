@@ -214,6 +214,12 @@ describe("When an error occurs", () => {
     );
   });
 
+  test("Clears any previous friendly error at run start", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setFriendlyError(null)]),
+    );
+  });
+
   test("Sets errorDetails in state", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
@@ -937,7 +943,6 @@ describe("When in tabbed view, turtle imported and code run", () => {
   });
 
   test("Output view toggle is shown", () => {
-    screen.debug();
     expect(
       screen.queryByText("outputViewToggle.buttonSplitLabel"),
     ).toBeInTheDocument();

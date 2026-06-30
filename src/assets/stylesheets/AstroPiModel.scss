@@ -102,6 +102,7 @@
           font-family: var(--wc-font-family-monospace);
 
           &-timer {
+            flex: 1;
             margin-block-start: 0;
             padding: $space-0-5 0;
             inline-size: 100%;
@@ -119,6 +120,14 @@
 
           label {
             flex: 1;
+          }
+
+          .rpf-input-field {
+            margin-block-end: 0;
+          }
+
+          .rpf-switch {
+            gap: 0;
           }
         }
 
@@ -209,11 +218,12 @@
             background-color: $rpf-grey-800;
             border: 1px solid $rpf-grey-500;
 
-            .react-toggle {
-              &-thumb {
-                border: 1px solid $rpf-white;
-                background-color: $rpf-white;
-              }
+            .rpf-switch {
+              --rpf-switch-on-color: var(--rpf-green-400);
+              --rpf-switch-handle-on-color: var(--rpf-grey-600);
+              --rpf-switch-off-color: var(--rpf-grey-150);
+              --rpf-switch-icon-off-color: var(--rpf-text-primary);
+              --rpf-switch-track-color: var(--rpf-grey-500);
             }
           }
         }
@@ -263,9 +273,8 @@
             background-color: $rpf-white;
             border: 2px solid $rpf-grey-300;
 
-            .react-toggle-thumb {
-              border: 1px solid $rpf-grey-100;
-              background-color: $rpf-grey-100;
+            .rpf-switch {
+              --rpf-switch-on-color: var(--rpf-green-800);
             }
           }
         }

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
   setSenseHatAlwaysEnabled,
+  setOfflineEnabled,
   setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
@@ -39,17 +40,6 @@ import {
 const CODE_EDITOR_FEEDBACK_URL =
   "https://form.raspberrypi.org/f/code-editor-feedback";
 
-const TOAST_CONTAINER_DEFAULTS = {
-  ...(ToastContainer.defaultProps || {}),
-};
-
-// react-toastify v8 uses defaultProps on a function component, which React
-// warns about in development. We pass the same defaults explicitly instead.
-// We should upgrade to version 10 in a different commit, this removes the warning
-if (process.env.NODE_ENV === "development") {
-  ToastContainer.defaultProps = undefined;
-}
-
 const WebComponentLoader = (props) => {
   const {
     assetsIdentifier,
@@ -81,6 +71,7 @@ const WebComponentLoader = (props) => {
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
     initialProject = null,
+    offlineEnabled = false,
   } = props;
   const dispatch = useDispatch();
 
@@ -210,6 +201,10 @@ const WebComponentLoader = (props) => {
   }, [readOnly, dispatch]);
 
   useEffect(() => {
+    dispatch(setOfflineEnabled(offlineEnabled));
+  }, [offlineEnabled, dispatch]);
+
+  useEffect(() => {
     // Create a script element to save the existing Prism object if there is one
     const script = document.createElement("script");
     script.textContent = `
@@ -247,7 +242,6 @@ const WebComponentLoader = (props) => {
             }`}
           >
             <ToastContainer
-              {...TOAST_CONTAINER_DEFAULTS}
               enableMultiContainer
               containerId="top-center"
               position="top-center"

@@ -7,8 +7,10 @@ import { logInEvent } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
+import useIsOnline from "../../hooks/useIsOnline";
 
 const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
@@ -19,6 +21,8 @@ const SaveButton = ({ className, type, fill = false }) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
+  const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
+  const isOnline = useIsOnline();
 
   useEffect(() => {
     if (!type) {
@@ -36,24 +40,26 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   const projectOwner = isOwner(user, project);
 
+  if (loading !== "success" || projectOwner || !buttonType) return null;
+
+  if (offlineEnabled && !isOnline) {
+    return <OfflineBadge className={className} />;
+  }
+
   return (
-    loading === "success" &&
-    !projectOwner &&
-    buttonType && (
-      <DesignSystemButton
-        className={classNames(className, {
-          "btn--primary": buttonType === "primary",
-          "btn--secondary": buttonType === "secondary",
-          "btn--tertiary": buttonType === "tertiary",
-        })}
-        onClick={onClickSave}
-        text={t(user ? "header.save" : "header.loginToSave")}
-        textAlways
-        icon={<SaveIcon />}
-        type={buttonType}
-        fill={fill}
-      />
-    )
+    <DesignSystemButton
+      className={classNames(className, {
+        "btn--primary": buttonType === "primary",
+        "btn--secondary": buttonType === "secondary",
+        "btn--tertiary": buttonType === "tertiary",
+      })}
+      onClick={onClickSave}
+      text={t(user ? "header.save" : "header.loginToSave")}
+      textAlways
+      icon={<SaveIcon />}
+      type={buttonType}
+      fill={fill}
+    />
   );
 };
 

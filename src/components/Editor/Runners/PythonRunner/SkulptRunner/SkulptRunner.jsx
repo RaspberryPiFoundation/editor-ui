@@ -20,7 +20,7 @@ import {
 import {
   loadCopydeckFor,
   registerAdapter,
-  skulptAdapter,
+  cpythonAdapter,
   friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
@@ -103,10 +103,9 @@ const SkulptRunner = ({
   const output = useRef();
   const visualOutputPaneRef = useRef(null);
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-
   const project = useSelector((state) => state.editor.project);
 
   const testForVisualImports = (project) => {
@@ -176,12 +175,17 @@ const SkulptRunner = ({
 
   useEffect(() => {
     if (friendlyErrorsEnabled) {
-      loadCopydeckFor(navigator.language, {
-        base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
-      });
-      registerAdapter("skulpt", skulptAdapter);
+      try {
+        loadCopydeckFor(i18n.language, {
+          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+        });
+        registerAdapter("skulpt", cpythonAdapter);
+      } catch {
+        console.error("Could not load friendly error copydeck");
+        dispatch(setFriendlyError(null));
+      }
     }
-  }, [friendlyErrorsEnabled]);
+  }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {
     if (!codeRunTriggered) {
@@ -449,14 +453,20 @@ const SkulptRunner = ({
         const inputCode =
           projectCode?.find((c) => c.name === "main" && c.extension === "py")
             ?.content ?? "";
-        const friendlyError = friendlyExplain({
-          error: errorMessage,
-          code: inputCode,
-          runtime: "skulpt",
-        });
 
-        if (friendlyError?.html) {
-          dispatch(setFriendlyError({ html: friendlyError.html }));
+        try {
+          const friendlyError = friendlyExplain({
+            error: errorMessage,
+            code: inputCode,
+            runtime: "skulpt",
+            sections: ["title", "summary"],
+          });
+
+          if (friendlyError?.html) {
+            dispatch(setFriendlyError({ html: friendlyError.html }));
+          }
+        } catch {
+          console.error("Could not parse friendly error");
         }
       }
     }
@@ -475,6 +485,7 @@ const SkulptRunner = ({
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
+    dispatch(setFriendlyError(null));
     if (output.current) {
       output.current.innerHTML = "";
     }

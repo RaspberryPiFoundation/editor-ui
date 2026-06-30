@@ -1,0 +1,58 @@
+.friendly-error-message {
+  background-color: var(--rpf-white);
+  padding: var(--space-1) var(--space-1-5);
+  color: var(--rpf-text-primary);
+  border-radius: var(--space-1);
+  margin-block-start: var(--space-1);
+
+  &__content {
+    line-height: 1.75rem;
+
+    .pfem__title {
+      font-weight: 600;
+      display: inline;
+    }
+
+    .pfem__summary {
+      display: inline;
+
+      &::before {
+        content: " - ";
+      }
+    }
+
+    .pfem__var, .pfem__code, .pfem__file, .pfem__line {
+      font-family: var(--wc-font-family-monospace);
+      border-radius: 0.25rem;
+      padding: 0.2rem var(--space-0-5);
+    }
+    
+    .pfem__var {
+      background-color: var(--rpf-green-100);
+    }
+
+    .pfem__code {
+      background-color: var(--rpf-grey-100);
+    }
+
+    .pfem__file {
+      white-space: nowrap; 
+      background-color: var(--rpf-yellow-100);
+
+      &::before {
+        content: "";
+        display: inline-block;
+        inline-size: 1em;
+        block-size: 1em;
+        background: url("../error_file.svg") no-repeat center;
+        background-size: contain;
+        margin-inline-end: 0.12rem;
+        vertical-align: middle;
+      }
+    }
+
+    .pfem__line {
+      background-color: var(--rpf-blue-100);
+    }
+  }
+}

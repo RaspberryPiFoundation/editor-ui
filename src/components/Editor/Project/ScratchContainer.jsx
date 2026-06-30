@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
+import { runStartedEvent } from "../../../events/WebComponentCustomEvents";
 import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
@@ -68,6 +69,22 @@ export default function ScratchContainer() {
 
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();
+
+    const handleScratchRunStarted = (event) => {
+      if (event.origin !== allowedOrigin) return;
+      if (event.data?.type !== "scratch-gui-project-run-started") return;
+
+      document.dispatchEvent(runStartedEvent({}));
+    };
+
+    window.addEventListener("message", handleScratchRunStarted);
+    return () => {
+      window.removeEventListener("message", handleScratchRunStarted);
+    };
+  }, []);
+
+  useEffect(() => {
+    const allowedOrigin = getScratchAllowedOrigin();
     const authKey = localStorage.getItem("authKey");
     const requiresAuth = Boolean(
       authKey && authKey !== "undefined" && authKey !== "null",
@@ -124,6 +141,7 @@ export default function ScratchContainer() {
           className="scratch-container__iframe"
           src={iframeSrcUrl}
           title={"Scratch"}
+          allow="camera; microphone"
           style={{
             width: "100%",
             minWidth: `${SCRATCH_MIN_WIDTH}px`,

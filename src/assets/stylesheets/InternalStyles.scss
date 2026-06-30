@@ -37,12 +37,14 @@
 @use "./Button" as *;
 @use "./DesignSystemButton" as *;
 @use "./SaveStatus" as *;
+@use "./OfflineIndicator" as *;
 @use "./ContextMenu" as *;
 @use "./FilePanel" as *; // needs to be below Button
 @use "./EmbeddedViewer" as *;
 @use "./EditorFinalStep.scss" as *;
 @use "./Loader.scss" as *;
 @use "./LoadFailed.scss" as *;
+@use "./FriendlyErrorMessage" as *;
 
 @use "./settings/fonts" as fonts;
 
@@ -158,7 +160,9 @@ button:focus-visible {
     // Primary button
     --rpf-button-primary-background-color: var(--editor-color-theme);
     --rpf-button-primary-background-color-focus: var(--editor-color-theme);
-    --rpf-button-primary-background-color-hover: var(--editor-color-theme-secondary);
+    --rpf-button-primary-background-color-hover: var(
+      --editor-color-theme-secondary
+    );
     --rpf-button-primary-background-color-active: var(--rpf-navy-600);
     --rpf-button-primary-background-color-disabled: var(--rpf-navy-200);
     --rpf-button-primary-color-disabled: var(--rpf-grey-600);
@@ -167,10 +171,16 @@ button:focus-visible {
     // Secondary button
     --rpf-button-secondary-background-color: var(--editor-color-theme);
     --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
-    --rpf-button-secondary-background-color-hover: var(--editor-color-theme-tertiary);
+    --rpf-button-secondary-background-color-hover: var(
+      --editor-color-theme-tertiary
+    );
     --rpf-button-secondary-border-color: var(--editor-color-theme);
-    --rpf-button-secondary-border-color-hover: var(--editor-color-theme-secondary);
-    --rpf-button-secondary-background-color-active: var(--editor-color-theme-secondary);
+    --rpf-button-secondary-border-color-hover: var(
+      --editor-color-theme-secondary
+    );
+    --rpf-button-secondary-background-color-active: var(
+      --editor-color-theme-secondary
+    );
     --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50);
     --rpf-button-secondary-text-color: var(--editor-color-theme);
 
@@ -230,7 +240,9 @@ button:focus-visible {
     --rpf-button-secondary-text-color: var(--rpf-white);
     --rpf-button-secondary-background-color: var(--editor-color-layer-2);
     --rpf-button-secondary-background-color-active: var(--rpf-navy-200);
-    --rpf-button-secondary-color-disabled-background: var(--editor-color-layer-3);
+    --rpf-button-secondary-color-disabled-background: var(
+      --editor-color-layer-3
+    );
     --rpf-button-secondary-background-color-hover: var(--editor-color-outline);
     --rpf-button-secondary-border-color: var(--editor-color-theme);
     --rpf-button-secondary-border-color-hover: var(--editor-color-theme);
@@ -240,9 +252,17 @@ button:focus-visible {
     // Tertiary button
     --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
     --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
-    --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
-    --rpf-button-tertiary-danger-background-color-active: rgba(255, 255, 255, 0.15);
+    --rpf-button-tertiary-danger-background-color-hover: rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+    --rpf-button-tertiary-danger-background-color-active: rgba(
+      255,
+      255,
+      255,
+      0.15
+    );
   }
 }
-
-

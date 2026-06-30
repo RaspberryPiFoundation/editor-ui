@@ -8,8 +8,9 @@ import DoubleArrowLeft from "../../../assets/icons/double_arrow_left.svg";
 import DoubleArrowRight from "../../../assets/icons/double_arrow_right.svg";
 import Button from "../../Button/Button";
 import SidebarBarOption from "./SidebarBarOption";
-import htmlLogo from "../../../assets/html_icon.svg";
+import webLogo from "../../../assets/web_icon.svg";
 import pythonLogo from "../../../assets/python_icon.svg";
+import blocksLogo from "../../../assets/blocks_icon.svg";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 
 const SidebarBar = (props) => {
@@ -64,6 +65,19 @@ const SidebarBar = (props) => {
     }
   };
 
+  const getProjectTypeLogo = (projectType) => {
+    switch (projectType) {
+      case "python":
+        return pythonLogo;
+      case "code_editor_scratch":
+        return blocksLogo;
+      case "html":
+        return webLogo;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div
       className={classNames("sidebar__bar", {
@@ -73,7 +87,7 @@ const SidebarBar = (props) => {
       <div className={`sidebar__bar-options--top`}>
         <img
           className="editor-logo"
-          src={project.project_type === "python" ? pythonLogo : htmlLogo}
+          src={getProjectTypeLogo(project.project_type)}
           alt={t("header.editorLogoAltText")}
         />
         {topMenuOptions.map((menuOption, i) => (

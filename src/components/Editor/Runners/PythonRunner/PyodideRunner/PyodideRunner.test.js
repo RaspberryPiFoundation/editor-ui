@@ -41,10 +41,6 @@ const project = {
 window.crossOriginIsolated = true;
 process.env.PUBLIC_URL = ".";
 
-const friendlyErrorHtml =
-  '<div class="pfem__title">Friendly error title</div>' +
-  '<div class="pfem__summary">A friendly summary of the error</div>';
-
 const updateRunner = ({ project = {}, codeRunTriggered = false }) => {
   act(() => {
     if (project) {
@@ -431,13 +427,15 @@ describe("When an error is received", () => {
       file: "main.py",
       type: "SyntaxError",
       info: "something's wrong",
+      mistake: "if score = 10:\n   ^^^^^^^^^^",
     });
   });
 
   test("it dispatches action to set the error with correct message", () => {
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: "editor/setError",
-      payload: "SyntaxError: something's wrong on line 2 of main.py",
+      payload:
+        "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
     });
   });
 
@@ -446,6 +444,19 @@ describe("When an error is received", () => {
     let registerAdapter;
     let friendlyExplain;
 
+    const friendlyErrorHtml =
+      '<div class="pfem__title">Friendly error title</div>' +
+      '<div class="pfem__summary">A friendly summary of the error</div>';
+
+    const errorWorkerMessage = {
+      method: "handleError",
+      line: 2,
+      file: "main.py",
+      type: "SyntaxError",
+      info: "something's wrong",
+      mistake: "if score = 10:\n   ^^^^^^^^^^",
+    };
+
     beforeEach(() => {
       ({
         // Using the global mock in setupTests.js to track calls to these functions
@@ -453,41 +464,108 @@ describe("When an error is received", () => {
         registerAdapter,
         friendlyExplain,
       } = require("@raspberrypifoundation/python-friendly-error-messages"));
+    });
 
-      friendlyExplain.mockReturnValue({
-        html: friendlyErrorHtml,
+    describe("on mount", () => {
+      beforeEach(() => {
+        render(
+          <Provider store={store}>
+            <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+          </Provider>,
+        );
       });
 
-      render(
-        <Provider store={store}>
-          <PyodideRunner active={true} friendlyErrorsEnabled={true} />
-        </Provider>,
-      );
+      test("loadCopydeckFor is called", () => {
+        expect(loadCopydeckFor).toHaveBeenCalled();
+      });
 
-      const worker = PyodideWorker.getLastInstance();
-      worker.postMessageFromWorker({
-        method: "handleError",
-        line: 2,
-        file: "main.py",
-        type: "SyntaxError",
-        info: "something's wrong",
+      test("registerAdapter is called for pyodide", () => {
+        expect(registerAdapter).toHaveBeenCalledWith("pyodide", {});
       });
     });
 
-    test("loadCopydeckFor is called", () => {
-      expect(loadCopydeckFor).toHaveBeenCalled();
+    describe("when an error occurs and friendlyExplain returns HTML", () => {
+      beforeEach(() => {
+        friendlyExplain.mockReturnValue({ html: friendlyErrorHtml });
+
+        render(
+          <Provider store={store}>
+            <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+          </Provider>,
+        );
+
+        PyodideWorker.getLastInstance().postMessageFromWorker(
+          errorWorkerMessage,
+        );
+      });
+
+      test("dispatches setFriendlyError", () => {
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          setFriendlyError({ html: friendlyErrorHtml }),
+        );
+      });
     });
 
-    test("registerAdapter is called for pyodide", () => {
-      expect(registerAdapter).toHaveBeenCalledWith("pyodide", {});
+    describe("when an error occurs and friendlyExplain returns no match", () => {
+      beforeEach(() => {
+        friendlyExplain.mockReturnValue(null);
+
+        render(
+          <Provider store={store}>
+            <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+          </Provider>,
+        );
+
+        PyodideWorker.getLastInstance().postMessageFromWorker(
+          errorWorkerMessage,
+        );
+      });
+
+      test("does not dispatch setFriendlyError", () => {
+        expect(dispatchSpy).not.toHaveBeenCalledWith(
+          expect.objectContaining({ type: "editor/setFriendlyError" }),
+        );
+      });
+
+      test("still dispatches setError with the original message", () => {
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          setError(
+            "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
+          ),
+        );
+      });
     });
 
-    test("dispatches setFriendlyError", () => {
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        setFriendlyError({
-          html: friendlyErrorHtml,
-        }),
-      );
+    describe("when an error occurs and friendlyExplain throws", () => {
+      beforeEach(() => {
+        friendlyExplain.mockImplementation(() => {
+          throw new Error("Could not parse friendly error");
+        });
+
+        render(
+          <Provider store={store}>
+            <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+          </Provider>,
+        );
+
+        PyodideWorker.getLastInstance().postMessageFromWorker(
+          errorWorkerMessage,
+        );
+      });
+
+      test("does not dispatch setFriendlyError", () => {
+        expect(dispatchSpy).not.toHaveBeenCalledWith(
+          expect.objectContaining({ type: "editor/setFriendlyError" }),
+        );
+      });
+
+      test("still dispatches setError with the original message", () => {
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          setError(
+            "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
+          ),
+        );
+      });
     });
   });
 });

@@ -1,6 +1,7 @@
 import {
   getEditorShadow,
   getErrorMessage,
+  getFriendlyErrorMessage,
   getFileButtonByName,
   getProgramInput,
   getPyodideOutput,
@@ -250,6 +251,44 @@ print(text_out)
     getErrorMessage().should(
       "contain",
       "NameError: name 'math' is not defined",
+    );
+  });
+});
+
+describe("When friendly errors enabled with pyodide", () => {
+  beforeEach(() => {
+    cy.intercept("GET", "**/python-error-copydecks/**", {
+      fixture: "copydeck.json",
+    }).as("copydeck");
+
+    const params = new URLSearchParams();
+    params.set("friendly_errors_enabled", "true");
+
+    cy.visit({
+      url: `${origin}?${params.toString()}`,
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+      },
+    });
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: true,
+        configurable: true,
+      });
+    });
+    cy.wait("@copydeck");
+  });
+
+  it("shows a friendly error message when an error occurs", () => {
+    runCode("print(kitten)");
+    getErrorMessage().should(
+      "contain",
+      "NameError: name 'kitten' is not defined on line 1 of main.py",
+    );
+    getFriendlyErrorMessage().should(
+      "contain",
+      "This variable doesn't exist here",
     );
   });
 });

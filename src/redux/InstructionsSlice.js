@@ -7,7 +7,7 @@ export const instructionsInitialState = {
   permitOverride: true,
 };
 
-export const InstructionsSlice = createSlice({
+const InstructionsSlice = createSlice({
   name: "instructions",
   initialState: instructionsInitialState,
   reducers,

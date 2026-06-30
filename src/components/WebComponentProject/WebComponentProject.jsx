@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -52,6 +52,7 @@ const WebComponentProject = ({
 
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
   const projectInstructions = useSelector(
     (state) => state.editor.project.instructions,
@@ -64,6 +65,7 @@ const WebComponentProject = ({
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
+  const prevCodeRunTriggeredRef = useRef(false);
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
 
@@ -120,19 +122,39 @@ const WebComponentProject = ({
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
-    if (codeRunTriggered) {
-      document.dispatchEvent(runStartedEvent({ step: currentStepPosition }));
+    if (codeRunTriggered && !prevCodeRunTriggeredRef.current) {
+      document.dispatchEvent(
+        runStartedEvent({
+          step: currentStepPosition,
+          projectIdentifier,
+          projectType,
+        }),
+      );
       setCodeHasRun(true);
-    } else if (codeHasRun) {
+    }
+    prevCodeRunTriggeredRef.current = codeRunTriggered;
+  }, [codeRunTriggered, currentStepPosition, projectIdentifier, projectType]);
+
+  useEffect(() => {
+    if (!codeRunTriggered && codeHasRun) {
       const mz_criteria = Sk.sense_hat
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
 
       const payload = outputOnly
-        ? { errorDetails, step: currentStepPosition }
+        ? {
+            errorDetails,
+            step: currentStepPosition,
+            projectIdentifier,
+            projectType,
+          }
         : {
             isErrorFree: error === "",
             step: currentStepPosition,
+            errorDetails,
+            friendlyErrorShown: Boolean(friendlyError?.html),
+            projectIdentifier,
+            projectType,
             ...mz_criteria,
           };
 
@@ -144,7 +166,10 @@ const WebComponentProject = ({
     outputOnly,
     error,
     errorDetails,
+    friendlyError,
     currentStepPosition,
+    projectIdentifier,
+    projectType,
   ]);
 
   useEffect(() => {

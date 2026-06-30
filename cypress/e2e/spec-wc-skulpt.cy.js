@@ -1,5 +1,6 @@
 import {
   getErrorMessage,
+  getFriendlyErrorMessage,
   getP5Canvas,
   getPythonConsoleOutput,
   getSkulptRunner,
@@ -146,6 +147,38 @@ describe("Running the code with skulpt", () => {
     getErrorMessage().should(
       "contain.text",
       "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
+    );
+  });
+});
+
+describe("When friendly errors enabled with skulpt", () => {
+  beforeEach(() => {
+    cy.intercept("GET", "**/python-error-copydecks/**", {
+      fixture: "copydeck.json",
+    }).as("copydeck");
+
+    const params = new URLSearchParams();
+    params.set("friendly_errors_enabled", "true");
+
+    cy.visit(`${origin}?${params.toString()}`);
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: false,
+        configurable: true,
+      });
+    });
+    cy.wait("@copydeck");
+  });
+
+  it("shows a friendly error message when an error occurs", () => {
+    runCode("import turtle\nprint(kitten)");
+    getErrorMessage().should(
+      "contain",
+      "NameError: name 'kitten' is not defined on line 2 of main.py",
+    );
+    getFriendlyErrorMessage().should(
+      "contain",
+      "This variable doesn't exist here",
     );
   });
 });

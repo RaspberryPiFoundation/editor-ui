@@ -112,6 +112,7 @@ export const editorInitialState = {
   lastSaveAutosave: false,
   lastSavedTime: null,
   senseHatAlwaysEnabled: false,
+  offlineEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
   betaModalShowing: false,
@@ -132,7 +133,7 @@ export const editorInitialState = {
 const isScratchProject = (state) =>
   state.project?.project_type === "code_editor_scratch";
 
-export const EditorSlice = createSlice({
+const EditorSlice = createSlice({
   name: "editor",
   initialState: editorInitialState,
   reducers: {
@@ -283,6 +284,9 @@ export const EditorSlice = createSlice({
     },
     setSenseHatAlwaysEnabled: (state, action) => {
       state.senseHatAlwaysEnabled = action.payload;
+    },
+    setOfflineEnabled: (state, action) => {
+      state.offlineEnabled = action.payload;
     },
     setSenseHatEnabled: (state, action) => {
       state.senseHatEnabled = action.payload;
@@ -498,18 +502,15 @@ export const {
   addProjectComponent,
   loadingRunner,
   setLoadedRunner,
-  resetRunner,
   codeRunHandled,
   expireJustLoaded,
   closeFile,
   openFile,
   setOpenFiles,
-  addFilePanel,
   setFocussedFileIndex,
   setPage,
   setEmbedded,
   setIsOutputOnly,
-  setBrowserPreview,
   setCascadeUpdate,
   setError,
   setIsSplitView,
@@ -526,6 +527,7 @@ export const {
   setReadOnly,
   setInstructionsEditable,
   setSenseHatAlwaysEnabled,
+  setOfflineEnabled,
   setSenseHatEnabled,
   setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
@@ -539,8 +541,6 @@ export const {
   updateComponentName,
   updateProjectComponent,
   updateProjectName,
-  showBetaModal,
-  closeBetaModal,
   showErrorModal,
   closeErrorModal,
   showNewFileModal,

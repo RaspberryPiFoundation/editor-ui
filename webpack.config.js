@@ -303,11 +303,11 @@ const scratchConfig = {
         { from: `${scratchStaticDir}/assets`, to: "vendor/static/assets" },
         { from: scratchChunkDir, to: "chunks" },
         {
-          from: "node_modules/react/umd/react.production.min.js",
+          from: "node_modules/scratchReactVendor/umd/react.production.min.js",
           to: "vendor/react.production.min.js",
         },
         {
-          from: "node_modules/react-dom/umd/react-dom.production.min.js",
+          from: "node_modules/scratchReactDomVendor/umd/react-dom.production.min.js",
           to: "vendor/react-dom.production.min.js",
         },
         {
