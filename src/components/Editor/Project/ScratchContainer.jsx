@@ -126,9 +126,7 @@ export default function ScratchContainer() {
   queryParams.set("scratchMetadata", "1");
   queryParams.set("parent_origin", window.location.origin);
 
-  const iframeSrcUrl = `${
-    process.env.ASSETS_URL
-  }/scratch.html?${queryParams.toString()}`;
+  const iframeSrcUrl = `${import.meta.env.REACT_APP_SCRATCH_FRAME_URL}/scratch.html?${queryParams.toString()}`;
 
   return (
     <div className="scratch-container" data-testid="scratch-container">

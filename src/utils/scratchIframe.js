@@ -5,18 +5,8 @@ export const getScratchIframeContentWindow = () => {
 };
 
 export const getScratchAllowedOrigin = () => {
-  const fallbackOrigin = window.location.origin;
-  const configuredAssetsUrl = process.env.ASSETS_URL;
-
-  if (!configuredAssetsUrl) {
-    return fallbackOrigin;
-  }
-
-  try {
-    return new URL(configuredAssetsUrl).origin;
-  } catch (error) {
-    return fallbackOrigin;
-  }
+  const url = process.env.REACT_APP_SCRATCH_FRAME_URL || process.env.ASSETS_URL;
+  return new URL(url).origin;
 };
 
 export const postMessageToScratchIframe = (message) => {

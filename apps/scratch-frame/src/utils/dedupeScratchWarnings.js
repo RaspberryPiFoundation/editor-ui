@@ -33,7 +33,7 @@ const scratchWarningMatchers = {
 
 const dedupeScratchWarnings = () => {
   if (
-    process.env.NODE_ENV !== "development" ||
+    import.meta.env.PROD ||
     typeof window !== "object" ||
     window[scratchWarningsKey]
   ) {
